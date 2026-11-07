@@ -6,7 +6,6 @@ import (
 	"mime"
 	"net"
 	"net/http"
-	"strings"
 	"sync"
 	"time"
 
@@ -29,10 +28,12 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	m.HandleFunc("POST /api/boards/{board}/lists", s.api(s.apiAddList))
 	m.HandleFunc("GET /api/boards/{board}/lists/{list}/cards", s.api(s.apiCards))
 	m.HandleFunc("POST /api/boards/{board}/lists/{list}/cards", s.api(s.apiAddCard))
+	m.HandleFunc("POST /api/boards/{board}/lists/{list}/cards/bulk", s.api(s.apiBulkAddCards))
 	m.HandleFunc("GET /api/boards/{board}/lists/{list}/cards/{card}", s.api(s.apiCard))
 	m.HandleFunc("PUT /api/boards/{board}/lists/{list}/cards/{card}", s.api(s.apiEditCard))
 	m.HandleFunc("DELETE /api/boards/{board}/lists/{list}/cards/{card}", s.api(s.apiDeleteCard))
 	s.apiMoreRoutes(m)
+	s.apiMemberRoutes(m)
 }
 
 func writeJSON(w http.ResponseWriter, status int, v any) {
@@ -331,26 +332,19 @@ func (s *Server) apiAddCard(w http.ResponseWriter, r *http.Request, u *User) {
 	if b == nil {
 		return
 	}
-	var req struct {
-		Title       string `json:"title"`
-		Description string `json:"description"`
-		SwimlaneID  string `json:"swimlaneId"`
-	}
+	var req map[string]any
 	if err := decodeJSON(r, &req); err != nil {
 		apiError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	// GHSA-6jr3-42jf-vhm5: the author is the session's user, never a body's authorId.
-	c, err := s.AddCard(r.Context(), b, u, r.PathValue("list"), req.SwimlaneID, req.Title)
+	swimlane, _ := req["swimlaneId"].(string)
+	id, err := s.addCardFrom(r, b, u, r.PathValue("list"), swimlane, req)
 	if err != nil {
 		apiError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	if req.Description != "" {
-		_, _ = s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"description": req.Description}})
-	}
 	s.hub.publish(b.ID, "board-changed")
-	writeJSON(w, http.StatusOK, map[string]string{"_id": c.ID})
+	writeJSON(w, http.StatusOK, map[string]string{"_id": id})
 }
 
 func (s *Server) cardOf(w http.ResponseWriter, r *http.Request, b *Board) *Card {
@@ -389,42 +383,37 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 	if c == nil {
 		return
 	}
-	var req struct {
-		Title       *string `json:"title"`
-		Description *string `json:"description"`
-		ListID      *string `json:"listId"`
-		SwimlaneID  *string `json:"swimlaneId"`
-	}
+	var req map[string]any
 	if err := decodeJSON(r, &req); err != nil {
 		apiError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	set := bson.M{"modifiedAt": time.Now().UTC()}
-	if req.Title != nil {
-		t := strings.TrimSpace(*req.Title)
-		if t == "" {
-			apiError(w, http.StatusBadRequest, "a card needs a title")
-			return
-		}
-		set["title"] = t
+	set, unset, err := cardFields(req)
+	if err != nil {
+		apiError(w, http.StatusBadRequest, err.Error())
+		return
 	}
-	if req.Description != nil {
-		set["description"] = *req.Description
-	}
-	if req.ListID != nil || req.SwimlaneID != nil {
+	set["modifiedAt"] = time.Now().UTC()
+	listID, hasList := req["listId"].(string)
+	swimlaneID, hasSwimlane := req["swimlaneId"].(string)
+	if hasList || hasSwimlane {
 		m := Move{CardID: c.ID, ListID: c.ListID, SwimlaneID: c.SwimlaneID, Sort: c.Sort}
-		if req.ListID != nil {
-			m.ListID = *req.ListID
+		if hasList {
+			m.ListID = listID
 		}
-		if req.SwimlaneID != nil {
-			m.SwimlaneID = *req.SwimlaneID
+		if hasSwimlane {
+			m.SwimlaneID = swimlaneID
 		}
 		if err := s.MoveCards(r.Context(), b, []Move{m}); err != nil {
 			apiError(w, http.StatusBadRequest, err.Error())
 			return
 		}
 	}
-	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, bson.M{"$set": set}); err != nil {
+	update := bson.M{"$set": set}
+	if len(unset) > 0 {
+		update["$unset"] = unset
+	}
+	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}

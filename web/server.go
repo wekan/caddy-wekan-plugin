@@ -346,6 +346,10 @@ func (s *Server) CreateBoard(ctx context.Context, u *User, title string) (*Board
 	now := time.Now().UTC()
 	b := &Board{ID: randomID(), Title: title, Slug: slugify(title), Permission: "private", Type: "board", CreatedAt: now,
 		Members: []Member{{UserID: u.ID, IsAdmin: true, IsActive: true}}}
+	// WeKan's six default labels, unnamed.
+	for _, color := range []string{"green", "yellow", "orange", "red", "purple", "blue"} {
+		b.Labels = append(b.Labels, Label{ID: randomString(idAlphabet, 6), Color: color})
+	}
 	if _, err := s.db.Collection("boards").InsertOne(ctx, b); err != nil {
 		return nil, err
 	}
@@ -514,6 +518,7 @@ func (s *Server) AddCard(ctx context.Context, b *Board, u *User, listID, swimlan
 		}
 	}
 	c := &Card{ID: randomID(), Title: title, BoardID: b.ID, ListID: listID, SwimlaneID: swimlaneID, UserID: u.ID,
+		Members: []string{}, Assignees: []string{}, LabelIDs: []string{},
 		Type: "cardType-card", CreatedAt: time.Now().UTC(),
 		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": b.ID, "listId": eq(listID), "swimlaneId": eq(swimlaneID)})}
 	_, err := s.db.Collection("cards").InsertOne(ctx, c)

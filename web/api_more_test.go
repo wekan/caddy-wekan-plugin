@@ -72,8 +72,21 @@ func TestRESTAPIMore(t *testing.T) {
 	if code := call(t, "DELETE", board+"/custom-fields/"+id.ID, other.Token, "", nil); code != 403 {
 		t.Fatalf("negative: a non-member deletes a custom field: %d", code)
 	}
+	var fieldCard struct {
+		ID string `json:"_id"`
+	}
+	var fl struct {
+		ID string `json:"_id"`
+	}
+	call(t, "POST", board+"/lists", tok, `{"title":"F"}`, &fl)
+	call(t, "POST", board+"/lists/"+fl.ID+"/cards", tok, `{"title":"F","swimlaneId":"`+b.Swl+`"}`, &fieldCard)
+	_, _ = w.db.Collection("cards").UpdateOne(context.Background(), bson.M{"_id": fieldCard.ID},
+		bson.M{"$set": bson.M{"customFields": []bson.M{{"_id": id.ID, "value": "high"}, {"_id": "other", "value": 1}}}})
 	if code := call(t, "DELETE", board+"/custom-fields/"+id.ID, tok, "", nil); code != 200 || find("customFields", id.ID) != nil {
 		t.Fatalf("DELETE custom field: %d", code)
+	}
+	if cf, _ := find("cards", fieldCard.ID)["customFields"].(bson.A); len(cf) != 1 {
+		t.Fatalf("the deleted field's values are gone from its cards, the others kept: %v", cf)
 	}
 
 	// Checklists, their items, and comments on a card.

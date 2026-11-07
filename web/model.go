@@ -37,6 +37,17 @@ func validID(id string) bool { return idPattern.MatchString(id) }
 // put in a filter where the database could read it as anything but a value.
 func eq(v string) bson.M { return bson.M{"$eq": v} }
 
+// inIDs matches any of ids from a request, each of which must be an id; ok is
+// false otherwise, and nothing is to be queried.
+func inIDs(ids []string) (bson.M, bool) {
+	for _, id := range ids {
+		if !validID(id) {
+			return nil, false
+		}
+	}
+	return bson.M{"$in": ids}, true
+}
+
 func randomString(alphabet string, n int) string {
 	b := make([]byte, n)
 	max := big.NewInt(int64(len(alphabet)))
@@ -84,11 +95,23 @@ func (u *User) Name() string {
 	return u.Username
 }
 
-// Member is one entry of a board's members.
+// Member is one entry of a board's members, with WeKan's role flags.
 type Member struct {
-	UserID   string `bson:"userId" json:"userId"`
-	IsAdmin  bool   `bson:"isAdmin" json:"isAdmin"`
-	IsActive bool   `bson:"isActive" json:"isActive"`
+	UserID             string `bson:"userId" json:"userId"`
+	IsAdmin            bool   `bson:"isAdmin" json:"isAdmin"`
+	IsActive           bool   `bson:"isActive" json:"isActive"`
+	IsNoComments       bool   `bson:"isNoComments" json:"isNoComments"`
+	IsCommentOnly      bool   `bson:"isCommentOnly" json:"isCommentOnly"`
+	IsWorker           bool   `bson:"isWorker" json:"isWorker"`
+	IsReadOnly         bool   `bson:"isReadOnly" json:"isReadOnly"`
+	IsReadAssignedOnly bool   `bson:"isReadAssignedOnly" json:"isReadAssignedOnly"`
+}
+
+// Label is one of a board's labels.
+type Label struct {
+	ID    string `bson:"_id" json:"_id"`
+	Name  string `bson:"name" json:"name"`
+	Color string `bson:"color" json:"color"`
 }
 
 // Board is a document of the boards collection.
@@ -102,7 +125,18 @@ type Board struct {
 	Type       string    `bson:"type,omitempty" json:"type,omitempty"`
 	Sort       float64   `bson:"sort,omitempty" json:"sort,omitempty"`
 	Members    []Member  `bson:"members" json:"members"`
+	Labels     []Label   `bson:"labels,omitempty" json:"labels,omitempty"`
 	CreatedAt  time.Time `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
+}
+
+// AdminOf reports whether userID is an active board admin.
+func (b *Board) AdminOf(userID string) bool {
+	for _, m := range b.Members {
+		if m.UserID == userID && m.IsActive && m.IsAdmin {
+			return true
+		}
+	}
+	return false
 }
 
 // MemberOf reports whether userID is an active member.
@@ -146,6 +180,9 @@ type Card struct {
 	ListID      string    `bson:"listId" json:"listId"`
 	SwimlaneID  string    `bson:"swimlaneId" json:"swimlaneId"`
 	UserID      string    `bson:"userId,omitempty" json:"userId,omitempty"`
+	Members     []string  `bson:"members" json:"members"`
+	Assignees   []string  `bson:"assignees" json:"assignees"`
+	LabelIDs    []string  `bson:"labelIds" json:"labelIds"`
 	Sort        float64   `bson:"sort" json:"sort"`
 	Archived    bool      `bson:"archived" json:"archived"`
 	Type        string    `bson:"type,omitempty" json:"type,omitempty"`
