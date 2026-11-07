@@ -1,0 +1,16 @@
+{
+  "account-locked": "Účet je dočasne uzamknutý pre príliš veľa neúspešných pokusov o prihlásenie. Skúste to prosím neskôr.",
+  "add-board": "Pridať tabuľu",
+  "add-card": "Pridať kartu",
+  "add-list": "Pridať zoznam",
+  "all-boards": "Všetky nástenky",
+  "board-not-found": "Nástenka sa nenašla",
+  "close": "Zavrieť",
+  "description": "Popis",
+  "error-ldap-login": "Pri pokuse o prihlásenie nastala chyba",
+  "log-in": "Prihlásiť sa",
+  "log-out": "Odhlásiť sa",
+  "password": "Heslo",
+  "title": "Názov",
+  "username": "Používateľské meno"
+}

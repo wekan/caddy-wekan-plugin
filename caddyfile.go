@@ -3,15 +3,12 @@ package caddywekan
 import (
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/caddyconfig"
 	"github.com/caddyserver/caddy/v2/caddyconfig/caddyfile"
 	"github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
-
-	"github.com/wekan/caddy-gitea-plugin/proxy"
 )
 
 func init() {
@@ -20,11 +17,10 @@ func init() {
 	httpcaddyfile.RegisterDirectiveOrder("wekan", httpcaddyfile.Before, "reverse_proxy")
 }
 
-// Handler serves a site from the WeKan that the wekan app runs - with root, from
-// the WeKan of the request's domain.
+// Handler serves a site from WeKan - with primary, from the WeKan of the
+// request's domain.
 type Handler struct {
-	proxy *proxy.Proxy
-	cloud *Cloud
+	app *App
 }
 
 // CaddyModule returns the Caddy module information.
@@ -38,35 +34,25 @@ func (h *Handler) Provision(ctx caddy.Context) error {
 	if err != nil {
 		return err // "app module wekan: not configured": add the wekan global option
 	}
-	app := v.(*App)
-	if app.cloud != nil {
-		h.cloud = app.cloud
-		return nil
-	}
-	h.proxy, err = proxy.New(ctx, "WeKan", app.Dial, app.Ready)
-	return err
+	h.app = v.(*App)
+	return nil
 }
 
-// ServeHTTP proxies the request to WeKan.
+// ServeHTTP answers with WeKan.
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddyhttp.Handler) error {
-	if h.cloud != nil {
-		if handled, status := h.cloud.ServeHTTP(w, r); !handled {
-			if status == http.StatusNotFound {
-				return caddyhttp.Error(status, fmt.Errorf("no WeKan is served at %s", NormalizeHost(r.Host)))
-			}
-			return caddyhttp.Error(status, fmt.Errorf("the WeKan of %s is starting", NormalizeHost(r.Host)))
+	if h.app.cloud != nil {
+		if handled, status := h.app.cloud.ServeHTTP(w, r); !handled {
+			return caddyhttp.Error(status, fmt.Errorf("no WeKan is served at %s", NormalizeHost(r.Host)))
 		}
 		return nil
 	}
-	return h.proxy.ServeHTTP(w, r, next)
-}
-
-// Cleanup releases the reverse proxy.
-func (h *Handler) Cleanup() error {
-	if h.proxy == nil {
-		return nil
+	s := h.app.server
+	if s == nil {
+		w.Header().Set("Retry-After", "5")
+		return caddyhttp.Error(http.StatusServiceUnavailable, fmt.Errorf("WeKan is starting"))
 	}
-	return h.proxy.Cleanup()
+	s.ServeHTTP(w, r)
+	return nil
 }
 
 // UnmarshalCaddyfile: the directive takes no arguments, "wekan".
@@ -86,14 +72,14 @@ func parseHandler(h httpcaddyfile.Helper) (caddyhttp.MiddlewareHandler, error) {
 // UnmarshalCaddyfile reads the global option:
 //
 //	wekan {
-//		bundle       <dir>
-//		root_url     <https://...>
-//		command      <path>
-//		args         <arg>...
-//		dial         <host:port | unix//path>
-//		env          <KEY> <value>
-//		stop_timeout <duration>
+//		data            <dir>
+//		primary         <first domain>
+//		database_listen <host:port>
 //	}
+//
+// root is the older name of data. The options of the Node.js WeKan that Weddy
+// used to start - bundle, command, args, dial, env, root_url, stop_timeout - are
+// refused with the reason: WeKan runs in Go inside Weddy now.
 func (a *App) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	d.Next()
 	if d.NextArg() {
@@ -102,48 +88,24 @@ func (a *App) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	for d.NextBlock(0) {
 		key := d.Val()
 		switch key {
-		case "bundle", "root_url", "command", "dial", "root", "primary":
+		case "data", "root", "primary", "database_listen":
 			if !d.NextArg() {
 				return d.ArgErr()
 			}
 			v := d.Val()
 			switch key {
-			case "bundle":
-				a.Bundle = v
-			case "root_url":
-				a.RootURL = v
-			case "command":
-				a.Command = v
-			case "dial":
-				a.Dial = v
-			case "root":
-				a.Root = v
+			case "data", "root":
+				a.Data = v
 			case "primary":
 				a.Primary = v
+			case "database_listen":
+				a.DatabaseListen = v
 			}
 			if d.NextArg() {
 				return d.ArgErr()
 			}
-		case "args":
-			a.Args = append(a.Args, d.RemainingArgs()...)
-		case "env":
-			args := d.RemainingArgs()
-			if len(args) < 2 {
-				return d.Err("env needs a name and a value")
-			}
-			if a.Env == nil {
-				a.Env = map[string]string{}
-			}
-			a.Env[args[0]] = strings.Join(args[1:], " ")
-		case "stop_timeout":
-			if !d.NextArg() {
-				return d.ArgErr()
-			}
-			dur, err := caddy.ParseDuration(d.Val())
-			if err != nil {
-				return d.Errf("stop_timeout: %v", err)
-			}
-			a.StopTimeout = caddy.Duration(dur)
+		case "bundle", "command", "args", "dial", "env", "root_url", "stop_timeout":
+			return d.Errf("wekan option %q is gone: Weddy runs WeKan in Go, without Node.js - set data, the directory of WeKan's files", key)
 		default:
 			return d.Errf("unknown wekan option %q", key)
 		}
@@ -161,7 +123,6 @@ func parseGlobal(d *caddyfile.Dispenser, _ any) (any, error) {
 
 var (
 	_ caddy.Provisioner           = (*Handler)(nil)
-	_ caddy.CleanerUpper          = (*Handler)(nil)
 	_ caddyhttp.MiddlewareHandler = (*Handler)(nil)
 	_ caddyfile.Unmarshaler       = (*Handler)(nil)
 	_ caddyfile.Unmarshaler       = (*App)(nil)

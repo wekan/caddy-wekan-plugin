@@ -1,0 +1,16 @@
+{
+  "account-locked": "Temporaryo nga naka-lock an account tungod han sobra kadamu nga napakyas nga pagsulod. Alayon sarihi utro ha urhi.",
+  "add-board": "Idugang an Board",
+  "add-card": "Idugang an Card",
+  "add-list": "Idugang an Lista",
+  "all-boards": "Ngatanan nga Board",
+  "board-not-found": "Waray nakita nga board",
+  "close": "Isira",
+  "description": "Deskripsyon",
+  "error-ldap-login": "May sayop nga nahitabo ha pagsulod",
+  "log-in": "Sum_od",
+  "log-out": "Gumawas",
+  "password": "Sekreto nga pulong",
+  "title": "Titulo",
+  "username": "Ngaran han gumaramit"
+}

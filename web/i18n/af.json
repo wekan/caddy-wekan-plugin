@@ -1,0 +1,16 @@
+{
+  "account-locked": "Rekening is tydelik gesluit weens te veel mislukte aanmeldpogings. Probeer asseblief later weer.",
+  "add-board": "Voeg raad by",
+  "add-card": "Voeg kaart by",
+  "add-list": "Voeg lys by",
+  "all-boards": "Alle borde",
+  "board-not-found": "Bord nie gevind nie",
+  "close": "Maak toe",
+  "description": "Beskrywing",
+  "error-ldap-login": "'n Fout het voorgekom tydens probeer om aan te meld",
+  "log-in": "Meld aan",
+  "log-out": "Teken uit",
+  "password": "Wagwoord",
+  "title": "Titel",
+  "username": "Gebruikersnaam"
+}

@@ -1,0 +1,16 @@
+{
+  "account-locked": "Das Konto wurde aufgrund zu vieler fehlgeschlagener Anmeldeversuche vorübergehend gesperrt. Bitte versuche es später erneut.",
+  "add-board": "Board hinzufügen",
+  "add-card": "Karte hinzufügen",
+  "add-list": "Liste hinzufügen",
+  "all-boards": "Alle Boards",
+  "board-not-found": "Board nicht gefunden",
+  "close": "Schliessen",
+  "description": "Beschreibung",
+  "error-ldap-login": "Es ist ein Fehler beim Anmelden aufgetreten",
+  "log-in": "Einloggen",
+  "log-out": "Ausloggen",
+  "password": "Passwort",
+  "title": "Titel",
+  "username": "Benutzername"
+}

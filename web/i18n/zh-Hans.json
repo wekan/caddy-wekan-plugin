@@ -1,0 +1,16 @@
+{
+  "account-locked": "由于登录失败次数过多，账户暂时被锁定。请稍后再试。",
+  "add-board": "添加看板",
+  "add-card": "添加卡片",
+  "add-list": "添加列表",
+  "all-boards": "全部看板",
+  "board-not-found": "看板不存在",
+  "close": "关闭",
+  "description": "描述",
+  "error-ldap-login": "尝试登录时出错",
+  "log-in": "登录",
+  "log-out": "退出",
+  "password": "密码",
+  "title": "标题",
+  "username": "用户名"
+}

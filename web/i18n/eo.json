@@ -1,0 +1,16 @@
+{
+  "account-locked": "La konto estas provizore ŝlosita pro tro multaj malsukcesaj ensalutprovoj. Bonvolu reprovi poste.",
+  "add-board": "Aldoni tabulon",
+  "add-card": "Aldoni karton",
+  "add-list": "Aldoni liston",
+  "all-boards": "Ĉiuj tabuloj",
+  "board-not-found": "Tabulo ne trovita",
+  "close": "Fermi",
+  "description": "Priskribo",
+  "error-ldap-login": "Okazis eraro dum la provo ensaluti",
+  "log-in": "Ensaluti",
+  "log-out": "Elsaluti",
+  "password": "Pasvorto",
+  "title": "Titolo",
+  "username": "Uzantnomo"
+}

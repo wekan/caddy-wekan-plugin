@@ -1,0 +1,20 @@
+doctype html
+html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    title {{.Title}} - WeKan
+    link(rel="stylesheet", href="/static/vendor/unpoly.min.css")
+    link(rel="stylesheet", href="/static/wekan.css")
+    script(src="/static/vendor/unpoly.min.js")
+    script(src="/static/vendor/interact.min.js")
+    script(src="/static/weddy.js")
+  body
+    if .User
+      #header.header-bar
+        a.header-all-boards.js-all-boards(href="/", up-follow) {{t $.L "all-boards"}}
+        span.header-user.js-open-header-member-menu {{memberName .User}}
+        form.js-logout(method="post", action="/logout")
+          button.js-logout-button(type="submit") {{t $.L "log-out"}}
+    main#content
+      | {{template "content" .}}

@@ -1,0 +1,16 @@
+{
+  "account-locked": "E kuenta ta blokeada temporalmente debido na demasiados intentos di kuminsamentu di sesión fayidos. Pa fabor inténtalo di nobo mas tarde.",
+  "add-board": "Agregá tabla",
+  "add-card": "Agregá karchi",
+  "add-list": "Agregá lista",
+  "all-boards": "Tur tabla",
+  "board-not-found": "Tabla no encontrado",
+  "close": "Sera",
+  "description": "Deskripshon",
+  "error-ldap-login": "Ocurrió un eror na e intentar acseder",
+  "log-in": "Drenta",
+  "log-out": "Sali",
+  "password": "Kontraseña",
+  "title": "Título",
+  "username": "Nòmber di usuario"
+}

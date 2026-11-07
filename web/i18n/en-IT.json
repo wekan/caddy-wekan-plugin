@@ -1,0 +1,16 @@
+{
+  "account-locked": "Account is temporarily locked due to too many failed login attempts. Please try again later.",
+  "add-board": "Add Board",
+  "add-card": "Add Card",
+  "add-list": "Add List",
+  "all-boards": "All Boards",
+  "board-not-found": "Board not found",
+  "close": "Close",
+  "description": "Description",
+  "error-ldap-login": "An error occurred while trying to login",
+  "log-in": "Log In",
+  "log-out": "Log Out",
+  "password": "Password",
+  "title": "Title",
+  "username": "Username"
+}

@@ -1,0 +1,16 @@
+{
+  "account-locked": "Kònto je timczasno zablokòwóné przez zbëtk nieùdałëch prób logòwaniô. Spróbùjë jesz rôz pózni.",
+  "add-board": "Dodac tôflã",
+  "add-card": "Dodac kôrtã",
+  "add-list": "Dodac lëstã",
+  "all-boards": "Wszëtczé tôfle",
+  "board-not-found": "Tôfla nie nalazłô",
+  "close": "Zamknąc",
+  "description": "Òpisënk",
+  "error-ldap-login": "Przë próbie logòwaniô wëstąpiła fela",
+  "log-in": "Zalogùjë sã",
+  "log-out": "Wëlogùjë sã",
+  "password": "Parola",
+  "title": "Titel",
+  "username": "Miono brëkòwnika"
+}

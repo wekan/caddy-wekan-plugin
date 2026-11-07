@@ -1,0 +1,16 @@
+{
+  "account-locked": "Konts ir īslaicīgi bloķēts pārāk daudzu neveiksmīgu pieteikšanās mēģinājumu dēļ. Lūdzu, mēģiniet vēlāk.",
+  "add-board": "Pievienot dēli",
+  "add-card": "Pievienot kartiņu",
+  "add-list": "Pievienot sarakstu",
+  "all-boards": "Visi dēļi",
+  "board-not-found": "Dēlis nav atrasts",
+  "close": "Aizvērt",
+  "description": "Apraksts",
+  "error-ldap-login": "Pierakstoties notika kļūda",
+  "log-in": "Pierakstīties",
+  "log-out": "Izrakstīties",
+  "password": "Parole",
+  "title": "Nosaukums",
+  "username": "Lietotājvārds"
+}

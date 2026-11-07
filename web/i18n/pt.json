@@ -1,0 +1,16 @@
+{
+  "account-locked": "A conta foi bloqueada temporariamente devido a um número excessivo de tentativas de login malsucedidas. Tente novamente mais tarde.",
+  "add-board": "Adicionar Quadro",
+  "add-card": "Adicionar Cartão",
+  "add-list": "Adicionar Lista",
+  "all-boards": "Todos os quadros",
+  "board-not-found": "Quadro não encontrado",
+  "close": "Fechar",
+  "description": "Descrição",
+  "error-ldap-login": "Ocorreu um erro ocorreu enquanto tentava entrar",
+  "log-in": "Entrar",
+  "log-out": "Terminar a Sessão",
+  "password": "Senha",
+  "title": "Título",
+  "username": "Nome de utilizador"
+}

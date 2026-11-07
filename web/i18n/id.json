@@ -1,0 +1,16 @@
+{
+  "account-locked": "Akun terkunci sementara karena terlalu banyak upaya login yang gagal. Silakan coba lagi nanti.",
+  "add-board": "Tambah Papan",
+  "add-card": "Tambah Kartu",
+  "add-list": "Tambah Daftar",
+  "all-boards": "Semua Panel",
+  "board-not-found": "Panel tidak ditemukan",
+  "close": "Tutup",
+  "description": "Deskripsi",
+  "error-ldap-login": "Terjadi kesalahan saat mencoba masuk",
+  "log-in": "Masuk",
+  "log-out": "Keluar",
+  "password": "Kata Sandi",
+  "title": "Judul",
+  "username": "Nama Pengguna"
+}

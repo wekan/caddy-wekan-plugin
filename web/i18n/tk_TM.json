@@ -1,0 +1,16 @@
+{
+  "account-locked": "Has köp giriş synanyşyklary sebäpli hasap wagtlaýyn gulplandy. Soňrak synanyşyň.",
+  "add-board": "Tagtany goşuň",
+  "add-card": "Kart goşuň",
+  "add-list": "Sanaw goş",
+  "all-boards": "Allhli tagtalar",
+  "board-not-found": "Geňeş tapylmady",
+  "close": ".Akyn",
+  "description": "Düşündiriş",
+  "error-ldap-login": "Girişçi bolanda ýalňyşlyk ýüze çykdy",
+  "log-in": "Giriş",
+  "log-out": "Çykyň",
+  "password": "Parol",
+  "title": "Ady",
+  "username": "Ulanyjy ady"
+}

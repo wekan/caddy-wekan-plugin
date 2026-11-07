@@ -1,0 +1,16 @@
+{
+  "account-locked": "Kontoen er midlertidigt låst på grund af for mange mislykkede loginforsøg. Prøv igen senere.",
+  "add-board": "Tilføj tavle",
+  "add-card": "Tilføj kort",
+  "add-list": "Tilføj liste",
+  "all-boards": "Alle tavler",
+  "board-not-found": "Tavlen blev ikke fundet",
+  "close": "Luk",
+  "description": "Beskrivelse",
+  "error-ldap-login": "Fejl under forsøg på login",
+  "log-in": "Log ind",
+  "log-out": "Log ud",
+  "password": "Kodeord",
+  "title": "Titel",
+  "username": "Brugernavn"
+}

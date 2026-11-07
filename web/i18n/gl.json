@@ -1,0 +1,16 @@
+{
+  "account-locked": "A conta está bloqueada temporalmente por demasiados intentos de inicio de sesión fallidos. Ténteo de novo máis tarde.",
+  "add-board": "Engadir taboleiro",
+  "add-card": "Engadir tarxeta",
+  "add-list": "Engadir lista",
+  "all-boards": "Todos os taboleiros",
+  "board-not-found": "Non se atopou o taboleiro",
+  "close": "Pechar",
+  "description": "Descrición",
+  "error-ldap-login": "Produciuse un erro ao tentar iniciar sesión",
+  "log-in": "Acceder",
+  "log-out": "Pechar a sesión",
+  "password": "Contrasinal",
+  "title": "Título",
+  "username": "Nome de usuario"
+}

@@ -1,0 +1,16 @@
+{
+  "account-locked": "akaundi iri temporarily locked due ku too many failed login attempts. Please try zvakare later.",
+  "add-board": "Wedzera bhodhi",
+  "add-card": "Wedzera kadhi",
+  "add-list": "Wedzera rondedzero",
+  "all-boards": "Mabhodhi ese",
+  "board-not-found": "bhodhi haina kuwanikwa",
+  "close": "Vhara",
+  "description": "Tsanangudzo",
+  "error-ldap-login": "An kukanganisa occurred while trying ku login",
+  "log-in": "pinda",
+  "log-out": "Buda",
+  "password": "pasiwedhi",
+  "title": "Musoro",
+  "username": "Zita rekushandisa"
+}

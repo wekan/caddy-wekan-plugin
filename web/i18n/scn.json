@@ -1,0 +1,16 @@
+{
+  "account-locked": "L'account è temporaneamenti bloccato a causa di troppi tentativi di accesso falliti. Riprova più tardi.",
+  "add-board": "Aggiunciri na tavula",
+  "add-card": "Aggiunciri na carta",
+  "add-list": "Aggiunciri na lista",
+  "all-boards": "Tutti i tavuli",
+  "board-not-found": "Tàvula nnu trovata",
+  "close": "Chiuiri",
+  "description": "Discrizzioni",
+  "error-ldap-login": "C'è stato nu erruri mentre provavi ad effettuare lu login",
+  "log-in": "Accedi",
+  "log-out": "Nesci",
+  "password": "Palora d'ordini",
+  "title": "Titulu",
+  "username": "Nomu di l'utenti"
+}

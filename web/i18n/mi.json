@@ -1,0 +1,16 @@
+{
+  "account-locked": "Kua maukati rangitahi te pūkete nā te nui rawa o ngā whakamātau takiuru rahua. Tēnā ngana anō ā muri ake.",
+  "add-board": "Tāpiri papa",
+  "add-card": "Tāpiri kāri",
+  "add-list": "Tāpiri rārangi",
+  "all-boards": "Ngā papa katoa",
+  "board-not-found": "Kāore i kitea te papa",
+  "close": "Kati",
+  "description": "Whakaahuatanga",
+  "error-ldap-login": "I puta he hapa i te ngana ki te takiuru",
+  "log-in": "Takiuru",
+  "log-out": "Takiputa",
+  "password": "Kupuhipa",
+  "title": "Taitara",
+  "username": "Ingoa kaiwhakamahi"
+}

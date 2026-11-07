@@ -1,0 +1,16 @@
+{
+  "account-locked": "Aðgangurinn er tímabundið læstur vegna of margra misheppnaðra innskráningartilrauna. Reyndu aftur síðar.",
+  "add-board": "Bæta við töflu",
+  "add-card": "Bæta við spjaldi",
+  "add-list": "Bæta við lista",
+  "all-boards": "Allar töflur",
+  "board-not-found": "Tafla fannst ekki",
+  "close": "Loka",
+  "description": "Lýsing",
+  "error-ldap-login": "Villa kom upp við innskráningu",
+  "log-in": "Skrá inn",
+  "log-out": "Útskrá",
+  "password": "Lykilorð",
+  "title": "Titill",
+  "username": "Notandanafn"
+}

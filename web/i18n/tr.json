@@ -1,0 +1,16 @@
+{
+  "account-locked": "Çok fazla başarısız giriş denemesi nedeniyle hesap geçici olarak kilitlendi. Lütfen daha sonra tekrar deneyin.",
+  "add-board": "Pano Ekle",
+  "add-card": "Kart Ekle",
+  "add-list": "Liste Ekle",
+  "all-boards": "Tüm panolar",
+  "board-not-found": "Pano bulunamadı",
+  "close": "Kapat",
+  "description": "Açıklama",
+  "error-ldap-login": "Giriş yapmaya çalışırken bir hata oluştu",
+  "log-in": "Oturum Aç",
+  "log-out": "Oturum Kapat",
+  "password": "Parola",
+  "title": "Başlık",
+  "username": "Kullanıcı adı"
+}

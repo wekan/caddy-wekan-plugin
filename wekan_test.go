@@ -2,36 +2,14 @@ package caddywekan
 
 import (
 	"encoding/json"
-	"fmt"
 	"net"
-	"net/http"
-	"os"
-	"path/filepath"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/caddyserver/caddy/v2/caddyconfig/caddyfile"
 	"github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile"
 	_ "github.com/caddyserver/caddy/v2/modules/standard"
 )
-
-// The test binary is also the stand-in WeKan: WEKAN_TEST_HELPER=serve listens on
-// BIND_IP:PORT, as Meteor does, and answers with ROOT_URL and the path.
-func TestMain(m *testing.M) {
-	if os.Getenv("WEKAN_TEST_HELPER") == "serve" {
-		time.Sleep(500 * time.Millisecond)
-		l, err := net.Listen("tcp", net.JoinHostPort(os.Getenv("BIND_IP"), os.Getenv("PORT")))
-		if err != nil {
-			os.Exit(3)
-		}
-		_ = http.Serve(l, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			fmt.Fprint(w, os.Getenv("ROOT_URL")+" "+r.URL.Path)
-		}))
-		return
-	}
-	os.Exit(m.Run())
-}
 
 func freeAddr(t *testing.T) string {
 	l, err := net.Listen("tcp", "127.0.0.1:0")
@@ -42,36 +20,19 @@ func freeAddr(t *testing.T) string {
 	return l.Addr().String()
 }
 
-func TestEnvironment(t *testing.T) {
-	a := App{RootURL: "https://wekan.example.org", Dial: "127.0.0.1:8081",
-		Env: map[string]string{"WEKAN_DB": "ferretdb", "PORT": "9999", "UNIX_SOCKET_PATH": "/x"}}
-	env, err := a.Environment()
-	if err != nil {
-		t.Fatal(err)
-	}
-	got := strings.Join(env, " ")
-	if got != "BIND_IP=127.0.0.1 PORT=8081 ROOT_URL=https://wekan.example.org WEKAN_DB=ferretdb" {
-		t.Fatalf("negative included: env cannot move WeKan away from dial: %s", got)
-	}
-	a.Dial = "unix//run/wekan.sock"
-	env, _ = a.Environment()
-	if got := strings.Join(env, " "); !strings.Contains(got, "UNIX_SOCKET_PATH=/run/wekan.sock") || strings.Contains(got, "PORT=") {
-		t.Fatalf("unix socket: %s", got)
-	}
-}
-
 func TestValidate(t *testing.T) {
-	dir := t.TempDir()
-	ok := App{Bundle: dir, Command: filepath.Join(dir, "start-wekan.sh"), RootURL: "https://wekan.example.org"}
-	if err := ok.Validate(); err != nil {
-		t.Fatal(err)
+	for _, ok := range []App{{Data: "/var/lib/weddy"}, {Data: "/var/lib/weddy", Primary: "wekan.example.org"},
+		{Data: "/var/lib/weddy", DatabaseListen: "127.0.0.1:27017"}} {
+		if err := ok.Validate(); err != nil {
+			t.Errorf("%+v: %v", ok, err)
+		}
 	}
 	for name, a := range map[string]App{
-		"no root_url":       {Bundle: dir, Command: "x"},
-		"root_url no host":  {Bundle: dir, Command: "x", RootURL: "https://"},
-		"root_url not http": {Bundle: dir, Command: "x", RootURL: "ftp://wekan.example.org"},
-		"no bundle":         {RootURL: "https://wekan.example.org"},
-		"bundle not a dir":  {Bundle: filepath.Join(dir, "nope"), Command: "x", RootURL: "https://wekan.example.org"},
+		"no data":                     {},
+		"relative data":               {Data: "weddy"},
+		"primary not a domain":        {Data: "/x", Primary: "../etc"},
+		"database_listen no port":     {Data: "/x", DatabaseListen: "127.0.0.1"},
+		"database_listen and domains": {Data: "/x", Primary: "wekan.example.org", DatabaseListen: "127.0.0.1:27017"},
 	} {
 		if err := a.Validate(); err == nil {
 			t.Errorf("negative: %s must be refused", name)
@@ -81,7 +42,7 @@ func TestValidate(t *testing.T) {
 
 func TestCaddyfile(t *testing.T) {
 	adapter := caddyfile.Adapter{ServerType: httpcaddyfile.ServerType{}}
-	out, _, err := adapter.Adapt([]byte("{\n\twekan {\n\t\tbundle /opt/wekan\n\t\troot_url https://wekan.example.org\n\t\tenv WEKAN_DB ferretdb\n\t}\n}\nwekan.example.org {\n\twekan\n}\n"), nil)
+	out, _, err := adapter.Adapt([]byte("{\n\twekan {\n\t\tdata /var/lib/weddy\n\t\tprimary wekan.team\n\t}\n}\nwekan.example.org {\n\twekan\n}\n"), nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -89,13 +50,23 @@ func TestCaddyfile(t *testing.T) {
 	_ = json.Unmarshal(out, &cfg)
 	var app App
 	_ = json.Unmarshal(cfg.Apps["wekan"], &app)
-	if app.Bundle != "/opt/wekan" || app.RootURL != "https://wekan.example.org" || app.Env["WEKAN_DB"] != "ferretdb" {
+	if app.Data != "/var/lib/weddy" || app.Primary != "wekan.team" {
 		t.Fatalf("the wekan option: %+v", app)
 	}
 	if !strings.Contains(string(cfg.Apps["http"]), `"handler":"wekan"`) {
 		t.Fatal("the site has no wekan handler")
 	}
+	out, _, err = adapter.Adapt([]byte("{\n\twekan {\n\t\troot /srv/w\n\t}\n}\n"), nil)
+	if err != nil || !strings.Contains(string(out), `"data":"/srv/w"`) {
+		t.Fatalf("root is the older name of data: %v %s", err, out)
+	}
 	if _, _, err := adapter.Adapt([]byte("{\n\twekan {\n\t\tport 1\n\t}\n}\n"), nil); err == nil {
 		t.Fatal("negative: an unknown option must be an error")
+	}
+	for _, old := range []string{"bundle /opt/wekan", "root_url https://x.org", "env A b", "command x"} {
+		_, _, err := adapter.Adapt([]byte("{\n\twekan {\n\t\t"+old+"\n\t}\n}\n"), nil)
+		if err == nil || !strings.Contains(err.Error(), "without Node.js") {
+			t.Errorf("negative: the Node.js option %q must be refused with the reason: %v", old, err)
+		}
 	}
 }

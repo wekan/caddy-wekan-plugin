@@ -1,0 +1,16 @@
+{
+  "account-locked": "Paskyra laikinai užrakinta dėl per daug nesėkmingų bandymų prisijungti. Bandykite dar kartą vėliau.",
+  "add-board": "Pridėti lentą",
+  "add-card": "Pridėti kortelę",
+  "add-list": "Pridėti sąrašą",
+  "all-boards": "Visos lentos",
+  "board-not-found": "Lenta nerasta",
+  "close": "Uždaryti",
+  "description": "Aprašymas",
+  "error-ldap-login": "Bandant prisijungti įvyko klaida",
+  "log-in": "Prisijungti",
+  "log-out": "Atsijungti",
+  "password": "Slaptažodis",
+  "title": "Pavadinimas",
+  "username": "Vartotojo vardas"
+}

@@ -1,0 +1,16 @@
+{
+  "account-locked": "Akun dikunci sauntara amarga kakehan upaya mlebu sing gagal. Mangga coba maneh mengko.",
+  "add-board": "Tambah papan",
+  "add-card": "Tambah kertu",
+  "add-list": "Tambah dhaptar",
+  "all-boards": "Kabeh papan",
+  "board-not-found": "Papan ora ditemokake",
+  "close": "Tutup",
+  "description": "Katrangan",
+  "error-ldap-login": "Ana kaluputan nalika nyoba mlebu",
+  "log-in": "Mlebu",
+  "log-out": "Metu",
+  "password": "Tembung sandi",
+  "title": "Irah-irahan",
+  "username": "Jeneng panganggo"
+}

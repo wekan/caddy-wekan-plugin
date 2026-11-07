@@ -1,0 +1,11 @@
+.board-list-wrapper
+  h1.board-list-title {{t $.L "all-boards"}}
+  ul.board-list.js-boards
+    each b in .Boards
+      li.js-board(data-id="{{.ID}}")
+        a.board-list-item(href="/b/{{.ID}}/{{.Slug}}", class="board-color-{{.Color}}", up-follow)
+          span.board-list-item-name {{.Title}}
+    li.js-add-board
+      form.js-add-board-form(method="post", action="/boards", up-submit)
+        input.js-new-board-title(type="text", name="title", aria-label="{{t $.L `title`}}", placeholder="{{t $.L `title`}}", required)
+        button.primary(type="submit") {{t $.L "add-board"}}

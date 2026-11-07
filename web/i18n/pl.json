@@ -1,0 +1,16 @@
+{
+  "account-locked": "Konto jest tymczasowo zablokowane z powodu zbyt wielu nieudanych prób logowania. Spróbuj ponownie później.",
+  "add-board": "Dodaj tablicę",
+  "add-card": "Dodaj kartę",
+  "add-list": "Dodaj listę",
+  "all-boards": "Wszystkie tablice",
+  "board-not-found": "Nie znaleziono tablicy",
+  "close": "Zamknij",
+  "description": "Opis",
+  "error-ldap-login": "Wystąpił błąd w trakcie logowania",
+  "log-in": "Zaloguj",
+  "log-out": "Wyloguj",
+  "password": "Hasło",
+  "title": "Tytuł",
+  "username": "Nazwa użytkownika"
+}

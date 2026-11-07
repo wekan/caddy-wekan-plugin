@@ -1,0 +1,16 @@
+{
+  "account-locked": "A fiók ideiglenesen zárolva van a túl sok sikertelen bejelentkezési kísérlet miatt. Kérjük, próbáld újra később.",
+  "add-board": "Tábla hozzáadás",
+  "add-card": "Kártya hozzáadása",
+  "add-list": "Lista hozzáadása",
+  "all-boards": "Összes tábla",
+  "board-not-found": "A tábla nem található",
+  "close": "Bezárás",
+  "description": "Leírás",
+  "error-ldap-login": "Hiba történt bejelentkezés közben",
+  "log-in": "Bejelentkezés",
+  "log-out": "Kijelentkezés",
+  "password": "Jelszó",
+  "title": "Cím",
+  "username": "Felhasználónév"
+}

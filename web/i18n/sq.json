@@ -1,0 +1,16 @@
+{
+  "account-locked": "Llogaria është bllokuar përkohësisht për shkak të shumë përpjekjeve të dështuara për hyrje. Provo përsëri më vonë.",
+  "add-board": "Shto tabelë",
+  "add-card": "Shto kartë",
+  "add-list": "Shto listë",
+  "all-boards": "Të gjitha tabelat",
+  "board-not-found": "Tabela nuk u gjet",
+  "close": "Mbyll",
+  "description": "Përshkrimi",
+  "error-ldap-login": "Ndodhi një gabim gjatë përpjekjes për t'u identifikuar",
+  "log-in": "Hyr",
+  "log-out": "Dil",
+  "password": "Fjalëkalimi",
+  "title": "Titulli",
+  "username": "Emri i përdoruesit"
+}

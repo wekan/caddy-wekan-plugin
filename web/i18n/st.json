@@ -1,0 +1,16 @@
+{
+  "account-locked": "Akhaonto e notletswe nakwana ka lebaka la diteko tse ngata tse hlolehileng tsa ho kena. Ka kopo leka hape hamorao.",
+  "add-board": "Eketsa boto",
+  "add-card": "Eketsa karete",
+  "add-list": "Eketsa lenane",
+  "all-boards": "Diboto tsohle",
+  "board-not-found": "Boto ha e a fumanwa",
+  "close": "Koala",
+  "description": "Tlhaloso",
+  "error-ldap-login": "Ho hlahile phoso ha ho lekwa ho kena",
+  "log-in": "Kena",
+  "log-out": "Tswa",
+  "password": "Phasewete",
+  "title": "Sehlooho",
+  "username": "Lebitso la mosebedisi"
+}

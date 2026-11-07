@@ -1,0 +1,16 @@
+{
+  "account-locked": "Konto on ajutiselt lukustatud liiga paljude ebaõnnestunud sisselogimiskatsete tõttu. Palun proovi hiljem uuesti.",
+  "add-board": "Lisa juhatus",
+  "add-card": "Lisa kaart",
+  "add-list": "Lisa nimekiri",
+  "all-boards": "Kõik lauad",
+  "board-not-found": "Juhatust ei leitud",
+  "close": "Sulge",
+  "description": "Kirjeldus",
+  "error-ldap-login": "Sisselogimise ajal ilmnes viga",
+  "log-in": "Logi sisse",
+  "log-out": "Logi välja",
+  "password": "Parool",
+  "title": "Pealkiri",
+  "username": "Kasutajanimi"
+}

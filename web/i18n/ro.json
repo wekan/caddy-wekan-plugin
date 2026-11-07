@@ -1,0 +1,16 @@
+{
+  "account-locked": "Contul este blocat temporar din cauza prea multor încercări de autentificare nereușite. Încercați din nou mai târziu.",
+  "add-board": "Adaugă panou",
+  "add-card": "Adaugă card",
+  "add-list": "Adaugă listă",
+  "all-boards": "Toate tablele",
+  "board-not-found": "Tabla nu a fost găsită",
+  "close": "Închide",
+  "description": "Descriere",
+  "error-ldap-login": "A apărut o eroare la încercarea de autentificare",
+  "log-in": "Autentificare",
+  "log-out": "Deconectare",
+  "password": "Parolă",
+  "title": "Titlu",
+  "username": "Nume de utilizator"
+}

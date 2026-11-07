@@ -1,0 +1,39 @@
+.board-wrapper(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live", data-move="/b/{{.Board.ID}}/move")
+  .board-header
+    h1.header-board-name.js-board-title {{.Board.Title}}
+  .board-canvas#board-canvas
+    each sw in .Lanes
+      .swimlane.js-swimlane(id="swimlane-{{.ID}}", data-swimlane="{{.ID}}")
+        .swimlane-header
+          span.swimlane-header-name {{.Title}}
+        .list-group.js-lists
+          each li in .Lists
+            .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}")
+              .list-header
+                span.list-header-name {{.Title}}
+                if $.CanEdit
+                  a.js-add-card.list-header-plus-top(href="#", title="{{t $.L `add-card`}}", aria-label="{{t $.L `add-card`}}") +
+              .list-body.js-minicards(data-list="{{.ID}}", data-swimlane="{{.Lane}}")
+                each c in .Cards
+                  a.minicard-wrapper.js-minicard(href="/b/{{$.Board.ID}}/{{$.Board.Slug}}/{{.ID}}", data-card="{{.ID}}", data-sort="{{.Sort}}", up-follow, up-target=".board-wrapper")
+                    .minicard
+                      .minicard-title {{.Title}}
+              if $.CanEdit
+                form.js-inlined-form.js-card-composer.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards", up-submit, up-target=".board-wrapper")
+                  input(type="hidden", name="listId", value="{{.ID}}")
+                  input(type="hidden", name="swimlaneId", value="{{.Lane}}")
+                  textarea.js-card-title(name="title", aria-label="{{t $.L `title`}}", required)
+                  button.primary(type="submit") {{t $.L "add-card"}}
+                  a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+          if $.CanEdit
+            .list.js-list-composer
+              form.js-inlined-form.js-list-form(method="post", action="/b/{{$.Board.ID}}/lists", up-submit, up-target=".board-wrapper")
+                input.list-name-input(type="text", name="title", aria-label="{{t $.L `add-list`}}", placeholder="{{t $.L `add-list`}}", required)
+                button.primary(type="submit") {{t $.L "add-list"}}
+  if .Card
+    .card-details.js-card-details(data-card="{{.Card.ID}}")
+      .card-details-header
+        h2.card-details-title.js-card-title {{.Card.Title}}
+        a.js-close-card-details(href="/b/{{.Board.ID}}/{{.Board.Slug}}", aria-label="{{t $.L `close`}}", up-follow, up-target=".board-wrapper") ×
+      h3 {{t $.L "description"}}
+      .card-description.js-card-description {{.Card.Description}}

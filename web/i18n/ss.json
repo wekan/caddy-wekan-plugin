@@ -1,0 +1,16 @@
+{
+  "account-locked": "I-akhawunti ikhiywe kwesikhashana ngenca yemetamo leminyenti yekungena leyehlulekile. Uyacelwa uphindze wetame ngekuhamba kwesikhatsi.",
+  "add-board": "Ngeta libhodi",
+  "add-card": "Ngeta likhadi",
+  "add-list": "Ngeta luhla",
+  "all-boards": "Onkhe emabhodi",
+  "board-not-found": "Libhodi alitfolakalanga",
+  "close": "Vala",
+  "description": "Inchazelo",
+  "error-ldap-login": "Kwenteleke liphutsa nakwetanywa kungena nge-LDAP",
+  "log-in": "Ngena",
+  "log-out": "Phuma",
+  "password": "Liphasiwedi",
+  "title": "Sihloko",
+  "username": "Ligama lemsebentisi"
+}

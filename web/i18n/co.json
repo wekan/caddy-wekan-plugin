@@ -1,0 +1,16 @@
+{
+  "account-locked": "U contu hè bluccatu tempuraneamente per via di troppu tentativi di cunnessione fiascati. Pruvate torna più tardi.",
+  "add-board": "Aghjunghje una tavula",
+  "add-card": "Aghjunghje una carta",
+  "add-list": "Aghjunghje una lista",
+  "all-boards": "Tutte e tavule",
+  "board-not-found": "Tavula micca truvata",
+  "close": "Chjode",
+  "description": "Descrizzione",
+  "error-ldap-login": "Un errore hè accadutu durante u tentativu di cunnessione",
+  "log-in": "Cunnettassi",
+  "log-out": "Esce",
+  "password": "Parolla d'intrata",
+  "title": "Titulu",
+  "username": "Nome d'utilizatore"
+}

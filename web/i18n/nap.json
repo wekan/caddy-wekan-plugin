@@ -1,0 +1,16 @@
+{
+  "account-locked": "Ll'account è bluccato pe nu poco pecché ce so' troppi tentative fallute 'e trasì. Pròva n'ata vota cchiù tarde.",
+  "add-board": "Azzeccà na tavula",
+  "add-card": "Azzeccà na carta",
+  "add-list": "Azzeccà na lista",
+  "all-boards": "Tutt' 'e tavule",
+  "board-not-found": "Tavula nun trovata",
+  "close": "Chiure",
+  "description": "Descrizzione",
+  "error-ldap-login": "Ce sta stato 'n errore mentre pruvave a trasì",
+  "log-in": "Accedi",
+  "log-out": "Jesce",
+  "password": "Parola d'ordine",
+  "title": "Titolo",
+  "username": "Nomme d'utente"
+}

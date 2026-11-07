@@ -1,0 +1,16 @@
+{
+  "account-locked": "Tili on tilapäisesti lukittu liian monen epäonnistuneen kirjautumisyrityksen vuoksi. Yritä myöhemmin uudelleen.",
+  "add-board": "Lisää taulu",
+  "add-card": "Lisää kortti",
+  "add-list": "Lisää lista",
+  "all-boards": "Kaikki taulut",
+  "board-not-found": "Taulua ei löytynyt",
+  "close": "Sulje",
+  "description": "Kuvaus",
+  "error-ldap-login": "Virhe tapahtui yrittäessä kirjautua sisään",
+  "log-in": "Kirjaudu sisään",
+  "log-out": "Kirjaudu ulos",
+  "password": "Salasana",
+  "title": "Otsikko",
+  "username": "Käyttäjätunnus"
+}

@@ -1,0 +1,16 @@
+{
+  "account-locked": "በጣም ብዙ ያልተሳኩ የመግቢያ ሙከራዎች ስለነበሩ መለያው ለጊዜው ተቆልፏል። እባክዎ ቆይተው እንደገና ይሞክሩ።",
+  "add-board": "ሰሌዳ ጨምር",
+  "add-card": "ካርድ ጨምር",
+  "add-list": "ዝርዝር ጨምር",
+  "all-boards": "ሁሉም ሰሌዳዎች",
+  "board-not-found": "ሰሌዳው አልተገኘም",
+  "close": "ዝጋ",
+  "description": "መግለጫ",
+  "error-ldap-login": "ለመግባት ሲሞከር ስህተት ተከስቷል",
+  "log-in": "ግባ",
+  "log-out": "ውጣ",
+  "password": "የይለፍ ቃል",
+  "title": "ርዕስ",
+  "username": "የተጠቃሚ ስም"
+}

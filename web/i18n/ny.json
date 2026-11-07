@@ -1,0 +1,16 @@
+{
+  "account-locked": "Akaunti yatsekedwa kwakanthawi chifukwa cha zoyesa kulowa zolephera zambiri. Chonde yesaninso pambuyo pake.",
+  "add-board": "Onjezani bolodi",
+  "add-card": "Onjezani khadi",
+  "add-list": "Onjezani mndandanda",
+  "all-boards": "Mabolodi onse",
+  "board-not-found": "Bolodi silinapezeke",
+  "close": "Tsekani",
+  "description": "Kufotokoza",
+  "error-ldap-login": "Panachitika cholakwika poyesa kulowa",
+  "log-in": "Lowani",
+  "log-out": "Tulukani",
+  "password": "Mawu achinsinsi",
+  "title": "Mutu",
+  "username": "Dzina logwiritsa ntchito"
+}

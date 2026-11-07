@@ -1,0 +1,16 @@
+{
+  "account-locked": "Account huwa temporarily locked due għal too many failed login attempts. Jekk jogħġbok try again later.",
+  "add-board": "Żid bord",
+  "add-card": "Żid karta",
+  "add-list": "Żid lista",
+  "all-boards": "Il-bordijiet kollha",
+  "board-not-found": "Bord mhux found",
+  "close": "Agħlaq",
+  "description": "Deskrizzjoni",
+  "error-ldap-login": "An error occurred while trying għal login",
+  "log-in": "Idħol",
+  "log-out": "Oħroġ",
+  "password": "Kelma ta’ għassa",
+  "title": "Titlu",
+  "username": "Isem tal-utent"
+}

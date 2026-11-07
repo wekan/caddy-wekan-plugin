@@ -1,0 +1,11 @@
+.auth-layout
+  .auth-dialog.at-form
+    h1.at-title {{t $.L "log-in"}}
+    if .Error
+      .at-error.js-login-error {{t $.L .Error}}
+    form#at-pwd-form(method="post", action="/sign-in")
+      label(for="at-field-username_and_email") {{t $.L "username"}}
+      input#at-field-username_and_email(type="text", name="username", value="{{.Username}}", autocomplete="username", required)
+      label(for="at-field-password") {{t $.L "password"}}
+      input#at-field-password(type="password", name="password", autocomplete="current-password", required)
+      button#at-btn.at-btn.submit.primary(type="submit") {{t $.L "log-in"}}

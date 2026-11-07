@@ -1,0 +1,16 @@
+{
+  "account-locked": "La cuenta ta bloquiada temporalmente por demasiaos intentos fallíos d'aniciu de sesión. Vuelvi a intentalo más sero.",
+  "add-board": "Amestar un tableru",
+  "add-card": "Amestar una tarxeta",
+  "add-list": "Amestar una llista",
+  "all-boards": "Tolos tableros",
+  "board-not-found": "Tablero no encontrado",
+  "close": "Cerrar",
+  "description": "Descripción",
+  "error-ldap-login": "Asocedió un error al intentar aniciar sesión",
+  "log-in": "Iniciar sesión",
+  "log-out": "Finalizar la sesión",
+  "password": "Contraseña",
+  "title": "Título",
+  "username": "Nombre de usuario"
+}

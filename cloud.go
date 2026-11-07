@@ -1,42 +1,40 @@
 package caddywekan
 
-// Many domains from one Weddy: every customer domain is a WeKan of its own, in a
-// directory of its own - <root>/domains/<domain>/files/db/ for its database,
-// .../files/attachments and so on - started from the same bundle, and reached only
-// through its own domain.
+// Many domains from one Weddy: every customer domain is a WeKan of its own - a Go
+// WeKan in this process, with its own embedded FerretDB - in a directory of its
+// own: <data>/domains/<domain>/files/db/ for its database, .../files/attachments
+// and so on, and reached only through its own domain.
 //
 // The first domain, primary, is the WeKan whose Admin Panel / People / Cloud names
 // the Cloud Panel Domain and the SuperAdmin; on the Cloud Panel Domain that WeKan
 // shows the Cloud Panel, where the SuperAdmin keeps the table of customer domains
-// and the CloudFlare API key. That WeKan writes them to <root>/cloud/, server side,
+// and the CloudFlare API key. That WeKan writes them to <data>/cloud/, server side,
 // and this file reads them:
 //
-//	<root>/cloud/domains.json      {"cloudPanelDomain": "...", "domains": [{"domain": ..., "startDate": ..., "endDate": ...}, ...]}
-//	<root>/cloud/cloudflare.json   {"apiToken": "..."}        (mode 0600; never sent to a browser)
-//	<root>/cloud/certs/<domain>.crt, .key   CloudFlare Origin certificates (cloudflare.go)
-//	<root>/cloud/status.json       what this side did, for the Cloud Panel to show
+//	<data>/cloud/domains.json      {"cloudPanelDomain": "...", "domains": [{"domain": ..., "startDate": ..., "endDate": ...}, ...]}
+//	<data>/cloud/cloudflare.json   {"apiToken": "..."}        (mode 0600; never sent to a browser)
+//	<data>/cloud/certs/<domain>.crt, .key   CloudFlare Origin certificates (cloudflare.go)
+//	<data>/cloud/status.json       what this side did, for the Cloud Panel to show
 //
 // A domain is served from its startDate to its endDate, both included; a domain
 // without dates is served. Changes are picked up within seconds, without a restart.
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net"
 	"net/http"
-	"net/http/httputil"
-	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
-	"sort"
 	"strings"
 	"sync"
 	"time"
 
 	"go.uber.org/zap"
 
-	"github.com/wekan/caddy-gitea-plugin/supervisor"
+	"github.com/wekan/caddy-wekan-plugin/web"
 )
 
 // Domain is one row of the Cloud Panel's Domains table.
@@ -49,7 +47,7 @@ type Domain struct {
 	EndDate       string `json:"endDate,omitempty"`   // YYYY-MM-DD, the last day of the paid hosting
 }
 
-// DomainsFile is <root>/cloud/domains.json.
+// DomainsFile is <data>/cloud/domains.json.
 type DomainsFile struct {
 	CloudPanelDomain string   `json:"cloudPanelDomain,omitempty"`
 	Domains          []Domain `json:"domains"`
@@ -77,8 +75,7 @@ func (d Domain) Active(day time.Time) bool {
 
 type instance struct {
 	domain string
-	proc   *supervisor.Process
-	proxy  *httputil.ReverseProxy
+	srv    *web.Server
 }
 
 // Cloud runs the WeKan of every domain.
@@ -107,75 +104,29 @@ func CurrentCloud() *Cloud {
 	return current.cloud
 }
 
-func (a *App) cloudDir() string { return filepath.Join(a.Root, "cloud") }
+func (a *App) cloudDir() string { return filepath.Join(a.Data, "cloud") }
 
 func newCloud(a *App, log *zap.Logger) *Cloud {
 	return &Cloud{app: a, log: log, instances: map[string]*instance{}, active: map[string]bool{}}
 }
 
-func freePort() (int, error) {
-	l, err := net.Listen("tcp", "127.0.0.1:0")
-	if err != nil {
-		return 0, err
-	}
-	defer l.Close()
-	return l.Addr().(*net.TCPAddr).Port, nil
-}
-
-// start runs the WeKan of one domain from <root>/domains/<domain>.
+// start opens the WeKan of one domain from <data>/domains/<domain>.
 func (c *Cloud) start(domain string, primary bool) (*instance, error) {
 	if !ValidDomain(domain) {
 		return nil, fmt.Errorf("not a domain name: %q", domain)
 	}
-	dir := filepath.Join(c.app.Root, "domains", domain)
+	dir := filepath.Join(c.app.Data, "domains", domain)
 	if err := os.MkdirAll(dir, 0o750); err != nil {
 		return nil, err
 	}
-	web, err := freePort()
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+	defer cancel()
+	srv, err := web.Open(ctx, dir, "", c.app.slog)
 	if err != nil {
 		return nil, err
 	}
-	db, err := freePort()
-	if err != nil {
-		return nil, err
-	}
-	vals := map[string]string{}
-	for k, v := range c.app.Env {
-		vals[k] = v
-	}
-	vals["ROOT_URL"] = "https://" + domain
-	vals["BIND_IP"], vals["PORT"] = "127.0.0.1", fmt.Sprint(web)
-	vals["WRITABLE_PATH"] = dir // the launcher keeps files/ - and files/db/ - below it
-	vals["FERRETDB_LISTEN_ADDR"] = fmt.Sprintf("127.0.0.1:%d", db)
-	delete(vals, "MONGO_URL") // each domain its own database; the launcher derives it
-	delete(vals, "UNIX_SOCKET_PATH")
-	if primary {
-		vals["WEDDY_CLOUD_DIR"] = c.app.cloudDir() // this WeKan has Admin Panel / People / Cloud
-		delete(vals, "WEDDY_TENANT")
-	} else {
-		vals["WEDDY_TENANT"] = "true" // a customer's WeKan: no Cloud menu, no SuperAdmin
-		delete(vals, "WEDDY_CLOUD_DIR")
-	}
-	env := make([]string, 0, len(vals))
-	for k, v := range vals {
-		env = append(env, k+"="+v)
-	}
-	sort.Strings(env)
-	dial := fmt.Sprintf("127.0.0.1:%d", web)
-	proc := supervisor.New(supervisor.Config{
-		Name: "wekan " + domain, Command: c.app.Command, Args: c.app.Args, Dir: c.app.Bundle,
-		Env: env, Dial: dial, StopTimeout: time.Duration(c.app.StopTimeout),
-	}, c.log)
-	if err := proc.Start(); err != nil {
-		return nil, err
-	}
-	target := &url.URL{Scheme: "http", Host: dial}
-	rp := &httputil.ReverseProxy{Rewrite: func(r *httputil.ProxyRequest) {
-		r.SetURL(target)
-		r.Out.Host = r.In.Host // WeKan sees the domain it was asked for
-		r.SetXForwarded()
-	}}
-	return &instance{domain: domain, proc: proc, proxy: rp}, nil
+	srv.Tenant = !primary // a customer's WeKan: no Cloud menu, no SuperAdmin
+	return &instance{domain: domain, srv: srv}, nil
 }
 
 // Load reads domains.json and starts and stops WeKans to match it.
@@ -214,7 +165,7 @@ func (c *Cloud) Load(now time.Time) error {
 		if !want[name] {
 			c.log.Info("domain no longer served: stopping its WeKan", zap.String("domain", name))
 			delete(c.instances, name)
-			go in.proc.Stop()
+			go in.srv.Close()
 		}
 	}
 	for name := range want {
@@ -297,7 +248,7 @@ func (c *Cloud) Stop() error {
 	var wg sync.WaitGroup
 	for _, in := range all {
 		wg.Add(1)
-		go func(in *instance) { defer wg.Done(); _ = in.proc.Stop() }(in)
+		go func(in *instance) { defer wg.Done(); _ = in.srv.Close() }(in)
 	}
 	wg.Wait()
 	return nil
@@ -311,11 +262,8 @@ func (c *Cloud) Allowed(name string) bool {
 	return c.active[NormalizeHost(name)]
 }
 
-// Ready reports whether the WeKan of host accepts connections.
-func (c *Cloud) Ready(host string) bool {
-	in := c.lookup(host)
-	return in != nil && in.proc.Ready()
-}
+// Ready reports whether the WeKan of host is served.
+func (c *Cloud) Ready(host string) bool { return c.lookup(host) != nil }
 
 func (c *Cloud) lookup(host string) *instance {
 	name := NormalizeHost(host)
@@ -334,10 +282,6 @@ func (c *Cloud) ServeHTTP(w http.ResponseWriter, r *http.Request) (handled bool,
 	if in == nil {
 		return false, http.StatusNotFound
 	}
-	if !in.proc.Ready() {
-		w.Header().Set("Retry-After", "5")
-		return false, http.StatusServiceUnavailable
-	}
-	in.proxy.ServeHTTP(w, r)
+	in.srv.ServeHTTP(w, r)
 	return true, 0
 }

@@ -3,18 +3,22 @@
 package caddywekan
 
 import (
+	"context"
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
+	"crypto/sha256"
 	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
+	"encoding/hex"
 	"encoding/json"
 	"encoding/pem"
 	"io"
 	"math/big"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -23,32 +27,13 @@ import (
 	"time"
 
 	"github.com/caddyserver/caddy/v2"
+	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.uber.org/zap"
+	"golang.org/x/crypto/bcrypt"
 )
 
-// A stand-in bundle: its start-wekan.sh answers with what the domain's WeKan was
-// given - ROOT_URL, WRITABLE_PATH and whether it is the Cloud Panel's or a tenant's.
-func standInBundle(t *testing.T) string {
-	bundle := t.TempDir()
-	script := `#!/bin/sh
-exec python3 -c "
-import http.server, os
-class H(http.server.BaseHTTPRequestHandler):
-    def do_GET(self):
-        b = '|'.join([os.environ['ROOT_URL'], os.environ['WRITABLE_PATH'], os.environ.get('WEDDY_TENANT', '-'),
-                      os.environ.get('WEDDY_CLOUD_DIR', '-'), self.headers.get('Host', '')]).encode()
-        self.send_response(200); self.send_header('Content-Length', str(len(b))); self.end_headers(); self.wfile.write(b)
-    def log_message(self, *a): pass
-http.server.HTTPServer((os.environ['BIND_IP'], int(os.environ['PORT'])), H).serve_forever()"
-`
-	if err := os.WriteFile(filepath.Join(bundle, "start-wekan.sh"), []byte(script), 0o755); err != nil {
-		t.Fatal(err)
-	}
-	return bundle
-}
-
 func get(t *testing.T, site, host string) (int, string) {
-	req, _ := http.NewRequest("GET", "http://"+site+"/b/1", nil)
+	req, _ := http.NewRequest("GET", "http://"+site+"/sign-in", nil)
 	req.Host = host
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -57,6 +42,33 @@ func get(t *testing.T, site, host string) (int, string) {
 	defer res.Body.Close()
 	b, _ := io.ReadAll(res.Body)
 	return res.StatusCode, string(b)
+}
+
+// signIn reports whether username/password signs in at host.
+func signIn(t *testing.T, site, host, username, password string) bool {
+	req, _ := http.NewRequest("POST", "http://"+site+"/sign-in", strings.NewReader(url.Values{"username": {username}, "password": {password}}.Encode()))
+	req.Host = host
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	res, err := (&http.Client{CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}).Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	res.Body.Close()
+	return res.StatusCode == http.StatusSeeOther
+}
+
+func seedUser(t *testing.T, c *Cloud, host, username, password string) {
+	in := c.lookup(host)
+	if in == nil {
+		t.Fatalf("no WeKan at %s", host)
+	}
+	sum := sha256.Sum256([]byte(password))
+	hash, _ := bcrypt.GenerateFromPassword([]byte(hex.EncodeToString(sum[:])), 4)
+	_, err := in.srv.DB().Collection("users").InsertOne(context.Background(), bson.M{"_id": username + "-id", "username": username,
+		"services": bson.M{"password": bson.M{"bcrypt": string(hash)}}})
+	if err != nil {
+		t.Fatal(err)
+	}
 }
 
 func waitOK(t *testing.T, site, host string) string {
@@ -115,9 +127,9 @@ func TestManyDomains(t *testing.T) {
 	}})
 	site := freeAddr(t)
 	cfg := map[string]any{
-		"admin": map[string]any{"disabled": true},
+		"admin": map[string]any{"disabled": true, "config": map[string]any{"persist": false}},
 		"apps": map[string]any{
-			"wekan": map[string]any{"bundle": standInBundle(t), "root": root, "primary": "primary.test", "stop_timeout": "5s"},
+			"wekan": map[string]any{"data": root, "primary": "primary.test"},
 			"http": map[string]any{"servers": map[string]any{"s": map[string]any{
 				"listen": []string{site}, "automatic_https": map[string]any{"disable": true},
 				"routes": []any{map[string]any{"handle": []any{map[string]any{"handler": "wekan"}}}},
@@ -135,18 +147,28 @@ func TestManyDomains(t *testing.T) {
 		}
 	}()
 
-	primary := strings.Split(waitOK(t, site, "primary.test"), "|")
-	if primary[0] != "https://primary.test" || primary[1] != filepath.Join(root, "domains", "primary.test") ||
-		primary[2] != "-" || primary[3] != cloud {
-		t.Fatalf("the primary's WeKan: %q", primary)
+	waitOK(t, site, "primary.test")
+	waitOK(t, site, "Customer.Test:443")
+	waitOK(t, site, "cloud.test")
+	c := CurrentCloud()
+	if c.lookup("primary.test").srv.Tenant || !c.lookup("customer.test").srv.Tenant {
+		t.Fatal("the primary is not a tenant; a customer is")
 	}
-	customer := strings.Split(waitOK(t, site, "Customer.Test:443"), "|")
-	if customer[0] != "https://customer.test" || customer[1] != filepath.Join(root, "domains", "customer.test") ||
-		customer[2] != "true" || customer[3] != "-" || customer[4] != "Customer.Test:443" {
-		t.Fatalf("the customer's WeKan (its own directory, a tenant, no Cloud dir, the Host as asked): %q", customer)
+	seedUser(t, c, "customer.test", "cust", "pw-cust")
+	seedUser(t, c, "primary.test", "boss", "pw-boss")
+	for _, d := range []string{"primary.test", "customer.test"} {
+		if _, err := os.Stat(filepath.Join(root, "domains", d, "files", "db", "wekan.sqlite")); err != nil {
+			t.Fatalf("%s has its own database, where Node.js WeKan keeps it: %v", d, err)
+		}
 	}
-	if panel := strings.Split(waitOK(t, site, "cloud.test"), "|"); panel[1] != primary[1] {
-		t.Fatalf("negative: the Cloud Panel Domain must be the primary's WeKan, got %q", panel)
+	if !signIn(t, site, "customer.test", "cust", "pw-cust") || !signIn(t, site, "primary.test", "boss", "pw-boss") {
+		t.Fatal("each domain's own user signs in there")
+	}
+	if signIn(t, site, "primary.test", "cust", "pw-cust") || signIn(t, site, "customer.test", "boss", "pw-boss") {
+		t.Fatal("negative: a user of one domain must not exist at another")
+	}
+	if !signIn(t, site, "cloud.test", "boss", "pw-boss") {
+		t.Fatal("the Cloud Panel Domain is the primary's WeKan")
 	}
 	for _, host := range []string{"old.test", "unknown.test", "evil"} {
 		if code, _ := get(t, site, host); code != http.StatusNotFound {
@@ -266,7 +288,7 @@ func TestCloudflare(t *testing.T) {
 	defer func() { cloudflareAPI = old }()
 
 	root := t.TempDir()
-	app := &App{Root: root, Primary: "primary.test"}
+	app := &App{Data: root, Primary: "primary.test"}
 	c := newCloud(app, nil)
 	c.log = zapNop()
 	if err := os.MkdirAll(filepath.Join(root, "cloud", "certs"), 0o700); err != nil {

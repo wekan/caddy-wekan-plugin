@@ -1,0 +1,16 @@
+{
+  "account-locked": "Akaawunti kiri temporarily kisibiddwa due eri too many kiremye okuyingira attempts. Please try again later.",
+  "add-board": "Yongerako olubaawo",
+  "add-card": "Yongerako ekaadi",
+  "add-list": "Yongerako olukalala",
+  "all-boards": "Embaawo zonna",
+  "board-not-found": "Lubaawo tekizuuliddwa",
+  "close": "Ggalawo",
+  "description": "Ennyonyola",
+  "error-ldap-login": "nsobi occurred while trying eri okuyingira",
+  "log-in": "yingira",
+  "log-out": "Fuluma",
+  "password": "Ekigambo ekyekusifu",
+  "title": "Omutwe",
+  "username": "Erinnya ly'omukozesa"
+}

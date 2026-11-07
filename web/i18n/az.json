@@ -1,0 +1,16 @@
+{
+  "account-locked": "Hesab çoxlu uğursuz giriş cəhdləri səbəbindən müvəqqəti olaraq kilidlənib. Daha sonra yenidən cəhd edin.",
+  "add-board": "Lövhə əlavə edin",
+  "add-card": "Kart əlavə edin",
+  "add-list": "Siyahı əlavə et",
+  "all-boards": "Bütün lövhələr",
+  "board-not-found": "Lövhə tapılmadı",
+  "close": "Bağlayın",
+  "description": "Təsvir",
+  "error-ldap-login": "Daxil olmağa çalışarkən xəta baş verdi",
+  "log-in": "Daxil ol",
+  "log-out": "Çıxış",
+  "password": "parol",
+  "title": "Başlıq",
+  "username": "İstifadəçi adı"
+}

@@ -1,0 +1,16 @@
+{
+  "account-locked": "Iakhawunti itshixiwe okwethutyana ngenxa yemizamo emininzi yokungena engaphumelelanga. Nceda uzame kwakhona mva.",
+  "add-board": "Yongeza iBhodi",
+  "add-card": "Yongeza iKhadi",
+  "add-list": "Yongeza uLuhlu",
+  "all-boards": "Zonke iibhodi",
+  "board-not-found": "Ibhodi ayifunyenwanga",
+  "close": "Vala",
+  "description": "Inkcazo",
+  "error-ldap-login": "Kwenzeke imposiso ngexesha uzama ukungena",
+  "log-in": "Ngema",
+  "log-out": "Phuma",
+  "password": "Inombolo yokuvula",
+  "title": "Isihloko",
+  "username": "Igama lomsebenzisi"
+}

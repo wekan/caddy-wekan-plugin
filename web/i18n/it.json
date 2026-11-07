@@ -1,0 +1,16 @@
+{
+  "account-locked": "L'account è temporaneamente bloccato a causa di troppi tentativi di accesso falliti. Riprova più tardi.",
+  "add-board": "Aggiungi bacheca",
+  "add-card": "Aggiungi scheda",
+  "add-list": "Aggiungi lista",
+  "all-boards": "Tutte le bacheche",
+  "board-not-found": "Bacheca non trovata",
+  "close": "Chiudi",
+  "description": "Descrizione",
+  "error-ldap-login": "C'è stato un errore mentre provavi ad effettuare il login",
+  "log-in": "Accedi",
+  "log-out": "Esci",
+  "password": "Parola d'accesso",
+  "title": "Titolo",
+  "username": "Nome utente"
+}

@@ -1,0 +1,16 @@
+{
+  "account-locked": "Akkauntal om keskaigaine saubatuz, sikš miše oma olnuded lujas äi vigoidenke sistemaha tulendan rohkaidusid. Ole hüvä, ladi möst möhemba.",
+  "add-board": "Ližada laud",
+  "add-card": "Ližada kart",
+  "add-list": "Ližada lugetiž",
+  "all-boards": "Kaik laudad",
+  "board-not-found": "Laud ei ole löutud",
+  "close": "Saubata",
+  "description": "Kirjutuz",
+  "error-ldap-login": "Tegihe viga sistemaha tulendan aigan",
+  "log-in": "Tule",
+  "log-out": "Lähte",
+  "password": "Peitsana",
+  "title": "Nimi",
+  "username": "Kävutajan nimi"
+}

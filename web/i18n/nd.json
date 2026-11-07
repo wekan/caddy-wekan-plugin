@@ -1,0 +1,16 @@
+{
+  "account-locked": "I-akhawunti ivalelwe okwesikhatshana ngenxa yemizamo yokungena eminengi eyehlulekileyo. Sicela uzame futhi ngemva kwesikhathi.",
+  "add-board": "Engeza ibhodi",
+  "add-card": "Engeza ikhadi",
+  "add-list": "Engeza uluhlu",
+  "all-boards": "Wonke amabhodi",
+  "board-not-found": "Ibhodi alitholakalanga",
+  "close": "Vala",
+  "description": "Incazelo",
+  "error-ldap-login": "Kube lephutha ngesikhathi kuzanywa ukungena",
+  "log-in": "Ngena",
+  "log-out": "Phuma",
+  "password": "Iphasiwedi",
+  "title": "Isihloko",
+  "username": "Ibizo lomsebenzisi"
+}

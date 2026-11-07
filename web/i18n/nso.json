@@ -1,0 +1,16 @@
+{
+  "account-locked": "Akhaonto e notletšwe nakwana ka lebaka la maiteko a mantši kudu a go tsena ao a paletšwego. Hle leka gape ka morago.",
+  "add-board": "Oketša poto",
+  "add-card": "Oketša karata",
+  "add-list": "Oketša lelokelelo",
+  "all-boards": "Dipoto ka moka",
+  "board-not-found": "Boto ga se ya hwetšwa",
+  "close": "Tswalela",
+  "description": "Tlhalošo",
+  "error-ldap-login": "Go tšweletše phošo ge go lekwa go tsena",
+  "log-in": "Tsena",
+  "log-out": "Tšwa",
+  "password": "Lentšu la sephiri",
+  "title": "Sehlogo",
+  "username": "Leina la mošomiši"
+}

@@ -1,0 +1,16 @@
+{
+  "account-locked": "Konti yugariwe akanya kubera kugerageza kwinjira incuro nyinshi bikanka. Turagusavye wongere ugerageze hanyuma.",
+  "add-board": "Ongerako icapa",
+  "add-card": "Ongerako ikarata",
+  "add-list": "Ongerako urutonde",
+  "all-boards": "Ibicapa vyose",
+  "board-not-found": "Icapa nticabonetse",
+  "close": "Ugara",
+  "description": "Insiguro",
+  "error-ldap-login": "Habaye ikosa mu kugerageza kwinjira",
+  "log-in": "Injira",
+  "log-out": "Sohoka",
+  "password": "Ijambo ry'ibanga",
+  "title": "Umutwe",
+  "username": "Izina ry'ukoresha"
+}

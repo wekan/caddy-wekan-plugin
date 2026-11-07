@@ -1,44 +1,39 @@
-// Package caddywekan is a Caddy plugin that runs WeKan, the kanban board, inside
-// Caddy's lifetime and serves it through Caddy:
+// Package caddywekan is a Caddy plugin that is WeKan, the kanban board, written
+// in Go and running inside Caddy - no Node.js, no second process:
 //
-//   - the app "wekan" starts a WeKan release bundle with the bundle's own
-//     start-wekan.sh (start-wekan.bat on Windows) as a supervised child process -
-//     which starts its bundled FerretDB and SQLite recovery the way WeKan always does -
-//     restarts it when it exits, and stops it, FerretDB included, when Caddy stops;
-//   - the handler "wekan" (http.handlers.wekan) proxies requests to it with Caddy's
-//     reverse proxy, WebSockets (DDP) included.
+//   - the app "wekan" opens WeKan's database - FerretDB over SQLite, embedded by
+//     caddy-ferretdb-plugin - in <data>/files/db, the same wekan.sqlite Node.js
+//     WeKan writes, and stops it when Caddy stops;
+//   - the handler "wekan" (http.handlers.wekan) serves WeKan's pages and REST API
+//     (the web package).
 //
 // Caddyfile:
 //
 //	{
 //		wekan {
-//			bundle   /opt/wekan
-//			root_url https://wekan.example.org
+//			data /var/lib/weddy
 //		}
 //	}
 //	wekan.example.org {
 //		wekan
 //	}
 //
-// It uses the supervisor and proxy packages of caddy-gitea-plugin: one Caddy plugin
-// using parts of another (wekan/weddy's design). WeKan stays its own program
-// (WeKan's docs/Design/Multiverse/Go.md: a separate, versioned process).
+// With primary, every domain is a WeKan of its own (cloud.go).
 package caddywekan
 
 import (
+	"context"
 	"fmt"
+	"log/slog"
 	"net"
-	"net/url"
-	"os"
 	"path/filepath"
-	"runtime"
-	"sort"
 	"time"
 
 	"github.com/caddyserver/caddy/v2"
 	"go.uber.org/zap"
+	"go.uber.org/zap/exp/zapslog"
 
-	"github.com/wekan/caddy-gitea-plugin/supervisor"
+	"github.com/wekan/caddy-wekan-plugin/web"
 )
 
 func init() {
@@ -48,36 +43,22 @@ func init() {
 
 // App runs WeKan.
 type App struct {
-	// Bundle is the directory of a WeKan release bundle.
-	Bundle string `json:"bundle,omitempty"`
-	// Command starts WeKan. Default: <bundle>/start-wekan.sh, on Windows
-	// <bundle>/start-wekan.bat.
-	Command string `json:"command,omitempty"`
-	// Args are given to Command.
-	Args []string `json:"args,omitempty"`
-	// RootURL is the address users open WeKan at, e.g. https://wekan.example.org:
-	// WeKan's links, e-mails and cookies use it. Required.
-	RootURL string `json:"root_url,omitempty"`
-	// Dial is where WeKan listens: "host:port" (default 127.0.0.1:8080, given to
-	// WeKan as BIND_IP and PORT) or "unix//path" (as UNIX_SOCKET_PATH).
-	Dial string `json:"dial,omitempty"`
-	// Env is added to WeKan's environment: MONGO_URL, WRITABLE_PATH, WEKAN_DB and
-	// the rest of WeKan's settings.
-	Env map[string]string `json:"env,omitempty"`
-	// StopTimeout is how long WeKan and FerretDB get to stop. Default 60s: FerretDB
-	// finishes its SQLite writes.
-	StopTimeout caddy.Duration `json:"stop_timeout,omitempty"`
-	// Root turns on many domains (cloud.go): every domain is a WeKan of its own in
-	// <root>/domains/<domain>/, and <root>/cloud/ is where the Cloud Panel's
-	// Domains table and CloudFlare token are. RootURL and Dial are then per domain.
-	Root string `json:"root,omitempty"`
-	// Primary is the first domain, with root: its WeKan has Admin Panel / People /
-	// Cloud, and the Cloud Panel on the Cloud Panel Domain.
+	// Data is the directory of WeKan's files: <data>/files/db is its database. With
+	// primary, <data>/domains/<domain>/ is each domain's, and <data>/cloud/ the
+	// Cloud Panel's Domains table and CloudFlare token.
+	Data string `json:"data,omitempty"`
+	// Primary is the first domain, and turns on many domains: its WeKan has Admin
+	// Panel / People / Cloud, and the Cloud Panel on the Cloud Panel Domain.
 	Primary string `json:"primary,omitempty"`
+	// DatabaseListen is a TCP address where the database also answers, e.g.
+	// 127.0.0.1:27017, for mongodump and other MongoDB tools. Only without primary:
+	// each domain's database is its own.
+	DatabaseListen string `json:"database_listen,omitempty"`
 
-	proc  *supervisor.Process
-	cloud *Cloud
-	log   *zap.Logger
+	server *web.Server
+	cloud  *Cloud
+	log    *zap.Logger
+	slog   *slog.Logger
 }
 
 // CaddyModule returns the Caddy module information.
@@ -85,121 +66,64 @@ func (App) CaddyModule() caddy.ModuleInfo {
 	return caddy.ModuleInfo{ID: "wekan", New: func() caddy.Module { return new(App) }}
 }
 
-// Provision works out the command and its environment.
+// Provision prepares the settings; nothing is opened until Start.
 func (a *App) Provision(ctx caddy.Context) error {
 	a.log = ctx.Logger()
-	if a.Dial == "" {
-		a.Dial = "127.0.0.1:8080"
-	}
-	if a.Command == "" && a.Bundle != "" {
-		launcher := "start-wekan.sh"
-		if runtime.GOOS == "windows" {
-			launcher = "start-wekan.bat"
-		}
-		a.Command = filepath.Join(a.Bundle, launcher)
-	}
-	if a.StopTimeout == 0 {
-		a.StopTimeout = caddy.Duration(60 * time.Second)
-	}
-	if a.Root != "" {
+	a.slog = slog.New(zapslog.NewHandler(a.log.Core()))
+	if a.Primary != "" {
 		a.Primary = NormalizeHost(a.Primary)
 		a.cloud = newCloud(a, a.log)
-		return nil
 	}
-	env, err := a.Environment()
-	if err != nil {
-		return err
-	}
-	a.proc = supervisor.New(supervisor.Config{
-		Name:        "wekan",
-		Command:     a.Command,
-		Args:        a.Args,
-		Dir:         a.Bundle,
-		Env:         env,
-		Dial:        a.Dial,
-		StopTimeout: time.Duration(a.StopTimeout),
-	}, a.log)
 	return nil
-}
-
-// Environment is what WeKan gets on top of Caddy's environment: ROOT_URL, where to
-// listen, and Env. Env cannot override where WeKan listens - the proxy would not
-// find it.
-func (a *App) Environment() ([]string, error) {
-	vals := map[string]string{}
-	for k, v := range a.Env {
-		vals[k] = v
-	}
-	vals["ROOT_URL"] = a.RootURL
-	if rest, ok := cutUnix(a.Dial); ok {
-		vals["UNIX_SOCKET_PATH"] = rest
-		delete(vals, "PORT")
-		delete(vals, "BIND_IP")
-	} else {
-		host, port, err := net.SplitHostPort(a.Dial)
-		if err != nil {
-			return nil, fmt.Errorf("wekan: dial %q: %w", a.Dial, err)
-		}
-		vals["BIND_IP"], vals["PORT"] = host, port
-		delete(vals, "UNIX_SOCKET_PATH")
-	}
-	out := make([]string, 0, len(vals))
-	for k, v := range vals {
-		out = append(out, k+"="+v)
-	}
-	sort.Strings(out)
-	return out, nil
-}
-
-func cutUnix(dial string) (string, bool) {
-	network, address := supervisor.DialNetwork(dial)
-	return address, network == "unix"
 }
 
 // Validate checks the settings before anything starts.
 func (a *App) Validate() error {
-	if a.Command == "" {
-		return fmt.Errorf("wekan: set bundle, the WeKan release bundle directory (or command)")
+	if a.Data == "" || !filepath.IsAbs(a.Data) {
+		return fmt.Errorf("wekan: data must be the absolute path of WeKan's files, e.g. /var/lib/weddy (got %q)", a.Data)
 	}
-	if a.Root != "" {
-		if !ValidDomain(a.Primary) {
-			return fmt.Errorf("wekan: with root, primary must be the first domain, e.g. wekan.example.org (got %q)", a.Primary)
+	if a.Primary != "" && !ValidDomain(a.Primary) {
+		return fmt.Errorf("wekan: primary must be the first domain, e.g. wekan.example.org (got %q)", a.Primary)
+	}
+	if a.DatabaseListen != "" {
+		if a.Primary != "" {
+			return fmt.Errorf("wekan: database_listen is for one WeKan; with primary every domain's database is its own")
 		}
-		if !filepath.IsAbs(a.Root) {
-			return fmt.Errorf("wekan: root must be an absolute path (got %q)", a.Root)
-		}
-		return nil
-	}
-	u, err := url.Parse(a.RootURL)
-	if a.RootURL == "" || err != nil || (u.Scheme != "http" && u.Scheme != "https") || u.Host == "" {
-		return fmt.Errorf("wekan: root_url must be the address users open WeKan at, e.g. https://wekan.example.org (got %q)", a.RootURL)
-	}
-	if a.Bundle != "" {
-		if st, err := os.Stat(a.Bundle); err != nil || !st.IsDir() {
-			return fmt.Errorf("wekan: bundle %s is not a directory", a.Bundle)
+		if _, _, err := net.SplitHostPort(a.DatabaseListen); err != nil {
+			return fmt.Errorf("wekan: database_listen %q: %w", a.DatabaseListen, err)
 		}
 	}
 	return nil
 }
 
-// Start starts WeKan - or, with root, the WeKan of every domain.
+// Start opens WeKan's database and starts serving - or, with primary, every domain's.
 func (a *App) Start() error {
 	if a.cloud != nil {
 		return a.cloud.Start()
 	}
-	return a.proc.Start()
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+	defer cancel()
+	s, err := web.Open(ctx, a.Data, a.DatabaseListen, a.slog)
+	if err != nil {
+		return fmt.Errorf("wekan: %w", err)
+	}
+	a.server = s
+	return nil
 }
 
-// Stop stops WeKan and its FerretDB - every domain's - and waits until they have exited.
+// Stop stops serving and closes the database - every domain's - when its last
+// request is done.
 func (a *App) Stop() error {
 	if a.cloud != nil {
 		return a.cloud.Stop()
 	}
-	return a.proc.Stop()
+	if a.server == nil {
+		return nil
+	}
+	err := a.server.Close()
+	a.server = nil
+	return err
 }
-
-// Ready reports whether WeKan accepts connections.
-func (a *App) Ready() bool { return a.proc != nil && a.proc.Ready() }
 
 var (
 	_ caddy.App         = (*App)(nil)

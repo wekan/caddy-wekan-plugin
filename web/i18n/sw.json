@@ -1,0 +1,16 @@
+{
+  "account-locked": "Akaunti imefungwa kwa muda kwa sababu ya majaribio mengi sana ya kuingia ambayo hayakufaulu. Tafadhali jaribu tena baadaye.",
+  "add-board": "Ongeza Bodi",
+  "add-card": "Ongeza Kadi",
+  "add-list": "Ongeza Orodha",
+  "all-boards": "Bodi Zote",
+  "board-not-found": "Bodi haijapatikana",
+  "close": "Funga",
+  "description": "Maelezo",
+  "error-ldap-login": "Hitilafu ilitokea wakati wa kujaribu kuingia",
+  "log-in": "Ingia",
+  "log-out": "Toka nje",
+  "password": "Nenosiri",
+  "title": "Kichwa",
+  "username": "Jina la mtumiaji"
+}

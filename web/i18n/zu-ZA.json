@@ -1,0 +1,16 @@
+{
+  "account-locked": "I-akhawunti ikhiyiwe okwesikhashana ngenxa yemizamo eminingi ehlulekile yokungena ngemvume. Sicela uzame futhi emuva kwesikhathi.",
+  "add-board": "Engeza Ibhodi",
+  "add-card": "Engeza Ikhadi",
+  "add-list": "Engeza Uhlu",
+  "all-boards": "Wonke Amabhodi",
+  "board-not-found": "Ibhodi alitholakali",
+  "close": "Vala",
+  "description": "Incazelo",
+  "error-ldap-login": "Kwenzeke iphutha ngesikhathi sizama ukungena",
+  "log-in": "Ngena ngemvume",
+  "log-out": "Phuma",
+  "password": "Iphasiwedi",
+  "title": "Isihloko",
+  "username": "Igama lomsebenzisi"
+}

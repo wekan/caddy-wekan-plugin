@@ -1,0 +1,16 @@
+{
+  "account-locked": "Účet je dočasně uzamčen kvůli příliš mnoha neúspěšným pokusům o přihlášení. Zkuste to prosím později.",
+  "add-board": "Přidat tablo",
+  "add-card": "Přidat kartu",
+  "add-list": "Přidat sloupec",
+  "all-boards": "Všechna tabla",
+  "board-not-found": "Tablo nenalezeno",
+  "close": "Zavřít",
+  "description": "Popis",
+  "error-ldap-login": "Během přihlašování nastala chyba",
+  "log-in": "Přihlásit",
+  "log-out": "Odhlásit",
+  "password": "Heslo",
+  "title": "Název",
+  "username": "Uživatelské jméno"
+}

@@ -1,0 +1,16 @@
+{
+  "account-locked": "Tài khoản tạm thời bị khóa do quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau.",
+  "add-board": "Thêm Bảng",
+  "add-card": "Thêm Thẻ",
+  "add-list": "Tambah Daftar",
+  "all-boards": "Tất cả các bảng",
+  "board-not-found": "Không tìm được bảng",
+  "close": "Đóng",
+  "description": "Mô tả",
+  "error-ldap-login": "Đã xảy ra lỗi khi cố gắng đăng nhập",
+  "log-in": "Đăng nhập",
+  "log-out": "Đăng Xuất",
+  "password": "Mật khẩu",
+  "title": "Tiêu đề",
+  "username": "Tài khoản"
+}

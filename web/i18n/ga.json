@@ -1,0 +1,16 @@
+{
+  "account-locked": "Tá an cuntas glasáilte go sealadach mar gheall ar an iomarca iarrachtaí logála isteach teipthe. Bain triail eile as ar ball.",
+  "add-board": "Cuir clár leis",
+  "add-card": "Cuir cárta leis",
+  "add-list": "Cuir liosta leis",
+  "all-boards": "Gach clár",
+  "board-not-found": "Níor aimsíodh an clár",
+  "close": "Dún",
+  "description": "Cur síos",
+  "error-ldap-login": "Tharla earráid agus iarracht á déanamh logáil isteach",
+  "log-in": "Logáil Isteach",
+  "log-out": "Logáil amach",
+  "password": "Pasfhocal",
+  "title": "Teideal",
+  "username": "Ainm úsáideora"
+}

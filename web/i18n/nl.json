@@ -1,0 +1,16 @@
+{
+  "account-locked": "Account tijdelijk geblokkeerd door te veel mislukte aanmeldpogingen. Probeer het later nog eens.",
+  "add-board": "Bord Toevoegen",
+  "add-card": "Kaart Toevoegen",
+  "add-list": "Lijst Toevoegen",
+  "all-boards": "Alle borden",
+  "board-not-found": "Bord is niet gevonden",
+  "close": "Sluiten",
+  "description": "Beschrijving",
+  "error-ldap-login": "Er is een fout opgetreden tijdens het aanmelden",
+  "log-in": "Inloggen",
+  "log-out": "Uitloggen",
+  "password": "Wachtwoord",
+  "title": "Titel",
+  "username": "Gebruikersnaam"
+}

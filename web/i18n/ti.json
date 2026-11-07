@@ -1,0 +1,16 @@
+{
+  "account-locked": "ብዙሕ ዝፈሸለ ፈተነ ምእታው ስለ ዝተገብረ መለያ ንግዚኡ ተዓጽዩ። በጃኻ ጸኒሕካ ደጊምካ ፈትን።",
+  "add-board": "ሰሌዳ ወስኽ",
+  "add-card": "ካርድ ወስኽ",
+  "add-list": "ዝርዝር ወስኽ",
+  "all-boards": "ኩሎም ሰሌዳታት",
+  "board-not-found": "ሰሌዳ ኣይተረኽበን",
+  "close": "ዕጾ",
+  "description": "መግለጺ",
+  "error-ldap-login": "ክኣቱ ክፍትን ከሎ ጌጋ ኣጋጢሙ",
+  "log-in": "እቶ",
+  "log-out": "ውጻእ",
+  "password": "መሕለፊ ቃል",
+  "title": "ኣርእስቲ",
+  "username": "ስም ተጠቃሚ"
+}

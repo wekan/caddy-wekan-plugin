@@ -1,0 +1,16 @@
+{
+  "account-locked": "Kirish uchun juda koʻp muvaffaqiyatsiz urinishlar tufayli hisob vaqtinchalik bloklangan. Keyinroq qayta urinib ko‘ring.",
+  "add-board": "Taxta qo'shish",
+  "add-card": "Karta qo'shish",
+  "add-list": "Roʻyxat qoʻshish",
+  "all-boards": "Barcha taxtalar",
+  "board-not-found": "Taxta topilmadi",
+  "close": "Yopish",
+  "description": "Tavsif",
+  "error-ldap-login": "Tizimga kirishda xatolik yuz berdi",
+  "log-in": "Tizimga kirish",
+  "log-out": "Chiqish",
+  "password": "Parol",
+  "title": "Sarlavha",
+  "username": "Foydalanuvchi nomi"
+}

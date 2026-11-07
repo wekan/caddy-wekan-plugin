@@ -1,0 +1,16 @@
+{
+  "account-locked": "Das Kont gouf aufgrund zu vieler fehlgeschlagener Anmeldeversuche vorübergehend gesperrt. W.e.g. versuche es später erneut.",
+  "add-board": "Tafel derbäisetzen",
+  "add-card": "Kaart derbäisetzen",
+  "add-list": "Lëscht derbäisetzen",
+  "all-boards": "All Tafelen",
+  "board-not-found": "Board net gefunden",
+  "close": "Zoumaachen",
+  "description": "Beschreiwung",
+  "error-ldap-login": "Es ass ein Feeler beim Umellen aufgetreten",
+  "log-in": "Einloggen",
+  "log-out": "Ofmellen",
+  "password": "Passwuert",
+  "title": "Titel",
+  "username": "Benotzernumm"
+}

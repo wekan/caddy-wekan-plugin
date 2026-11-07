@@ -1,0 +1,16 @@
+{
+  "account-locked": "Hesab ji ber ceribandinên têketinê yên pir serneketî bi demkî hatiye girtin. Ji kerema xwe paşê dîsa biceribîne.",
+  "add-board": "Depo zêde bike",
+  "add-card": "Kart zêde bike",
+  "add-list": "Lîste zêde bike",
+  "all-boards": "Hemû depo",
+  "board-not-found": "Depo nehat dîtin",
+  "close": "Bigire",
+  "description": "Danasîn",
+  "error-ldap-login": "Di hewldana têketinê de çewtiyek çêbû",
+  "log-in": "Têkeve",
+  "log-out": "Derkeve",
+  "password": "Şîfre",
+  "title": "Sernav",
+  "username": "Navê bikarhêner"
+}

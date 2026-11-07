@@ -1,0 +1,16 @@
+{
+  "account-locked": "Mae'r cyfrif wedi'i gloi dros dro oherwydd bod gormod o ymdrechion mewngofnodi wedi methu. Ceisiwch eto yn nes ymlaen.",
+  "add-board": "Ychwanegu Bwrdd",
+  "add-card": "Ychwanegu Cerdyn",
+  "add-list": "Ychwanegu Rhestr",
+  "all-boards": "Pob Bwrdd",
+  "board-not-found": "Bwrdd heb ei ganfod",
+  "close": "Cau",
+  "description": "Disgrifiad",
+  "error-ldap-login": "Digwyddodd gwall wrth geisio mewngofnodi",
+  "log-in": "Mewngofnodi",
+  "log-out": "Allgofnodi",
+  "password": "Cyfrinair",
+  "title": "Teitl",
+  "username": "Enw defnyddiwr"
+}

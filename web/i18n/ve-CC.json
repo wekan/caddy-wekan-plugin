@@ -1,0 +1,16 @@
+{
+  "account-locked": "L'account el xe blocà temporaneamente par massa tentativi de login falìi. Par piaser prova de novo pì tardi.",
+  "add-board": "Zonta un quadro",
+  "add-card": "Zonta na scheda",
+  "add-list": "Zonta na lista",
+  "all-boards": "Tuti i quadri",
+  "board-not-found": "Quadro no catà",
+  "close": "Chiudi",
+  "description": "Descrision",
+  "error-ldap-login": "Ghe xe stà un eror tentando de far el acesso",
+  "log-in": "Intra",
+  "log-out": "Va fora",
+  "password": "Password (paroła segreta)",
+  "title": "Titolo",
+  "username": "Nome utente"
+}

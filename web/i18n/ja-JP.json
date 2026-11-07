@@ -1,0 +1,16 @@
+{
+  "account-locked": "ログイン失敗が多すぎるため、アカウントは一時的にロックされています。しばらくしてから再度お試しください。",
+  "add-board": "ボードを追加",
+  "add-card": "カードを追加",
+  "add-list": "リストを追加",
+  "all-boards": "全てのボード",
+  "board-not-found": "ボードが見つかりません",
+  "close": "閉じる",
+  "description": "詳細",
+  "error-ldap-login": "ログイン中にエラーが発生しました",
+  "log-in": "ログイン",
+  "log-out": "ログアウト",
+  "password": "パスワード",
+  "title": "タイトル",
+  "username": "ユーザー名"
+}

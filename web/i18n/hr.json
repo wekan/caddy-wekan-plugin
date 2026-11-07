@@ -1,0 +1,16 @@
+{
+  "account-locked": "Račun je privremeno zaključan zbog previše neuspjelih pokušaja prijave. Pokušajte ponovno kasnije.",
+  "add-board": "Dodaj ploču",
+  "add-card": "Dodaj karticu",
+  "add-list": "Dodaj listu",
+  "all-boards": "Sve ploče",
+  "board-not-found": "Ploča nije pronađena",
+  "close": "Zatvori",
+  "description": "Opis",
+  "error-ldap-login": "Došlo je do pogreške pri pokušaju prijave",
+  "log-in": "Prijava",
+  "log-out": "Odjava",
+  "password": "Lozinka",
+  "title": "Naziv",
+  "username": "Korisničko ime"
+}

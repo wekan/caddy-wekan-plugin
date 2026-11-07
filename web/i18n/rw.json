@@ -1,0 +1,16 @@
+{
+  "account-locked": "Konti yafunzwe by'agateganyo kubera kugerageza kwinjira kwananiranye kenshi cyane. Nyamuneka wongere ugerageze nyuma.",
+  "add-board": "Ongeraho ikibaho",
+  "add-card": "Ongeraho ikarita",
+  "add-list": "Ongeraho urutonde",
+  "all-boards": "Ibibaho byose",
+  "board-not-found": "Ikibaho nticyabonetse",
+  "close": "Funga",
+  "description": "Ibisobanuro",
+  "error-ldap-login": "Habaye ikosa mu kugerageza kwinjira",
+  "log-in": "Injira",
+  "log-out": "Sohoka",
+  "password": "Ijambobanga",
+  "title": "Umutwe",
+  "username": "Izina ry'ukoresha"
+}

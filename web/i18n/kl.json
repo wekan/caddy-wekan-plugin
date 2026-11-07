@@ -1,0 +1,16 @@
+{
+  "account-locked": "Iserniarnerit iluatsinngitsut amerlavallaarnerat pissutigalugu konto utaqqiisaasumik blokerneqarpoq. Kingusinnerusukkut misileqqiguk.",
+  "add-board": "Ilisarnaat ilanngussuk",
+  "add-card": "Kortsi ilanngussuk",
+  "add-list": "Allattorsimaffik ilanngussuk",
+  "all-boards": "Ilisarnaatit tamaasa",
+  "board-not-found": "Ilisarnaat nassaarineqanngilaq",
+  "close": "Matuguk",
+  "description": "Nassuiaat",
+  "error-ldap-login": "Iserniarnermi kukkuneq pivoq",
+  "log-in": "Iserit",
+  "log-out": "Anigit",
+  "password": "Isissutissaq",
+  "title": "Qulequtaq",
+  "username": "Atuisup aqqa"
+}

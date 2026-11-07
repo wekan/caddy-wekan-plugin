@@ -1,0 +1,16 @@
+{
+  "account-locked": "Akaun dikunci buat sementara waktu disebabkan terlalu banyak percubaan log masuk yang gagal. Sila cuba lagi kemudian.",
+  "add-board": "Tambah Papan",
+  "add-card": "Tambah Kad",
+  "add-list": "Tambah Senarai",
+  "all-boards": "Semua Papan",
+  "board-not-found": "Papan tidak dijumpai",
+  "close": "Tutup",
+  "description": "Penerangan",
+  "error-ldap-login": "Ralat terjadi semasa cuba untuk login",
+  "log-in": "Log Masuk",
+  "log-out": "Log Keluar",
+  "password": "Kata Laluan",
+  "title": "Tajuk",
+  "username": "Nama Pengguna"
+}

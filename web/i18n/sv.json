@@ -1,0 +1,16 @@
+{
+  "account-locked": "Kontot är tillfälligt låst på grund av för många misslyckade inloggningsförsök. Vänligen försök igen senare.",
+  "add-board": "Lägg till tavla",
+  "add-card": "Lägg till kort",
+  "add-list": "Lägg till lista",
+  "all-boards": "Alla tavlor",
+  "board-not-found": "Tavla hittades inte",
+  "close": "Stäng",
+  "description": "Beskrivning",
+  "error-ldap-login": "Ett fel uppstod när du försökte logga in",
+  "log-in": "Logga in",
+  "log-out": "Logga ut",
+  "password": "Lösenord",
+  "title": "Titel",
+  "username": "Användarnamn"
+}

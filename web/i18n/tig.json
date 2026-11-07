@@ -1,0 +1,16 @@
+{
+  "account-locked": "ብዙሕ ዝፈሸሉ ፈተነታት ምእታው ስለ ዝተገብሩ ሕሳብ ንግዚኡ ተዓጽዩ። በጃኻ ጸኒሕካ ደጊምካ ፈትን።",
+  "add-board": "ምዱድ ወስክ",
+  "add-card": "ወረቀት ካርድ ወስክ",
+  "add-list": "ዝርዝር ወስክ",
+  "all-boards": "ክሎም ምዱዳት",
+  "board-not-found": "ምዱድ ኣይተረኽበን",
+  "close": "ድባእ",
+  "description": "ዋስፎ",
+  "error-ldap-login": "ክትኣቱ ክትፍትን ከለኻ ጌጋ ተፈጢሩ",
+  "log-in": "እተው",
+  "log-out": "ፈጊር",
+  "password": "ሚስጥር ቃል",
+  "title": "ኣርእስት",
+  "username": "ስም ተጠቃማይ"
+}

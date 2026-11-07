@@ -1,0 +1,16 @@
+{
+  "account-locked": "Lo compte es blocat temporàriament per tròp d'ensages de connexion fracassats. Tornatz ensajar pus tard.",
+  "add-board": "Apondre un tablèu",
+  "add-card": "Apondre una carta",
+  "add-list": "Apondre una tièra",
+  "all-boards": "Totes los tablèus",
+  "board-not-found": "Tablèu pas trapat",
+  "close": "Tampar",
+  "description": "Descripcion",
+  "error-ldap-login": "Una error s’es producha pendent l’ensag de connexion",
+  "log-in": "S'identificar",
+  "log-out": "Desconnexion",
+  "password": "Senhal",
+  "title": "Títol",
+  "username": "Nom d’utilizaire"
+}

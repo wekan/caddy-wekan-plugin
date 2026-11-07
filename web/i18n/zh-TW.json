@@ -1,0 +1,16 @@
+{
+  "account-locked": "帳號因登入嘗試次數過多而暫時鎖定，請稍後再試。",
+  "add-board": "新增看板",
+  "add-card": "新增卡片",
+  "add-list": "新增清單",
+  "all-boards": "所有看板",
+  "board-not-found": "看板不存在",
+  "close": "關閉",
+  "description": "描述",
+  "error-ldap-login": "嘗試登入時出現錯誤",
+  "log-in": "登入",
+  "log-out": "登出",
+  "password": "密碼",
+  "title": "標題",
+  "username": "使用者名稱"
+}

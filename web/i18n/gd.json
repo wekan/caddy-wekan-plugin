@@ -1,0 +1,16 @@
+{
+  "account-locked": "Tha an cunntas glaiste rè ùine air sgàth cus oidhirpean clàraidh a-steach a dh'fhàillig. Feuch ris a-rithist an ceann greis.",
+  "add-board": "Cuir bòrd ris",
+  "add-card": "Cuir cairt ris",
+  "add-list": "Cuir liosta ris",
+  "all-boards": "Na bùird uile",
+  "board-not-found": "Cha deach am bòrd a lorg",
+  "close": "Dùin",
+  "description": "Tuairisgeul",
+  "error-ldap-login": "Thachair mearachd nuair a bhathar a' feuchainn ri logadh a-steach",
+  "log-in": "Log a-steach",
+  "log-out": "Clàraich a-mach",
+  "password": "Facal-faire",
+  "title": "Tiotal",
+  "username": "Ainm-cleachdaiche"
+}

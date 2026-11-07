@@ -1,0 +1,16 @@
+{
+  "account-locked": "L'account è temporisneamente bloccato a causa di troppi tentativi di accesso falliti. Riprova più tardi.",
+  "add-board": "Zonte une taule",
+  "add-card": "Zonte une cjarte",
+  "add-list": "Zonte une liste",
+  "all-boards": "Dutis lis taulis",
+  "board-not-found": "Taule no trovata",
+  "close": "Siere",
+  "description": "Descrizion",
+  "error-ldap-login": "C'è stato un erroris mentre provavi ad effettuare il login",
+  "log-in": "Jentre",
+  "log-out": "Jes",
+  "password": "Peraule di ordin",
+  "title": "Titul",
+  "username": "Non utent"
+}

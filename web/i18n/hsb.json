@@ -1,0 +1,16 @@
+{
+  "account-locked": "Konto je dla přewjele njewuspěšnych pospytow přizjewjenja nachwilu zawrjene. Prošu spytaj pozdźišo hišće raz.",
+  "add-board": "Taflu přidać",
+  "add-card": "Kartu přidać",
+  "add-list": "Lisćinu přidać",
+  "all-boards": "Wšě tafle",
+  "board-not-found": "Tafla njeje so namakała",
+  "close": "Začinić",
+  "description": "Wopisanje",
+  "error-ldap-login": "Při přizjewjenju je zmylk wustupił",
+  "log-in": "Přizjewić",
+  "log-out": "Wotzjewić",
+  "password": "Hesło",
+  "title": "Titul",
+  "username": "Wužiwarske mjeno"
+}

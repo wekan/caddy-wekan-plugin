@@ -1,0 +1,16 @@
+{
+  "account-locked": "El compte està bloquejat temporalment per massa intents d'inici de sessió fallits. Torneu-ho a provar més tard.",
+  "add-board": "Afegeix Tauler",
+  "add-card": "Afegeix Fitxa",
+  "add-list": "Afegeix llista",
+  "all-boards": "Tots els taulers",
+  "board-not-found": "No s'ha trobat el tauler",
+  "close": "Tanca",
+  "description": "Descripció",
+  "error-ldap-login": "S'ha produït un error en intentar iniciar sessió",
+  "log-in": "Inicia sessió",
+  "log-out": "Finalitza la sessió",
+  "password": "Contrasenya",
+  "title": "Títol",
+  "username": "Nom d'usuari"
+}

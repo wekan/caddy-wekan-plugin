@@ -1,0 +1,44 @@
+/* Weddy's WeKan: the look of WeKan's board, in one small file. */
+:root { --bg: #f4f5f7; --list: #ebecf0; --card: #fff; --text: #172b4d; --accent: #0079bf; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--text); background: var(--bg); }
+.header-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 8px 12px; background: #2c3e50; color: #fff; }
+.header-bar a, .header-bar button { color: #fff; background: none; border: 0; font: inherit; cursor: pointer; text-decoration: none; }
+.header-user { margin-inline-start: auto; }
+button.primary, .at-btn { background: var(--accent); color: #fff; border: 0; border-radius: 3px; padding: 6px 12px; cursor: pointer; }
+input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8px; border: 1px solid #c1c7d0; border-radius: 3px; width: 100%; }
+.is-hidden { display: none !important; }
+
+.auth-layout { display: flex; justify-content: center; padding: 48px 12px; }
+.auth-dialog { background: #fff; padding: 24px; border-radius: 6px; width: 100%; max-width: 360px; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+.auth-dialog form { display: grid; gap: 8px; }
+.at-error { color: #b00020; margin-bottom: 8px; }
+
+.board-list-wrapper { padding: 16px; }
+.board-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.board-list-item { display: block; min-height: 80px; padding: 12px; border-radius: 4px; background: #2980b9; color: #fff; font-weight: 600; text-decoration: none; }
+.js-add-board form { display: grid; gap: 6px; }
+
+.board-wrapper { display: flex; flex-direction: column; min-height: calc(100vh - 44px); background: #2980b9; }
+.board-header { padding: 8px 12px; color: #fff; }
+.board-header h1 { margin: 0; font-size: 18px; }
+.board-canvas { flex: 1; overflow: auto; padding: 0 8px 8px; }
+.swimlane { margin-bottom: 12px; }
+.swimlane-header { color: #fff; font-weight: 600; padding: 4px; }
+.list-group { display: flex; align-items: flex-start; gap: 8px; }
+.list { flex: 0 0 272px; background: var(--list); border-radius: 4px; padding: 6px; }
+.list-header { display: flex; justify-content: space-between; align-items: center; padding: 4px; font-weight: 600; }
+.list-header a { text-decoration: none; color: inherit; font-size: 18px; padding: 0 6px; }
+.list-body { min-height: 24px; display: flex; flex-direction: column; gap: 6px; }
+.minicard-wrapper { display: block; text-decoration: none; color: inherit; touch-action: none; user-select: none; }
+.minicard { background: var(--card); border-radius: 3px; padding: 6px 8px; box-shadow: 0 1px 0 rgba(9,30,66,.25); }
+.minicard-wrapper.is-selected .minicard { outline: 2px solid var(--accent); }
+.minicard-wrapper.is-dragging { position: relative; z-index: 10; opacity: .9; }
+.js-inlined-form { display: grid; gap: 6px; margin-top: 6px; }
+.js-list-composer { background: rgba(255,255,255,.3); }
+
+.card-details { position: fixed; inset-block: 44px 0; inset-inline-end: 0; width: min(480px, 100%); background: #fff; padding: 16px; overflow: auto; box-shadow: 0 0 12px rgba(0,0,0,.3); }
+.card-details-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.card-details-header a { font-size: 22px; text-decoration: none; color: inherit; }
+.card-description { white-space: pre-wrap; }
+.board-not-found { padding: 24px; }

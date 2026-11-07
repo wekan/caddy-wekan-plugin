@@ -1,0 +1,16 @@
+{
+  "account-locked": "Le compte est temporairement verrouillé en raison de trop de tentatives de connexion échouées. Veuillez réessayer plus tard.",
+  "add-board": "Ajouter un tableau",
+  "add-card": "Ajouter une carte",
+  "add-list": "Ajouter une liste",
+  "all-boards": "Tous les tableaux",
+  "board-not-found": "Tableau non trouvé",
+  "close": "Fermer",
+  "description": "Texte descriptif",
+  "error-ldap-login": "Une erreur s'est produite lors de la tentative de connexion",
+  "log-in": "Connexion",
+  "log-out": "Déconnexion",
+  "password": "Mot de passe",
+  "title": "Titre",
+  "username": "Nom d'utilisateur"
+}

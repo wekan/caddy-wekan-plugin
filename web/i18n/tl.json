@@ -1,0 +1,16 @@
+{
+  "account-locked": "Account ay temporarily locked takda sa too many nabigo mag-login mga pagtatangka. Please try again mamaya.",
+  "add-board": "Magdagdag ng pisara",
+  "add-card": "Magdagdag ng kard",
+  "add-list": "Magdagdag ng listahan",
+  "all-boards": "Lahat ng pisara",
+  "board-not-found": "pisara Hindi nakita",
+  "close": "Isara",
+  "description": "Paglalarawan",
+  "error-ldap-login": "An mali occurred while trying sa mag-login",
+  "log-in": "Talaan Sa",
+  "log-out": "Mag-log out",
+  "password": "password",
+  "title": "Pamagat",
+  "username": "pangalan ng gumagamit"
+}

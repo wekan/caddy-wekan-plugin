@@ -1,0 +1,16 @@
+{
+  "account-locked": "Kontua aldi baterako blokeatuta dago saio-hasiera huts gehiegi izan direlako. Mesedez, saiatu berriro geroago.",
+  "add-board": "Gehitu arbela",
+  "add-card": "Gehitu txartela",
+  "add-list": "Gehitu zerrenda",
+  "all-boards": "Arbel guztiak",
+  "board-not-found": "Ez da arbela aurkitu",
+  "close": "Itxi",
+  "description": "Deskripzioa",
+  "error-ldap-login": "Errore bat gertatu da saioa hasten saiatzean",
+  "log-in": "Hasi saioa",
+  "log-out": "Itxi saioa",
+  "password": "Pasahitza",
+  "title": "Izenburua",
+  "username": "Erabiltzaile-izena"
+}
