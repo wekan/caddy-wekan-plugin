@@ -295,6 +295,7 @@ func (s *Server) apiAddList(w http.ResponseWriter, r *http.Request, u *User) {
 		apiError(w, http.StatusBadRequest, err.Error())
 		return
 	}
+	s.activity(r.Context(), u.ID, "createList", bson.M{"boardId": b.ID, "listId": l.ID, "title": l.Title})
 	s.hub.publish(b.ID, "board-changed")
 	writeJSON(w, http.StatusOK, map[string]string{"_id": l.ID})
 }
@@ -404,7 +405,7 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 		if hasSwimlane {
 			m.SwimlaneID = swimlaneID
 		}
-		if err := s.MoveCards(r.Context(), b, []Move{m}); err != nil {
+		if err := s.MoveCards(r.Context(), b, u, []Move{m}); err != nil {
 			apiError(w, http.StatusBadRequest, err.Error())
 			return
 		}

@@ -72,6 +72,7 @@ func (s *Server) apiAddSwimlane(w http.ResponseWriter, r *http.Request, u *User)
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+	s.activity(r.Context(), u.ID, "createSwimlane", bson.M{"boardId": b.ID, "swimlaneId": sw["_id"]})
 	s.hub.publish(b.ID, "board-changed")
 	writeJSON(w, http.StatusOK, map[string]any{"_id": sw["_id"]})
 }
@@ -358,6 +359,8 @@ func (s *Server) apiAddChecklist(w http.ResponseWriter, r *http.Request, u *User
 			return
 		}
 	}
+	s.activity(r.Context(), u.ID, "addChecklist", bson.M{"boardId": b.ID, "cardId": c.ID, "checklistId": id,
+		"checklistName": title, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
 	s.hub.publish(b.ID, "board-changed")
 	writeJSON(w, http.StatusOK, map[string]any{"_id": id})
 }
@@ -463,6 +466,8 @@ func (s *Server) apiAddComment(w http.ResponseWriter, r *http.Request, u *User) 
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+	s.activity(r.Context(), u.ID, "addComment", bson.M{"boardId": b.ID, "cardId": c.ID, "commentId": id,
+		"listId": c.ListID, "swimlaneId": c.SwimlaneID})
 	s.hub.publish(b.ID, "board-changed")
 	writeJSON(w, http.StatusOK, map[string]any{"_id": id})
 }

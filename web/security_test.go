@@ -80,7 +80,7 @@ func TestIDsFromRequestsAreChecked(t *testing.T) {
 	if res.StatusCode != http.StatusBadRequest {
 		t.Fatalf("negative: an operator object where an id goes: %d", res.StatusCode)
 	}
-	if err := w.s.MoveCards(context.Background(), b, []Move{{CardID: "$where", ListID: "l", SwimlaneID: "s"}}); err == nil {
+	if err := w.s.MoveCards(context.Background(), b, u, []Move{{CardID: "$where", ListID: "l", SwimlaneID: "s"}}); err == nil {
 		t.Fatal("negative: a move of a card id that is no id")
 	}
 	if code := call(t, "GET", w.srv.URL+"/api/users/"+url.PathEscape("$ne")+"/boards", "", "", nil); code != 401 {

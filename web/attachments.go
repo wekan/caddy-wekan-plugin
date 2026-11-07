@@ -127,6 +127,8 @@ func (s *Server) StoreAttachment(r *http.Request, b *Board, c *Card, u *User, na
 		_ = os.Remove(path)
 		return nil, err
 	}
+	s.activity(r.Context(), u.ID, "addAttachment", bson.M{"attachmentId": id, "attachmentName": name, "boardId": b.ID,
+		"cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
 	s.hub.publish(b.ID, "board-changed")
 	return s.attachment(r, id)
 }

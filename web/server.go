@@ -362,6 +362,7 @@ func (s *Server) CreateBoard(ctx context.Context, u *User, title string) (*Board
 	if _, err := s.db.Collection("swimlanes").InsertOne(ctx, sw); err != nil {
 		return nil, err
 	}
+	s.activity(ctx, u.ID, "createBoard", bson.M{"type": "board", "activityTypeId": b.ID, "boardId": b.ID})
 	return b, nil
 }
 
@@ -501,10 +502,12 @@ func (s *Server) addList(w http.ResponseWriter, r *http.Request, u *User) {
 	if b == nil {
 		return
 	}
-	if _, err := s.AddList(r.Context(), b, r.FormValue("title")); err != nil {
+	l, err := s.AddList(r.Context(), b, r.FormValue("title"))
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	s.activity(r.Context(), u.ID, "createList", bson.M{"boardId": b.ID, "listId": l.ID, "title": l.Title})
 	s.hub.publish(b.ID, "board-changed")
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
@@ -527,8 +530,12 @@ func (s *Server) AddCard(ctx context.Context, b *Board, u *User, listID, swimlan
 		Members: []string{}, Assignees: []string{}, LabelIDs: []string{},
 		Type: "cardType-card", CreatedAt: time.Now().UTC(),
 		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": b.ID, "listId": eq(listID), "swimlaneId": eq(swimlaneID)})}
-	_, err := s.db.Collection("cards").InsertOne(ctx, c)
-	return c, err
+	if _, err := s.db.Collection("cards").InsertOne(ctx, c); err != nil {
+		return nil, err
+	}
+	s.activity(ctx, u.ID, "createCard", bson.M{"boardId": b.ID, "listId": listID, "swimlaneId": swimlaneID, "cardId": c.ID, // inserted, not a filter
+		"cardTitle": c.Title, "listName": s.titleOfID(ctx, "lists", listID), "swimlaneName": s.titleOfID(ctx, "swimlanes", swimlaneID)})
+	return c, nil
 }
 
 func (s *Server) addCard(w http.ResponseWriter, r *http.Request, u *User) {
@@ -554,7 +561,7 @@ type Move struct {
 
 // MoveCards moves many cards at once - MultiDrag: every finger its own card - each
 // only within the board and to a list and swimlane of it.
-func (s *Server) MoveCards(ctx context.Context, b *Board, moves []Move) error {
+func (s *Server) MoveCards(ctx context.Context, b *Board, u *User, moves []Move) error {
 	if len(moves) == 0 || len(moves) > 500 {
 		return errors.New("1 to 500 moves")
 	}
@@ -570,6 +577,8 @@ func (s *Server) MoveCards(ctx context.Context, b *Board, moves []Move) error {
 				return fmt.Errorf("no such %s on this board", strings.TrimSuffix(coll, "s"))
 			}
 		}
+		var old Card
+		_ = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(m.CardID), "boardId": b.ID}).Decode(&old)
 		res, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(m.CardID), "boardId": b.ID},
 			bson.M{"$set": bson.M{"listId": m.ListID, "swimlaneId": m.SwimlaneID, "sort": m.Sort, "modifiedAt": time.Now().UTC()}})
 		if err != nil {
@@ -577,6 +586,12 @@ func (s *Server) MoveCards(ctx context.Context, b *Board, moves []Move) error {
 		}
 		if res.MatchedCount == 0 {
 			return fmt.Errorf("no card %s on this board", m.CardID)
+		}
+		if old.ListID != m.ListID || old.SwimlaneID != m.SwimlaneID {
+			s.activity(ctx, u.ID, "moveCard", bson.M{"boardId": b.ID, "cardId": old.ID, "cardTitle": old.Title,
+				"oldListId": old.ListID, "listId": m.ListID, "listName": s.titleOfID(ctx, "lists", m.ListID),
+				"oldSwimlaneId": old.SwimlaneID, "swimlaneId": m.SwimlaneID, "swimlaneName": s.titleOfID(ctx, "swimlanes", m.SwimlaneID),
+				"moveReason": ""})
 		}
 	}
 	return nil
@@ -594,7 +609,7 @@ func (s *Server) moveCards(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	if err := s.MoveCards(r.Context(), b, req.Moves); err != nil {
+	if err := s.MoveCards(r.Context(), b, u, req.Moves); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}

@@ -328,7 +328,7 @@ func TestUnknownFieldsAreKept(t *testing.T) {
 	_ = w.db.Collection("swimlanes").FindOne(context.Background(), bson.M{"boardId": b.ID}).Decode(&sw)
 	card, _ := w.s.AddCard(context.Background(), b, u, l.ID, sw.ID, "C")
 	_, _ = w.db.Collection("cards").UpdateOne(context.Background(), bson.M{"_id": card.ID}, bson.M{"$set": bson.M{"labelIds": []string{"x"}, "dueAt": time.Now()}})
-	if err := w.s.MoveCards(context.Background(), b, []Move{{CardID: card.ID, ListID: l.ID, SwimlaneID: sw.ID, Sort: 5}}); err != nil {
+	if err := w.s.MoveCards(context.Background(), b, u, []Move{{CardID: card.ID, ListID: l.ID, SwimlaneID: sw.ID, Sort: 5}}); err != nil {
 		t.Fatal(err)
 	}
 	var raw bson.M
@@ -567,5 +567,37 @@ func TestChangeLanguage(t *testing.T) {
 		if res, _ := c.PostForm(w.srv.URL+"/language", url.Values{"language": {bad}}); res.StatusCode != http.StatusBadRequest {
 			t.Errorf("negative: %q is no language: %d", bad, res.StatusCode)
 		}
+	}
+}
+
+// Changes are recorded as Node.js WeKan records them, so its activity feed,
+// notifications and rules see them.
+func TestActivities(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "yan", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Acts")
+	l1, _ := w.s.AddList(ctx, b, "One")
+	l2, _ := w.s.AddList(ctx, b, "Two")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l1.ID, sw.ID, "Card")
+	_ = w.s.MoveCards(ctx, b, u, []Move{{CardID: c.ID, ListID: l2.ID, SwimlaneID: sw.ID, Sort: 1}})
+	_ = w.s.MoveCards(ctx, b, u, []Move{{CardID: c.ID, ListID: l2.ID, SwimlaneID: sw.ID, Sort: 2}})
+	count := func(f bson.M) int64 {
+		n, _ := w.db.Collection("activities").CountDocuments(ctx, f)
+		return n
+	}
+	if count(bson.M{"activityType": "createBoard", "boardId": b.ID, "userId": u.ID}) != 1 {
+		t.Error("createBoard")
+	}
+	if count(bson.M{"activityType": "createCard", "cardId": c.ID, "listName": "One", "cardTitle": "Card"}) != 1 {
+		t.Error("createCard, with the list's name and the card's title")
+	}
+	if count(bson.M{"activityType": "moveCard", "cardId": c.ID, "oldListId": l1.ID, "listId": l2.ID, "listName": "Two"}) != 1 {
+		t.Error("moveCard, from the old list to the new")
+	}
+	if count(bson.M{"activityType": "moveCard"}) != 1 {
+		t.Error("negative: a move within the same list is no moveCard")
 	}
 }
