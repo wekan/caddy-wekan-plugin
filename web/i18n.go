@@ -113,3 +113,9 @@ func languageOf(r *http.Request, u *User) *Language {
 	}
 	return &Language{Code: "en", Tag: "en", Name: "English"}
 }
+
+// Languages is every language WeKan offers, by tag.
+func Languages() []Language {
+	translations.load()
+	return translations.languages
+}

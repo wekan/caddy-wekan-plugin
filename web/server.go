@@ -178,6 +178,8 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/cards", s.page(s.addCard))
 	m.HandleFunc("POST /b/{board}/move", s.page(s.moveCards))
 	m.HandleFunc("GET /b/{board}/live", s.page(s.live))
+	m.HandleFunc("GET /language", s.page(s.languagePage))
+	m.HandleFunc("POST /language", s.page(s.setLanguage))
 	s.apiRoutes(m)
 	s.cloudRoutes(m)
 	s.mux = m
@@ -204,6 +206,29 @@ func (s *Server) page(h pageHandler) http.HandlerFunc {
 		}
 		h(w, r, u)
 	}
+}
+
+// languagePage is WeKan's Change Language: every language, named in itself.
+func (s *Server) languagePage(w http.ResponseWriter, r *http.Request, u *User) {
+	lang := languageOf(r, u)
+	s.render(w, r, "language", http.StatusOK, map[string]any{"Title": tr(lang.Tag, "changeLanguagePopup-title"),
+		"User": u, "Languages": Languages(), "Current": lang.Tag})
+}
+
+// setLanguage keeps the choice in profile.language, as WeKan does - only a
+// language WeKan has.
+func (s *Server) setLanguage(w http.ResponseWriter, r *http.Request, u *User) {
+	l := translations.lookup(r.FormValue("language"))
+	if l == nil || !strings.EqualFold(langKey(l.Tag), langKey(r.FormValue("language"))) && !strings.EqualFold(langKey(l.Code), langKey(r.FormValue("language"))) {
+		http.Error(w, "no such language", http.StatusBadRequest)
+		return
+	}
+	if _, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
+		bson.M{"$set": bson.M{"profile.language": l.Code}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 // msg names a translation key a page shows later ({{t $.L .Error}}), so that

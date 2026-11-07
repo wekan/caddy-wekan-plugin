@@ -1,0 +1,7 @@
+.setting-content.change-language
+  h1 {{t $.L "changeLanguagePopup-title"}}
+  form.js-language-form(method="post", action="/language")
+    ul.language-list
+      each l in .Languages
+        li
+          button.js-language(type="submit", name="language", value="{{.Code}}", lang="{{.Tag}}", dir="{{if .RTL}}rtl{{else}}ltr{{end}}", class="{{if eq .Tag $.Current}}is-active{{end}}") {{.Name}}

@@ -17,6 +17,7 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
           a.js-cloud-settings(href="/admin/people/cloud") {{t $.L "admin-panel"}} / {{t $.L "people"}} / {{t $.L "cloud"}}
         if .PanelMenu
           a.js-cloud-panel(href="/cloud") {{t $.L "cloud"}}
+        a.js-change-language(href="/language", title="{{t $.L `changeLanguagePopup-title`}}") {{.Lang.Name}}
         span.header-user.js-open-header-member-menu {{memberName .User}}
         form.js-logout(method="post", action="/logout")
           button.js-logout-button(type="submit") {{t $.L "log-out"}}

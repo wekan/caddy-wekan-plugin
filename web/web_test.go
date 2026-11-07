@@ -540,3 +540,32 @@ func TestLiveStreamsThroughAWrappedWriter(t *testing.T) {
 		t.Fatalf("negative: the stream must work through a wrapper: %d %q", res.StatusCode, line)
 	}
 }
+
+func TestChangeLanguage(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "tove", "pw")
+	c := w.client(t)
+	body(t, w.signIn(t, c, "tove", "pw"))
+	res, page := get(t, c, w.srv.URL+"/language")
+	if res.StatusCode != 200 || !strings.Contains(page, ">Suomi<") || !strings.Contains(page, `dir="rtl"`) {
+		t.Fatal("every language, named in itself, right-to-left ones too")
+	}
+	if res, _ := c.PostForm(w.srv.URL+"/language", url.Values{"language": {"fi"}}); res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("choosing Finnish: %d", res.StatusCode)
+	}
+	var raw struct {
+		Profile struct{ Language string } `bson:"profile"`
+	}
+	_ = w.db.Collection("users").FindOne(context.Background(), bson.M{"_id": u.ID}).Decode(&raw)
+	if raw.Profile.Language != "fi" {
+		t.Fatalf("profile.language: %q", raw.Profile.Language)
+	}
+	if _, page := get(t, c, w.srv.URL+"/"); !strings.Contains(page, "Kaikki taulut") {
+		t.Fatal("the pages are in Finnish after choosing it")
+	}
+	for _, bad := range []string{"", "xx", "<script>", "fi-NOPE-x"} {
+		if res, _ := c.PostForm(w.srv.URL+"/language", url.Values{"language": {bad}}); res.StatusCode != http.StatusBadRequest {
+			t.Errorf("negative: %q is no language: %d", bad, res.StatusCode)
+		}
+	}
+}
