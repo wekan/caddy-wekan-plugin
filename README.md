@@ -134,10 +134,11 @@ never another customer's WeKan, and a user of one domain does not exist at anoth
 
 | | |
 |---|---|
-| `primary` | the first domain: its WeKan names the Cloud Panel Domain and the SuperAdmin |
-| Cloud Panel Domain | served by the primary's WeKan |
+| `primary` | the first domain: its site admins have **Admin Panel / People / Cloud** (`/admin/people/cloud`), where they name the Cloud Panel Domain and the SuperAdmin Username (a username or an e-mail address) |
+| Cloud Panel Domain | served by the primary's WeKan; there the SuperAdmin has the **Cloud Panel** (`/cloud`): Settings with the left menus **Domains** (Domain, Customer name, Customer email address, Billing email address, Start Date, End Date, and TLS - what Weddy did, `!` when it failed) and **CloudFlare** (a write-only API key). Every request asks again: the SuperAdmin, at the Cloud Panel Domain; anybody else gets "The Cloud Panel is only for the SuperAdmin, at the Cloud Panel Domain" |
 | a customer domain | a tenant: no Cloud menu, no SuperAdmin options |
-| `<data>/cloud/domains.json` | the Domains table: a domain is served from its Start Date to its End Date, both included. Changes are followed within seconds |
+| `<data>/cloud/settings.json` | the SuperAdmin Username (mode 0600) |
+| `<data>/cloud/domains.json` | the Cloud Panel Domain and the Domains table, written whole by the Cloud Panel: a domain is served from its Start Date to its End Date, both included. Changes are followed within seconds |
 | `<data>/cloud/cloudflare.json` | the CloudFlare API token (mode 0600), read here only - never sent to a browser |
 | `<data>/cloud/status.json` | for each domain: CloudFlare or Let's Encrypt, its DNS record, its certificate, errors |
 
@@ -152,10 +153,9 @@ token needs Zone:Read, DNS:Edit and SSL and Certificates:Edit.
 ## Status
 
 The first part of WeKan is here: sign-in, All Boards, a board, a card, adding lists and
-cards, moving cards, live updates and the REST API above. WeKan's 174 Jade templates
+cards, moving cards, live updates, the REST API above, and the Cloud Panel. WeKan's 174 Jade templates
 become Go Pug templates one page at a time; [TEMPLATES.md](TEMPLATES.md) lists each and
-whether it is done. Until the Cloud Panel's pages are, `domains.json` and
-`cloudflare.json` are written by hand.
+whether it is done.
 
 ## Building
 

@@ -1,0 +1,71 @@
+.cloud-panel
+  if .NotAllowed
+    p.cloud-not-allowed.js-cloud-not-allowed {{t $.L "cloud-panel-not-allowed"}}
+  else
+    nav.cloud-menu
+      h2 {{t $.L "settings"}}
+      a.js-cloud-domains(href="/cloud", class="{{if eq .Pane `domains`}}is-active{{end}}") {{t $.L "domains"}}
+      a.js-cloud-cloudflare(href="/cloud?pane=cloudflare", class="{{if eq .Pane `cloudflare`}}is-active{{end}}") CloudFlare
+    .cloud-pane
+      if .Saved
+        p.cloud-saved.js-cloud-saved {{t $.L "cloud-saved"}}
+      if .Error
+        p.at-error.js-cloud-error {{.Error}}
+      if eq .Pane "cloudflare"
+        h1 {{t $.L "cloudflare-api-key"}}
+        p {{t $.L "cloudflare-api-key-desc"}}
+        if .TokenSet
+          p.js-cloudflare-set {{t $.L "cloudflare-api-key-set"}}
+        else
+          p.js-cloudflare-not-set {{t $.L "cloudflare-api-key-not-set"}}
+        form.js-cloudflare-form(method="post", action="/cloud/cloudflare")
+          input#cloudflare-api-key(type="password", name="apiToken", autocomplete="off", aria-label="{{t $.L `cloudflare-api-key`}}")
+          button.primary(type="submit") {{t $.L "save"}}
+          if .TokenSet
+            button.js-cloudflare-clear(type="submit", name="clear", value="1") {{t $.L "delete"}}
+      else
+        h1 {{t $.L "domains"}}
+        table.cloud-domains.js-cloud-domains
+          thead
+            tr
+              th {{t $.L "domain"}}
+              th {{t $.L "cloud-customer-name"}}
+              th {{t $.L "cloud-customer-email"}}
+              th {{t $.L "cloud-billing-email"}}
+              th {{t $.L "cloud-start-date"}}
+              th {{t $.L "cloud-end-date"}}
+              th TLS
+              th
+          tbody
+            each d in .Rows
+              tr.js-cloud-domain(data-domain="{{.Domain.Domain}}")
+                td.cloud-domain-name {{.Domain.Domain}}
+                td {{.CustomerName}}
+                td {{.CustomerEmail}}
+                td {{.BillingEmail}}
+                td {{.StartDate}}
+                td {{.EndDate}}
+                td.js-cloud-tls(title="{{.TLSError}}")
+                  | {{.TLS}}
+                  if .TLSError
+                    |  !
+                td
+                  a.js-cloud-edit(href="/cloud?edit={{.Domain.Domain}}") {{t $.L "edit"}}
+                  form.js-cloud-delete(method="post", action="/cloud/domains/delete")
+                    input(type="hidden", name="domain", value="{{.Domain.Domain}}")
+                    button(type="submit") {{t $.L "delete"}}
+        form.js-cloud-domain-form(method="post", action="/cloud/domains")
+          input(type="hidden", name="original", value="{{.Edit.Domain}}")
+          label(for="cloud-domain") {{t $.L "domain"}}
+          input#cloud-domain(type="text", name="domain", value="{{.Edit.Domain}}", required)
+          label(for="cloud-customer-name") {{t $.L "cloud-customer-name"}}
+          input#cloud-customer-name(type="text", name="customerName", value="{{.Edit.CustomerName}}")
+          label(for="cloud-customer-email") {{t $.L "cloud-customer-email"}}
+          input#cloud-customer-email(type="email", name="customerEmail", value="{{.Edit.CustomerEmail}}")
+          label(for="cloud-billing-email") {{t $.L "cloud-billing-email"}}
+          input#cloud-billing-email(type="email", name="billingEmail", value="{{.Edit.BillingEmail}}")
+          label(for="cloud-start-date") {{t $.L "cloud-start-date"}}
+          input#cloud-start-date(type="date", name="startDate", value="{{.Edit.StartDate}}")
+          label(for="cloud-end-date") {{t $.L "cloud-end-date"}}
+          input#cloud-end-date(type="date", name="endDate", value="{{.Edit.EndDate}}")
+          button.primary(type="submit") {{if .Edit.Domain}}{{t $.L "save"}}{{else}}{{t $.L "add"}}{{end}}

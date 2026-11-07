@@ -42,6 +42,11 @@ type Server struct {
 	log      *slog.Logger
 	// Tenant: a customer's WeKan in a many-domain Weddy - no Cloud menu.
 	Tenant bool
+	// CloudDir: the primary's WeKan in a many-domain Weddy - Admin Panel /
+	// People / Cloud, and the Cloud Panel (cloudpanel.go).
+	CloudDir  string
+	cloudOnce sync.Once
+	cloudF    *cloudFiles
 }
 
 // Open starts the WeKan of the domain whose files are in dir: its database is
@@ -135,6 +140,10 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 	u, _ := data["User"].(*User)
 	lang := languageOf(r, u)
 	data["L"], data["Lang"] = lang.Tag, lang
+	if u != nil {
+		data["CloudMenu"] = s.cloudOn() && u.IsAdmin
+		data["PanelMenu"] = s.panelAllowed(r, u)
+	}
 	t := s.pages[page]
 	if t == nil {
 		http.Error(w, "no page "+page, http.StatusInternalServerError)
@@ -170,6 +179,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/move", s.page(s.moveCards))
 	m.HandleFunc("GET /b/{board}/live", s.page(s.live))
 	s.apiRoutes(m)
+	s.cloudRoutes(m)
 	s.mux = m
 }
 

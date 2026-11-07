@@ -154,6 +154,9 @@ func TestManyDomains(t *testing.T) {
 	if c.lookup("primary.test").srv.Tenant || !c.lookup("customer.test").srv.Tenant {
 		t.Fatal("the primary is not a tenant; a customer is")
 	}
+	if c.lookup("primary.test").srv.CloudDir != cloud || c.lookup("customer.test").srv.CloudDir != "" {
+		t.Fatal("only the primary's WeKan has the Cloud Panel, over <data>/cloud")
+	}
 	seedUser(t, c, "customer.test", "cust", "pw-cust")
 	seedUser(t, c, "primary.test", "boss", "pw-boss")
 	for _, d := range []string{"primary.test", "customer.test"} {

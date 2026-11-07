@@ -42,3 +42,14 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 .card-details-header a { font-size: 22px; text-decoration: none; color: inherit; }
 .card-description { white-space: pre-wrap; }
 .board-not-found { padding: 24px; }
+
+.setting-content, .cloud-panel { padding: 16px; }
+.cloud-settings form, .js-cloud-domain-form, .js-cloudflare-form { display: grid; gap: 6px; max-width: 480px; }
+.cloud-panel { display: flex; gap: 24px; align-items: flex-start; }
+.cloud-menu { display: flex; flex-direction: column; gap: 6px; min-width: 160px; }
+.cloud-menu a.is-active { font-weight: 600; }
+.cloud-pane { flex: 1; overflow-x: auto; }
+.cloud-domains { border-collapse: collapse; margin-bottom: 16px; }
+.cloud-domains th, .cloud-domains td { border: 1px solid #c1c7d0; padding: 4px 8px; text-align: start; }
+.js-cloud-delete { display: inline; }
+.cloud-saved { color: #1b5e20; }

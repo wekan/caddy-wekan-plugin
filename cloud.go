@@ -23,12 +23,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net"
 	"net/http"
 	"os"
 	"path/filepath"
-	"regexp"
-	"strings"
 	"sync"
 	"time"
 
@@ -37,41 +34,18 @@ import (
 	"github.com/wekan/caddy-wekan-plugin/web"
 )
 
-// Domain is one row of the Cloud Panel's Domains table.
-type Domain struct {
-	Domain        string `json:"domain"`
-	CustomerName  string `json:"customerName,omitempty"`
-	CustomerEmail string `json:"customerEmail,omitempty"`
-	BillingEmail  string `json:"billingEmail,omitempty"`
-	StartDate     string `json:"startDate,omitempty"` // YYYY-MM-DD
-	EndDate       string `json:"endDate,omitempty"`   // YYYY-MM-DD, the last day of the paid hosting
-}
+// Domain, DomainsFile and the rules are the web package's: the Cloud Panel there
+// writes what this file reads.
+type (
+	Domain      = web.Domain
+	DomainsFile = web.DomainsFile
+)
 
-// DomainsFile is <data>/cloud/domains.json.
-type DomainsFile struct {
-	CloudPanelDomain string   `json:"cloudPanelDomain,omitempty"`
-	Domains          []Domain `json:"domains"`
-}
-
-var hostname = regexp.MustCompile(`^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z][a-z0-9-]{0,62}$`)
-
-// ValidDomain reports whether name is a domain name that can also be a directory
-// name: lower case letters, digits, hyphens and dots, no "..", no "/".
-func ValidDomain(name string) bool { return len(name) <= 253 && hostname.MatchString(name) }
+// ValidDomain reports whether name is a domain name that can also be a directory name.
+func ValidDomain(name string) bool { return web.ValidDomain(name) }
 
 // NormalizeHost is a request's Host as a domain: lower case, no port, no final dot.
-func NormalizeHost(host string) string {
-	if h, _, err := net.SplitHostPort(host); err == nil {
-		host = h
-	}
-	return strings.TrimSuffix(strings.ToLower(strings.TrimSpace(host)), ".")
-}
-
-// Active reports whether the domain is in its paid hosting period on day.
-func (d Domain) Active(day time.Time) bool {
-	today := day.UTC().Format("2006-01-02")
-	return (d.StartDate == "" || d.StartDate <= today) && (d.EndDate == "" || today <= d.EndDate)
-}
+func NormalizeHost(host string) string { return web.NormalizeHost(host) }
 
 type instance struct {
 	domain string
@@ -126,6 +100,9 @@ func (c *Cloud) start(domain string, primary bool) (*instance, error) {
 		return nil, err
 	}
 	srv.Tenant = !primary // a customer's WeKan: no Cloud menu, no SuperAdmin
+	if primary {
+		srv.CloudDir = c.app.cloudDir() // Admin Panel / People / Cloud, and the Cloud Panel
+	}
 	return &instance{domain: domain, srv: srv}, nil
 }
 

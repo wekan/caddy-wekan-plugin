@@ -1,0 +1,11 @@
+.setting-content.cloud-settings
+  h1 {{t $.L "admin-panel"}} / {{t $.L "people"}} / {{t $.L "cloud"}}
+  p.cloud-desc {{t $.L "cloud-settings-desc"}}
+  if .Saved
+    p.cloud-saved.js-cloud-saved {{t $.L "cloud-saved"}}
+  form.js-cloud-settings-form(method="post", action="/admin/people/cloud")
+    label(for="cloud-panel-domain") {{t $.L "cloud-panel-domain"}}
+    input#cloud-panel-domain(type="text", name="cloudPanelDomain", value="{{.PanelDomain}}", placeholder="cloud.example.org")
+    label(for="cloud-superadmin") {{t $.L "cloud-superadmin-username"}}
+    input#cloud-superadmin(type="text", name="superAdminUsername", value="{{.SuperAdmin}}")
+    button.primary(type="submit") {{t $.L "save"}}

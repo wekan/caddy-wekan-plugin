@@ -13,6 +13,10 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
     if .User
       #header.header-bar
         a.header-all-boards.js-all-boards(href="/", up-follow) {{t $.L "all-boards"}}
+        if .CloudMenu
+          a.js-cloud-settings(href="/admin/people/cloud") {{t $.L "admin-panel"}} / {{t $.L "people"}} / {{t $.L "cloud"}}
+        if .PanelMenu
+          a.js-cloud-panel(href="/cloud") {{t $.L "cloud"}}
         span.header-user.js-open-header-member-menu {{memberName .User}}
         form.js-logout(method="post", action="/logout")
           button.js-logout-button(type="submit") {{t $.L "log-out"}}
