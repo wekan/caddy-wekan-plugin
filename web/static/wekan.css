@@ -56,3 +56,6 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 .language-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 4px; }
 .language-list button { width: 100%; text-align: start; background: #fff; border: 1px solid #c1c7d0; border-radius: 3px; padding: 6px; cursor: pointer; }
 .language-list button.is-active { border-color: var(--accent); font-weight: 600; }
+.profile form, .people form.js-registration-form { display: grid; gap: 6px; max-width: 420px; margin-bottom: 16px; }
+.people-table { border-collapse: collapse; }
+.people-table th, .people-table td { border: 1px solid #c1c7d0; padding: 4px 8px; text-align: start; }

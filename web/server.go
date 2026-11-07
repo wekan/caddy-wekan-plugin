@@ -186,6 +186,7 @@ func (s *Server) routes() {
 	s.apiRoutes(m)
 	s.cloudRoutes(m)
 	s.attachmentRoutes(m)
+	s.userRoutes(m)
 	s.mux = m
 }
 

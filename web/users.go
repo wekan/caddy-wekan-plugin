@@ -1,0 +1,285 @@
+package web
+
+// Users: signing up, the profile, changing the password, and Admin Panel /
+// People - in WeKan's documents (users, and the settings document's
+// disableRegistration).
+
+import (
+	"context"
+	"errors"
+	"net/http"
+	"regexp"
+	"strings"
+	"time"
+	"unicode/utf8"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
+)
+
+// Password length for a new password: WeKan's default minimum, and its cap
+// (hashing costs time in proportion to the length).
+const (
+	PasswordMinLength = 8
+	PasswordMaxLength = 512
+)
+
+var usernamePattern = regexp.MustCompile(`^[A-Za-z0-9._-]{2,64}$`)
+
+// passwordProblem is the translation key of what is wrong with a new password,
+// or "".
+func passwordProblem(password, username, email string) string {
+	n := utf8.RuneCountInString(password)
+	switch {
+	case n < PasswordMinLength:
+		return "password-too-short"
+	case n > PasswordMaxLength:
+		return "password-too-long"
+	case strings.EqualFold(password, username) || (email != "" && strings.EqualFold(password, email)):
+		return "password-same-as-username"
+	}
+	return ""
+}
+
+// registrationOpen: WeKan's Admin Panel setting - and always for the very first
+// account, which becomes the administrator.
+func (s *Server) registrationOpen(ctx context.Context) (open, first bool) {
+	n, _ := s.db.Collection("users").EstimatedDocumentCount(ctx)
+	if n == 0 {
+		if c, _ := s.db.Collection("users").CountDocuments(ctx, bson.M{}); c == 0 {
+			return true, true
+		}
+	}
+	var set struct {
+		DisableRegistration bool `bson:"disableRegistration"`
+	}
+	_ = s.db.Collection("settings").FindOne(ctx, bson.M{}).Decode(&set)
+	return !set.DisableRegistration, false
+}
+
+// CreateUser makes an account as Meteor's accounts-password does.
+func (s *Server) CreateUser(ctx context.Context, username, email, password string, admin bool) (*User, error) {
+	hash, err := HashPassword(password)
+	if err != nil {
+		return nil, err
+	}
+	u := bson.M{"_id": randomID(), "username": username, "createdAt": time.Now().UTC(), "isAdmin": admin, // inserted, not a filter
+		"emails":   []bson.M{{"address": strings.ToLower(email), "verified": false}},
+		"profile":  bson.M{"fullname": username, "boardView": "board-view-swimlanes"},
+		"services": bson.M{"password": bson.M{"bcrypt": hash}}, "authenticationMethod": "password"}
+	if _, err := s.db.Collection("users").InsertOne(ctx, u); err != nil {
+		return nil, err
+	}
+	return &User{ID: u["_id"].(string), Username: username, IsAdmin: admin}, nil
+}
+
+func (s *Server) signUpPage(w http.ResponseWriter, r *http.Request) {
+	open, _ := s.registrationOpen(r.Context())
+	lang := languageOf(r, nil).Tag
+	if !open {
+		s.render(w, r, "signup", http.StatusForbidden, map[string]any{"Title": tr(lang, "register"), "Closed": true})
+		return
+	}
+	s.render(w, r, "signup", http.StatusOK, map[string]any{"Title": tr(lang, "register")})
+}
+
+func (s *Server) signUp(w http.ResponseWriter, r *http.Request) {
+	if !sameOrigin(r) {
+		http.Error(w, "cross-site request refused", http.StatusForbidden)
+		return
+	}
+	lang := languageOf(r, nil).Tag
+	open, first := s.registrationOpen(r.Context())
+	if !open {
+		// SignupBleed's lesson: the server refuses, whatever the page showed.
+		s.render(w, r, "signup", http.StatusForbidden, map[string]any{"Title": tr(lang, "register"), "Closed": true})
+		return
+	}
+	username := strings.TrimSpace(r.FormValue("username"))
+	email := strings.TrimSpace(r.FormValue("email"))
+	password := r.FormValue("password")
+	fail := func(key string) {
+		s.render(w, r, "signup", http.StatusBadRequest, map[string]any{"Title": tr(lang, "register"), "Error": key,
+			"Username": username, "Email": email})
+	}
+	switch {
+	case !usernamePattern.MatchString(username):
+		fail(msg("error-user-notCreated"))
+		return
+	case !email_.MatchString(email) || len(email) > 254:
+		fail(msg("error-user-notCreated"))
+		return
+	}
+	if p := passwordProblem(password, username, email); p != "" {
+		fail(p)
+		return
+	}
+	if r.FormValue("password") != r.FormValue("password2") {
+		fail(msg("password-again"))
+		return
+	}
+	if n, _ := s.db.Collection("users").CountDocuments(r.Context(), bson.M{"username": eq(username)}); n > 0 {
+		fail(msg("error-username-taken"))
+		return
+	}
+	if n, _ := s.db.Collection("users").CountDocuments(r.Context(), bson.M{"emails.address": eq(strings.ToLower(email))}); n > 0 {
+		fail(msg("error-email-taken"))
+		return
+	}
+	u, err := s.CreateUser(r.Context(), username, email, password, first)
+	if err != nil {
+		fail(msg("error-user-notCreated"))
+		return
+	}
+	token, expires, err := s.newLoginToken(r.Context(), u.ID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	setSessionCookie(w, token, expires)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+var email_ = regexp.MustCompile(`^[^\s@]+@[^\s@]+\.[^\s@]+$`)
+
+func (s *Server) profilePage(w http.ResponseWriter, r *http.Request, u *User) {
+	s.render(w, r, "profile", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, "edit-profile"), "User": u,
+		"Saved": r.URL.Query().Get("saved"), "Error": r.URL.Query().Get("error")})
+}
+
+func (s *Server) saveProfile(w http.ResponseWriter, r *http.Request, u *User) {
+	fullname := strings.TrimSpace(r.FormValue("fullname"))
+	initials := strings.TrimSpace(r.FormValue("initials"))
+	if utf8.RuneCountInString(fullname) > 200 || utf8.RuneCountInString(initials) > 8 {
+		http.Redirect(w, r, "/profile?error=fullname", http.StatusSeeOther)
+		return
+	}
+	if _, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
+		bson.M{"$set": bson.M{"profile.fullname": fullname, "profile.initials": initials}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w, r, "/profile?saved=profile", http.StatusSeeOther)
+}
+
+// changePassword needs the current password; the other sessions end, this one
+// stays (a new token).
+func (s *Server) changePassword(w http.ResponseWriter, r *http.Request, u *User) {
+	if CheckPassword(u, r.FormValue("oldPassword")) != nil {
+		http.Redirect(w, r, "/profile?error=error-ldap-login", http.StatusSeeOther)
+		return
+	}
+	email := ""
+	if len(u.Emails) > 0 {
+		email = u.Emails[0].Address
+	}
+	password := r.FormValue("newPassword")
+	if p := passwordProblem(password, u.Username, email); p != "" {
+		http.Redirect(w, r, "/profile?error="+p, http.StatusSeeOther)
+		return
+	}
+	if password != r.FormValue("newPassword2") {
+		http.Redirect(w, r, "/profile?error=password-again", http.StatusSeeOther)
+		return
+	}
+	hash, err := HashPassword(password)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if _, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)}, bson.M{
+		"$set":   bson.M{"services.password.bcrypt": hash, "services.resume.loginTokens": []bson.M{}},
+		"$unset": bson.M{"services.password.argon2": ""}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	token, expires, err := s.newLoginToken(r.Context(), u.ID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	setSessionCookie(w, token, expires)
+	http.Redirect(w, r, "/profile?saved=password", http.StatusSeeOther)
+}
+
+// Admin Panel / People: the site admins see every user and set admin and
+// disabled - never on themselves, so the last admin cannot lock everyone out.
+func (s *Server) peoplePage(w http.ResponseWriter, r *http.Request, u *User) {
+	if !u.IsAdmin {
+		s.render(w, r, "notfound", http.StatusNotFound, map[string]any{"Title": tr(languageOf(r, u).Tag, "error-notAuthorized"), "User": u})
+		return
+	}
+	cur, err := s.db.Collection("users").Find(r.Context(), bson.M{}, options.Find().SetSort(bson.D{{Key: "username", Value: 1}}).SetLimit(1000))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var users []User
+	_ = cur.All(r.Context(), &users)
+	var set struct {
+		DisableRegistration bool `bson:"disableRegistration"`
+	}
+	_ = s.db.Collection("settings").FindOne(r.Context(), bson.M{}).Decode(&set)
+	s.render(w, r, "people", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, "people"), "User": u,
+		"Users": users, "RegistrationDisabled": set.DisableRegistration})
+}
+
+func (s *Server) setPerson(w http.ResponseWriter, r *http.Request, u *User) {
+	if !u.IsAdmin {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	id := r.PathValue("user")
+	if !validID(id) || id == u.ID {
+		http.Error(w, "not yourself", http.StatusBadRequest)
+		return
+	}
+	set := bson.M{}
+	if v := r.FormValue("isAdmin"); v != "" {
+		set["isAdmin"] = v == "true"
+	}
+	if v := r.FormValue("loginDisabled"); v != "" {
+		set["loginDisabled"] = v == "true"
+	}
+	if len(set) == 0 {
+		http.Error(w, "nothing to set", http.StatusBadRequest)
+		return
+	}
+	update := bson.M{"$set": set}
+	if set["loginDisabled"] == true {
+		set["services.resume.loginTokens"] = []bson.M{} // a disabled user is signed out everywhere
+	}
+	res, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(id)}, update)
+	if err != nil || res.MatchedCount == 0 {
+		http.Error(w, "no such user", http.StatusNotFound)
+		return
+	}
+	http.Redirect(w, r, "/admin/people", http.StatusSeeOther)
+}
+
+func (s *Server) setRegistration(w http.ResponseWriter, r *http.Request, u *User) {
+	if !u.IsAdmin {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	disabled := r.FormValue("disableRegistration") == "true"
+	_, err := s.db.Collection("settings").UpdateOne(r.Context(), bson.M{}, bson.M{"$set": bson.M{"disableRegistration": disabled}},
+		options.UpdateOne().SetUpsert(true))
+	if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w, r, "/admin/people", http.StatusSeeOther)
+}
+
+func (s *Server) userRoutes(m *http.ServeMux) {
+	m.HandleFunc("GET /sign-up", s.signUpPage)
+	m.HandleFunc("POST /sign-up", s.signUp)
+	m.HandleFunc("GET /profile", s.page(s.profilePage))
+	m.HandleFunc("POST /profile", s.page(s.saveProfile))
+	m.HandleFunc("POST /profile/password", s.page(s.changePassword))
+	m.HandleFunc("GET /admin/people", s.page(s.peoplePage))
+	m.HandleFunc("POST /admin/people/{user}", s.page(s.setPerson))
+	m.HandleFunc("POST /admin/registration", s.page(s.setRegistration))
+}

@@ -1,0 +1,40 @@
+.setting-content.people
+  h1 {{t $.L "admin-panel"}} / {{t $.L "people"}}
+  p {{t $.L "people-number"}} {{len .Users}}
+  form.js-registration-form(method="post", action="/admin/registration")
+    if .RegistrationDisabled
+      input(type="hidden", name="disableRegistration", value="false")
+      button(type="submit") {{t $.L "registration"}}: {{t $.L "no"}}
+    else
+      input(type="hidden", name="disableRegistration", value="true")
+      button(type="submit") {{t $.L "registration"}}: {{t $.L "yes"}}
+  table.people-table
+    thead
+      tr
+        th {{t $.L "username"}}
+        th {{t $.L "fullname"}}
+        th {{t $.L "email"}}
+        th {{t $.L "admin"}}
+        th {{t $.L "active"}}
+    tbody
+      each p in .Users
+        tr.js-person(data-user="{{.ID}}")
+          td.username {{.Username}}
+          td {{.Profile.Fullname}}
+          td
+            each e in .Emails
+              | {{.Address}}
+          td
+            if ne .ID $.User.ID
+              form(method="post", action="/admin/people/{{.ID}}")
+                input(type="hidden", name="isAdmin", value="{{if .IsAdmin}}false{{else}}true{{end}}")
+                button.js-toggle-admin(type="submit") {{if .IsAdmin}}{{t $.L "yes"}}{{else}}{{t $.L "no"}}{{end}}
+            else
+              | {{t $.L "yes"}}
+          td
+            if ne .ID $.User.ID
+              form(method="post", action="/admin/people/{{.ID}}")
+                input(type="hidden", name="loginDisabled", value="{{if .LoginDisabled}}false{{else}}true{{end}}")
+                button.js-toggle-active-status(type="submit") {{if .LoginDisabled}}{{t $.L "no"}}{{else}}{{t $.L "yes"}}{{end}}
+            else
+              | {{t $.L "yes"}}
