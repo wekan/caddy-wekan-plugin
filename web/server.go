@@ -251,7 +251,7 @@ func (s *Server) signIn(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	setSessionCookie(w, r, token, expires)
+	setSessionCookie(w, token, expires)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
@@ -259,12 +259,13 @@ func (s *Server) logout(w http.ResponseWriter, r *http.Request) {
 	if c, err := r.Cookie(sessionCookie); err == nil {
 		s.dropToken(r.Context(), c.Value)
 	}
-	http.SetCookie(w, &http.Cookie{Name: sessionCookie, Value: "", Path: "/", MaxAge: -1, HttpOnly: true})
+	http.SetCookie(w, &http.Cookie{Name: sessionCookie, Value: "", Path: "/", MaxAge: -1,
+		HttpOnly: true, Secure: true, SameSite: http.SameSiteLaxMode})
 	http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
 }
 
 func (s *Server) boardsOf(ctx context.Context, userID string) ([]Board, error) {
-	cur, err := s.db.Collection("boards").Find(ctx, bson.M{"archived": false, "members": bson.M{"$elemMatch": bson.M{"userId": userID, "isActive": true}},
+	cur, err := s.db.Collection("boards").Find(ctx, bson.M{"archived": false, "members": bson.M{"$elemMatch": bson.M{"userId": eq(userID), "isActive": true}},
 		"type": bson.M{"$nin": []string{"template-container", "template-board"}}}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}, {Key: "title", Value: 1}}))
 	if err != nil {
 		return nil, err
@@ -331,8 +332,11 @@ func (s *Server) createBoard(w http.ResponseWriter, r *http.Request, u *User) {
 
 // boardFor is the board, if u may see it: an active member, or a public board.
 func (s *Server) boardFor(ctx context.Context, id string, u *User) (*Board, error) {
+	if !validID(id) {
+		return nil, mongo.ErrNoDocuments
+	}
 	var b Board
-	if err := s.db.Collection("boards").FindOne(ctx, bson.M{"_id": id}).Decode(&b); err != nil {
+	if err := s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&b); err != nil {
 		return nil, err
 	}
 	if !b.MemberOf(u.ID) && b.Permission != "public" {
@@ -406,9 +410,9 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.MemberOf(u.ID)}
-	if id := r.PathValue("card"); id != "" {
+	if id := r.PathValue("card"); validID(id) {
 		var c Card
-		if err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": id, "boardId": b.ID}).Decode(&c); err == nil {
+		if err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c); err == nil {
 			data["Card"] = c
 		}
 	}
@@ -467,13 +471,16 @@ func (s *Server) AddCard(ctx context.Context, b *Board, u *User, listID, swimlan
 		return nil, errors.New("a card needs a title")
 	}
 	for coll, id := range map[string]string{"lists": listID, "swimlanes": swimlaneID} {
-		if n, _ := s.db.Collection(coll).CountDocuments(ctx, bson.M{"_id": id, "boardId": b.ID}); n == 0 {
+		if !validID(id) {
+			return nil, fmt.Errorf("no such %s on this board", strings.TrimSuffix(coll, "s"))
+		}
+		if n, _ := s.db.Collection(coll).CountDocuments(ctx, bson.M{"_id": eq(id), "boardId": b.ID}); n == 0 {
 			return nil, fmt.Errorf("no such %s on this board", strings.TrimSuffix(coll, "s"))
 		}
 	}
 	c := &Card{ID: randomID(), Title: title, BoardID: b.ID, ListID: listID, SwimlaneID: swimlaneID, UserID: u.ID,
 		Type: "cardType-card", CreatedAt: time.Now().UTC(),
-		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": b.ID, "listId": listID, "swimlaneId": swimlaneID})}
+		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": b.ID, "listId": eq(listID), "swimlaneId": eq(swimlaneID)})}
 	_, err := s.db.Collection("cards").InsertOne(ctx, c)
 	return c, err
 }
@@ -506,12 +513,18 @@ func (s *Server) MoveCards(ctx context.Context, b *Board, moves []Move) error {
 		return errors.New("1 to 500 moves")
 	}
 	for _, m := range moves {
+		if !validID(m.CardID) {
+			return fmt.Errorf("no card %q on this board", m.CardID)
+		}
 		for coll, id := range map[string]string{"lists": m.ListID, "swimlanes": m.SwimlaneID} {
-			if n, _ := s.db.Collection(coll).CountDocuments(ctx, bson.M{"_id": id, "boardId": b.ID}); n == 0 {
+			if !validID(id) {
+				return fmt.Errorf("no such %s on this board", strings.TrimSuffix(coll, "s"))
+			}
+			if n, _ := s.db.Collection(coll).CountDocuments(ctx, bson.M{"_id": eq(id), "boardId": b.ID}); n == 0 {
 				return fmt.Errorf("no such %s on this board", strings.TrimSuffix(coll, "s"))
 			}
 		}
-		res, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": m.CardID, "boardId": b.ID},
+		res, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(m.CardID), "boardId": b.ID},
 			bson.M{"$set": bson.M{"listId": m.ListID, "swimlaneId": m.SwimlaneID, "sort": m.Sort, "modifiedAt": time.Now().UTC()}})
 		if err != nil {
 			return err

@@ -46,7 +46,8 @@ func newTestWeKan(t *testing.T) *testWeKan {
 	if err != nil {
 		t.Fatal(err)
 	}
-	srv := httptest.NewServer(s)
+	srv := httptest.NewTLSServer(s) // HTTPS: the login cookie is Secure
+	testClient = srv.Client()
 	t.Cleanup(func() {
 		srv.CloseClientConnections()
 		_ = s.Close()
@@ -76,10 +77,14 @@ func (w *testWeKan) seedUser(t *testing.T, username, password string) *User {
 	return &User{ID: id, Username: username}
 }
 
+// testClient trusts the current test server's certificate.
+var testClient *http.Client
+
 // client is a browser: it keeps cookies and does not follow redirects.
 func (w *testWeKan) client(t *testing.T) *http.Client {
 	jar, _ := cookiejar.New(nil)
-	return &http.Client{Jar: jar, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}
+	return &http.Client{Jar: jar, Transport: w.srv.Client().Transport,
+		CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}
 }
 
 func (w *testWeKan) signIn(t *testing.T, c *http.Client, username, password string) *http.Response {
@@ -448,7 +453,7 @@ func TestTranslatedPages(t *testing.T) {
 	w := newTestWeKan(t)
 	req, _ := http.NewRequest("GET", w.srv.URL+"/sign-in", nil)
 	req.Header.Set("Accept-Language", "fi-FI,fi;q=0.9,en;q=0.5")
-	res, err := http.DefaultClient.Do(req)
+	res, err := testClient.Do(req)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -456,12 +461,12 @@ func TestTranslatedPages(t *testing.T) {
 		t.Fatal("the sign-in page must be in Finnish for a Finnish browser")
 	}
 	req.Header.Set("Accept-Language", "ar")
-	res, _ = http.DefaultClient.Do(req)
+	res, _ = testClient.Do(req)
 	if page := body(t, res); !strings.Contains(page, `dir="rtl"`) {
 		t.Fatal("Arabic is right to left")
 	}
 	req.Header.Set("Accept-Language", "xx-unknown")
-	res, _ = http.DefaultClient.Do(req)
+	res, _ = testClient.Do(req)
 	if page := body(t, res); !strings.Contains(page, "Log In") {
 		t.Fatal("negative: an unknown language falls back to English")
 	}
@@ -511,11 +516,12 @@ func TestLiveStreamsThroughAWrappedWriter(t *testing.T) {
 	w := newTestWeKan(t)
 	u := w.seedUser(t, "nina", "pw")
 	b, _ := w.s.CreateBoard(context.Background(), u, "Wrapped")
-	srv := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+	srv := httptest.NewTLSServer(http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		w.s.ServeHTTP(wrapped{rw}, r)
 	}))
 	defer srv.Close()
 	c := w.client(t)
+	c.Transport = srv.Client().Transport
 	res, err := c.PostForm(srv.URL+"/sign-in", url.Values{"username": {"nina"}, "password": {"pw"}})
 	if err != nil {
 		t.Fatal(err)

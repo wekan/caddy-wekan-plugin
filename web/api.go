@@ -188,7 +188,7 @@ func (s *Server) apiUser(w http.ResponseWriter, r *http.Request, u *User) {
 
 func (s *Server) apiUserBoards(w http.ResponseWriter, r *http.Request, u *User) {
 	id := r.PathValue("user")
-	if id != u.ID && !u.IsAdmin {
+	if (id != u.ID && !u.IsAdmin) || !validID(id) {
 		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}
@@ -302,7 +302,12 @@ func (s *Server) apiCards(w http.ResponseWriter, r *http.Request, u *User) {
 	if b == nil {
 		return
 	}
-	cur, err := s.db.Collection("cards").Find(r.Context(), bson.M{"boardId": b.ID, "listId": r.PathValue("list"), "archived": false},
+	list := r.PathValue("list")
+	if !validID(list) {
+		apiError(w, http.StatusNotFound, "no such list")
+		return
+	}
+	cur, err := s.db.Collection("cards").Find(r.Context(), bson.M{"boardId": b.ID, "listId": eq(list), "archived": false},
 		options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
 	if err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
@@ -348,8 +353,13 @@ func (s *Server) apiAddCard(w http.ResponseWriter, r *http.Request, u *User) {
 }
 
 func (s *Server) cardOf(w http.ResponseWriter, r *http.Request, b *Board) *Card {
+	card, list := r.PathValue("card"), r.PathValue("list")
+	if !validID(card) || !validID(list) {
+		apiError(w, http.StatusNotFound, "no such card")
+		return nil
+	}
 	var c Card
-	err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": r.PathValue("card"), "boardId": b.ID, "listId": r.PathValue("list")}).Decode(&c)
+	err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(card), "boardId": b.ID, "listId": eq(list)}).Decode(&c)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
 			apiError(w, http.StatusNotFound, "no such card")

@@ -17,7 +17,7 @@ func call(t *testing.T, method, u, token, reqBody string, out any) int {
 	if token != "" {
 		req.Header.Set("Authorization", "Bearer "+token)
 	}
-	res, err := http.DefaultClient.Do(req)
+	res, err := testClient.Do(req)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -45,7 +45,7 @@ func TestRESTAPI(t *testing.T) {
 	// A form body works too, as with WeKan.
 	req, _ := http.NewRequest("POST", api+"/users/login", strings.NewReader("email=kim@example.invalid&password=pw-kim"))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	if res, err := http.DefaultClient.Do(req); err != nil || res.StatusCode != 200 {
+	if res, err := testClient.Do(req); err != nil || res.StatusCode != 200 {
 		t.Fatalf("form login by e-mail: %v", err)
 	}
 	if code := call(t, "POST", api+"/users/login", "", `{"username":"kim","password":"no"}`, nil); code != 401 {

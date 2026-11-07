@@ -14,7 +14,10 @@ package web
 import (
 	"crypto/rand"
 	"math/big"
+	"regexp"
 	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 // Meteor's Random.id(): 17 characters of this alphabet. WeKan's documents have
@@ -22,6 +25,17 @@ import (
 const idAlphabet = "23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz"
 
 func randomID() string { return randomString(idAlphabet, 17) }
+
+// An id from a request - an address, a form, a JSON body - is used in a query
+// only when it looks like one: Meteor's ids, and the letters, digits, _ and - of
+// ids other tools wrote. Anything else is not found.
+var idPattern = regexp.MustCompile(`^[A-Za-z0-9_-]{1,64}$`)
+
+func validID(id string) bool { return idPattern.MatchString(id) }
+
+// eq matches a value exactly: a value from a request is compared with $eq, never
+// put in a filter where the database could read it as anything but a value.
+func eq(v string) bson.M { return bson.M{"$eq": v} }
 
 func randomString(alphabet string, n int) string {
 	b := make([]byte, n)

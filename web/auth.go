@@ -22,6 +22,11 @@ import (
 // and the DIGEST is what bcrypt or argon2 hashed (services.password.bcrypt or
 // .argon2). Checking it the same way is what lets every existing WeKan user sign
 // in here with their password.
+//
+// SHA-256 is not how the password is stored - that is bcrypt (cost 10) or argon2
+// of this digest, both slow and salted. It is Meteor's pre-hash, the input those
+// were given; without it no existing password would match. (Code scanning alert
+// #9 reads it as the storage hash: Hall-of-Fame.md in the wiki says why not.)
 func passwordDigest(password string) string {
 	sum := sha256.Sum256([]byte(password))
 	return hex.EncodeToString(sum[:])
@@ -52,21 +57,34 @@ func checkArgon2(phc, digest string) (bool, error) {
 	if len(parts) != 6 {
 		return false, fmt.Errorf("argon2: %d parts", len(parts))
 	}
-	var m, t, p uint64
+	// Each parameter is parsed at the width argon2 takes it, so nothing is cut
+	// short by a conversion, and capped, so a hash in the database cannot make a
+	// sign-in take unbounded memory or time.
+	var m, t uint32
+	var p uint8
 	for _, kv := range strings.Split(parts[3], ",") {
 		k, v, _ := strings.Cut(kv, "=")
-		n, err := strconv.ParseUint(v, 10, 32)
-		if err != nil {
-			return false, err
-		}
 		switch k {
-		case "m":
-			m = n
-		case "t":
-			t = n
+		case "m", "t":
+			n, err := strconv.ParseUint(v, 10, 32)
+			if err != nil {
+				return false, err
+			}
+			if k == "m" {
+				m = uint32(n)
+			} else {
+				t = uint32(n)
+			}
 		case "p":
-			p = n
+			n, err := strconv.ParseUint(v, 10, 8)
+			if err != nil {
+				return false, err
+			}
+			p = uint8(n)
 		}
+	}
+	if m == 0 || m > argon2MaxMemory || t == 0 || t > argon2MaxTime || p == 0 {
+		return false, fmt.Errorf("argon2: parameters m=%d t=%d p=%d out of range", m, t, p)
 	}
 	salt, err := base64.RawStdEncoding.DecodeString(parts[4])
 	if err != nil {
@@ -76,17 +94,27 @@ func checkArgon2(phc, digest string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
+	if len(want) < 16 || len(want) > 128 {
+		return false, fmt.Errorf("argon2: a %d-byte hash", len(want))
+	}
 	var got []byte
 	switch parts[1] {
 	case "argon2id":
-		got = argon2.IDKey([]byte(digest), salt, uint32(t), uint32(m), uint8(p), uint32(len(want)))
+		got = argon2.IDKey([]byte(digest), salt, t, m, p, uint32(len(want)))
 	case "argon2i":
-		got = argon2.Key([]byte(digest), salt, uint32(t), uint32(m), uint8(p), uint32(len(want)))
+		got = argon2.Key([]byte(digest), salt, t, m, p, uint32(len(want)))
 	default:
 		return false, fmt.Errorf("argon2: %s is not supported", parts[1])
 	}
 	return subtle.ConstantTimeCompare(got, want) == 1, nil
 }
+
+// Upper bounds of argon2's parameters: 1 GiB of memory (m is in KiB) and 16
+// passes, far above node-argon2's defaults (64 MiB, 3).
+const (
+	argon2MaxMemory = 1 << 20
+	argon2MaxTime   = 16
+)
 
 // HashPassword hashes a new password as Meteor does: bcrypt of the SHA-256 digest.
 func HashPassword(password string) (string, error) {
@@ -111,7 +139,7 @@ const LoginDays = 90
 func (s *Server) newLoginToken(ctx context.Context, userID string) (string, time.Time, error) {
 	token := randomString(tokenAlphabet, 43)
 	now := time.Now().UTC()
-	_, err := s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": userID}, bson.M{"$push": bson.M{
+	_, err := s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(userID)}, bson.M{"$push": bson.M{
 		"services.resume.loginTokens": bson.M{"when": now, "hashedToken": hashToken(token)}}})
 	return token, now.Add(LoginDays * 24 * time.Hour), err
 }
@@ -142,9 +170,12 @@ func (s *Server) dropToken(ctx context.Context, token string) {
 // form accepts either.
 func (s *Server) findLoginUser(ctx context.Context, name string) (*User, error) {
 	name = strings.TrimSpace(name)
+	if name == "" || len(name) > 254 { // 254: the longest e-mail address
+		return nil, errBadPassword
+	}
 	var u User
 	err := s.db.Collection("users").FindOne(ctx, bson.M{"$or": []bson.M{
-		{"username": name}, {"emails.address": strings.ToLower(name)}}}).Decode(&u)
+		{"username": eq(name)}, {"emails.address": eq(strings.ToLower(name))}}}).Decode(&u)
 	if err != nil {
 		return nil, errBadPassword
 	}
@@ -171,7 +202,10 @@ func (s *Server) currentUser(r *http.Request) *User {
 	return u
 }
 
-func setSessionCookie(w http.ResponseWriter, r *http.Request, token string, expires time.Time) {
+// setSessionCookie: always Secure, so the login token never travels over plain
+// HTTP - Caddy gives every site HTTPS. Browsers keep a Secure cookie on
+// http://localhost and http://127.0.0.1 too, so a local test works without TLS.
+func setSessionCookie(w http.ResponseWriter, token string, expires time.Time) {
 	http.SetCookie(w, &http.Cookie{Name: sessionCookie, Value: token, Path: "/", Expires: expires,
-		HttpOnly: true, Secure: r.TLS != nil, SameSite: http.SameSiteLaxMode})
+		HttpOnly: true, Secure: true, SameSite: http.SameSiteLaxMode})
 }
