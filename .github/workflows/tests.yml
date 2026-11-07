@@ -1,0 +1,40 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      # go.mod replaces caddy-gitea-plugin with ../caddy-gitea-plugin: both are
+      # checked out side by side, as in WeKan's .tools/w/ and in Weddy's build.
+      - uses: actions/checkout@v7
+        with:
+          path: caddy-wekan-plugin
+      - uses: actions/checkout@v7
+        with:
+          repository: wekan/caddy-gitea-plugin
+          path: caddy-gitea-plugin
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: caddy-wekan-plugin/go.mod
+      - name: Turn off Go toolchain telemetry
+        run: go telemetry off
+      - run: go vet ./...
+        working-directory: caddy-wekan-plugin
+      - run: go test -count=1 ./...
+        working-directory: caddy-wekan-plugin
+      - name: gofmt
+        if: runner.os == 'Linux'
+        working-directory: caddy-wekan-plugin
+        run: test -z "$(gofmt -l .)"
