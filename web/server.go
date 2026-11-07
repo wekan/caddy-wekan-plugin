@@ -46,7 +46,9 @@ type Server struct {
 	// People / Cloud, and the Cloud Panel (cloudpanel.go).
 	CloudDir string
 	// FilesDir: <dir>/files, where attachments/ is (attachments.go).
-	FilesDir  string
+	FilesDir string
+	// OIDC: sign in with OAuth2 / OpenID Connect (oidc.go), from WeKan's OAUTH2_*.
+	OIDC      *OIDCConfig
 	cloudOnce sync.Once
 	cloudF    *cloudFiles
 }
@@ -66,6 +68,7 @@ func Open(ctx context.Context, dir, dbListen string, log *slog.Logger) (*Server,
 	}
 	s.release = release
 	s.FilesDir = filepath.Join(dir, "files")
+	s.OIDC = OIDCFromEnv(nil)
 	return s, nil
 }
 
@@ -187,6 +190,7 @@ func (s *Server) routes() {
 	s.cloudRoutes(m)
 	s.attachmentRoutes(m)
 	s.userRoutes(m)
+	s.oidcRoutes(m)
 	s.mux = m
 }
 
@@ -259,7 +263,7 @@ func (s *Server) signInPage(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
-	s.render(w, r, "signin", http.StatusOK, map[string]any{"Title": tr(languageOf(r, nil).Tag, "log-in")})
+	s.render(w, r, "signin", http.StatusOK, map[string]any{"Title": tr(languageOf(r, nil).Tag, "log-in"), "OIDC": s.OIDC != nil})
 }
 
 func (s *Server) signIn(w http.ResponseWriter, r *http.Request) {
