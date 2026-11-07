@@ -61,6 +61,9 @@
   function dropTarget(x, y, moving) {
     var stack = document.elementsFromPoint(x, y);
     for (var i = 0; i < stack.length; i++) {
+      // The dragged cards are under the pointer too, still inside the list they
+      // came from: look past them.
+      if (moving.some(function (m) { return m.contains(stack[i]); })) continue;
       var body = stack[i].closest && stack[i].closest('.js-minicards');
       if (!body) continue;
       var cards = Array.prototype.filter.call(body.querySelectorAll('.js-minicard'), function (c) {

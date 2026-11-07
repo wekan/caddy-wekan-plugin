@@ -551,17 +551,18 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
-	flusher, ok := w.(http.Flusher)
-	if !ok {
-		http.Error(w, "streaming unsupported", http.StatusInternalServerError)
-		return
-	}
+	// A ResponseController, not w.(http.Flusher): inside Caddy, w is Caddy's
+	// wrapper, and the controller reaches the connection's Flush through it.
+	rc := http.NewResponseController(w)
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Cache-Control", "no-cache")
 	ch := s.hub.subscribe(b.ID)
 	defer s.hub.unsubscribe(b.ID, ch)
 	fmt.Fprint(w, ": connected\n\n")
-	flusher.Flush()
+	if err := rc.Flush(); err != nil {
+		http.Error(w, "streaming unsupported", http.StatusInternalServerError)
+		return
+	}
 	ping := time.NewTicker(25 * time.Second)
 	defer ping.Stop()
 	for {
@@ -573,10 +574,10 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 				return
 			}
 			fmt.Fprintf(w, "event: %s\ndata: %s\n\n", ev, b.ID)
-			flusher.Flush()
+			rc.Flush()
 		case <-ping.C:
 			fmt.Fprint(w, ": ping\n\n")
-			flusher.Flush()
+			rc.Flush()
 		}
 	}
 }

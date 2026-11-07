@@ -499,3 +499,38 @@ func TestTranslationsAreSynced(t *testing.T) {
 		}
 	}
 }
+
+// wrapped hides http.Flusher behind Unwrap, as Caddy's ResponseWriter wrapper does.
+type wrapped struct{ http.ResponseWriter }
+
+func (w wrapped) Unwrap() http.ResponseWriter { return w.ResponseWriter }
+
+// Inside Caddy the writer is a wrapper: live updates must stream through it - a
+// w.(http.Flusher) check answered "streaming unsupported" there.
+func TestLiveStreamsThroughAWrappedWriter(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "nina", "pw")
+	b, _ := w.s.CreateBoard(context.Background(), u, "Wrapped")
+	srv := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		w.s.ServeHTTP(wrapped{rw}, r)
+	}))
+	defer srv.Close()
+	c := w.client(t)
+	res, err := c.PostForm(srv.URL+"/sign-in", url.Values{"username": {"nina"}, "password": {"pw"}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	res.Body.Close()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	req, _ := http.NewRequestWithContext(ctx, "GET", srv.URL+"/b/"+b.ID+"/live", nil)
+	res, err = c.Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer res.Body.Close()
+	line, _ := bufio.NewReader(res.Body).ReadString('\n')
+	if res.StatusCode != 200 || !strings.HasPrefix(line, ": connected") {
+		t.Fatalf("negative: the stream must work through a wrapper: %d %q", res.StatusCode, line)
+	}
+}
