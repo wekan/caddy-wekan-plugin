@@ -1,11 +1,13 @@
 {
   "account-locked": "An akont yw alhwedhys rag pols drefen re lies assay omgelmi fyllis. Assaya arta diwettha mar pleg.",
   "add": "Keworra",
+  "add-attachment": "Keworra stagell",
   "add-board": "Keworra estyllen",
   "add-card": "Keworra karten",
   "add-list": "Keworra rol",
   "admin-panel": "Panel an menystrer",
   "all-boards": "Oll an estyll",
+  "attachments": "Stagellow",
   "board-not-found": "Estyllen heb y kavos",
   "changeLanguagePopup-title": "Chanjya yeth",
   "close": "Degea",

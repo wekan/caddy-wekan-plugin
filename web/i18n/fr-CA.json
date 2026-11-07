@@ -1,11 +1,13 @@
 {
   "account-locked": "Le compte est temporairement verrouillé en raison de trop de tentatives de connexion échouées. Veuillez réessayer plus tard.",
   "add": "Ajouter",
+  "add-attachment": "Ajouter une pièce jointe",
   "add-board": "Ajouter un tableau",
   "add-card": "Ajouter une carte",
   "add-list": "Ajouter une liste",
   "admin-panel": "Panneau d'administration",
   "all-boards": "Tous les tableaux",
+  "attachments": "Pièces jointes",
   "board-not-found": "Tableau non trouvé",
   "changeLanguagePopup-title": "Modifier la langue",
   "close": "Fermer",

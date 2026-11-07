@@ -1,11 +1,13 @@
 {
   "account-locked": "Tha an cunntas glaiste rè ùine air sgàth cus oidhirpean clàraidh a-steach a dh'fhàillig. Feuch ris a-rithist an ceann greis.",
   "add": "Cuir ris",
+  "add-attachment": "Cuir ceanglachan ris",
   "add-board": "Cuir bòrd ris",
   "add-card": "Cuir cairt ris",
   "add-list": "Cuir liosta ris",
   "admin-panel": "Panail rianachd",
   "all-boards": "Na bùird uile",
+  "attachments": "Ceanglachain",
   "board-not-found": "Cha deach am bòrd a lorg",
   "changeLanguagePopup-title": "Atharraich Cànan",
   "close": "Dùin",

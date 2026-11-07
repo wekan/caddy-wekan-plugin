@@ -1,11 +1,13 @@
 {
   "account-locked": "La cuenta está bloqueada temporalmente debido a demasiados intentos de inicio de sesión fallidos. Por favor inténtalo de nuevo más tarde.",
   "add": "Agregar",
+  "add-attachment": "Agregar adjunto",
   "add-board": "Agregar tablero",
   "add-card": "Agregar una tarjeta",
   "add-list": "Agregar una lista",
   "admin-panel": "Panel de administración",
   "all-boards": "Todos los tableros",
+  "attachments": "Adjuntos",
   "board-not-found": "Tablero no encontrado",
   "changeLanguagePopup-title": "Cambiar el idioma",
   "close": "Cerrar",

@@ -1,11 +1,13 @@
 {
   "account-locked": "Tài khoản tạm thời bị khóa do quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau.",
   "add": "Thêm",
+  "add-attachment": "Thêm Bản Đính Kèm",
   "add-board": "Thêm Bảng",
   "add-card": "Thêm Thẻ",
   "add-list": "Tambah Daftar",
   "admin-panel": "Bảng quản trị",
   "all-boards": "Tất cả các bảng",
+  "attachments": "Tệp Đính Kèm",
   "board-not-found": "Không tìm được bảng",
   "changeLanguagePopup-title": "Thay đổi ngôn ngữ",
   "close": "Đóng",

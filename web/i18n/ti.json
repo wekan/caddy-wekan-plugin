@@ -1,11 +1,13 @@
 {
   "account-locked": "ብዙሕ ዝፈሸለ ፈተነ ምእታው ስለ ዝተገብረ መለያ ንግዚኡ ተዓጽዩ። በጃኻ ጸኒሕካ ደጊምካ ፈትን።",
   "add": "ወስኽ",
+  "add-attachment": "መተሓሓዚ ወስኽ",
   "add-board": "ሰሌዳ ወስኽ",
   "add-card": "ካርድ ወስኽ",
   "add-list": "ዝርዝር ወስኽ",
   "admin-panel": "ናይ ኣመሓዳሪ ሰሌዳ",
   "all-boards": "ኩሎም ሰሌዳታት",
+  "attachments": "መተሓሓዝቲ",
   "board-not-found": "ሰሌዳ ኣይተረኽበን",
   "changeLanguagePopup-title": "ቋንቋ ቀይር",
   "close": "ዕጾ",

@@ -1,11 +1,13 @@
 {
   "account-locked": "Lo compte es blocat temporàriament per tròp d'ensages de connexion fracassats. Tornatz ensajar pus tard.",
   "add": "Apondre",
+  "add-attachment": "Apondre una pèça joncha",
   "add-board": "Apondre un tablèu",
   "add-card": "Apondre una carta",
   "add-list": "Apondre una tièra",
   "admin-panel": "Interfàcia d’admin",
   "all-boards": "Totes los tablèus",
+  "attachments": "Pèças jonchas",
   "board-not-found": "Tablèu pas trapat",
   "changeLanguagePopup-title": "Cambiar la lenga",
   "close": "Tampar",

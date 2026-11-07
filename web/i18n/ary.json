@@ -1,11 +1,13 @@
 {
   "account-locked": "الحساب مقفل مؤقتاً بسبب عدد كبير جداً من محاولات تسجيل الدخول الفاشلة. يُرجى المحاولة مرة أخرى لاحقاً.",
   "add": "أضف",
+  "add-attachment": "إضافة مرفق",
   "add-board": "إضافة لوحة",
   "add-card": "إضافة بطاقة",
   "add-list": "إضافة قائمة",
   "admin-panel": "لوحة التحكم",
   "all-boards": "كل اللوحات",
+  "attachments": "المرفقات",
   "board-not-found": "لوحة مفقودة",
   "changeLanguagePopup-title": "تغيير اللغة",
   "close": "غلق",

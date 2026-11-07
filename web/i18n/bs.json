@@ -1,11 +1,13 @@
 {
   "account-locked": "Račun je privremeno zaključan zbog previše neuspjelih pokušaja prijave. Pokušajte ponovo kasnije.",
   "add": "Dodaj",
+  "add-attachment": "Dodaj prilog",
   "add-board": "Dodaj tablu",
   "add-card": "Dodaj karticu",
   "add-list": "Dodaj listu",
   "admin-panel": "Administratorski panel",
   "all-boards": "Sve table",
+  "attachments": "Prilozi",
   "board-not-found": "Tabla nije pronađena",
   "changeLanguagePopup-title": "Promijeni jezik",
   "close": "Zatvori",

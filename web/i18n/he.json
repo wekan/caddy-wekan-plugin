@@ -1,11 +1,13 @@
 {
   "account-locked": "החשבון נעול זמנית עקב יותר מדי ניסיונות גישה כושלים. נא לנסות שוב מאוחר יותר.",
   "add": "הוספה",
+  "add-attachment": "הוספת קובץ מצורף",
   "add-board": "הוספת לוח",
   "add-card": "הוספת כרטיס",
   "add-list": "הוספת רשימה",
   "admin-panel": "חלונית ניהול המערכת",
   "all-boards": "כל הלוחות",
+  "attachments": "קבצים מצורפים",
   "board-not-found": "לוח לא נמצא",
   "changeLanguagePopup-title": "החלפת שפה",
   "close": "סגירה",

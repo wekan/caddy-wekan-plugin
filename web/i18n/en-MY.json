@@ -1,11 +1,13 @@
 {
   "account-locked": "Account is temporarily locked due to too many failed login attempts. Please try again later.",
   "add": "Add",
+  "add-attachment": "Add Attachment",
   "add-board": "Add Board",
   "add-card": "Add Card",
   "add-list": "Add List",
   "admin-panel": "Admin Panel",
   "all-boards": "All Boards",
+  "attachments": "Attachments",
   "board-not-found": "Board not found",
   "changeLanguagePopup-title": "Change Language",
   "close": "Close",

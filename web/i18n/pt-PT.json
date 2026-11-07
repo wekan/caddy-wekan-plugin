@@ -1,11 +1,13 @@
 {
   "account-locked": "A conta foi bloqueada temporariamente devido a um número excessivo de tentativas de login malsucedidas. Tente novamente mais tarde.",
   "add": "Adicionar",
+  "add-attachment": "Adicionar Anexo",
   "add-board": "Adicionar Quadro",
   "add-card": "Adicionar Cartão",
   "add-list": "Adicionar Lista",
   "admin-panel": "Painel Administrativo",
   "all-boards": "Todos os quadros",
+  "attachments": "Anexos",
   "board-not-found": "Quadro não encontrado",
   "changeLanguagePopup-title": "Alterar o Idioma",
   "close": "Fechar",

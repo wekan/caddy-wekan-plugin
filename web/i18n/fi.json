@@ -1,11 +1,13 @@
 {
   "account-locked": "Tili on tilapäisesti lukittu liian monen epäonnistuneen kirjautumisyrityksen vuoksi. Yritä myöhemmin uudelleen.",
   "add": "Lisää",
+  "add-attachment": "Lisää liite",
   "add-board": "Lisää taulu",
   "add-card": "Lisää kortti",
   "add-list": "Lisää lista",
   "admin-panel": "Hallintapaneeli",
   "all-boards": "Kaikki taulut",
+  "attachments": "Liitetiedostot",
   "board-not-found": "Taulua ei löytynyt",
   "changeLanguagePopup-title": "Vaihda kieltä",
   "close": "Sulje",

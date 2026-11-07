@@ -1,11 +1,13 @@
 {
   "account-locked": "Akhaonto e notletswe nakwana ka lebaka la diteko tse ngata tse hlolehileng tsa ho kena. Ka kopo leka hape hamorao.",
   "add": "Eketsa",
+  "add-attachment": "Eketsa se kopantsoeng",
   "add-board": "Eketsa boto",
   "add-card": "Eketsa karete",
   "add-list": "Eketsa lenane",
   "admin-panel": "Phanele ea motsamaisi",
   "all-boards": "Diboto tsohle",
+  "attachments": "Tse kopantsoeng",
   "board-not-found": "Boto ha e a fumanwa",
   "changeLanguagePopup-title": "Fetola puo",
   "close": "Koala",

@@ -1,11 +1,13 @@
 {
   "account-locked": "Akaunti yatsekedwa kwakanthawi chifukwa cha zoyesa kulowa zolephera zambiri. Chonde yesaninso pambuyo pake.",
   "add": "Onjezani",
+  "add-attachment": "Onjezani cholumikizidwa",
   "add-board": "Onjezani bolodi",
   "add-card": "Onjezani khadi",
   "add-list": "Onjezani mndandanda",
   "admin-panel": "Gulu la oyang'anira",
   "all-boards": "Mabolodi onse",
+  "attachments": "Zolumikizidwa",
   "board-not-found": "Bolodi silinapezeke",
   "changeLanguagePopup-title": "Sinthani Chilankhulo",
   "close": "Tsekani",

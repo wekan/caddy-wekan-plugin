@@ -1,11 +1,13 @@
 {
   "account-locked": "Paskyra laikinai užrakinta dėl per daug nesėkmingų bandymų prisijungti. Bandykite dar kartą vėliau.",
   "add": "Pridėti",
+  "add-attachment": "Pridėti priedą",
   "add-board": "Pridėti lentą",
   "add-card": "Pridėti kortelę",
   "add-list": "Pridėti sąrašą",
   "admin-panel": "Administratoriaus skydelis",
   "all-boards": "Visos lentos",
+  "attachments": "Priedai",
   "board-not-found": "Lenta nerasta",
   "changeLanguagePopup-title": "Keisti kalbą",
   "close": "Uždaryti",

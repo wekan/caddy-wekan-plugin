@@ -1,11 +1,13 @@
 {
   "account-locked": "Iakhawunti itshixiwe okwethutyana ngenxa yemizamo emininzi yokungena engaphumelelanga. Nceda uzame kwakhona mva.",
   "add": "Yongeza",
+  "add-attachment": "Yongeza isiqhoboshelo",
   "add-board": "Yongeza iBhodi",
   "add-card": "Yongeza iKhadi",
   "add-list": "Yongeza uLuhlu",
   "admin-panel": "Iphaneli yoLawulo",
   "all-boards": "Zonke iibhodi",
+  "attachments": "Iziqhoboshelo",
   "board-not-found": "Ibhodi ayifunyenwanga",
   "changeLanguagePopup-title": "Guqula ulwimi",
   "close": "Vala",

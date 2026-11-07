@@ -1,11 +1,13 @@
 {
   "account-locked": "Account huwa temporarily locked due għal too many failed login attempts. Jekk jogħġbok try again later.",
   "add": "Żid",
+  "add-attachment": "Żid mehmuż",
   "add-board": "Żid bord",
   "add-card": "Żid karta",
   "add-list": "Żid lista",
   "admin-panel": "Panel tal-Amministratur",
   "all-boards": "Il-bordijiet kollha",
+  "attachments": "Mehmużin",
   "board-not-found": "Bord mhux found",
   "changeLanguagePopup-title": "Ibdel Lingwa",
   "close": "Agħlaq",

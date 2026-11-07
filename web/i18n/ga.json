@@ -1,11 +1,13 @@
 {
   "account-locked": "Tá an cuntas glasáilte go sealadach mar gheall ar an iomarca iarrachtaí logála isteach teipthe. Bain triail eile as ar ball.",
   "add": "Cuir leis",
+  "add-attachment": "Cuir ceangaltán leis",
   "add-board": "Cuir clár leis",
   "add-card": "Cuir cárta leis",
   "add-list": "Cuir liosta leis",
   "admin-panel": "Painéal an Riarthóra",
   "all-boards": "Gach clár",
+  "attachments": "Ceangaltáin",
   "board-not-found": "Níor aimsíodh an clár",
   "changeLanguagePopup-title": "Athraigh Teanga",
   "close": "Dún",

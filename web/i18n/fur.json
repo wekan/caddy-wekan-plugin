@@ -1,11 +1,13 @@
 {
   "account-locked": "L'account è temporisneamente bloccato a causa di troppi tentativi di accesso falliti. Riprova più tardi.",
   "add": "Zonte",
+  "add-attachment": "Zonte alegât",
   "add-board": "Zonte une taule",
   "add-card": "Zonte une cjarte",
   "add-list": "Zonte une liste",
   "admin-panel": "Panel di aministratôr",
   "all-boards": "Dutis lis taulis",
+  "attachments": "Alegâts",
   "board-not-found": "Taule no trovata",
   "changeLanguagePopup-title": "Cambia lenghe",
   "close": "Siere",

@@ -1,11 +1,13 @@
 {
   "account-locked": "Account tijdelijk geblokkeerd door te veel mislukte aanmeldpogingen. Probeer het later nog eens.",
   "add": "Toevoegen",
+  "add-attachment": "Bijlage Toevoegen",
   "add-board": "Bord Toevoegen",
   "add-card": "Kaart Toevoegen",
   "add-list": "Lijst Toevoegen",
   "admin-panel": "Administrator paneel",
   "all-boards": "Alle borden",
+  "attachments": "Bijlagen",
   "board-not-found": "Bord is niet gevonden",
   "changeLanguagePopup-title": "Wijzig taal",
   "close": "Sluiten",

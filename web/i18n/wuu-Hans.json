@@ -1,11 +1,13 @@
 {
   "account-locked": "登录失败次数忒多，账户暂时锁定仔。请过一歇再试。",
   "add": "添加",
+  "add-attachment": "添加附件",
   "add-board": "添加板",
   "add-card": "添加卡",
   "add-list": "添加列表",
   "admin-panel": "管理面板",
   "all-boards": "所有看板",
+  "attachments": "附件",
   "board-not-found": "呒没寻着看板",
   "changeLanguagePopup-title": "更改语言",
   "close": "关闭",

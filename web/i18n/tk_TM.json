@@ -1,11 +1,13 @@
 {
   "account-locked": "Has köp giriş synanyşyklary sebäpli hasap wagtlaýyn gulplandy. Soňrak synanyşyň.",
   "add": "Goş",
+  "add-attachment": "Goşundy goşuň",
   "add-board": "Tagtany goşuň",
   "add-card": "Kart goşuň",
   "add-list": "Sanaw goş",
   "admin-panel": "Dolandyryş paneli",
   "all-boards": "Allhli tagtalar",
+  "attachments": "Goşundylar",
   "board-not-found": "Geňeş tapylmady",
   "changeLanguagePopup-title": "Dil üýtgetmek",
   "close": ".Akyn",

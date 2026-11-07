@@ -1,11 +1,13 @@
 {
   "account-locked": "Kua maukati rangitahi te pūkete nā te nui rawa o ngā whakamātau takiuru rahua. Tēnā ngana anō ā muri ake.",
   "add": "Tāpiri",
+  "add-attachment": "Tāpiri āpitihanga",
   "add-board": "Tāpiri papa",
   "add-card": "Tāpiri kāri",
   "add-list": "Tāpiri rārangi",
   "admin-panel": "Papatohu Kaiwhakahaere",
   "all-boards": "Ngā papa katoa",
+  "attachments": "Ngā āpitihanga",
   "board-not-found": "Kāore i kitea te papa",
   "changeLanguagePopup-title": "Huri Reo",
   "close": "Kati",

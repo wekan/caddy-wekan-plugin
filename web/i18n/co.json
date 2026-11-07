@@ -1,11 +1,13 @@
 {
   "account-locked": "U contu hè bluccatu tempuraneamente per via di troppu tentativi di cunnessione fiascati. Pruvate torna più tardi.",
   "add": "Aghjunghje",
+  "add-attachment": "Aghjunghje un alligatu",
   "add-board": "Aghjunghje una tavula",
   "add-card": "Aghjunghje una carta",
   "add-list": "Aghjunghje una lista",
   "admin-panel": "Pannellu d'amministratore",
   "all-boards": "Tutte e tavule",
+  "attachments": "Alligati",
   "board-not-found": "Tavula micca truvata",
   "changeLanguagePopup-title": "Cambià a lingua",
   "close": "Chjode",

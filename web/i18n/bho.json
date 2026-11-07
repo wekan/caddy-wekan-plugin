@@ -1,11 +1,13 @@
 {
   "account-locked": "बहुत अधिक असफल लॉग इन कोसिस के कारण खाता कुछ समय खातिर तालाबंद बा। बाद में फेर कोसिस करीं।",
   "add": "जोड़ीं",
+  "add-attachment": "संलग्नक जोड़ीं",
   "add-board": "बोर्ड जोड़ीं",
   "add-card": "कार्ड जोड़ीं",
   "add-list": "सूची जोड़ीं",
   "admin-panel": "प्रशासक पैनल",
   "all-boards": "सब बोर्ड",
+  "attachments": "संलग्नक",
   "board-not-found": "बोर्ड ना मिलल",
   "changeLanguagePopup-title": "भाषा बदलीं",
   "close": "बंद करीं",

@@ -1,11 +1,13 @@
 {
   "account-locked": "E kuenta ta blokeada temporalmente debido na demasiados intentos di kuminsamentu di sesión fayidos. Pa fabor inténtalo di nobo mas tarde.",
   "add": "Agregá",
+  "add-attachment": "Agregá un adhunto",
   "add-board": "Agregá tabla",
   "add-card": "Agregá karchi",
   "add-list": "Agregá lista",
   "admin-panel": "Panel di administradó",
   "all-boards": "Tur tabla",
+  "attachments": "Adhuntonan",
   "board-not-found": "Tabla no encontrado",
   "changeLanguagePopup-title": "Kambia e idioma",
   "close": "Sera",

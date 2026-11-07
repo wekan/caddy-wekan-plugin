@@ -1,11 +1,13 @@
 {
   "account-locked": "로그인 시도 실패가 너무 많아 계정이 일시적으로 잠겼습니다. 나중에 다시 시도하세요.",
   "add": "추가",
+  "add-attachment": "첨부파일 추가",
   "add-board": "보드 추가",
   "add-card": "카드 추가",
   "add-list": "리스트 추가",
   "admin-panel": "관리자 패널",
   "all-boards": "전체 보드",
+  "attachments": "첨부 파일",
   "board-not-found": "보드를 찾을 수 없습니다",
   "changeLanguagePopup-title": "언어 변경",
   "close": "닫기",

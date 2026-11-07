@@ -1,11 +1,13 @@
 {
   "account-locked": "I-akhawunti ikhiywe kwesikhashana ngenca yemetamo leminyenti yekungena leyehlulekile. Uyacelwa uphindze wetame ngekuhamba kwesikhatsi.",
   "add": "Ngeta",
+  "add-attachment": "Ngeta lokunamatsiselwe",
   "add-board": "Ngeta libhodi",
   "add-card": "Ngeta likhadi",
   "add-list": "Ngeta luhla",
   "admin-panel": "Iphaneli yemlawuli",
   "all-boards": "Onkhe emabhodi",
+  "attachments": "Lokunamatsiselwe",
   "board-not-found": "Libhodi alitfolakalanga",
   "changeLanguagePopup-title": "Shintja Lulwimi",
   "close": "Vala",

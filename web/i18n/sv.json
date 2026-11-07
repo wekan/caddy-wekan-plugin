@@ -1,11 +1,13 @@
 {
   "account-locked": "Kontot är tillfälligt låst på grund av för många misslyckade inloggningsförsök. Vänligen försök igen senare.",
   "add": "Lägg till",
+  "add-attachment": "Lägg till bilaga",
   "add-board": "Lägg till tavla",
   "add-card": "Lägg till kort",
   "add-list": "Lägg till lista",
   "admin-panel": "Administratörspanel",
   "all-boards": "Alla tavlor",
+  "attachments": "Bilagor",
   "board-not-found": "Tavla hittades inte",
   "changeLanguagePopup-title": "Ändra språk",
   "close": "Stäng",

@@ -1,11 +1,13 @@
 {
   "account-locked": "Konti yafunzwe by'agateganyo kubera kugerageza kwinjira kwananiranye kenshi cyane. Nyamuneka wongere ugerageze nyuma.",
   "add": "Ongeraho",
+  "add-attachment": "Ongeraho umugereka",
   "add-board": "Ongeraho ikibaho",
   "add-card": "Ongeraho ikarita",
   "add-list": "Ongeraho urutonde",
   "admin-panel": "Ubuyobozi",
   "all-boards": "Ibibaho byose",
+  "attachments": "Imigereka",
   "board-not-found": "Ikibaho nticyabonetse",
   "changeLanguagePopup-title": "Hindura Ururimi",
   "close": "Funga",

@@ -1,11 +1,13 @@
 {
   "account-locked": "Sa sogoti vakawawa na akaude baleta na levu ni tovo ni curu e sega ni rawa. Yalovinaka tovolea tale mai muri.",
   "add": "Kuria",
+  "add-attachment": "Kuria e dua na ka e semati",
   "add-board": "Kuria e dua na vola",
   "add-card": "Kuria e dua na kadi",
   "add-list": "Kuria e dua na lisi",
   "admin-panel": "Tabana ni dauniveiliutaki",
   "all-boards": "Na vola kece",
+  "attachments": "Veika e semati",
   "board-not-found": "Sega ni kune na vola",
   "changeLanguagePopup-title": "Veisautaka na Vosa",
   "close": "Sogota",

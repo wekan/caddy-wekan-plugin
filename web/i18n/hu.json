@@ -1,11 +1,13 @@
 {
   "account-locked": "A fiók ideiglenesen zárolva van a túl sok sikertelen bejelentkezési kísérlet miatt. Kérjük, próbáld újra később.",
   "add": "Add hozzá",
+  "add-attachment": "Melléklet hozzáadása",
   "add-board": "Tábla hozzáadás",
   "add-card": "Kártya hozzáadása",
   "add-list": "Lista hozzáadása",
   "admin-panel": "Adminisztrációs panel",
   "all-boards": "Összes tábla",
+  "attachments": "Mellékletek",
   "board-not-found": "A tábla nem található",
   "changeLanguagePopup-title": "Nyelv megváltoztatása",
   "close": "Bezárás",

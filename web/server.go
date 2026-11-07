@@ -44,7 +44,9 @@ type Server struct {
 	Tenant bool
 	// CloudDir: the primary's WeKan in a many-domain Weddy - Admin Panel /
 	// People / Cloud, and the Cloud Panel (cloudpanel.go).
-	CloudDir  string
+	CloudDir string
+	// FilesDir: <dir>/files, where attachments/ is (attachments.go).
+	FilesDir  string
 	cloudOnce sync.Once
 	cloudF    *cloudFiles
 }
@@ -63,6 +65,7 @@ func Open(ctx context.Context, dir, dbListen string, log *slog.Logger) (*Server,
 		return nil, err
 	}
 	s.release = release
+	s.FilesDir = filepath.Join(dir, "files")
 	return s, nil
 }
 
@@ -182,6 +185,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /language", s.page(s.setLanguage))
 	s.apiRoutes(m)
 	s.cloudRoutes(m)
+	s.attachmentRoutes(m)
 	s.mux = m
 }
 
@@ -453,6 +457,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		var c Card
 		if err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c); err == nil {
 			data["Card"] = c
+			data["Attachments"] = s.cardAttachments(r, b, c.ID)
 		}
 	}
 	s.render(w, r, "board", http.StatusOK, data)

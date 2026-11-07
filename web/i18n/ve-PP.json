@@ -1,11 +1,13 @@
 {
   "account-locked": "Akkauntal om keskaigaine saubatuz, sikš miše oma olnuded lujas äi vigoidenke sistemaha tulendan rohkaidusid. Ole hüvä, ladi möst möhemba.",
   "add": "Ližada",
+  "add-attachment": "Ližada tartutadud fail",
   "add-board": "Ližada laud",
   "add-card": "Ližada kart",
   "add-list": "Ližada lugetiž",
   "admin-panel": "Administratoran panel’",
   "all-boards": "Kaik laudad",
+  "attachments": "Tartutadud failad",
   "board-not-found": "Laud ei ole löutud",
   "changeLanguagePopup-title": "Vajehta kel’",
   "close": "Saubata",

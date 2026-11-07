@@ -1,11 +1,13 @@
 {
   "account-locked": "Mae'r cyfrif wedi'i gloi dros dro oherwydd bod gormod o ymdrechion mewngofnodi wedi methu. Ceisiwch eto yn nes ymlaen.",
   "add": "Ychwanegu",
+  "add-attachment": "Ychwanegu Atodiad",
   "add-board": "Ychwanegu Bwrdd",
   "add-card": "Ychwanegu Cerdyn",
   "add-list": "Ychwanegu Rhestr",
   "admin-panel": "Panel Gweinyddol",
   "all-boards": "Pob Bwrdd",
+  "attachments": "Ymlyniadau",
   "board-not-found": "Bwrdd heb ei ganfod",
   "changeLanguagePopup-title": "Newid Iaith",
   "close": "Cau",

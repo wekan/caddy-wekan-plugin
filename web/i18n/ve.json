@@ -1,11 +1,13 @@
 {
   "account-locked": "Akhaunthu yo valelwa lwa tshifhinganyana nga u kundelwa u dzhena lunzhi. Lingedzani hafhu nga murahu.",
   "add": "Engedza",
+  "add-attachment": "Engedza ṱumetshedzo",
   "add-board": "Engedza bodo",
   "add-card": "Engedza khadi",
   "add-list": "Engedza mutevhe",
   "admin-panel": "Phanele ya mulanguli",
   "all-boards": "Bodo dzoṱhe",
+  "attachments": "Zwiṱumetshedzwa",
   "board-not-found": "Bodo a yo ngo wanala",
   "changeLanguagePopup-title": "Shandula luambo",
   "close": "Vala",

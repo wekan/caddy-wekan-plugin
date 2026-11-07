@@ -1,11 +1,13 @@
 {
   "account-locked": "帳號因登入嘗試次數過多而暫時鎖定，請稍後再試。",
   "add": "新增",
+  "add-attachment": "新增附件",
   "add-board": "新增看板",
   "add-card": "新增卡片",
   "add-list": "新增清單",
   "admin-panel": "系統設定",
   "all-boards": "所有看板",
+  "attachments": "附件",
   "board-not-found": "看板不存在",
   "changeLanguagePopup-title": "變更語言",
   "close": "關閉",

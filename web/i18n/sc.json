@@ -1,11 +1,13 @@
 {
   "account-locked": "Su contu est blocadu pro unu pagu de tempus ca bi sunt istadas tropu proas de atzessu faddidas. Torra a proare prus a tardu.",
   "add": "Agiunghe",
+  "add-attachment": "Agiunghe un'alligadu",
   "add-board": "Agiunghe una tàula",
   "add-card": "Agiunghe una carta",
   "add-list": "Agiunghe una lista",
   "admin-panel": "Pannellu de s'amministradore",
   "all-boards": "Totu sas tàulas",
+  "attachments": "Alligados",
   "board-not-found": "Tàula no agatada",
   "changeLanguagePopup-title": "Cambia limba",
   "close": "Serra",

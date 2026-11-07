@@ -1,11 +1,13 @@
 {
   "account-locked": "Akun terkunci sementara karena terlalu banyak upaya login yang gagal. Silakan coba lagi nanti.",
   "add": "Tambah",
+  "add-attachment": "Tambah Lampiran",
   "add-board": "Tambah Papan",
   "add-card": "Tambah Kartu",
   "add-list": "Tambah Daftar",
   "admin-panel": "Panel Admin",
   "all-boards": "Semua Panel",
+  "attachments": "Daftar Lampiran",
   "board-not-found": "Panel tidak ditemukan",
   "changeLanguagePopup-title": "Ubah Bahasa",
   "close": "Tutup",

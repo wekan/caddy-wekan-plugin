@@ -1,11 +1,13 @@
 {
   "account-locked": "Akaawunti kiri temporarily kisibiddwa due eri too many kiremye okuyingira attempts. Please try again later.",
   "add": "Yongerako",
+  "add-attachment": "Yongerako ekiyungiddwako",
   "add-board": "Yongerako olubaawo",
   "add-card": "Yongerako ekaadi",
   "add-list": "Yongerako olukalala",
   "admin-panel": "Ekifo ky'abaddukanya",
   "all-boards": "Embaawo zonna",
+  "attachments": "Ebiyungiddwako",
   "board-not-found": "Lubaawo tekizuuliddwa",
   "changeLanguagePopup-title": "Kyusa Lulimi",
   "close": "Ggalawo",

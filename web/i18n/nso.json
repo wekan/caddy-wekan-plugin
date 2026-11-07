@@ -1,11 +1,13 @@
 {
   "account-locked": "Akhaonto e notletšwe nakwana ka lebaka la maiteko a mantši kudu a go tsena ao a paletšwego. Hle leka gape ka morago.",
   "add": "Oketša",
+  "add-attachment": "Oketša tlaleletšo",
   "add-board": "Oketša poto",
   "add-card": "Oketša karata",
   "add-list": "Oketša lelokelelo",
   "admin-panel": "Phanele ya molaodi",
   "all-boards": "Dipoto ka moka",
+  "attachments": "Ditlaleletšo",
   "board-not-found": "Boto ga se ya hwetšwa",
   "changeLanguagePopup-title": "Fetoša leleme",
   "close": "Tswalela",

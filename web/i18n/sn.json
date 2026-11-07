@@ -1,11 +1,13 @@
 {
   "account-locked": "akaundi iri temporarily locked due ku too many failed login attempts. Please try zvakare later.",
   "add": "Wedzera",
+  "add-attachment": "Wedzera chakabatanidzwa",
   "add-board": "Wedzera bhodhi",
   "add-card": "Wedzera kadhi",
   "add-list": "Wedzera rondedzero",
   "admin-panel": "Peneri yevatariri",
   "all-boards": "Mabhodhi ese",
+  "attachments": "Zvakabatanidzwa",
   "board-not-found": "bhodhi haina kuwanikwa",
   "changeLanguagePopup-title": "chinja mutauro",
   "close": "Vhara",

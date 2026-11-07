@@ -1,11 +1,13 @@
 {
   "account-locked": "L'account el xe blocà temporaneamente par massa tentativi de login falìi. Par piaser prova de novo pì tardi.",
   "add": "Zonta",
+  "add-attachment": "Zonta un ałegato",
   "add-board": "Zonta un quadro",
   "add-card": "Zonta na scheda",
   "add-list": "Zonta na lista",
   "admin-panel": "Paneło de aministrasion",
   "all-boards": "Tuti i quadri",
+  "attachments": "Ałegati",
   "board-not-found": "Quadro no catà",
   "changeLanguagePopup-title": "Canbia łengua",
   "close": "Chiudi",

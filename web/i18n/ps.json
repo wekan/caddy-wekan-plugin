@@ -1,11 +1,13 @@
 {
   "account-locked": "ګڼون د ډېرو ناکامو ننوتلو هڅو له امله لنډمهاله بند دی. مهرباني وکړئ وروسته بيا هڅه وکړئ.",
   "add": "زياتول",
+  "add-attachment": "ضميمه زياتول",
   "add-board": "تخته زياتول",
   "add-card": "کارت زياتول",
   "add-list": "لړليک زياتول",
   "admin-panel": "د اداري پينل",
   "all-boards": "ټولې تختې",
+  "attachments": "ضميمې",
   "board-not-found": "تخته ونه موندل شوه",
   "changeLanguagePopup-title": "ژبه بدله کړئ",
   "close": "بندول",

@@ -1,11 +1,13 @@
 {
   "account-locked": "Konts ir īslaicīgi bloķēts pārāk daudzu neveiksmīgu pieteikšanās mēģinājumu dēļ. Lūdzu, mēģiniet vēlāk.",
   "add": "Pievienot",
+  "add-attachment": "Pievienot failu",
   "add-board": "Pievienot dēli",
   "add-card": "Pievienot kartiņu",
   "add-list": "Pievienot sarakstu",
   "admin-panel": "Administratora panelis",
   "all-boards": "Visi dēļi",
+  "attachments": "Faili",
   "board-not-found": "Dēlis nav atrasts",
   "changeLanguagePopup-title": "Mainīt valodu",
   "close": "Aizvērt",

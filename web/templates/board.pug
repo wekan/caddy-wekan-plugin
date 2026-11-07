@@ -37,3 +37,15 @@
         a.js-close-card-details(href="/b/{{.Board.ID}}/{{.Board.Slug}}", aria-label="{{t $.L `close`}}", up-follow, up-target=".board-wrapper") ×
       h3 {{t $.L "description"}}
       .card-description.js-card-description {{.Card.Description}}
+      h3 {{t $.L "attachments"}}
+      ul.attachments.js-attachments
+        each a in .Attachments
+          li.js-attachment(data-attachment="{{.ID}}")
+            a.attachment-name(href="/cdn/storage/attachments/{{.ID}}/original/{{.Name}}", target="_blank", rel="noopener") {{.Name}}
+            if $.CanEdit
+              form.js-attachment-delete(method="post", action="/attachments/{{.ID}}/delete", up-submit, up-target=".board-wrapper")
+                button(type="submit", aria-label="{{t $.L `delete`}}") ×
+      if .CanEdit
+        form.js-attachment-upload(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/attachments", enctype="multipart/form-data")
+          input(type="file", name="file", aria-label="{{t $.L `add-attachment`}}", required)
+          button.primary(type="submit") {{t $.L "add-attachment"}}

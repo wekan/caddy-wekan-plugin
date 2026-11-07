@@ -1,11 +1,13 @@
 {
   "account-locked": "Tlapohualiztli tzacua tepitzin ipampa miyac amo huelic calaquiliztli tlayeyecoliztin. Xicyeyeco occepa satepan.",
   "add": "Xicaquiti",
+  "add-attachment": "Xicaquiti tlanamictilli",
   "add-board": "Xicaquiti huapalli",
   "add-card": "Xicaquiti amatlapalli",
   "add-list": "Xicaquiti tocatlahtolli",
   "admin-panel": "Tepachoani ihuapal",
   "all-boards": "Nochtin huapaltin",
+  "attachments": "Tlanamictilli",
   "board-not-found": "Huapalli amo monexti",
   "changeLanguagePopup-title": "Xicpatla tlahtolli",
   "close": "Xictzacua",

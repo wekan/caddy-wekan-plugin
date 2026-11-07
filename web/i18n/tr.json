@@ -1,11 +1,13 @@
 {
   "account-locked": "Çok fazla başarısız giriş denemesi nedeniyle hesap geçici olarak kilitlendi. Lütfen daha sonra tekrar deneyin.",
   "add": "Ekle",
+  "add-attachment": "Ek Ekle",
   "add-board": "Pano Ekle",
   "add-card": "Kart Ekle",
   "add-list": "Liste Ekle",
   "admin-panel": "Yönetici Paneli",
   "all-boards": "Tüm panolar",
+  "attachments": "Ekler",
   "board-not-found": "Pano bulunamadı",
   "changeLanguagePopup-title": "Dil Değiştir",
   "close": "Kapat",

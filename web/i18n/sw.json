@@ -1,11 +1,13 @@
 {
   "account-locked": "Akaunti imefungwa kwa muda kwa sababu ya majaribio mengi sana ya kuingia ambayo hayakufaulu. Tafadhali jaribu tena baadaye.",
   "add": "Ongeza",
+  "add-attachment": "Ongeza Kiambatisho",
   "add-board": "Ongeza Bodi",
   "add-card": "Ongeza Kadi",
   "add-list": "Ongeza Orodha",
   "admin-panel": "Paneli ya Msimamizi",
   "all-boards": "Bodi Zote",
+  "attachments": "Viambatisho",
   "board-not-found": "Bodi haijapatikana",
   "changeLanguagePopup-title": "Badilisha Lugha",
   "close": "Funga",

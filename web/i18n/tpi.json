@@ -1,11 +1,13 @@
 {
   "account-locked": "Akaun i lok inap liklik taim bikos planti traim bilong go insait i no wok. Traim gen bihain.",
   "add": "Putim",
+  "add-attachment": "Putim samting i pas",
   "add-board": "Putim bot",
   "add-card": "Putim kat",
   "add-list": "Putim lis",
   "admin-panel": "Panel bilong admin",
   "all-boards": "Olgeta bot",
+  "attachments": "Ol samting i pas",
   "board-not-found": "Bot i nogat stap",
   "changeLanguagePopup-title": "Senisim tok ples",
   "close": "Pasim",

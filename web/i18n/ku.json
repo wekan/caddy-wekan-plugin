@@ -1,11 +1,13 @@
 {
   "account-locked": "Hesab ji ber ceribandinên têketinê yên pir serneketî bi demkî hatiye girtin. Ji kerema xwe paşê dîsa biceribîne.",
   "add": "Zêde bike",
+  "add-attachment": "Pêvekê zêde bike",
   "add-board": "Depo zêde bike",
   "add-card": "Kart zêde bike",
   "add-list": "Lîste zêde bike",
   "admin-panel": "Panela rêveber",
   "all-boards": "Hemû depo",
+  "attachments": "Pêvek",
   "board-not-found": "Depo nehat dîtin",
   "changeLanguagePopup-title": "Ziman biguherîne",
   "close": "Bigire",

@@ -1,11 +1,13 @@
 {
   "account-locked": "खूब असफळ प्रवेश यत्नांमुळे खात्याक तात्पुरतें कुलूप लायलां. उपरांत परत यत्न करात.",
   "add": "जोडचें",
+  "add-attachment": "जोडणी जोडची",
   "add-board": "फळो जोडचो",
   "add-card": "कार्ड जोडचें",
   "add-list": "वळेरी जोडची",
   "admin-panel": "प्रशासक पॅनेल",
   "all-boards": "सगळीं फळे",
+  "attachments": "जोडणी",
   "board-not-found": "फळो मेळ्ळो ना",
   "changeLanguagePopup-title": "भास बदलात",
   "close": "बंद करचें",

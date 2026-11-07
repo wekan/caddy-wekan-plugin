@@ -1,11 +1,13 @@
 {
   "account-locked": "Stanket eo ar gont evit ur pennad abalamour da re a daolioù kennaskañ c’hwitet. Klaskit en-dro diwezhatoc’h.",
   "add": "Ouzhpennañ",
+  "add-attachment": "Ouzhpennañ ur stagadenn",
   "add-board": "Ouzhpennañ un daolenn",
   "add-card": "Ouzhpennañ ur gartenn",
   "add-list": "Ouzhpennañ ur roll",
   "admin-panel": "Bord d'arontre",
   "all-boards": "An holl daolennoù",
+  "attachments": "Stagadennoù",
   "board-not-found": "Taolenn diank",
   "changeLanguagePopup-title": "Kemmañ ar yezh",
   "close": "Serriñ",

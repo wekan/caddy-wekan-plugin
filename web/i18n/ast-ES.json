@@ -1,11 +1,13 @@
 {
   "account-locked": "La cuenta ta bloquiada temporalmente por demasiaos intentos fallíos d'aniciu de sesión. Vuelvi a intentalo más sero.",
   "add": "Amestar",
+  "add-attachment": "Amestar un axuntu",
   "add-board": "Amestar un tableru",
   "add-card": "Amestar una tarxeta",
   "add-list": "Amestar una llista",
   "admin-panel": "Panel del administrador",
   "all-boards": "Tolos tableros",
+  "attachments": "Adjuntos",
   "board-not-found": "Tablero no encontrado",
   "changeLanguagePopup-title": "Cambiar el idioma",
   "close": "Cerrar",

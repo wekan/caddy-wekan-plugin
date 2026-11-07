@@ -1,11 +1,13 @@
 {
   "account-locked": "Konto on ajutiselt lukustatud liiga paljude ebaõnnestunud sisselogimiskatsete tõttu. Palun proovi hiljem uuesti.",
   "add": "Lisa",
+  "add-attachment": "Lisa lisa",
   "add-board": "Lisa juhatus",
   "add-card": "Lisa kaart",
   "add-list": "Lisa nimekiri",
   "admin-panel": "Administraatori paneel",
   "all-boards": "Kõik lauad",
+  "attachments": "Lisad",
   "board-not-found": "Juhatust ei leitud",
   "changeLanguagePopup-title": "Keele muutmine",
   "close": "Sulge",

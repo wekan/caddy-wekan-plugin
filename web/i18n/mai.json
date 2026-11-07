@@ -1,11 +1,13 @@
 {
   "account-locked": "बहुत बेसी विफल प्रवेश प्रयासक कारण खाता अस्थायी रूप सँ तालाबंद अछि। कृपया बादमे फेर प्रयास करू।",
   "add": "जोड़ू",
+  "add-attachment": "संलग्नक जोड़ू",
   "add-board": "पट्ट जोड़ू",
   "add-card": "कार्ड जोड़ू",
   "add-list": "सूची जोड़ू",
   "admin-panel": "प्रशासक पैनल",
   "all-boards": "सभ पट्ट",
+  "attachments": "संलग्नक",
   "board-not-found": "बोर्ड नहि भेटल",
   "changeLanguagePopup-title": "भाषा बदलू",
   "close": "बन्न करू",

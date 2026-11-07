@@ -1,11 +1,13 @@
 {
   "account-locked": "Akoonka si ku-meelgaar ah ayaa loo xannibay isku-dayo gelitaan oo fashilmay oo aad u badan awgood. Fadlan mar dambe isku day.",
   "add": "Ku dar",
+  "add-attachment": "Ku dar lifaaq",
   "add-board": "Ku dar sabuurad",
   "add-card": "Ku dar kaar",
   "add-list": "Ku dar liis",
   "admin-panel": "Guddiga Maamulka",
   "all-boards": "Dhammaan sabuuradaha",
+  "attachments": "Lifaaqyo",
   "board-not-found": "Sabuuradda lama helin",
   "changeLanguagePopup-title": "Beddel Luqadda",
   "close": "Xir",

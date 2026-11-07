@@ -1,11 +1,13 @@
 {
   "account-locked": "Das Konto wurde aufgrund zu vieler fehlgeschlagener Anmeldeversuche vorübergehend gesperrt. Bitte versuche es später erneut.",
   "add": "Hinzufügen",
+  "add-attachment": "Datei anhängen",
   "add-board": "neues Board",
   "add-card": "Karte hinzufügen",
   "add-list": "Liste hinzufügen",
   "admin-panel": "Administration",
   "all-boards": "Alle Boards",
+  "attachments": "Anhänge",
   "board-not-found": "Board nicht gefunden",
   "changeLanguagePopup-title": "Sprache ändern",
   "close": "Schließen",

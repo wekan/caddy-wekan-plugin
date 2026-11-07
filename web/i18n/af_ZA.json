@@ -1,11 +1,13 @@
 {
   "account-locked": "Rekening is tydelik gesluit weens te veel mislukte aanmeldpogings. Probeer asseblief later weer.",
   "add": "byvoeg",
+  "add-attachment": "Voeg aanhangsel by",
   "add-board": "Voeg raad by",
   "add-card": "Voeg kaart by",
   "add-list": "Voeg lys by",
   "admin-panel": "Admin Paneel",
   "all-boards": "Alle borde",
+  "attachments": "Aanhangsels",
   "board-not-found": "Bord nie gevind nie",
   "changeLanguagePopup-title": "Verander taal",
   "close": "Maak toe",

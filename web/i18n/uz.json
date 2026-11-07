@@ -1,11 +1,13 @@
 {
   "account-locked": "Kirish uchun juda koʻp muvaffaqiyatsiz urinishlar tufayli hisob vaqtinchalik bloklangan. Keyinroq qayta urinib ko‘ring.",
   "add": "Qo'shish",
+  "add-attachment": "Ilova qo'shish",
   "add-board": "Taxta qo'shish",
   "add-card": "Karta qo'shish",
   "add-list": "Roʻyxat qoʻshish",
   "admin-panel": "Administrator paneli",
   "all-boards": "Barcha taxtalar",
+  "attachments": "Qo'shimchalar",
   "board-not-found": "Taxta topilmadi",
   "changeLanguagePopup-title": "Tilni o'zgartirish",
   "close": "Yopish",

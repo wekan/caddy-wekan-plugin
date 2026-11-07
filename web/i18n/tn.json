@@ -1,11 +1,13 @@
 {
   "account-locked": "Akhaonto ke temporarily e notletswe bofelo go le gone dintsi paletswe go tsena attempts. Tsweetswee try gape later.",
   "add": "Tsenya",
+  "add-attachment": "Tsenya se se tshwaraganeng",
   "add-board": "Tsenya boto",
   "add-card": "Tsenya karata",
   "add-list": "Tsenya lenaane",
   "admin-panel": "Phanele ya motsamaisi",
   "all-boards": "Diboto tsotlhe",
+  "attachments": "Tse di tshwaraganeng",
   "board-not-found": "Boto ga e a bonwa",
   "changeLanguagePopup-title": "Fetola puo",
   "close": "Tswala",

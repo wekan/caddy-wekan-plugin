@@ -1,11 +1,13 @@
 {
   "account-locked": "Kontua aldi baterako blokeatuta dago saio-hasiera huts gehiegi izan direlako. Mesedez, saiatu berriro geroago.",
   "add": "Gehitu",
+  "add-attachment": "Gehitu eranskina",
   "add-board": "Gehitu arbela",
   "add-card": "Gehitu txartela",
   "add-list": "Gehitu zerrenda",
   "admin-panel": "Kudeaketa panela",
   "all-boards": "Arbel guztiak",
+  "attachments": "Eranskinak",
   "board-not-found": "Ez da arbela aurkitu",
   "changeLanguagePopup-title": "Aldatu hizkuntza",
   "close": "Itxi",

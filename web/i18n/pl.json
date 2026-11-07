@@ -1,11 +1,13 @@
 {
   "account-locked": "Konto jest tymczasowo zablokowane z powodu zbyt wielu nieudanych prób logowania. Spróbuj ponownie później.",
   "add": "Dodaj",
+  "add-attachment": "Dodaj załącznik",
   "add-board": "Dodaj tablicę",
   "add-card": "Dodaj kartę",
   "add-list": "Dodaj listę",
   "admin-panel": "Panel administracyjny",
   "all-boards": "Wszystkie tablice",
+  "attachments": "Załączniki",
   "board-not-found": "Nie znaleziono tablicy",
   "changeLanguagePopup-title": "Zmień język",
   "close": "Zamknij",

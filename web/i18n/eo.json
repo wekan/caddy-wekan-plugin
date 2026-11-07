@@ -1,11 +1,13 @@
 {
   "account-locked": "La konto estas provizore ŝlosita pro tro multaj malsukcesaj ensalutprovoj. Bonvolu reprovi poste.",
   "add": "Aldoni",
+  "add-attachment": "Aldoni aldonaĵon",
   "add-board": "Aldoni tabulon",
   "add-card": "Aldoni karton",
   "add-list": "Aldoni liston",
   "admin-panel": "Administra panelo",
   "all-boards": "Ĉiuj tabuloj",
+  "attachments": "Aldonaĵoj",
   "board-not-found": "Tabulo ne trovita",
   "changeLanguagePopup-title": "Ŝanĝi lingvon",
   "close": "Fermi",

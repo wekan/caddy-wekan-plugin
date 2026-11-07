@@ -1,11 +1,13 @@
 {
   "account-locked": "Akun dikunci sauntara amarga kakehan upaya mlebu sing gagal. Mangga coba maneh mengko.",
   "add": "Tambah",
+  "add-attachment": "Tambah lampiran",
   "add-board": "Tambah papan",
   "add-card": "Tambah kertu",
   "add-list": "Tambah dhaptar",
   "admin-panel": "Panel Admin",
   "all-boards": "Kabeh papan",
+  "attachments": "Lampiran",
   "board-not-found": "Papan ora ditemokake",
   "changeLanguagePopup-title": "Owahi Basa",
   "close": "Tutup",

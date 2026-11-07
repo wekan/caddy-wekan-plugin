@@ -1,11 +1,13 @@
 {
   "account-locked": "Akọọlẹ ti wa ni titiipa fun igba diẹ nitori ọpọlọpọ awọn igbiyanju iwọle ti kuna. Jọwọ gbiyanju lẹẹkansi nigbamii.",
   "add": "Fi kun",
+  "add-attachment": "Fi Asomọ",
   "add-board": "Fi Board",
   "add-card": "Fi Kaadi kun",
   "add-list": "Fi Akojọ kun",
   "admin-panel": "Igbimọ Alakoso",
   "all-boards": "Gbogbo Boards",
+  "attachments": "Awọn asomọ",
   "board-not-found": "Board ko ri",
   "changeLanguagePopup-title": "Yi ede pada",
   "close": "Sunmọ",

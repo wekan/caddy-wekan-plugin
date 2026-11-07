@@ -1,11 +1,13 @@
 {
   "account-locked": "Ta'n coontys glast rish tammylt kyndagh rish rouyr prowalyn çheet stiagh foillagh. Prow reesht ny s'anmey.",
   "add": "Cur rish",
+  "add-attachment": "Cur coyrt rish",
   "add-board": "Cur boayrd rish",
   "add-card": "Cur kaart rish",
   "add-list": "Cur rolley rish",
   "admin-panel": "Panney reireyder",
   "all-boards": "Ooilley ny boayrdyn",
+  "attachments": "Coyrtyn",
   "board-not-found": "Cha row boayrd er ny gheddyn",
   "changeLanguagePopup-title": "Caghlaa çhengey",
   "close": "Dooney",

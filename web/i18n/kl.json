@@ -1,11 +1,13 @@
 {
   "account-locked": "Iserniarnerit iluatsinngitsut amerlavallaarnerat pissutigalugu konto utaqqiisaasumik blokerneqarpoq. Kingusinnerusukkut misileqqiguk.",
   "add": "Ilanngussuk",
+  "add-attachment": "Ilanngussaq ilanngussuk",
   "add-board": "Ilisarnaat ilanngussuk",
   "add-card": "Kortsi ilanngussuk",
   "add-list": "Allattorsimaffik ilanngussuk",
   "admin-panel": "Aqutsisup iserfia",
   "all-boards": "Ilisarnaatit tamaasa",
+  "attachments": "Ilanngussat",
   "board-not-found": "Ilisarnaat nassaarineqanngilaq",
   "changeLanguagePopup-title": "Oqaatsit allanngortikkit",
   "close": "Matuguk",

@@ -1,11 +1,13 @@
 {
   "account-locked": "Účet je dočasne uzamknutý pre príliš veľa neúspešných pokusov o prihlásenie. Skúste to prosím neskôr.",
   "add": "Pridať",
+  "add-attachment": "Pridať prílohu",
   "add-board": "Pridať tabuľu",
   "add-card": "Pridať kartu",
   "add-list": "Pridať zoznam",
   "admin-panel": "Administrátorský panel",
   "all-boards": "Všetky nástenky",
+  "attachments": "Prílohy",
   "board-not-found": "Nástenka sa nenašla",
   "changeLanguagePopup-title": "Zmeniť jazyk",
   "close": "Zavrieť",

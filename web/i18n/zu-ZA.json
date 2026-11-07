@@ -1,11 +1,13 @@
 {
   "account-locked": "I-akhawunti ikhiyiwe okwesikhashana ngenxa yemizamo eminingi ehlulekile yokungena ngemvume. Sicela uzame futhi emuva kwesikhathi.",
   "add": "Engeza",
+  "add-attachment": "Engeza Okunamathiselwe",
   "add-board": "Engeza Ibhodi",
   "add-card": "Engeza Ikhadi",
   "add-list": "Engeza Uhlu",
   "admin-panel": "Iphaneli yokuphatha",
   "all-boards": "Wonke Amabhodi",
+  "attachments": "Okunamathiselwe",
   "board-not-found": "Ibhodi alitholakali",
   "changeLanguagePopup-title": "Shintsha Ulimi",
   "close": "Vala",

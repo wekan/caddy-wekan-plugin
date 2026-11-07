@@ -1,11 +1,13 @@
 {
   "account-locked": "L'account è temporaneamenti bloccato a causa di troppi tentativi di accesso falliti. Riprova più tardi.",
   "add": "Aggiunciri",
+  "add-attachment": "Aggiunciri n'allegatu",
   "add-board": "Aggiunciri na tavula",
   "add-card": "Aggiunciri na carta",
   "add-list": "Aggiunciri na lista",
   "admin-panel": "Pannellu di l'amministraturi",
   "all-boards": "Tutti i tavuli",
+  "attachments": "Allegati",
   "board-not-found": "Tàvula nnu trovata",
   "changeLanguagePopup-title": "Cambia lingua",
   "close": "Chiuiri",

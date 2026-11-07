@@ -1,11 +1,13 @@
 {
   "account-locked": "Llogaria është bllokuar përkohësisht për shkak të shumë përpjekjeve të dështuara për hyrje. Provo përsëri më vonë.",
   "add": "Shto",
+  "add-attachment": "Shto bashkëngjitje",
   "add-board": "Shto tabelë",
   "add-card": "Shto kartë",
   "add-list": "Shto listë",
   "admin-panel": "Paneli i administratorit",
   "all-boards": "Të gjitha tabelat",
+  "attachments": "Bashkëngjitjet",
   "board-not-found": "Tabela nuk u gjet",
   "changeLanguagePopup-title": "Ndrysho gjuhën",
   "close": "Mbyll",

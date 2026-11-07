@@ -1,11 +1,13 @@
 {
   "account-locked": "Account ay temporarily locked takda sa too many nabigo mag-login mga pagtatangka. Please try again mamaya.",
   "add": "Idagdag",
+  "add-attachment": "Magdagdag ng kalakip",
   "add-board": "Magdagdag ng pisara",
   "add-card": "Magdagdag ng kard",
   "add-list": "Magdagdag ng listahan",
   "admin-panel": "Panel ng Tagapangasiwa",
   "all-boards": "Lahat ng pisara",
+  "attachments": "Mga kalakip",
   "board-not-found": "pisara Hindi nakita",
   "changeLanguagePopup-title": "Baguhin Wika",
   "close": "Isara",

@@ -1,11 +1,13 @@
 {
   "account-locked": "Účet je dočasně uzamčen kvůli příliš mnoha neúspěšným pokusům o přihlášení. Zkuste to prosím později.",
   "add": "Přidat",
+  "add-attachment": "Přidat přílohu",
   "add-board": "Přidat tablo",
   "add-card": "Přidat kartu",
   "add-list": "Přidat sloupec",
   "admin-panel": "Administrátorský panel",
   "all-boards": "Všechna tabla",
+  "attachments": "Přílohy",
   "board-not-found": "Tablo nenalezeno",
   "changeLanguagePopup-title": "Změnit jazyk",
   "close": "Zavřít",

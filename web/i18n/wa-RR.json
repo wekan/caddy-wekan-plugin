@@ -1,11 +1,13 @@
 {
   "account-locked": "Temporaryo nga naka-lock an account tungod han sobra kadamu nga napakyas nga pagsulod. Alayon sarihi utro ha urhi.",
   "add": "Idugang",
+  "add-attachment": "Idugang an Attachment",
   "add-board": "Idugang an Board",
   "add-card": "Idugang an Card",
   "add-list": "Idugang an Lista",
   "admin-panel": "Panel han pagdumara",
   "all-boards": "Ngatanan nga Board",
+  "attachments": "Mga Attachment",
   "board-not-found": "Waray nakita nga board",
   "changeLanguagePopup-title": "Igliwat an Yinaknan",
   "close": "Isira",

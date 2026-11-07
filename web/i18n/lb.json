@@ -1,11 +1,13 @@
 {
   "account-locked": "Das Kont gouf aufgrund zu vieler fehlgeschlagener Anmeldeversuche vorübergehend gesperrt. W.e.g. versuche es später erneut.",
   "add": "Derbäisetzen",
+  "add-attachment": "Unhang derbäisetzen",
   "add-board": "Tafel derbäisetzen",
   "add-card": "Kaart derbäisetzen",
   "add-list": "Lëscht derbäisetzen",
   "admin-panel": "Admin-Panel",
   "all-boards": "All Tafelen",
+  "attachments": "Unhäng",
   "board-not-found": "Board net gefunden",
   "changeLanguagePopup-title": "Sprooch änneren",
   "close": "Zoumaachen",

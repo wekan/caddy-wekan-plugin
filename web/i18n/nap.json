@@ -1,11 +1,13 @@
 {
   "account-locked": "Ll'account è bluccato pe nu poco pecché ce so' troppi tentative fallute 'e trasì. Pròva n'ata vota cchiù tarde.",
   "add": "Azzeccà",
+  "add-attachment": "Azzecca n'allegato",
   "add-board": "Azzeccà na tavula",
   "add-card": "Azzeccà na carta",
   "add-list": "Azzeccà na lista",
   "admin-panel": "Pannello 'e ll'ammenistratore",
   "all-boards": "Tutt' 'e tavule",
+  "attachments": "Allegate",
   "board-not-found": "Tavula nun trovata",
   "changeLanguagePopup-title": "Cambia lengua",
   "close": "Chiure",

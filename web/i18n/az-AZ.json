@@ -1,11 +1,13 @@
 {
   "account-locked": "Hesab çoxlu uğursuz giriş cəhdləri səbəbindən müvəqqəti olaraq kilidlənib. Daha sonra yenidən cəhd edin.",
   "add": "əlavə et",
+  "add-attachment": "Qoşma əlavə edin",
   "add-board": "Lövhə əlavə edin",
   "add-card": "Kart əlavə edin",
   "add-list": "Siyahı əlavə et",
   "admin-panel": "İdarəetmə Paneli",
   "all-boards": "Bütün lövhələr",
+  "attachments": "Qoşmalar",
   "board-not-found": "Lövhə tapılmadı",
   "changeLanguagePopup-title": "Dili Dəyişdirin",
   "close": "Bağlayın",

@@ -1,11 +1,13 @@
 {
   "account-locked": "Kontoen er midlertidig låst på grunn av for mange mislykkede innloggingsforsøk. Vennligst prøv igjen senere.",
   "add": "Legg til",
+  "add-attachment": "Legg til Vedlegg",
   "add-board": "Legg til Tavle",
   "add-card": "Legg til Kort",
   "add-list": "Legg til Liste",
   "admin-panel": "Admin-panel",
   "all-boards": "Alle tavler",
+  "attachments": "Vedlegg",
   "board-not-found": "Kunne ikke finne tavlen",
   "changeLanguagePopup-title": "Endre språk",
   "close": "Lukk",

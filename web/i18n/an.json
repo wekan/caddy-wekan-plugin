@@ -1,11 +1,13 @@
 {
   "account-locked": "La cuenta está bloqueada temporalmente debido a demasiados intentos de inicio de sesión fallidos. Por favor inténtalo de nuevo mas tarde.",
   "add": "Adhibir",
+  "add-attachment": "Adhibir adchunto",
   "add-board": "Adhibir un tablero",
   "add-card": "Adhibir una tarcheta",
   "add-list": "Adhibir una lista",
   "admin-panel": "Panel d'administrador",
   "all-boards": "Toz os tableros",
+  "attachments": "Adchuntos",
   "board-not-found": "Tablero no encontrado",
   "changeLanguagePopup-title": "Cambiar el idioma",
   "close": "Zarrar",

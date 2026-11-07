@@ -1,11 +1,13 @@
 {
   "account-locked": "Kònto je timczasno zablokòwóné przez zbëtk nieùdałëch prób logòwaniô. Spróbùjë jesz rôz pózni.",
   "add": "Dodac",
+  "add-attachment": "Dodac załączniczk",
   "add-board": "Dodac tôflã",
   "add-card": "Dodac kôrtã",
   "add-list": "Dodac lëstã",
   "admin-panel": "Panel administratora",
   "all-boards": "Wszëtczé tôfle",
+  "attachments": "Załączniczi",
   "board-not-found": "Tôfla nie nalazłô",
   "changeLanguagePopup-title": "Zmieni jãzëk",
   "close": "Zamknąc",

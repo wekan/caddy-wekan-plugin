@@ -1,11 +1,13 @@
 {
   "account-locked": "Contul este blocat temporar din cauza prea multor încercări de autentificare nereușite. Încercați din nou mai târziu.",
   "add": "Adaugă",
+  "add-attachment": "Adaugă atașament",
   "add-board": "Adaugă panou",
   "add-card": "Adaugă card",
   "add-list": "Adaugă listă",
   "admin-panel": "Panou de administrare",
   "all-boards": "Toate tablele",
+  "attachments": "Atașamente",
   "board-not-found": "Tabla nu a fost găsită",
   "changeLanguagePopup-title": "Schimbă limba",
   "close": "Închide",

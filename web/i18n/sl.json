@@ -1,11 +1,13 @@
 {
   "account-locked": "Račun je začasno zaklenjen zaradi preveč neuspešnih poskusov prijave. Poskusite znova pozneje.",
   "add": "Dodaj",
+  "add-attachment": "Dodaj priponko",
   "add-board": "Dodaj tablo",
   "add-card": "Dodaj kartico",
   "add-list": "Dodaj seznam",
   "admin-panel": "Skrbniška plošča",
   "all-boards": "Vse table",
+  "attachments": "Priponke",
   "board-not-found": "Tabla ni najdena",
   "changeLanguagePopup-title": "Spremeni jezik",
   "close": "Zapri",

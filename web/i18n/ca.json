@@ -1,11 +1,13 @@
 {
   "account-locked": "El compte està bloquejat temporalment per massa intents d'inici de sessió fallits. Torneu-ho a provar més tard.",
   "add": "Afegeix",
+  "add-attachment": "Afegeix adjunt",
   "add-board": "Afegeix Tauler",
   "add-card": "Afegeix Fitxa",
   "add-list": "Afegeix llista",
   "admin-panel": "Tauler d'administració",
   "all-boards": "Tots els taulers",
+  "attachments": "Adjunts",
   "board-not-found": "No s'ha trobat el tauler",
   "changeLanguagePopup-title": "Canvia idioma",
   "close": "Tanca",

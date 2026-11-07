@@ -1,11 +1,13 @@
 {
   "account-locked": "ብዙሕ ዝፈሸሉ ፈተነታት ምእታው ስለ ዝተገብሩ ሕሳብ ንግዚኡ ተዓጽዩ። በጃኻ ጸኒሕካ ደጊምካ ፈትን።",
   "add": "ወስክ",
+  "add-attachment": "ተለጣፊ ወስክ",
   "add-board": "ምዱድ ወስክ",
   "add-card": "ወረቀት ካርድ ወስክ",
   "add-list": "ዝርዝር ወስክ",
   "admin-panel": "ምዱድ ለሓክም",
   "all-boards": "ክሎም ምዱዳት",
+  "attachments": "ተለጠፍቲ",
   "board-not-found": "ምዱድ ኣይተረኽበን",
   "changeLanguagePopup-title": "ልሳን ቀይር",
   "close": "ድባእ",

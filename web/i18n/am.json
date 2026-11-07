@@ -1,11 +1,13 @@
 {
   "account-locked": "በጣም ብዙ ያልተሳኩ የመግቢያ ሙከራዎች ስለነበሩ መለያው ለጊዜው ተቆልፏል። እባክዎ ቆይተው እንደገና ይሞክሩ።",
   "add": "ጨምር",
+  "add-attachment": "አባሪ ጨምር",
   "add-board": "ሰሌዳ ጨምር",
   "add-card": "ካርድ ጨምር",
   "add-list": "ዝርዝር ጨምር",
   "admin-panel": "የአስተዳዳሪ ፓነል",
   "all-boards": "ሁሉም ሰሌዳዎች",
+  "attachments": "አባሪዎች",
   "board-not-found": "ሰሌዳው አልተገኘም",
   "changeLanguagePopup-title": "ቋንቋ ቀይር",
   "close": "ዝጋ",

@@ -1,11 +1,13 @@
 {
   "account-locked": "Konti yugariwe akanya kubera kugerageza kwinjira incuro nyinshi bikanka. Turagusavye wongere ugerageze hanyuma.",
   "add": "Ongerako",
+  "add-attachment": "Ongerako ikimetse",
   "add-board": "Ongerako icapa",
   "add-card": "Ongerako ikarata",
   "add-list": "Ongerako urutonde",
   "admin-panel": "Ikibaho c'umuyobozi",
   "all-boards": "Ibicapa vyose",
+  "attachments": "Ivyometse",
   "board-not-found": "Icapa nticabonetse",
   "changeLanguagePopup-title": "Hindura ururimi",
   "close": "Ugara",

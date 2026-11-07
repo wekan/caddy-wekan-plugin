@@ -1,11 +1,13 @@
 {
   "account-locked": "ログイン失敗が多すぎるため、アカウントは一時的にロックされています。しばらくしてから再度お試しください。",
   "add": "追加",
+  "add-attachment": "添付ファイルを追加",
   "add-board": "ボードを追加",
   "add-card": "カードを追加",
   "add-list": "リストを追加",
   "admin-panel": "管理パネル",
   "all-boards": "全てのボード",
+  "attachments": "添付ファイル",
   "board-not-found": "ボードが見つかりません",
   "changeLanguagePopup-title": "言語の変更",
   "close": "閉じる",

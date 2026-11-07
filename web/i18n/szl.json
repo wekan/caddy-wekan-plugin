@@ -1,11 +1,13 @@
 {
   "account-locked": "Konto je tymczasowo zablokowane z powodu zbyt wielu nieudanych prób logowania. Spróbuj zaś później.",
   "add": "Przidać",
+  "add-attachment": "Przidać przidŏwek",
   "add-board": "Przidać tabula",
   "add-card": "Przidać karta",
   "add-list": "Przidać lista",
   "admin-panel": "Panel administratora",
   "all-boards": "Wszyskie tabule",
+  "attachments": "Przidŏwki",
   "board-not-found": "Niy szło znojś tabule",
   "changeLanguagePopup-title": "Zmiyn gŏdka",
   "close": "Zawrzić",

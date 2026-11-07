@@ -1,11 +1,13 @@
 {
   "account-locked": "An kulle asusu na ɗan lokaci saboda yawan gazawar ƙoƙarin shiga. Da fatan a sake gwadawa daga baya.",
   "add": "Ƙara",
+  "add-attachment": "Ƙara abin haɗawa",
   "add-board": "Ƙara allo",
   "add-card": "Ƙara kati",
   "add-list": "Ƙara jeri",
   "admin-panel": "Panel na Admin",
   "all-boards": "Dukan alluna",
+  "attachments": "Abubuwan haɗawa",
   "board-not-found": "Ba a sami allo ba",
   "changeLanguagePopup-title": "Sauya harshe",
   "close": "Rufe",

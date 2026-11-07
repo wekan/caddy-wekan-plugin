@@ -1,11 +1,13 @@
 {
   "account-locked": "L'account è temporaneamente bloccato a causa di troppi tentativi di accesso falliti. Riprova più tardi.",
   "add": "Aggiungi",
+  "add-attachment": "Aggiungi allegato",
   "add-board": "Aggiungi bacheca",
   "add-card": "Aggiungi scheda",
   "add-list": "Aggiungi lista",
   "admin-panel": "Pannello dell'amministratore",
   "all-boards": "Tutte le bacheche",
+  "attachments": "Allegati",
   "board-not-found": "Bacheca non trovata",
   "changeLanguagePopup-title": "Cambia lingua",
   "close": "Chiudi",

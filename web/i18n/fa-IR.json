@@ -1,11 +1,13 @@
 {
   "account-locked": "حساب به دلیل تلاش‌های ناموفق زیاد در ورود موقتاً قفل شده است. لطفاً بعداً دوباره تلاش کنید.",
   "add": "افزودن",
+  "add-attachment": "افزودن ضمیمه",
   "add-board": "افزودن برد",
   "add-card": "افزودن کارت",
   "add-list": "افزودن لیست",
   "admin-panel": "پیشخوان مدیریتی",
   "all-boards": "همه بردها",
+  "attachments": "ضمائم",
   "board-not-found": "برد پیدا نشد",
   "changeLanguagePopup-title": "تغییر زبان",
   "close": "بستن",
