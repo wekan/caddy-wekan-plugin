@@ -32,6 +32,7 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /api/boards/{board}/lists/{list}/cards/{card}", s.api(s.apiCard))
 	m.HandleFunc("PUT /api/boards/{board}/lists/{list}/cards/{card}", s.api(s.apiEditCard))
 	m.HandleFunc("DELETE /api/boards/{board}/lists/{list}/cards/{card}", s.api(s.apiDeleteCard))
+	s.apiMoreRoutes(m)
 }
 
 func writeJSON(w http.ResponseWriter, status int, v any) {
