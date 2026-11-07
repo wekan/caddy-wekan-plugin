@@ -7,8 +7,8 @@ progress; update it with the template.
 
 | Status | Count |
 |---|---|
-| started - the first part of the page | 10 |
-| not yet | 164 |
+| started - the first part of the page | 14 |
+| not yet | 160 |
 
 | WeKan template | Go Pug | Status |
 |---|---|---|
@@ -46,7 +46,7 @@ progress; update it with the template.
 | `components/boards/timelineView.jade` | | not yet |
 | `components/boards/timeView.jade` | | not yet |
 | `components/boards/versionControlView.jade` | | not yet |
-| `components/cards/attachments.jade` | | not yet |
+| `components/cards/attachments.jade` | board.pug: the card's attachment list, upload and delete | started |
 | `components/cards/cardCustomFields.jade` | | not yet |
 | `components/cards/cardDate.jade` | | not yet |
 | `components/cards/cardDescription.jade` | | not yet |
@@ -98,7 +98,7 @@ progress; update it with the template.
 | `components/main/header.jade` | layout.pug: All Boards, user, Log Out | started |
 | `components/main/historyRecoveryNotice.jade` | | not yet |
 | `components/main/keyboardShortcuts.jade` | | not yet |
-| `components/main/layouts.jade` | layout.pug, signin.pug, notfound.pug | started |
+| `components/main/layouts.jade` | layout.pug, signin.pug, signup.pug, notfound.pug | started |
 | `components/main/mapProvider.jade` | | not yet |
 | `components/main/myAttachments.jade` | | not yet |
 | `components/main/myCards.jade` | | not yet |
@@ -161,9 +161,9 @@ progress; update it with the template.
 | `components/settings/notificationDeliverySettings.jade` | | not yet |
 | `components/settings/notificationSettingsPopup.jade` | | not yet |
 | `components/settings/passwordLengthReport.jade` | | not yet |
-| `components/settings/peopleBody.jade` | | not yet |
+| `components/settings/peopleBody.jade` | people.pug: users, admin and active, registration; cloudsettings.pug: People / Cloud | started |
 | `components/settings/problemsSummary.jade` | | not yet |
-| `components/settings/settingBody.jade` | | not yet |
+| `components/settings/settingBody.jade` | cloudpanel.pug: the Cloud Panel's Settings, Domains and CloudFlare | started |
 | `components/settings/settingHeader.jade` | | not yet |
 | `components/settings/sharedLabelsSettings.jade` | | not yet |
 | `components/settings/tablePage.jade` | | not yet |
@@ -184,5 +184,5 @@ progress; update it with the template.
 | `components/users/passwordInput.jade` | | not yet |
 | `components/users/twoFactorRequired.jade` | | not yet |
 | `components/users/userAvatar.jade` | | not yet |
-| `components/users/userHeader.jade` | | not yet |
+| `components/users/userHeader.jade` | profile.pug: Edit Profile, Change Password; language.pug: Change Language | started |
 | `lib/titleViewer.jade` | | not yet |
