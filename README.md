@@ -43,6 +43,51 @@ wekan.example.org {
 `env` cannot change where WeKan listens; `dial` decides that, so the proxy finds it.
 WeKan listens on 127.0.0.1 by default - Meteor's own default would be every address.
 
+## Many domains: one Weddy, a WeKan per customer domain
+
+```caddyfile
+{
+	on_demand_tls {
+		permission wekan_domains
+	}
+	wekan {
+		bundle  /opt/wekan
+		root    /var/lib/weddy/files
+		primary wekan.team
+	}
+}
+https:// {
+	tls {
+		on_demand
+		get_certificate wekan_cloudflare
+	}
+	wekan
+}
+```
+
+With `root` and `primary`, every domain is a WeKan of its own, started from the same
+bundle in a directory of its own - `<root>/domains/customer.wekan.team/files/db/` for
+its database, `.../files/attachments` and so on - and a request reaches only the
+WeKan of its own domain: an unknown or expired domain gets 404, never another
+customer's WeKan.
+
+| | |
+|---|---|
+| `primary` | the first domain. Its WeKan has Admin Panel / People / Cloud (`WEDDY_CLOUD_DIR` is set for it): the Cloud Panel Domain and the SuperAdmin |
+| Cloud Panel Domain | served by the primary's WeKan, which shows the SuperAdmin the Cloud Panel there: the Domains table and the CloudFlare API key |
+| a customer domain | a WeKan with `WEDDY_TENANT=true`: no Cloud menu, no SuperAdmin options |
+| `<root>/cloud/domains.json` | the Domains table, written by the primary's WeKan; a domain is served from its Start Date to its End Date, both included. Changes are followed within seconds |
+| `<root>/cloud/cloudflare.json` | the CloudFlare API token (mode 0600), read here only - never sent to a browser |
+| `<root>/cloud/status.json` | for each domain: CloudFlare or Let's Encrypt, its DNS record, its certificate, errors |
+
+TLS needs no reload when domains change. `permission wekan_domains` lets Caddy get an
+on-demand certificate only for a served domain. A domain whose zone is in the
+CloudFlare account gets a proxied DNS record - a CNAME to the Cloud Panel Domain - and
+a **CloudFlare Origin certificate** (key and CSR made here, renewed 30 days before it
+ends), which `get_certificate wekan_cloudflare` serves; set the zone's SSL/TLS mode to
+"Full (strict)". Every other served domain gets a **Let's Encrypt** certificate. The
+token needs Zone:Read, DNS:Edit and SSL and Certificates:Edit.
+
 ## Uses caddy-gitea-plugin
 
 The process supervisor and the proxy are caddy-gitea-plugin's

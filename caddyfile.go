@@ -1,6 +1,7 @@
 package caddywekan
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -19,9 +20,11 @@ func init() {
 	httpcaddyfile.RegisterDirectiveOrder("wekan", httpcaddyfile.Before, "reverse_proxy")
 }
 
-// Handler serves a site from the WeKan that the wekan app runs.
+// Handler serves a site from the WeKan that the wekan app runs - with root, from
+// the WeKan of the request's domain.
 type Handler struct {
 	proxy *proxy.Proxy
+	cloud *Cloud
 }
 
 // CaddyModule returns the Caddy module information.
@@ -36,17 +39,35 @@ func (h *Handler) Provision(ctx caddy.Context) error {
 		return err // "app module wekan: not configured": add the wekan global option
 	}
 	app := v.(*App)
+	if app.cloud != nil {
+		h.cloud = app.cloud
+		return nil
+	}
 	h.proxy, err = proxy.New(ctx, "WeKan", app.Dial, app.Ready)
 	return err
 }
 
 // ServeHTTP proxies the request to WeKan.
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddyhttp.Handler) error {
+	if h.cloud != nil {
+		if handled, status := h.cloud.ServeHTTP(w, r); !handled {
+			if status == http.StatusNotFound {
+				return caddyhttp.Error(status, fmt.Errorf("no WeKan is served at %s", NormalizeHost(r.Host)))
+			}
+			return caddyhttp.Error(status, fmt.Errorf("the WeKan of %s is starting", NormalizeHost(r.Host)))
+		}
+		return nil
+	}
 	return h.proxy.ServeHTTP(w, r, next)
 }
 
 // Cleanup releases the reverse proxy.
-func (h *Handler) Cleanup() error { return h.proxy.Cleanup() }
+func (h *Handler) Cleanup() error {
+	if h.proxy == nil {
+		return nil
+	}
+	return h.proxy.Cleanup()
+}
 
 // UnmarshalCaddyfile: the directive takes no arguments, "wekan".
 func (h *Handler) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
@@ -81,7 +102,7 @@ func (a *App) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	for d.NextBlock(0) {
 		key := d.Val()
 		switch key {
-		case "bundle", "root_url", "command", "dial":
+		case "bundle", "root_url", "command", "dial", "root", "primary":
 			if !d.NextArg() {
 				return d.ArgErr()
 			}
@@ -95,6 +116,10 @@ func (a *App) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 				a.Command = v
 			case "dial":
 				a.Dial = v
+			case "root":
+				a.Root = v
+			case "primary":
+				a.Primary = v
 			}
 			if d.NextArg() {
 				return d.ArgErr()

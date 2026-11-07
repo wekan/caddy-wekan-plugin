@@ -67,9 +67,17 @@ type App struct {
 	// StopTimeout is how long WeKan and FerretDB get to stop. Default 60s: FerretDB
 	// finishes its SQLite writes.
 	StopTimeout caddy.Duration `json:"stop_timeout,omitempty"`
+	// Root turns on many domains (cloud.go): every domain is a WeKan of its own in
+	// <root>/domains/<domain>/, and <root>/cloud/ is where the Cloud Panel's
+	// Domains table and CloudFlare token are. RootURL and Dial are then per domain.
+	Root string `json:"root,omitempty"`
+	// Primary is the first domain, with root: its WeKan has Admin Panel / People /
+	// Cloud, and the Cloud Panel on the Cloud Panel Domain.
+	Primary string `json:"primary,omitempty"`
 
-	proc *supervisor.Process
-	log  *zap.Logger
+	proc  *supervisor.Process
+	cloud *Cloud
+	log   *zap.Logger
 }
 
 // CaddyModule returns the Caddy module information.
@@ -92,6 +100,11 @@ func (a *App) Provision(ctx caddy.Context) error {
 	}
 	if a.StopTimeout == 0 {
 		a.StopTimeout = caddy.Duration(60 * time.Second)
+	}
+	if a.Root != "" {
+		a.Primary = NormalizeHost(a.Primary)
+		a.cloud = newCloud(a, a.log)
+		return nil
 	}
 	env, err := a.Environment()
 	if err != nil {
@@ -148,6 +161,15 @@ func (a *App) Validate() error {
 	if a.Command == "" {
 		return fmt.Errorf("wekan: set bundle, the WeKan release bundle directory (or command)")
 	}
+	if a.Root != "" {
+		if !ValidDomain(a.Primary) {
+			return fmt.Errorf("wekan: with root, primary must be the first domain, e.g. wekan.example.org (got %q)", a.Primary)
+		}
+		if !filepath.IsAbs(a.Root) {
+			return fmt.Errorf("wekan: root must be an absolute path (got %q)", a.Root)
+		}
+		return nil
+	}
 	u, err := url.Parse(a.RootURL)
 	if a.RootURL == "" || err != nil || (u.Scheme != "http" && u.Scheme != "https") || u.Host == "" {
 		return fmt.Errorf("wekan: root_url must be the address users open WeKan at, e.g. https://wekan.example.org (got %q)", a.RootURL)
@@ -160,11 +182,21 @@ func (a *App) Validate() error {
 	return nil
 }
 
-// Start starts WeKan.
-func (a *App) Start() error { return a.proc.Start() }
+// Start starts WeKan - or, with root, the WeKan of every domain.
+func (a *App) Start() error {
+	if a.cloud != nil {
+		return a.cloud.Start()
+	}
+	return a.proc.Start()
+}
 
-// Stop stops WeKan and its FerretDB, and waits until they have exited.
-func (a *App) Stop() error { return a.proc.Stop() }
+// Stop stops WeKan and its FerretDB - every domain's - and waits until they have exited.
+func (a *App) Stop() error {
+	if a.cloud != nil {
+		return a.cloud.Stop()
+	}
+	return a.proc.Stop()
+}
 
 // Ready reports whether WeKan accepts connections.
 func (a *App) Ready() bool { return a.proc != nil && a.proc.Ready() }
