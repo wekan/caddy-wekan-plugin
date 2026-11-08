@@ -82,8 +82,28 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 	if err := s.compileTemplates(); err != nil {
 		return nil, err
 	}
+	if err := s.ensureSettings(context.Background()); err != nil {
+		return nil, err
+	}
 	s.routes()
 	return s, nil
+}
+
+// ensureSettings makes the site's one settings document when there is none,
+// with Node.js WeKan's defaults (server/models/settings.js, at startup), so
+// Admin Panel and WeKan's tools always find it. Mail is off until set; its
+// sender is left to Admin Panel, as Weddy serves more than one domain.
+func (s *Server) ensureSettings(ctx context.Context) error {
+	if n, err := s.db.Collection("settings").CountDocuments(ctx, bson.M{}); err != nil || n > 0 {
+		return err
+	}
+	now := time.Now().UTC()
+	mail := bson.M{"username": "", "password": "", "host": "", "port": "", "enableTLS": false, "from": "", // inserted, not a filter
+		"enabled": false, "service": "SMTP", "configurations": bson.M{"SMTP": bson.M{}}, // inserted, not a filter
+		"passwords": bson.M{}, "passwordSet": bson.M{}} // inserted, not a filter
+	_, err := s.db.Collection("settings").InsertOne(ctx, bson.M{"_id": randomID(), "disableRegistration": false, "mailServer": mail, // inserted, not a filter
+		"createdAt": now, "modifiedAt": now, "displayAuthenticationMethod": true, "defaultAuthenticationMethod": "password"}) // inserted, not a filter
+	return err
 }
 
 // DB is the domain's database.

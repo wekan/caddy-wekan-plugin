@@ -1090,3 +1090,29 @@ func TestRemoveChecklistMethod(t *testing.T) {
 		t.Fatalf("its items go, the other checklist's stay: %d %d", count("clGone"), count("clKept"))
 	}
 }
+
+// The site's settings document exists from the start, as WeKan makes it, and
+// only once.
+func TestSettingsAtStartup(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	if n, _ := w.db.Collection("settings").CountDocuments(ctx, bson.M{}); n != 1 {
+		t.Fatalf("one settings document: %d", n)
+	}
+	var doc bson.M
+	_ = w.db.Collection("settings").FindOne(ctx, bson.M{}).Decode(&doc)
+	if doc["disableRegistration"] != false || doc["displayAuthenticationMethod"] != true {
+		t.Fatalf("WeKan's defaults: %v", doc)
+	}
+	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"disableRegistration": true}})
+	if err := w.s.ensureSettings(ctx); err != nil {
+		t.Fatal(err)
+	}
+	if n, _ := w.db.Collection("settings").CountDocuments(ctx, bson.M{}); n != 1 {
+		t.Fatalf("negative: not a second one: %d", n)
+	}
+	_ = w.db.Collection("settings").FindOne(ctx, bson.M{}).Decode(&doc)
+	if doc["disableRegistration"] != true {
+		t.Fatal("negative: an existing setting is kept")
+	}
+}
