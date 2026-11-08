@@ -131,12 +131,12 @@ func TestRESTLabelsMembersDates(t *testing.T) {
 	}
 
 	// Bulk create.
-	var bulk struct {
-		IDs []string `json:"_ids"`
+	var bulk []struct {
+		ID string `json:"_id"`
 	}
 	call(t, "POST", cards+"/bulk", a.Token, `{"swimlaneId":"`+b.Swl+`","cards":[{"title":"Bulk","members":null},{"title":"Bulk 2"}]}`, &bulk)
-	if len(bulk.IDs) != 2 || card(bulk.IDs[0]).Members == nil {
-		t.Fatalf("bulk create: %v", bulk.IDs)
+	if len(bulk) != 2 || card(bulk[0].ID).Members == nil {
+		t.Fatalf("bulk create, one {_id} per card: %v", bulk)
 	}
 	many, _ := json.Marshal(map[string]any{"cards": make([]map[string]string, 501)})
 	if code := call(t, "POST", cards+"/bulk", a.Token, string(many), nil); code != 400 {

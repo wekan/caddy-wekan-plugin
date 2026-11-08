@@ -34,6 +34,7 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	m.HandleFunc("DELETE /api/boards/{board}/lists/{list}/cards/{card}", s.api(s.apiDeleteCard))
 	s.apiMoreRoutes(m)
 	s.apiMemberRoutes(m)
+	s.apiCardRoutes(m)
 }
 
 func writeJSON(w http.ResponseWriter, status int, v any) {
@@ -431,7 +432,7 @@ func (s *Server) apiDeleteCard(w http.ResponseWriter, r *http.Request, u *User) 
 	if c == nil {
 		return
 	}
-	if _, err := s.db.Collection("cards").DeleteOne(r.Context(), bson.M{"_id": c.ID}); err != nil {
+	if err := s.DeleteCard(r.Context(), b, u, c); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}

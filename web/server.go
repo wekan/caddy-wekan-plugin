@@ -530,8 +530,12 @@ func (s *Server) AddCard(ctx context.Context, b *Board, u *User, listID, swimlan
 			return nil, fmt.Errorf("no such %s on this board", strings.TrimSuffix(coll, "s"))
 		}
 	}
+	number, err := s.nextCardNumber(ctx, b.ID)
+	if err != nil {
+		return nil, err
+	}
 	c := &Card{ID: randomID(), Title: title, BoardID: b.ID, ListID: listID, SwimlaneID: swimlaneID, UserID: u.ID,
-		Members: []string{}, Assignees: []string{}, LabelIDs: []string{},
+		Members: []string{}, Assignees: []string{}, LabelIDs: []string{}, CardNumber: number,
 		Type: "cardType-card", CreatedAt: time.Now().UTC(),
 		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": b.ID, "listId": eq(listID), "swimlaneId": eq(swimlaneID)})}
 	if _, err := s.db.Collection("cards").InsertOne(ctx, c); err != nil {

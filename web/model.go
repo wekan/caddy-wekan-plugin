@@ -186,5 +186,6 @@ type Card struct {
 	Sort        float64   `bson:"sort" json:"sort"`
 	Archived    bool      `bson:"archived" json:"archived"`
 	Type        string    `bson:"type,omitempty" json:"type,omitempty"`
+	CardNumber  int64     `bson:"cardNumber,omitempty" json:"cardNumber,omitempty"`
 	CreatedAt   time.Time `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
 }

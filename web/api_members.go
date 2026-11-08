@@ -142,7 +142,7 @@ func (s *Server) apiBulkAddCards(w http.ResponseWriter, r *http.Request, u *User
 		apiError(w, http.StatusBadRequest, "1 to 500 cards")
 		return
 	}
-	ids := make([]string, 0, len(req.Cards))
+	ids := make([]map[string]string, 0, len(req.Cards))
 	for _, c := range req.Cards {
 		swimlane := req.SwimlaneID
 		if v, ok := c["swimlaneId"].(string); ok && v != "" {
@@ -153,10 +153,10 @@ func (s *Server) apiBulkAddCards(w http.ResponseWriter, r *http.Request, u *User
 			apiError(w, http.StatusBadRequest, err.Error())
 			return
 		}
-		ids = append(ids, id)
+		ids = append(ids, map[string]string{"_id": id})
 	}
 	s.hub.publish(b.ID, "board-changed")
-	writeJSON(w, http.StatusOK, map[string]any{"_ids": ids})
+	writeJSON(w, http.StatusOK, ids) // WeKan's shape: one {_id} per card
 }
 
 var labelColors = map[string]bool{"white": true, "green": true, "yellow": true, "orange": true, "red": true, "purple": true,
