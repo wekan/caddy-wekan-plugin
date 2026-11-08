@@ -71,6 +71,17 @@ func (s *Server) exportBoard(ctx context.Context, b *Board, withoutFiles bool) (
 	if err != nil {
 		return nil, err
 	}
+	// Admin Panel -> Anonymize export users, as WeKan's build() does it.
+	users, _ := raw["users"].([]bson.M)
+	if a := s.exportAnonymizer(ctx, b, users); a != nil {
+		for _, u := range users {
+			a.user(u)
+		}
+		cards, _ := raw["cards"].([]bson.M)
+		comments, _ := raw["comments"].([]bson.M)
+		a.cards(cards)
+		a.comments(comments)
+	}
 	return sanitizeTransfer(raw, true)
 }
 

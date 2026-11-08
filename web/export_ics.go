@@ -126,6 +126,8 @@ func (s *Server) apiExportICS(w http.ResponseWriter, r *http.Request) {
 	}
 	cards := []bson.M{}
 	_ = cur.All(r.Context(), &cards)
+	// Admin Panel -> Anonymize export users: the @mentions the feed carries.
+	s.exportAnonymizer(r.Context(), &b, nil).cards(cards)
 	base := siteURL(r)
 	ics := cardsToICS(cards, "WeKan - "+b.Title, func(c bson.M) string {
 		cid, _ := c["_id"].(string)

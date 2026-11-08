@@ -328,6 +328,14 @@ func (s *Server) boardRows(ctx context.Context, b *Board, only ...string) [][]an
 			header = append(header, "CustomField-"+name+"-"+typ)
 		}
 	}
+	// Admin Panel -> Anonymize export users: the names in the columns, and
+	// what the cards say about them.
+	if a := s.exportAnonymizer(ctx, b, users); a != nil {
+		for _, u := range users {
+			a.user(u)
+		}
+		a.cards(cards)
+	}
 	rows := [][]any{header}
 	for _, c := range cards {
 		rows = append(rows, csvRow(c, lists, swimlanes, users, labels, fields, position))

@@ -178,10 +178,12 @@ func xlsxOf(title string, rows [][]any) ([]byte, error) {
 // pdfLines are what the PDF says: the board, then each list with its cards -
 // or the one card with its list and description.
 func (s *Server) pdfLines(ctx context.Context, b *Board, c *Card) []string {
+	// Admin Panel -> Anonymize export users: the @mentions of what it prints.
+	a := s.exportAnonymizer(ctx, b, nil)
 	lines := []string{b.Title, ""}
 	if c != nil {
-		lines = append(lines, c.Title, s.titleOfID(ctx, "lists", c.ListID), "")
-		return append(lines, strings.Split(c.Description, "\n")...)
+		lines = append(lines, a.text(c.Title), s.titleOfID(ctx, "lists", c.ListID), "")
+		return append(lines, strings.Split(a.text(c.Description), "\n")...)
 	}
 	cur, err := s.db.Collection("lists").Find(ctx, bson.M{"boardId": b.ID, "archived": false}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
 	if err != nil {
@@ -196,7 +198,7 @@ func (s *Server) pdfLines(ctx context.Context, b *Board, c *Card) []string {
 			var cards []Card
 			_ = cc.All(ctx, &cards)
 			for _, x := range cards {
-				lines = append(lines, "    - "+x.Title)
+				lines = append(lines, "    - "+a.text(x.Title))
 			}
 		}
 		lines = append(lines, "")

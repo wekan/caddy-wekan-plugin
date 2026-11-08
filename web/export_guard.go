@@ -35,6 +35,14 @@ func (s *Server) exportable(h http.HandlerFunc) http.HandlerFunc {
 			_, _ = w.Write([]byte("Export is disabled by the administrator."))
 			return
 		}
-		h(w, r)
+		// The reader's language, then ?lang, as WeKan's exportLocale.
+		lang := r.URL.Query().Get("lang")
+		if u, ok := s.exportUser(r); ok && u != nil && u.Profile.Language != "" {
+			lang = u.Profile.Language
+		}
+		if len(lang) > 20 {
+			lang = ""
+		}
+		h(w, r.WithContext(context.WithValue(r.Context(), exportLangKey{}, lang)))
 	}
 }

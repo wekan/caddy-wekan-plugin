@@ -25,7 +25,7 @@ func TestExportDisabledRefusesEveryExport(t *testing.T) {
 		"/api/boards/" + b.ID + "/calendar.ics", "/api/boards/" + b.ID + "/exportExcel", "/api/boards/" + b.ID + "/exportPDF",
 		"/api/boards/" + b.ID + "/lists/" + b.List + "/cards/" + b.Card + "/exportPDF",
 		"/api/boards/" + b.ID + "/lists/" + b.List + "/cards/" + b.Card + "/exportExcel",
-		"/api/export-all-boards/json", "/api/boards/" + b.ID + "/attachments/noattachment0001/export"}
+		"/api/export-all-boards/wekan", "/api/boards/" + b.ID + "/attachments/noattachment0001/export"}
 	get := func(url string) int {
 		req, _ := http.NewRequest("GET", w.srv.URL+url, nil)
 		req.Header.Set("Authorization", "Bearer "+a)
