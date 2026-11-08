@@ -408,32 +408,57 @@ func (s *Server) apiMoveList(w http.ResponseWriter, r *http.Request, u *User) {
 	if l == nil {
 		return
 	}
-	ctx := r.Context()
+	if err := s.moveListTo(r.Context(), u, b, to, l, req); err != nil {
+		apiError(w, err.status, err.msg)
+		return
+	}
 	id, _ := l["_id"].(string)
+	writeJSON(w, http.StatusOK, map[string]string{"_id": id})
+}
+
+// laneError is a list move's failure, with the HTTP status that answers it.
+type laneError struct {
+	status int
+	msg    string
+}
+
+// moveListTo moves list l of b to the board to - into its swimlane, at its
+// position, with its title when given. On another board, the list joins the
+// open list of the same title there, or becomes a new one, and its cards go
+// with it. The caller has checked that the user may change both boards.
+func (s *Server) moveListTo(ctx context.Context, u *User, b, to *Board, l bson.M, req *laneRequest) *laneError {
+	id, _ := l["_id"].(string)
+	title, _ := l["title"].(string)
+	if t := strings.TrimSpace(req.Title); t != "" && len(t) <= 1000 {
+		title = t
+	}
 	if to.ID == b.ID {
+		set := bson.M{}
 		if req.ToSwimlaneID != "" {
-			_, _ = s.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": eq(id)}, bson.M{"$set": bson.M{"swimlaneId": req.ToSwimlaneID}})
+			set["swimlaneId"] = req.ToSwimlaneID
+		}
+		if title != l["title"] {
+			set["title"] = title
+		}
+		if len(set) > 0 {
+			_, _ = s.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": eq(id)}, bson.M{"$set": set})
 		}
 		s.reposition(ctx, "lists", id, b.ID, req.Position)
 		s.hub.publish(b.ID, "board-changed")
-		writeJSON(w, http.StatusOK, map[string]string{"_id": id})
-		return
+		return nil
 	}
-	title, _ := l["title"].(string)
 	listID := ""
 	var existing List
-	if s.db.Collection("lists").FindOne(ctx, bson.M{"boardId": to.ID, "title": title, "archived": false}).Decode(&existing) == nil {
+	if s.db.Collection("lists").FindOne(ctx, bson.M{"boardId": to.ID, "title": eq(title), "archived": false}).Decode(&existing) == nil {
 		listID = existing.ID
 	} else {
 		if strings.TrimSpace(title) == "" {
-			apiError(w, http.StatusBadRequest, "This list has no title, so it cannot be moved to another board. Give it a title first.")
-			return
+			return &laneError{http.StatusBadRequest, "This list has no title, so it cannot be moved to another board. Give it a title first."}
 		}
 		listID = randomID()
-		if _, err := s.db.Collection("lists").InsertOne(ctx, bson.M{"_id": listID, "title": title, "boardId": to.ID, "type": l["type"],
-			"archived": false, "wipLimit": l["wipLimit"], "swimlaneId": req.ToSwimlaneID, "sort": l["sort"], "createdAt": time.Now().UTC()}); err != nil {
-			apiError(w, http.StatusInternalServerError, err.Error())
-			return
+		if _, err := s.db.Collection("lists").InsertOne(ctx, bson.M{"_id": listID, "title": title, "boardId": to.ID, "type": l["type"], // inserted, not a filter
+			"archived": false, "wipLimit": l["wipLimit"], "swimlaneId": req.ToSwimlaneID, "sort": l["sort"], "createdAt": time.Now().UTC()}); err != nil { // inserted, not a filter
+			return &laneError{http.StatusInternalServerError, err.Error()}
 		}
 	}
 	sw := req.ToSwimlaneID
@@ -442,8 +467,7 @@ func (s *Server) apiMoveList(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	for _, c := range s.laneCards(ctx, bson.M{"listId": eq(id), "boardId": b.ID}) {
 		if err := s.moveCardTo(ctx, u, c, b, to, sw, listID); err != nil {
-			apiError(w, http.StatusInternalServerError, err.Error())
-			return
+			return &laneError{http.StatusInternalServerError, err.Error()}
 		}
 	}
 	if listID != id { // the list itself moved: what is left of it on the old board goes
@@ -452,7 +476,7 @@ func (s *Server) apiMoveList(w http.ResponseWriter, r *http.Request, u *User) {
 	s.reposition(ctx, "lists", listID, to.ID, req.Position)
 	s.hub.publish(b.ID, "board-changed")
 	s.hub.publish(to.ID, "board-changed")
-	writeJSON(w, http.StatusOK, map[string]string{"_id": id})
+	return nil
 }
 
 func (s *Server) swimlaneOf(w http.ResponseWriter, r *http.Request, b *Board) bson.M {

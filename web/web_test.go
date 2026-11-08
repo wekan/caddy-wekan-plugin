@@ -1234,3 +1234,68 @@ func TestListSortMethods(t *testing.T) {
 		t.Fatal("negative: nothing refused was saved")
 	}
 }
+
+// WeKan's moveList: by whoever may change both boards; a comment-only member
+// gets not-authorized and nothing moves.
+func TestMoveListMethod(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	co := w.seedUser(t, "cid", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "From")
+	to, _ := w.s.CreateBoard(ctx, u, "To")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": co.ID, "isActive": true, "isCommentOnly": true}}})
+	a, _ := w.s.AddList(ctx, b, "A")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Alpha")
+	call := func(cl *http.Client, args string) (int, map[string]any) {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/moveList", strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cl.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return res.StatusCode, out
+	}
+	cid := w.client(t)
+	body(t, w.signIn(t, cid, "cid", "pw"))
+	if code, out := call(cid, `["`+l.ID+`","`+b.ID+`","",null,null,null]`); code != 400 || out["error"] != "not-authorized" {
+		t.Fatalf("negative: a comment-only member: %d %v", code, out)
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if code, out := call(ann, `["`+l.ID+`","`+b.ID+`","",null,null,null]`); code != 200 {
+		t.Fatalf("within the board: %d %v", code, out)
+	}
+	if code, out := call(ann, `["`+l.ID+`","`+b.ID+`","",`+`"`+a.ID+`","before","Renamed"]`); code != 200 {
+		t.Fatalf("before its neighbour, renamed: %d %v", code, out)
+	}
+	var x, y List
+	_ = w.db.Collection("lists").FindOne(ctx, bson.M{"_id": l.ID}).Decode(&x)
+	_ = w.db.Collection("lists").FindOne(ctx, bson.M{"_id": a.ID}).Decode(&y)
+	if x.Title != "Renamed" || x.Sort >= y.Sort {
+		t.Fatalf("placed and named: %+v %+v", x, y)
+	}
+	if code, out := call(ann, `["`+l.ID+`","`+b.ID+`","`+"nolane"+`",null,null,null]`); code != 400 || out["error"] != "swimlane-not-found" {
+		t.Fatalf("negative: a swimlane of the board: %v", out)
+	}
+	if code, out := call(ann, `["`+l.ID+`","`+to.ID+`","",null,null,null]`); code != 200 {
+		t.Fatalf("to another board: %d %v", code, out)
+	}
+	var card Card
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&card)
+	if card.BoardID != to.ID {
+		t.Fatalf("its cards go with it: %v", card.BoardID)
+	}
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": to.ID}, bson.M{"$set": bson.M{"members": bson.A{bson.M{"userId": co.ID, "isActive": true, "isAdmin": true}}}})
+	var moved List
+	_ = w.db.Collection("lists").FindOne(ctx, bson.M{"boardId": to.ID, "title": "Renamed"}).Decode(&moved)
+	if code, out := call(ann, `["`+moved.ID+`","`+b.ID+`","",null,null,null]`); code != 400 || out["error"] != "not-authorized" {
+		t.Fatalf("negative: not from a board the user cannot change: %v", out)
+	}
+}

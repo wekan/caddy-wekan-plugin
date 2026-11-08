@@ -35,6 +35,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"/checklists/remove":    s.methodRemoveChecklist,
 		"updateListSort":        s.methodUpdateListSort,
 		"/lists/update":         s.methodUpdateList,
+		"moveList":              s.methodMoveList,
 	}
 }
 
@@ -355,4 +356,79 @@ func (s *Server) methodUpdateList(r *http.Request, u *User, args []json.RawMessa
 	}
 	s.hub.publish(b.ID, "board-changed")
 	return 1, nil
+}
+
+// optionalString is argument i as text, "" when it is null or missing, or a
+// Match.Error for anything else.
+func optionalString(args []json.RawMessage, i int) (string, error) {
+	if i >= len(args) || string(args[i]) == "null" {
+		return "", nil
+	}
+	return stringArg(args, i)
+}
+
+// methodMoveList is WeKan's moveList(listId, boardId, swimlaneId,
+// neighborListId, position, title): the list to a board - its own or
+// another - by whoever may change both (requireBoardMutation): anybody else,
+// a comment-only member too, gets not-authorized. A swimlane is one of the
+// destination board's, or "" for every swimlane.
+func (s *Server) methodMoveList(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	var str [3]string
+	for i := range str {
+		v, err := stringArg(args, i)
+		if err != nil {
+			return nil, err
+		}
+		str[i] = v
+	}
+	listID, boardID, swimlaneID := str[0], str[1], str[2]
+	var opt [3]string
+	for i := range opt {
+		v, err := optionalString(args, 3+i)
+		if err != nil {
+			return nil, err
+		}
+		opt[i] = v
+	}
+	ctx := r.Context()
+	var raw bson.M
+	if !validID(listID) || s.db.Collection("lists").FindOne(ctx, bson.M{"_id": eq(listID)}).Decode(&raw) != nil {
+		return nil, &methodError{"list-not-found", "List not found"}
+	}
+	source, _ := raw["boardId"].(string)
+	var b, to Board
+	if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(source)}).Decode(&b) != nil || !b.Writable(u, "write", nil) {
+		return nil, &methodError{"not-authorized", "You cannot move this list."}
+	}
+	if !validID(boardID) || s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&to) != nil {
+		return nil, &methodError{"board-not-found", "Target board not found"}
+	}
+	if !to.Writable(u, "write", nil) {
+		return nil, &methodError{"not-authorized", "You cannot move a list to this board."}
+	}
+	if swimlaneID != "" && (!validID(swimlaneID) || s.db.Collection("swimlanes").FindOne(ctx, bson.M{"_id": eq(swimlaneID), "boardId": to.ID}).Err() != nil) {
+		return nil, &methodError{"swimlane-not-found", "That swimlane is not on the board the list is being moved to."}
+	}
+	req := &laneRequest{ToBoardID: to.ID, ToSwimlaneID: swimlaneID, Title: opt[2]}
+	// Next to a neighbour list of the destination board, before or after it:
+	// its 0-based place among the other lists there.
+	if validID(opt[0]) {
+		cur, err := s.db.Collection("lists").Find(ctx, bson.M{"boardId": to.ID, "archived": false}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
+		if err == nil {
+			var lists []List
+			_ = cur.All(ctx, &lists)
+			lists = slices.DeleteFunc(lists, func(x List) bool { return x.ID == listID })
+			if i := slices.IndexFunc(lists, func(x List) bool { return x.ID == opt[0] }); i >= 0 {
+				pos := float64(i + 1)
+				if opt[1] == "before" {
+					pos = float64(i)
+				}
+				req.Position = &pos
+			}
+		}
+	}
+	if err := s.moveListTo(ctx, u, &b, &to, raw, req); err != nil {
+		return nil, &methodError{"move-failed", err.msg}
+	}
+	return nil, nil
 }
