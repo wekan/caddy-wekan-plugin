@@ -34,6 +34,7 @@ type securityCategory struct {
 var securityCategories = map[string]securityCategory{
 	"authz.parent":       {Category: "authz", Bleed: "ParentBleed", Severity: "high", CWE: "CWE-862"},
 	"authz.assigned":     {Category: "authz", Bleed: "AssignedBleed", Severity: "medium", CWE: "CWE-863"},
+	"authz.comment":      {Category: "authz", Bleed: "CommentBleed", Severity: "medium", CWE: "CWE-639"},
 	"authz.manage-board": {Category: "authz", Bleed: "ManageBoardBleed", Severity: "high", CWE: "CWE-863"},
 }
 

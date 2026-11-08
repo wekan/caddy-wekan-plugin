@@ -18,8 +18,10 @@ func (s *Server) apiMemberRoutes(m *http.ServeMux) {
 	m.HandleFunc("PUT /api/boards/{board}/labels", s.api(s.apiAddLabel))
 	m.HandleFunc("POST /api/boards/{board}/cards/labels", s.api(s.apiBulkLabels))
 	m.HandleFunc("POST /api/boards/{board}/members/{user}/{action}", s.api(s.apiBoardMember))
-	m.HandleFunc("POST /api/boards/{board}/lists/{list}/cards/{card}/members/{user}", s.api(s.apiCardMember(true)))
-	m.HandleFunc("DELETE /api/boards/{board}/lists/{list}/cards/{card}/members/{user}", s.api(s.apiCardMember(false)))
+	m.HandleFunc("POST /api/boards/{board}/lists/{list}/cards/{card}/members/{user}", s.api(s.apiCardMember("members", true)))
+	m.HandleFunc("DELETE /api/boards/{board}/lists/{list}/cards/{card}/members/{user}", s.api(s.apiCardMember("members", false)))
+	m.HandleFunc("POST /api/boards/{board}/lists/{list}/cards/{card}/assignees/{user}", s.api(s.apiCardMember("assignees", true)))
+	m.HandleFunc("DELETE /api/boards/{board}/lists/{list}/cards/{card}/assignees/{user}", s.api(s.apiCardMember("assignees", false)))
 }
 
 // idList is a members or assignees value as WeKan takes it: an array of ids, one
@@ -502,7 +504,9 @@ func (s *Server) apiBoardMember(w http.ResponseWriter, r *http.Request, u *User)
 
 // apiCardMember adds or removes a card member - only an active member of the
 // board (#5998).
-func (s *Server) apiCardMember(add bool) apiHandler {
+// apiCardMember adds or removes a card's member or assignee (field): only an
+// active member of the board is added; a stale id is still removed.
+func (s *Server) apiCardMember(field string, add bool) apiHandler {
 	return func(w http.ResponseWriter, r *http.Request, u *User) {
 		b := s.apiBoardFor(w, r, u, true)
 		if b == nil {
@@ -513,19 +517,21 @@ func (s *Server) apiCardMember(add bool) apiHandler {
 			return
 		}
 		userID := r.PathValue("user")
-		update := bson.M{"$pull": bson.M{"members": userID}}
+		update := bson.M{"$pull": bson.M{field: userID}}
 		if add {
 			if !validID(userID) || !b.MemberOf(userID) {
-				apiError(w, http.StatusBadRequest, "only a member of the board can be a card member")
+				apiError(w, http.StatusBadRequest, "userId is not an active member of this board")
 				return
 			}
-			update = bson.M{"$addToSet": bson.M{"members": userID}}
+			update = bson.M{"$addToSet": bson.M{field: userID}}
 		}
 		if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
+		var now Card
+		_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": c.ID}).Decode(&now)
 		s.hub.publish(b.ID, "board-changed")
-		writeJSON(w, http.StatusOK, map[string]string{"_id": c.ID})
+		writeJSON(w, http.StatusOK, map[string]any{"_id": c.ID, "members": nonNil(now.Members), "assignees": nonNil(now.Assignees)})
 	}
 }

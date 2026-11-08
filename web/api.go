@@ -43,6 +43,7 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	s.apiRuleRoutes(m)
 	s.exportRoutes(m)
 	s.importRoutes(m)
+	s.apiItemRoutes(m)
 }
 
 // parentStatus is a refused parentId's own status, else 400.
@@ -481,10 +482,13 @@ func (s *Server) cardOf(w http.ResponseWriter, r *http.Request, b *Board) *Card 
 	return &c
 }
 
+// apiCard is WeKan's: the whole card, with its checklists and their items.
 func (s *Server) apiCard(w http.ResponseWriter, r *http.Request, u *User) {
 	if b := s.apiBoardFor(w, r, u, false); b != nil {
 		if c := s.cardOf(w, r, b); c != nil {
-			writeJSON(w, http.StatusOK, c)
+			var raw bson.M
+			_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": c.ID}).Decode(&raw)
+			writeJSON(w, http.StatusOK, s.cardWithChecklists(r, raw))
 		}
 	}
 }
