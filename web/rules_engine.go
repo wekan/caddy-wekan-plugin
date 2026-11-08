@@ -691,8 +691,9 @@ func (s *Server) buttonRules(ctx context.Context, boardID, buttonType string) []
 
 // ruleRow is a rule as the Rules page lists it.
 type ruleRow struct {
-	ID, Title string
-	Enabled   bool
+	ID, Title, Trigger string
+	Actions            []string
+	Enabled            bool
 }
 
 // rulesPage is WeKan's rulesMain: for a board admin, the board's rules and
@@ -713,7 +714,29 @@ func (s *Server) rulesPage(w http.ResponseWriter, r *http.Request, u *User) {
 			var rules []bson.M
 			_ = cur.All(ctx, &rules)
 			for _, x := range rules {
-				rows = append(rows, ruleRow{ID: docString(x, "_id"), Title: docString(x, "title"), Enabled: x["enabled"] != false})
+				row := ruleRow{ID: docString(x, "_id"), Title: docString(x, "title"), Enabled: x["enabled"] != false}
+				var t bson.M
+				if s.db.Collection("triggers").FindOne(ctx, bson.M{"_id": eq(docString(x, "triggerId"))}).Decode(&t) == nil {
+					row.Trigger = docString(t, "desc")
+					if row.Trigger == "" {
+						row.Trigger = docString(t, "activityType")
+					}
+				}
+				for _, a := range s.ruleActions(ctx, x) {
+					d := docString(a, "desc")
+					if d == "" {
+						d = docString(a, "actionType")
+					}
+					row.Actions = append(row.Actions, d)
+				}
+				rows = append(rows, row)
+			}
+			// ruleDetails.js: each description shown with a capital first letter.
+			for i := range rows {
+				rows[i].Trigger = capitalFirst(rows[i].Trigger)
+				for j := range rows[i].Actions {
+					rows[i].Actions[j] = capitalFirst(rows[i].Actions[j])
+				}
 			}
 		}
 		data["Rules"] = rows
@@ -770,4 +793,12 @@ func (s *Server) methodSetRuleEnabled(r *http.Request, u *User, args []json.RawM
 	}
 	_, err = s.db.Collection("rules").UpdateOne(r.Context(), bson.M{"_id": rule["_id"]}, bson.M{"$set": bson.M{"enabled": on, "modifiedAt": time.Now().UTC()}})
 	return true, err
+}
+
+// capitalFirst is the text with its first letter in capitals.
+func capitalFirst(s string) string {
+	for i, r := range s {
+		return strings.ToUpper(string(r)) + s[i+len(string(r)):]
+	}
+	return s
 }

@@ -7,16 +7,34 @@
         i.fa.fa-arrow-left
         |  {{t $.L "back"}}
     if .CanEdit
-      .js-rules-pane(data-pane="list")
+      //- One step on the page at a time, as WeKan's rulesMain: each is a
+        template, and the step shown is a copy of it.
+      .js-rules-stage
+      template.js-rules-pane(data-pane="list")
         .rules
           h2
             i.fa.fa-magic
             |  {{t $.L "r-board-rules"}}
+          if .Rules
+            .rules-toolbar
+              button.primary.js-rules-select-all(type="button")
+                i.fa.fa-check-square-o
+                |  {{t $.L "r-select-all"}}
+              button.primary.js-rules-select-none(type="button")
+                i.fa.fa-square-o
+                |  {{t $.L "r-unselect-all"}}
+              button.primary.js-rules-delete-selected(type="button")
+                i.fa.fa-trash
+                |  {{t $.L "r-delete-selected"}}
           ul.rules-list
             each rule in .Rules
               li.rules-lists-item(data-rule-id="{{.ID}}")
+                input.js-rule-select(type="checkbox", data-rule-id="{{.ID}}", aria-label="{{.Title}}")
                 p {{.Title}}
                 .rules-btns-group
+                  button.primary.wide.js-goto-details(type="button", data-rule-id="{{.ID}}")
+                    i.fa.fa-eye
+                    |  {{t $.L "r-view-rule"}}
                   button.primary.wide.js-toggle-rule-enabled(type="button", data-rule-id="{{.ID}}", title="{{t $.L `r-toggle-rule-enabled`}}")
                     if .Enabled
                       i.fa.fa-toggle-on
@@ -32,7 +50,30 @@
             button.primary.js-goto-trigger(type="button")
               i.fa.fa-plus
               |  {{t $.L "r-add-trigger"}}
-      .js-rules-pane.is-hidden(data-pane="trigger")
+      each rule in .Rules
+        //- WeKan's ruleDetails: what the rule waits for, and what it does.
+        template.js-rules-pane(data-pane="details-{{.ID}}")
+          .rules
+            h2
+              i.fa.fa-magic
+              |  {{t $.L "r-rule-details"}}
+            .triggers-content
+              .triggers-body
+                .triggers-main-body
+                  h4 {{t $.L "r-trigger"}}
+                  .trigger-item
+                    .trigger-content
+                      .trigger-text {{.Trigger}}
+                  h4 {{t $.L "r-action"}}
+                  each act in .Actions
+                    .trigger-item
+                      .trigger-content
+                        .trigger-text {{.}}
+            .rules-back
+              button.primary.wide.js-goback(type="button", data-to="list")
+                i.fa.fa-arrow-left
+                |  {{t $.L "back"}}
+      template.js-rules-pane(data-pane="trigger")
         h2
           i.fa.fa-magic
           |  {{t $.L "r-rule"}} "
@@ -44,6 +85,10 @@
               ul
                 li.active.js-set-board-triggers(data-tab="board")
                   i.fa.fa-bar-chart
+                li.js-set-card-triggers(data-tab="card")
+                  i.fa.fa-file-text-o
+                li.js-set-checklist-triggers(data-tab="checklist")
+                  i.fa.fa-check
                 li.js-set-button-triggers(data-tab="button", title="{{t $.L `r-set-button-triggers`}}")
                   i.fa.fa-hand-pointer-o
             .triggers-main-body
@@ -94,6 +139,174 @@
                         option(value="commented") {{t $.L "r-commented"}}
                   button.trigger-button.js-add-arch-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
                     i.fa.fa-plus(aria-hidden="true")
+              .js-rules-tab.is-hidden(data-tab="card")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-label-is"}}
+                    .trigger-dropdown
+                      select#label-action
+                        option(value="added") {{t $.L "r-added-to"}}
+                        option(value="removed") {{t $.L "r-removed-from"}}
+                    .trigger-text {{t $.L "r-a-card"}}
+                  button.trigger-button.js-add-gen-label-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-the-label"}}
+                    .trigger-dropdown
+                      select#spec-label
+                        each lb in $.Labels
+                          option(value="{{.ID}}") {{.Name}}
+                    .trigger-text {{t $.L "r-when-the-label"}}
+                    .trigger-dropdown
+                      select#spec-label-action
+                        option(value="added") {{t $.L "r-added-to"}}
+                        option(value="removed") {{t $.L "r-removed-from"}}
+                    .trigger-text {{t $.L "r-a-card"}}
+                  button.trigger-button.js-add-spec-label-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-member"}}
+                    .trigger-dropdown
+                      select#gen-member-action
+                        option(value="added") {{t $.L "r-added-to"}}
+                        option(value="removed") {{t $.L "r-removed-from"}}
+                    .trigger-text {{t $.L "r-a-card"}}
+                  button.trigger-button.js-add-gen-member-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-the-member"}}
+                    .trigger-dropdown
+                      input#spec-member(type="text", placeholder="{{t $.L `r-name`}}")
+                    .trigger-text {{t $.L "r-when-the-member"}}
+                    .trigger-dropdown
+                      select#spec-member-action
+                        option(value="added") {{t $.L "r-added-to"}}
+                        option(value="removed") {{t $.L "r-removed-from"}}
+                    .trigger-text {{t $.L "r-a-card"}}
+                  button.trigger-button.js-add-spec-member-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-assignee"}}
+                    .trigger-dropdown
+                      select#gen-assignee-action
+                        option(value="added") {{t $.L "r-added-to"}}
+                        option(value="removed") {{t $.L "r-removed-from"}}
+                    .trigger-text {{t $.L "r-a-card"}}
+                  button.trigger-button.js-add-gen-assignee-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-the-assignee"}}
+                    .trigger-dropdown
+                      input#spec-assignee(type="text", placeholder="{{t $.L `r-name`}}")
+                    .trigger-text {{t $.L "r-when-the-assignee"}}
+                    .trigger-dropdown
+                      select#spec-assignee-action
+                        option(value="added") {{t $.L "r-added-to"}}
+                        option(value="removed") {{t $.L "r-removed-from"}}
+                    .trigger-text {{t $.L "r-a-card"}}
+                  button.trigger-button.js-add-spec-assignee-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-attach"}}
+                    .trigger-dropdown
+                      select#attach-action
+                        option(value="added") {{t $.L "r-attachment-added-to"}}
+                        option(value="removed") {{t $.L "r-attachment-removed-from"}}
+                    .trigger-text {{t $.L "r-a-card"}}
+                  button.trigger-button.js-add-attachment-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-due-date-changed"}}
+                  button.trigger-button.js-add-due-date-changed-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-start-date-changed"}}
+                  button.trigger-button.js-add-start-date-changed-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-end-date-changed"}}
+                  button.trigger-button.js-add-end-date-changed-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-received-date-changed"}}
+                  button.trigger-button.js-add-received-date-changed-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+              .js-rules-tab.is-hidden(data-tab="checklist")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-checklist"}}
+                    .trigger-dropdown
+                      select#gen-check-action
+                        option(value="created") {{t $.L "r-added-to"}}
+                        option(value="removed") {{t $.L "r-removed-from"}}
+                    .trigger-text {{t $.L "r-a-card"}}
+                  button.trigger-button.js-add-gen-check-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-the-checklist"}}
+                    .trigger-dropdown
+                      textarea#check-name(rows="2", placeholder="{{t $.L `r-name`}}")
+                    .trigger-text {{t $.L "r-when-the-checklist"}}
+                    .trigger-dropdown
+                      select#spec-check-action
+                        option(value="created") {{t $.L "r-added-to"}}
+                        option(value="removed") {{t $.L "r-removed-from"}}
+                    .trigger-text {{t $.L "r-a-card"}}
+                  button.trigger-button.js-add-spec-check-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-checklist"}}
+                    .trigger-dropdown
+                      select#gen-comp-check-action
+                        option(value="completed") {{t $.L "r-completed"}}
+                        option(value="uncompleted") {{t $.L "r-made-incomplete"}}
+                  button.trigger-button.js-add-gen-comp-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-the-checklist"}}
+                    .trigger-dropdown
+                      textarea#spec-comp-check-name(rows="2", placeholder="{{t $.L `r-name`}}")
+                    .trigger-text {{t $.L "r-when-the-checklist"}}
+                    .trigger-dropdown
+                      select#spec-comp-check-action
+                        option(value="completed") {{t $.L "r-completed"}}
+                        option(value="uncompleted") {{t $.L "r-made-incomplete"}}
+                  button.trigger-button.js-add-spec-comp-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-item"}}
+                    .trigger-dropdown
+                      select#check-item-gen-action
+                        option(value="checked") {{t $.L "r-checked"}}
+                        option(value="unchecked") {{t $.L "r-unchecked"}}
+                  button.trigger-button.js-add-gen-check-item-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-the-item"}}
+                    .trigger-dropdown
+                      textarea#check-item-name(rows="2", placeholder="{{t $.L `r-name`}}")
+                    .trigger-text {{t $.L "r-when-the-item"}}
+                    .trigger-dropdown
+                      select#check-item-spec-action
+                        option(value="checked") {{t $.L "r-checked"}}
+                        option(value="unchecked") {{t $.L "r-unchecked"}}
+                  button.trigger-button.js-add-spec-check-item-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
               .js-rules-tab.is-hidden(data-tab="button")
                 .trigger-item#trigger-button
                   .trigger-content
@@ -110,7 +323,7 @@
           button.primary.wide.js-goback(type="button", data-to="list")
             i.fa.fa-arrow-left
             |  {{t $.L "back"}}
-      .js-rules-pane.is-hidden(data-pane="action")
+      template.js-rules-pane(data-pane="action")
         h2
           i.fa.fa-magic
           |  {{t $.L "r-rule"}} "
@@ -124,6 +337,8 @@
                   i.fa.fa-bar-chart
                 li.js-set-card-actions(data-tab="card-actions")
                   i.fa.fa-file-text-o
+                li.js-set-checklist-actions(data-tab="checklist-actions")
+                  i.fa.fa-check
             .triggers-main-body
               .js-rules-tab(data-tab="board-actions")
                 .trigger-item
@@ -162,7 +377,7 @@
                 .trigger-item
                   .trigger-content
                     .trigger-dropdown
-                      select#arch-action-do
+                      select#arch-action
                         option(value="archive") {{t $.L "r-archive"}}
                         option(value="unarchive") {{t $.L "r-unarchive"}}
                     .trigger-text {{t $.L "r-card"}}
@@ -244,6 +459,53 @@
                   .trigger-content
                     .trigger-text {{t $.L "r-add-actinguser-member"}}
                   button.trigger-button.js-add-actinguser-member-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+              .js-rules-tab.is-hidden(data-tab="checklist-actions")
+                .trigger-item
+                  .trigger-content
+                    .trigger-dropdown
+                      select#check-action
+                        option(value="add") {{t $.L "r-add"}}
+                        option(value="remove") {{t $.L "r-remove"}}
+                    .trigger-text {{t $.L "r-checklist"}}
+                    .trigger-dropdown
+                      textarea#checklist-name(rows="2", placeholder="{{t $.L `r-name`}}")
+                  button.trigger-button.js-add-checklist-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-dropdown
+                      select#checkall-action
+                        option(value="check") {{t $.L "r-check-all"}}
+                        option(value="uncheck") {{t $.L "r-uncheck-all"}}
+                    .trigger-text {{t $.L "r-items-check"}}
+                    .trigger-dropdown
+                      textarea#checklist-name2(rows="2", placeholder="{{t $.L `r-name`}}")
+                  button.trigger-button.js-add-checkall-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-dropdown
+                      select#check-item-action
+                        option(value="check") {{t $.L "r-check"}}
+                        option(value="uncheck") {{t $.L "r-uncheck"}}
+                    .trigger-text {{t $.L "r-item"}}
+                    .trigger-dropdown
+                      textarea#checkitem-name(rows="2", placeholder="{{t $.L `r-name`}}")
+                    .trigger-text {{t $.L "r-of-checklist"}}
+                    .trigger-dropdown
+                      textarea#checklist-name3(rows="2", placeholder="{{t $.L `r-name`}}")
+                  button.trigger-button.js-add-check-item-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-add-checklist"}}
+                    .trigger-dropdown
+                      textarea#checklist-name-3(rows="2", placeholder="{{t $.L `r-name`}}")
+                    .trigger-text {{t $.L "r-with-items"}}
+                    .trigger-dropdown
+                      textarea#checklist-items(rows="2", placeholder="{{t $.L `r-items-list`}}")
+                  button.trigger-button.js-add-checklist-items-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
                     i.fa.fa-plus(aria-hidden="true")
         .rules-back
           button.primary.wide.js-goback(type="button", data-to="trigger")

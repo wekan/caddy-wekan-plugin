@@ -403,11 +403,29 @@
   var ruleState = { name: '', trigger: null };
   function rulesPage(el) { return el.closest('.rules-page'); }
   function showPane(page, name) {
-    page.querySelectorAll('.js-rules-pane').forEach(function (p) {
-      p.classList.toggle('is-hidden', p.dataset.pane !== name);
-    });
-    page.querySelectorAll('.js-rule-name').forEach(function (n) { n.textContent = ruleState.name; });
+    var t = page.querySelector('template.js-rules-pane[data-pane="' + name + '"]');
+    var stage = page.querySelector('.js-rules-stage');
+    if (!t || !stage) return;
+    stage.innerHTML = '';
+    stage.appendChild(t.content.cloneNode(true));
+    stage.querySelectorAll('.js-rule-name').forEach(function (n) { n.textContent = ruleState.name; });
+    up.hello(stage);
   }
+  up.compiler('.rules-page', function (page) { showPane(page, 'list'); });
+  up.on('click', '.rules-page .js-goto-details', function (event, el) {
+    event.preventDefault();
+    showPane(rulesPage(el), 'details-' + el.dataset.ruleId);
+  });
+  function selectRules(el, on) {
+    rulesPage(el).querySelectorAll('.js-rule-select').forEach(function (b) { b.checked = on; });
+  }
+  up.on('click', '.rules-page .js-rules-select-all', function (event, el) { event.preventDefault(); selectRules(el, true); });
+  up.on('click', '.rules-page .js-rules-select-none', function (event, el) { event.preventDefault(); selectRules(el, false); });
+  up.on('click', '.rules-page .js-rules-delete-selected', function (event, el) {
+    event.preventDefault();
+    var ids = Array.prototype.map.call(rulesPage(el).querySelectorAll('.js-rule-select:checked'), function (b) { return b.dataset.ruleId; });
+    Promise.all(ids.map(function (id) { return callAsync('rules.deleteRule', id); })).then(function () { up.reload('.rules-page'); });
+  });
   // Utils.getTriggerActionDesc: the item's words, and what is chosen in it.
   function ruleDesc(button) {
     var item = button.closest('.trigger-item');
@@ -436,7 +454,7 @@
     showPane(rulesPage(el), el.dataset.to);
   });
   up.on('click', '.rules-page .triggers-side-menu li', function (event, el) {
-    var pane = el.closest('.js-rules-pane');
+    var pane = el.closest('.js-rules-stage');
     pane.querySelectorAll('.triggers-side-menu li').forEach(function (li) { li.classList.toggle('active', li === el); });
     pane.querySelectorAll('.js-rules-tab').forEach(function (t) { t.classList.toggle('is-hidden', t.dataset.tab !== el.dataset.tab); });
   });
@@ -458,6 +476,40 @@
       var kind = { archived: 'archivedCard', unarchived: 'restoredCard', commented: 'addComment' }[val(p, 'arch-action')];
       return { activityType: kind, cardTitle: '*' };
     },
+    // cardTriggers.js
+    'js-add-gen-label-trigger': function (p) { return { activityType: val(p, 'label-action') === 'removed' ? 'removedLabel' : 'addedLabel' }; },
+    'js-add-spec-label-trigger': function (p) {
+      return { activityType: val(p, 'spec-label-action') === 'removed' ? 'removedLabel' : 'addedLabel', labelId: val(p, 'spec-label') };
+    },
+    'js-add-gen-member-trigger': function (p) { return { activityType: val(p, 'gen-member-action') === 'removed' ? 'unjoinMember' : 'joinMember' }; },
+    'js-add-spec-member-trigger': function (p) {
+      return { activityType: val(p, 'spec-member-action') === 'removed' ? 'unjoinMember' : 'joinMember', username: val(p, 'spec-member') };
+    },
+    'js-add-gen-assignee-trigger': function (p) { return { activityType: val(p, 'gen-assignee-action') === 'removed' ? 'unjoinAssignee' : 'joinAssignee' }; },
+    'js-add-spec-assignee-trigger': function (p) {
+      return { activityType: val(p, 'spec-assignee-action') === 'removed' ? 'unjoinAssignee' : 'joinAssignee', username: val(p, 'spec-assignee') };
+    },
+    'js-add-attachment-trigger': function (p) { return { activityType: val(p, 'attach-action') === 'removed' ? 'deleteAttachment' : 'addAttachment' }; },
+    'js-add-due-date-changed-trigger': function () { return { activityType: 'a-dueAt' }; },
+    'js-add-start-date-changed-trigger': function () { return { activityType: 'a-startAt' }; },
+    'js-add-end-date-changed-trigger': function () { return { activityType: 'a-endAt' }; },
+    'js-add-received-date-changed-trigger': function () { return { activityType: 'a-receivedAt' }; },
+    // checklistTriggers.js
+    'js-add-gen-check-trigger': function (p) { return { activityType: val(p, 'gen-check-action') === 'removed' ? 'removeChecklist' : 'addChecklist' }; },
+    'js-add-spec-check-trigger': function (p) {
+      return { activityType: val(p, 'spec-check-action') === 'removed' ? 'removeChecklist' : 'addChecklist', checklistName: val(p, 'check-name') };
+    },
+    'js-add-gen-comp-trigger': function (p) {
+      return { activityType: val(p, 'gen-comp-check-action') === 'uncompleted' ? 'uncompleteChecklist' : 'completeChecklist' };
+    },
+    'js-add-spec-comp-trigger': function (p) {
+      return { activityType: val(p, 'spec-comp-check-action') === 'uncompleted' ? 'uncompleteChecklist' : 'completeChecklist',
+        checklistName: val(p, 'spec-comp-check-name') };
+    },
+    'js-add-gen-check-item-trigger': function (p) { return { activityType: val(p, 'check-item-gen-action') === 'unchecked' ? 'uncheckedItem' : 'checkedItem' }; },
+    'js-add-spec-check-item-trigger': function (p) {
+      return { activityType: val(p, 'check-item-spec-action') === 'unchecked' ? 'uncheckedItem' : 'checkedItem', checklistItemName: val(p, 'check-item-name') };
+    },
     'js-add-button-trigger': function (p) {
       return { activityType: 'button', buttonType: val(p, 'button-type') || 'card', buttonLabel: val(p, 'button-label') || 'Run' };
     },
@@ -471,7 +523,7 @@
       return { actionType: val(p, 'move-spec-action') === 'bottom' ? 'moveCardToBottom' : 'moveCardToTop',
         listName: val(p, 'listName'), swimlaneName: val(p, 'swimlaneName') || '*', boardId: val(p, 'board-id') };
     },
-    'js-add-arch-action': function (p) { return { actionType: val(p, 'arch-action-do') }; },
+    'js-add-arch-action': function (p) { return { actionType: val(p, 'arch-action') }; },
     'js-add-swimlane-action': function (p) { return { actionType: 'addSwimlane', swimlaneName: val(p, 'swimlane-name') }; },
     'js-create-card-action': function (p) {
       return { actionType: 'createCard', cardName: val(p, 'card-name'), listName: val(p, 'list-name'), swimlaneName: val(p, 'swimlane-name2') };
@@ -485,6 +537,20 @@
       return { actionType: val(p, 'member-action') === 'remove' ? 'removeMember' : 'addMember', username: val(p, 'member-name') };
     },
     'js-add-actinguser-member-action': function () { return { actionType: 'addMember', username: '_actinguser_' }; },
+    // checklistActions.js
+    'js-add-checklist-action': function (p) {
+      return { actionType: val(p, 'check-action') === 'remove' ? 'removeChecklist' : 'addChecklist', checklistName: val(p, 'checklist-name') };
+    },
+    'js-add-checkall-action': function (p) {
+      return { actionType: val(p, 'checkall-action') === 'uncheck' ? 'uncheckAll' : 'checkAll', checklistName: val(p, 'checklist-name2') };
+    },
+    'js-add-check-item-action': function (p) {
+      return { actionType: val(p, 'check-item-action') === 'uncheck' ? 'uncheckItem' : 'checkItem',
+        checkItemName: val(p, 'checkitem-name'), checklistName: val(p, 'checklist-name3') };
+    },
+    'js-add-checklist-items-action': function (p) {
+      return { actionType: 'addChecklistWithItems', checklistName: val(p, 'checklist-name-3'), checklistItems: val(p, 'checklist-items') };
+    },
   };
   function makerOf(el, makers) {
     for (var cls in makers) if (el.classList.contains(cls)) return makers[cls];
@@ -495,7 +561,7 @@
     var make = makerOf(el, triggerMakers);
     if (!make) return;
     var page = rulesPage(el);
-    var trigger = make(page);
+    var trigger = make(el.closest('.js-rules-tab'));
     trigger.desc = ruleDesc(el);
     ruleState.trigger = trigger;
     showPane(page, 'action');
@@ -505,7 +571,7 @@
     var make = makerOf(el, actionMakers);
     if (!make || !ruleState.trigger) return;
     var page = rulesPage(el);
-    var action = make(page);
+    var action = make(el.closest('.js-rules-tab'));
     action.desc = ruleDesc(el);
     callAsync('rules.createRule', page.dataset.board, ruleState.name, ruleState.trigger, action).then(function () {
       up.reload('.rules-page');
