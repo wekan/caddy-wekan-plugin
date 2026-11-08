@@ -254,6 +254,13 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.on('click', '#notifications-drawer .js-filter-unread', function (event) { event.preventDefault(); drawerShowRead(false); });
   up.on('click', '#notifications-drawer .js-view-all', function (event) { event.preventDefault(); drawerShowRead(true); });
   // #5171: a grouped row opens to show all of its card's or board's entries.
+  // WeKan's passwordInput: show or hide the password; a button of its own,
+  // so Space and Enter work it without sending the form.
+  up.on('click', '.password-toggle-btn', function (event, btn) {
+    event.preventDefault();
+    var input = btn.parentNode.querySelector('input.password-field');
+    if (input) input.type = input.type === 'password' ? 'text' : 'password';
+  });
   // Admin Panel / People: a user's editUserPopup, and Active switched by a click.
   up.on('click', '.edit-user', function (event, link) {
     event.preventDefault();

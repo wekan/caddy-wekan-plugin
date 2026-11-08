@@ -7,7 +7,9 @@
       label(for="at-field-username_and_email") {{t $.L "username"}}
       input#at-field-username_and_email(type="text", name="username", value="{{.Username}}", autocomplete="username", required)
       label(for="at-field-password") {{t $.L "password"}}
-      input#at-field-password(type="password", name="password", autocomplete="current-password", required)
+      .password-input-container
+        input#at-field-password.password-field(type="password", name="password", autocomplete="current-password", required)
+        button.password-toggle-btn.primary(type="button", aria-label="{{t $.L `password`}}: {{t $.L `visibility`}}", title="{{t $.L `password`}}: {{t $.L `visibility`}}") 👁
       button#at-btn.at-btn.submit.primary(type="submit") {{t $.L "log-in"}}
     if .OIDC
       p.at-oauth
