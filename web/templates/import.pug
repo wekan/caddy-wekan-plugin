@@ -1,0 +1,46 @@
+.wrapper.import-page
+  if .Error
+    .warning {{t $.L .Error}}
+  if .Mapping
+    form.import-csv-mapping.js-csv-mapping(method="post", action="/import/{{.Source}}/board")
+      h2 {{t $.L "csv-mapping-title"}}
+      p {{t $.L "csv-mapping-description"}}
+      textarea(name="rows", hidden) {{.Rows}}
+      input(type="hidden", name="boardTitle", value="{{.BoardTitle}}")
+      table.csv-mapping-fields
+        tbody
+          each f in .Fields
+            tr(class="csv-mapping-field-{{.Field}}")
+              th
+                label(for="csv-map-{{.Field}}") {{.Label}}
+              td
+                select.js-csv-map-field(id="csv-map-{{.Field}}", name="map-{{.Field}}", data-field="{{.Field}}")
+                  option(value="") {{t $.L "csv-mapping-not-in-file"}}
+                  each o in .Options
+                    if .Selected
+                      option(value="{{.Index}}", selected) {{.Text}}
+                    else
+                      option(value="{{.Index}}") {{.Text}}
+      .csv-mapping-list-name(class="{{if .ListMissing}}js-csv-mapping-list-missing{{end}}")
+        p {{t $.L "csv-mapping-list-missing"}}
+        label(for="csv-map-list-name") {{t $.L "csv-mapping-list-name"}}
+        input.js-csv-map-list-name(id="csv-map-list-name", type="text", name="listName", maxlength="255", value="{{.ListName}}")
+      if .Extra
+        .csv-mapping-custom-fields
+          p {{t $.L "csv-mapping-custom-fields"}}
+          ul
+            each c in .Extra
+              li
+                label.flex
+                  input.js-csv-map-custom-column(type="checkbox", name="custom", value="{{.Index}}")
+                  span {{.Text}}
+      button.primary.wide.js-csv-mapping-import(type="submit") {{t $.L "import"}}
+  else
+    form(method="post", action="/import/{{.Source}}", enctype="multipart/form-data")
+      p: label(for="import-textarea") {{.Instruction}}
+      p.import-file-row
+        label(for="import-file") {{t $.L "import-file-label"}}
+        input.js-import-file(id="import-file", type="file", name="file", accept="{{.Accept}}")
+      if .Paste
+        textarea.js-import-json(id="import-textarea", name="text", rows="10")
+      input.primary.wide(type="submit", value="{{t $.L `import`}}")

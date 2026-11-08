@@ -151,7 +151,7 @@ func (s *Server) apiExportICS(w http.ResponseWriter, r *http.Request) {
 // The import of an iCalendar file as cards, as Node.js WeKan
 // (server/methods/icsImport.js, server/lib/icsImport.js).
 func (s *Server) importICSRoutes(m *http.ServeMux) {
-	m.HandleFunc("POST /api/boards/{board}/swimlanes/{swimlane}/lists/{list}/ics", s.api(s.apiImportICS))
+	m.HandleFunc("POST /api/boards/{board}/swimlanes/{swimlane}/lists/{list}/ics", s.importable(s.api(s.apiImportICS)))
 }
 
 type icsEvent struct {

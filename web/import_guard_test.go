@@ -54,7 +54,8 @@ func TestEveryImportRouteIsImportable(t *testing.T) {
 		src, _ := os.ReadFile(f)
 		for _, line := range strings.Split(string(src), "\n") {
 			m := route.FindStringSubmatch(strings.TrimSpace(line))
-			if m == nil || !strings.Contains(m[1], "import") {
+			// By its path, or by its handler: the calendar import's path says ics.
+			if m == nil || (!strings.Contains(m[1], "import") && !strings.Contains(m[2], "apiImport")) {
 				continue
 			}
 			checked++
@@ -63,7 +64,7 @@ func TestEveryImportRouteIsImportable(t *testing.T) {
 			}
 		}
 	}
-	if checked < 2 {
+	if checked < 6 {
 		t.Fatalf("the guard sees the import routes: %d", checked)
 	}
 }
