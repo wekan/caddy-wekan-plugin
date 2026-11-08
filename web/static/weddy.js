@@ -160,6 +160,27 @@
     return function () { clearInterval(timer); };
   });
 
+  // A list's caret collapses it, for this user, in this swimlane (#6712):
+  // at once on the page, and kept in the profile as WeKan's
+  // setListCollapsedState, so a reload shows it the same.
+  up.on('click', '.js-collapse', function (event, el) {
+    event.preventDefault();
+    var list = el.closest('.js-list');
+    var board = el.closest('.board-wrapper');
+    if (!list || !board) return;
+    var collapsed = !list.classList.contains('list-collapsed');
+    list.classList.toggle('list-collapsed', collapsed);
+    var icon = el.querySelector('.fa');
+    if (icon) {
+      icon.classList.toggle('fa-caret-right', collapsed);
+      icon.classList.toggle('fa-caret-down', !collapsed);
+    }
+    var label = collapsed ? el.dataset.uncollapse : el.dataset.collapse;
+    if (label) { el.title = label; el.setAttribute('aria-label', label); }
+    var key = list.dataset.list + (list.dataset.swimlane ? ':' + list.dataset.swimlane : '');
+    callAsync('setListCollapsedState', board.dataset.board, key, collapsed).catch(function () {});
+  });
+
   // The "+" of a list opens its card composer; × closes it.
   up.on('click', '.js-add-card', function (event, el) {
     event.preventDefault();

@@ -95,8 +95,15 @@
           span.swimlane-header-name {{.Title}}
         .list-group.js-lists
           each li in .Lists
-            .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}")
+            .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}", data-swimlane="{{.Lane}}", class="{{if .Collapsed}}list-collapsed{{end}}")
               .list-header
+                //- WeKan's caret (listHeader.jade): per user, per list in this swimlane (#6712).
+                if .Collapsed
+                  a.list-collapse-indicator.js-collapse(href="#", data-collapse="{{t $.L `collapse`}}", data-uncollapse="{{t $.L `uncollapse`}}", title="{{t $.L `uncollapse`}}", aria-label="{{t $.L `uncollapse`}}")
+                    i.fa.fa-caret-right
+                else
+                  a.list-collapse-indicator.js-collapse(href="#", data-collapse="{{t $.L `collapse`}}", data-uncollapse="{{t $.L `uncollapse`}}", title="{{t $.L `collapse`}}", aria-label="{{t $.L `collapse`}}")
+                    i.fa.fa-caret-down
                 span.list-header-name {{.Title}}
                 if $.CanEdit
                   a.js-add-card.list-header-plus-top(href="#", title="{{t $.L `add-card`}}", aria-label="{{t $.L `add-card`}}") +

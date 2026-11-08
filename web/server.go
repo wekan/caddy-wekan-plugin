@@ -412,8 +412,9 @@ type lane struct {
 
 type laneList struct {
 	List
-	Lane  string // the swimlane this list is shown in
-	Cards []Card
+	Lane      string // the swimlane this list is shown in
+	Cards     []Card
+	Collapsed bool // folded by this user, in this swimlane (#6712)
 }
 
 func (s *Server) boardData(ctx context.Context, b *Board) ([]lane, []List, error) {
@@ -467,6 +468,17 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
+	}
+	folded := s.collapsedLists(r.Context(), u.ID, b.ID)
+	for i := range lanes {
+		for j := range lanes[i].Lists {
+			ll := &lanes[i].Lists[j]
+			v, ok := folded[ll.ID+":"+ll.Lane]
+			if !ok {
+				v = folded[ll.ID]
+			}
+			ll.Collapsed = v
+		}
 	}
 	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil)}
 	// WeKan's sidebar: the board menu for a member who is not comment-only or a

@@ -29,6 +29,11 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 .list { flex: 0 0 272px; background: var(--list); border-radius: 4px; padding: 6px; }
 .list-header { display: flex; justify-content: space-between; align-items: center; padding: 4px; font-weight: 600; }
 .list-header a { text-decoration: none; color: inherit; font-size: 18px; padding: 0 6px; }
+/* A collapsed list: a narrow column with its caret and name, as WeKan's list.css. */
+.list.list-collapsed { flex: none; min-width: 30px; max-width: 30px; width: 30px; }
+.list.list-collapsed .list-header { flex-direction: column; justify-content: flex-start; }
+.list.list-collapsed .list-header-name { writing-mode: vertical-rl; }
+.list.list-collapsed .list-header-plus-top, .list.list-collapsed .list-body, .list.list-collapsed .js-card-composer { display: none; }
 .list-body { min-height: 24px; display: flex; flex-direction: column; gap: 6px; }
 .minicard-wrapper { display: block; text-decoration: none; color: inherit; touch-action: none; user-select: none; }
 .minicard { background: var(--card); border-radius: 3px; padding: 6px 8px; box-shadow: 0 1px 0 rgba(9,30,66,.25); }

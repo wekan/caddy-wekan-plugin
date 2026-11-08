@@ -1,6 +1,7 @@
 package web
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"mime"
@@ -8,6 +9,7 @@ import (
 	"strings"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // WeKan's Meteor methods that the browser - WeKan's scripts and tests - calls
@@ -23,8 +25,9 @@ func (e *methodError) Error() string { return e.Code }
 
 func (s *Server) methods() map[string]methodFunc {
 	return map[string]methodFunc{
-		"setLanguage":     s.methodSetLanguage,
-		"cards.pokerVote": s.methodPokerVote,
+		"setLanguage":           s.methodSetLanguage,
+		"cards.pokerVote":       s.methodPokerVote,
+		"setListCollapsedState": s.methodSetListCollapsedState,
 	}
 }
 
@@ -110,4 +113,48 @@ func (s *Server) methodSetLanguage(r *http.Request, u *User, args []json.RawMess
 	}
 	_, err = s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)}, bson.M{"$set": bson.M{"profile.language": l.Code}})
 	return nil, err
+}
+
+// collapsedLists is the user's folded lists of the board, as WeKan's
+// profile.collapsedLists[boardId]: "listId:swimlaneId" (or "listId") -> folded.
+func (s *Server) collapsedLists(ctx context.Context, userID, boardID string) map[string]bool {
+	var u struct {
+		Profile struct {
+			CollapsedLists map[string]map[string]bool `bson:"collapsedLists"`
+		} `bson:"profile"`
+	}
+	_ = s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(userID)},
+		options.FindOne().SetProjection(bson.M{"profile.collapsedLists": 1})).Decode(&u)
+	return u.Profile.CollapsedLists[boardID]
+}
+
+// methodSetListCollapsedState is WeKan's setListCollapsedState: the user folds
+// or unfolds a list - in one swimlane, "listId:swimlaneId" - in their own
+// profile, on a board they can see. The keys are ids, so never a "$" or a "."
+// that would make the path something else (WeKan's assertSafeMapKey).
+func (s *Server) methodSetListCollapsedState(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	key, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	var collapsed bool
+	if len(args) < 3 || json.Unmarshal(args[2], &collapsed) != nil {
+		return nil, &methodError{"Match.Error", "Expected boolean"}
+	}
+	list, lane, inLane := strings.Cut(key, ":")
+	if !validID(boardID) || !validID(list) || (inLane && !validID(lane)) {
+		return nil, &methodError{"Match.Error", "Expected ids"}
+	}
+	if _, err := s.boardFor(r.Context(), boardID, u); err != nil {
+		return nil, &methodError{"not-found", "Board not found"}
+	}
+	path := "profile.collapsedLists." + boardID + "." + key
+	if _, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)}, bson.M{"$set": bson.M{path: collapsed}}); err != nil {
+		return nil, err
+	}
+	return nil, nil
 }

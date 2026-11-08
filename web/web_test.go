@@ -867,3 +867,58 @@ func TestPlanningPoker(t *testing.T) {
 		t.Fatal("negative: a board that turned Planning Poker off shows none")
 	}
 }
+
+// #6712: a folded list stays folded after a reload - per user, per swimlane.
+func TestListCollapseState(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	w.seedUser(t, "cid", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Fold")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	call := func(c *http.Client, args string) int {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/setListCollapsedState", strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := c.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+		return res.StatusCode
+	}
+	boardURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug
+	if _, html := get(t, ann, boardURL); strings.Contains(html, "list-collapsed") || !strings.Contains(html, "js-collapse") {
+		t.Fatal("unfolded, with its caret, at first")
+	}
+	if c := call(ann, `["`+b.ID+`","`+l.ID+`:`+sw.ID+`",true]`); c != 200 {
+		t.Fatalf("setListCollapsedState: %d", c)
+	}
+	var doc bson.M
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": u.ID}).Decode(&doc)
+	if got := w.s.collapsedLists(ctx, u.ID, b.ID)[l.ID+":"+sw.ID]; !got {
+		t.Fatalf("kept as WeKan's profile.collapsedLists[board][list:swimlane]: %v", doc["profile"])
+	}
+	if _, html := get(t, ann, boardURL); !strings.Contains(html, "list-collapsed") || !strings.Contains(html, "fa-caret-right") {
+		t.Fatal("folded after a reload")
+	}
+	cc := w.client(t)
+	body(t, w.signIn(t, cc, "cid", "pw"))
+	if c := call(cc, `["`+b.ID+`","`+l.ID+`",true]`); c != 400 {
+		t.Fatalf("negative: not on the private board: %d", c)
+	}
+	for _, bad := range []string{`"x.y"`, `"$set"`, `"a:b.c"`, `"a:b:c"`} {
+		if c := call(ann, `["`+b.ID+`",`+bad+`,true]`); c != 400 {
+			t.Errorf("negative: %s is no list id: %d", bad, c)
+		}
+	}
+	if c := call(ann, `["`+b.ID+`","`+l.ID+`","yes"]`); c != 400 {
+		t.Errorf("negative: collapsed is a boolean: %d", c)
+	}
+	if _, html := get(t, w.client(t), boardURL); strings.Contains(html, "list-collapsed") {
+		t.Fatal("negative: another user's fold is not shown")
+	}
+}
