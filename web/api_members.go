@@ -1,9 +1,11 @@
 package web
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -82,6 +84,23 @@ func cardFields(req map[string]any) (bson.M, bson.M, error) {
 			set[f] = ids
 		}
 	}
+	if v, ok := req["dueComplete"]; ok { // WeKan: String(v).toLowerCase() === 'true'
+		set["dueComplete"] = strings.EqualFold(fmt.Sprint(v), "true")
+	}
+	if v, ok := req["stickers"]; ok && v != nil && v != "" {
+		st, err := stickersFrom(v)
+		if err != nil {
+			return nil, nil, err
+		}
+		set["stickers"] = st
+	}
+	if v, ok := req["locations"]; ok && v != nil && v != "" {
+		loc, err := locationsFrom(v)
+		if err != nil {
+			return nil, nil, err
+		}
+		set["locations"] = loc
+	}
 	for _, f := range dateFields {
 		v, ok := req[f]
 		if !ok {
@@ -136,6 +155,101 @@ func (s *Server) setParent(r *http.Request, u *User, req map[string]any, set bso
 	}
 	set["parentId"] = id
 	return nil
+}
+
+// jsonArray is a REST array field: an array, or (sent form-encoded) its JSON text.
+func jsonArray(v any, name string) ([]any, error) {
+	if str, ok := v.(string); ok {
+		var arr []any
+		if err := json.Unmarshal([]byte(str), &arr); err != nil {
+			return nil, fmt.Errorf("%s: not an array", name)
+		}
+		v = arr
+	}
+	arr, ok := v.([]any)
+	if !ok || len(arr) > 100 {
+		return nil, fmt.Errorf("%s: an array of at most 100", name)
+	}
+	return arr, nil
+}
+
+func shortString(v any, max int) (string, bool) {
+	if v == nil {
+		return "", true
+	}
+	s, ok := v.(string)
+	return s, ok && len(s) <= max
+}
+
+// stickersFrom: WeKan's stickers.$ schema - icon, name, highlight underline or
+// round, position.
+func stickersFrom(v any) ([]bson.M, error) {
+	arr, err := jsonArray(v, "stickers")
+	if err != nil {
+		return nil, err
+	}
+	out := make([]bson.M, 0, len(arr))
+	for i, e := range arr {
+		m, ok := e.(map[string]any)
+		icon, ok1 := shortString(m["icon"], 100)
+		name, ok2 := shortString(m["name"], 1000)
+		hl, ok3 := shortString(m["highlight"], 20)
+		if !ok || !ok1 || !ok2 || !ok3 || (hl != "" && hl != "underline" && hl != "round") {
+			return nil, errors.New("stickers: {icon, name, highlight underline or round}")
+		}
+		st := bson.M{"icon": icon, "name": name, "position": i}
+		if p, isNum := m["position"].(float64); isNum {
+			st["position"] = p
+		}
+		if hl != "" {
+			st["highlight"] = hl
+		}
+		out = append(out, st)
+	}
+	return out, nil
+}
+
+// locationsFrom: WeKan's locations - each with an _id, name, address and
+// numeric coordinates.
+func locationsFrom(v any) ([]bson.M, error) {
+	arr, err := jsonArray(v, "locations")
+	if err != nil {
+		return nil, err
+	}
+	out := make([]bson.M, 0, len(arr))
+	for _, e := range arr {
+		m, ok := e.(map[string]any)
+		name, ok1 := shortString(m["name"], 1000)
+		addr, ok2 := shortString(m["address"], 1000)
+		id, ok3 := shortString(m["_id"], 64)
+		if !ok || !ok1 || !ok2 || !ok3 || (id != "" && !validID(id)) {
+			return nil, errors.New("locations: {name, address, latitude, longitude}")
+		}
+		if id == "" {
+			id = randomID()
+		}
+		loc := bson.M{"_id": id, "name": name, "address": addr} // inserted, not a filter
+		for _, k := range []string{"latitude", "longitude"} {
+			switch c := m[k].(type) {
+			case nil:
+			case float64:
+				loc[k] = c
+			case string:
+				if c == "" {
+					continue
+				}
+				f, err := strconv.ParseFloat(c, 64)
+				if err != nil {
+					return nil, fmt.Errorf("locations: %s is a number", k)
+				}
+				loc[k] = f
+			default:
+				return nil, fmt.Errorf("locations: %s is a number", k)
+			}
+		}
+		out = append(out, loc)
+	}
+	return out, nil
 }
 
 // addCardFrom adds a card from a REST body: the author is the caller

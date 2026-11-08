@@ -37,6 +37,7 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	s.apiMoreRoutes(m)
 	s.apiMemberRoutes(m)
 	s.apiCardRoutes(m)
+	s.apiDependencyRoutes(m)
 }
 
 // parentStatus is a refused parentId's own status, else 400.
