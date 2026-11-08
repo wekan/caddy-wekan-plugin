@@ -207,6 +207,15 @@
     form.classList.remove('is-hidden');
     form.querySelector('textarea').focus();
   });
+  // An item's Edit or Add opens its inlined form, beside it (cardDetails.jade).
+  up.on('click', '.card-details-person-controls .js-open-inlined-form', function (event, el) {
+    event.preventDefault();
+    var form = el.closest('.card-details-item').querySelector('.js-inlined-form');
+    if (!form) return;
+    form.classList.remove('is-hidden');
+    var input = form.querySelector('input[type=text]');
+    if (input) input.focus();
+  });
   up.on('click', '.js-close-inlined-form', function (event, el) {
     event.preventDefault();
     el.closest('.js-inlined-form').classList.add('is-hidden');

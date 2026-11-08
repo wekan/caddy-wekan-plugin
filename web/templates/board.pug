@@ -144,6 +144,27 @@
             span.card-member.js-member(data-user="{{.ID}}") {{.Username}}
           if $.CanEdit
             a.card-details-item-add-button.js-add-members(href="#", title="{{t $.L `add-members`}}", aria-label="{{t $.L `add-members`}}") +
+        //- WeKan's Requested By and Assigned By: free text, Edit or Add.
+        each p in .People
+          .card-details-item.card-details-item-name(class="card-details-item-{{.Label}}")
+            h3.card-details-item-title
+              i.fa(class="{{.Icon}}")
+              |  {{t $.L .Label}}
+            if .Value
+              .viewer {{.Value}}
+            if .Editable
+              .card-details-person-controls
+                if .Value
+                  a.js-open-inlined-form(href="#", title="{{t $.L `edit`}}", aria-label="{{t $.L `edit`}}")
+                    i.fa.fa-pencil-square-o(aria-hidden="true")
+                else
+                  a.js-open-inlined-form(href="#", title="{{t $.L `add`}}", aria-label="{{t $.L `add`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+              form.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/people", up-submit, up-target=".board-wrapper")
+                input(type="hidden", name="field", value="{{.Field}}")
+                input(type="text", name="value", value="{{.Value}}", aria-label="{{t $.L .Label}}")
+                button.primary(type="submit") {{t $.L "save"}}
+                a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
       if .Vote
         .card-details-group.card-details-group-vote
           h3.card-details-item-title.js-toggle-card-section(data-section="vote", role="button", tabindex="0")

@@ -979,3 +979,61 @@ func TestBoardStar(t *testing.T) {
 		t.Fatalf("a stale star can be taken away: %d", c)
 	}
 }
+
+// Requested By and Assigned By: Edit when given, Add when empty; saved by an
+// editor, never by a read-only member or for a board that hides the field.
+func TestCardRequestedAssignedBy(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ro := w.seedUser(t, "rob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "People")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": ro.ID, "isActive": true, "isReadOnly": true}}})
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Alpha")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"requestedBy": "Customer One"}})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	cardURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/" + c.ID
+	_, html := get(t, ann, cardURL)
+	req := html[strings.Index(html, "card-details-item-requested-by"):]
+	if i := strings.Index(req, "card-details-item-assigned-by"); i < 0 || !strings.Contains(req[:i], `aria-label="Edit"`) || !strings.Contains(req[i:], `aria-label="Add"`) {
+		t.Fatal("Requested By offers Edit, the empty Assigned By Add")
+	}
+	save := func(cl *http.Client, field, v string) int {
+		res, err := cl.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/people", url.Values{"field": {field}, "value": {v}})
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+		return res.StatusCode
+	}
+	if code := save(ann, "assignedBy", "Boss"); code != http.StatusSeeOther {
+		t.Fatalf("saved: %d", code)
+	}
+	var doc bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&doc)
+	if doc["assignedBy"] != "Boss" {
+		t.Fatalf("assignedBy: %v", doc["assignedBy"])
+	}
+	rob := w.client(t)
+	body(t, w.signIn(t, rob, "rob", "pw"))
+	if _, html := get(t, rob, cardURL); strings.Contains(html, "card-details-person-controls") {
+		t.Fatal("negative: a read-only member gets no Edit or Add")
+	}
+	if code := save(rob, "assignedBy", "Me"); code != 403 {
+		t.Fatalf("negative: a read-only member cannot save: %d", code)
+	}
+	if code := save(ann, "title", "x"); code != 403 {
+		t.Fatalf("negative: only these two fields: %d", code)
+	}
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"allowsAssignedBy": false}})
+	if code := save(ann, "assignedBy", "Hidden"); code != 403 {
+		t.Fatalf("negative: not for a board that hides it: %d", code)
+	}
+	if _, html := get(t, ann, cardURL); strings.Contains(html, "card-details-item-assigned-by") {
+		t.Fatal("negative: hidden when the board turns it off")
+	}
+}

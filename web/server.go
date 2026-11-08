@@ -185,6 +185,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /boards", s.page(s.createBoard))
 	m.HandleFunc("GET /b/{board}/{slug}", s.page(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/{card}", s.page(s.boardPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/people", s.page(s.cardPeoplePage))
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
 	m.HandleFunc("POST /b/{board}/cards", s.page(s.addCard))
 	m.HandleFunc("POST /b/{board}/cards/{card}/comments", s.page(s.addCommentPage))
@@ -551,6 +552,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["CardMembers"], data["BoardMembers"] = s.cardMemberChoices(r.Context(), b, &c)
 			data["Vote"] = s.cardVote(r.Context(), b, u, c.ID)
 			data["Poker"] = s.cardPoker(r.Context(), b, u, c.ID, lang)
+			data["People"] = s.cardPeople(r.Context(), b, u, &c)
 			data["WatchingCard"] = slices.Contains(s.cardWatchers(r.Context(), c.ID), u.ID)
 			data["CanComment"] = u.IsAdmin || (b.Can(u.ID, "comment") && (!m.AssignedOnly() || slices.Contains(c.Assignees, u.ID)))
 		}
@@ -1158,4 +1160,70 @@ func (h *hub) closeAll() {
 		}
 		delete(h.subs, board)
 	}
+}
+
+// cardPerson is the card's Requested By or Assigned By (cardDetails.jade): who,
+// as free text, on a board that shows it.
+type cardPerson struct {
+	Field, Label, Icon, Value string
+	Editable                  bool
+}
+
+// cardPeopleFields are WeKan's two, each with the board setting that shows it.
+var cardPeopleFields = []struct{ Field, Allows, Label, Icon string }{
+	{"requestedBy", "allowsRequestedBy", msg("requested-by"), "fa-shopping-cart"},
+	{"assignedBy", "allowsAssignedBy", msg("assigned-by"), "fa-user-plus"},
+}
+
+// cardPeople are the card's Requested By and Assigned By that its board
+// shows - both by default - editable for whoever may change the card but a
+// worker (WeKan's canModifyCard, unless isWorker).
+func (s *Server) cardPeople(ctx context.Context, b *Board, u *User, c *Card) []cardPerson {
+	var board, card bson.M
+	_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&board)
+	_ = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&card)
+	m := b.member(u.ID)
+	editable := b.Writable(u, "write", c) && (m == nil || !m.IsWorker)
+	var out []cardPerson
+	for _, f := range cardPeopleFields {
+		if board[f.Allows] == false {
+			continue
+		}
+		v, _ := card[f.Field].(string)
+		out = append(out, cardPerson{Field: f.Field, Label: f.Label, Icon: f.Icon, Value: v, Editable: editable})
+	}
+	return out
+}
+
+// cardPeoplePage saves the card's Requested By or Assigned By.
+func (s *Server) cardPeoplePage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	id := r.PathValue("card")
+	var c Card
+	if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c) != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	field, value := r.FormValue("field"), strings.TrimSpace(r.FormValue("value"))
+	var person *cardPerson
+	for _, p := range s.cardPeople(r.Context(), b, u, &c) {
+		if p.Field == field {
+			person = &p
+		}
+	}
+	if person == nil || !person.Editable || len(value) > 1000 {
+		http.Error(w, "this field is not yours to change", http.StatusForbidden)
+		return
+	}
+	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID},
+		bson.M{"$set": bson.M{person.Field: value, "modifiedAt": time.Now().UTC()}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.hub.publish(b.ID, "board-changed")
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
