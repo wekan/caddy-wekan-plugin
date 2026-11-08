@@ -52,6 +52,7 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	s.apiSettingsRoutes(m)
 	s.apiAdminRoutes(m)
 	s.exportCSVRoutes(m)
+	s.exportOfficeRoutes(m)
 	s.exportICSRoutes(m)
 	s.importICSRoutes(m)
 	s.exportZipRoutes(m)

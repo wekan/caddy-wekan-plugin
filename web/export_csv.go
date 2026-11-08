@@ -240,6 +240,20 @@ func (s *Server) apiExportCSV(w http.ResponseWriter, r *http.Request) {
 
 // boardCSV is the board's rows - the header, then a card a row - with delim.
 func (s *Server) boardCSV(ctx context.Context, b *Board, delim string) []byte {
+	var out strings.Builder
+	for _, cells := range s.boardRows(ctx, b) {
+		row := make([]string, len(cells))
+		for i, c := range cells {
+			row[i] = csvCell(c)
+		}
+		out.WriteString(strings.Join(row, delim) + "\r\n")
+	}
+	return []byte(out.String())
+}
+
+// boardRows are the board's export rows - WeKan's header, then a card a row -
+// for CSV and Excel alike.
+func (s *Server) boardRows(ctx context.Context, b *Board, only ...string) [][]any {
 	all := func(coll string, filter bson.M) []bson.M {
 		cur, err := s.db.Collection(coll).Find(ctx, filter, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
 		docs := []bson.M{}
@@ -250,7 +264,11 @@ func (s *Server) boardCSV(ctx context.Context, b *Board, delim string) []byte {
 	}
 	lists, swimlanes := all("lists", bson.M{"boardId": b.ID}), all("swimlanes", bson.M{"boardId": b.ID})
 	fields := all("customFields", bson.M{"boardIds": b.ID})
-	cards := all("cards", bson.M{"boardId": b.ID, "linkedId": bson.M{"$in": bson.A{"", nil}}})
+	filter := bson.M{"boardId": b.ID, "linkedId": bson.M{"$in": bson.A{"", nil}}}
+	if len(only) == 1 {
+		filter["_id"] = eq(only[0])
+	}
+	cards := all("cards", filter)
 	var raw bson.M
 	_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&raw)
 	labels := []bson.M{}
@@ -310,17 +328,9 @@ func (s *Server) boardCSV(ctx context.Context, b *Board, delim string) []byte {
 			header = append(header, "CustomField-"+name+"-"+typ)
 		}
 	}
-	var out strings.Builder
-	writeRow := func(cells []any) {
-		row := make([]string, len(cells))
-		for i, c := range cells {
-			row[i] = csvCell(c)
-		}
-		out.WriteString(strings.Join(row, delim) + "\r\n")
-	}
-	writeRow(header)
+	rows := [][]any{header}
 	for _, c := range cards {
-		writeRow(csvRow(c, lists, swimlanes, users, labels, fields, position))
+		rows = append(rows, csvRow(c, lists, swimlanes, users, labels, fields, position))
 	}
-	return []byte(out.String())
+	return rows
 }
