@@ -44,6 +44,7 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	s.exportRoutes(m)
 	s.importRoutes(m)
 	s.apiItemRoutes(m)
+	s.apiLaneRoutes(m)
 }
 
 // parentStatus is a refused parentId's own status, else 400.
@@ -516,8 +517,32 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	set["modifiedAt"] = time.Now().UTC()
+	// A move to another board: newBoardId, newSwimlaneId and newListId together
+	// (WeKan's isBoardMove), with write access there and a list and swimlane of
+	// that board.
+	newBoard, _ := req["newBoardId"].(string)
+	newSwimlane, _ := req["newSwimlaneId"].(string)
+	newList, _ := req["newListId"].(string)
+	var moveTo *Board
+	if newBoard != "" && newSwimlane != "" && newList != "" && newBoard != b.ID {
+		if moveTo = s.writableBoard(r.Context(), newBoard, u); moveTo == nil {
+			apiError(w, http.StatusForbidden, "Forbidden")
+			return
+		}
+		if !validID(newList) || s.db.Collection("lists").FindOne(r.Context(), bson.M{"_id": eq(newList), "boardId": moveTo.ID, "archived": false}).Err() != nil {
+			apiError(w, http.StatusNotFound, "Destination list not found or does not belong to destination board")
+			return
+		}
+		if !validID(newSwimlane) || s.db.Collection("swimlanes").FindOne(r.Context(), bson.M{"_id": eq(newSwimlane), "boardId": moveTo.ID, "archived": false}).Err() != nil {
+			apiError(w, http.StatusNotFound, "Destination swimlane not found or does not belong to destination board")
+			return
+		}
+	}
 	listID, hasList := req["listId"].(string)
 	swimlaneID, hasSwimlane := req["swimlaneId"].(string)
+	if moveTo != nil {
+		hasList, hasSwimlane = false, false
+	}
 	if hasList || hasSwimlane {
 		m := Move{CardID: c.ID, ListID: c.ListID, SwimlaneID: c.SwimlaneID, Sort: c.Sort}
 		if hasList {
@@ -538,6 +563,15 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
+	}
+	if moveTo != nil {
+		var raw bson.M
+		_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": c.ID}).Decode(&raw)
+		if err := s.moveCardTo(r.Context(), u, raw, b, moveTo, newSwimlane, newList); err != nil {
+			apiError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		s.hub.publish(moveTo.ID, "board-changed")
 	}
 	s.hub.publish(b.ID, "board-changed")
 	writeJSON(w, http.StatusOK, map[string]string{"_id": c.ID})
