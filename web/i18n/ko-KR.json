@@ -247,6 +247,7 @@
   "rename": "새이름",
   "requested-by": "요청한 사람",
   "restore": "복구",
+  "restore-board": "보드 복구",
   "rules": "규칙",
   "rulesImportExportPopup-title": "규칙 가져오기 / 내보내기",
   "save": "저장",

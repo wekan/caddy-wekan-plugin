@@ -12,8 +12,17 @@
   ul.board-list.js-boards
     each b in .Boards
       li.js-board(data-id="{{.ID}}", class="{{.ID}}{{if starred $.User .ID}} starred{{end}}")
-        a.board-list-item(href="/b/{{.ID}}/{{.Slug}}", class="board-color-{{.Color}}", up-follow)
+        if .Archived
+          //- WeKan's archivedBoards: a board in the Archive, restored by its admin.
           span.board-list-item-name {{.Title}}
+          if .AdminOf $.User.ID
+            form(method="post", action="/b/{{.ID}}/restore")
+              button.primary.board-header-btn.js-restore-board(type="submit")
+                i.fa.fa-undo
+                |  {{t $.L "restore-board"}}
+        else
+          a.board-list-item(href="/b/{{.ID}}/{{.Slug}}", class="board-color-{{.Color}}", up-follow)
+            span.board-list-item-name {{.Title}}
     li.js-add-board
       form.js-add-board-form(method="post", action="/boards", up-submit)
         input.js-new-board-title(type="text", name="title", aria-label="{{t $.L `title`}}", placeholder="{{t $.L `title`}}", required)

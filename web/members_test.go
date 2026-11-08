@@ -203,3 +203,37 @@ func TestRenameBoardAndRestore(t *testing.T) {
 		t.Fatal("the card is back")
 	}
 }
+
+// WeKan's Boards in Archive: the user's archived boards, restored by an admin.
+func TestArchivedBoards(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	live, _ := w.s.CreateBoard(ctx, u, "Live")
+	old, _ := w.s.CreateBoard(ctx, u, "Old")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": old.ID}, bson.M{"$set": bson.M{"archived": true},
+		"$push": bson.M{"members": bson.M{"userId": bob.ID, "isActive": true}}})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	_, html := get(t, ann, w.srv.URL+"/allboards/archive")
+	if !strings.Contains(html, "js-board "+old.ID) || strings.Contains(html, "js-board "+live.ID) || !strings.Contains(html, "js-restore-board") {
+		t.Fatal("the archived board, not the live one, with its restore")
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if _, html := get(t, bc, w.srv.URL+"/allboards/archive"); strings.Contains(html, "js-restore-board") {
+		t.Fatal("negative: no restore for a member who is not its admin")
+	}
+	if r, _ := bc.PostForm(w.srv.URL+"/b/"+old.ID+"/restore", nil); r.StatusCode != http.StatusNotFound {
+		t.Fatalf("negative: nor may they restore it: %d", r.StatusCode)
+	}
+	if r, _ := ann.PostForm(w.srv.URL+"/b/"+old.ID+"/restore", nil); r.StatusCode != http.StatusSeeOther {
+		t.Fatalf("restored: %d", r.StatusCode)
+	}
+	var b Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": old.ID}).Decode(&b)
+	if b.Archived {
+		t.Fatal("the board is back")
+	}
+}

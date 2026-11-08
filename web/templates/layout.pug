@@ -54,6 +54,11 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
                   |  {{t $.L "admin-panel"}}
             hr
             li
+              a.board-header-btn.js-open-archived-board(href="/allboards/archive")
+                i.fa.fa-archive
+                |  {{t $.L "archives"}}
+            hr
+            li
               a.js-edit-profile(href="#")
                 i.fa.fa-user
                 |  {{t $.L "edit-profile"}}

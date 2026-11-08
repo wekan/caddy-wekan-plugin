@@ -239,6 +239,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/cards/{card}/people", s.page(s.cardPeoplePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/archive", s.page(s.archiveCardPage))
 	m.HandleFunc("POST /b/{board}/title", s.page(s.renameBoardPage))
+	m.HandleFunc("POST /b/{board}/restore", s.page(s.restoreBoardPage))
 	m.HandleFunc("POST /b/{board}/archive/restore", s.page(s.restoreArchivedPage))
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
 	m.HandleFunc("POST /b/{board}/swimlanes", s.page(s.addSwimlanePage))
@@ -436,14 +437,15 @@ func (s *Server) allBoards(w http.ResponseWriter, r *http.Request, u *User) {
 		}
 	}
 	templates, _ := s.templateBoardsOf(r.Context(), u.ID)
+	archived, _ := s.archivedBoardsOf(r.Context(), u.ID)
 	section := strings.SplitN(r.PathValue("section"), "/", 2)[0]
-	if !slices.Contains([]string{"starred", "templates", "remaining"}, section) {
+	if !slices.Contains([]string{"starred", "templates", "remaining", "archive"}, section) {
 		section = "remaining"
 		if len(starred) > 0 {
 			section = "starred" // WeKan opens on the starred boards when there are some
 		}
 	}
-	boards = map[string][]Board{"starred": starred, "templates": templates, "remaining": remaining}[section]
+	boards = map[string][]Board{"starred": starred, "templates": templates, "remaining": remaining, "archive": archived}[section]
 	sections := []boardSection{{"starred", msg("allboards.starred"), "fa-star", len(starred)},
 		{"templates", msg("allboards.templates"), "fa-clone", len(templates)},
 		{"remaining", msg("allboards.remaining"), "fa-th-large", len(remaining)}}
@@ -455,6 +457,32 @@ func (s *Server) allBoards(w http.ResponseWriter, r *http.Request, u *User) {
 type boardSection struct {
 	Type, Label, Icon string
 	Count             int
+}
+
+// archivedBoardsOf are the archived boards the user is an active member of.
+func (s *Server) archivedBoardsOf(ctx context.Context, userID string) ([]Board, error) {
+	cur, err := s.db.Collection("boards").Find(ctx, bson.M{"archived": true, "members": bson.M{"$elemMatch": bson.M{"userId": eq(userID), "isActive": true}}},
+		options.Find().SetSort(bson.D{{Key: "title", Value: 1}}))
+	if err != nil {
+		return nil, err
+	}
+	var boards []Board
+	return boards, cur.All(ctx, &boards)
+}
+
+// restoreBoardPage brings a board back from the Archive, for its admin.
+func (s *Server) restoreBoardPage(w http.ResponseWriter, r *http.Request, u *User) {
+	id := r.PathValue("board")
+	var b Board
+	if !validID(id) || s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(id), "archived": true}).Decode(&b) != nil || !b.AdminOf(u.ID) {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	if _, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"archived": false, "modifiedAt": time.Now().UTC()}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
 
 // templateBoardsOf are the user's template boards.

@@ -247,6 +247,7 @@
   "rename": "名前変更",
   "requested-by": "依頼者",
   "restore": "リストア",
+  "restore-board": "ボードをリストア",
   "rules": "ルール",
   "rulesImportExportPopup-title": "ルールのインポート / エクスポート",
   "save": "保存",
