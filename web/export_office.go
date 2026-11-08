@@ -183,7 +183,8 @@ func (s *Server) pdfLines(ctx context.Context, b *Board, c *Card) []string {
 	lines := []string{b.Title, ""}
 	if c != nil {
 		lines = append(lines, a.text(c.Title), s.titleOfID(ctx, "lists", c.ListID), "")
-		return append(lines, strings.Split(a.text(c.Description), "\n")...)
+		lines = append(lines, strings.Split(a.text(c.Description), "\n")...)
+		return append(lines, s.cardPDFDetails(ctx, b, c, a)...)
 	}
 	cur, err := s.db.Collection("lists").Find(ctx, bson.M{"boardId": b.ID, "archived": false}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
 	if err != nil {
@@ -268,4 +269,74 @@ func pdfOf(lines []string) []byte {
 	}
 	fmt.Fprintf(&b, "trailer\n<< /Size %d /Root 1 0 R >>\nstartxref\n%d\n%%%%EOF\n", len(objs)+1, xref)
 	return b.Bytes()
+}
+
+// cardPDFDetails are a card's checklists, each item ticked or not, and its
+// comments with their authors - as WeKan's ExporterCardPDF prints them, the
+// names anonymized when Admin Panel says so.
+func (s *Server) cardPDFDetails(ctx context.Context, b *Board, c *Card, a *anonMap) []string {
+	lang := exportLang(ctx)
+	var lines []string
+	cur, err := s.db.Collection("checklists").Find(ctx, bson.M{"cardId": c.ID}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
+	if err == nil {
+		var lists []bson.M
+		_ = cur.All(ctx, &lists)
+		if len(lists) > 0 {
+			lines = append(lines, "", tr(lang, "checklists"))
+		}
+		for _, cl := range lists {
+			lines = append(lines, a.text(strOf(cl["title"])))
+			ic, err := s.db.Collection("checklistItems").Find(ctx, bson.M{"checklistId": eq(strOf(cl["_id"]))}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
+			if err != nil {
+				continue
+			}
+			var items []bson.M
+			_ = ic.All(ctx, &items)
+			for _, it := range items {
+				box := "[ ]"
+				if it["isFinished"] == true {
+					box = "[x]"
+				}
+				lines = append(lines, "    "+box+" "+a.text(strOf(it["title"])))
+			}
+		}
+	}
+	cc, err := s.db.Collection("card_comments").Find(ctx, bson.M{"cardId": c.ID, "boardId": b.ID}, options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}}))
+	if err != nil {
+		return lines
+	}
+	var comments []bson.M
+	_ = cc.All(ctx, &comments)
+	if len(comments) == 0 {
+		return lines
+	}
+	ids := bson.A{}
+	for _, cm := range comments {
+		ids = append(ids, cm["userId"])
+	}
+	users := []bson.M{}
+	if uc, err := s.db.Collection("users").Find(ctx, bson.M{"_id": dbIn(ids)}, options.Find().SetProjection(bson.M{"username": 1})); err == nil {
+		_ = uc.All(ctx, &users)
+	}
+	// The commenters too, members or not.
+	if x := s.exportAnonymizer(ctx, b, users); x != nil {
+		a = x
+	}
+	names := map[string]string{}
+	for _, u := range users {
+		a.user(u)
+		names[strOf(u["_id"])] = strOf(u["username"])
+	}
+	lines = append(lines, "", tr(lang, "comments"))
+	for _, cm := range comments {
+		for i, l := range strings.Split(a.text(strOf(cm["text"])), "\n") {
+			if i == 0 {
+				l = names[strOf(cm["userId"])] + ": " + l
+			} else {
+				l = "    " + l
+			}
+			lines = append(lines, l)
+		}
+	}
+	return lines
 }

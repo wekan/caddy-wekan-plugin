@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strings"
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -105,5 +106,42 @@ func TestExportExcelAndPDF(t *testing.T) {
 func TestPDFTextEscapes(t *testing.T) {
 	if got := pdfText("a(b)c\\d\tä€\x01"); got != "a\\(b\\)c\\\\d    \xe4?" {
 		t.Fatalf("%q", got)
+	}
+}
+
+// A card's PDF has its checklists, ticked or not, and its comments with
+// their authors - anonymized when Admin Panel says so.
+func TestCardPDFDetails(t *testing.T) {
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "annreal", "pw")
+	a := login(t, w, "annreal")
+	b := newRESTBoard(t, w, a, "PDF")
+	ctx := context.Background()
+	_, _ = w.db.Collection("checklists").InsertOne(ctx, bson.M{"_id": "pdfchecklist0001", "cardId": b.Card, "title": "Steps", "sort": 0.0})
+	_, _ = w.db.Collection("checklistItems").InsertMany(ctx, []any{
+		bson.M{"_id": "pdfitem000000001", "checklistId": "pdfchecklist0001", "cardId": b.Card, "title": "Done one", "isFinished": true, "sort": 0.0},
+		bson.M{"_id": "pdfitem000000002", "checklistId": "pdfchecklist0001", "cardId": b.Card, "title": "Open one", "isFinished": false, "sort": 1.0}})
+	_, _ = w.db.Collection("card_comments").InsertOne(ctx, bson.M{"_id": "pdfcomment000001", "boardId": b.ID, "cardId": b.Card, "userId": ann.ID,
+		"text": "Looks good", "createdAt": time.Now()})
+	pdf := func() string {
+		req, _ := http.NewRequest("GET", w.srv.URL+"/api/boards/"+b.ID+"/lists/"+b.List+"/cards/"+b.Card+"/exportPDF", nil)
+		req.Header.Set("Authorization", "Bearer "+a)
+		res, err := testClient.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		data, _ := io.ReadAll(res.Body)
+		return string(data)
+	}
+	got := pdf()
+	for _, want := range []string{"(Steps) Tj", "(    [x] Done one) Tj", "(    [ ] Open one) Tj", "(annreal: Looks good) Tj"} {
+		if !strings.Contains(got, want) {
+			t.Errorf("the card's PDF has %q", want)
+		}
+	}
+	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"anonymizeExportUsers": true}})
+	if got := pdf(); strings.Contains(got, "annreal") {
+		t.Error("negative: anonymized, the commenter is not named")
 	}
 }
