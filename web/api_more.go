@@ -196,7 +196,7 @@ func (s *Server) apiAddCustomField(w http.ResponseWriter, r *http.Request, u *Us
 	if req.Settings == nil {
 		req.Settings = map[string]any{}
 	}
-	doc := bson.M{"_id": randomID(), "name": req.Name, "type": req.Type, "settings": req.Settings,
+	doc := bson.M{"_id": randomID(), "name": req.Name, "type": req.Type, "settings": cleanImported(req.Settings, ""), // never an operator or a path
 		"showOnCard": req.ShowOnCard, "automaticallyOnCard": req.AutomaticallyOnCard,
 		"showLabelOnMiniCard": req.ShowLabelOnMiniCard, "showSumAtTopOfList": req.ShowSumAtTopOfList,
 		"boardIds": []string{b.ID}, "createdAt": time.Now().UTC()}
