@@ -184,6 +184,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
 	m.HandleFunc("POST /b/{board}/cards", s.page(s.addCard))
 	m.HandleFunc("POST /b/{board}/cards/{card}/comments", s.page(s.addCommentPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/members/{user}", s.page(s.toggleCardMemberPage))
 	m.HandleFunc("POST /b/{board}/move", s.page(s.moveCards))
 	m.HandleFunc("GET /b/{board}/live", s.page(s.live))
 	m.HandleFunc("GET /language", s.page(s.languagePage))
@@ -478,10 +479,72 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["Attachments"] = s.cardAttachments(r, b, c.ID)
 			data["Comments"] = s.cardComments(r.Context(), b, c.ID)
 			data["CardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID, "cardId": c.ID}, lang, 100)
+			data["CardMembers"], data["BoardMembers"] = s.cardMemberChoices(r.Context(), b, &c)
 			data["CanComment"] = u.IsAdmin || (b.Can(u.ID, "comment") && (!m.AssignedOnly() || slices.Contains(c.Assignees, u.ID)))
 		}
 	}
 	s.render(w, r, "board", http.StatusOK, data)
+}
+
+// memberChoice is a board member in the card's members pop-over.
+type memberChoice struct {
+	ID, Username, Fullname string
+	Selected               bool
+}
+
+// cardMemberChoices are the card's members, and every active board member with
+// whether they are one of them.
+func (s *Server) cardMemberChoices(ctx context.Context, b *Board, c *Card) ([]memberChoice, []memberChoice) {
+	var card, board []memberChoice
+	for _, m := range b.Members {
+		if !m.IsActive {
+			continue
+		}
+		var u User
+		if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(m.UserID)}).Decode(&u) != nil {
+			continue
+		}
+		ch := memberChoice{ID: u.ID, Username: u.Username, Fullname: u.Profile.Fullname, Selected: slices.Contains(c.Members, u.ID)}
+		board = append(board, ch)
+		if ch.Selected {
+			card = append(card, ch)
+		}
+	}
+	return card, board
+}
+
+// toggleCardMemberPage adds a board member to the card, or takes them off it.
+func (s *Server) toggleCardMemberPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	var c Card
+	id, who := r.PathValue("card"), r.PathValue("user")
+	if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c) != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	if !b.Writable(u, "write", &c) {
+		http.Error(w, "your role on this board cannot change this card", http.StatusForbidden)
+		return
+	}
+	update, kind := bson.M{"$pull": bson.M{"members": who}}, "unjoinMember"
+	if !slices.Contains(c.Members, who) {
+		if !validID(who) || !b.MemberOf(who) {
+			http.Error(w, "only a member of the board can be a card member", http.StatusBadRequest)
+			return
+		}
+		update, kind = bson.M{"$addToSet": bson.M{"members": who}}, "joinMember"
+	}
+	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.activity(r.Context(), u.ID, kind, bson.M{"boardId": b.ID, "cardId": c.ID, "memberId": who, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
+	s.hub.publish(b.ID, "board-changed")
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
 // addCommentPage is the card details' comment form.

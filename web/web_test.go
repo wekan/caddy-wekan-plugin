@@ -15,6 +15,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -676,5 +677,56 @@ func TestCardCommentsAndActivitiesInThePages(t *testing.T) {
 	}
 	if n, _ := w.db.Collection("card_comments").CountDocuments(ctx, bson.M{"text": "sneaky"}); n != 0 {
 		t.Fatal("negative: and not stored")
+	}
+}
+
+// The card's members from the pages: the pop-over's template lists the board's
+// members, a choice adds and takes off; only a board member is added, and a
+// role that cannot change the card cannot.
+func TestCardMembersFromThePage(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	cid := w.seedUser(t, "cid", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Team")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Alpha")
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	_, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID)
+	if !strings.Contains(html, "js-add-members") || !strings.Contains(html, `data-pop="card-members"`) ||
+		!strings.Contains(html, `data-user="`+bob.ID+`"`) || strings.Contains(html, `data-user="`+cid.ID+`"`) {
+		t.Fatal("the pop-over's template lists the board's members, nobody else")
+	}
+	if strings.Count(html, `class="pop-over js-pop-over`) != 0 {
+		t.Fatal("no pop-over is open until one is asked for: one .js-pop-over at a time, as in WeKan")
+	}
+	toggle := func(cl *http.Client, who string) int {
+		res, _ := cl.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/members/"+who, url.Values{})
+		return res.StatusCode
+	}
+	members := func() []string {
+		var got Card
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&got)
+		return got.Members
+	}
+	if code := toggle(ann, bob.ID); code != http.StatusSeeOther || !slices.Contains(members(), bob.ID) {
+		t.Fatalf("added: %d %v", code, members())
+	}
+	if code := toggle(ann, bob.ID); code != http.StatusSeeOther || slices.Contains(members(), bob.ID) {
+		t.Fatalf("taken off: %d %v", code, members())
+	}
+	if code := toggle(ann, cid.ID); code != 400 || slices.Contains(members(), cid.ID) {
+		t.Fatalf("negative: somebody not on the board: %d", code)
+	}
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true, IsReadOnly: true})
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if code := toggle(bc, bob.ID); code != 403 {
+		t.Fatalf("negative: a read-only member: %d", code)
 	}
 }

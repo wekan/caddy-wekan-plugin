@@ -24,13 +24,22 @@
 
   // WeKan's sidebar and pop-overs: the sidebar opens and closes, the board menu
   // opens from it, and one pop-over is open at a time.
+  // As in WeKan, there is one pop-over at a time: opening one makes it from
+  // its <template>, closing it takes it away.
   function closePopOvers() {
-    document.querySelectorAll('.js-pop-over').forEach(function (p) { p.classList.add('is-hidden'); });
+    document.querySelectorAll('.js-pop-over').forEach(function (p) { p.remove(); });
   }
-  function openPopOver(selector) {
+  function openPopOver(name) {
     closePopOvers();
-    var p = document.querySelector(selector);
-    if (p) p.classList.remove('is-hidden');
+    var t = document.querySelector('template.js-pop-over-template[data-pop="' + name + '"]');
+    if (!t) return;
+    var p = document.createElement('div');
+    p.className = 'pop-over js-pop-over';
+    p.setAttribute('role', 'dialog');
+    p.setAttribute('aria-label', t.getAttribute('data-title') || '');
+    p.appendChild(t.content.cloneNode(true));
+    document.body.appendChild(p);
+    up.hello(p);
   }
   up.on('click', '.js-toggle-page-sidebar', function (event) {
     event.preventDefault();
@@ -43,11 +52,19 @@
   });
   up.on('click', '.js-open-board-menu', function (event) {
     event.preventDefault();
-    openPopOver('.js-board-menu-pop-over');
+    openPopOver('board-menu');
   });
   up.on('click', '.js-export-board', function (event) {
     event.preventDefault();
-    openPopOver('.js-export-pop-over');
+    openPopOver('export');
+  });
+  up.on('click', '.js-add-members', function (event) {
+    event.preventDefault();
+    openPopOver('card-members');
+  });
+  // A choice in a pop-over is done when the board has reloaded with it.
+  up.on('up:fragment:inserted', function (event, el) {
+    if (el && el.matches && el.matches('.board-wrapper')) closePopOvers();
   });
   up.on('click', '.js-close-pop-over', function (event) {
     event.preventDefault();

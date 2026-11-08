@@ -21,7 +21,7 @@
                 span.activity-member {{.User}}
                 |  {{.Text}}
               time.activity-time(datetime="{{.ISO}}") {{.Display}}
-  .pop-over.js-pop-over.js-board-menu-pop-over.is-hidden(role="dialog", aria-label="{{t $.L `boardMenuPopup-title`}}")
+  template.js-pop-over-template(data-pop="board-menu", data-title="{{t $.L `boardMenuPopup-title`}}")
     .header
       span.header-title {{t $.L "boardMenuPopup-title"}}
       a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
@@ -30,8 +30,19 @@
         if .CanExport
           li
             a.js-export-board(href="#") {{t $.L "export"}}
+  if .Card
+    template.js-pop-over-template(data-pop="card-members", data-title="{{t $.L `cardMembersPopup-title`}}")
+      .header
+        span.header-title {{t $.L "cardMembersPopup-title"}}
+        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+      .content
+        ul.pop-over-list.js-card-member-list
+          each bm in .BoardMembers
+            li
+              form(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/members/{{.ID}}", up-submit, up-target=".board-wrapper")
+                button.js-select-member(type="submit", class="{{if .Selected}}is-active{{end}}", data-user="{{.ID}}") {{.Username}}{{if .Fullname}} ({{.Fullname}}){{end}}{{if .Selected}} ✓{{end}}
   if .CanExport
-    .pop-over.js-pop-over.js-export-pop-over.is-hidden(role="dialog", aria-label="{{t $.L `export`}}")
+    template.js-pop-over-template(data-pop="export", data-title="{{t $.L `export`}}")
       .header
         span.header-title {{t $.L "export"}}
         a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
@@ -94,6 +105,13 @@
       .card-details-header
         h2.card-details-title.js-card-title {{.Card.Title}}
         a.js-close-card-details(href="/b/{{.Board.ID}}/{{.Board.Slug}}", aria-label="{{t $.L `close`}}", up-follow, up-target=".board-wrapper") ×
+      .card-details-items
+        .card-details-item.card-details-item-members
+          h3.card-details-item-title {{t $.L "members"}}
+          each mem in .CardMembers
+            span.card-member.js-member(data-user="{{.ID}}") {{.Username}}
+          if $.CanEdit
+            a.card-details-item-add-button.js-add-members(href="#", title="{{t $.L `add-members`}}", aria-label="{{t $.L `add-members`}}") +
       h3 {{t $.L "description"}}
       .card-description.js-card-description {{.Card.Description}}
       h3 {{t $.L "attachments"}}
