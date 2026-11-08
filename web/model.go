@@ -117,6 +117,40 @@ type Member struct {
 	// The two other assigned-only roles of WeKan's board schema.
 	IsNormalAssignedOnly  bool `bson:"isNormalAssignedOnly,omitempty" json:"isNormalAssignedOnly,omitempty"`
 	IsCommentAssignedOnly bool `bson:"isCommentAssignedOnly,omitempty" json:"isCommentAssignedOnly,omitempty"`
+	// Rest are the member's other fields, kept as they are: WeKan's grantedBy
+	// (#4178, the orgs and teams a membership came through - an empty list
+	// still means group-derived) and whatever else WeKan writes. Weddy rewrites
+	// the whole members list, so a field it did not know was lost, and a
+	// group-derived member became a direct one that leaving the group no
+	// longer removed.
+	Rest map[string]any `bson:",inline" json:"-"`
+}
+
+// GrantedBy are the groups the membership came through, and whether it is
+// group-derived at all (an empty list still is).
+func (m Member) GrantedBy() ([]string, bool) {
+	v, ok := m.Rest["grantedBy"]
+	if !ok {
+		return nil, false
+	}
+	var out []string
+	switch a := v.(type) {
+	case bson.A:
+		for _, e := range a {
+			if s, ok := e.(string); ok {
+				out = append(out, s)
+			}
+		}
+	case []any:
+		for _, e := range a {
+			if s, ok := e.(string); ok {
+				out = append(out, s)
+			}
+		}
+	case []string:
+		out = a
+	}
+	return out, true
 }
 
 // What each board role may do: WeKan's models/lib/boardRoleCapabilities.js, the
