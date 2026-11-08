@@ -75,6 +75,8 @@
   "edit": "Wysig",
   "edit-profile": "Wysig profiel",
   "email": "E-pos",
+  "email-invite-register-subject": "__inviter__ het vir jou 'n uitnodiging gestuur",
+  "email-invite-register-text": "Beste __user__,\n\n__inviter__ nooi jou na kanban-raad vir samewerking.\n\nVolg asseblief die skakel hieronder:\n__url__\n\nEn jou uitnodigingskode is: __icode__\n\nDankie.",
   "error-email-taken": "E-pos is reeds geneem",
   "error-ldap-login": "'n Fout het voorgekom tydens probeer om aan te meld",
   "error-notAuthorized": "Jy is nie gemagtig om hierdie bladsy te bekyk nie.",

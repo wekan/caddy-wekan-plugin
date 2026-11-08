@@ -75,6 +75,8 @@
   "edit": "Redaktirläň",
   "edit-profile": "Profili redaktirläň",
   "email": "E-poçta iberiň",
+  "email-invite-register-subject": "__inviter__ size çakylyk iberdi",
+  "email-invite-register-text": "Hormatly __user__,\n\n__inviter__ sizi hyzmatdaşlyk üçin kanban tagtasyna çagyrýar.\n\nAşakdaky baglanyşyga eýeriň:\n__url__\n\nÇakylyk kody: __icode__\n\nSag boluň.",
   "error-email-taken": "E-poçta eýýäm alyndy",
   "error-ldap-login": "Girişçi bolanda ýalňyşlyk ýüze çykdy",
   "error-notAuthorized": "Bu sahypany görmäge ygtyýaryňyz ýok.",

@@ -75,6 +75,8 @@
   "edit": "Redakön",
   "edit-profile": "Redakön profili",
   "email": "Ladet leäktronik",
+  "email-invite-register-subject": "__inviter__ esedon ole vüdi",
+  "email-invite-register-text": "Löfik __user__,\n\n__inviter__ vüdon oli lü tab kanban ad kevobön.\n\nBegö! Sökolös yümi dono:\n__url__\n\nKot vüda olik binon: __icode__\n\nDanö.",
   "error-email-taken": "Ladet leäktronik at ya pagebon",
   "error-ldap-login": "Pöl ejenon dü steifül ad nunädön oki",
   "error-notAuthorized": "No labol däli ad logön padi at.",

@@ -75,6 +75,8 @@
   "edit": "Veisautaka",
   "edit-profile": "Veisautaka na iTukutuku ni Tamata",
   "email": "Imeli",
+  "email-invite-register-subject": "Sa vakauta vei iko o __inviter__ e dua na veisureti",
+  "email-invite-register-text": "Kemuni __user__,\n\nSa sureti kemuni o __inviter__ ki na vola kanban me baleta na cakacaka vata.\n\nYalovinaka muria na isema e ra:\n__url__\n\nKa na nomuni kode ni veisureti: __icode__\n\nVinaka.",
   "error-email-taken": "Sa vakayagataki oti na imeli",
   "error-ldap-login": "E yaco e dua na cala ni tovolei na curu",
   "error-notAuthorized": "E sega ni vakatarai mo raica na tabana oqo.",

@@ -75,6 +75,8 @@
   "edit": "Lokiša",
   "edit-profile": "Rulaganya profaele",
   "email": "Imeile",
+  "email-invite-register-subject": "__inviter__ o go rometše taletšo",
+  "email-invite-register-text": "Dumela __user__,\n\n__inviter__ o go laletša go boto ya kanban gore le šomišane.\n\nHle latela kgokaganyo ye e lego ka tlase:\n__url__\n\nKhoutu ya gago ya taletšo ke: __icode__\n\nRe a leboga.",
   "error-email-taken": "Imeile e šetše e šomišwa",
   "error-ldap-login": "Go tšweletše phošo ge go lekwa go tsena",
   "error-notAuthorized": "Ga o na tumelelo ya go lebelela letlakala le.",

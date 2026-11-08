@@ -75,6 +75,8 @@
   "edit": "Fetola",
   "edit-profile": "Hlophisa profaele",
   "email": "Imeile",
+  "email-invite-register-subject": "__inviter__ o o rometse memo",
+  "email-invite-register-text": "Ratehang __user__,\n\n__inviter__ o o mema ho kenela boto ya kanban bakeng sa tshebedisano.\n\nKa kopo latela lehokelo le ka tlase:\n__url__\n\nKhoutu ya hao ya memo ke: __icode__\n\nRe a leboha.",
   "error-email-taken": "Imeile ena e se e sebediswa",
   "error-ldap-login": "Ho hlahile phoso ha ho lekwa ho kena",
   "error-notAuthorized": "Ha o a dumellwa ho bona leqephe lena.",

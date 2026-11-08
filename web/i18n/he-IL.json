@@ -75,6 +75,8 @@
   "edit": "עריכה",
   "edit-profile": "עריכת פרופיל",
   "email": "דוא״ל",
+  "email-invite-register-subject": "נשלחה אליך הזמנה מאת __inviter__",
+  "email-invite-register-text": "לכבוד __user__,\n\nהוזמנת על ידי __inviter__ לקחת חלק בלוח קנבאן.\n\nנא ללחוץ על הקישור הבא:\n__url__\n\nקוד ההזמנה הוא: __icode__\n\nתודה.",
   "error-email-taken": "כתובת הדוא״ל כבר נמצאת בשימוש",
   "error-ldap-login": "אירעה שגיאה בעת ניסיון הכניסה",
   "error-notAuthorized": "אין לך הרשאה לצפות בעמוד זה.",

@@ -75,6 +75,8 @@
   "edit": "Sinthani",
   "edit-profile": "Sinthani Mbiri",
   "email": "Imelo",
+  "email-invite-register-subject": "__inviter__ wakutumizirani pempho",
+  "email-invite-register-text": "Wokondedwa __user__,\n\n__inviter__ akukuitanani ku bolodi la kanban kuti mugwirizane.\n\nChonde tsatirani ulalo uli pansipa:\n__url__\n\nNdipo khodi yanu yoitanira ndi iyi: __icode__\n\nZikomo.",
   "error-email-taken": "Imelo yatengedwa kale",
   "error-ldap-login": "Panachitika cholakwika poyesa kulowa",
   "error-notAuthorized": "Simunaloledwe kuona tsambali.",

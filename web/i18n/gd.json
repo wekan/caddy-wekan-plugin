@@ -75,6 +75,8 @@
   "edit": "Deasaich",
   "edit-profile": "Deasaich Pròifil",
   "email": "Post-d",
+  "email-invite-register-subject": "Chuir __inviter__ cuireadh thugad",
+  "email-invite-register-text": "A __user__ chòir,\n\nTha __inviter__ a' toirt cuireadh dhut gu bòrd kanban airson co-obrachadh.\n\nLean an ceangal gu h-ìosal:\n__url__\n\nAgus seo còd a' chuiridh agad: __icode__\n\nTapadh leat.",
   "error-email-taken": "Tha am post-d ga chleachdadh mu thràth",
   "error-ldap-login": "Thachair mearachd nuair a bhathar a' feuchainn ri logadh a-steach",
   "error-notAuthorized": "Chan eil cead agad an duilleag seo fhaicinn.",

@@ -75,6 +75,8 @@
   "edit": "ኣርትዕ",
   "edit-profile": "መግለጺ መንነት ኣርም",
   "email": "ኢመይል",
+  "email-invite-register-subject": "__inviter__ ዕድመ ልኢኹልካ",
+  "email-invite-register-text": "ክቡር __user__፣\n\n__inviter__ ንምትሕብባር ናብ ሰሌዳ kanban ይዕድመካ።\n\nበጃኻ ኣብዚ ታሕቲ ዘሎ መላግቦ ተኸተል፦\n__url__\n\nኮድ ዕድመኻ ድማ፦ __icode__\n\nየቐንየልና።",
   "error-email-taken": "እዚ ኢመይል ድሮ ተወሲዱ",
   "error-ldap-login": "ክኣቱ ክፍትን ከሎ ጌጋ ኣጋጢሙ",
   "error-notAuthorized": "ነዚ ገጽ ክትርኢ ፍቓድ የብልካን።",

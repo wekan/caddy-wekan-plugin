@@ -75,6 +75,8 @@
   "edit": "Промени",
   "edit-profile": "Промяна на профила",
   "email": "Имейл",
+  "email-invite-register-subject": "__inviter__ ви изпрати покана",
+  "email-invite-register-text": "Здравейте, __user__,\n\n__inviter__ ви кани в канбан табло за съвместна работа.\n\nМоля, последвайте връзката по-долу:\n__url__\n\nВашият код за покана е: __icode__\n\nБлагодарим ви.",
   "error-email-taken": "Имейлът е вече зает",
   "error-ldap-login": "Възникна грешка при опита за вход",
   "error-notAuthorized": "Нямате право да видите тази страница.",

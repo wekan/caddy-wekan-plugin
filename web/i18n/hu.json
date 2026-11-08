@@ -75,6 +75,8 @@
   "edit": "Szerkesztés",
   "edit-profile": "Profil szerkesztése",
   "email": "E-mail",
+  "email-invite-register-subject": "__inviter__ egy meghívás küldött Neked",
+  "email-invite-register-text": "Kedves __user__,\n\n__inviter__ meghív téged egy kanban táblára, hogy együtt dolgozhassatok.\n\nKérlek kattints az alábbi linkre:\n__url__\n\nA meghívás kódja: __icode__\n\nSzép napot :-)",
   "error-email-taken": "Az e-mail cím már foglalt",
   "error-ldap-login": "Hiba történt bejelentkezés közben",
   "error-notAuthorized": "Nincs jogosultsága az oldal megtekintéséhez.",

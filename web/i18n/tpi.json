@@ -75,6 +75,8 @@
   "edit": "Senisim",
   "edit-profile": "Senisim profail",
   "email": "Imel",
+  "email-invite-register-subject": "__inviter__ i salim tok bilong singautim yu i kam",
+  "email-invite-register-text": "Halo __user__,\n\n__inviter__ i singautim yu bilong kam long bot kanban na wok wantaim.\n\nPlis bihainim link aninit:\n__url__\n\nNa kod bilong singautim yu i kam em: __icode__\n\nTenkyu.",
   "error-email-taken": "Ol i yusim dispela imel pinis",
   "error-ldap-login": "Wanpela rong i kamap taim yu traim go insait",
   "error-notAuthorized": "Yu no gat rait bilong lukim dispela pes.",

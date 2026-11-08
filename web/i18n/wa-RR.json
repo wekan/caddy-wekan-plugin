@@ -75,6 +75,8 @@
   "edit": "Pag-edit",
   "edit-profile": "I-edit an Profile",
   "email": "E-mail",
+  "email-invite-register-subject": "Ginpadad-an ka ni __inviter__ hin imbitasyon",
+  "email-invite-register-text": "Minahal nga __user__,\n\nGin-iimbitar ka ni __inviter__ ngadto ha kanban board para ha kolaborasyon.\n\nAlayon sunda an link ha ilarom:\n__url__\n\nNgan an imo kodigo han imbitasyon amo: __icode__\n\nSalamat.",
   "error-email-taken": "Ginagamit na an email",
   "error-ldap-login": "May sayop nga nahitabo ha pagsulod",
   "error-notAuthorized": "Diri ka awtorisado nga makita ini nga pahina.",

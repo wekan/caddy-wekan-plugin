@@ -75,6 +75,8 @@
   "edit": "編集",
   "edit-profile": "プロフィールの編集",
   "email": "メールアドレス",
+  "email-invite-register-subject": "__inviter__さんがあなたを招待しています",
+  "email-invite-register-text": "__user__ 様\n\n__inviter__ によりカンバンへ招待されています。\n\n以下のリンクへ移動し、招待コード __icode__ を入力してください。\n__url__",
   "error-email-taken": "メールは既に受け取られています",
   "error-ldap-login": "ログイン中にエラーが発生しました",
   "error-notAuthorized": "このページを参照する権限がありません。",

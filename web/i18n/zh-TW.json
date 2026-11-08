@@ -75,6 +75,8 @@
   "edit": "編輯",
   "edit-profile": "編輯個人資料",
   "email": "電子郵件",
+  "email-invite-register-subject": "__inviter__ 向您發出邀請",
+  "email-invite-register-text": "親愛的__user__：\n__inviter__ 邀請您加入到看板\n\n請點擊下面的連結：\n__url__\n\n您的邀請碼是：__icode__\n\n謝謝。",
   "error-email-taken": "Email 已被使用",
   "error-ldap-login": "嘗試登入時出現錯誤",
   "error-notAuthorized": "您無權限查看此頁面。",

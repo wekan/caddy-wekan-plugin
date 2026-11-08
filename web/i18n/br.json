@@ -75,6 +75,8 @@
   "edit": "Kemmañ",
   "edit-profile": "Kemmañ ar profil",
   "email": "E-mail",
+  "email-invite-register-subject": "Kaset en deus __inviter__ ur bedadenn deoc’h",
+  "email-invite-register-text": "__user__ ker,\n\n__inviter__ a bed ac’hanoc’h da genlabourat war un daolenn kanban.\n\nHeuilhit al liamm amañ dindan :\n__url__\n\nSetu ho kod pediñ : __icode__\n\nTrugarez.",
   "error-email-taken": "Implijet eo ar chomlec’h postel-mañ dija",
   "error-ldap-login": "Ur fazi a zo c’hoarvezet e-pad an taol kennaskañ",
   "error-notAuthorized": "N’oc’h ket aotreet da welet ar bajenn-mañ.",

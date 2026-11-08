@@ -75,6 +75,8 @@
   "edit": "Redigér",
   "edit-profile": "Redigér profil",
   "email": "E-postadresse",
+  "email-invite-register-subject": "__inviter__ sendte dig en invitation",
+  "email-invite-register-text": "Kære __user__,\n\n__inviter__ inviterer dig til at samarbejde på kanbantavlen.\n\nFølg venligst linket nedenfor:\n__url__\n\nDin invitationskode er: __icode__\n\nTak.",
   "error-email-taken": "Email adressen er allerede i brug",
   "error-ldap-login": "Fejl under forsøg på login",
   "error-notAuthorized": "Du har ikke tilladelse til at se denne side.",

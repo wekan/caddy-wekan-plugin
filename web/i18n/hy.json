@@ -75,6 +75,8 @@
   "edit": "Խմբագրել",
   "edit-profile": "Խմբագրել պրոֆիլը",
   "email": "Էլ",
+  "email-invite-register-subject": "__inviter__-ը ձեզ հրավեր է ուղարկել",
+  "email-invite-register-text": "Հարգելի __user__,\n\n__inviter__-ը ձեզ հրավիրում է kanban board համագործակցության համար:\n\nԽնդրում ենք հետևել ստորև նշված հղմանը.\n__url__\n\nԵվ ձեր հրավերի կոդը՝ __icode__\n\nՇնորհակալություն։",
   "error-email-taken": "Էլփոստն արդեն ընդունված է",
   "error-ldap-login": "Մուտք գործելու փորձի ժամանակ սխալ առաջացավ",
   "error-notAuthorized": "Դուք իրավասու չեք դիտելու այս էջը:",

@@ -75,6 +75,8 @@
   "edit": "编辑",
   "edit-profile": "编辑资料",
   "email": "邮箱",
+  "email-invite-register-subject": "__inviter__ 向您发出邀请",
+  "email-invite-register-text": "亲爱的__user__：\n__inviter__ 邀请您加入到看板\n\n请点击下面的链接：\n__url__\n\n您的邀请码是：__icode__\n\n谢谢。",
   "error-email-taken": "此邮箱已被使用",
   "error-ldap-login": "尝试登录时出错",
   "error-notAuthorized": "您无权查看此页面。",

@@ -75,6 +75,8 @@
   "edit": "Allichay",
   "edit-profile": "Riqsichikuyta allichay",
   "email": "Elektroniku chaski",
+  "email-invite-register-subject": "__inviter__ invitayta kachamusunki",
+  "email-invite-register-text": "Munasqa __user__,\n\n__inviter__ kanban pirqapi kuska llamk'anaykipaq invitasunki.\n\nAma hina kaspa kay t'inkita qatiy:\n__url__\n\nInvitay kikinchayniykiqa: __icode__\n\nAñay.",
   "error-email-taken": "Correoqa ña hap'isqañam",
   "error-ldap-login": "Yaykuyta munachkaspa pantay karqan",
   "error-notAuthorized": "Kay p'anqata qhawanaykipaq manam saqillasqachu kanki.",

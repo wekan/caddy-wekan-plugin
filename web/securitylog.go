@@ -32,11 +32,12 @@ type securityCategory struct {
 }
 
 var securityCategories = map[string]securityCategory{
-	"authz.parent":       {Category: "authz", Bleed: "ParentBleed", Severity: "high", CWE: "CWE-862"},
-	"authz.assigned":     {Category: "authz", Bleed: "AssignedBleed", Severity: "medium", CWE: "CWE-863"},
-	"authz.comment":      {Category: "authz", Bleed: "CommentBleed", Severity: "medium", CWE: "CWE-639"},
-	"authz.comment-card": {Category: "authz", Bleed: "CommentBoundaryBleed", Severity: "high", CWE: "CWE-639"},
-	"authz.manage-board": {Category: "authz", Bleed: "ManageBoardBleed", Severity: "high", CWE: "CWE-863"},
+	"authz.parent":            {Category: "authz", Bleed: "ParentBleed", Severity: "high", CWE: "CWE-862"},
+	"authz.assigned":          {Category: "authz", Bleed: "AssignedBleed", Severity: "medium", CWE: "CWE-863"},
+	"authz.comment":           {Category: "authz", Bleed: "CommentBleed", Severity: "medium", CWE: "CWE-639"},
+	"authz.comment-card":      {Category: "authz", Bleed: "CommentBoundaryBleed", Severity: "high", CWE: "CWE-639"},
+	"authz.invitation-boards": {Category: "authz", Bleed: "InvitationBoardBleed", Severity: "high", CWE: "CWE-639"},
+	"authz.manage-board":      {Category: "authz", Bleed: "ManageBoardBleed", Severity: "high", CWE: "CWE-863"},
 	// #6798: the same refusal reaches a read-only member working from a stale
 	// screen, so it is recorded but never disables the account.
 	"authz.linked-write": {Category: "authz", Bleed: "LinkedWriteBleed", Severity: "high", CWE: "CWE-863", NeverBlocks: true},

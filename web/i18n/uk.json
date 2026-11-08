@@ -75,6 +75,8 @@
   "edit": "Редагувати",
   "edit-profile": "Редагувати профіль",
   "email": "Електронна пошта",
+  "email-invite-register-subject": "__inviter__ відправив вам запрошення",
+  "email-invite-register-text": "Дорогий __user__,\n\n__inviter__ запрошує вас до співпраці на дошці kanban.\n\nБудь ласка, перейдіть за посиланням нижче:\n__url__\n\nІ ваш код запрошення: __icode__\n\nДякуємо.",
   "error-email-taken": "Email вже зайнятий",
   "error-ldap-login": "Помилка під час спроби входу",
   "error-notAuthorized": "Ви не авторизовані для перегляду цієї сторінки.",

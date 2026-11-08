@@ -75,6 +75,8 @@
   "edit": "Teuteu",
   "edit-profile": "Teuteu le Talaaga",
   "email": "Imeli",
+  "email-invite-register-subject": "Ua auina atu e __inviter__ se valaaulia ia te oe",
+  "email-invite-register-text": "Lau susuga __user__,\n\nUa valaaulia oe e __inviter__ e auai i se laupapa kanban mo le galulue faatasi.\n\nFaamolemole mulimuli i le sootaga o loo i lalo:\n__url__\n\nMa o lau numera o le valaaulia o le: __icode__\n\nFaafetai.",
   "error-email-taken": "Ua uma ona faaaoga le imeli",
   "error-ldap-login": "Ua tupu se sese a o taumafai e ulufale",
   "error-notAuthorized": "E lē faatagaina oe e vaai i lenei itulau.",

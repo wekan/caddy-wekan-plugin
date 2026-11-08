@@ -75,6 +75,8 @@
   "edit": "Wax ka beddel",
   "edit-profile": "Wax ka beddel Astaanta",
   "email": "Iimayl",
+  "email-invite-register-subject": "__inviter__ ayaa kuu soo diray martiqaad",
+  "email-invite-register-text": "Gacaliye __user__,\n\n__inviter__ wuxuu kugu martiqaadayaa sabuurad kanban si aad u wada shaqaysaan.\n\nFadlan raac xiriiriyaha hoose:\n__url__\n\nKoodhkaaga martiqaadkuna waa: __icode__\n\nMahadsanid.",
   "error-email-taken": "Iimaylkan hore ayaa loo qaatay",
   "error-ldap-login": "Khalad ayaa dhacay markii la isku dayay gelitaanka LDAP",
   "error-notAuthorized": "Laguuma oggola inaad aragto boggan.",

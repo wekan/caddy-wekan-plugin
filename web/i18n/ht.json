@@ -75,6 +75,8 @@
   "edit": "Modifye",
   "edit-profile": "Modifye pwofil",
   "email": "Imèl",
+  "email-invite-register-subject": "__inviter__ voye yon envitasyon pou ou",
+  "email-invite-register-text": "Chè __user__,\n\n__inviter__ envite ou patisipe nan tablo kanban an pou kolabore.\n\nTanpri swiv lyen ki anba a:\n__url__\n\nEpi kòd envitasyon ou se: __icode__\n\nMèsi.",
   "error-email-taken": "Imèl sa a deja itilize",
   "error-ldap-login": "Yon erè te fèt pandan tantativ koneksyon an",
   "error-notAuthorized": "Ou pa gen otorizasyon pou wè paj sa a.",

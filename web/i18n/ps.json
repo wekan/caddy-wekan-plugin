@@ -75,6 +75,8 @@
   "edit": "سمول",
   "edit-profile": "پروفايل سم کړئ",
   "email": "برېښنالیک",
+  "email-invite-register-subject": "__inviter__ تاسو ته بلنه درلېږلې",
+  "email-invite-register-text": "ګرانه __user__،\n\n__inviter__ تاسو ته بلنه درکوي چې د ګډ کار لپاره له Kanban تختې سره يوځای شئ.\n\nمهرباني وکړئ لاندې تړونی تعقيب کړئ:\n__url__\n\nاو ستاسو د بلنې کوډ دا دی: __icode__\n\nمننه.",
   "error-email-taken": "دا برېښناليک مخکې اخيستل شوی",
   "error-ldap-login": "د ننوتلو په هڅه کې تېروتنه رامنځته شوه",
   "error-notAuthorized": "تاسو د دې پاڼې د ليدلو اجازه نه لرئ.",

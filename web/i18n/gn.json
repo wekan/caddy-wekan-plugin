@@ -75,6 +75,8 @@
   "edit": "Mbosako'i",
   "edit-profile": "Embosako'i mba'ete marandu",
   "email": "Ñanduti veve",
+  "email-invite-register-subject": "__inviter__ omondo ndéve peteĩ ñepepirũ",
+  "email-invite-register-text": "Mborayhu __user__,\n\n__inviter__ ndepepirũ eike hag̃ua kanban peteĩchápe peñopytyvõ hag̃ua.\n\nEhapykueho joajuha iguýpe:\n__url__\n\nHa ne ñepepirũ ayvu ha'e: __icode__\n\nAguyje.",
   "error-email-taken": "Ñanduti veve ojepurúma",
   "error-ldap-login": "Oiko peteĩ jejavy reike hag̃ua",
   "error-notAuthorized": "Nereguerekói ñeheja rehecha hag̃ua ko kuatiarogue.",

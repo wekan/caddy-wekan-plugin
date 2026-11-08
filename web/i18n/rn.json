@@ -75,6 +75,8 @@
   "edit": "Hindura",
   "edit-profile": "Hindura umwirondoro",
   "email": "Imeyili",
+  "email-invite-register-subject": "__inviter__ yakurungikiye ubutumire",
+  "email-invite-register-text": "Mugenzi __user__,\n\n__inviter__ aragutumiye kwifatanya n'icapa ca kanban kugira mukorane.\n\nKurikira ihuriro riri munsi:\n__url__\n\nKode y'ubutumire bwawe ni: __icode__\n\nMurakoze.",
   "error-email-taken": "Iyi meyili yarafashwe",
   "error-ldap-login": "Habaye ikosa mu kugerageza kwinjira",
   "error-notAuthorized": "Nta burenganzira ufise bwo kubona uru rupapuro.",

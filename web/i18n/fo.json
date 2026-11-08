@@ -75,6 +75,8 @@
   "edit": "Broyt",
   "edit-profile": "Broyt vanga",
   "email": "Teldupostur",
+  "email-invite-register-subject": "__inviter__ sendi tær eina innbjóðing",
+  "email-invite-register-text": "Góði/Góða __user__,\n\n__inviter__ bjóðar tær á eina kanban-talvu til samstarv.\n\nFylg leinkjuni niðanfyri:\n__url__\n\nInnbjóðingarkotan hjá tær er: __icode__\n\nTakk.",
   "error-email-taken": "Telduposturin er longu upptikin",
   "error-ldap-login": "Ein villa kom fyri undir innritanini",
   "error-notAuthorized": "Tú hevur ikki heimild at síggja hesa síðuna.",

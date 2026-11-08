@@ -75,6 +75,8 @@
   "edit": "Edita",
   "edit-profile": "Edita el teu Perfil",
   "email": "Correu electrònic",
+  "email-invite-register-subject": "__inviter__ t'ha convidat",
+  "email-invite-register-text": "Benvolgut __user__,\n\n__inviter__ et convida al tauler kanban per col·laborar.\n\nSi us plau, seguiu l'enllaç següent:\n__url__\n\nI el teu codi d'invitació és: __icode__\n\nGràcies.",
   "error-email-taken": "L'adreça de correu electrònic ja és en ús",
   "error-ldap-login": "S'ha produït un error en intentar iniciar sessió",
   "error-notAuthorized": "No estau autoritzats per veure aquesta pàgina",

@@ -75,6 +75,8 @@
   "edit": "Sửa",
   "edit-profile": "Sửa Hồ sơ",
   "email": "Emel",
+  "email-invite-register-subject": "__inviter__ đã gửi cho bạn lời mời",
+  "email-invite-register-text": "Gửi __user__,\n\n__inviter__ mời bạn tham gia bảng kanban để cộng tác.\n\nVui lòng truy cập liên kết bên dưới:\n__url__\n\nVà mã mời của bạn là: __icode__\n\nCảm ơn.",
   "error-email-taken": "Email đã được sử dụng",
   "error-ldap-login": "Đã xảy ra lỗi khi cố gắng đăng nhập",
   "error-notAuthorized": "Bạn không được phép xem trang này.",

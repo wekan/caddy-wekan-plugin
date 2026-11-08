@@ -75,6 +75,8 @@
   "edit": "Засах",
   "edit-profile": "Бүртгэл засварлах",
   "email": "Имэйл",
+  "email-invite-register-subject": "__inviter__ танд урилга илгээлээ",
+  "email-invite-register-text": "Эрхэм __user__,\n\n__inviter__ таныг канбан самбарт хамтран ажиллахаар урьж байна.\n\nДоорх холбоосоор орно уу:\n__url__\n\nТаны урилгын код: __icode__\n\nБаярлалаа.",
   "error-email-taken": "Энэ имэйл аль хэдийн ашиглагдсан байна",
   "error-ldap-login": "Нэвтрэх үед алдаа гарлаа",
   "error-notAuthorized": "Танд энэ хуудсыг харах эрх байхгүй.",

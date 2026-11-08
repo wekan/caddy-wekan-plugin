@@ -75,6 +75,8 @@
   "edit": "Rediger",
   "edit-profile": "Endre profil",
   "email": "E-post",
+  "email-invite-register-subject": "__inviter__ sendte en invitasjon til deg",
+  "email-invite-register-text": "Hei __user__,\n\n__inviter__ har invitert deg til KanBan-tavlen for samarbeid.\n\nVennligst følg lenken under:\n__url__\n\nAktiveringskoden er: __icode__\n\nTakk.",
   "error-email-taken": "E-postadressen er allerede i bruk",
   "error-ldap-login": "En feil oppstod i forbindelse med pålogging",
   "error-notAuthorized": "Du er ikke autorisert til å se denne siden.",

@@ -75,6 +75,8 @@
   "edit": "Ubah Suai",
   "edit-profile": "Ubah Profil",
   "email": "Emel",
+  "email-invite-register-subject": "__inviter__ menhantar jemputan untuk anda",
+  "email-invite-register-text": "__user__ yang dihormati,\n\n__inviter__ menjemput anda ke papan kanban untuk kerjasama.\n\nSila ikut pautan di bawah:\n__url__\n\nDan kod jemputan anda ialah: __icode__\n\nTerima kasih.",
   "error-email-taken": "Emel sudah wujud",
   "error-ldap-login": "Ralat terjadi semasa cuba untuk login",
   "error-notAuthorized": "Anda tidak ada kebenaran untuk melihat laman ini",

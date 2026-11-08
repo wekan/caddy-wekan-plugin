@@ -75,6 +75,8 @@
   "edit": "Breyta",
   "edit-profile": "Breyta notandasíðu",
   "email": "Netfang",
+  "email-invite-register-subject": "__inviter__ sendi þér boð",
+  "email-invite-register-text": "Kæri __user__,\n\n__inviter__ býður þér á kanban-töflu til samstarfs.\n\nFylgdu tenglinum hér fyrir neðan:\n__url__\n\nBoðskóðinn þinn er: __icode__\n\nTakk.",
   "error-email-taken": "Netfangið er þegar í notkun",
   "error-ldap-login": "Villa kom upp við innskráningu",
   "error-notAuthorized": "Þú hefur ekki heimild til að skoða þessa síðu.",

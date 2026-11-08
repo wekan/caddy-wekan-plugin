@@ -75,6 +75,8 @@
   "edit": "Düzenle",
   "edit-profile": "Profili Düzenle",
   "email": "E-posta",
+  "email-invite-register-subject": "__inviter__ size bir davetiye gönderdi",
+  "email-invite-register-text": "Sevgili __user__,\n\n__inviter__ sizi işbirlikleri için kanban panosuna davet ediyor.\n\nLütfen aşağıdaki bağlantıyı takip edin:\n__url__\n\nVe davet kodunuz: __icode__\n\nTeşekkürler.",
   "error-email-taken": "Bu e-posta adresi daha önceden alınmış",
   "error-ldap-login": "Giriş yapmaya çalışırken bir hata oluştu",
   "error-notAuthorized": "Bu sayfayı görmek için yetkiniz yok.",

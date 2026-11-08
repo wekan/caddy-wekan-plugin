@@ -75,6 +75,8 @@
   "edit": "Sunting",
   "edit-profile": "Sunting Profil",
   "email": "Emel",
+  "email-invite-register-subject": "__inviter__ geukirem undangan keu droeneueh",
+  "email-invite-register-text": "Saleuem __user__,\n\n__inviter__ geuundang droeneueh u papan kanban keu meubuet meusajan.\n\nNeuturi tautan di yup:\n__url__\n\nNgön kode undangan droeneueh: __icode__\n\nTeurimong geunaseh.",
   "error-email-taken": "Emel nyoe ka geungui",
   "error-ldap-login": "Na salah watee geucuba login",
   "error-notAuthorized": "Droeneueh hana izin keu ngieng laman nyoe.",

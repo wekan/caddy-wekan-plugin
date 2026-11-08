@@ -75,6 +75,8 @@
   "edit": "Vajehta",
   "edit-profile": "Vajehta profili",
   "email": "Email-počt",
+  "email-invite-register-subject": "__inviter__ kutsub sindai",
+  "email-invite-register-text": "Tervhen __user__,\n\n__inviter__ kucub sindai kanban-laudale ühthižtön täht.\n\nOle hüvä, paina alemba anttud tarkendust:\n__url__\n\nSinun kucundan kod om: __icode__\n\nSpasib.",
   "error-email-taken": "Email-počtan adres om jo kävutuses",
   "error-ldap-login": "Tegihe viga sistemaha tulendan aigan",
   "error-notAuthorized": "Sinai ei ole oiktusid kacta necidä lehtpol’t.",

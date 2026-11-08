@@ -75,6 +75,8 @@
   "edit": "수정",
   "edit-profile": "프로필 변경",
   "email": "이메일",
+  "email-invite-register-subject": "\"__inviter__ 님이 당신에게 초대장을 보냈습니다.",
+  "email-invite-register-text": "__user__ 님께,\n\n__inviter__ 님이 협업을 위해 칸반 보드로 초대했습니다.\n\n아래 링크를 따라가 주세요:\n__url__\n\n초대 코드는 다음과 같습니다: __icode__\n\n감사합니다.",
   "error-email-taken": "이미 사용 중인 이메일입니다",
   "error-ldap-login": "로그인 중 에러 발생",
   "error-notAuthorized": "이 페이지를 볼 수있는 권한이 없습니다.",

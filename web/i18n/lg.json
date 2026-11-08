@@ -75,6 +75,8 @@
   "edit": "Kyusa",
   "edit-profile": "Kyusa Profile",
   "email": "Imeyilo",
+  "email-invite-register-subject": "__inviter__ sent ggwe okuyita",
+  "email-invite-register-text": "Dear __user__, __inviter__ invites ggwe eri kanban lubaawo ku lwa collaborations. Please follow kakwate below:\n__url__ Ne kyo okuyita code kiri: __icode__ Thanks.",
   "error-email-taken": "Imeyilo has already abadde taken",
   "error-ldap-login": "nsobi occurred while trying eri okuyingira",
   "error-notAuthorized": "Ggwe biri si authorized eri laba kino muko.",

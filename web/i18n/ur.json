@@ -75,6 +75,8 @@
   "edit": "ترمیم کریں",
   "edit-profile": "پروفائل میں ترمیم کریں",
   "email": "ای میل",
+  "email-invite-register-subject": "__inviter__ نے آپ کو دعوت نامہ بھیجا ہے",
+  "email-invite-register-text": "محترم __user__،\n\n__inviter__ آپ کو باہمی تعاون کے لیے کانبان بورڈ پر مدعو کرتے ہیں۔\n\nبراہ کرم نیچے دیے گئے لنک پر جائیں:\n__url__\n\nاور آپ کا دعوتی کوڈ یہ ہے: __icode__\n\nشکریہ۔",
   "error-email-taken": "یہ ای میل پہلے ہی لی جا چکی ہے",
   "error-ldap-login": "لاگ ان کرنے کی کوشش کے دوران ایک خرابی پیش آئی",
   "error-notAuthorized": "آپ کو یہ صفحہ دیکھنے کا اختیار نہیں ہے۔",

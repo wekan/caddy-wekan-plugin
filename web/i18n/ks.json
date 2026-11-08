@@ -75,6 +75,8 @@
   "edit": "تبدیل کریو",
   "edit-profile": "پروفائل بدلٲویو",
   "email": "ای میل",
+  "email-invite-register-subject": "__inviter__ دِژ تُہۍ دعوت",
+  "email-invite-register-text": "محترم __user__،\n\n__inviter__ دِوان چھِ تُہۍ تعاون خٲطرٕ کانبان بورڈس منٛز شامل گژھنچ دعوت۔\n\nمہربٲنی کٔرِتھ بۄنہٕ کَنہِ لنکس پؠٹھ گژھیو:\n__url__\n\nتہٕ تُہند دعوت کوڈ چھُ: __icode__\n\nشکریہ۔",
   "error-email-taken": "ای میل چھُ گوڈٕ استعمالس منٛز",
   "error-ldap-login": "لاگ اِن کرنہٕ ویزِ اکھ غلطی گٔے",
   "error-notAuthorized": "تُہۍ چھِو نہٕ یِہ صفحہٕ وُچھنہٕ مجاز۔",

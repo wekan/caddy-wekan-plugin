@@ -75,6 +75,8 @@
   "edit": "Заһаха",
   "edit-profile": "Хубиин мэдээсэл заһаха",
   "email": "Сахим захидал",
+  "email-invite-register-subject": "__inviter__ танда урилга эльгээбэ",
+  "email-invite-register-text": "Хүндэтэ __user__,\n\n__inviter__ таниие хамта ажаллахын тула канбан самбарта урина.\n\nДоорохи холбооһоор ороно уу:\n__url__\n\nТанай урилгын код: __icode__\n\nБаяртай.",
   "error-email-taken": "Энэ сахим шуудан абташаһан",
   "error-ldap-login": "Нэбтэрхэ үедэ алдуу гараба",
   "error-notAuthorized": "Та энэ хуудаһа хараха эрхэгүйт.",

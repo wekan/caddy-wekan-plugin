@@ -75,6 +75,8 @@
   "edit": "Whakatika",
   "edit-profile": "Whakatika Kōtaha",
   "email": "Īmēra",
+  "email-invite-register-subject": "I tuku pōwhiri a __inviter__ ki a koe",
+  "email-invite-register-text": "E __user__,\n\nKa pōwhiri a __inviter__ i a koe ki tētahi papa kanban mō te mahi tahi.\n\nWhāia koa te hono i raro nei:\n__url__\n\nĀ, ko tō waehere pōwhiri: __icode__\n\nNgā mihi.",
   "error-email-taken": "Kua whakamahia kē te īmēra",
   "error-ldap-login": "I puta he hapa i te ngana ki te takiuru",
   "error-notAuthorized": "Kāore koe i whakamanahia kia tiro i tēnei whārangi.",

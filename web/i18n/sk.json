@@ -75,6 +75,8 @@
   "edit": "Upraviť",
   "edit-profile": "Upraviť profil",
   "email": "E-mail",
+  "email-invite-register-subject": "__inviter__ vám poslal(a) pozvánku",
+  "email-invite-register-text": "Ahoj __user__,\n\n__inviter__ ťa pozýva na kanbanovú nástenku na spoluprácu.\n\nPrejdi na odkaz nižšie:\n__url__\n\nKód tvojej pozvánky je: __icode__\n\nĎakujeme.",
   "error-email-taken": "Táto e-mailová adresa sa už používa",
   "error-ldap-login": "Pri pokuse o prihlásenie nastala chyba",
   "error-notAuthorized": "Nemáte oprávnenie zobraziť túto stránku.",

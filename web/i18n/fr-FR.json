@@ -75,6 +75,8 @@
   "edit": "Modifier",
   "edit-profile": "Modifier le profil",
   "email": "E-mail",
+  "email-invite-register-subject": "__inviter__ vous a envoyé une invitation",
+  "email-invite-register-text": "Cher/Chère __user__,\n\n__inviter__ vous invite à le rejoindre sur le tableau kanban pour collaborer.\n\nVeuillez suivre le lien ci-dessous :\n__url__\n\nVotre code d'invitation est : __icode__\n\nMerci.",
   "error-email-taken": "Cette adresse mail est déjà utilisée",
   "error-ldap-login": "Une erreur s'est produite lors de la tentative de connexion",
   "error-notAuthorized": "Vous n'êtes pas autorisé à accéder à cette page.",

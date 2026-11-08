@@ -75,6 +75,8 @@
   "edit": "Sunting",
   "edit-profile": "Owahi Profil",
   "email": "Layang elektronik",
+  "email-invite-register-subject": "__inviter__ ngirim undhangan marang sampeyan",
+  "email-invite-register-text": "Para __user__,\n\n__inviter__ ngundang sampeyan menyang papan kanban kanggo kerja bareng.\n\nMangga tindakake pranala ing ngisor iki:\n__url__\n\nLan kode undhangan sampeyan yaiku: __icode__\n\nMatur nuwun.",
   "error-email-taken": "Email iki wis dienggo",
   "error-ldap-login": "Ana kaluputan nalika nyoba mlebu",
   "error-notAuthorized": "Sampeyan ora nduweni wewenang kanggo ndeleng kaca iki.",

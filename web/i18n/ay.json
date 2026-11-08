@@ -75,6 +75,8 @@
   "edit": "Askichaña",
   "edit-profile": "askichaña Profile",
   "email": "Aruskipäwi",
+  "email-invite-register-subject": "Aymar aruna: __inviter__ sent you an invitation",
+  "email-invite-register-text": "Dear __user__,\n\n__inviter__ invites you ukaru kanban pirqa for collaborations.\n\nPlease follow the chinu below:\n__url__\n\nukat your invitation code awa: __icode__\n\nThanks.",
   "error-email-taken": "aruskipäwi has already been taken",
   "error-ldap-login": "An pantja occurred while trying ukaru login",
   "error-notAuthorized": "You apxi jani authorized ukaru uñjaña aka page.",

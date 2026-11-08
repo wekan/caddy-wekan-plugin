@@ -75,6 +75,8 @@
   "edit": "Recense",
   "edit-profile": "Muta indicia usoris",
   "email": "Litterae electronicae",
+  "email-invite-register-subject": "__inviter__ invitationem tibi misit",
+  "email-invite-register-text": "Salve __user__,\n\n__inviter__ te invitat ad tabulam kanban pro opere communi.\n\nQuaeso sequere ligamen infra:\n__url__\n\nCodex invitationis tuae est: __icode__\n\nGratias.",
   "error-email-taken": "Haec inscriptio electronica iam occupata est",
   "error-ldap-login": "Error accidit dum ingressus temptabatur",
   "error-notAuthorized": "Hanc paginam videre tibi non licet.",

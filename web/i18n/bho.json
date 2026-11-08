@@ -75,6 +75,8 @@
   "edit": "बदलीं",
   "edit-profile": "प्रोफाइल संपादित करीं",
   "email": "ईमेल",
+  "email-invite-register-subject": "__inviter__ रउआ के नेवता भेजले बाड़ें",
+  "email-invite-register-text": "आदरणीय __user__,\n\n__inviter__ रउआ के मिलजुल के काम करे खातिर कानबान बोर्ड से जुड़े के नेवता देत बाड़ें।\n\nकृपया नीचे दिहल कड़ी खोलीं:\n__url__\n\nरउआ के नेवता कोड बा: __icode__\n\nधन्यवाद।",
   "error-email-taken": "ई ईमेल पहिले से लिहल जा चुकल बा",
   "error-ldap-login": "लॉग इन करे के कोसिस में गलती भइल",
   "error-notAuthorized": "रउआ के ई पन्ना देखे के अनुमति नइखे।",

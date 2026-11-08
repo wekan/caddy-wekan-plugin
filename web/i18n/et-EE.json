@@ -75,6 +75,8 @@
   "edit": "Muuda",
   "edit-profile": "Profiilide muutmine",
   "email": "E-post",
+  "email-invite-register-subject": "__inviter__ saatis teile kutse",
+  "email-invite-register-text": "Lugupeetud __user__,\n\n__inviter__ kutsub teid koostööks kanban-tahvlile.\n\nPalun järgige allolevat linki:\n__url__\n\nTeie kutsekood on: __icode__\n\nAitäh.",
   "error-email-taken": "E-post on juba võetud",
   "error-ldap-login": "Sisselogimise ajal ilmnes viga",
   "error-notAuthorized": "Teil ei ole õigust seda lehekülge vaadata.",

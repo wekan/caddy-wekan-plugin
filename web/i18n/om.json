@@ -75,6 +75,8 @@
   "edit": "Gulaali",
   "edit-profile": "Piroofaayilii Gulaali",
   "email": "Imeelii",
+  "email-invite-register-subject": "__inviter__ affeerraa siif ergeera",
+  "email-invite-register-text": "Kabajamaa __user__,\n\n__inviter__ waliin hojjechuuf gara gabatee kanbanitti si affeera.\n\nMaaloo geessituu armaan gadii hordofi:\n__url__\n\nKoodiin affeerraa kee: __icode__\n\nGalatoomi.",
   "error-email-taken": "Imeeliin duraan fudhatameera",
   "error-ldap-login": "Yeroo seenuuf yaalame dogoggorri uumame",
   "error-notAuthorized": "Fuula kana ilaaluuf hayyama hin qabdu.",

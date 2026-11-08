@@ -75,6 +75,8 @@
   "edit": "सुदारचें",
   "edit-profile": "रूपरेखा संपादित करात",
   "email": "ईमेल",
+  "email-invite-register-subject": "__inviter__ हाणें तुमकां आमंत्रण धाडलां",
+  "email-invite-register-text": "प्रिय __user__,\n\n__inviter__ तुमकां सहकार्या खातीर कानबान फळ्यांत सामील जावपाक आमंत्रण दिता.\n\nसकयल्या दुव्याचेर वचात:\n__url__\n\nतुमचो आमंत्रण संकेत: __icode__\n\nदेव बरें करूं.",
   "error-email-taken": "हो ईमेल आदींच घेतला",
   "error-ldap-login": "प्रवेश करपाचो यत्न करतना चूक जाली",
   "error-notAuthorized": "हें पान पळोवपाची तुमकां परवानगी ना.",

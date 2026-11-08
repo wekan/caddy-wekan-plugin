@@ -75,6 +75,8 @@
   "edit": "સંપાદિત કરો",
   "edit-profile": "પ્રોફાઇલ સંપાદિત કરો",
   "email": "ઈમેલ",
+  "email-invite-register-subject": "__inviter__એ તમને આમંત્રણ મોકલ્યું છે",
+  "email-invite-register-text": "પ્રિય __user__,\n\n__inviter__ તમને સહયોગ માટે કનબન બોર્ડમાં આમંત્રિત કરે છે.\n\nકૃપા કરીને નીચેની લિંકને અનુસરો:\n__url__\n\nઅને તમારો આમંત્રણ કોડ છે: __icode__\n\nઆભાર.",
   "error-email-taken": "ઈમેલ પહેલેથી જ લેવામાં આવ્યો છે",
   "error-ldap-login": "લૉગિન કરવાનો પ્રયાસ કરતી વખતે એક ભૂલ આવી",
   "error-notAuthorized": "તમે આ પૃષ્ઠ જોવા માટે અધિકૃત નથી.",

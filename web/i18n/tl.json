@@ -75,6 +75,8 @@
   "edit": "I-edit",
   "edit-profile": "I-edit Katauhan",
   "email": "E-liham",
+  "email-invite-register-subject": "__inviter__ ipinadala ikaw an imbitasyon",
+  "email-invite-register-text": "Dear __user__,\n\n__inviter__ invites ikaw sa kanban pisara para sa collaborations.\n\nPlease follow the ugnay below:\n__url__\n\nAt iyong imbitasyon kodigo ay: __icode__\n\nThanks.",
   "error-email-taken": "E-liham may already naging taken",
   "error-ldap-login": "An mali occurred while trying sa mag-login",
   "error-notAuthorized": "Ikaw ay hindi authorized sa tingnan ito pahina.",

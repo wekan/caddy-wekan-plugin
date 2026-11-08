@@ -75,6 +75,8 @@
   "edit": "Editja",
   "edit-profile": "Editja Profile",
   "email": "Posta elettronika",
+  "email-invite-register-subject": "__inviter__ bagħatlek stedina",
+  "email-invite-register-text": "Dear __user__,\n\n__inviter__ invites you għal kanban bord għal collaborations.\n\nJekk jogħġbok follow il- link below:\n__url__\n\nAnd tiegħek invitation code huwa: __icode__\n\nThanks.",
   "error-email-taken": "L-indirizz tal-posta elettronika diġà qed jintuża",
   "error-ldap-login": "An error occurred while trying għal login",
   "error-notAuthorized": "You huma mhux authorized għal view dan page.",

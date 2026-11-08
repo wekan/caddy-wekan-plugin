@@ -75,6 +75,8 @@
   "edit": "Upravit",
   "edit-profile": "Upravit profil",
   "email": "E-mail",
+  "email-invite-register-subject": "__inviter__ odeslal pozvánku",
+  "email-invite-register-text": "Ahoj __user__,\n\n__inviter__ tě přizval do kanban boardu ke spolupráci.\n\nNásleduj prosím odkaz níže:\n\n__url__\n\nKód Tvé pozvánky je: __icode__\n\nDěkujeme.",
   "error-email-taken": "Tento email byl již použit",
   "error-ldap-login": "Během přihlašování nastala chyba",
   "error-notAuthorized": "Nejste autorizován k prohlížení této stránky.",

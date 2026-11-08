@@ -75,6 +75,8 @@
   "edit": "Taƴto",
   "edit-profile": "Taƴto humpito",
   "email": "Iimeel",
+  "email-invite-register-subject": "__inviter__ neldu-ma noddaango",
+  "email-invite-register-text": "Jaɓɓorgal __user__,\n\n__inviter__ noddii-ma to alluwal kanban ngam gollondiral.\n\nTiiɗno jokku jokkol les ngol:\n__url__\n\nKod noddaango maa ko: __icode__\n\nA jaaraama.",
   "error-email-taken": "Iimeel oo huutoraama kisa",
   "error-ldap-login": "Juumre waɗii nde etaa ceŋaade",
   "error-notAuthorized": "A yamiraaka yiyde hello ngoo.",

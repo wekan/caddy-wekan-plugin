@@ -75,6 +75,8 @@
   "edit": "Laamma",
   "edit-profile": "Ne taarikiyaa laamma",
   "email": "Iimeeliyaa",
+  "email-invite-register-subject": "__inviter__ nena xeesiis",
+  "email-invite-register-text": "Bonchettida __user__,\n\n__inviter__ issippe oottanaw kanban bookkiyako nena xeesees.\n\nGarssan de'iya gattiyaa kaalla:\n__url__\n\nNe xeesiyo koodiyay hagaa: __icode__\n\nGalatay.",
   "error-email-taken": "Iimeeliyay kase ekettiis",
   "error-ldap-login": "Gelanaw paacciyo wode balay medhettiis",
   "error-notAuthorized": "Ha sinttaa be'anaw nees maati baawa.",

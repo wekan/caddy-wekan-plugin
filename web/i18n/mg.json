@@ -75,6 +75,8 @@
   "edit": "Hanova",
   "edit-profile": "Ovay ny mombamomba",
   "email": "Mailaka",
+  "email-invite-register-subject": "Nandefa fanasana ho anao i __inviter__",
+  "email-invite-register-text": "Ry __user__,\n\nManasa anao hiara-hiasa amin'ny solaitra kanban i __inviter__.\n\nAraho azafady ny rohy etsy ambany:\n__url__\n\nAry ny kaodin'ny fanasanao dia: __icode__\n\nMisaotra.",
   "error-email-taken": "Efa ampiasaina ny mailaka",
   "error-ldap-login": "Nisy hadisoana teo am-panandramana niditra",
   "error-notAuthorized": "Tsy nahazo alalana hijery ity pejy ity ianao.",

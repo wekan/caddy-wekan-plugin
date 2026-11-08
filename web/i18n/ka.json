@@ -75,6 +75,8 @@
   "edit": "შესწორება",
   "edit-profile": "პროფილის შესწორება",
   "email": "ელ.ფოსტა",
+  "email-invite-register-subject": "__inviter__ გამოგიგზავნათ მოწვევა",
+  "email-invite-register-text": "ძვირფასო __user__,\n\n__inviter__ გიწვევთ kanban დაფაზე ერთობლივი მუშაობისთვის.\n\nგთხოვთ გაჰყვეთ ბმულს:\n__url__\n\nთქვენი მოწვევის კოდია: __icode__\n\nმადლობა.",
   "error-email-taken": "უკვე არსებობს მსგავსი ელ.ფოსტა",
   "error-ldap-login": "შესვლის მცდელობისას შეცდომა მოხდა",
   "error-notAuthorized": "თქვენ არ გაქვთ ამ გვერდის ნახვის უფლება",

@@ -75,6 +75,8 @@
   "edit": "Editar",
   "edit-profile": "Editar el perfil",
   "email": "Correo electrónico",
+  "email-invite-register-subject": "__inviter__ unvióte una invitación",
+  "email-invite-register-text": "Estimáu/ada __user__,\n\n__inviter__ convídate a un tableru kanban pa collaborar.\n\nSigue l'enllaz de baxo:\n__url__\n\nEl to códigu d'invitación ye: __icode__\n\nGracies.",
   "error-email-taken": "Esta direición de corréu electrónicu yá ta n’usu",
   "error-ldap-login": "Asocedió un error al intentar aniciar sesión",
   "error-notAuthorized": "Nun tienes autorización pa ver esta páxina.",

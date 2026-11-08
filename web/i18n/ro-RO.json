@@ -75,6 +75,8 @@
   "edit": "Editează",
   "edit-profile": "Editează profilul",
   "email": "E-mail",
+  "email-invite-register-subject": "__inviter__ v-a trimis o invitație",
+  "email-invite-register-text": "Stimate __user__,\n\n__inviter__ vă invită la un panou kanban pentru colaborare.\n\nUrmați legătura de mai jos:\n__url__\n\nCodul dumneavoastră de invitație este: __icode__\n\nVă mulțumim.",
   "error-email-taken": "Adresa de e-mail este deja utilizată",
   "error-ldap-login": "A apărut o eroare la încercarea de autentificare",
   "error-notAuthorized": "Nu aveți permisiunea de a vedea această pagină.",

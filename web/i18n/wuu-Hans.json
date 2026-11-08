@@ -75,6 +75,8 @@
   "edit": "编辑",
   "edit-profile": "编辑个人资料",
   "email": "电子邮件",
+  "email-invite-register-subject": "__inviter__ 畀侬发来仔邀请",
+  "email-invite-register-text": "__user__，侬好：\n\n__inviter__ 邀请侬加入看板一淘协作。\n\n请点下头个链接：\n__url__\n\n侬个邀请码是：__icode__\n\n谢谢。",
   "error-email-taken": "搿个电子邮件地址已经畀人用脱仔",
   "error-ldap-login": "尝试登录个辰光出错仔",
   "error-notAuthorized": "侬呒没权限看搿个页面。",

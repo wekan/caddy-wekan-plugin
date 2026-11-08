@@ -75,6 +75,8 @@
   "edit": "Chanjya",
   "edit-profile": "Chanjya profil",
   "email": "Ebost",
+  "email-invite-register-subject": "__inviter__ a dhanonas galow dhis",
+  "email-invite-register-text": "Ker __user__,\n\n__inviter__ a'th elow dhe estyllen kanban rag kesoberi.\n\nHolya an kevren a-woles mar pleg:\n__url__\n\nHa dha god galow yw: __icode__\n\nMeur ras.",
   "error-email-taken": "An ebost yw kemerys seulabrys",
   "error-ldap-login": "Gwall a hwarva hag assaya omgelmi",
   "error-notAuthorized": "Nyns os grontys dhe weles an folen ma.",

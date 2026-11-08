@@ -75,6 +75,8 @@
   "edit": "Уреди",
   "edit-profile": "Лични подаци",
   "email": "Е-пошта",
+  "email-invite-register-subject": "__inviter__ Вам је послао позивницу",
+  "email-invite-register-text": "Поштовани __user__,\n\n__inviter__ Вас позива да користите kanban списе за заједнички рад.\n\nМолим испратите везу испод:\n__url__\n\nИ да, Ваш позивни код је: __icode__\n\nХвала.",
   "error-email-taken": "Ова адреса е-поште је већ у употреби",
   "error-ldap-login": "Догодила се нека грешка приликом покушаја пријављивања",
   "error-notAuthorized": "Немате права да приступате овој страници.",

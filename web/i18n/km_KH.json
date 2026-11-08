@@ -75,6 +75,8 @@
   "edit": "កែសម្រួល",
   "edit-profile": "កែសម្រួលប្រវត្តិរូប",
   "email": "អ៊ីមែល",
+  "email-invite-register-subject": "__inviter__ បានផ្ញើការអញ្ជើញមកអ្នក។",
+  "email-invite-register-text": "សូមគោរព __user__,\n\n__inviter__ អញ្ជើញអ្នកទៅកាន់ក្តារ kanban សម្រាប់កិច្ចសហការ។\n\nសូមធ្វើតាមតំណខាងក្រោម៖\n__url__\n\nហើយលេខកូដអញ្ជើញរបស់អ្នកគឺ៖ __icode__\n\nសូមអរគុណ។",
   "error-email-taken": "អ៊ីមែលត្រូវបានយករួចហើយ",
   "error-ldap-login": "កំហុសបានកើតឡើងខណៈពេលព្យាយាមចូល",
   "error-notAuthorized": "អ្នកមិនត្រូវបានអនុញ្ញាតឱ្យមើលទំព័រនេះទេ។",

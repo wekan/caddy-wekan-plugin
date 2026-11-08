@@ -75,6 +75,8 @@
   "edit": "Edytować",
   "edit-profile": "Edytuj profil",
   "email": "Mejl",
+  "email-invite-register-subject": "__inviter__ wysłał Ci zaproszenie",
+  "email-invite-register-text": "Drogi __user__,\n\n__inviter__ zaprasza Cię do współpracy na naszej tabule kanban.\n\nAby kontynuować, wejdź we poniższy link:\n__url__\n\nTwōj kod zaproszenia to: __icode__\n\nDziękuję.",
   "error-email-taken": "Adres email je już zarezerwowany",
   "error-ldap-login": "Wystąpił feler we trakcie logowania",
   "error-notAuthorized": "Niy jesteś uprawniony do przeglądania tej strōny.",

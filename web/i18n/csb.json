@@ -75,6 +75,8 @@
   "edit": "Editowac",
   "edit-profile": "Edytùjë profil",
   "email": "Elektroniczny lëst",
+  "email-invite-register-subject": "__inviter__ wëslôł Tobie zôproszenié",
+  "email-invite-register-text": "Drogi __user__,\n\n__inviter__ zôprôszô Ce do wspólny robòtë na tôfli kanban.\n\nÒtemkni lënk niżi:\n__url__\n\nTwój kòd zôproszeniô je: __icode__\n\nDzãka.",
   "error-email-taken": "Adres E-mail jest już zarezerwowany",
   "error-ldap-login": "Przë próbie logòwaniô wëstąpiła fela",
   "error-notAuthorized": "Nié jesteś uprawniony do przeglądania tej strony.",

@@ -75,6 +75,8 @@
   "edit": "Bewurkje",
   "edit-profile": "Profile bewurkje",
   "email": "E-mail",
+  "email-invite-register-subject": "__inviter__ stjoerde jo in útnoeging",
+  "email-invite-register-text": "Beste __user__,\n\n__inviter__ noeget jo út ta kanban board foar gearwurkingsferbannen.\n\nFolgje asjebleaft de link hjirûnder:\n__url__\n\nEn jo útnoegingskoade is: __icode__\n\nTankewol.",
   "error-email-taken": "E-post is al nommen",
   "error-ldap-login": "Der barde in flater by it besykjen om oan te melden",
   "error-notAuthorized": "Jo binne net autorisearre om dizze side te besjen.",

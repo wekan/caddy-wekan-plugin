@@ -75,6 +75,8 @@
   "edit": "ترميم",
   "edit-profile": "پروفائيل سنواريو",
   "email": "اي ميل",
+  "email-invite-register-subject": "__inviter__ توهان کي دعوت موڪلي آهي",
+  "email-invite-register-text": "پيارا __user__،\n\n__inviter__ توهان کي گڏجي ڪم ڪرڻ لاءِ ڪنبن بورڊ ۾ شامل ٿيڻ جي دعوت ڏئي ٿو.\n\nمهرباني ڪري هيٺين ڪڙي کوليو:\n__url__\n\nتوهان جو دعوت ڪوڊ آهي: __icode__\n\nمهرباني.",
   "error-email-taken": "اي ميل اڳ ئي ورتل آهي",
   "error-ldap-login": "لاگ ان جي ڪوشش دوران غلطي ٿي",
   "error-notAuthorized": "توهان کي هي صفحو ڏسڻ جي اجازت ناهي.",

@@ -75,6 +75,8 @@
   "edit": "Bearbeiten",
   "edit-profile": "Profil ändern",
   "email": "E-Mail",
+  "email-invite-register-subject": "__inviter__ hat Ihnen eine Einladung geschickt",
+  "email-invite-register-text": "Sehr geehrte(r) __user__,\n\n__inviter__ hat Sie zur Mitarbeit an einem Kanbanboard eingeladen.\n\nBitte klicken Sie auf folgenden Link:\n__url__\n\nIhr Einladungscode lautet: __icode__\n\nDanke.",
   "error-email-taken": "E-Mail wird schon verwendet",
   "error-ldap-login": "Es ist ein Fehler beim Anmelden aufgetreten",
   "error-notAuthorized": "Sie sind nicht berechtigt diese Seite zu sehen.",

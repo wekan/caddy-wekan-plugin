@@ -75,6 +75,8 @@
   "edit": "Golygu",
   "edit-profile": "Golygu Proffil",
   "email": "Ebost",
+  "email-invite-register-subject": "Anfonodd __inviter__ wahoddiad atoch",
+  "email-invite-register-text": "Annwyl __user__,\n\nMae __inviter__ yn eich gwahodd i fwrdd kanban ar gyfer cydweithrediadau.\n\nDilynwch y ddolen isod os gwelwch yn dda:\n__url__\n\nA'ch cod gwahoddiad yw: __icode__\n\nDiolch.",
   "error-email-taken": "Mae e-bost eisoes wedi'i gymryd",
   "error-ldap-login": "Digwyddodd gwall wrth geisio mewngofnodi",
   "error-notAuthorized": "Nid oes gennych awdurdod i weld y dudalen hon.",

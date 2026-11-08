@@ -75,6 +75,8 @@
   "edit": "Өңдеу",
   "edit-profile": "Профильді өзгерту",
   "email": "Электрондық пошта",
+  "email-invite-register-subject": "__inviter__ сізге шақыру жіберді",
+  "email-invite-register-text": "Құрметті __user__,\n\n__inviter__ сізді бірлесіп жұмыс істеу үшін kanban тақтасына шақырады.\n\nТөмендегі сілтемеге өтіңіз:\n__url__\n\nШақыру кодыңыз: __icode__\n\nРақмет.",
   "error-email-taken": "Электрондық пошта бұрыннан алынған",
   "error-ldap-login": "Кіру кезінде қате орын алды",
   "error-notAuthorized": "Бұл бетті көруге рұқсатыңыз жоқ.",

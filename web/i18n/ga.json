@@ -75,6 +75,8 @@
   "edit": "Cuir in eagar",
   "edit-profile": "Cuir Próifíl in Eagar",
   "email": "Ríomhphost",
+  "email-invite-register-subject": "Sheol __inviter__ cuireadh chugat",
+  "email-invite-register-text": "A __user__,\n\nTugann __inviter__ cuireadh duit chuig clár kanban le haghaidh comhoibrithe.\n\nLean an nasc thíos:\n__url__\n\nAgus is é do chód cuireadh: __icode__\n\nGo raibh maith agat.",
   "error-email-taken": "Tá an ríomhphost in úsáid cheana",
   "error-ldap-login": "Tharla earráid agus iarracht á déanamh logáil isteach",
   "error-notAuthorized": "Níl tú údaraithe chun an leathanach seo a fheiceáil.",

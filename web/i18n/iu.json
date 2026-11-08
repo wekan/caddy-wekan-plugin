@@ -75,6 +75,8 @@
   "edit": "Aaqqigiarli",
   "edit-profile": "ᑭᓇᐅᓂᕐᒥᒃ ᐋᖅᑭᒋᐊᕐᓗᒍ",
   "email": "ᖃᕆᑕᐅᔭᒃᑯᑦ ᑎᑎᖅᑲᖅ",
+  "email-invite-register-subject": "__inviter__ ᖃᐃᖁᔨᔾᔪᑎᒥᒃ ᓇᒃᓯᐅᔾᔨᕗᖅ",
+  "email-invite-register-text": "ᐱᒃᑯᒋᔭᖅ __user__,\n\n__inviter__ ᑲᔪᖏᖅᓴᐃᕗᖅ ᐃᓕᓐᓂᒃ kanban ᐊᓪᓚᕕᒻᒧᑦ ᐱᓕᕆᖃᑎᒌᒍᑎᒋᓗᒍ.\n\nᐊᑖᓂ ᐊᑕᕝᕕᒃ ᒪᓕᓪᓗᒍ:\n__url__\n\nᖃᐃᖁᔨᔾᔪᑎᐅᑉ ᓇᓗᓇᐃᒃᑯᑖ: __icode__\n\nᖁᔭᓐᓇᒦᒃ.",
   "error-email-taken": "ᖃᕆᑕᐅᔭᒃᑯᑦ ᑎᑎᖅᑲᕐᕕᒃ ᐊᑐᖅᑕᐅᒌᖅᑐᖅ",
   "error-ldap-login": "ᐃᓯᕋᓱᐊᖅᑎᓪᓗᒍ ᑕᒻᒪᕈᑎᖃᖅᐳᖅ",
   "error-notAuthorized": "ᐅᓇ ᒪᒃᐱᒐᖅ ᑕᑯᔪᓐᓇᖅᑕᐃᓕᐅᒐᕕᐅᒃ.",

@@ -75,6 +75,8 @@
   "edit": "Rievdat",
   "edit-profile": "Rievdat profiilla",
   "email": "E-boasta",
+  "email-invite-register-subject": "__inviter__ sádde dutnje bovdehusa",
+  "email-invite-register-text": "Bures __user__,\n\n__inviter__ bovde du searvat kanban-távvalii ovttasbargui.\n\nČuovo vuolábeale liŋkka:\n__url__\n\nDu bovdehuskoda lea: __icode__\n\nGiitu.",
   "error-email-taken": "E-poasta lea juo anus",
   "error-ldap-login": "Sisačálihangeahččaleamis dáhpáhuvai meattáhus",
   "error-notAuthorized": "Dus ii leat vuoigatvuohta geahččat dán siiddu.",

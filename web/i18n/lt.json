@@ -75,6 +75,8 @@
   "edit": "Redaguoti",
   "edit-profile": "Redaguoti profilį",
   "email": "El. paštas",
+  "email-invite-register-subject": "__inviter__ atsiuntė jums kvietimą",
+  "email-invite-register-text": "Gerb. __user__,\n\n__inviter__ kviečia jus į kanban lentą bendradarbiauti.\n\nSekite nuorodą žemiau:\n__url__\n\nIr jūsų pakvietimo kodas yra: __icode__\n\nAčiū.",
   "error-email-taken": "El. paštas jau paimtas",
   "error-ldap-login": "Bandant prisijungti įvyko klaida",
   "error-notAuthorized": "Jūs neturite teisės peržiūrėti šio puslapio.",

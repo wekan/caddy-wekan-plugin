@@ -75,6 +75,8 @@
   "edit": "Cancià",
   "edit-profile": "Cancia profilo",
   "email": "Posta elettronica",
+  "email-invite-register-subject": "__inviter__ ti ha inviato nu invito",
+  "email-invite-register-text": "Gentili __user__,\n\n__inviter__ ti ha invitato a partecipare a chista tàvula kanban pi collaborare.\n\nPer favore segui lu collegamento qui sutta:\n__url__\n\nLu tuo codice di invito è: __icode__\n\nGrazie.",
   "error-email-taken": "L'emalu è già stata presa",
   "error-ldap-login": "C'è stato nu erruri mentre provavi ad effettuare lu login",
   "error-notAuthorized": "Nnu sei autorizzato ad accedere a chista pagina.",

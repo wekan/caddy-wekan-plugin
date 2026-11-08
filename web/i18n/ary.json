@@ -75,6 +75,8 @@
   "edit": "تعديل",
   "edit-profile": "تعديل الملف الشخصي",
   "email": "البريد الإلكتروني",
+  "email-invite-register-subject": "__inviter__ أرسل دعوة لك",
+  "email-invite-register-text": "عزيزي __user__،\n\n__inviter__ عرض عليك تخدمو مجموعين ف لوحة كانبان.\n\nعافاك تبع الرابط اللي لتحت:\n__url__\n\nوالكود ديال العرضة ديالك هو: __icode__\n\nشكرا.",
   "error-email-taken": "البريد الإلكتروني مأخوذ بالفعل",
   "error-ldap-login": "وقع خطأ ملي كنتي كتحاول تدخل",
   "error-notAuthorized": "أنتَ لا تملك الصلاحيات لرؤية هذه الصفحة.",

@@ -75,6 +75,8 @@
   "edit": "Modifica",
   "edit-profile": "Modifica profilo",
   "email": "Posta elettronica",
+  "email-invite-register-subject": "__inviter__ ti ha inviato un invito",
+  "email-invite-register-text": "Gentile __user__,\n\n__inviter__ ti ha invitato a partecipare a questa bacheca kanban per collaborare.\n\nPer favore segui il collegamento qui sotto:\n__url__\n\nIl tuo codice di invito è: __icode__\n\nGrazie.",
   "error-email-taken": "L'email è già stata presa",
   "error-ldap-login": "C'è stato un errore mentre provavi ad effettuare il login",
   "error-notAuthorized": "Non sei autorizzato ad accedere a questa pagina.",

@@ -75,6 +75,8 @@
   "edit": "Sesa",
   "edit-profile": "Sesa Profile",
   "email": "Ɛmɛl",
+  "email-invite-register-subject": "__inviter__ asoma ɔfrɛ abrɛ wo",
+  "email-invite-register-text": "Ɔdɔfo __user__,\n\n__inviter__ to nsa frɛ wo ba kanban bɔɔd so sɛ monyɛ adwuma mmom.\n\nDi link a ɛwɔ ase ha no akyi:\n__url__\n\nWo nsato koodu ne: __icode__\n\nYɛda wo ase.",
   "error-email-taken": "Mfomso bi sii wɔ dwumadi yi mu",
   "error-ldap-login": "Mfomso bi sii bere a na wɔrepɛ sɛ wɔkɔ mu",
   "error-notAuthorized": "Wunni kwan sɛ wobɛhwɛ kratafa yi.",

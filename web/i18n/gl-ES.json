@@ -75,6 +75,8 @@
   "edit": "Editar",
   "edit-profile": "Editar o perfil",
   "email": "Correo electrónico",
+  "email-invite-register-subject": "__inviter__ envioute un convite",
+  "email-invite-register-text": "Estimado/a __user__,\n\n__inviter__ convídate a un taboleiro kanban para colaborar.\n\nSegue a ligazón de abaixo:\n__url__\n\nE o teu código de convite é: __icode__\n\nGrazas.",
   "error-email-taken": "O correo electrónico xa está en uso",
   "error-ldap-login": "Produciuse un erro ao tentar iniciar sesión",
   "error-notAuthorized": "Non tes autorización para ver esta páxina.",

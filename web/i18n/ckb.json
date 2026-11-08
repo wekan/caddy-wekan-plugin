@@ -75,6 +75,8 @@
   "edit": "دەستکاری",
   "edit-profile": "دەستکاری پڕۆفایل",
   "email": "ئیمەیل",
+  "email-invite-register-subject": "__inviter__ بانگهێشتێکی بۆ ناردوویت",
+  "email-invite-register-text": "بەڕێز __user__،\n\n__inviter__ بانگهێشتت دەکات بۆ تەختەی کانبان بۆ هاوکاری.\n\nتکایە بەستەری خوارەوە بکەرەوە:\n__url__\n\nکۆدی بانگهێشتەکەت: __icode__\n\nسوپاس.",
   "error-email-taken": "ئیمەیڵەکە پێشتر گیراوە",
   "error-ldap-login": "لە کاتی هەوڵدان بۆ چوونەژوورەوە هەڵەیەک ڕوویدا",
   "error-notAuthorized": "مۆڵەتی بینینی ئەم پەڕەیەت نییە.",

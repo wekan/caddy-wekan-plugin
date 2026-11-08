@@ -37,6 +37,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"/lists/update":         s.methodUpdateList,
 		"moveList":              s.methodMoveList,
 		"/card_comments/insert": s.methodInsertComment,
+		"sendInvitation":        s.methodSendInvitation,
 	}
 }
 

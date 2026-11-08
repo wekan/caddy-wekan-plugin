@@ -75,6 +75,8 @@
   "edit": "Ṣatunkọ",
   "edit-profile": "Profaili Ṣatunkọ",
   "email": "Imeeli",
+  "email-invite-register-subject": "__inviter__ fi ìpè ránṣẹ́ sí ọ",
+  "email-invite-register-text": "Eyin __user__,\n\n__inviter__ n pe o si igbimọ kanban fun awọn ifowosowopo.\n\nJọwọ tẹle ọna asopọ ni isalẹ:\n__url__\n\nAti pe koodu ifiwepe rẹ jẹ: __icode__\n\nO ṣeun.",
   "error-email-taken": "Imeeli ti gba tẹlẹ",
   "error-ldap-login": "Aṣiṣe waye lakoko ti o n gbiyanju lati buwolu wọle",
   "error-notAuthorized": "A ko fun ọ ni aṣẹ lati wo oju-iwe yii.",

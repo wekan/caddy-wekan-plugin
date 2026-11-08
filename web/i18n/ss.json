@@ -75,6 +75,8 @@
   "edit": "Hlela",
   "edit-profile": "Hlela Iphrofayela",
   "email": "I-imeyili",
+  "email-invite-register-subject": "__inviter__ ukutfumele simemo",
+  "email-invite-register-text": "Sawubona __user__,\n\n__inviter__ ukumema kutsi ujoyine libhodi le-kanban kuze nibambisane.\n\nUyacelwa ulandzele sichumanisi lesingentasi:\n__url__\n\nIkhodi yakho yesimemo ngu: __icode__\n\nSiyabonga.",
   "error-email-taken": "I-imeyili seyivele isetjentisiwe",
   "error-ldap-login": "Kwenteleke liphutsa nakwetanywa kungena nge-LDAP",
   "error-notAuthorized": "Awukavunyelwa kubuka lelikhasi.",

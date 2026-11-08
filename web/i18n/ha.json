@@ -75,6 +75,8 @@
   "edit": "Gyara",
   "edit-profile": "Gyara bayanin martaba",
   "email": "Imel",
+  "email-invite-register-subject": "__inviter__ ya aiko maka da gayyata",
+  "email-invite-register-text": "Mai girma __user__,\n\n__inviter__ yana gayyatarka zuwa allon kanban don haɗin gwiwa.\n\nDon Allah bi mahaɗin da ke ƙasa:\n__url__\n\nLambar gayyatarka ita ce: __icode__\n\nNa gode.",
   "error-email-taken": "An riga an ɗauki imel ɗin",
   "error-ldap-login": "An samu kuskure yayin ƙoƙarin shiga",
   "error-notAuthorized": "Ba ka da izinin ganin wannan shafi.",

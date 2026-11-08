@@ -75,6 +75,8 @@
   "edit": "Candjî",
   "edit-profile": "Candjî l' profil",
   "email": "E-mail",
+  "email-invite-register-subject": "__inviter__ vos a evoyî ene invitåcion",
+  "email-invite-register-text": "__user__,\n\n__inviter__ vos invite a on tåvlea kanban po bouter eshonne.\n\nShuvoz l' hårdêye pa dzo:\n__url__\n\nVosse côde d' invitåcion est: __icode__\n\nGråces.",
   "error-email-taken": "Cisse adresse emile ci est dedja prise",
   "error-ldap-login": "Ene aroke a arivé å moumint di sayî di s' elodjî",
   "error-notAuthorized": "Vos n' avoz nén l' droet di vey cisse pådje ci.",

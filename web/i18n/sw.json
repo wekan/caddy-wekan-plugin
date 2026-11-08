@@ -75,6 +75,8 @@
   "edit": "Hariri",
   "edit-profile": "Badilisha Wasifu",
   "email": "Barua pepe",
+  "email-invite-register-subject": "__inviter__ amekutumia mwaliko",
+  "email-invite-register-text": "Mpendwa __user__,\n\n__inviter__ anakualika kwenye bodi ya kanban kwa ushirikiano.\n\nTafadhali fuata kiungo hapa chini:\n__url__\n\nNa msimbo wako wa mwaliko ni: __icode__\n\nAsante.",
   "error-email-taken": "Barua pepe tayari imechukuliwa",
   "error-ldap-login": "Hitilafu ilitokea wakati wa kujaribu kuingia",
   "error-notAuthorized": "Hujaidhinishwa kutazama ukurasa huu.",

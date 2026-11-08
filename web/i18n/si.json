@@ -75,6 +75,8 @@
   "edit": "සංස්කරණය",
   "edit-profile": "පැතිකඩ සංස්කරණය කරන්න",
   "email": "විද්‍යුත් තැපෑල",
+  "email-invite-register-subject": "__inviter__ ඔබට ආරාධනාවක් එවා ඇත",
+  "email-invite-register-text": "හිතවත් __user__,\n\nසහයෝගයෙන් වැඩ කිරීමට kanban පුවරුවකට එක් වන ලෙස __inviter__ ඔබට ආරාධනා කරයි.\n\nකරුණාකර පහත සබැඳිය අනුගමනය කරන්න:\n__url__\n\nඔබගේ ආරාධනා කේතය: __icode__\n\nස්තුතියි.",
   "error-email-taken": "විද්‍යුත් තැපෑල දැනටමත් භාවිත වේ",
   "error-ldap-login": "පිවිසීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය",
   "error-notAuthorized": "මෙම පිටුව බැලීමට ඔබට අවසර නැත.",

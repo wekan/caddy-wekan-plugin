@@ -75,6 +75,8 @@
   "edit": "Tahrirlash",
   "edit-profile": "Profilni tahrirlash",
   "email": "Elektron pochta",
+  "email-invite-register-subject": "__inviter__ sizga taklifnoma yubordi",
+  "email-invite-register-text": "Hurmatli __user__,\n\n__inviter__ sizni hamkorlik uchun kanban taxtasiga taklif qiladi.\n\nIltimos, quyidagi havolaga o'ting:\n__url__\n\nSizning taklif kodingiz: __icode__\n\nrahmat.",
   "error-email-taken": "Elektron pochta allaqachon olingan",
   "error-ldap-login": "Tizimga kirishda xatolik yuz berdi",
   "error-notAuthorized": "Siz ushbu sahifani ko'rish huquqiga ega emassiz.",

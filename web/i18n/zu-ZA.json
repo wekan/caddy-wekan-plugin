@@ -75,6 +75,8 @@
   "edit": "Hlela",
   "edit-profile": "Hlela iphrofayela",
   "email": "I-imeyili",
+  "email-invite-register-subject": "U-__inviter__ ukuthumelele isimemo",
+  "email-invite-register-text": "Sawubona __user__,\n\n__inviter__ ukumema ebhodini le-kanban ukuze uthole ukusebenzisana.\n\nSicela ulandele isixhumanisi esingezansi:\n__url__\n\nFuthi ikhodi yakho yesimemo ithi: __icode__\n\nNgiyabonga.",
   "error-email-taken": "I-imeyili isivele ithathiwe",
   "error-ldap-login": "Kwenzeke iphutha ngesikhathi sizama ukungena",
   "error-notAuthorized": "Awugunyaziwe ukubuka leli khasi.",

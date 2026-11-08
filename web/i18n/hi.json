@@ -75,6 +75,8 @@
   "edit": "संपादित करें",
   "edit-profile": "संपादित करें Profile",
   "email": "ईमेल",
+  "email-invite-register-subject": "__inviter__ प्रेषित you an invitation",
+  "email-invite-register-text": "प्रिय __user__,\n\n__inviter__ आपको सहयोग के लिए kanban बोर्ड पर आमंत्रित करते हैं।\n\nकृपया नीचे दिए गए लिंक पर जाएँ:\n__url__\n\nऔर आपका आमंत्रण कोड है: __icode__\n\nधन्यवाद।",
   "error-email-taken": "यह ईमेल पहले से लिया जा चुका है",
   "error-ldap-login": "लॉगिन का प्रयास करते समय त्रुटि हुई",
   "error-notAuthorized": "You are not authorized तक  आलोकन  यह page.",

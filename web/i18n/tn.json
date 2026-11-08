@@ -75,6 +75,8 @@
   "edit": "Baakanya",
   "edit-profile": "Fetola porofaele",
   "email": "Imeile",
+  "email-invite-register-subject": "__inviter__ rometswe wena e taletso",
+  "email-invite-register-text": "Dear __user__, __inviter__ invites wena go kanban boto go collaborations. Tsweetswee follow kgokagano fa tlase:\n__url__ Le ya gago taletso khoutu ke: __icode__ Thanks.",
   "error-email-taken": "Imeile e setse e dirisiwa",
   "error-ldap-login": "E phoso occurred fa trying go go tsena",
   "error-notAuthorized": "Wena di ga authorized go leba eno tsebe.",

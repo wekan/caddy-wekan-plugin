@@ -75,6 +75,8 @@
   "edit": "Lulamisa",
   "edit-profile": "hlela phurofayili",
   "email": "Imeyili",
+  "email-invite-register-subject": "__inviter__ rhumeriwile wena an mhaka",
+  "email-invite-register-text": "Xiluva __user__,\n\n__inviter__ u ku rhamba eka bodo ya kanban ku tirhisana.\n\nNdza kombela u landzelela xihlanganisi lexi nga laha hansi:\n__url__\n\nNaswona khodi ya xirhambo xa wena i: __icode__\n\nInkomu.",
   "error-email-taken": "Imeyili yi tekiwile khale",
   "error-ldap-login": "Ku humelele xihoxo loko u ringeta ku nghena",
   "error-notAuthorized": "A wu pfumeleriwi ku vona tluka leri.",

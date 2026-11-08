@@ -75,6 +75,8 @@
   "edit": "Lulamisa",
   "edit-profile": "Khwinisa phurofaiḽi",
   "email": "Imeiḽi",
+  "email-invite-register-subject": "__inviter__ o ni rumela thambo",
+  "email-invite-register-text": "__user__ a funwaho,\n\n__inviter__ u khou ni ramba kha bodo ya Kanban u shumisana.\n\nTevhelani ḽinki i re afho fhasi:\n__url__\n\nKhoudu ya thambo yaṋu ndi: __icode__\n\nRo livhuwa.",
   "error-email-taken": "Imeiḽi yo no shumiswa",
   "error-ldap-login": "Ho vha na vhukhakhi musi hu tshi lingedzwa u dzhena",
   "error-notAuthorized": "A ni na thendelo ya u vhona siaṱari iḽi.",

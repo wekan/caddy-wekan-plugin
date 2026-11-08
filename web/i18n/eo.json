@@ -75,6 +75,8 @@
   "edit": "Redakti",
   "edit-profile": "Redakti profilon",
   "email": "Retpoŝtadreso",
+  "email-invite-register-subject": "__inviter__ sendis al vi inviton",
+  "email-invite-register-text": "Kara __user__,\n\n__inviter__ invitas vin al kanban-tabulo por kunlabori.\n\nBonvolu sekvi la suban ligilon:\n__url__\n\nKaj via invitkodo estas: __icode__\n\nDankon.",
   "error-email-taken": "Retpoŝtadreso jam estas uzata",
   "error-ldap-login": "Okazis eraro dum la provo ensaluti",
   "error-notAuthorized": "Vi ne rajtas vidi ĉi tiun paĝon.",

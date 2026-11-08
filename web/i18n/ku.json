@@ -75,6 +75,8 @@
   "edit": "Biguherîne",
   "edit-profile": "Profîlê biguherîne",
   "email": "E-name",
+  "email-invite-register-subject": "__inviter__ vexwendinek ji te re şand",
+  "email-invite-register-text": "Hêja __user__,\n\n__inviter__ ji te dixwaze ku ji bo hevkariyê beşdarî depoya kanban bibî.\n\nJi kerema xwe girêdana jêr bişopîne:\n__url__\n\nÛ koda vexwendina te ev e: __icode__\n\nSpas.",
   "error-email-taken": "E-name jixwe hatiye girtin",
   "error-ldap-login": "Di hewldana têketinê de çewtiyek çêbû",
   "error-notAuthorized": "Destûra te ji bo dîtina vî rûpelî tune.",

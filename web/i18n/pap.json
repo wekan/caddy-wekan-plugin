@@ -75,6 +75,8 @@
   "edit": "Editá",
   "edit-profile": "Editá e perfil",
   "email": "E-mail",
+  "email-invite-register-subject": "__inviter__ te ha enbiado un inbitashon",
+  "email-invite-register-text": "kerido __user__,\n__inviter__ le inbita na e tabla kanban pa colaborar.\n\nPa fabor, siga e siguiente enlase:\n__url__\n\nI bo código di inbitashon ta:  __icode__\n\nGrasias.",
   "error-email-taken": "E direcshon di correo ya ta den uso",
   "error-ldap-login": "Ocurrió un eror na e intentar acseder",
   "error-notAuthorized": "No estás autorizado na mira e página.",

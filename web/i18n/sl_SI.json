@@ -75,6 +75,8 @@
   "edit": "Uredi",
   "edit-profile": "Uredi profil",
   "email": "E-pošta",
+  "email-invite-register-subject": "__inviter__ vam je poslal povabilo",
+  "email-invite-register-text": "Dragi __user__,\n\n__inviter__ vas vabi na kanban tablo za sodelovanje.\n\nProsimo sledite spodnji povezavi:\n__url__\n\nVaša koda povabila je: __icode__\n\nHvala.",
   "error-email-taken": "E-poštni naslov je že zaseden",
   "error-ldap-login": "Prišlo je do napake ob prijavi",
   "error-notAuthorized": "Nimate pravic za ogled te strani.",

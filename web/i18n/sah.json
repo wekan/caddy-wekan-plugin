@@ -75,6 +75,8 @@
   "edit": "Уларытар",
   "edit-profile": "Бэйэ туһунан уларыт",
   "email": "Электроннай почта",
+  "email-invite-register-subject": "__inviter__ эйиэхэ ыҥырыы ыытта",
+  "email-invite-register-text": "Күндү __user__,\n\n__inviter__ эйигин канбан дуоскаҕа бииргэ үлэлииргэ ыҥырар.\n\nБука диэн, аллараа сигэни баттаа:\n__url__\n\nЫҥырыы куодуҥ: __icode__\n\nМахтал.",
   "error-email-taken": "Бу электроннай почта номнуо туттуллар",
   "error-ldap-login": "Киирии кэмигэр алҕас таҕыста",
   "error-notAuthorized": "Бу сирэйи көрөр көҥүлүҥ суох.",
