@@ -205,6 +205,8 @@
   "name": "Nimi",
   "no": "Ei",
   "no-archived-cards": "Arhivas ei ole kartoid.",
+  "notification-group-board": "__count__ tedotust laudal __board__",
+  "notification-group-card": "__count__ tedotust kartal __card__",
   "notifications": "Tedotuzed",
   "overtime-hours": "Ližatö (časud)",
   "owner": "Ižand",

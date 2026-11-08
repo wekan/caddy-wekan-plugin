@@ -205,6 +205,8 @@
   "name": "Numã",
   "no": "Nu",
   "no-archived-cards": "Nu ari cãrtsã tu Arhivã.",
+  "notification-group-board": "__count__ nutificãri pi tabela __board__",
+  "notification-group-card": "__count__ nutificãri pi cartea __card__",
   "notifications": "Nutificãri",
   "overtime-hours": "Timpu pisti limitã (oari)",
   "owner": "Stãpãn",

@@ -205,6 +205,8 @@
   "name": "Név",
   "no": "Nem",
   "no-archived-cards": "Nincs Kártya az Archívumban",
+  "notification-group-board": "__count__ értesítés a(z) __board__ táblán",
+  "notification-group-card": "__count__ értesítés a(z) __card__ kártyán",
   "notifications": "Értesítések",
   "overtime-hours": "Túlóra (óra)",
   "owner": "Tulajdonos",

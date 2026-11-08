@@ -205,6 +205,8 @@
   "name": "Аты",
   "no": "Жоқ",
   "no-archived-cards": "Мұрағатта карточкалар жоқ.",
+  "notification-group-board": "__board__ тақтасында __count__ хабарлама",
+  "notification-group-card": "__card__ карточкасында __count__ хабарлама",
   "notifications": "Хабарламалар",
   "overtime-hours": "Артық уақыт (сағат)",
   "owner": "Иесі",

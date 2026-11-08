@@ -205,6 +205,8 @@
   "name": "Nom",
   "no": "Non",
   "no-archived-cards": "Aucune carte archivée.",
+  "notification-group-board": "__count__ notifications sur le tableau __board__",
+  "notification-group-card": "__count__ notifications sur la carte __card__",
   "notifications": "Avis et alertes",
   "overtime-hours": "Temps supplémentaire (heures)",
   "owner": "Propriétaire",

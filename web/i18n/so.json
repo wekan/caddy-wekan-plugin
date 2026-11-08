@@ -205,6 +205,8 @@
   "name": "Magac",
   "no": "Maya",
   "no-archived-cards": "Wax kaarar ah Kaydka kuma jiraan.",
+  "notification-group-board": "__count__ ogeysiis oo ku saabsan sabuuradda __board__",
+  "notification-group-card": "__count__ ogeysiis oo ku saabsan kaarka __card__",
   "notifications": "Ogeysiisyo",
   "overtime-hours": "Waqtiga dheeraadka ah (saacado)",
   "owner": "Milkiile",

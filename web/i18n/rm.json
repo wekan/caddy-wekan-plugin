@@ -205,6 +205,8 @@
   "name": "Num",
   "no": "Na",
   "no-archived-cards": "Naginas cartas en l’archiv.",
+  "notification-group-board": "__count__ notificaziuns sin la tabella __board__",
+  "notification-group-card": "__count__ notificaziuns sin la carta __card__",
   "notifications": "Notificaziuns",
   "overtime-hours": "Sururas (uras)",
   "owner": "Proprietari",

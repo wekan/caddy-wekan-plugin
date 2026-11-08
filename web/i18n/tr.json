@@ -205,6 +205,8 @@
   "name": "Adı",
   "no": "Hayır",
   "no-archived-cards": "Arşivde kart yok",
+  "notification-group-board": "__board__ panosunda __count__ bildirim",
+  "notification-group-card": "__card__ kartında __count__ bildirim",
   "notifications": "Bildirim",
   "overtime-hours": "Aşılan süre (saat)",
   "owner": "Sahibi",

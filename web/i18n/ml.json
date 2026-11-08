@@ -205,6 +205,8 @@
   "name": "പേര്",
   "no": "അല്ല",
   "no-archived-cards": "ആർക്കൈവിൽ കാർഡുകളില്ല.",
+  "notification-group-board": "__board__ ബോർഡിൽ __count__ അറിയിപ്പുകൾ",
+  "notification-group-card": "__card__ കാർഡിൽ __count__ അറിയിപ്പുകൾ",
   "notifications": "അറിയിപ്പുകൾ",
   "overtime-hours": "അധികസമയം (മണിക്കൂർ)",
   "owner": "ഉടമ",

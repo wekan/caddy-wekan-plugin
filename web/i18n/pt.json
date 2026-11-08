@@ -205,6 +205,8 @@
   "name": "Nome",
   "no": "Não",
   "no-archived-cards": "Sem cartões no Arquivo.",
+  "notification-group-board": "__count__ notificações no quadro __board__",
+  "notification-group-card": "__count__ notificações no cartão __card__",
   "notifications": "Notificações",
   "overtime-hours": "Horas extra (horas)",
   "owner": "Dono",

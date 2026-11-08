@@ -205,6 +205,8 @@
   "name": "Ŋkɔ",
   "no": "Ao",
   "no-archived-cards": "Kaɖi aɖeke mele nudzraɖoƒe o.",
+  "notification-group-board": "Nyanyanana __count__ le kpekpeɖeŋu __board__ dzi",
+  "notification-group-card": "Nyanyanana __count__ le kaɖi __card__ ŋu",
   "notifications": "Nyadzɔdzɔwo",
   "overtime-hours": "Dɔɣeyiɣi wu seƒoƒo (gaƒoƒo)",
   "owner": "Etɔ",

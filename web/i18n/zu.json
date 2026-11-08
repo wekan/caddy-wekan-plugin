@@ -205,6 +205,8 @@
   "name": "Igama",
   "no": "Cha",
   "no-archived-cards": "Awekho amakhadi kungobo yomlando.",
+  "notification-group-board": "Izaziso ezingu-__count__ ebhodini __board__",
+  "notification-group-card": "Izaziso ezingu-__count__ ekhadini __card__",
   "notifications": "Izaziso",
   "overtime-hours": "Isikhathi esengeziwe (amahora)",
   "owner": "Umnikazi",

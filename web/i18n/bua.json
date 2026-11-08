@@ -205,6 +205,8 @@
   "name": "Нэрэ",
   "no": "Үгы",
   "no-archived-cards": "Архивта картанууд үгы.",
+  "notification-group-board": "__board__ самбар дээрэ __count__ мэдээсэл",
+  "notification-group-card": "__card__ карточка дээрэ __count__ мэдээсэл",
   "notifications": "Мэдээсэлнүүд",
   "overtime-hours": "Үлүү саг (час)",
   "owner": "Эзэн",

@@ -205,6 +205,8 @@
   "name": "ชื่อ",
   "no": "ไม่",
   "no-archived-cards": "ไม่มีการ์ดในคลังเก็บ",
+  "notification-group-board": "การแจ้งเตือน __count__ รายการบนบอร์ด __board__",
+  "notification-group-card": "การแจ้งเตือน __count__ รายการบนการ์ด __card__",
   "notifications": "การแจ้งเตือน",
   "overtime-hours": "เวลาล่วงเวลา (ชั่วโมง)",
   "owner": "เจ้าของ",

@@ -205,6 +205,8 @@
   "name": "Inoa",
   "no": "ʻAʻole",
   "no-archived-cards": "ʻaʻole nā kāleka i waihona.",
+  "notification-group-board": "__count__ hoʻolaha no ka papa __board__",
+  "notification-group-card": "__count__ hoʻolaha no ke kāleka __card__",
   "notifications": "Nā hoʻolaha",
   "overtime-hours": "olelakime (nā hola)",
   "owner": "owanela",

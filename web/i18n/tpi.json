@@ -205,6 +205,8 @@
   "name": "Nem",
   "no": "Nogat",
   "no-archived-cards": "I no gat kat long akaiv.",
+  "notification-group-board": "__count__ nius long bot __board__",
+  "notification-group-card": "__count__ nius long kat __card__",
   "notifications": "Ol nius",
   "overtime-hours": "Wok ova taim (aua)",
   "owner": "Papa bilong en",

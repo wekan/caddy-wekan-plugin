@@ -205,6 +205,8 @@
   "name": "Nafn",
   "no": "Nei",
   "no-archived-cards": "Engin spjöld í safni.",
+  "notification-group-board": "__count__ tilkynningar á töflunni __board__",
+  "notification-group-card": "__count__ tilkynningar á spjaldinu __card__",
   "notifications": "Tilkynningar",
   "overtime-hours": "Yfirvinna (klukkustundir)",
   "owner": "Eigandi",

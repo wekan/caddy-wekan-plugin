@@ -205,6 +205,8 @@
   "name": "Ime",
   "no": "Ne",
   "no-archived-cards": "Nema kartica u arhivi",
+  "notification-group-board": "__count__ obavijesti na ploči __board__",
+  "notification-group-card": "__count__ obavijesti na kartici __card__",
   "notifications": "Obavijesti",
   "overtime-hours": "Prekovremeno (sati)",
   "owner": "Vlasnik",

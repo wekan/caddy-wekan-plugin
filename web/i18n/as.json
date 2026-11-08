@@ -205,6 +205,8 @@
   "name": "নাম",
   "no": "নহয়",
   "no-archived-cards": "সংৰক্ষণাগাৰত কোনো কাৰ্ড নাই।",
+  "notification-group-board": "ফলক __board__-ত __count__ টা জাননী",
+  "notification-group-card": "কাৰ্ড __card__-ত __count__ টা জাননী",
   "notifications": "জাননী",
   "overtime-hours": "অতিৰিক্ত সময় (ঘণ্টা)",
   "owner": "মালিক",

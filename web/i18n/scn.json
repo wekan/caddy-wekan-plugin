@@ -205,6 +205,8 @@
   "name": "Nomu",
   "no": "Nonzi",
   "no-archived-cards": "Nnu ci sunnu schede nell'archiviu.",
+  "notification-group-board": "__count__ nutifichi supra la tavula __board__",
+  "notification-group-card": "__count__ nutifichi supra la carta __card__",
   "notifications": "Nutifichi",
   "overtime-hours": "Overtime (ore)",
   "owner": "Proprietario",

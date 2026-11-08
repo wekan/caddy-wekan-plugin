@@ -205,6 +205,8 @@
   "name": "Nome",
   "no": "Innò",
   "no-archived-cards": "Ùn ci hè nisuna carta in l’archiviu.",
+  "notification-group-board": "__count__ nutificazioni nant'à a tavula __board__",
+  "notification-group-card": "__count__ nutificazioni nant'à a carta __card__",
   "notifications": "Nutificazioni",
   "overtime-hours": "Tempu supplementare (ore)",
   "owner": "Pruprietariu",

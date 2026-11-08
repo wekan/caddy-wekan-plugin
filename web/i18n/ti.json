@@ -205,6 +205,8 @@
   "name": "ስም",
   "no": "ኣይፋል",
   "no-archived-cards": "ኣብ መዝገብ ካርድታት የለዉን።",
+  "notification-group-board": "__count__ መልእኽትታት ኣብ ሰሌዳ __board__",
+  "notification-group-card": "__count__ መልእኽትታት ኣብ ካርድ __card__",
   "notifications": "መልእኽትታት",
   "overtime-hours": "ተወሳኺ ሰዓት (ሰዓታት)",
   "owner": "ዋና",

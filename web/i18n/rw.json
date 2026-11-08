@@ -205,6 +205,8 @@
   "name": "Izina",
   "no": "Oya",
   "no-archived-cards": "Nta makarita ari mu Bubiko.",
+  "notification-group-board": "Imenyesha __count__ ku kibaho __board__",
+  "notification-group-card": "Imenyesha __count__ ku ikarita __card__",
   "notifications": "Amamenyesha",
   "overtime-hours": "Igihe cy'ikirenga (amasaha)",
   "owner": "Nyirayo",

@@ -205,6 +205,8 @@
   "name": "Miono",
   "no": "Nié",
   "no-archived-cards": "Ni ma kôrtów w archiwùm.",
+  "notification-group-board": "__count__ wiadłów na tôfli __board__",
+  "notification-group-card": "__count__ wiadłów na kôrce __card__",
   "notifications": "Wiadła",
   "overtime-hours": "Nadgòdzënë (gòdzënë)",
   "owner": "Miéwca",

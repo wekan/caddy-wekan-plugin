@@ -205,6 +205,8 @@
   "name": "Suna",
   "no": "A'a",
   "no-archived-cards": "Babu katuna a Taska.",
+  "notification-group-board": "Sanarwa __count__ a kan allo __board__",
+  "notification-group-card": "Sanarwa __count__ a kan kati __card__",
   "notifications": "Sanarwa",
   "overtime-hours": "Ƙarin lokaci (awanni)",
   "owner": "Mai shi",

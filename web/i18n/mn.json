@@ -205,6 +205,8 @@
   "name": "Нэр",
   "no": "Үгүй",
   "no-archived-cards": "Архивт карт алга.",
+  "notification-group-board": "__board__ самбар дээр __count__ мэдэгдэл",
+  "notification-group-card": "__card__ карт дээр __count__ мэдэгдэл",
   "notifications": "Мэдэгдлүүд",
   "overtime-hours": "Илүү цаг (цагаар)",
   "owner": "Эзэмшигч",

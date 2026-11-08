@@ -205,6 +205,8 @@
   "name": "Ном",
   "no": "Не",
   "no-archived-cards": "Дар Бойгонӣ корт нест.",
+  "notification-group-board": "__count__ огоҳинома дар тахтаи __board__",
+  "notification-group-card": "__count__ огоҳинома дар корти __card__",
   "notifications": "Огоҳиномаҳо",
   "overtime-hours": "Вақти изофӣ (соат)",
   "owner": "Соҳиб",

@@ -205,6 +205,8 @@
   "name": "ስሜት",
   "no": "ኣይ",
   "no-archived-cards": "ኣብ መዕቀቢ ወረቀት ካርዳት የለዉን።",
+  "notification-group-board": "__count__ ሓበሬታ ዲብ ምዱድ __board__",
+  "notification-group-card": "__count__ ሓበሬታ ዲብ ወረቀት ካርድ __card__",
   "notifications": "ሓበሬታ",
   "overtime-hours": "ተወሳኺ ግዜ (ሰዓታት)",
   "owner": "በዐል-ማል",

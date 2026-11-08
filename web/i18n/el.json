@@ -205,6 +205,8 @@
   "name": "Όνομα",
   "no": "Όχι",
   "no-archived-cards": "Δεν υπάρχουν κάρτες στο Αρχείο.",
+  "notification-group-board": "__count__ ειδοποιήσεις στον πίνακα __board__",
+  "notification-group-card": "__count__ ειδοποιήσεις στην κάρτα __card__",
   "notifications": "Ειδοποιήσεις",
   "overtime-hours": "Υπερωρία (ώρες)",
   "owner": "Ιδιοκτήτης",

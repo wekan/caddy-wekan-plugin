@@ -205,6 +205,8 @@
   "name": "མིང་།",
   "no": "མིན།",
   "no-archived-cards": "ཡིག་མཛོད་ནང་བྱང་བུ་མེད།",
+  "notification-group-board": "ལས་སྒྲོམ་ __board__ སྟེང་བརྡ་ཐོ་ __count__",
+  "notification-group-card": "བྱང་བུ་ __card__ སྟེང་བརྡ་ཐོ་ __count__",
   "notifications": "བརྡ་ཐོ།",
   "overtime-hours": "དུས་ཚོད་བརྒལ་བ་ (ཆུ་ཚོད)",
   "owner": "བདག་པོ།",

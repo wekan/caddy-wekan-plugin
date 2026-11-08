@@ -205,6 +205,8 @@
   "name": "Dzina",
   "no": "Hai",
   "no-archived-cards": "A hu na makhadi fhethu ha u vhulunga.",
+  "notification-group-board": "Nḓivhadzo dza __count__ kha bodo __board__",
+  "notification-group-card": "Nḓivhadzo dza __count__ kha khadi __card__",
   "notifications": "Nḓivhadzo",
   "overtime-hours": "Tshifhinga tsho fhiraho (awara)",
   "owner": "Muṋe",

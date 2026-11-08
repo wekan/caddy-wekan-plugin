@@ -205,6 +205,8 @@
   "name": "Emri",
   "no": "Jo",
   "no-archived-cards": "Nuk ka karta në arkiv.",
+  "notification-group-board": "__count__ njoftime në tabelën __board__",
+  "notification-group-card": "__count__ njoftime në kartën __card__",
   "notifications": "Njoftimet",
   "overtime-hours": "Orët shtesë (orë)",
   "owner": "Pronari",

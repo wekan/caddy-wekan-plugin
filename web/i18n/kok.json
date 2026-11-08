@@ -205,6 +205,8 @@
   "name": "नांव",
   "no": "ना",
   "no-archived-cards": "संग्रहांत कार्डां ना.",
+  "notification-group-board": "फळो __board__ चेर __count__ सुचोवण्यो",
+  "notification-group-card": "कार्ड __card__ चेर __count__ सुचोवण्यो",
   "notifications": "सुचोवण्यो",
   "overtime-hours": "जादा वेळ (वरां)",
   "owner": "मालक",

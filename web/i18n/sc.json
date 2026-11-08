@@ -205,6 +205,8 @@
   "name": "Nùmene",
   "no": "Nono",
   "no-archived-cards": "Peruna carta in s'archìviu.",
+  "notification-group-board": "__count__ notìficas in sa tàula __board__",
+  "notification-group-card": "__count__ notìficas in sa carta __card__",
   "notifications": "Notìficas",
   "overtime-hours": "Tempus in prus (oras)",
   "owner": "Mere",

@@ -205,6 +205,8 @@
   "name": "Hanow",
   "no": "Na",
   "no-archived-cards": "Karten vyth y'n kovskrifva.",
+  "notification-group-board": "__count__ gwarnyans war an estyllen __board__",
+  "notification-group-card": "__count__ gwarnyans war an karten __card__",
   "notifications": "Gwarnyansow",
   "overtime-hours": "Termyn dre (ourys)",
   "owner": "Perghen",

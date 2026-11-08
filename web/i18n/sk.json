@@ -205,6 +205,8 @@
   "name": "Meno",
   "no": "Nie",
   "no-archived-cards": "V archíve nie sú žiadne karty.",
+  "notification-group-board": "__count__ oznámení na nástenke __board__",
+  "notification-group-card": "__count__ oznámení na karte __card__",
   "notifications": "Upozornenia",
   "overtime-hours": "Nadčas (hodiny)",
   "owner": "Vlastník",

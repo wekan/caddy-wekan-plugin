@@ -205,6 +205,8 @@
   "name": "Имя",
   "no": "Нет",
   "no-archived-cards": "Нет карточек в Архиве",
+  "notification-group-board": "__count__ уведомлений на доске __board__",
+  "notification-group-card": "__count__ уведомлений на карточке __card__",
   "notifications": "Уведомления",
   "overtime-hours": "Переработка (в часах)",
   "owner": "Владелец",

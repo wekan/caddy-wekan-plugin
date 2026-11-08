@@ -205,6 +205,8 @@
   "name": "Yaca",
   "no": "Sega",
   "no-archived-cards": "Sega na kadi ena iVola ni Maroroi.",
+  "notification-group-board": "__count__ na veivakaraitaki ena vola __board__",
+  "notification-group-card": "__count__ na veivakaraitaki ena kadi __card__",
   "notifications": "Ivakaro",
   "overtime-hours": "Gauna sivia (aua)",
   "owner": "Taukei",

@@ -205,6 +205,8 @@
   "name": "نام",
   "no": "خیر",
   "no-archived-cards": "هیچ کارتی در آرشیو موجود نمی باشد",
+  "notification-group-board": "__count__ اعلان در برد __board__",
+  "notification-group-card": "__count__ اعلان در کارت __card__",
   "notifications": "اعلان‌ها",
   "overtime-hours": "اضافه‌کاری (ساعت)",
   "owner": "صاحب",

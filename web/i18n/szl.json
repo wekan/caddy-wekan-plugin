@@ -205,6 +205,8 @@
   "name": "Miano",
   "no": "Niy",
   "no-archived-cards": "Brak kart we Archiwum.",
+  "notification-group-board": "__count__ powiadōmiyń na tabuli __board__",
+  "notification-group-card": "__count__ powiadōmiyń na karcie __card__",
   "notifications": "Powiadōmiynia",
   "overtime-hours": "Nadgodziny (h)",
   "owner": "Właściciel",

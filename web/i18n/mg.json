@@ -205,6 +205,8 @@
   "name": "Anarana",
   "no": "Tsia",
   "no-archived-cards": "Tsy misy karatra ao amin'ny arisiva.",
+  "notification-group-board": "Fampandrenesana __count__ ao amin’ny solaitra __board__",
+  "notification-group-card": "Fampandrenesana __count__ ao amin’ny karatra __card__",
   "notifications": "Fampandrenesana",
   "overtime-hours": "Ora fanampiny (ora)",
   "owner": "Tompony",

@@ -205,6 +205,8 @@
   "name": "Nome",
   "no": "Nò",
   "no-archived-cards": "No ghe xe schede inte el archivio.",
+  "notification-group-board": "__count__ notìfeghe so el quadro __board__",
+  "notification-group-card": "__count__ notìfeghe so ła scheda __card__",
   "notifications": "Notìfeghe",
   "overtime-hours": "Overtime (ore)",
   "owner": "Paron",

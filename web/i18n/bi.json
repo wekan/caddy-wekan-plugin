@@ -205,6 +205,8 @@
   "name": "Nem",
   "no": "Nogat",
   "no-archived-cards": "Nogat ol kad insaed long Akaev.",
+  "notification-group-board": "__count__ niusem long bod __board__",
+  "notification-group-card": "__count__ niusem long kad __card__",
   "notifications": "Ol niusem",
   "overtime-hours": "Ekstra taem blong wok (aoa)",
   "owner": "Ona",

@@ -205,6 +205,8 @@
   "name": "Igoa",
   "no": "Leai",
   "no-archived-cards": "E leai ni pepa i le Teuina.",
+  "notification-group-board": "__count__ faasilasilaga i le laupapa __board__",
+  "notification-group-card": "__count__ faasilasilaga i le pepa __card__",
   "notifications": "Faasilasilaga",
   "overtime-hours": "Taimi faaopoopo (itula)",
   "owner": "E Ana",

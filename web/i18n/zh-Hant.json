@@ -205,6 +205,8 @@
   "name": "名稱",
   "no": "否",
   "no-archived-cards": "沒有封存的卡片",
+  "notification-group-board": "看板 __board__ 上有 __count__ 則通知",
+  "notification-group-card": "卡片 __card__ 上有 __count__ 則通知",
   "notifications": "通知",
   "overtime-hours": "超時（小時）",
   "owner": "擁有者",

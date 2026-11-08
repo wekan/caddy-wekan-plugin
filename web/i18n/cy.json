@@ -205,6 +205,8 @@
   "name": "Enw",
   "no": "Nac ydw",
   "no-archived-cards": "Dim cardiau yn yr Archif.",
+  "notification-group-board": "__count__ hysbysiad ar y bwrdd __board__",
+  "notification-group-card": "__count__ hysbysiad ar y cerdyn __card__",
   "notifications": "Hysbysiadau",
   "overtime-hours": "Goramser (oriau)",
   "owner": "Perchennog",

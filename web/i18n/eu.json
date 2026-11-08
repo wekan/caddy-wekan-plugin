@@ -205,6 +205,8 @@
   "name": "Izena",
   "no": "Ez",
   "no-archived-cards": "Biltegian ez dago txartelik.",
+  "notification-group-board": "__count__ jakinarazpen __board__ arbelean",
+  "notification-group-card": "__count__ jakinarazpen __card__ txartelean",
   "notifications": "Jakinarazpenak",
   "overtime-hours": "Luzapena (orduak)",
   "owner": "Jabea",

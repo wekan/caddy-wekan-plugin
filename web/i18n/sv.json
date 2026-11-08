@@ -205,6 +205,8 @@
   "name": "Namn",
   "no": "Nej",
   "no-archived-cards": "Inga kort i Arkiv.",
+  "notification-group-board": "__count__ aviseringar på tavlan __board__",
+  "notification-group-card": "__count__ aviseringar på kortet __card__",
   "notifications": "Notiser",
   "overtime-hours": "Övertid (timmar)",
   "owner": "Ägare",

@@ -205,6 +205,8 @@
   "name": "ਨਾਮ",
   "no": "ਨਹੀਂ",
   "no-archived-cards": "ਪੁਰਾਲੇਖ ਵਿੱਚ ਕੋਈ ਕਾਰਡ ਨਹੀਂ ਹਨ।",
+  "notification-group-board": "ਬੋਰਡ __board__ 'ਤੇ __count__ ਸੂਚਨਾਵਾਂ",
+  "notification-group-card": "ਕਾਰਡ __card__ 'ਤੇ __count__ ਸੂਚਨਾਵਾਂ",
   "notifications": "ਸੂਚਨਾਵਾਂ",
   "overtime-hours": "ਓਵਰਟਾਈਮ (ਘੰਟੇ)",
   "owner": "ਮਾਲਕ",

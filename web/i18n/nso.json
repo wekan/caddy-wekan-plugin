@@ -205,6 +205,8 @@
   "name": "Leina",
   "no": "Aowa",
   "no-archived-cards": "Ga go dikarata Bobolokelong.",
+  "notification-group-board": "Ditsebišo tše __count__ go poto __board__",
+  "notification-group-card": "Ditsebišo tše __count__ go karata __card__",
   "notifications": "Ditsebišo",
   "overtime-hours": "Nako ya go feta (diiri)",
   "owner": "Mong",

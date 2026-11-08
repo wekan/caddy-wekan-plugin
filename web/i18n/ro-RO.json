@@ -205,6 +205,8 @@
   "name": "Nume",
   "no": "Nu",
   "no-archived-cards": "Nu există carduri în arhivă.",
+  "notification-group-board": "__count__ notificări pe panoul __board__",
+  "notification-group-card": "__count__ notificări pe cardul __card__",
   "notifications": "Notificări",
   "overtime-hours": "Timp suplimentar (ore)",
   "owner": "Proprietar",

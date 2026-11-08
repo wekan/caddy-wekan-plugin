@@ -205,6 +205,8 @@
   "name": "Aha",
   "no": "Mba",
   "no-archived-cards": "Enweghị kaadị na ebe nchekwa.",
+  "notification-group-board": "Ọkwa __count__ na bọọdụ __board__",
+  "notification-group-card": "Ọkwa __count__ na kaadị __card__",
   "notifications": "Amamọkwa",
   "overtime-hours": "Oge gafere (awa)",
   "owner": "Onye nwe",

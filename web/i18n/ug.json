@@ -205,6 +205,8 @@
   "name": "ئىسمى",
   "no": "ياق",
   "no-archived-cards": "ئارخىپتا كارتا يوق.",
+  "notification-group-board": "__board__ تاختىسىدا __count__ ئۇقتۇرۇش",
+  "notification-group-card": "__card__ كارتىسىدا __count__ ئۇقتۇرۇش",
   "notifications": "ئۇقتۇرۇش",
   "overtime-hours": "ئىسمېنا قوشۇپ ئىشلەش (سائەت)",
   "owner": "ئىگىسى",

@@ -205,6 +205,8 @@
   "name": "Аат",
   "no": "Суох",
   "no-archived-cards": "Арһыыпка карточка суох.",
+  "notification-group-board": "__board__ дуоскаҕа __count__ биллэрии",
+  "notification-group-card": "__card__ карточкаҕа __count__ биллэрии",
   "notifications": "Биллэриилэр",
   "overtime-hours": "Болдьох кэннинээҕи кэм (чаас)",
   "owner": "Бас билээччи",

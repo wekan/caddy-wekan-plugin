@@ -205,6 +205,8 @@
   "name": "Name",
   "no": "No",
   "no-archived-cards": "No cards in Archive.",
+  "notification-group-board": "__count__ notifications on board __board__",
+  "notification-group-card": "__count__ notifications on card __card__",
   "notifications": "Notifications",
   "overtime-hours": "Overtime (hours)",
   "owner": "Owner",

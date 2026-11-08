@@ -205,6 +205,8 @@
   "name": "No",
   "no": "Neni",
   "no-archived-cards": "Poko kåt nan årtchive.",
+  "notification-group-board": "__count__ notifications sol tåvlea __board__",
+  "notification-group-card": "__count__ notifications sol cåte __card__",
   "notifications": "Notifiaedjes",
   "overtime-hours": "Tins e pus (eures)",
   "owner": "Propiertaire",

@@ -205,6 +205,8 @@
   "name": "Innde",
   "no": "Alaa",
   "no-archived-cards": "Alaa karte nder Mooftol.",
+  "notification-group-board": "Tintine __count__ e alluwal __board__",
+  "notification-group-card": "Tintine __count__ e kartal __card__",
   "notifications": "Tintine",
   "overtime-hours": "Waktu ɓeydu (waktuji)",
   "owner": "Jeyɗo",

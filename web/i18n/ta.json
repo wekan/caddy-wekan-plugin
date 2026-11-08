@@ -205,6 +205,8 @@
   "name": "பெயர்",
   "no": "இல்லை",
   "no-archived-cards": "காப்பகத்தில் அட்டைகள் இல்லை.",
+  "notification-group-board": "__board__ பலகையில் __count__ அறிவிப்புகள்",
+  "notification-group-card": "__card__ அட்டையில் __count__ அறிவிப்புகள்",
   "notifications": "அறிவிப்புகள்",
   "overtime-hours": "கூடுதல் நேரம் (மணி)",
   "owner": "உரிமையாளர்",

@@ -205,6 +205,8 @@
   "name": "Naam",
   "no": "Nee",
   "no-archived-cards": "Geen kaarten in Archief.",
+  "notification-group-board": "__count__ meldingen op bord __board__",
+  "notification-group-card": "__count__ meldingen op kaart __card__",
   "notifications": "Meldingen",
   "overtime-hours": "Overwerk (in uren)",
   "owner": "Eigenaar",

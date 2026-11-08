@@ -205,6 +205,8 @@
   "name": "Ibizo",
   "no": "Hatshi",
   "no-archived-cards": "Akula makhadi eNgobweni yomlando.",
+  "notification-group-board": "__count__ izaziso ebhodini __board__",
+  "notification-group-card": "__count__ izaziso ekhadini __card__",
   "notifications": "Izaziso",
   "overtime-hours": "Isikhathi esengezelelweyo (amahora)",
   "owner": "Umnikazi",

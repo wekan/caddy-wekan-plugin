@@ -205,6 +205,8 @@
   "name": "名前",
   "no": "いいえ",
   "no-archived-cards": "アーカイブ済みカードはありません。",
+  "notification-group-board": "ボード __board__ に __count__ 件の通知",
+  "notification-group-card": "カード __card__ に __count__ 件の通知",
   "notifications": "通知",
   "overtime-hours": "超過時間（時）",
   "owner": "オーナー",

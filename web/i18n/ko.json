@@ -205,6 +205,8 @@
   "name": "이름",
   "no": "아니오",
   "no-archived-cards": "보관 중인 카드 없음.",
+  "notification-group-board": "보드 __board__의 알림 __count__개",
+  "notification-group-card": "카드 __card__의 알림 __count__개",
   "notifications": "알림",
   "overtime-hours": "초과 시간(시간)",
   "owner": "소유자",

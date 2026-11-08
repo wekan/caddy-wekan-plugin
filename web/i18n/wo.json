@@ -205,6 +205,8 @@
   "name": "Tur",
   "no": "Déedéet",
   "no-archived-cards": "Amul yoon ci kart yi ñu ko arsiwe",
+  "notification-group-board": "__count__ yégle ci tablo __board__",
+  "notification-group-card": "__count__ yégle ci karta __card__",
   "notifications": "Yégle yi",
   "overtime-hours": "Diir bi weesu (waxtu)",
   "owner": "Xëpp",

@@ -205,6 +205,8 @@
   "name": "Jméno",
   "no": "Ne",
   "no-archived-cards": "V archivu nejsou žádné karty.",
+  "notification-group-board": "__count__ oznámení na tablu __board__",
+  "notification-group-card": "__count__ oznámení na kartě __card__",
   "notifications": "Upozornění",
   "overtime-hours": "Přesčas (hodiny)",
   "owner": "Vlastník",

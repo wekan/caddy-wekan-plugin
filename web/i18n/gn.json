@@ -205,6 +205,8 @@
   "name": "Téra",
   "no": "Nahániri",
   "no-archived-cards": "Ndaipóri kuatia'i Ñongatupyre-pe.",
+  "notification-group-board": "__count__ momarandu peteĩcha __board__ rehe",
+  "notification-group-card": "__count__ momarandu kuatia'i __card__ rehe",
   "notifications": "Marandu",
   "overtime-hours": "Aravo hetave (aravo)",
   "owner": "Jára",

@@ -246,6 +246,16 @@
   }
   up.on('click', '#notifications-drawer .js-filter-unread', function (event) { event.preventDefault(); drawerShowRead(false); });
   up.on('click', '#notifications-drawer .js-view-all', function (event) { event.preventDefault(); drawerShowRead(true); });
+  // #5171: a grouped row opens to show all of its card's or board's entries.
+  up.on('click', '#notifications-drawer .js-toggle-notification-group', function (event, link) {
+    event.preventDefault();
+    var open = link.getAttribute('aria-expanded') !== 'true';
+    link.setAttribute('aria-expanded', open ? 'true' : 'false');
+    link.textContent = (open ? '▾' : '▸') + link.textContent.slice(1);
+    document.querySelectorAll('#notifications-drawer .notification.is-group-rest').forEach(function (li) {
+      if (li.getAttribute('data-group') === link.getAttribute('data-key')) li.classList.toggle('is-group-open', open);
+    });
+  });
   function drawerPost(path) {
     return fetch(path, { method: 'POST', credentials: 'same-origin' }).then(function () { return refreshUser(); });
   }

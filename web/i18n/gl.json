@@ -205,6 +205,8 @@
   "name": "Nome",
   "no": "Non",
   "no-archived-cards": "Non hai tarxetas no Arquivo.",
+  "notification-group-board": "__count__ notificacións no taboleiro __board__",
+  "notification-group-card": "__count__ notificacións na tarxeta __card__",
   "notifications": "Notificacións",
   "overtime-hours": "Horas extra (horas)",
   "owner": "Propietario",

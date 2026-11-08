@@ -205,6 +205,8 @@
   "name": "Ady",
   "no": ".Ok",
   "no-archived-cards": "Arhiwde kartoçka ýok",
+  "notification-group-board": "__board__ tagtasynda __count__ duýduryş",
+  "notification-group-card": "__card__ kartynda __count__ duýduryş",
   "notifications": "Duýduryşlar",
   "overtime-hours": "Iş wagty (sagat)",
   "owner": "Eýesi",

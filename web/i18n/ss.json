@@ -205,6 +205,8 @@
   "name": "Ligama",
   "no": "Cha",
   "no-archived-cards": "Kute emakhadi Engobolweni.",
+  "notification-group-board": "Tatiso letili-__count__ elibhodini __board__",
+  "notification-group-card": "Tatiso letili-__count__ kulikhadi __card__",
   "notifications": "Tatiso",
   "overtime-hours": "Sikhatsi lesengcile (ema-awa)",
   "owner": "Umnikati",

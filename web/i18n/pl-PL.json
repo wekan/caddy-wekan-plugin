@@ -205,6 +205,8 @@
   "name": "Nazwa",
   "no": "Nie",
   "no-archived-cards": "Brak kart w Archiwum.",
+  "notification-group-board": "__count__ powiadomień na tablicy __board__",
+  "notification-group-card": "__count__ powiadomień na karcie __card__",
   "notifications": "Powiadomienia",
   "overtime-hours": "Nadgodziny (h)",
   "owner": "Właściciel",

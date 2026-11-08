@@ -205,6 +205,8 @@
   "name": "නම",
   "no": "නැහැ",
   "no-archived-cards": "සංරක්ෂිතයේ කාඩ්පත් නැත.",
+  "notification-group-board": "__board__ පුවරුවේ දැනුම්දීම් __count__",
+  "notification-group-card": "__card__ කාඩ්පතේ දැනුම්දීම් __count__",
   "notifications": "දැනුම්දීම්",
   "overtime-hours": "අතිකාල (පැය)",
   "owner": "හිමිකරු",

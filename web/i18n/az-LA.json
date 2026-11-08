@@ -205,6 +205,8 @@
   "name": "ad",
   "no": "yox",
   "no-archived-cards": "Arxivdə kart yoxdur.",
+  "notification-group-board": "__board__ lövhəsində __count__ bildiriş",
+  "notification-group-card": "__card__ kartında __count__ bildiriş",
   "notifications": "Bildirişlər",
   "overtime-hours": "Əlavə iş (saat)",
   "owner": "Sahib",

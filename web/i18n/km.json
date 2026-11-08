@@ -205,6 +205,8 @@
   "name": "ឈ្មោះ",
   "no": "ទេ",
   "no-archived-cards": "មិនមានកាតនៅក្នុងប័ណ្ណសារទេ។",
+  "notification-group-board": "ការជូនដំណឹង __count__ នៅលើក្តារ __board__",
+  "notification-group-card": "ការជូនដំណឹង __count__ នៅលើកាត __card__",
   "notifications": "ការជូនដំណឹង",
   "overtime-hours": "លើសពេល (ម៉ោង)",
   "owner": "ម្ចាស់",

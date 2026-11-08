@@ -205,6 +205,8 @@
   "name": "نوم",
   "no": "نه",
   "no-archived-cards": "په ارشيف کې کارتونه نشته.",
+  "notification-group-board": "په تخته __board__ کې __count__ خبرتیاوې",
+  "notification-group-card": "په کارت __card__ کې __count__ خبرتیاوې",
   "notifications": "خبرتياوې",
   "overtime-hours": "اضافي وخت (ساعتونه)",
   "owner": "خاوند",

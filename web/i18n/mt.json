@@ -205,6 +205,8 @@
   "name": "Isem",
   "no": "Le",
   "no-archived-cards": "Le kards ġewwa Arkivju.",
+  "notification-group-board": "__count__ notifiki fuq il-bord __board__",
+  "notification-group-card": "__count__ notifiki fuq il-karta __card__",
   "notifications": "Notifiki",
   "overtime-hours": "Ħin żejjed (sigħat)",
   "owner": "Sid",

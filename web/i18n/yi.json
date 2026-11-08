@@ -205,6 +205,8 @@
   "name": "נאָמען",
   "no": "ניין",
   "no-archived-cards": "קיין קאַרדס אין אַרטשיווע.",
+  "notification-group-board": "__count__ אָנזאָגן אויפֿן ברעט __board__",
+  "notification-group-card": "__count__ אָנזאָגן אויפֿן קאָרט __card__",
   "notifications": "נאָוטאַפאַקיישאַנז",
   "overtime-hours": "יבערגאַנג (שעה)",
   "owner": "באַזיצער",

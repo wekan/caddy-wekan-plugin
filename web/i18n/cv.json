@@ -205,6 +205,8 @@
   "name": "Ят",
   "no": "Ҫук",
   "no-archived-cards": "Архивра карточка ҫук.",
+  "notification-group-board": "__board__ хӑма ҫинче __count__ пӗлтерӳ",
+  "notification-group-card": "__card__ карточка ҫинче __count__ пӗлтерӳ",
   "notifications": "Пӗлтерӳсем",
   "overtime-hours": "Ытлашши вӑхӑт (сехетсем)",
   "owner": "Хуҫа",

@@ -205,6 +205,8 @@
   "name": "Ateq",
   "no": "Naamik",
   "no-archived-cards": "Toqqorsivimmi kortseqanngilaq.",
+  "notification-group-board": "__count__ nalunaarutit ilisarnaammi __board__",
+  "notification-group-card": "__count__ nalunaarutit kortsimi __card__",
   "notifications": "Nalunaarutit",
   "overtime-hours": "Piffissaq qaangiuttoq (akunnerit)",
   "owner": "Piginnittoq",

@@ -205,6 +205,8 @@
   "name": "Lebitso",
   "no": "Che",
   "no-archived-cards": "Ha ho dikarete Polokelong.",
+  "notification-group-board": "Ditsebiso tse __count__ botong ya __board__",
+  "notification-group-card": "Ditsebiso tse __count__ kareteng ya __card__",
   "notifications": "Ditsebiso",
   "overtime-hours": "Nako e eketsehileng (dihora)",
   "owner": "Mong",

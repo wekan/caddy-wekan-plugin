@@ -52,11 +52,17 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
             h5 {{t $.L "notifications"}}
             a.close(href="#", title="{{t $.L `close`}}") ×
           ul.notifications
-            each n in .Drawer
-              li.notification(class="{{if .Read}}is-read{{end}}", data-activity="{{.ActivityID}}")
-                .notification-clear-item {{.HTML}}
-                .notification-date
-                  small.quiet {{.Display}}
+            //- #5171: one card's or board's entries in one row, when the tray
+              grouping says so; the first shows until the row is opened.
+            each g in .Drawer
+              if .Collapsible
+                li.notification-group(data-key="{{.Key}}")
+                  a.js-toggle-notification-group(href="#", data-key="{{.Key}}", aria-expanded="false") ▸ {{.Label}}
+              each n in .Items
+                li.notification(class="{{if .Read}}is-read{{end}}{{if .Rest}} is-group-rest{{end}}", data-activity="{{.ActivityID}}", data-group="{{.Group}}")
+                  .notification-clear-item {{.HTML}}
+                  .notification-date
+                    small.quiet {{.Display}}
         a.header-user.js-open-header-member-menu(href="/profile") {{memberName .User}}
         //- WeKan's memberMenuPopup: what Weddy has of it.
         template.js-pop-over-template(data-pop="member-menu", data-title="{{t $.L `memberMenuPopup-title`}}")

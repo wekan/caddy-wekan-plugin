@@ -205,6 +205,8 @@
   "name": "Ism",
   "no": "Yo'q",
   "no-archived-cards": "Arxivda kartalar yo‘q.",
+  "notification-group-board": "__board__ taxtasida __count__ ta bildirishnoma",
+  "notification-group-card": "__card__ kartasida __count__ ta bildirishnoma",
   "notifications": "Bildirishnomalar",
   "overtime-hours": "Qo'shimcha ish vaqti (soat)",
   "owner": "Egasi",

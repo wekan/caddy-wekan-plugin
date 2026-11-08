@@ -205,6 +205,8 @@
   "name": "Suti",
   "no": "Manam",
   "no-archived-cards": "Waqaychanapi manam kartakuna kanchu.",
+  "notification-group-board": "__count__ willaykuna __board__ pirqapi",
+  "notification-group-card": "__count__ willaykuna __card__ kartapi",
   "notifications": "Willaykuna",
   "overtime-hours": "Yapa pacha (urakuna)",
   "owner": "Dueño (kapuqnin)",

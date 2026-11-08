@@ -205,6 +205,8 @@
   "name": "Ingoa",
   "no": "Kāo",
   "no-archived-cards": "Kāore he kāri i te Pūranga.",
+  "notification-group-board": "__count__ whakamōhiotanga i te papa __board__",
+  "notification-group-card": "__count__ whakamōhiotanga i te kāri __card__",
   "notifications": "Ngā whakamōhiotanga",
   "overtime-hours": "Wā tāpiri (hāora)",
   "owner": "Kaipupuri",

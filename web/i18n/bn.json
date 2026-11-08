@@ -205,6 +205,8 @@
   "name": "নাম",
   "no": "না",
   "no-archived-cards": "সংরক্ষণাগারে কোনো কার্ড নেই।",
+  "notification-group-board": "__board__ বোর্ডে __count__টি বিজ্ঞপ্তি",
+  "notification-group-card": "__card__ কার্ডে __count__টি বিজ্ঞপ্তি",
   "notifications": "বিজ্ঞপ্তি",
   "overtime-hours": "অতিরিক্ত সময় (ঘণ্টা)",
   "owner": "মালিক",

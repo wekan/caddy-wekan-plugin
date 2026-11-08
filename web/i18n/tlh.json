@@ -205,6 +205,8 @@
   "name": "pong",
   "no": "ghobe'",
   "no-archived-cards": "polmeH DaqDaq 'echletHommey tu'lu'be'.",
+  "notification-group-board": "__board__ raSDaq __count__ ghuHmoHmeH QInmey",
+  "notification-group-card": "__card__ 'echletHomDaq __count__ ghuHmoHmeH QInmey",
   "notifications": "ghuHmoHmeH QInmey",
   "overtime-hours": "poH 'Iq (rep)",
   "owner": "ghajwI'",

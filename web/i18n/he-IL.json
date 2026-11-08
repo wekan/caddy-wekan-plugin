@@ -205,6 +205,8 @@
   "name": "שם",
   "no": "לא",
   "no-archived-cards": "אין כרטיסים בארכיון",
+  "notification-group-board": "__count__ התראות בלוח __board__",
+  "notification-group-card": "__count__ התראות בכרטיס __card__",
   "notifications": "הודעות",
   "overtime-hours": "שעות נוספות",
   "owner": "בעלות",

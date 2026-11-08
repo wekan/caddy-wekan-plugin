@@ -205,6 +205,8 @@
   "name": "სახელი",
   "no": "არა",
   "no-archived-cards": "არქივში ბარათები არ არის.",
+  "notification-group-board": "__count__ შეტყობინება დაფაზე __board__",
+  "notification-group-card": "__count__ შეტყობინება ბარათზე __card__",
   "notifications": "შეტყობინებები",
   "overtime-hours": "ზედმეტი დრო (საათები)",
   "owner": "მფლობელი",

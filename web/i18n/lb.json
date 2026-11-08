@@ -205,6 +205,8 @@
   "name": "Numm",
   "no": "Nee",
   "no-archived-cards": "Keng Kaarten den Archiv.",
+  "notification-group-board": "__count__ Notifikatiounen op der Tafel __board__",
+  "notification-group-card": "__count__ Notifikatiounen op der Kaart __card__",
   "notifications": "Notifikatiounen",
   "overtime-hours": "Mehrarbeit (Stonnen)",
   "owner": "Eigentümer",

@@ -205,6 +205,8 @@
   "name": "Inom",
   "no": "Na",
   "no-archived-cards": "Deguna ciarta tl archif.",
+  "notification-group-board": "__count__ notificazions sön le tofl __board__",
+  "notification-group-card": "__count__ notificazions sön la ciarta __card__",
   "notifications": "Notificazions",
   "overtime-hours": "Tëmp de plu (ëures)",
   "owner": "Patron",

@@ -205,6 +205,8 @@
   "name": "ناو",
   "no": "نەخێر",
   "no-archived-cards": "هیچ کارتێک لە ئەرشیفدا نییە.",
+  "notification-group-board": "__count__ ئاگادارکردنەوە لەسەر تەختەی __board__",
+  "notification-group-card": "__count__ ئاگادارکردنەوە لەسەر کارتی __card__",
   "notifications": "ئاگادارکردنەوەکان",
   "overtime-hours": "کاتی زیادە (کاتژمێر)",
   "owner": "خاوەن",

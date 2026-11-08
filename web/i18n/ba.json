@@ -205,6 +205,8 @@
   "name": "Исем",
   "no": "Юҡ",
   "no-archived-cards": "Архивта карточкалар юҡ.",
+  "notification-group-board": "__board__ тактаһында __count__ хәбәр",
+  "notification-group-card": "__card__ карточкаһында __count__ хәбәр",
   "notifications": "Хәбәрҙәр",
   "overtime-hours": "Артыҡ ваҡыт (сәғәт)",
   "owner": "Эйә",

@@ -205,6 +205,8 @@
   "name": "Anv",
   "no": "Ket",
   "no-archived-cards": "Kartenn ebet en dielloù.",
+  "notification-group-board": "__count__ kemenn war an daolenn __board__",
+  "notification-group-card": "__count__ kemenn war ar gartenn __card__",
   "notifications": "Kemennoù",
   "overtime-hours": "Amzer ouzhpenn (eurvezhioù)",
   "owner": "Perc'henn",

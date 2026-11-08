@@ -205,6 +205,8 @@
   "name": "Dzina",
   "no": "Ayi",
   "no-archived-cards": "Palibe makhadi mu Zosungidwa.",
+  "notification-group-board": "Zidziwitso __count__ pa bolodi __board__",
+  "notification-group-card": "Zidziwitso __count__ pa khadi __card__",
   "notifications": "Zidziwitso",
   "overtime-hours": "Nthawi yowonjezera (maola)",
   "owner": "Mwini",

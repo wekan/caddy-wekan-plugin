@@ -205,6 +205,8 @@
   "name": "Mjeno",
   "no": "Ně",
   "no-archived-cards": "Žane karty w archiwje.",
+  "notification-group-board": "__count__ zdźělenkow na tafli __board__",
+  "notification-group-card": "__count__ zdźělenkow na karće __card__",
   "notifications": "Zdźělenki",
   "overtime-hours": "Nadčas (hodźiny)",
   "owner": "Wobsedźer",

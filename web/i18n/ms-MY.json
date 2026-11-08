@@ -205,6 +205,8 @@
   "name": "Nama",
   "no": "Tidak",
   "no-archived-cards": "Tiada kad dalam Arkib.",
+  "notification-group-board": "__count__ pemberitahuan pada papan __board__",
+  "notification-group-card": "__count__ pemberitahuan pada kad __card__",
   "notifications": "Pemberitahuan",
   "overtime-hours": "Lebih masa (jam)",
   "owner": "Pemilik",

@@ -205,6 +205,8 @@
   "name": "Jina",
   "no": "Hapana",
   "no-archived-cards": "Hakuna kadi kwenye Kumbukumbu.",
+  "notification-group-board": "Arifa __count__ kwenye bodi __board__",
+  "notification-group-card": "Arifa __count__ kwenye kadi __card__",
   "notifications": "Arifa",
   "overtime-hours": "Muda wa ziada (saa)",
   "owner": "Mmiliki",

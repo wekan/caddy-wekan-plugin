@@ -205,6 +205,8 @@
   "name": "اسم",
   "no": "لا",
   "no-archived-cards": "لا توجد بطاقات في الأرشيف.",
+  "notification-group-board": "__count__ إشعارًا على اللوحة __board__",
+  "notification-group-card": "__count__ إشعارًا على البطاقة __card__",
   "notifications": "الإشعارات",
   "overtime-hours": "وقت اضافي (ساعات)",
   "owner": "صاحب",

@@ -205,6 +205,8 @@
   "name": "Bezeichnung",
   "no": "Nein",
   "no-archived-cards": "Keine Karten im Archiv.",
+  "notification-group-board": "__count__ Benachrichtigungen auf Arbeitstafel __board__",
+  "notification-group-card": "__count__ Benachrichtigungen auf Karte __card__",
   "notifications": "Benachrichtigungen",
   "overtime-hours": "Mehrarbeit (Stunden)",
   "owner": "Eigentümer",

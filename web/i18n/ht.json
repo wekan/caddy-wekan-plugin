@@ -205,6 +205,8 @@
   "name": "Non",
   "no": "Non",
   "no-archived-cards": "Pa gen kat nan Achiv.",
+  "notification-group-board": "__count__ notifikasyon sou tablo __board__",
+  "notification-group-card": "__count__ notifikasyon sou kat __card__",
   "notifications": "Notifikasyon",
   "overtime-hours": "Lè siplemantè (èdtan)",
   "owner": "Pwopriyetè",

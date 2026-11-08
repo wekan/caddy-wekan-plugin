@@ -205,6 +205,8 @@
   "name": "નામ",
   "no": "ના",
   "no-archived-cards": "આર્કાઇવમાં કોઈ કાર્ડ નથી.",
+  "notification-group-board": "બોર્ડ __board__ પર __count__ સૂચનાઓ",
+  "notification-group-card": "કાર્ડ __card__ પર __count__ સૂચનાઓ",
   "notifications": "સૂચનાઓ",
   "overtime-hours": "ઓવરટાઇમ (કલાક)",
   "owner": "માલિક",

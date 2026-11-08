@@ -205,6 +205,8 @@
   "name": "Zita",
   "no": "Kwete",
   "no-archived-cards": "kwete makadhi mu dura.",
+  "notification-group-board": "Zviziviso __count__ pabhodhi __board__",
+  "notification-group-card": "Zviziviso __count__ pakadhi __card__",
   "notifications": "Zviziviso",
   "overtime-hours": "Nguva yakawedzerwa (maawa)",
   "owner": "muridzi",

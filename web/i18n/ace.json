@@ -205,6 +205,8 @@
   "name": "Nan",
   "no": "Tidak",
   "no-archived-cards": "Hana kad lam Arsip.",
+  "notification-group-board": "__count__ haba bak papan __board__",
+  "notification-group-card": "__count__ haba bak kad __card__",
   "notifications": "Haba",
   "overtime-hours": "Leubèh watèe (jeuem)",
   "owner": "Ureueng po",

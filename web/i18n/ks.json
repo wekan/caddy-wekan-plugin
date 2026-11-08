@@ -205,6 +205,8 @@
   "name": "ناو",
   "no": "نہ",
   "no-archived-cards": "محفوظ خانس منٛز کانٛہہ کارڈ چھُنہٕ۔",
+  "notification-group-board": "بورڈ __board__ پؠٹھ __count__ اطلاعات",
+  "notification-group-card": "کارڈ __card__ پؠٹھ __count__ اطلاعات",
   "notifications": "اطلاعات",
   "overtime-hours": "اضٲفی وقت (گھنٹہٕ)",
   "owner": "مالک",

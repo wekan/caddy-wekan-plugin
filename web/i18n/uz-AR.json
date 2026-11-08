@@ -205,6 +205,8 @@
   "name": "اسم",
   "no": "یۉق",
   "no-archived-cards": "ارخیوده کارتلر یۉق.",
+  "notification-group-board": "__board__ تخته‌سیده __count__ بیلدیریشنامه",
+  "notification-group-card": "__card__ کارتیده __count__ بیلدیریشنامه",
   "notifications": "بیلدیریشنامه‌لر",
   "overtime-hours": "قۉشیمچه ایش وقتی (ساعت)",
   "owner": "ایگه‌سی",

@@ -205,6 +205,8 @@
   "name": "Nav",
   "no": "Na",
   "no-archived-cards": "Di arşîvê de tu kart tune.",
+  "notification-group-board": "__count__ agahdarî li ser depoya __board__",
+  "notification-group-card": "__count__ agahdarî li ser karta __card__",
   "notifications": "Agahdarî",
   "overtime-hours": "Dema zêde (saet)",
   "owner": "Xwedî",

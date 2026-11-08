@@ -205,6 +205,8 @@
   "name": "Ainm",
   "no": "Níl",
   "no-archived-cards": "Níl aon chárta sa Chartlann.",
+  "notification-group-board": "__count__ fógra ar chlár __board__",
+  "notification-group-card": "__count__ fógra ar chárta __card__",
   "notifications": "Fógraí",
   "overtime-hours": "Ragobair (uaireanta)",
   "owner": "Úinéir",

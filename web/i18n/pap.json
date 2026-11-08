@@ -205,6 +205,8 @@
   "name": "Nòmber",
   "no": "Nò",
   "no-archived-cards": "No tin karchinan archibadas.",
+  "notification-group-board": "__count__ notifikashon riba tabla __board__",
+  "notification-group-card": "__count__ notifikashon riba karchi __card__",
   "notifications": "Notifikashonnan",
   "overtime-hours": "Horas extras",
   "owner": "Propietario",

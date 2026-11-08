@@ -205,6 +205,8 @@
   "name": "Vito",
   "no": "E-e",
   "no-archived-cards": "e-e makhadi eka vuhlayiselo bya swa khale.",
+  "notification-group-board": "Switiviso swa __count__ eka bodo __board__",
+  "notification-group-card": "Switiviso swa __count__ eka khadi __card__",
   "notifications": "Switiviso",
   "overtime-hours": "Nkarhi wo engetela (tiawara)",
   "owner": "N'winyi",

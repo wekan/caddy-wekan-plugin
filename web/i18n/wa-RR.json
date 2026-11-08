@@ -205,6 +205,8 @@
   "name": "Ngaran",
   "no": "Diri",
   "no-archived-cards": "Waray card ha Arkibo.",
+  "notification-group-board": "__count__ nga pahibaro ha pisara __board__",
+  "notification-group-card": "__count__ nga pahibaro ha kard __card__",
   "notifications": "Mga Pahibaro",
   "overtime-hours": "Overtime (oras)",
   "owner": "Tag-iya",

@@ -205,6 +205,8 @@
   "name": "Задајте (нови) натпис",
   "no": "Не",
   "no-archived-cards": "Нема архивираних предмета.",
+  "notification-group-board": "__count__ обавештења у списима __board__",
+  "notification-group-card": "__count__ обавештења на предмету __card__",
   "notifications": "Обавештења",
   "overtime-hours": "Прековремени (сати)",
   "owner": "Власник",

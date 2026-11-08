@@ -205,6 +205,8 @@
   "name": "Navn",
   "no": "Nei",
   "no-archived-cards": "Eingi kort eru í goymsluni.",
+  "notification-group-board": "__count__ fráboðanir á talvuni __board__",
+  "notification-group-card": "__count__ fráboðanir á kortinum __card__",
   "notifications": "Fráboðanir",
   "overtime-hours": "Yvirtíð (tímar)",
   "owner": "Eigari",

@@ -205,6 +205,8 @@
   "name": "Namma",
   "no": "Ii",
   "no-archived-cards": "Vuorkás eai leat goarttat.",
+  "notification-group-board": "__count__ dieđáhusa távvalis __board__",
+  "notification-group-card": "__count__ dieđáhusa goarttas __card__",
   "notifications": "Dieđáhusat",
   "overtime-hours": "Badjeláigi (diimmut)",
   "owner": "Oamasteaddji",

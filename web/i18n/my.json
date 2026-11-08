@@ -205,6 +205,8 @@
   "name": "အမည်",
   "no": "မဟုတ်ပါ",
   "no-archived-cards": "မှတ်တမ်းတွင် ကတ်မရှိပါ။",
+  "notification-group-board": "ဘုတ် __board__ ပေါ်တွင် အကြောင်းကြားချက် __count__ ခု",
+  "notification-group-card": "ကတ် __card__ ပေါ်တွင် အကြောင်းကြားချက် __count__ ခု",
   "notifications": "အကြောင်းကြားချက်များ",
   "overtime-hours": "အချိန်ပို (နာရီ)",
   "owner": "ပိုင်ရှင်",

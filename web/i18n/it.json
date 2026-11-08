@@ -205,6 +205,8 @@
   "name": "Nome",
   "no": "No",
   "no-archived-cards": "Non ci sono schede nell'archivio.",
+  "notification-group-board": "__count__ notifiche sulla bacheca __board__",
+  "notification-group-card": "__count__ notifiche sulla scheda __card__",
   "notifications": "Notifiche",
   "overtime-hours": "Overtime (ore)",
   "owner": "Proprietario",

@@ -205,6 +205,8 @@
   "name": "Erinnya",
   "no": "Nedda",
   "no-archived-cards": "Nedda kaadi mu Tterekero.",
+  "notification-group-board": "Obubaka __count__ ku lubaawo __board__",
+  "notification-group-card": "Obubaka __count__ ku kaadi __card__",
   "notifications": "Obubaka",
   "overtime-hours": "Ekiseera ekisukka (essaawa)",
   "owner": "Nannyini",

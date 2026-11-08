@@ -205,6 +205,8 @@
   "name": "Vardas",
   "no": "Ne",
   "no-archived-cards": "Archyve nėra kortelių.",
+  "notification-group-board": "__count__ pranešimų lentoje __board__",
+  "notification-group-card": "__count__ pranešimų kortelėje __card__",
   "notifications": "Pranešimai",
   "overtime-hours": "Viršvalandžiai (valandos)",
   "owner": "Savininkas",

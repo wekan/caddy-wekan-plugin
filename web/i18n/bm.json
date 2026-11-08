@@ -205,6 +205,8 @@
   "name": "Tɔgɔ",
   "no": "Ayi",
   "no-archived-cards": "Karata si tɛ marayɔrɔ la.",
+  "notification-group-board": "Kunnafoni __count__ walan __board__ kan",
+  "notification-group-card": "Kunnafoni __count__ karti __card__ kan",
   "notifications": "Kunnafoniw",
   "overtime-hours": "Waati tɛmɛnen (lɛri)",
   "owner": "Tigi",

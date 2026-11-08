@@ -205,6 +205,8 @@
   "name": "Nomen",
   "no": "Non",
   "no-archived-cards": "Nullae chartae in archivo.",
+  "notification-group-board": "__count__ notificationes de tabula __board__",
+  "notification-group-card": "__count__ notificationes de charta __card__",
   "notifications": "Nuntii",
   "overtime-hours": "Tempus superadditum (horae)",
   "owner": "Possessor",

@@ -205,6 +205,8 @@
   "name": "ስም",
   "no": "አይ",
   "no-archived-cards": "በማህደር ውስጥ ካርዶች የሉም።",
+  "notification-group-board": "በሰሌዳ __board__ ላይ __count__ ማሳወቂያዎች",
+  "notification-group-card": "በካርድ __card__ ላይ __count__ ማሳወቂያዎች",
   "notifications": "ማሳወቂያዎች",
   "overtime-hours": "ትርፍ ሰዓት (ሰዓታት)",
   "owner": "ባለቤት",

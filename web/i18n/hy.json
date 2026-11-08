@@ -205,6 +205,8 @@
   "name": "Անուն",
   "no": "Ոչ",
   "no-archived-cards": "Արխիվում քարտեր չկան:",
+  "notification-group-board": "__count__ ծանուցում __board__ տախտակում",
+  "notification-group-card": "__count__ ծանուցում __card__ քարտում",
   "notifications": "Ծանուցումներ",
   "overtime-hours": "Արտաժամյա աշխատանք (ժամեր)",
   "owner": "Սեփականատեր",

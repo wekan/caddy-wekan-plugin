@@ -205,6 +205,8 @@
   "name": "Tocaitl",
   "no": "Ahmo",
   "no-archived-cards": "Amo oncateh amatlapaltin ipan pixcalli.",
+  "notification-group-board": "__count__ tenahuatiliztli ipan huapalli __board__",
+  "notification-group-card": "__count__ tenahuatiliztli ipan amatlapalli __card__",
   "notifications": "Tlanahuatilli",
   "overtime-hours": "Panoc cahuitl (horas)",
   "owner": "Teco",

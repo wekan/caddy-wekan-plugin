@@ -205,6 +205,8 @@
   "name": "Име",
   "no": "Не",
   "no-archived-cards": "Няма карти в Архива.",
+  "notification-group-board": "__count__ известия за таблото __board__",
+  "notification-group-card": "__count__ известия за картата __card__",
   "notifications": "Уведомления",
   "overtime-hours": "Оувъртайм (часа)",
   "owner": "Притежател",

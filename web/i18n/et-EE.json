@@ -205,6 +205,8 @@
   "name": "Nimi",
   "no": "Ei",
   "no-archived-cards": "Arhiivis ei ole kaarte.",
+  "notification-group-board": "__count__ teavitust juhatusel __board__",
+  "notification-group-card": "__count__ teavitust kaardil __card__",
   "notifications": "Teated",
   "overtime-hours": "Ületunnid (tundi)",
   "owner": "Omanik",

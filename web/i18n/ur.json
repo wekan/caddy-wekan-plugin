@@ -205,6 +205,8 @@
   "name": "نام",
   "no": "نہیں",
   "no-archived-cards": "محفوظ خانے میں کوئی کارڈ نہیں۔",
+  "notification-group-board": "بورڈ __board__ پر __count__ اطلاعات",
+  "notification-group-card": "کارڈ __card__ پر __count__ اطلاعات",
   "notifications": "اطلاعات",
   "overtime-hours": "اضافی وقت (گھنٹے)",
   "owner": "مالک",

@@ -205,6 +205,8 @@
   "name": "Nimi",
   "no": "Ei",
   "no-archived-cards": "Ei kortteja Arkistossa.",
+  "notification-group-board": "__count__ ilmoitusta taululla __board__",
+  "notification-group-card": "__count__ ilmoitusta kortilla __card__",
   "notifications": "Ilmoitukset",
   "overtime-hours": "Ylityö (tuntia)",
   "owner": "Omistaja",

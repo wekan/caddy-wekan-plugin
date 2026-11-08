@@ -205,6 +205,8 @@
   "name": "Navn",
   "no": "Nei",
   "no-archived-cards": "Ingen Kort i Arkivet",
+  "notification-group-board": "__count__ varsler på tavlen __board__",
+  "notification-group-card": "__count__ varsler på kortet __card__",
   "notifications": "Varsler",
   "overtime-hours": "Overforbruk tid (timer)",
   "owner": "Eier",

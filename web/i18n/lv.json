@@ -205,6 +205,8 @@
   "name": "Vārds",
   "no": "Nē",
   "no-archived-cards": "Arhīvā nav kartiņu.",
+  "notification-group-board": "__count__ paziņojumi dēlī __board__",
+  "notification-group-card": "__count__ paziņojumi kartiņā __card__",
   "notifications": "Ziņojumi",
   "overtime-hours": "Virsstundas (stundās)",
   "owner": "Īpašnieks",

@@ -205,6 +205,8 @@
   "name": "Din",
   "no": "Daabi",
   "no-archived-cards": "Kaad biara nni adekorabea.",
+  "notification-group-board": "Amanneɛbɔ __count__ wɔ bɔɔd __board__ so",
+  "notification-group-card": "Amanneɛbɔ __count__ wɔ kaad __card__ so",
   "notifications": "Amanneɛbɔ",
   "overtime-hours": "Bere a aboro so (nnɔnhwerew)",
   "owner": "Owura",

@@ -205,6 +205,8 @@
   "name": "Nomo",
   "no": "Ne",
   "no-archived-cards": "Neniuj kartoj en Arkivo.",
+  "notification-group-board": "__count__ sciigoj ĉe tabulo __board__",
+  "notification-group-card": "__count__ sciigoj ĉe karto __card__",
   "notifications": "Sciigoj",
   "overtime-hours": "Kromlaboro (horoj)",
   "owner": "Posedanto",

@@ -205,6 +205,8 @@
   "name": "Naam",
   "no": "Nee",
   "no-archived-cards": "Geen kaarte in argief nie.",
+  "notification-group-board": "__count__ kennisgewings op raad __board__",
+  "notification-group-card": "__count__ kennisgewings op kaart __card__",
   "notifications": "Kennisgewings",
   "overtime-hours": "Oortyd (ure)",
   "owner": "Eienaar",

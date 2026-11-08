@@ -205,6 +205,8 @@
   "name": "Non",
   "no": "No",
   "no-archived-cards": "No ci a son cjartis nell'archivi.",
+  "notification-group-board": "__count__ notifichis su la taule __board__",
+  "notification-group-card": "__count__ notifichis su la cjarte __card__",
   "notifications": "Notifichis",
   "overtime-hours": "Overtime (oris)",
   "owner": "Proprietari",

@@ -205,6 +205,8 @@
   "name": "Nem",
   "no": "No",
   "no-archived-cards": "Kads nonik in ragiv.",
+  "notification-group-board": "Sususiams __count__ su tab __board__",
+  "notification-group-card": "Sususiams __count__ su kad __card__",
   "notifications": "Sususiams",
   "overtime-hours": "Tim läyümik (düps)",
   "owner": "Dalaban",

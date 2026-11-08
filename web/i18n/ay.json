@@ -205,6 +205,8 @@
   "name": "Suti",
   "no": "Janiwa",
   "no-archived-cards": "janiwa tarjetanaka mana Archive.",
+  "notification-group-board": "__count__ yatiyäwinaka __board__ pirqana",
+  "notification-group-card": "__count__ yatiyäwinaka __card__ tarjetana",
   "notifications": "Yatiyawinaka",
   "overtime-hours": "Overtime (horanaka)",
   "owner": "Aymar aruna: Owner",

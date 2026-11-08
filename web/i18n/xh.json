@@ -205,6 +205,8 @@
   "name": "Igama",
   "no": "Hayi",
   "no-archived-cards": "Akukho makhadi kwindawo yokugcina izinto.",
+  "notification-group-board": "Izaziso __count__ kwibhodi __board__",
+  "notification-group-card": "Izaziso __count__ kwikhadi __card__",
   "notifications": "Izaziso",
   "overtime-hours": "Ixesha elongezelelekileyo (iiyure)",
   "owner": "Umnini",

@@ -205,6 +205,8 @@
   "name": "नाव",
   "no": "नाही",
   "no-archived-cards": "संग्रहात कार्डे नाहीत.",
+  "notification-group-board": "__board__ फलकावर __count__ सूचना",
+  "notification-group-card": "__card__ कार्डवर __count__ सूचना",
   "notifications": "सूचना",
   "overtime-hours": "अतिरिक्त वेळ (तास)",
   "owner": "मालक",

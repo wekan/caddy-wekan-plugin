@@ -205,6 +205,8 @@
   "name": "Izina",
   "no": "Oya",
   "no-archived-cards": "Nta makarata ari mu bubiko.",
+  "notification-group-board": "Amakuru __count__ ku capa __board__",
+  "notification-group-card": "Amakuru __count__ ku karata __card__",
   "notifications": "Amakuru",
   "overtime-hours": "Igihe kirenga (amasaha)",
   "owner": "Nyenevyo",

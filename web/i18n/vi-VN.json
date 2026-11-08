@@ -205,6 +205,8 @@
   "name": "Tên",
   "no": "Không",
   "no-archived-cards": "Không có thẻ nào trong Lưu trữ.",
+  "notification-group-board": "__count__ thông báo trên bảng __board__",
+  "notification-group-card": "__count__ thông báo trên thẻ __card__",
   "notifications": "Thông báo",
   "overtime-hours": "Tăng ca (giờ)",
   "owner": "Chủ sở hữu",

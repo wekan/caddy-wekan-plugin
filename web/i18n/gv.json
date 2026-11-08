@@ -205,6 +205,8 @@
   "name": "Ennym",
   "no": "Cha nel",
   "no-archived-cards": "Cha nel kaartyn ayns y tashtey.",
+  "notification-group-board": "__count__ fysseree er y voayrd __board__",
+  "notification-group-card": "__count__ fysseree er y kaart __card__",
   "notifications": "Fysseree",
   "overtime-hours": "Tar-traa (ooraghyn)",
   "owner": "Shellooder",

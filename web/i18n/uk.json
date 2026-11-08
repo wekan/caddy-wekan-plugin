@@ -205,6 +205,8 @@
   "name": "Ім'я",
   "no": "Ні",
   "no-archived-cards": "Немає карток в архіві.",
+  "notification-group-board": "__count__ сповіщень на дошці __board__",
+  "notification-group-card": "__count__ сповіщень на картці __card__",
   "notifications": "Сповіщення",
   "overtime-hours": "Надурочний час (години)",
   "owner": "Власник",

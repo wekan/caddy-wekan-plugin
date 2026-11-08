@@ -205,6 +205,8 @@
   "name": "Nom",
   "no": "No",
   "no-archived-cards": "No hi ha fitxes a l'arxiu.",
+  "notification-group-board": "__count__ notificacions al tauler __board__",
+  "notification-group-card": "__count__ notificacions a la fitxa __card__",
   "notifications": "Notificacions",
   "overtime-hours": "Temps de més (hores)",
   "owner": "Propietari",

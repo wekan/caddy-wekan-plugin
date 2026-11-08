@@ -205,6 +205,8 @@
   "name": "نالو",
   "no": "نه",
   "no-archived-cards": "آرڪائيو ۾ ڪي ڪارڊ ناهن.",
+  "notification-group-board": "بورڊ __board__ تي __count__ اطلاع",
+  "notification-group-card": "ڪارڊ __card__ تي __count__ اطلاع",
   "notifications": "اطلاع",
   "overtime-hours": "واڌو وقت (ڪلاڪ)",
   "owner": "مالڪ",

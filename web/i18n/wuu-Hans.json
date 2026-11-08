@@ -205,6 +205,8 @@
   "name": "姓名",
   "no": "不",
   "no-archived-cards": "归档里向呒没卡片。",
+  "notification-group-board": "看板 __board__ 浪个 __count__ 条通知",
+  "notification-group-card": "卡片 __card__ 浪个 __count__ 条通知",
   "notifications": "通知",
   "overtime-hours": "加班时间（小时）",
   "owner": "所有者",

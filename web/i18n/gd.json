@@ -205,6 +205,8 @@
   "name": "Ainm",
   "no": "Chan eil",
   "no-archived-cards": "Chan eil cairtean san Tasglann.",
+  "notification-group-board": "__count__ brath air bòrd __board__",
+  "notification-group-card": "__count__ brath air cairt __card__",
   "notifications": "Brathan",
   "overtime-hours": "Thar-ùine (uairean)",
   "owner": "Sealbhadair",

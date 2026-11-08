@@ -205,6 +205,8 @@
   "name": "Pangalan",
   "no": "Hindi",
   "no-archived-cards": "Hindi kards sa Arkibo.",
+  "notification-group-board": "__count__ abiso sa pisara __board__",
+  "notification-group-card": "__count__ abiso sa kard __card__",
   "notifications": "Mga abiso",
   "overtime-hours": "Sobrang oras (mga oras)",
   "owner": "May-ari",

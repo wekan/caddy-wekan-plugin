@@ -205,6 +205,8 @@
   "name": "Leina",
   "no": "Nnyaa",
   "no-archived-cards": "Nnyaa dikarata mo Polokelo.",
+  "notification-group-board": "dikitsiso di le __count__ mo botong __board__",
+  "notification-group-card": "dikitsiso di le __count__ mo karateng __card__",
   "notifications": "Dikitsiso",
   "overtime-hours": "Nako e e oketsegileng (diura)",
   "owner": "Tshedimosetso: Owner",

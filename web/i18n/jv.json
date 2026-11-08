@@ -205,6 +205,8 @@
   "name": "Jeneng",
   "no": "Ora",
   "no-archived-cards": "Ora ana kertu ing Arsip.",
+  "notification-group-board": "__count__ kabar ing papan __board__",
+  "notification-group-card": "__count__ kabar ing kertu __card__",
   "notifications": "Kabar",
   "overtime-hours": "Lembur (jam)",
   "owner": "Pemilik",

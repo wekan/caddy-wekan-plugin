@@ -205,6 +205,8 @@
   "name": "Namme",
   "no": "Nee",
   "no-archived-cards": "Gjin kaarten yn Argyf.",
+  "notification-group-board": "__count__ notifikaasjes op boerd __board__",
+  "notification-group-card": "__count__ notifikaasjes op kaart __card__",
   "notifications": "Notifikaasjes",
   "overtime-hours": "Oerwurk (oeren)",
   "owner": "Eigner",

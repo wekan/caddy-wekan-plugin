@@ -205,6 +205,8 @@
   "name": "Nomme",
   "no": "No",
   "no-archived-cards": "Nun ci so carte nell'archivio.",
+  "notification-group-board": "__count__ notifiche ncopp'a tavula __board__",
+  "notification-group-card": "__count__ notifiche ncopp'a carta __card__",
   "notifications": "Notifiche",
   "overtime-hours": "Overtime (ore)",
   "owner": "Proprietario",

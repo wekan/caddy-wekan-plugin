@@ -205,6 +205,8 @@
   "name": "Maqaa",
   "no": "Lakki",
   "no-archived-cards": "Kaardiin Kuusaa keessa hin jiru.",
+  "notification-group-board": "Beeksisa __count__ gabatee __board__ irratti",
+  "notification-group-card": "Beeksisa __count__ kaardii __card__ irratti",
   "notifications": "Beeksisawwan",
   "overtime-hours": "Yeroo dabalataa (sa'aatii)",
   "owner": "Abbaa",

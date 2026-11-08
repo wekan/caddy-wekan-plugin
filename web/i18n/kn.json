@@ -205,6 +205,8 @@
   "name": "ಹೆಸರು",
   "no": "ಇಲ್ಲ",
   "no-archived-cards": "ಸಂಗ್ರಹದಲ್ಲಿ ಯಾವುದೇ ಕಾರ್ಡ್‌ಗಳಿಲ್ಲ.",
+  "notification-group-board": "__board__ ಫಲಕದಲ್ಲಿ __count__ ಅಧಿಸೂಚನೆಗಳು",
+  "notification-group-card": "__card__ ಕಾರ್ಡ್‌ನಲ್ಲಿ __count__ ಅಧಿಸೂಚನೆಗಳು",
   "notifications": "ಅಧಿಸೂಚನೆಗಳು",
   "overtime-hours": "ಹೆಚ್ಚುವರಿ ಸಮಯ (ಗಂಟೆಗಳು)",
   "owner": "ಮಾಲೀಕರು",

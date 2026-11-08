@@ -205,6 +205,8 @@
   "name": "Nombre",
   "no": "No",
   "no-archived-cards": "No bi ha tarchetas archivadas.",
+  "notification-group-board": "__count__ notificacions en o tablero __board__",
+  "notification-group-card": "__count__ notificacions en a tarcheta __card__",
   "notifications": "Notificacions",
   "overtime-hours": "Horas extras",
   "owner": "Propietario",

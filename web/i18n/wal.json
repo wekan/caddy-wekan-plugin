@@ -205,6 +205,8 @@
   "name": "Sunttaa",
   "no": "Akkay",
   "no-archived-cards": "Naago sohuwan kaardiyay baawa.",
+  "notification-group-board": "Bookkiya __board__ bolla erissuwaa __count__",
+  "notification-group-card": "Kaardiya __card__ bolla erissuwaa __count__",
   "notifications": "Erissuwaa",
   "overtime-hours": "Aattida wodiyaa (saatiyata)",
   "owner": "Aawaa",

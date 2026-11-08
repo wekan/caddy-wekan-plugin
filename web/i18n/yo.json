@@ -205,6 +205,8 @@
   "name": "Oruko",
   "no": "Rara",
   "no-archived-cards": "Ko si awọn kaadi ni Ile ifipamọ.",
+  "notification-group-board": "Awọn iwifunni __count__ lori ọkọ __board__",
+  "notification-group-card": "Awọn iwifunni __count__ lori kaadi __card__",
   "notifications": "Awọn iwifunni",
   "overtime-hours": "Àkókò àfikún (wakati)",
   "owner": "Eni",
