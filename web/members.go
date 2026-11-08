@@ -18,7 +18,9 @@ import (
 // sidebarMember is a member as the sidebar shows them.
 type sidebarMember struct {
 	ID, Username, Fullname, Role string
-	Self                         bool
+	// Avatar is where the browser loads the member's picture, if any.
+	Avatar string
+	Self   bool
 }
 
 // sidebarMembers are the board's active members, in the board's order.
@@ -32,7 +34,12 @@ func (s *Server) sidebarMembers(r *http.Request, b *Board, u *User) []sidebarMem
 		if s.db.Collection("users").FindOne(r.Context(), bson.M{"_id": eq(m.UserID)}).Decode(&x) != nil {
 			continue
 		}
-		out = append(out, sidebarMember{ID: x.ID, Username: x.Username, Fullname: x.Profile.Fullname, Role: m.Role(), Self: x.ID == u.ID})
+		avatar := avatarDisplayURL(x.Profile.AvatarURL)
+		if avatar != "" && b.Permission == "public" && strings.HasPrefix(avatar, "/cdn/storage/avatars/") {
+			// So a public board's visitors may see it (avatarIsOnAPublicBoard).
+			avatar += "?boardId=" + b.ID
+		}
+		out = append(out, sidebarMember{ID: x.ID, Username: x.Username, Fullname: x.Profile.Fullname, Role: m.Role(), Self: x.ID == u.ID, Avatar: avatar})
 	}
 	return out
 }

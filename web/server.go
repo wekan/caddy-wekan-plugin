@@ -144,7 +144,9 @@ func (s *Server) Close() error {
 
 var funcs = template.FuncMap{
 	"memberName": func(u *User) string { return u.Name() },
-	"t":          tr,
+	// avatarURL is WeKan's avatarDisplayUrl, for a stored profile.avatarUrl.
+	"avatarURL": avatarDisplayURL,
+	"t":         tr,
 	// viewer is WeKan's +viewer: a text written in Markdown, shown safely.
 	"viewer": viewer,
 	// visibilityIcon is WeKan's: the lock, the users, or the globe.
@@ -282,6 +284,7 @@ func (s *Server) routes() {
 	s.apiRoutes(m)
 	s.cloudRoutes(m)
 	s.attachmentRoutes(m)
+	s.avatarRoutes(m)
 	s.userRoutes(m)
 	s.oidcRoutes(m)
 	s.mux = m

@@ -3,13 +3,24 @@
   if .Saved
     p.cloud-saved.js-profile-saved {{t $.L "cloud-saved"}}
   if .Error
-    p.at-error.js-profile-error {{t $.L .Error}}
+    p.at-error.js-profile-error {{.ErrorText}}
   form.js-profile-form(method="post", action="/profile")
     label(for="profile-fullname") {{t $.L "fullname"}}
     input#profile-fullname(type="text", name="fullname", value="{{.User.Profile.Fullname}}")
     label(for="profile-initials") {{t $.L "initials"}}
     input#profile-initials(type="text", name="initials", value="{{.User.Profile.Initials}}", maxlength="8")
     button.primary(type="submit") {{t $.L "save"}}
+  //- WeKan's changeAvatarPopup: upload a picture, or go back to the initials.
+  h2 {{t $.L "change-avatar"}}
+  if .User.Profile.AvatarURL
+    img.avatar.avatar-image.js-profile-avatar(src="{{avatarURL .User.Profile.AvatarURL}}", alt="{{.User.Username}}")
+  form.js-avatar-form(method="post", action="/profile/avatar", enctype="multipart/form-data")
+    label(for="profile-avatar") {{t $.L "upload-avatar"}}
+    input#profile-avatar.js-upload-avatar-input(type="file", name="avatar", accept="image/*", required)
+    button.primary(type="submit") {{t $.L "upload-avatar"}}
+  if .User.Profile.AvatarURL
+    form.js-avatar-remove(method="post", action="/profile/avatar/remove")
+      button(type="submit") {{t $.L "initials"}}
   h2 {{t $.L "changePasswordPopup-title"}}
   form.js-password-form(method="post", action="/profile/password")
     label(for="old-password") {{t $.L "password"}}

@@ -158,8 +158,14 @@ func (s *Server) signUp(w http.ResponseWriter, r *http.Request) {
 var email_ = regexp.MustCompile(`^[^\s@]+@[^\s@]+\.[^\s@]+$`)
 
 func (s *Server) profilePage(w http.ResponseWriter, r *http.Request, u *User) {
-	s.render(w, r, "profile", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, "edit-profile"), "User": u,
-		"Saved": r.URL.Query().Get("saved"), "Error": r.URL.Query().Get("error")})
+	lang := languageOf(r, u).Tag
+	key := r.URL.Query().Get("error")
+	text := ""
+	if key != "" {
+		text = fillParams(tr(lang, key), map[string]string{"size": "72 kB"})
+	}
+	s.render(w, r, "profile", http.StatusOK, map[string]any{"Title": tr(lang, "edit-profile"), "User": u,
+		"Saved": r.URL.Query().Get("saved"), "Error": key, "ErrorText": text})
 }
 
 func (s *Server) saveProfile(w http.ResponseWriter, r *http.Request, u *User) {

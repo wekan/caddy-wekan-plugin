@@ -78,6 +78,8 @@ type User struct {
 		Fullname string `bson:"fullname,omitempty" json:"fullname,omitempty"`
 		Initials string `bson:"initials,omitempty" json:"initials,omitempty"`
 		Language string `bson:"language,omitempty" json:"language,omitempty"`
+		// AvatarURL is WeKan's profile.avatarUrl: the user's uploaded picture.
+		AvatarURL string `bson:"avatarUrl,omitempty" json:"avatarUrl,omitempty"`
 		// StarredBoards are the user's favorites, WeKan's profile.starredBoards.
 		StarredBoards []string `bson:"starredBoards,omitempty" json:"starredBoards,omitempty"`
 		// InvitedBoards are the boards the user is invited to, server-written.

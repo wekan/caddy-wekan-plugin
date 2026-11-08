@@ -71,7 +71,10 @@
         .board-widget-content
           each mem in .SidebarMembers
             a.member.js-member(href="#", data-user="{{.ID}}", title="{{.Fullname}} ({{.Username}})", aria-label="{{.Fullname}} ({{.Username}})")
-              span.member-initials {{.Username}}
+              if .Avatar
+                img.avatar.avatar-image(src="{{.Avatar}}", alt="{{.Username}}")
+              else
+                span.member-initials {{.Username}}
           if .CanInvite
             a.member.add-member.js-manage-board-members(href="#", title="{{t $.L `add-members`}}", aria-label="{{t $.L `add-members`}}")
               i.fa.fa-plus
