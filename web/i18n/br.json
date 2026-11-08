@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "A-us d’an trepas dibabet",
+  "accept": "Asantiñ",
   "account-locked": "Stanket eo ar gont evit ur pennad abalamour da re a daolioù kennaskañ c’hwitet. Klaskit en-dro diwezhatoc’h.",
   "active": "Oberiant",
   "activities": "Oberiantizoù",
@@ -68,6 +69,7 @@
   "comments": "Evezhiadennoù",
   "create-account": "Krouiñ ur gont",
   "createdAt": "Kreyet da",
+  "decline": "Dikort",
   "delete": "Dilemel",
   "description": "Deskrivadur",
   "domain": "Domani",
@@ -92,6 +94,7 @@
   "fullname": "Anv klok",
   "initials": "Initialen",
   "invitation-code": "Kòd dinam",
+  "just-invited": "Pedet oc’h bet d’an daolenn-mañ",
   "labels": "Tikedennoù",
   "last-activity": "Oberiantiz diwezhañ",
   "last-modified-at": "Kemm diwezhañ da",

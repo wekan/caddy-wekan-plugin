@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Above selected korsija",
+  "accept": "Aċċetta",
   "account-locked": "Account huwa temporarily locked due għal too many failed login attempts. Jekk jogħġbok try again later.",
   "active": "Attiv",
   "activities": "Attivitajiet",
@@ -68,6 +69,7 @@
   "comments": "Kummenti",
   "create-account": "Oħloq Account",
   "createdAt": "Maħluq fi",
+  "decline": "Irrifjuta",
   "delete": "Ħassar",
   "description": "Deskrizzjoni",
   "domain": "Dominju",
@@ -92,6 +94,7 @@
   "fullname": "Full Isem",
   "initials": "Inizjali",
   "invitation-code": "Kodiċi tal-istedina",
+  "just-invited": "You huma just invited għal dan bord",
   "labels": "Tikketti",
   "last-activity": "L-aħħar attività",
   "last-modified-at": "L-aħħar modifika fi",

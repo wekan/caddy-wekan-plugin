@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Oman fyri valda beinið",
+  "accept": "Góðtak",
   "account-locked": "Kontan er læst fyribils vegna ov nógvar miseydnaðar innritanarroyndir. Royn aftur seinni.",
   "active": "Virkið",
   "activities": "Virksemi",
@@ -68,6 +69,7 @@
   "comments": "Viðmerkingar",
   "create-account": "Stovna kontu",
   "createdAt": "Stovnað",
+  "decline": "Nokta",
   "delete": "Strika",
   "description": "Lýsing",
   "domain": "Økisnavn",
@@ -92,6 +94,7 @@
   "fullname": "Fult navn",
   "initials": "Forstavar",
   "invitation-code": "Innbjóðingarkota",
+  "just-invited": "Tú ert júst boðin á hesa talvuna",
   "labels": "Merki",
   "last-activity": "Seinasta virksemi",
   "last-modified-at": "Seinast broytt",

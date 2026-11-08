@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ki runga ake i te kauhanga kua tīpakohia",
+  "accept": "Whakaae",
   "account-locked": "Kua maukati rangitahi te pūkete nā te nui rawa o ngā whakamātau takiuru rahua. Tēnā ngana anō ā muri ake.",
   "active": "Hohe",
   "activities": "Ngā mahi",
@@ -68,6 +69,7 @@
   "comments": "Ngā kōrero",
   "create-account": "Waihanga Pūkete",
   "createdAt": "I waihangatia i",
+  "decline": "Whakakāhore",
   "delete": "Muku",
   "description": "Whakaahuatanga",
   "domain": "Rohe",
@@ -92,6 +94,7 @@
   "fullname": "Ingoa Katoa",
   "initials": "Ngā pū tuatahi",
   "invitation-code": "Waehere Pōwhiri",
+  "just-invited": "Kātahi anō koe ka pōwhiritia ki tēnei papa",
   "labels": "Ngā tapanga",
   "last-activity": "Mahi whakamutunga",
   "last-modified-at": "Wā whakarerekē whakamutunga",

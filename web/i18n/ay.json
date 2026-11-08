@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Above selected thakhi",
+  "accept": "Iyaw saña",
   "account-locked": "Account awa temporarily locked tukuyañ ukaru too many jani phuqhata login yantʼawinaka. Please try again later.",
   "active": "Naktata",
   "activities": "Luratanaka",
@@ -68,6 +69,7 @@
   "comments": "Arxatanaka",
   "create-account": "uñstayaña Account",
   "createdAt": "uñstayata ukana",
+  "decline": "Aymar aruna: Decline",
   "delete": "Chhaqtayaña",
   "description": "Qhananchawi",
   "domain": "Aymar aruna: Domain",
@@ -92,6 +94,7 @@
   "fullname": "Full suti",
   "initials": "Aymar aruna: Initials",
   "invitation-code": "Aymar aruna: Invitation Code",
+  "just-invited": "You apxi just invited ukaru aka pirqa",
   "labels": "Unanchanaka",
   "last-activity": "Last luräwi",
   "last-modified-at": "Last modified ukana",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "E cake ni sala digitaki",
+  "accept": "Ciqoma",
   "account-locked": "Sa sogoti vakawawa na akaude baleta na levu ni tovo ni curu e sega ni rawa. Yalovinaka tovolea tale mai muri.",
   "active": "Yavala tiko",
   "activities": "Veika e caka",
@@ -68,6 +69,7 @@
   "comments": "Vakasama",
   "create-account": "Bulia na Akaude",
   "createdAt": "Buli ena",
+  "decline": "Besa",
   "delete": "Bokoca",
   "description": "Vakamacala",
   "domain": "Yasana ni mataveilawa",
@@ -92,6 +94,7 @@
   "fullname": "Yaca Taucoko",
   "initials": "Matai ni matanivola",
   "invitation-code": "Kode ni Veisureti",
+  "just-invited": "O se qai sureti ga ki na vola oqo",
   "labels": "Ivakatakilakila",
   "last-activity": "iOtioti ni itavi",
   "last-modified-at": "iOtioti ni veisau ena",

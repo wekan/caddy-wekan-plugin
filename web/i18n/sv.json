@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ovanför vald simbana",
+  "accept": "Acceptera",
   "account-locked": "Kontot är tillfälligt låst på grund av för många misslyckade inloggningsförsök. Vänligen försök igen senare.",
   "active": "Aktiv",
   "activities": "Aktiviteter",
@@ -68,6 +69,7 @@
   "comments": "Kommentarer",
   "create-account": "Skapa konto",
   "createdAt": "Skapad vid",
+  "decline": "Neka",
   "delete": "Ta bort",
   "description": "Beskrivning",
   "domain": "Domän",
@@ -92,6 +94,7 @@
   "fullname": "Namn",
   "initials": "Initialer",
   "invitation-code": "Inbjudningskod",
+  "just-invited": "Du blev nyss inbjuden till denna tavla",
   "labels": "Etiketter",
   "last-activity": "Senaste aktivitet",
   "last-modified-at": "Senast ändrad",

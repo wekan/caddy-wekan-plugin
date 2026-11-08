@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Hejuru y'umurongo watowe",
+  "accept": "Emera",
   "account-locked": "Konti yugariwe akanya kubera kugerageza kwinjira incuro nyinshi bikanka. Turagusavye wongere ugerageze hanyuma.",
   "active": "Birakora",
   "activities": "Ibikorwa",
@@ -68,6 +69,7 @@
   "comments": "Ivyiyumviro",
   "create-account": "Rema Konti",
   "createdAt": "Vyaremwe ku",
+  "decline": "Wanka",
   "delete": "Futa",
   "description": "Insiguro",
   "domain": "Indangarubuga",
@@ -92,6 +94,7 @@
   "fullname": "Izina ryose",
   "initials": "Inyuguti zitangura amazina",
   "invitation-code": "Kode y'ubutumire",
+  "just-invited": "Ubu nyene watumiwe kuri iki capa",
   "labels": "Ibimenyetso",
   "last-activity": "Igikorwa ca nyuma",
   "last-modified-at": "Igihe biheruka guhindurwa",

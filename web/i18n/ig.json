@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "N'elu ụgbọ mmiri ahọpụtara",
+  "accept": "Kwere",
   "account-locked": "Akpọchiri akaụntụ nwa oge n'ihi ọtụtụ mbọ nbanye dara ada. Biko nwaa ọzọ ma emechaa.",
   "active": "Na-arụ ọrụ",
   "activities": "Ihe omume",
@@ -68,6 +69,7 @@
   "comments": "Okwu",
   "create-account": "Mebe akaụntụ",
   "createdAt": "Ekere na",
+  "decline": "Ajụ",
   "delete": "Hichapụ",
   "description": "Nkọwa",
   "domain": "Ngalaba",
@@ -92,6 +94,7 @@
   "fullname": "Aha n'uju",
   "initials": "Mmalite",
   "invitation-code": "Koodu ọkpụkpọ oku",
+  "just-invited": "A na-akpọ gị òkù ịbanye na bọọdụ a",
   "labels": "Aha",
   "last-activity": "Ọrụ ikpeazụ",
   "last-modified-at": "Emezigharịrị ikpeazụ na",

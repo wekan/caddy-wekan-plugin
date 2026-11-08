@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Li jor rêça hilbijartî",
+  "accept": "Bipejirîne",
   "account-locked": "Hesab ji ber ceribandinên têketinê yên pir serneketî bi demkî hatiye girtin. Ji kerema xwe paşê dîsa biceribîne.",
   "active": "Çalak",
   "activities": "Çalakî",
@@ -68,6 +69,7 @@
   "comments": "Şîrove",
   "create-account": "Hesab biafirîne",
   "createdAt": "Dema afirandinê",
+  "decline": "Red bike",
   "delete": "Jê bibe",
   "description": "Danasîn",
   "domain": "Domên",
@@ -92,6 +94,7 @@
   "fullname": "Navê tevahî",
   "initials": "Tîpên destpêkê",
   "invitation-code": "Koda vexwendinê",
+  "just-invited": "Tu nû ji bo vê depoyê hatî vexwendin",
   "labels": "Etîket",
   "last-activity": "Çalakiya dawî",
   "last-modified-at": "Dema guhertina dawî",

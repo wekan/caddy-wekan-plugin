@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Bo geselekteerde swembaan",
+  "accept": "Aanvaar",
   "account-locked": "Rekening is tydelik gesluit weens te veel mislukte aanmeldpogings. Probeer asseblief later weer.",
   "active": "Aktief",
   "activities": "Aktiwiteite",
@@ -68,6 +69,7 @@
   "comments": "Kommentaar",
   "create-account": "Skep rekening",
   "createdAt": "Geskep by",
+  "decline": "Weier",
   "delete": "Vee uit",
   "description": "Beskrywing",
   "domain": "Domein",
@@ -92,6 +94,7 @@
   "fullname": "Volle Naam",
   "initials": "Voorletters",
   "invitation-code": "Uitnodigingskode",
+  "just-invited": "Jy word net uitgenooi na hierdie bord",
   "labels": "Etikette",
   "last-activity": "Laaste aktiwiteit",
   "last-modified-at": "Laas gewysig om",

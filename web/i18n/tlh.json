@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Au-dessus du couloir sélectionné",
+  "accept": "laj",
   "account-locked": "'elmeH nIDmey law' Qapbe'mo' lo'wI' ru' botlu'. ghIq yInIDqa'.",
   "active": "chu'lu'",
   "activities": "ta'mey",
@@ -68,6 +69,7 @@
   "comments": "QInHommey",
   "create-account": "account yIchenmoH",
   "createdAt": "chenmoHmeH poH",
+  "decline": "lajQo'",
   "delete": "yIQaw'",
   "description": "QIjmeH De'",
   "domain": "Daq",
@@ -92,6 +94,7 @@
   "fullname": "pong naQ",
   "initials": "pong pIqaD wa'DIchmey",
   "invitation-code": "rI'meH ngoq",
+  "just-invited": "raSvamvaD DurI'lu'pu' neH",
   "labels": "permey",
   "last-activity": "mIw Qav",
   "last-modified-at": "choHlu'pu'meH poH Qav",

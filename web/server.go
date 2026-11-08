@@ -540,6 +540,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	starred := slices.Contains(u.Profile.StarredBoards, b.ID)
+	invited := slices.Contains(u.Profile.InvitedBoards, b.ID)
 	folded := s.collapsedLists(r.Context(), u.ID, b.ID)
 	for i := range lanes {
 		for j := range lanes[i].Lists {
@@ -551,7 +552,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			ll.Collapsed = v
 		}
 	}
-	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "Starred": starred}
+	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "Starred": starred, "Invited": invited}
 	// WeKan's sidebar: the board menu for a member who is not comment-only or a
 	// worker; its Export for whoever may export the board (models/lib/exportAccess.js).
 	m := b.member(u.ID)

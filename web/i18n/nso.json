@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Godimo ga mothalo wa go rutha wo o kgethilwego",
+  "accept": "Amogela",
   "account-locked": "Akhaonto e notletšwe nakwana ka lebaka la maiteko a mantši kudu a go tsena ao a paletšwego. Hle leka gape ka morago.",
   "active": "E a šoma",
   "activities": "Mediro",
@@ -68,6 +69,7 @@
   "comments": "Ditshwaotshwao",
   "create-account": "Hlama Akhaonto",
   "createdAt": "E hlamilwe ka",
+  "decline": "Gana",
   "delete": "Phumula",
   "description": "Tlhalošo",
   "domain": "Domeine",
@@ -92,6 +94,7 @@
   "fullname": "Leina ka botlalo",
   "initials": "Ditlhaka tša mathomo",
   "invitation-code": "Khoutu ya Taletšo",
+  "just-invited": "O sa tšwa go laletšwa botong ye",
   "labels": "Diswayo",
   "last-activity": "Mošongwana wa mafelelo",
   "last-modified-at": "E fetotšwe la mafelelo ka",

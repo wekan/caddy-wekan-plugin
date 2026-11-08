@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Anlè kouloir ki chwazi a",
+  "accept": "Aksepte",
   "account-locked": "Kont lan bloke tanporèman akoz twòp tantativ koneksyon ki echwe. Tanpri eseye ankò pita.",
   "active": "Aktif",
   "activities": "Aktivite",
@@ -68,6 +69,7 @@
   "comments": "Kòmantè yo",
   "create-account": "Kreye kont",
   "createdAt": "Kreye nan dat",
+  "decline": "Refize",
   "delete": "Efase",
   "description": "Deskripsyon",
   "domain": "Domèn",
@@ -92,6 +94,7 @@
   "fullname": "Non konplè",
   "initials": "Inisyal",
   "invitation-code": "Kòd envitasyon",
+  "just-invited": "Yo fèk envite ou nan tablo sa a",
   "labels": "Etikèt",
   "last-activity": "Dènye aktivite",
   "last-modified-at": "Dènye modifikasyon nan",

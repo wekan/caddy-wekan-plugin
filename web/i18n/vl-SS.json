@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Boven geselecteerde swimlane",
+  "accept": "Accepteren",
   "account-locked": "Account tijdelijk geblokkeerd door te veel mislukte aanmeldpogingen. Probeer het later nog eens.",
   "active": "Actief",
   "activities": "Activiteiten",
@@ -68,6 +69,7 @@
   "comments": "Aantekeningen",
   "create-account": "Account Aanmaken",
   "createdAt": "Aangemaakt op",
+  "decline": "Weigeren",
   "delete": "Verwijderen",
   "description": "Beschrijving",
   "domain": "Domein",
@@ -92,6 +94,7 @@
   "fullname": "Volledige naam",
   "initials": "Initialen",
   "invitation-code": "Uitnodigings code",
+  "just-invited": "Je bent zojuist uitgenodigd om mee toen doen aan dit bord",
   "labels": "Aanduidingsmarkeringen",
   "last-activity": "Laatste activiteit",
   "last-modified-at": "Laatste wijziging op",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Phezu komzila okhethiweyo",
+  "accept": "Yamukela",
   "account-locked": "I-akhawunti ivalelwe okwesikhatshana ngenxa yemizamo yokungena eminengi eyehlulekileyo. Sicela uzame futhi ngemva kwesikhathi.",
   "active": "Kuyasebenza",
   "activities": "Imisebenzi",
@@ -68,6 +69,7 @@
   "comments": "Imibono",
   "create-account": "Dala i-akhawunti",
   "createdAt": "Kudalwe ngo",
+  "decline": "Yala",
   "delete": "Susa",
   "description": "Incazelo",
   "domain": "Isizinda",
@@ -92,6 +94,7 @@
   "fullname": "Ibizo eligcweleyo",
   "initials": "Izinhlamvu zokuqala",
   "invitation-code": "Ikhodi yesimemo",
+  "just-invited": "Usanda kumenywa kuleli bhodi",
   "labels": "Amalebula",
   "last-activity": "Umsebenzi wokucina",
   "last-modified-at": "Kugcine ukulungiswa ngo",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ngaphezulu kwendlela yokuqubha ekhethiweyo",
+  "accept": "Yamkela",
   "account-locked": "Iakhawunti itshixiwe okwethutyana ngenxa yemizamo emininzi yokungena engaphumelelanga. Nceda uzame kwakhona mva.",
   "active": "Iyasebenza",
   "activities": "Imisebenzi",
@@ -68,6 +69,7 @@
   "comments": "Amagqabantshintshi",
   "create-account": "Dala i-akhawunti",
   "createdAt": "Yenziwe ngo",
+  "decline": "Yala",
   "delete": "Cima",
   "description": "Inkcazo",
   "domain": "Isizinda",
@@ -92,6 +94,7 @@
   "fullname": "Igama eliphelele",
   "initials": "Abaqalayo",
   "invitation-code": "Ikhowudi yesimemo",
+  "just-invited": "Uyamenywa nje kule bhodi",
   "labels": "Iileyibhile",
   "last-activity": "Umsebenzi wokugqibela",
   "last-modified-at": "Igqityelwe ukulungiswa ngo",

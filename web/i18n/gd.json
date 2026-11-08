@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Os cionn na sreath-snàmh taghte",
+  "accept": "Gabh ris",
   "account-locked": "Tha an cunntas glaiste rè ùine air sgàth cus oidhirpean clàraidh a-steach a dh'fhàillig. Feuch ris a-rithist an ceann greis.",
   "active": "Gnìomhach",
   "activities": "Gnìomhachdan",
@@ -68,6 +69,7 @@
   "comments": "Beachdan",
   "create-account": "Cruthaich cunntas",
   "createdAt": "Air a chruthachadh aig",
+  "decline": "Diùlt",
   "delete": "Sguab às",
   "description": "Tuairisgeul",
   "domain": "Àrainn",
@@ -92,6 +94,7 @@
   "fullname": "Ainm Slàn",
   "initials": "Litrichean-tòiseachaidh",
   "invitation-code": "Còd Cuireadh",
+  "just-invited": "Chaidh cuireadh a thoirt dhut dhan bhòrd seo an-dràsta",
   "labels": "Leubailean",
   "last-activity": "Gnìomhachd mu dheireadh",
   "last-modified-at": "Air atharrachadh mu dheireadh aig",

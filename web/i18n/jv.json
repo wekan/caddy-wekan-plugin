@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ing ndhuwur swimlane sing dipilih",
+  "accept": "Tampani",
   "account-locked": "Akun dikunci sauntara amarga kakehan upaya mlebu sing gagal. Mangga coba maneh mengko.",
   "active": "Aktif Saiki",
   "activities": "Kegiyatan",
@@ -68,6 +69,7 @@
   "comments": "Komentar",
   "create-account": "Gawe Akun",
   "createdAt": "Digawe ing",
+  "decline": "Tolak",
   "delete": "Busak",
   "description": "Katrangan",
   "domain": "Jeneng Domain",
@@ -92,6 +94,7 @@
   "fullname": "Jeneng Lengkap",
   "initials": "Inisial",
   "invitation-code": "Kode Undhangan",
+  "just-invited": "Sampeyan lagi wae diundang menyang papan iki",
   "labels": "Label",
   "last-activity": "Kagiyatan pungkasan",
   "last-modified-at": "Pungkasan diowahi ing",

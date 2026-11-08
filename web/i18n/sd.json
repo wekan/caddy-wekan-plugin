@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "چونڊيل سوئم لين کان مٿي",
+  "accept": "قبول ڪريو",
   "account-locked": "تمام گهڻين ناڪام لاگ ان ڪوششن سبب اڪائونٽ عارضي طور بند آهي. مهرباني ڪري پوءِ ٻيهر ڪوشش ڪريو.",
   "active": "فعال",
   "activities": "سرگرميون",
@@ -68,6 +69,7 @@
   "comments": "تبصرا",
   "create-account": "اڪائونٽ ٺاهيو",
   "createdAt": "ٺهڻ جو وقت",
+  "decline": "رد ڪريو",
   "delete": "ڊاهيو",
   "description": "تفصيل",
   "domain": "ڊومين",
@@ -92,6 +94,7 @@
   "fullname": "پورو نالو",
   "initials": "شروعاتي اکر",
   "invitation-code": "دعوت ڪوڊ",
+  "just-invited": "توهان کي هاڻي ئي هن بورڊ جي دعوت ملي آهي",
   "labels": "ليبل",
   "last-activity": "آخري سرگرمي",
   "last-modified-at": "آخري تبديليءَ جو وقت",

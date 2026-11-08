@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Valitud ujumisraja kohal",
+  "accept": "Aktsepteeri",
   "account-locked": "Konto on ajutiselt lukustatud liiga paljude ebaõnnestunud sisselogimiskatsete tõttu. Palun proovi hiljem uuesti.",
   "active": "Aktiivne",
   "activities": "Tegevused",
@@ -68,6 +69,7 @@
   "comments": "Kommentaarid",
   "create-account": "Loo konto",
   "createdAt": "Loodud aadressil",
+  "decline": "Langus",
   "delete": "Kustuta",
   "description": "Kirjeldus",
   "domain": "Domeen",
@@ -92,6 +94,7 @@
   "fullname": "Täielik nimi",
   "initials": "Initsiaalid",
   "invitation-code": "Kutse kood",
+  "just-invited": "Teid lihtsalt kutsutakse siia foorumisse",
   "labels": "Märgised",
   "last-activity": "Viimane tegevus",
   "last-modified-at": "Viimati muudetud aadressil",

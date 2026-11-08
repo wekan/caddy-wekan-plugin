@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Antap long makim pinis rot",
+  "accept": "Kisim",
   "account-locked": "Akaun i lok inap liklik taim bikos planti traim bilong go insait i no wok. Traim gen bihain.",
   "active": "I wok",
   "activities": "Ol wok",
@@ -68,6 +69,7 @@
   "comments": "Ol tok",
   "create-account": "Wokim akaun",
   "createdAt": "Taim ol i wokim",
+  "decline": "No orait",
   "delete": "Rausim",
   "description": "Stori",
   "domain": "Domen",
@@ -92,6 +94,7 @@
   "fullname": "Pulap nem",
   "initials": "Ol fes leta bilong nem",
   "invitation-code": "Kod bilong singautim i kam",
+  "just-invited": "Ol i singautim yu tasol bilong kam long dispela bot",
   "labels": "Ol mak",
   "last-activity": "Laspela wok",
   "last-modified-at": "Last modified long",

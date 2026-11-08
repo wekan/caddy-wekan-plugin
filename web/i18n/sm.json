@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "I luga o le ala filifilia",
+  "accept": "Talia",
   "account-locked": "Ua loka mo sina taimi le teugatupe ona o le tele o taumafaiga lē manuia e ulufale. Faamolemole toe taumafai mulimuli ane.",
   "active": "Ola",
   "activities": "Gaoioiga",
@@ -68,6 +69,7 @@
   "comments": "Faamatalaga",
   "create-account": "Fausia Teugatupe",
   "createdAt": "Na faia i le",
+  "decline": "Teena",
   "delete": "Soloi",
   "description": "Faamatalaga",
   "domain": "Domeini",
@@ -92,6 +94,7 @@
   "fullname": "Igoa Atoa",
   "initials": "Mataitusi amata",
   "invitation-code": "Numera o le Valaaulia",
+  "just-invited": "Faatoa valaaulia oe i lenei laupapa",
   "labels": "Igoa faailoga",
   "last-activity": "Gaoioiga mulimuli",
   "last-modified-at": "Taimi mulimuli na suia ai",

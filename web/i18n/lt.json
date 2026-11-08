@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Virš pasirinktos plaukimo juostos",
+  "accept": "Priimti",
   "account-locked": "Paskyra laikinai užrakinta dėl per daug nesėkmingų bandymų prisijungti. Bandykite dar kartą vėliau.",
   "active": "Aktyvus",
   "activities": "Veikla",
@@ -68,6 +69,7 @@
   "comments": "komentarai",
   "create-account": "Sukurti paskyrą",
   "createdAt": "Sukurta",
+  "decline": "Atmesti",
   "delete": "Ištrinti",
   "description": "Aprašymas",
   "domain": "Domenas",
@@ -92,6 +94,7 @@
   "fullname": "Pilnas vardas",
   "initials": "Inicialai",
   "invitation-code": "Kvietimo kodas",
+  "just-invited": "Jūs tiesiog esate pakviesti į šią lentą",
   "labels": "Etiketės",
   "last-activity": "Paskutinė veikla",
   "last-modified-at": "Paskutinį kartą pakeista",

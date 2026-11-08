@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Os cionn an lána snámha roghnaithe",
+  "accept": "Glac",
   "account-locked": "Tá an cuntas glasáilte go sealadach mar gheall ar an iomarca iarrachtaí logála isteach teipthe. Bain triail eile as ar ball.",
   "active": "Gníomhach",
   "activities": "Gníomhaíochtaí",
@@ -68,6 +69,7 @@
   "comments": "Nótaí tráchta",
   "create-account": "Cruthaigh Cuntas",
   "createdAt": "Cruthaithe ar",
+  "decline": "Diúltaigh",
   "delete": "Scrios",
   "description": "Cur síos",
   "domain": "Fearann",
@@ -92,6 +94,7 @@
   "fullname": "Ainm Iomlán",
   "initials": "Túslitreacha",
   "invitation-code": "Cód Cuireadh",
+  "just-invited": "Tá cuireadh díreach faighte agat chuig an gclár seo",
   "labels": "Lipéid",
   "last-activity": "Gníomhaíocht dheireanach",
   "last-modified-at": "Athraithe go deireanach ag",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "منتخب شدہ سویم لین کے اوپر",
+  "accept": "قبول کریں",
   "account-locked": "بہت زیادہ ناکام لاگ ان کوششوں کی وجہ سے اکاؤنٹ عارضی طور پر مقفل ہے۔ براہ کرم بعد میں دوبارہ کوشش کریں۔",
   "active": "فعال",
   "activities": "سرگرمیاں",
@@ -68,6 +69,7 @@
   "comments": "تبصرے",
   "create-account": "اکاؤنٹ بنائیں",
   "createdAt": "بنانے کا وقت",
+  "decline": "مسترد کریں",
   "delete": "حذف کریں",
   "description": "تفصیل",
   "domain": "ڈومین",
@@ -92,6 +94,7 @@
   "fullname": "پورا نام",
   "initials": "نام کے ابتدائی حروف",
   "invitation-code": "دعوتی کوڈ",
+  "just-invited": "آپ کو ابھی اس بورڈ میں مدعو کیا گیا ہے",
   "labels": "لیبل",
   "last-activity": "آخری سرگرمی",
   "last-modified-at": "آخری ترمیم",

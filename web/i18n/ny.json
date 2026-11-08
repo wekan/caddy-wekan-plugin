@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Pamwamba pa mzere wosambira wosankhidwa",
+  "accept": "Vomerezani",
   "account-locked": "Akaunti yatsekedwa kwakanthawi chifukwa cha zoyesa kulowa zolephera zambiri. Chonde yesaninso pambuyo pake.",
   "active": "Zikugwira ntchito",
   "activities": "Zochitika",
@@ -68,6 +69,7 @@
   "comments": "Ndemanga",
   "create-account": "Pangani akaunti",
   "createdAt": "Zapangidwa pa",
+  "decline": "Kanani",
   "delete": "Chotsani",
   "description": "Kufotokoza",
   "domain": "Domeni",
@@ -92,6 +94,7 @@
   "fullname": "Dzina lonse",
   "initials": "Zilembo zoyambira",
   "invitation-code": "Khodi yoitanira",
+  "just-invited": "Mwaitanidwa kumene ku bolodi ili",
   "labels": "Zilembo",
   "last-activity": "Chochita chomaliza",
   "last-modified-at": "Kusinthidwa komaliza pa",

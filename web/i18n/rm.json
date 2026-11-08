@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Survart la swimlane tschernida",
+  "accept": "Acceptar",
   "account-locked": "Il cont è bloccà temporarmain pervia da memia bleras emprovas d’annunzia betg reussidas. Emprova per plaschair pli tard anc ina giada.",
   "active": "Activ",
   "activities": "Activitads",
@@ -68,6 +69,7 @@
   "comments": "Commentaris",
   "create-account": "Crear in cont",
   "createdAt": "Creà ils",
+  "decline": "Refusar",
   "delete": "Stizzar",
   "description": "Descripziun",
   "domain": "Domena",
@@ -92,6 +94,7 @@
   "fullname": "Num cumplet",
   "initials": "Inizialas",
   "invitation-code": "Code d'invitaziun",
+  "just-invited": "Ti es gist vegnì envidà a questa tabella",
   "labels": "Etichettas",
   "last-activity": "Ultima activitad",
   "last-modified-at": "Ultima modificaziun ils",

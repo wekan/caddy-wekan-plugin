@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Encima del carril seleccionado",
+  "accept": "Aceptar",
   "account-locked": "La cuenta está bloqueada temporalmente debido a demasiados intentos de inicio de sesión fallidos. Por favor inténtalo de nuevo más tarde.",
   "active": "Activo",
   "activities": "Actividades",
@@ -68,6 +69,7 @@
   "comments": "Comentarios",
   "create-account": "Crear cuenta",
   "createdAt": "Creado en",
+  "decline": "Rechazar",
   "delete": "Borrar",
   "description": "Descripción",
   "domain": "Dominio",
@@ -92,6 +94,7 @@
   "fullname": "Nombre Completo",
   "initials": "Iniciales",
   "invitation-code": "Código de Invitación",
+  "just-invited": "Fuiste invitado a este tablero",
   "labels": "Etiquetas",
   "last-activity": "Última actividad",
   "last-modified-at": "Última modificación",

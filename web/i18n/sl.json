@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Nad izbrano plavalno stezo",
+  "accept": "Sprejmi",
   "account-locked": "Račun je začasno zaklenjen zaradi preveč neuspešnih poskusov prijave. Poskusite znova pozneje.",
   "active": "Aktivno",
   "activities": "Aktivnosti",
@@ -68,6 +69,7 @@
   "comments": "Komentarji",
   "create-account": "Ustvari račun",
   "createdAt": "Ustvarjen ob",
+  "decline": "Zavrni",
   "delete": "Briši",
   "description": "Opis",
   "domain": "Domena",
@@ -92,6 +94,7 @@
   "fullname": "Polno Ime",
   "initials": "Inicialke",
   "invitation-code": "Koda Povabila",
+  "just-invited": "Povabljeni ste k tej tabli",
   "labels": "Oznake",
   "last-activity": "Zadnja dejavnost",
   "last-modified-at": "Nazadnje spremenjeno ob",

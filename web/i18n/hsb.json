@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Nad wubranej dróhu",
+  "accept": "Přiwzać",
   "account-locked": "Konto je dla přewjele njewuspěšnych pospytow přizjewjenja nachwilu zawrjene. Prošu spytaj pozdźišo hišće raz.",
   "active": "Aktiwny",
   "activities": "Aktiwity",
@@ -68,6 +69,7 @@
   "comments": "Komentary",
   "create-account": "Konto wutworić",
   "createdAt": "Wutworjene",
+  "decline": "Wotpokazać",
   "delete": "Zhašeć",
   "description": "Wopisanje",
   "domain": "Domena",
@@ -92,6 +94,7 @@
   "fullname": "Połne mjeno",
   "initials": "Iniciale",
   "invitation-code": "Přeprošowanski kod",
+  "just-invited": "Sće runje na tutu taflu přeprošeny",
   "labels": "Etikety",
   "last-activity": "Posledna aktiwita",
   "last-modified-at": "Posledni raz změnjene",

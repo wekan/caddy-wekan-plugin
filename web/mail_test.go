@@ -366,3 +366,90 @@ func TestForgotAndResetPassword(t *testing.T) {
 		t.Fatalf("negative: an expired token: %d", res.StatusCode)
 	}
 }
+
+// Invitations in the sidebar: accept or decline, only with a real invitation;
+// a client cannot write one itself (InviteProfileBleed).
+func TestInvitationAcceptDeclineAndForgery(t *testing.T) {
+	w := newTestWeKan(t)
+	owner := w.seedUser(t, "ann", "pw")
+	inv := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, owner, "Invited")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": inv.ID, "isActive": false}}})
+	call := func(cl *http.Client, name, args string) (int, map[string]any) {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/"+url.PathEscape(name), strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cl.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return res.StatusCode, out
+	}
+	active := func() bool {
+		var x Board
+		_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&x)
+		return x.MemberOf(inv.ID)
+	}
+	bob := w.client(t)
+	body(t, w.signIn(t, bob, "bob", "pw"))
+	// A removed member forges an invitation, then accepts it.
+	if code, out := call(bob, "/users/update", `[{"_id":"`+inv.ID+`"},{"$addToSet":{"profile.invitedBoards":"`+b.ID+`"}}]`); code != 400 || out["error"] != float64(403) {
+		t.Fatalf("negative: a forged invitation: %d %v", code, out)
+	}
+	var row struct {
+		Count int64 `bson:"count"`
+	}
+	_ = w.db.Collection("eventlog").FindOne(ctx, bson.M{"bleed": "InviteProfileBleed"}).Decode(&row)
+	if row.Count != 1 {
+		t.Fatalf("the forgery is recorded: %d", row.Count)
+	}
+	if _, out := call(bob, "acceptInvite", `["`+b.ID+`"]`); out["result"] != false || active() {
+		t.Fatalf("negative: no invitation, nothing accepted: %v", out)
+	}
+	for _, mod := range []string{`{"$set":{"isAdmin":true}}`, `{"$set":{"profile":{"invitedBoards":["x"]}}}`, `{"$set":{"services.password.bcrypt":"x"}}`, `{"$inc":{"profile.x":1}}`} {
+		if code, _ := call(bob, "/users/update", `[{"_id":"`+inv.ID+`"},`+mod+`]`); code != 400 {
+			t.Errorf("negative: %s", mod)
+		}
+	}
+	if code, _ := call(bob, "/users/update", `[{"_id":"`+owner.ID+`"},{"$set":{"profile.fullname":"x"}}]`); code != 400 {
+		t.Error("negative: another user's document")
+	}
+	if code, _ := call(bob, "/users/update", `[{"_id":"`+inv.ID+`"},{"$set":{"profile.fullname":"Bob B"}}]`); code != 200 {
+		t.Fatal("a user's own profile")
+	}
+	// A real invitation: shown in the sidebar, accepted.
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": inv.ID}, bson.M{"$set": bson.M{"profile.invitedBoards": bson.A{b.ID}}})
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"members": bson.A{
+		bson.M{"userId": owner.ID, "isActive": true, "isAdmin": true}, bson.M{"userId": inv.ID, "isActive": true}}}})
+	if _, html := get(t, bob, w.srv.URL+"/b/"+b.ID+"/"+b.Slug); !strings.Contains(html, "js-member-invite-accept") || !strings.Contains(html, "js-member-invite-decline") {
+		t.Fatal("the sidebar shows the invitation")
+	}
+	if _, out := call(bob, "acceptInvite", `["`+b.ID+`"]`); out["result"] != true || !active() {
+		t.Fatalf("accepted: %v", out)
+	}
+	var u User
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": inv.ID}).Decode(&u)
+	if len(u.Profile.InvitedBoards) != 0 {
+		t.Fatal("the invitation is spent")
+	}
+	// Declined: the invitation goes and the member entry is made inactive.
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": inv.ID}, bson.M{"$set": bson.M{"profile.invitedBoards": bson.A{b.ID}}})
+	if _, out := call(bob, "quitBoard", `["`+b.ID+`"]`); out["result"] != true || active() {
+		t.Fatalf("declined: %v", out)
+	}
+	if _, out := call(bob, "acceptInvite", `["`+b.ID+`"]`); out["result"] != false || active() {
+		t.Fatal("negative: a declined invitation cannot be accepted later")
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	call(ann, "quitBoard", `["`+b.ID+`"]`)
+	var x Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&x)
+	if !x.MemberOf(owner.ID) {
+		t.Fatal("negative: the last admin stays")
+	}
+	_ = u
+}

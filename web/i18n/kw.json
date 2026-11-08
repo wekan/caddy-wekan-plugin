@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "A-ugh dhe'n hyns dewisys",
+  "accept": "Degemer",
   "account-locked": "An akont yw alhwedhys rag pols drefen re lies assay omgelmi fyllis. Assaya arta diwettha mar pleg.",
   "active": "Byw",
   "activities": "Gwrythresow",
@@ -68,6 +69,7 @@
   "comments": "Kampoellyansow",
   "create-account": "Gwruthyl akont",
   "createdAt": "Gwruthyl orth",
+  "decline": "Nagha",
   "delete": "Dilea",
   "description": "Deskrifans",
   "domain": "Domayn",
@@ -92,6 +94,7 @@
   "fullname": "Hanow leun",
   "initials": "Lytherennow kynsa",
   "invitation-code": "Kod galow",
+  "just-invited": "Ty yw gelwys a-lemmyn dhe'n estyllen ma",
   "labels": "Labellow",
   "last-activity": "Gwrythres diwettha",
   "last-modified-at": "Chanjys diwettha orth",

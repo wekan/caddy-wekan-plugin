@@ -14,6 +14,15 @@
   .board-sidebar.sidebar
     a.sidebar-xmark.js-close-sidebar(href="#", aria-label="{{t $.L `close`}}") ✕
     .sidebar-content.js-board-sidebar-content
+      if .Invited
+        //- sidebar.jade: an invitation to this board, to accept or decline.
+        .js-board-invitation
+          p
+            i.fa.fa-exclamation-triangle
+            |  {{t $.L "just-invited"}}
+          button.js-member-invite-accept.primary(type="button") {{t $.L "accept"}}
+          button.js-member-invite-decline(type="button") {{t $.L "decline"}}
+        hr
       if .MenuOn
         h3
           a.board-header-btn.js-open-board-menu(href="#", title="{{t $.L `boardMenuPopup-title`}}") {{t $.L "boardMenuPopup-title"}}

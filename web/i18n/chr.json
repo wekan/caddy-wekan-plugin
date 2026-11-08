@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "ᏍᏫᎻᎴᏅ ᎦᏑᏰᏒ ᎦᎸᎳᏗ",
+  "accept": "ᎠᏓᏂᎸᏤᏗ",
   "account-locked": "ᎠᏎᎸ ᎢᎪᎯᏛ ᎠᏍᏚᏅ ᎤᏂᏣᏘ ᎤᏍᎦᏅᏨ ᎠᏴᎯᎲ ᎤᏁᎬ. ᎣᏂ ᏔᎵᏁ ᎭᏁᎵᏍᎩ.",
   "active": "ᎬᏗ ᎨᏒ",
   "activities": "ᏗᎦᎸᏫᏍᏓᏁᏗ",
@@ -68,6 +69,7 @@
   "comments": "ᏗᎯᏬᏂᎯᏍᏗ",
   "create-account": "ᎠᏎᎸ ᎪᏢᏗ",
   "createdAt": "ᎪᏢᏅ ᎢᎦ",
+  "decline": "Ꮭ ᏱᏓᏂᎸᎦ",
   "delete": "ᎯᏲᏍᏓ",
   "description": "ᎧᏃᎮᏗ",
   "domain": "ᎤᏙᎯᏳ ᎦᏙᎯ",
@@ -92,6 +94,7 @@
   "fullname": "ᎤᏙᎥ ᏂᎬᎢ",
   "initials": "ᎢᎬᏱ ᏗᎪᏪᎵ",
   "invitation-code": "ᎠᏓᏅᏍᏗ ᎪᏪᎵ",
+  "just-invited": "ᎪᎯᏉ ᎯᎠ ᎦᏍᎩᎸ ᏣᏅᏔᏅ",
   "labels": "ᏗᎪᏪᎳᏅᎯ",
   "last-activity": "ᎣᏂᏱ ᎦᎸᏫᏍᏓᏁᏗ",
   "last-modified-at": "ᎣᏂᏱ ᎦᏁᏟᏴᏍᏔᏅ ᎢᎦ",

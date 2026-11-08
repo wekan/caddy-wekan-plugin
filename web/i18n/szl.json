@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Nad zaznaczoną ścieżką",
+  "accept": "Akceptuj",
   "account-locked": "Konto je tymczasowo zablokowane z powodu zbyt wielu nieudanych prób logowania. Spróbuj zaś później.",
   "active": "Aktywny",
   "activities": "Aktywności",
@@ -68,6 +69,7 @@
   "comments": "Kōmyntŏrze",
   "create-account": "Zrychtuj konto",
   "createdAt": "Utworzone o",
+  "decline": "Odrzuć",
   "delete": "Wyciepnōńć",
   "description": "Ôpis",
   "domain": "Domena",
@@ -92,6 +94,7 @@
   "fullname": "Pełna miano",
   "initials": "Inicjały",
   "invitation-code": "Kod z zaproszenia",
+  "just-invited": "Zostałeś zaproszony do tej tabule",
   "labels": "Etykety",
   "last-activity": "Ostatnia aktywność",
   "last-modified-at": "Ostatnio zmodyfikowano",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ci kaw yoon bi ñu tànn",
+  "accept": "Nangu",
   "account-locked": "Tëj nañu kont bi ci diir bu gàtt ndax jéem yu bari yu lajj ngir dugg. Jéemaatal gannaaw.",
   "active": "Doxees",
   "activities": "Jëf yi",
@@ -68,6 +69,7 @@
   "comments": "Xalaat yi",
   "create-account": "Sos kont",
   "createdAt": "Sos ci",
+  "decline": "Bañ",
   "delete": "Far",
   "description": "Melokaan",
   "domain": "Domen",
@@ -92,6 +94,7 @@
   "fullname": "Moom ay",
   "initials": "Araf yu njëkk",
   "invitation-code": "Code woo",
+  "just-invited": "Ñu ngi la sàkku nga bokk ci tablo bii",
   "labels": "Etiket yi",
   "last-activity": "Jëf bu mujj",
   "last-modified-at": "Besu soppali mi",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "ʻI ʻolunga ʻo e hala kuo fili",
+  "accept": "Tali",
   "account-locked": "Kuo loka fakataimi ʻa e ʻakauni koeʻuhi ko e lahi ʻo e ngaahi feinga hū ki loto naʻe tō. Kātaki ʻo toe feinga ʻamui ange.",
   "active": "Lolotonga ngāue",
   "activities": "Ngaahi ngāue",
@@ -68,6 +69,7 @@
   "comments": "Ngaahi fakamatala",
   "create-account": "Faʻu ha ʻakauni",
   "createdAt": "Naʻe fakatupu ʻi he",
+  "decline": "Fakafisi",
   "delete": "Tāmateʻi",
   "description": "Fakamatala",
   "domain": "Tomeine",
@@ -92,6 +94,7 @@
   "fullname": "Hingoa kakato",
   "initials": "Ngaahi mataʻitohi ʻuluaki",
   "invitation-code": "Kouti Fakaafe",
+  "just-invited": "Kuo toki fakaafeʻi koe ki he papa ko ʻení",
   "labels": "Ngaahi fakaʻilonga",
   "last-activity": "Ngāue fakamuimui",
   "last-modified-at": "Liliu fakamuimui ʻi he",

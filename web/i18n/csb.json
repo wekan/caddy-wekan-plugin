@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Nad wëbróną stegną",
+  "accept": "Przëjimnij",
   "account-locked": "Kònto je timczasno zablokòwóné przez zbëtk nieùdałëch prób logòwaniô. Spróbùjë jesz rôz pózni.",
   "active": "Aktiwne",
   "activities": "Aktiwnoscë",
@@ -68,6 +69,7 @@
   "comments": "Kòmentôrze",
   "create-account": "Utwòrz konto",
   "createdAt": "Data ùsôdzeniô",
+  "decline": "Òdrzucë",
   "delete": "Rëmac",
   "description": "Òpisënk",
   "domain": "Domena",
@@ -92,6 +94,7 @@
   "fullname": "Pełna miono",
   "initials": "Pierszé lëterë miona i nôzwëskù",
   "invitation-code": "Kòd zaprôszeniô",
+  "just-invited": "Jes zôproszony do ti tôflë",
   "labels": "Etikétë",
   "last-activity": "Slédnô aktiwnosc",
   "last-modified-at": "Data slédny zmianë",

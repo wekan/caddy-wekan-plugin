@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Di atas swimlane yang dipilih",
+  "accept": "Menerima",
   "account-locked": "Akun terkunci sementara karena terlalu banyak upaya login yang gagal. Silakan coba lagi nanti.",
   "active": "Aktif",
   "activities": "Aktifitas",
@@ -68,6 +69,7 @@
   "comments": "Komentar",
   "create-account": "Buat Akun",
   "createdAt": "Dibuat pada",
+  "decline": "Tolak",
   "delete": "Hapus",
   "description": "Deskripsi",
   "domain": "Ranah",
@@ -92,6 +94,7 @@
   "fullname": "Nama Lengkap",
   "initials": "Inisial",
   "invitation-code": "Kode Undangan",
+  "just-invited": "Anda baru diundang di panel ini",
   "labels": "Daftar Label",
   "last-activity": "Aktifitas terakhir",
   "last-modified-at": "Terakhir diubah pada",

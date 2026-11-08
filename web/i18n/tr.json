@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Seçili kulvarın üstünde",
+  "accept": "Kabul Et",
   "account-locked": "Çok fazla başarısız giriş denemesi nedeniyle hesap geçici olarak kilitlendi. Lütfen daha sonra tekrar deneyin.",
   "active": "Aktif",
   "activities": "Etkinlikler",
@@ -68,6 +69,7 @@
   "comments": "Yorumlar",
   "create-account": "Hesap Oluştur",
   "createdAt": "Oluşturulma tarihi",
+  "decline": "Reddet",
   "delete": "Sil",
   "description": "Açıklama",
   "domain": "Alan Adı",
@@ -92,6 +94,7 @@
   "fullname": "Ad Soyad",
   "initials": "İlk Harfleri",
   "invitation-code": "Davetiye kodu",
+  "just-invited": "Bu panoya şimdi davet edildin.",
   "labels": "Etiketler",
   "last-activity": "Son aktivite",
   "last-modified-at": "Son değiştirilme",

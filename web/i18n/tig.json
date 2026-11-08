@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "ኣብ ላዕሊ ዝተመርጸ መገዲ",
+  "accept": "ቀብል",
   "account-locked": "ብዙሕ ዝፈሸሉ ፈተነታት ምእታው ስለ ዝተገብሩ ሕሳብ ንግዚኡ ተዓጽዩ። በጃኻ ጸኒሕካ ደጊምካ ፈትን።",
   "active": "ህርኩት",
   "activities": "ትግባራት",
@@ -68,6 +69,7 @@
   "comments": "ርእይታት",
   "create-account": "ሕሳብ ፍትሕ",
   "createdAt": "ዝተፈጥረሉ",
+  "decline": "ኣብይ",
   "delete": "ምሳሕ",
   "description": "ዋስፎ",
   "domain": "ዶሜን",
@@ -92,6 +94,7 @@
   "fullname": "ምሉእ ስሜት",
   "initials": "ፊደላት መጀመርታ",
   "invitation-code": "ኮድ ዕድመ",
+  "just-invited": "ሕጂ ጥራይ ናብዚ ምዱድ ተዓዲምካ",
   "labels": "እሻራት",
   "last-activity": "መወዳእታ ንጥፈት",
   "last-modified-at": "መወዳእታ ዝተቐየረሉ",

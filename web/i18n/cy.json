@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Uchod y lôn nofio a ddewiswyd",
+  "accept": "Derbyn",
   "account-locked": "Mae'r cyfrif wedi'i gloi dros dro oherwydd bod gormod o ymdrechion mewngofnodi wedi methu. Ceisiwch eto yn nes ymlaen.",
   "active": "Actif",
   "activities": "Gweithgareddau",
@@ -68,6 +69,7 @@
   "comments": "Sylwadau",
   "create-account": "Creu Cyfrif",
   "createdAt": "Crëwyd yn",
+  "decline": "Dirywiad",
   "delete": "Dileu",
   "description": "Disgrifiad",
   "domain": "Parth",
@@ -92,6 +94,7 @@
   "fullname": "Enw Llawn",
   "initials": "Llythrennau blaen",
   "invitation-code": "Cod Gwahoddiad",
+  "just-invited": "Fe'ch gwahoddir i'r bwrdd hwn",
   "labels": "Labeli",
   "last-activity": "Gweithgaredd olaf",
   "last-modified-at": "Addaswyd ddiwethaf yn",

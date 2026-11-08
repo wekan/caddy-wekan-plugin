@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Le tsiƒuƒu si wotia dzi",
+  "accept": "Lɔ̃ ɖe edzi",
   "account-locked": "Woxe mɔ na akɔnta la ɣeyiɣi kpui aɖe le gegeɖeme ƒe kpɔkpɔ siwo medze edzi o sɔ gbɔ ta. Taflatse gbugbɔ kpɔ emegbe.",
   "active": "Ele dɔ wɔm",
   "activities": "Dɔwɔwɔwo",
@@ -68,6 +69,7 @@
   "comments": "Nuŋɔŋlɔwo",
   "create-account": "Wɔ akɔnta",
   "createdAt": "Wowɔe le",
+  "decline": "Gbe",
   "delete": "Tutui",
   "description": "Numeɖeɖe",
   "domain": "Domenyinyi",
@@ -92,6 +94,7 @@
   "fullname": "Ŋkɔ bliboa",
   "initials": "Ŋkɔwo ƒe dzesi gbãtɔwo",
   "invitation-code": "Yɔyɔ ƒe dzesi",
+  "just-invited": "Woyɔ wò ɖe kpekpeɖeŋu sia dzi ko",
   "labels": "Dzesiwo",
   "last-activity": "Dɔwɔwɔ mamlɛtɔ",
   "last-modified-at": "Wotrɔ̃e zi mamlɛ le",

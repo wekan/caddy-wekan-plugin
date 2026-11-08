@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Sëura la swimlane cernuda",
+  "accept": "Azeté",
   "account-locked": "L cont ie blocà per n pez per massa tentatifs de azes falei. Per plajëi prova inò plu tert.",
   "active": "Ativ",
   "activities": "Ativités",
@@ -68,6 +69,7 @@
   "comments": "Comënc",
   "create-account": "Crië n cont",
   "createdAt": "Crià ai",
+  "decline": "Refudé",
   "delete": "Scancelé",
   "description": "Descrizion",
   "domain": "Domin",
@@ -92,6 +94,7 @@
   "fullname": "Inom dut",
   "initials": "Inizieles",
   "invitation-code": "Code de nvidëda",
+  "just-invited": "Te ies apena stat nvià a chësta tofl",
   "labels": "Etichetes",
   "last-activity": "Ultima ativité",
   "last-modified-at": "Mudà l ultim iede ai",

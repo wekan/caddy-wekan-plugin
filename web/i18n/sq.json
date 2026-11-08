@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Mbi korsinë e zgjedhur",
+  "accept": "Prano",
   "account-locked": "Llogaria është bllokuar përkohësisht për shkak të shumë përpjekjeve të dështuara për hyrje. Provo përsëri më vonë.",
   "active": "Aktive",
   "activities": "Aktivitetet",
@@ -68,6 +69,7 @@
   "comments": "Komente",
   "create-account": "Krijo llogari",
   "createdAt": "Krijuar më",
+  "decline": "Refuzo",
   "delete": "Fshi",
   "description": "Përshkrimi",
   "domain": "Domeni",
@@ -92,6 +94,7 @@
   "fullname": "Emri i plotë",
   "initials": "Inicialet",
   "invitation-code": "Kodi i ftesës",
+  "just-invited": "Sapo je ftuar në këtë tabelë",
   "labels": "Etiketa",
   "last-activity": "Aktiviteti i fundit",
   "last-modified-at": "Ndryshuar së fundi më",

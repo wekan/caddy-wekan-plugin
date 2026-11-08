@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Di atas aliran renang yang dipilih",
+  "accept": "Terima",
   "account-locked": "Akaun dikunci buat sementara waktu disebabkan terlalu banyak percubaan log masuk yang gagal. Sila cuba lagi kemudian.",
   "active": "Aktif",
   "activities": "Aktiviti",
@@ -68,6 +69,7 @@
   "comments": "Komen",
   "create-account": "Cipta Akaun",
   "createdAt": "Dicipta pada",
+  "decline": "Ditolak",
   "delete": "Hapus",
   "description": "Penerangan",
   "domain": "Ranah rangkaian",
@@ -92,6 +94,7 @@
   "fullname": "Nama Penuh",
   "initials": "Singkatan/Gelaran",
   "invitation-code": "Kod Jemputa",
+  "just-invited": "Anda telah dijemput ke Papan ini",
   "labels": "Label",
   "last-activity": "Aktiviti terakhir",
   "last-modified-at": "Kali terakhir diubah suai pada",

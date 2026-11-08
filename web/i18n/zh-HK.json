@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "選取的泳道之上",
+  "accept": "接受",
   "account-locked": "帳號因登入嘗試次數過多而暫時鎖定，請稍後再試。",
   "active": "啟用",
   "activities": "活動紀錄",
@@ -68,6 +69,7 @@
   "comments": "評論",
   "create-account": "建立帳號",
   "createdAt": "新增於",
+  "decline": "拒絕",
   "delete": "刪除",
   "description": "描述",
   "domain": "網域",
@@ -92,6 +94,7 @@
   "fullname": "全稱",
   "initials": "縮寫",
   "invitation-code": "邀請碼",
+  "just-invited": "您剛剛被邀請加入此看板",
   "labels": "標籤",
   "last-activity": "最後活動",
   "last-modified-at": "最後修改時間",

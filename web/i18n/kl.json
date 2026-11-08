@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Aqqutip toqqakkap qulaani",
+  "accept": "Akueri",
   "account-locked": "Iserniarnerit iluatsinngitsut amerlavallaarnerat pissutigalugu konto utaqqiisaasumik blokerneqarpoq. Kingusinnerusukkut misileqqiguk.",
   "active": "Atuuppoq",
   "activities": "Sulinerit",
@@ -68,6 +69,7 @@
   "comments": "Oqaaseqaatit",
   "create-account": "Konto pilersiguk",
   "createdAt": "Pilersinneqarpoq ulloq",
+  "decline": "Itigartiguk",
   "delete": "Peerlugu",
   "description": "Nassuiaat",
   "domain": "Domæni",
@@ -92,6 +94,7 @@
   "fullname": "Aqqa tamakkerlugu",
   "initials": "Aqqit naalisakkat",
   "invitation-code": "Qaaqqusissutip kodea",
+  "just-invited": "Ilisarnaammut matumunnga qaaqquneqaqqammerputit",
   "labels": "Nalunaaqutsersuutit",
   "last-activity": "Sulineq kingulleq",
   "last-modified-at": "Kingullermik allanngortinneqarpoq ulloq",

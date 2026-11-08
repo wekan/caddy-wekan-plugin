@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Subra de sa corsia seletzionada",
+  "accept": "Atzeta",
   "account-locked": "Su contu est blocadu pro unu pagu de tempus ca bi sunt istadas tropu proas de atzessu faddidas. Torra a proare prus a tardu.",
   "active": "Ativu",
   "activities": "Atividades",
@@ -68,6 +69,7 @@
   "comments": "Cummentos",
   "create-account": "Crea unu contu",
   "createdAt": "Creadu su",
+  "decline": "Refuda",
   "delete": "Cantzella",
   "description": "Descritzione",
   "domain": "Domìniu",
@@ -92,6 +94,7 @@
   "fullname": "Nùmene cumpletu",
   "initials": "Initziales",
   "invitation-code": "Còdighe de invitu",
+  "just-invited": "Ses istadu invitadu immoe a custa tàula",
   "labels": "Etichetas",
   "last-activity": "Ùrtima atividade",
   "last-modified-at": "Ùrtima modìfica su",

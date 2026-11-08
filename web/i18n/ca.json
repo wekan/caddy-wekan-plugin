@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Sobre el carril seleccionat",
+  "accept": "Accepta",
   "account-locked": "El compte està bloquejat temporalment per massa intents d'inici de sessió fallits. Torneu-ho a provar més tard.",
   "active": "Actiu",
   "activities": "Activitats",
@@ -68,6 +69,7 @@
   "comments": "Comentaris",
   "create-account": "Crea un compte",
   "createdAt": "Creat",
+  "decline": "Declina",
   "delete": "Esborra",
   "description": "Descripció",
   "domain": "Domini",
@@ -92,6 +94,7 @@
   "fullname": "Nom complet",
   "initials": "Inicials",
   "invitation-code": "Codi d'invitació",
+  "just-invited": "Has estat convidat a aquest tauler",
   "labels": "Etiquetes",
   "last-activity": "Última activitat",
   "last-modified-at": "Darrera modificació a les",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Saýlanan ýüzüjiniň ýokarsynda",
+  "accept": "Kabul et",
   "account-locked": "Has köp giriş synanyşyklary sebäpli hasap wagtlaýyn gulplandy. Soňrak synanyşyň.",
   "active": "Işjeň",
   "activities": "Çäreler",
@@ -68,6 +69,7 @@
   "comments": "Teswirler",
   "create-account": "Hasap dörediň",
   "createdAt": "Döredildi",
+  "decline": "Pese gaç",
   "delete": "Öçür",
   "description": "Düşündiriş",
   "domain": "Domen",
@@ -92,6 +94,7 @@
   "fullname": "Doly ady",
   "initials": "Baş harplar",
   "invitation-code": "Çakylyk kody",
+  "just-invited": "Sizi bu tagta çagyrdylar",
   "labels": "Bellikler",
   "last-activity": "Soňky işjeňlik",
   "last-modified-at": "Iň soňky gezek",

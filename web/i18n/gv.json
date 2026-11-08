@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Heose er cassan reih't",
+  "accept": "Gow",
   "account-locked": "Ta'n coontys glast rish tammylt kyndagh rish rouyr prowalyn çheet stiagh foillagh. Prow reesht ny s'anmey.",
   "active": "Breeoil",
   "activities": "Obbraghyn",
@@ -68,6 +69,7 @@
   "comments": "Cooishyn",
   "create-account": "Croo coontys",
   "createdAt": "Crooit ec",
+  "decline": "Jiooldey",
   "delete": "Doll magh",
   "description": "Coontey",
   "domain": "Ard-ennym",
@@ -92,6 +94,7 @@
   "fullname": "Slane ennym",
   "initials": "Kied lettyraghyn",
   "invitation-code": "Coad cuirrey",
+  "just-invited": "T'ou er ny chuirrey gys y voayrd shoh nish",
   "labels": "Lipaidyn",
   "last-activity": "Jantys s'jerree",
   "last-modified-at": "Caghlaait s'jerree ec",

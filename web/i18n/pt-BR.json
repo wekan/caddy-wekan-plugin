@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Acima da raia selecionada",
+  "accept": "Aceitar",
   "account-locked": "A conta foi bloqueada temporariamente devido a um número excessivo de tentativas de login malsucedidas. Tente novamente mais tarde.",
   "active": "Ativo",
   "activities": "Atividades",
@@ -68,6 +69,7 @@
   "comments": "Comentários",
   "create-account": "Criar uma conta",
   "createdAt": "Criado em",
+  "decline": "Rejeitar",
   "delete": "Excluir",
   "description": "Descrição",
   "domain": "Domínio",
@@ -92,6 +94,7 @@
   "fullname": "Nome Completo",
   "initials": "Iniciais",
   "invitation-code": "Código do Convite",
+  "just-invited": "Você já foi convidado para este quadro",
   "labels": "Etiquetas",
   "last-activity": "Última atividade",
   "last-modified-at": "Última modificação em",

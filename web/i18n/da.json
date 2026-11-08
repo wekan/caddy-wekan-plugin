@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Over den valgte svømmebane",
+  "accept": "Accepter",
   "account-locked": "Kontoen er midlertidigt låst på grund af for mange mislykkede loginforsøg. Prøv igen senere.",
   "active": "Aktiv",
   "activities": "Aktiviteter",
@@ -68,6 +69,7 @@
   "comments": "Kommentarer",
   "create-account": "Opret konto",
   "createdAt": "Oprettet per",
+  "decline": "Afslå",
   "delete": "Slet",
   "description": "Beskrivelse",
   "domain": "Domæne",
@@ -92,6 +94,7 @@
   "fullname": "Fuldt navn",
   "initials": "Initialer",
   "invitation-code": "Invitationskode",
+  "just-invited": "Du er netop blevet inviteret til denne tavle",
   "labels": "Etiketter",
   "last-activity": "Seneste aktivitet",
   "last-modified-at": "Senest  ændret per",

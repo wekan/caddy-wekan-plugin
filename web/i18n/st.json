@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ka hodima tsela e kgethilweng",
+  "accept": "Amohela",
   "account-locked": "Akhaonto e notletswe nakwana ka lebaka la diteko tse ngata tse hlolehileng tsa ho kena. Ka kopo leka hape hamorao.",
   "active": "E sebetsa",
   "activities": "Diketsahalo",
@@ -68,6 +69,7 @@
   "comments": "Maikutlo",
   "create-account": "Theha akhaonto",
   "createdAt": "E thehilwe ka",
+  "decline": "Hana",
   "delete": "Hlakola",
   "description": "Tlhaloso",
   "domain": "Domeine",
@@ -92,6 +94,7 @@
   "fullname": "Lebitso le felletseng",
   "initials": "Ditlhaku tsa mabitso",
   "invitation-code": "Khoutu ya memo",
+  "just-invited": "O sa tswa memelwa botong ena",
   "labels": "Dileibole",
   "last-activity": "Ketso ya ho qetela",
   "last-modified-at": "E fetotswe la ho qetela ka",

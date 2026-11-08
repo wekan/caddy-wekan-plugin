@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "ਚੁਣੀ ਗਈ ਤੈਰਾਕੀ ਦੇ ਉੱਪਰ",
+  "accept": "ਸਵੀਕਾਰ ਕਰੋ",
   "account-locked": "ਬਹੁਤ ਸਾਰੀਆਂ ਅਸਫਲ ਲੌਗਇਨ ਕੋਸ਼ਿਸ਼ਾਂ ਕਾਰਨ ਖਾਤਾ ਅਸਥਾਈ ਤੌਰ 'ਤੇ ਲੌਕ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
   "active": "ਕਿਰਿਆਸ਼ੀਲ",
   "activities": "ਗਤੀਵਿਧੀਆਂ",
@@ -68,6 +69,7 @@
   "comments": "ਟਿੱਪਣੀਆਂ",
   "create-account": "ਖਾਤਾ ਬਣਾਉ",
   "createdAt": "'ਤੇ ਬਣਾਇਆ ਗਿਆ",
+  "decline": "ਅਸਵੀਕਾਰ ਕਰੋ",
   "delete": "ਮਿਟਾਓ",
   "description": "ਵਰਣਨ",
   "domain": "ਡੋਮੇਨ",
@@ -92,6 +94,7 @@
   "fullname": "ਪੂਰਾ ਨਾਂਮ",
   "initials": "ਸ਼ੁਰੂਆਤੀ",
   "invitation-code": "ਸੱਦਾ ਕੋਡ",
+  "just-invited": "ਤੁਹਾਨੂੰ ਹੁਣੇ ਹੀ ਇਸ ਬੋਰਡ ਲਈ ਸੱਦਾ ਦਿੱਤਾ ਗਿਆ ਹੈ",
   "labels": "ਲੇਬਲ",
   "last-activity": "ਪਿਛਲੀ ਗਤੀਵਿਧੀ",
   "last-modified-at": "ਆਖਰੀ ਵਾਰ ਸੋਧਿਆ ਗਿਆ",

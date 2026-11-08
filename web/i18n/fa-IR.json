@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "بالای مسیر انتخاب‌شده",
+  "accept": "پذیرفتن",
   "account-locked": "حساب به دلیل تلاش‌های ناموفق زیاد در ورود موقتاً قفل شده است. لطفاً بعداً دوباره تلاش کنید.",
   "active": "فعال",
   "activities": "فعالیت‌ها",
@@ -68,6 +69,7 @@
   "comments": "نظرها",
   "create-account": "ایجاد حساب",
   "createdAt": "ساخته شده در",
+  "decline": "رد",
   "delete": "حذف",
   "description": "توضیحات",
   "domain": "دامنه",
@@ -92,6 +94,7 @@
   "fullname": "نام و نام خانوادگی",
   "initials": "تخصیصات اولیه",
   "invitation-code": "کد دعوت نامه",
+  "just-invited": "هم اکنون، شما به این برد دعوت شده‌اید.",
   "labels": "لیبل ها",
   "last-activity": "آخرین فعالیت",
   "last-modified-at": "آخرین ویرایش در",

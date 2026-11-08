@@ -177,6 +177,18 @@
     return function () { clearInterval(timer); };
   });
 
+  // An invitation to the board: accept it, or decline it and go to All Boards.
+  up.on('click', '.js-member-invite-accept', function (event, el) {
+    event.preventDefault();
+    var board = el.closest('.board-wrapper');
+    callAsync('acceptInvite', board.dataset.board).then(function () { up.reload('.board-wrapper'); });
+  });
+  up.on('click', '.js-member-invite-decline', function (event, el) {
+    event.preventDefault();
+    var board = el.closest('.board-wrapper');
+    callAsync('quitBoard', board.dataset.board).then(function () { up.navigate({ url: '/' }); });
+  });
+
   // The board's star: the user's favorite (WeKan's toggleBoardStar).
   up.on('click', '.js-star-board', function (event, el) {
     event.preventDefault();

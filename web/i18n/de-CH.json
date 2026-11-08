@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Über der ausgewählten Swimlane",
+  "accept": "Akzeptieren",
   "account-locked": "Das Konto wurde aufgrund zu vieler fehlgeschlagener Anmeldeversuche vorübergehend gesperrt. Bitte versuche es später erneut.",
   "active": "Aktiv",
   "activities": "Aktivitäten",
@@ -68,6 +69,7 @@
   "comments": "Kommentare",
   "create-account": "Konto erstellen",
   "createdAt": "Erstellt am",
+  "decline": "Ablehnen",
   "delete": "Löschen",
   "description": "Beschreibung",
   "domain": "Domäne",
@@ -92,6 +94,7 @@
   "fullname": "Vollständiger Name",
   "initials": "Initialen",
   "invitation-code": "Einladungscode",
+  "just-invited": "Sie wurden soeben zu diesem Board eingeladen",
   "labels": "Kennzeichnungen",
   "last-activity": "Letzte Aktivität",
   "last-modified-at": "Zuletzt geändert um",

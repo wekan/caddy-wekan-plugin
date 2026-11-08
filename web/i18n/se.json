@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Válljejuvvon bálgá bajábeallái",
+  "accept": "Dohkket",
   "account-locked": "Konto lea gaskaboddasaččat lohkaduvvon menddo máŋgga lihkostuvakeahtes sisaloggengéahččaleami geažil. Geahččal maŋŋelis fas.",
   "active": "Aktiivvalaš",
   "activities": "Doaimmat",
@@ -68,6 +69,7 @@
   "comments": "Kommeanttat",
   "create-account": "Ráhkat konto",
   "createdAt": "Ráhkaduvvon",
+  "decline": "Hilggo",
   "delete": "Sihko",
   "description": "Válddahus",
   "domain": "Domeana",
@@ -92,6 +94,7 @@
   "fullname": "Olles namma",
   "initials": "Álgobustávat",
   "invitation-code": "Bovdehuskoda",
+  "just-invited": "Leat easka bovdejuvvon dán távvalii",
   "labels": "Gilkorat",
   "last-activity": "Maŋimuš doaibma",
   "last-modified-at": "Maŋimuš rievdaduvvon",

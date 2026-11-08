@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "निवडलेल्या स्विमलेनच्या वर",
+  "accept": "स्वीकारा",
   "account-locked": "खूप अयशस्वी लॉगिन प्रयत्नांमुळे खाते तात्पुरते लॉक केले आहे. कृपया नंतर पुन्हा प्रयत्न करा.",
   "active": "सक्रिय",
   "activities": "क्रियाकलाप",
@@ -68,6 +69,7 @@
   "comments": "टिप्पण्या",
   "create-account": "खाते तयार करा",
   "createdAt": "तयार केले",
+  "decline": "नकार द्या",
   "delete": "हटवा",
   "description": "वर्णन",
   "domain": "डोमेन",
@@ -92,6 +94,7 @@
   "fullname": "पूर्ण नाव",
   "initials": "आद्याक्षरे",
   "invitation-code": "आमंत्रण कोड",
+  "just-invited": "तुम्हाला नुकतेच या फलकावर आमंत्रित केले आहे",
   "labels": "लेबल",
   "last-activity": "शेवटचा क्रियाकलाप",
   "last-modified-at": "शेवटचे बदलले",

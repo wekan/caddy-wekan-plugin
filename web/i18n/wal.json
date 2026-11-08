@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Doorettida ogiyaappe bolla",
+  "accept": "Ekka",
   "account-locked": "Daro wode gelanau paacci balettido gishshau akkawuntiyaa guutha wodiyau qolfettiis. Guyyiyan zaarettada paacca.",
   "active": "Oosettiza",
   "activities": "Oosuwaa",
@@ -68,6 +69,7 @@
   "comments": "Qofata",
   "create-account": "Akkawuntiyaa medha",
   "createdAt": "Medhettida wode",
+  "decline": "Ixxa",
   "delete": "Xayssa",
   "description": "Qonccissuwaa",
   "domain": "Domeenaa",
@@ -92,6 +94,7 @@
   "fullname": "Kumetta sunttaa",
   "initials": "Sunttaa koyro birshshettata",
   "invitation-code": "Xeesiyo koodiyaa",
+  "just-invited": "Neeni ha bookkiyaas ha'i xeesettaasa",
   "labels": "Malaatata",
   "last-activity": "Wurssetta oosuwaa",
   "last-modified-at": "Wurssetta laamettida wode",

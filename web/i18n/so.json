@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ka sarreeya waddada la doortay",
+  "accept": "Aqbal",
   "account-locked": "Akoonka si ku-meelgaar ah ayaa loo xannibay isku-dayo gelitaan oo fashilmay oo aad u badan awgood. Fadlan mar dambe isku day.",
   "active": "Firfircoon",
   "activities": "Dhaqdhaqaaqyo",
@@ -68,6 +69,7 @@
   "comments": "Faallooyin",
   "create-account": "Abuur Akoon",
   "createdAt": "La sameeyay",
+  "decline": "Diid",
   "delete": "Tirtir",
   "description": "Sharaxaad",
   "domain": "Magaca Goobta",
@@ -92,6 +94,7 @@
   "fullname": "Magaca Buuxa",
   "initials": "Xarfaha Hore",
   "invitation-code": "Koodhka Martiqaadka",
+  "just-invited": "Hadda uun ayaa lagugu martiqaaday sabuuraddan",
   "labels": "Calaamado",
   "last-activity": "Hawshii ugu dambaysay",
   "last-modified-at": "Markii ugu dambaysay ee la beddelay",

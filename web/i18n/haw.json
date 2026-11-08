@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "ma luna koho ʻia ala ʻauʻau",
+  "accept": "ʻae",
   "account-locked": "moʻokāki he kemapolalilawa laka ʻia kue i koo manawa hāʻule ʻeʻe nā hoʻāʻo. e ʻoluʻolu kalawa hou lakela.",
   "active": "ʻeleu",
   "activities": "Nā hana",
@@ -68,6 +69,7 @@
   "comments": "Nā manaʻo",
   "create-account": "hana moʻokāki",
   "createdAt": "hana ʻia ma",
+  "decline": "kekaline",
   "delete": "Holoi",
   "description": "Wehewehe",
   "domain": "komaina",
@@ -92,6 +94,7 @@
   "fullname": "pulala inoa",
   "initials": "inikialaka",
   "invitation-code": "inalikakiona koke",
+  "just-invited": "ʻoe he kukaka inalikeka i kēia papa",
   "labels": "Nā lepili",
   "last-activity": "hana hope",
   "last-modified-at": "hope mokipieka ma",

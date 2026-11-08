@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Seçilmiş üzgüçülük xəttinin üstündə",
+  "accept": "Qəbul edin",
   "account-locked": "Hesab çoxlu uğursuz giriş cəhdləri səbəbindən müvəqqəti olaraq kilidlənib. Daha sonra yenidən cəhd edin.",
   "active": "Aktiv",
   "activities": "Fəaliyyətlər",
@@ -68,6 +69,7 @@
   "comments": "Şərhlər",
   "create-account": "Hesab yaradın",
   "createdAt": "Yaradılıb",
+  "decline": "Rədd olun",
   "delete": "Sil",
   "description": "Təsvir",
   "domain": "Domen",
@@ -92,6 +94,7 @@
   "fullname": "Tam adı",
   "initials": "Baş hərflər",
   "invitation-code": "Dəvət kodu",
+  "just-invited": "Siz sadəcə bu lövhəyə dəvətlisiniz",
   "labels": "Etiketlər",
   "last-activity": "Son fəaliyyət",
   "last-modified-at": "Sonuncu dəfə dəyişdirilib",

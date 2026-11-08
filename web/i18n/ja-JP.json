@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "選択したスイムレーンの上",
+  "accept": "受け入れ",
   "account-locked": "ログイン失敗が多すぎるため、アカウントは一時的にロックされています。しばらくしてから再度お試しください。",
   "active": "有効状態",
   "activities": "アクティビティ",
@@ -68,6 +69,7 @@
   "comments": "コメント",
   "create-account": "アカウントを作成",
   "createdAt": "作成日時",
+  "decline": "拒否",
   "delete": "削除",
   "description": "詳細",
   "domain": "ドメイン",
@@ -92,6 +94,7 @@
   "fullname": "フルネーム",
   "initials": "イニシャル",
   "invitation-code": "招待コード",
+  "just-invited": "このボードのメンバーに招待されています",
   "labels": "ラベル",
   "last-activity": "最終アクティビティ",
   "last-modified-at": "最終更新",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "A saman layin iyo da aka zaɓa",
+  "accept": "Karɓa",
   "account-locked": "An kulle asusu na ɗan lokaci saboda yawan gazawar ƙoƙarin shiga. Da fatan a sake gwadawa daga baya.",
   "active": "Mai aiki",
   "activities": "Ayyuka",
@@ -68,6 +69,7 @@
   "comments": "Sharhuna",
   "create-account": "Ƙirƙiri asusu",
   "createdAt": "An ƙirƙira a",
+  "decline": "Ƙi",
   "delete": "Share",
   "description": "Bayani",
   "domain": "Yanki",
@@ -92,6 +94,7 @@
   "fullname": "Cikakken suna",
   "initials": "Haruffan farko",
   "invitation-code": "Lambar gayyata",
+  "just-invited": "Yanzu aka gayyace ka zuwa wannan allo",
   "labels": "Alamomi",
   "last-activity": "Aiki na ƙarshe",
   "last-modified-at": "An gyara na ƙarshe a",

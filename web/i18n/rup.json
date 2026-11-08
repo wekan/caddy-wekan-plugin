@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Nsus di calea aleaptã",
+  "accept": "Aprochi",
   "account-locked": "Contul easti blocat ti niheam cã s-featsirã multi probi di intrari fãrã suxes. Ti pãlãcãrsescu, caftã diznou ma nãpoi.",
   "active": "Attivo",
   "activities": "Activitãts",
@@ -68,6 +69,7 @@
   "comments": "Comentarii",
   "create-account": "Adarã cont",
   "createdAt": "Adrat la",
+  "decline": "Arucã",
   "delete": "Ashteardzi",
   "description": "Discriiri",
   "domain": "Domeniu",
@@ -92,6 +94,7 @@
   "fullname": "Numã ntreagã",
   "initials": "Initsiali",
   "invitation-code": "Codicu di invitatsii",
+  "just-invited": "Fushi apoa invitat la aesta tabelã",
   "labels": "Etichete",
   "last-activity": "Activitatea dit soni",
   "last-modified-at": "Alãxitã dit soni la",

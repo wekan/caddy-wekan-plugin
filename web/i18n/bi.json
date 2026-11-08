@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Antap long swimlane we yu jusum",
+  "accept": "Akseptem",
   "account-locked": "Oli lokem akaon smoltaem from oli traem go insaed plante taem tumas we i no wok. Plis traem bakegen biaen.",
   "active": "I stap wok",
   "activities": "Ol wok",
@@ -68,6 +69,7 @@
   "comments": "Ol toktok",
   "create-account": "Mekem Akaon",
   "createdAt": "Mekem finis long",
+  "decline": "No akseptem",
   "delete": "Diletem",
   "description": "Stori",
   "domain": "Domen",
@@ -92,6 +94,7 @@
   "fullname": "Ful Nem",
   "initials": "Ol fas leta blong nem",
   "invitation-code": "Kod blong invetesen",
+  "just-invited": "Oli jes singaot yu long bod ia",
   "labels": "Ol mak",
   "last-activity": "Las wok",
   "last-modified-at": "Las taem oli jenisim long",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ha igbaw han napili nga swimlane",
+  "accept": "Dawaton",
   "account-locked": "Temporaryo nga naka-lock an account tungod han sobra kadamu nga napakyas nga pagsulod. Alayon sarihi utro ha urhi.",
   "active": "Aktibo",
   "activities": "Mga Aktibidad",
@@ -68,6 +69,7 @@
   "comments": "Mga Komento",
   "create-account": "Maghimo hin Account",
   "createdAt": "Ginhimo han",
+  "decline": "Igdumili",
   "delete": "Pagpara",
   "description": "Deskripsyon",
   "domain": "Dominyo",
@@ -92,6 +94,7 @@
   "fullname": "Bug-os nga Ngaran",
   "initials": "Mga Inisyal",
   "invitation-code": "Kodigo han Imbitasyon",
+  "just-invited": "Karuruyag ka pa la gin-imbitar hini nga board",
   "labels": "Mga Label",
   "last-activity": "Ultimo nga aktibidad",
   "last-modified-at": "Ultimo nga ginbag-o han",

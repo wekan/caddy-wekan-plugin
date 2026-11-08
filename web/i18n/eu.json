@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Hautatutako errailaren gainean",
+  "accept": "Ados",
   "account-locked": "Kontua aldi baterako blokeatuta dago saio-hasiera huts gehiegi izan direlako. Mesedez, saiatu berriro geroago.",
   "active": "Gaituta",
   "activities": "Jarduerak",
@@ -68,6 +69,7 @@
   "comments": "Iruzkinak",
   "create-account": "Sortu kontua",
   "createdAt": "Noiz sortua",
+  "decline": "Ukatu",
   "delete": "Ezabatu",
   "description": "Deskripzioa",
   "domain": "Domeinua",
@@ -92,6 +94,7 @@
   "fullname": "Izen abizenak",
   "initials": "Inizialak",
   "invitation-code": "Gonbidapen kodea",
+  "just-invited": "Arbel honetara gonbidatu berri zaituzte",
   "labels": "Etiketak",
   "last-activity": "Azken jarduera",
   "last-modified-at": "Azken aldaketa",

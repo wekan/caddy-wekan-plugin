@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Sopra la swimlane selezioneta",
+  "accept": "Acete",
   "account-locked": "L'account è temporisneamente bloccato a causa di troppi tentativi di accesso falliti. Riprova più tardi.",
   "active": "Atîf",
   "activities": "Ativitâts",
@@ -68,6 +69,7 @@
   "comments": "Coments",
   "create-account": "Cree account",
   "createdAt": "Creeto alle",
+  "decline": "Refude",
   "delete": "Elimine",
   "description": "Descrizion",
   "domain": "Domini",
@@ -92,6 +94,7 @@
   "fullname": "Non complet",
   "initials": "Iniziâls",
   "invitation-code": "Codiç di invît",
+  "just-invited": "Sei stato appena invitato a cheste taule",
   "labels": "Etichetis",
   "last-activity": "Ultima ativitât",
   "last-modified-at": "Ultima modifiche il",

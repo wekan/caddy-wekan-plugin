@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Super la elektita naĝlinio",
+  "accept": "Akcepti",
   "account-locked": "La konto estas provizore ŝlosita pro tro multaj malsukcesaj ensalutprovoj. Bonvolu reprovi poste.",
   "active": "Aktiva",
   "activities": "Aktivaĵoj",
@@ -68,6 +69,7 @@
   "comments": "Komentoj",
   "create-account": "Krei konton",
   "createdAt": "Kreita je",
+  "decline": "Malakcepti",
   "delete": "Forigi",
   "description": "Priskribo",
   "domain": "Domajno",
@@ -92,6 +94,7 @@
   "fullname": "Plena nomo",
   "initials": "Inicialoj",
   "invitation-code": "Invitkodo",
+  "just-invited": "Vi ĵus estas invitita al ĉi tiu tabulo",
   "labels": "Etikedoj",
   "last-activity": "Lasta aktivaĵo",
   "last-modified-at": "Laste modifita je",

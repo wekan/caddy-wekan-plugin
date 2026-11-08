@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Dow laawol cuɓaangol",
+  "accept": "Jaɓ",
   "account-locked": "Konte ɗee sokaama seeɗa sabu etorɗe ceŋagol wooruɗe keewɗe. Tiiɗno eto kadi caggal.",
   "active": "Ina hurmi",
   "activities": "Golle",
@@ -68,6 +69,7 @@
   "comments": "Yowe",
   "create-account": "Sos konte",
   "createdAt": "Sosaa ko",
+  "decline": "Salo",
   "delete": "Momtu",
   "description": "Sifaa",
   "domain": "Domen",
@@ -92,6 +94,7 @@
   "fullname": "Innde timmunde",
   "initials": "Alkule arane",
   "invitation-code": "Kod noddaango",
+  "just-invited": "A noddaama jooni tan to alluwal ngal",
   "labels": "Maandeeji",
   "last-activity": "Golle sakkitiinde",
   "last-modified-at": "Waylaa sakket ko",

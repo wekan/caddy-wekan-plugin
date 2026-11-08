@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Fa godimo e tlhophilwe tsela",
+  "accept": "Amogela",
   "account-locked": "Akhaonto ke temporarily e notletswe bofelo go le gone dintsi paletswe go tsena attempts. Tsweetswee try gape later.",
   "active": "E e dirang",
   "activities": "Ditiragalo",
@@ -68,6 +69,7 @@
   "comments": "Dikakgelo",
   "create-account": "Dira Akhaonto",
   "createdAt": "E dirilwe kwa",
+  "decline": "Gana",
   "delete": "Phimola",
   "description": "Tlhaloso",
   "domain": "Lefelo la inthanete",
@@ -92,6 +94,7 @@
   "fullname": "Leina le le feletseng",
   "initials": "Tshedimosetso: Initials",
   "invitation-code": "Taletso Khoutu",
+  "just-invited": "Wena di just invited go ya mo botong eno",
   "labels": "Ditshwao",
   "last-activity": "Bofelo tiragalo",
   "last-modified-at": "Bofelo e fetotswe kwa",

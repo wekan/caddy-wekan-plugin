@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Tape ojeporavóva ári",
+  "accept": "Moneĩ",
   "account-locked": "Mba'ete ojejoko sapy'a heta jeike osẽvaíva rupi. Eñeha'ãjey ag̃ave.",
   "active": "Hendy",
   "activities": "Tembiapokuéra",
@@ -68,6 +69,7 @@
   "comments": "Je'ekuéra",
   "create-account": "Ejapo mba'ete",
   "createdAt": "Ojejapo ára",
+  "decline": "Embotove",
   "delete": "Mboguete",
   "description": "Ñemombe'u",
   "domain": "Tenda réra",
@@ -92,6 +94,7 @@
   "fullname": "Téra ha terajoapy",
   "initials": "Tai ñepyrũ",
   "invitation-code": "Ñepepirũ ayvu",
+  "just-invited": "Nde ramoite reñepepirũ ko peteĩchápe",
   "labels": "Techaukaha",
   "last-activity": "Tembiapo paha",
   "last-modified-at": "Oñemoambue paha",

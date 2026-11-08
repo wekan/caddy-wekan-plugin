@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ehenhla ka ndlela leyi hlawuriweke",
+  "accept": "amukela",
   "account-locked": "Akhawunti yi pfaleriwile nkarhinyana hikwalaho ka ku ringeta ku nghena ko tala loku tsandzekeke. Hi kombela u ringeta nakambe endzhaku.",
   "active": "Ya tirha",
   "activities": "Mintirho",
@@ -68,6 +69,7 @@
   "comments": "Mimbulavulo",
   "create-account": "endla akhawunti",
   "createdAt": "endliwile mhaka",
+  "decline": "Ala",
   "delete": "Susa",
   "description": "Nhlamuselo",
   "domain": "Domeni",
@@ -92,6 +94,7 @@
   "fullname": "mhaka vito",
   "initials": "Masungulo ya mavito",
   "invitation-code": "Khodi ya xirhambo",
+  "just-invited": "U ha ku rhambiwa eka bodo leyi",
   "labels": "Swikombiso",
   "last-activity": "wo hetelela ntirho",
   "last-modified-at": "Ku cinciwa ko hetelela hi",

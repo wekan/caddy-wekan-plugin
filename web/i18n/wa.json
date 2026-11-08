@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Pa dzeu l' coridôr tchoezi",
+  "accept": "Dire oyi",
   "account-locked": "Li conte est bloké po on tins paski i gn a yeu trop d' sayes d' elodjaedje ki n' ont nén reüssi. Rissayîz pus tård.",
   "active": "En alaedje",
   "activities": "Activite",
@@ -68,6 +69,7 @@
   "comments": "Coments",
   "create-account": "Crèye un cont compte",
   "createdAt": "Créé a",
+  "decline": "Rifuzer",
   "delete": "Disfacer",
   "description": "Discrijhaedje",
   "domain": "Dominne",
@@ -92,6 +94,7 @@
   "fullname": "No etir",
   "initials": "Prumires letes",
   "invitation-code": "Côde d' invitåcion",
+  "just-invited": "Vos avoz seulmint ene invitåcion po ci tåvlea ci",
   "labels": "Etiketes",
   "last-activity": "Derriére activité",
   "last-modified-at": "Derriére modifiye a",

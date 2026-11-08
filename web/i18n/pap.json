@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ensima di e kaminda selecsionado",
+  "accept": "Akseptá",
   "account-locked": "E kuenta ta blokeada temporalmente debido na demasiados intentos di kuminsamentu di sesión fayidos. Pa fabor inténtalo di nobo mas tarde.",
   "active": "Actibo",
   "activities": "Aktividatnan",
@@ -68,6 +69,7 @@
   "comments": "Komentarionan",
   "create-account": "Krea kuenta",
   "createdAt": "Fecha di alta",
+  "decline": "Declinar",
   "delete": "Kita",
   "description": "Deskripshon",
   "domain": "Dominio",
@@ -92,6 +94,7 @@
   "fullname": "Nòmber completo",
   "initials": "Inisiales",
   "invitation-code": "Código di Inbitashon",
+  "just-invited": "Has sido inbitado na e tabla",
   "labels": "Etiketanan",
   "last-activity": "Última aktibidat",
   "last-modified-at": "Última modificashon",

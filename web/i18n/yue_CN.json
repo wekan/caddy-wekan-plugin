@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "以上所選泳道",
+  "accept": "接受",
   "account-locked": "由於登入嘗試失敗次數過多，帳戶被暫時鎖定。請稍後重試。",
   "active": "積極的",
   "activities": "活動",
@@ -68,6 +69,7 @@
   "comments": "評論",
   "create-account": "建立帳戶",
   "createdAt": "創建於",
+  "decline": "衰退",
   "delete": "刪除",
   "description": "描述",
   "domain": "域",
@@ -92,6 +94,7 @@
   "fullname": "姓名",
   "initials": "縮寫",
   "invitation-code": "邀請碼",
+  "just-invited": "您剛剛被邀請加入此論壇",
   "labels": "標籤",
   "last-activity": "上次活動",
   "last-modified-at": "最後修改於",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "فوق المسار المحدد",
+  "accept": "قبول",
   "account-locked": "الحساب مقفل مؤقتاً بسبب عدد كبير جداً من محاولات تسجيل الدخول الفاشلة. يُرجى المحاولة مرة أخرى لاحقاً.",
   "active": "نشط",
   "activities": "الأنشطة",
@@ -68,6 +69,7 @@
   "comments": "تعليقات",
   "create-account": "إنشاء حساب",
   "createdAt": "تاريخ الإنشاء",
+  "decline": "رد",
   "delete": "حذف",
   "description": "وصف",
   "domain": "النطاق",
@@ -92,6 +94,7 @@
   "fullname": "الإسم الكامل",
   "initials": "أولية",
   "invitation-code": "رمز الدعوة",
+  "just-invited": "لقد دُعيت للتو إلى هذه اللوحة",
   "labels": "علامات",
   "last-activity": "آخر نشاط",
   "last-modified-at": "تاريخ آخر تعديل",

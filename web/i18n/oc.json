@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Al dessús del corredor seleccionat",
+  "accept": "Acceptar",
   "account-locked": "Lo compte es blocat temporàriament per tròp d'ensages de connexion fracassats. Tornatz ensajar pus tard.",
   "active": "Avtivat",
   "activities": "Activitats",
@@ -68,6 +69,7 @@
   "comments": "Comentaris",
   "create-account": "Crear un compte",
   "createdAt": "Creat lo",
+  "decline": "Refusar",
   "delete": "Suprimir",
   "description": "Descripcion",
   "domain": "Domeni",
@@ -92,6 +94,7 @@
   "fullname": "Nom complèt",
   "initials": "Iniciala",
   "invitation-code": "Còde de convit",
+  "just-invited": "Sètz just convidat dins aqueste tablèu",
   "labels": "Etiquetas",
   "last-activity": "Darrèra activitat",
   "last-modified-at": "Darrèra modificacó lo",

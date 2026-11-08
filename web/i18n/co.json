@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Sopra à a corsia scelta",
+  "accept": "Accettà",
   "account-locked": "U contu hè bluccatu tempuraneamente per via di troppu tentativi di cunnessione fiascati. Pruvate torna più tardi.",
   "active": "Attivu",
   "activities": "Attività",
@@ -68,6 +69,7 @@
   "comments": "Cummenti",
   "create-account": "Creà un contu",
   "createdAt": "Creatu u",
+  "decline": "Rifusà",
   "delete": "Squassà",
   "description": "Descrizzione",
   "domain": "Duminiu",
@@ -92,6 +94,7 @@
   "fullname": "Nome cumpletu",
   "initials": "Iniziali",
   "invitation-code": "Codice d’invitu",
+  "just-invited": "Site statu invitatu avà à sta tavula",
   "labels": "Etichette",
   "last-activity": "Ultima attività",
   "last-modified-at": "Ultima mudificazione u",

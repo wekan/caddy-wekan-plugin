@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Au-dessus du couloir sélectionné",
+  "accept": "Accepter",
   "account-locked": "Le compte est temporairement verrouillé en raison de trop de tentatives de connexion échouées. Veuillez réessayer plus tard.",
   "active": "Actif",
   "activities": "Activités",
@@ -68,6 +69,7 @@
   "comments": "Commentaires",
   "create-account": "Créer un compte",
   "createdAt": "Créé le",
+  "decline": "Refuser",
   "delete": "Supprimer",
   "description": "Texte descriptif",
   "domain": "Domaine",
@@ -92,6 +94,7 @@
   "fullname": "Nom complet",
   "initials": "Initiales",
   "invitation-code": "Code d'invitation",
+  "just-invited": "Vous venez d'être invité à ce tableau",
   "labels": "Étiquettes",
   "last-activity": "Dernière activité",
   "last-modified-at": "Dernière modification le",

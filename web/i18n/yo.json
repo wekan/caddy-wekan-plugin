@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Loke ti a ti yan swimlane",
+  "accept": "Gba",
   "account-locked": "Akọọlẹ ti wa ni titiipa fun igba diẹ nitori ọpọlọpọ awọn igbiyanju iwọle ti kuna. Jọwọ gbiyanju lẹẹkansi nigbamii.",
   "active": "Ti nṣiṣe lọwọ",
   "activities": "Awọn iṣẹ ṣiṣe",
@@ -68,6 +69,7 @@
   "comments": "Awọn ọrọìwòye",
   "create-account": "Se akanti fun ra re",
   "createdAt": "Ti a ṣẹda ni",
+  "decline": "Kọ silẹ",
   "delete": "Paarẹ",
   "description": "Apejuwe",
   "domain": "Ibugbe",
@@ -92,6 +94,7 @@
   "fullname": "Akokun Oruko",
   "initials": "Awọn ibẹrẹ",
   "invitation-code": "koodu ifiwepe",
+  "just-invited": "O kan pe si igbimọ yii",
   "labels": "Awọn akole",
   "last-activity": "kẹhin aṣayan iṣẹ-ṣiṣe",
   "last-modified-at": "Last títúnṣe ni",

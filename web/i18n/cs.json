@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Nad vybranou dráhou",
+  "accept": "Přijmout",
   "account-locked": "Účet je dočasně uzamčen kvůli příliš mnoha neúspěšným pokusům o přihlášení. Zkuste to prosím později.",
   "active": "Aktivní",
   "activities": "Aktivity",
@@ -68,6 +69,7 @@
   "comments": "Komentáře",
   "create-account": "Vytvořit účet",
   "createdAt": "Vytvořeno v",
+  "decline": "Zamítnout",
   "delete": "Smazat",
   "description": "Popis",
   "domain": "Doména",
@@ -92,6 +94,7 @@
   "fullname": "Celé jméno",
   "initials": "Iniciály",
   "invitation-code": "Kód pozvánky",
+  "just-invited": "Právě jsi byl pozván(a) do tohoto tabla",
   "labels": "Štítky",
   "last-activity": "Poslední aktivita",
   "last-modified-at": "Naposledy změněno",

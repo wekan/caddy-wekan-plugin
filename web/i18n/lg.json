@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Above kilondeddwa akakubo",
+  "accept": "Kkiriza",
   "account-locked": "Akaawunti kiri temporarily kisibiddwa due eri too many kiremye okuyingira attempts. Please try again later.",
   "active": "Kikola",
   "activities": "Emirimu",
@@ -68,6 +69,7 @@
   "comments": "Endowooza",
   "create-account": "Tonda Akaawunti",
   "createdAt": "kyatondebwa nga",
+  "decline": "Gaana",
   "delete": "Sazaamu",
   "description": "Ennyonyola",
   "domain": "Ekitundu ky'omukutu",
@@ -92,6 +94,7 @@
   "fullname": "Kijjudde Linnya",
   "initials": "Ennukuta ezisooka",
   "invitation-code": "Okuyita Code",
+  "just-invited": "Ggwe biri just invited eri kino lubaawo",
   "labels": "Obubonero",
   "last-activity": "Kisembayo omulimu",
   "last-modified-at": "kyasemba okukyusibwa ku",

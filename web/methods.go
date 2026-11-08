@@ -38,6 +38,9 @@ func (s *Server) methods() map[string]methodFunc {
 		"moveList":              s.methodMoveList,
 		"/card_comments/insert": s.methodInsertComment,
 		"sendInvitation":        s.methodSendInvitation,
+		"acceptInvite":          s.methodAcceptInvite,
+		"quitBoard":             s.methodQuitBoard,
+		"/users/update":         s.methodUpdateUser,
 	}
 }
 

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "以上所选泳道",
+  "accept": "接受",
   "account-locked": "由于登录尝试失败次数过多，帐户被暂时锁定。请稍后重试。",
   "active": "积极的",
   "activities": "活动",
@@ -68,6 +69,7 @@
   "comments": "评论",
   "create-account": "创建账户",
   "createdAt": "创建于",
+  "decline": "衰退",
   "delete": "删除",
   "description": "描述",
   "domain": "域",
@@ -92,6 +94,7 @@
   "fullname": "姓名",
   "initials": "缩写",
   "invitation-code": "邀请码",
+  "just-invited": "您刚刚被邀请加入此论坛",
   "labels": "标签",
   "last-activity": "上次活动",
   "last-modified-at": "最后修改于",

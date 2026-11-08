@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "د ټاکل شوې کرښې پورته",
+  "accept": "منل",
   "account-locked": "ګڼون د ډېرو ناکامو ننوتلو هڅو له امله لنډمهاله بند دی. مهرباني وکړئ وروسته بيا هڅه وکړئ.",
   "active": "فعال",
   "activities": "فعاليتونه",
@@ -68,6 +69,7 @@
   "comments": "تبصرې",
   "create-account": "ګڼون جوړ کړئ",
   "createdAt": "د جوړېدو وخت",
+  "decline": "ردول",
   "delete": "ړنګول",
   "description": "تشريح",
   "domain": "ډومېن",
@@ -92,6 +94,7 @@
   "fullname": "بشپړ نوم",
   "initials": "لومړني توري",
   "invitation-code": "د بلنې کوډ",
+  "just-invited": "تاسو همدا اوس دې تختې ته رابلل شوي ياست",
   "labels": "نښې",
   "last-activity": "وروستی فعاليت",
   "last-modified-at": "د وروستي بدلون وخت",

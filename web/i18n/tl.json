@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Above napili daan",
+  "accept": "Tanggapin",
   "account-locked": "Account ay temporarily locked takda sa too many nabigo mag-login mga pagtatangka. Please try again mamaya.",
   "active": "Aktibo",
   "activities": "Mga aktibidad",
@@ -68,6 +69,7 @@
   "comments": "Mga komento",
   "create-account": "Gumawa Account",
   "createdAt": "Ginawa sa",
+  "decline": "Tanggihan",
   "delete": "Burahin",
   "description": "Paglalarawan",
   "domain": "Sakop",
@@ -92,6 +94,7 @@
   "fullname": "Full Pangalan",
   "initials": "Mga inisyal",
   "invitation-code": "Imbitasyon Kodigo",
+  "just-invited": "Ikaw ay just invited sa ito pisara",
   "labels": "Mga etiketa",
   "last-activity": "Huli aktibidad",
   "last-modified-at": "Huli binago sa",

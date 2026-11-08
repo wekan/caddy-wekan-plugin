@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Above zvasarudzwa mukoto",
+  "accept": "gamuchira",
   "account-locked": "akaundi iri temporarily locked due ku too many failed login attempts. Please try zvakare later.",
   "active": "Zviri kushanda",
   "activities": "Zviitiko",
@@ -68,6 +69,7 @@
   "comments": "Mhinduro",
   "create-account": "gadzira akaundi",
   "createdAt": "zvagadzirwa pa",
+  "decline": "Ramba",
   "delete": "Dzima",
   "description": "Tsanangudzo",
   "domain": "Domeni",
@@ -92,6 +94,7 @@
   "fullname": "Full zita",
   "initials": "Mavara ekutanga emazita",
   "invitation-code": "Kodhi yekukoka",
+  "just-invited": "You vari just invited ku bhodhi iri",
   "labels": "Mareberu",
   "last-activity": "yekupedzisira chiitiko",
   "last-modified-at": "yekupedzisira modified pa",

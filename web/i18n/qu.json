@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Akllasqa ñanpa hawanpi",
+  "accept": "Chaskiy",
   "account-locked": "Achka pantasqa yaykuy munasqakunarayku yupayqa kunanpaq wichqasqam. Ama hina kaspa qhipata wakmanta munay.",
   "active": "Llamk'achkan",
   "activities": "Ruraykuna",
@@ -68,6 +69,7 @@
   "comments": "Rimaykuna",
   "create-account": "Yupayta kamay",
   "createdAt": "Kamasqa kaq pacha",
+  "decline": "Mana chaskiy",
   "delete": "Pichay",
   "description": "Willakuy",
   "domain": "Dominio",
@@ -92,6 +94,7 @@
   "fullname": "Hunt'a suti",
   "initials": "Qallariq sanampakuna",
   "invitation-code": "Invitay kikinchay",
+  "just-invited": "Kunallan kay pirqaman minkasqa kanki",
   "labels": "Unanchakuna",
   "last-activity": "Qhipa ruray",
   "last-modified-at": "Qhipa tikrasqa pacha",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Phía trên làn ngang đã chọn",
+  "accept": "Chấp nhận",
   "account-locked": "Tài khoản tạm thời bị khóa do quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau.",
   "active": "Hoạt động",
   "activities": "Hoạt Động",
@@ -68,6 +69,7 @@
   "comments": "Komen",
   "create-account": "Tạo tài khoản",
   "createdAt": "Được tạo lúc",
+  "decline": "Từ chối",
   "delete": "Xoá",
   "description": "Mô tả",
   "domain": "Tên miền",
@@ -92,6 +94,7 @@
   "fullname": "Họ và tên",
   "initials": "Tên viết tắt",
   "invitation-code": "Mã lời mời",
+  "just-invited": "Bạn vừa được mời vào bảng này",
   "labels": "Nhãn",
   "last-activity": "Hoạt động cuối",
   "last-modified-at": "Sửa đổi lần cuối lúc",

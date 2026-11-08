@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "מעל למסלול הנבחר",
+  "accept": "אישור",
   "account-locked": "החשבון נעול זמנית עקב יותר מדי ניסיונות גישה כושלים. נא לנסות שוב מאוחר יותר.",
   "active": "פעיל",
   "activities": "פעילויות",
@@ -68,6 +69,7 @@
   "comments": "הערות",
   "create-account": "יצירת חשבון",
   "createdAt": "נוצר ב",
+  "decline": "סירוב",
   "delete": "מחיקה",
   "description": "תיאור",
   "domain": "שם תחום",
@@ -92,6 +94,7 @@
   "fullname": "שם מלא",
   "initials": "ראשי תיבות",
   "invitation-code": "קוד הזמנה",
+  "just-invited": "הוזמנת ללוח זה",
   "labels": "תוויות",
   "last-activity": "פעילות אחרונה",
   "last-modified-at": "שינוי אחרון ב־",

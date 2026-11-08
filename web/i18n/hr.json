@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Iznad odabrane trake",
+  "accept": "Prihvati",
   "account-locked": "Račun je privremeno zaključan zbog previše neuspjelih pokušaja prijave. Pokušajte ponovno kasnije.",
   "active": "Aktivno",
   "activities": "Aktivnosti",
@@ -68,6 +69,7 @@
   "comments": "Komentari",
   "create-account": "Izradi račun",
   "createdAt": "Stvoreno",
+  "decline": "Odustani",
   "delete": "Obriši",
   "description": "Opis",
   "domain": "Domena",
@@ -92,6 +94,7 @@
   "fullname": "Puno ime",
   "initials": "Inicijali",
   "invitation-code": "Kod pozivnice",
+  "just-invited": "Upravo ste pozvani na ovu ploču",
   "labels": "Oznake",
   "last-activity": "Posljednja aktivnost",
   "last-modified-at": "Posljednja izmjena",

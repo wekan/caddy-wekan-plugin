@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Sopra la swimlane scegghita",
+  "accept": "Accetta",
   "account-locked": "L'account è temporaneamenti bloccato a causa di troppi tentativi di accesso falliti. Riprova più tardi.",
   "active": "Attivo",
   "activities": "Attività",
@@ -68,6 +69,7 @@
   "comments": "Cummenti",
   "create-account": "Crea account",
   "createdAt": "Creato alle",
+  "decline": "Rifiuta",
   "delete": "Cancillari",
   "description": "Discrizzioni",
   "domain": "Dominio",
@@ -92,6 +94,7 @@
   "fullname": "Nomu completo",
   "initials": "Iniziali",
   "invitation-code": "Codice d'invito",
+  "just-invited": "Sei stato appena invitato a chista tàvula",
   "labels": "Etichetti",
   "last-activity": "Ultima attivitati",
   "last-modified-at": "Ultima cancia il",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "निवडिल्ल्या मार्गाच्या वयर",
+  "accept": "स्वीकारात",
   "account-locked": "खूब असफळ प्रवेश यत्नांमुळे खात्याक तात्पुरतें कुलूप लायलां. उपरांत परत यत्न करात.",
   "active": "सक्रिय",
   "activities": "कारवायो",
@@ -68,6 +69,7 @@
   "comments": "टिप्पण्यो",
   "create-account": "खातें तयार करात",
   "createdAt": "तयार केल्लें",
+  "decline": "नाकारात",
   "delete": "काडचें",
   "description": "विवरण",
   "domain": "डोमेन",
@@ -92,6 +94,7 @@
   "fullname": "पुराय नांव",
   "initials": "आद्याक्षरां",
   "invitation-code": "आमंत्रण संकेत",
+  "just-invited": "तुमकां आतांच ह्या फळ्याक आमंत्रण दिलां",
   "labels": "लेबलां",
   "last-activity": "निमाणी कृती",
   "last-modified-at": "निमाणो बदल",

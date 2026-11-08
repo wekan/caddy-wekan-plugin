@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Karaa filatame gubbaa",
+  "accept": "Fudhu",
   "account-locked": "Yaalii seensaa kufaa baay’ee irraa kan ka’e herregichi yeroo muraasaaf cufameera. Maaloo booda irra deebi’ii yaali.",
   "active": "Sochii irra jira",
   "activities": "Sochiiwwan",
@@ -68,6 +69,7 @@
   "comments": "Yaadota",
   "create-account": "Herrega Uumi",
   "createdAt": "Kan uumame",
+  "decline": "Didi",
   "delete": "Haqi",
   "description": "Ibsa",
   "domain": "Domeenii",
@@ -92,6 +94,7 @@
   "fullname": "Maqaa Guutuu",
   "initials": "Qubee jalqabaa",
   "invitation-code": "Koodii Affeerraa",
+  "just-invited": "Amma qofa gara gabatee kanaatti affeeramteetta",
   "labels": "Mallattoowwan",
   "last-activity": "Sochii dhumaa",
   "last-modified-at": "Yeroo dhumaa jijjiirame",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ngaphezulu kwe-swimlane ekhethiwe",
+  "accept": "Yamukela",
   "account-locked": "I-akhawunti ikhiyiwe okwesikhashana ngenxa yemizamo eminingi ehlulekile yokungena ngemvume. Sicela uzame futhi emuva kwesikhathi.",
   "active": "Iyasebenza",
   "activities": "Imisebenzi",
@@ -68,6 +69,7 @@
   "comments": "Amazwana",
   "create-account": "Yenza i-akhawunti",
   "createdAt": "Idalwe ngo-",
+  "decline": "Yenqaba",
   "delete": "Susa",
   "description": "Incazelo",
   "domain": "Isizinda",
@@ -92,6 +94,7 @@
   "fullname": "Igama eligcwele",
   "initials": "Ezokuqala",
   "invitation-code": "Ikhodi Yesimemo",
+  "just-invited": "Usanda kumenywa kuleli bhodi",
   "labels": "Amalebula",
   "last-activity": "Umsebenzi wokugcina",
   "last-modified-at": "Kugcine ukulungiswa ngo-",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ambonin'ny lalana voafidy",
+  "accept": "Ekeo",
   "account-locked": "Voahidy vetivety ny kaonty noho ny fanandramana fidirana tsy nahomby be loatra. Andramo indray afaka kelikely.",
   "active": "Mavitrika",
   "activities": "Hetsika",
@@ -68,6 +69,7 @@
   "comments": "Fanamarihana",
   "create-account": "Mamorona kaonty",
   "createdAt": "Noforonina tamin'ny",
+  "decline": "Lavio",
   "delete": "Hamafa",
   "description": "Famaritana",
   "domain": "Sehatra",
@@ -92,6 +94,7 @@
   "fullname": "Anarana feno",
   "initials": "Litera voalohany",
   "invitation-code": "Kaodin'ny fanasana",
+  "just-invited": "Vao nasaina ho amin'ity solaitra ity ianao",
   "labels": "Marika",
   "last-activity": "Hetsika farany",
   "last-modified-at": "Novaina farany tamin'ny",

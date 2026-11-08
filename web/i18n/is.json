@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Fyrir ofan valda sundbraut",
+  "accept": "Samþykkja",
   "account-locked": "Aðgangurinn er tímabundið læstur vegna of margra misheppnaðra innskráningartilrauna. Reyndu aftur síðar.",
   "active": "Virkt",
   "activities": "Virkni",
@@ -68,6 +69,7 @@
   "comments": "Athugasemdir",
   "create-account": "Stofna aðgang",
   "createdAt": "Stofnað",
+  "decline": "Hafna",
   "delete": "Eyða",
   "description": "Lýsing",
   "domain": "Lén",
@@ -92,6 +94,7 @@
   "fullname": "Fullt nafn",
   "initials": "Upphafsstafir",
   "invitation-code": "Boðskóði",
+  "just-invited": "Þér var rétt í þessu boðið á þessa töflu",
   "labels": "Merki",
   "last-activity": "Síðasta virkni",
   "last-modified-at": "Síðast breytt",

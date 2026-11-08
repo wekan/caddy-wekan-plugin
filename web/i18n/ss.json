@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Ngetulu kwemzila lokhetsiwe",
+  "accept": "Yemukela",
   "account-locked": "I-akhawunti ikhiywe kwesikhashana ngenca yemetamo leminyenti yekungena leyehlulekile. Uyacelwa uphindze wetame ngekuhamba kwesikhatsi.",
   "active": "Kuyasebenta",
   "activities": "Imisebenti",
@@ -68,6 +69,7 @@
   "comments": "Imibono",
   "create-account": "Yakha i-akhawunti",
   "createdAt": "Kudalwe nga",
+  "decline": "Yala",
   "delete": "Susa",
   "description": "Inchazelo",
   "domain": "Indzawo ye-inthanethi",
@@ -92,6 +94,7 @@
   "fullname": "Ligama Leliphelele",
   "initials": "Tinhlavu Tekucala",
   "invitation-code": "Ikhodi Yesimemo",
+  "just-invited": "Usandza kumenywa kulelibhodi",
   "labels": "Emalebula",
   "last-activity": "Umsebenti wekugcina",
   "last-modified-at": "Kugcine kushintjwa nga",

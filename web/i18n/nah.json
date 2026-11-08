@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Tlacpac itech ohtli tlaixpehpenalli",
+  "accept": "Xicseli",
   "account-locked": "Tlapohualiztli tzacua tepitzin ipampa miyac amo huelic calaquiliztli tlayeyecoliztin. Xicyeyeco occepa satepan.",
   "active": "Tequiti",
   "activities": "Tequitiliztli",
@@ -68,6 +69,7 @@
   "comments": "Tlahtolpehualiztin",
   "create-account": "Xicchihua tlapohualiztli",
   "createdAt": "Tlachihualoc ipan",
+  "decline": "Amo xicseli",
   "delete": "Xicpolo",
   "description": "Tlahtolli",
   "domain": "Tlalnemachiyotl",
@@ -92,6 +94,7 @@
   "fullname": "Cenquizca tocayotl",
   "initials": "Tocayotl achto tlahtoltin",
   "invitation-code": "Notzaliztli machiyotl",
+  "just-invited": "Axcan oticnotzaloc ipan inin huapalli",
   "labels": "Machiotl",
   "last-activity": "Tlamian tequitiliztli",
   "last-modified-at": "Tlamian patlaloc ipan",

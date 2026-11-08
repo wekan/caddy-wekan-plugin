@@ -188,3 +188,137 @@ func (s *Server) acceptInvitation(ctx context.Context, userID string, inv *invit
 		bson.M{"$set": bson.M{"profile.invitedBoards": inv.Boards, "profile.icode": inv.Code}})
 	_, _ = s.db.Collection("invitation_codes").UpdateOne(ctx, bson.M{"_id": inv.ID}, bson.M{"$set": bson.M{"valid": false}})
 }
+
+// methodAcceptInvite is WeKan's acceptInvite (#4730): only a user who holds an
+// invitation to the board makes their member entry active again, and the
+// invitation is spent; for anybody else - a removed member too - it is false.
+func (s *Server) methodAcceptInvite(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	ctx := r.Context()
+	var b Board
+	if !validID(boardID) || s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) != nil {
+		return nil, &methodError{"error-board-doesNotExist", "error-board-doesNotExist"}
+	}
+	if !slices.Contains(u.Profile.InvitedBoards, b.ID) {
+		return false, nil
+	}
+	_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(u.ID)}, bson.M{"$pull": bson.M{"profile.invitedBoards": b.ID}})
+	members := slices.Clone(b.Members)
+	if i := slices.IndexFunc(members, func(m Member) bool { return m.UserID == u.ID }); i >= 0 {
+		members[i].IsActive = true
+		_, _ = s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"members": members, "modifiedAt": time.Now().UTC()}})
+		s.hub.publish(b.ID, "board-changed")
+	}
+	return true, nil
+}
+
+// methodQuitBoard is WeKan's quitBoard - leaving a board, or declining an
+// invitation to it: the invitation is cleared, so a later acceptInvite cannot
+// bring the membership back, and the member entry made inactive - never the
+// board's last active admin. Somebody who is neither gets error-board-notAMember.
+func (s *Server) methodQuitBoard(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	ctx := r.Context()
+	var b Board
+	if !validID(boardID) || s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) != nil {
+		return nil, &methodError{"error-board-doesNotExist", "error-board-doesNotExist"}
+	}
+	invited := slices.Contains(u.Profile.InvitedBoards, b.ID)
+	i := slices.IndexFunc(b.Members, func(m Member) bool { return m.UserID == u.ID })
+	if i < 0 && !invited {
+		return nil, &methodError{"error-board-notAMember", "error-board-notAMember"}
+	}
+	if invited {
+		_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(u.ID)}, bson.M{"$pull": bson.M{"profile.invitedBoards": b.ID}})
+	}
+	if i >= 0 {
+		admins := 0
+		for _, m := range b.Members {
+			if m.IsActive && m.IsAdmin {
+				admins++
+			}
+		}
+		if !b.Members[i].IsAdmin || admins > 1 {
+			members := slices.Clone(b.Members)
+			members[i].IsActive = false
+			_, _ = s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"members": members, "modifiedAt": time.Now().UTC()}})
+			s.hub.publish(b.ID, "board-changed")
+		}
+	}
+	return true, nil
+}
+
+// userUpdateForbidden is WeKan's USER_UPDATE_FORBIDDEN_PREFIXES: what only the
+// server writes - a client may never.
+var userUpdateForbidden = []string{"notificationDeliveryRevision", "notificationDeliveryPending", "profile.invitedBoards",
+	"profile.myDependencies", "profile.notifications", "services", "emails", "roles", "isAdmin", "createdThroughApi", "orgs", "teams",
+	"loginDisabled", "authenticationMethod", "sessionData"}
+
+// methodUpdateUser is the users collection's own /users/update, as WeKan's
+// allow and deny rules let it through (server/permissions/users.js): a user's
+// own document, a $set or $unset of their username or profile, never a field
+// the server writes. A client that changes its invitations is recorded as
+// InviteProfileBleed. Anything refused is the numeric 403 "Access denied".
+func (s *Server) methodUpdateUser(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	denied := &methodError{"403", "Access denied"}
+	var sel struct {
+		ID string `json:"_id"`
+	}
+	var keys map[string]json.RawMessage
+	if len(args) < 2 || json.Unmarshal(args[0], &keys) != nil || len(keys) != 1 || json.Unmarshal(args[0], &sel) != nil || sel.ID != u.ID {
+		return nil, denied
+	}
+	var mod map[string]map[string]any
+	if json.Unmarshal(args[1], &mod) != nil || len(mod) == 0 {
+		return nil, denied
+	}
+	var paths []string
+	for _, fields := range mod {
+		for path := range fields {
+			paths = append(paths, path)
+		}
+	}
+	forbidden := func(path string) bool {
+		return slices.ContainsFunc(userUpdateForbidden, func(p string) bool {
+			return path == p || strings.HasPrefix(path, p+".") || strings.HasPrefix(p, path+".")
+		})
+	}
+	for _, path := range paths {
+		if forbidden(path) {
+			if path == "profile" || path == "profile.invitedBoards" || strings.HasPrefix(path, "profile.invitedBoards.") {
+				s.recordSecurity(r, securityEvent{Key: "authz.invitation-profile", Action: "blocked", Source: "ddp:user-profile",
+					Detail: "Client modification of server-issued board invitations denied."})
+			}
+			return nil, denied
+		}
+	}
+	update := bson.M{}
+	for op, fields := range mod {
+		if op != "$set" && op != "$unset" {
+			return nil, denied
+		}
+		for path, v := range fields {
+			if (path != "username" && path != "modifiedAt" && !strings.HasPrefix(path, "profile.")) || strings.ContainsAny(path, "$\x00") || len(path) > 200 {
+				return nil, denied
+			}
+			if path == "username" {
+				name, _ := v.(string)
+				if op != "$set" || !usernamePattern.MatchString(name) ||
+					s.db.Collection("users").FindOne(r.Context(), bson.M{"username": eq(name), "_id": bson.M{"$ne": u.ID}}).Err() == nil {
+					return nil, denied
+				}
+			}
+		}
+		update[op] = fields
+	}
+	if _, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)}, update); err != nil {
+		return nil, denied
+	}
+	return 1, nil
+}

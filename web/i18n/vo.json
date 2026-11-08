@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Löpü dil horitätik pevälöl",
+  "accept": "Lasumön",
   "account-locked": "Kal pefäilökon nelaidüpo demü steifüls tumödik no peplöpöl ad nunädön oki. Begö! steifülolös dönu poso.",
   "active": "Aktivik",
   "activities": "Dunots",
@@ -68,6 +69,7 @@
   "comments": "Küpets",
   "create-account": "Jafön kali",
   "createdAt": "Pejafon ün",
+  "decline": "Refudön",
   "delete": "Moükön",
   "description": "Bepenam",
   "domain": "Domän",
@@ -92,6 +94,7 @@
   "fullname": "Nem lölöfik",
   "initials": "Primatonats",
   "invitation-code": "Kot vüda",
+  "just-invited": "Pevüdol lü tab at",
   "labels": "Ninädapenäds",
   "last-activity": "Dunot lätik",
   "last-modified-at": "Pevotükon lätiküno ün",

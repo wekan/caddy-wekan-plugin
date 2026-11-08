@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Juu ya swimlane iliyochaguliwa",
+  "accept": "Kubali",
   "account-locked": "Akaunti imefungwa kwa muda kwa sababu ya majaribio mengi sana ya kuingia ambayo hayakufaulu. Tafadhali jaribu tena baadaye.",
   "active": "Inayotumika",
   "activities": "Shughuli",
@@ -68,6 +69,7 @@
   "comments": "Maoni",
   "create-account": "Fungua Akaunti",
   "createdAt": "Imeundwa saa",
+  "decline": "Kataa",
   "delete": "Futa",
   "description": "Maelezo",
   "domain": "Kikoa",
@@ -92,6 +94,7 @@
   "fullname": "Jina Kamili",
   "initials": "Awali",
   "invitation-code": "Msimbo wa Mwaliko",
+  "just-invited": "Umealikwa kwenye bodi hii",
   "labels": "Lebo",
   "last-activity": "Shughuli ya mwisho",
   "last-modified-at": "Ilibadilishwa mwisho saa",

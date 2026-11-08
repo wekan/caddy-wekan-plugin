@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Valitun uimaradan yläpuolelle",
+  "accept": "Hyväksy",
   "account-locked": "Tili on tilapäisesti lukittu liian monen epäonnistuneen kirjautumisyrityksen vuoksi. Yritä myöhemmin uudelleen.",
   "active": "Aktiivinen",
   "activities": "Toimet",
@@ -68,6 +69,7 @@
   "comments": "Kommentit",
   "create-account": "Luo tili",
   "createdAt": "Luotu",
+  "decline": "Kieltäydy",
   "delete": "Poista",
   "description": "Kuvaus",
   "domain": "Verkkotunnus",
@@ -92,6 +94,7 @@
   "fullname": "Koko nimi",
   "initials": "Nimikirjaimet",
   "invitation-code": "Kutsukoodi",
+  "just-invited": "Sinut on juuri kutsuttu tälle taululle",
   "labels": "Nimilaput",
   "last-activity": "Viimeisin toiminta",
   "last-modified-at": "Viimeksi muokattu",

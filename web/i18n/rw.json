@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Hejuru y'umurongo wahiswemo",
+  "accept": "Emera",
   "account-locked": "Konti yafunzwe by'agateganyo kubera kugerageza kwinjira kwananiranye kenshi cyane. Nyamuneka wongere ugerageze nyuma.",
   "active": "Birakora",
   "activities": "Ibikorwa",
@@ -68,6 +69,7 @@
   "comments": "Ibitekerezo",
   "create-account": "Kora konti",
   "createdAt": "Byaremwe ku",
+  "decline": "Hakana",
   "delete": "Siba",
   "description": "Ibisobanuro",
   "domain": "Indangarubuga",
@@ -92,6 +94,7 @@
   "fullname": "Izina Ryuzuye",
   "initials": "Inyuguti z'intangiriro",
   "invitation-code": "Kode y'Ubutumire",
+  "just-invited": "Ubu ni bwo utumiwe kuri iki kibaho",
   "labels": "Ibirango",
   "last-activity": "Igikorwa giheruka",
   "last-modified-at": "Igihe biheruka guhindurwa",

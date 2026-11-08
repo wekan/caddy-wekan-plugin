@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "ከተመረጠው የመዋኛ መስመር በላይ",
+  "accept": "ተቀበል",
   "account-locked": "በጣም ብዙ ያልተሳኩ የመግቢያ ሙከራዎች ስለነበሩ መለያው ለጊዜው ተቆልፏል። እባክዎ ቆይተው እንደገና ይሞክሩ።",
   "active": "ንቁ",
   "activities": "እንቅስቃሴዎች",
@@ -68,6 +69,7 @@
   "comments": "አስተያየቶች",
   "create-account": "መለያ ፍጠር",
   "createdAt": "የተፈጠረበት",
+  "decline": "ውድቅ አድርግ",
   "delete": "ሰርዝ",
   "description": "መግለጫ",
   "domain": "ጎራ",
@@ -92,6 +94,7 @@
   "fullname": "ሙሉ ስም",
   "initials": "የስም መነሻ ፊደላት",
   "invitation-code": "የግብዣ ኮድ",
+  "just-invited": "አሁን ወደዚህ ሰሌዳ ተጋብዘዋል",
   "labels": "መለያዎች",
   "last-activity": "የመጨረሻ እንቅስቃሴ",
   "last-modified-at": "መጨረሻ የተሻሻለበት",

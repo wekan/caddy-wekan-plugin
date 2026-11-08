@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Di ateuh swimlane nyang geupileh",
+  "accept": "Teurimong",
   "account-locked": "Akun geugunci keu siat kareuna le that ci tamong nyang gagai. Neuci lom teuma.",
   "active": "Aktif",
   "activities": "Aktivitas",
@@ -68,6 +69,7 @@
   "comments": "Komen",
   "create-account": "Peugot Akun",
   "createdAt": "Geupeugöt bak",
+  "decline": "Tulak",
   "delete": "Hapus",
   "description": "Deskripsi",
   "domain": "Nan domain",
@@ -92,6 +94,7 @@
   "fullname": "Nan Leungkap",
   "initials": "Inisial",
   "invitation-code": "Kode Undangan",
+  "just-invited": "Droeneueh ban geuundang u papan nyoe",
   "labels": "Dapeuta Label",
   "last-activity": "Buet akhé",
   "last-modified-at": "Akhé geuubah bak",

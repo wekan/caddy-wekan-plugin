@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Sora ła corsia sełesionà",
+  "accept": "Acèta",
   "account-locked": "L'account el xe blocà temporaneamente par massa tentativi de login falìi. Par piaser prova de novo pì tardi.",
   "active": "Attivo",
   "activities": "Ativitá",
@@ -68,6 +69,7 @@
   "comments": "Comenti",
   "create-account": "Crea un account",
   "createdAt": "Creà el",
+  "decline": "Refuda",
   "delete": "Scancela",
   "description": "Descrision",
   "domain": "Domìnio",
@@ -92,6 +94,7 @@
   "fullname": "Nome conpleto",
   "initials": "Iniziałi",
   "invitation-code": "Còdexe de invito",
+  "just-invited": "Te si pena stà invità a sto quadro",
   "labels": "Etichete",
   "last-activity": "Ùltima ativitá",
   "last-modified-at": "Ùltima modìfega el",

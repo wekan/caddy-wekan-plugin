@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "Above selected swimlane",
+  "accept": "Accept",
   "account-locked": "Account is temporarily locked due to too many failed login attempts. Please try again later.",
   "active": "Active",
   "activities": "Activities",
@@ -68,6 +69,7 @@
   "comments": "Comments",
   "create-account": "Create Account",
   "createdAt": "Created at",
+  "decline": "Decline",
   "delete": "Delete",
   "description": "Description",
   "domain": "Domain",
@@ -92,6 +94,7 @@
   "fullname": "Full Name",
   "initials": "Initials",
   "invitation-code": "Invitation Code",
+  "just-invited": "You are just invited to this board",
   "labels": "Labels",
   "last-activity": "Last activity",
   "last-modified-at": "Last modified at",

@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "A kijelölt úszósáv fölé",
+  "accept": "Elfogad",
   "account-locked": "A fiók ideiglenesen zárolva van a túl sok sikertelen bejelentkezési kísérlet miatt. Kérjük, próbáld újra később.",
   "active": "Aktív",
   "activities": "Tevékenységek",
@@ -68,6 +69,7 @@
   "comments": "Megjegyzések",
   "create-account": "Fiók létrehozása",
   "createdAt": "Létrehozva",
+  "decline": "Elutasítás",
   "delete": "Törlés",
   "description": "Leírás",
   "domain": "Tartomány",
@@ -92,6 +94,7 @@
   "fullname": "Teljes név",
   "initials": "Kezdőbetűk",
   "invitation-code": "Meghívási kód",
+  "just-invited": "Éppen most hívták meg erre a táblára",
   "labels": "Címkék",
   "last-activity": "Utolsó tevékenység",
   "last-modified-at": "Utoljára módosítva",

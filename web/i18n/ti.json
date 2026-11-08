@@ -1,5 +1,6 @@
 {
   "above-selected-swimlane": "ኣብ ላዕሊ ዝተመርጸ መስመር",
+  "accept": "ተቐበል",
   "account-locked": "ብዙሕ ዝፈሸለ ፈተነ ምእታው ስለ ዝተገብረ መለያ ንግዚኡ ተዓጽዩ። በጃኻ ጸኒሕካ ደጊምካ ፈትን።",
   "active": "ንጡፍ",
   "activities": "ንጥፈታት",
@@ -68,6 +69,7 @@
   "comments": "ርእይቶታት",
   "create-account": "መለያ ፍጠር",
   "createdAt": "ዝተፈጥረሉ",
+  "decline": "እምቢ በል",
   "delete": "ደምስስ",
   "description": "መግለጺ",
   "domain": "ዶሜይን",
@@ -92,6 +94,7 @@
   "fullname": "ምሉእ ስም",
   "initials": "ፈለማ ፊደላት",
   "invitation-code": "ኮድ ዕድመ",
+  "just-invited": "ናብዛ ሰሌዳ ሕጂ ተዓዲምካ",
   "labels": "ምልክታት",
   "last-activity": "መወዳእታ ንጥፈት",
   "last-modified-at": "መወዳእታ ዝተቐየረሉ",
