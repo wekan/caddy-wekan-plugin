@@ -6,6 +6,7 @@ import (
 	"errors"
 	"mime"
 	"net/http"
+	"regexp"
 	"slices"
 	"strconv"
 	"strings"
@@ -23,6 +24,9 @@ type methodFunc func(r *http.Request, u *User, args []json.RawMessage) (any, err
 
 // methodError is a Meteor.Error: its error code and reason.
 type methodError struct{ Code, Reason string }
+
+// collectionWrite is a Meteor collection's own client write method.
+var collectionWrite = regexp.MustCompile(`^/[A-Za-z0-9_.-]+/(insert|update|remove|upsert)$`)
 
 func (e *methodError) Error() string { return e.Code }
 
@@ -71,6 +75,14 @@ func (s *Server) methodRoutes(m *http.ServeMux) {
 			return
 		}
 		fn := s.methods()[r.PathValue("name")]
+		if fn == nil && collectionWrite.MatchString(r.PathValue("name")) {
+			// Meteor's answer to a client write of a restricted collection
+			// with no allow rule: Weddy writes nothing through these, so every
+			// one it has no method for is denied - never a 404 that says
+			// whether the collection exists.
+			writeJSON(w, http.StatusBadRequest, map[string]any{"error": 403, "reason": "Access denied"})
+			return
+		}
 		if fn == nil {
 			writeJSON(w, http.StatusNotFound, map[string]string{"error": "404", "reason": "Method '" + r.PathValue("name") + "' not found"})
 			return

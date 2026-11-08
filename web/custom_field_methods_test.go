@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -101,5 +102,34 @@ func TestCustomFieldMethods(t *testing.T) {
 	_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": bob.ID}).Decode(&u)
 	if !u.LoginDisabled {
 		t.Error("an AdminFieldBleed attempt disables the account, as WeKan's catalog says")
+	}
+}
+
+// clients cannot create or alter private email jobs: a collection write
+// Weddy has no method for is Meteor's numeric 403, whatever the collection.
+func TestCollectionWritesAreDenied(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	ctx := context.Background()
+	for _, coll := range []string{"notificationEmailJobs", "notificationEmailLeases", "activityNotificationIntents", "nosuchcollection"} {
+		for _, op := range []string{"insert", "update", "remove", "upsert"} {
+			req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/"+url.PathEscape("/"+coll+"/"+op), strings.NewReader(`[{"_id":"privatejob000001","state":"sent"}]`))
+			req.Header.Set("Content-Type", "application/json")
+			res, err := c.Do(req)
+			if err != nil {
+				t.Fatal(err)
+			}
+			var out map[string]any
+			_ = json.NewDecoder(res.Body).Decode(&out)
+			res.Body.Close()
+			if out["error"] != 403.0 {
+				t.Errorf("negative: /%s/%s: %v", coll, op, out)
+			}
+		}
+		if n, _ := w.db.Collection(coll).CountDocuments(ctx, bson.M{"_id": "privatejob000001"}); n != 0 {
+			t.Errorf("negative: nothing is written to %s", coll)
+		}
 	}
 }
