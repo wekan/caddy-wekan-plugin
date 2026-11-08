@@ -254,6 +254,17 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.on('click', '#notifications-drawer .js-filter-unread', function (event) { event.preventDefault(); drawerShowRead(false); });
   up.on('click', '#notifications-drawer .js-view-all', function (event) { event.preventDefault(); drawerShowRead(true); });
   // #5171: a grouped row opens to show all of its card's or board's entries.
+  // Admin Panel / People: a user's editUserPopup, and Active switched by a click.
+  up.on('click', '.edit-user', function (event, link) {
+    event.preventDefault();
+    openPopOver('edit-user-' + link.getAttribute('data-user-id'));
+  });
+  up.on('click', '.js-toggle-active-status', function (event, el) {
+    event.preventDefault();
+    var body = new URLSearchParams({ loginDisabled: el.getAttribute('data-is-active') === 'true' ? 'true' : 'false' });
+    fetch('/admin/people/' + encodeURIComponent(el.getAttribute('data-user-id')), { method: 'POST', body: body, credentials: 'same-origin', redirect: 'manual' })
+      .then(function () { up.reload('.setting-content'); });
+  });
   // The minicard's "Mark as complete": the card does not open.
   up.on('click', '.js-toggle-card-complete', function (event, link) {
     event.preventDefault();

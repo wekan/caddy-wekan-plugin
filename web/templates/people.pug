@@ -1,40 +1,93 @@
+//- WeKan's Admin Panel / People (peopleBody.jade): its tabs, its left menu,
+  and the People pane - the users, edited in editUserPopup.
 .setting-content.people
-  h1 {{t $.L "admin-panel"}} / {{t $.L "people"}}
-  p {{t $.L "people-number"}} {{len .Users}}
-  form.js-registration-form(method="post", action="/admin/registration")
-    if .RegistrationDisabled
-      input(type="hidden", name="disableRegistration", value="false")
-      button(type="submit") {{t $.L "registration"}}: {{t $.L "no"}}
-    else
-      input(type="hidden", name="disableRegistration", value="true")
-      button(type="submit") {{t $.L "registration"}}: {{t $.L "yes"}}
-  table.people-table
-    thead
-      tr
-        th {{t $.L "username"}}
-        th {{t $.L "fullname"}}
-        th {{t $.L "email"}}
-        th {{t $.L "admin"}}
-        th {{t $.L "active"}}
-    tbody
-      each p in .Users
-        tr.js-person(data-user="{{.ID}}")
-          td.username {{.Username}}
-          td {{.Profile.Fullname}}
-          td
-            each e in .Emails
-              | {{.Address}}
-          td
-            if ne .ID $.User.ID
-              form(method="post", action="/admin/people/{{.ID}}")
-                input(type="hidden", name="isAdmin", value="{{if .IsAdmin}}false{{else}}true{{end}}")
-                button.js-toggle-admin(type="submit") {{if .IsAdmin}}{{t $.L "yes"}}{{else}}{{t $.L "no"}}{{end}}
-            else
-              | {{t $.L "yes"}}
-          td
-            if ne .ID $.User.ID
-              form(method="post", action="/admin/people/{{.ID}}")
-                input(type="hidden", name="loginDisabled", value="{{if .LoginDisabled}}false{{else}}true{{end}}")
-                button.js-toggle-active-status(type="submit") {{if .LoginDisabled}}{{t $.L "no"}}{{else}}{{t $.L "yes"}}{{end}}
-            else
-              | {{t $.L "yes"}}
+  .admin-panel-tabs
+    a.people.is-active(href="/admin/people") {{t $.L "people"}}
+  .content-body
+    .side-menu
+      ul
+        li.active
+          a.js-left-menu-item(href="/admin/people", data-id="people-setting") {{t $.L "people"}}
+    .main-body
+      h2.pane-title {{t $.L "people"}}
+      if .ErrorText
+        p.at-error.js-people-error {{.ErrorText}}
+      p {{t $.L "people-number"}} {{len .Users}}
+      form.js-registration-form(method="post", action="/admin/registration")
+        if .RegistrationDisabled
+          input(type="hidden", name="disableRegistration", value="false")
+          button(type="submit") {{t $.L "registration"}}: {{t $.L "no"}}
+        else
+          input(type="hidden", name="disableRegistration", value="true")
+          button(type="submit") {{t $.L "registration"}}: {{t $.L "yes"}}
+      table.people-table
+        thead
+          tr
+            th {{t $.L "edit"}}
+            th {{t $.L "username"}}
+            th {{t $.L "fullname"}}
+            th {{t $.L "email"}}
+            th {{t $.L "admin"}}
+            th {{t $.L "active"}}
+        tbody
+          each p in .Users
+            tr.js-person(data-user="{{.ID}}")
+              td
+                a.edit-user(href="#", data-user-id="{{.ID}}")
+                  i.fa.fa-pencil-square-o
+                  |  {{t $.L "edit"}}
+                template.js-pop-over-template(data-pop="edit-user-{{.ID}}", data-title="{{t $.L `edit`}}")
+                  form.js-edit-user(method="post", action="/admin/people/{{.ID}}/edit")
+                    label
+                      | {{t $.L "username"}}
+                      input.js-profile-username(type="text", name="username", value="{{.Username}}", required)
+                    label
+                      | {{t $.L "fullname"}}
+                      textarea.js-profile-fullname(name="fullname", rows="2") {{.Profile.Fullname}}
+                    label
+                      | {{t $.L "initials"}}
+                      input.js-profile-initials(type="text", name="initials", value="{{.Profile.Initials}}", maxlength="8")
+                    label
+                      | {{t $.L "admin"}}
+                      select.select-role.js-profile-isadmin(name="isAdmin")
+                        option(value="false") {{t $.L "no"}}
+                        if .IsAdmin
+                          option(value="true", selected) {{t $.L "yes"}}
+                        else
+                          option(value="true") {{t $.L "yes"}}
+                    label
+                      | {{t $.L "email"}}
+                      input.js-profile-email(type="email", name="email", value="{{range .Emails}}{{.Address}}{{end}}")
+                    label
+                      | {{t $.L "active-person"}}
+                      select.select-active.js-profile-isactive(name="loginDisabled")
+                        option(value="false") {{t $.L "yes"}}
+                        if .LoginDisabled
+                          option(value="true", selected) {{t $.L "no"}}
+                        else
+                          option(value="true") {{t $.L "no"}}
+                    label
+                      | {{t $.L "password"}}
+                      input.js-profile-password(type="password", name="password", autocomplete="new-password")
+                    .buttonsContainer
+                      input.primary.wide(type="submit", value="{{t $.L `save`}}")
+              td.username {{.Username}}
+              td {{.Profile.Fullname}}
+              td
+                each e in .Emails
+                  | {{.Address}}
+              td
+                if ne .ID $.User.ID
+                  form(method="post", action="/admin/people/{{.ID}}")
+                    input(type="hidden", name="isAdmin", value="{{if .IsAdmin}}false{{else}}true{{end}}")
+                    button.js-toggle-admin(type="submit") {{if .IsAdmin}}{{t $.L "yes"}}{{else}}{{t $.L "no"}}{{end}}
+                else
+                  | {{t $.L "yes"}}
+              td.account-active-status
+                if ne .ID $.User.ID
+                  if .LoginDisabled
+                    span.text-red.js-toggle-active-status(data-user-id="{{.ID}}", data-is-active="false", title="{{t $.L `admin-people-user-inactive`}}", role="button", tabindex="0") ✕
+                  else
+                    span.text-green.js-toggle-active-status(data-user-id="{{.ID}}", data-is-active="true", title="{{t $.L `admin-people-user-active`}}", role="button", tabindex="0") ✓
+                else
+                  | {{t $.L "yes"}}

@@ -257,8 +257,13 @@ func (s *Server) peoplePage(w http.ResponseWriter, r *http.Request, u *User) {
 		DisableRegistration bool `bson:"disableRegistration"`
 	}
 	_ = s.db.Collection("settings").FindOne(r.Context(), bson.M{}).Decode(&set)
-	s.render(w, r, "people", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, "people"), "User": u,
-		"Users": users, "RegistrationDisabled": set.DisableRegistration})
+	lang := languageOf(r, u).Tag
+	errText := ""
+	if key := r.URL.Query().Get("error"); key != "" {
+		errText = tr(lang, key)
+	}
+	s.render(w, r, "people", http.StatusOK, map[string]any{"Title": tr(lang, "people"), "User": u,
+		"Users": users, "RegistrationDisabled": set.DisableRegistration, "ErrorText": errText})
 }
 
 func (s *Server) setPerson(w http.ResponseWriter, r *http.Request, u *User) {
@@ -320,6 +325,7 @@ func (s *Server) userRoutes(m *http.ServeMux) {
 	m.HandleFunc("POST /profile/password", s.page(s.changePassword))
 	m.HandleFunc("GET /admin/people", s.page(s.peoplePage))
 	m.HandleFunc("POST /admin/people/{user}", s.page(s.setPerson))
+	s.adminPeopleRoutes(m)
 	m.HandleFunc("POST /admin/registration", s.page(s.setRegistration))
 }
 
