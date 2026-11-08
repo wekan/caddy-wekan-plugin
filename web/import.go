@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
+	"io"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -143,6 +144,19 @@ func numbersToFloat(v any) any {
 
 // ImportBoard writes an export as a new board of u and answers its id.
 func (s *Server) ImportBoard(r *http.Request, u *User, export map[string]any, mapping map[string]string) (string, error) {
+	return s.importBoardWith(r, u, export, mapping, importOptions{})
+}
+
+// importOptions: Into, an existing board the export goes into instead of a new
+// one; Files, where an attachment's bytes are when the export does not carry
+// them (a .zip import).
+type importOptions struct {
+	Into   *Board
+	Files  func(attachment bson.M) io.ReadCloser
+	Counts map[string]int // what was imported, by collection, when given
+}
+
+func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any, mapping map[string]string, opts importOptions) (string, error) {
 	ctx := r.Context()
 	// Who the export's people are here: a mapped user who exists, else nobody
 	// (a member) or the importer (an author).
@@ -180,6 +194,9 @@ func (s *Server) ImportBoard(r *http.Request, u *User, export map[string]any, ma
 	}
 	now := time.Now().UTC()
 	boardID := randomID()
+	if opts.Into != nil {
+		boardID = opts.Into.ID
+	}
 	board := bson.M{"_id": boardID, "title": title, "slug": slugify(title), "permission": "private", "type": "board", // inserted, not a filter
 		"archived": false, "createdAt": now, "modifiedAt": now, "color": "belize"}
 	if p := str(export, "permission"); p == "public" {
@@ -197,14 +214,35 @@ func (s *Server) ImportBoard(r *http.Request, u *User, export map[string]any, ma
 		}
 	}
 	labels := bson.A{}
-	labelIDs := map[string]bool{}
+	labelIDs := map[string]string{} // the export's label id -> the board's
+	var newLabels []Label
 	for _, l := range docsOf(export, "labels") {
-		id := str(l, "_id")
-		if !validID(id) || labelIDs[id] {
+		old, name, color := str(l, "_id"), str(l, "name"), str(l, "color")
+		if opts.Into != nil { // into a board: its label of the same name and color, or a new one
+			found := ""
+			for _, x := range opts.Into.Labels {
+				if x.Name == name && x.Color == color {
+					found = x.ID
+				}
+			}
+			if found == "" {
+				found = randomString(idAlphabet, 6)
+				newLabels = append(newLabels, Label{ID: found, Name: name, Color: color})
+				opts.Into.Labels = append(opts.Into.Labels, Label{ID: found, Name: name, Color: color})
+			}
+			labelIDs[old] = found
+			continue
+		}
+		id := old
+		taken := false
+		for _, v := range labelIDs {
+			taken = taken || v == id
+		}
+		if !validID(id) || taken {
 			id = randomString(idAlphabet, 6)
 		}
-		labelIDs[id] = true
-		labels = append(labels, bson.M{"_id": id, "name": str(l, "name"), "color": str(l, "color")}) // inserted, not a filter
+		labelIDs[old] = id
+		labels = append(labels, bson.M{"_id": id, "name": name, "color": color}) // inserted, not a filter
 	}
 	board["labels"] = labels
 	members := bson.A{bson.M{"userId": u.ID, "isAdmin": true, "isActive": true}}
@@ -219,11 +257,24 @@ func (s *Server) ImportBoard(r *http.Request, u *User, export map[string]any, ma
 		}
 	}
 	board["members"] = members
-	if _, err := s.db.Collection("boards").InsertOne(ctx, board); err != nil {
-		return "", err
+	if opts.Into == nil {
+		if _, err := s.db.Collection("boards").InsertOne(ctx, board); err != nil {
+			return "", err
+		}
+	} else if len(newLabels) > 0 {
+		if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": eq(boardID)}, bson.M{"$push": bson.M{"labels": bson.M{"$each": newLabels}}}); err != nil {
+			return "", err
+		}
 	}
+	inserted := map[string][]any{} // what this import wrote, to take back when it fails
 	fail := func(err error) (string, error) {
-		s.deleteBoardData(context.WithoutCancel(ctx), boardID)
+		if opts.Into == nil {
+			s.deleteBoardData(context.WithoutCancel(ctx), boardID)
+		} else {
+			for coll, ids := range inserted {
+				_, _ = s.db.Collection(coll).DeleteMany(context.WithoutCancel(ctx), bson.M{"_id": dbIn(bson.A(ids))})
+			}
+		}
 		return "", err
 	}
 
@@ -233,6 +284,16 @@ func (s *Server) ImportBoard(r *http.Request, u *User, export map[string]any, ma
 			return nil
 		}
 		_, err := s.db.Collection(coll).InsertMany(ctx, docs)
+		if err == nil {
+			for _, d := range docs {
+				if m, ok := d.(bson.M); ok {
+					inserted[coll] = append(inserted[coll], m["_id"])
+				}
+			}
+			if opts.Counts != nil {
+				opts.Counts[coll] += len(docs)
+			}
+		}
 		return err
 	}
 
@@ -244,6 +305,9 @@ func (s *Server) ImportBoard(r *http.Request, u *User, export map[string]any, ma
 			firstSwimlane = sw["_id"].(string)
 		}
 		out = append(out, sw)
+	}
+	if firstSwimlane == "" && opts.Into != nil {
+		firstSwimlane = s.firstSwimlane(ctx, boardID)
 	}
 	if firstSwimlane == "" {
 		firstSwimlane = randomID()
@@ -305,8 +369,8 @@ func (s *Server) ImportBoard(r *http.Request, u *User, export map[string]any, ma
 		keep := bson.A{}
 		if ls, ok := c["labelIds"].(bson.A); ok {
 			for _, l := range ls {
-				if id, _ := l.(string); labelIDs[id] {
-					keep = append(keep, id)
+				if id, _ := l.(string); labelIDs[id] != "" {
+					keep = append(keep, labelIDs[id])
 				}
 			}
 		}
@@ -435,16 +499,31 @@ func (s *Server) ImportBoard(r *http.Request, u *User, export map[string]any, ma
 	_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b)
 	for _, a := range docsOf(export, "attachments") {
 		cardID, ok := cards[str(a, "cardId")]
-		data, err := base64.StdEncoding.DecodeString(str(a, "file"))
-		if !ok || err != nil || len(data) == 0 {
+		if !ok {
+			continue
+		}
+		var body io.ReadCloser
+		if data, err := base64.StdEncoding.DecodeString(str(a, "file")); err == nil && len(data) > 0 {
+			body = io.NopCloser(bytes.NewReader(data))
+		} else if opts.Files != nil {
+			body = opts.Files(a)
+		}
+		if body == nil {
 			continue
 		}
 		var c Card
 		if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID)}).Decode(&c) != nil {
+			body.Close()
 			continue
 		}
-		if _, err := s.StoreAttachment(r, &b, &c, u, str(a, "name"), str(a, "type"), bytes.NewReader(data)); err != nil {
+		at, err := s.StoreAttachment(r, &b, &c, u, str(a, "name"), str(a, "type"), body)
+		body.Close()
+		if err != nil {
 			return fail(err)
+		}
+		inserted["attachments"] = append(inserted["attachments"], at.ID)
+		if opts.Counts != nil {
+			opts.Counts["attachments"]++
 		}
 	}
 	s.activity(ctx, u.ID, "importBoard", bson.M{"type": "board", "activityTypeId": boardID, "boardId": boardID}) // inserted, not a filter
