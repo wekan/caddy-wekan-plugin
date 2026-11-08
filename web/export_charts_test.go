@@ -87,7 +87,7 @@ func TestExportCharts(t *testing.T) {
 	if code, _, _ = get(base+"nosuch/exportPDF", a); code != 400 {
 		t.Errorf("negative: an unknown chart: %d", code)
 	}
-	if code, _, _ = get(base+"flowEfficiency/exportPDF", a); code != 501 {
+	if code, _, _ = get(base+"agingWip/exportPDF", a); code != 501 {
 		t.Errorf("a chart not in Weddy yet says so: %d", code)
 	}
 	if code, _, _ = get(base+"burndown/exportPDF", ""); code != 401 {
@@ -168,5 +168,49 @@ func TestExportFlowCharts(t *testing.T) {
 	wip := rows("wipRun")
 	if len(wip) != 5 || wip[1][1] != "0" || wip[2][1] != "1" || wip[3][1] != "0" || wip[2][2] != "3" {
 		t.Errorf("wip run, limit 3 of the lists between: %q", wip)
+	}
+}
+
+func TestExportFlowEfficiencyAndTime(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	a := login(t, w, "ann")
+	b := newRESTBoard(t, w, a, "Time")
+	ctx := context.Background()
+	start := time.Now().UTC().Add(-10 * time.Hour)
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card}, bson.M{"$set": bson.M{"startAt": start, "endAt": start.Add(8 * time.Hour),
+		"spentTime": 2.0, "isOvertime": true, "assignees": bson.A{bob.ID}}})
+	_, _ = w.db.Collection("changeHistory").InsertOne(ctx, bson.M{"_id": "timehistory00001", "boardId": b.ID, "entityType": "card", // inserted, not a filter
+		"entityId": b.Card, "userId": bob.ID, "previousContent": bson.M{"field": "spentTime", "value": 0.5}, "newContent": bson.M{"field": "spentTime", "value": 2.0}})
+	rows := func(chart string) string {
+		req, _ := http.NewRequest("GET", w.srv.URL+"/api/boards/"+b.ID+"/charts/"+chart+"/exportExcel", nil)
+		req.Header.Set("Authorization", "Bearer "+a)
+		res, err := testClient.Do(req)
+		if err != nil || res.StatusCode != 200 {
+			t.Fatalf("%s: %v %v", chart, err, res)
+		}
+		data, _ := io.ReadAll(res.Body)
+		res.Body.Close()
+		sheets, _ := readXlsx(data)
+		out := []string{}
+		for _, r := range sheets[0].Rows {
+			out = append(out, strings.Join(r, "|"))
+		}
+		return strings.Join(out, "\n")
+	}
+	// 2 of 8 hours active: 25%.
+	if got := rows("flowEfficiency"); !strings.Contains(got, "C|25|2|8") {
+		t.Errorf("flow efficiency: %s", got)
+	}
+	got := rows("time")
+	for _, want := range []string{"BOB|1.5", "BOB|2", "C (Overtime)|2", "Remaining time until due"} {
+		if !strings.Contains(got, want) {
+			t.Errorf("time has %q: %s", want, got)
+		}
+	}
+	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"anonymizeExportUsers": true}})
+	if got := rows("time"); strings.Contains(got, "BOB") {
+		t.Errorf("negative: anonymized: %s", got)
 	}
 }

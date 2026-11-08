@@ -116,6 +116,9 @@ type chartCard struct {
 	ArchivedAt time.Time `bson:"archivedAt"`
 	Assignees  []string  `bson:"assignees"`
 	LabelIDs   []string  `bson:"labelIds"`
+	SpentTime  float64   `bson:"spentTime"`
+	IsOvertime bool      `bson:"isOvertime"`
+	Archived   bool      `bson:"archived"`
 }
 
 // done is WeKan's completionDate: the end date, else when it was archived.
@@ -152,7 +155,8 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 		return []any{tr(lang, "scrum-sprint"), tr(lang, "scrum-estimate-unit")}, [][]any{}, true
 	}
 	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetProjection(bson.M{
-		"title": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "labelIds": 1}))
+		"title": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "labelIds": 1,
+		"spentTime": 1, "isOvertime": 1, "archived": 1}))
 	if err != nil {
 		return nil, nil, false
 	}
@@ -326,6 +330,27 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 		return []any{tr(lang, "date"), tr(lang, "board-view-pulse")}, rows, true
 	case "dashboard":
 		return []any{tr(lang, "name"), tr(lang, "cards")}, s.dashboardRows(ctx, b, cards, lang), true
+	case "flowEfficiency":
+		rows := [][]any{}
+		for _, c := range cards {
+			at, ok := c.done()
+			if !ok || c.SpentTime == 0 {
+				continue
+			}
+			start := c.StartAt
+			if start.IsZero() {
+				start = c.CreatedAt
+			}
+			total := math.Max(at.Sub(start).Hours(), c.SpentTime)
+			eff := 0.0
+			if total > 0 {
+				eff = math.Min(100, c.SpentTime/total*100)
+			}
+			rows = append(rows, []any{titleOf(c), round2(eff), round2(c.SpentTime), round2(total)})
+		}
+		return []any{tr(lang, "card"), tr(lang, "board-view-flow-efficiency"), "Active (h)", "Total (h)"}, rows, true
+	case "time":
+		return []any{tr(lang, "name"), tr(lang, "hours")}, s.timeRows(ctx, b, cards, now, lang), true
 	case "cumulativeFlow", "wipRun":
 		return s.flowRows(ctx, b, key, from, now, lang)
 	}
@@ -535,4 +560,168 @@ func (s *Server) flowRows(ctx context.Context, b *Board, key string, from, now t
 		header = append(header, l["title"])
 	}
 	return header, rows, true
+}
+
+// timeRows are WeKan's Time export (#812, #1121): the remaining time until
+// due of the open cards, the time adjustments by author (from WeKan's change
+// history), then the hours by assignee and by card - archived cards left out.
+func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now time.Time, lang string) [][]any {
+	active := []chartCard{}
+	for _, c := range cards {
+		if !c.Archived {
+			active = append(active, c)
+		}
+	}
+	section := func(name string, rows [][]any) [][]any {
+		return append(append([][]any{{name, ""}}, rows...), []any{"", ""})
+	}
+	// Remaining: due minus now over the open cards with a due date.
+	ms := 0.0
+	for _, c := range active {
+		if _, done := c.done(); !done && !c.DueAt.IsZero() {
+			ms += float64(c.DueAt.Sub(now).Milliseconds())
+		}
+	}
+	hours := ms / 3600000
+	abs := math.Round(math.Abs(hours))
+	days, rest := math.Floor(abs/24), abs-math.Floor(abs/24)*24
+	sign := ""
+	if hours < 0 && abs > 0 {
+		sign = "-"
+	}
+	remaining := sign + strconv.FormatFloat(days, 'f', -1, 64) + " " + tr(lang, "days") + ", " + strconv.FormatFloat(rest, 'f', -1, 64) + " " + tr(lang, "hours")
+	label := tr(lang, "board-status-remaining-time-total")
+	rows := section(label, [][]any{{label, remaining}})
+	// Adjustments by author.
+	var history []struct {
+		UserID   string `bson:"userId"`
+		Restored string `bson:"restoredByUserId"`
+		Prev     bson.M `bson:"previousContent"`
+		New      bson.M `bson:"newContent"`
+	}
+	if cur, err := s.db.Collection("changeHistory").Find(ctx, bson.M{"boardId": b.ID, "entityType": "card",
+		"$or": bson.A{bson.M{"newContent.field": "spentTime"}, bson.M{"previousContent.field": "spentTime"}}}); err == nil {
+		_ = cur.All(ctx, &history)
+	}
+	num := func(m bson.M) (float64, bool) {
+		switch v := m["value"].(type) {
+		case nil:
+			return 0, true
+		case float64:
+			return v, true
+		case int32:
+			return float64(v), true
+		case int64:
+			return float64(v), true
+		}
+		return 0, false
+	}
+	byAuthor, authors := map[string]float64{}, []string{}
+	ids := bson.A{}
+	for _, h := range history {
+		if h.Restored != "" && h.UserID != h.Restored {
+			continue
+		}
+		f, _ := h.New["field"].(string)
+		if f == "" {
+			f, _ = h.Prev["field"].(string)
+		}
+		before, ok1 := num(h.Prev)
+		after, ok2 := num(h.New)
+		if f != "spentTime" || !ok1 || !ok2 || after == before {
+			continue
+		}
+		if _, seen := byAuthor[h.UserID]; !seen {
+			authors = append(authors, h.UserID)
+			ids = append(ids, h.UserID)
+		}
+		byAuthor[h.UserID] += after - before
+	}
+	for _, c := range active {
+		for _, id := range c.Assignees {
+			ids = append(ids, id)
+		}
+	}
+	users := []bson.M{}
+	if len(ids) > 0 {
+		if cur, err := s.db.Collection("users").Find(ctx, bson.M{"_id": dbIn(ids)}, options.Find().SetProjection(bson.M{"username": 1, "profile.fullname": 1})); err == nil {
+			_ = cur.All(ctx, &users)
+		}
+	}
+	// A chart export follows Admin Panel -> Anonymize export users too.
+	a := s.exportAnonymizer(ctx, b, users)
+	names := map[string]string{}
+	for _, u := range users {
+		a.user(u)
+		id, _ := u["_id"].(string)
+		names[id], _ = u["username"].(string)
+		var full any
+		switch p := u["profile"].(type) {
+		case bson.M:
+			full = p["fullname"]
+		case bson.D:
+			full = docMap(p)["fullname"]
+		}
+		if f, _ := full.(string); f != "" {
+			names[id] = f
+		}
+	}
+	nameOf := func(id string) string {
+		if n := names[id]; n != "" {
+			return n
+		}
+		return id
+	}
+	sort.SliceStable(authors, func(i, j int) bool { return byAuthor[authors[i]] > byAuthor[authors[j]] })
+	adj := [][]any{}
+	for _, id := range authors {
+		adj = append(adj, []any{nameOf(id), byAuthor[id]})
+	}
+	rows = append(rows, section(tr(lang, "time-adjustments"), adj)...)
+	// Hours by assignee: a card's hours under each of its assignees.
+	byKey, order := map[string]float64{}, []string{}
+	for _, c := range active {
+		if c.SpentTime <= 0 {
+			continue
+		}
+		keys := c.Assignees
+		if len(keys) == 0 {
+			keys = []string{""}
+		}
+		for _, k := range keys {
+			if _, ok := byKey[k]; !ok {
+				order = append(order, k)
+			}
+			byKey[k] += c.SpentTime
+		}
+	}
+	sort.SliceStable(order, func(i, j int) bool { return byKey[order[i]] > byKey[order[j]] })
+	byAssignee := [][]any{}
+	for _, k := range order {
+		label := tr(lang, "no-assignee")
+		if k != "" {
+			label = nameOf(k)
+		}
+		byAssignee = append(byAssignee, []any{label, round2(byKey[k])})
+	}
+	rows = append(rows, section(tr(lang, "assignees"), byAssignee)...)
+	withTime := []chartCard{}
+	for _, c := range active {
+		if c.SpentTime > 0 {
+			withTime = append(withTime, c)
+		}
+	}
+	sort.SliceStable(withTime, func(i, j int) bool { return withTime[i].SpentTime > withTime[j].SpentTime })
+	byCard := [][]any{}
+	for _, c := range withTime {
+		title := c.Title
+		if title == "" {
+			title = c.ID
+		}
+		if c.IsOvertime {
+			title += " (" + tr(lang, "overtime") + ")"
+		}
+		byCard = append(byCard, []any{a.text(title), round2(c.SpentTime)})
+	}
+	return append(rows, section(tr(lang, "card"), byCard)...)
 }
