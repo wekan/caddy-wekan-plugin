@@ -18,7 +18,7 @@ import (
 // models/exporter.js buildCsvStream, models/lib/exporterCsvRow.js): one row a
 // card, every cell quoted, a formula never left to run in a spreadsheet.
 func (s *Server) exportCSVRoutes(m *http.ServeMux) {
-	m.HandleFunc("GET /api/boards/{board}/export/csv", s.apiExportCSV)
+	m.HandleFunc("GET /api/boards/{board}/export/csv", s.exportable(s.apiExportCSV))
 }
 
 // csvFormula is Papa Parse's escapeFormulae: a cell a spreadsheet would run.

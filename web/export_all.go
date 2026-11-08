@@ -18,7 +18,7 @@ import (
 // that they may export, in one format, as a .zip of a file a board. A board
 // they may not export is named in skipped.txt.
 func (s *Server) exportAllRoutes(m *http.ServeMux) {
-	m.HandleFunc("GET /api/export-all-boards/{format}", s.apiExportAll)
+	m.HandleFunc("GET /api/export-all-boards/{format}", s.exportable(s.apiExportAll))
 }
 
 // massExportFormats are the formats Weddy writes so far; WeKan's others - Excel

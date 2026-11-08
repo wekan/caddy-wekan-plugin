@@ -14,7 +14,7 @@ import (
 // GET /api/boards/{board}/export, format wekan-board-1.0.0, so a board exported
 // from Weddy imports into WeKan and the other way round.
 func (s *Server) exportRoutes(m *http.ServeMux) {
-	m.HandleFunc("GET /api/boards/{board}/export", s.apiExport)
+	m.HandleFunc("GET /api/boards/{board}/export", s.exportable(s.apiExport))
 }
 
 // exportUser is who asks: the request's token or cookie, or - a download

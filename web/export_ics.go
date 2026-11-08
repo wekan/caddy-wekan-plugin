@@ -12,7 +12,7 @@ import (
 // The board's dated cards as an iCalendar feed, as Node.js WeKan
 // (models/export.js calendar.ics, models/lib/icalExport.js).
 func (s *Server) exportICSRoutes(m *http.ServeMux) {
-	m.HandleFunc("GET /api/boards/{board}/calendar.ics", s.apiExportICS)
+	m.HandleFunc("GET /api/boards/{board}/calendar.ics", s.exportable(s.apiExportICS))
 }
 
 // icsEscape is RFC 5545 TEXT: backslash, semicolon, comma and line breaks escaped.

@@ -18,7 +18,7 @@ func (s *Server) apiBoardAttachmentRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET "+base+"/deleted", s.api(s.apiBoardAttachments(true)))
 	m.HandleFunc("DELETE "+base+"/{id}", s.api(s.apiSoftDeleteAttachment))
 	m.HandleFunc("POST "+base+"/{id}/restore", s.api(s.apiRestoreAttachment))
-	m.HandleFunc("GET "+base+"/{id}/export", s.apiExportAttachment)
+	m.HandleFunc("GET "+base+"/{id}/export", s.exportable(s.apiExportAttachment))
 }
 
 // attachmentLink is the address Meteor-Files gives an attachment.

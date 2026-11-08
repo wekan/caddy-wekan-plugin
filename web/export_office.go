@@ -25,10 +25,10 @@ import (
 const xlsxType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
 func (s *Server) exportOfficeRoutes(m *http.ServeMux) {
-	m.HandleFunc("GET /api/boards/{board}/exportExcel", s.apiExportOffice("xlsx", false))
-	m.HandleFunc("GET /api/boards/{board}/exportPDF", s.apiExportOffice("pdf", false))
-	m.HandleFunc("GET /api/boards/{board}/lists/{list}/cards/{card}/exportExcel", s.apiExportOffice("xlsx", true))
-	m.HandleFunc("GET /api/boards/{board}/lists/{list}/cards/{card}/exportPDF", s.apiExportOffice("pdf", true))
+	m.HandleFunc("GET /api/boards/{board}/exportExcel", s.exportable(s.apiExportOffice("xlsx", false)))
+	m.HandleFunc("GET /api/boards/{board}/exportPDF", s.exportable(s.apiExportOffice("pdf", false)))
+	m.HandleFunc("GET /api/boards/{board}/lists/{list}/cards/{card}/exportExcel", s.exportable(s.apiExportOffice("xlsx", true)))
+	m.HandleFunc("GET /api/boards/{board}/lists/{list}/cards/{card}/exportPDF", s.exportable(s.apiExportOffice("pdf", true)))
 }
 
 // exportReader is the request's board and whether its reader may export it -

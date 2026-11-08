@@ -18,7 +18,7 @@ import (
 // attachment data - and the attachments as files beside it, so a board whose
 // files are too large for one JSON document still exports.
 func (s *Server) exportZipRoutes(m *http.ServeMux) {
-	m.HandleFunc("GET /api/boards/{board}/exportZip", s.apiExportZip)
+	m.HandleFunc("GET /api/boards/{board}/exportZip", s.exportable(s.apiExportZip))
 }
 
 // numberedName is WeKan's: "name-1.ext" for the second file of a name.
