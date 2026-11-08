@@ -15,6 +15,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 	"unicode"
@@ -283,10 +284,43 @@ func (s *Server) deleteAttachmentPage(w http.ResponseWriter, r *http.Request, u 
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
+// softDeleteAttachment is WeKan's attachments.softDelete: the attachment is
+// kept, marked deleted with who and a batch id, the card's cover unset when it
+// was the cover, and a deleteAttachment activity recorded. The answer is the
+// batch id.
 func (s *Server) softDeleteAttachment(r *http.Request, a *Attachment, u *User) error {
-	_, err := s.db.Collection("attachments").UpdateOne(r.Context(), bson.M{"_id": a.ID},
-		bson.M{"$set": bson.M{"deletedAt": time.Now().UTC(), "deletedBy": u.ID}})
+	_, err := s.softDeleteAttachmentBatch(r, a, u)
 	return err
+}
+
+func (s *Server) softDeleteAttachmentBatch(r *http.Request, a *Attachment, u *User) (string, error) {
+	now := time.Now().UTC()
+	batch := "attachment-" + a.ID + "-" + strconv.FormatInt(now.UnixMilli(), 10)
+	ctx := r.Context()
+	if _, err := s.db.Collection("attachments").UpdateOne(ctx, bson.M{"_id": a.ID},
+		bson.M{"$set": bson.M{"deletedAt": now, "deletedBy": u.ID, "deleteBatchId": batch}}); err != nil {
+		return "", err
+	}
+	if a.Meta.CardID != "" {
+		_, _ = s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(a.Meta.CardID), "coverId": a.ID}, bson.M{"$unset": bson.M{"coverId": ""}})
+		s.activity(ctx, u.ID, "deleteAttachment", bson.M{"type": "card", "attachmentId": a.ID, "attachmentName": a.Name,
+			"boardId": a.Meta.BoardID, "cardId": a.Meta.CardID, "listId": a.Meta.ListID, "swimlaneId": a.Meta.SwimlaneID})
+	}
+	return batch, nil
+}
+
+// restoreAttachment is WeKan's attachments.restore: the deletion marks go.
+func (s *Server) restoreAttachment(r *http.Request, a *Attachment, u *User) error {
+	ctx := r.Context()
+	if _, err := s.db.Collection("attachments").UpdateOne(ctx, bson.M{"_id": a.ID},
+		bson.M{"$unset": bson.M{"deletedAt": "", "deletedBy": "", "deleteBatchId": ""}}); err != nil {
+		return err
+	}
+	if a.Meta.CardID != "" {
+		s.activity(ctx, u.ID, "addAttachment", bson.M{"type": "card", "attachmentId": a.ID, "attachmentName": a.Name,
+			"boardId": a.Meta.BoardID, "cardId": a.Meta.CardID, "listId": a.Meta.ListID, "swimlaneId": a.Meta.SwimlaneID})
+	}
+	return nil
 }
 
 func (s *Server) attachmentRoutes(m *http.ServeMux) {
