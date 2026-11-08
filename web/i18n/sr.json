@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Касније ипак можете опоравити предмет из одвојене архиве.",
   "card-due": "Орочен",
   "card-end": "Окончан",
+  "card-mark-complete": "Одобри",
+  "card-mark-incomplete": "Оспори",
   "card-received": "Запримљен",
   "card-start": "Започет",
   "cardDetailsActionsPopup-title": "Шире радње на предмету",

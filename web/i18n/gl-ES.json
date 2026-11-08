@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Podes restaurar a tarxeta desde o Arquivo máis tarde.",
   "card-due": "Data límite",
   "card-end": "Fin",
+  "card-mark-complete": "Marcar como completo",
+  "card-mark-incomplete": "Marcar como incompleto",
   "card-received": "Recebido",
   "card-start": "Inicio",
   "cardDetailsActionsPopup-title": "Accións da tarxeta",

@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "ბარათი მოგვიანებით შეგიძლიათ არქივიდან აღადგინოთ.",
   "card-due": "საბოლოო ვადა",
   "card-end": "დასასრული",
+  "card-mark-complete": "დასრულებულად მონიშვნა",
+  "card-mark-incomplete": "დაუსრულებლად მონიშვნა",
   "card-received": "მიღებული",
   "card-start": "დაწყება",
   "cardDetailsActionsPopup-title": "ბარათის მოქმედებები",

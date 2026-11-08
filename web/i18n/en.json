@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "You can later restore card from Archive.",
   "card-due": "Due",
   "card-end": "End",
+  "card-mark-complete": "Mark as complete",
+  "card-mark-incomplete": "Mark as incomplete",
   "card-received": "Received",
   "card-start": "Start",
   "cardDetailsActionsPopup-title": "Card Actions",

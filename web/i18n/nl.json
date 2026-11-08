@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Je kunt de kaart later terughalen vanuit het Archief.",
   "card-due": "Verval",
   "card-end": "Einde",
+  "card-mark-complete": "Markeren als voltooid",
+  "card-mark-incomplete": "Markeren als niet-voltooid",
   "card-received": "Ontvangen",
   "card-start": "Begin",
   "cardDetailsActionsPopup-title": "Kaart acties",

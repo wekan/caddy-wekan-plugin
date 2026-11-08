@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Możesz później przywrócić kartę z Archiwum.",
   "card-due": "Data wykonania",
   "card-end": "Koniec",
+  "card-mark-complete": "Oznacz jako ukończone",
+  "card-mark-incomplete": "Oznacz jako nieukończone",
   "card-received": "Przyjęto",
   "card-start": "Rozpoczęcie",
   "cardDetailsActionsPopup-title": "Działania na karcie",

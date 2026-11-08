@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "පසුව සංරක්ෂිතයෙන් කාඩ්පත ප්‍රතිසාධනය කළ හැකිය.",
   "card-due": "නියමිත",
   "card-end": "අවසන්",
+  "card-mark-complete": "සම්පූර්ණ ලෙස සලකුණු කරන්න",
+  "card-mark-incomplete": "අසම්පූර්ණ ලෙස සලකුණු කරන්න",
   "card-received": "ලැබුණි",
   "card-start": "ආරම්භය",
   "cardDetailsActionsPopup-title": "කාඩ්පත් ක්‍රියා",

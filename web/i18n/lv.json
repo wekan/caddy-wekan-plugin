@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Vēlāk varat atjaunot kartīti no arhīva.",
   "card-due": "Termiņš",
   "card-end": "Beigas",
+  "card-mark-complete": "Atzīmēt kā pabeigtu",
+  "card-mark-incomplete": "Atzīmēt kā nepabeigtu",
   "card-received": "Saņemts",
   "card-start": "Sākt",
   "cardDetailsActionsPopup-title": "Kartiņas darbības",

@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Geroago txartela berreskuratu dezakezu biltegitik.",
   "card-due": "Epemuga",
   "card-end": "Amaiera",
+  "card-mark-complete": "Markatu osatutzat",
+  "card-mark-incomplete": "Markatu osatu gabetzat",
   "card-received": "Jasota",
   "card-start": "Hasiera",
   "cardDetailsActionsPopup-title": "Txartel-ekintzak",

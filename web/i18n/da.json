@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Du kan gendanne kortet senere fra Arkiv.",
   "card-due": "Forfalder",
   "card-end": "Slut",
+  "card-mark-complete": "Markeret som fuldført",
+  "card-mark-incomplete": "Markeret som ikke fuldført",
   "card-received": "Modtaget",
   "card-start": "Påbegynd",
   "cardDetailsActionsPopup-title": "Handlinger for kort",

@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "나중에 저장소에서 카드를 다시 불러올 수 있습니다.",
   "card-due": "마감기한",
   "card-end": "종료일",
+  "card-mark-complete": "완료로 표시",
+  "card-mark-incomplete": "미완료로 표시",
   "card-received": "수신됨",
   "card-start": "시작일",
   "cardDetailsActionsPopup-title": "카드 액션",

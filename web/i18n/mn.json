@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Та дараа нь картыг архиваас сэргээж болно.",
   "card-due": "Дуусах хугацаа",
   "card-end": "Дуусах",
+  "card-mark-complete": "Дууссан гэж тэмдэглэх",
+  "card-mark-incomplete": "Дуусаагүй гэж тэмдэглэх",
   "card-received": "Хүлээн авсан",
   "card-start": "Эхлэх",
   "cardDetailsActionsPopup-title": "Картын үйлдлүүд",

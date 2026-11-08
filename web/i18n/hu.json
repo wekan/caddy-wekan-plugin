@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "A kártyát később visszaállíthatod az Archívumból.",
   "card-due": "Határidő",
   "card-end": "Befejezés",
+  "card-mark-complete": "Megjelölés késznek",
+  "card-mark-incomplete": "Megjelölés befejezetlennek",
   "card-received": "Érkezett",
   "card-start": "Kezdés",
   "cardDetailsActionsPopup-title": "Kártyaműveletek",

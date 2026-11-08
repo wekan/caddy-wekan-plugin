@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Podrás restaurar la tarjeta desde Archivo",
   "card-due": "Vence",
   "card-end": "Finalizado",
+  "card-mark-complete": "Marcar como completa",
+  "card-mark-incomplete": "Marcar como incompleta",
   "card-received": "Recibido",
   "card-start": "Comienza",
   "cardDetailsActionsPopup-title": "Acciones de la tarjeta",

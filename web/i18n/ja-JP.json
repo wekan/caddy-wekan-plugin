@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "後でアーカイブからカードを復元できます。",
   "card-due": "期限",
   "card-end": "終了",
+  "card-mark-complete": "完了にする",
+  "card-mark-incomplete": "未完了にする",
   "card-received": "受付",
   "card-start": "開始",
   "cardDetailsActionsPopup-title": "カード操作",

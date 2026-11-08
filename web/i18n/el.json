@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Μπορείτε αργότερα να επαναφέρετε την κάρτα από το Αρχείο.",
   "card-due": "Έως",
   "card-end": "Τέλος",
+  "card-mark-complete": "Σήμανση ως ολοκληρωμένη",
+  "card-mark-incomplete": "Σήμανση ως μη ολοκληρωμένη",
   "card-received": "Ελήφθη",
   "card-start": "Έναρξη",
   "cardDetailsActionsPopup-title": "Ενέργειες κάρτας",

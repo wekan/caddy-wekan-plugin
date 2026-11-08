@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Dir kënnen déi Kaart später aus dem Archiv restauréieren.",
   "card-due": "Fällig",
   "card-end": "Ende",
+  "card-mark-complete": "Als erledigt markieren",
+  "card-mark-incomplete": "Als net erledigt markieren",
   "card-received": "Empfangen",
   "card-start": "Ufank",
   "cardDetailsActionsPopup-title": "Kartenaktionen",

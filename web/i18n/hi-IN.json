@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "आप बाद में कार्ड को संग्रह से बहाल कर सकते हैं।",
   "card-due": "नियत",
   "card-end": "समाप्ति",
+  "card-mark-complete": "पूर्ण के रूप में चिह्नित करें",
+  "card-mark-incomplete": "अपूर्ण के रूप में चिह्नित करें",
   "card-received": "प्राप्त",
   "card-start": "प्रारंभ",
   "cardDetailsActionsPopup-title": "कार्ड क्रियाएँ",

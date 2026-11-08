@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Դուք կարող եք հետագայում վերականգնել քարտը Արխիվից:",
   "card-due": "Պայմանավորված",
   "card-end": "Վերջ",
+  "card-mark-complete": "Նշել որպես ավարտված",
+  "card-mark-incomplete": "Նշել որպես անավարտ",
   "card-received": "Ստացել է",
   "card-start": "Սկսել",
   "cardDetailsActionsPopup-title": "Քարտի գործողություններ",

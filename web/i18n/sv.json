@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Du kan återställa kort från Arkivet",
   "card-due": "Förfaller",
   "card-end": "Avslutades",
+  "card-mark-complete": "Markera som slutförd",
+  "card-mark-incomplete": "Markera som ej slutförd",
   "card-received": "Mottagen",
   "card-start": "Påbörjades",
   "cardDetailsActionsPopup-title": "Korthändelser",

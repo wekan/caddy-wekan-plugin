@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "אפשר בהמשך לשחזר כרטיס מהארכיון.",
   "card-due": "תאריך יעד",
   "card-end": "סיום",
+  "card-mark-complete": "סימון כהושלם",
+  "card-mark-incomplete": "סימון כלא הושלם",
   "card-received": "התקבל",
   "card-start": "התחלה",
   "cardDetailsActionsPopup-title": "פעולות על הכרטיס",

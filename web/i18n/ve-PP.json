@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Sinä void möhemba endištada kartan Arhivaspäi.",
   "card-due": "Märaig",
   "card-end": "Lop",
+  "card-mark-complete": "Znamoita val'mhaks",
+  "card-mark-incomplete": "Znamoita val'mhatomaks",
   "card-received": "Sadud",
   "card-start": "Augotiž",
   "cardDetailsActionsPopup-title": "Kartan tegendad",

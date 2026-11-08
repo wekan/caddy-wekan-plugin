@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Позже вы можете восстановить карточку из Архива.",
   "card-due": "Выполнить к",
   "card-end": "Завершено",
+  "card-mark-complete": "Отметить как выполненную",
+  "card-mark-incomplete": "Отметить как невыполненную",
   "card-received": "Получено",
   "card-start": "В работе с",
   "cardDetailsActionsPopup-title": "Действия в карточке",

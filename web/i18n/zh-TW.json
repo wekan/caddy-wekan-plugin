@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "你可以稍後從封存中還原卡片。",
   "card-due": "到期日",
   "card-end": "完成日",
+  "card-mark-complete": "標記為完成",
+  "card-mark-incomplete": "標記為未完成",
   "card-received": "已接收",
   "card-start": "開始",
   "cardDetailsActionsPopup-title": "卡片操作",

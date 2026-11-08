@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Podrás restaurar la tarcheta dende Fichero",
   "card-due": "Vence",
   "card-end": "Finalizado",
+  "card-mark-complete": "Marcar como completa",
+  "card-mark-incomplete": "Marcar como incompleta",
   "card-received": "Recibido",
   "card-start": "Prencipiar",
   "cardDetailsActionsPopup-title": "Accions de la tarcheta",

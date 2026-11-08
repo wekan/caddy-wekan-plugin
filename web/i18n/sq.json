@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Mund ta rikthesh kartën më vonë nga arkivi.",
   "card-due": "Afati",
   "card-end": "Përfundimi",
+  "card-mark-complete": "Shëno si të përfunduar",
+  "card-mark-incomplete": "Shëno si të papërfunduar",
   "card-received": "Marrë",
   "card-start": "Fillo",
   "cardDetailsActionsPopup-title": "Veprimet e kartës",

@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "རྗེས་སུ་ཡིག་མཛོད་ནས་བྱང་བུ་སླར་གསོ་བྱེད་ཐུབ།",
   "card-due": "དུས་ཚོད་ཚང་།",
   "card-end": "མཇུག་སྒྲིལ།",
+  "card-mark-complete": "ལེགས་གྲུབ་ཏུ་རྟགས་རྒྱོབ།",
+  "card-mark-incomplete": "མ་ཚར་བར་རྟགས་རྒྱོབ།",
   "card-received": "འབྱོར།",
   "card-start": "འགོ་འཛུགས།",
   "cardDetailsActionsPopup-title": "བྱང་བུའི་བྱ་བ།",

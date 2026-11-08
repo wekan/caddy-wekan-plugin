@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Пізніше ви зможете відновити картку з архіву.",
   "card-due": "Термін",
   "card-end": "Кінець",
+  "card-mark-complete": "Позначити виконаним",
+  "card-mark-incomplete": "Позначити невиконаним",
   "card-received": "Отримано",
   "card-start": "Початок",
   "cardDetailsActionsPopup-title": "Дії з карткою",

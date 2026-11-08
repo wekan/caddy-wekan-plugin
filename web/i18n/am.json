@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "ካርዱን በኋላ ከማህደር መመለስ ይችላሉ።",
   "card-due": "የማብቂያ ጊዜ",
   "card-end": "መጨረሻ",
+  "card-mark-complete": "እንደተጠናቀቀ ምልክት አድርግ",
+  "card-mark-incomplete": "እንዳልተጠናቀቀ ምልክት አድርግ",
   "card-received": "የደረሰ",
   "card-start": "ጀምር",
   "cardDetailsActionsPopup-title": "የካርድ ድርጊቶች",

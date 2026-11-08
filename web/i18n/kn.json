@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "ನಂತರ ಸಂಗ್ರಹದಿಂದ ಕಾರ್ಡ್ ಅನ್ನು ಮರುಸ್ಥಾಪಿಸಬಹುದು.",
   "card-due": "ಕೊನೆಯ ದಿನಾಂಕ",
   "card-end": "ಅಂತ್ಯ",
+  "card-mark-complete": "ಪೂರ್ಣವೆಂದು ಗುರುತಿಸಿ",
+  "card-mark-incomplete": "ಅಪೂರ್ಣವೆಂದು ಗುರುತಿಸಿ",
   "card-received": "ಸ್ವೀಕರಿಸಲಾಗಿದೆ",
   "card-start": "ಪ್ರಾರಂಭ",
   "cardDetailsActionsPopup-title": "ಕಾರ್ಡ್ ಕ್ರಿಯೆಗಳು",

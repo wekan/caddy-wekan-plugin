@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Is féidir leat an cárta a athchóiriú ón gCartlann níos déanaí.",
   "card-due": "Spriocdháta",
   "card-end": "Deireadh",
+  "card-mark-complete": "Marcáil mar chríochnaithe",
+  "card-mark-incomplete": "Marcáil mar neamhiomlán",
   "card-received": "Faighte",
   "card-start": "Tosaigh",
   "cardDetailsActionsPopup-title": "Gníomhartha Cárta",

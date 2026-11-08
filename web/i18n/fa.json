@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "می‌توانید بعداً کارت را از آرشیو بازیابی کنید.",
   "card-due": "موعد",
   "card-end": "پایان",
+  "card-mark-complete": "علامت‌گذاری به‌عنوان کامل",
+  "card-mark-incomplete": "علامت‌گذاری به‌عنوان ناقص",
   "card-received": "رسیده",
   "card-start": "شروع",
   "cardDetailsActionsPopup-title": "اعمال کارت",

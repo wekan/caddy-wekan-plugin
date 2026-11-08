@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Һүүлдэнь карта архивһаа һэргээжэ болоно.",
   "card-due": "Дүүргэхэ",
   "card-end": "Түгэсхэл",
+  "card-mark-complete": "Дүүрэһэн гэжэ тэмдэглэхэ",
+  "card-mark-incomplete": "Дүүрээгүй гэжэ тэмдэглэхэ",
   "card-received": "Абтаһан",
   "card-start": "Эхилхэ",
   "cardDetailsActionsPopup-title": "Картын үйлэнүүд",

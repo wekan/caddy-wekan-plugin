@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Þú getur síðar endurheimt spjaldið úr safninu.",
   "card-due": "Skilafrestur",
   "card-end": "Lok",
+  "card-mark-complete": "Merkja lokið",
+  "card-mark-incomplete": "Merkja ólokið",
   "card-received": "Móttekið",
   "card-start": "Byrja",
   "cardDetailsActionsPopup-title": "Aðgerðir spjalds",

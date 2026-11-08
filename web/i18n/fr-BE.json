@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Vous pouvez, plus tard, restaurer une carte depuis les archives.",
   "card-due": "À échéance",
   "card-end": "Fin",
+  "card-mark-complete": "Marquer comme terminée",
+  "card-mark-incomplete": "Marquer comme non terminée",
   "card-received": "Reçue",
   "card-start": "Début",
   "cardDetailsActionsPopup-title": "Actions sur la carte",

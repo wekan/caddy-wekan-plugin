@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Kartu můžete později obnovit z archivu.",
   "card-due": "Termín",
   "card-end": "Konec",
+  "card-mark-complete": "Označit jako dokončené",
+  "card-mark-incomplete": "Označit jako nedokončené",
   "card-received": "Přijato",
   "card-start": "Začátek",
   "cardDetailsActionsPopup-title": "Akce karty",

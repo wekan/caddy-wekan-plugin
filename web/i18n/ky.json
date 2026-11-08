@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Карточканы кийин Архивден калыбына келтире аласыз.",
   "card-due": "Мөөнөтү",
   "card-end": "Аяктоо",
+  "card-mark-complete": "Аяктады деп белгилөө",
+  "card-mark-incomplete": "Аяктай элек деп белгилөө",
   "card-received": "Кабыл алынды",
   "card-start": "Баштоо",
   "cardDetailsActionsPopup-title": "Карточканын аракеттери",

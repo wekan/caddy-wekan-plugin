@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Faodaidh tu a' chairt aisig bhon Tasglann nas fhaide air adhart.",
   "card-due": "Ri phàigheadh",
   "card-end": "Crìoch",
+  "card-mark-complete": "Comharraich mar chrìochnaichte",
+  "card-mark-incomplete": "Comharraich mar neo-choileanta",
   "card-received": "Air fhaighinn",
   "card-start": "Tòisich",
   "cardDetailsActionsPopup-title": "Gnìomhan Cairte",

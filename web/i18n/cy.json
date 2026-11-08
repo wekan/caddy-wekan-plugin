@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Gallwch chi adfer cerdyn o'r Archif yn ddiweddarach.",
   "card-due": "Yn ddyledus",
   "card-end": "Diwedd",
+  "card-mark-complete": "Nodi'n gyflawn",
+  "card-mark-incomplete": "Nodi'n anghyflawn",
   "card-received": "Derbyniwyd",
   "card-start": "Cychwyn",
   "cardDetailsActionsPopup-title": "Gweithrediadau Cerdyn",

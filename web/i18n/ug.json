@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "كېيىن ئارخىپتىن كارتىنى ئەسلىگە كەلتۈرەلەيسىز.",
   "card-due": "تېگىشلىك",
   "card-end": "ئاخىر",
+  "card-mark-complete": "تاماملاندى دەپ بەلگىلەش",
+  "card-mark-incomplete": "تاماملانمىدى دەپ بەلگىلەش",
   "card-received": "قوبۇل قىلىندى",
   "card-start": "باشلاش",
   "cardDetailsActionsPopup-title": "كارتا ھەرىكىتى",

@@ -22,6 +22,10 @@ func (s *Server) customFieldMethods() map[string]methodFunc {
 		"setCardCustomFieldAssigned": s.customFieldMethod("assigned"),
 		"setCardCustomFieldCheckbox": s.customFieldMethod("checkbox"),
 		"setCardCustomFieldCurrency": s.customFieldMethod("currency"),
+		// WeKan's isAvatarUploadBlocked (#4740): Admin Panel's avatar block.
+		"isAvatarUploadBlocked": func(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+			return s.avatarUploadBlocked(r), nil
+		},
 	}
 }
 

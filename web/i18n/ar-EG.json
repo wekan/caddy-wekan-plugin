@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "يمكنك استعادة البطاقة لاحقاً من الأرشيف.",
   "card-due": "مستحق",
   "card-end": "النهاية",
+  "card-mark-complete": "تعيين كمكتمل",
+  "card-mark-incomplete": "تعيين كغير مكتمل",
   "card-received": "تم الاستلام",
   "card-start": "بداية",
   "cardDetailsActionsPopup-title": "إجراءات على البطاقة",

@@ -3,6 +3,7 @@ package web
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"mime/multipart"
 	"net/http"
 	"net/textproto"
@@ -22,7 +23,7 @@ func TestAvatarDisplayURL(t *testing.T) {
 		"/cfs/files/avatars/old":                                   "/cfs/files/avatars/old",
 		"https://pictures.example/me.png":                          "https://pictures.example/me.png",
 		"https://x.example/?u=/cdn/storage/avatars/abc":            "https://x.example/?u=/cdn/storage/avatars/abc",
-		"":                                                         "",
+		"": "",
 	} {
 		if got := avatarDisplayURL(in); got != want {
 			t.Errorf("%q: %q, want %q", in, got, want)
@@ -156,3 +157,64 @@ func TestAvatars(t *testing.T) {
 }
 
 func get2(t *testing.T, c *http.Client, u string) (*http.Response, string) { return get(t, c, u) }
+
+// The minicard's "Mark as complete": shown only when Card Settings says so,
+// changed only by whoever may change the card; and isAvatarUploadBlocked.
+func TestMinicardCompleteAndAvatarBlock(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	a := login(t, w, "ann")
+	b := newRESTBoard(t, w, a, "Done")
+	ctx := context.Background()
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	if _, html := get(t, c, w.srv.URL+"/b/"+b.ID+"/done"); strings.Contains(html, "js-toggle-card-complete") {
+		t.Error("negative: hidden by default")
+	}
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"allowsDueCompleteOnMinicard": true}})
+	if _, html := get(t, c, w.srv.URL+"/b/"+b.ID+"/done"); !strings.Contains(html, "js-toggle-card-complete") {
+		t.Error("shown when Card Settings says so")
+	}
+	post := func(client *http.Client, v string) int {
+		res, err := client.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+b.Card+"/complete", map[string][]string{"complete": {v}})
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+		return res.StatusCode
+	}
+	done := func() bool {
+		var card Card
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": b.Card}).Decode(&card)
+		return card.DueComplete
+	}
+	if code := post(c, "true"); code != 204 || !done() {
+		t.Fatalf("marked complete: %d", code)
+	}
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true, IsNormalAssignedOnly: true})
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if code := post(bc, "false"); code != 403 || !done() {
+		t.Errorf("negative: an assigned-only member, not their card: %d", code)
+	}
+	call := func() any {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/isAvatarUploadBlocked", strings.NewReader(`[]`))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := c.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return out["result"]
+	}
+	if call() != false {
+		t.Error("avatars are enabled by default")
+	}
+	_, _ = w.db.Collection("attachmentStorageSettings").InsertOne(ctx, bson.M{"limitSettings": bson.M{"avatarsUploadBlocked": true}})
+	if call() != true {
+		t.Error("blocked")
+	}
+}

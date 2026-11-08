@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Voit myöhemmin palauttaa kortin Arkistosta.",
   "card-due": "Erääntyy",
   "card-end": "Loppuu",
+  "card-mark-complete": "Merkitse valmiiksi",
+  "card-mark-incomplete": "Merkitse keskeneräiseksi",
   "card-received": "Vastaanotettu",
   "card-start": "Alkaa",
   "cardDetailsActionsPopup-title": "Korttitoimet",

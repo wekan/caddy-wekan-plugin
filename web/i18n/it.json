@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Puoi ripristinare la scheda più tardi dall'archivio",
   "card-due": "Scadenza",
   "card-end": "Fine",
+  "card-mark-complete": "Contrassegna come completata",
+  "card-mark-incomplete": "Contrassegna come non completata",
   "card-received": "Ricevuta",
   "card-start": "Inizio",
   "cardDetailsActionsPopup-title": "Azioni scheda",

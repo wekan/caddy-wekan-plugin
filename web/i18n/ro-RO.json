@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Puteți restaura ulterior cardul din arhivă.",
   "card-due": "Scadență",
   "card-end": "Sfârșit",
+  "card-mark-complete": "Marchează ca finalizat",
+  "card-mark-incomplete": "Marchează ca nefinalizat",
   "card-received": "Primit",
   "card-start": "Început",
   "cardDetailsActionsPopup-title": "Acțiuni card",

@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Подоцна можете да ја вратите картата од архивата.",
   "card-due": "Готова за",
   "card-end": "Крај",
+  "card-mark-complete": "Означи како завршена",
+  "card-mark-incomplete": "Означи како незавршена",
   "card-received": "Получена",
   "card-start": "Започнува",
   "cardDetailsActionsPopup-title": "Опции",

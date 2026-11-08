@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "तपाईंले पछि अभिलेखबाट कार्ड पुनर्स्थापित गर्न सक्नुहुन्छ।",
   "card-due": "अन्तिम मिति",
   "card-end": "अन्त्य",
+  "card-mark-complete": "पूरा भएको चिन्ह लगाउनुहोस्",
+  "card-mark-incomplete": "अपूरो भएको चिन्ह लगाउनुहोस्",
   "card-received": "प्राप्त",
   "card-start": "सुरु",
   "cardDetailsActionsPopup-title": "कार्ड कार्यहरू",

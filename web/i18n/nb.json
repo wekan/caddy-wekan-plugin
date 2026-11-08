@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Du kan gjenopprette kortet fra arkivet seinere",
   "card-due": "Frist",
   "card-end": "Avslutt",
+  "card-mark-complete": "Merk som fullført",
+  "card-mark-incomplete": "Merk som ikke fullført",
   "card-received": "Mottatt",
   "card-start": "Begynn kortet",
   "cardDetailsActionsPopup-title": "Behandling kort",

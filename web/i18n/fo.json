@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Tú kanst seinni endurstovna kortið úr goymsluni.",
   "card-due": "Freist",
   "card-end": "Endi",
+  "card-mark-complete": "Merk sum liðugt",
+  "card-mark-incomplete": "Merk sum óliðugt",
   "card-received": "Móttikið",
   "card-start": "Byrja",
   "cardDetailsActionsPopup-title": "Kortgerðir",

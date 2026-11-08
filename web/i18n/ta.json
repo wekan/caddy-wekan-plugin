@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "பின்னர் அட்டையைக் காப்பகத்திலிருந்து மீட்டெடுக்கலாம்.",
   "card-due": "கெடு",
   "card-end": "முடிவு",
+  "card-mark-complete": "முடிந்ததாகக் குறி",
+  "card-mark-incomplete": "முடியாததாகக் குறி",
   "card-received": "பெறப்பட்டது",
   "card-start": "தொடக்கம்",
   "cardDetailsActionsPopup-title": "அட்டைச் செயல்கள்",

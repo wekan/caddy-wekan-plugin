@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "នៅពេលក្រោយ អ្នកអាចស្ដារកាតពីបណ្ណសារ។",
   "card-due": "ដល់កំណត់",
   "card-end": "ចប់",
+  "card-mark-complete": "សម្គាល់ថាបានបញ្ចប់",
+  "card-mark-incomplete": "សម្គាល់ថាមិនទាន់បញ្ចប់",
   "card-received": "បានទទួល",
   "card-start": "ចាប់ផ្តើម",
   "cardDetailsActionsPopup-title": "សកម្មភាពកាត",

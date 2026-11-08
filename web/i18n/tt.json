@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Соңрак карточканы архивтан торгыза аласыз.",
   "card-due": "Үтәү вакыты",
   "card-end": "Тәмамлану",
+  "card-mark-complete": "Тәмамланган дип билгеләү",
+  "card-mark-incomplete": "Тәмамланмаган дип билгеләү",
   "card-received": "Алынган",
   "card-start": "Башлау",
   "cardDetailsActionsPopup-title": "Карточка гамәлләре",

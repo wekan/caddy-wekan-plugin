@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "دواتر دەتوانیت کارت لە ئەرشیف بگەڕێنیتەوە.",
   "card-due": "کۆتایی",
   "card-end": "کۆتایی",
+  "card-mark-complete": "وەک تەواو نیشانە بکە",
+  "card-mark-incomplete": "وەک ناتەواو نیشانە بکە",
   "card-received": "وەرگیراو",
   "card-start": "دەستپێکردن",
   "cardDetailsActionsPopup-title": "کردارەکانی کارت",

@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "您稍后可以从存档中恢复卡。",
   "card-due": "到期的",
   "card-end": "结尾",
+  "card-mark-complete": "标记为完成",
+  "card-mark-incomplete": "标记为未完成",
   "card-received": "已收到",
   "card-start": "开始",
   "cardDetailsActionsPopup-title": "卡片操作",

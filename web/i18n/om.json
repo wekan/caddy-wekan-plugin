@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Boodarra kaardii Kuusaa keessaa deebisuu dandeessa.",
   "card-due": "Yeroo Xumuraa",
   "card-end": "Dhuma",
+  "card-mark-complete": "Akka xumurameetti mallatteessi",
+  "card-mark-incomplete": "Akka hin xumuramneetti mallatteessi",
   "card-received": "Fudhatame",
   "card-start": "Jalqabi",
   "cardDetailsActionsPopup-title": "Tarkaanfiiwwan Kaardii",

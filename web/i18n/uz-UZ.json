@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Keyinchalik Arxivdan kartani tiklashingiz mumkin.",
   "card-due": "Muddati",
   "card-end": "Oxiri",
+  "card-mark-complete": "Bajarilgan deb belgilash",
+  "card-mark-incomplete": "Bajarilmagan deb belgilash",
   "card-received": "Qabul qilingan",
   "card-start": "Boshlash",
   "cardDetailsActionsPopup-title": "Karta harakatlari",

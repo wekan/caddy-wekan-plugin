@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Você pode restaurar o cartão do Arquivo posteriormente.",
   "card-due": "Prazo final",
   "card-end": "Concluído",
+  "card-mark-complete": "Marcar como concluído",
+  "card-mark-incomplete": "Marcar como não concluído",
   "card-received": "Recebido",
   "card-start": "Data início",
   "cardDetailsActionsPopup-title": "Ações do cartão",

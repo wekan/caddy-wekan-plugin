@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "बाद में कार्ड के संग्रह से बहाल कर सकत बानी।",
   "card-due": "नियत",
   "card-end": "अंत",
+  "card-mark-complete": "पूरा निशान लगाईं",
+  "card-mark-incomplete": "अधूरा निशान लगाईं",
   "card-received": "मिलल",
   "card-start": "शुरू करीं",
   "cardDetailsActionsPopup-title": "कार्ड कार्रवाई",

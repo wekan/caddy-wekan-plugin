@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Kartı daha sonra Arşiv'den geri yükleyebilirsiniz.",
   "card-due": "Bitiş",
   "card-end": "Bitiş",
+  "card-mark-complete": "Tamamlandı olarak işaretle",
+  "card-mark-incomplete": "Tamamlanmadı olarak işaretle",
   "card-received": "Giriş",
   "card-start": "Başlama",
   "cardDetailsActionsPopup-title": "Kart işlemleri",

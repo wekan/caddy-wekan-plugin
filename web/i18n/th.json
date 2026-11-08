@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "คุณสามารถกู้คืนการ์ดจากคลังได้ในภายหลัง",
   "card-due": "ครบกำหนด",
   "card-end": "สิ้นสุด",
+  "card-mark-complete": "ทำเครื่องหมายว่าเสร็จสมบูรณ์",
+  "card-mark-incomplete": "ทำเครื่องหมายว่าไม่เสร็จสมบูรณ์",
   "card-received": "ได้รับ",
   "card-start": "เริ่ม",
   "cardDetailsActionsPopup-title": "การดำเนินการการ์ด",

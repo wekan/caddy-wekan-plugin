@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Kartico lahko pozneje obnovite iz arhiva.",
   "card-due": "Dospijeće",
   "card-end": "Konec",
+  "card-mark-complete": "Označi kot dokončano",
+  "card-mark-incomplete": "Označi kot nedokončano",
   "card-received": "Prejeto",
   "card-start": "Začetek",
   "cardDetailsActionsPopup-title": "Dejanja kartice",

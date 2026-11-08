@@ -229,6 +229,9 @@ type Board struct {
 	Members     []Member  `bson:"members" json:"members"`
 	Labels      []Label   `bson:"labels,omitempty" json:"labels,omitempty"`
 	CreatedAt   time.Time `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
+	// AllowsDueCompleteOnMinicard is Card Settings' "Show at Minicard" of
+	// "Mark as complete": off unless set.
+	AllowsDueCompleteOnMinicard bool `bson:"allowsDueCompleteOnMinicard,omitempty" json:"allowsDueCompleteOnMinicard,omitempty"`
 }
 
 // AdminOf reports whether userID is an active board admin.
@@ -277,18 +280,20 @@ type List struct {
 
 // Card is a document of the cards collection.
 type Card struct {
-	ID          string    `bson:"_id" json:"_id"`
-	Title       string    `bson:"title" json:"title"`
-	Description string    `bson:"description,omitempty" json:"description,omitempty"`
-	BoardID     string    `bson:"boardId" json:"boardId"`
-	ListID      string    `bson:"listId" json:"listId"`
-	SwimlaneID  string    `bson:"swimlaneId" json:"swimlaneId"`
-	UserID      string    `bson:"userId,omitempty" json:"userId,omitempty"`
-	Members     []string  `bson:"members" json:"members"`
-	Assignees   []string  `bson:"assignees" json:"assignees"`
-	LabelIDs    []string  `bson:"labelIds" json:"labelIds"`
-	Sort        float64   `bson:"sort" json:"sort"`
-	Archived    bool      `bson:"archived" json:"archived"`
+	ID          string   `bson:"_id" json:"_id"`
+	Title       string   `bson:"title" json:"title"`
+	Description string   `bson:"description,omitempty" json:"description,omitempty"`
+	BoardID     string   `bson:"boardId" json:"boardId"`
+	ListID      string   `bson:"listId" json:"listId"`
+	SwimlaneID  string   `bson:"swimlaneId" json:"swimlaneId"`
+	UserID      string   `bson:"userId,omitempty" json:"userId,omitempty"`
+	Members     []string `bson:"members" json:"members"`
+	Assignees   []string `bson:"assignees" json:"assignees"`
+	LabelIDs    []string `bson:"labelIds" json:"labelIds"`
+	Sort        float64  `bson:"sort" json:"sort"`
+	Archived    bool     `bson:"archived" json:"archived"`
+	// DueComplete is WeKan's dueComplete: the card is marked as complete.
+	DueComplete bool      `bson:"dueComplete,omitempty" json:"dueComplete,omitempty"`
 	Type        string    `bson:"type,omitempty" json:"type,omitempty"`
 	CardNumber  int64     `bson:"cardNumber,omitempty" json:"cardNumber,omitempty"`
 	CreatedAt   time.Time `bson:"createdAt,omitempty" json:"createdAt,omitempty"`

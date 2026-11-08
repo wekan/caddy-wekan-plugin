@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Més tard podeu restaurar la fitxa des de l'Arxiu.",
   "card-due": "Finalitza",
   "card-end": "Final",
+  "card-mark-complete": "Marca com a completa",
+  "card-mark-incomplete": "Marca com a incompleta",
   "card-received": "Rebut",
   "card-start": "Comença",
   "cardDetailsActionsPopup-title": "Accions de fitxes",

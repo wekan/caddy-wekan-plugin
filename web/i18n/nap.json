@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Puoje ripristinare la carta più tardi dall'archivio",
   "card-due": "Scadenza",
   "card-end": "Fine",
+  "card-mark-complete": "Contrassegna comme completata",
+  "card-mark-incomplete": "Contrassegna comme nun completata",
   "card-received": "Ricevuta",
   "card-start": "Accummencia",
   "cardDetailsActionsPopup-title": "Azioni carta",

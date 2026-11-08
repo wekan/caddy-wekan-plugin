@@ -1,3 +1,10 @@
+// Meteor's runtime config, as far as WeKan's pages and tests read it: Weddy
+// is served at the root of its origin, and every script it loads comes from
+// that same origin - there is no ROOT_URL host to load code from.
+window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
+  ROOT_URL_PATH_PREFIX: '',
+  PUBLIC_SETTINGS: { packages: { 'dynamic-import': { useLocationOrigin: true } } },
+};
 // Weddy's WeKan in the browser: Unpoly for the pages, Server-Sent Events for what
 // other people change, and interact.js for MultiDrag - every finger, or the mouse,
 // drags its own card at the same time, and a card dragged while others are
@@ -247,6 +254,16 @@
   up.on('click', '#notifications-drawer .js-filter-unread', function (event) { event.preventDefault(); drawerShowRead(false); });
   up.on('click', '#notifications-drawer .js-view-all', function (event) { event.preventDefault(); drawerShowRead(true); });
   // #5171: a grouped row opens to show all of its card's or board's entries.
+  // The minicard's "Mark as complete": the card does not open.
+  up.on('click', '.js-toggle-card-complete', function (event, link) {
+    event.preventDefault();
+    event.stopPropagation();
+    var m = location.pathname.match(/^\/b\/([^/]+)/);
+    if (!m) return;
+    var body = new URLSearchParams({ complete: link.getAttribute('data-complete') });
+    fetch('/b/' + m[1] + '/cards/' + encodeURIComponent(link.getAttribute('data-card')) + '/complete',
+      { method: 'POST', body: body, credentials: 'same-origin' }).then(function () { up.reload('.board-wrapper'); });
+  });
   up.on('click', '#notifications-drawer .js-toggle-notification-group', function (event, link) {
     event.preventDefault();
     var open = link.getAttribute('aria-expanded') !== 'true';

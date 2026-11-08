@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "ကတ်ကို နောက်ပိုင်းတွင် မှတ်တမ်းမှ ပြန်ယူနိုင်သည်။",
   "card-due": "သတ်မှတ်ရက်",
   "card-end": "ပြီးဆုံး",
+  "card-mark-complete": "ပြီးစီးသည်ဟု မှတ်ရန်",
+  "card-mark-incomplete": "မပြီးစီးသေးဟု မှတ်ရန်",
   "card-received": "လက်ခံပြီး",
   "card-start": "စတင်",
   "cardDetailsActionsPopup-title": "ကတ်လုပ်ဆောင်ချက်များ",

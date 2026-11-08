@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Saate hiljem kaardi arhiivist taastada.",
   "card-due": "Tähtaeg",
   "card-end": "Lõpp",
+  "card-mark-complete": "Märgi lõpetatuks",
+  "card-mark-incomplete": "Märgi lõpetamata",
   "card-received": "Saabunud",
   "card-start": "Algus",
   "cardDetailsActionsPopup-title": "Kaardi toimingud",

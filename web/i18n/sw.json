@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Unaweza kurejesha kadi kutoka kwa Kumbukumbu baadaye.",
   "card-due": "Inastahili",
   "card-end": "Mwisho",
+  "card-mark-complete": "Weka alama kuwa imekamilika",
+  "card-mark-incomplete": "Weka alama kuwa haijakamilika",
   "card-received": "Imepokelewa",
   "card-start": "Anza",
   "cardDetailsActionsPopup-title": "Vitendo vya Kadi",

@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Mutha kubwezeretsa khadi kuchokera ku Zosungidwa pambuyo pake.",
   "card-due": "Lomaliza",
   "card-end": "Mapeto",
+  "card-mark-complete": "Ikani ngati lamalizidwa",
+  "card-mark-incomplete": "Ikani ngati silinamalizidwe",
   "card-received": "Lalandiridwa",
   "card-start": "Yambani",
   "cardDetailsActionsPopup-title": "Zochita za Khadi",

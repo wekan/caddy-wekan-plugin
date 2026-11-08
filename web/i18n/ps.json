@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "وروسته کارت له ارشيف څخه بېرته راوستلی شئ.",
   "card-due": "وروستۍ نېټه",
   "card-end": "پای",
+  "card-mark-complete": "د بشپړ په توګه په نښه کړئ",
+  "card-mark-incomplete": "د نيمګړي په توګه په نښه کړئ",
   "card-received": "ترلاسه شوی",
   "card-start": "پيل",
   "cardDetailsActionsPopup-title": "د کارت کړنې",

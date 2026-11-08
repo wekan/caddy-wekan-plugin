@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Bihain yu inap bringim bek kat long akaiv.",
   "card-due": "Mas pinis",
   "card-end": "Pinis",
+  "card-mark-complete": "Makim olsem i pinis",
+  "card-mark-incomplete": "Makim olsem i no pinis",
   "card-received": "Kisim pinis",
   "card-start": "Statim",
   "cardDetailsActionsPopup-title": "Ol wok bilong kat",

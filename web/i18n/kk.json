@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Карточканы кейін мұрағаттан қалпына келтіруге болады.",
   "card-due": "Мерзімі",
   "card-end": "Аяқталуы",
+  "card-mark-complete": "Аяқталған деп белгілеу",
+  "card-mark-incomplete": "Аяқталмаған деп белгілеу",
   "card-received": "Қабылданған",
   "card-start": "Бастау",
   "cardDetailsActionsPopup-title": "Карточка әрекеттері",

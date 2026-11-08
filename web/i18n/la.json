@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Chartam postea ex archivo restituere potes.",
   "card-due": "Debitum",
   "card-end": "Finis",
+  "card-mark-complete": "Nota chartam perfectam",
+  "card-mark-incomplete": "Nota chartam imperfectam",
   "card-received": "Receptum",
   "card-start": "Incipe",
   "cardDetailsActionsPopup-title": "Actiones chartae",

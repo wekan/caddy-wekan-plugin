@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "পরে সংরক্ষণাগার থেকে কার্ডটি পুনরুদ্ধার করতে পারবেন।",
   "card-due": "নির্ধারিত",
   "card-end": "শেষ",
+  "card-mark-complete": "সম্পূর্ণ চিহ্নিত করুন",
+  "card-mark-incomplete": "অসম্পূর্ণ চিহ্নিত করুন",
   "card-received": "প্রাপ্ত",
   "card-start": "শুরু",
   "cardDetailsActionsPopup-title": "কার্ডের কার্যাবলি",

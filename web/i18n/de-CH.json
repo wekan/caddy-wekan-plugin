@@ -137,6 +137,8 @@
   "card-archive-suggest-cancel": "Die Karte kann später aus dem Archiv wiederhergestellt werden.",
   "card-due": "fällig",
   "card-end": "Ende",
+  "card-mark-complete": "Als erledigt markieren",
+  "card-mark-incomplete": "Als nicht erledigt markieren",
   "card-received": "Empfangen",
   "card-start": "Beginn",
   "cardDetailsActionsPopup-title": "Kartenaktionen",
