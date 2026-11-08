@@ -213,17 +213,18 @@ type Label struct {
 
 // Board is a document of the boards collection.
 type Board struct {
-	ID         string    `bson:"_id" json:"_id"`
-	Title      string    `bson:"title" json:"title"`
-	Slug       string    `bson:"slug" json:"slug"`
-	Color      string    `bson:"color,omitempty" json:"color,omitempty"`
-	Archived   bool      `bson:"archived" json:"archived"`
-	Permission string    `bson:"permission" json:"permission"` // private | public
-	Type       string    `bson:"type,omitempty" json:"type,omitempty"`
-	Sort       float64   `bson:"sort,omitempty" json:"sort,omitempty"`
-	Members    []Member  `bson:"members" json:"members"`
-	Labels     []Label   `bson:"labels,omitempty" json:"labels,omitempty"`
-	CreatedAt  time.Time `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
+	ID          string    `bson:"_id" json:"_id"`
+	Title       string    `bson:"title" json:"title"`
+	Description string    `bson:"description,omitempty" json:"description,omitempty"`
+	Slug        string    `bson:"slug" json:"slug"`
+	Color       string    `bson:"color,omitempty" json:"color,omitempty"`
+	Archived    bool      `bson:"archived" json:"archived"`
+	Permission  string    `bson:"permission" json:"permission"` // private | public
+	Type        string    `bson:"type,omitempty" json:"type,omitempty"`
+	Sort        float64   `bson:"sort,omitempty" json:"sort,omitempty"`
+	Members     []Member  `bson:"members" json:"members"`
+	Labels      []Label   `bson:"labels,omitempty" json:"labels,omitempty"`
+	CreatedAt   time.Time `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
 }
 
 // AdminOf reports whether userID is an active board admin.

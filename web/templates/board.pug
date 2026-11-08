@@ -60,6 +60,10 @@
       a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
     .content
       ul.pop-over-list
+        li
+          a.js-open-archives(href="#")
+            i.fa.fa-archive
+            |  {{t $.L "archived-items"}}
         if .CanExport
           li
             a.js-export-board(href="#") {{t $.L "export"}}
@@ -132,6 +136,21 @@
           p {{t $.L "card-archive-pop"}}
           p {{t $.L "card-archive-suggest-cancel"}}
           button.js-confirm.negate.full(type="submit") {{t $.L "archive"}}
+  //- WeKan's archivesSidebar: what is in the board's Archive, restored here.
+  template.js-pop-over-template(data-pop="archives", data-title="{{t $.L `archives`}}")
+    .archives
+      if .Archived
+        ul.pop-over-list.archived-items
+          each it in .Archived
+            li.archived-item(data-kind="{{.Kind}}", data-id="{{.ID}}")
+              span.archived-item-title {{.Title}}
+              if $.CanEdit
+                form(method="post", action="/b/{{$.Board.ID}}/archive/restore", up-submit, up-target=".board-wrapper")
+                  input(type="hidden", name="kind", value="{{.Kind}}")
+                  input(type="hidden", name="id", value="{{.ID}}")
+                  button.js-restore(type="submit") {{t $.L "restore"}}
+      else
+        p.empty-message {{t $.L "no-archived-cards"}}
   template.js-pop-over-template(data-pop="watch", data-title="{{t $.L `boardChangeWatchPopup-title`}}")
     .header
       span.header-title {{t $.L "boardChangeWatchPopup-title"}}

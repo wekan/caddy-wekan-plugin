@@ -13,6 +13,22 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
     if .User
       #header.header-bar
         a.header-all-boards.js-all-boards(href="/", up-follow) {{t $.L "all-boards"}}
+        if .Board
+          //- WeKan's header quick access: the board's title, renamed by its admin.
+          #header-quick-access.nodragscroll
+            if .Board.AdminOf .User.ID
+              span.header-page-title.js-edit-board-title.is-editable(role="heading", aria-level="1", title="{{.Board.Title}}") {{.Board.Title}}
+              template.js-pop-over-template(data-pop="board-title", data-title="{{t $.L `rename`}}")
+                form(method="post", action="/b/{{.Board.ID}}/title")
+                  label
+                    | {{t $.L "title"}}
+                    textarea.js-board-name(name="title", rows="2", dir="auto", required) {{.Board.Title}}
+                  label
+                    | {{t $.L "description"}}
+                    textarea.js-board-desc(name="description", dir="auto") {{.Board.Description}}
+                  input.primary.wide(type="submit", value="{{t $.L `rename`}}")
+            else
+              span.header-page-title(role="heading", aria-level="1", title="{{.Board.Title}}") {{.Board.Title}}
         if .User.IsAdmin
           a.js-admin-people(href="/admin/people") {{t $.L "admin-panel"}} / {{t $.L "people"}}
         if .CloudMenu

@@ -238,6 +238,8 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}/rules/export", s.page(s.rulesExport))
 	m.HandleFunc("POST /b/{board}/cards/{card}/people", s.page(s.cardPeoplePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/archive", s.page(s.archiveCardPage))
+	m.HandleFunc("POST /b/{board}/title", s.page(s.renameBoardPage))
+	m.HandleFunc("POST /b/{board}/archive/restore", s.page(s.restoreArchivedPage))
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
 	m.HandleFunc("POST /b/{board}/swimlanes", s.page(s.addSwimlanePage))
 	m.HandleFunc("POST /b/{board}/cards", s.page(s.addCard))
@@ -620,6 +622,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	lang := languageOf(r, u).Tag
 	data["WatchLevel"] = s.watchLevel(r.Context(), b.ID, u.ID)
 	data["SidebarMembers"] = s.sidebarMembers(r, b, u)
+	data["Archived"] = s.archivedItems(r, b)
 	data["CanInvite"] = canInviteToBoard(u, b, s.inviteRoles(r))
 	data["IsBoardAdmin"] = b.AdminOf(u.ID)
 	if b.Writable(u, "write", nil) || (m != nil && b.Can(u.ID, "write")) {
@@ -1389,5 +1392,74 @@ func (s *Server) archiveCardPage(w http.ResponseWriter, r *http.Request, u *User
 		s.activity(r.Context(), u.ID, "archivedCard", bson.M{"boardId": b.ID, "cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID, "cardTitle": c.Title})
 		s.hub.publish(b.ID, "board-changed")
 	}
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+}
+
+// renameBoardPage is WeKan's boardChangeTitlePopup: a board admin sets the
+// board's title and description.
+func (s *Server) renameBoardPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil || !b.AdminOf(u.ID) {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	title, desc := strings.TrimSpace(r.FormValue("title")), strings.TrimSpace(r.FormValue("description"))
+	if title == "" || len(title) > 1000 || len(desc) > 100000 {
+		http.Error(w, "a board needs a title", http.StatusBadRequest)
+		return
+	}
+	slug := slugify(title)
+	if _, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": b.ID}, bson.M{"$set": bson.M{
+		"title": title, "description": desc, "slug": slug, "modifiedAt": time.Now().UTC()}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.hub.publish(b.ID, "board-changed")
+	http.Redirect(w, r, "/b/"+b.ID+"/"+slug, http.StatusSeeOther)
+}
+
+// archivedItem is one thing in the board's Archive.
+type archivedItem struct{ Kind, ID, Title string }
+
+// archivedItems are the board's archived cards, lists and swimlanes.
+func (s *Server) archivedItems(r *http.Request, b *Board) []archivedItem {
+	var out []archivedItem
+	for _, kind := range []string{"cards", "lists", "swimlanes"} {
+		cur, err := s.db.Collection(kind).Find(r.Context(), bson.M{"boardId": b.ID, "archived": true},
+			options.Find().SetProjection(bson.M{"title": 1}).SetLimit(200))
+		if err != nil {
+			continue
+		}
+		var docs []bson.M
+		_ = cur.All(r.Context(), &docs)
+		for _, d := range docs {
+			out = append(out, archivedItem{Kind: kind, ID: docString(d, "_id"), Title: docString(d, "title")})
+		}
+	}
+	return out
+}
+
+// restoreArchivedPage brings an archived card, list or swimlane back, for
+// whoever may change the board.
+func (s *Server) restoreArchivedPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b := s.editableBoard(w, r, u)
+	if b == nil {
+		return
+	}
+	kind, id := r.FormValue("kind"), r.FormValue("id")
+	if !slices.Contains([]string{"cards", "lists", "swimlanes"}, kind) || !validID(id) {
+		http.Error(w, "nothing to restore", http.StatusBadRequest)
+		return
+	}
+	res, err := s.db.Collection(kind).UpdateOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID, "archived": true},
+		bson.M{"$set": bson.M{"archived": false, "modifiedAt": time.Now().UTC()}})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if res.ModifiedCount > 0 && kind == "cards" {
+		s.activity(r.Context(), u.ID, "restoredCard", bson.M{"boardId": b.ID, "cardId": id})
+	}
+	s.hub.publish(b.ID, "board-changed")
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }

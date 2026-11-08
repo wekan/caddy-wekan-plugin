@@ -144,3 +144,62 @@ func TestArchiveCardFromDetails(t *testing.T) {
 		t.Fatalf("archived: %d", r.StatusCode)
 	}
 }
+
+// WeKan's boardChangeTitlePopup and the board's Archive: a board admin
+// renames; whoever may change the board restores what is archived.
+func TestRenameBoardAndRestore(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ro := w.seedUser(t, "rob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Old")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"$each": bson.A{
+		bson.M{"userId": bob.ID, "isActive": true}, bson.M{"userId": ro.ID, "isActive": true, "isReadOnly": true}}}}})
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Gone")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"archived": true}})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	_, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug)
+	if !strings.Contains(html, "js-edit-board-title") || !strings.Contains(html, "js-open-archives") || !strings.Contains(html, `data-id="`+c.ID+`"`) {
+		t.Fatal("the rename for the admin, and the archived card in the Archive")
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if _, html := get(t, bc, w.srv.URL+"/b/"+b.ID+"/"+b.Slug); strings.Contains(html, "js-edit-board-title") {
+		t.Fatal("negative: no rename for a member who is not an admin")
+	}
+	if r, _ := bc.PostForm(w.srv.URL+"/b/"+b.ID+"/title", url.Values{"title": {"Mine"}}); r.StatusCode != http.StatusNotFound {
+		t.Fatalf("negative: nor may they rename: %d", r.StatusCode)
+	}
+	if r, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/title", url.Values{"title": {"  "}}); r.StatusCode != http.StatusBadRequest {
+		t.Fatalf("negative: a title is needed: %d", r.StatusCode)
+	}
+	if r, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/title", url.Values{"title": {"New Name"}, "description": {"About"}}); r.StatusCode != http.StatusSeeOther {
+		t.Fatalf("renamed: %d", r.StatusCode)
+	}
+	var nb Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&nb)
+	if nb.Title != "New Name" || nb.Description != "About" || nb.Slug != "new-name" {
+		t.Fatalf("the title, description and slug: %+v", nb)
+	}
+	rob := w.client(t)
+	body(t, w.signIn(t, rob, "rob", "pw"))
+	if r, _ := rob.PostForm(w.srv.URL+"/b/"+b.ID+"/archive/restore", url.Values{"kind": {"cards"}, "id": {c.ID}}); r.StatusCode != http.StatusForbidden {
+		t.Fatalf("negative: a read-only member restores nothing: %d", r.StatusCode)
+	}
+	if r, _ := bc.PostForm(w.srv.URL+"/b/"+b.ID+"/archive/restore", url.Values{"kind": {"users"}, "id": {u.ID}}); r.StatusCode != http.StatusBadRequest {
+		t.Fatalf("negative: only cards, lists and swimlanes: %d", r.StatusCode)
+	}
+	if r, _ := bc.PostForm(w.srv.URL+"/b/"+b.ID+"/archive/restore", url.Values{"kind": {"cards"}, "id": {c.ID}}); r.StatusCode != http.StatusSeeOther {
+		t.Fatalf("restored: %d", r.StatusCode)
+	}
+	var got Card
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&got)
+	if got.Archived {
+		t.Fatal("the card is back")
+	}
+}

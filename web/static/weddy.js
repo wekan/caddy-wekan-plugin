@@ -273,6 +273,15 @@
     openPopOver('card-archive');
   });
 
+  up.on('click', '.js-edit-board-title', function (event) {
+    event.preventDefault();
+    openPopOver('board-title');
+  });
+  up.on('click', '.js-open-archives', function (event) {
+    event.preventDefault();
+    openPopOver('archives');
+  });
+
   // An invitation to the board: accept it, or decline it and go to All Boards.
   up.on('click', '.js-member-invite-accept', function (event, el) {
     event.preventDefault();
