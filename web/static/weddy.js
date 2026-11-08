@@ -398,5 +398,128 @@
     });
   }
 
+  // WeKan's Rules page: its title, then a trigger, then an action, which
+  // saves the rule (rules.createRule) - one pane at a time, as rulesMain.
+  var ruleState = { name: '', trigger: null };
+  function rulesPage(el) { return el.closest('.rules-page'); }
+  function showPane(page, name) {
+    page.querySelectorAll('.js-rules-pane').forEach(function (p) {
+      p.classList.toggle('is-hidden', p.dataset.pane !== name);
+    });
+    page.querySelectorAll('.js-rule-name').forEach(function (n) { n.textContent = ruleState.name; });
+  }
+  // Utils.getTriggerActionDesc: the item's words, and what is chosen in it.
+  function ruleDesc(button) {
+    var item = button.closest('.trigger-item');
+    var parts = [];
+    item.querySelectorAll('.trigger-content > *').forEach(function (el) {
+      if (el.classList.contains('trigger-text')) {
+        parts.push(el.textContent.trim().toLowerCase());
+      } else if (el.querySelector('select')) {
+        var sel = el.querySelector('select');
+        parts.push(sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text.trim().toLowerCase() : '');
+      } else if (el.querySelector('textarea, input')) {
+        parts.push(el.querySelector('textarea, input').value.trim());
+      }
+    });
+    return parts.filter(function (x) { return x; }).join(' ');
+  }
+  function val(page, id) { var el = page.querySelector('#' + id); return el ? el.value : ''; }
+  up.on('click', '.js-goto-trigger', function (event, el) {
+    event.preventDefault();
+    var page = rulesPage(el);
+    ruleState = { name: val(page, 'ruleTitle').trim(), trigger: null };
+    showPane(page, 'trigger');
+  });
+  up.on('click', '.rules-page .js-goback', function (event, el) {
+    event.preventDefault();
+    showPane(rulesPage(el), el.dataset.to);
+  });
+  up.on('click', '.rules-page .triggers-side-menu li', function (event, el) {
+    var pane = el.closest('.js-rules-pane');
+    pane.querySelectorAll('.triggers-side-menu li').forEach(function (li) { li.classList.toggle('active', li === el); });
+    pane.querySelectorAll('.js-rules-tab').forEach(function (t) { t.classList.toggle('is-hidden', t.dataset.tab !== el.dataset.tab); });
+  });
+  // The triggers, as boardTriggers.js and buttonTriggers.js make them.
+  var triggerMakers = {
+    'js-add-create-trigger': function (p) {
+      return { activityType: 'createCard', cardTitle: '*', listName: val(p, 'create-list-name'), swimlaneName: val(p, 'create-swimlane-name') };
+    },
+    'js-add-gen-moved-trigger': function () {
+      return { activityType: 'moveCard', cardTitle: '*', listName: '*', oldListName: '*', swimlaneName: '*' };
+    },
+    'js-add-moved-trigger': function (p) {
+      var list = val(p, 'move-list-name'), sw = val(p, 'create-swimlane-name-2');
+      return val(p, 'move-action') === 'moved-from'
+        ? { activityType: 'moveCard', cardTitle: '*', swimlaneName: sw, listName: '*', oldListName: list }
+        : { activityType: 'moveCard', cardTitle: '*', swimlaneName: sw, listName: list, oldListName: '*' };
+    },
+    'js-add-arch-trigger': function (p) {
+      var kind = { archived: 'archivedCard', unarchived: 'restoredCard', commented: 'addComment' }[val(p, 'arch-action')];
+      return { activityType: kind, cardTitle: '*' };
+    },
+    'js-add-button-trigger': function (p) {
+      return { activityType: 'button', buttonType: val(p, 'button-type') || 'card', buttonLabel: val(p, 'button-label') || 'Run' };
+    },
+  };
+  // The actions, as boardActions.js and cardActions.js make them.
+  var actionMakers = {
+    'js-add-gen-move-action': function (p) {
+      return { actionType: val(p, 'move-gen-action') === 'bottom' ? 'moveCardToBottom' : 'moveCardToTop', listName: '*', swimlaneName: '*' };
+    },
+    'js-add-spec-move-action': function (p) {
+      return { actionType: val(p, 'move-spec-action') === 'bottom' ? 'moveCardToBottom' : 'moveCardToTop',
+        listName: val(p, 'listName'), swimlaneName: val(p, 'swimlaneName') || '*', boardId: val(p, 'board-id') };
+    },
+    'js-add-arch-action': function (p) { return { actionType: val(p, 'arch-action-do') }; },
+    'js-add-swimlane-action': function (p) { return { actionType: 'addSwimlane', swimlaneName: val(p, 'swimlane-name') }; },
+    'js-create-card-action': function (p) {
+      return { actionType: 'createCard', cardName: val(p, 'card-name'), listName: val(p, 'list-name'), swimlaneName: val(p, 'swimlane-name2') };
+    },
+    'js-set-date-action': function (p) { return { actionType: val(p, 'setdate-action'), dateField: val(p, 'setdate-datefield') }; },
+    'js-remove-datevalue-action': function (p) { return { actionType: 'removeDate', dateField: val(p, 'setdate-removedatefieldvalue') }; },
+    'js-add-label-action': function (p) {
+      return { actionType: val(p, 'label-action') === 'remove' ? 'removeLabel' : 'addLabel', labelId: val(p, 'label-id') };
+    },
+    'js-add-member-action': function (p) {
+      return { actionType: val(p, 'member-action') === 'remove' ? 'removeMember' : 'addMember', username: val(p, 'member-name') };
+    },
+    'js-add-actinguser-member-action': function () { return { actionType: 'addMember', username: '_actinguser_' }; },
+  };
+  function makerOf(el, makers) {
+    for (var cls in makers) if (el.classList.contains(cls)) return makers[cls];
+    return null;
+  }
+  up.on('click', '.rules-page .js-goto-action', function (event, el) {
+    event.preventDefault();
+    var make = makerOf(el, triggerMakers);
+    if (!make) return;
+    var page = rulesPage(el);
+    var trigger = make(page);
+    trigger.desc = ruleDesc(el);
+    ruleState.trigger = trigger;
+    showPane(page, 'action');
+  });
+  up.on('click', '.rules-page .js-goto-rules', function (event, el) {
+    event.preventDefault();
+    var make = makerOf(el, actionMakers);
+    if (!make || !ruleState.trigger) return;
+    var page = rulesPage(el);
+    var action = make(page);
+    action.desc = ruleDesc(el);
+    callAsync('rules.createRule', page.dataset.board, ruleState.name, ruleState.trigger, action).then(function () {
+      up.reload('.rules-page');
+    }, function (e) { window.alert(e.reason || e.message); });
+  });
+  up.on('click', '.rules-page .js-delete-rule', function (event, el) {
+    event.preventDefault();
+    callAsync('rules.deleteRule', el.dataset.ruleId).then(function () { up.reload('.rules-page'); });
+  });
+  up.on('click', '.rules-page .js-toggle-rule-enabled', function (event, el) {
+    event.preventDefault();
+    var on = !!el.querySelector('.fa-toggle-off');
+    callAsync('rules.setEnabled', el.dataset.ruleId, on).then(function () { up.reload('.rules-page'); });
+  });
+
   window.weddyMultiDrag = { sorts: sorts }; // for the tests
 })();

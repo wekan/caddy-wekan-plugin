@@ -1,0 +1,253 @@
+//- WeKan's rulesMain, rulesList, rulesTriggers and rulesActions: the board's
+  rules, and the wizard that makes one - its title, its trigger, its action.
+.wrapper
+  .rules-page(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}")
+    .rules-back-to-board
+      a.js-rules-back-to-board(href="/b/{{.Board.ID}}/{{.Board.Slug}}", title="{{.Board.Title}}")
+        i.fa.fa-arrow-left
+        |  {{t $.L "back"}}
+    if .CanEdit
+      .js-rules-pane(data-pane="list")
+        .rules
+          h2
+            i.fa.fa-magic
+            |  {{t $.L "r-board-rules"}}
+          ul.rules-list
+            each rule in .Rules
+              li.rules-lists-item(data-rule-id="{{.ID}}")
+                p {{.Title}}
+                .rules-btns-group
+                  button.primary.wide.js-toggle-rule-enabled(type="button", data-rule-id="{{.ID}}", title="{{t $.L `r-toggle-rule-enabled`}}")
+                    if .Enabled
+                      i.fa.fa-toggle-on
+                      |  {{t $.L "r-rule-enabled"}}
+                    else
+                      i.fa.fa-toggle-off
+                      |  {{t $.L "r-rule-disabled"}}
+                  button.primary.wide.js-delete-rule(type="button", data-rule-id="{{.ID}}")
+                    i.fa.fa-trash
+                    |  {{t $.L "r-delete-rule"}}
+          .rules-add
+            input#ruleTitle(type="text", placeholder="{{t $.L `r-add-rule`}}", aria-label="{{t $.L `r-add-rule`}}")
+            button.primary.js-goto-trigger(type="button")
+              i.fa.fa-plus
+              |  {{t $.L "r-add-trigger"}}
+      .js-rules-pane.is-hidden(data-pane="trigger")
+        h2
+          i.fa.fa-magic
+          |  {{t $.L "r-rule"}} "
+          span.js-rule-name
+          | " - {{t $.L "r-add-trigger"}}
+        .triggers-content
+          .triggers-body
+            .triggers-side-menu
+              ul
+                li.active.js-set-board-triggers(data-tab="board")
+                  i.fa.fa-bar-chart
+                li.js-set-button-triggers(data-tab="button", title="{{t $.L `r-set-button-triggers`}}")
+                  i.fa.fa-hand-pointer-o
+            .triggers-main-body
+              .js-rules-tab(data-tab="board")
+                .trigger-item#trigger-two
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-card"}}
+                    .trigger-text {{t $.L "r-is"}}
+                    .trigger-text {{t $.L "r-added-to"}}
+                    .trigger-text {{t $.L "r-list"}}
+                    .trigger-dropdown
+                      textarea#create-list-name(rows="2", placeholder="{{t $.L `r-list-name`}}")
+                    .trigger-text {{t $.L "r-in-swimlane"}}
+                    .trigger-dropdown
+                      textarea#create-swimlane-name(rows="2", placeholder="{{t $.L `r-swimlane-name`}}")
+                  button.trigger-button.js-add-create-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item#trigger-three
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-card"}}
+                    .trigger-text {{t $.L "r-is-moved"}}
+                  button.trigger-button.js-add-gen-moved-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item#trigger-four
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-card"}}
+                    .trigger-text {{t $.L "r-is"}}
+                    .trigger-dropdown
+                      select#move-action
+                        option(value="moved-to") {{t $.L "r-moved-to"}}
+                        option(value="moved-from") {{t $.L "r-moved-from"}}
+                    .trigger-text {{t $.L "r-list"}}
+                    .trigger-dropdown
+                      textarea#move-list-name(rows="2", placeholder="{{t $.L `r-list-name`}}")
+                    .trigger-text {{t $.L "r-in-swimlane"}}
+                    .trigger-dropdown
+                      textarea#create-swimlane-name-2(rows="2", placeholder="{{t $.L `r-swimlane-name`}}")
+                  button.trigger-button.js-add-moved-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item#trigger-five
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-card"}}
+                    .trigger-text {{t $.L "r-is"}}
+                    .trigger-dropdown
+                      select#arch-action
+                        option(value="archived") {{t $.L "r-archived"}}
+                        option(value="unarchived") {{t $.L "r-unarchived"}}
+                        option(value="commented") {{t $.L "r-commented"}}
+                  button.trigger-button.js-add-arch-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+              .js-rules-tab.is-hidden(data-tab="button")
+                .trigger-item#trigger-button
+                  .trigger-content
+                    .trigger-text {{t $.L "r-button-label"}}
+                    .trigger-dropdown
+                      textarea#button-label(rows="2", placeholder="{{t $.L `r-button-label`}}")
+                    .trigger-dropdown
+                      select#button-type.js-button-type
+                        option(value="card", selected) {{t $.L "r-card-button"}}
+                        option(value="board") {{t $.L "r-board-button"}}
+                  button.trigger-button.js-add-button-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+        .rules-back
+          button.primary.wide.js-goback(type="button", data-to="list")
+            i.fa.fa-arrow-left
+            |  {{t $.L "back"}}
+      .js-rules-pane.is-hidden(data-pane="action")
+        h2
+          i.fa.fa-magic
+          |  {{t $.L "r-rule"}} "
+          span.js-rule-name
+          | " - {{t $.L "r-add-action"}}
+        .triggers-content
+          .triggers-body
+            .triggers-side-menu
+              ul
+                li.active.js-set-board-actions(data-tab="board-actions")
+                  i.fa.fa-bar-chart
+                li.js-set-card-actions(data-tab="card-actions")
+                  i.fa.fa-file-text-o
+            .triggers-main-body
+              .js-rules-tab(data-tab="board-actions")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-move-card-to"}}
+                    .trigger-dropdown
+                      select#move-gen-action
+                        option(value="top") {{t $.L "r-top-of"}}
+                        option(value="bottom") {{t $.L "r-bottom-of"}}
+                    .trigger-text {{t $.L "r-its-list"}}
+                  button.trigger-button.js-add-gen-move-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-move-card-to"}}
+                    .trigger-dropdown
+                      select#move-spec-action
+                        option(value="top") {{t $.L "r-top-of"}}
+                        option(value="bottom") {{t $.L "r-bottom-of"}}
+                    .trigger-text {{t $.L "r-the-board"}}
+                    .trigger-dropdown
+                      select#board-id
+                        each tb in .Boards
+                          if eq .ID $.Board.ID
+                            option(value="{{.ID}}", selected) {{t $.L "current"}}
+                          else
+                            option(value="{{.ID}}") {{.Title}}
+                    .trigger-text {{t $.L "r-in-list"}}
+                    .trigger-dropdown
+                      textarea#listName(rows="2", placeholder="{{t $.L `r-name`}}")
+                    .trigger-text {{t $.L "r-in-swimlane"}}
+                    .trigger-dropdown
+                      textarea#swimlaneName(rows="2", placeholder="{{t $.L `r-name`}}")
+                  button.trigger-button.js-add-spec-move-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-dropdown
+                      select#arch-action-do
+                        option(value="archive") {{t $.L "r-archive"}}
+                        option(value="unarchive") {{t $.L "r-unarchive"}}
+                    .trigger-text {{t $.L "r-card"}}
+                  button.trigger-button.js-add-arch-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-add-swimlane"}}
+                    .trigger-dropdown
+                      textarea#swimlane-name(rows="2", placeholder="{{t $.L `r-name`}}")
+                  button.trigger-button.js-add-swimlane-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-create-card"}}
+                    .trigger-dropdown
+                      textarea#card-name(rows="2", placeholder="{{t $.L `r-name`}}")
+                    .trigger-text {{t $.L "r-in-list"}}
+                    .trigger-dropdown
+                      textarea#list-name(rows="2", placeholder="{{t $.L `r-name`}}")
+                    .trigger-text {{t $.L "r-in-swimlane"}}
+                    .trigger-dropdown
+                      textarea#swimlane-name2(rows="2", placeholder="{{t $.L `r-name`}}")
+                  button.trigger-button.js-create-card-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+              .js-rules-tab.is-hidden(data-tab="card-actions")
+                .trigger-item
+                  .trigger-content
+                    .trigger-dropdown
+                      select#setdate-action
+                        option(value="setDate") {{t $.L "r-set"}}
+                        option(value="updateDate") {{t $.L "r-update"}}
+                    .trigger-text {{t $.L "r-datefield"}}
+                    .trigger-dropdown
+                      select#setdate-datefield
+                        option(value="startAt") {{t $.L "r-df-start-at"}}
+                        option(value="dueAt") {{t $.L "r-df-due-at"}}
+                        option(value="endAt") {{t $.L "r-df-end-at"}}
+                        option(value="receivedAt") {{t $.L "r-df-received-at"}}
+                    .trigger-text {{t $.L "r-to-current-datetime"}}
+                  button.trigger-button.js-set-date-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-remove-value-from"}} {{t $.L "r-datefield"}}
+                    .trigger-dropdown
+                      select#setdate-removedatefieldvalue
+                        option(value="startAt") {{t $.L "r-df-start-at"}}
+                        option(value="dueAt") {{t $.L "r-df-due-at"}}
+                        option(value="endAt") {{t $.L "r-df-end-at"}}
+                        option(value="receivedAt") {{t $.L "r-df-received-at"}}
+                  button.trigger-button.js-remove-datevalue-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-dropdown
+                      select#label-action
+                        option(value="add") {{t $.L "r-add"}}
+                        option(value="remove") {{t $.L "r-remove"}}
+                    .trigger-text {{t $.L "r-label"}}
+                    .trigger-dropdown
+                      select#label-id
+                        each lb in .Labels
+                          option(value="{{.ID}}") {{.Name}}
+                  button.trigger-button.js-add-label-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-dropdown
+                      select#member-action
+                        option(value="add") {{t $.L "r-add"}}
+                        option(value="remove") {{t $.L "r-remove"}}
+                    .trigger-text {{t $.L "r-member"}}
+                    .trigger-dropdown
+                      input#member-name(type="text", placeholder="{{t $.L `r-name`}}")
+                  button.trigger-button.js-add-member-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-add-actinguser-member"}}
+                  button.trigger-button.js-add-actinguser-member-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+        .rules-back
+          button.primary.wide.js-goback(type="button", data-to="trigger")
+            i.fa.fa-arrow-left
+            |  {{t $.L "back"}}
+    else
+      p.quiet {{t $.L "r-rules-not-shown"}}

@@ -246,3 +246,61 @@ func TestCreateRuleMethod(t *testing.T) {
 		t.Fatalf("negative: not a board admin: %v", out)
 	}
 }
+
+// WeKan's Rules page: a board admin's list and wizard; nothing for anybody else.
+func TestRulesPage(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Rules")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": bob.ID, "isActive": true}}})
+	addRule(t, w, b.ID, "rpage", bson.M{"activityType": "createCard"}, bson.M{"actionType": "archive"}, true)
+	_, _ = w.db.Collection("rules").UpdateOne(ctx, bson.M{"_id": "rpage"}, bson.M{"$set": bson.M{"title": "Archive new"}})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	rulesURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/rules"
+	res, html := get(t, ann, rulesURL)
+	for _, want := range []string{"rules-page", "rules-lists-item", "Archive new", `id="ruleTitle"`, "js-goto-trigger", "js-add-create-trigger", "js-add-gen-move-action", "js-set-date-action"} {
+		if res.StatusCode != 200 || !strings.Contains(html, want) {
+			t.Errorf("the Rules page has %s (%d)", want, res.StatusCode)
+		}
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if _, html := get(t, bc, rulesURL); strings.Contains(html, "rules-lists-item") || strings.Contains(html, "js-goto-trigger") {
+		t.Fatal("negative: a member who is not an admin sees no rules")
+	}
+	call := func(cl *http.Client, name, args string) map[string]any {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/"+name, strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cl.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return out
+	}
+	if out := call(bc, "rules.setEnabled", `["rpage",false]`); out["error"] != "not-authorized" {
+		t.Fatalf("negative: not an admin: %v", out)
+	}
+	if out := call(ann, "rules.setEnabled", `["rpage",false]`); out["result"] != true {
+		t.Fatalf("disabled: %v", out)
+	}
+	var rule bson.M
+	_ = w.db.Collection("rules").FindOne(ctx, bson.M{"_id": "rpage"}).Decode(&rule)
+	if rule["enabled"] != false {
+		t.Fatal("the rule is disabled")
+	}
+	if out := call(bc, "rules.deleteRule", `["rpage"]`); out["error"] != "not-authorized" {
+		t.Fatal("negative: not an admin")
+	}
+	if out := call(ann, "rules.deleteRule", `["rpage"]`); out["result"] != true {
+		t.Fatalf("deleted: %v", out)
+	}
+	if n, _ := w.db.Collection("actions").CountDocuments(ctx, bson.M{"_id": "rpagea"}); n != 0 {
+		t.Fatal("with its action")
+	}
+}

@@ -447,7 +447,7 @@ func (s *Server) performAction(ctx context.Context, a bson.M, act bson.M) error 
 		cardActivity("addComment", bson.M{"commentId": id})
 	case "markCardComplete", "markCardIncomplete":
 		return touch(bson.M{"$set": bson.M{"dueComplete": kind == "markCardComplete"}})
-	case "setDate", "removeDate":
+	case "setDate", "updateDate", "removeDate":
 		field := docString(act, "dateField")
 		if !slices.Contains([]string{"startAt", "endAt", "dueAt", "receivedAt"}, field) {
 			return nil
@@ -687,4 +687,87 @@ func (s *Server) buttonRules(ctx context.Context, boardID, buttonType string) []
 		out = append(out, ruleButton{ID: docString(r, "_id"), Label: label})
 	}
 	return out
+}
+
+// ruleRow is a rule as the Rules page lists it.
+type ruleRow struct {
+	ID, Title string
+	Enabled   bool
+}
+
+// rulesPage is WeKan's rulesMain: for a board admin, the board's rules and
+// the wizard that makes one; for anybody else, nothing of them.
+func (s *Server) rulesPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	lang := languageOf(r, u).Tag
+	if err != nil {
+		s.render(w, r, "notfound", http.StatusNotFound, map[string]any{"Title": tr(lang, "board-not-found"), "User": u})
+		return
+	}
+	data := map[string]any{"Title": tr(lang, "rules"), "User": u, "Board": b, "CanEdit": b.AdminOf(u.ID)}
+	if b.AdminOf(u.ID) {
+		ctx := r.Context()
+		cur, err := s.db.Collection("rules").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}}))
+		rows := []ruleRow{}
+		if err == nil {
+			var rules []bson.M
+			_ = cur.All(ctx, &rules)
+			for _, x := range rules {
+				rows = append(rows, ruleRow{ID: docString(x, "_id"), Title: docString(x, "title"), Enabled: x["enabled"] != false})
+			}
+		}
+		data["Rules"] = rows
+		data["Labels"] = b.Labels
+		boards, _ := s.boardsOf(ctx, u.ID)
+		writable := []Board{}
+		for _, x := range boards {
+			if x.Writable(u, "write", nil) {
+				writable = append(writable, x)
+			}
+		}
+		data["Boards"] = writable
+	}
+	s.render(w, r, "rules", http.StatusOK, data)
+}
+
+// adminRule is a rule of a board the user administers, or the error to answer.
+func (s *Server) adminRule(r *http.Request, u *User, args []json.RawMessage) (bson.M, error) {
+	ruleID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	var rule bson.M
+	if !validID(ruleID) || s.db.Collection("rules").FindOne(r.Context(), bson.M{"_id": eq(ruleID)}).Decode(&rule) != nil {
+		return nil, &methodError{"not-found", "Rule not found"}
+	}
+	var b Board
+	if s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(docString(rule, "boardId"))}).Decode(&b) != nil || !b.AdminOf(u.ID) {
+		return nil, &methodError{"not-authorized", "Must be a board admin"}
+	}
+	return rule, nil
+}
+
+// methodDeleteRule is WeKan's rules.deleteRule: a board admin removes a rule,
+// with its trigger and action when no other rule shares them.
+func (s *Server) methodDeleteRule(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	rule, err := s.adminRule(r, u, args)
+	if err != nil {
+		return nil, err
+	}
+	return true, s.removeRule(r.Context(), rule)
+}
+
+// methodSetRuleEnabled is WeKan's rules.setEnabled (#2322): a disabled rule
+// keeps its trigger and action, and never fires.
+func (s *Server) methodSetRuleEnabled(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	rule, err := s.adminRule(r, u, args)
+	if err != nil {
+		return nil, err
+	}
+	var on bool
+	if len(args) < 2 || json.Unmarshal(args[1], &on) != nil {
+		return nil, &methodError{"Match.Error", "Expected boolean"}
+	}
+	_, err = s.db.Collection("rules").UpdateOne(r.Context(), bson.M{"_id": rule["_id"]}, bson.M{"$set": bson.M{"enabled": on, "modifiedAt": time.Now().UTC()}})
+	return true, err
 }

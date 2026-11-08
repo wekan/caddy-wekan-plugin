@@ -44,6 +44,8 @@ func (s *Server) methods() map[string]methodFunc {
 		"setEmail":              s.methodSetEmail,
 		"rules.runButton":       s.methodRunButton,
 		"rules.createRule":      s.methodCreateRule,
+		"rules.deleteRule":      s.methodDeleteRule,
+		"rules.setEnabled":      s.methodSetRuleEnabled,
 	}
 }
 
