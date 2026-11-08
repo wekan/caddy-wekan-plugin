@@ -8,6 +8,19 @@
       if .MenuOn
         h3
           a.board-header-btn.js-open-board-menu(href="#", title="{{t $.L `boardMenuPopup-title`}}") {{t $.L "boardMenuPopup-title"}}
+      if .Board.AdminOf .User.ID
+        hr
+        h3.activity-title.js-toggle-show-activities(role="button", tabindex="0", title="{{t $.L `activities`}}")
+          i.fa.fa-caret-right
+          i.fa.fa-comment-o
+          |  {{t $.L "activities"}}
+        .activities.js-sidebar-activities.is-hidden
+          each act in .BoardActivities
+            .activity(data-id="{{.ID}}")
+              .activity-desc
+                span.activity-member {{.User}}
+                |  {{.Text}}
+              time.activity-time(datetime="{{.ISO}}") {{.Display}}
   .pop-over.js-pop-over.js-board-menu-pop-over.is-hidden(role="dialog", aria-label="{{t $.L `boardMenuPopup-title`}}")
     .header
       span.header-title {{t $.L "boardMenuPopup-title"}}
@@ -91,6 +104,30 @@
             if $.CanEdit
               form.js-attachment-delete(method="post", action="/attachments/{{.ID}}/delete", up-submit, up-target=".board-wrapper")
                 button(type="submit", aria-label="{{t $.L `delete`}}") ×
+      h3.card-details-item-title {{t $.L "comments"}}
+      .comments
+        if .CanComment
+          .new-comment.js-new-comment
+            form.js-new-comment-form(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/comments", up-submit, up-target=".board-wrapper")
+              textarea.editor.js-new-comment-input(name="comment", aria-label="{{t $.L `comment`}}", required)
+              button.primary.confirm.js-add-comment(type="submit") {{t $.L "comment"}}
+        each cm in .Comments
+          .comment(data-id="{{.ID}}")
+            span.comment-member {{.User}}
+            .comment-text
+              .viewer {{.Text}}
+            time.activity-time(datetime="{{.ISO}}") {{.Display}}
+      h3.card-details-item-title.js-toggle-card-section(data-section="activities", role="button", tabindex="0")
+        i.fa.fa-caret-right
+        |  {{t $.L "activities"}}
+      .card-details-section.js-card-section.is-hidden(data-section="activities")
+        .activities.js-card-activities
+          each act in .CardActivities
+            .activity(data-id="{{.ID}}")
+              .activity-desc
+                span.activity-member {{.User}}
+                |  {{.Text}}
+              time.activity-time(datetime="{{.ISO}}") {{.Display}}
       if .CanEdit
         form.js-attachment-upload(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/attachments", enctype="multipart/form-data")
           input(type="file", name="file", aria-label="{{t $.L `add-attachment`}}", required)

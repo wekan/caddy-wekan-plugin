@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"path/filepath"
+	"slices"
 	"sort"
 	"strings"
 	"sync"
@@ -182,6 +183,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}/{card}", s.page(s.boardPage))
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
 	m.HandleFunc("POST /b/{board}/cards", s.page(s.addCard))
+	m.HandleFunc("POST /b/{board}/cards/{card}/comments", s.page(s.addCommentPage))
 	m.HandleFunc("POST /b/{board}/move", s.page(s.moveCards))
 	m.HandleFunc("GET /b/{board}/live", s.page(s.live))
 	m.HandleFunc("GET /language", s.page(s.languagePage))
@@ -464,14 +466,46 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	m := b.member(u.ID)
 	data["MenuOn"] = m != nil && !m.IsCommentOnly && !m.IsWorker
 	data["CanExport"] = (m != nil && !m.AssignedOnly()) || (m == nil && b.Permission == "public")
+	lang := languageOf(r, u).Tag
+	// sidebar.jade: the board's activities, for a board admin.
+	if b.AdminOf(u.ID) {
+		data["BoardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID}, lang, 50)
+	}
 	if id := r.PathValue("card"); validID(id) {
 		var c Card
 		if err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c); err == nil {
 			data["Card"] = c
 			data["Attachments"] = s.cardAttachments(r, b, c.ID)
+			data["Comments"] = s.cardComments(r.Context(), b, c.ID)
+			data["CardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID, "cardId": c.ID}, lang, 100)
+			data["CanComment"] = u.IsAdmin || (b.Can(u.ID, "comment") && (!m.AssignedOnly() || slices.Contains(c.Assignees, u.ID)))
 		}
 	}
 	s.render(w, r, "board", http.StatusOK, data)
+}
+
+// addCommentPage is the card details' comment form.
+func (s *Server) addCommentPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	var c Card
+	id := r.PathValue("card")
+	if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c) != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	if _, err := s.AddComment(r.Context(), b, u, &c, r.FormValue("comment")); err != nil {
+		code := http.StatusBadRequest
+		if errors.Is(err, errForbidden) {
+			code = http.StatusForbidden
+		}
+		http.Error(w, err.Error(), code)
+		return
+	}
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
 // editableBoard is the board when u's role may change it: add lists and cards.

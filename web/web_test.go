@@ -634,3 +634,47 @@ func TestBoardSidebarMenuAndExport(t *testing.T) {
 		t.Error("negative: an assigned-only member gets the menu but no export")
 	}
 }
+
+// Comments and activities in the pages: a comment from the card's form, the
+// card's Activities in the reader's words, the board's activities for a board
+// admin only; a role without comments gets no form, and a post is refused.
+func TestCardCommentsAndActivitiesInThePages(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Talk")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Alpha")
+	w.s.activity(ctx, u.ID, "createCard", bson.M{"boardId": b.ID, "cardId": c.ID, "listId": l.ID})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	cardURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/" + c.ID
+	res, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/comments", url.Values{"comment": {"Hello there"}})
+	if res.StatusCode != http.StatusSeeOther { // back to the card, which Unpoly follows
+		t.Fatalf("comment from the form: %d", res.StatusCode)
+	}
+	_, html := get(t, ann, cardURL)
+	for _, want := range []string{"js-new-comment-form", `class="comment-text"`, "Hello there", `data-section="activities"`,
+		"added Alpha to Todo", "js-toggle-show-activities", "<time"} {
+		if !strings.Contains(html, want) {
+			t.Errorf("the card page has %q", want)
+		}
+	}
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true, IsReadOnly: true})
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	_, html = get(t, bc, cardURL)
+	if strings.Contains(html, "js-new-comment-form") || strings.Contains(html, "js-toggle-show-activities") {
+		t.Error("negative: a read-only member gets no comment form and not the board's activities")
+	}
+	res, _ = bc.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/comments", url.Values{"comment": {"sneaky"}})
+	if res.StatusCode != 403 {
+		t.Fatalf("negative: a read-only member's comment is refused: %d", res.StatusCode)
+	}
+	if n, _ := w.db.Collection("card_comments").CountDocuments(ctx, bson.M{"text": "sneaky"}); n != 0 {
+		t.Fatal("negative: and not stored")
+	}
+}

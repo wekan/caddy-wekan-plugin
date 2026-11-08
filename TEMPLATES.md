@@ -7,13 +7,13 @@ progress; update it with the template.
 
 | Status | Count |
 |---|---|
-| started - the first part of the page | 16 |
-| not yet | 158 |
+| started - the first part of the page | 18 |
+| not yet | 156 |
 
 | WeKan template | Go Pug | Status |
 |---|---|---|
-| `components/activities/activities.jade` | | not yet |
-| `components/activities/comments.jade` | | not yet |
+| `components/activities/activities.jade` | board.pug: the card's and the board's activities, in WeKan's words | started |
+| `components/activities/comments.jade` | board.pug: the card's comments and the comment form | started |
 | `components/boardConversionProgress.jade` | | not yet |
 | `components/boards/allBoardsSidebar.jade` | | not yet |
 | `components/boards/bigboardView.jade` | | not yet |

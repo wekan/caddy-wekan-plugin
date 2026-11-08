@@ -57,6 +57,27 @@
     if (event.key === 'Escape') closePopOvers();
   });
 
+  // A section heading with a caret (WeKan's client/lib/sectionCaret.js): it
+  // shows or hides the section after it, and the caret says which.
+  up.on('click', '.js-toggle-card-section, .js-toggle-show-activities', function (event, el) {
+    event.preventDefault();
+    var section = el.nextElementSibling;
+    if (!section) return;
+    var open = section.classList.toggle('is-hidden') === false;
+    var caret = el.querySelector('.fa-caret-right, .fa-caret-down');
+    if (caret) {
+      caret.classList.toggle('fa-caret-down', open);
+      caret.classList.toggle('fa-caret-right', !open);
+    }
+  });
+  // Enter adds the comment; Shift+Enter is a new line.
+  up.on('keydown', '.js-new-comment-input', function (event, el) {
+    if (event.key === 'Enter' && !event.shiftKey && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+      up.submit(el.form);
+    }
+  });
+
   // The "+" of a list opens its card composer; × closes it.
   up.on('click', '.js-add-card', function (event, el) {
     event.preventDefault();
