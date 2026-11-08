@@ -280,3 +280,97 @@ func TestNoWriteDecidedByMembershipAlone(t *testing.T) {
 		}
 	}
 }
+
+// LinkedWriteBleed, REST sibling: a link needs the right to change the source
+// card - never a read-only member's, an assigned-only member's only for a card
+// assigned to them - and a refused link is recorded, never disabling the
+// account (#6798).
+func TestLinkedCardNeedsSourceWrite(t *testing.T) {
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	_ = ann
+	a := login(t, w, "ann")
+	src := newRESTBoard(t, w, a, "Source")
+	ctx := context.Background()
+	attempt := func(name string, m Member, assigned bool) (int, string) {
+		u := w.seedUser(t, name, "pw")
+		tok := login(t, w, name)
+		own := newRESTBoard(t, w, tok, "Own "+name)
+		m.UserID, m.IsActive = u.ID, true
+		setMember(t, w, src.ID, m)
+		assignees := bson.A{}
+		if assigned {
+			assignees = bson.A{u.ID}
+		}
+		_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": src.Card}, bson.M{"$set": bson.M{"assignees": assignees}})
+		var out struct {
+			ID string `json:"_id"`
+		}
+		code := call(t, "POST", w.srv.URL+"/api/boards/"+own.ID+"/lists/"+own.List+"/cards", tok,
+			`{"swimlaneId":"`+own.Swimlane+`","linkedId":"`+src.Card+`"}`, &out)
+		var doc User
+		_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": u.ID}).Decode(&doc)
+		if code == 403 {
+			if n, _ := w.db.Collection("cards").CountDocuments(ctx, bson.M{"boardId": own.ID, "linkedId": src.Card}); n != 0 {
+				t.Errorf("negative: %s made no link", name)
+			}
+			var raw bson.M
+			_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": u.ID}).Decode(&raw)
+			if raw["loginDisabled"] == true {
+				t.Errorf("negative: %s's account stays usable (#6798)", name)
+			}
+		}
+		return code, out.ID
+	}
+	recorded := func() int64 {
+		var row struct {
+			Count int64 `bson:"count"`
+		}
+		_ = w.db.Collection("eventlog").FindOne(ctx, bson.M{"bleed": "LinkedWriteBleed", "source": "rest:card-link"}).Decode(&row)
+		return row.Count
+	}
+	for i, m := range []Member{{IsReadOnly: true}, {IsReadAssignedOnly: true}, {IsNormalAssignedOnly: true}} {
+		if code, _ := attempt("ro"+string(rune('a'+i)), m, false); code != 403 {
+			t.Fatalf("negative: %+v links nothing: %d", m, code)
+		}
+		if got := recorded(); got != int64(i+1) {
+			t.Fatalf("each refusal recorded: %d", got)
+		}
+	}
+	if code, _ := attempt("assigned", Member{IsNormalAssignedOnly: true}, true); code != 200 {
+		t.Fatalf("an assigned-only member links a card assigned to them: %d", code)
+	}
+	code, id := attempt("normal", Member{}, false)
+	if code != 200 {
+		t.Fatalf("a normal member links any card: %d", code)
+	}
+	var linked bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": id}).Decode(&linked)
+	if linked["type"] != "cardType-linkedCard" || linked["linkedId"] != src.Card {
+		t.Fatalf("the link: %v", linked)
+	}
+}
+
+// LinkedWriteBleed, everywhere: every place that makes a linked card checks
+// the right to change the source and records a refusal - so a second path
+// that links on read access alone cannot be added unnoticed.
+func TestEveryLinkMakerChecksSourceWrite(t *testing.T) {
+	files, _ := filepath.Glob("*.go")
+	makers := 0
+	for _, f := range files {
+		if strings.HasSuffix(f, "_test.go") {
+			continue
+		}
+		src, _ := os.ReadFile(f)
+		if !strings.Contains(string(src), `"$set": bson.M{"type": "cardType-linkedCard"`) {
+			continue
+		}
+		makers++
+		if !strings.Contains(string(src), `Writable(u, "write", &src)`) || !strings.Contains(string(src), `"authz.linked-write"`) {
+			t.Errorf("%s makes a linked card without WeKan's source write check and its LinkedWriteBleed record", f)
+		}
+	}
+	if makers == 0 {
+		t.Fatal("the guard found no place that makes a linked card - has the pattern changed?")
+	}
+}

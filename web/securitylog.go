@@ -36,6 +36,9 @@ var securityCategories = map[string]securityCategory{
 	"authz.assigned":     {Category: "authz", Bleed: "AssignedBleed", Severity: "medium", CWE: "CWE-863"},
 	"authz.comment":      {Category: "authz", Bleed: "CommentBleed", Severity: "medium", CWE: "CWE-639"},
 	"authz.manage-board": {Category: "authz", Bleed: "ManageBoardBleed", Severity: "high", CWE: "CWE-863"},
+	// #6798: the same refusal reaches a read-only member working from a stale
+	// screen, so it is recorded but never disables the account.
+	"authz.linked-write": {Category: "authz", Bleed: "LinkedWriteBleed", Severity: "high", CWE: "CWE-863", NeverBlocks: true},
 }
 
 // identityFields make two events the same problem; the actor is not one of them.

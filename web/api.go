@@ -6,7 +6,6 @@ import (
 	"mime"
 	"net"
 	"net/http"
-	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -443,7 +442,10 @@ func (s *Server) apiAddCard(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	swimlane, _ := req["swimlaneId"].(string)
-	// #5897: a linked card shows another card - one the caller may read.
+	// #5897: a linked card shows another card. LinkedWriteBleed: one the caller
+	// may change on its own board (WeKan's createLinkedCardFor) - not a
+	// read-only member's, and an assigned-only member's only when it is
+	// assigned to them - as the in-app Link popup allows.
 	var linked *Card
 	if v, ok := req["linkedId"]; ok && v != nil && v != "" {
 		id, _ := v.(string)
@@ -453,7 +455,13 @@ func (s *Server) apiAddCard(w http.ResponseWriter, r *http.Request, u *User) {
 			return
 		}
 		sb, err := s.boardFor(r.Context(), src.BoardID, u)
-		if err != nil || (sb.member(u.ID) != nil && sb.member(u.ID).AssignedOnly() && !slices.Contains(src.Assignees, u.ID)) {
+		if err != nil {
+			apiError(w, http.StatusForbidden, "Forbidden")
+			return
+		}
+		if !sb.Writable(u, "write", &src) {
+			s.recordSecurity(r, securityEvent{Key: "authz.linked-write", Action: "blocked", Source: "rest:card-link", UserID: u.ID,
+				Detail: "a card link from a board the user may not change: " + sb.ID})
 			apiError(w, http.StatusForbidden, "Forbidden")
 			return
 		}
