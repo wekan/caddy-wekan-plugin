@@ -134,6 +134,8 @@ func (s *Server) Close() error {
 var funcs = template.FuncMap{
 	"memberName": func(u *User) string { return u.Name() },
 	"t":          tr,
+	// viewer is WeKan's +viewer: a text written in Markdown, shown safely.
+	"viewer": viewer,
 	// copula is WeKan's ruleTriggerCopula: the linking verb of a rule's trigger,
 	// none where the language's own phrase already holds it.
 	"copula": func(lang string) string {

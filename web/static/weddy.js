@@ -309,6 +309,16 @@
     }
   });
 
+  // A link in a minicard's title opens on its own, without opening the card
+  // or its editor (#6639): caught before the minicard sees the click.
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest && event.target.closest('.minicard-title-text .viewer a');
+    if (!link) return;
+    event.preventDefault();
+    event.stopPropagation();
+    window.open(link.href, '_blank', 'noopener');
+  }, true);
+
   // An invitation to the board: accept it, or decline it and go to All Boards.
   up.on('click', '.js-member-invite-accept', function (event, el) {
     event.preventDefault();

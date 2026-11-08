@@ -276,7 +276,7 @@ func TestBoardListsCardsAndMultiDrag(t *testing.T) {
 		}
 	}
 	res, page := get(t, c, w.srv.URL+boardURL)
-	if res.StatusCode != 200 || !strings.Contains(page, `id="js-list-`+todo.ID+`"`) || strings.Count(page, "minicard-title") != 3 {
+	if res.StatusCode != 200 || !strings.Contains(page, `id="js-list-`+todo.ID+`"`) || strings.Count(page, `class="minicard-title"`) != 3 {
 		t.Fatalf("the board must show the lists and the three cards: %d", res.StatusCode)
 	}
 

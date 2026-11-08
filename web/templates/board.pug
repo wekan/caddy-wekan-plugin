@@ -235,9 +235,12 @@
                   a.js-add-card.list-header-plus-top(href="#", title="{{t $.L `add-card`}}", aria-label="{{t $.L `add-card`}}") +
               .list-body.js-minicards(data-list="{{.ID}}", data-swimlane="{{.Lane}}")
                 each c in .Cards
-                  a.minicard-wrapper.js-minicard(href="/b/{{$.Board.ID}}/{{$.Board.Slug}}/{{.ID}}", data-card="{{.ID}}", data-sort="{{.Sort}}", up-follow, up-target=".board-wrapper")
+                  //- A block that opens the card, not a link: a link in its title
+                    must not sit inside another link (WeKan's minicard is a block too).
+                  .minicard-wrapper.js-minicard(up-href="/b/{{$.Board.ID}}/{{$.Board.Slug}}/{{.ID}}", up-follow, up-clickable, up-target=".board-wrapper", data-card="{{.ID}}", data-sort="{{.Sort}}")
                     .minicard
-                      .minicard-title {{.Title}}
+                      .minicard-title
+                        span.minicard-title-text {{viewer .Title}}
               if $.CanEdit
                 form.js-inlined-form.js-card-composer.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards", up-submit, up-target=".board-wrapper")
                   input(type="hidden", name="listId", value="{{.ID}}")
