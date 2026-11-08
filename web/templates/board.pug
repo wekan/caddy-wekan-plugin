@@ -39,6 +39,20 @@
         if .CanExport
           li
             a.js-export-board(href="#") {{t $.L "export"}}
+  if .CanEdit
+    //- WeKan's swimlaneAddPopup: a swimlane below or above the chosen one.
+    template.js-pop-over-template(data-pop="add-swimlane", data-title="{{t $.L `swimlaneAddPopup-title`}}")
+      form.js-add-swimlane-form(method="post", action="/b/{{.Board.ID}}/swimlanes", up-submit, up-target=".board-wrapper")
+        input.js-swimlane-after(type="hidden", name="after")
+        textarea.swimlane-name-input.full-line(name="title", rows="2", dir="auto", placeholder="{{t $.L `add-swimlane`}}", aria-label="{{t $.L `add-swimlane`}}", autocomplete="off", required)
+        label.swimlane-placement-option
+          input.js-swimlane-placement(type="radio", name="placement", value="below", checked)
+          span(dir="auto") {{t $.L "below-selected-swimlane"}}
+        label.swimlane-placement-option
+          input.js-swimlane-placement(type="radio", name="placement", value="above")
+          span(dir="auto") {{t $.L "above-selected-swimlane"}}
+        .edit-controls.clearfix
+          button.primary.confirm(type="submit") {{t $.L "add"}}
   template.js-pop-over-template(data-pop="watch", data-title="{{t $.L `boardChangeWatchPopup-title`}}")
     .header
       span.header-title {{t $.L "boardChangeWatchPopup-title"}}
@@ -98,8 +112,11 @@
   .board-canvas#board-canvas
     each sw in .Lanes
       .swimlane.js-swimlane(id="swimlane-{{.ID}}", data-swimlane="{{.ID}}")
-        .swimlane-header
-          span.swimlane-header-name {{.Title}}
+        .swimlane-header.js-swimlane-header
+          span.swimlane-header-name.title {{.Title}}
+          if $.CanEdit
+            a.js-open-add-swimlane-menu.swimlane-header-plus-icon(href="#", data-swimlane="{{.ID}}", title="{{t $.L `add-swimlane`}}", aria-label="{{t $.L `add-swimlane`}}")
+              i.fa.fa-plus
         .list-group.js-lists
           each li in .Lists
             .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}", data-swimlane="{{.Lane}}", class="{{if .Collapsed}}list-collapsed{{end}}")

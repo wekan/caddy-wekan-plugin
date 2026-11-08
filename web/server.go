@@ -207,6 +207,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}/{card}", s.page(s.boardPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/people", s.page(s.cardPeoplePage))
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
+	m.HandleFunc("POST /b/{board}/swimlanes", s.page(s.addSwimlanePage))
 	m.HandleFunc("POST /b/{board}/cards", s.page(s.addCard))
 	m.HandleFunc("POST /b/{board}/cards/{card}/comments", s.page(s.addCommentPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/members/{user}", s.page(s.toggleCardMemberPage))
@@ -1246,4 +1247,50 @@ func (s *Server) cardPeoplePage(w http.ResponseWriter, r *http.Request, u *User)
 	}
 	s.hub.publish(b.ID, "board-changed")
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
+}
+
+// addSwimlanePage is WeKan's swimlaneAddPopup: a swimlane below - or above -
+// the chosen one, sorted between it and its neighbour; at the end without one.
+func (s *Server) addSwimlanePage(w http.ResponseWriter, r *http.Request, u *User) {
+	b := s.editableBoard(w, r, u)
+	if b == nil {
+		return
+	}
+	title := strings.TrimSpace(r.FormValue("title"))
+	if title == "" || len(title) > 1000 {
+		http.Error(w, "a swimlane needs a title", http.StatusBadRequest)
+		return
+	}
+	ctx := r.Context()
+	cur, err := s.db.Collection("swimlanes").Find(ctx, bson.M{"boardId": b.ID, "archived": false}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var lanes []Swimlane
+	_ = cur.All(ctx, &lanes)
+	sort := s.nextSort(ctx, "swimlanes", bson.M{"boardId": b.ID})
+	if i := slices.IndexFunc(lanes, func(l Swimlane) bool { return l.ID == r.FormValue("after") }); i >= 0 {
+		if r.FormValue("placement") == "above" {
+			sort = lanes[i].Sort - 1
+			if i > 0 {
+				sort = (lanes[i-1].Sort + lanes[i].Sort) / 2
+			}
+		} else {
+			sort = lanes[i].Sort + 1
+			if i+1 < len(lanes) {
+				sort = (lanes[i].Sort + lanes[i+1].Sort) / 2
+			}
+		}
+	}
+	now := time.Now().UTC()
+	sw := bson.M{"_id": randomID(), "title": title, "boardId": b.ID, "archived": false, "type": "swimlane", // inserted, not a filter
+		"sort": sort, "createdAt": now, "modifiedAt": now} // inserted, not a filter
+	if _, err := s.db.Collection("swimlanes").InsertOne(ctx, sw); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.activity(ctx, u.ID, "createSwimlane", bson.M{"boardId": b.ID, "swimlaneId": sw["_id"]})
+	s.hub.publish(b.ID, "board-changed")
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }

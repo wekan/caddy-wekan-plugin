@@ -62,6 +62,16 @@
     event.preventDefault();
     openPopOver('watch');
   });
+  up.on('click', '.js-open-add-swimlane-menu', function (event, el) {
+    event.preventDefault();
+    openPopOver('add-swimlane');
+    var p = document.querySelector('.js-pop-over');
+    if (!p) return;
+    var after = p.querySelector('.js-swimlane-after');
+    if (after) after.value = el.dataset.swimlane;
+    var input = p.querySelector('.swimlane-name-input');
+    if (input) input.focus();
+  });
   up.on('click', '.js-add-members', function (event) {
     event.preventDefault();
     openPopOver('card-members');

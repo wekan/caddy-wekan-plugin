@@ -22,6 +22,7 @@ import (
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 	"golang.org/x/crypto/argon2"
 	"golang.org/x/crypto/bcrypt"
 
@@ -1114,5 +1115,54 @@ func TestSettingsAtStartup(t *testing.T) {
 	_ = w.db.Collection("settings").FindOne(ctx, bson.M{}).Decode(&doc)
 	if doc["disableRegistration"] != true {
 		t.Fatal("negative: an existing setting is kept")
+	}
+}
+
+// WeKan's swimlaneAddPopup: a swimlane below or above the chosen one.
+func TestAddSwimlaneFromHeader(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ro := w.seedUser(t, "rob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Lanes")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": ro.ID, "isActive": true, "isReadOnly": true}}})
+	var first Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&first)
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if _, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug); !strings.Contains(html, "js-open-add-swimlane-menu") || !strings.Contains(html, "swimlane-name-input") {
+		t.Fatal("the header's + and its pop-over")
+	}
+	add := func(cl *http.Client, title, placement string) int {
+		res, err := cl.PostForm(w.srv.URL+"/b/"+b.ID+"/swimlanes", url.Values{"title": {title}, "after": {first.ID}, "placement": {placement}})
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+		return res.StatusCode
+	}
+	add(ann, "Below", "below")
+	add(ann, "Above", "above")
+	add(ann, "Between", "below")
+	cur, _ := w.db.Collection("swimlanes").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
+	var lanes []Swimlane
+	_ = cur.All(ctx, &lanes)
+	var titles []string
+	for _, l := range lanes {
+		titles = append(titles, l.Title)
+	}
+	if strings.Join(titles, ",") != "Above,"+first.Title+",Between,Below" {
+		t.Fatalf("order: %v", titles)
+	}
+	rob := w.client(t)
+	body(t, w.signIn(t, rob, "rob", "pw"))
+	if _, html := get(t, rob, w.srv.URL+"/b/"+b.ID+"/"+b.Slug); strings.Contains(html, "js-open-add-swimlane-menu") {
+		t.Fatal("negative: no + for a read-only member")
+	}
+	if code := add(rob, "Mine", "below"); code == http.StatusSeeOther {
+		t.Fatal("negative: a read-only member adds no swimlane")
+	}
+	if code := add(ann, "  ", "below"); code != 400 {
+		t.Fatalf("negative: a title is needed: %d", code)
 	}
 }
