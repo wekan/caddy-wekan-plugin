@@ -13,6 +13,7 @@ import (
 	"testing"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // The sidebar's members: shown, added by whoever may invite, removed by a
@@ -410,5 +411,33 @@ func TestMoveAndCopyCardPopups(t *testing.T) {
 	}
 	if res, _ := get(t, ann, w.srv.URL+"/b/"+foreign.ID+"/places"); res.StatusCode != http.StatusNotFound {
 		t.Fatal("negative: no places of a board not theirs")
+	}
+}
+
+// WeKan's Add Card to Top / Bottom of List.
+func TestAddCardTopOrBottom(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Add")
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	_, _ = w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Existing")
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	add := func(title, pos string) {
+		r, err := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/cards", url.Values{"listId": {l.ID}, "swimlaneId": {sw.ID}, "title": {title}, "position": {pos}})
+		if err != nil || r.StatusCode != http.StatusSeeOther {
+			t.Fatalf("add %s: %v %v", title, err, r.StatusCode)
+		}
+	}
+	add("New Top Card", "top")
+	add("New Bottom Card", "bottom")
+	cur, _ := w.db.Collection("cards").Find(ctx, bson.M{"listId": l.ID}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
+	var cards []Card
+	_ = cur.All(ctx, &cards)
+	if len(cards) != 3 || cards[0].Title != "New Top Card" || cards[2].Title != "New Bottom Card" {
+		t.Fatalf("top first, bottom last: %v", cards)
 	}
 }

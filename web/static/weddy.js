@@ -426,26 +426,40 @@
     callAsync('setListCollapsedState', board.dataset.board, key, collapsed).catch(function () {});
   });
 
-  // The "+" of a list opens its card composer; × closes it.
+  // A list's card composer: on the page only while open - at the top of the
+  // list from its "+", at the top or the bottom from its menu - and × takes it
+  // away (WeKan's inlined form).
+  var menuList = null; // the list whose menu is open
+  function openComposer(list, position) {
+    if (!list) return;
+    list.querySelectorAll('.js-card-composer').forEach(function (f) { f.remove(); });
+    var t = list.querySelector('template.js-card-composer-template');
+    var body = list.querySelector('.js-minicards');
+    if (!t || !body) return;
+    var form = t.content.firstElementChild.cloneNode(true);
+    form.querySelector('.js-card-position').value = position;
+    if (position === 'top') body.parentNode.insertBefore(form, body);
+    else body.parentNode.insertBefore(form, body.nextSibling);
+    up.hello(form);
+    form.querySelector('textarea').focus();
+  }
+  up.on('click', '.js-open-list-menu', function (event, el) {
+    event.preventDefault();
+    menuList = el.closest('.js-list');
+    openPopOver('list-menu');
+  });
   up.on('click', '.js-add-card', function (event, el) {
     event.preventDefault();
-    var form = el.closest('.js-list').querySelector('.js-card-composer');
-    if (!form) return;
-    form.classList.remove('is-hidden');
-    form.querySelector('textarea').focus();
-  });
-  // An item's Edit or Add opens its inlined form, beside it (cardDetails.jade).
-  up.on('click', '.card-details-person-controls .js-open-inlined-form', function (event, el) {
-    event.preventDefault();
-    var form = el.closest('.card-details-item').querySelector('.js-inlined-form');
-    if (!form) return;
-    form.classList.remove('is-hidden');
-    var input = form.querySelector('input[type=text]');
-    if (input) input.focus();
+    var inMenu = el.closest('.js-pop-over');
+    var list = inMenu ? menuList : el.closest('.js-list');
+    if (inMenu) closePopOvers();
+    openComposer(list, el.classList.contains('list-header-plus-bottom') ? 'bottom' : 'top');
   });
   up.on('click', '.js-close-inlined-form', function (event, el) {
     event.preventDefault();
-    el.closest('.js-inlined-form').classList.add('is-hidden');
+    var form = el.closest('.js-inlined-form');
+    if (form.classList.contains('js-card-composer')) form.remove();
+    else form.classList.add('is-hidden');
   });
   // Enter adds the card, as in WeKan; Shift+Enter is a new line.
   up.on('keydown', '.js-card-composer textarea', function (event, el) {

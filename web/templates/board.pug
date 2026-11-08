@@ -249,6 +249,16 @@
                 i.fa.fa-globe
                 |  {{t $.L "public"}}
                 span.sub-name {{t $.L "public-desc"}}
+  //- WeKan's listActionPopup: where a new card goes.
+  if .CanEdit
+    template.js-pop-over-template(data-pop="list-menu", data-title="{{t $.L `listActionPopup-title`}}")
+      ul.pop-over-list
+        li
+          a.js-add-card.list-header-plus-top(href="#")
+            | ↑ {{t $.L "add-card-to-top-of-list"}}
+        li
+          a.js-add-card.list-header-plus-bottom(href="#")
+            | ↓ {{t $.L "add-card-to-bottom-of-list"}}
   template.js-pop-over-template(data-pop="watch", data-title="{{t $.L `boardChangeWatchPopup-title`}}")
     .header
       span.header-title {{t $.L "boardChangeWatchPopup-title"}}
@@ -326,7 +336,8 @@
                     i.fa.fa-caret-down
                 span.list-header-name {{.Title}}
                 if $.CanEdit
-                  a.js-add-card.list-header-plus-top(href="#", title="{{t $.L `add-card`}}", aria-label="{{t $.L `add-card`}}") +
+                  a.js-add-card.list-header-plus-top(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `add-card-to-top-of-list`}}", aria-label="{{t $.L `add-card-to-top-of-list`}}") +
+                  a.js-open-list-menu(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `listActionPopup-title`}}", aria-label="{{t $.L `listActionPopup-title`}}") ☰
               .list-body.js-minicards(data-list="{{.ID}}", data-swimlane="{{.Lane}}")
                 each c in .Cards
                   //- A block that opens the card, not a link: a link in its title
@@ -336,12 +347,16 @@
                       .minicard-title
                         span.minicard-title-text {{viewer .Title $.TextPolicy}}
               if $.CanEdit
-                form.js-inlined-form.js-card-composer.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards", up-submit, up-target=".board-wrapper")
-                  input(type="hidden", name="listId", value="{{.ID}}")
-                  input(type="hidden", name="swimlaneId", value="{{.Lane}}")
-                  textarea.js-card-title(name="title", aria-label="{{t $.L `title`}}", required)
-                  button.primary(type="submit") {{t $.L "add-card"}}
-                  a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+                //- The card composer is on the page only while it is open, at
+                  the top or the bottom of the list (WeKan's inlined form).
+                template.js-card-composer-template
+                  form.js-inlined-form.js-card-composer(method="post", action="/b/{{$.Board.ID}}/cards", up-submit, up-target=".board-wrapper")
+                    input(type="hidden", name="listId", value="{{.ID}}")
+                    input(type="hidden", name="swimlaneId", value="{{.Lane}}")
+                    input.js-card-position(type="hidden", name="position", value="bottom")
+                    textarea.js-card-title(name="title", aria-label="{{t $.L `title`}}", required)
+                    button.primary(type="submit") {{t $.L "add-card"}}
+                    a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
           if $.CanEdit
             .list.js-list-composer
               form.js-inlined-form.js-list-form(method="post", action="/b/{{$.Board.ID}}/lists", up-submit, up-target=".board-wrapper")

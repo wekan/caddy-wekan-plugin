@@ -1175,9 +1175,16 @@ func (s *Server) addCard(w http.ResponseWriter, r *http.Request, u *User) {
 	if b == nil {
 		return
 	}
-	if _, err := s.AddCard(r.Context(), b, u, r.FormValue("listId"), r.FormValue("swimlaneId"), r.FormValue("title")); err != nil {
+	ctx := r.Context()
+	top := s.topSort(ctx, b.ID, r.FormValue("listId"))
+	c, err := s.AddCard(ctx, b, u, r.FormValue("listId"), r.FormValue("swimlaneId"), r.FormValue("title"))
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
+	}
+	// Add Card to Top of List: before the list's first card; otherwise last.
+	if r.FormValue("position") == "top" {
+		_, _ = s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"sort": top}})
 	}
 	s.hub.publish(b.ID, "board-changed")
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
