@@ -44,6 +44,9 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
           .header
             a.notification-menu-toggle(href="#", title="{{t $.L `menu`}}") ☰
             .notification-menu.is-hidden
+              //- WeKan's filters: the unread ones by default, or all of them.
+              a.menu-item.js-filter-unread.selected(href="#") {{t $.L "filter-by-unread"}}
+              a.menu-item.js-view-all(href="#") {{t $.L "view-all"}}
               a.menu-item.mark-all-read(href="#") {{t $.L "mark-all-as-read"}}
               a.menu-item.delete-all(href="#", data-confirm="{{t $.L `delete-all-notifications-confirm`}}") {{t $.L "delete-all-notifications"}}
             h5 {{t $.L "notifications"}}

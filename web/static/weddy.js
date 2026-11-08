@@ -237,6 +237,15 @@
     event.preventDefault();
     document.querySelector('#notifications-drawer .notification-menu').classList.toggle('is-hidden');
   });
+  function drawerShowRead(on) {
+    var d = document.getElementById('notifications-drawer');
+    d.classList.toggle('show-read', on);
+    d.querySelector('.js-filter-unread').classList.toggle('selected', !on);
+    d.querySelector('.js-view-all').classList.toggle('selected', on);
+    d.querySelector('.notification-menu').classList.add('is-hidden');
+  }
+  up.on('click', '#notifications-drawer .js-filter-unread', function (event) { event.preventDefault(); drawerShowRead(false); });
+  up.on('click', '#notifications-drawer .js-view-all', function (event) { event.preventDefault(); drawerShowRead(true); });
   function drawerPost(path) {
     return fetch(path, { method: 'POST', credentials: 'same-origin' }).then(function () { return refreshUser(); });
   }
