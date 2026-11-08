@@ -53,6 +53,7 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	s.apiSettingsRoutes(m)
 	s.apiAdminRoutes(m)
 	s.exportCSVRoutes(m)
+	s.exportICSRoutes(m)
 }
 
 // parentStatus is a refused parentId's own status, else 400.

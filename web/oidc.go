@@ -81,13 +81,19 @@ func OIDCFromEnv(get func(string) string) *OIDCConfig {
 const oidcCookie = "weddy_oidc"
 
 func (c *OIDCConfig) oauth2(r *http.Request) *oauth2.Config {
+	return &oauth2.Config{ClientID: c.ClientID, ClientSecret: c.Secret, Scopes: c.Scopes,
+		Endpoint:    oauth2.Endpoint{AuthURL: c.AuthURL, TokenURL: c.TokenURL},
+		RedirectURL: siteURL(r) + "/_oauth/oidc"}
+}
+
+// siteURL is this WeKan's own address, as the request reached it: HTTPS -
+// Caddy gives every site HTTPS - but plain HTTP on this machine.
+func siteURL(r *http.Request) string {
 	scheme := "https"
 	if r.TLS == nil && (strings.HasPrefix(r.Host, "localhost") || strings.HasPrefix(r.Host, "127.0.0.1")) {
 		scheme = "http"
 	}
-	return &oauth2.Config{ClientID: c.ClientID, ClientSecret: c.Secret, Scopes: c.Scopes,
-		Endpoint:    oauth2.Endpoint{AuthURL: c.AuthURL, TokenURL: c.TokenURL},
-		RedirectURL: scheme + "://" + r.Host + "/_oauth/oidc"}
+	return scheme + "://" + r.Host
 }
 
 func (s *Server) oidcRoutes(m *http.ServeMux) {
