@@ -459,6 +459,11 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil)}
+	// WeKan's sidebar: the board menu for a member who is not comment-only or a
+	// worker; its Export for whoever may export the board (models/lib/exportAccess.js).
+	m := b.member(u.ID)
+	data["MenuOn"] = m != nil && !m.IsCommentOnly && !m.IsWorker
+	data["CanExport"] = (m != nil && !m.AssignedOnly()) || (m == nil && b.Permission == "public")
 	if id := r.PathValue("card"); validID(id) {
 		var c Card
 		if err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c); err == nil {

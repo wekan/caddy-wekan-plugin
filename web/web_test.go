@@ -603,3 +603,34 @@ func TestActivities(t *testing.T) {
 		t.Error("negative: a move within the same list is no moveCard")
 	}
 }
+
+// The board's sidebar, its menu and Export, with WeKan's class names: the menu
+// for a member who is not comment-only or a worker, the export links for one
+// who may export, never for an assigned-only member.
+func TestBoardSidebarMenuAndExport(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	b, _ := w.s.CreateBoard(context.Background(), u, "Menu")
+	page := func(name string) string {
+		c := w.client(t)
+		body(t, w.signIn(t, c, name, "pw"))
+		_, html := get(t, c, w.srv.URL+"/b/"+b.ID+"/"+b.Slug)
+		return html
+	}
+	html := page("ann")
+	for _, want := range []string{"js-toggle-page-sidebar", "board-sidebar", "js-open-board-menu", "js-export-board",
+		"export-board-pane-formats", `/api/boards/` + b.ID + `/export?attachments=false`, `/api/boards/` + b.ID + `/exportZip`} {
+		if !strings.Contains(html, want) {
+			t.Errorf("the board admin's page has %s", want)
+		}
+	}
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true, IsWorker: true})
+	if html = page("bob"); strings.Contains(html, "js-open-board-menu") {
+		t.Error("negative: a worker has no board menu")
+	}
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true, IsNormalAssignedOnly: true})
+	if html = page("bob"); !strings.Contains(html, "js-open-board-menu") || strings.Contains(html, "js-export-board") || strings.Contains(html, "/export?") {
+		t.Error("negative: an assigned-only member gets the menu but no export")
+	}
+}

@@ -22,6 +22,41 @@
     return function () { es.close(); };
   });
 
+  // WeKan's sidebar and pop-overs: the sidebar opens and closes, the board menu
+  // opens from it, and one pop-over is open at a time.
+  function closePopOvers() {
+    document.querySelectorAll('.js-pop-over').forEach(function (p) { p.classList.add('is-hidden'); });
+  }
+  function openPopOver(selector) {
+    closePopOvers();
+    var p = document.querySelector(selector);
+    if (p) p.classList.remove('is-hidden');
+  }
+  up.on('click', '.js-toggle-page-sidebar', function (event) {
+    event.preventDefault();
+    var sb = document.querySelector('.board-sidebar');
+    if (sb) sb.classList.toggle('is-open');
+  });
+  up.on('click', '.js-close-sidebar', function (event, el) {
+    event.preventDefault();
+    el.closest('.board-sidebar').classList.remove('is-open');
+  });
+  up.on('click', '.js-open-board-menu', function (event) {
+    event.preventDefault();
+    openPopOver('.js-board-menu-pop-over');
+  });
+  up.on('click', '.js-export-board', function (event) {
+    event.preventDefault();
+    openPopOver('.js-export-pop-over');
+  });
+  up.on('click', '.js-close-pop-over', function (event) {
+    event.preventDefault();
+    closePopOvers();
+  });
+  up.on('keydown', function (event) {
+    if (event.key === 'Escape') closePopOvers();
+  });
+
   // The "+" of a list opens its card composer; × closes it.
   up.on('click', '.js-add-card', function (event, el) {
     event.preventDefault();

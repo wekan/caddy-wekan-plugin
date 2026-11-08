@@ -1,6 +1,52 @@
 .board-wrapper(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live", data-move="/b/{{.Board.ID}}/move")
   .board-header
     h1.header-board-name.js-board-title {{.Board.Title}}
+    a.board-header-btn.js-toggle-page-sidebar(href="#", title="{{t $.L `sidebar-open`}}", aria-label="{{t $.L `sidebar-open`}}") ☰
+  .board-sidebar.sidebar
+    a.sidebar-xmark.js-close-sidebar(href="#", aria-label="{{t $.L `close`}}") ✕
+    .sidebar-content.js-board-sidebar-content
+      if .MenuOn
+        h3
+          a.board-header-btn.js-open-board-menu(href="#", title="{{t $.L `boardMenuPopup-title`}}") {{t $.L "boardMenuPopup-title"}}
+  .pop-over.js-pop-over.js-board-menu-pop-over.is-hidden(role="dialog", aria-label="{{t $.L `boardMenuPopup-title`}}")
+    .header
+      span.header-title {{t $.L "boardMenuPopup-title"}}
+      a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+    .content
+      ul.pop-over-list
+        if .CanExport
+          li
+            a.js-export-board(href="#") {{t $.L "export"}}
+  if .CanExport
+    .pop-over.js-pop-over.js-export-pop-over.is-hidden(role="dialog", aria-label="{{t $.L `export`}}")
+      .header
+        span.header-title {{t $.L "export"}}
+        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+      .content
+        .export-board-panes
+          .export-board-pane.export-board-pane-formats
+            h4.pop-over-list-subheading JSON
+            ul.pop-over-list
+              li
+                a(href="/api/boards/{{.Board.ID}}/export", download) JSON
+              li
+                a(href="/api/boards/{{.Board.ID}}/export?attachments=false", download) JSON - {{t $.L "export-board-without-attachments"}}
+              li
+                a(href="/api/boards/{{.Board.ID}}/exportZip", download) .zip - {{t $.L "attachments"}}
+            hr
+            h4.pop-over-list-subheading CSV
+            ul.pop-over-list
+              li
+                a(href="/api/boards/{{.Board.ID}}/export/csv?delimiter=%2C", download) (,)
+              li
+                a(href="/api/boards/{{.Board.ID}}/export/csv?delimiter=%3B", download) (;)
+              li
+                a(href="/api/boards/{{.Board.ID}}/export/csv?delimiter=%09", download) TSV
+            hr
+            h4.pop-over-list-subheading iCalendar
+            ul.pop-over-list
+              li
+                a(href="/api/boards/{{.Board.ID}}/calendar.ics", download) .ics
   .board-canvas#board-canvas
     each sw in .Lanes
       .swimlane.js-swimlane(id="swimlane-{{.ID}}", data-swimlane="{{.ID}}")

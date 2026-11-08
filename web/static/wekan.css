@@ -59,3 +59,19 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 .profile form, .people form.js-registration-form { display: grid; gap: 6px; max-width: 420px; margin-bottom: 16px; }
 .people-table { border-collapse: collapse; }
 .people-table th, .people-table td { border: 1px solid #c1c7d0; padding: 4px 8px; text-align: start; }
+
+/* The board's sidebar and WeKan's pop-overs. */
+.board-header { display: flex; align-items: center; gap: .5em; }
+.board-header-btn { cursor: pointer; text-decoration: none; padding: 0 .4em; }
+.board-sidebar { display: none; position: fixed; top: 0; right: 0; bottom: 0; width: 18em; max-width: 100%;
+  background: #f7f7f7; box-shadow: -2px 0 6px rgba(0,0,0,.2); padding: 1em; z-index: 20; overflow-y: auto; }
+.board-sidebar.is-open { display: block; }
+.sidebar-xmark { float: right; text-decoration: none; }
+.pop-over { position: fixed; top: 4em; right: 1em; width: 22em; max-width: calc(100% - 2em); max-height: calc(100% - 6em);
+  overflow-y: auto; background: #fff; border-radius: 3px; box-shadow: 0 2px 8px rgba(0,0,0,.3); z-index: 30; }
+.pop-over.is-hidden { display: none; }
+.pop-over .header { display: flex; justify-content: space-between; padding: .5em .8em; border-bottom: 1px solid #ddd; }
+.pop-over .content { padding: .5em .8em; }
+.pop-over-list { list-style: none; margin: 0; padding: 0; }
+.pop-over-list a { display: block; padding: .3em .2em; }
+.pop-over-list-subheading { margin: .5em 0 .2em; }

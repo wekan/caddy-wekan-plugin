@@ -7,8 +7,8 @@ progress; update it with the template.
 
 | Status | Count |
 |---|---|
-| started - the first part of the page | 14 |
-| not yet | 160 |
+| started - the first part of the page | 16 |
+| not yet | 158 |
 
 | WeKan template | Go Pug | Status |
 |---|---|---|
@@ -30,7 +30,7 @@ progress; update it with the template.
 | `components/boards/columnSetsView.jade` | | not yet |
 | `components/boards/dependencyOverlay.jade` | | not yet |
 | `components/boards/emailView.jade` | | not yet |
-| `components/boards/exportScope.jade` | | not yet |
+| `components/boards/exportScope.jade` | board.pug: the Export pop-over's formats (JSON, .zip, CSV, TSV, iCalendar) | started |
 | `components/boards/groupByAssigneeView.jade` | | not yet |
 | `components/boards/mapView.jade` | | not yet |
 | `components/boards/miniboard.jade` | | not yet |
@@ -171,7 +171,7 @@ progress; update it with the template.
 | `components/sidebar/sidebarArchives.jade` | | not yet |
 | `components/sidebar/sidebarCustomFields.jade` | | not yet |
 | `components/sidebar/sidebarFilters.jade` | | not yet |
-| `components/sidebar/sidebar.jade` | | not yet |
+| `components/sidebar/sidebar.jade` | board.pug: the sidebar, the board menu with Export | started |
 | `components/sidebar/sidebarOriginalPositions.jade` | | not yet |
 | `components/sidebar/sidebarSearches.jade` | | not yet |
 | `components/sidebar/sidebarSinceLastVisit.jade` | | not yet |
