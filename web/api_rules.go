@@ -2,9 +2,11 @@ package web
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"net/http"
 	"regexp"
+	"strings"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -246,7 +248,11 @@ func (s *Server) insertRule(ctx context.Context, boardID, title string, trigger,
 	}
 	trigger = normalizeTrigger(trigger)
 	trigger["_id"], trigger["boardId"], trigger["createdAt"], trigger["updatedAt"] = randomID(), boardID, now, now
-	action["_id"], action["boardId"], action["createdAt"], action["modifiedAt"] = randomID(), boardID, now, now
+	// #5536: an action's own board is its destination; without one, the rule's.
+	if dest, _ := action["boardId"].(string); dest == "" {
+		action["boardId"] = boardID
+	}
+	action["_id"], action["createdAt"], action["modifiedAt"] = randomID(), now, now
 	if _, err := s.db.Collection("triggers").InsertOne(ctx, trigger); err != nil {
 		return nil, err
 	}
@@ -285,6 +291,10 @@ func (s *Server) apiAddRule(w http.ResponseWriter, r *http.Request, u *User) {
 		var action bson.M
 		if action, err = ruleComponent(req["action"], "actionType"); err == nil {
 			title, _ := req["title"].(string)
+			if !s.ruleDestinationOK(r, u, b.ID, action) {
+				apiError(w, http.StatusForbidden, "Must have write access to the destination board")
+				return
+			}
 			var ids bson.M
 			if ids, err = s.insertRule(r.Context(), b.ID, title, trigger, action); err == nil {
 				writeJSON(w, http.StatusOK, ids)
@@ -447,4 +457,77 @@ func (s *Server) apiDeleteRule(w http.ResponseWriter, r *http.Request, u *User) 
 func idString(v any) string {
 	s, _ := v.(string)
 	return s
+}
+
+// ruleDestinationOK is RuleBleed's check (GHSA-9w4x-hf2r-hc9v) when a rule is
+// saved: an action that names another board is kept only when its creator
+// may change that board. A refusal is recorded as WeKan's canary
+// rule.cross-board-write. The engine checks again when the rule runs.
+func (s *Server) ruleDestinationOK(r *http.Request, u *User, boardID string, action bson.M) bool {
+	dest, _ := action["boardId"].(string)
+	if dest == "" || dest == boardID {
+		return true
+	}
+	if b := s.writableBoard(r.Context(), dest, u); b != nil {
+		return true
+	}
+	s.recordSecurity(r, securityEvent{Key: "authz.canary", Action: "detected", Source: "canary:rule.cross-board-write", UserID: u.ID,
+		Detail: "A rule's action named a board its creator may not change."})
+	return false
+}
+
+// methodCreateRule is WeKan's rules.createRule(boardId, title, trigger,
+// action): a board admin's rule, saved from the Rules page, with RuleBleed's
+// destination check. Without a title it is named after what it does.
+func (s *Server) methodCreateRule(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	title, err := optionalString(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	var trigIn, actIn map[string]any
+	if len(args) < 4 || json.Unmarshal(args[2], &trigIn) != nil || json.Unmarshal(args[3], &actIn) != nil {
+		return nil, &methodError{"Match.Error", "Expected objects"}
+	}
+	var b Board
+	if !validID(boardID) || s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(boardID)}).Decode(&b) != nil {
+		return nil, &methodError{"not-found", "Board not found"}
+	}
+	if !b.AdminOf(u.ID) {
+		return nil, &methodError{"not-authorized", "Must be a board admin"}
+	}
+	trigger, err := ruleComponent(trigIn, "activityType")
+	if err != nil {
+		return nil, &methodError{"Match.Error", err.Error()}
+	}
+	action, err := ruleComponent(actIn, "actionType")
+	if err != nil {
+		return nil, &methodError{"Match.Error", err.Error()}
+	}
+	// #5536: the Rules page names an action's destination board; REST does not.
+	if dest, _ := actIn["boardId"].(string); dest != "" {
+		if !validID(dest) {
+			return nil, &methodError{"Match.Error", "boardId is an id"}
+		}
+		action["boardId"] = dest
+	}
+	if !s.ruleDestinationOK(r, u, b.ID, action) {
+		return nil, &methodError{"not-authorized", "Must have write access to the destination board"}
+	}
+	if title = strings.TrimSpace(title); title == "" {
+		td, _ := trigger["desc"].(string)
+		ad, _ := action["desc"].(string)
+		title = strings.TrimSpace(td + " " + ad)
+		if title == "" {
+			title = "Rule"
+		}
+	}
+	ids, err := s.insertRule(r.Context(), b.ID, title, trigger, action)
+	if err != nil {
+		return nil, err
+	}
+	return ids, nil
 }

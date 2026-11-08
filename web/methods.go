@@ -43,6 +43,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"/users/update":         s.methodUpdateUser,
 		"setEmail":              s.methodSetEmail,
 		"rules.runButton":       s.methodRunButton,
+		"rules.createRule":      s.methodCreateRule,
 	}
 }
 

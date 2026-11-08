@@ -195,3 +195,54 @@ func TestRuleButtonsShown(t *testing.T) {
 		t.Fatal("negative: none for a read-only member")
 	}
 }
+
+// WeKan's rules.createRule: a board admin's rule; an action naming a board the
+// creator may not change is refused (RuleBleed), one they may is kept.
+func TestCreateRuleMethod(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Rules")
+	mine, _ := w.s.CreateBoard(ctx, u, "Writable target")
+	private, _ := w.s.CreateBoard(ctx, bob, "Private target")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": bob.ID, "isActive": true}}})
+	call := func(cl *http.Client, args string) map[string]any {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/rules.createRule", strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cl.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return out
+	}
+	move := func(target string) string {
+		return `{"actionType":"moveCardToTop","boardId":"` + target + `","listName":"List A","swimlaneName":"Default"}`
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if out := call(ann, `["`+b.ID+`","Denied",{"activityType":"createCard"},`+move(private.ID)+`]`); out["error"] != "not-authorized" {
+		t.Fatalf("negative: a board the creator may not change: %v", out)
+	}
+	if n, _ := w.db.Collection("rules").CountDocuments(ctx, bson.M{"title": "Denied"}); n != 0 {
+		t.Fatal("negative: no rule saved")
+	}
+	out := call(ann, `["`+b.ID+`","Allowed",{"activityType":"createCard"},`+move(mine.ID)+`]`)
+	res, _ := out["result"].(map[string]any)
+	if res == nil || res["_id"] == nil {
+		t.Fatalf("a writable destination: %v", out)
+	}
+	var act bson.M
+	_ = w.db.Collection("actions").FindOne(ctx, bson.M{"_id": res["actionId"]}).Decode(&act)
+	if act["boardId"] != mine.ID {
+		t.Fatalf("#5536: the destination is kept: %v", act["boardId"])
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if out := call(bc, `["`+b.ID+`","Mine",{"activityType":"createCard"},{"actionType":"archive"}]`); out["error"] != "not-authorized" {
+		t.Fatalf("negative: not a board admin: %v", out)
+	}
+}
