@@ -22,6 +22,13 @@ import (
 // Code scanning alerts #1-#5: a value from a request is used in a query only
 // through eq(), never put in a filter as it came. This reads every file of the
 // package, so the shape cannot come back anywhere - not only where it was found.
+// constantsOnly: a value made of nothing but constants and operators -
+// {"$in": [nil, ""]} - has no value from a request in it.
+func constantsOnly(v string) bool {
+	rest := regexp.MustCompile(`bson\.[MA]\{|"\$(in|ne|exists|nin)":|nil|""|true|false|\d+|[{},\s]`).ReplaceAllString(v, "")
+	return strings.HasPrefix(v, "bson.M{") && rest == ""
+}
+
 // A projection's 0 or 1 is a constant of the code, never a value from a request.
 var numberConstant = regexp.MustCompile(`^-?\d+$`)
 
@@ -43,7 +50,7 @@ func TestEveryQueryValueIsEqOrAnID(t *testing.T) {
 				// eq(...), or an id of a document read from the database: x.ID,
 				// doc["_id"], or dbIn(...) - ids read from documents, only the
 				// ones that are ids.
-				if strings.HasPrefix(v, "eq(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || strings.HasPrefix(v, "storedHash(") || numberConstant.MatchString(v) || strings.HasPrefix(v, "hashToken(") {
+				if strings.HasPrefix(v, "eq(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || strings.HasPrefix(v, "storedHash(") || constantsOnly(v) || numberConstant.MatchString(v) || strings.HasPrefix(v, "hashToken(") {
 					continue
 				}
 				offenders = append(offenders, fmt.Sprintf("%s:%d %s: %s", f, i+1, m[1], v))
@@ -52,6 +59,9 @@ func TestEveryQueryValueIsEqOrAnID(t *testing.T) {
 	}
 	if len(offenders) > 0 {
 		t.Fatalf("query values from outside, not through eq():\n%s", strings.Join(offenders, "\n"))
+	}
+	if !constantsOnly(`bson.M{"$in": bson.A{nil, ""}}`) || constantsOnly(`bson.M{"$in": bson.A{id}}`) || constantsOnly(`bson.M{"$ne": userID}`) {
+		t.Fatal("constantsOnly takes a value from a request, or misses constants")
 	}
 	// The scan itself catches the old shape (negative).
 	if !field.MatchString(`bson.M{"_id": id, "boardId": b.ID}`) {

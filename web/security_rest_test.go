@@ -237,6 +237,9 @@ func TestRESTRoleAccess(t *testing.T) {
 	}
 }
 
+// A write to eventlog: reading it (Admin Panel -> Problems) is anybody's.
+var eventlogWrite = regexp.MustCompile(`Collection\("eventlog"\)\.(Insert|Update|Replace|Delete|FindOneAnd|BulkWrite)`)
+
 // The negative tests over the whole package: no REST handler decides board
 // access with membership alone. A write asks Board.Writable or apiBoardCan,
 // which read WeKan's role table; MemberOf - "is on the board" - is never what
@@ -268,7 +271,11 @@ func TestNoWriteDecidedByMembershipAlone(t *testing.T) {
 		if strings.HasSuffix(f, "_test.go") || f == "securitylog.go" {
 			continue
 		}
-		if src, _ := os.ReadFile(f); strings.Contains(string(src), `Collection("eventlog")`) {
+		src, _ := os.ReadFile(f)
+		if !eventlogWrite.MatchString(`s.db.Collection("eventlog").UpdateOne(ctx`) || eventlogWrite.MatchString(`s.db.Collection("eventlog").Find(`) {
+			t.Fatal("the eventlog scan misses a write, or takes a read")
+		}
+		if eventlogWrite.Match(src) {
 			t.Fatalf("%s writes eventlog itself, not through the fold", f)
 		}
 	}
