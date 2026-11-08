@@ -1,7 +1,55 @@
 //- WeKan's rulesMain, rulesList, rulesTriggers and rulesActions: the board's
   rules, and the wizard that makes one - its title, its trigger, its action.
 .wrapper
-  .rules-page(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}")
+  .rules-page(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}", data-slug="{{.Board.Slug}}", data-view="{{.View}}")
+    .board-header
+      h1.header-board-name {{.Board.Title}} - {{t $.L "rules"}}
+      a.board-header-btn.js-toggle-page-sidebar(href="#", title="{{t $.L `sidebar-open`}}", aria-label="{{t $.L `sidebar-open`}}") ☰
+    //- The board's own sidebar, as the Rules page uses it in WeKan: Board
+      Settings holds Rules and its views.
+    .board-sidebar.sidebar
+      a.sidebar-xmark.js-close-sidebar(href="#", aria-label="{{t $.L `close`}}") ✕
+      .sidebar-content.js-board-sidebar-content
+        h3
+          a.board-header-btn.js-open-board-menu(href="#", title="{{t $.L `boardMenuPopup-title`}}") {{t $.L "boardMenuPopup-title"}}
+    template.js-pop-over-template(data-pop="board-menu", data-title="{{t $.L `boardMenuPopup-title`}}")
+      .header
+        span.header-title {{t $.L "boardMenuPopup-title"}}
+        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+      .content
+        ul.pop-over-list
+          if .CanEdit
+            li
+              a.js-open-rules-view(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules", title="{{t $.L `rules`}}")
+                i.fa.fa-magic
+                |  {{t $.L "rules"}}
+            li
+              a.js-open-rules-list-view(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules?view=list", title="{{t $.L `r-list-view`}}")
+                i.fa.fa-list
+                |  {{t $.L "r-list-view"}}
+            li
+              a.js-open-rules-workflow-view(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules?view=workflow", title="{{t $.L `r-workflow-view`}}")
+                i.fa.fa-sitemap
+                |  {{t $.L "r-workflow-view"}}
+            li
+              a.js-open-rules-import-export(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules?view=import", title="{{t $.L `rulesImportExportPopup-title`}}")
+                i.fa.fa-exchange
+                |  {{t $.L "rulesImportExportPopup-title"}}
+    if .CanEdit
+      //- WeKan's rulesImportExportPopup.
+      template.js-pop-over-template(data-pop="rules-import-export", data-title="{{t $.L `rulesImportExportPopup-title`}}")
+        .rules-import-export
+          h3 {{t $.L "r-export"}}
+          .rules-ie-btns
+            a.button.primary.full.js-rules-export-json(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules/export?format=json", download="wekan-rules.json") {{t $.L "r-export-json"}}
+            a.button.primary.full.js-rules-export-csv(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules/export?format=csv", download="wekan-rules.csv") {{t $.L "r-export-csv"}}
+          hr
+          h3 {{t $.L "r-import"}}
+          p.rules-ie-hint {{t $.L "r-import-paste"}}
+          textarea.rules-ie-textarea.js-rules-import-text(rows="8")
+          .rules-ie-btns
+            button.primary.full.js-rules-import-json(type="button") {{t $.L "r-import-json"}}
+          p.js-rules-import-message
     .rules-back-to-board
       a.js-rules-back-to-board(href="/b/{{.Board.ID}}/{{.Board.Slug}}", title="{{.Board.Title}}")
         i.fa.fa-arrow-left
@@ -50,6 +98,18 @@
             button.primary.js-goto-trigger(type="button")
               i.fa.fa-plus
               |  {{t $.L "r-add-trigger"}}
+      //- WeKan's rulesWorkflow: each rule as its trigger leading to its actions.
+      template.js-rules-pane(data-pane="workflow")
+        .rules-workflow
+          h2
+            i.fa.fa-sitemap
+            |  {{t $.L "r-workflow-view"}}
+          each rule in .Rules
+            .workflow-rule(data-rule-id="{{.ID}}")
+              .workflow-rule-title {{.Title}}
+              .workflow-node.workflow-trigger {{.Trigger}}
+              each act in .Actions
+                .workflow-node.workflow-action {{.}}
       each rule in .Rules
         //- WeKan's ruleDetails: what the rule waits for, and what it does.
         template.js-rules-pane(data-pane="details-{{.ID}}")

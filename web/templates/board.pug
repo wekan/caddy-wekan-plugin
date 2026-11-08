@@ -53,6 +53,23 @@
         if .CanExport
           li
             a.js-export-board(href="#") {{t $.L "export"}}
+        if .Board.AdminOf .User.ID
+          li
+            a.js-open-rules-view(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules", title="{{t $.L `rules`}}")
+              i.fa.fa-magic
+              |  {{t $.L "rules"}}
+          li
+            a.js-open-rules-list-view(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules?view=list", title="{{t $.L `r-list-view`}}")
+              i.fa.fa-list
+              |  {{t $.L "r-list-view"}}
+          li
+            a.js-open-rules-workflow-view(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules?view=workflow", title="{{t $.L `r-workflow-view`}}")
+              i.fa.fa-sitemap
+              |  {{t $.L "r-workflow-view"}}
+          li
+            a.js-open-rules-import-export(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules?view=import", title="{{t $.L `rulesImportExportPopup-title`}}")
+              i.fa.fa-exchange
+              |  {{t $.L "rulesImportExportPopup-title"}}
   if .CanEdit
     //- WeKan's swimlaneAddPopup: a swimlane below or above the chosen one.
     template.js-pop-over-template(data-pop="add-swimlane", data-title="{{t $.L `swimlaneAddPopup-title`}}")

@@ -304,3 +304,44 @@ func TestRulesPage(t *testing.T) {
 		t.Fatal("with its action")
 	}
 }
+
+// WeKan's rules export: JSON in WeKan's format, or CSV with its columns - the
+// ticked rules when some are - for a board admin only.
+func TestRulesExport(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Rules")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": bob.ID, "isActive": true}}})
+	addRule(t, w, b.ID, "rone", bson.M{"activityType": "createCard", "listName": "Todo"}, bson.M{"actionType": "archive"}, true)
+	addRule(t, w, b.ID, "rtwo", bson.M{"activityType": "moveCard"}, bson.M{"actionType": "unarchive"}, true)
+	_, _ = w.db.Collection("rules").UpdateMany(ctx, bson.M{"boardId": b.ID}, bson.M{"$set": bson.M{"title": "R"}})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	base := w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/rules/export"
+	_, js := get(t, ann, base+"?format=json")
+	var out struct {
+		Format string   `json:"_format"`
+		Rules  []bson.M `json:"rules"`
+	}
+	if json.Unmarshal([]byte(js), &out) != nil || out.Format != "wekan-rules-1.0.0" || len(out.Rules) != 2 {
+		t.Fatalf("the JSON export: %s", js)
+	}
+	if strings.Contains(js, `"boardId"`+": \""+b.ID+"\",\n      \"") || strings.Contains(js, "rone") {
+		t.Fatal("negative: no ids of this board in a rule")
+	}
+	_, one := get(t, ann, base+"?format=json&ids=rtwo")
+	if strings.Count(one, `"title"`) != 1 || !strings.Contains(one, "unarchive") {
+		t.Fatalf("only the ticked rule: %s", one)
+	}
+	_, csvText := get(t, ann, base+"?format=csv")
+	if !strings.HasPrefix(csvText, "title,triggerType,triggerFields,actionType,actionFields\r\n") || !strings.Contains(csvText, "createCard") {
+		t.Fatalf("the CSV export: %s", csvText)
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if res, _ := get(t, bc, base+"?format=json"); res.StatusCode != http.StatusNotFound {
+		t.Fatalf("negative: not an admin: %d", res.StatusCode)
+	}
+}

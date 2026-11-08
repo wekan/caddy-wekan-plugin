@@ -411,7 +411,52 @@
     stage.querySelectorAll('.js-rule-name').forEach(function (n) { n.textContent = ruleState.name; });
     up.hello(stage);
   }
-  up.compiler('.rules-page', function (page) { showPane(page, 'list'); });
+  up.compiler('.rules-page', function (page) {
+    if (page.dataset.view === 'import') {
+      showPane(page, 'list');
+      openPopOver('rules-import-export');
+    } else {
+      showPane(page, page.dataset.view || 'list');
+    }
+  });
+  // On the Rules page, Board Settings' Rules entries switch the view in place.
+  function rulesMenuEntry(view) {
+    return function (event) {
+      var page = document.querySelector('.rules-page');
+      if (!page) return; // on the board they are links to the Rules page
+      event.preventDefault();
+      closePopOvers();
+      document.querySelector('.board-sidebar').classList.remove('is-open');
+      if (view === 'import') openPopOver('rules-import-export');
+      else showPane(page, view);
+    };
+  }
+  up.on('click', '.js-open-rules-view, .js-open-rules-list-view', rulesMenuEntry('list'));
+  up.on('click', '.js-open-rules-workflow-view', rulesMenuEntry('workflow'));
+  up.on('click', '.js-open-rules-import-export', rulesMenuEntry('import'));
+  // Export the ticked rules, or all of them.
+  up.on('click', '.js-rules-export-json, .js-rules-export-csv', function (event, el) {
+    var page = document.querySelector('.rules-page');
+    if (!page) return;
+    var ids = Array.prototype.map.call(page.querySelectorAll('.js-rule-select:checked'), function (b) { return b.dataset.ruleId; });
+    if (ids.length) el.href = el.href.split('&ids=')[0] + '&ids=' + ids.join(',');
+  });
+  // Import: each rule of an exported JSON, saved as a new rule of this board.
+  up.on('click', '.js-rules-import-json', function (event, el) {
+    event.preventDefault();
+    var page = document.querySelector('.rules-page');
+    var pop = el.closest('.js-pop-over');
+    var msg = pop.querySelector('.js-rules-import-message');
+    var parsed;
+    try { parsed = JSON.parse(pop.querySelector('.js-rules-import-text').value); } catch (e) { msg.textContent = String(e.message); return; }
+    var rules = Array.isArray(parsed) ? parsed : (parsed && parsed.rules) || [];
+    Promise.all(rules.map(function (r) {
+      return callAsync('rules.createRule', page.dataset.board, r.title || '', r.trigger || {}, r.action || {});
+    })).then(function () {
+      closePopOvers();
+      up.reload('.rules-page');
+    }, function (e) { msg.textContent = e.reason || e.message; });
+  });
   up.on('click', '.rules-page .js-goto-details', function (event, el) {
     event.preventDefault();
     showPane(rulesPage(el), 'details-' + el.dataset.ruleId);

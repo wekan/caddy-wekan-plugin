@@ -223,6 +223,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}", s.page(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/{card}", s.page(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/rules", s.page(s.rulesPage))
+	m.HandleFunc("GET /b/{board}/{slug}/rules/export", s.page(s.rulesExport))
 	m.HandleFunc("POST /b/{board}/cards/{card}/people", s.page(s.cardPeoplePage))
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
 	m.HandleFunc("POST /b/{board}/swimlanes", s.page(s.addSwimlanePage))

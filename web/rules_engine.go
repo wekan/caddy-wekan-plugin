@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"encoding/csv"
 	"encoding/json"
 	"fmt"
 	"math"
@@ -705,7 +706,11 @@ func (s *Server) rulesPage(w http.ResponseWriter, r *http.Request, u *User) {
 		s.render(w, r, "notfound", http.StatusNotFound, map[string]any{"Title": tr(lang, "board-not-found"), "User": u})
 		return
 	}
-	data := map[string]any{"Title": tr(lang, "rules"), "User": u, "Board": b, "CanEdit": b.AdminOf(u.ID)}
+	view := r.URL.Query().Get("view")
+	if !slices.Contains([]string{"list", "workflow", "import"}, view) {
+		view = "list"
+	}
+	data := map[string]any{"Title": tr(lang, "rules"), "User": u, "Board": b, "CanEdit": b.AdminOf(u.ID), "View": view}
 	if b.AdminOf(u.ID) {
 		ctx := r.Context()
 		cur, err := s.db.Collection("rules").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}}))
@@ -801,4 +806,90 @@ func capitalFirst(s string) string {
 		return strings.ToUpper(string(r)) + s[i+len(string(r)):]
 	}
 	return s
+}
+
+// rulesFormat is WeKan's RULES_FORMAT, the version of an exported rules file.
+const rulesFormat = "wekan-rules-1.0.0"
+
+// portableRule is a trigger or an action without what ties it to one board
+// (WeKan's stripDoc).
+func portableRule(doc bson.M) bson.M {
+	out := bson.M{}
+	for k, v := range doc {
+		if !slices.Contains([]string{"_id", "boardId", "createdAt", "modifiedAt", "updatedAt"}, k) {
+			out[k] = v
+		}
+	}
+	return out
+}
+
+// rulesExport is WeKan's rules export (rulesImportExport.js): the board's
+// rules - the ticked ones, when some are - as JSON, or as CSV with WeKan's
+// columns, for a board admin.
+func (s *Server) rulesExport(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil || !b.AdminOf(u.ID) {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	ctx := r.Context()
+	cur, err := s.db.Collection("rules").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}}))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var rules []bson.M
+	_ = cur.All(ctx, &rules)
+	picked := strings.Split(r.URL.Query().Get("ids"), ",")
+	entries := []bson.M{}
+	for _, rule := range rules {
+		if r.URL.Query().Get("ids") != "" && !slices.Contains(picked, docString(rule, "_id")) {
+			continue
+		}
+		var t bson.M
+		acts := s.ruleActions(ctx, rule)
+		if s.db.Collection("triggers").FindOne(ctx, bson.M{"_id": eq(docString(rule, "triggerId"))}).Decode(&t) != nil || len(acts) == 0 {
+			continue
+		}
+		e := bson.M{"title": rule["title"], "trigger": portableRule(t), "action": portableRule(acts[0])}
+		if len(acts) > 1 {
+			extra := []bson.M{}
+			for _, a := range acts[1:] {
+				extra = append(extra, portableRule(a))
+			}
+			e["extraActions"] = extra
+		}
+		entries = append(entries, e)
+	}
+	if r.URL.Query().Get("format") == "csv" {
+		w.Header().Set("Content-Type", "text/csv; charset=utf-8")
+		w.Header().Set("Content-Disposition", `attachment; filename="wekan-rules.csv"`)
+		cw := csv.NewWriter(w)
+		cw.UseCRLF = true
+		_ = cw.Write([]string{"title", "triggerType", "triggerFields", "actionType", "actionFields"})
+		for _, e := range entries {
+			t, a := e["trigger"].(bson.M), e["action"].(bson.M)
+			tf, af := bson.M{}, bson.M{}
+			for k, v := range t {
+				if k != "activityType" {
+					tf[k] = v
+				}
+			}
+			for k, v := range a {
+				if k != "actionType" {
+					af[k] = v
+				}
+			}
+			tj, _ := json.Marshal(tf)
+			aj, _ := json.Marshal(af)
+			title, _ := e["title"].(string)
+			_ = cw.Write([]string{title, docString(t, "activityType"), string(tj), docString(a, "actionType"), string(aj)})
+		}
+		cw.Flush()
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Disposition", `attachment; filename="wekan-rules.json"`)
+	out, _ := json.MarshalIndent(map[string]any{"_format": rulesFormat, "boardId": b.ID, "rules": entries}, "", "  ")
+	_, _ = w.Write(out)
 }
