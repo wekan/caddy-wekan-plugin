@@ -5,7 +5,6 @@ import (
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/base64"
-	"encoding/hex"
 	"errors"
 	"fmt"
 	"net/http"
@@ -18,25 +17,11 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// Meteor's accounts-password: the password is first SHA-256'd to a hex digest,
-// and the DIGEST is what bcrypt or argon2 hashed (services.password.bcrypt or
-// .argon2). Checking it the same way is what lets every existing WeKan user sign
-// in here with their password.
-//
-// SHA-256 is not how the password is stored - that is bcrypt (cost 10) or argon2
-// of this digest, both slow and salted. It is Meteor's pre-hash, the input those
-// were given; without it no existing password would match. (Code scanning alert
-// #9 reads it as the storage hash: Hall-of-Fame.md in the wiki says why not.)
-func passwordDigest(password string) string {
-	sum := sha256.Sum256([]byte(password))
-	return hex.EncodeToString(sum[:])
-}
-
 var errBadPassword = errors.New("incorrect username or password")
 
 // CheckPassword checks a password against the user's stored hash.
 func CheckPassword(u *User, password string) error {
-	digest := passwordDigest(password)
+	digest := meteorPreHash(password)
 	switch {
 	case u.Services.Password.Bcrypt != "":
 		if bcrypt.CompareHashAndPassword([]byte(u.Services.Password.Bcrypt), []byte(digest)) == nil {
@@ -118,7 +103,7 @@ const (
 
 // HashPassword hashes a new password as Meteor does: bcrypt of the SHA-256 digest.
 func HashPassword(password string) (string, error) {
-	h, err := bcrypt.GenerateFromPassword([]byte(passwordDigest(password)), 10)
+	h, err := bcrypt.GenerateFromPassword([]byte(meteorPreHash(password)), 10)
 	return string(h), err
 }
 

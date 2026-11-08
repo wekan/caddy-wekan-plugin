@@ -2,7 +2,9 @@ package web
 
 import (
 	"context"
+	"crypto/sha256"
 	"encoding/base64"
+	"encoding/hex"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -163,8 +165,43 @@ func TestPasswordsAreStoredSlowlyHashed(t *testing.T) {
 	w := newTestWeKan(t)
 	u := w.seedUser(t, "quinn", "pw")
 	_, _ = w.db.Collection("users").UpdateOne(context.Background(), bson.M{"_id": u.ID},
-		bson.M{"$set": bson.M{"services.password.bcrypt": passwordDigest("pw")}})
+		bson.M{"$set": bson.M{"services.password.bcrypt": meteorPreHash("pw")}})
 	if res := w.signIn(t, w.client(t), "quinn", "pw"); res.StatusCode == http.StatusSeeOther {
 		t.Fatal("negative: a bare SHA-256 digest as the stored hash signed in")
+	}
+}
+
+// Code scanning alert #9: Meteor's pre-hash is computed in one place, and no
+// other fast hash in this package touches a password - as WeKan pins for its
+// breach-check digest (#599).
+func TestNoFastHashOfPasswords(t *testing.T) {
+	want := sha256.Sum256([]byte("pässwörd"))
+	if meteorPreHash("pässwörd") != hex.EncodeToString(want[:]) {
+		t.Fatal("meteorPreHash is Meteor's SHA-256 hex digest, UTF-8 too")
+	}
+	fast := regexp.MustCompile(`\b(?:md5|sha1|sha256|sha512|sha3)\.(?:Sum\w*|New\w*)\(|crypto\.(?:MD5|SHA1|SHA256|SHA512)\.New\(`)
+	pass := regexp.MustCompile(`(?i)pass`)
+	files, _ := filepath.Glob("*.go")
+	var offenders []string
+	for _, f := range files {
+		if strings.HasSuffix(f, "_test.go") {
+			continue
+		}
+		src, _ := os.ReadFile(f)
+		text := string(src)
+		if f != "meteor_prehash.go" && strings.Contains(text, "crypto.SHA256") {
+			offenders = append(offenders, f+": crypto.SHA256 outside meteor_prehash.go")
+		}
+		for i, line := range strings.Split(text, "\n") {
+			if fast.MatchString(line) && pass.MatchString(line) {
+				offenders = append(offenders, fmt.Sprintf("%s:%d %s", f, i+1, strings.TrimSpace(line)))
+			}
+		}
+	}
+	if len(offenders) > 0 {
+		t.Fatalf("a fast hash next to a password:\n%s", strings.Join(offenders, "\n"))
+	}
+	if !fast.MatchString(`sum := sha256.Sum256([]byte(password))`) {
+		t.Fatal("the scan misses the old shape")
 	}
 }

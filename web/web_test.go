@@ -60,7 +60,7 @@ func newTestWeKan(t *testing.T) *testWeKan {
 // seedUser inserts a user as Meteor's accounts-password writes one.
 func (w *testWeKan) seedUser(t *testing.T, username, password string) *User {
 	t.Helper()
-	hash, err := bcrypt.GenerateFromPassword([]byte(passwordDigest(password)), 4)
+	hash, err := bcrypt.GenerateFromPassword([]byte(meteorPreHash(password)), 4)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -116,7 +116,7 @@ func get(t *testing.T, c *http.Client, u string) (*http.Response, string) {
 }
 
 func TestMeteorPasswords(t *testing.T) {
-	hash, _ := bcrypt.GenerateFromPassword([]byte(passwordDigest("s3cret")), 4)
+	hash, _ := bcrypt.GenerateFromPassword([]byte(meteorPreHash("s3cret")), 4)
 	u := &User{}
 	u.Services.Password.Bcrypt = string(hash)
 	if err := CheckPassword(u, "s3cret"); err != nil {
@@ -131,7 +131,7 @@ func TestMeteorPasswords(t *testing.T) {
 
 	salt := make([]byte, 16)
 	_, _ = rand.Read(salt)
-	key := argon2.IDKey([]byte(passwordDigest("s3cret")), salt, 3, 4096, 1, 32)
+	key := argon2.IDKey([]byte(meteorPreHash("s3cret")), salt, 3, 4096, 1, 32)
 	a := &User{}
 	a.Services.Password.Argon2 = fmt.Sprintf("$argon2id$v=19$m=4096,t=3,p=1$%s$%s",
 		base64.RawStdEncoding.EncodeToString(salt), base64.RawStdEncoding.EncodeToString(key))
@@ -147,7 +147,7 @@ func TestMeteorPasswords(t *testing.T) {
 	}
 
 	h, err := HashPassword("new")
-	if err != nil || bcrypt.CompareHashAndPassword([]byte(h), []byte(passwordDigest("new"))) != nil {
+	if err != nil || bcrypt.CompareHashAndPassword([]byte(h), []byte(meteorPreHash("new"))) != nil {
 		t.Fatal("HashPassword must write what Meteor reads: bcrypt of the digest")
 	}
 }
