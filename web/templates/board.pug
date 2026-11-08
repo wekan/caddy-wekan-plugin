@@ -28,6 +28,16 @@
           button.js-member-invite-accept.primary(type="button") {{t $.L "accept"}}
           button.js-member-invite-decline(type="button") {{t $.L "decline"}}
         hr
+      //- WeKan's membersWidget: the active members, and adding one.
+      .board-widget.board-widget-members.membersWidget
+        h3.board-widget-title {{t $.L "members"}}
+        .board-widget-content
+          each mem in .SidebarMembers
+            a.member.js-member(href="#", data-user="{{.ID}}", title="{{.Fullname}} ({{.Username}})", aria-label="{{.Fullname}} ({{.Username}})")
+              span.member-initials {{.Username}}
+          if .CanInvite
+            a.member.add-member.js-manage-board-members(href="#", title="{{t $.L `add-members`}}", aria-label="{{t $.L `add-members`}}")
+              i.fa.fa-plus
       if .MenuOn
         h3
           a.board-header-btn.js-open-board-menu(href="#", title="{{t $.L `boardMenuPopup-title`}}") {{t $.L "boardMenuPopup-title"}}
@@ -84,6 +94,30 @@
           span(dir="auto") {{t $.L "above-selected-swimlane"}}
         .edit-controls.clearfix
           button.primary.confirm(type="submit") {{t $.L "add"}}
+  //- WeKan's memberPopup and removeMemberPopup, for each member.
+  each mem in .SidebarMembers
+    template.js-pop-over-template(data-pop="member-{{.ID}}", data-title="{{.Fullname}}")
+      .board-member-menu
+        .miniprofile-header
+          .info
+            h3
+              .js-profile {{.Fullname}}
+            p.quiet @{{.Username}}
+        ul.pop-over-list
+          if and $.IsBoardAdmin (not .Self)
+            li
+              a.js-remove-member(href="#", data-user="{{.ID}}") {{t $.L "remove-from-board"}}
+    if $.IsBoardAdmin
+      template.js-pop-over-template(data-pop="remove-member-{{.ID}}", data-title="{{t $.L `remove-member`}}")
+        form(method="post", action="/b/{{$.Board.ID}}/members/{{.ID}}/remove", up-submit, up-target=".board-wrapper")
+          p {{t $.L "remove-member"}}: {{.Fullname}} (@{{.Username}})
+          button.js-confirm.negate.full(type="submit") {{t $.L "remove-member"}}
+  if .CanInvite
+    //- WeKan's addMemberPopup: search, then pick.
+    template.js-pop-over-template(data-pop="add-member", data-title="{{t $.L `add-members`}}")
+      .js-search-member
+        input.js-search-member-input(type="text", placeholder="{{t $.L `email-address`}}", aria-label="{{t $.L `add-members`}}")
+      ul.pop-over-list.js-member-search-results
   template.js-pop-over-template(data-pop="watch", data-title="{{t $.L `boardChangeWatchPopup-title`}}")
     .header
       span.header-title {{t $.L "boardChangeWatchPopup-title"}}

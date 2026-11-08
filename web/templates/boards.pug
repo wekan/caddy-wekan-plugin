@@ -1,5 +1,14 @@
 .board-list-wrapper
   h1.board-list-title {{t $.L "all-boards"}}
+  //- WeKan's All Boards sections, each with its count.
+  ul.board-list-menu.js-board-sections
+    each sec in .Sections
+      li.menu-item(class="{{if eq .Type $.Section}}active{{end}}")
+        a.js-select-menu(href="/allboards/{{.Type}}", data-type="{{.Type}}")
+          span.menu-label
+            i.fa(class="{{.Icon}}")
+            |  {{t $.L .Label}}
+          span.menu-count {{.Count}}
   ul.board-list.js-boards
     each b in .Boards
       li.js-board(data-id="{{.ID}}", class="{{.ID}}{{if starred $.User .ID}} starred{{end}}")

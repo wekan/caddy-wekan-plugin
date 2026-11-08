@@ -195,6 +195,71 @@
     callAsync.apply(null, args).then(function () { up.reload('.board-wrapper'); }, function () {});
   });
 
+  // The sidebar's members (membersWidget): a member's menu, removing one, and
+  // adding one found by a search.
+  up.on('click', '.board-sidebar a.js-member', function (event, el) {
+    event.preventDefault();
+    openPopOver('member-' + el.dataset.user);
+  });
+  up.on('click', '.js-pop-over a.js-remove-member', function (event, el) {
+    event.preventDefault();
+    openPopOver('remove-member-' + el.dataset.user);
+  });
+  up.on('submit', '.js-pop-over form[action$="/remove"]', function () { keepSidebarOpen = true; });
+  up.on('click', '.js-manage-board-members', function (event) {
+    event.preventDefault();
+    openPopOver('add-member');
+    var input = document.querySelector('.js-pop-over .js-search-member-input');
+    if (input) input.focus();
+  });
+  var memberSearch = null;
+  // The sidebar stays open across the board's reload after a member change.
+  var keepSidebarOpen = false;
+  up.compiler('.board-sidebar', function (sb) {
+    if (keepSidebarOpen) {
+      sb.classList.add('is-open');
+      keepSidebarOpen = false;
+    }
+  });
+  up.on('input', '.js-search-member-input', function (event, input) {
+    clearTimeout(memberSearch);
+    memberSearch = setTimeout(function () {
+      var board = document.querySelector('.board-wrapper');
+      var list = input.closest('.js-pop-over').querySelector('.js-member-search-results');
+      fetch('/b/' + board.dataset.board + '/members/search?q=' + encodeURIComponent(input.value), { credentials: 'same-origin' })
+        .then(function (r) { return r.json(); }).then(function (users) {
+          list.innerHTML = '';
+          users.forEach(function (u) {
+            var li = document.createElement('li');
+            li.className = 'item js-member-item';
+            var a = document.createElement('a');
+            a.className = 'name js-select-member member';
+            a.href = '#';
+            a.dataset.user = u._id;
+            a.title = u.fullname + ' (' + u.username + ')';
+            var name = document.createElement('span');
+            name.className = 'full-name';
+            name.textContent = u.fullname + ' ';
+            var un = document.createElement('span');
+            un.className = 'username';
+            un.textContent = '(' + u.username + ')';
+            a.appendChild(name);
+            a.appendChild(un);
+            li.appendChild(a);
+            list.appendChild(li);
+          });
+        });
+    }, 200);
+  });
+  up.on('click', '.js-member-search-results .js-select-member', function (event, el) {
+    event.preventDefault();
+    var board = document.querySelector('.board-wrapper');
+    var form = new FormData();
+    form.append('userId', el.dataset.user);
+    fetch('/b/' + board.dataset.board + '/members', { method: 'POST', body: form, credentials: 'same-origin' })
+      .then(function () { closePopOvers(); keepSidebarOpen = true; up.reload('.board-wrapper'); });
+  });
+
   // An invitation to the board: accept it, or decline it and go to All Boards.
   up.on('click', '.js-member-invite-accept', function (event, el) {
     event.preventDefault();

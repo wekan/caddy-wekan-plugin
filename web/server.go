@@ -422,20 +422,47 @@ func (s *Server) allBoards(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	if r.PathValue("section") == "starred" {
-		boards = starred
-	} else {
-		listed := map[string]bool{}
-		for _, b := range boards {
-			listed[b.ID] = true
-		}
-		for _, b := range starred {
-			if !listed[b.ID] {
-				boards = append(boards, b)
-			}
+	listed := map[string]bool{}
+	for _, b := range boards {
+		listed[b.ID] = true
+	}
+	remaining := slices.Clone(boards)
+	for _, b := range starred {
+		if !listed[b.ID] {
+			remaining = append(remaining, b)
 		}
 	}
-	s.render(w, r, "boards", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, "all-boards"), "User": u, "Boards": boards})
+	templates, _ := s.templateBoardsOf(r.Context(), u.ID)
+	section := strings.SplitN(r.PathValue("section"), "/", 2)[0]
+	if !slices.Contains([]string{"starred", "templates", "remaining"}, section) {
+		section = "remaining"
+		if len(starred) > 0 {
+			section = "starred" // WeKan opens on the starred boards when there are some
+		}
+	}
+	boards = map[string][]Board{"starred": starred, "templates": templates, "remaining": remaining}[section]
+	sections := []boardSection{{"starred", msg("allboards.starred"), "fa-star", len(starred)},
+		{"templates", msg("allboards.templates"), "fa-clone", len(templates)},
+		{"remaining", msg("allboards.remaining"), "fa-th-large", len(remaining)}}
+	s.render(w, r, "boards", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, "all-boards"), "User": u, "Boards": boards,
+		"Sections": sections, "Section": section})
+}
+
+// boardSection is one of All Boards' sections.
+type boardSection struct {
+	Type, Label, Icon string
+	Count             int
+}
+
+// templateBoardsOf are the user's template boards.
+func (s *Server) templateBoardsOf(ctx context.Context, userID string) ([]Board, error) {
+	cur, err := s.db.Collection("boards").Find(ctx, bson.M{"archived": false, "members": bson.M{"$elemMatch": bson.M{"userId": eq(userID), "isActive": true}},
+		"type": bson.M{"$in": []string{"template-container", "template-board"}}}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}, {Key: "title", Value: 1}}))
+	if err != nil {
+		return nil, err
+	}
+	var boards []Board
+	return boards, cur.All(ctx, &boards)
 }
 
 func slugify(title string) string {
@@ -591,6 +618,9 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["CanExport"] = (m != nil && !m.AssignedOnly()) || (m == nil && b.Permission == "public")
 	lang := languageOf(r, u).Tag
 	data["WatchLevel"] = s.watchLevel(r.Context(), b.ID, u.ID)
+	data["SidebarMembers"] = s.sidebarMembers(r, b, u)
+	data["CanInvite"] = canInviteToBoard(u, b, s.inviteRoles(r))
+	data["IsBoardAdmin"] = b.AdminOf(u.ID)
 	if b.Writable(u, "write", nil) || (m != nil && b.Can(u.ID, "write")) {
 		data["BoardButtons"] = s.buttonRules(r.Context(), b.ID, "board")
 		data["CardButtons"] = s.buttonRules(r.Context(), b.ID, "card")
