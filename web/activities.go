@@ -23,7 +23,9 @@ func (s *Server) activity(ctx context.Context, userID, activityType string, fiel
 	}
 	if _, err := s.db.Collection("activities").InsertOne(ctx, doc); err != nil {
 		s.log.Warn("recording an activity", "type", activityType, "error", err)
+		return
 	}
+	s.notify(ctx, userID, doc)
 }
 
 // titleOfID is the title of a document, "" when there is none.

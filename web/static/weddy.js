@@ -95,6 +95,41 @@
     }
   });
 
+  // Meteor.user() and Meteor.userId() as Node.js WeKan's pages have them: the
+  // signed-in user, without secrets (/api/user), refreshed every few seconds -
+  // for WeKan's scripts and tests, which read the user that way.
+  var currentUser = null;
+  if (!window.Meteor) {
+    window.Meteor = {
+      user: function () { return currentUser; },
+      userId: function () { return currentUser ? currentUser._id : null; },
+    };
+  }
+  function unreadOf(user) {
+    var list = (user && user.profile && user.profile.notifications) || [];
+    return list.filter(function (n) { return !n.read; }).length;
+  }
+  function refreshUser() {
+    return fetch('/api/user', { credentials: 'same-origin' }).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (u) {
+      if (!u) return;
+      currentUser = u;
+      var unread = unreadOf(u);
+      document.querySelectorAll('.notifications-drawer-toggle').forEach(function (el) {
+        el.classList.toggle('alert', unread > 0);
+        var c = el.querySelector('.notifications-count');
+        if (c) c.textContent = unread > 0 ? String(unread) : '';
+      });
+    }).catch(function () {});
+  }
+  // The notifications indicator: alert while there are unread ones.
+  up.compiler('.notifications-drawer-toggle', function () {
+    refreshUser();
+    var timer = setInterval(refreshUser, 4000);
+    return function () { clearInterval(timer); };
+  });
+
   // The "+" of a list opens its card composer; × closes it.
   up.on('click', '.js-add-card', function (event, el) {
     event.preventDefault();

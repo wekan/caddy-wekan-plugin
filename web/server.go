@@ -148,6 +148,7 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 	lang := languageOf(r, u)
 	data["L"], data["Lang"] = lang.Tag, lang
 	if u != nil {
+		data["Unread"] = s.unreadNotifications(r.Context(), u.ID)
 		data["CloudMenu"] = s.cloudOn() && u.IsAdmin
 		data["PanelMenu"] = s.panelAllowed(r, u)
 	}
@@ -188,6 +189,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/move", s.page(s.moveCards))
 	m.HandleFunc("GET /b/{board}/live", s.page(s.live))
 	m.HandleFunc("GET /language", s.page(s.languagePage))
+	s.notificationRoutes(m)
 	m.HandleFunc("POST /language", s.page(s.setLanguage))
 	s.apiRoutes(m)
 	s.cloudRoutes(m)
