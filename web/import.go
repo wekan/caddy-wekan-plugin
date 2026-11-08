@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -20,6 +21,7 @@ import (
 func (s *Server) importRoutes(m *http.ServeMux) {
 	m.HandleFunc("POST /api/boards/import", s.api(s.apiImportBoard))
 	m.HandleFunc("DELETE /api/boards/{board}", s.api(s.apiDeleteBoard))
+	m.HandleFunc("POST /api/boards/{board}/copy", s.api(s.apiCopyBoard))
 }
 
 // MaxImportBytes is the largest board export taken: attachments ride in it.
@@ -502,4 +504,90 @@ func (s *Server) apiDeleteBoard(w http.ResponseWriter, r *http.Request, u *User)
 	s.deleteBoardData(r.Context(), b.ID)
 	s.hub.publish(b.ID, "board-changed")
 	writeJSON(w, http.StatusOK, map[string]string{"_id": b.ID})
+}
+
+var numberedTitle = regexp.MustCompile(`^(.*?)\s*(\[(\d+)\]\s*$|\s*$)`)
+
+// uniqueTitle is WeKan's Boards.uniqueTitle: "Title", or "Title [n]" one past
+// the highest number a board of that title has.
+func (s *Server) uniqueTitle(ctx context.Context, title string) string {
+	base := numberedTitle.FindStringSubmatch(title)[1]
+	cur, err := s.db.Collection("boards").Find(ctx, bson.M{"title": bson.M{"$regex": "^" + regexp.QuoteMeta(base) + `\s*(\[\d+\]\s*$|\s*$)`}})
+	if err != nil {
+		return title
+	}
+	var boards []Board
+	_ = cur.All(ctx, &boards)
+	if len(boards) == 0 {
+		return title
+	}
+	most := 0
+	for _, b := range boards {
+		if m := numberedTitle.FindStringSubmatch(b.Title); m != nil && m[3] != "" {
+			if n := atoiOr(m[3], 0); n > most {
+				most = n
+			}
+		}
+	}
+	return base + " [" + strconv.Itoa(most+1) + "]"
+}
+
+func atoiOr(s string, d int) int {
+	n, err := strconv.Atoi(s)
+	if err != nil {
+		return d
+	}
+	return n
+}
+
+// apiCopyBoard is WeKan's POST /api/boards/:boardId/copy: a board admin copies
+// the board - its lists, cards, checklists, comments, attachments, its webhooks
+// (#5592) and its rules with their triggers and actions (#5627) - and gets the
+// new board's id.
+func (s *Server) apiCopyBoard(w http.ResponseWriter, r *http.Request, u *User) {
+	b := s.apiBoardAdmin(w, r, u)
+	if b == nil {
+		return
+	}
+	var req struct {
+		Title string `json:"title"`
+	}
+	_ = decodeJSON(r, &req)
+	ctx := r.Context()
+	raw, err := s.boardDocs(ctx, b, false)
+	if err != nil {
+		apiError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	plain, err := plainDocs(raw)
+	if err != nil {
+		apiError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	doc, _ := plain.(map[string]any)
+	doc["title"] = strings.TrimSpace(req.Title)
+	if doc["title"] == "" {
+		doc["title"] = s.uniqueTitle(ctx, b.Title)
+	}
+	same := map[string]string{} // the board's people stay themselves
+	for _, m := range b.Members {
+		if m.IsActive {
+			same[m.UserID] = m.UserID
+		}
+	}
+	id, err := s.ImportBoard(r, u, doc, same)
+	if err != nil {
+		apiError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	cur, err := s.db.Collection("integrations").Find(ctx, bson.M{"boardId": b.ID})
+	if err == nil {
+		var hooks []bson.M
+		_ = cur.All(ctx, &hooks)
+		for _, h := range hooks {
+			h["_id"], h["boardId"] = randomID(), id
+			_, _ = s.db.Collection("integrations").InsertOne(ctx, h)
+		}
+	}
+	writeJSON(w, http.StatusOK, id)
 }

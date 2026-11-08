@@ -157,6 +157,7 @@ func (s *Server) apiCopyCard(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	s.copyChecklists(r.Context(), c.ID, n.ID)
+	s.copySubtasksAndComments(r, u, c, n, to)
 	s.hub.publish(to.ID, "board-changed")
 	writeJSON(w, http.StatusOK, map[string]string{"_id": n.ID})
 }
@@ -191,6 +192,44 @@ func (s *Server) copyChecklists(ctx context.Context, from, to string) {
 		for _, it := range items {
 			it["_id"], it["checklistId"], it["cardId"] = randomID(), newID, to
 			_, _ = s.db.Collection("checklistItems").InsertOne(ctx, it)
+		}
+	}
+}
+
+// copySubtasksAndComments is the rest of WeKan's card copy: the subtasks the
+// copier may read, re-homed onto the destination with the copy as their parent
+// and their checklists copied (#5874, #3185), and the comments, on the
+// destination board with their author and time kept (#5166).
+func (s *Server) copySubtasksAndComments(r *http.Request, u *User, from, to *Card, toBoard *Board) {
+	ctx := r.Context()
+	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"parentId": from.ID, "archived": bson.M{"$ne": true}})
+	if err == nil {
+		var subs []bson.M
+		_ = cur.All(ctx, &subs)
+		for _, sub := range subs {
+			old, _ := sub["_id"].(string)
+			bid, _ := sub["boardId"].(string)
+			if sb, err := s.boardFor(ctx, bid, u); err != nil || (sb.member(u.ID) != nil && !sb.member(u.ID).ReadsWholeBoard()) {
+				continue // a subtask the copier could not read is not copied
+			}
+			for _, k := range []string{"syncExternalId", "syncSourceType", "syncLastSource", "syncSourceKey", "syncLabelIds",
+				"syncIssueState", "scrum", "scrumRevision"} {
+				delete(sub, k)
+			}
+			id := randomID()
+			sub["_id"], sub["parentId"], sub["boardId"], sub["swimlaneId"], sub["listId"] = id, to.ID, toBoard.ID, to.SwimlaneID, to.ListID
+			if _, err := s.db.Collection("cards").InsertOne(ctx, sub); err == nil {
+				s.copyChecklists(ctx, old, id)
+			}
+		}
+	}
+	cur, err = s.db.Collection("card_comments").Find(ctx, bson.M{"cardId": from.ID})
+	if err == nil {
+		var comments []bson.M
+		_ = cur.All(ctx, &comments)
+		for _, cm := range comments {
+			cm["_id"], cm["cardId"], cm["boardId"] = randomID(), to.ID, toBoard.ID
+			_, _ = s.db.Collection("card_comments").InsertOne(ctx, cm)
 		}
 	}
 }

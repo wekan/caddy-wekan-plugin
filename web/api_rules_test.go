@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strings"
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -243,4 +244,98 @@ func TestSanitizeInput(t *testing.T) {
 			t.Errorf("sanitizeInput(%q) = %q, want %q", in, got, want)
 		}
 	}
+}
+
+func TestRESTCopiesAndLinkedCards(t *testing.T) {
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	a, bt := login(t, w, "ann"), login(t, w, "bob")
+	src, dest := newRESTBoard(t, w, a, "Source"), newRESTBoard(t, w, a, "Dest")
+	ctx := context.Background()
+	when := mustTime("2017-01-02T03:04:05Z")
+	_, _ = w.db.Collection("cards").InsertOne(ctx, bson.M{"_id": "subtask00000001", "boardId": src.ID, "swimlaneId": src.Swimlane,
+		"listId": src.List, "parentId": src.Card, "title": "subtask", "sort": 0, "archived": false, "userId": ann.ID})
+	_, _ = w.db.Collection("card_comments").InsertOne(ctx, bson.M{"_id": "comment00000001", "boardId": src.ID, "cardId": src.Card,
+		"userId": bob.ID, "text": "by bob", "createdAt": when})
+
+	var cp struct {
+		ID string `json:"_id"`
+	}
+	copyURL := w.srv.URL + "/api/boards/" + src.ID + "/lists/" + src.List + "/cards/" + src.Card + "/copy"
+	if code := call(t, "POST", copyURL, a, `{"toBoardId":"`+dest.ID+`","toSwimlaneId":"`+dest.Swimlane+`","toListId":"`+dest.List+`"}`, &cp); code != 200 {
+		t.Fatalf("copy: %d", code)
+	}
+	var sub, cm bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"parentId": cp.ID}).Decode(&sub)
+	if sub["boardId"] != dest.ID || sub["listId"] != dest.List || sub["title"] != "subtask" {
+		t.Fatalf("the subtask is re-homed onto the destination: %v", sub)
+	}
+	if n, _ := w.db.Collection("cards").CountDocuments(ctx, bson.M{"parentId": src.Card, "boardId": src.ID}); n != 1 {
+		t.Fatal("negative: the original subtask stays where it was")
+	}
+	_ = w.db.Collection("card_comments").FindOne(ctx, bson.M{"cardId": cp.ID}).Decode(&cm)
+	if cm["boardId"] != dest.ID || cm["userId"] != bob.ID || !cm["createdAt"].(bson.DateTime).Time().Equal(when) {
+		t.Fatalf("#5166: the comment is on the destination board, with its author and time: %v", cm)
+	}
+	if code := call(t, "POST", copyURL, bt, `{"toBoardId":"`+bt+`"}`, nil); code != 403 {
+		t.Fatalf("negative: a non-member copies nothing: %d", code)
+	}
+
+	// #5897: a linked card shows another card the caller may read.
+	cards := w.srv.URL + "/api/boards/" + dest.ID + "/lists/" + dest.List + "/cards"
+	var ln struct {
+		ID string `json:"_id"`
+	}
+	if code := call(t, "POST", cards, a, `{"swimlaneId":"`+dest.Swimlane+`","linkedId":"`+src.Card+`"}`, &ln); code != 200 {
+		t.Fatalf("linked card: %d", code)
+	}
+	var linked bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": ln.ID}).Decode(&linked)
+	if linked["type"] != "cardType-linkedCard" || linked["linkedId"] != src.Card || linked["title"] != "C" {
+		t.Fatalf("a linked card: %v", linked)
+	}
+	hidden := newRESTBoard(t, w, bt, "Hidden")
+	if code := call(t, "POST", cards, a, `{"swimlaneId":"`+dest.Swimlane+`","linkedId":"`+hidden.Card+`"}`, nil); code != 403 {
+		t.Fatalf("negative: a card on a board the caller cannot see: %d", code)
+	}
+
+	// #5592 / #5627: a board copy takes its webhooks and its rules along.
+	_, _ = w.db.Collection("integrations").InsertOne(ctx, bson.M{"_id": "integration0001", "boardId": src.ID, "url": "https://example.com/hook",
+		"type": "outgoing-webhooks", "enabled": true})
+	call(t, "POST", w.srv.URL+"/api/boards/"+src.ID+"/rules", a, ruleBody, nil)
+	var newID string
+	if code := call(t, "POST", w.srv.URL+"/api/boards/"+src.ID+"/copy", a, `{"title":"Copied board"}`, &newID); code != 200 || newID == "" || newID == src.ID {
+		t.Fatalf("board copy: %d %q", code, newID)
+	}
+	var rule, hook bson.M
+	_ = w.db.Collection("rules").FindOne(ctx, bson.M{"boardId": newID}).Decode(&rule)
+	_ = w.db.Collection("integrations").FindOne(ctx, bson.M{"boardId": newID}).Decode(&hook)
+	if hook["url"] != "https://example.com/hook" || w.db.Collection("triggers").FindOne(ctx, bson.M{"_id": rule["triggerId"], "boardId": newID}).Err() != nil ||
+		w.db.Collection("actions").FindOne(ctx, bson.M{"_id": rule["actionId"], "boardId": newID}).Err() != nil {
+		t.Fatalf("the webhook and the rule with its own trigger and action: %v %v", hook, rule)
+	}
+	var nb Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": newID}).Decode(&nb)
+	if nb.Title != "Copied board" || !nb.AdminOf(ann.ID) {
+		t.Fatalf("the copy: %+v", nb)
+	}
+	var again string
+	call(t, "POST", w.srv.URL+"/api/boards/"+src.ID+"/copy", a, `{}`, &again)
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": again}).Decode(&nb)
+	if nb.Title != "Source [1]" {
+		t.Fatalf("without a title, WeKan's unique title: %q", nb.Title)
+	}
+	setMember(t, w, src.ID, Member{UserID: bob.ID, IsActive: true})
+	if code := call(t, "POST", w.srv.URL+"/api/boards/"+src.ID+"/copy", bt, `{}`, nil); code != 403 {
+		t.Fatalf("negative: only a board admin copies a board: %d", code)
+	}
+}
+
+func mustTime(s string) time.Time {
+	t, err := time.Parse(time.RFC3339, s)
+	if err != nil {
+		panic(err)
+	}
+	return t
 }

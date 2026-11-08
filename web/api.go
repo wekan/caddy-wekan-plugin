@@ -6,6 +6,8 @@ import (
 	"mime"
 	"net"
 	"net/http"
+	"slices"
+	"strings"
 	"sync"
 	"time"
 
@@ -416,10 +418,45 @@ func (s *Server) apiAddCard(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	swimlane, _ := req["swimlaneId"].(string)
+	// #5897: a linked card shows another card - one the caller may read.
+	var linked *Card
+	if v, ok := req["linkedId"]; ok && v != nil && v != "" {
+		id, _ := v.(string)
+		var src Card
+		if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id)}).Decode(&src) != nil {
+			apiError(w, http.StatusNotFound, "no such card to link")
+			return
+		}
+		sb, err := s.boardFor(r.Context(), src.BoardID, u)
+		if err != nil || (sb.member(u.ID) != nil && sb.member(u.ID).AssignedOnly() && !slices.Contains(src.Assignees, u.ID)) {
+			apiError(w, http.StatusForbidden, "Forbidden")
+			return
+		}
+		linked = &src
+		if t, _ := req["title"].(string); strings.TrimSpace(t) == "" {
+			req["title"] = src.Title
+		}
+	}
 	id, err := s.addCardFrom(r, b, u, r.PathValue("list"), swimlane, req)
 	if err != nil {
 		apiError(w, parentStatus(err), err.Error())
 		return
+	}
+	if linked != nil {
+		target := linked.ID
+		if linked.Type == "cardType-linkedCard" { // a link of a link shows the original
+			var raw bson.M
+			if s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": linked.ID}).Decode(&raw) == nil {
+				if l, ok := raw["linkedId"].(string); ok && l != "" {
+					target = l
+				}
+			}
+		}
+		if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": eq(id)},
+			bson.M{"$set": bson.M{"type": "cardType-linkedCard", "linkedId": target}}); err != nil {
+			apiError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
 	}
 	s.hub.publish(b.ID, "board-changed")
 	writeJSON(w, http.StatusOK, map[string]string{"_id": id})

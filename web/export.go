@@ -67,6 +67,15 @@ func (s *Server) apiExport(w http.ResponseWriter, r *http.Request) {
 // exportBoard is WeKan's Exporter.build: the board and everything of it, each
 // without its boardId, the users it names with only their public fields.
 func (s *Server) exportBoard(ctx context.Context, b *Board, withoutFiles bool) (any, error) {
+	raw, err := s.boardDocs(ctx, b, withoutFiles)
+	if err != nil {
+		return nil, err
+	}
+	return sanitizeTransfer(raw, true)
+}
+
+// boardDocs is the board and everything of it, as the export has them.
+func (s *Server) boardDocs(ctx context.Context, b *Board, withoutFiles bool) (bson.M, error) {
 	all := func(coll string, filter bson.M, drop ...string) ([]bson.M, error) {
 		proj := bson.M{}
 		for _, f := range drop {
@@ -242,7 +251,7 @@ func (s *Server) exportBoard(ctx context.Context, b *Board, withoutFiles bool) (
 		return nil, err
 	}
 	result["users"] = users
-	return sanitizeTransfer(result, true)
+	return result, nil
 }
 
 // dbIn matches any of ids read from documents: only the ones that are ids, so

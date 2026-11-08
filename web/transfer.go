@@ -85,7 +85,13 @@ var errTransfer = errors.New("import/export limit exceeded")
 // sanitizeTransfer walks a board export or import: documents become plain
 // maps, dates times, markup in text is removed, prototype keys and - leaving
 // WeKan - secret-looking keys are dropped, and the size is bounded.
-func sanitizeTransfer(v any, export bool) (any, error) {
+func sanitizeTransfer(v any, export bool) (any, error) { return transfer(v, export, true) }
+
+// plainDocs is documents as plain values, unchanged otherwise: a board copied
+// within this WeKan keeps what it had.
+func plainDocs(v any) (any, error) { return transfer(v, false, false) }
+
+func transfer(v any, export, sanitize bool) (any, error) {
 	nodes := 0
 	var walk func(v any, path string, depth int) (any, error)
 	walk = func(v any, path string, depth int) (any, error) {
@@ -109,7 +115,7 @@ func sanitizeTransfer(v any, export bool) (any, error) {
 			if len(x) > limit {
 				return nil, errTransfer
 			}
-			if transferLooksActive.MatchString(x) {
+			if sanitize && transferLooksActive.MatchString(x) {
 				return sanitizeInput(x), nil
 			}
 			return x, nil
@@ -130,7 +136,7 @@ func sanitizeTransfer(v any, export bool) (any, error) {
 		case map[string]any:
 			out := make(map[string]any, len(x))
 			for k, val := range x {
-				if transferBlockedKeys[k] || (export && transferSecretKey.MatchString(k)) {
+				if transferBlockedKeys[k] || (export && sanitize && transferSecretKey.MatchString(k)) {
 					continue
 				}
 				w, err := walk(val, path+"/"+k, depth+1)
