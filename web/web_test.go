@@ -730,3 +730,87 @@ func TestCardMembersFromThePage(t *testing.T) {
 		t.Fatalf("negative: a read-only member: %d", code)
 	}
 }
+
+// Votes and watching from the card details and the board header, as WeKan.
+func TestVoteAndWatchFromThePages(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	w.seedUser(t, "cid", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Votes")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Alpha")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"vote": bson.M{"question": "Ship it?", "public": true}}})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	vote := func(cl *http.Client, side string) int {
+		res, _ := cl.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/vote", url.Values{"vote": {side}})
+		return res.StatusCode
+	}
+	votes := func() (pos, neg []string) {
+		var d struct {
+			Vote struct{ Positive, Negative []string } `bson:"vote"`
+		}
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&d)
+		return d.Vote.Positive, d.Vote.Negative
+	}
+	vote(ann, "positive")
+	if p, n := votes(); len(p) != 1 || len(n) != 0 {
+		t.Fatalf("for it: %v %v", p, n)
+	}
+	vote(ann, "negative")
+	if p, n := votes(); len(p) != 0 || len(n) != 1 {
+		t.Fatalf("the other side moves the vote: %v %v", p, n)
+	}
+	vote(ann, "negative")
+	if p, n := votes(); len(p) != 0 || len(n) != 0 {
+		t.Fatalf("one's own side again takes it back: %v %v", p, n)
+	}
+	cc := w.client(t)
+	body(t, w.signIn(t, cc, "cid", "pw"))
+	if code := vote(cc, "positive"); code != 404 {
+		t.Fatalf("negative: not on the private board: %d", code)
+	}
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"vote.end": time.Now().Add(-time.Hour)}})
+	if code := vote(ann, "positive"); code != 403 {
+		t.Fatalf("negative: an ended vote: %d", code)
+	}
+	_, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID)
+	if strings.Contains(html, "js-vote-positive") || !strings.Contains(html, "js-show-positive-votes") {
+		t.Fatal("an ended vote shows its result, not its buttons")
+	}
+
+	// Watching: the board's level, the card on and off.
+	res, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/watch", url.Values{"level": {"watching"}})
+	if res.StatusCode != http.StatusSeeOther || w.s.watchLevel(ctx, b.ID, u.ID) != "watching" {
+		t.Fatalf("watching: %d %s", res.StatusCode, w.s.watchLevel(ctx, b.ID, u.ID))
+	}
+	_, _ = ann.PostForm(w.srv.URL+"/b/"+b.ID+"/watch", url.Values{"level": {"muted"}})
+	var brd struct {
+		Watchers []boardWatcher `bson:"watchers"`
+	}
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&brd)
+	if len(brd.Watchers) != 0 {
+		t.Fatalf("muted, the default, takes the entry away: %v", brd.Watchers)
+	}
+	if res, _ = ann.PostForm(w.srv.URL+"/b/"+b.ID+"/watch", url.Values{"level": {"loud"}}); res.StatusCode != 400 {
+		t.Fatalf("negative: no such level: %d", res.StatusCode)
+	}
+	_, _ = ann.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/watch", url.Values{})
+	if !slices.Contains(w.s.cardWatchers(ctx, c.ID), u.ID) {
+		t.Fatal("the card is watched")
+	}
+	_, _ = ann.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/watch", url.Values{})
+	if slices.Contains(w.s.cardWatchers(ctx, c.ID), u.ID) {
+		t.Fatal("and not any more")
+	}
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true, IsReadAssignedOnly: true})
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if res, _ = bc.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/watch", url.Values{}); res.StatusCode != 404 {
+		t.Fatalf("negative: an assigned-only member watches only their own cards: %d", res.StatusCode)
+	}
+}

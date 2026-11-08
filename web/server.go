@@ -186,10 +186,14 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/cards", s.page(s.addCard))
 	m.HandleFunc("POST /b/{board}/cards/{card}/comments", s.page(s.addCommentPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/members/{user}", s.page(s.toggleCardMemberPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/vote", s.page(s.votePage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/watch", s.page(s.watchCardPage))
+	m.HandleFunc("POST /b/{board}/watch", s.page(s.watchBoardPage))
 	m.HandleFunc("POST /b/{board}/move", s.page(s.moveCards))
 	m.HandleFunc("GET /b/{board}/live", s.page(s.live))
 	m.HandleFunc("GET /language", s.page(s.languagePage))
 	s.notificationRoutes(m)
+	s.methodRoutes(m)
 	m.HandleFunc("POST /language", s.page(s.setLanguage))
 	s.apiRoutes(m)
 	s.cloudRoutes(m)
@@ -470,6 +474,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["MenuOn"] = m != nil && !m.IsCommentOnly && !m.IsWorker
 	data["CanExport"] = (m != nil && !m.AssignedOnly()) || (m == nil && b.Permission == "public")
 	lang := languageOf(r, u).Tag
+	data["WatchLevel"] = s.watchLevel(r.Context(), b.ID, u.ID)
 	// sidebar.jade: the board's activities, for a board admin.
 	if b.AdminOf(u.ID) {
 		data["BoardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID}, lang, 50)
@@ -482,6 +487,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["Comments"] = s.cardComments(r.Context(), b, c.ID)
 			data["CardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID, "cardId": c.ID}, lang, 100)
 			data["CardMembers"], data["BoardMembers"] = s.cardMemberChoices(r.Context(), b, &c)
+			data["Vote"] = s.cardVote(r.Context(), b, u, c.ID)
+			data["WatchingCard"] = slices.Contains(s.cardWatchers(r.Context(), c.ID), u.ID)
 			data["CanComment"] = u.IsAdmin || (b.Can(u.ID, "comment") && (!m.AssignedOnly() || slices.Contains(c.Assignees, u.ID)))
 		}
 	}
@@ -546,6 +553,169 @@ func (s *Server) toggleCardMemberPage(w http.ResponseWriter, r *http.Request, u 
 	}
 	s.activity(r.Context(), u.ID, kind, bson.M{"boardId": b.ID, "cardId": c.ID, "memberId": who, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
 	s.hub.publish(b.ID, "board-changed")
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
+}
+
+// voteView is a card's vote as the card details show it.
+type voteView struct {
+	Question           string
+	Public, CanVote    bool
+	Positive, Negative int
+	For, Against       bool
+}
+
+// cardVote is the card's vote, nil when it has none. WeKan's showVotingButtons:
+// a board member - or anybody, when the vote allows non-members - until it ends.
+func (s *Server) cardVote(ctx context.Context, b *Board, u *User, cardID string) *voteView {
+	var c struct {
+		Vote *struct {
+			Question             string     `bson:"question"`
+			Public               bool       `bson:"public"`
+			AllowNonBoardMembers bool       `bson:"allowNonBoardMembers"`
+			Positive             []string   `bson:"positive"`
+			Negative             []string   `bson:"negative"`
+			End                  *time.Time `bson:"end"`
+		} `bson:"vote"`
+	}
+	if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID)}).Decode(&c) != nil || c.Vote == nil || c.Vote.Question == "" {
+		return nil
+	}
+	v := c.Vote
+	expired := v.End != nil && v.End.Before(time.Now())
+	return &voteView{Question: v.Question, Public: v.Public, Positive: len(v.Positive), Negative: len(v.Negative),
+		For: slices.Contains(v.Positive, u.ID), Against: slices.Contains(v.Negative, u.ID),
+		CanVote: (b.MemberOf(u.ID) || v.AllowNonBoardMembers) && !expired}
+}
+
+// votePage is WeKan's cards.vote from a click: the other side, or no vote yet,
+// votes for that side; one's own side again takes the vote back.
+func (s *Server) votePage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	id := r.PathValue("card")
+	var c Card
+	if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c) != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	v := s.cardVote(r.Context(), b, u, c.ID)
+	if v == nil || !v.CanVote {
+		http.Error(w, "this vote is not open to you", http.StatusForbidden)
+		return
+	}
+	forIt := r.FormValue("vote") == "positive"
+	update := bson.M{"$pull": bson.M{"vote.positive": u.ID, "vote.negative": u.ID}}
+	if (!v.For && !v.Against) || (v.Against && forIt) || (v.For && !forIt) {
+		add, pull := "vote.negative", "vote.positive"
+		if forIt {
+			add, pull = "vote.positive", "vote.negative"
+		}
+		update = bson.M{"$pull": bson.M{pull: u.ID}, "$addToSet": bson.M{add: u.ID}}
+	}
+	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.hub.publish(b.ID, "board-changed")
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
+}
+
+// boardWatcher is one of a board's watchers: WeKan's complexWatchable.
+type boardWatcher struct {
+	UserID string `bson:"userId"`
+	Level  string `bson:"level"`
+}
+
+var watchLevels = []string{"watching", "tracking", "muted"}
+
+// watchLevel is u's level on the board; "muted" - WeKan's default - without one.
+func (s *Server) watchLevel(ctx context.Context, boardID, userID string) string {
+	var b struct {
+		Watchers []boardWatcher `bson:"watchers"`
+	}
+	_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b)
+	for _, w := range b.Watchers {
+		if w.UserID == userID {
+			return w.Level
+		}
+	}
+	return "muted"
+}
+
+// watchBoardPage sets u's level on a board they may see; muted, the default,
+// takes their entry away. The list is written whole: the embedded FerretDB has
+// no positional $ operator.
+func (s *Server) watchBoardPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	level := r.FormValue("level")
+	if !slices.Contains(watchLevels, level) {
+		http.Error(w, "watching, tracking or muted", http.StatusBadRequest)
+		return
+	}
+	var doc struct {
+		Watchers []boardWatcher `bson:"watchers"`
+	}
+	_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": b.ID}).Decode(&doc)
+	list := []boardWatcher{}
+	for _, x := range doc.Watchers {
+		if x.UserID != u.ID {
+			list = append(list, x)
+		}
+	}
+	if level != "muted" {
+		list = append(list, boardWatcher{UserID: u.ID, Level: level})
+	}
+	if _, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"watchers": list}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+}
+
+func (s *Server) cardWatchers(ctx context.Context, cardID string) []string {
+	var c struct {
+		Watchers []string `bson:"watchers"`
+	}
+	_ = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID)}).Decode(&c)
+	return c.Watchers
+}
+
+// watchCardPage starts or stops u watching a card; an assigned-only member
+// watches only their own cards (GHSA-r4gm-mjj9-g3x8), and trying another is
+// recorded as WeKan does.
+func (s *Server) watchCardPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	id := r.PathValue("card")
+	var c Card
+	if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c) != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	if m := b.member(u.ID); m != nil && m.AssignedOnly() && !slices.Contains(c.Assignees, u.ID) {
+		s.recordSecurity(r, securityEvent{Key: "authz.assigned", Action: "blocked", Source: "watch:card", UserID: u.ID,
+			Detail: "Assigned-only member tried to watch a card not assigned to them."})
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	update := bson.M{"$addToSet": bson.M{"watchers": u.ID}}
+	if slices.Contains(s.cardWatchers(r.Context(), c.ID), u.ID) {
+		update = bson.M{"$pull": bson.M{"watchers": u.ID}}
+	}
+	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 

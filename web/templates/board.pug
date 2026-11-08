@@ -1,6 +1,8 @@
 .board-wrapper(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live", data-move="/b/{{.Board.ID}}/move")
   .board-header
     h1.header-board-name.js-board-title {{.Board.Title}}
+    a.board-header-btn.js-watch-board(href="#", title="{{t $.L .WatchLevel}}")
+      span.board-header-btn-label {{t $.L .WatchLevel}}
     a.board-header-btn.js-toggle-page-sidebar(href="#", title="{{t $.L `sidebar-open`}}", aria-label="{{t $.L `sidebar-open`}}") ☰
   .board-sidebar.sidebar
     a.sidebar-xmark.js-close-sidebar(href="#", aria-label="{{t $.L `close`}}") ✕
@@ -30,6 +32,21 @@
         if .CanExport
           li
             a.js-export-board(href="#") {{t $.L "export"}}
+  template.js-pop-over-template(data-pop="watch", data-title="{{t $.L `boardChangeWatchPopup-title`}}")
+    .header
+      span.header-title {{t $.L "boardChangeWatchPopup-title"}}
+      a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+    .content
+      ul.pop-over-list.described-list
+        li
+          a.js-select-watch(href="/b/{{.Board.ID}}/watch?level=watching", up-method="post", up-target=".board-wrapper", data-level="watching") {{t $.L "watching"}}{{if eq .WatchLevel "watching"}} ✓{{end}}
+          span.sub-name {{t $.L "watching-info"}}
+        li
+          a.js-select-watch(href="/b/{{.Board.ID}}/watch?level=tracking", up-method="post", up-target=".board-wrapper", data-level="tracking") {{t $.L "tracking"}}{{if eq .WatchLevel "tracking"}} ✓{{end}}
+          span.sub-name {{t $.L "tracking-info"}}
+        li
+          a.js-select-watch(href="/b/{{.Board.ID}}/watch?level=muted", up-method="post", up-target=".board-wrapper", data-level="muted") {{t $.L "muted"}}{{if eq .WatchLevel "muted"}} ✓{{end}}
+          span.sub-name {{t $.L "muted-info"}}
   if .Card
     template.js-pop-over-template(data-pop="card-members", data-title="{{t $.L `cardMembersPopup-title`}}")
       .header
@@ -105,6 +122,7 @@
       .card-details-header
         h2.card-details-title.js-card-title {{.Card.Title}}
         a.js-close-card-details(href="/b/{{.Board.ID}}/{{.Board.Slug}}", aria-label="{{t $.L `close`}}", up-follow, up-target=".board-wrapper") ×
+      a.js-toggle-watch-card(href="/b/{{.Board.ID}}/cards/{{.Card.ID}}/watch", up-method="post", up-target=".board-wrapper", class="{{if .WatchingCard}}is-checked{{end}}") {{if .WatchingCard}}{{t $.L "watching"}} ✓{{else}}{{t $.L "watch"}}{{end}}
       .card-details-items
         .card-details-item.card-details-item-members
           h3.card-details-item-title {{t $.L "members"}}
@@ -112,6 +130,24 @@
             span.card-member.js-member(data-user="{{.ID}}") {{.Username}}
           if $.CanEdit
             a.card-details-item-add-button.js-add-members(href="#", title="{{t $.L `add-members`}}", aria-label="{{t $.L `add-members`}}") +
+      if .Vote
+        .card-details-group.card-details-group-vote
+          h3.card-details-item-title.js-toggle-card-section(data-section="vote", role="button", tabindex="0")
+            i.fa.fa-caret-down
+            |  {{t $.L "vote-question"}}
+          .card-details-section(data-section="vote")
+            .vote-result
+              if .Vote.Public
+                a.card-label.card-label-green.js-show-positive-votes {{.Vote.Positive}}
+                a.card-label.card-label-red.js-show-negative-votes {{.Vote.Negative}}
+              else
+                .card-label.card-label-green {{.Vote.Positive}}
+                .card-label.card-label-red {{.Vote.Negative}}
+            .viewer {{.Vote.Question}}
+            if .Vote.CanVote
+              form.js-vote-form(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/vote", up-submit, up-target=".board-wrapper")
+                button.card-details-green.js-vote.js-vote-positive(type="submit", name="vote", value="positive", class="{{if .Vote.For}}voted{{end}}") {{t $.L "vote-for-it"}}
+                button.card-details-red.js-vote.js-vote-negative(type="submit", name="vote", value="negative", class="{{if .Vote.Against}}voted{{end}}") {{t $.L "vote-against"}}
       h3 {{t $.L "description"}}
       .card-description.js-card-description {{.Card.Description}}
       h3 {{t $.L "attachments"}}

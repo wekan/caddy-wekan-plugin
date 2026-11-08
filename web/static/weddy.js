@@ -58,6 +58,10 @@
     event.preventDefault();
     openPopOver('export');
   });
+  up.on('click', '.js-watch-board', function (event) {
+    event.preventDefault();
+    openPopOver('watch');
+  });
   up.on('click', '.js-add-members', function (event) {
     event.preventDefault();
     openPopOver('card-members');
@@ -99,10 +103,36 @@
   // signed-in user, without secrets (/api/user), refreshed every few seconds -
   // for WeKan's scripts and tests, which read the user that way.
   var currentUser = null;
+  // Meteor.call / Meteor.callAsync: WeKan's methods that Weddy has, through
+  // POST /_methods/{name}; a failure is a Meteor.Error-like {error, reason}.
+  function callAsync(name) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return fetch('/_methods/' + encodeURIComponent(name), {
+      method: 'POST', credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(args),
+    }).then(function (r) {
+      return r.json().then(function (d) {
+        if (!r.ok) {
+          var e = new Error(d.reason || d.error);
+          e.error = d.error; e.reason = d.reason;
+          throw e;
+        }
+        return refreshUser().then(function () { return d.result; });
+      });
+    });
+  }
   if (!window.Meteor) {
     window.Meteor = {
       user: function () { return currentUser; },
       userId: function () { return currentUser ? currentUser._id : null; },
+      callAsync: callAsync,
+      call: function () {
+        var args = Array.prototype.slice.call(arguments);
+        var cb = typeof args[args.length - 1] === 'function' ? args.pop() : null;
+        var p = callAsync.apply(null, args);
+        if (cb) p.then(function (res) { cb(undefined, res); }, function (err) { cb(err); });
+        return undefined;
+      },
     };
   }
   function unreadOf(user) {
