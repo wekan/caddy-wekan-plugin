@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"net"
 	"net/http"
+	"net/url"
 	"strings"
 	"sync"
 	"testing"
@@ -200,5 +201,64 @@ func TestSendInvitation(t *testing.T) {
 	}
 	if n, _ := w.db.Collection("invitation_codes").CountDocuments(ctx, bson.M{"email": "later@example.com"}); n != 0 {
 		t.Fatal("negative: a new code whose mail failed is taken back")
+	}
+}
+
+// Signing up with an invitation code while registration is closed: only the
+// code of that very address, once; the account joins the invited boards.
+func TestSignUpWithInvitationCode(t *testing.T) {
+	w := newTestWeKan(t)
+	admin := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, admin, "Invited")
+	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"disableRegistration": true}})
+	_, _ = w.db.Collection("invitation_codes").InsertOne(ctx, bson.M{"_id": "invite000000001", "code": "abcdefgh12", "email": "new@example.invalid",
+		"boardsToBeInvited": []string{b.ID}, "valid": true, "authorId": admin.ID})
+	signUp := func(code, email string) *http.Response {
+		res, err := w.client(t).PostForm(w.srv.URL+"/sign-up", url.Values{"username": {"newbie"}, "email": {email},
+			"password": {"newbie-password-1"}, "password2": {"newbie-password-1"}, "invitationcode": {code}})
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+		return res
+	}
+	if _, html := get(t, w.client(t), w.srv.URL+"/sign-up"); !strings.Contains(html, `name="invitationcode"`) {
+		t.Fatal("closed registration asks for the invitation code")
+	}
+	if res := signUp("wrong-code", "new@example.invalid"); res.StatusCode != http.StatusForbidden {
+		t.Fatalf("negative: a wrong code: %d", res.StatusCode)
+	}
+	if res := signUp("abcdefgh12", "other@example.invalid"); res.StatusCode != http.StatusForbidden {
+		t.Fatalf("negative: the code of another address: %d", res.StatusCode)
+	}
+	if n, _ := w.db.Collection("users").CountDocuments(ctx, bson.M{"username": "newbie"}); n != 0 {
+		t.Fatal("negative: no account from a refused code")
+	}
+	var row struct {
+		Count int64 `bson:"count"`
+	}
+	_ = w.db.Collection("eventlog").FindOne(ctx, bson.M{"bleed": "InviteBleed"}).Decode(&row)
+	if row.Count != 2 {
+		t.Fatalf("each wrong code is recorded as InviteBleed: %d", row.Count)
+	}
+	if res := signUp("abcdefgh12", "New@Example.invalid"); res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("the invited sign-up: %d", res.StatusCode)
+	}
+	var u User
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"username": "newbie"}).Decode(&u)
+	var board Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&board)
+	if !board.MemberOf(u.ID) {
+		t.Fatal("the account joins the invited board")
+	}
+	var inv bson.M
+	_ = w.db.Collection("invitation_codes").FindOne(ctx, bson.M{"_id": "invite000000001"}).Decode(&inv)
+	if inv["valid"] != false {
+		t.Fatal("the code is spent")
+	}
+	_, _ = w.db.Collection("users").DeleteOne(ctx, bson.M{"_id": u.ID})
+	if res := signUp("abcdefgh12", "new@example.invalid"); res.StatusCode != http.StatusForbidden {
+		t.Fatalf("negative: a spent code opens nothing: %d", res.StatusCode)
 	}
 }

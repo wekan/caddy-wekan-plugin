@@ -77,11 +77,8 @@ func (s *Server) CreateUser(ctx context.Context, username, email, password strin
 func (s *Server) signUpPage(w http.ResponseWriter, r *http.Request) {
 	open, _ := s.registrationOpen(r.Context())
 	lang := languageOf(r, nil).Tag
-	if !open {
-		s.render(w, r, "signup", http.StatusForbidden, map[string]any{"Title": tr(lang, "register"), "Closed": true})
-		return
-	}
-	s.render(w, r, "signup", http.StatusOK, map[string]any{"Title": tr(lang, "register")})
+	// Closed: only with an invitation code (WeKan's invitationcode field).
+	s.render(w, r, "signup", http.StatusOK, map[string]any{"Title": tr(lang, "register"), "Invite": !open})
 }
 
 func (s *Server) signUp(w http.ResponseWriter, r *http.Request) {
@@ -91,17 +88,29 @@ func (s *Server) signUp(w http.ResponseWriter, r *http.Request) {
 	}
 	lang := languageOf(r, nil).Tag
 	open, first := s.registrationOpen(r.Context())
-	if !open {
-		// SignupBleed's lesson: the server refuses, whatever the page showed.
-		s.render(w, r, "signup", http.StatusForbidden, map[string]any{"Title": tr(lang, "register"), "Closed": true})
-		return
-	}
 	username := strings.TrimSpace(r.FormValue("username"))
 	email := strings.TrimSpace(r.FormValue("email"))
 	password := r.FormValue("password")
 	fail := func(key string) {
 		s.render(w, r, "signup", http.StatusBadRequest, map[string]any{"Title": tr(lang, "register"), "Error": key,
-			"Username": username, "Email": email})
+			"Username": username, "Email": email, "Invite": !open})
+	}
+	// Registration closed: only with a valid invitation code for this very
+	// address (WeKan's onCreateUser). SignupBleed's lesson: the server refuses,
+	// whatever the page showed. A wrong code is what guessing looks like
+	// (InviteBleed); a typo looks the same, so it is detected, not blocked.
+	var invite *invitation
+	if !open {
+		invite = s.validInvitation(r.Context(), r.FormValue("invitationcode"), email)
+		if invite == nil {
+			if r.FormValue("invitationcode") != "" {
+				s.recordSecurity(r, securityEvent{Key: "brute.invite", Action: "detected", Source: "register:invitation-code",
+					Detail: "Sign-up with an invitation code that does not exist for that email."})
+			}
+			s.render(w, r, "signup", http.StatusForbidden, map[string]any{"Title": tr(lang, "register"), "Invite": true,
+				"Error": msg("error-invitation-code-not-exist"), "Username": username, "Email": email})
+			return
+		}
 	}
 	switch {
 	case !usernamePattern.MatchString(username):
@@ -131,6 +140,9 @@ func (s *Server) signUp(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fail(msg("error-user-notCreated"))
 		return
+	}
+	if invite != nil {
+		s.acceptInvitation(r.Context(), u.ID, invite)
 	}
 	token, expires, err := s.newLoginToken(r.Context(), u.ID)
 	if err != nil {

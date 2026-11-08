@@ -1,6 +1,7 @@
 package web
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/base64"
 	"encoding/json"
@@ -142,4 +143,48 @@ func (s *Server) methodSendInvitation(r *http.Request, u *User, args []json.RawM
 		}
 	}
 	return 0, nil
+}
+
+// invitation is an invitation code, as invitation_codes keeps it.
+type invitation struct {
+	ID     string   `bson:"_id"`
+	Code   string   `bson:"code"`
+	Boards []string `bson:"boardsToBeInvited"`
+}
+
+// validInvitation is the valid invitation of that code for that address.
+func (s *Server) validInvitation(ctx context.Context, code, email string) *invitation {
+	code, email = strings.TrimSpace(code), strings.ToLower(strings.TrimSpace(email))
+	if code == "" || len(code) > 200 || email == "" {
+		return nil
+	}
+	var inv invitation
+	if s.db.Collection("invitation_codes").FindOne(ctx, bson.M{"code": eq(code), "email": eq(email), "valid": true}).Decode(&inv) != nil {
+		return nil
+	}
+	return &inv
+}
+
+// acceptInvitation is WeKan's Users.after.insert for an invited account: the
+// user joins each board of the invitation - an earlier membership of theirs
+// made active again - the boards are kept in profile.invitedBoards, and the
+// code is spent.
+func (s *Server) acceptInvitation(ctx context.Context, userID string, inv *invitation) {
+	for _, id := range inv.Boards {
+		var b Board
+		if !validID(id) || s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&b) != nil {
+			continue
+		}
+		members := slices.Clone(b.Members)
+		if i := slices.IndexFunc(members, func(m Member) bool { return m.UserID == userID }); i >= 0 {
+			members[i].IsActive = true
+		} else {
+			members = append(members, Member{UserID: userID, IsActive: true})
+		}
+		_, _ = s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"members": members}})
+		s.hub.publish(b.ID, "board-changed")
+	}
+	_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(userID)},
+		bson.M{"$set": bson.M{"profile.invitedBoards": inv.Boards, "profile.icode": inv.Code}})
+	_, _ = s.db.Collection("invitation_codes").UpdateOne(ctx, bson.M{"_id": inv.ID}, bson.M{"$set": bson.M{"valid": false}})
 }

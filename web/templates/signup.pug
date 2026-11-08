@@ -1,20 +1,21 @@
 .auth-layout
   .auth-dialog.at-form
     h1.at-title {{t $.L "register"}}
-    if .Closed
-      p.at-error.js-registration-closed {{t $.L "error-notAuthorized"}}
-    else
-      if .Error
-        .at-error.js-signup-error {{t $.L .Error}}
-      form#at-signup-form(method="post", action="/sign-up")
-        label(for="at-field-username") {{t $.L "username"}}
-        input#at-field-username(type="text", name="username", value="{{.Username}}", autocomplete="username", required)
-        label(for="at-field-email") {{t $.L "email"}}
-        input#at-field-email(type="email", name="email", value="{{.Email}}", autocomplete="email", required)
-        label(for="at-field-password") {{t $.L "password"}}
-        input#at-field-password(type="password", name="password", autocomplete="new-password", minlength="8", required)
-        label(for="at-field-password2") {{t $.L "password-again"}}
-        input#at-field-password2(type="password", name="password2", autocomplete="new-password", minlength="8", required)
-        button#at-btn.at-btn.submit.primary(type="submit") {{t $.L "create-account"}}
+    if .Error
+      .at-error.js-signup-error {{t $.L .Error}}
+    form#at-signup-form(method="post", action="/sign-up")
+      label(for="at-field-username") {{t $.L "username"}}
+      input#at-field-username(type="text", name="username", value="{{.Username}}", autocomplete="username", required)
+      label(for="at-field-email") {{t $.L "email"}}
+      input#at-field-email(type="email", name="email", value="{{.Email}}", autocomplete="email", required)
+      label(for="at-field-password") {{t $.L "password"}}
+      input#at-field-password(type="password", name="password", autocomplete="new-password", minlength="8", required)
+      label(for="at-field-password2") {{t $.L "password-again"}}
+      input#at-field-password2(type="password", name="password2", autocomplete="new-password", minlength="8", required)
+      if .Invite
+        //- WeKan's invitationcode field: registration is closed, an invitation opens it.
+        label(for="at-field-invitationcode") {{t $.L "invitation-code"}}
+        input#at-field-invitationcode.js-registration-closed(type="text", name="invitationcode", autocomplete="off", minlength="6", required)
+      button#at-btn.at-btn.submit.primary(type="submit") {{t $.L "create-account"}}
     p
       a(href="/sign-in") {{t $.L "log-in"}}
