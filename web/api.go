@@ -49,6 +49,7 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	s.apiBoardAttachmentRoutes(m)
 	s.apiFieldRoutes(m)
 	s.apiIntegrationRoutes(m)
+	s.apiUserRoutes(m)
 }
 
 // parentStatus is a refused parentId's own status, else 400.
@@ -208,8 +209,16 @@ func (s *Server) apiLogin(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]any{"id": u.ID, "token": token, "tokenExpires": expires})
 }
 
+// apiUser is WeKan's GET /api/user: the caller without secrets, and the boards
+// they are an active member of (StaleBleed: never one they were removed from).
 func (s *Server) apiUser(w http.ResponseWriter, r *http.Request, u *User) {
-	writeJSON(w, http.StatusOK, u)
+	var doc bson.M
+	if s.db.Collection("users").FindOne(r.Context(), bson.M{"_id": u.ID}).Decode(&doc) != nil {
+		apiError(w, http.StatusNotFound, "User not found")
+		return
+	}
+	doc["boards"] = s.memberships(r, u.ID, true)
+	writeJSON(w, http.StatusOK, withoutSecrets(doc))
 }
 
 func (s *Server) apiUserBoards(w http.ResponseWriter, r *http.Request, u *User) {

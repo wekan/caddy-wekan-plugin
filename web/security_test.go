@@ -43,7 +43,7 @@ func TestEveryQueryValueIsEqOrAnID(t *testing.T) {
 				// eq(...), or an id of a document read from the database: x.ID,
 				// doc["_id"], or dbIn(...) - ids read from documents, only the
 				// ones that are ids.
-				if strings.HasPrefix(v, "eq(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || numberConstant.MatchString(v) || strings.HasPrefix(v, "hashToken(") {
+				if strings.HasPrefix(v, "eq(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || strings.HasPrefix(v, "storedHash(") || numberConstant.MatchString(v) || strings.HasPrefix(v, "hashToken(") {
 					continue
 				}
 				offenders = append(offenders, fmt.Sprintf("%s:%d %s: %s", f, i+1, m[1], v))
