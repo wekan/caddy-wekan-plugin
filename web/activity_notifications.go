@@ -351,3 +351,68 @@ func (s *Server) runActivityRecovery(stop <-chan struct{}) {
 		}
 	}
 }
+
+// activityPlanCleanupInterval is ACTIVITY_NOTIFICATION_PLAN_CLEANUP_INTERVAL_MS,
+// a minute unless set, from 1 s to a day.
+func activityPlanCleanupInterval() time.Duration {
+	if v, err := strconv.Atoi(os.Getenv("ACTIVITY_NOTIFICATION_PLAN_CLEANUP_INTERVAL_MS")); err == nil && v >= 1000 && v <= 86400000 {
+		return time.Duration(v) * time.Millisecond
+	}
+	return time.Minute
+}
+
+// cleanupActivityPlans is WeKan's createActivityPlanCleanup: a plan whose
+// intent is a completed receipt for the same activity loses its body - its
+// recipients and their e-mail - and keeps its identity. A plan whose intent
+// is still pending keeps everything.
+func (s *Server) cleanupActivityPlans(ctx context.Context, after *string) {
+	filter := bson.M{"compactReceiptVersion": bson.M{"$exists": false}}
+	if *after != "" {
+		filter["_id"] = bson.M{"$gt": *after}
+	}
+	plans := s.db.Collection("activityNotificationPlans")
+	cur, err := plans.Find(ctx, filter, options.Find().SetSort(bson.D{{Key: "_id", Value: 1}}).SetLimit(100))
+	if err != nil {
+		return
+	}
+	var rows []bson.M
+	_ = cur.All(ctx, &rows)
+	for _, raw := range rows {
+		row := plain(raw).(map[string]any)
+		plan, _ := row["plan"].(map[string]any)
+		id, activityID := strOf(row["_id"]), strOf(plan["activityId"])
+		if plan == nil || id != planIDFor(activityID) || strOf(row["checksum"]) != sha256Hex(canonical(plan)) {
+			continue // not WeKan's shape: never touched
+		}
+		_ = s.withActivityLease(ctx, intentIDFor(activityID), func() error {
+			var intent bson.M
+			if s.db.Collection("activityNotificationIntents").FindOne(ctx, bson.M{"_id": eq(intentIDFor(activityID))}).Decode(&intent) != nil ||
+				intent["state"] != "completed" || intent["activityHash"] != plan["activityHash"] || intent["activity"] != nil {
+				return nil
+			}
+			_, err := plans.ReplaceOne(ctx, bson.M{"_id": eq(id), "checksum": row["checksum"]},
+				bson.M{"_id": id, "activityHash": plan["activityHash"], "checksum": row["checksum"], "compactReceiptVersion": 1}) // inserted, not a filter
+			return err
+		})
+	}
+	*after = ""
+	if len(rows) == 100 {
+		*after = strOf(rows[len(rows)-1]["_id"])
+	}
+}
+
+func (s *Server) runActivityPlanCleanup(stop <-chan struct{}) {
+	t := time.NewTicker(activityPlanCleanupInterval())
+	defer t.Stop()
+	after := ""
+	for {
+		select {
+		case <-stop:
+			return
+		case <-t.C:
+			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+			s.cleanupActivityPlans(ctx, &after)
+			cancel()
+		}
+	}
+}

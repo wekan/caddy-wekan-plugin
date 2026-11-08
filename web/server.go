@@ -93,6 +93,7 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 	s.stopMail = make(chan struct{})
 	go s.runEmailOutbox(s.stopMail)
 	go s.runActivityRecovery(s.stopMail)
+	go s.runActivityPlanCleanup(s.stopMail)
 	return s, nil
 }
 

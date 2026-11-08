@@ -100,4 +100,30 @@ func TestActivityNotificationPipeline(t *testing.T) {
 	if err := w.s.withActivityLease(ctx, "busyintent", func() error { t.Error("negative: ran under a live lease"); return nil }); err != errLeaseBusy {
 		t.Errorf("busy: %v", err)
 	}
+	// The scheduled cleanup: a completed intent's plan loses its body; a
+	// pending one's keeps it, undelivered.
+	for _, done := range []bool{true, false} {
+		e := map[bool]string{true: "cleanupdone00001", false: "cleanuppending01"}[done]
+		activity := map[string]any{"_id": e, "activityType": "createCard", "userId": bob.ID, "createdAt": now, "modifiedAt": now}
+		hash := sha256Hex(canonical(activity))
+		p := map[string]any{"version": 1, "activityId": e, "activityHash": hash, "dispatchUserId": nil, "recipients": []any{map[string]any{"userId": bob.ID,
+			"tray": false, "email": map[string]any{"userId": bob.ID, "eventId": e, "subject": "PRIVATE", "html": "PRIVATE BODY", "language": "en", "boardId": nil, "cardId": nil}}}}
+		in := bson.M{"_id": intentIDFor(e), "version": 1, "state": "completed", "activityHash": hash, "dispatchUserId": nil, "writerId": "w"}
+		if !done {
+			in["state"], in["activity"] = "pending", activity
+		}
+		_, _ = w.db.Collection("activityNotificationIntents").InsertOne(ctx, in)
+		_, _ = w.db.Collection("activityNotificationPlans").InsertOne(ctx, bson.M{"_id": planIDFor(e), "checksum": sha256Hex(canonical(p)), "plan": p})
+	}
+	after = ""
+	w.s.cleanupActivityPlans(ctx, &after)
+	var done, pending bson.M
+	_ = w.db.Collection("activityNotificationPlans").FindOne(ctx, bson.M{"_id": planIDFor("cleanupdone00001")}).Decode(&done)
+	_ = w.db.Collection("activityNotificationPlans").FindOne(ctx, bson.M{"_id": planIDFor("cleanuppending01")}).Decode(&pending)
+	if intOf(done["compactReceiptVersion"]) != 1 || strings.Contains(canonical(done), "PRIVATE") || len(done) != 4 {
+		t.Errorf("a completed plan is a receipt: %v", done)
+	}
+	if !strings.Contains(canonical(pending), "PRIVATE BODY") {
+		t.Errorf("negative: a pending plan keeps its body: %v", pending)
+	}
 }
