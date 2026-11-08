@@ -262,3 +262,107 @@ func TestSignUpWithInvitationCode(t *testing.T) {
 		t.Fatalf("negative: a spent code opens nothing: %d", res.StatusCode)
 	}
 }
+
+// #1426: a verification link verifies its address and signs in; a wrong token
+// does neither.
+func TestVerifyEmailLink(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": u.ID}, bson.M{"$set": bson.M{"emails.0.verified": false,
+		"services.email.verificationTokens": bson.A{bson.M{"token": "verify-token-1", "address": "ann@example.invalid", "when": time.Now()}}}})
+	verified := func() bool {
+		var d User
+		_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": u.ID}).Decode(&d)
+		return d.Emails[0].Verified
+	}
+	c := w.client(t)
+	if res, _ := get(t, c, w.srv.URL+"/verify-email/not-a-real-token"); res.StatusCode != http.StatusSeeOther || verified() {
+		t.Fatal("negative: a wrong token verifies nothing")
+	}
+	if res, _ := get(t, c, w.srv.URL+"/"); res.StatusCode != http.StatusSeeOther {
+		t.Fatal("negative: and signs in nobody")
+	}
+	if res, _ := get(t, c, w.srv.URL+"/verify-email/verify-token-1"); res.StatusCode != http.StatusSeeOther || !verified() {
+		t.Fatal("the link verifies the address")
+	}
+	if res, _ := get(t, c, w.srv.URL+"/"); res.StatusCode != 200 {
+		t.Fatalf("and signs the user in: %d", res.StatusCode)
+	}
+	var d struct {
+		Services struct {
+			Email struct {
+				Tokens []bson.M `bson:"verificationTokens"`
+			} `bson:"email"`
+		} `bson:"services"`
+	}
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": u.ID}).Decode(&d)
+	if len(d.Services.Email.Tokens) != 0 {
+		t.Fatalf("the token is spent: %v", d.Services.Email.Tokens)
+	}
+}
+
+// A forgotten password: a reset link by mail, the same answer for an unknown
+// address, one mail a minute, a new password by the sign-up rules, every
+// other session signed out.
+func TestForgotAndResetPassword(t *testing.T) {
+	sink := newSMTPSink(t)
+	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	old := w.client(t)
+	body(t, w.signIn(t, old, "ann", "pw"))
+	forgot := func(email string) string {
+		res, err := w.client(t).PostForm(w.srv.URL+"/forgot-password", url.Values{"email": {email}})
+		if err != nil {
+			t.Fatal(err)
+		}
+		return body(t, res)
+	}
+	unknown, known := forgot("nobody@example.invalid"), forgot("Ann@Example.invalid")
+	if !strings.Contains(unknown, "js-email-sent") || !strings.Contains(known, "js-email-sent") || len(sink.messages()) != 1 {
+		t.Fatalf("one mail, and the same answer for an unknown address: %d", len(sink.messages()))
+	}
+	forgot("ann@example.invalid")
+	if len(sink.messages()) != 1 {
+		t.Fatal("negative: one reset mail a minute")
+	}
+	mailText := strings.ReplaceAll(sink.messages()[0], "=\r\n", "")
+	i := strings.Index(mailText, "/reset-password/")
+	if i < 0 {
+		t.Fatalf("the link: %s", mailText)
+	}
+	token := strings.Fields(mailText[i+len("/reset-password/"):])[0]
+	resetURL := w.srv.URL + "/reset-password/" + token
+	if res, _ := get(t, w.client(t), resetURL); res.StatusCode != 200 {
+		t.Fatalf("the reset page: %d", res.StatusCode)
+	}
+	nc := w.client(t)
+	if res, _ := nc.PostForm(resetURL, url.Values{"password": {"short"}, "password2": {"short"}}); res.StatusCode != http.StatusBadRequest {
+		t.Fatalf("negative: the sign-up rules: %d", res.StatusCode)
+	}
+	if res, _ := nc.PostForm(resetURL, url.Values{"password": {"a-new-password-1"}, "password2": {"a-new-password-1"}}); res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("reset: %d", res.StatusCode)
+	}
+	if res, _ := get(t, nc, w.srv.URL+"/"); res.StatusCode != 200 {
+		t.Fatal("signed in with the new password")
+	}
+	if res, _ := get(t, old, w.srv.URL+"/"); res.StatusCode != http.StatusSeeOther {
+		t.Fatal("negative: the other sessions are signed out")
+	}
+	if res := w.signIn(t, w.client(t), "ann", "pw"); res.StatusCode != http.StatusUnauthorized {
+		t.Fatal("negative: the old password is gone")
+	}
+	if res := w.signIn(t, w.client(t), "ann", "a-new-password-1"); res.StatusCode != http.StatusSeeOther {
+		t.Fatal("the new password signs in")
+	}
+	if res, _ := w.client(t).PostForm(resetURL, url.Values{"password": {"another-pass-2"}, "password2": {"another-pass-2"}}); res.StatusCode != http.StatusNotFound {
+		t.Fatalf("negative: a spent token: %d", res.StatusCode)
+	}
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": u.ID}, bson.M{"$set": bson.M{"services.password.reset": bson.M{
+		"token": "expired-token-1", "email": "ann@example.invalid", "when": time.Now().Add(-4 * 24 * time.Hour)}}})
+	if res, _ := get(t, w.client(t), w.srv.URL+"/reset-password/expired-token-1"); res.StatusCode != http.StatusNotFound {
+		t.Fatalf("negative: an expired token: %d", res.StatusCode)
+	}
+}

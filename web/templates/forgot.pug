@@ -1,0 +1,11 @@
+.auth-layout
+  .auth-dialog.at-form
+    h1.at-title {{t $.L "forgot-password"}}
+    if .Sent
+      p.at-result.js-email-sent {{t $.L "email-sent"}}
+    form#at-pwd-form(method="post", action="/forgot-password")
+      label(for="at-field-email") {{t $.L "email"}}
+      input#at-field-email(type="email", name="email", autocomplete="email", required)
+      button#at-btn.at-btn.submit.primary(type="submit") {{t $.L "forgot-password"}}
+    p
+      a(href="/sign-in") {{t $.L "log-in"}}

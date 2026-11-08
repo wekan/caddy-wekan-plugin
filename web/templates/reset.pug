@@ -1,0 +1,16 @@
+.auth-layout
+  .auth-dialog.at-form
+    h1.at-title {{t $.L "change-password"}}
+    if .Expired
+      p.at-error.js-reset-expired {{t $.L "error-notAuthorized"}}
+      p
+        a(href="/forgot-password") {{t $.L "forgot-password"}}
+    else
+      if .Error
+        .at-error.js-reset-error {{t $.L .Error}}
+      form#at-pwd-form(method="post", action="/reset-password/{{.Token}}")
+        label(for="at-field-password") {{t $.L "password"}}
+        input#at-field-password(type="password", name="password", autocomplete="new-password", minlength="8", required)
+        label(for="at-field-password2") {{t $.L "password-again"}}
+        input#at-field-password2(type="password", name="password2", autocomplete="new-password", minlength="8", required)
+        button#at-btn.at-btn.submit.primary(type="submit") {{t $.L "change-password"}}
