@@ -23,7 +23,8 @@ func (e *methodError) Error() string { return e.Code }
 
 func (s *Server) methods() map[string]methodFunc {
 	return map[string]methodFunc{
-		"setLanguage": s.methodSetLanguage,
+		"setLanguage":     s.methodSetLanguage,
+		"cards.pokerVote": s.methodPokerVote,
 	}
 }
 
@@ -72,6 +73,28 @@ func stringArg(args []json.RawMessage, i int) (string, error) {
 		return "", &methodError{"Match.Error", "Expected string"}
 	}
 	return s, nil
+}
+
+// methodPokerVote is WeKan's cards.pokerVote: a member - or anybody when the
+// poker allows non-members - chooses one card of the deck.
+func (s *Server) methodPokerVote(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	cardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	state, _ := stringArg(args, 1)
+	var c Card
+	if !validID(cardID) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(cardID)}).Decode(&c) != nil {
+		return nil, &methodError{"not-found", "not-found"}
+	}
+	b, err := s.boardFor(r.Context(), c.BoardID, u)
+	if err != nil {
+		return nil, &methodError{"not-found", "not-found"}
+	}
+	if p := s.cardPoker(r.Context(), b, u, c.ID, "en"); p == nil || !p.CanVote {
+		return nil, &methodError{"not-authorized", "not-authorized"}
+	}
+	return 1, s.setPoker(r.Context(), c.ID, u.ID, state)
 }
 
 // methodSetLanguage is WeKan's setLanguage: one of WeKan's languages, kept in

@@ -187,6 +187,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/cards/{card}/comments", s.page(s.addCommentPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/members/{user}", s.page(s.toggleCardMemberPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/vote", s.page(s.votePage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/poker", s.page(s.pokerPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/watch", s.page(s.watchCardPage))
 	m.HandleFunc("POST /b/{board}/watch", s.page(s.watchBoardPage))
 	m.HandleFunc("POST /b/{board}/move", s.page(s.moveCards))
@@ -488,6 +489,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["CardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID, "cardId": c.ID}, lang, 100)
 			data["CardMembers"], data["BoardMembers"] = s.cardMemberChoices(r.Context(), b, &c)
 			data["Vote"] = s.cardVote(r.Context(), b, u, c.ID)
+			data["Poker"] = s.cardPoker(r.Context(), b, u, c.ID, lang)
 			data["WatchingCard"] = slices.Contains(s.cardWatchers(r.Context(), c.ID), u.ID)
 			data["CanComment"] = u.IsAdmin || (b.Can(u.ID, "comment") && (!m.AssignedOnly() || slices.Contains(c.Assignees, u.ID)))
 		}
@@ -716,6 +718,97 @@ func (s *Server) watchCardPage(w http.ResponseWriter, r *http.Request, u *User) 
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
+}
+
+// pokerFields are WeKan's Planning Poker cards, in the deck's order: the
+// field, the class suffix and the translation key of each.
+var pokerFields = [][3]string{{"one", "one", msg("poker-one")}, {"two", "two", msg("poker-two")}, {"three", "three", msg("poker-three")},
+	{"five", "five", msg("poker-five")}, {"eight", "eight", msg("poker-eight")}, {"thirteen", "thirteen", msg("poker-thirteen")},
+	{"twenty", "twenty", msg("poker-twenty")}, {"forty", "forty", msg("poker-forty")}, {"oneHundred", "one-hundred", msg("poker-oneHundred")},
+	{"unsure", "unsure", msg("poker-unsure")}}
+
+type pokerCard struct {
+	Field, Class, Label string
+	Voted               bool
+}
+
+type pokerView struct {
+	Question string
+	CanVote  bool
+	Cards    []pokerCard
+}
+
+// cardPoker is the card's Planning Poker, nil when it has none or the board
+// does not allow it (allowsPoker, on unless turned off). WeKan's
+// showPlanningPokerButtons: a member, or anybody when it allows non-members,
+// until it ends.
+func (s *Server) cardPoker(ctx context.Context, b *Board, u *User, cardID, lang string) *pokerView {
+	var board struct {
+		AllowsPoker *bool `bson:"allowsPoker"`
+	}
+	_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&board)
+	if board.AllowsPoker != nil && !*board.AllowsPoker {
+		return nil
+	}
+	var c struct {
+		Poker bson.M `bson:"poker"`
+	}
+	if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID)}).Decode(&c) != nil || c.Poker == nil {
+		return nil
+	}
+	q, _ := c.Poker["question"].(string)
+	if q == "" {
+		return nil
+	}
+	expired := false
+	if end, ok := c.Poker["end"].(bson.DateTime); ok && end.Time().Before(time.Now()) {
+		expired = true
+	}
+	p := &pokerView{Question: q, CanVote: (b.MemberOf(u.ID) || c.Poker["allowNonBoardMembers"] == true) && !expired}
+	for _, f := range pokerFields {
+		p.Cards = append(p.Cards, pokerCard{Field: f[0], Class: f[1], Label: tr(lang, f[2]), Voted: slices.Contains(stringsOf(c.Poker[f[0]]), u.ID)})
+	}
+	return p
+}
+
+// setPoker is WeKan's: u's choice is that card, and no other.
+func (s *Server) setPoker(ctx context.Context, cardID, userID, state string) error {
+	pull := bson.M{}
+	for _, f := range pokerFields {
+		if f[0] != state {
+			pull["poker."+f[0]] = userID
+		}
+	}
+	update := bson.M{"$pull": pull, "$set": bson.M{"modifiedAt": time.Now().UTC(), "dateLastActivity": time.Now().UTC()}}
+	if slices.ContainsFunc(pokerFields, func(f [3]string) bool { return f[0] == state }) {
+		update["$addToSet"] = bson.M{"poker." + state: userID}
+	}
+	_, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(cardID)}, update)
+	return err
+}
+
+func (s *Server) pokerPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	id := r.PathValue("card")
+	var c Card
+	if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c) != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	if p := s.cardPoker(r.Context(), b, u, c.ID, "en"); p == nil || !p.CanVote {
+		http.Error(w, "this Planning Poker is not open to you", http.StatusForbidden)
+		return
+	}
+	if err := s.setPoker(r.Context(), c.ID, u.ID, r.FormValue("state")); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.hub.publish(b.ID, "board-changed")
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 

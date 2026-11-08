@@ -814,3 +814,56 @@ func TestVoteAndWatchFromThePages(t *testing.T) {
 		t.Fatalf("negative: an assigned-only member watches only their own cards: %d", res.StatusCode)
 	}
 }
+
+// Planning Poker in the card details, and as WeKan's cards.pokerVote method.
+func TestPlanningPoker(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	w.seedUser(t, "cid", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Poker")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Alpha")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"poker": bson.M{"question": "Size?"}}})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	cardURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/" + c.ID
+	_, html := get(t, ann, cardURL)
+	for _, cls := range []string{"js-poker-vote-one", "js-poker-vote-one-hundred", "js-poker-vote-unsure", `data-section="poker"`} {
+		if !strings.Contains(html, cls) {
+			t.Errorf("the deck has %s", cls)
+		}
+	}
+	choice := func() []string {
+		var d struct{ Poker bson.M }
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&d)
+		var out []string
+		for _, f := range pokerFields {
+			if slices.Contains(stringsOf(d.Poker[f[0]]), u.ID) {
+				out = append(out, f[0])
+			}
+		}
+		return out
+	}
+	_, _ = ann.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/poker", url.Values{"state": {"five"}})
+	_, _ = ann.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/poker", url.Values{"state": {"oneHundred"}})
+	if got := choice(); len(got) != 1 || got[0] != "oneHundred" {
+		t.Fatalf("one card at a time: %v", got)
+	}
+	req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/cards.pokerVote", strings.NewReader(`["`+c.ID+`","eight"]`))
+	req.Header.Set("Content-Type", "application/json")
+	if res, err := ann.Do(req); err != nil || res.StatusCode != 200 || choice()[0] != "eight" {
+		t.Fatalf("cards.pokerVote: %v %v", err, choice())
+	}
+	cc := w.client(t)
+	body(t, w.signIn(t, cc, "cid", "pw"))
+	if res, _ := cc.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/poker", url.Values{"state": {"one"}}); res.StatusCode != 404 {
+		t.Fatalf("negative: not on the private board: %d", res.StatusCode)
+	}
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"allowsPoker": false}})
+	if _, html = get(t, ann, cardURL); strings.Contains(html, "js-poker-vote-one") {
+		t.Fatal("negative: a board that turned Planning Poker off shows none")
+	}
+}
