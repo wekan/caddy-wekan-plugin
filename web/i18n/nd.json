@@ -7,6 +7,7 @@
   "activity-added": "wengeze %s ku-%s",
   "activity-archived": "%s uhanjiswe eNgobweni yomlando",
   "activity-attached": "unamathisele %s ku-%s",
+  "activity-changedTitle": "utshintshe isihloko saba %s se %s",
   "activity-checklist-added": "wengeze uluhlu lokuhlola ku-%s",
   "activity-checklist-item-added": "wengeze into kuluhlu lokuhlola ‘%s’ ku-%s",
   "activity-checklist-removed": "ususe uluhlu lokuhlola ku-%s",

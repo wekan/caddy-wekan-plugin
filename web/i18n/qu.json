@@ -7,6 +7,7 @@
   "activity-added": "%s kaqta %s kaqman yaparqa",
   "activity-archived": "%s waqaychanaman apasqa",
   "activity-attached": "%s kaqta %s kaqman watarqa",
+  "activity-changedTitle": "%s sutita %s kaqman tikrarqa",
   "activity-checklist-added": "%s kaqman qhawana sutisuyuta yaparqa",
   "activity-checklist-item-added": "'%s' kaqman qhawana sutisuyu kaqta yaparqa %s kaqpi",
   "activity-checklist-removed": "%s kaqmanta huk qhawana sutisuyuta qichurqa",

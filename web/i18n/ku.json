@@ -7,6 +7,7 @@
   "activity-added": "%s li %s zêde kir",
   "activity-archived": "%s bir arşîvê",
   "activity-attached": "%s bi %s ve girêda",
+  "activity-changedTitle": "sernavê %s kir %s",
   "activity-checklist-added": "lîsteya kontrolê li %s zêde kir",
   "activity-checklist-item-added": "hêmana lîsteya kontrolê li '%s' di %s de zêde kir",
   "activity-checklist-removed": "lîsteyek kontrolê ji %s rakir",

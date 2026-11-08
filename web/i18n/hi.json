@@ -7,6 +7,7 @@
   "activity-added": "जोड़ा गया %s से %s",
   "activity-archived": "%sसंग्रह में ले जाया गया",
   "activity-attached": "संलग्न %s से %s",
+  "activity-changedTitle": "%s का शीर्षक बदलकर %s किया",
   "activity-checklist-added": "संकलित चिह्नांकन-सूची तक %s",
   "activity-checklist-item-added": "संकलित चिह्नांकन-सूची विषय तक '%s' अंदर में %s",
   "activity-checklist-removed": "हटा दिया एक चिह्नांकन-सूची से %s",

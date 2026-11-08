@@ -7,6 +7,7 @@
   "activity-added": "ha aggiunto %s a %s",
   "activity-archived": "%s spostato nell'archiviu",
   "activity-attached": "allicatu %s a %s",
+  "activity-changedTitle": "tìtulu canciato in %s di %s",
   "activity-checklist-added": "ha aggiunto na checklist a %s",
   "activity-checklist-item-added": "Aggiunto l'elemento checklist a '%s' in %s",
   "activity-checklist-removed": "È stata rimossa na checklist da%s",

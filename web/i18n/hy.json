@@ -7,6 +7,7 @@
   "activity-added": "ավելացրել է %s %s-ին",
   "activity-archived": "%s-ը տեղափոխվեց Արխիվ",
   "activity-attached": "կցված է %s %s-ին",
+  "activity-changedTitle": "փոխեց վերնագիրը %s-ի՝ %s",
   "activity-checklist-added": "ավելացրել է ստուգաթերթ %s հասցեին",
   "activity-checklist-item-added": "ստուգաթերթի կետն ավելացրել է «%s»-ին %s-ում",
   "activity-checklist-removed": "հեռացրել է ստուգաթերթը %s-ից",

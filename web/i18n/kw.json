@@ -7,6 +7,7 @@
   "activity-added": "keworrys %s dhe %s",
   "activity-archived": "%s gwayhes dhe'n kovskrifva",
   "activity-attached": "stagys %s dhe %s",
+  "activity-changedTitle": "chanjys an titel dhe %s a %s",
   "activity-checklist-added": "keworrys rol checkya dhe %s",
   "activity-checklist-item-added": "keworrys taklen rol checkya dhe '%s' yn %s",
   "activity-checklist-removed": "treylys rol checkya dhyworth %s",

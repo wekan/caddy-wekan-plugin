@@ -7,6 +7,7 @@
   "activity-added": "hoʻohui ʻia %s i %s",
   "activity-archived": "%s neʻe ʻia i waihona",
   "activity-attached": "hoʻopili ʻia %s i %s",
+  "activity-changedTitle": "hoʻololi ʻia inoa i %s o %s",
   "activity-checklist-added": "hoʻohui ʻia papa kaha i %s",
   "activity-checklist-item-added": "hoʻohui ʻia mea papa kaha i '%s' i %s",
   "activity-checklist-removed": "wehe ʻia he papa kaha mai %s",

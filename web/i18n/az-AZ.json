@@ -7,6 +7,7 @@
   "activity-added": "əlavə %s %s",
   "activity-archived": "%s Arxivə köçürüldü",
   "activity-attached": "%s %s əlavə edildi",
+  "activity-changedTitle": "başlığını %s olaraq dəyişdi (%s)",
   "activity-checklist-added": "%s ünvanına yoxlama siyahısı əlavə edildi",
   "activity-checklist-item-added": "%s daxilində '%s' xanasına yoxlama siyahısı elementi əlavə edildi",
   "activity-checklist-removed": "%s ünvanından yoxlama siyahısını sildi",

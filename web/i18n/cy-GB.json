@@ -7,6 +7,7 @@
   "activity-added": "ychwanegu %s at %s",
   "activity-archived": "Symudodd %s i'r Archif",
   "activity-attached": "atodi %s i %s",
+  "activity-changedTitle": "wedi newid teitl i %s o %s",
   "activity-checklist-added": "ychwanegu rhestr wirio at %s",
   "activity-checklist-item-added": "ychwanegu eitem rhestr wirio at '%s' yn %s",
   "activity-checklist-removed": "dileu rhestr wirio o %s",

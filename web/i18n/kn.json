@@ -7,6 +7,7 @@
   "activity-added": "%s ಗೆ %s ಸೇರಿಸಿದರು",
   "activity-archived": "%s ಅನ್ನು ಸಂಗ್ರಹಕ್ಕೆ ಸರಿಸಿದರು",
   "activity-attached": "%s ಗೆ %s ಲಗತ್ತಿಸಿದರು",
+  "activity-changedTitle": "%s ನ ಶೀರ್ಷಿಕೆಯನ್ನು %s ಗೆ ಬದಲಾಯಿಸಿದರು",
   "activity-checklist-added": "%s ಗೆ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ ಸೇರಿಸಿದರು",
   "activity-checklist-item-added": "%s ನಲ್ಲಿರುವ '%s' ಗೆ ಪರಿಶೀಲನಾ ಪಟ್ಟಿಯ ಅಂಶ ಸೇರಿಸಿದರು",
   "activity-checklist-removed": "%s ನಿಂದ ಪರಿಶೀಲನಾ ಪಟ್ಟಿಯನ್ನು ತೆಗೆದರು",

@@ -7,6 +7,7 @@
   "activity-added": "tafoege %s oan %s",
   "activity-archived": "%s ferpleatst nei Argyf",
   "activity-attached": "hechte %s oan %s",
+  "activity-changedTitle": "titel feroare nei %s fan %s",
   "activity-checklist-added": "kontrolelist tafoege oan %s",
   "activity-checklist-item-added": "checklist item tafoege oan '%s' yn %s",
   "activity-checklist-removed": "in checklist fuortsmiten fan %s",

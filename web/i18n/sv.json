@@ -7,6 +7,7 @@
   "activity-added": "lade till %s till %s",
   "activity-archived": "%s flyttades till Arkiv",
   "activity-attached": "bifogade %s till %s",
+  "activity-changedTitle": "ändrade titeln till %s av %s",
   "activity-checklist-added": "lade till checklista till %s",
   "activity-checklist-item-added": "lade till checklistobjekt till \"%s\" i %s",
   "activity-checklist-removed": "tog bort en checklista från %s",

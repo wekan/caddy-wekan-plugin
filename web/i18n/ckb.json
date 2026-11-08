@@ -7,6 +7,7 @@
   "activity-added": "%sی بۆ %s زیاد کرد",
   "activity-archived": "%s گواسترایەوە بۆ ئەرشیف",
   "activity-attached": "%sی بە %sەوە هاوپێچ کرد",
+  "activity-changedTitle": "ناونیشانی %sی گۆڕی بۆ %s",
   "activity-checklist-added": "لیستی پشکنینی بۆ %s زیاد کرد",
   "activity-checklist-item-added": "بڕگەی لیستی پشکنینی بۆ '%s' لە %s زیاد کرد",
   "activity-checklist-removed": "لیستی پشکنینێکی لە %s لابرد",

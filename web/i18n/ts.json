@@ -7,6 +7,7 @@
   "activity-added": "engeteriwile %s eka %s",
   "activity-archived": "%s susiwile yi yisiwa eka vuhlayiselo bya swa khale",
   "activity-attached": "mhaka %s eka %s",
+  "activity-changedTitle": "cinciwile nhlokomhaka eka %s ya %s",
   "activity-checklist-added": "engeteriwile nxaxamelo wo kambela eka %s",
   "activity-checklist-item-added": "engeteriwile nxaxamelo wo kambela mhaka eka '%s' eka %s",
   "activity-checklist-removed": "susiwile a nxaxamelo wo kambela ku suka %s",

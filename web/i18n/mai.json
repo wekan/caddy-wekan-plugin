@@ -7,6 +7,7 @@
   "activity-added": "%s केँ %s मे जोड़लक",
   "activity-archived": "%s केँ संग्रहमे पठौलक",
   "activity-attached": "%s केँ %s सँ संलग्न केलक",
+  "activity-changedTitle": "%s केर शीर्षक बदलि कऽ %s कएलक",
   "activity-checklist-added": "%s मे जाँचसूची जोड़लक",
   "activity-checklist-item-added": "%s मे '%s' जाँचसूची मद जोड़लक",
   "activity-checklist-removed": "%s सँ जाँचसूची हटौलक",

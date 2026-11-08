@@ -7,6 +7,7 @@
   "activity-added": "је додао %s у %s",
   "activity-archived": "%s премештено у архиву",
   "activity-attached": "унео предметну грађу %s у %s",
+  "activity-changedTitle": "променио наслов у %s за %s",
   "activity-checklist-added": "је унео предметну радњу у предмет %s",
   "activity-checklist-item-added": "је придодао ставку '%s' у предметну радњу %s",
   "activity-checklist-removed": "је уклонио предметну радњу из предмета %s",

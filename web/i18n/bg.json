@@ -7,6 +7,7 @@
   "activity-added": "добави %s към %s",
   "activity-archived": "%s е преместена в Архива",
   "activity-attached": "прикачи %s към %s",
+  "activity-changedTitle": "промени заглавието на %s на %s",
   "activity-checklist-added": "добави списък със задачи към %s",
   "activity-checklist-item-added": "добави точка към '%s' в/във %s",
   "activity-checklist-removed": "премахна списък със задачи от %s",

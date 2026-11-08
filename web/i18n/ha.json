@@ -7,6 +7,7 @@
   "activity-added": "ya ƙara %s zuwa %s",
   "activity-archived": "an matsar da %s zuwa Taska",
   "activity-attached": "ya maƙala %s zuwa %s",
+  "activity-changedTitle": "ya sauya take zuwa %s na %s",
   "activity-checklist-added": "ya ƙara jerin dubawa zuwa %s",
   "activity-checklist-item-added": "ya ƙara abin jerin dubawa zuwa '%s' a %s",
   "activity-checklist-removed": "ya cire jerin dubawa daga %s",

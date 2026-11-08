@@ -7,6 +7,7 @@
   "activity-added": "amestó %s a %s",
   "activity-archived": "%s movióse al archivu",
   "activity-attached": "adjuntado(s) %s a %s",
+  "activity-changedTitle": "camudó'l títulu a %s de %s",
   "activity-checklist-added": "añadió una llista de comprobación a %s",
   "activity-checklist-item-added": "añadió un elementu a la llista de comprobación '%s' en %s",
   "activity-checklist-removed": "quitó una llista de comprobación de %s",

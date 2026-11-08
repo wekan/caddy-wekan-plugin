@@ -7,6 +7,7 @@
   "activity-added": "dodôł %s do %s",
   "activity-archived": "%s przeniesóné do archiwùm",
   "activity-attached": "dodał przëdôwk %s do %s",
+  "activity-changedTitle": "zmienił titel na %s w %s",
   "activity-checklist-added": "dodôł lëstã kòntrólną do %s",
   "activity-checklist-item-added": "dodôł element do lëstë kòntrólny '%s' w %s",
   "activity-checklist-removed": "rëmôł czeklistę z %s",

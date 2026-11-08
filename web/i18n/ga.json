@@ -7,6 +7,7 @@
   "activity-added": "chuir %s le %s",
   "activity-archived": "bogadh %s chuig an gCartlann",
   "activity-attached": "cheangail %s le %s",
+  "activity-changedTitle": "d'athraigh an teideal go %s de %s",
   "activity-checklist-added": "chuir seicliosta le %s",
   "activity-checklist-item-added": "chuir mír seicliosta le '%s' in %s",
   "activity-checklist-removed": "bhain seicliosta de %s",

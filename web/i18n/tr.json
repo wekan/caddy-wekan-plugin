@@ -7,6 +7,7 @@
   "activity-added": "%s içine %s ekledi",
   "activity-archived": "%s Arşive taşındı",
   "activity-attached": "%s içine %s ekledi",
+  "activity-changedTitle": "%s başlığını %s olarak değiştirdi",
   "activity-checklist-added": "%s içine yapılacak listesi ekledi",
   "activity-checklist-item-added": "%s içinde %s yapılacak listesine öğe ekledi",
   "activity-checklist-removed": "%s Tarafından yapılacaklar listesi silinmiştir",

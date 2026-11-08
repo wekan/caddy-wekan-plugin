@@ -7,6 +7,7 @@
   "activity-added": "%s માં %s ઉમેર્યું",
   "activity-archived": "%s આર્કાઇવમાં ખસેડ્યું",
   "activity-attached": "%s %s સાથે જોડાયેલ",
+  "activity-changedTitle": "%s નું શીર્ષક %s માં બદલ્યું",
   "activity-checklist-added": "%s પર ચેકલિસ્ટ ઉમેર્યું",
   "activity-checklist-item-added": "%s માં '%s' માં ચેકલિસ્ટ આઇટમ ઉમેરી",
   "activity-checklist-removed": "%s પરથી ચેકલિસ્ટ દૂર કર્યું",

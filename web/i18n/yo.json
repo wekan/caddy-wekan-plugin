@@ -7,6 +7,7 @@
   "activity-added": "fi kun %s si %s",
   "activity-archived": "%s gbe lọ si Ibi ipamọ",
   "activity-attached": "so %s si %s",
+  "activity-changedTitle": "yi akọle pada si %s ti %s",
   "activity-checklist-added": "fi kun akojọ ayẹwo si %s",
   "activity-checklist-item-added": "ti a ṣafikun ohun elo ayẹwo si '%s' ni %s",
   "activity-checklist-removed": "yọkuro atokọ ayẹwo lati %s",

@@ -7,6 +7,7 @@
   "activity-added": "%s chellu'pu' (%s-vaD)",
   "activity-archived": "%s polmeH DaqDaq vIHmoHlu'pu'",
   "activity-attached": "%s rarlu'pu'; %s",
+  "activity-changedTitle": "%s pong choHlu'pu' %s",
   "activity-checklist-added": "%s-vaD ghItlhHommey tetlh chellu'pu'",
   "activity-checklist-item-added": "'%s' ghItlhHommey tetlhvaD ghItlhHom chellu'pu' (%s-Daq)",
   "activity-checklist-removed": "ghItlhHommey tetlh teqlu'pu' (%s-vo')",

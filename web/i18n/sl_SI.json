@@ -7,6 +7,7 @@
   "activity-added": "dodal %s v %s",
   "activity-archived": "%s premaknjeno v arhiv",
   "activity-attached": "pripel %s v %s",
+  "activity-changedTitle": "spremenil naslov v %s od %s",
   "activity-checklist-added": "dodal kontrolni seznam na %s",
   "activity-checklist-item-added": "dodal postavko kontrolnega seznama na '%s' v %s",
   "activity-checklist-removed": "odstranil kontrolni seznam iz %s",

@@ -7,6 +7,7 @@
   "activity-added": "%s を %s に追加しました",
   "activity-archived": "%sをアーカイブしました",
   "activity-attached": "%s を %s に添付しました",
+  "activity-changedTitle": "%s のタイトルを %s に変更しました",
   "activity-checklist-added": "%s にチェックリストを追加しました",
   "activity-checklist-item-added": "チェックリスト項目を '%s' / %s に追加しました",
   "activity-checklist-removed": "チェックリストを %s から削除しました",

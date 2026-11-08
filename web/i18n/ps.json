@@ -7,6 +7,7 @@
   "activity-added": "%s يې %s ته زيات کړ",
   "activity-archived": "%s ارشيف ته ولېږدول شو",
   "activity-attached": "%s يې له %s سره ونښلاوه",
+  "activity-changedTitle": "د %s سرليک يې %s ته بدل کړ",
   "activity-checklist-added": "کتنليک يې %s ته زيات کړ",
   "activity-checklist-item-added": "د کتنليک توکی يې په %s کې '%s' ته زيات کړ",
   "activity-checklist-removed": "کتنليک يې له %s څخه لرې کړ",

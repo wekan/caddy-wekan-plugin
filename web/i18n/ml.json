@@ -7,6 +7,7 @@
   "activity-added": "%s എന്നതിലേക്ക് %s ചേർത്തു",
   "activity-archived": "%s ആർക്കൈവിലേക്ക് മാറ്റി",
   "activity-attached": "%s എന്നതിലേക്ക് %s അറ്റാച്ച് ചെയ്തു",
+  "activity-changedTitle": "ശീർഷകം %s എന്നതിൽ നിന്ന് %s ആയി മാറ്റി",
   "activity-checklist-added": "%s എന്നതിലേക്ക് ചെക്ക്‌ലിസ്റ്റ് ചേർത്തു",
   "activity-checklist-item-added": "%s എന്നതിലെ '%s' ചെക്ക്‌ലിസ്റ്റിലേക്ക് ഇനം ചേർത്തു",
   "activity-checklist-removed": "%s എന്നതിൽ നിന്ന് ഒരു ചെക്ക്‌ലിസ്റ്റ് നീക്കി",

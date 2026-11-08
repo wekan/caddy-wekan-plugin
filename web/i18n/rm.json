@@ -7,6 +7,7 @@
   "activity-added": "ha agiuntà %s a %s",
   "activity-archived": "%s è vegnì spustà en l'archiv",
   "activity-attached": "ha agiuntà %s a %s",
+  "activity-changedTitle": "ha midà il titel en %s da %s",
   "activity-checklist-added": "ha agiuntà ina glista da controlla a %s",
   "activity-checklist-item-added": "agiuntà in element da la glista da controlla a '%s' en %s",
   "activity-checklist-removed": "stizzà ina glista da controlla da %s",

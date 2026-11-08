@@ -7,6 +7,7 @@
   "activity-added": "Putim pinis %s long %s",
   "activity-archived": "%s movim pinis long akaiv",
   "activity-attached": "Pasim pinis %s long %s",
+  "activity-changedTitle": "Senisim pinis nem long %s bilong %s",
   "activity-checklist-added": "Putim pinis lis bilong sekim long %s",
   "activity-checklist-item-added": "Putim pinis samting bilong sekim long '%s' long %s",
   "activity-checklist-removed": "Rausim pinis wanpela lis bilong sekim long %s",

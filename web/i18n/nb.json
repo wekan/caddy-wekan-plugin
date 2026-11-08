@@ -7,6 +7,7 @@
   "activity-added": "la %s til %s",
   "activity-archived": "%s flyttet til Arkivet",
   "activity-attached": "la %s til %s",
+  "activity-changedTitle": "endret tittelen til %s for %s",
   "activity-checklist-added": "la til sjekkliste til %s",
   "activity-checklist-item-added": "lagt til sjekklisteoppgave til '%s' i %s",
   "activity-checklist-removed": "flyttet en sjekkliste fra %s",

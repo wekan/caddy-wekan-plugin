@@ -7,6 +7,7 @@
   "activity-added": "%s hozzáadva ehhez: %s",
   "activity-archived": "%s áthelyezve az Archívumba",
   "activity-attached": "%s mellékletet csatolt a kártyához: %s",
+  "activity-changedTitle": "a címet erre változtatta: %s ennél: %s",
   "activity-checklist-added": "ellenőrzőlista hozzáadva ehhez: %s",
   "activity-checklist-item-added": "ellenőrzőlista elem hozzáadva ehhez: „%s”, ebben: %s",
   "activity-checklist-removed": "eltávolította az ellenőrzőlistát innen: %s",

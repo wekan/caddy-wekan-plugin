@@ -7,6 +7,7 @@
   "activity-added": "%s %s-imut ilannguppaa",
   "activity-archived": "%s toqqorsivimmut nuunneqarpoq",
   "activity-attached": "%s %s-imut ilannguppaa",
+  "activity-changedTitle": "%s-ip qulequtaa %s-imut allanngortippaa",
   "activity-checklist-added": "misissuiffiusumik allattorsimaffik %s-imut ilannguppaa",
   "activity-checklist-item-added": "misissuiffiusumik immikkoortoq '%s'-imut %s-imi ilannguppaa",
   "activity-checklist-removed": "misissuiffiusumik allattorsimaffik %s-imit piiarpaa",

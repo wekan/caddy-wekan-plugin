@@ -7,6 +7,7 @@
   "activity-added": "%s ক %s ত যোগ কৰিলে",
   "activity-archived": "%s সংৰক্ষণাগাৰলৈ নিয়া হ'ল",
   "activity-attached": "%s ক %s ত সংলগ্ন কৰিলে",
+  "activity-changedTitle": "%s ৰ শিৰোনাম %s লৈ সলনি কৰিলে",
   "activity-checklist-added": "%s ত পৰীক্ষা-তালিকা যোগ কৰিলে",
   "activity-checklist-item-added": "'%s' ত %s ৰ বাবে পৰীক্ষা-তালিকাৰ বস্তু যোগ কৰিলে",
   "activity-checklist-removed": "%s ৰ পৰা এটা পৰীক্ষা-তালিকা আঁতৰালে",

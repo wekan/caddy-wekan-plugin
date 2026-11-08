@@ -7,6 +7,7 @@
   "activity-added": "ungete %s ku-%s",
   "activity-archived": "%s uyiswe Engobolweni",
   "activity-attached": "unamatsisele %s ku-%s",
+  "activity-changedTitle": "ushintje sihloko saba ngu-%s sa-%s",
   "activity-checklist-added": "ungete luhlu lwekuhlola ku-%s",
   "activity-checklist-item-added": "ungete intfo eluhlwini lwekuhlola '%s' ku-%s",
   "activity-checklist-removed": "ususe luhlu lwekuhlola ku-%s",

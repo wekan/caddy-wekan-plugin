@@ -7,6 +7,7 @@
   "activity-added": "%sን ወደ %s ጨምሯል",
   "activity-archived": "%sን ወደ ማህደር አንቀሳቅሷል",
   "activity-attached": "%sን ወደ %s አያይዟል",
+  "activity-changedTitle": "የ%s ርዕስን ወደ %s ቀይሯል",
   "activity-checklist-added": "የማረጋገጫ ዝርዝር ወደ %s ጨምሯል",
   "activity-checklist-item-added": "በ'%s' ውስጥ ወደ %s የማረጋገጫ ንጥል ጨምሯል",
   "activity-checklist-removed": "የማረጋገጫ ዝርዝርን ከ%s አስወግዷል",

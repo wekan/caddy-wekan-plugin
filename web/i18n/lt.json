@@ -7,6 +7,7 @@
   "activity-added": "pridėjo %s prie %s",
   "activity-archived": "%s perkeltas į archyvą",
   "activity-attached": "prijungtas %s prie %s",
+  "activity-changedTitle": "pakeitė pavadinimą į %s iš %s",
   "activity-checklist-added": "pridėtas kontrolinis sąrašas %s",
   "activity-checklist-item-added": "pridėjo kontrolinio sąrašo elementą į '%s' %s",
   "activity-checklist-removed": "pašalintas kontrolinis sąrašas iš %s",

@@ -8,16 +8,26 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/microcosm-cc/bluemonday"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
+	gmhtml "github.com/yuin/goldmark/renderer/html"
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 // WeKan's viewer (packages/markdown, client/components/main/editor.js
 // +viewer): a text written in Markdown, shown as HTML. goldmark's own
-// renderer leaves raw HTML out and drops a link to a dangerous address
-// (javascript: and the like), so what a user typed is shown, never run.
-var markdown = goldmark.New(goldmark.WithExtensions(extension.Strikethrough, extension.Linkify, extension.Table, extension.TaskList))
+// HTML is let through the UGC policy of bluemonday, as WeKan's goes through
+// DOMPurify: formatting stays, a script, an event handler or a dangerous
+// address does not - what a user typed is shown, never run.
+var markdown = goldmark.New(goldmark.WithExtensions(extension.Strikethrough, extension.Linkify, extension.Table, extension.TaskList),
+	goldmark.WithRendererOptions(gmhtml.WithUnsafe()))
+
+// sanitizer is what WeKan's viewer lets through of HTML a user wrote
+// (WeKan sanitizes its Markdown with DOMPurify): text formatting, lists,
+// tables, quotes, code and links to safe addresses - never a script, an
+// event handler or a javascript: address.
+var sanitizer = bluemonday.UGCPolicy()
 
 // textPolicy is Admin Panel's text display settings: links shown as plain
 // text (renderLinksAsPlainText), or the source shown, never rendered
@@ -81,7 +91,7 @@ func viewer(text string, policy ...textPolicy) template.HTML {
 	if err := markdown.Convert([]byte(text), &b); err != nil {
 		return template.HTML(`<span class="viewer">` + html.EscapeString(text) + `</span>`)
 	}
-	out := emojify(strings.TrimSpace(b.String()))
+	out := emojify(strings.TrimSpace(sanitizer.Sanitize(b.String())))
 	if p.PlainLinks {
 		out = anchorTag.ReplaceAllString(out, "")
 	}

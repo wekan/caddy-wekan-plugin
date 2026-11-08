@@ -7,6 +7,7 @@
   "activity-added": "%s ला %s मध्ये जोडले",
   "activity-archived": "%s संग्रहात हलवले",
   "activity-attached": "%s ला %s शी संलग्न केले",
+  "activity-changedTitle": "%s चे शीर्षक %s असे बदलले",
   "activity-checklist-added": "%s ला तपासणीसूची जोडली",
   "activity-checklist-item-added": "%s मधील '%s' मध्ये तपासणीसूची घटक जोडला",
   "activity-checklist-removed": "%s मधून तपासणीसूची काढली",

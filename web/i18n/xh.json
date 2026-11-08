@@ -7,6 +7,7 @@
   "activity-added": "yongezwe %s ku-%s",
   "activity-archived": "%s isiwe kwindawo yokugcina",
   "activity-attached": "iqhotyoshelwe %s ku %s",
+  "activity-changedTitle": "utshintshe isihloko saba ngu-%s se-%s",
   "activity-checklist-added": "yongezwe uluhlu lokujonga ku-%s",
   "activity-checklist-item-added": "wongeze into yoluhlu lokutshekisha ku-'%s' kwi-%s",
   "activity-checklist-removed": "Ususe uluhlu lokukhangela ku %s",

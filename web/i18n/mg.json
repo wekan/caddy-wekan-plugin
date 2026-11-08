@@ -7,6 +7,7 @@
   "activity-added": "nanampy an'i %s tamin'i %s",
   "activity-archived": "nafindra tao amin'ny arisiva i %s",
   "activity-attached": "nampiditra an'i %s tamin'i %s",
+  "activity-changedTitle": "nanova ny lohatenin'i %s ho %s",
   "activity-checklist-added": "nanampy lisitra fanamarinana tamin'i %s",
   "activity-checklist-item-added": "nanampy singa lisitra fanamarinana tamin'i '%s' tao amin'i %s",
   "activity-checklist-removed": "nanala lisitra fanamarinana tamin'i %s",

@@ -7,6 +7,7 @@
   "activity-added": "geutamah %s u %s",
   "activity-archived": "%s geupinah u Arsip",
   "activity-attached": "geulampir %s u %s",
+  "activity-changedTitle": "geuubah judul jadi %s bak %s",
   "activity-checklist-added": "geutamah checklist u %s",
   "activity-checklist-item-added": "geutamah item checklist bak '%s' lam %s",
   "activity-checklist-removed": "geuhapus saboh checklist nibak %s",

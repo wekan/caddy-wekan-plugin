@@ -7,6 +7,7 @@
   "activity-added": "pridal %s do %s",
   "activity-archived": "%s presunutá do archívu",
   "activity-attached": "priložená %s do %s",
+  "activity-changedTitle": "zmenil názov na %s na %s",
   "activity-checklist-added": "pridaný kontrolný zoznam do %s",
   "activity-checklist-item-added": "pridal(a) položku do kontrolného zoznamu «%s» na karte %s",
   "activity-checklist-removed": "odstránený kontrolný zoznam z %s",

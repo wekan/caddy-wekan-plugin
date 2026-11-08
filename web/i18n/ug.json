@@ -7,6 +7,7 @@
   "activity-added": "%s ​​غا %s قوشۇلدى.",
   "activity-archived": "%s ئارخىپقا يۆتكەلدى",
   "activity-attached": "%s غا %s ​​قوشۇلدى",
+  "activity-changedTitle": "%s نى %s نىڭ ماۋزۇسىغا ئۆزگەرتتى",
   "activity-checklist-added": "%s غا تەكشۈرۈش تىزىملىكى قوشۇلدى.",
   "activity-checklist-item-added": "%s ​​دىكى '%s' غا تەكشۈرۈش تىزىملىكى قوشۇلدى.",
   "activity-checklist-removed": "%s دىن تەكشۈرۈش تىزىملىكىنى ئۆچۈردى.",

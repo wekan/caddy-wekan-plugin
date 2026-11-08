@@ -7,6 +7,7 @@
   "activity-added": "dodał %s do %s",
   "activity-archived": "%s została przeniesiona do Archiwum",
   "activity-attached": "dodał załącznik %s do %s",
+  "activity-changedTitle": "zmienił tytuł na %s w %s",
   "activity-checklist-added": "dodał czeklistę do %s",
   "activity-checklist-item-added": "dodał element do czeklisty '%s' w %s",
   "activity-checklist-removed": "usunął czeklistę z %s",

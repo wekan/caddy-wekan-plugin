@@ -7,6 +7,7 @@
   "activity-added": "yayongeddeko %s eri %s",
   "activity-archived": "%s yatambusizza eri Tterekero",
   "activity-attached": "attached %s eri %s",
+  "activity-changedTitle": "kyusizza mutwe eri %s lya %s",
   "activity-checklist-added": "yayongeddeko lukalala-lw'okukebera eri %s",
   "activity-checklist-item-added": "yayongeddeko ekintu ky'olukalala lw'okukebera eri '%s' mu %s",
   "activity-checklist-removed": "yaggyewo lukalala-lw'okukebera okuva %s",

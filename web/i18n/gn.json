@@ -7,6 +7,7 @@
   "activity-added": "ombojoapy %s %s-pe",
   "activity-archived": "%s oñemongu'e Ñongatupyre-pe",
   "activity-attached": "ombojoaju %s %s rehe",
+  "activity-changedTitle": "omoambue téra %s-pe %s-gui",
   "activity-checklist-added": "ombojoapy ysaja ñehesa'ỹijo %s-pe",
   "activity-checklist-item-added": "ombojoapy mba'e ysaja ñehesa'ỹijo '%s'-pe, %s-pe",
   "activity-checklist-removed": "oipe'a ysaja ñehesa'ỹijo %s-gui",

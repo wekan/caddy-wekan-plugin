@@ -7,6 +7,7 @@
   "activity-added": "%s کو %s میں شامل کیا",
   "activity-archived": "%s محفوظ خانے میں منتقل کیا گیا",
   "activity-attached": "%s کو %s سے منسلک کیا",
+  "activity-changedTitle": "%s کا عنوان تبدیل کر کے %s کر دیا",
   "activity-checklist-added": "%s میں جانچ فہرست شامل کی",
   "activity-checklist-item-added": "%s میں '%s' میں جانچ فہرست کا جز شامل کیا",
   "activity-checklist-removed": "%s سے ایک جانچ فہرست ہٹا دی",

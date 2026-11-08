@@ -7,6 +7,7 @@
   "activity-added": "as apondut %s a %s",
   "activity-archived": "%s desplaçat cap a Archius",
   "activity-attached": "as ligat %s a %s",
+  "activity-changedTitle": "as cambiat lo títol per %s de %s",
   "activity-checklist-added": "as apondut a checklist a %s",
   "activity-checklist-item-added": "as apondut un element a la checklist '%s' dins %s",
   "activity-checklist-removed": "as tirat la checklist de %s",

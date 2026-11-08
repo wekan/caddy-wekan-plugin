@@ -7,6 +7,7 @@
   "activity-added": "tlaleleditše %s go %s",
   "activity-archived": "%s e išitšwe Bobolokelong",
   "activity-attached": "kgomareditše %s go %s",
+  "activity-changedTitle": "fetotše sehlogo sa %s go ba %s",
   "activity-checklist-added": "tlaleleditše lenaneo la go hlahloba go %s",
   "activity-checklist-item-added": "tlaleleditše selo sa lenaneo la go hlahloba go '%s' ka gare ga %s",
   "activity-checklist-removed": "tlošitše lenaneo la go hlahloba go %s",

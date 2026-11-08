@@ -7,6 +7,7 @@
   "activity-added": "ajoute %s nan %s",
   "activity-archived": "deplase %s nan Achiv",
   "activity-attached": "tache %s nan %s",
+  "activity-changedTitle": "chanje tit la pou %s nan %s",
   "activity-checklist-added": "ajoute lis verifikasyon nan %s",
   "activity-checklist-item-added": "ajoute eleman lis verifikasyon nan '%s' anndan %s",
   "activity-checklist-removed": "retire yon lis verifikasyon nan %s",

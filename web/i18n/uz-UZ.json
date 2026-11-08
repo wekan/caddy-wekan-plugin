@@ -7,6 +7,7 @@
   "activity-added": "%s %s ga qoʻshildi",
   "activity-archived": "%s arxivga koʻchirildi",
   "activity-attached": "biriktirilgan %s %s",
+  "activity-changedTitle": "sarlavha %s ga oʻzgartirildi (%s)",
   "activity-checklist-added": "%s ga nazorat roʻyxati qoʻshildi",
   "activity-checklist-item-added": "nazorat roʻyxati elementi %s dagi “%s” ga qoʻshildi",
   "activity-checklist-removed": "%s dan nazorat roʻyxati olib tashlandi",

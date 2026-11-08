@@ -7,6 +7,7 @@
   "activity-added": "tānaki ʻa e %s ki he %s",
   "activity-archived": "Kuo hiki ʻa e %s ki he tukuʻanga",
   "activity-attached": "fakapipiki ʻa e %s ki he %s",
+  "activity-changedTitle": "liliu ʻa e hingoa ki he %s ʻo e %s",
   "activity-checklist-added": "tānaki ha lisi sivi ki he %s",
   "activity-checklist-item-added": "tānaki ha meʻa ki he lisi sivi '%s' ʻi he %s",
   "activity-checklist-removed": "toʻo ha lisi sivi mei he %s",

@@ -7,6 +7,7 @@
   "activity-added": "Ližatud %s azjale %s",
   "activity-archived": "%s om sirttud arhivaha",
   "activity-attached": "Tartutadud %s azjale %s",
+  "activity-changedTitle": "vajehti pälkirjutesen %s objektal %s",
   "activity-checklist-added": "Ližatud kodvindlugetiž azjale %s",
   "activity-checklist-item-added": "Ližatud koht kodvindlugetišehe '%s' azjal %s",
   "activity-checklist-removed": "Heittud kodvindlugetiž azjaspäi %s",

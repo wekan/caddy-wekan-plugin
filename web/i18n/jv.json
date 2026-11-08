@@ -7,6 +7,7 @@
   "activity-added": "nambah %s menyang %s",
   "activity-archived": "%s dipindhah menyang Arsip",
   "activity-attached": "masang %s menyang %s",
+  "activity-changedTitle": "ngowahi judhul dadi %s saka %s",
   "activity-checklist-added": "nambah dhaptar priksa menyang %s",
   "activity-checklist-item-added": "nambah item dhaptar priksa menyang '%s' ing %s",
   "activity-checklist-removed": "mbusak dhaptar priksa saka %s",

@@ -7,6 +7,7 @@
   "activity-added": "%s %s(e)ra gehituta",
   "activity-archived": "%s biltegira eraman da",
   "activity-attached": "%s %s(e)ra erantsita",
+  "activity-changedTitle": "izenburua %s(e)ra aldatu du, honena: %s",
   "activity-checklist-added": "kontrol-zerrenda %s-ra gehitu da",
   "activity-checklist-item-added": "egiaztaketa zerrendako elementuak '%s'(e)ra gehituta %s(e)n",
   "activity-checklist-removed": "kontrol zerrenda %s-tik kendu da",

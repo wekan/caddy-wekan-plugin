@@ -7,6 +7,7 @@
   "activity-added": "tambah %skepada %s",
   "activity-archived": "%spindah kepada Arkib",
   "activity-attached": "lampirkan %skepada %s",
+  "activity-changedTitle": "menukar tajuk kepada %s bagi %s",
   "activity-checklist-added": "menambah checklist ke %s",
   "activity-checklist-item-added": "menambah item checklist ke '%s' dalam %s",
   "activity-checklist-removed": "membuang checklist daripada %s",

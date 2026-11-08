@@ -7,6 +7,7 @@
   "activity-added": "pievienoja %s pie %s",
   "activity-archived": "%s pārvietoja uz arhīvu",
   "activity-attached": "pievienoja %s pie %s",
+  "activity-changedTitle": "nomainīja nosaukumu uz %s objektam %s",
   "activity-checklist-added": "pievienoja kontrolsarakstu %s",
   "activity-checklist-item-added": "pievienoja kontrolsaraksta elementu no '%s' iekš %s",
   "activity-checklist-removed": "noņēma kontrolsarakstu no %s",

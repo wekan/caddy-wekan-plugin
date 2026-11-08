@@ -71,6 +71,10 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 .board-sidebar { display: none; position: fixed; top: 0; right: 0; bottom: 0; width: 18em; max-width: 100%;
   background: #f7f7f7; box-shadow: -2px 0 6px rgba(0,0,0,.2); padding: 1em; z-index: 20; overflow-y: auto; }
 .board-sidebar.is-open { display: block; }
+/* An open card sits beside an open sidebar, and above it where both cannot fit. */
+.card-details { z-index: 21; }
+.board-sidebar.is-open ~ .card-details { inset-inline-end: 18em; }
+@media (max-width: 760px) { .board-sidebar.is-open ~ .card-details { inset-inline-end: 0; } }
 .sidebar-xmark { float: right; text-decoration: none; }
 .pop-over { position: fixed; top: 4em; right: 1em; width: 22em; max-width: calc(100% - 2em); max-height: calc(100% - 6em);
   overflow-y: auto; background: #fff; border-radius: 3px; box-shadow: 0 2px 8px rgba(0,0,0,.3); z-index: 30; }

@@ -7,6 +7,7 @@
   "activity-added": "%s ஐ %s இல் சேர்த்தார்",
   "activity-archived": "%s காப்பகத்திற்கு நகர்த்தப்பட்டது",
   "activity-attached": "%s ஐ %s உடன் இணைத்தார்",
+  "activity-changedTitle": "%s இன் தலைப்பை %s ஆக மாற்றியது",
   "activity-checklist-added": "%s இல் சரிபார்ப்புப் பட்டியலைச் சேர்த்தார்",
   "activity-checklist-item-added": "%s இல் உள்ள '%s' இல் சரிபார்ப்புப் பட்டியல் உருப்படியைச் சேர்த்தார்",
   "activity-checklist-removed": "%s இலிருந்து ஒரு சரிபார்ப்புப் பட்டியலை நீக்கினார்",

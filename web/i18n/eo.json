@@ -7,6 +7,7 @@
   "activity-added": "Aldonis %s al %s",
   "activity-archived": "%s movita al Arkivo",
   "activity-attached": "adjuntado(s) %s a %s",
+  "activity-changedTitle": "ŝanĝis titolon al %s de %s",
   "activity-checklist-added": "aldonis kontrolliston al %s",
   "activity-checklist-item-added": "aldonis kontrollistan eron al '%s' en %s",
   "activity-checklist-removed": "forigis kontrolliston el %s",

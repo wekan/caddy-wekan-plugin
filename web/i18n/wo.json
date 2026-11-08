@@ -7,6 +7,7 @@
   "activity-added": "yokk %s ci %s",
   "activity-archived": "%s yóbbu nañu ko ci àrsiw bi",
   "activity-attached": "takk %s ci %s",
+  "activity-changedTitle": "soppi na tur bi ci %s ci %s",
   "activity-checklist-added": "yokk limu bu seetlu ci %s",
   "activity-checklist-item-added": "yokk mbir ci limu bu seetlu '%s' ci %s",
   "activity-checklist-removed": "far limu bu seetlu ci %s",

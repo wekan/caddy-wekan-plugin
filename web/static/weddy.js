@@ -44,14 +44,24 @@
     document.body.appendChild(p);
     up.hello(p);
   }
+  // The sidebar stays as the user left it - open or not, its activities shown
+  // or not - while the board reloads under it, as WeKan's does: kept for the tab.
+  function sidebarState(key, value) {
+    try {
+      if (value === undefined) return sessionStorage.getItem('weddy-sidebar-' + key) === '1';
+      sessionStorage.setItem('weddy-sidebar-' + key, value ? '1' : '0');
+    } catch (e) { /* no storage: the sidebar just closes on reload */ }
+    return false;
+  }
   up.on('click', '.js-toggle-page-sidebar', function (event) {
     event.preventDefault();
     var sb = document.querySelector('.board-sidebar');
-    if (sb) sb.classList.toggle('is-open');
+    if (sb) sidebarState('open', sb.classList.toggle('is-open'));
   });
   up.on('click', '.js-close-sidebar', function (event, el) {
     event.preventDefault();
     el.closest('.board-sidebar').classList.remove('is-open');
+    sidebarState('open', false);
   });
   up.on('click', '.js-open-board-menu', function (event) {
     event.preventDefault();
@@ -107,6 +117,14 @@
     var section = el.nextElementSibling;
     if (!section) return;
     var open = section.classList.toggle('is-hidden') === false;
+    if (el.classList.contains('js-toggle-show-activities')) sidebarState('activities', open);
+    // What is shown on demand is put on the page the first time it opens.
+    var stamp = open && section.querySelector(':scope > template.js-stamp-on-open');
+    if (stamp) {
+      section.appendChild(stamp.content.cloneNode(true));
+      stamp.remove();
+      up.hello(section);
+    }
     var caret = el.querySelector('.fa-caret-right, .fa-caret-down');
     if (caret) {
       caret.classList.toggle('fa-caret-down', open);
@@ -208,7 +226,6 @@
     event.preventDefault();
     openPopOver('remove-member-' + el.dataset.user);
   });
-  up.on('submit', '.js-pop-over form[action$="/remove"]', function () { keepSidebarOpen = true; });
   up.on('click', '.js-manage-board-members', function (event) {
     event.preventDefault();
     openPopOver('add-member');
@@ -216,13 +233,10 @@
     if (input) input.focus();
   });
   var memberSearch = null;
-  // The sidebar stays open across the board's reload after a member change.
-  var keepSidebarOpen = false;
   up.compiler('.board-sidebar', function (sb) {
-    if (keepSidebarOpen) {
-      sb.classList.add('is-open');
-      keepSidebarOpen = false;
-    }
+    if (sidebarState('open')) sb.classList.add('is-open');
+    var toggle = sb.querySelector('.js-toggle-show-activities');
+    if (toggle && sidebarState('activities') && toggle.nextElementSibling.classList.contains('is-hidden')) toggle.click();
   });
   up.on('input', '.js-search-member-input', function (event, input) {
     clearTimeout(memberSearch);
@@ -260,7 +274,7 @@
     var form = new FormData();
     form.append('userId', el.dataset.user);
     fetch('/b/' + board.dataset.board + '/members', { method: 'POST', body: form, credentials: 'same-origin' })
-      .then(function () { closePopOvers(); keepSidebarOpen = true; up.reload('.board-wrapper'); });
+      .then(function () { closePopOvers(); up.reload('.board-wrapper'); });
   });
 
   // The card's actions menu (cardDetailsActionsPopup) and Archive's confirmation.

@@ -7,6 +7,7 @@
   "activity-added": "ha agregá %s na %s",
   "activity-archived": "%s se ha archibado",
   "activity-attached": "ha adhuntado %s na %s",
+  "activity-changedTitle": "cambió e título na %s di %s",
   "activity-checklist-added": "ha agregado un lista di chèk na %s",
   "activity-checklist-item-added": "ha agregado e elemento di e lista di chèk na '%s' den %s",
   "activity-checklist-removed": "eliminada un lista di chèk desde %s",

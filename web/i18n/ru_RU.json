@@ -7,6 +7,7 @@
   "activity-added": "добавил %s на %s",
   "activity-archived": "%s теперь в Архиве",
   "activity-attached": "прикрепил %s к %s",
+  "activity-changedTitle": "изменил(а) название на %s у %s",
   "activity-checklist-added": "добавил контрольный список в %s",
   "activity-checklist-item-added": "добавил пункт в контрольный список '%s' в карточке %s",
   "activity-checklist-removed": "удалил контрольный список из %s",

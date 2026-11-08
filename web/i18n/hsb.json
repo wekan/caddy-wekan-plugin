@@ -7,6 +7,7 @@
   "activity-added": "je %s k %s přidał/a",
   "activity-archived": "%s je so do archiwa přesunył/a",
   "activity-attached": "je %s k %s připowěsnył/a",
+  "activity-changedTitle": "je titul karty %s na %s změnił/a",
   "activity-checklist-added": "je kontrolnu lisćinu k %s přidał/a",
   "activity-checklist-item-added": "je zapisk kontrolneje lisćiny do '%s' w %s přidał/a",
   "activity-checklist-removed": "je kontrolnu lisćinu z %s wotstronił/a",

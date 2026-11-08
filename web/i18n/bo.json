@@ -7,6 +7,7 @@
   "activity-added": "%s ལ་ %s ཁ་སྣོན་བྱས།",
   "activity-archived": "%s ཡིག་མཛོད་དུ་སྤོས།",
   "activity-attached": "%s ལ་ %s ཟུར་སྦྱར་བྱས།",
+  "activity-changedTitle": "%s ཡི་ཁ་བྱང་ %s ལ་བསྒྱུར།",
   "activity-checklist-added": "%s ལ་ཞིབ་བཤེར་ཐོ་ཁ་སྣོན་བྱས།",
   "activity-checklist-item-added": "%s ནང་གི་ '%s' ལ་ཞིབ་བཤེར་དོན་ཚན་ཁ་སྣོན་བྱས།",
   "activity-checklist-removed": "%s ནས་ཞིབ་བཤེར་ཐོ་ཞིག་བསུབས།",

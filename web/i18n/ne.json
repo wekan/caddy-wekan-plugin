@@ -7,6 +7,7 @@
   "activity-added": "%s लाई %s मा थप्यो",
   "activity-archived": "%s लाई अभिलेखमा सारियो",
   "activity-attached": "%s लाई %s मा संलग्न गर्‍यो",
+  "activity-changedTitle": "%s को शीर्षक %s मा परिवर्तन गर्‍यो",
   "activity-checklist-added": "%s मा जाँचसूची थप्यो",
   "activity-checklist-item-added": "%s मा रहेको '%s' मा जाँचसूची वस्तु थप्यो",
   "activity-checklist-removed": "%s बाट जाँचसूची हटायो",

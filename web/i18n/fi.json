@@ -7,6 +7,7 @@
   "activity-added": "lisätty %s kohteeseen %s",
   "activity-archived": "%s siirretty Arkistoon",
   "activity-attached": "liitetty %s kohteeseen %s",
+  "activity-changedTitle": "muokkasi otsikoksi %s / %s",
   "activity-checklist-added": "lisätty tarkistuslista kortille %s",
   "activity-checklist-item-added": "lisäsi kohdan tarkistuslistaan '%s' kortilla %s",
   "activity-checklist-removed": "poistettu tarkistuslista kohteesta %s",

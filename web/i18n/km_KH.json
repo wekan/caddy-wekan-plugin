@@ -7,6 +7,7 @@
   "activity-added": "បានបន្ថែម %s ទៅ %s",
   "activity-archived": "%s បានផ្លាស់ទីទៅបណ្ណសារ",
   "activity-attached": "ភ្ជាប់ %s ទៅ %s",
+  "activity-changedTitle": "បានប្តូរចំណងជើងទៅ %s នៃ %s",
   "activity-checklist-added": "បានបន្ថែមបញ្ជីត្រួតពិនិត្យទៅ %s",
   "activity-checklist-item-added": "បានបន្ថែមធាតុបញ្ជីត្រួតពិនិត្យទៅ '%s' នៅក្នុង %s",
   "activity-checklist-removed": "បានលុបបញ្ជីត្រួតពិនិត្យចេញពី %s",

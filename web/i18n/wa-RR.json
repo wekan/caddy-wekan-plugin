@@ -7,6 +7,7 @@
   "activity-added": "gindugang an %s ha %s",
   "activity-archived": "%s ginbalhin ngadto ha Arkibo",
   "activity-attached": "gin-attach an %s ha %s",
+  "activity-changedTitle": "ginliwat an titulo ngadto ha %s han %s",
   "activity-checklist-added": "gindugang an checklist ha %s",
   "activity-checklist-item-added": "gindugang an item han checklist ha '%s' ha %s",
   "activity-checklist-removed": "gintangtang an checklist tikang ha %s",

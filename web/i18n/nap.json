@@ -7,6 +7,7 @@
   "activity-added": "ha aggiunto %s a %s",
   "activity-archived": "%s spustato dint'a ll'archivio",
   "activity-attached": "allegato %s a %s",
+  "activity-changedTitle": "tìtulo cagnato in %s di %s",
   "activity-checklist-added": "ha aggiunto 'na lista 'e cuntrollo a %s",
   "activity-checklist-item-added": "ha aggiunto 'n elemento d'a lista 'e cuntrollo a '%s' dint'a %s",
   "activity-checklist-removed": "ha levato 'na lista 'e cuntrollo da %s",

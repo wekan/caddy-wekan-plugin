@@ -7,6 +7,7 @@
   "activity-added": "wuxuu %s ku daray %s",
   "activity-archived": "%s waxaa loo raray Kaydka",
   "activity-attached": "wuxuu %s ku lifaaqay %s",
+  "activity-changedTitle": "wuxuu cinwaanka u beddelay %s ee %s",
   "activity-checklist-added": "wuxuu liis hubin ku daray %s",
   "activity-checklist-item-added": "wuxuu qodob liis hubin ku daray '%s' ee %s",
   "activity-checklist-removed": "wuxuu liis hubin ka saaray %s",

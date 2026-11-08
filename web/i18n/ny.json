@@ -7,6 +7,7 @@
   "activity-added": "anawonjezera %s ku %s",
   "activity-archived": "%s yasamutsidwa ku Zosungidwa",
   "activity-attached": "analumikiza %s ku %s",
+  "activity-changedTitle": "anasintha mutu kukhala %s wa %s",
   "activity-checklist-added": "anawonjezera mndandanda wowunika ku %s",
   "activity-checklist-item-added": "anawonjezera chinthu cha mndandanda wowunika ku '%s' mu %s",
   "activity-checklist-removed": "anachotsa mndandanda wowunika pa %s",

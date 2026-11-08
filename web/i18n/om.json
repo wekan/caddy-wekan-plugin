@@ -7,6 +7,7 @@
   "activity-added": "%s gara %s dabale",
   "activity-archived": "%s gara Kuusaa siqse",
   "activity-attached": "%s %s irratti maxxanse",
+  "activity-changedTitle": "mata-duree %s kan %s jijjiire",
   "activity-checklist-added": "tarree qorannoo gara %s dabale",
   "activity-checklist-item-added": "wanta tarree qorannoo gara '%s' keessatti %s dabale",
   "activity-checklist-removed": "tarree qorannoo %s irraa haqe",

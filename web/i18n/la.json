@@ -7,6 +7,7 @@
   "activity-added": "addidit %s ad %s",
   "activity-archived": "%s ad archivum translatum est",
   "activity-attached": "adiunxit %s ad %s",
+  "activity-changedTitle": "titulum mutavit in %s rei %s",
   "activity-checklist-added": "indicem probationis addidit ad %s",
   "activity-checklist-item-added": "rem addidit indici probationis '%s' in %s",
   "activity-checklist-removed": "indicem probationis removit ex %s",

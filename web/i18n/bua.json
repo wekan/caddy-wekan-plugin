@@ -7,6 +7,7 @@
   "activity-added": "%s-ые %s-да нэмээ",
   "activity-archived": "%s Архивта зөөгдөө",
   "activity-attached": "%s-ые %s-да хабсаргаа",
+  "activity-changedTitle": "%s-ай гаршагые %s болгожо һэлгээ",
   "activity-checklist-added": "%s-да шалгалтын жагсаал нэмээ",
   "activity-checklist-item-added": "%s дахь '%s' шалгалтын жагсаалда зүйл нэмээ",
   "activity-checklist-removed": "%s-һаа шалгалтын жагсаал абаа",

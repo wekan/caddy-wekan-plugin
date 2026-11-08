@@ -7,6 +7,7 @@
   "activity-added": "%s farala %s kan",
   "activity-archived": "%s taara marayɔrɔ la",
   "activity-attached": "%s dilanna %s la",
+  "activity-changedTitle": "tɔgɔ yɛlɛmana ka kɛ %s ye %s la",
   "activity-checklist-added": "lajɛli lisiti farala %s kan",
   "activity-checklist-item-added": "lajɛli lisiti fɛn farala '%s' kan %s la",
   "activity-checklist-removed": "lajɛli lisiti bɔra %s la",

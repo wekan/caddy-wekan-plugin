@@ -7,6 +7,7 @@
   "activity-added": "tilføjede %s til %s",
   "activity-archived": "%s flyttet til Arkiv",
   "activity-attached": "vedhæftede %s til %s",
+  "activity-changedTitle": "ændrede titel til %s af %s",
   "activity-checklist-added": "tilføjede tjeklisten til %s",
   "activity-checklist-item-added": "tilføjede element i tjekliste til '%s' i %s",
   "activity-checklist-removed": "fjernede en tjekliste fra %s",

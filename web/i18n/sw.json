@@ -7,6 +7,7 @@
   "activity-added": "imeongezwa %s kwa %s",
   "activity-archived": "%s imehamishwa hadi kwenye Kumbukumbu",
   "activity-attached": "imeambatishwa %s kwa %s",
+  "activity-changedTitle": "kichwa kilibadilishwa kuwa %s cha %s",
   "activity-checklist-added": "imeongeza orodha tiki kwa %s",
   "activity-checklist-item-added": "aliongeza bidhaa ya orodha tiki kwa '%s' katika %s",
   "activity-checklist-removed": "ameondoa orodha tiki kutoka kwa %s",

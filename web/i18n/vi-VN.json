@@ -7,6 +7,7 @@
   "activity-added": "đã thêm %s vào %s",
   "activity-archived": "đã chuyển %s đến Lưu trữ",
   "activity-attached": "đã đính kèm %s vào %s",
+  "activity-changedTitle": "đã đổi tiêu đề thành %s của %s",
   "activity-checklist-added": "đã thêm checklist vào %s",
   "activity-checklist-item-added": "đã thêm mục checklist vào '%s' trong %s",
   "activity-checklist-removed": "đã xóa một checklist từ %s",

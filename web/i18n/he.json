@@ -7,6 +7,7 @@
   "activity-added": "%s נוסף ל%s",
   "activity-archived": "%s הועבר לארכיון",
   "activity-attached": "%s צורף ל%s",
+  "activity-changedTitle": "הכותרת השתנתה מ־%s ל־%s",
   "activity-checklist-added": "נוספה רשימת משימות אל %s",
   "activity-checklist-item-added": "נוסף פריט רשימת משימות אל ‚%s‘ תחת %s",
   "activity-checklist-removed": "הוסרה רשימת משימות מ־%s",

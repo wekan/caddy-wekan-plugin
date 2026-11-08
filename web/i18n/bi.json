@@ -7,6 +7,7 @@
   "activity-added": "adem finis %s long %s",
   "activity-archived": "%s movem finis long Akaev",
   "activity-attached": "joenem finis %s long %s",
+  "activity-changedTitle": "jenisim finis taetol long %s blong %s",
   "activity-checklist-added": "adem finis jeklis long %s",
   "activity-checklist-item-added": "adem finis samting long jeklis '%s' insaed long %s",
   "activity-checklist-removed": "tekemaot finis wan jeklis long %s",

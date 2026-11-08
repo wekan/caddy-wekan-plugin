@@ -7,6 +7,7 @@
   "activity-added": "%s, %s වෙත එක් කළේය",
   "activity-archived": "%s සංරක්ෂිතයට ගෙන ගියේය",
   "activity-attached": "%s, %s වෙත ඇමුණුවේය",
+  "activity-changedTitle": "%s හි මාතෘකාව %s ලෙස වෙනස් කළේය",
   "activity-checklist-added": "%s වෙත පිරික්සුම් ලැයිස්තුවක් එක් කළේය",
   "activity-checklist-item-added": "'%s' වෙත %s හි පිරික්සුම් ලැයිස්තු අයිතමයක් එක් කළේය",
   "activity-checklist-removed": "%s වෙතින් පිරික්සුම් ලැයිස්තුවක් ඉවත් කළේය",

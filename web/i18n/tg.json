@@ -7,6 +7,7 @@
   "activity-added": "%s-ро ба %s илова кард",
   "activity-archived": "%s-ро ба Бойгонӣ кӯчонд",
   "activity-attached": "%s-ро ба %s замима кард",
+  "activity-changedTitle": "унвонро ба %s аз %s тағйир дод",
   "activity-checklist-added": "ба %s рӯйхати санҷиш илова кард",
   "activity-checklist-item-added": "ба '%s' дар %s банди рӯйхати санҷиш илова кард",
   "activity-checklist-removed": "рӯйхати санҷишро аз %s дур кард",

@@ -7,6 +7,7 @@
   "activity-added": "het %s by %s gevoeg",
   "activity-archived": "%s na Argief geskuif",
   "activity-attached": "%s aan %s geheg",
+  "activity-changedTitle": "het titel na %s van %s verander",
   "activity-checklist-added": "het kontrolelys by %s gevoeg",
   "activity-checklist-item-added": "het kontrolelysitem bygevoeg by '%s' in %s",
   "activity-checklist-removed": "verwyder 'n kontrolelys van %s",

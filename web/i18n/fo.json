@@ -7,6 +7,7 @@
   "activity-added": "legði %s afturat %s",
   "activity-archived": "flutti %s í goymslu",
   "activity-attached": "hefti %s við %s",
+  "activity-changedTitle": "broytti heitið til %s hjá %s",
   "activity-checklist-added": "legði kanningarlista afturat %s",
   "activity-checklist-item-added": "legði kanningarlistalut afturat '%s' í %s",
   "activity-checklist-removed": "tók ein kanningarlista av %s",

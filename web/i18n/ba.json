@@ -7,6 +7,7 @@
   "activity-added": "%s-те %s-кә өҫтәне",
   "activity-archived": "%s архивҡа күсерелде",
   "activity-attached": "%s-те %s-кә ҡушты",
+  "activity-changedTitle": "%s өсөн атаманы %s итеп үҙгәртте",
   "activity-checklist-added": "%s өсөн тикшереү исемлеген өҫтәне",
   "activity-checklist-item-added": "'%s' эсенә %s өсөн тикшереү пунктын өҫтәне",
   "activity-checklist-removed": "%s эсенән тикшереү исемлеген алып ташланы",

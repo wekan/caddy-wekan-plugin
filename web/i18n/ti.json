@@ -7,6 +7,7 @@
   "activity-added": "%s ናብ %s ወሲኹ",
   "activity-archived": "%s ናብ መዝገብ ተዛዊሩ",
   "activity-attached": "%s ናብ %s ኣተሓሒዙ",
+  "activity-changedTitle": "ኣርእስቲ %s ናይ %s ቀይሩ",
   "activity-checklist-added": "ዝርዝር መረጋገጺ ናብ %s ወሲኹ",
   "activity-checklist-item-added": "ነጥቢ ዝርዝር መረጋገጺ ናብ '%s' ኣብ %s ወሲኹ",
   "activity-checklist-removed": "ዝርዝር መረጋገጺ ካብ %s ኣውጺኡ",

@@ -7,6 +7,7 @@
   "activity-added": "%s элементин %s ичине кошту",
   "activity-archived": "%s Архивге жылдырылды",
   "activity-attached": "%s элементин %s ичине тиркеди",
+  "activity-changedTitle": "%s ичиндеги аталышты %s кылып өзгөрттү",
   "activity-checklist-added": "%s ичине текшерүү тизмесин кошту",
   "activity-checklist-item-added": "'%s' текшерүү тизмесине %s ичинде пункт кошту",
   "activity-checklist-removed": "%s ичинен текшерүү тизмесин алып салды",

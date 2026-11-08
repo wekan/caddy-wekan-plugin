@@ -7,6 +7,7 @@
   "activity-added": "تمت إضافة %s ل %s",
   "activity-archived": "%s انتقل الى الارشيف",
   "activity-attached": "إرفاق %s ل %s",
+  "activity-changedTitle": "غيّر العنوان إلى %s الخاص بـ %s",
   "activity-checklist-added": "أضاف قائمة تحقق إلى %s",
   "activity-checklist-item-added": "تم اضافة عنصر قائمة التحقق الى '%s' في %s",
   "activity-checklist-removed": "ازالة قائمة التحقق من %s",

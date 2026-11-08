@@ -7,6 +7,7 @@
   "activity-added": "dodao/la je %s u %s",
   "activity-archived": "%s prebačen je u Arhivu",
   "activity-attached": "dodao/la je %s u %s",
+  "activity-changedTitle": "promijenio naslov u %s od %s",
   "activity-checklist-added": "dodana lista provjere u %s",
   "activity-checklist-item-added": "dodana stavka '%s' u %s",
   "activity-checklist-removed": "uklonjena lista provjere iz %s",

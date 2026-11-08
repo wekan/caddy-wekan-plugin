@@ -7,6 +7,7 @@
   "activity-added": "o engedza %s kha %s",
   "activity-archived": "%s yo iswa fhethu ha u vhulunga",
   "activity-attached": "o ṱumetshedza %s kha %s",
+  "activity-changedTitle": "o shandula thero ya %s ya %s",
   "activity-checklist-added": "o engedza mutevhe wa u sedza kha %s",
   "activity-checklist-item-added": "o engedza tshithu kha mutevhe wa u sedza '%s' kha %s",
   "activity-checklist-removed": "o susa mutevhe wa u sedza kha %s",

@@ -7,6 +7,7 @@
   "activity-added": "à ajontà %s a %s",
   "activity-archived": "%s ie stat spostà tl archif",
   "activity-attached": "à injunt %s a %s",
+  "activity-changedTitle": "à mudà l titul a %s de %s",
   "activity-checklist-added": "à ajontà na lista de control a %s",
   "activity-checklist-item-added": "à ajontà n element de la lista de control a '%s' te %s",
   "activity-checklist-removed": "à cavà na lista de control da %s",

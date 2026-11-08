@@ -7,6 +7,7 @@
   "activity-added": "%s ናብ %s ወሰከ",
   "activity-archived": "%s ናብ መዕቀቢ ተወስደ",
   "activity-attached": "%s ናብ %s ኣለጠፈ",
+  "activity-changedTitle": "ኣርእስት %s ናብ %s ቀየረ",
   "activity-checklist-added": "ናይ ምርመራ ዝርዝር ናብ %s ወሰከ",
   "activity-checklist-item-added": "ነገር ናይ ምርመራ ዝርዝር ናብ '%s' ኣብ %s ወሰከ",
   "activity-checklist-removed": "ናይ ምርመራ ዝርዝር ካብ %s ኣውጽአ",

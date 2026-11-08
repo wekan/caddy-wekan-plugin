@@ -7,6 +7,7 @@
   "activity-added": "%s نی %s گه قۉشدی",
   "activity-archived": "%s ارخیوگه کۉچیریلدی",
   "activity-attached": "%s نی %s گه بیریکتیر‌دی",
+  "activity-changedTitle": "عنوان %s گه اۉزگرتیریلدی — %s",
   "activity-checklist-added": "%s گه تیکشیروو رۉیختی قۉشدی",
   "activity-checklist-item-added": "«%s» تیکشیروو رۉیختیگه ایلیمینت قۉشدی؛ تیگیشلی کارت: %s",
   "activity-checklist-removed": "%s دن تیکشیروو رۉیختینی آلیب تشله‌دی",

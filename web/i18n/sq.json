@@ -7,6 +7,7 @@
   "activity-added": "shtoi %s te %s",
   "activity-archived": "%s u zhvendos në Arkiv",
   "activity-attached": "bashkëngjiti %s te %s",
+  "activity-changedTitle": "ndryshoi titullin në %s të %s",
   "activity-checklist-added": "shtoi listë kontrolli te %s",
   "activity-checklist-item-added": "shtoi element liste kontrolli te '%s' në %s",
   "activity-checklist-removed": "hoqi një listë kontrolli nga %s",

@@ -7,6 +7,7 @@
   "activity-added": "%s %s bolla gujjiis",
   "activity-archived": "%s naago sohuwaa efettiis",
   "activity-attached": "%s %s bolla gattiis",
+  "activity-changedTitle": "laammiis huuphe sunttaa kko %s iya %s",
   "activity-checklist-added": "%s bolla paacciya mazgabaa gujjiis",
   "activity-checklist-item-added": "%s giddon '%s' paacciya mazgabaa giddo miishshaa gujjiis",
   "activity-checklist-removed": "%s bollaappe paacciya mazgabaa diggiis",

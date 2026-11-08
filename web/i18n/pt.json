@@ -7,6 +7,7 @@
   "activity-added": "adicionou %s a %s",
   "activity-archived": "%s foi movido para o Arquivo",
   "activity-attached": "anexou %s a %s",
+  "activity-changedTitle": "alterou o título para %s de %s",
   "activity-checklist-added": "adicionou a lista de verificação a %s",
   "activity-checklist-item-added": "adicionou o item a '%s' em %s",
   "activity-checklist-removed": "removeu a lista de verificação de %s",

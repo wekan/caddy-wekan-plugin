@@ -7,6 +7,7 @@
   "activity-added": "chuir e %s ri %s",
   "activity-archived": "chaidh %s a ghluasad dhan Tasglann",
   "activity-attached": "cheangail e %s ri %s",
+  "activity-changedTitle": "dh'atharraich an tiotal gu %s de %s",
   "activity-checklist-added": "chuir e liosta-sgrùdaidh ri %s",
   "activity-checklist-item-added": "chuir e nì liosta-sgrùdaidh ri '%s' ann an %s",
   "activity-checklist-removed": "thug e liosta-sgrùdaidh far %s",

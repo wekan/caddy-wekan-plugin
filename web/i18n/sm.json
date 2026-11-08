@@ -7,6 +7,7 @@
   "activity-added": "faaopoopo %s i le %s",
   "activity-archived": "sii %s i le teuina",
   "activity-attached": "faapipii %s i le %s",
+  "activity-changedTitle": "suia le ulutala o %s i le %s",
   "activity-checklist-added": "faaopoopo se lisi siaki i le %s",
   "activity-checklist-item-added": "faaopoopo se mea o le lisi siaki i le '%s' i le %s",
   "activity-checklist-removed": "aveese se lisi siaki mai le %s",

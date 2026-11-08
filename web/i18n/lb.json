@@ -7,6 +7,7 @@
   "activity-added": "huet %s zu %s derbäigesat",
   "activity-archived": "huet %s an den Archiv verréckelt",
   "activity-attached": "huet %s un %s angehängt",
+  "activity-changedTitle": "huet Titel zu %sgeännert op %s",
   "activity-checklist-added": "huet eng Checklëscht zu %s derbäigesat",
   "activity-checklist-item-added": "huet een Checklëschtenelement zu '%s' in %s derbäigesat",
   "activity-checklist-removed": "entfernte eng Checklëscht vun %s",

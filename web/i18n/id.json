@@ -7,6 +7,7 @@
   "activity-added": "ditambahkan %s ke %s",
   "activity-archived": "%s dipindah ke arsip",
   "activity-attached": "dilampirkan %s ke %s",
+  "activity-changedTitle": "mengubah judul menjadi %s dari %s",
   "activity-checklist-added": "daftar periksa ditambahkan ke %s",
   "activity-checklist-item-added": "menambahkan item checklist ke '%s' di %s",
   "activity-checklist-removed": "menghapus sebuah checklist dari %s",

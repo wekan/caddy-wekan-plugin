@@ -7,6 +7,7 @@
   "activity-added": "%s ᐃᓚᒋᐊᖅᑕᐅᔪᖅ %s-ᒧᑦ",
   "activity-archived": "%s ᑐᖅᑯᖅᑕᐅᔪᖅ",
   "activity-attached": "%s ᐱᑕᖃᑎᒋᐊᖅᑕᐅᔪᖅ %s-ᒧᑦ",
+  "activity-changedTitle": "ᑕᐃᒎᓯᖓ %s-ᒧᑦ ᐊᓯᔾᔨᖅᑕᐅᔪᖅ %s-ᒥ",
   "activity-checklist-added": "ᓇᓗᓇᐃᖅᓯᕕᒃ %s-ᒧᑦ ᐃᓚᒋᐊᖅᑕᐅᔪᖅ",
   "activity-checklist-item-added": "ᓇᓗᓇᐃᖅᓯᕕᐅᑉ ᐃᓚᖓ '%s'-ᒧᑦ ᐃᓚᒋᐊᖅᑕᐅᔪᖅ %s-ᒥ",
   "activity-checklist-removed": "ᓇᓗᓇᐃᖅᓯᕕᒃ %s-ᒥᑦ ᐲᖅᑕᐅᔪᖅ",

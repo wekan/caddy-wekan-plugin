@@ -7,6 +7,7 @@
   "activity-added": "yongeyeko %s kuri %s",
   "activity-archived": "%s yajanywe mu bubiko",
   "activity-attached": "yometse %s kuri %s",
+  "activity-changedTitle": "yahinduye umutwe uba %s wa %s",
   "activity-checklist-added": "yongeyeko urutonde rwo kugenzura kuri %s",
   "activity-checklist-item-added": "yongeyeko ikintu ku rutonde rwo kugenzura '%s' muri %s",
   "activity-checklist-removed": "yakuye urutonde rwo kugenzura kuri %s",

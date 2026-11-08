@@ -7,6 +7,7 @@
   "activity-added": "elüükon eli %s lü %s",
   "activity-archived": "%s petopätükon lü ragiv",
   "activity-attached": "efimükon eli %s len %s",
+  "activity-changedTitle": "evotükon tiädi al %s ela %s",
   "activity-checklist-added": "elüükon kontrolalisedi lü %s",
   "activity-checklist-item-added": "elüükon noteti lü kontrolalised '%s' in %s",
   "activity-checklist-removed": "emoükon kontrolalisedi de %s",

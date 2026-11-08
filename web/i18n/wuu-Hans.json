@@ -7,6 +7,7 @@
   "activity-added": "拿 %s 加到 %s 仔",
   "activity-archived": "%s 移到归档里向仔",
   "activity-attached": "拿 %s 附加到 %s 仔",
+  "activity-changedTitle": "标题改成 %s 仔，所属项目是 %s",
   "activity-checklist-added": "畀 %s 加检查清单仔",
   "activity-checklist-item-added": "畀 '%s' 加清单项目仔，勒 %s 里向",
   "activity-checklist-removed": "从 %s 移脱一份检查清单仔",

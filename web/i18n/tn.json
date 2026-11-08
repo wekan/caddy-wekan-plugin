@@ -7,6 +7,7 @@
   "activity-added": "tsentse %s mo go %s",
   "activity-archived": "%s e isitswe kwa polokelong",
   "activity-attached": "gokeletse %s mo go %s",
+  "activity-changedTitle": "fetotse setlhogo go %s sa %s",
   "activity-checklist-added": "tsentse lenaane la tlhatlhobo mo go %s",
   "activity-checklist-item-added": "tsentse ntlha ya lenaane la tlhatlhobo mo go '%s' mo go %s",
   "activity-checklist-removed": "tlositse lenaane la tlhatlhobo mo go %s",

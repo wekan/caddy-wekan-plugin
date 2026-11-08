@@ -7,6 +7,7 @@
   "activity-added": "oquicaquiti %s ipan %s",
   "activity-archived": "%s ocuicac pixcalco",
   "activity-attached": "oquinamicti %s ica %s",
+  "activity-changedTitle": "oquipatla itocayo %s ipan %s",
   "activity-checklist-added": "oquicaquiti tlanextiliztocatlahtolli ipan %s",
   "activity-checklist-item-added": "oquicaquiti tlamantli ipan '%s' itech %s",
   "activity-checklist-removed": "oquiquixti ce tlanextiliztocatlahtolli ipan %s",

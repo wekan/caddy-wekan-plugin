@@ -7,6 +7,7 @@
   "activity-added": "cur %s da %s",
   "activity-archived": "%s er ny ghleashaghey gys y tashtey",
   "activity-attached": "chiangle %s rish %s",
+  "activity-changedTitle": "ren eh yn ennym y chaghlaa gys %s jeh %s",
   "activity-checklist-added": "cur rolley scrutaghey da %s",
   "activity-checklist-item-added": "cur nhee rolley scrutaghey da '%s' ayns %s",
   "activity-checklist-removed": "gow rolley scrutaghey jeh %s",

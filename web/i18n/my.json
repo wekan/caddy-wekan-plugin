@@ -7,6 +7,7 @@
   "activity-added": "%s ကို %s သို့ ထည့်ခဲ့သည်",
   "activity-archived": "%s ကို မှတ်တမ်းသို့ ရွှေ့ခဲ့သည်",
   "activity-attached": "%s ကို %s သို့ ပူးတွဲခဲ့သည်",
+  "activity-changedTitle": "ခေါင်းစဉ်ကို %s ၏ %s သို့ ပြောင်းခဲ့သည်",
   "activity-checklist-added": "%s သို့ စစ်ဆေးစာရင်း ထည့်ခဲ့သည်",
   "activity-checklist-item-added": "%s ရှိ '%s' သို့ စစ်ဆေးစာရင်းအချက် ထည့်ခဲ့သည်",
   "activity-checklist-removed": "%s မှ စစ်ဆေးစာရင်းတစ်ခုကို ဖယ်ရှားခဲ့သည်",

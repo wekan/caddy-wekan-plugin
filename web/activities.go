@@ -8,6 +8,7 @@ import (
 	"context"
 	"errors"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
+	"html/template"
 	"slices"
 	"strings"
 	"time"
@@ -44,8 +45,9 @@ func (s *Server) titleOfID(ctx context.Context, coll, id string) string {
 // activityRow is an activity as the pages show it: WeKan's
 // client/components/activities/activities.jade, its words in the reader's language.
 type activityRow struct {
-	ID, User, Text string
-	At             time.Time
+	ID, User string
+	Text     template.HTML // escaped, but for a text shown by the viewer
+	At       time.Time
 }
 
 // ISO is the time for a <time datetime>; Display what a reader sees.
@@ -53,6 +55,20 @@ func (a activityRow) ISO() string     { return a.At.UTC().Format(time.RFC3339) }
 func (a activityRow) Display() string { return a.At.Local().Format("2006-01-02 15:04") }
 
 // fillMessage puts args into a translation's %s, in order.
+// htmlMessage is a translated sentence with its %s filled in order: the
+// sentence escaped, each argument already HTML. A missing one leaves nothing.
+func htmlMessage(text string, args ...template.HTML) template.HTML {
+	parts := strings.Split(text, "%s")
+	var b strings.Builder
+	for i, p := range parts {
+		b.WriteString(template.HTMLEscapeString(p))
+		if i < len(parts)-1 && i < len(args) {
+			b.WriteString(string(args[i]))
+		}
+	}
+	return template.HTML(b.String())
+}
+
 func fillMessage(text string, args ...string) string {
 	for _, a := range args {
 		text = strings.Replace(text, "%s", a, 1)
@@ -69,6 +85,7 @@ func (s *Server) activityRows(ctx context.Context, b *Board, filter bson.M, lang
 	var docs []bson.M
 	_ = cur.All(ctx, &docs)
 	cache := map[string]string{}
+	policy := s.textPolicy(ctx)
 	title := func(coll string, id any) string {
 		sid, _ := id.(string)
 		if sid == "" {
@@ -103,7 +120,11 @@ func (s *Server) activityRows(ctx context.Context, b *Board, filter bson.M, lang
 		checklist := title("checklists", a["checklistId"])
 		var key string
 		var args []string
+		var shown template.HTML // a text the viewer shows, in place of args[0]
 		switch str("activityType") {
+		case "a-changedTitle":
+			key, args = msg("activity-changedTitle"), []string{"", card}
+			shown = viewer(str("value"), policy)
 		case "createBoard":
 			key, args = msg("activity-created"), []string{board}
 		case "importBoard":
@@ -155,7 +176,14 @@ func (s *Server) activityRows(ctx context.Context, b *Board, filter bson.M, lang
 		}
 		at, _ := a["createdAt"].(bson.DateTime)
 		id, _ := a["_id"].(string)
-		out = append(out, activityRow{ID: id, User: title("users", a["userId"]), Text: fillMessage(tr(lang, key), args...), At: at.Time()})
+		html := make([]template.HTML, len(args))
+		for i, x := range args {
+			html[i] = template.HTML(template.HTMLEscapeString(x))
+		}
+		if shown != "" && len(html) > 0 {
+			html[0] = shown
+		}
+		out = append(out, activityRow{ID: id, User: title("users", a["userId"]), Text: htmlMessage(tr(lang, key), html...), At: at.Time()})
 	}
 	return out
 }

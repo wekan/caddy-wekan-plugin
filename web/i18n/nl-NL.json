@@ -7,6 +7,7 @@
   "activity-added": "%s toegevoegd aan %s",
   "activity-archived": "%s verplaatst naar Archief",
   "activity-attached": "%s bijgevoegd aan %s",
+  "activity-changedTitle": "titel gewijzigd naar %s van %s",
   "activity-checklist-added": "checklist toegevoegd aan %s",
   "activity-checklist-item-added": "checklist item toegevoegd aan '%s' in '%s'",
   "activity-checklist-removed": "checklist verwijderd van %s",

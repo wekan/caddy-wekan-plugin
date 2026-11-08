@@ -7,6 +7,7 @@
   "activity-added": "ga zontà %s a %s",
   "activity-archived": "%s spostà inte el archivio",
   "activity-attached": "ga ałegà %s a %s",
+  "activity-changedTitle": "ga canbià el tìtoło in %s de %s",
   "activity-checklist-added": "zontà na lista de controło a %s",
   "activity-checklist-item-added": "zontà na voze a ła lista de controło '%s' inte %s",
   "activity-checklist-removed": "cavà na lista de controło da %s",

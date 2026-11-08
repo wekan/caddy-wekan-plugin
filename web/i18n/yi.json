@@ -7,6 +7,7 @@
   "activity-added": "צוגעגעבן %s צו %s",
   "activity-archived": "%s אריבערגעפארן צו אַרטשיווע",
   "activity-attached": "אַטאַטשט %s צו %s",
+  "activity-changedTitle": "געביטן טיטל צו %s פֿון %s",
   "activity-checklist-added": "צוגעגעבן טשעקליסט צו %s",
   "activity-checklist-item-added": "צוגעלייגט טשעקליסט נומער צו '%s' אין %s",
   "activity-checklist-removed": "אַוועקגענומען אַ טשעקליסט פון %s",

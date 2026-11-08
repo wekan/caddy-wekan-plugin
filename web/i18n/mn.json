@@ -7,6 +7,7 @@
   "activity-added": "%s-г %s-д нэмэв",
   "activity-archived": "%s архивт шилжүүлэгдэв",
   "activity-attached": "%s-г %s-д хавсаргав",
+  "activity-changedTitle": "%s болгож %s картын гарчгийг өөрчлөв",
   "activity-checklist-added": "%s-д шалгах хуудас нэмэв",
   "activity-checklist-item-added": "'%s' шалгах хуудсанд %s дотор зүйл нэмэв",
   "activity-checklist-removed": "%s-с шалгах хуудас хасав",

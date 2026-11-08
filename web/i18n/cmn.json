@@ -7,6 +7,7 @@
   "activity-added": "将%s 添加到%s",
   "activity-archived": "%s 移至存档",
   "activity-attached": "将 %s 附加到 %s",
+  "activity-changedTitle": "将 %s 的标题修改为 %s",
   "activity-checklist-added": "将清单添加到%s",
   "activity-checklist-item-added": "将清单项添加到%s 中的“%s”",
   "activity-checklist-removed": "从%s 中删除了清单",

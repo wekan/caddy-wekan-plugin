@@ -7,6 +7,7 @@
   "activity-added": "idinagdag %s sa %s",
   "activity-archived": "%s inilipat sa Arkibo",
   "activity-attached": "ikinabit %s sa %s",
+  "activity-changedTitle": "binago pamagat sa %s of %s",
   "activity-checklist-added": "idinagdag tsek-listahanahan sa %s",
   "activity-checklist-item-added": "idinagdag aytem ng tsek-listahanahan sa '%s' sa %s",
   "activity-checklist-removed": "inalis a tsek-listahanahan mula sa %s",

@@ -7,6 +7,7 @@
   "activity-added": "%s के %s में जोड़ल गइल",
   "activity-archived": "%s के संग्रह में भेजल गइल",
   "activity-attached": "%s के %s में संलग्न कइल गइल",
+  "activity-changedTitle": "%s के शीर्षक बदल के %s कइल गइल",
   "activity-checklist-added": "%s में जाँच-सूची जोड़ल गइल",
   "activity-checklist-item-added": "'%s' जाँच-सूची में %s पर मद जोड़ल गइल",
   "activity-checklist-removed": "%s से जाँच-सूची हटावल गइल",

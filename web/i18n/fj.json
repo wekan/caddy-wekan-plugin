@@ -7,6 +7,7 @@
   "activity-added": "kuria na %s ki na %s",
   "activity-archived": "toso na %s ki na ivola ni maroroi",
   "activity-attached": "semata na %s ki na %s",
+  "activity-changedTitle": "veisautaka na ulutaga me %s ni %s",
   "activity-checklist-added": "kuria na lisi ni vakadinadina ki na %s",
   "activity-checklist-item-added": "kuria na ka ni lisi ni vakadinadina ki na '%s' ena %s",
   "activity-checklist-removed": "kauta tani e dua na lisi ni vakadinadina mai na %s",

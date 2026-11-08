@@ -7,6 +7,7 @@
   "activity-added": "დამატებულია %s ზე %s",
   "activity-archived": "%s გადატანილია არქივში",
   "activity-attached": "მიბმულია %s  %s-დან",
+  "activity-changedTitle": "შეცვალა სათაური %s-ზე %s-ის",
   "activity-checklist-added": "დაემატა ჩამონათვალი %s-ს",
   "activity-checklist-item-added": "დამატებულია ჩამონათვალის ელემენტები '%s'  %s-ში",
   "activity-checklist-removed": "წაშალა სია აქედან: %s",

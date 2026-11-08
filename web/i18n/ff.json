@@ -7,6 +7,7 @@
   "activity-added": "ɓeydi %s e %s",
   "activity-archived": "%s egginaama e mooftirde",
   "activity-attached": "seŋi %s e %s",
+  "activity-changedTitle": "wayli tiitoonde wonde %s e %s",
   "activity-checklist-added": "ɓeydi doggol ƴeewndagol e %s",
   "activity-checklist-item-added": "ɓeydi huunde doggol ƴeewndagol e '%s' nder %s",
   "activity-checklist-removed": "momti doggol ƴeewndagol e %s",

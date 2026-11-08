@@ -7,6 +7,7 @@
   "activity-added": "新增 %s 到 %s",
   "activity-archived": "%s 已被移到封存",
   "activity-attached": "已新增附件 %s 到 %s",
+  "activity-changedTitle": "已將標題改為「%s」，原為「%s」",
   "activity-checklist-added": "已新增待辦清單 %s",
   "activity-checklist-item-added": "新增待辦清單項目從 %s 到 %s",
   "activity-checklist-removed": "已刪除%s的待辦清單",

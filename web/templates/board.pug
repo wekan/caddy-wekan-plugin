@@ -47,13 +47,15 @@
           i.fa.fa-caret-right
           i.fa.fa-comment-o
           |  {{t $.L "activities"}}
+        //- Shown on demand, as WeKan's: on the page once the list is opened.
         .activities.js-sidebar-activities.is-hidden
-          each act in .BoardActivities
-            .activity(data-id="{{.ID}}")
-              .activity-desc
-                span.activity-member {{.User}}
-                |  {{.Text}}
-              time.activity-time(datetime="{{.ISO}}") {{.Display}}
+          template.js-stamp-on-open
+            each act in .BoardActivities
+              .activity(data-id="{{.ID}}")
+                .activity-desc
+                  span.activity-member {{.User}}
+                  |  {{.Text}}
+                time.activity-time(datetime="{{.ISO}}") {{.Display}}
   template.js-pop-over-template(data-pop="board-menu", data-title="{{t $.L `boardMenuPopup-title`}}")
     .header
       span.header-title {{t $.L "boardMenuPopup-title"}}

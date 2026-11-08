@@ -7,6 +7,7 @@
   "activity-added": "akawedzera %s ku %s",
   "activity-archived": "%s zvafambiswa ku dura",
   "activity-attached": "attached %s ku %s",
+  "activity-changedTitle": "zvachinjwa musoro ku %s ye %s",
   "activity-checklist-added": "akawedzera rondedzero yekuongorora ku %s",
   "activity-checklist-item-added": "akawedzera rondedzero yekuongorora item ku '%s' mu %s",
   "activity-checklist-removed": "zvabviswa a rondedzero yekuongorora kubva %s",

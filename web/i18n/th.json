@@ -7,6 +7,7 @@
   "activity-added": "เพิ่ม %s ไปยัง %s",
   "activity-archived": "%s ถูกย้ายไปยังคลังเก็บ",
   "activity-attached": "แนบ %s ไปยัง %s",
+  "activity-changedTitle": "เปลี่ยนชื่อเป็น %s ของ %s",
   "activity-checklist-added": "รายการถูกเพิ่มไป %s",
   "activity-checklist-item-added": "เพิ่มรายการย่อยใน '%s' ใน %s",
   "activity-checklist-removed": "นำเช็คลิสต์ออกจาก %s",

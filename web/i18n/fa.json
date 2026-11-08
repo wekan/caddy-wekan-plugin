@@ -7,6 +7,7 @@
   "activity-added": "%s به %s اضافه شد",
   "activity-archived": "%s به آرشیو انتقال یافت",
   "activity-attached": "%s به %s پیوست شد",
+  "activity-changedTitle": "عنوان را به %s از %s تغییر داد",
   "activity-checklist-added": "چک‌لیست به %s اضافه شد",
   "activity-checklist-item-added": "آیتم چک‌لیست به '%s'  در %s اضافه شده",
   "activity-checklist-removed": "یک چک‌لیست از %s حذف گردید",

@@ -7,6 +7,7 @@
   "activity-added": "hà aghjuntu %s à %s",
   "activity-archived": "%s spustatu in l'archiviu",
   "activity-attached": "hà aghjuntu %s in appicciu à %s",
+  "activity-changedTitle": "titulu mudificatu in %s di %s",
   "activity-checklist-added": "hà aghjuntu una lista di cuntrollu à %s",
   "activity-checklist-item-added": "hà aghjuntu un elementu di lista di cuntrollu à '%s' in %s",
   "activity-checklist-removed": "hà cacciatu una lista di cuntrollu da %s",

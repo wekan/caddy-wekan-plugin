@@ -7,6 +7,7 @@
   "activity-added": "s-a adăugat %s la %s",
   "activity-archived": "%s a fost mutat în arhivă",
   "activity-attached": "s-a atașat %s la %s",
+  "activity-changedTitle": "a schimbat titlul în %s al %s",
   "activity-checklist-added": "a adăugat o listă de verificare la %s",
   "activity-checklist-item-added": "a adăugat un element în lista de verificare «%s» de pe %s",
   "activity-checklist-removed": "a eliminat o listă de verificare de pe %s",

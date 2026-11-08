@@ -7,6 +7,7 @@
   "activity-added": "i tāpiri i a %s ki %s",
   "activity-archived": "i nekehia a %s ki te Pūranga",
   "activity-attached": "i āpiti i a %s ki %s",
+  "activity-changedTitle": "i huri i te taitara ki %s o %s",
   "activity-checklist-added": "i tāpiri i te rārangi arowhai ki %s",
   "activity-checklist-item-added": "i tāpiri i te tūemi rārangi arowhai ki '%s' i %s",
   "activity-checklist-removed": "i tango i tētahi rārangi arowhai mai i %s",
