@@ -87,7 +87,7 @@ func TestExportCharts(t *testing.T) {
 	if code, _, _ = get(base+"nosuch/exportPDF", a); code != 400 {
 		t.Errorf("negative: an unknown chart: %d", code)
 	}
-	if code, _, _ = get(base+"cumulativeFlow/exportPDF", a); code != 501 {
+	if code, _, _ = get(base+"flowEfficiency/exportPDF", a); code != 501 {
 		t.Errorf("a chart not in Weddy yet says so: %d", code)
 	}
 	if code, _, _ = get(base+"burndown/exportPDF", ""); code != 401 {
@@ -115,5 +115,58 @@ func TestExportCharts(t *testing.T) {
 	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"disableAllExport": true}})
 	if code, _, _ = get(base+"dashboard/exportExcel", a); code != 403 {
 		t.Errorf("negative: export off: %d", code)
+	}
+}
+
+// The CFD and the WIP Run replay the card activities: a card created in the
+// first list, moved to the second, then archived.
+func TestExportFlowCharts(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	a := login(t, w, "ann")
+	b := newRESTBoard(t, w, a, "Flow")
+	ctx := context.Background()
+	var l2, l3 struct {
+		ID string `json:"_id"`
+	}
+	call(t, "POST", w.srv.URL+"/api/boards/"+b.ID+"/lists", a, `{"title":"Doing"}`, &l2)
+	call(t, "POST", w.srv.URL+"/api/boards/"+b.ID+"/lists", a, `{"title":"Done"}`, &l3)
+	_, _ = w.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": l2.ID}, bson.M{"$set": bson.M{"wipLimit": bson.M{"enabled": true, "value": 3}}})
+	day := func(n int) time.Time { return time.Now().UTC().Truncate(24*time.Hour).AddDate(0, 0, -n).Add(time.Hour) }
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card}, bson.M{"$set": bson.M{"createdAt": day(3)}})
+	_, _ = w.db.Collection("activities").DeleteMany(ctx, bson.M{"boardId": b.ID})
+	for i, e := range []bson.M{{"activityType": "createCard", "listId": b.List, "createdAt": day(3)},
+		{"activityType": "moveCard", "listId": l2.ID, "createdAt": day(2)}, {"activityType": "archivedCard", "createdAt": day(1)}} {
+		e["_id"], e["boardId"], e["cardId"] = "flowactivity000"+string(rune('a'+i)), b.ID, b.Card // inserted, not a filter
+		_, _ = w.db.Collection("activities").InsertOne(ctx, e)
+	}
+	rows := func(chart string) [][]string {
+		req, _ := http.NewRequest("GET", w.srv.URL+"/api/boards/"+b.ID+"/charts/"+chart+"/exportExcel", nil)
+		req.Header.Set("Authorization", "Bearer "+a)
+		res, err := testClient.Do(req)
+		if err != nil || res.StatusCode != 200 {
+			t.Fatalf("%s: %v %v", chart, err, res)
+		}
+		data, _ := io.ReadAll(res.Body)
+		res.Body.Close()
+		sheets, err := readXlsx(data)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return sheets[0].Rows
+	}
+	cfd := rows("cumulativeFlow")
+	if strings.Join(cfd[0], ",") != "Date,L,Doing,Done" || len(cfd) != 5 {
+		t.Fatalf("cfd: %q", cfd)
+	}
+	// Created: in L only; moved: in L and Doing; archived: nowhere.
+	for i, want := range []string{"1,0,0", "1,1,0", "0,0,0", "0,0,0"} {
+		if got := strings.Join(cfd[i+1][1:], ","); got != want {
+			t.Errorf("cfd day %d: %s, want %s", i, got, want)
+		}
+	}
+	wip := rows("wipRun")
+	if len(wip) != 5 || wip[1][1] != "0" || wip[2][1] != "1" || wip[3][1] != "0" || wip[2][2] != "3" {
+		t.Errorf("wip run, limit 3 of the lists between: %q", wip)
 	}
 }

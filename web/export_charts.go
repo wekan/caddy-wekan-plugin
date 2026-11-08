@@ -143,14 +143,13 @@ func sinceDays(a, b time.Time) float64 { return math.Max(0, b.Sub(a).Hours()/24)
 
 // chartRows are a chart's table; ok false for one Weddy cannot compute yet.
 func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]any, [][]any, bool) {
-	t := func(k string) string { return tr(lang, k) }
 	if slices.Contains(scrumCharts, key) {
 		// Weddy keeps no Scrum sprints yet, so there is no closed sprint
 		// to report: WeKan's table, without rows.
 		if key == "scrumDaily" {
-			return []any{t("scrum-sprint"), t("date"), "UTC", t("scrum-estimate-unit")}, [][]any{}, true
+			return []any{tr(lang, "scrum-sprint"), tr(lang, "date"), "UTC", tr(lang, "scrum-estimate-unit")}, [][]any{}, true
 		}
-		return []any{t("scrum-sprint"), t("scrum-estimate-unit")}, [][]any{}, true
+		return []any{tr(lang, "scrum-sprint"), tr(lang, "scrum-estimate-unit")}, [][]any{}, true
 	}
 	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetProjection(bson.M{
 		"title": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "labelIds": 1}))
@@ -240,9 +239,9 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 			rows = append(rows, []any{day, float64(remaining), round2(ideal)})
 		}
 		if key == "burnup" {
-			return []any{t("date"), "Total", t("completed")}, rows, true
+			return []any{tr(lang, "date"), "Total", tr(lang, "completed")}, rows, true
 		}
-		return []any{t("date"), t("board-view-burndown"), "Ideal"}, rows, true
+		return []any{tr(lang, "date"), tr(lang, "board-view-burndown"), "Ideal"}, rows, true
 	case "controlChart":
 		ps := points()
 		rows := [][]any{}
@@ -259,13 +258,13 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 			}
 			rows = append(rows, []any{titleOf(ps[i].c), ps[i].at, round2(ps[i].cyc), round2(avg), round2(math.Sqrt(variance / float64(len(window))))})
 		}
-		return []any{t("card"), t("completed"), t("board-view-cycle-time"), "Average", "StdDev"}, rows, true
+		return []any{tr(lang, "card"), tr(lang, "completed"), tr(lang, "board-view-cycle-time"), "Average", "StdDev"}, rows, true
 	case "leadTime", "cycleTime":
 		rows := [][]any{}
 		for _, p := range points() {
 			rows = append(rows, []any{titleOf(p.c), p.at, round2(p.lead), round2(p.cyc)})
 		}
-		return []any{t("card"), t("completed"), t("board-view-lead-time"), t("board-view-cycle-time")}, rows, true
+		return []any{tr(lang, "card"), tr(lang, "completed"), tr(lang, "board-view-lead-time"), tr(lang, "board-view-cycle-time")}, rows, true
 	case "throughputHistogram":
 		weeks := map[string]int{}
 		for _, c := range cards {
@@ -286,7 +285,7 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 		for _, k := range keys {
 			rows = append(rows, []any{k, float64(weeks[k])})
 		}
-		return []any{t("board-view-throughput-histogram"), t("cards")}, rows, true
+		return []any{tr(lang, "board-view-throughput-histogram"), tr(lang, "cards")}, rows, true
 	case "gantt":
 		dated := []chartCard{}
 		for _, c := range cards {
@@ -305,7 +304,7 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 		for _, c := range dated {
 			rows = append(rows, []any{c.Title, iso(c.StartAt), iso(c.DueAt), iso(c.EndAt)})
 		}
-		return []any{t("card"), t("card-start"), t("card-due"), t("card-end")}, rows, true
+		return []any{tr(lang, "card"), tr(lang, "card-start"), tr(lang, "card-due"), tr(lang, "card-end")}, rows, true
 	case "pulse":
 		to := now
 		since := time.Date(to.Year(), to.Month(), to.Day(), 0, 0, 0, 0, time.UTC).AddDate(0, 0, -29)
@@ -324,16 +323,18 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 		for _, day := range eachDay(since, to) {
 			rows = append(rows, []any{day, float64(counts[day])})
 		}
-		return []any{t("date"), t("board-view-pulse")}, rows, true
+		return []any{tr(lang, "date"), tr(lang, "board-view-pulse")}, rows, true
 	case "dashboard":
-		return []any{t("name"), t("cards")}, s.dashboardRows(ctx, b, cards, t), true
+		return []any{tr(lang, "name"), tr(lang, "cards")}, s.dashboardRows(ctx, b, cards, lang), true
+	case "cumulativeFlow", "wipRun":
+		return s.flowRows(ctx, b, key, from, now, lang)
 	}
 	return nil, nil, false
 }
 
 // dashboardRows are WeKan's Dashboard export: cards by assignee, label and
 // list, each group's count and share.
-func (s *Server) dashboardRows(ctx context.Context, b *Board, cards []chartCard, t func(string) string) [][]any {
+func (s *Server) dashboardRows(ctx context.Context, b *Board, cards []chartCard, lang string) [][]any {
 	ids := bson.A{}
 	for _, c := range cards {
 		for _, id := range c.Assignees {
@@ -420,8 +421,118 @@ func (s *Server) dashboardRows(ctx context.Context, b *Board, cards []chartCard,
 			return k
 		}
 	}
-	rows := section(t("assignees"), func(c chartCard) []string { return c.Assignees }, or(names), t("no-assignee"))
-	rows = append(rows, section(t("labels"), func(c chartCard) []string { return c.LabelIDs }, or(labels), t("no-label"))...)
-	rows = append(rows, section(t("lists"), func(c chartCard) []string { return []string{c.ListID} }, or(lists), "")...)
+	rows := section(tr(lang, "assignees"), func(c chartCard) []string { return c.Assignees }, or(names), tr(lang, "no-assignee"))
+	rows = append(rows, section(tr(lang, "labels"), func(c chartCard) []string { return c.LabelIDs }, or(labels), tr(lang, "no-label"))...)
+	rows = append(rows, section(tr(lang, "lists"), func(c chartCard) []string { return []string{c.ListID} }, or(lists), "")...)
 	return rows
+}
+
+// flowRows are the Cumulative Flow Diagram and the WIP Run: the board's
+// card activities replayed a day at a time to know which list every card
+// sat in (computeCumulativeFlow, computeWipRun). The CFD counts, per list,
+// the cards in it or in a list after it; the WIP Run, the cards in the
+// lists between the first and the last, against their WIP limits' sum.
+func (s *Server) flowRows(ctx context.Context, b *Board, key string, from, now time.Time, lang string) ([]any, [][]any, bool) {
+	var lists []bson.M
+	if cur, err := s.db.Collection("lists").Find(ctx, bson.M{"boardId": b.ID, "archived": false}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}})); err == nil {
+		_ = cur.All(ctx, &lists)
+	}
+	var events []struct {
+		Type   string    `bson:"activityType"`
+		CardID string    `bson:"cardId"`
+		ListID string    `bson:"listId"`
+		At     time.Time `bson:"createdAt"`
+	}
+	if cur, err := s.db.Collection("activities").Find(ctx, bson.M{"boardId": b.ID,
+		"activityType": bson.M{"$in": bson.A{"createCard", "moveCard", "archivedCard", "restoredCard"}}},
+		options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}})); err == nil {
+		_ = cur.All(ctx, &events)
+	}
+	ids := make([]string, len(lists))
+	rank := map[string]int{}
+	for i, l := range lists {
+		ids[i], _ = l["_id"].(string)
+		rank[ids[i]] = i
+	}
+	wip := map[string]bool{}
+	limit := 0.0
+	for i, id := range ids {
+		if len(ids) <= 2 || (i > 0 && i < len(ids)-1) {
+			wip[id] = true
+		}
+		if len(ids) > 2 && i > 0 && i < len(ids)-1 {
+			var w bson.M
+			switch d := lists[i]["wipLimit"].(type) {
+			case bson.D:
+				w = docMap(d)
+			case bson.M:
+				w = d
+			}
+			if on, _ := w["enabled"].(bool); on {
+				switch v := w["value"].(type) {
+				case float64:
+					limit += v
+				case int32:
+					limit += float64(v)
+				case int64:
+					limit += float64(v)
+				}
+			}
+		}
+	}
+	at, archived := map[string]string{}, map[string]bool{}
+	next := 0
+	rows := [][]any{}
+	for _, day := range eachDay(from, now) {
+		d, _ := time.Parse("2006-01-02", day)
+		end := d.Add(24*time.Hour - time.Millisecond)
+		for ; next < len(events) && !events[next].At.After(end); next++ {
+			e := events[next]
+			switch e.Type {
+			case "createCard", "moveCard":
+				at[e.CardID] = e.ListID
+			case "archivedCard":
+				archived[e.CardID] = true
+			case "restoredCard":
+				archived[e.CardID] = false
+			}
+		}
+		if key == "wipRun" {
+			n := 0
+			for card, list := range at {
+				if !archived[card] && wip[list] {
+					n++
+				}
+			}
+			var lim any = "-"
+			if limit > 0 {
+				lim = limit
+			}
+			rows = append(rows, []any{day, float64(n), lim})
+			continue
+		}
+		counts := make([]float64, len(ids))
+		for card, list := range at {
+			r, ok := rank[list]
+			if archived[card] || !ok {
+				continue
+			}
+			for i := 0; i <= r; i++ {
+				counts[i]++
+			}
+		}
+		row := []any{day}
+		for _, c := range counts {
+			row = append(row, c)
+		}
+		rows = append(rows, row)
+	}
+	if key == "wipRun" {
+		return []any{tr(lang, "date"), tr(lang, "board-view-wip-run"), "Limit"}, rows, true
+	}
+	header := []any{tr(lang, "date")}
+	for _, l := range lists {
+		header = append(header, l["title"])
+	}
+	return header, rows, true
 }
