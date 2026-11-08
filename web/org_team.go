@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"slices"
+	"strings"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -35,6 +37,7 @@ func (s *Server) orgTeamMethods() map[string]methodFunc {
 		all := map[string]string{"org": "setAllOrgsFeature", "team": "setAllTeamsFeature"}[kind]
 		m[all] = s.allGroupsFeatureMethod(kind)
 	}
+	m["setUserOrgsTeamsFromLdap"] = s.methodSetUserOrgsTeamsFromLdap
 	return m
 }
 
@@ -124,13 +127,17 @@ func (s *Server) allGroupsFeatureMethod(kind string) methodFunc {
 // whose orgs (teams) name the group join the regular, unarchived boards that
 // list it, or - already there through another group, or lapsed - gain this
 // grant; a direct member is left as they are. Add-only.
-func (s *Server) propagateGroupMembers(ctx context.Context, kind, groupID string) (boards, added int) {
+func (s *Server) propagateGroupMembers(ctx context.Context, kind, groupID string, only ...string) (boards, added int) {
 	field, idField := "orgs", "orgId"
 	if kind == "team" {
 		field, idField = "teams", "teamId"
 	}
 	grant := kind + ":" + groupID
-	cur, err := s.db.Collection("users").Find(ctx, bson.M{field + "." + idField: eq(groupID)})
+	filter := bson.M{field + "." + idField: eq(groupID)}
+	if len(only) == 1 {
+		filter["_id"] = eq(only[0])
+	}
+	cur, err := s.db.Collection("users").Find(ctx, filter)
 	if err != nil {
 		return
 	}
@@ -200,4 +207,67 @@ func (s *Server) propagateGroupMembers(ctx context.Context, kind, groupID string
 		}
 	}
 	return
+}
+
+// methodSetUserOrgsTeamsFromLdap is WeKan's server/ldapGroupSync.js: the
+// sign-in source's groups of a user as orgs or teams - each made once,
+// active and marked as synced (#5850), the user added to it once, add-only;
+// a team member joins the team's boards (#4178, #4593). Only for a site
+// admin: the sync itself runs on the server.
+func (s *Server) methodSetUserOrgsTeamsFromLdap(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	userID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	var names []string
+	var asOrg bool
+	if len(args) < 3 || json.Unmarshal(args[1], &names) != nil || json.Unmarshal(args[2], &asOrg) != nil {
+		return nil, &methodError{"Match.Error", "Expected String, [String], Boolean"}
+	}
+	if !u.IsAdmin {
+		return nil, &methodError{"forbidden", "Not authorized"}
+	}
+	if len(names) > 1000 {
+		return nil, &methodError{"Match.Error", "Too many groups"}
+	}
+	ctx := r.Context()
+	var target bson.M
+	if !validID(userID) || s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(userID)}).Decode(&target) != nil {
+		return nil, nil
+	}
+	kind, list, idField, nameField := "team", "teams", "teamId", "teamDisplayName"
+	if asOrg {
+		kind, list, idField, nameField = "org", "orgs", "orgId", "orgDisplayName"
+	}
+	seen := map[string]bool{}
+	for _, raw := range names {
+		name := strings.TrimSpace(raw)
+		if name == "" || seen[name] || len(name) > 1000 {
+			continue
+		}
+		seen[name] = true
+		var g bson.M
+		var id string
+		if s.db.Collection(kind).FindOne(ctx, bson.M{nameField: eq(name)}).Decode(&g) == nil {
+			id, _ = g["_id"].(string)
+			if g[kind+"SyncMembersFromAuth"] != true {
+				_, _ = s.db.Collection(kind).UpdateOne(ctx, bson.M{"_id": eq(id)}, bson.M{"$set": bson.M{kind + "SyncMembersFromAuth": true}})
+			}
+		} else {
+			id = randomID()
+			if _, err := s.db.Collection(kind).InsertOne(ctx, bson.M{"_id": id, nameField: name, kind + "ShortName": name, // inserted, not a filter
+				kind + "IsActive": true, kind + "SyncMembersFromAuth": true, "createdAt": time.Now().UTC()}); err != nil {
+				return nil, err
+			}
+		}
+		res, err := s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(userID), list + "." + idField: bson.M{"$ne": id}},
+			bson.M{"$push": bson.M{list: bson.M{idField: id, nameField: name}}})
+		if err != nil {
+			return nil, err
+		}
+		if res.ModifiedCount == 1 && kind == "team" {
+			s.propagateGroupMembers(ctx, "team", id, userID)
+		}
+	}
+	return nil, nil
 }
