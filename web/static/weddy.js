@@ -56,12 +56,17 @@
   up.on('click', '.js-toggle-page-sidebar', function (event) {
     event.preventDefault();
     var sb = document.querySelector('.board-sidebar');
-    if (sb) sidebarState('open', sb.classList.toggle('is-open'));
+    if (sb) {
+      var open = sb.classList.toggle('is-open');
+      sidebarState('open', open);
+      if (!open) sidebarState('archives', false);
+    }
   });
   up.on('click', '.js-close-sidebar', function (event, el) {
     event.preventDefault();
     el.closest('.board-sidebar').classList.remove('is-open');
     sidebarState('open', false);
+    sidebarState('archives', false);
   });
   up.on('click', '.js-open-board-menu', function (event) {
     event.preventDefault();
@@ -235,6 +240,8 @@
   var memberSearch = null;
   up.compiler('.board-sidebar', function (sb) {
     if (sidebarState('open')) sb.classList.add('is-open');
+    var archives = sb.querySelector('.js-archives-view');
+    if (archives && sidebarState('archives')) archives.classList.remove('is-hidden');
     var toggle = sb.querySelector('.js-toggle-show-activities');
     if (toggle && sidebarState('activities') && toggle.nextElementSibling.classList.contains('is-hidden')) toggle.click();
   });
@@ -333,9 +340,21 @@
     event.preventDefault();
     openPopOver('board-title');
   });
+  // Archived Items: the board's Archive in its sidebar (archivesSidebar).
   up.on('click', '.js-open-archives', function (event) {
     event.preventDefault();
-    openPopOver('archives');
+    closePopOvers();
+    var sb = document.querySelector('.board-sidebar');
+    if (!sb) return;
+    sb.classList.add('is-open');
+    var view = sb.querySelector('.js-archives-view');
+    if (view) view.classList.remove('is-hidden');
+    sidebarState('open', true);
+    sidebarState('archives', true);
+  });
+  up.on('click', '.js-restore-card, .js-restore', function (event, el) {
+    event.preventDefault();
+    up.submit(el.closest('form'));
   });
 
   // A card full-screen, or not: the user's own choice (toggleCardMaximized).

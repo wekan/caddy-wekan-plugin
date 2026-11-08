@@ -467,3 +467,20 @@ func TestCardListPicker(t *testing.T) {
 		t.Fatal("negative: a read-only member sees the list, and no picker")
 	}
 }
+
+// Every pop-over the page's script opens has its template - a template lost
+// in an edit leaves a button that silently opens nothing.
+func TestEveryPopOverHasItsTemplate(t *testing.T) {
+	js, _ := os.ReadFile("static/weddy.js")
+	var tpl strings.Builder
+	files, _ := filepath.Glob("templates/*.pug")
+	for _, f := range files {
+		b, _ := os.ReadFile(f)
+		tpl.Write(b)
+	}
+	for _, m := range regexp.MustCompile(`openPopOver\('([a-z-]+)'\)`).FindAllStringSubmatch(string(js), -1) {
+		if !strings.Contains(tpl.String(), `data-pop="`+m[1]+`"`) {
+			t.Errorf("openPopOver('%s') has no template", m[1])
+		}
+	}
+}

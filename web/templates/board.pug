@@ -33,6 +33,28 @@
           button.js-member-invite-accept.primary(type="button") {{t $.L "accept"}}
           button.js-member-invite-decline(type="button") {{t $.L "decline"}}
         hr
+      //- WeKan's archivesSidebar: the board's Archive, opened from Board Settings.
+      .archives-sidebar.js-archives-view.is-hidden
+        h3 {{t $.L "archives"}}
+        if .Archived
+          each it in .Archived
+            if eq .Kind "cards"
+              .minicard-wrapper.archived-item(data-kind="{{.Kind}}", data-id="{{.ID}}")
+                .minicard
+                  .minicard-title {{.Title}}
+            else
+              .archived-item(data-kind="{{.Kind}}", data-id="{{.ID}}")
+                span.archived-item-title {{.Title}}
+            if $.CanEdit
+              form.js-restore-form(method="post", action="/b/{{$.Board.ID}}/archive/restore", up-submit, up-target=".board-wrapper")
+                input(type="hidden", name="kind", value="{{.Kind}}")
+                input(type="hidden", name="id", value="{{.ID}}")
+                if eq .Kind "cards"
+                  a.js-restore-card(href="#") {{t $.L "restore"}}
+                else
+                  a.js-restore(href="#") {{t $.L "restore"}}
+        else
+          p.no-items-message {{t $.L "no-archived-cards"}}
       //- WeKan's membersWidget: the active members, and adding one.
       .board-widget.board-widget-members.membersWidget
         h3.board-widget-title {{t $.L "members"}}
@@ -208,21 +230,6 @@
           p {{t $.L "card-archive-pop"}}
           p {{t $.L "card-archive-suggest-cancel"}}
           button.js-confirm.negate.full(type="submit") {{t $.L "archive"}}
-  //- WeKan's archivesSidebar: what is in the board's Archive, restored here.
-  template.js-pop-over-template(data-pop="archives", data-title="{{t $.L `archives`}}")
-    .archives
-      if .Archived
-        ul.pop-over-list.archived-items
-          each it in .Archived
-            li.archived-item(data-kind="{{.Kind}}", data-id="{{.ID}}")
-              span.archived-item-title {{.Title}}
-              if $.CanEdit
-                form(method="post", action="/b/{{$.Board.ID}}/archive/restore", up-submit, up-target=".board-wrapper")
-                  input(type="hidden", name="kind", value="{{.Kind}}")
-                  input(type="hidden", name="id", value="{{.ID}}")
-                  button.js-restore(type="submit") {{t $.L "restore"}}
-      else
-        p.empty-message {{t $.L "no-archived-cards"}}
   if .IsBoardAdmin
     //- WeKan's boardVisibilityList.
     template.js-pop-over-template(data-pop="visibility", data-title="{{t $.L `boardChangeVisibilityPopup-title`}}")
