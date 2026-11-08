@@ -21,7 +21,7 @@ import (
 // Weddy - becomes a new board of the caller, with its lists, swimlanes, cards,
 // checklists, comments, custom fields, attachments and rules.
 func (s *Server) importRoutes(m *http.ServeMux) {
-	m.HandleFunc("POST /api/boards/import", s.api(s.apiImportBoard))
+	m.HandleFunc("POST /api/boards/import", s.importable(s.api(s.apiImportBoard)))
 	m.HandleFunc("DELETE /api/boards/{board}", s.api(s.apiDeleteBoard))
 	m.HandleFunc("POST /api/boards/{board}/copy", s.api(s.apiCopyBoard))
 }

@@ -21,7 +21,7 @@ import (
 // path, and what is unpacked is counted as it comes, never trusted from the
 // archive's own header.
 func (s *Server) importZipRoutes(m *http.ServeMux) {
-	m.HandleFunc("POST /api/import/zip", s.apiImportZip)
+	m.HandleFunc("POST /api/import/zip", s.importable(s.apiImportZip))
 }
 
 // MaxImportDocumentBytes is the most wekan.json may unpack to.
