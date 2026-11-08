@@ -118,6 +118,20 @@
       .js-search-member
         input.js-search-member-input(type="text", placeholder="{{t $.L `email-address`}}", aria-label="{{t $.L `add-members`}}")
       ul.pop-over-list.js-member-search-results
+  if .Card
+    if .CanEdit
+      //- WeKan's cardDetailsActionsPopup, and its cardArchivePopup.
+      template.js-pop-over-template(data-pop="card-actions", data-title="{{t $.L `cardDetailsActionsPopup-title`}}")
+        ul.pop-over-list
+          li
+            a.js-archive(href="#")
+              i.fa.fa-archive
+              |  {{t $.L "archive"}}
+      template.js-pop-over-template(data-pop="card-archive", data-title="{{t $.L `archive`}}")
+        form(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/archive", up-submit, up-target=".board-wrapper", up-history="true")
+          p {{t $.L "card-archive-pop"}}
+          p {{t $.L "card-archive-suggest-cancel"}}
+          button.js-confirm.negate.full(type="submit") {{t $.L "archive"}}
   template.js-pop-over-template(data-pop="watch", data-title="{{t $.L `boardChangeWatchPopup-title`}}")
     .header
       span.header-title {{t $.L "boardChangeWatchPopup-title"}}
@@ -217,6 +231,8 @@
     .card-details.js-card-details(data-card="{{.Card.ID}}")
       .card-details-header
         h2.card-details-title.js-card-title {{.Card.Title}}
+        if .CanEdit
+          a.card-details-menu.js-open-card-details-menu(href="#", title="{{t $.L `cardDetailsActionsPopup-title`}}", aria-label="{{t $.L `cardDetailsActionsPopup-title`}}") ☰
         a.js-close-card-details(href="/b/{{.Board.ID}}/{{.Board.Slug}}", aria-label="{{t $.L `close`}}", up-follow, up-target=".board-wrapper") ×
       a.js-toggle-watch-card(href="/b/{{.Board.ID}}/cards/{{.Card.ID}}/watch", up-method="post", up-target=".board-wrapper", class="{{if .WatchingCard}}is-checked{{end}}") {{if .WatchingCard}}{{t $.L "watching"}} ✓{{else}}{{t $.L "watch"}}{{end}}
       .card-details-items

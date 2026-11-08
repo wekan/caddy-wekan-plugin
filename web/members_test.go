@@ -112,3 +112,35 @@ func TestNoPullOfEqOnValues(t *testing.T) {
 		}
 	}
 }
+
+// cardDetailsActionsPopup's Archive: by whoever may change the card only.
+func TestArchiveCardFromDetails(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ro := w.seedUser(t, "rob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Archive")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": ro.ID, "isActive": true, "isReadOnly": true}}})
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "C")
+	archived := func() bool {
+		var x Card
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&x)
+		return x.Archived
+	}
+	rob := w.client(t)
+	body(t, w.signIn(t, rob, "rob", "pw"))
+	if _, html := get(t, rob, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID); strings.Contains(html, "js-open-card-details-menu") {
+		t.Fatal("negative: no actions menu for a read-only member")
+	}
+	if r, _ := rob.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/archive", nil); r.StatusCode != http.StatusForbidden || archived() {
+		t.Fatalf("negative: a read-only member archives nothing: %d", r.StatusCode)
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if r, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/archive", nil); r.StatusCode != http.StatusSeeOther || !archived() {
+		t.Fatalf("archived: %d", r.StatusCode)
+	}
+}

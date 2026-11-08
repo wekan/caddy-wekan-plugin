@@ -10,6 +10,9 @@
 
   function reloadBoard() {
     if (dragging > 0) { stale = true; return; }
+    // A change of this page's own - a form still on its way - is announced
+    // before its answer arrives: reload after it, or the older page wins.
+    if (up.network.isBusy()) { setTimeout(reloadBoard, 150); return; }
     stale = false;
     if (document.querySelector('.board-wrapper')) up.reload('.board-wrapper');
   }
@@ -258,6 +261,16 @@
     form.append('userId', el.dataset.user);
     fetch('/b/' + board.dataset.board + '/members', { method: 'POST', body: form, credentials: 'same-origin' })
       .then(function () { closePopOvers(); keepSidebarOpen = true; up.reload('.board-wrapper'); });
+  });
+
+  // The card's actions menu (cardDetailsActionsPopup) and Archive's confirmation.
+  up.on('click', '.js-open-card-details-menu', function (event) {
+    event.preventDefault();
+    openPopOver('card-actions');
+  });
+  up.on('click', '.js-pop-over a.js-archive', function (event) {
+    event.preventDefault();
+    openPopOver('card-archive');
   });
 
   // An invitation to the board: accept it, or decline it and go to All Boards.

@@ -237,6 +237,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}/rules", s.page(s.rulesPage))
 	m.HandleFunc("GET /b/{board}/{slug}/rules/export", s.page(s.rulesExport))
 	m.HandleFunc("POST /b/{board}/cards/{card}/people", s.page(s.cardPeoplePage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/archive", s.page(s.archiveCardPage))
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
 	m.HandleFunc("POST /b/{board}/swimlanes", s.page(s.addSwimlanePage))
 	m.HandleFunc("POST /b/{board}/cards", s.page(s.addCard))
@@ -1358,5 +1359,35 @@ func (s *Server) addSwimlanePage(w http.ResponseWriter, r *http.Request, u *User
 	}
 	s.activity(ctx, u.ID, "createSwimlane", bson.M{"boardId": b.ID, "swimlaneId": sw["_id"]})
 	s.hub.publish(b.ID, "board-changed")
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+}
+
+// archiveCardPage is cardDetailsActionsPopup's Archive: the card archived by
+// whoever may change it, and closed.
+func (s *Server) archiveCardPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	id := r.PathValue("card")
+	var c Card
+	if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c) != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	if !b.Writable(u, "write", &c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	if !c.Archived {
+		now := time.Now().UTC()
+		if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"archived": true, "archivedAt": now, "modifiedAt": now}}); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		s.activity(r.Context(), u.ID, "archivedCard", bson.M{"boardId": b.ID, "cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID, "cardTitle": c.Title})
+		s.hub.publish(b.ID, "board-changed")
+	}
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
