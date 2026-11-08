@@ -53,6 +53,8 @@ type Server struct {
 	OIDC      *OIDCConfig
 	cloudOnce sync.Once
 	cloudF    *cloudFiles
+	// stopMail ends the notification e-mail outbox's pass (mail_outbox.go).
+	stopMail chan struct{}
 }
 
 // Open starts the WeKan of the domain whose files are in dir: its database is
@@ -87,6 +89,9 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 		return nil, err
 	}
 	s.routes()
+	s.emailIndexes(context.Background())
+	s.stopMail = make(chan struct{})
+	go s.runEmailOutbox(s.stopMail)
 	return s, nil
 }
 
@@ -125,6 +130,10 @@ func (s *Server) DB() *mongo.Database { return s.db }
 // Close releases the database.
 func (s *Server) Close() error {
 	s.hub.closeAll()
+	if s.stopMail != nil {
+		close(s.stopMail)
+		s.stopMail = nil
+	}
 	if s.release != nil {
 		return s.release()
 	}

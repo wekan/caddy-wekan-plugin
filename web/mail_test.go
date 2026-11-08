@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 	"sync"
 	"testing"
@@ -18,10 +19,13 @@ import (
 // smtpSink is a local SMTP server for tests: it keeps what it is sent and
 // relays nothing.
 type smtpSink struct {
-	ln   net.Listener
-	mu   sync.Mutex
-	msgs []string
-	rcpt [][]string
+	// reject, when set, is the reply to a message's end: it is kept, and
+	// refused, as WeKan's test sink does.
+	reject int
+	ln     net.Listener
+	mu     sync.Mutex
+	msgs   []string
+	rcpt   [][]string
 }
 
 func newSMTPSink(t *testing.T) *smtpSink {
@@ -75,8 +79,13 @@ func (s *smtpSink) serve(c net.Conn) {
 			}
 			s.mu.Lock()
 			s.msgs, s.rcpt = append(s.msgs, b.String()), append(s.rcpt, rcpt)
+			code := s.reject
 			s.mu.Unlock()
 			rcpt = nil
+			if code != 0 {
+				say(strconv.Itoa(code) + " test rejection")
+				continue
+			}
 			say("250 kept")
 		case cmd == "QUIT":
 			say("221 bye")
@@ -529,6 +538,7 @@ func TestProfileEmail(t *testing.T) {
 func TestNotificationMail(t *testing.T) {
 	sink := newSMTPSink(t)
 	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
+	t.Setenv("EMAIL_NOTIFICATION_TIMEOUT", "100") // as WeKan's tests: queued, then sent within a pass
 	w := newTestWeKan(t)
 	u := w.seedUser(t, "ann", "pw")
 	bob := w.seedUser(t, "bob", "pw")
@@ -563,4 +573,10 @@ func TestNotificationMail(t *testing.T) {
 	if w.s.unreadNotifications(ctx, carl.ID) == 0 {
 		t.Fatal("their drawer still has it")
 	}
+}
+
+func (s *smtpSink) setReject(code int) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.reject = code
 }

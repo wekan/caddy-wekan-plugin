@@ -92,6 +92,9 @@ type mailMessage struct {
 	To      []string
 	Subject string
 	Text    string
+	// HTML, when set, is the message's HTML, with Text as its plain-text
+	// alternative when there is one.
+	HTML string
 }
 
 // headerSafe: no line break, so a value can never start another header.
@@ -119,10 +122,27 @@ func buildMail(from string, m mailMessage, now time.Time) ([]byte, error) {
 	domain := sender.Address[strings.LastIndex(sender.Address, "@")+1:]
 	fmt.Fprintf(&b, "From: %s\r\nTo: %s\r\nSubject: %s\r\nDate: %s\r\nMessage-ID: <%s@%s>\r\n",
 		sender.String(), strings.Join(m.To, ", "), mime.QEncoding.Encode("utf-8", m.Subject), now.Format(time.RFC1123Z), randomID(), domain)
-	b.WriteString("MIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n")
-	qp := quotedprintable.NewWriter(&b)
-	_, _ = qp.Write([]byte(strings.ReplaceAll(strings.ReplaceAll(m.Text, "\r\n", "\n"), "\n", "\r\n")))
-	_ = qp.Close()
+	b.WriteString("MIME-Version: 1.0\r\n")
+	part := func(typ, body string) {
+		b.WriteString("Content-Type: " + typ + "; charset=utf-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n")
+		qp := quotedprintable.NewWriter(&b)
+		_, _ = qp.Write([]byte(strings.ReplaceAll(strings.ReplaceAll(body, "\r\n", "\n"), "\n", "\r\n")))
+		_ = qp.Close()
+	}
+	switch {
+	case m.HTML == "":
+		part("text/plain", m.Text)
+	case m.Text == "":
+		part("text/html", m.HTML)
+	default:
+		boundary := "weddy-" + randomID()
+		b.WriteString("Content-Type: multipart/alternative; boundary=\"" + boundary + "\"\r\n\r\n")
+		b.WriteString("--" + boundary + "\r\n")
+		part("text/plain", m.Text)
+		b.WriteString("\r\n--" + boundary + "\r\n")
+		part("text/html", m.HTML)
+		b.WriteString("\r\n--" + boundary + "--\r\n")
+	}
 	return b.Bytes(), nil
 }
 

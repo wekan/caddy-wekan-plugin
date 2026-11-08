@@ -102,7 +102,9 @@ func mustGet(t *testing.T, c *http.Client, u string) *http.Response {
 // guard fails for any such $pull, so a removal cannot quietly do nothing.
 func TestNoPullOfEqOnValues(t *testing.T) {
 	files, _ := filepath.Glob("*.go")
-	bad := regexp.MustCompile(`"\$pull": bson\.M\{[^{}]*"[A-Za-z.]+": eq\(`)
+	// FerretDB matches neither {$eq: v} nor {$in: [...]} on an array of
+	// plain values: both pull nothing, silently.
+	bad := regexp.MustCompile(`"\$pull": bson\.M\{[^{}]*"[A-Za-z.]+": (eq\(|bson\.M\{"\$in")`)
 	for _, f := range files {
 		if strings.HasSuffix(f, "_test.go") {
 			continue
@@ -110,7 +112,7 @@ func TestNoPullOfEqOnValues(t *testing.T) {
 		src, _ := os.ReadFile(f)
 		for i, line := range strings.Split(string(src), "\n") {
 			if bad.MatchString(line) {
-				t.Errorf("%s:%d pulls eq(): pull the value itself, checked as an id first", f, i+1)
+				t.Errorf("%s:%d pulls eq() or $in: pull each value itself, checked as an id first", f, i+1)
 			}
 		}
 	}

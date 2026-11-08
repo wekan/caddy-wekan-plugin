@@ -211,15 +211,23 @@ func (s *Server) mailNotification(ctx context.Context, member string, activity b
 		return
 	}
 	text := html.UnescapeString(tagPattern.ReplaceAllString(string(item), ""))
-	to := u.Emails[0].Address
-	subject := tr(lang, msg("act-activity-notify"))
-	go func() {
-		mctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
-		defer cancel()
-		if err := s.sendMail(mctx, "localhost", mailMessage{To: []string{to}, Subject: subject, Text: text}); err != nil {
-			s.log.Warn("notification mail", "error", err)
-		}
-	}()
+	// Into the outbox (mail_outbox.go), as WeKan's prepareActivityEmail:
+	// grouped and scheduled as the member, the board or Admin Panel says.
+	boardID, cardID, eventID := docString(activity, "boardId"), docString(activity, "cardId"), docString(activity, "_id")
+	d := s.emailDeliveryFor(ctx, member, boardID)
+	job := emailJob{UserID: member, EventID: eventID, Subject: tr(lang, msg("act-activity-notify")), HTML: string(item),
+		Language: lang, CardID: cardID, BoardID: boardID, Text: &text}
+	if !d.GroupingFromDefault && d.Grouping != "all" {
+		k := emailGroupKey(d.Grouping, boardID, cardID, eventID)
+		job.GroupKey = &k
+	}
+	if d.Schedule != "immediate" || d.QuietStart != "" {
+		at := nextDeliveryAt(time.Now().UTC(), d, emailDelay())
+		job.DeliverAt = &at
+	}
+	if err := s.enqueueEmail(ctx, job); err != nil {
+		s.log.Warn("notification mail not queued", "error", err)
+	}
 }
 
 // unreadNotifications is how many of u's notifications are unread.
