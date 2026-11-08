@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Restableser bo kontraseña den __siteName__",
   "email-resetPassword-text": "Hola __user__,\n\nPa restableser bo kontraseña, hasi clic den e siguiente enlase.\n\n__url__\n\nGrasias.",
   "email-sent": "Correo enbiado",
+  "email-verifyEmail-subject": "Berifica bo direcshon di correo den __siteName__",
+  "email-verifyEmail-text": "Hola __user__,\n\nPa berificar bo kuenta di e-mail, hasi clic den e siguiente enlase.\n\n__url__\n\nGrasias.",
   "error-email-taken": "E direcshon di correo ya ta den uso",
   "error-invitation-code-not-exist": "E código di inbitashon no existe",
   "error-ldap-login": "Ocurrió un eror na e intentar acseder",

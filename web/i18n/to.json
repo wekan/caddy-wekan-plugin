@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Toe fokotuʻu hoʻo lea fufū ʻi he __siteName__",
   "email-resetPassword-text": "Mālō e lelei __user__,\n\nKe toe fokotuʻu hoʻo lea fufū, lomiʻi pē ʻa e fehokotaki ʻi lalo.\n\n__url__\n\nMālō.",
   "email-sent": "Kuo ʻave ʻa e ʻīmeili",
+  "email-verifyEmail-subject": "Fakamoʻoniʻi hoʻo tuasila ʻīmeili ʻi he __siteName__",
+  "email-verifyEmail-text": "Mālō e lelei __user__,\n\nKe fakamoʻoniʻi ʻa e ʻīmeili ʻo hoʻo ʻakauni, lomiʻi pē ʻa e fehokotaki ʻi lalo.\n\n__url__\n\nMālō.",
   "error-email-taken": "Kuo ʻosi ngāueʻaki ʻa e ʻīmeili",
   "error-invitation-code-not-exist": "ʻOku ʻikai ke ʻi ai ʻa e kouti fakaafe",
   "error-ldap-login": "Naʻe hoko ha fehalaaki lolotonga hono feinga ke hū ki loto",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ üzerinde parolanı sıfırla",
   "email-resetPassword-text": "Merhaba __user__,\n\nParolanı sıfırlaman için aşağıdaki linke tıklaman yeterli.\n\n__url__\n\nTeşekkürler.",
   "email-sent": "E-posta gönderildi",
+  "email-verifyEmail-subject": "__siteName__ üzerindeki e-posta adresini doğrulama",
+  "email-verifyEmail-text": "Merhaba __user__,\n\nHesap e-posta adresini doğrulamak için aşağıdaki linke tıklaman yeterli.\n\n__url__\n\nTeşekkürler.",
   "error-email-taken": "Bu e-posta adresi daha önceden alınmış",
   "error-invitation-code-not-exist": "Davetiye kodu bulunamadı",
   "error-ldap-login": "Giriş yapmaya çalışırken bir hata oluştu",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Adderaouekaat ho ker-tremen war __siteName__",
   "email-resetPassword-text": "Demat __user__,\n\nEvit adderaouekaat ho ker-tremen, klikit war al liamm amañ dindan.\n\n__url__\n\nTrugarez.",
   "email-sent": "Emael dreuzet",
+  "email-verifyEmail-subject": "Gwiriañ ho chomlec’h postel war __siteName__",
+  "email-verifyEmail-text": "Demat __user__,\n\nEvit gwiriañ chomlec’h postel ho kont, klikit war al liamm amañ dindan.\n\n__url__\n\nTrugarez.",
   "error-email-taken": "Implijet eo ar chomlec’h postel-mañ dija",
   "error-invitation-code-not-exist": "N’eus ket eus ar c’hod pedadenn",
   "error-ldap-login": "Ur fazi a zo c’hoarvezet e-pad an taol kennaskañ",

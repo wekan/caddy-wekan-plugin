@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Reset je wachtwoord op __siteName__",
   "email-resetPassword-text": "Hallo __user__,\n\nKlik op de link hier beneden om je wachtwoord te resetten.\n\n__url__\n\nBedankt.",
   "email-sent": "E-mail is verzonden",
+  "email-verifyEmail-subject": "Verifieer je e-mailadres op __siteName__",
+  "email-verifyEmail-text": "Hallo __user__,\n\nOm je e-mail te verifiëren vragen we je om op de link hieronder te klikken.\n\n__url__\n\nBedankt.",
   "error-email-taken": "Dit e-mailadres is al in gebruik",
   "error-invitation-code-not-exist": "Uitnodigings code bestaat niet",
   "error-ldap-login": "Er is een fout opgetreden tijdens het inloggen",

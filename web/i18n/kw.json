@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Dassettya dha ger-tremena war __siteName__",
   "email-resetPassword-text": "Dydh da __user__,\n\nRag dassettya dha ger-tremena, klyckya an kevren a-woles hepken.\n\n__url__\n\nMeur ras.",
   "email-sent": "Ebost danvenys",
+  "email-verifyEmail-subject": "Afydhya dha trigva ebost war __siteName__",
+  "email-verifyEmail-text": "Dydh da __user__,\n\nRag afydhya ebost dha akont, klyckya an kevren a-woles hepken.\n\n__url__\n\nMeur ras.",
   "error-email-taken": "An ebost yw kemerys seulabrys",
   "error-invitation-code-not-exist": "Nyns yw an kod galow omma",
   "error-ldap-login": "Gwall a hwarva hag assaya omgelmi",

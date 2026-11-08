@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "تنظیم مجدد کلمه عبور در __siteName__",
   "email-resetPassword-text": "سلام __user__\nجهت تنظیم مجدد کلمه عبور آدرس زیر را دنبال نمایید، باتشکر:\n__url__",
   "email-sent": "نامه الکترونیکی فرستاده شد",
+  "email-verifyEmail-subject": "تایید آدرس الکترونیکی شما در __siteName__",
+  "email-verifyEmail-text": "سلام __user__\nبه منظور تایید آدرس الکترونیکی حساب خود، آدرس زیر را دنبال نمایید، باتشکر:\n__url__.",
   "error-email-taken": "رایانامه توسط گیرنده دریافت شده است",
   "error-invitation-code-not-exist": "چنین کد دعوتی یافت نشد",
   "error-ldap-login": "هنگام تلاش برای ورود به یک خطا رخ داد",

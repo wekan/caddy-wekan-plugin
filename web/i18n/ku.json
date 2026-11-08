@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Şîfreya xwe li __siteName__ ji nû ve saz bike",
   "email-resetPassword-text": "Silav __user__,\n\nJi bo ji nû ve sazkirina şîfreya xwe, tenê li girêdana jêr bitikîne.\n\n__url__\n\nSpas.",
   "email-sent": "E-name hate şandin",
+  "email-verifyEmail-subject": "Navnîşana e-nameya xwe li __siteName__ piştrast bike",
+  "email-verifyEmail-text": "Silav __user__,\n\nJi bo piştrastkirina e-nameya hesabê xwe, tenê li girêdana jêr bitikîne.\n\n__url__\n\nSpas.",
   "error-email-taken": "E-name jixwe hatiye girtin",
   "error-invitation-code-not-exist": "Koda vexwendinê tune",
   "error-ldap-login": "Di hewldana têketinê de çewtiyek çêbû",

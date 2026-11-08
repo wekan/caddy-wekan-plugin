@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Redefina sua senha em __siteName__",
   "email-resetPassword-text": "Olá __user__\nPara redefinir sua senha, por favor clique no link abaixo.\n__url__\nMuito obrigado.",
   "email-sent": "E-mail enviado",
+  "email-verifyEmail-subject": "Verifique seu endereço de e-mail em __siteName__",
+  "email-verifyEmail-text": "Olá __user__\nPara verificar sua conta de e-mail, clique no link abaixo.\n__url__\nObrigado.",
   "error-email-taken": "E-mail já está em uso",
   "error-invitation-code-not-exist": "O código do convite não existe",
   "error-ldap-login": "Um erro ocorreu enquanto tentava entrar",

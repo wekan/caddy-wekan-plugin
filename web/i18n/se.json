@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Máhcat beassansáni báikkis __siteName__",
   "email-resetPassword-text": "Dearvvuođat __user__,\n\nMáhcahit beassansánát coahkkal dušše vuolábeale liŋkka.\n\n__url__\n\nGiitu.",
   "email-sent": "E-poasta sáddejuvvui",
+  "email-verifyEmail-subject": "Nanne e-poastačujuhusat báikkis __siteName__",
+  "email-verifyEmail-text": "Dearvvuođat __user__,\n\nNannet konttu e-poastta coahkkal dušše vuolábeale liŋkka.\n\n__url__\n\nGiitu.",
   "error-email-taken": "E-poasta lea juo anus",
   "error-invitation-code-not-exist": "Bovdehuskoda ii leat gávdnamis",
   "error-ldap-login": "Sisačálihangeahččaleamis dáhpáhuvai meattáhus",

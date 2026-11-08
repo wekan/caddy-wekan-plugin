@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Ristabilisce a vostra parolla d’intrata nant’à __siteName__",
   "email-resetPassword-text": "Salute __user__,\n\nPer ristabilisce a vostra parolla d’intrata, basta à cliccà nant’à u ligame quì sottu.\n\n__url__\n\nGrazie.",
   "email-sent": "Posta elettronica mandata",
+  "email-verifyEmail-subject": "Verificate u vostru indirizzu email nant’à __siteName__",
+  "email-verifyEmail-text": "Salute __user__,\n\nPer verificà l’indirizzu di posta elettronica di u vostru contu, basta à cliccà nant’à u ligame quì sottu.\n\n__url__\n\nGrazie.",
   "error-email-taken": "St’indirizzu email hè digià adupratu",
   "error-invitation-code-not-exist": "U codice d’invitu ùn esiste micca",
   "error-ldap-login": "Un errore hè accadutu durante u tentativu di cunnessione",

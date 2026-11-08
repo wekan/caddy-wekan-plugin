@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -579,4 +580,44 @@ func (s *smtpSink) setReject(code int) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.reject = code
+}
+
+// Sign-up sends the verification link, as WeKan's sendVerificationEmail:
+// following it verifies the address. Without a mail server, or with one that
+// refuses, the sign-up still succeeds (WeKan's #5672).
+func TestVerificationMailAtSignUp(t *testing.T) {
+	sink := newSMTPSink(t)
+	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	if res := signUp(t, w, w.client(t), "vera", "Vera@Example.org", "vera-password-1"); res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("sign-up: %d", res.StatusCode)
+	}
+	msgs := sink.messages()
+	if len(msgs) != 1 || !strings.Contains(msgs[0], "To: vera@example.org") {
+		t.Fatalf("one verification mail to the address: %q", msgs)
+	}
+	m := regexp.MustCompile(`/verify-email/([A-Za-z0-9_-]+)`).FindStringSubmatch(strings.ReplaceAll(msgs[0], "=\r\n", ""))
+	if m == nil {
+		t.Fatalf("the link: %s", msgs[0])
+	}
+	verified := func(name string) bool {
+		var u User
+		_ = w.db.Collection("users").FindOne(ctx, bson.M{"username": name}).Decode(&u)
+		return len(u.Emails) == 1 && u.Emails[0].Verified
+	}
+	if verified("vera") {
+		t.Fatal("negative: not verified before the link")
+	}
+	if res, _ := get(t, w.client(t), w.srv.URL+"/verify-email/"+m[1]); res.StatusCode != http.StatusSeeOther || !verified("vera") {
+		t.Fatalf("the link verifies: %d", res.StatusCode)
+	}
+	sink.setReject(550)
+	if res := signUp(t, w, w.client(t), "rita", "rita@example.org", "rita-password-1"); res.StatusCode != http.StatusSeeOther {
+		t.Errorf("negative: a refused mail never fails the sign-up: %d", res.StatusCode)
+	}
+	t.Setenv("MAIL_URL", "")
+	if res := signUp(t, w, w.client(t), "nomail", "nomail@example.org", "nomail-password-1"); res.StatusCode != http.StatusSeeOther {
+		t.Errorf("negative: no mail server, the sign-up still succeeds: %d", res.StatusCode)
+	}
 }

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Subiramwo ijambobanga ryawe kuri __siteName__",
   "email-resetPassword-text": "Mwaramutse __user__,\n\nKugira usubiremwo ijambobanga ryawe, kanda gusa ku huriro riri munsi.\n\n__url__\n\nMurakoze.",
   "email-sent": "Imeyili yarungitswe",
+  "email-verifyEmail-subject": "Emeza aderesi ya imeyili yawe kuri __siteName__",
+  "email-verifyEmail-text": "Mwaramutse __user__,\n\nKugira wemeze imeyili ya konti yawe, kanda gusa ku huriro riri munsi.\n\n__url__\n\nMurakoze.",
   "error-email-taken": "Iyi meyili yarafashwe",
   "error-invitation-code-not-exist": "Kode y'ubutumire ntibaho",
   "error-ldap-login": "Habaye ikosa mu kugerageza kwinjira",

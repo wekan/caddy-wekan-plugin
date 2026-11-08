@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Stel jou wagwoord terug op __siteName__",
   "email-resetPassword-text": "Hallo __user__,\n\nOm jou wagwoord terug te stel, klik eenvoudig op die skakel hieronder.\n\n__url__\n\nDankie.",
   "email-sent": "E-pos gestuur",
+  "email-verifyEmail-subject": "Verifieer jou e-posadres op __siteName__",
+  "email-verifyEmail-text": "Hallo __user__,\n\nOm jou rekening-e-posadres te verifieer, klik eenvoudig op die skakel hieronder.\n\n__url__\n\nDankie.",
   "error-email-taken": "E-pos is reeds geneem",
   "error-invitation-code-not-exist": "Uitnodigingskode bestaan ​​nie",
   "error-ldap-login": "'n Fout het voorgekom tydens probeer om aan te meld",

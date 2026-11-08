@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Set semula kata laluan pada __siteName__",
   "email-resetPassword-text": "Selamat sejahtera __user__,\n\nUntuk set semula kata laluan, hanya klik pautan di bawah.\n\n__url__\n\nTerima kasih.",
   "email-sent": "Emel dihantar",
+  "email-verifyEmail-subject": "Sila sahkan emel anda di __siteName__",
+  "email-verifyEmail-text": "Salam Sejahtera __user__,\n\nUntuk mengesahkan akaun email anda, hanya perlu klik pautan di bawah.\n\n__url__\n\nTerima kasih.",
   "error-email-taken": "Emel sudah wujud",
   "error-invitation-code-not-exist": "Kod Jemputan tidak wujud",
   "error-ldap-login": "Ralat terjadi semasa cuba untuk login",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Weka upya nenosiri lako kwenye __siteName__",
   "email-resetPassword-text": "Habari __user__,\n\nIli kuweka upya nenosiri lako, bofya tu kiungo kilicho hapa chini.\n\n__url__\n\nAsante.",
   "email-sent": "Barua pepe imetumwa",
+  "email-verifyEmail-subject": "Thibitisha anwani yako ya barua pepe kwenye __siteName__",
+  "email-verifyEmail-text": "Habari __user__,\n\nIli kuthibitisha akaunti yako ya barua pepe, bonyeza tu kiungo kilicho hapa chini.\n\n__url__\n\nAsante.",
   "error-email-taken": "Barua pepe tayari imechukuliwa",
   "error-invitation-code-not-exist": "Msimbo wa mwaliko haupo",
   "error-ldap-login": "Hitilafu ilitokea wakati wa kujaribu kuingia",

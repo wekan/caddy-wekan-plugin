@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "패스워드 초기화: __siteName__",
   "email-resetPassword-text": "안녕하세요 __user__님,\n\n비밀번호를 재설정하려면 아래 링크를 클릭하십시오.\n\n__url__\n\n감사합니다.",
   "email-sent": "이메일 전송",
+  "email-verifyEmail-subject": "이메일 인증: __siteName__",
+  "email-verifyEmail-text": "안녕하세요. __user__님,\n\n당신의 계정과 이메일을 활성하려면 아래 링크를 클릭하십시오.\n\n__url__\n\n감사합니다.",
   "error-email-taken": "이미 사용 중인 이메일입니다",
   "error-invitation-code-not-exist": "초대 코드가 존재하지 않습니다.",
   "error-ldap-login": "로그인 중 에러 발생",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Reinizialisar tes pled-clav sin __siteName__",
   "email-resetPassword-text": "Allegra __user__,\n\nPer reinizialisar tes pled-clav, clicca simplamain sin la colliaziun sutvart.\n\n__url__\n\nGrazia.",
   "email-sent": "E-mail tramess",
+  "email-verifyEmail-subject": "Verifitgescha tia adressa dad e-mail sin __siteName__",
+  "email-verifyEmail-text": "Hallo __user__,\n\nPer verifitgar l’adressa dad e-mail da tes cont, clicca simplamain sin la colliaziun sutvart.\n\n__url__\n\nGrazia.",
   "error-email-taken": "Questa adressa dad e-mail vegn gia utilisada",
   "error-invitation-code-not-exist": "Il code d’invitaziun n’exista betg",
   "error-ldap-login": "Ina errur è succedida durant l’emprova dad annunziar",

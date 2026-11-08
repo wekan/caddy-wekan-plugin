@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Jecha icciitii kee __siteName__ irratti haaromsi",
   "email-resetPassword-text": "Akkam __user__,\n\nJecha icciitii kee haaromsuuf geessituu armaan gadii qofa cuqaasi.\n\n__url__\n\nGalatoomi.",
   "email-sent": "Imeeliin ergameera",
+  "email-verifyEmail-subject": "Teessoo imeelii kee __siteName__ irratti mirkaneessi",
+  "email-verifyEmail-text": "Akkam __user__,\n\nImeelii herrega kee mirkaneessuuf geessituu armaan gadii qofa cuqaasi.\n\n__url__\n\nGalatoomi.",
   "error-email-taken": "Imeeliin duraan fudhatameera",
   "error-invitation-code-not-exist": "Koodiin affeerraa hin jiru",
   "error-ldap-login": "Yeroo seenuuf yaalame dogoggorri uumame",

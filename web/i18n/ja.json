@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "あなたの __siteName__ のパスワードをリセットする",
   "email-resetPassword-text": "こんにちは、__user__さん。\n\nパスワードをリセットするには、以下のリンクをクリックしてください。\n\n__url__\n\nよろしくお願いします。",
   "email-sent": "メールを送信しました",
+  "email-verifyEmail-subject": "あなたの __siteName__ のメールアドレスを確認する",
+  "email-verifyEmail-text": "こんにちは、__user__さん。\n\nメールアドレスを認証するために、以下のリンクをクリックしてください。\n\n__url__\n\nよろしくお願いします。",
   "error-email-taken": "メールは既に受け取られています",
   "error-invitation-code-not-exist": "招待コードが存在しません",
   "error-ldap-login": "ログイン中にエラーが発生しました",

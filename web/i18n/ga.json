@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Athshocraigh d'fhocal faire ar __siteName__",
   "email-resetPassword-text": "Dia duit __user__,\n\nChun d'fhocal faire a athshocrú, cliceáil an nasc thíos.\n\n__url__\n\nGo raibh maith agat.",
   "email-sent": "Ríomhphost seolta",
+  "email-verifyEmail-subject": "Fíoraigh do sheoladh ríomhphoist ar __siteName__",
+  "email-verifyEmail-text": "Dia duit __user__,\n\nChun ríomhphost do chuntais a fhíorú, cliceáil an nasc thíos.\n\n__url__\n\nGo raibh maith agat.",
   "error-email-taken": "Tá an ríomhphost in úsáid cheana",
   "error-invitation-code-not-exist": "Níl an cód cuireadh ann",
   "error-ldap-login": "Tharla earráid agus iarracht á déanamh logáil isteach",

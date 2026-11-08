@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ ত আপোনাৰ পাছৱৰ্ড পুনৰ স্থিৰ কৰক",
   "email-resetPassword-text": "নমস্কাৰ __user__,\n\nআপোনাৰ পাছৱৰ্ড পুনৰ স্থিৰ কৰিবলৈ তলৰ সংযোগটো ক্লিক কৰক।\n\n__url__\n\nধন্যবাদ।",
   "email-sent": "ইমেইল পঠিওৱা হৈছে",
+  "email-verifyEmail-subject": "__siteName__ ত আপোনাৰ ইমেইল ঠিকনা সত্যাপন কৰক",
+  "email-verifyEmail-text": "নমস্কাৰ __user__,\n\nআপোনাৰ একাউণ্টৰ ইমেইল সত্যাপন কৰিবলৈ তলৰ সংযোগটো ক্লিক কৰক।\n\n__url__\n\nধন্যবাদ।",
   "error-email-taken": "ইমেইল ইতিমধ্যে লোৱা হৈছে",
   "error-invitation-code-not-exist": "আমন্ত্ৰণ ক'ডৰ অস্তিত্ব নাই",
   "error-ldap-login": "লগইন কৰিবলৈ চেষ্টা কৰোঁতে এটা ত্ৰুটি ঘটিল",

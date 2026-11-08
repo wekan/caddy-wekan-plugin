@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Reset jo wachtwurd op __siteName__",
   "email-resetPassword-text": "Hallo __user__,\n\nOm jo wachtwurd werom te setten, klikje jo gewoan op de link hjirûnder.\n\n__url__\n\nTankewol.",
   "email-sent": "E-post ferstjoerd",
+  "email-verifyEmail-subject": "Befêstigje jo e-mailadres op __siteName__",
+  "email-verifyEmail-text": "Hallo __user__,\n\nOm jo akkount e-post te ferifiearjen, klikje jo gewoan op de link hjirûnder.\n\n__url__\n\nTankewol.",
   "error-email-taken": "E-post is al nommen",
   "error-invitation-code-not-exist": "Utnoegingskoade bestiet net",
   "error-ldap-login": "Der barde in flater by it besykjen om oan te melden",

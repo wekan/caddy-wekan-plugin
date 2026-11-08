@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "重設您在 __siteName__ 的密碼",
   "email-resetPassword-text": "您好 __user__,\n\n點選下面的連結，重置您的密碼：\n\n__url__\n\n謝謝。",
   "email-sent": "郵件已寄送",
+  "email-verifyEmail-subject": "驗證您在 __siteName__ 的電子郵件",
+  "email-verifyEmail-text": "親愛的 __user__,\n\n點選下面的連結，驗證您的電子郵件地址：\n\n__url__\n\n謝謝。",
   "error-email-taken": "Email 已被使用",
   "error-invitation-code-not-exist": "邀請碼不存在",
   "error-ldap-login": "嘗試登入時出現錯誤",

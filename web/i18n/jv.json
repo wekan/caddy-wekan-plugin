@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Setel maneh tembung sandhi ing __siteName__",
   "email-resetPassword-text": "Halo __user__,\n\nKanggo nyetel maneh tembung sandhi, cukup klik pranala ing ngisor iki.\n\n__url__\n\nMatur nuwun.",
   "email-sent": "Email dikirim",
+  "email-verifyEmail-subject": "Verifikasi alamat email ing __siteName__",
+  "email-verifyEmail-text": "Halo __user__,\n\nKanggo verifikasi email akun, cukup klik pranala ing ngisor iki.\n\n__url__\n\nMatur nuwun.",
   "error-email-taken": "Email iki wis dienggo",
   "error-invitation-code-not-exist": "Kode undhangan ora ana",
   "error-ldap-login": "Ana kaluputan nalika nyoba mlebu",

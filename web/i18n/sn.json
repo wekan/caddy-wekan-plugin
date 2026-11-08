@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "dzorera yako pasiwedhi pa __siteName__",
   "email-resetPassword-text": "Hello __user__,\n\nku dzorera yako pasiwedhi, simply click the link below.\n\n__url__\n\nThanks.",
   "email-sent": "Tsamba yemagetsi yatumirwa",
+  "email-verifyEmail-subject": "Verify yako kero yeemail pa __siteName__",
+  "email-verifyEmail-text": "Hello __user__,\n\nku verify yako akaundi email, simply click the link below.\n\n__url__\n\nThanks.",
   "error-email-taken": "Email has already yave taken",
   "error-invitation-code-not-exist": "Kodhi yekukoka haipo",
   "error-ldap-login": "An kukanganisa occurred while trying ku login",

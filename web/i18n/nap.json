@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Reimposta 'a password toja ncopp'a __siteName__",
   "email-resetPassword-text": "Ciao __user__,\n\nPe ripristinare la tua password, clicca ncopp' 'o link seguente:\n\n__url__\n\nGrazie.",
   "email-sent": "Email inviata",
+  "email-verifyEmail-subject": "Verifica ll'indirizzo email tuojo ncopp'a __siteName__",
+  "email-verifyEmail-text": "Ciao __user__,\n\nPe verificare il tuo account email, clicca ncopp' 'o link seguente:\n\n__url__\n\nGrazie.",
   "error-email-taken": "Chist'indirizzo email è già aduprato",
   "error-invitation-code-not-exist": "Il codice d'invito nun esiste",
   "error-ldap-login": "Ce sta stato 'n errore mentre pruvave a trasì",

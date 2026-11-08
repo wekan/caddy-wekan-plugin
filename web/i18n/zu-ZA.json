@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Setha kabusha iphasiwedi yakho kokuthi __siteName__",
   "email-resetPassword-text": "Sawubona __user__,\n\nUkusetha kabusha iphasiwedi yakho, mane uchofoze isixhumanisi esingezansi.\n\n__url__\n\nNgiyabonga.",
   "email-sent": "I-imeyili ithunyelwe",
+  "email-verifyEmail-subject": "Qinisekisa ikheli lakho le-imeyili kokuthi __siteName__",
+  "email-verifyEmail-text": "Sawubona __user__,\n\nUkuze uqinisekise i-imeyili ye-akhawunti yakho, mane uchofoze isixhumanisi esingezansi.\n\n__url__\n\nNgiyabonga.",
   "error-email-taken": "I-imeyili isivele ithathiwe",
   "error-invitation-code-not-exist": "Ikhodi yesimemo ayikho",
   "error-ldap-login": "Kwenzeke iphutha ngesikhathi sizama ukungena",

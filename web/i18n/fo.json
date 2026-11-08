@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Endurstilla loyniorðið á __siteName__",
   "email-resetPassword-text": "Hey __user__,\n\nTrýst einfalt á leinkjuna niðanfyri fyri at endurstilla loyniorðið.\n\n__url__\n\nTakk.",
   "email-sent": "Teldupostur sendur",
+  "email-verifyEmail-subject": "Vátta teldupostadressuna á __siteName__",
+  "email-verifyEmail-text": "Hey __user__,\n\nTrýst einfalt á leinkjuna niðanfyri fyri at vátta teldupostin hjá kontuni.\n\n__url__\n\nTakk.",
   "error-email-taken": "Telduposturin er longu upptikin",
   "error-invitation-code-not-exist": "Innbjóðingarkotan finst ikki",
   "error-ldap-login": "Ein villa kom fyri undir innritanini",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Bwezeretsani mawu achinsinsi anu pa __siteName__",
   "email-resetPassword-text": "Moni __user__,\n\nKuti mubwezeretse mawu achinsinsi anu, ingodinani ulalo uli pansipa.\n\n__url__\n\nZikomo.",
   "email-sent": "Imelo yatumizidwa",
+  "email-verifyEmail-subject": "Tsimikizani adiresi yanu ya imelo pa __siteName__",
+  "email-verifyEmail-text": "Moni __user__,\n\nKuti mutsimikize imelo ya akawunti yanu, ingodinani ulalo uli pansipa.\n\n__url__\n\nZikomo.",
   "error-email-taken": "Imelo yatengedwa kale",
   "error-invitation-code-not-exist": "Khodi yoitanira kulibe",
   "error-ldap-login": "Panachitika cholakwika poyesa kulowa",

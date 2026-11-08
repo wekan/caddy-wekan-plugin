@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Обновете ја лозинката на __siteName__",
   "email-resetPassword-text": "Здраво __user__,\n\nЗа да ја обновите лозинката, кликнете на врската подолу.\n\n__url__\n\nВи благодариме.",
   "email-sent": "Е-поштата е испратена",
+  "email-verifyEmail-subject": "Потврдете ја вашата адреса за е-пошта на __siteName__",
+  "email-verifyEmail-text": "Здраво __user__,\n\nЗа да ја потврдите адресата за е-пошта на сметката, кликнете на врската подолу.\n\n__url__\n\nВи благодариме.",
   "error-email-taken": "Адресата на е-пошта е веќе зафатена",
   "error-invitation-code-not-exist": "Кодот на поканата не постои",
   "error-ldap-login": "Се појави грешка при обидот за најавување",

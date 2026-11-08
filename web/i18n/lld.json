@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Mët de nuef tua parola secreta sun __siteName__",
   "email-resetPassword-text": "Bundì __user__,\n\nPer mëter de nuef tua parola secreta, cliché sun l link dessot.\n\n__url__\n\nDiotelpaie.",
   "email-sent": "E-mail mandà",
+  "email-verifyEmail-subject": "Cuntrolea tua adressa e-mail sun __siteName__",
+  "email-verifyEmail-text": "Bundì __user__,\n\nPer cuntrulé l e-mail de tie cont, cliché sun l link dessot.\n\n__url__\n\nDiotelpaie.",
   "error-email-taken": "L e-mail ie bele tëut",
   "error-invitation-code-not-exist": "L code de nvidëda ne n’ie nia",
   "error-ldap-login": "L ie stat n fal tl prué de jì ite",

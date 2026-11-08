@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ တွင် သင့်စကားဝှက်ကို ပြန်သတ်မှတ်ရန်",
   "email-resetPassword-text": "မင်္ဂလာပါ __user__၊\n\nသင့်စကားဝှက်ကို ပြန်သတ်မှတ်ရန် အောက်ပါလင့်ခ်ကို နှိပ်ပါ။\n\n__url__\n\nကျေးဇူးတင်ပါသည်။",
   "email-sent": "အီးမေးလ် ပို့ပြီး",
+  "email-verifyEmail-subject": "__siteName__ တွင် သင့်အီးမေးလ်လိပ်စာကို အတည်ပြုရန်",
+  "email-verifyEmail-text": "မင်္ဂလာပါ __user__၊\n\nသင့်အကောင့်အီးမေးလ်ကို အတည်ပြုရန် အောက်ပါလင့်ခ်ကို နှိပ်ပါ။\n\n__url__\n\nကျေးဇူးတင်ပါသည်။",
   "error-email-taken": "အီးမေးလ်ကို အသုံးပြုပြီးဖြစ်သည်",
   "error-invitation-code-not-exist": "ဖိတ်ကြားချက်ကုဒ် မရှိပါ",
   "error-ldap-login": "ဝင်ရောက်ရန် ကြိုးစားစဉ် အမှားဖြစ်သည်",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Dib uga dhig eraygaaga sirta ah __siteName__",
   "email-resetPassword-text": "Salaan __user__,\n\nSi aad dib ugu dhigto eraygaaga sirta ah, si fudud u guji xiriiriyaha hoose.\n\n__url__\n\nMahadsanid.",
   "email-sent": "Iimaylka waa la diray",
+  "email-verifyEmail-subject": "Xaqiiji cinwaanka iimaylkaaga ee __siteName__",
+  "email-verifyEmail-text": "Salaan __user__,\n\nSi aad u xaqiijiso iimaylka akoonkaaga, si fudud u guji xiriiriyaha hoose.\n\n__url__\n\nMahadsanid.",
   "error-email-taken": "Iimaylkan hore ayaa loo qaatay",
   "error-invitation-code-not-exist": "Koodhka martiqaadku ma jiro",
   "error-ldap-login": "Khalad ayaa dhacay markii la isku dayay gelitaanka LDAP",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "وشەی نهێنی خۆت لە __siteName__ ڕێکبخەرەوە",
   "email-resetPassword-text": "سڵاو __user__،\n\nبۆ ڕێکخستنەوەی وشەی نهێنی، تەنها کرتە لە بەستەری خوارەوە بکە.\n\n__url__\n\nسوپاس.",
   "email-sent": "ئیمەیڵ نێردرا",
+  "email-verifyEmail-subject": "ناونیشانی ئیمەیڵەکەت لە __siteName__ پشتڕاست بکەرەوە",
+  "email-verifyEmail-text": "سڵاو __user__،\n\nبۆ پشتڕاستکردنەوەی ئیمەیڵی هەژمارەکەت، تەنها کرتە لە بەستەری خوارەوە بکە.\n\n__url__\n\nسوپاس.",
   "error-email-taken": "ئیمەیڵەکە پێشتر گیراوە",
   "error-invitation-code-not-exist": "کۆدی بانگهێشت بوونی نییە",
   "error-ldap-login": "لە کاتی هەوڵدان بۆ چوونەژوورەوە هەڵەیەک ڕوویدا",

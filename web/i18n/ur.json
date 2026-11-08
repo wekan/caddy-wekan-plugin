@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ پر اپنا پاس ورڈ دوبارہ ترتیب دیں",
   "email-resetPassword-text": "السلام علیکم __user__،\n\nاپنا پاس ورڈ دوبارہ ترتیب دینے کے لیے، بس نیچے دیے گئے لنک پر کلک کریں۔\n\n__url__\n\nشکریہ۔",
   "email-sent": "ای میل بھیج دی گئی",
+  "email-verifyEmail-subject": "__siteName__ پر اپنے ای میل پتے کی تصدیق کریں",
+  "email-verifyEmail-text": "السلام علیکم __user__،\n\nاپنے اکاؤنٹ کے ای میل کی تصدیق کے لیے، بس نیچے دیے گئے لنک پر کلک کریں۔\n\n__url__\n\nشکریہ۔",
   "error-email-taken": "یہ ای میل پہلے ہی لی جا چکی ہے",
   "error-invitation-code-not-exist": "دعوتی کوڈ موجود نہیں ہے",
   "error-ldap-login": "لاگ ان کرنے کی کوشش کے دوران ایک خرابی پیش آئی",

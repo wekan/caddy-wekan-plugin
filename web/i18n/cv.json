@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ ҫинчи парольне ҫӗнетес",
   "email-resetPassword-text": "Салам, __user__!\n\nПарольне ҫӗнетес тесен аялти ҫыхӑну ҫине пусӑр.\n\n__url__\n\nТавтапуҫ.",
   "email-sent": "Электронлӑ ҫыру янӑ",
+  "email-verifyEmail-subject": "__siteName__ ҫинчи электронлӑ пуштӑ адресне тӗрӗслес",
+  "email-verifyEmail-text": "Салам, __user__!\n\nАккаунтӑн электронлӑ пуштине тӗрӗслес тесен аялти ҫыхӑну ҫине пусӑр.\n\n__url__\n\nТавтапуҫ.",
   "error-email-taken": "Электронлӑ пуштӑ адресне ытти илнӗ ӗнтӗ",
   "error-invitation-code-not-exist": "Чӗнӳ кочӗ ҫук",
   "error-ldap-login": "Системӑна кӗме тӑнӑ чухне йӑнӑш тухрӗ",

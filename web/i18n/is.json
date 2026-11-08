@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Endurstilla lykilorðið þitt á __siteName__",
   "email-resetPassword-text": "Halló __user__,\n\nTil að endurstilla lykilorðið skaltu einfaldlega smella á tengilinn hér fyrir neðan.\n\n__url__\n\nTakk.",
   "email-sent": "Tölvupóstur sendur",
+  "email-verifyEmail-subject": "Staðfesta netfangið þitt á __siteName__",
+  "email-verifyEmail-text": "Halló __user__,\n\nTil að staðfesta netfang aðgangsins skaltu einfaldlega smella á tengilinn hér fyrir neðan.\n\n__url__\n\nTakk.",
   "error-email-taken": "Netfangið er þegar í notkun",
   "error-invitation-code-not-exist": "Boðskóðinn er ekki til",
   "error-ldap-login": "Villa kom upp við innskráningu",

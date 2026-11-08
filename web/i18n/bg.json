@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Нулиране на паролата ви в __siteName__",
   "email-resetPassword-text": "Здравейте, __user__,\n\nЗа да нулирате паролата си, щракнете върху връзката по-долу.\n\n__url__\n\nБлагодарим.",
   "email-sent": "Имейлът е изпратен",
+  "email-verifyEmail-subject": "Потвърдете имейл адреса си в __siteName__",
+  "email-verifyEmail-text": "Здравейте, __user__,\n\nЗа да потвърдите имейл адреса на профила си, щракнете върху връзката по-долу.\n\n__url__\n\nБлагодарим.",
   "error-email-taken": "Имейлът е вече зает",
   "error-invitation-code-not-exist": "Кода от покана не съществува",
   "error-ldap-login": "Възникна грешка при опита за вход",

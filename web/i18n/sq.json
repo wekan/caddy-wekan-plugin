@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Rivendos fjalëkalimin në __siteName__",
   "email-resetPassword-text": "Përshëndetje __user__,\n\nPër të rivendosur fjalëkalimin, kliko lidhjen më poshtë.\n\n__url__\n\nFaleminderit.",
   "email-sent": "Emaili u dërgua",
+  "email-verifyEmail-subject": "Verifiko adresën e emailit në __siteName__",
+  "email-verifyEmail-text": "Përshëndetje __user__,\n\nPër të verifikuar emailin e llogarisë, kliko lidhjen më poshtë.\n\n__url__\n\nFaleminderit.",
   "error-email-taken": "Emaili është përdorur tashmë",
   "error-invitation-code-not-exist": "Kodi i ftesës nuk ekziston",
   "error-ldap-login": "Ndodhi një gabim gjatë përpjekjes për t'u identifikuar",

@@ -224,3 +224,30 @@ func (s *Server) resetPassword(w http.ResponseWriter, r *http.Request) {
 	}
 	s.signInAs(w, r, id)
 }
+
+// sendVerification is accounts-password's sendVerificationEmail at sign-up
+// (WeKan's AccountsTemplates sendVerificationEmail: true): a token for the
+// address, and the link by mail. Best effort, as WeKan's #5672: the account
+// exists already, so no mail server, or a mail that fails, never fails the
+// sign-up - the link can be asked for again.
+func (s *Server) sendVerification(r *http.Request, userID, username, email, lang string) {
+	ctx := r.Context()
+	if _, err := s.mailSettings(ctx, r.Host); err != nil {
+		return
+	}
+	token := invitationCode() + invitationCode()
+	if _, err := s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(userID)}, bson.M{"$push": bson.M{"services.email.verificationTokens": bson.M{
+		"token": token, "address": email, "when": time.Now().UTC()}}}); err != nil {
+		return
+	}
+	scheme := "https://"
+	if r.TLS == nil {
+		scheme = "http://"
+	}
+	params := map[string]string{"user": username, "url": scheme + r.Host + "/verify-email/" + token, "siteName": "WeKan"}
+	if err := s.sendMail(ctx, r.Host, mailMessage{To: []string{email},
+		Subject: fillParams(tr(lang, "email-verifyEmail-subject"), params),
+		Text:    fillParams(tr(lang, "email-verifyEmail-text"), params)}); err != nil {
+		s.log.Warn("verification mail", "error", err)
+	}
+}

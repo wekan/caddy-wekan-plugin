@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Cur dty ockle follit er bun reesht er __siteName__",
   "email-resetPassword-text": "Moghrey mie __user__,\n\nDy chur dty ockle follit er bun reesht, broogh er y chiangley heese.\n\n__url__\n\nGura mie ayd.",
   "email-sent": "Post-l currit",
+  "email-verifyEmail-subject": "Firrinaghey dty enmys post-l er __siteName__",
+  "email-verifyEmail-text": "Moghrey mie __user__,\n\nDy firrinaghey post-l dty choontys, broogh er y chiangley heese.\n\n__url__\n\nGura mie ayd.",
   "error-email-taken": "Ta'n post-l goit hannah",
   "error-invitation-code-not-exist": "Cha nel coad cuirrey ayn",
   "error-ldap-login": "Haink marranys tra v'eh prow çheet stiagh",

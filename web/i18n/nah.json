@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Xiccuepa moichtaca tlahtol ipan __siteName__",
   "email-resetPassword-text": "Niltze __user__,\n\nInic ticcuepas moichtaca tlahtol, zan xictoca in ilpiliztli tlatzintlan.\n\n__url__\n\nTlazohcamati.",
   "email-sent": "Tlahcuilolli otitlaniloc",
+  "email-verifyEmail-subject": "Xicmelahua motlahcuilolnemachiyo ipan __siteName__",
+  "email-verifyEmail-text": "Niltze __user__,\n\nInic ticmelahuas motlacatequitilamatl itlahcuilolnemachiyo, zan xictoca in ilpiliztli tlatzintlan.\n\n__url__\n\nTlazohcamati.",
   "error-email-taken": "Inin tlahcuilolnemachiyotl ya motequihuia",
   "error-invitation-code-not-exist": "Notzaliztli machiyotl amo onca",
   "error-ldap-login": "Ce ahcuallotl omochiuh ihcuac oquinec calaquini",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Atô ulang kata sandi droeneueh bak __siteName__",
   "email-resetPassword-text": "Saleuem __user__,\n\nKeu atô ulang kata sandi droeneueh, neuklik tautan di miyup.\n\n__url__\n\nTeurimong geunaseh.",
   "email-sent": "Emel ka teukirem",
+  "email-verifyEmail-subject": "Peubeutoi alamat emel droeneueh bak __siteName__",
+  "email-verifyEmail-text": "Saleuem __user__,\n\nKeu peubeutoi alamat emel akun droeneueh, neuklik tautan di miyup.\n\n__url__\n\nTeurimong geunaseh.",
   "error-email-taken": "Emel nyoe ka geungui",
   "error-invitation-code-not-exist": "Kode undangan hana",
   "error-ldap-login": "Na salah watee geucuba login",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "ⵔⴰⵔ ⴷ ⵜⴰⴳⵓⵔⵉ ⵏ ⵓⵣⵔⴰⵢ ⵏⵏⴽ ⴳ __siteName__",
   "email-resetPassword-text": "ⴰⵣⵓⵍ __user__,\n\nⴰⴼⴰⴷ ⴰⴷ ⵜⵔⴰⵔⴷ ⴷ ⵜⴰⴳⵓⵔⵉ ⵏ ⵓⵣⵔⴰⵢ ⵏⵏⴽ, ⴽⵍⵉⴽⵉ ⵖⴼ ⵓⵙⵖⵏ ⴳ ⴷⴷⴰⵡ ⴷⴰ ⵖⴰⵙ.\n\n__url__\n\nⵜⴰⵏⵎⵎⵉⵔⵜ.",
   "email-sent": "ⵉⵎⴰⵢⵍ ⴰⵙⵏⵏ",
+  "email-verifyEmail-subject": "ⵙⵙⵉⴷⴻⴷ ⴰⵏⵙⴰ ⵏ ⵉⵎⴰⵢⵍ ⵏⵏⴽ ⴳ __siteName__",
+  "email-verifyEmail-text": "ⴰⵣⵓⵍ __user__,\n\nⴰⴼⴰⴷ ⴰⴷ ⵜⵙⵙⵉⴷⴷⴻⴷ ⴰⵏⵙⴰ ⵏ ⵉⵎⴰⵢⵍ ⵏ ⵓⵎⵉⴹⴰⵏ ⵏⵏⴽ, ⴽⵍⵉⴽⵉ ⵖⴼ ⵓⵙⵖⵏ ⴳ ⴷⴷⴰⵡ ⴷⴰ ⵖⴰⵙ.\n\n__url__\n\nⵜⴰⵏⵎⵎⵉⵔⵜ.",
   "error-email-taken": "ⴰⵏⵙⴰ ⵏ ⵉⵎⴰⵢⵍ ⵉⵜⵜⵓⵙⵎⵔⵙ ⵢⴰⴷ.",
   "error-invitation-code-not-exist": "ⵜⴰⵏⴳⴰⵍⵜ ⵏ ⵜⵉⵏⵏⵓⴱⴳⴰ ⵓⵔ ⵜⵍⵍⵉ",
   "error-ldap-login": "ⵉⵍⵍⴰ ⴽⵔⴰ ⵏ ⵓⵣⴳⴰⵍ ⴰⴷⴷⴰⵢ ⵜⴰⵔⵎⴷ ⴰⴷ ⵜⴽⵛⵎⴷ",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Đặt lại mật khẩu của bạn trên __siteName__",
   "email-resetPassword-text": "Chào __user__,\n\nĐể đặt lại mật khẩu của bạn, chỉ cần nhấp vào liên kết bên dưới.\n\n__url__\n\nCảm ơn.",
   "email-sent": "Đã gửi email",
+  "email-verifyEmail-subject": "Xác minh địa chỉ email của bạn trên __siteName__",
+  "email-verifyEmail-text": "Chào __user__,\n\nĐể xác minh email tài khoản của bạn, chỉ cần nhấp vào liên kết bên dưới.\n\n__url__\n\nCảm ơn.",
   "error-email-taken": "Email đã được sử dụng",
   "error-invitation-code-not-exist": "Mã lời mời không tồn tại",
   "error-ldap-login": "Đã xảy ra lỗi khi cố gắng đăng nhập",

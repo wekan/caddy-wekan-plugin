@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Seta sešwa lefokophethiso la gago mo go __siteName__",
   "email-resetPassword-text": "Dumela __user__,\n\nGo seta sešwa lefokophethiso la gago, tobetsa fela kgokagano e e fa tlase.\n\n__url__\n\nRe a leboga.",
   "email-sent": "Imeile e rometswe",
+  "email-verifyEmail-subject": "Netefatsa aterese ya imeile mo go __siteName__",
+  "email-verifyEmail-text": "Dumela __user__,\n\nGo netefatsa imeile ya akhaonto ya gago, tobetsa fela kgokagano e e fa tlase.\n\n__url__\n\nRe a leboga.",
   "error-email-taken": "Imeile e setse e dirisiwa",
   "error-invitation-code-not-exist": "Taletso khoutu doesn't exist",
   "error-ldap-login": "E phoso occurred fa trying go go tsena",

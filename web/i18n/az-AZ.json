@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ ünvanında parolunuzu sıfırlayın",
   "email-resetPassword-text": "Salam __user__,\n\nParolunuzu sıfırlamaq üçün aşağıdakı linkə klikləyin.\n\n__url__\n\ntəşəkkürlər.",
   "email-sent": "E-poçt göndərildi",
+  "email-verifyEmail-subject": "__siteName__ ünvanında e-poçt ünvanınızı doğrulayın",
+  "email-verifyEmail-text": "Salam __user__,\n\nHesab e-poçtunuzu təsdiqləmək üçün aşağıdakı linkə klikləyin.\n\n__url__\n\ntəşəkkürlər.",
   "error-email-taken": "E-poçt artıq götürülüb",
   "error-invitation-code-not-exist": "Dəvət kodu mövcud deyil",
   "error-ldap-login": "Daxil olmağa çalışarkən xəta baş verdi",

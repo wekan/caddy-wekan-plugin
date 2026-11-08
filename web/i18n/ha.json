@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Sake saita kalmar sirrinka a __siteName__",
   "email-resetPassword-text": "Sannu __user__,\n\nDon sake saita kalmar sirrinka, kawai danna mahaɗin da ke ƙasa.\n\n__url__\n\nNa gode.",
   "email-sent": "An aika imel",
+  "email-verifyEmail-subject": "Tabbatar da adireshin imel ɗinka a __siteName__",
+  "email-verifyEmail-text": "Sannu __user__,\n\nDon tabbatar da imel na asusunka, kawai danna mahaɗin da ke ƙasa.\n\n__url__\n\nNa gode.",
   "error-email-taken": "An riga an ɗauki imel ɗin",
   "error-invitation-code-not-exist": "Lambar gayyata ba ta wanzu",
   "error-ldap-login": "An samu kuskure yayin ƙoƙarin shiga",

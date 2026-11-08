@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "پارولینگیزنی __siteName__ منزلیگه قیته اۉرنتینگ",
   "email-resetPassword-text": "سلام __user__،\n\nپارولنی تیکلش اوچون قوییدگی حواله‌نی باسینگ.\n\n__url__\n\nرحمت.",
   "email-sent": "ایمیل یوباریلدی",
+  "email-verifyEmail-subject": "__siteName__ الکترون پاچته منزلینگیزنی تصدیقلنگ",
+  "email-verifyEmail-text": "سلام __user__،\n\nحساب قیدنامه‌نگیز الکترون پاچته منزلینی تصدیقلش اوچون قوییدگی حواله‌نی باسینگ.\n\n__url__\n\nرحمت.",
   "error-email-taken": "الکترون پاچته اللقچان آلینگن",
   "error-invitation-code-not-exist": "تکلیف کودی موجود ایمس",
   "error-ldap-login": "تیزیمگه کیریشده خطالیک یوز بیردی",

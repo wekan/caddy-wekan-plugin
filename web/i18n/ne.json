@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ मा आफ्नो पासवर्ड रिसेट गर्नुहोस्",
   "email-resetPassword-text": "नमस्कार __user__,\n\nआफ्नो पासवर्ड रिसेट गर्न तलको लिङ्कमा क्लिक गर्नुहोस्।\n\n__url__\n\nधन्यवाद।",
   "email-sent": "इमेल पठाइयो",
+  "email-verifyEmail-subject": "__siteName__ मा आफ्नो इमेल ठेगाना प्रमाणित गर्नुहोस्",
+  "email-verifyEmail-text": "नमस्कार __user__,\n\nआफ्नो खाताको इमेल प्रमाणित गर्न तलको लिङ्कमा क्लिक गर्नुहोस्।\n\n__url__\n\nधन्यवाद।",
   "error-email-taken": "यो इमेल पहिले नै लिइएको छ",
   "error-invitation-code-not-exist": "निमन्त्रणा कोड अवस्थित छैन",
   "error-ldap-login": "लगइन गर्ने प्रयास गर्दा त्रुटि भयो",

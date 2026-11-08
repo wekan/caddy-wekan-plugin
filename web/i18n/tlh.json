@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__-Daq pegh mu'lIj yIcherqa'",
   "email-resetPassword-text": "nuqneH __user__,\n\npegh mu'lIj Dacherqa'meH, bIngDaq rarwI' yIqIp.\n\n__url__\n\nqatlho'.",
   "email-sent": "jabbI'ID ngeHlu'pu'",
+  "email-verifyEmail-subject": "__siteName__-Daq QIn pat QuvlIj yI'ol",
+  "email-verifyEmail-text": "nuqneH __user__,\n\naccountlIj QIn pat Quv Da'olmeH, bIngDaq rarwI' yIqIp.\n\n__url__\n\nqatlho'.",
   "error-email-taken": "DaH QIn pat Quvvam lo'lu'taH",
   "error-invitation-code-not-exist": "rItmeH ngoq tu'lu'be'",
   "error-ldap-login": "'elmeH Qu' nIDlu'taHvIS, Qagh tu'lu'pu'",

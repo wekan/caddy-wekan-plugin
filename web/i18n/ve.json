@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Vheani hafhu phasiwede yaṋu kha __siteName__",
   "email-resetPassword-text": "Ndaa __user__,\n\nU vhea hafhu phasiwede yaṋu, kiḽikani ḽinki i re afho fhasi.\n\n__url__\n\nRo livhuwa.",
   "email-sent": "Imeiḽi yo rumelwa",
+  "email-verifyEmail-subject": "Khwaṱhisedzani ḓiresi yaṋu ya imeiḽi kha __siteName__",
+  "email-verifyEmail-text": "Ndaa __user__,\n\nU khwaṱhisedza imeiḽi ya akhaunthu yaṋu, kiḽikani ḽinki i re afho fhasi.\n\n__url__\n\nRo livhuwa.",
   "error-email-taken": "Imeiḽi yo no shumiswa",
   "error-invitation-code-not-exist": "Khoudu ya thambo a i ho",
   "error-ldap-login": "Ho vha na vhukhakhi musi hu tshi lingedzwa u dzhena",

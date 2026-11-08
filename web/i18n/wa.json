@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Rimete vosse sicret so __siteName__",
   "email-resetPassword-text": "Bondjoû __user__,\n\nPo rimete vosse sicret, clitchîz sol hårdêye pa dzo.\n\n__url__\n\nGråces.",
   "email-sent": "Email envoyé",
+  "email-verifyEmail-subject": "Verifyî vosse adresse emile so __siteName__",
+  "email-verifyEmail-text": "Bondjoû __user__,\n\nPo verifyî l' adresse emile di vosse conte, clitchîz sol hårdêye pa dzo.\n\n__url__\n\nGråces.",
   "error-email-taken": "Cisse adresse emile ci est dedja prise",
   "error-invitation-code-not-exist": "Li côde d' invitåcion n' egzistêye nén",
   "error-ldap-login": "Ene aroke a arivé å moumint di sayî di s' elodjî",

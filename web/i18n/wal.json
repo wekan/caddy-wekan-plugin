@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ bolla ne geeman qaalaa ooratta oottana",
   "email-resetPassword-text": "Saro __user__,\n\nNe geeman qaalaa ooratta oottanaw, garssan de'iya gattiyaabaa qoxxa.\n\n__url__\n\nGalatay.",
   "email-sent": "Iimeeliyaa yedettiis",
+  "email-verifyEmail-subject": "__siteName__ bolla ne iimeeliyaa sohuwaa tumissa",
+  "email-verifyEmail-text": "Saro __user__,\n\nNe akkawuntiyaa iimeeliyaa tumissanaw, garssan de'iya gattiyaabaa qoxxa.\n\n__url__\n\nGalatay.",
   "error-email-taken": "Iimeeliyay kase ekettiis",
   "error-invitation-code-not-exist": "Xeesiyo koodiyay baawa",
   "error-ldap-login": "Gelanaw paacciyo wode balay medhettiis",

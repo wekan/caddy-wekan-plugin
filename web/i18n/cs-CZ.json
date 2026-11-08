@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Změň své heslo na __siteName__",
   "email-resetPassword-text": "Ahoj __user__,\n\nPro změnu hesla klikni na odkaz níže.\n\n__url__\n\nDěkujeme.",
   "email-sent": "Email byl odeslán",
+  "email-verifyEmail-subject": "Ověř svou emailovou adresu na __siteName__",
+  "email-verifyEmail-text": "Ahoj __user__,\n\nPro ověření emailové adresy klikni na odkaz níže.\n\n__url__\n\nDěkujeme.",
   "error-email-taken": "Tento email byl již použit",
   "error-invitation-code-not-exist": "Kód pozvánky neexistuje.",
   "error-ldap-login": "Během přihlašování nastala chyba",

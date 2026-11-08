@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ дээрх нууц үгээ шинэчлэх",
   "email-resetPassword-text": "Сайн байна уу __user__,\n\nНууц үгээ шинэчлэхийн тулд доорх холбоос дээр дарна уу.\n\n__url__\n\nБаярлалаа.",
   "email-sent": "Имэйл илгээгдлээ",
+  "email-verifyEmail-subject": "__siteName__ дээрх имэйл хаягаа баталгаажуулах",
+  "email-verifyEmail-text": "Сайн байна уу __user__,\n\nБүртгэлийн имэйлээ баталгаажуулахын тулд доорх холбоос дээр дарна уу.\n\n__url__\n\nБаярлалаа.",
   "error-email-taken": "Энэ имэйл аль хэдийн ашиглагдсан байна",
   "error-invitation-code-not-exist": "Урилгын код байхгүй байна",
   "error-ldap-login": "Нэвтрэх үед алдаа гарлаа",

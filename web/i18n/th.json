@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "ตั้งรหัสผ่่านใหม่ของคุณบน __siteName__",
   "email-resetPassword-text": "สวัสดี __user__,\n\nในการรีเซ็ตรหัสผ่านของคุณ, คลิกตามลิงค์ด้านล่าง \n\n__url__\n\nขอบคุณค่ะ",
   "email-sent": "ส่งอีเมล์",
+  "email-verifyEmail-subject": "ยืนยันที่อยู่อีเม์ของคุณบน __siteName__",
+  "email-verifyEmail-text": "สวัสดี __user__,\n\nตรวจสอบบัญชีอีเมล์ของคุณ ง่าย ๆ ตามลิงค์ด้านล่าง \n\n__url__\n\n ขอบคุณค่ะ",
   "error-email-taken": "อีเมลนี้ถูกใช้แล้ว",
   "error-invitation-code-not-exist": "ไม่มีรหัสคำเชิญนี้",
   "error-ldap-login": "เกิดข้อผิดพลาดขณะพยายามเข้าสู่ระบบ",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "په __siteName__ کې خپل پټنوم بيا وټاکئ",
   "email-resetPassword-text": "سلام __user__،\n\nد خپل پټنوم د بيا ټاکلو لپاره يوازې پر لاندې تړوني ټک وکړئ.\n\n__url__\n\nمننه.",
   "email-sent": "برېښناليک ولېږل شو",
+  "email-verifyEmail-subject": "په __siteName__ کې خپل برېښناليک پته تاييد کړئ",
+  "email-verifyEmail-text": "سلام __user__،\n\nد خپل حساب د برېښناليک تاييدولو لپاره يوازې پر لاندې تړوني ټک وکړئ.\n\n__url__\n\nمننه.",
   "error-email-taken": "دا برېښناليک مخکې اخيستل شوی",
   "error-invitation-code-not-exist": "د بلنې کوډ نشته",
   "error-ldap-login": "د ننوتلو په هڅه کې تېروتنه رامنځته شوه",

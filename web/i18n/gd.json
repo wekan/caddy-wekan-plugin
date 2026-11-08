@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Ath-shuidhich am facal-faire agad air __siteName__",
   "email-resetPassword-text": "Halò __user__,\n\nGus am facal-faire agad ath-shuidheachadh, dìreach briog air a' cheangal gu h-ìosal.\n\n__url__\n\nTapadh leat.",
   "email-sent": "Post-d air a chur",
+  "email-verifyEmail-subject": "Dearbhaich an seòladh puist-d agad air __siteName__",
+  "email-verifyEmail-text": "Halò __user__,\n\nGus post-d a' chunntais agad a dhearbhadh, dìreach briog air a' cheangal gu h-ìosal.\n\n__url__\n\nTapadh leat.",
   "error-email-taken": "Tha am post-d ga chleachdadh mu thràth",
   "error-invitation-code-not-exist": "Chan eil còd a' chuiridh ann",
   "error-ldap-login": "Thachair mearachd nuair a bhathar a' feuchainn ri logadh a-steach",

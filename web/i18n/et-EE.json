@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Parooli lähtestamine aadressil __siteName__",
   "email-resetPassword-text": "Tere __user__,\n\nParooli lähtestamiseks klõpsake lihtsalt alloleval lingil.\n\n__url__\n\nTänan teid.",
   "email-sent": "Saadetud e-kiri",
+  "email-verifyEmail-subject": "Kontrollida oma e-posti aadressi __siteName__",
+  "email-verifyEmail-text": "Tere __user__,\n\nOma konto e-posti aadressi kinnitamiseks klõpsake lihtsalt alloleval lingil.\n\n__url__\n\nTänan teid.",
   "error-email-taken": "E-post on juba võetud",
   "error-invitation-code-not-exist": "Kutse kood ei ole olemas",
   "error-ldap-login": "Sisselogimise ajal ilmnes viga",

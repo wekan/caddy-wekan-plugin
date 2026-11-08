@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Resett passord på __siteName__",
   "email-resetPassword-text": "Hei __user__,\n\nFor gjenoppretting av ditt passord, klikk på lenken under.\n\n__url__\n\nTakk.",
   "email-sent": "E-post sendt",
+  "email-verifyEmail-subject": "Verifiser din e-postadresse på __siteName__",
+  "email-verifyEmail-text": "Hei __user__,\n\nFor å verifisere e-postsdressen din, klikk på lenken under.\n\n__url__\n\nTakk.",
   "error-email-taken": "E-postadressen er allerede i bruk",
   "error-invitation-code-not-exist": "Invitasjonskode eksisterer ikke",
   "error-ldap-login": "En feil oppstod i forbindelse med pålogging",

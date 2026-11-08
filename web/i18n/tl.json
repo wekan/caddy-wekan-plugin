@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "I-reset iyong password sa __siteName__",
   "email-resetPassword-text": "Hello __user__,\n\nSa i-reset iyong password, simply click the ugnay below.\n\n__url__\n\nThanks.",
   "email-sent": "E-liham ipinadala",
+  "email-verifyEmail-subject": "Verify iyong e-liham tirahan sa __siteName__",
+  "email-verifyEmail-text": "Hello __user__,\n\nSa verify iyong account e-liham, simply click the ugnay below.\n\n__url__\n\nThanks.",
   "error-email-taken": "E-liham may already naging taken",
   "error-invitation-code-not-exist": "Imbitasyon kodigo doesn't exist",
   "error-ldap-login": "An mali occurred while trying sa mag-login",

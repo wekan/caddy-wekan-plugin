@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Restitue tesseram tuam in __siteName__",
   "email-resetPassword-text": "Salve __user__,\n\nUt tesseram tuam restituas, preme ligamen infra.\n\n__url__\n\nGratias.",
   "email-sent": "Epistula electronica missa est",
+  "email-verifyEmail-subject": "Confirma inscriptionem tuam electronicam in __siteName__",
+  "email-verifyEmail-text": "Salve __user__,\n\nUt inscriptionem electronicam rationis tuae confirmes, preme ligamen infra.\n\n__url__\n\nGratias.",
   "error-email-taken": "Haec inscriptio electronica iam occupata est",
   "error-invitation-code-not-exist": "Codex invitationis non exsistit",
   "error-ldap-login": "Error accidit dum ingressus temptabatur",

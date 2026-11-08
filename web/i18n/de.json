@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Setzten Sie ihr Passwort auf __siteName__ zurück",
   "email-resetPassword-text": "Hallo __user__,\n\num ihr Passwort zurückzusetzen, klicken Sie bitte auf folgenden Link:\n\n__url__\n\nDanke.",
   "email-sent": "E-Mail gesendet",
+  "email-verifyEmail-subject": "Bestätigen Sie ihre E-Mail-Adresse auf __siteName__",
+  "email-verifyEmail-text": "Hallo __user__,\n\num ihre E-Mail-Adresse zu bestätigen, klicken Sie bitte auf folgenden Link:\n\n__url__\n\nDanke.",
   "error-email-taken": "E-Mail wird schon verwendet",
   "error-invitation-code-not-exist": "Ungültiger Einladungscode",
   "error-ldap-login": "Es ist ein Fehler beim Anmelden aufgetreten",

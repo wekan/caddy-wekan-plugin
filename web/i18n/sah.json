@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ манна киирии тылгын хат туруор",
   "email-resetPassword-text": "Дорообо, __user__,\n\nКиирии тылгын хат туруорарга аллараа сигэни баттаа.\n\n__url__\n\nМахтал.",
   "email-sent": "Электроннай сурук ыытылынна",
+  "email-verifyEmail-subject": "__siteName__ манна электроннай почтаҥ аадырыһын бигэргэт",
+  "email-verifyEmail-text": "Дорообо, __user__,\n\nБэлиэтэнииҥ электроннай почтатын бигэргэтэргэ аллараа сигэни баттаа.\n\n__url__\n\nМахтал.",
   "error-email-taken": "Бу электроннай почта номнуо туттуллар",
   "error-invitation-code-not-exist": "Ыҥырыы куода суох",
   "error-ldap-login": "Киирии кэмигэр алҕас таҕыста",

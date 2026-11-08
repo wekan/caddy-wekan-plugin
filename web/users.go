@@ -145,6 +145,7 @@ func (s *Server) signUp(w http.ResponseWriter, r *http.Request) {
 	if invite != nil {
 		s.acceptInvitation(r.Context(), u.ID, invite)
 	}
+	s.sendVerification(r, u.ID, u.Username, strings.ToLower(email), lang)
 	token, expires, err := s.newLoginToken(r.Context(), u.ID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

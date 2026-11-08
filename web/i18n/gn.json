@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Emoĩjey ne ñe'ẽñemi __siteName__-pe",
   "email-resetPassword-text": "Maitei __user__,\n\nEmoĩjey hag̃ua ne ñe'ẽñemi, eikutu joajuha iguýpe.\n\n__url__\n\nAguyje.",
   "email-sent": "Ñanduti veve oñemondo",
+  "email-verifyEmail-subject": "Emoneĩ ne ñanduti veve renda __siteName__-pe",
+  "email-verifyEmail-text": "Maitei __user__,\n\nEmoneĩ hag̃ua ne mba'ete ñanduti veve, eikutu joajuha iguýpe.\n\n__url__\n\nAguyje.",
   "error-email-taken": "Ñanduti veve ojepurúma",
   "error-invitation-code-not-exist": "Ñepepirũ ayvu ndaipóri",
   "error-ldap-login": "Oiko peteĩ jejavy reike hag̃ua",

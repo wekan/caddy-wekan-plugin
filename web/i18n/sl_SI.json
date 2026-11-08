@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Ponastavite geslo na __siteName__",
   "email-resetPassword-text": "Pozdravljeni __user__,\n\nZa ponastavitev gesla kliknite na spodnjo povezavo.\n\n__url__\n\nHvala.",
   "email-sent": "E-pošta poslana",
+  "email-verifyEmail-subject": "Preverite svoje e-poštni naslov na __siteName__",
+  "email-verifyEmail-text": "Pozdravljeni __user__,\n\nDa preverite e-poštni naslov za vaš uporabniški račun, kliknite na spodnjo povezavo.\n\n__url__\n\nHvala.",
   "error-email-taken": "E-poštni naslov je že zaseden",
   "error-invitation-code-not-exist": "Koda povabila ne obstaja",
   "error-ldap-login": "Prišlo je do napake ob prijavi",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Dönuvälön letavödi olik su __siteName__",
   "email-resetPassword-text": "Glidis, o __user__,\n\nAd dönuvälön letavödi olik, klikolös yümi dono.\n\n__url__\n\nDanö!",
   "email-sent": "Pened leäktronik pesedon",
+  "email-verifyEmail-subject": "Fümükön ladeti leäktronik olik su __siteName__",
+  "email-verifyEmail-text": "Glidis, o __user__,\n\nAd fümükön ladeti leäktronik kala olik, klikolös yümi dono.\n\n__url__\n\nDanö!",
   "error-email-taken": "Ladet leäktronik at ya pagebon",
   "error-invitation-code-not-exist": "Kot vüda no dabinon",
   "error-ldap-login": "Pöl ejenon dü steifül ad nunädön oki",

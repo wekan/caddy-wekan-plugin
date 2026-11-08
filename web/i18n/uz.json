@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Parolingizni __siteName__ manziliga qayta oʻrnating",
   "email-resetPassword-text": "Salom __user__,\n\nParolni tiklash uchun quyidagi havolani bosing.\n\n__url__\n\nrahmat.",
   "email-sent": "Email yuborildi",
+  "email-verifyEmail-subject": "__siteName__ elektron pochta manzilingizni tasdiqlang",
+  "email-verifyEmail-text": "Salom __user__,\n\nHisob qaydnomangiz elektron pochta manzilini tasdiqlash uchun quyidagi havolani bosing.\n\n__url__\n\nrahmat.",
   "error-email-taken": "Elektron pochta allaqachon olingan",
   "error-invitation-code-not-exist": "Taklif kodi mavjud emas",
   "error-ldap-login": "Tizimga kirishda xatolik yuz berdi",

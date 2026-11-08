@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Бознишонии гузарвожаи шумо дар __siteName__",
   "email-resetPassword-text": "Салом __user__,\n\nБарои бознишонии гузарвожа, танҳо пайванди зерро пахш кунед.\n\n__url__\n\nТашаккур.",
   "email-sent": "Почтаи электронӣ фиристода шуд",
+  "email-verifyEmail-subject": "Тасдиқи нишонии почтаи электронии шумо дар __siteName__",
+  "email-verifyEmail-text": "Салом __user__,\n\nБарои тасдиқи почтаи электронии ҳисоби худ, танҳо пайванди зерро пахш кунед.\n\n__url__\n\nТашаккур.",
   "error-email-taken": "Почтаи электронӣ аллакай гирифта шудааст",
   "error-invitation-code-not-exist": "Рамзи даъват вуҷуд надорад",
   "error-ldap-login": "Ҳангоми кӯшиши воридшавӣ хато рух дод",

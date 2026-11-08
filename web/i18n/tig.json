@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "መሕለፊ ቃልካ ኣብ __siteName__ ዳግም ኣዳሉ",
   "email-resetPassword-text": "ሰላም __user__፣\n\nመሕለፊ ቃልካ ዳግም ንምድላው፣ ኣብ ታሕቲ ዘሎ መራኸቢ ጥራይ ጠውቕ።\n\n__url__\n\nየቐንየልና።",
   "email-sent": "ኢመይል ትላአከ",
+  "email-verifyEmail-subject": "ኣድራሻ ኢመይልካ ኣብ __siteName__ ኣረጋግጽ",
+  "email-verifyEmail-text": "ሰላም __user__፣\n\nኢመይል ሕሳብካ ንምርግጋጽ፣ ኣብ ታሕቲ ዘሎ መራኸቢ ጥራይ ጠውቕ።\n\n__url__\n\nየቐንየልና።",
   "error-email-taken": "ኢመይል ድሮ ተወሲዱ",
   "error-invitation-code-not-exist": "ኮድ ዕድመ የለን",
   "error-ldap-login": "ክትኣቱ ክትፍትን ከለኻ ጌጋ ተፈጢሩ",

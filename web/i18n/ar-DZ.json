@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "إعادة تعيين كلمة مرورك على __siteName__",
   "email-resetPassword-text": "مرحبًا __user__،\n\nلإعادة تعيين كلمة مرورك، انقر الرابط أدناه.\n\n__url__\n\nشكرًا.",
   "email-sent": "أُرسل البريد الإلكتروني",
+  "email-verifyEmail-subject": "تأكيد عنوان بريدك الإلكتروني على __siteName__",
+  "email-verifyEmail-text": "مرحبًا __user__،\n\nلتأكيد البريد الإلكتروني لحسابك، انقر الرابط أدناه.\n\n__url__\n\nشكرًا.",
   "error-email-taken": "البريد الإلكتروني مأخوذ بالفعل",
   "error-invitation-code-not-exist": "رمز الدعوة غير موجود",
   "error-ldap-login": "حدث خطأ أثناء محاولة تسجيل الدخول",

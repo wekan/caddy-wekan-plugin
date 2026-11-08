@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Restablezca su contraseña en __siteName__",
   "email-resetPassword-text": "Hola __user__,\n\nPara restablecer su contraseña, simplemente haga clic en el siguiente enlace.\n\n__url__\n\nGracias.",
   "email-sent": "Correo enviado",
+  "email-verifyEmail-subject": "Verifique su dirección de correo electrónico en __siteName__",
+  "email-verifyEmail-text": "Hola __user__,\n\nPara verificar el correo electrónico de su cuenta, simplemente haga clic en el siguiente enlace.\n\n__url__\n\nGracias.",
   "error-email-taken": "Esta dirección de correo ya está en uso",
   "error-invitation-code-not-exist": "El código de invitación no existe",
   "error-ldap-login": "Ocurrió un error al intentar acceder",

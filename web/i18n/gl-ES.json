@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Restablece o teu contrasinal en __siteName__",
   "email-resetPassword-text": "Ola __user__,\n\nPara restablecer o teu contrasinal, simplemente fai clic na ligazón de abaixo.\n\n__url__\n\nGrazas.",
   "email-sent": "Correo electrónico enviado",
+  "email-verifyEmail-subject": "Verifica o teu enderezo de correo electrónico en __siteName__",
+  "email-verifyEmail-text": "Ola __user__,\n\nPara verificar o correo electrónico da túa conta, simplemente fai clic na ligazón de abaixo.\n\n__url__\n\nGrazas.",
   "error-email-taken": "O correo electrónico xa está en uso",
   "error-invitation-code-not-exist": "O código de convite non existe",
   "error-ldap-login": "Produciuse un erro ao tentar iniciar sesión",

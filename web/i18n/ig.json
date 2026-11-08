@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Tọgharịa okwuntughe gị na __siteName__",
   "email-resetPassword-text": "ndewo __user__,\n\nIji tọgharịa paswọọdụ gị, pịa njikọ dị n'okpuru.\n\n__url__\n\nDaalụ.",
   "email-sent": "E zigara email",
+  "email-verifyEmail-subject": "Chọpụta adreesị ozi-e gị na __siteName__",
+  "email-verifyEmail-text": "ndewo __user__,\n\nIji nyochaa email akaụntụ gị, pịa njikọ dị n'okpuru.\n\n__url__\n\nDaalụ.",
   "error-email-taken": "Ebuolarị ozi-e",
   "error-invitation-code-not-exist": "Koodu ịkpọ oku adịghị",
   "error-ldap-login": "Enwere mperi mgbe ị na-achọ ịbanye",

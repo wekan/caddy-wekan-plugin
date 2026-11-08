@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Genskab dit kodeord på __siteName__",
   "email-resetPassword-text": "Hej __user__,\n\nFor at genskabe dit kodeord, så klik linket nedenfor your password.\n\n__url__\n\nTak.",
   "email-sent": "E-mail er afsendt",
+  "email-verifyEmail-subject": "Verificér din e-mailadresse på your __siteName__",
+  "email-verifyEmail-text": "Hej __user__,\n\nFor at verificere din e-mail for kontoen, så klik på linket nedenfor.\n\n__url__\n\nTak.",
   "error-email-taken": "Email adressen er allerede i brug",
   "error-invitation-code-not-exist": "Invitationskoden findes ikke",
   "error-ldap-login": "Fejl under forsøg på login",

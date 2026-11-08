@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ сайтында серһүҙегеҙҙе яңыртығыҙ",
   "email-resetPassword-text": "Һаумыһығыҙ, __user__,\n\nСерһүҙегеҙҙе яңыртыу өсөн түбәндәге һылтанмаға баҫығыҙ.\n\n__url__\n\nРәхмәт.",
   "email-sent": "Электрон хат ебәрелде",
+  "email-verifyEmail-subject": "__siteName__ сайтында электрон почта адресығыҙҙы раҫлағыҙ",
+  "email-verifyEmail-text": "Һаумыһығыҙ, __user__,\n\nИҫәп яҙмағыҙҙың электрон почтаһын раҫлау өсөн түбәндәге һылтанмаға баҫығыҙ.\n\n__url__\n\nРәхмәт.",
   "error-email-taken": "Электрон почта адресы инде алынған",
   "error-invitation-code-not-exist": "Саҡырыу коды юҡ",
   "error-ldap-login": "Инергә тырышҡанда хата килеп сыҡты",

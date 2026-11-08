@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "በ__siteName__ ላይ የይለፍ ቃልዎን ዳግም ያስጀምሩ",
   "email-resetPassword-text": "ሰላም __user__፣\n\nየይለፍ ቃልዎን ዳግም ለማስጀመር ከታች ያለውን አገናኝ ብቻ ይጫኑ።\n\n__url__\n\nእናመሰግናለን።",
   "email-sent": "ኢሜይል ተልኳል",
+  "email-verifyEmail-subject": "በ__siteName__ ላይ የኢሜይል አድራሻዎን ያረጋግጡ",
+  "email-verifyEmail-text": "ሰላም __user__፣\n\nየመለያዎን ኢሜይል ለማረጋገጥ ከታች ያለውን አገናኝ ብቻ ይጫኑ።\n\n__url__\n\nእናመሰግናለን።",
   "error-email-taken": "ይህ ኢሜይል አስቀድሞ ተይዟል",
   "error-invitation-code-not-exist": "የግብዣ ኮዱ የለም",
   "error-ldap-login": "ለመግባት ሲሞከር ስህተት ተከስቷል",

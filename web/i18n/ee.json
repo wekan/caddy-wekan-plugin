@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Gbugbɔ ɖo wò ƒe ŋuɖoɖogbe le __siteName__ dzi",
   "email-resetPassword-text": "Hello __user__,\n\nBe nàgbugbɔ aɖo wò ƒe ŋuɖoɖogbe la, zi kadodo si le ete dzi.\n\n__url__\n\nAkpe.",
   "email-sent": "Woɖo email",
+  "email-verifyEmail-subject": "Kpɔ wò email ƒe adrɛs ɖa le __siteName__ dzi",
+  "email-verifyEmail-text": "Hello __user__,\n\nBe nàkpɔ wò akɔnta ƒe email ɖa la, zi kadodo si le ete dzi.\n\n__url__\n\nAkpe.",
   "error-email-taken": "Woxɔ email sia xoxo",
   "error-invitation-code-not-exist": "Yɔyɔ ƒe dzesi la meli o",
   "error-ldap-login": "Vodada aɖe va le gege ɖe eme ƒe kpɔkpɔ me",

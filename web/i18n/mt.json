@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Irrisettja tiegħek password fuq __siteName__",
   "email-resetPassword-text": "Hello __user__,\n\nTo reset tiegħek password, simply click il- link below.\n\n__url__\n\nThanks.",
   "email-sent": "Il-posta elettronika ntbagħtet",
+  "email-verifyEmail-subject": "Verify tiegħek email address fuq __siteName__",
+  "email-verifyEmail-text": "Hello __user__,\n\nTo verify tiegħek account email, simply click il- link below.\n\n__url__\n\nThanks.",
   "error-email-taken": "L-indirizz tal-posta elettronika diġà qed jintuża",
   "error-invitation-code-not-exist": "Il-kodiċi tal-istedina ma jeżistix",
   "error-ldap-login": "An error occurred while trying għal login",

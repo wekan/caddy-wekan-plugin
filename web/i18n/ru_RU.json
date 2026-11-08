@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Сброс пароля на __siteName__",
   "email-resetPassword-text": "Привет __user__,\n\nДля сброса пароля перейдите по ссылке ниже.\n\n__url__\n\nThanks.",
   "email-sent": "Письмо отправлено",
+  "email-verifyEmail-subject": "Подтвердите адрес электронной почты на __siteName__",
+  "email-verifyEmail-text": "Привет __user__,\n\nДля подтверждения вашей электронной почты перейдите по ссылке ниже.\n\n__url__\n\nСпасибо.",
   "error-email-taken": "Этот адрес уже занят",
   "error-invitation-code-not-exist": "Код приглашения не существует",
   "error-ldap-login": "Ошибка при попытке авторизации",

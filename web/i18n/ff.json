@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Teel finnde maa kadi e __siteName__",
   "email-resetPassword-text": "Jam __user__,\n\nNgam teeltude finnde maa kadi, dobo tan jokkol les ngol.\n\n__url__\n\nA jaaraama.",
   "email-sent": "Iimeel neldaama",
+  "email-verifyEmail-subject": "Ƴeewto ñiiɓugol ñiiɓirde iimeel maa e __siteName__",
+  "email-verifyEmail-text": "Jam __user__,\n\nNgam ƴeewtaade iimeel konte maa, dobo tan jokkol les ngol.\n\n__url__\n\nA jaaraama.",
   "error-email-taken": "Iimeel oo huutoraama kisa",
   "error-invitation-code-not-exist": "Kod noddaango oo woodaani",
   "error-ldap-login": "Juumre waɗii nde etaa ceŋaade",

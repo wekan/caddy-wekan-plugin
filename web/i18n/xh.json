@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Phinda umisele igama lokugqithisa lakho ku-__siteName__",
   "email-resetPassword-text": "Molo __user__,\n\nUkuseta kwakhona igama eligqithisiweyo, nqakraza nje ikhonkco elingezantsi.\n\n__url__\n\nEnkosi.",
   "email-sent": "I-imeyile ithunyelwe",
+  "email-verifyEmail-subject": "Qinisekisa idilesi yemeyile yakho ku-__siteName__",
+  "email-verifyEmail-text": "Molo __user__,\n\nUkuqinisekisa iakhawunti yakho ye-imeyile, nqakraza ngokulula ikhonkco elingezantsi.\n\n__url__\n\nEnkosi.",
   "error-email-taken": "I-imeyile sele ithathiwe",
   "error-invitation-code-not-exist": "Ikhowudi yesimemo ayikho",
   "error-ldap-login": "Kwenzeke imposiso ngexesha uzama ukungena",

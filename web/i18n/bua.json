@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ дээрэхи нюуса үгэеэ һэргээхэ",
   "email-resetPassword-text": "Сайн байна, __user__,\n\nНюуса үгэеэ һэргээхын тула доорохи холбооһые дарагты.\n\n__url__\n\nБаяртай.",
   "email-sent": "Сахим шуудан эльгээгдэбэ",
+  "email-verifyEmail-subject": "__siteName__ дээрэхи сахим шуудангаа баталха",
+  "email-verifyEmail-text": "Сайн байна, __user__,\n\nБүридхэлэйнгээ сахим шуудангые баталхын тула доорохи холбооһые дарагты.\n\n__url__\n\nБаяртай.",
   "error-email-taken": "Энэ сахим шуудан абташаһан",
   "error-invitation-code-not-exist": "Урилгын код үгы",
   "error-ldap-login": "Нэбтэрхэ үедэ алдуу гараба",

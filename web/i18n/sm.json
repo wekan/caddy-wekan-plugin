@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Toe seti lau upu faalilolilo i le __siteName__",
   "email-resetPassword-text": "Talofa __user__,\n\nIna ia toe seti lau upu faalilolilo, na o le kiliki o le sootaga o loo i lalo.\n\n__url__\n\nFaafetai.",
   "email-sent": "Ua auina le imeli",
+  "email-verifyEmail-subject": "Faamaonia lou tuatusi imeli i le __siteName__",
+  "email-verifyEmail-text": "Talofa __user__,\n\nIna ia faamaonia le imeli o lau teugatupe, na o le kiliki o le sootaga o loo i lalo.\n\n__url__\n\nFaafetai.",
   "error-email-taken": "Ua uma ona faaaoga le imeli",
   "error-invitation-code-not-exist": "E lē o iai le numera o le valaaulia",
   "error-ldap-login": "Ua tupu se sese a o taumafai e ulufale",

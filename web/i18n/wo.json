@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Jekkalat sa baatu jàll ci __siteName__",
   "email-resetPassword-text": "Nanga def __user__,\n\nNgir jekkalat sa baatu jàll, bësal lëkkalekaay bi ci suuf rekk.\n\n__url__\n\nJërëjëf.",
   "email-sent": "Bataaxal yees yónne",
+  "email-verifyEmail-subject": "Saytu sa adreesu imeel ci __siteName__",
+  "email-verifyEmail-text": "Nanga def __user__,\n\nNgir saytu imeelu sa kont, bësal lëkkalekaay bi ci suuf rekk.\n\n__url__\n\nJërëjëf.",
   "error-email-taken": "Adreesu email bii jëfandikoo nañu ko ba noppi",
   "error-invitation-code-not-exist": "Kodu woote bi amul",
   "error-ldap-login": "Am na njuumte bi ngay jéem a dugg",

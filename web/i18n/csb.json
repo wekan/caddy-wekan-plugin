@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Zresetuj swoje parola na __siteName__",
   "email-resetPassword-text": "Witaj __user__,\nAby zresetowôć parola, kliknij w link poniżej.\n__url__\nDzięki.",
   "email-sent": "Elektroniczny lëst wësłóny",
+  "email-verifyEmail-subject": "Zweryfikuj swòj adres E-mail na __siteName__",
+  "email-verifyEmail-text": "Witaj __user__,\nAby zweryfikowôć adres E-mail, kliknij w link poniżej.\n__url__\nDzięki.",
   "error-email-taken": "Adres E-mail jest już zarezerwowany",
   "error-invitation-code-not-exist": "Kòd zôproszeniô nie istnieje",
   "error-ldap-login": "Przë próbie logòwaniô wëstąpiła fela",

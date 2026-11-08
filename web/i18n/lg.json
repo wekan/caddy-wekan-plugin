@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Reset kyo kigambo-kyama ku __siteName__",
   "email-resetPassword-text": "Hello __user__, Eri reset kyo kigambo-kyama, simply click kakwate below. __url__ Thanks.",
   "email-sent": "Imeyilo sent",
+  "email-verifyEmail-subject": "Verify kyo imeyilo ndagiriro ku __siteName__",
+  "email-verifyEmail-text": "Hello __user__, Eri verify kyo akaawunti imeyilo, simply click kakwate below. __url__ Thanks.",
   "error-email-taken": "Imeyilo has already abadde taken",
   "error-invitation-code-not-exist": "Okuyita code doesn't exist",
   "error-ldap-login": "nsobi occurred while trying eri okuyingira",

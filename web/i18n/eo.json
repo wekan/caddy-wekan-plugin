@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Restarigi vian pasvorton ĉe __siteName__",
   "email-resetPassword-text": "Saluton __user__,\n\nPor restarigi vian pasvorton, simple alklaku la suban ligilon.\n\n__url__\n\nDankon.",
   "email-sent": "Sendis retpoŝton",
+  "email-verifyEmail-subject": "Konfirmi vian retpoŝtadreson ĉe __siteName__",
+  "email-verifyEmail-text": "Saluton __user__,\n\nPor konfirmi la retpoŝtadreson de via konto, simple alklaku la suban ligilon.\n\n__url__\n\nDankon.",
   "error-email-taken": "Retpoŝtadreso jam estas uzata",
   "error-invitation-code-not-exist": "Invitkodo ne ekzistas",
   "error-ldap-login": "Okazis eraro dum la provo ensaluti",

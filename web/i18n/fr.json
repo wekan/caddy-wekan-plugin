@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Réinitialiser votre mot de passe sur __siteName__",
   "email-resetPassword-text": "Bonjour __user__,\n\nPour réinitialiser votre mot de passe, cliquez sur le lien ci-dessous.\n\n__url__\n\nMerci.",
   "email-sent": "Courriel envoyé",
+  "email-verifyEmail-subject": "Vérifier votre adresse de courriel sur __siteName__",
+  "email-verifyEmail-text": "Bonjour __user__,\n\nPour vérifier  le courriel de votre compte, il suffit de cliquer sur le lien ci-dessous.\n\n__url__\n\nMerci.",
   "error-email-taken": "Cette adresse de courriel est déjà utilisée",
   "error-invitation-code-not-exist": "Ce code d'invitation n'existe pas.",
   "error-ldap-login": "Une erreur s'est produite lors de la tentative de connexion",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Reyinisyalize modpas ou sou __siteName__",
   "email-resetPassword-text": "Bonjou __user__,\n\nPou reyinisyalize modpas ou, tou senpleman klike sou lyen ki anba a.\n\n__url__\n\nMèsi.",
   "email-sent": "Imèl voye",
+  "email-verifyEmail-subject": "Verifye adrès imèl ou sou __siteName__",
+  "email-verifyEmail-text": "Bonjou __user__,\n\nPou verifye imèl kont ou, tou senpleman klike sou lyen ki anba a.\n\n__url__\n\nMèsi.",
   "error-email-taken": "Imèl sa a deja itilize",
   "error-invitation-code-not-exist": "Kòd envitasyon an pa egziste",
   "error-ldap-login": "Yon erè te fèt pandan tantativ koneksyon an",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "پارولىڭىزنى __siteName__ غا قايتۇرۇڭ.",
   "email-resetPassword-text": "ياخشىمۇسىز __user__,\n\nپارولىڭىزنى ئەسلىگە كەلتۈرۈش ئۈچۈن تۆۋەندىكى ئۇلانمىنى چېكىڭ.\n\n__url__\n\nرەھمەت.",
   "email-sent": "ئېلخەت يوللاندى",
+  "email-verifyEmail-subject": "__siteName__ دىكى ئېلېكترونلۇق خەت ئادرېسىڭىزنى تەكشۈرۈپ بېقىڭ.",
+  "email-verifyEmail-text": "ياخشىمۇسىز __user__,\n\nھېساباتىڭىزنىڭ ئېلېكترونلۇق خەتنى دەلىللەش ئۈچۈن تۆۋەندىكى ئۇلانمىنى چېكىڭ.\n\n__url__\n\nرەھمەت.",
   "error-email-taken": "ئېلېكترونلۇق خەت ئاللىقاچان ئېلىندى",
   "error-invitation-code-not-exist": "تەكلىپ كودى مەۋجۇت ئەمەس",
   "error-ldap-login": "كىرمەكچى بولغاندا خاتالىق كۆرۈلدى",

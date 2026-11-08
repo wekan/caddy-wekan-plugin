@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Ailosodwch eich cyfrinair ar __siteName__",
   "email-resetPassword-text": "Helo __user__,\n\nI ailosod eich cyfrinair, cliciwch ar y ddolen isod.\n\n__url__\n\nDiolch.",
   "email-sent": "Anfonwyd e-bost",
+  "email-verifyEmail-subject": "Gwiriwch eich cyfeiriad e-bost ar __siteName__",
+  "email-verifyEmail-text": "Helo __user__,\n\nI wirio e-bost eich cyfrif, cliciwch ar y ddolen isod.\n\n__url__\n\nDiolch.",
   "error-email-taken": "Mae e-bost eisoes wedi'i gymryd",
   "error-invitation-code-not-exist": "Nid yw'r cod gwahoddiad yn bodoli",
   "error-ldap-login": "Digwyddodd gwall wrth geisio mewngofnodi",

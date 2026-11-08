@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Reset your jamasaru patana __siteName__",
   "email-resetPassword-text": "Hello __user__,\n\nukaru reset your jamasaru, simply limtʼaña the chinu below.\n\n__url__\n\nThanks.",
   "email-sent": "aruskipäwi sent",
+  "email-verifyEmail-subject": "Verify your aruskipäwi utjawi patana __siteName__",
+  "email-verifyEmail-text": "Hello __user__,\n\nukaru verify your account aruskipäwi, simply limtʼaña the chinu below.\n\n__url__\n\nThanks.",
   "error-email-taken": "aruskipäwi has already been taken",
   "error-invitation-code-not-exist": "Aymar aruna: Invitation code doesn't exist",
   "error-ldap-login": "An pantja occurred while trying ukaru login",

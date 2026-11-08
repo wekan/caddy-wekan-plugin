@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Tege ičeleiž uz' peitsana saital __siteName__",
   "email-resetPassword-text": "Tervhen __user__,\n\nPeitsanan heitändan täht paina alemba anttud tarkendust.\n\n__url__\n\nSpasib.",
   "email-sent": "Email-kirjeine om oigetud",
+  "email-verifyEmail-subject": "Vahvištoita ičeiž email-počtan adres saital __siteName__",
+  "email-verifyEmail-text": "Tervhen __user__,\n\nMiše vahvištoitta sinun akkauntan email-počtan adresad, paina alemba anttud tarkendust.\n\n__url__\n\nSpasib.",
   "error-email-taken": "Email-počtan adres om jo kävutuses",
   "error-invitation-code-not-exist": "Kucundan kod ei ole",
   "error-ldap-login": "Tegihe viga sistemaha tulendan aigan",

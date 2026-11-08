@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Վերականգնել ձեր գաղտնաբառը __siteName__ հասցեով",
   "email-resetPassword-text": "Բարև __user__,\n\nՁեր գաղտնաբառը վերականգնելու համար պարզապես սեղմեք ստորև նշված հղումը:\n\n__url__\n\nՇնորհակալություն։",
   "email-sent": "Նամակն ուղարկվեց",
+  "email-verifyEmail-subject": "Հաստատեք ձեր էլփոստի հասցեն __siteName__ հասցեով",
+  "email-verifyEmail-text": "Բարև __user__,\n\nՁեր հաշվի էլ.փոստը հաստատելու համար պարզապես սեղմեք ստորև նշված հղմանը:\n\n__url__\n\nՇնորհակալություն։",
   "error-email-taken": "Էլփոստն արդեն ընդունված է",
   "error-invitation-code-not-exist": "Հրավերի կոդը գոյություն չունի",
   "error-ldap-login": "Մուտք գործելու փորձի ժամանակ սխալ առաջացավ",

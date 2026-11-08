@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Beakanya phasewete ya gago gape go __siteName__",
   "email-resetPassword-text": "Dumela __user__,\n\nGo beakanya phasewete ya gago gape, kgotla feela kgokaganyo ye e lego ka tlase.\n\n__url__\n\nRe a leboga.",
   "email-sent": "Imeile e rometšwe",
+  "email-verifyEmail-subject": "Netefatša aterese ya gago ya imeile go __siteName__",
+  "email-verifyEmail-text": "Dumela __user__,\n\nGo netefatša imeile ya akhaonto ya gago, kgotla feela kgokaganyo ye e lego ka tlase.\n\n__url__\n\nRe a leboga.",
   "error-email-taken": "Imeile e šetše e šomišwa",
   "error-invitation-code-not-exist": "Khoutu ya taletšo ga e gona",
   "error-ldap-login": "Go tšweletše phošo ge go lekwa go tsena",

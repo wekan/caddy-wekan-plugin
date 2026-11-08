@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Ponovno postavite lozinku na __siteName__",
   "email-resetPassword-text": "Pozdrav __user__,\n\nZa ponovno postavljanje lozinke kliknite poveznicu ispod.\n\n__url__\n\nHvala.",
   "email-sent": "Email je poslan",
+  "email-verifyEmail-subject": "Potvrdite svoju adresu e-pošte na __siteName__",
+  "email-verifyEmail-text": "Pozdrav __user__,\n\nZa potvrdu adrese e-pošte svojeg računa kliknite poveznicu ispod.\n\n__url__\n\nHvala.",
   "error-email-taken": "Adresa e-pošte već je zauzeta",
   "error-invitation-code-not-exist": "Kod pozivnice ne postoji",
   "error-ldap-login": "Došlo je do pogreške pri pokušaju prijave",

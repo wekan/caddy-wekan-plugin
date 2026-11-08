@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ پؠٹھ پنُن پاس ورڈ دوبارٕ مقرر کریو",
   "email-resetPassword-text": "آداب __user__،\n\nپنُن پاس ورڈ دوبارٕ مقرر کرنہٕ خٲطرٕ بۄنہٕ کَنہِ لنکس پؠٹھ کلک کریو۔\n\n__url__\n\nشکریہ۔",
   "email-sent": "ای میل سوزنہٕ آیہِ",
+  "email-verifyEmail-subject": "__siteName__ پؠٹھ پنُن ای میل پتہٕ تصدیق کریو",
+  "email-verifyEmail-text": "آداب __user__،\n\nپننِس کھاتس ہُنٛد ای میل تصدیق کرنہٕ خٲطرٕ بۄنہٕ کَنہِ لنکس پؠٹھ کلک کریو۔\n\n__url__\n\nشکریہ۔",
   "error-email-taken": "ای میل چھُ گوڈٕ استعمالس منٛز",
   "error-invitation-code-not-exist": "دعوت کوڈ چھُنہٕ موجود",
   "error-ldap-login": "لاگ اِن کرنہٕ ویزِ اکھ غلطی گٔے",

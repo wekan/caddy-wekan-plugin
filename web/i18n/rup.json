@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Reseteadzã zborlu di intrari pi __siteName__",
   "email-resetPassword-text": "Bunã __user__,\\n\\nTi s-reseteadzi zborlu di intrari, clicã ligãtura di ma njos.\\n\\n__url__\\n\\nHaristo.",
   "email-sent": "Email trimeas",
+  "email-verifyEmail-subject": "Verificã adresa di email pi __siteName__",
+  "email-verifyEmail-text": "Bunã __user__,\\n\\nTi s-verifici email-lu a contului, clicã ligãtura di ma njos.\\n\\n__url__\\n\\nHaristo.",
   "error-email-taken": "Adresa di email easti deagi ufilisitã",
   "error-invitation-code-not-exist": "Codul di invitatsie nu existã",
   "error-ldap-login": "Apari unã eroari la proba di intrari",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Iš naujo nustatykite slaptažodį __siteName__",
   "email-resetPassword-text": "Sveiki __user__,\n\nNorėdami iš naujo nustatyti slaptažodį, tiesiog spustelėkite toliau pateiktą nuorodą.\n\n__url__\n\nAčiū.",
   "email-sent": "El. laiškas išsiųstas",
+  "email-verifyEmail-subject": "Patvirtinkite savo el. pašto adresą __siteName__",
+  "email-verifyEmail-text": "Sveiki __user__,\n\nNorėdami patvirtinti paskyros el. pašto adresą, tiesiog spustelėkite toliau pateiktą nuorodą.\n\n__url__\n\nAčiū.",
   "error-email-taken": "El. paštas jau paimtas",
   "error-invitation-code-not-exist": "Kvietimo kodas neegzistuoja",
   "error-ldap-login": "Bandant prisijungti įvyko klaida",

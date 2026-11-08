@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Pulihkan kata sandi Anda pada __siteName__",
   "email-resetPassword-text": "Halo __user__,\n\nUntuk memulihkan kata sandi Anda, silakan klik tautan berikut.\n\n__url__\n\nTerima kasih.",
   "email-sent": "Email terkirim",
+  "email-verifyEmail-subject": "Verifikasi surel Anda pada __siteName__",
+  "email-verifyEmail-text": "Halo __user__,\n\nUntuk memverifikasi surel Anda, silakan klik tautan berikut.\n\n__url__\n\nTerima kasih.",
   "error-email-taken": "Alamat email sudah digunakan",
   "error-invitation-code-not-exist": "Kode undangan tidak ada",
   "error-ldap-login": "Terjadi kesalahan saat mencoba masuk",

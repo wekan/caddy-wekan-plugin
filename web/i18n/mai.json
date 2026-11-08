@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "__siteName__ पर अपन पासवर्ड फेर निर्धारित करू",
   "email-resetPassword-text": "नमस्कार __user__,\n\nअपन पासवर्ड फेर निर्धारित करबाक लेल नीचाँक लिंक पर क्लिक करू।\n\n__url__\n\nधन्यवाद।",
   "email-sent": "ईमेल पठाओल गेल",
+  "email-verifyEmail-subject": "__siteName__ पर अपन ईमेल पता सत्यापित करू",
+  "email-verifyEmail-text": "नमस्कार __user__,\n\nअपन खाताक ईमेल सत्यापित करबाक लेल नीचाँक लिंक पर क्लिक करू।\n\n__url__\n\nधन्यवाद।",
   "error-email-taken": "ईमेल पहिनेसँ लेल गेल अछि",
   "error-invitation-code-not-exist": "आमंत्रण कोड विद्यमान नहि अछि",
   "error-ldap-login": "लॉगिन करबाक प्रयासमे त्रुटि भेल",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "შეცვალეთ თქვენი პაროლი __siteName__-ზე",
   "email-resetPassword-text": "გამარჯობა__user__,\n\nპაროლის შესაცვლელად დააკლიკეთ ქვედა ბმულს .\n\n__url__\n\nმადლობა.",
   "email-sent": "ელ.ფოსტა გაგზავნილია",
+  "email-verifyEmail-subject": "შეამოწმეთ ელ.ფოსტის მისამართი __siteName__-ზე",
+  "email-verifyEmail-text": "გამარჯობა __user__,\n\nანგარიშის ელ.ფოსტის შესამოწმებლად დააკლიკეთ ქვედა ბმულს.\n\n__url__\n\nმადლობა.",
   "error-email-taken": "უკვე არსებობს მსგავსი ელ.ფოსტა",
   "error-invitation-code-not-exist": "მსგავსი მოსაწვევი კოდი არ არსებობს",
   "error-ldap-login": "შესვლის მცდელობისას შეცდომა მოხდა",

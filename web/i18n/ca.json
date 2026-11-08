@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Restableix la teva contrasenya a __siteName__",
   "email-resetPassword-text": "Hola __user__,\n \n per resetejar la teva contrasenya, segueix l'enllaç següent.\n \n __url__\n \n Gràcies.",
   "email-sent": "Correu enviat",
+  "email-verifyEmail-subject": "Verifiqueu la vostra adreça de correu electrònic a __siteName__",
+  "email-verifyEmail-text": "Hola __user__,\n\n per verificar el teu correu, segueix l'enllaç següent.\n\n __url__\n\n Gràcies.",
   "error-email-taken": "L'adreça de correu electrònic ja és en ús",
   "error-invitation-code-not-exist": "El codi d'invitació no existeix",
   "error-ldap-login": "S'ha produït un error en intentar iniciar sessió",

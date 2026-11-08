@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Lesia tale na nomu vosanicuru ena __siteName__",
   "email-resetPassword-text": "Bula __user__,\n\nMo lesia tale na nomu vosanicuru, kiliki ga ena isema e ra.\n\n__url__\n\nVinaka.",
   "email-sent": "Sa vakau na imeli",
+  "email-verifyEmail-subject": "Vakadeitaka na nomu itikotiko ni imeli ena __siteName__",
+  "email-verifyEmail-text": "Bula __user__,\n\nMo vakadeitaka na imeli ni nomu akaude, kiliki ga ena isema e ra.\n\n__url__\n\nVinaka.",
   "error-email-taken": "Sa vakayagataki oti na imeli",
   "error-invitation-code-not-exist": "E sega ni tiko na kode ni veisureti",
   "error-ldap-login": "E yaco e dua na cala ni tovolei na curu",

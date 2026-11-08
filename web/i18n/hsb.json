@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Wróćostajće swoje hesło na __siteName__",
   "email-resetPassword-text": "Witaj __user__,\n\nzo by swoje hesło wróćo stajił, klikń prosće na slědowacy wotkaz.\n\n__url__\n\nDźakujemy so.",
   "email-sent": "E-mejl je so pósłał",
+  "email-verifyEmail-subject": "Wobkrućće swoju e-mejlowu adresu na __siteName__",
+  "email-verifyEmail-text": "Witaj __user__,\n\nzo by e-mejlowu adresu swojeho konta wobkrućił, klikń prosće na slědowacy wotkaz.\n\n__url__\n\nDźakujemy so.",
   "error-email-taken": "Tuta e-mejl so hižo wužiwa",
   "error-invitation-code-not-exist": "Přeprošowanski kod njeeksistuje",
   "error-ldap-login": "Při přizjewjenju je zmylk wustupił",

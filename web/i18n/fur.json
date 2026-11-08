@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Ripristina la tua peraule di ordin su on __siteName__",
   "email-resetPassword-text": "Ciao __user__,\n\nPer ripristinare la tua peraule di ordin, clicca sul link seguente:\n\n__url__\n\nGrazie.",
   "email-sent": "Email invieta",
+  "email-verifyEmail-subject": "Verifica il tuo direzion e-mail su __siteName__",
+  "email-verifyEmail-text": "Mandi __user__,\n\nPar verificâ la e-mail dal to account, fâs clic sul colegament chi sot.\n\n__url__\n\nGraciis.",
   "error-email-taken": "La e-mail e je za doprade",
   "error-invitation-code-not-exist": "Il codice d'invito no esiste",
   "error-ldap-login": "C'è stato un erroris mentre provavi ad effettuare il login",

@@ -202,6 +202,8 @@
   "email-resetPassword-subject": "Скинути пароль на __siteName__",
   "email-resetPassword-text": "Привіт __user__,\n\nЩоб скинути пароль, просто натисніть на посилання нижче.\n\n__url__\n\nДякуємо.",
   "email-sent": "Email відправлений",
+  "email-verifyEmail-subject": "Підтвердіть вашу email адресу на __siteName__",
+  "email-verifyEmail-text": "Привіт __user__,\n\nЩоб підтвердити ваш акаунт email, просто натисніть на посилання нижче.\n\n__url__\n\nДякуємо.",
   "error-email-taken": "Email вже зайнятий",
   "error-invitation-code-not-exist": "Код запрошення не існує",
   "error-ldap-login": "Помилка під час спроби входу",
