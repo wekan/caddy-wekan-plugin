@@ -87,8 +87,14 @@ func TestExportCharts(t *testing.T) {
 	if code, _, _ = get(base+"nosuch/exportPDF", a); code != 400 {
 		t.Errorf("negative: an unknown chart: %d", code)
 	}
-	if code, _, _ = get(base+"agingWip/exportPDF", a); code != 501 {
-		t.Errorf("a chart not in Weddy yet says so: %d", code)
+	// Every chart of WeKan's is in Weddy: none answers 501.
+	for chart := range chartTitles {
+		if chart == "scrumDaily" || chart == "scrumSprint" {
+			continue
+		}
+		if code, _, _ = get(base+chart+"/exportPDF", a); code != 200 {
+			t.Errorf("%s: %d", chart, code)
+		}
 	}
 	if code, _, _ = get(base+"burndown/exportPDF", ""); code != 401 {
 		t.Errorf("negative: no token: %d", code)

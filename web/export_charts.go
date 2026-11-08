@@ -72,6 +72,14 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 		ctx := r.Context()
 		lang := exportLang(ctx)
 		headers, rows, ok := s.chartRows(ctx, &b, key, lang)
+		if slices.Contains(flowCharts, key) {
+			var err error
+			if headers, rows, err = s.flowAnalyticsRows(ctx, &b, key, r.URL.Query(), time.Now().UTC(), lang); err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+			ok = true
+		}
 		if !ok {
 			http.Error(w, "This chart's export is not in Weddy yet.", http.StatusNotImplemented)
 			return
@@ -594,10 +602,12 @@ func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now 
 	rows := section(label, [][]any{{label, remaining}})
 	// Adjustments by author.
 	var history []struct {
-		UserID   string `bson:"userId"`
-		Restored string `bson:"restoredByUserId"`
-		Prev     bson.M `bson:"previousContent"`
-		New      bson.M `bson:"newContent"`
+		UserID   string    `bson:"userId"`
+		Restored string    `bson:"restoredByUserId"`
+		EntityID string    `bson:"entityId"`
+		At       time.Time `bson:"createdAt"`
+		Prev     bson.M    `bson:"previousContent"`
+		New      bson.M    `bson:"newContent"`
 	}
 	if cur, err := s.db.Collection("changeHistory").Find(ctx, bson.M{"boardId": b.ID, "entityType": "card",
 		"$or": bson.A{bson.M{"newContent.field": "spentTime"}, bson.M{"previousContent.field": "spentTime"}}}); err == nil {
@@ -616,6 +626,12 @@ func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now 
 		}
 		return 0, false
 	}
+	type adjustment struct {
+		card, user string
+		at         time.Time
+		delta, sum float64
+	}
+	entries := []adjustment{}
 	byAuthor, authors := map[string]float64{}, []string{}
 	ids := bson.A{}
 	for _, h := range history {
@@ -636,6 +652,7 @@ func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now 
 			ids = append(ids, h.UserID)
 		}
 		byAuthor[h.UserID] += after - before
+		entries = append(entries, adjustment{h.EntityID, h.UserID, h.At, after - before, after})
 	}
 	for _, c := range active {
 		for _, id := range c.Assignees {
@@ -723,5 +740,18 @@ func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now 
 		}
 		byCard = append(byCard, []any{a.text(title), round2(c.SpentTime)})
 	}
-	return append(rows, section(tr(lang, "card"), byCard)...)
+	rows = append(rows, section(tr(lang, "card"), byCard)...)
+	// flowDetailRows: every adjustment, the newest first.
+	if len(entries) > 0 {
+		sort.SliceStable(entries, func(i, j int) bool { return entries[i].at.After(entries[j].at) })
+		rows = append(rows, []any{}, []any{tr(lang, "date"), tr(lang, "card"), tr(lang, "username"), "Δ " + tr(lang, "hours"), tr(lang, "hours")})
+		for _, e := range entries {
+			title := s.titleOfID(ctx, "cards", e.card)
+			if title == "" {
+				title = e.card
+			}
+			rows = append(rows, []any{e.at, a.text(title), nameOf(e.user), e.delta, e.sum})
+		}
+	}
+	return rows
 }
