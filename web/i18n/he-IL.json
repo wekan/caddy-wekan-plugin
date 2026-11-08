@@ -2,6 +2,7 @@
   "above-selected-swimlane": "מעל למסלול הנבחר",
   "accept": "אישור",
   "account-locked": "החשבון נעול זמנית עקב יותר מדי ניסיונות גישה כושלים. נא לנסות שוב מאוחר יותר.",
+  "act-activity-notify": "הודעת פעילות",
   "act-addAttachment": "הקובץ __attachment__ צורף אל הכרטיס __card__ ברשימה __list__ למסלול __swimlane__ שבלוח __board__",
   "act-addBoardMember": "החבר __member__ נוסף אל __board__",
   "act-addChecklist": "נוספה רשימת מטלות __checklist__ לכרטיס __card__ ברשימה __list__ שבמסלול __swimlane__ בלוח __board__",

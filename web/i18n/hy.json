@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Ընտրված լողավազանի վերևում",
   "accept": "Ընդունել",
   "account-locked": "Հաշիվը ժամանակավորապես արգելափակված է մուտքի չափազանց շատ անհաջող փորձերի պատճառով: Խնդրում ենք փորձել ավելի ուշ:",
+  "act-activity-notify": "Գործունեության ծանուցում",
   "act-addAttachment": "ավելացրել է կցորդ __attachment__ քարտին __card__ ցուցակում __list__ swimlane __swimlane__ տախտակում __board__",
   "act-addBoardMember": "ավելացրել է անդամ __member__՝ նստելու __board__",
   "act-addChecklist": "ավելացրել է ստուգաթերթ __checklist__ __card__ քարտին __list__ swimlane __swimlane__ քարտին __board__",

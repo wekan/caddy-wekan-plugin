@@ -2,6 +2,7 @@
   "above-selected-swimlane": "د ټاکل شوې کرښې پورته",
   "accept": "منل",
   "account-locked": "ګڼون د ډېرو ناکامو ننوتلو هڅو له امله لنډمهاله بند دی. مهرباني وکړئ وروسته بيا هڅه وکړئ.",
+  "act-activity-notify": "د فعاليت خبرتيا",
   "act-addAttachment": "ضميمه __attachment__ يې د تختې __board__ د کرښې __swimlane__ په لړليک __list__ کې کارت __card__ ته زياته کړه",
   "act-addBoardMember": "غړی __member__ يې تختې __board__ ته زيات کړ",
   "act-addChecklist": "کتنليک __checklist__ يې د تختې __board__ د کرښې __swimlane__ په لړليک __list__ کې کارت __card__ ته زيات کړ",

@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Al dessús del corredor seleccionat",
   "accept": "Acceptar",
   "account-locked": "Lo compte es blocat temporàriament per tròp d'ensages de connexion fracassats. Tornatz ensajar pus tard.",
+  "act-activity-notify": "Notificacion d'activitat",
   "act-addAttachment": "a apondut la pèça junta __attachment__ a la carta __card__ dins la tièra __list__ del corredor __swimlane__ del tablèu __board__",
   "act-addBoardMember": "as apondut un participant __member__ al tablèu __board__",
   "act-addChecklist": "as apondut la checklist __checklist__ de la carta __card__ de la tièra __list__ del corredor __swimlane__ del tablèu __board__",

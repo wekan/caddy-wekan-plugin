@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Nad vybraným swimlane",
   "accept": "Prijať",
   "account-locked": "Účet je dočasne uzamknutý pre príliš veľa neúspešných pokusov o prihlásenie. Skúste to prosím neskôr.",
+  "act-activity-notify": "Oznámenie",
   "act-addAttachment": "pridal prílohu __attachment__ karte __card__ v stĺpci __list__ vo swimlane __swimlane__ na doske __board__",
   "act-addBoardMember": "pridal(a) člena __member__ na nástenku __board__",
   "act-addChecklist": "pridal(a) kontrolný zoznam __checklist__ na karte __card__ v zozname __list__ v dráhe __swimlane__ na nástenke __board__",

@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Nad zaznaczoną ścieżką",
   "accept": "Akceptuj",
   "account-locked": "Konto jest tymczasowo zablokowane z powodu zbyt wielu nieudanych prób logowania. Spróbuj ponownie później.",
+  "act-activity-notify": "Powiadomienie o aktywności",
   "act-addAttachment": "dodał załącznik __attachment__ do karty __card__ na liście __list__ na ścieżce __swimlane__ na tablicy __board__",
   "act-addBoardMember": "dodał użytkownika __member__ do tablicy __board__",
   "act-addChecklist": "dodał czeklistę __checklist__ do karty __card__ na liście __list__ na ścieżce __swimlane__ na tablicy __board__",

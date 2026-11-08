@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Au-dessus du couloir sélectionné",
   "accept": "Accepter",
   "account-locked": "Le compte est temporairement verrouillé en raison de trop de tentatives de connexion échouées. Veuillez réessayer plus tard.",
+  "act-activity-notify": "Notification d'activité",
   "act-addAttachment": "a ajouté la pièce jointe __attachment__ à la carte __card__ de la liste __list__ du couloir __swimlane__ du tableau __board__",
   "act-addBoardMember": "a ajouté le participant __member__ au tableau __board__",
   "act-addChecklist": "a ajouté la checklist __checklist__ à la carte __card__ de la liste __list__ du couloir __swimlane__ du tableau __board__",

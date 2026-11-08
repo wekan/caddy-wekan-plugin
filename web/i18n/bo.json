@@ -2,6 +2,7 @@
   "above-selected-swimlane": "བདམས་པའི་ཆུ་ལམ་གྱི་སྟེང་།",
   "accept": "ངོས་ལེན།",
   "account-locked": "ནང་འཛུལ་ཕམ་ཐེངས་མང་དྲགས་པས་རྩིས་ཐོ་གནས་སྐབས་བཀག་ཡོད། རྗེས་སུ་བསྐྱར་ཚོད་བྱོས།",
+  "act-activity-notify": "བྱེད་སྒོའི་བརྡ་ཐོ།",
   "act-addAttachment": "ལས་སྒྲོམ་ __board__ ཡི་ཆུ་ལམ་ __swimlane__ ནང་གི་ཐོ་གཞུང་ __list__ གི་བྱང་བུ་ __card__ ལ་ཟུར་སྦྱར་ __attachment__ ཁ་སྣོན་བྱས།",
   "act-addBoardMember": "ལས་སྒྲོམ་ __board__ ལ་ཚོགས་མི་ __member__ ཁ་སྣོན་བྱས།",
   "act-addChecklist": "ལས་སྒྲོམ་ __board__ ཡི་ཆུ་ལམ་ __swimlane__ ནང་གི་ཐོ་གཞུང་ __list__ གི་བྱང་བུ་ __card__ ལ་ཞིབ་བཤེར་ཐོ་ __checklist__ ཁ་སྣོན་བྱས།",

@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Over valgt svømmebane",
   "accept": "Godkjenn",
   "account-locked": "Kontoen er midlertidig låst på grunn av for mange mislykkede innloggingsforsøk. Vennligst prøv igjen senere.",
+  "act-activity-notify": "Aktivitetsvarsel",
   "act-addAttachment": "La til vedlegg __attachment__ på kort __card__ i liste __list__ i svømmebane __swimlane__ på tavle __board__",
   "act-addBoardMember": "Opprettet Medlem __member__ til tavlen __board__",
   "act-addChecklist": "La til sjekkliste __checklist__ på kort __card__ i liste __list__ i svømmebane __swimlane__ på tavle __board__",

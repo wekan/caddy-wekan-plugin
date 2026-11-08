@@ -2,6 +2,7 @@
   "above-selected-swimlane": "নির্বাচিত সাঁতারপথের ওপরে",
   "accept": "গ্রহণ করুন",
   "account-locked": "অতিরিক্ত ব্যর্থ লগইন প্রচেষ্টার কারণে অ্যাকাউন্টটি সাময়িকভাবে লক করা হয়েছে। পরে আবার চেষ্টা করুন।",
+  "act-activity-notify": "কার্যকলাপের বিজ্ঞপ্তি",
   "act-addAttachment": "বোর্ড __board__-এর সাঁতারপথ __swimlane__-এর তালিকা __list__-এর কার্ড __card__-এ সংযুক্তি __attachment__ যোগ করেছেন",
   "act-addBoardMember": "বোর্ড __board__-এ সদস্য __member__ যোগ করেছেন",
   "act-addChecklist": "বোর্ড __board__-এর সাঁতারপথ __swimlane__-এর তালিকা __list__-এর কার্ড __card__-এ যাচাইতালিকা __checklist__ যোগ করেছেন",

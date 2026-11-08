@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Над избрания коридор",
   "accept": "Приемам",
   "account-locked": "Акаунтът е временно заключен поради твърде много неуспешни опити за вход. Моля, опитайте отново по-късно.",
+  "act-activity-notify": "Известия за Активност",
   "act-addAttachment": "добавен е прикачен файл __attachment__ към карта __card__ в списък __list__ в лента __swimlane__ към дъска __board__",
   "act-addBoardMember": "добави член __member__ към табло __board__",
   "act-addChecklist": "добавен списък със задачи __checklist__ към карта __card__ в списък __list__ в лента __swimlane__ към дъска __board__",

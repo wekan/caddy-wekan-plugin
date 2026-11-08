@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Πάνω από τον επιλεγμένο διάδρομο",
   "accept": "Αποδοχή",
   "account-locked": "Ο λογαριασμός είναι προσωρινά κλειδωμένος λόγω πολλών αποτυχημένων αποπειρών σύνδεσης. Δοκιμάστε ξανά αργότερα.",
+  "act-activity-notify": "Ειδοποίηση δραστηριότητας",
   "act-addAttachment": "προσετέθη το συνημμένο __attachment__ στην κάρτα __card__ στη λίστα __list__ στη λωρίδα __swimlane__ στον πίνακα __board__",
   "act-addBoardMember": "προστέθηκε το μέλος __member__ στον πίνακα __board__",
   "act-addChecklist": "προστέθηκε η λίστα ελέγχου checklist __checklist__ στην κάρτα __card__ στη λίστα __list__ στη λωρίδα __swimlane__ στον πίνακα __board__",

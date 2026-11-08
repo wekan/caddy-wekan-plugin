@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Acima da raia selecionada",
   "accept": "Aceitar",
   "account-locked": "A conta foi bloqueada temporariamente devido a um número excessivo de tentativas de login malsucedidas. Tente novamente mais tarde.",
+  "act-activity-notify": "Notificação de Atividade",
   "act-addAttachment": "adicionou o anexo __attachment__ ao cartão __card__ na lista __list__ na pista __swimlane__ no quadro __board__",
   "act-addBoardMember": "adicionou o membro __member__ ao quadro __board__",
   "act-addChecklist": "adicionoua lista de verificação __checklist__ ao cartão __card__ na lista __list__ na pista __swimlane__ no quadro __board__",

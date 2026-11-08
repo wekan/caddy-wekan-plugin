@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Mbi korsinë e zgjedhur",
   "accept": "Prano",
   "account-locked": "Llogaria është bllokuar përkohësisht për shkak të shumë përpjekjeve të dështuara për hyrje. Provo përsëri më vonë.",
+  "act-activity-notify": "Njoftim aktiviteti",
   "act-addAttachment": "shtoi bashkëngjitjen __attachment__ te karta __card__ në listën __list__ në korsinë __swimlane__ në tabelën __board__",
   "act-addBoardMember": "shtoi anëtarin __member__ në tabelën __board__",
   "act-addChecklist": "shtoi listën e kontrollit __checklist__ te karta __card__ në listën __list__ në korsinë __swimlane__ në tabelën __board__",

@@ -85,32 +85,9 @@ func (s *Server) drawerItems(ctx context.Context, u *User, lang string) []drawer
 		if !validID(n[i].Activity) || s.db.Collection("activities").FindOne(ctx, bson.M{"_id": eq(n[i].Activity)}).Decode(&a) != nil {
 			continue
 		}
-		params := map[string]string{"user": ""}
-		cardURL := ""
-		if boardID := docString(a, "boardId"); boardID != "" {
-			b, err := s.boardFor(ctx, boardID, u)
-			if err != nil {
-				continue
-			}
-			params["board"] = b.Title
-			if c := docString(a, "cardId"); c != "" {
-				params["card"] = docString(a, "cardTitle")
-				if params["card"] == "" {
-					params["card"] = s.titleOfID(ctx, "cards", c)
-				}
-				cardURL = "/b/" + b.ID + "/" + b.Slug + "/" + c
-			}
-		}
-		params["list"] = s.titleOfID(ctx, "lists", docString(a, "listId"))
-		params["swimlane"] = s.titleOfID(ctx, "swimlanes", docString(a, "swimlaneId"))
-		var actor User
-		if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(docString(a, "userId"))}).Decode(&actor) == nil {
-			params["user"] = actor.Name()
-		}
-		// An activity with no sentence of its own shows its type, as WeKan's.
-		item := template.HTML(template.HTMLEscapeString(docString(a, "activityType")))
-		if key, ok := activitySentences[docString(a, "activityType")]; ok {
-			item = clearItem(tr(lang, key), params, cardURL)
+		item, ok := s.notificationHTML(ctx, u, a, lang)
+		if !ok {
+			continue
 		}
 		at, _ := a["createdAt"].(bson.DateTime)
 		out = append(out, drawerItem{ActivityID: n[i].Activity, Read: n[i].Read != nil, HTML: item, At: at.Time()})
@@ -140,4 +117,37 @@ func (s *Server) notificationDrawerRoutes(m *http.ServeMux) {
 		_, _ = s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)}, bson.M{"$set": bson.M{"profile.notifications": bson.A{}}})
 		writeJSON(w, http.StatusOK, map[string]bool{"ok": true})
 	}))
+}
+
+// notificationHTML is one activity as a notification of u shows it - or false
+// when u may no longer read its board, which then keeps it from them.
+func (s *Server) notificationHTML(ctx context.Context, u *User, a bson.M, lang string) (template.HTML, bool) {
+	params := map[string]string{"user": ""}
+	cardURL := ""
+	if boardID := docString(a, "boardId"); boardID != "" {
+		b, err := s.boardFor(ctx, boardID, u)
+		if err != nil {
+			return "", false
+		}
+		params["board"] = b.Title
+		if c := docString(a, "cardId"); c != "" {
+			params["card"] = docString(a, "cardTitle")
+			if params["card"] == "" {
+				params["card"] = s.titleOfID(ctx, "cards", c)
+			}
+			cardURL = "/b/" + b.ID + "/" + b.Slug + "/" + c
+		}
+	}
+	params["list"] = s.titleOfID(ctx, "lists", docString(a, "listId"))
+	params["swimlane"] = s.titleOfID(ctx, "swimlanes", docString(a, "swimlaneId"))
+	var actor User
+	if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(docString(a, "userId"))}).Decode(&actor) == nil {
+		params["user"] = actor.Name()
+	}
+	// An activity with no sentence of its own shows its type, as WeKan's.
+	item := template.HTML(template.HTMLEscapeString(docString(a, "activityType")))
+	if key, ok := activitySentences[docString(a, "activityType")]; ok {
+		item = clearItem(tr(lang, key), params, cardURL)
+	}
+	return item, true
 }

@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Hautatutako errailaren gainean",
   "accept": "Ados",
   "account-locked": "Kontua aldi baterako blokeatuta dago saio-hasiera huts gehiegi izan direlako. Mesedez, saiatu berriro geroago.",
+  "act-activity-notify": "Jardueraren jakinarazpena",
   "act-addAttachment": "__attachment__ eranskina gehitu du __card__ txartelera, __list__ zerrendan, __swimlane__ errailean, __board__ arbelean",
   "act-addBoardMember": "__member__ kidea gehitu du __board__ arbelera",
   "act-addChecklist": "__checklist__ kontrol-zerrenda gehitu du __card__ txartelera, __list__ zerrendan, __swimlane__ errailean, __board__ arbelean",

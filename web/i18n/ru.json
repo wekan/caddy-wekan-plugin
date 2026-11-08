@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Над выбранной дорожкой",
   "accept": "Принять",
   "account-locked": "Учётная запись временно заблокирована из-за слишком большого числа неудачных попыток входа. Пожалуйста, повторите попытку позже.",
+  "act-activity-notify": "Уведомление о действиях участников",
   "act-addAttachment": "прикрепил вложение __attachment__ в карточку __card__ в списке __list__ на дорожке __swimlane__ доски __board__",
   "act-addBoardMember": "добавил участника __member__ на доску __board__",
   "act-addChecklist": "добавил контрольный список __checklist__ в карточку __card__ в списке __list__ на дорожке __swimlane__ доски __board__",

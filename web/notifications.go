@@ -2,9 +2,11 @@ package web
 
 import (
 	"context"
+	"html"
 	"net/http"
 	"regexp"
 	"slices"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -149,9 +151,75 @@ func (s *Server) notify(ctx context.Context, actorID string, activity bson.M) {
 		return
 	}
 	for _, uid := range s.notificationRecipients(ctx, actorID, activity) {
-		_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(uid), "profile.notifications.activity": bson.M{"$ne": id}},
+		res, err := s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(uid), "profile.notifications.activity": bson.M{"$ne": id}},
 			bson.M{"$push": bson.M{"profile.notifications": bson.M{"activity": id, "read": nil}}})
+		if err == nil && res.ModifiedCount == 1 {
+			s.mailNotification(ctx, uid, activity)
+		}
 	}
+}
+
+// emailNotificationsOn is WeKan's resolveNotificationSetting for e-mail: the
+// member's own choice, else the board's, else Admin Panel's default, else on.
+func (s *Server) emailNotificationsOn(ctx context.Context, member, boardID string) bool {
+	var u struct {
+		Profile struct {
+			Override *bool `bson:"notifyOverrideEmail"`
+		} `bson:"profile"`
+	}
+	_ = s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(member)}).Decode(&u)
+	if u.Profile.Override != nil {
+		return *u.Profile.Override
+	}
+	var b struct {
+		Override *bool `bson:"notifyOverrideEmail"`
+	}
+	if validID(boardID) && s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) == nil && b.Override != nil {
+		return *b.Override
+	}
+	var set struct {
+		Default *bool `bson:"notifyDefaultEmail"`
+	}
+	if s.db.Collection("settings").FindOne(ctx, bson.M{}).Decode(&set) == nil && set.Default != nil {
+		return *set.Default
+	}
+	return true
+}
+
+var tagPattern = regexp.MustCompile(`<[^>]*>`)
+
+// mailNotification sends the notification to the member by e-mail, as WeKan
+// does when a mail server is set and e-mail notifications are on for them:
+// WeKan's "Activity Notification" subject, the drawer's sentence in their
+// language, without markup. It is sent in the background, so no request
+// waits for the mail server.
+func (s *Server) mailNotification(ctx context.Context, member string, activity bson.M) {
+	var u User
+	if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(member)}).Decode(&u) != nil || len(u.Emails) == 0 ||
+		!s.emailNotificationsOn(ctx, member, docString(activity, "boardId")) {
+		return
+	}
+	if _, err := s.mailSettings(ctx, "localhost"); err != nil {
+		return // no mail server: the drawer is all there is
+	}
+	lang := u.Profile.Language
+	if lang == "" {
+		lang = "en"
+	}
+	item, ok := s.notificationHTML(ctx, &u, activity, lang)
+	if !ok {
+		return
+	}
+	text := html.UnescapeString(tagPattern.ReplaceAllString(string(item), ""))
+	to := u.Emails[0].Address
+	subject := tr(lang, msg("act-activity-notify"))
+	go func() {
+		mctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+		defer cancel()
+		if err := s.sendMail(mctx, "localhost", mailMessage{To: []string{to}, Subject: subject, Text: text}); err != nil {
+			s.log.Warn("notification mail", "error", err)
+		}
+	}()
 }
 
 // unreadNotifications is how many of u's notifications are unread.

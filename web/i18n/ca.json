@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Sobre el carril seleccionat",
   "accept": "Accepta",
   "account-locked": "El compte està bloquejat temporalment per massa intents d'inici de sessió fallits. Torneu-ho a provar més tard.",
+  "act-activity-notify": "Notificació d'activitat",
   "act-addAttachment": "afegit l'adjunt __attachment__ a la fitxa __card__ en la llista __list__ al carril __swimlane__ al tauler __board__",
   "act-addBoardMember": "Afegit el membre __member__ al tauler __board__",
   "act-addChecklist": "afegit el checklist__checklist__ a la fitxa __card__ a la llista __list__ al carril __swimlane__ al tauler __board__",

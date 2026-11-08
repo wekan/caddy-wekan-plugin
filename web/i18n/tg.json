@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Болои хати интихобшуда",
   "accept": "Қабул кардан",
   "account-locked": "Ҳисоб аз сабаби кӯшишҳои зиёди нокоми воридшавӣ муваққатан қулф шудааст. Лутфан баъдтар дубора кӯшиш кунед.",
+  "act-activity-notify": "Огоҳиномаи фаъолият",
   "act-addAttachment": "замимаи __attachment__-ро ба корти __card__ дар рӯйхати __list__ дар хати __swimlane__ дар тахтаи __board__ илова кард",
   "act-addBoardMember": "узви __member__-ро ба тахтаи __board__ илова кард",
   "act-addChecklist": "рӯйхати санҷиши __checklist__-ро ба корти __card__ дар рӯйхати __list__ дар хати __swimlane__ дар тахтаи __board__ илова кард",

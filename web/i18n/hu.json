@@ -2,6 +2,7 @@
   "above-selected-swimlane": "A kijelölt úszósáv fölé",
   "accept": "Elfogad",
   "account-locked": "A fiók ideiglenesen zárolva van a túl sok sikertelen bejelentkezési kísérlet miatt. Kérjük, próbáld újra később.",
+  "act-activity-notify": "Tevékenység értesítés",
   "act-addAttachment": "hozzáadta: __attachment__ mellékletet __card__  kártyához __list__ listán __swimlane__ elválasztón __board__ táblán",
   "act-addBoardMember": "hozzáadta __member__ felhasználót a __board__ táblához",
   "act-addChecklist": "hozzáadta a(z) __checklist__ ellenőrzőlistát a(z) __card__ kártyához a(z) __list__ listán a(z) __swimlane__ úszósávon a(z) __board__ táblán",

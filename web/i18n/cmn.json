@@ -2,6 +2,7 @@
   "above-selected-swimlane": "以上所选泳道",
   "accept": "接受",
   "account-locked": "由于登录尝试失败次数过多，帐户被暂时锁定。请稍后重试。",
+  "act-activity-notify": "活动通知",
   "act-addAttachment": "添加了附件__attachment__到卡__card__在列表__list__在泳道__swimlane__在板__board__",
   "act-addBoardMember": "将成员 __member__ 添加到看板 __board__",
   "act-addChecklist": "将清单 __checklist__ 添加到卡片 __card__ 列表 __list__ 泳道 __swimlane__ 看板 __board__",

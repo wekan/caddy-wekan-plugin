@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Di atas swimlane yang dipilih",
   "accept": "Menerima",
   "account-locked": "Akun terkunci sementara karena terlalu banyak upaya login yang gagal. Silakan coba lagi nanti.",
+  "act-activity-notify": "Pemberitahuan Aktifitas",
   "act-addAttachment": "menambahkan lampiran __attachment__ ke kartu __card__ pada daftar __list__ di swimlane __swimlane__ pada papan __board__",
   "act-addBoardMember": "menambahkan anggota __member__ ke papan __board__",
   "act-addChecklist": "menambah daftar cek __checklist__ ke kartu __card__ pada daftar __list__ pada jalur __swimlane__ dalam papan __board__",

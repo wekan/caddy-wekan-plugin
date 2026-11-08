@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Valitun uimaradan yläpuolelle",
   "accept": "Hyväksy",
   "account-locked": "Tili on tilapäisesti lukittu liian monen epäonnistuneen kirjautumisyrityksen vuoksi. Yritä myöhemmin uudelleen.",
+  "act-activity-notify": "Toimintailmoitus",
   "act-addAttachment": "lisätty liite __attachment__ kortille __card__ listalla __list__ uimaradalla __swimlane__ taululla __board__",
   "act-addBoardMember": "lisätty jäsen __member__ taululle __board__",
   "act-addChecklist": "lisätty tarkistuslista __checklist__ kortille __card__ listalla __list__ uimaradalla __swimlane__ taululla __board__",

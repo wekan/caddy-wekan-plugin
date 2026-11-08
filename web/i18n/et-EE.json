@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Valitud ujumisraja kohal",
   "accept": "Aktsepteeri",
   "account-locked": "Konto on ajutiselt lukustatud liiga paljude ebaõnnestunud sisselogimiskatsete tõttu. Palun proovi hiljem uuesti.",
+  "act-activity-notify": "Tegevusest teatamine",
   "act-addAttachment": "lisas manuse __attachment__ kaardile __card__ nimekirjas __list__ ujumisrajal __swimlane__ tahvlil __board__",
   "act-addBoardMember": "lisatud liige __member__ juhatusse __board__",
   "act-addChecklist": "lisas kontrollnimekirja __checklist__ kaardile __card__ nimekirjas __list__ ujumisrajal __swimlane__ tahvlil __board__",

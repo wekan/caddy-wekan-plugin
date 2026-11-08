@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Enriba del carril seleicionáu",
   "accept": "Aceptar",
   "account-locked": "La cuenta ta bloquiada temporalmente por demasiaos intentos fallíos d'aniciu de sesión. Vuelvi a intentalo más sero.",
+  "act-activity-notify": "Notificación d'actividá",
   "act-addAttachment": "añadió l'axuntu __attachment__ a la tarxeta __card__ na llista __list__ del carril __swimlane__ del tableru __board__",
   "act-addBoardMember": "añadió al miembru __member__ al tableru __board__",
   "act-addChecklist": "añadió la llista de comprobación __checklist__ a la tarxeta __card__ na llista __list__ del carril __swimlane__ del tableru __board__",

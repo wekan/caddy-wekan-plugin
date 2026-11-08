@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Iznad odabrane trake",
   "accept": "Prihvati",
   "account-locked": "Račun je privremeno zaključan zbog previše neuspjelih pokušaja prijave. Pokušajte ponovno kasnije.",
+  "act-activity-notify": "Obavijest o aktivnostima",
   "act-addAttachment": "dodao/la je privitak __attachment__ kartici __card__ na listi __list__ u traci __swimlane__ na ploči __board__",
   "act-addBoardMember": "dodao/la je korisnika __member__ ploči __board__",
   "act-addChecklist": "dodao/la je listu provjere __checklist__ na kartici __card__ na listi __list__ u traci __swimlane__ na ploči __board__",

@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Ovanför vald simbana",
   "accept": "Acceptera",
   "account-locked": "Kontot är tillfälligt låst på grund av för många misslyckade inloggningsförsök. Vänligen försök igen senare.",
+  "act-activity-notify": "Aktivitetsnotis",
   "act-addAttachment": "lade till filen __attachment__ på kort __card__ i lista __list__ i simbana __swimlane__ på tavla __board__",
   "act-addBoardMember": "lade till medlem __member__ till tavlan __board__",
   "act-addChecklist": "lägg till checklistan __checklist__ till kortet __card__ på listan __list__ på simbanan __swimlane__ på tavlan __board__",

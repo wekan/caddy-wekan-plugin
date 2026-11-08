@@ -2,6 +2,7 @@
   "above-selected-swimlane": "არჩეული ზოლის ზემოთ",
   "accept": "დათანხმება",
   "account-locked": "ანგარიში დროებით დაბლოკილია შესვლის ძალიან ბევრი წარუმატებელი მცდელობის გამო. გთხოვთ, სცადოთ მოგვიანებით.",
+  "act-activity-notify": "ქმედების შეტყობინება",
   "act-addAttachment": "დაამატა დანართი __attachment__ ბარათზე __card__, სია __list__, ბილიკი __swimlane__, დაფა __board__",
   "act-addBoardMember": "დაამატა წევრი __member__ დაფაზე __board__",
   "act-addChecklist": "დაამატა სია __checklist__ ბარათზე __card__, სია __list__, ბილიკი __swimlane__, დაფა __board__",

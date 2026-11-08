@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Above zvasarudzwa mukoto",
   "accept": "gamuchira",
   "account-locked": "akaundi iri temporarily locked due ku too many failed login attempts. Please try zvakare later.",
+  "act-activity-notify": "chiitiko chiziviso",
   "act-addAttachment": "akawedzera chinamatidzwa __attachment__ ku kadhi __card__ pa rondedzero __list__ pa mukoto __swimlane__ pa bhodhi __board__",
   "act-addBoardMember": "akawedzera nhengo __member__ ku bhodhi __board__",
   "act-addChecklist": "akawedzera rondedzero yekuongorora __checklist__ ku kadhi __card__ pa rondedzero __list__ pa mukoto __swimlane__ pa bhodhi __board__",

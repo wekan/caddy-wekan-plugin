@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Seçili kulvarın üstünde",
   "accept": "Kabul Et",
   "account-locked": "Çok fazla başarısız giriş denemesi nedeniyle hesap geçici olarak kilitlendi. Lütfen daha sonra tekrar deneyin.",
+  "act-activity-notify": "Etkinlik Bildirimi",
   "act-addAttachment": "__attachment__ eklentisi, __swimlane__ kulvarındaki __list__ listesindeki __board__ panosundaki __card__ kartına eklendi.",
   "act-addBoardMember": "__board__ panosuna __member__ kullanıcısı eklendi",
   "act-addChecklist": "__board__ tahtasının, __swimlane__ kulvarının, __list__ listesindeki __card__ kartına __checklist__ kontrol listesi eklendi",

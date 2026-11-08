@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Изнад изабране траке",
   "accept": "Прихватам",
   "account-locked": "Налог је привремено закључан због превише неуспелих покушаја пријаве. Покушајте поново касније.",
+  "act-activity-notify": "Обавештење о последњим променама",
   "act-addAttachment": "унео предметну грађу __attachment__ у предмет __card__ у делу __list__ поступка __swimlane__ међу списе __board__",
   "act-addBoardMember": "примљен сарадник __member__ за рад на списима __board__",
   "act-addChecklist": "је додао списак радњи __checklist__ у предмет __card__ у __list__ делу поступка __swimlane__ заведеног у списима __board__",

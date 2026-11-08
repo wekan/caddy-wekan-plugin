@@ -2,6 +2,7 @@
   "above-selected-swimlane": "ផ្លូវហែលទឹកដែលបានជ្រើសរើសខាងលើ",
   "accept": "យល់ព្រម",
   "account-locked": "គណនីត្រូវបានចាក់សោជាបណ្ដោះអាសន្ន ដោយសារការព្យាយាមចូលមិនបានសម្រេចច្រើនពេក សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។",
+  "act-activity-notify": "ដំណឹងនៃសកម្មភាព",
   "act-addAttachment": "បានបន្ថែមឯកសារភ្ជាប់ __attachment__ ទៅកាត __card__ នៅបញ្ជី __list__ នៅ swimlane __swimlane__ នៅក្តារ __board__",
   "act-addBoardMember": "បានបន្ថែមសមាជិក __member__ ទៅក្តារ __board__",
   "act-addChecklist": "បានបន្ថែមបញ្ជីត្រួតពិនិត្យ __checklist__ ទៅកាត __card__ នៅបញ្ជី __list__ នៅ swimlane __swimlane__ នៅក្តារ __board__",

@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Juu ya swimlane iliyochaguliwa",
   "accept": "Kubali",
   "account-locked": "Akaunti imefungwa kwa muda kwa sababu ya majaribio mengi sana ya kuingia ambayo hayakufaulu. Tafadhali jaribu tena baadaye.",
+  "act-activity-notify": "Arifa ya Shughuli",
   "act-addAttachment": "aliongeza kiambatisho __attachment__ kwa kadi __card__ kwenye orodha __list__ kwenye swimlane __swimlane__ ubaoni __board__",
   "act-addBoardMember": "aliongeza mwanachama __member__ kwenye bodi __board__",
   "act-addChecklist": "imeongeza orodha ya ukaguzi __checklist__ kwa kadi __card__ katika orodha __list__ kwenye swimlane __swimlane__ kwenye ubao __board__",

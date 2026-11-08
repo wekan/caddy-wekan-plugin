@@ -2,6 +2,7 @@
   "above-selected-swimlane": "بالای مسیر انتخاب‌شده",
   "accept": "پذیرفتن",
   "account-locked": "حساب به دلیل تلاش‌های ناموفق زیاد در ورود موقتاً قفل شده است. لطفاً بعداً دوباره تلاش کنید.",
+  "act-activity-notify": "اعلان فعالیت",
   "act-addAttachment": "ضمیمه __attachment__ به کارت __card__ در لیست __list__ در مسیر __swimlane__ در برد __board__ اضافه شده",
   "act-addBoardMember": "عضو __member__ به برد __board__ اضافه شده",
   "act-addChecklist": "چک‌لیست __checklist__ به کارت __card__ در لیست __list__ در مسیر __swimlane__ در برد __board__ اضافه شده",

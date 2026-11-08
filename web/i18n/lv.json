@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Virs atlasītās joslas",
   "accept": "Piekrist",
   "account-locked": "Konts ir īslaicīgi bloķēts pārāk daudzu neveiksmīgu pieteikšanās mēģinājumu dēļ. Lūdzu, mēģiniet vēlāk.",
+  "act-activity-notify": "Darbību paziņojumi",
   "act-addAttachment": "pievienoja pielikumu __attachment__ kartītei __card__ sarakstā __list__, joslā __swimlane__, uz tāfeles __board__",
   "act-addBoardMember": "pievienoja dalībnieku __member__ dēlim __board__",
   "act-addChecklist": "pievienoja kontrolsarakstu __checklist__ kartiņai __card__ sarakstā __list__ joslā __swimlane__ dēlī __board__",

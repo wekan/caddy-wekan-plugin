@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Oman fyri valda beinið",
   "accept": "Góðtak",
   "account-locked": "Kontan er læst fyribils vegna ov nógvar miseydnaðar innritanarroyndir. Royn aftur seinni.",
+  "act-activity-notify": "Fráboðan um virksemi",
   "act-addAttachment": "legði viðheftið __attachment__ afturat kortinum __card__ á listanum __list__ á beininum __swimlane__ á talvuni __board__",
   "act-addBoardMember": "legði limin __member__ afturat talvuni __board__",
   "act-addChecklist": "legði kanningarlistan __checklist__ afturat kortinum __card__ á listanum __list__ á beininum __swimlane__ á talvuni __board__",

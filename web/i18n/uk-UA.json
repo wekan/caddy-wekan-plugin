@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Над вибраною доріжкою",
   "accept": "Прийняти",
   "account-locked": "Обліковий запис тимчасово заблоковано через забагато невдалих спроб входу. Спробуйте пізніше.",
+  "act-activity-notify": "Сповіщення про активність учасників",
   "act-addAttachment": "додано вкладення __attachment__ до картки __card__ у списку __list__ на доріжці __swimlane__ дошки __board__",
   "act-addBoardMember": "додано учасника __member__ до дошки __board__",
   "act-addChecklist": "додано контрольний список __checklist__ до картки __card__ у списку __list__ на доріжці __swimlane__ дошки __board__",

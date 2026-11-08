@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Virš pasirinktos plaukimo juostos",
   "accept": "Priimti",
   "account-locked": "Paskyra laikinai užrakinta dėl per daug nesėkmingų bandymų prisijungti. Bandykite dar kartą vėliau.",
+  "act-activity-notify": "Pranešimas apie veiklą",
   "act-addAttachment": "pridėtas priedas __attachment__ prie kortelės __card__ sąraše __list__ plaukimo juostoje __swimlane__ prie lentos __board__",
   "act-addBoardMember": "įtraukė narį __member__ į valdybą __board__",
   "act-addChecklist": "pridėtas kontrolinis sąrašas __checklist__ prie kortelės __card__ prie __list__ sąrašo __swimlane__ prie lentos __board__",

@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Fyrir ofan valda sundbraut",
   "accept": "Samþykkja",
   "account-locked": "Aðgangurinn er tímabundið læstur vegna of margra misheppnaðra innskráningartilrauna. Reyndu aftur síðar.",
+  "act-activity-notify": "Tilkynning um virkni",
   "act-addAttachment": "bætti viðhengi __attachment__ við spjald __card__ í lista __list__ á sundbraut __swimlane__ á töflu __board__",
   "act-addBoardMember": "bætti meðlimi __member__ við töflu __board__",
   "act-addChecklist": "bætti gátlista __checklist__ við spjald __card__ í lista __list__ á sundbraut __swimlane__ á töflu __board__",

@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Таңдалған swimlane-нің үстіне",
   "accept": "Қабылдау",
   "account-locked": "Сәтсіз кіру әрекеттері тым көп болғандықтан тіркелгі уақытша бұғатталды. Кейінірек қайталап көріңіз.",
+  "act-activity-notify": "Әрекет туралы хабарландыру",
   "act-addAttachment": "__board__ тақтасындағы __swimlane__ жолының __list__ тізіміндегі __card__ карточкасына __attachment__ тіркемесін қосты",
   "act-addBoardMember": "__board__ тақтасына __member__ мүшесін қосты",
   "act-addChecklist": "__board__ тақтасындағы __swimlane__ жолының __list__ тізіміндегі __card__ карточкасына __checklist__ тексеру тізімін қосты",

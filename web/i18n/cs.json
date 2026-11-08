@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Nad vybranou dráhou",
   "accept": "Přijmout",
   "account-locked": "Účet je dočasně uzamčen kvůli příliš mnoha neúspěšným pokusům o přihlášení. Zkuste to prosím později.",
+  "act-activity-notify": "Oznámení aktivit",
   "act-addAttachment": "přidal(a) přílohu __attachment__ na kartu __card__ ve sloupci __list__ ve swimlane __swimlane__ na tablu __board__",
   "act-addBoardMember": "přidal(a) člena __member__ do tabla __board__",
   "act-addChecklist": "přidal(a) zaškrtávací seznam __checklist__ na kartu __card__ ve sloupci __list__ ve swimlane __swimlane__ na tablu __board__",

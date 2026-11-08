@@ -2,6 +2,7 @@
   "above-selected-swimlane": "เหนือสวิมเลนที่เลือก",
   "accept": "ยอมรับ",
   "account-locked": "บัญชีถูกล็อกชั่วคราวเนื่องจากความพยายามเข้าสู่ระบบที่ล้มเหลวมากเกินไป กรุณาลองใหม่อีกครั้งภายหลัง",
+  "act-activity-notify": "การแจ้งเตือนกิจกรรม",
   "act-addAttachment": "เพิ่มสิ่งที่แนบมา __attachment__ ในการ์ด __card__ ในรายการ __list__ ในสวิมเลน __swimlane__ บนบอร์ด __board__",
   "act-addBoardMember": "เพิ่มสมาชิก __member__ บนบอร์ด __board__",
   "act-addChecklist": "เพิ่มเช็คลิสต์ __checklist__ ในการ์ด __card__ ในรายการ __list__ ในสวิมเลน __swimlane__ บนบอร์ด __board__",

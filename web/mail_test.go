@@ -523,3 +523,44 @@ func TestProfileEmail(t *testing.T) {
 		t.Fatalf("negative: not once Admin Panel turns it off: %v", out)
 	}
 }
+
+// Notification e-mail, as WeKan's: to a watching member when a mail server
+// is set, not to the actor, and never to one who turned e-mail off.
+func TestNotificationMail(t *testing.T) {
+	sink := newSMTPSink(t)
+	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	carl := w.seedUser(t, "carl", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Mailed")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"$each": bson.A{
+		bson.M{"userId": bob.ID, "isActive": true}, bson.M{"userId": carl.ID, "isActive": true}}}},
+		"$set": bson.M{"watchers": bson.A{bson.M{"userId": bob.ID, "level": "watching"}, bson.M{"userId": carl.ID, "level": "watching"},
+			bson.M{"userId": u.ID, "level": "watching"}}}})
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": carl.ID}, bson.M{"$set": bson.M{"profile.notifyOverrideEmail": false}})
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	_, _ = w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Mailed card")
+	deadline := time.Now().Add(5 * time.Second)
+	for len(sink.messages()) == 0 && time.Now().Before(deadline) {
+		time.Sleep(50 * time.Millisecond)
+	}
+	time.Sleep(200 * time.Millisecond)
+	msgs := sink.messages()
+	all := strings.ReplaceAll(strings.Join(msgs, "\n"), "=\r\n", "")
+	if !strings.Contains(all, "To: bob@example.invalid") || !strings.Contains(all, "Mailed card") || !strings.Contains(all, "Subject: Activity Notification") {
+		t.Fatalf("the watching member's mail: %v", msgs)
+	}
+	if strings.Contains(all, "To: ann@example.invalid") {
+		t.Fatal("negative: never to the actor")
+	}
+	if strings.Contains(all, "To: carl@example.invalid") {
+		t.Fatal("negative: never to a member who turned e-mail notifications off")
+	}
+	if w.s.unreadNotifications(ctx, carl.ID) == 0 {
+		t.Fatal("their drawer still has it")
+	}
+}

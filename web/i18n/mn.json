@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Сонгосон усан замын дээр",
   "accept": "Зөвшөөрөх",
   "account-locked": "Хэт олон удаа нэвтрэх оролдлого бүтэлгүйтсэний улмаас бүртгэл түр түгжигдсэн. Дараа дахин оролдоно уу.",
+  "act-activity-notify": "Үйл ажиллагааны мэдэгдэл",
   "act-addAttachment": "__board__ самбарын __swimlane__ усан замын __list__ жагсаалтын __card__ картанд __attachment__ хавсралт нэмэв",
   "act-addBoardMember": "__board__ самбарт __member__ гишүүнийг нэмэв",
   "act-addChecklist": "__board__ самбарын __swimlane__ усан замын __list__ жагсаалтын __card__ картанд __checklist__ шалгах хуудас нэмэв",

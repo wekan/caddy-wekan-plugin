@@ -2,6 +2,7 @@
   "above-selected-swimlane": "ရွေးထားသော ရေကူးလမ်း၏ အပေါ်",
   "accept": "လက်ခံရန်",
   "account-locked": "ဝင်ရောက်ရန် အကြိမ်များစွာ မအောင်မြင်သဖြင့် အကောင့်ကို ယာယီပိတ်ထားသည်။ နောက်မှ ထပ်ကြိုးစားပါ။",
+  "act-activity-notify": "လုပ်ဆောင်ချက် အသိပေးချက်",
   "act-addAttachment": "ဘုတ် __board__ ရှိ ရေကူးလမ်း __swimlane__ ၏ စာရင်း __list__ မှ ကတ် __card__ သို့ ပူးတွဲဖိုင် __attachment__ ကို ထည့်ခဲ့သည်",
   "act-addBoardMember": "ဘုတ် __board__ သို့ အဖွဲ့ဝင် __member__ ကို ထည့်ခဲ့သည်",
   "act-addChecklist": "ဘုတ် __board__ ရှိ ရေကူးလမ်း __swimlane__ ၏ စာရင်း __list__ မှ ကတ် __card__ သို့ စစ်ဆေးစာရင်း __checklist__ ကို ထည့်ခဲ့သည်",

@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Os cionn an lána snámha roghnaithe",
   "accept": "Glac",
   "account-locked": "Tá an cuntas glasáilte go sealadach mar gheall ar an iomarca iarrachtaí logála isteach teipthe. Bain triail eile as ar ball.",
+  "act-activity-notify": "Fógra Gníomhaíochta",
   "act-addAttachment": "chuir ceangaltán __attachment__ le cárta __card__ i liosta __list__ i lána snámha __swimlane__ ar chlár __board__",
   "act-addBoardMember": "chuir ball __member__ le clár __board__",
   "act-addChecklist": "chuir seicliosta __checklist__ le cárta __card__ i liosta __list__ i lána snámha __swimlane__ ar chlár __board__",

@@ -2,6 +2,7 @@
   "above-selected-swimlane": "فوق المسار المحدد",
   "accept": "قبول",
   "account-locked": "الحساب مقفل مؤقتاً بسبب عدد كبير جداً من محاولات تسجيل الدخول الفاشلة. يُرجى المحاولة مرة أخرى لاحقاً.",
+  "act-activity-notify": "اشعار النشاط",
   "act-addAttachment": "أضاف المرفق __attachment__ إلى البطاقة __card__ في القائمة __list__ والمسار __swimlane__ واللوحة __board__",
   "act-addBoardMember": "أضاف العضو __member__ إلى اللوحة __board__",
   "act-addChecklist": "أضاف قائمة التحقق __checklist__ إلى البطاقة __card__ في القائمة __list__ والمسار __swimlane__ واللوحة __board__",

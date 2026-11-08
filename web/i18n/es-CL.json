@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Encima del carril seleccionado",
   "accept": "Aceptar",
   "account-locked": "La cuenta está bloqueada temporalmente debido a demasiados intentos de inicio de sesión fallidos. Por favor inténtalo de nuevo más tarde.",
+  "act-activity-notify": "Notificación de actividad",
   "act-addAttachment": "añadido el adjunto __attachment__ a la tarjeta __card__ de la lista __list__ del carril __swimlane__ del tablero __board__",
   "act-addBoardMember": "añadido el mimbro __member__ al tablero __board__",
   "act-addChecklist": "añadida la lista de verificación __checklist__ a la tarjeta __card__ de la lista __list__ del carril __swimlane__ del tablero __board__",

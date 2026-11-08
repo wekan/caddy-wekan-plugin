@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Di atas aliran renang yang dipilih",
   "accept": "Terima",
   "account-locked": "Akaun dikunci buat sementara waktu disebabkan terlalu banyak percubaan log masuk yang gagal. Sila cuba lagi kemudian.",
+  "act-activity-notify": "Notifikasi Aktiviti",
   "act-addAttachment": "lampiran __attachment__ telah ditambah kepada kad __card__ pada senarai __list__ pada aliran renang __swimlane__ pada papan __board__",
   "act-addBoardMember": "rakan __member__ telah ditambah kepada papan __board__",
   "act-addChecklist": "Senarai semak __checklist__ telah ditambah kepada kad __card__ pada senarai __list__ pada aliran renang __swimlane__ pada papan __board__",

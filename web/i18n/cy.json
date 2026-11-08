@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Uchod y lôn nofio a ddewiswyd",
   "accept": "Derbyn",
   "account-locked": "Mae'r cyfrif wedi'i gloi dros dro oherwydd bod gormod o ymdrechion mewngofnodi wedi methu. Ceisiwch eto yn nes ymlaen.",
+  "act-activity-notify": "Hysbysiad Gweithgaredd",
   "act-addAttachment": "ychwanegwyd atodiad __attachment__ at gerdyn __card__ ar y rhestr __list__ yn swimlane __swimlane__ ar fwrdd __board__",
   "act-addBoardMember": "ychwanegu aelod __member__ at y bwrdd __board__",
   "act-addChecklist": "ychwanegu rhestr wirio __checklist__ at gerdyn __card__ ar y rhestr __list__ yn swimlane __swimlane__ ar fwrdd __board__",

@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Boven geselecteerde swimlane",
   "accept": "Accepteren",
   "account-locked": "Account tijdelijk geblokkeerd door te veel mislukte aanmeldpogingen. Probeer het later nog eens.",
+  "act-activity-notify": "Activiteit notificatie",
   "act-addAttachment": "heeft bijlage __attachment__ toegevoegd aan kaart __card__ van lijst __list__ in swimlane __swimlane__ op bord __board__",
   "act-addBoardMember": "heeft lid __member__ toegevoegd aan bord __board__",
   "act-addChecklist": "heeft checklist __checklist__ toegevoegd aan kaart __card__ van lijst __list__ in swimlane __swimlane__ op bord __board__",

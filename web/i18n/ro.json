@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Deasupra culoarului selectat",
   "accept": "Acceptă",
   "account-locked": "Contul este blocat temporar din cauza prea multor încercări de autentificare nereușite. Încercați din nou mai târziu.",
+  "act-activity-notify": "Notificări de activitate",
   "act-addAttachment": "a adăugat atașamentul __attachment__ la cardul __card__ din lista __list__, culoarul __swimlane__, tabla __board__",
   "act-addBoardMember": "a adăugat membrul __member__ la panoul __board__",
   "act-addChecklist": "a adăugat lista de verificare __checklist__ la cardul __card__ din lista __list__, culoarul __swimlane__, tabla __board__",

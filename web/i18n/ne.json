@@ -2,6 +2,7 @@
   "above-selected-swimlane": "चयन गरिएको स्विमलेनमाथि",
   "accept": "स्वीकार गर्नुहोस्",
   "account-locked": "अत्यधिक असफल लगइन प्रयासका कारण खाता अस्थायी रूपमा तालाबन्द छ। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+  "act-activity-notify": "गतिविधि सूचना",
   "act-addAttachment": "बोर्ड __board__ को स्विमलेन __swimlane__ मा रहेको सूची __list__ को कार्ड __card__ मा संलग्नक __attachment__ थप्यो",
   "act-addBoardMember": "बोर्ड __board__ मा सदस्य __member__ थप्यो",
   "act-addChecklist": "बोर्ड __board__ को स्विमलेन __swimlane__ मा रहेको सूची __list__ को कार्ड __card__ मा जाँचसूची __checklist__ थप्यो",

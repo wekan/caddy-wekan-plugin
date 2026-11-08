@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Über der ausgewählten Swimlane",
   "accept": "Akzeptieren",
   "account-locked": "Das Konto wurde aufgrund zu vieler fehlgeschlagener Anmeldeversuche vorübergehend gesperrt. Bitte versuche es später erneut.",
+  "act-activity-notify": "Aktivitätsbenachrichtigung",
   "act-addAttachment": "hat Anhang __attachment__  zur Karte __card__ auf der Liste __list__ in Swimlane __swimlane__ in Board __board__ hinzugefügt",
   "act-addBoardMember": "hat Mitglied __member__ zu Board __board__ hinzugefügt",
   "act-addChecklist": "hat Checkliste __checklist__ zur Karte __card__ auf der Liste __list__ in Swimlane __swimlane__ in Board __board__ hinzugefügt",

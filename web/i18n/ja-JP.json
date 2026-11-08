@@ -2,6 +2,7 @@
   "above-selected-swimlane": "選択したスイムレーンの上",
   "accept": "受け入れ",
   "account-locked": "ログイン失敗が多すぎるため、アカウントは一時的にロックされています。しばらくしてから再度お試しください。",
+  "act-activity-notify": "アクティビティ通知",
   "act-addAttachment": "添付ファイル __attachment__ を ボード __board__, スイムレーン __swimlane__, リスト __list__, カード __card__ に追加しました",
   "act-addBoardMember": "メンバー __member__ を ボード __board__ に追加しました",
   "act-addChecklist": "チェックリスト __checklist__ を ボード __board__, スイムレーン __swimlane__, リスト __list__, カード __card__ に追加しました",

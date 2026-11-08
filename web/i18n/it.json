@@ -2,6 +2,7 @@
   "above-selected-swimlane": "Sopra la swimlane selezionata",
   "accept": "Accetta",
   "account-locked": "L'account è temporaneamente bloccato a causa di troppi tentativi di accesso falliti. Riprova più tardi.",
+  "act-activity-notify": "Notifica attività",
   "act-addAttachment": "Aggiunto allegato __attachment__ alla scheda __card__ della lista __list__ della swimlane __swimlane__  nella bacheca __board__",
   "act-addBoardMember": "aggiunto membro __member__ alla bacheca __board__",
   "act-addChecklist": "aggiunta lista di controllo __checklist__ alla scheda __card__ della lista __list__ della swimlane __swimlane__ nella bacheca __board__",
