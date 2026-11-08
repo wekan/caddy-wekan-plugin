@@ -195,6 +195,7 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 	u, _ := data["User"].(*User)
 	lang := languageOf(r, u)
 	data["L"], data["Lang"] = lang.Tag, lang
+	data["TextPolicy"] = s.textPolicy(r.Context())
 	if u != nil {
 		data["Unread"] = s.unreadNotifications(r.Context(), u.ID)
 		data["CloudMenu"] = s.cloudOn() && u.IsAdmin

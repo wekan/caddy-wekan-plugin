@@ -20,3 +20,26 @@ func TestViewerIsSafe(t *testing.T) {
 		t.Fatalf("a one-line title is inline: %s", got)
 	}
 }
+
+// Emoji, and Admin Panel's text policies, as WeKan's viewer.
+func TestViewerPolicies(t *testing.T) {
+	text := "# Demo [card](https://example.com/) :thumbsup: :heart: :tada: `:tada:`"
+	got := string(viewer(text))
+	if !strings.Contains(got, "<h1>") || !strings.Contains(got, `<a href="https://example.com/">card</a>`) || !strings.Contains(got, "👍") ||
+		!strings.Contains(got, "❤️") || !strings.Contains(got, "<code>:tada:</code>") {
+		t.Fatalf("formatted, with emoji - never in code: %s", got)
+	}
+	if got := string(viewer(text, textPolicy{PlainLinks: true})); strings.Contains(got, "<a ") || !strings.Contains(got, "card") || !strings.Contains(got, "<h1>") {
+		t.Fatalf("plain links: the text, not the link: %s", got)
+	}
+	got = string(viewer(text, textPolicy{PlainSource: true}))
+	if !strings.Contains(got, "<pre># Demo [card](https://example.com/) :thumbsup: :heart: :tada: `:tada:`</pre>") || strings.Contains(got, "<h1>") {
+		t.Fatalf("plain source: the source, escaped: %s", got)
+	}
+	if got := string(viewer("<b>x</b>", textPolicy{PlainSource: true})); !strings.Contains(got, "&lt;b&gt;") {
+		t.Fatalf("negative: the source is escaped: %s", got)
+	}
+	if got := string(viewer(`[:tada:](https://x.example/:tada:)`)); strings.Contains(got, "x.example/🎉") {
+		t.Fatalf("negative: never inside a tag: %s", got)
+	}
+}
