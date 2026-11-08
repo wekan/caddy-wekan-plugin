@@ -42,6 +42,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"quitBoard":             s.methodQuitBoard,
 		"/users/update":         s.methodUpdateUser,
 		"setEmail":              s.methodSetEmail,
+		"rules.runButton":       s.methodRunButton,
 	}
 }
 

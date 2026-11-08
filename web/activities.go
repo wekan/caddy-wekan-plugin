@@ -26,6 +26,7 @@ func (s *Server) activity(ctx context.Context, userID, activityType string, fiel
 		return
 	}
 	s.notify(ctx, userID, doc)
+	s.executeRules(ctx, doc)
 }
 
 // titleOfID is the title of a document, "" when there is none.

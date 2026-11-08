@@ -39,6 +39,9 @@ var securityCategories = map[string]securityCategory{
 	"authz.invitation-boards":  {Category: "authz", Bleed: "InvitationBoardBleed", Severity: "high", CWE: "CWE-639"},
 	"brute.invite":             {Category: "brute-force", Bleed: "InviteBleed", Severity: "high", CWE: "CWE-307"},
 	"authz.invitation-profile": {Category: "authz", Bleed: "InviteProfileBleed", Severity: "high", CWE: "CWE-863"},
+	"authz.rule-button":        {Category: "authz", Bleed: "RuleButtonBleed", Severity: "high", CWE: "CWE-639"},
+	"authz.canary":             {Category: "authz", Bleed: "CanaryBleed", Severity: "medium", CWE: "CWE-863"},
+	"dos.rule-loop":            {Category: "dos", Bleed: "BypassBleed", Severity: "medium", CWE: "CWE-674"},
 	"authz.manage-board":       {Category: "authz", Bleed: "ManageBoardBleed", Severity: "high", CWE: "CWE-863"},
 	// #6798: the same refusal reaches a read-only member working from a stale
 	// screen, so it is recorded but never disables the account.
