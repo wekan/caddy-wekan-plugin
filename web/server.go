@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"sort"
 	"strings"
@@ -133,6 +134,17 @@ func (s *Server) Close() error {
 var funcs = template.FuncMap{
 	"memberName": func(u *User) string { return u.Name() },
 	"t":          tr,
+	// copula is WeKan's ruleTriggerCopula: the linking verb of a rule's trigger,
+	// none where the language's own phrase already holds it.
+	"copula": func(lang string) string {
+		if regexp.MustCompile(`(?i)^(?:eu|th|kn|ml|la|ga)(?:[-_]|$)`).MatchString(lang) {
+			return ""
+		}
+		return tr(lang, msg("r-is"))
+	},
+	// nameBeforeSubject is WeKan's ruleNameBeforeSubject: a Basque named
+	// subject ends with its demonstrative, so the name comes first.
+	"nameBeforeSubject": func(lang string) bool { return regexp.MustCompile(`(?i)^eu(?:[-_]|$)`).MatchString(lang) },
 	// starred is whether the board is one of the user's favorites.
 	"starred": func(u *User, id string) bool { return u != nil && slices.Contains(u.Profile.StarredBoards, id) },
 }

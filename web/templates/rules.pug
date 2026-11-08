@@ -156,7 +156,7 @@
                 .trigger-item#trigger-two
                   .trigger-content
                     .trigger-text {{t $.L "r-when-a-card"}}
-                    .trigger-text {{t $.L "r-is"}}
+                    .trigger-text {{copula $.L}}
                     .trigger-text {{t $.L "r-added-to"}}
                     .trigger-text {{t $.L "r-list"}}
                     .trigger-dropdown
@@ -175,7 +175,7 @@
                 .trigger-item#trigger-four
                   .trigger-content
                     .trigger-text {{t $.L "r-when-a-card"}}
-                    .trigger-text {{t $.L "r-is"}}
+                    .trigger-text {{copula $.L}}
                     .trigger-dropdown
                       select#move-action
                         option(value="moved-to") {{t $.L "r-moved-to"}}
@@ -191,7 +191,7 @@
                 .trigger-item#trigger-five
                   .trigger-content
                     .trigger-text {{t $.L "r-when-a-card"}}
-                    .trigger-text {{t $.L "r-is"}}
+                    .trigger-text {{copula $.L}}
                     .trigger-dropdown
                       select#arch-action
                         option(value="archived") {{t $.L "r-archived"}}
@@ -212,12 +212,15 @@
                     i.fa.fa-plus(aria-hidden="true")
                 .trigger-item
                   .trigger-content
-                    .trigger-text {{t $.L "r-when-the-label"}}
+                    if not (nameBeforeSubject $.L)
+                      .trigger-text {{t $.L "r-when-the-label"}}
                     .trigger-dropdown
                       select#spec-label
                         each lb in $.Labels
                           option(value="{{.ID}}") {{.Name}}
-                    .trigger-text {{t $.L "r-when-the-label"}}
+                    if nameBeforeSubject $.L
+                      .trigger-text {{t $.L "r-when-the-label"}}
+                    .trigger-text {{copula $.L}}
                     .trigger-dropdown
                       select#spec-label-action
                         option(value="added") {{t $.L "r-added-to"}}
@@ -237,10 +240,13 @@
                     i.fa.fa-plus(aria-hidden="true")
                 .trigger-item
                   .trigger-content
-                    .trigger-text {{t $.L "r-when-the-member"}}
+                    if not (nameBeforeSubject $.L)
+                      .trigger-text {{t $.L "r-when-the-member"}}
                     .trigger-dropdown
                       input#spec-member(type="text", placeholder="{{t $.L `r-name`}}")
-                    .trigger-text {{t $.L "r-when-the-member"}}
+                    if nameBeforeSubject $.L
+                      .trigger-text {{t $.L "r-when-the-member"}}
+                    .trigger-text {{copula $.L}}
                     .trigger-dropdown
                       select#spec-member-action
                         option(value="added") {{t $.L "r-added-to"}}
@@ -260,10 +266,13 @@
                     i.fa.fa-plus(aria-hidden="true")
                 .trigger-item
                   .trigger-content
-                    .trigger-text {{t $.L "r-when-the-assignee"}}
+                    if not (nameBeforeSubject $.L)
+                      .trigger-text {{t $.L "r-when-the-assignee"}}
                     .trigger-dropdown
                       input#spec-assignee(type="text", placeholder="{{t $.L `r-name`}}")
-                    .trigger-text {{t $.L "r-when-the-assignee"}}
+                    if nameBeforeSubject $.L
+                      .trigger-text {{t $.L "r-when-the-assignee"}}
+                    .trigger-text {{copula $.L}}
                     .trigger-dropdown
                       select#spec-assignee-action
                         option(value="added") {{t $.L "r-added-to"}}
@@ -314,10 +323,13 @@
                     i.fa.fa-plus(aria-hidden="true")
                 .trigger-item
                   .trigger-content
-                    .trigger-text {{t $.L "r-when-the-checklist"}}
+                    if not (nameBeforeSubject $.L)
+                      .trigger-text {{t $.L "r-when-the-checklist"}}
                     .trigger-dropdown
                       textarea#check-name(rows="2", placeholder="{{t $.L `r-name`}}")
-                    .trigger-text {{t $.L "r-when-the-checklist"}}
+                    if nameBeforeSubject $.L
+                      .trigger-text {{t $.L "r-when-the-checklist"}}
+                    .trigger-text {{copula $.L}}
                     .trigger-dropdown
                       select#spec-check-action
                         option(value="created") {{t $.L "r-added-to"}}
@@ -336,10 +348,13 @@
                     i.fa.fa-plus(aria-hidden="true")
                 .trigger-item
                   .trigger-content
-                    .trigger-text {{t $.L "r-when-the-checklist"}}
+                    if not (nameBeforeSubject $.L)
+                      .trigger-text {{t $.L "r-when-the-checklist"}}
                     .trigger-dropdown
                       textarea#spec-comp-check-name(rows="2", placeholder="{{t $.L `r-name`}}")
-                    .trigger-text {{t $.L "r-when-the-checklist"}}
+                    if nameBeforeSubject $.L
+                      .trigger-text {{t $.L "r-when-the-checklist"}}
+                    .trigger-text {{copula $.L}}
                     .trigger-dropdown
                       select#spec-comp-check-action
                         option(value="completed") {{t $.L "r-completed"}}
@@ -357,10 +372,13 @@
                     i.fa.fa-plus(aria-hidden="true")
                 .trigger-item
                   .trigger-content
-                    .trigger-text {{t $.L "r-when-the-item"}}
+                    if not (nameBeforeSubject $.L)
+                      .trigger-text {{t $.L "r-when-the-item"}}
                     .trigger-dropdown
                       textarea#check-item-name(rows="2", placeholder="{{t $.L `r-name`}}")
-                    .trigger-text {{t $.L "r-when-the-item"}}
+                    if nameBeforeSubject $.L
+                      .trigger-text {{t $.L "r-when-the-item"}}
+                    .trigger-text {{copula $.L}}
                     .trigger-dropdown
                       select#check-item-spec-action
                         option(value="checked") {{t $.L "r-checked"}}

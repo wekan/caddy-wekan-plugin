@@ -345,3 +345,26 @@ func TestRulesExport(t *testing.T) {
 		t.Fatalf("negative: not an admin: %d", res.StatusCode)
 	}
 }
+
+// WeKan's ruleTriggerCopula and ruleNameBeforeSubject: English links with
+// "is"; Basque has its verb in the phrase, and the name before its subject.
+func TestRuleTriggerGrammar(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Grammar")
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	rulesURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/rules"
+	_, en := get(t, ann, rulesURL)
+	i := strings.Index(en, `id="spec-member"`)
+	if i < 0 || !strings.Contains(en[i:i+400], `<div class="trigger-text">is</div>`) || !strings.Contains(en[i-200:i], "When the member") {
+		t.Fatal("English: the subject, the name, then is")
+	}
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": u.ID}, bson.M{"$set": bson.M{"profile.language": "eu"}})
+	_, eu := get(t, ann, rulesURL)
+	i = strings.Index(eu, `id="spec-member"`)
+	if i < 0 || strings.Contains(eu[i:i+400], `<div class="trigger-text">da</div>`) || !strings.Contains(eu[i:i+400], "Kide hau") {
+		t.Fatal("negative: Basque has no separate da, and its name comes before Kide hau")
+	}
+}
