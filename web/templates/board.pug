@@ -278,6 +278,8 @@
             | ↓ {{t $.L "add-card-to-bottom-of-list"}}
         li
           a.js-select-cards(href="#") {{t $.L "list-select-cards"}}
+        li
+          a.js-toggle-watch-list(href="#", data-watch="{{t $.L `watch`}}", data-unwatch="{{t $.L `unwatch`}}") {{t $.L "watch"}}
   template.js-pop-over-template(data-pop="watch", data-title="{{t $.L `boardChangeWatchPopup-title`}}")
     .header
       span.header-title {{t $.L "boardChangeWatchPopup-title"}}
@@ -344,7 +346,7 @@
               i.fa.fa-plus
         .list-group.js-lists
           each li in .Lists
-            .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}", data-swimlane="{{.Lane}}", class="{{if .Collapsed}}list-collapsed{{end}}")
+            .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}", data-swimlane="{{.Lane}}", data-watching="{{if watching $.User .Watchers}}1{{end}}", class="{{if .Collapsed}}list-collapsed{{end}}")
               .list-header
                 //- WeKan's caret (listHeader.jade): per user, per list in this swimlane (#6712).
                 if .Collapsed
@@ -354,6 +356,8 @@
                   a.list-collapse-indicator.js-collapse(href="#", data-collapse="{{t $.L `collapse`}}", data-uncollapse="{{t $.L `uncollapse`}}", title="{{t $.L `collapse`}}", aria-label="{{t $.L `collapse`}}")
                     i.fa.fa-caret-down
                 span.list-header-name {{.Title}}
+                if watching $.User .Watchers
+                  i.list-header-watch-icon.fa.fa-eye(title="{{t $.L `watching`}}")
                 if $.CanEdit
                   a.js-add-card.list-header-plus-top(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `add-card-to-top-of-list`}}", aria-label="{{t $.L `add-card-to-top-of-list`}}") +
                   a.js-open-list-menu(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `listActionPopup-title`}}", aria-label="{{t $.L `listActionPopup-title`}}") ☰

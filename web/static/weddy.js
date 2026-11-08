@@ -553,10 +553,20 @@
     },
       function (e) { window.alert(e.reason || e.message); });
   });
+  // Watch or Unwatch the list whose menu is open (WeKan's watch method).
+  up.on('click', '.js-pop-over .js-toggle-watch-list', function (event) {
+    event.preventDefault();
+    var list = menuList;
+    closePopOvers();
+    if (!list) return;
+    callAsync('watch', 'list', list.dataset.list, list.dataset.watching ? null : 'watching').then(function () { up.reload('.board-wrapper'); });
+  });
   up.on('click', '.js-open-list-menu', function (event, el) {
     event.preventDefault();
     menuList = el.closest('.js-list');
     openPopOver('list-menu');
+    var w = document.querySelector('.js-pop-over .js-toggle-watch-list');
+    if (w) w.textContent = menuList.dataset.watching ? w.dataset.unwatch : w.dataset.watch;
   });
   up.on('click', '.js-add-card', function (event, el) {
     event.preventDefault();

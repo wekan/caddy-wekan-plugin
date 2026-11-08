@@ -48,6 +48,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"rules.setEnabled":                s.methodSetRuleEnabled,
 		"toggleCardMaximized":             s.methodToggleCardMaximized,
 		"archiveSelectedCards":            s.methodArchiveSelectedCards,
+		"watch":                           s.methodWatch,
 		"createBoardWithInitialSwimlanes": s.methodCreateBoardWithInitialSwimlanes,
 	}
 }
@@ -567,4 +568,45 @@ func (s *Server) methodArchiveSelectedCards(r *http.Request, u *User, args []jso
 	}
 	s.hub.publish(b.ID, "board-changed")
 	return map[string]int{"archived": len(cards)}, nil
+}
+
+// methodWatch is WeKan's watch(watchableType, id, level) for a list or a
+// card: the user, who may read its board, watches it ('watching') or stops
+// (null). Only their own watching changes.
+func (s *Server) methodWatch(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	kind, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	id, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	var level *string
+	if len(args) < 3 || json.Unmarshal(args[2], &level) != nil || (level != nil && *level != "watching") {
+		return nil, &methodError{"Match.Error", "watching or null"}
+	}
+	coll := map[string]string{"list": "lists", "card": "cards"}[kind]
+	if coll == "" {
+		return nil, &methodError{"error-json-schema", "a list or a card"}
+	}
+	ctx := r.Context()
+	var doc struct {
+		BoardID string `bson:"boardId"`
+	}
+	if !validID(id) || s.db.Collection(coll).FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&doc) != nil {
+		return nil, &methodError{"error-" + kind + "-doesNotExist", "not found"}
+	}
+	if _, err := s.boardFor(ctx, doc.BoardID, u); err != nil {
+		return nil, &methodError{"error-board-notAMember", "error-board-notAMember"}
+	}
+	update := bson.M{"$pull": bson.M{"watchers": u.ID}}
+	if level != nil {
+		update = bson.M{"$addToSet": bson.M{"watchers": u.ID}}
+	}
+	if _, err := s.db.Collection(coll).UpdateOne(ctx, bson.M{"_id": eq(id)}, update); err != nil {
+		return nil, err
+	}
+	s.hub.publish(doc.BoardID, "board-changed")
+	return true, nil
 }

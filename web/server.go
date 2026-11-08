@@ -149,6 +149,8 @@ var funcs = template.FuncMap{
 	// nameBeforeSubject is WeKan's ruleNameBeforeSubject: a Basque named
 	// subject ends with its demonstrative, so the name comes first.
 	"nameBeforeSubject": func(lang string) bool { return regexp.MustCompile(`(?i)^eu(?:[-_]|$)`).MatchString(lang) },
+	// watching is whether the user is one of the watchers.
+	"watching": func(u *User, watchers []string) bool { return u != nil && slices.Contains(watchers, u.ID) },
 	// starred is whether the board is one of the user's favorites.
 	"starred": func(u *User, id string) bool { return u != nil && slices.Contains(u.Profile.StarredBoards, id) },
 }

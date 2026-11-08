@@ -592,3 +592,55 @@ func TestNotificationsDrawer(t *testing.T) {
 		t.Fatal("negative: only the user's own are deleted")
 	}
 }
+
+// WeKan's watch method for a list: watched by whoever may read the board,
+// shown with the eye; only their own watching changes; notifications follow.
+func TestWatchList(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Watch")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	call := func(cl *http.Client, args string) map[string]any {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/watch", strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cl.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return out
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if out := call(ann, `["list","`+l.ID+`","watching"]`); out["result"] != true {
+		t.Fatalf("watched: %v", out)
+	}
+	if _, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug); !strings.Contains(html, "list-header-watch-icon") {
+		t.Fatal("the eye on the list")
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if out := call(bc, `["list","`+l.ID+`","watching"]`); out["error"] != "error-board-notAMember" {
+		t.Fatalf("negative: not on a board they cannot read: %v", out)
+	}
+	if out := call(ann, `["list","`+l.ID+`","tracking"]`); out["error"] != "Match.Error" {
+		t.Fatal("negative: watching or null only")
+	}
+	if out := call(ann, `["user","`+u.ID+`","watching"]`); out["error"] != "error-json-schema" {
+		t.Fatal("negative: a list or a card only")
+	}
+	var got List
+	_ = w.db.Collection("lists").FindOne(ctx, bson.M{"_id": l.ID}).Decode(&got)
+	if !slices.Contains(got.Watchers, u.ID) || slices.Contains(got.Watchers, bob.ID) {
+		t.Fatalf("only their own watching: %v", got.Watchers)
+	}
+	call(ann, `["list","`+l.ID+`",null]`)
+	_ = w.db.Collection("lists").FindOne(ctx, bson.M{"_id": l.ID}).Decode(&got)
+	if slices.Contains(got.Watchers, u.ID) {
+		t.Fatal("unwatched")
+	}
+}

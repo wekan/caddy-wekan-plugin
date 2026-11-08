@@ -269,6 +269,8 @@ type List struct {
 	Sort       float64 `bson:"sort" json:"sort"`
 	Archived   bool    `bson:"archived" json:"archived"`
 	Type       string  `bson:"type,omitempty" json:"type,omitempty"`
+	// Watchers are the users who watch the list (WeKan's watchable list).
+	Watchers []string `bson:"watchers,omitempty" json:"watchers,omitempty"`
 }
 
 // Card is a document of the cards collection.
