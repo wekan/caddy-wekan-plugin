@@ -1,6 +1,7 @@
 package web
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"regexp"
@@ -224,7 +225,21 @@ func (s *Server) apiExportCSV(w http.ResponseWriter, r *http.Request) {
 	if utf8.RuneCountInString(delim) != 1 || strings.ContainsAny(delim, "\r\n\"\uFEFF") {
 		delim = ","
 	}
-	ctx := r.Context()
+	if delim == "\t" {
+		w.Header().Set("Content-Type", "text/tsv")
+	} else {
+		w.Header().Set("Content-Type", "text/csv; charset=utf-8")
+	}
+	w.Header().Set("Cache-Control", "no-store")
+	w.WriteHeader(http.StatusOK)
+	if delim != "\t" {
+		_, _ = w.Write([]byte{0xEF, 0xBB, 0xBF}) // a BOM, so a spreadsheet reads UTF-8
+	}
+	_, _ = w.Write(s.boardCSV(r.Context(), &b, delim))
+}
+
+// boardCSV is the board's rows - the header, then a card a row - with delim.
+func (s *Server) boardCSV(ctx context.Context, b *Board, delim string) []byte {
 	all := func(coll string, filter bson.M) []bson.M {
 		cur, err := s.db.Collection(coll).Find(ctx, filter, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
 		docs := []bson.M{}
@@ -295,25 +310,17 @@ func (s *Server) apiExportCSV(w http.ResponseWriter, r *http.Request) {
 			header = append(header, "CustomField-"+name+"-"+typ)
 		}
 	}
+	var out strings.Builder
 	writeRow := func(cells []any) {
-		out := make([]string, len(cells))
+		row := make([]string, len(cells))
 		for i, c := range cells {
-			out[i] = csvCell(c)
+			row[i] = csvCell(c)
 		}
-		_, _ = w.Write([]byte(strings.Join(out, delim) + "\r\n"))
-	}
-	if delim == "\t" {
-		w.Header().Set("Content-Type", "text/tsv")
-	} else {
-		w.Header().Set("Content-Type", "text/csv; charset=utf-8")
-	}
-	w.Header().Set("Cache-Control", "no-store")
-	w.WriteHeader(http.StatusOK)
-	if delim != "\t" {
-		_, _ = w.Write([]byte{0xEF, 0xBB, 0xBF}) // a BOM, so a spreadsheet reads UTF-8
+		out.WriteString(strings.Join(row, delim) + "\r\n")
 	}
 	writeRow(header)
 	for _, c := range cards {
 		writeRow(csvRow(c, lists, swimlanes, users, labels, fields, position))
 	}
+	return []byte(out.String())
 }
