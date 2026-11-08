@@ -47,8 +47,9 @@ var securityCategories = map[string]securityCategory{
 	"authz.assigned-card-write": {Category: "authz", Bleed: "UnassignedArchiveBleed", Severity: "medium", CWE: "CWE-863"},
 	// CrossBoardExportBleed: an export while Admin Panel has turned export
 	// off - recorded, never costing the account, as WeKan's key is.
-	"authz.export-disabled": {Category: "authz", Bleed: "CrossBoardExportBleed", Severity: "medium", CWE: "CWE-863", NeverBlocks: true},
-	"authz.manage-board":    {Category: "authz", Bleed: "ManageBoardBleed", Severity: "high", CWE: "CWE-863"},
+	"authz.export-disabled":  {Category: "authz", Bleed: "CrossBoardExportBleed", Severity: "medium", CWE: "CWE-863", NeverBlocks: true},
+	"authz.admin-only-field": {Category: "authz", Bleed: "AdminFieldBleed", Severity: "high", CWE: "CWE-863"},
+	"authz.manage-board":     {Category: "authz", Bleed: "ManageBoardBleed", Severity: "high", CWE: "CWE-863"},
 	// #6798: the same refusal reaches a read-only member working from a stale
 	// screen, so it is recorded but never disables the account.
 	"authz.linked-write": {Category: "authz", Bleed: "LinkedWriteBleed", Severity: "high", CWE: "CWE-863", NeverBlocks: true},

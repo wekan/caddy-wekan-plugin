@@ -27,7 +27,7 @@ type methodError struct{ Code, Reason string }
 func (e *methodError) Error() string { return e.Code }
 
 func (s *Server) methods() map[string]methodFunc {
-	return map[string]methodFunc{
+	m := map[string]methodFunc{
 		"setLanguage":                     s.methodSetLanguage,
 		"cards.pokerVote":                 s.methodPokerVote,
 		"setListCollapsedState":           s.methodSetListCollapsedState,
@@ -51,6 +51,10 @@ func (s *Server) methods() map[string]methodFunc {
 		"watch":                           s.methodWatch,
 		"createBoardWithInitialSwimlanes": s.methodCreateBoardWithInitialSwimlanes,
 	}
+	for k, v := range s.customFieldMethods() {
+		m[k] = v
+	}
+	return m
 }
 
 func (s *Server) methodRoutes(m *http.ServeMux) {

@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"fmt"
 	"html/template"
 	"net/http"
 	"regexp"
@@ -26,6 +27,20 @@ var activitySentences = map[string]string{
 	"createSwimlane": msg("act-createSwimlane"), "createBoard": msg("act-createBoard"), "addedLabel": msg("act-addedLabel"),
 	"removedLabel": msg("act-removedLabel"), "addBoardMember": msg("act-addBoardMember"), "removeBoardMember": msg("act-removeBoardMember"),
 	"deleteCard": msg("act-deleteCard"), "checkedItem": msg("act-checkedItem"), "uncheckedItem": msg("act-uncheckedItem"),
+	// The rest of WeKan's sentences that are named by their activity type.
+	"addChecklistItem": msg("act-addChecklistItem"), "addLabel": msg("act-addLabel"), "addSubtask": msg("act-addSubtask"),
+	"archivedBoard": msg("act-archivedBoard"), "archivedList": msg("act-archivedList"), "archivedSwimlane": msg("act-archivedSwimlane"),
+	"changedBoardTitle": msg("act-changedBoardTitle"), "changedListTitle": msg("act-changedListTitle"),
+	"changedSwimlaneTitle": msg("act-changedSwimlaneTitle"), "completeChecklist": msg("act-completeChecklist"),
+	"createCustomField": msg("act-createCustomField"), "deleteAttachment": msg("act-deleteAttachment"), "deleteBoard": msg("act-deleteBoard"),
+	"deleteComment": msg("act-deleteComment"), "deleteCustomField": msg("act-deleteCustomField"), "editCard": msg("act-editCard"),
+	"editComment": msg("act-editComment"), "importBoard": msg("act-importBoard"), "importCard": msg("act-importCard"),
+	"importList": msg("act-importList"), "moveCardBoard": msg("act-moveCardBoard"), "moveCardToOtherBoard": msg("act-moveCardToOtherBoard"),
+	"removeBoard": msg("act-removeBoard"), "removeChecklist": msg("act-removeChecklist"),
+	"removeChecklistItem": msg("act-removeChecklistItem"), "removedChecklistItem": msg("act-removedChecklistItem"),
+	"removeLabel": msg("act-removeLabel"), "removeList": msg("act-removeList"), "removeSwimlane": msg("act-removeSwimlane"),
+	"restoredList": msg("act-restoredList"), "restoredSwimlane": msg("act-restoredSwimlane"), "setCustomField": msg("act-setCustomField"),
+	"uncompleteChecklist": msg("act-uncompleteChecklist"),
 }
 
 // drawerItem is one notification as the drawer shows it.
@@ -254,6 +269,53 @@ func (s *Server) notificationHTML(ctx context.Context, u *User, a bson.M, lang s
 	}
 	params["list"] = s.titleOfID(ctx, "lists", docString(a, "listId"))
 	params["swimlane"] = s.titleOfID(ctx, "swimlanes", docString(a, "swimlaneId"))
+	// The rest of WeKan's params (server/models/activities.js).
+	params["oldList"] = s.titleOfID(ctx, "lists", docString(a, "oldListId"))
+	params["oldSwimlane"] = s.titleOfID(ctx, "swimlanes", docString(a, "oldSwimlaneId"))
+	params["oldBoard"] = s.titleOfID(ctx, "boards", docString(a, "oldBoardId"))
+	params["checklist"] = s.titleOfID(ctx, "checklists", docString(a, "checklistId"))
+	params["checklistItem"] = s.titleOfID(ctx, "checklistItems", docString(a, "checklistItemId"))
+	params["attachment"] = docString(a, "attachmentName")
+	if id := docString(a, "commentId"); validID(id) {
+		var c struct {
+			Text string `bson:"text"`
+		}
+		if s.db.Collection("card_comments").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&c) == nil {
+			params["comment"] = c.Text
+		}
+	}
+	if id := docString(a, "customFieldId"); validID(id) {
+		var f struct {
+			Name      string `bson:"name"`
+			AdminOnly bool   `bson:"adminOnly"`
+		}
+		if s.db.Collection("customFields").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&f) == nil {
+			params["customField"] = f.Name
+			// #3141: an admin-only field's value reaches only board admins.
+			var b Board
+			admin := false
+			if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(docString(a, "boardId"))}).Decode(&b) == nil {
+				m := b.member(u.ID)
+				admin = m != nil && m.IsAdmin
+			}
+			if v, ok := a["value"]; ok && v != nil && (!f.AdminOnly || admin) {
+				params["customFieldValue"] = jsString(v)
+			}
+		}
+	}
+	if id := docString(a, "labelId"); id != "" {
+		var b Board
+		if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(docString(a, "boardId"))}).Decode(&b) == nil {
+			for _, l := range b.Labels {
+				if l.ID == id {
+					params["label"] = l.Name
+					if l.Name == "" {
+						params["label"] = l.Color
+					}
+				}
+			}
+		}
+	}
 	var actor User
 	if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(docString(a, "userId"))}).Decode(&actor) == nil {
 		params["user"] = actor.Name()
@@ -264,4 +326,24 @@ func (s *Server) notificationHTML(ctx context.Context, u *User, a bson.M, lang s
 		item = clearItem(tr(lang, key), params, cardURL)
 	}
 	return item, true
+}
+
+// jsString is a value as JavaScript's String() writes it: 0 is "0", false
+// is "false" - never left out as empty.
+func jsString(v any) string {
+	switch x := v.(type) {
+	case string:
+		return x
+	case bool:
+		return strconv.FormatBool(x)
+	case float64:
+		return strconv.FormatFloat(x, 'f', -1, 64)
+	case int32:
+		return strconv.Itoa(int(x))
+	case int64:
+		return strconv.FormatInt(x, 10)
+	case bson.DateTime:
+		return x.Time().UTC().Format("2006-01-02T15:04:05.000Z")
+	}
+	return fmt.Sprint(v)
 }
