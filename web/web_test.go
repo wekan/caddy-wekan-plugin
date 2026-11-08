@@ -922,3 +922,60 @@ func TestListCollapseState(t *testing.T) {
 		t.Fatal("negative: another user's fold is not shown")
 	}
 }
+
+// #6713: a favorite survives a reload and is in Favorites - and a public one
+// that turned private is no longer shown for its stale star.
+func TestBoardStar(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	cid := w.seedUser(t, "cid", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Shared")
+	priv, _ := w.s.CreateBoard(ctx, u, "Private")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"permission": "public"}})
+	cc := w.client(t)
+	body(t, w.signIn(t, cc, "cid", "pw"))
+	call := func(id string) int {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/toggleBoardStar", strings.NewReader(`["`+id+`"]`))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cc.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+		return res.StatusCode
+	}
+	boardURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug
+	if _, html := get(t, cc, boardURL); !strings.Contains(html, "js-star-board") || strings.Contains(html, "fa-star\"") {
+		t.Fatal("the star, not yet given")
+	}
+	if c := call(b.ID); c != 200 {
+		t.Fatalf("toggleBoardStar: %d", c)
+	}
+	var doc User
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": cid.ID}).Decode(&doc)
+	if !slices.Contains(doc.Profile.StarredBoards, b.ID) {
+		t.Fatalf("kept in profile.starredBoards: %v", doc.Profile.StarredBoards)
+	}
+	if _, html := get(t, cc, boardURL); !strings.Contains(html, "js-star-board is-active") {
+		t.Fatal("given, after a reload")
+	}
+	if _, html := get(t, cc, w.srv.URL+"/allboards/starred"); !strings.Contains(html, `js-board `+b.ID+` starred"`) {
+		t.Fatal("in Favorites")
+	}
+	if c := call(priv.ID); c != 400 {
+		t.Fatalf("negative: no star for a private board of somebody else: %d", c)
+	}
+	if c := call("a.b"); c != 400 {
+		t.Fatalf("negative: an id: %d", c)
+	}
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"permission": "private"}})
+	for _, page := range []string{"/allboards/starred", "/"} {
+		if _, html := get(t, cc, w.srv.URL+page); strings.Contains(html, b.ID) {
+			t.Fatalf("negative: a stale star does not show a board that turned private on %s", page)
+		}
+	}
+	if c := call(b.ID); c != 200 {
+		t.Fatalf("a stale star can be taken away: %d", c)
+	}
+}

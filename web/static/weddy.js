@@ -160,6 +160,24 @@
     return function () { clearInterval(timer); };
   });
 
+  // The board's star: the user's favorite (WeKan's toggleBoardStar).
+  up.on('click', '.js-star-board', function (event, el) {
+    event.preventDefault();
+    var board = el.closest('.board-wrapper');
+    if (!board) return;
+    var on = !el.classList.contains('is-active');
+    el.classList.toggle('is-active', on);
+    var icon = el.querySelector('.fa');
+    if (icon) {
+      icon.classList.toggle('fa-star', on);
+      icon.classList.toggle('fa-star-o', !on);
+    }
+    el.title = on ? el.dataset.unstar : el.dataset.star;
+    callAsync('toggleBoardStar', board.dataset.board).catch(function () {
+      el.classList.toggle('is-active', !on);
+    });
+  });
+
   // A list's caret collapses it, for this user, in this swimlane (#6712):
   // at once on the page, and kept in the profile as WeKan's
   // setListCollapsedState, so a reload shows it the same.

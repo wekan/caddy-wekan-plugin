@@ -2,7 +2,7 @@
   h1.board-list-title {{t $.L "all-boards"}}
   ul.board-list.js-boards
     each b in .Boards
-      li.js-board(data-id="{{.ID}}")
+      li.js-board(data-id="{{.ID}}", class="{{.ID}}{{if starred $.User .ID}} starred{{end}}")
         a.board-list-item(href="/b/{{.ID}}/{{.Slug}}", class="board-color-{{.Color}}", up-follow)
           span.board-list-item-name {{.Title}}
     li.js-add-board

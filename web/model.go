@@ -78,6 +78,8 @@ type User struct {
 		Fullname string `bson:"fullname,omitempty" json:"fullname,omitempty"`
 		Initials string `bson:"initials,omitempty" json:"initials,omitempty"`
 		Language string `bson:"language,omitempty" json:"language,omitempty"`
+		// StarredBoards are the user's favorites, WeKan's profile.starredBoards.
+		StarredBoards []string `bson:"starredBoards,omitempty" json:"starredBoards,omitempty"`
 	} `bson:"profile,omitempty" json:"profile,omitempty"`
 	Services struct {
 		Password struct {

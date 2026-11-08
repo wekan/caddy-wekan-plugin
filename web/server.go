@@ -101,6 +101,8 @@ func (s *Server) Close() error {
 var funcs = template.FuncMap{
 	"memberName": func(u *User) string { return u.Name() },
 	"t":          tr,
+	// starred is whether the board is one of the user's favorites.
+	"starred": func(u *User, id string) bool { return u != nil && slices.Contains(u.Profile.StarredBoards, id) },
 }
 
 // compileTemplates turns every templates/<page>.pug into an html/template, inside
@@ -179,6 +181,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /sign-in", s.signIn)
 	m.HandleFunc("POST /logout", s.logout)
 	m.HandleFunc("GET /{$}", s.page(s.allBoards))
+	m.HandleFunc("GET /allboards/{section...}", s.page(s.allBoards))
 	m.HandleFunc("POST /boards", s.page(s.createBoard))
 	m.HandleFunc("GET /b/{board}/{slug}", s.page(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/{card}", s.page(s.boardPage))
@@ -328,11 +331,56 @@ func (s *Server) boardsOf(ctx context.Context, userID string) ([]Board, error) {
 	return boards, cur.All(ctx, &boards)
 }
 
+// starredBoards are the user's favorites they may still see: an active
+// member's, or a public board's - a stale star never brings back a board that
+// turned private (WeKan's starredPublicBoardSelector, #6713).
+func (s *Server) starredBoards(ctx context.Context, u *User) ([]Board, error) {
+	ids := bson.A{}
+	for _, id := range u.Profile.StarredBoards {
+		ids = append(ids, id)
+	}
+	cur, err := s.db.Collection("boards").Find(ctx, bson.M{"_id": dbIn(ids), "archived": false},
+		options.Find().SetSort(bson.D{{Key: "sort", Value: 1}, {Key: "title", Value: 1}}))
+	if err != nil {
+		return nil, err
+	}
+	var all, out []Board
+	if err := cur.All(ctx, &all); err != nil {
+		return nil, err
+	}
+	for _, b := range all {
+		if b.MemberOf(u.ID) || b.Permission == "public" {
+			out = append(out, b)
+		}
+	}
+	return out, nil
+}
+
+// allBoards is All Boards: the user's boards, and the public boards they
+// starred; /allboards/starred only the starred ones (WeKan's sections).
 func (s *Server) allBoards(w http.ResponseWriter, r *http.Request, u *User) {
 	boards, err := s.boardsOf(r.Context(), u.ID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
+	}
+	starred, err := s.starredBoards(r.Context(), u)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if r.PathValue("section") == "starred" {
+		boards = starred
+	} else {
+		listed := map[string]bool{}
+		for _, b := range boards {
+			listed[b.ID] = true
+		}
+		for _, b := range starred {
+			if !listed[b.ID] {
+				boards = append(boards, b)
+			}
+		}
 	}
 	s.render(w, r, "boards", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, "all-boards"), "User": u, "Boards": boards})
 }
@@ -469,6 +517,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	starred := slices.Contains(u.Profile.StarredBoards, b.ID)
 	folded := s.collapsedLists(r.Context(), u.ID, b.ID)
 	for i := range lanes {
 		for j := range lanes[i].Lists {
@@ -480,7 +529,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			ll.Collapsed = v
 		}
 	}
-	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil)}
+	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "Starred": starred}
 	// WeKan's sidebar: the board menu for a member who is not comment-only or a
 	// worker; its Export for whoever may export the board (models/lib/exportAccess.js).
 	m := b.member(u.ID)

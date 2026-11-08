@@ -92,6 +92,9 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 /* The Font Awesome icons Weddy's pages use, as characters: WeKan's class names,
    no icon font to load. */
 .fa { display: inline-block; font-style: normal; min-width: 1em; text-align: center; }
+.fa-star::before { content: "\2605"; }
+.fa-star-o::before { content: "\2606"; }
+.js-star-board.is-active { color: #f1c40f; }
 .fa-caret-right::before { content: "\25B8"; }
 .fa-caret-down::before { content: "\25BE"; }
 .fa-caret-left::before { content: "\25C2"; }

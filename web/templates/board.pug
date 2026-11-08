@@ -1,6 +1,13 @@
 .board-wrapper(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live", data-move="/b/{{.Board.ID}}/move")
   .board-header
     h1.header-board-name.js-board-title {{.Board.Title}}
+    //- WeKan's boardStarButton: the user's favorite, kept in their profile.
+    if .Starred
+      a.board-header-btn.js-star-board.is-active(href="#", title="{{t $.L `click-to-unstar`}}", data-star="{{t $.L `click-to-star`}}", data-unstar="{{t $.L `click-to-unstar`}}")
+        i.fa.fa-star
+    else
+      a.board-header-btn.js-star-board(href="#", title="{{t $.L `click-to-star`}}", data-star="{{t $.L `click-to-star`}}", data-unstar="{{t $.L `click-to-unstar`}}")
+        i.fa.fa-star-o
     a.board-header-btn.js-watch-board(href="#", title="{{t $.L .WatchLevel}}")
       span.board-header-btn-label {{t $.L .WatchLevel}}
     a.board-header-btn.js-toggle-page-sidebar(href="#", title="{{t $.L `sidebar-open`}}", aria-label="{{t $.L `sidebar-open`}}") ☰

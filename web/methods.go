@@ -6,6 +6,7 @@ import (
 	"errors"
 	"mime"
 	"net/http"
+	"slices"
 	"strings"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -28,6 +29,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"setLanguage":           s.methodSetLanguage,
 		"cards.pokerVote":       s.methodPokerVote,
 		"setListCollapsedState": s.methodSetListCollapsedState,
+		"toggleBoardStar":       s.methodToggleBoardStar,
 	}
 }
 
@@ -154,6 +156,30 @@ func (s *Server) methodSetListCollapsedState(r *http.Request, u *User, args []js
 	}
 	path := "profile.collapsedLists." + boardID + "." + key
 	if _, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)}, bson.M{"$set": bson.M{path: collapsed}}); err != nil {
+		return nil, err
+	}
+	return nil, nil
+}
+
+// methodToggleBoardStar is WeKan's toggleBoardStar: the board becomes one of
+// the user's favorites, or stops being one. A star is only given to a board
+// the user can see; taking one away is always possible, a stale one too.
+func (s *Server) methodToggleBoardStar(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	if !validID(boardID) {
+		return nil, &methodError{"Match.Error", "Expected an id"}
+	}
+	update := bson.M{"$pull": bson.M{"profile.starredBoards": boardID}}
+	if !slices.Contains(u.Profile.StarredBoards, boardID) {
+		if _, err := s.boardFor(r.Context(), boardID, u); err != nil {
+			return nil, &methodError{"not-found", "Board not found"}
+		}
+		update = bson.M{"$addToSet": bson.M{"profile.starredBoards": boardID}}
+	}
+	if _, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)}, update); err != nil {
 		return nil, err
 	}
 	return nil, nil
