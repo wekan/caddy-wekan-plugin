@@ -1299,3 +1299,73 @@ func TestMoveListMethod(t *testing.T) {
 		t.Fatalf("negative: not from a board the user cannot change: %v", out)
 	}
 }
+
+// /card_comments/insert: never on a card of another board (CommentBoundaryBleed),
+// never by a read-only member, and always as the caller.
+func TestInsertCommentMethod(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	other := w.seedUser(t, "bob", "pw")
+	ro := w.seedUser(t, "rob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Mine")
+	victim, _ := w.s.CreateBoard(ctx, other, "Private")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": ro.ID, "isActive": true, "isReadOnly": true}}})
+	mk := func(board *Board, owner *User) *Card {
+		l, _ := w.s.AddList(ctx, board, "L")
+		var sw Swimlane
+		_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": board.ID}).Decode(&sw)
+		c, _ := w.s.AddCard(ctx, board, owner, l.ID, sw.ID, "C")
+		return c
+	}
+	mine, theirs := mk(b, u), mk(victim, other)
+	call := func(cl *http.Client, args string) (int, map[string]any) {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/"+url.PathEscape("/card_comments/insert"), strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cl.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return res.StatusCode, out
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if code, out := call(ann, `[{"boardId":"`+b.ID+`","cardId":"`+theirs.ID+`","userId":"`+u.ID+`","text":"boundary"}]`); code != 400 || out["error"] != float64(403) {
+		t.Fatalf("negative: a card of a foreign private board: %d %v", code, out)
+	}
+	var row struct {
+		Count int64 `bson:"count"`
+	}
+	_ = w.db.Collection("eventlog").FindOne(ctx, bson.M{"bleed": "CommentBoundaryBleed"}).Decode(&row)
+	if row.Count != 1 {
+		t.Fatalf("the attempt is recorded: %d", row.Count)
+	}
+	var doc bson.M
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": u.ID}).Decode(&doc)
+	if doc["loginDisabled"] == true {
+		t.Fatal("negative: recorded without a user, as WeKan - no account disabled")
+	}
+	code, out := call(ann, `[{"boardId":"`+b.ID+`","cardId":"`+mine.ID+`","userId":"`+other.ID+`","text":"hello"}]`)
+	if code != 200 {
+		t.Fatalf("a comment: %d %v", code, out)
+	}
+	var cm bson.M
+	_ = w.db.Collection("card_comments").FindOne(ctx, bson.M{"_id": out["result"]}).Decode(&cm)
+	if cm["userId"] != u.ID || cm["text"] != "hello" {
+		t.Fatalf("by the caller, never the given userId: %v", cm)
+	}
+	if code, _ := call(ann, `[{"boardId":"`+b.ID+`","cardId":"`+mine.ID+`","text":"x","deliveredTo":["x"]}]`); code != 400 {
+		t.Fatal("negative: only a comment's own fields")
+	}
+	rob := w.client(t)
+	body(t, w.signIn(t, rob, "rob", "pw"))
+	if code, out := call(rob, `[{"boardId":"`+b.ID+`","cardId":"`+mine.ID+`","text":"ro"}]`); code != 400 || out["error"] != float64(403) {
+		t.Fatalf("negative: a read-only member: %d %v", code, out)
+	}
+	if n, _ := w.db.Collection("card_comments").CountDocuments(ctx, bson.M{"text": bson.M{"$in": bson.A{"boundary", "ro", "x"}}}); n != 0 {
+		t.Fatal("negative: no refused comment was saved")
+	}
+}

@@ -36,6 +36,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"updateListSort":        s.methodUpdateListSort,
 		"/lists/update":         s.methodUpdateList,
 		"moveList":              s.methodMoveList,
+		"/card_comments/insert": s.methodInsertComment,
 	}
 }
 
@@ -431,4 +432,52 @@ func (s *Server) methodMoveList(r *http.Request, u *User, args []json.RawMessage
 		return nil, &methodError{"move-failed", err.msg}
 	}
 	return nil, nil
+}
+
+// methodInsertComment is the card_comments collection's own insert, as
+// WeKan's deny and allow rules let it through (server/permissions/
+// cardComments.js): a comment's text, on a card of the board it names - else
+// CommentBoundaryBleed - by whoever may comment there, an assigned-only member
+// only on a card assigned to them (AssignedBleed). Its author is always the
+// caller. Anything else is the numeric 403 "Access denied".
+func (s *Server) methodInsertComment(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	denied := &methodError{"403", "Access denied"}
+	var doc map[string]json.RawMessage
+	if len(args) < 1 || json.Unmarshal(args[0], &doc) != nil {
+		return nil, &methodError{"Match.Error", "Expected object"}
+	}
+	for k := range doc {
+		if k != "boardId" && k != "cardId" && k != "userId" && k != "text" {
+			return nil, denied
+		}
+	}
+	var boardID, cardID, text string
+	_ = json.Unmarshal(doc["boardId"], &boardID)
+	_ = json.Unmarshal(doc["cardId"], &cardID)
+	_ = json.Unmarshal(doc["text"], &text)
+	ctx := r.Context()
+	var c Card
+	if !validID(cardID) || !validID(boardID) || s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID)}).Decode(&c) != nil || c.BoardID != boardID {
+		// As WeKan records it: no user, so the attempt never disables an account.
+		s.recordSecurity(r, securityEvent{Key: "authz.comment-card", Action: "blocked", Source: "ddp:comment-insert",
+			Detail: "Comment refused because its card does not belong to the requested board."})
+		return nil, denied
+	}
+	var b Board
+	if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) != nil {
+		return nil, denied
+	}
+	if m := b.member(u.ID); m != nil && m.AssignedOnly() && !u.IsAdmin && !slices.Contains(c.Assignees, u.ID) {
+		s.recordSecurity(r, securityEvent{Key: "authz.assigned", Action: "blocked", Source: "ddp:comment-insert", UserID: u.ID,
+			Detail: "Assigned-only member commented on a card not assigned to them."})
+		return nil, denied
+	}
+	id, err := s.AddComment(ctx, &b, u, &c, text)
+	if err != nil {
+		if errors.Is(err, errForbidden) {
+			return nil, denied
+		}
+		return nil, &methodError{"Match.Error", err.Error()}
+	}
+	return id, nil
 }
