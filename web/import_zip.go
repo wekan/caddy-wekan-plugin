@@ -180,6 +180,10 @@ func (s *Server) apiImportZip(w http.ResponseWriter, r *http.Request) {
 	}
 	counts := map[string]int{}
 	id, err := s.importBoardWith(r, u, doc, nil, importOptions{Into: into, Files: files, Counts: counts})
+	if errors.Is(err, errBoardCreation) {
+		answer(http.StatusForbidden, map[string]string{"error": "not-authorized"})
+		return
+	}
 	if err != nil {
 		answer(http.StatusInternalServerError, map[string]string{"error": "import-failed"})
 		return

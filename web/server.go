@@ -525,14 +525,11 @@ func (s *Server) CreateBoard(ctx context.Context, u *User, title string) (*Board
 	if title == "" {
 		return nil, errors.New("a board needs a title")
 	}
-	now := time.Now().UTC()
-	b := &Board{ID: randomID(), Title: title, Slug: slugify(title), Permission: "private", Type: "board", CreatedAt: now,
-		Members: []Member{{UserID: u.ID, IsAdmin: true, IsActive: true}}}
-	// WeKan's six default labels, unnamed.
-	for _, color := range []string{"green", "yellow", "orange", "red", "purple", "blue"} {
-		b.Labels = append(b.Labels, Label{ID: randomString(idAlphabet, 6), Color: color})
+	if err := s.mayCreateBoard(ctx, u, "board", "createBoard"); err != nil {
+		return nil, err
 	}
-	if _, err := s.db.Collection("boards").InsertOne(ctx, b); err != nil {
+	b, err := s.insertBoard(ctx, u, title, "board", s.boardPermission(ctx, "private", "createBoard"))
+	if err != nil {
 		return nil, err
 	}
 	sw := Swimlane{ID: randomID(), Title: "Default", BoardID: b.ID, Type: "swimlane"}
@@ -543,8 +540,28 @@ func (s *Server) CreateBoard(ctx context.Context, u *User, title string) (*Board
 	return b, nil
 }
 
+// insertBoard makes the board itself: its maker its admin, WeKan's six
+// default labels, unnamed. The caller has decided that u may make it.
+func (s *Server) insertBoard(ctx context.Context, u *User, title, typ, permission string) (*Board, error) {
+	now := time.Now().UTC()
+	b := &Board{ID: randomID(), Title: title, Slug: slugify(title), Permission: permission, Type: typ, CreatedAt: now,
+		Members: []Member{{UserID: u.ID, IsAdmin: true, IsActive: true}}}
+	// WeKan's six default labels, unnamed.
+	for _, color := range []string{"green", "yellow", "orange", "red", "purple", "blue"} {
+		b.Labels = append(b.Labels, Label{ID: randomString(idAlphabet, 6), Color: color})
+	}
+	if _, err := s.db.Collection("boards").InsertOne(ctx, b); err != nil {
+		return nil, err
+	}
+	return b, nil
+}
+
 func (s *Server) createBoard(w http.ResponseWriter, r *http.Request, u *User) {
 	b, err := s.CreateBoard(r.Context(), u, r.FormValue("title"))
+	if errors.Is(err, errBoardCreation) {
+		http.Error(w, err.Error(), http.StatusForbidden)
+		return
+	}
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

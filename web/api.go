@@ -262,6 +262,10 @@ func (s *Server) apiCreateBoard(w http.ResponseWriter, r *http.Request, u *User)
 		return
 	}
 	b, err := s.CreateBoard(r.Context(), u, req.Title)
+	if errors.Is(err, errBoardCreation) {
+		apiError(w, http.StatusForbidden, err.Error())
+		return
+	}
 	if err != nil {
 		apiError(w, http.StatusBadRequest, err.Error())
 		return

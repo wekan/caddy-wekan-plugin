@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"regexp"
@@ -117,6 +118,10 @@ func (s *Server) apiImportBoard(w http.ResponseWriter, r *http.Request, u *User)
 		return
 	}
 	id, err := s.ImportBoard(r, u, export, req.MembersMapping)
+	if errors.Is(err, errBoardCreation) {
+		apiError(w, http.StatusForbidden, err.Error())
+		return
+	}
 	if err != nil {
 		apiError(w, http.StatusBadRequest, err.Error())
 		return
@@ -258,6 +263,13 @@ func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any
 	}
 	board["members"] = members
 	if opts.Into == nil {
+		// CreateBleed and the private-only policy hold for an import and a copy too.
+		typ, _ := board["type"].(string)
+		if err := s.mayCreateBoard(ctx, u, typ, "importBoard"); err != nil {
+			return "", err
+		}
+		perm, _ := board["permission"].(string)
+		board["permission"] = s.boardPermission(ctx, perm, "importBoard")
 		if _, err := s.db.Collection("boards").InsertOne(ctx, board); err != nil {
 			return "", err
 		}
@@ -655,6 +667,10 @@ func (s *Server) apiCopyBoard(w http.ResponseWriter, r *http.Request, u *User) {
 		}
 	}
 	id, err := s.ImportBoard(r, u, doc, same)
+	if errors.Is(err, errBoardCreation) {
+		apiError(w, http.StatusForbidden, err.Error())
+		return
+	}
 	if err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
