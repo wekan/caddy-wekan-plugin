@@ -222,6 +222,38 @@
       });
     }).catch(function () {});
   }
+  // The notifications drawer: opened from the indicator; its menu marks all
+  // read, or - after a confirmation in the user's language - deletes all.
+  up.on('click', '.notifications-drawer-toggle', function (event) {
+    event.preventDefault();
+    var d = document.getElementById('notifications-drawer');
+    if (d) d.classList.toggle('is-hidden');
+  });
+  up.on('click', '#notifications-drawer .close', function (event) {
+    event.preventDefault();
+    document.getElementById('notifications-drawer').classList.add('is-hidden');
+  });
+  up.on('click', '#notifications-drawer .notification-menu-toggle', function (event) {
+    event.preventDefault();
+    document.querySelector('#notifications-drawer .notification-menu').classList.toggle('is-hidden');
+  });
+  function drawerPost(path) {
+    return fetch(path, { method: 'POST', credentials: 'same-origin' }).then(function () { return refreshUser(); });
+  }
+  up.on('click', '#notifications-drawer .mark-all-read', function (event) {
+    event.preventDefault();
+    drawerPost('/notifications/read-all').then(function () {
+      document.querySelectorAll('#notifications-drawer .notification').forEach(function (n) { n.classList.add('is-read'); });
+    });
+  });
+  up.on('click', '#notifications-drawer .delete-all', function (event, el) {
+    event.preventDefault();
+    if (!window.confirm(el.dataset.confirm)) return;
+    drawerPost('/notifications/delete-all').then(function () {
+      document.querySelector('#notifications-drawer .notifications').innerHTML = '';
+    });
+  });
+
   // The notifications indicator: alert while there are unread ones.
   up.compiler('.notifications-drawer-toggle', function () {
     refreshUser();

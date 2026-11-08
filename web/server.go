@@ -200,6 +200,7 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 	data["TextPolicy"] = s.textPolicy(r.Context())
 	if u != nil {
 		data["Unread"] = s.unreadNotifications(r.Context(), u.ID)
+		data["Drawer"] = s.drawerItems(r.Context(), u, lang.Tag)
 		data["CloudMenu"] = s.cloudOn() && u.IsAdmin
 		data["PanelMenu"] = s.panelAllowed(r, u)
 		data["AllowEmailChange"] = s.accountSetting(r.Context(), "accounts-allowEmailChange")

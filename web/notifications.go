@@ -174,6 +174,7 @@ func (s *Server) unreadNotifications(ctx context.Context, userID string) int {
 }
 
 func (s *Server) notificationRoutes(m *http.ServeMux) {
+	s.notificationDrawerRoutes(m)
 	m.HandleFunc("GET /notifications/unread", s.page(func(w http.ResponseWriter, r *http.Request, u *User) {
 		writeJSON(w, http.StatusOK, map[string]int{"unread": s.unreadNotifications(r.Context(), u.ID)})
 	}))

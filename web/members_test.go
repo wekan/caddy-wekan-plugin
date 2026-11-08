@@ -11,6 +11,7 @@ import (
 	"slices"
 	"strings"
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -540,5 +541,54 @@ func TestArchiveSelectedCards(t *testing.T) {
 	}
 	if out := call(ann, `["`+b.ID+`",["`+theirs.ID+`"]]`); out["result"] == nil || !archived(theirs.ID) {
 		t.Fatalf("the board admin: %v", out)
+	}
+}
+
+// WeKan's notifications drawer: the clear item, only of boards the user may
+// still read, escaped; mark all read and delete all touch only their own.
+func TestNotificationsDrawer(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Mine")
+	gone, _ := w.s.CreateBoard(ctx, bob, "Left")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, `Alpha <script>x</script>`)
+	_, _ = w.db.Collection("activities").InsertMany(ctx, []any{
+		bson.M{"_id": "actseen0000001", "userId": bob.ID, "activityType": "createCard", "boardId": b.ID, "cardId": c.ID, "cardTitle": c.Title, "listId": l.ID, "swimlaneId": sw.ID, "createdAt": time.Now()},
+		bson.M{"_id": "acthidden00001", "userId": bob.ID, "activityType": "createCard", "boardId": gone.ID, "cardTitle": "Secret", "createdAt": time.Now()},
+	})
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": u.ID}, bson.M{"$set": bson.M{"profile.notifications": bson.A{
+		bson.M{"activity": "actseen0000001", "read": nil}, bson.M{"activity": "acthidden00001", "read": nil}}}})
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": bob.ID}, bson.M{"$set": bson.M{"profile.notifications": bson.A{bson.M{"activity": "actseen0000001", "read": nil}}}})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	_, html := get(t, ann, w.srv.URL+"/")
+	if !strings.Contains(html, `id="notifications-drawer"`) || !strings.Contains(html, `href="/b/`+b.ID+`/`+b.Slug+`/`+c.ID+`"`) || !strings.Contains(html, "<b>Mine</b>: <b>BOB</b>") {
+		t.Fatal("the drawer, its clear item linking the card")
+	}
+	if strings.Contains(html, "<script>x</script>") || !strings.Contains(html, "&lt;script&gt;") {
+		t.Fatal("negative: a card title is escaped")
+	}
+	if strings.Contains(html, "Secret") {
+		t.Fatal("negative: a board the user may not read keeps none of its activity in the drawer")
+	}
+	if r, _ := ann.PostForm(w.srv.URL+"/notifications/read-all", nil); r.StatusCode != 200 || w.s.unreadNotifications(ctx, u.ID) != 0 {
+		t.Fatal("all read")
+	}
+	if r, _ := ann.PostForm(w.srv.URL+"/notifications/delete-all", nil); r.StatusCode != 200 {
+		t.Fatal("delete all")
+	}
+	var d struct {
+		Profile struct {
+			Notifications []bson.M `bson:"notifications"`
+		} `bson:"profile"`
+	}
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": u.ID}).Decode(&d)
+	if len(d.Profile.Notifications) != 0 || w.s.unreadNotifications(ctx, bob.ID) != 1 {
+		t.Fatal("negative: only the user's own are deleted")
 	}
 }
