@@ -18,6 +18,7 @@ func (s *Server) apiMemberRoutes(m *http.ServeMux) {
 	m.HandleFunc("PUT /api/boards/{board}/labels", s.api(s.apiAddLabel))
 	m.HandleFunc("POST /api/boards/{board}/cards/labels", s.api(s.apiBulkLabels))
 	m.HandleFunc("POST /api/boards/{board}/members/{user}/{action}", s.api(s.apiBoardMember))
+	m.HandleFunc("POST /api/boards/{board}/members/{member}", s.api(s.apiMemberPermission))
 	m.HandleFunc("POST /api/boards/{board}/lists/{list}/cards/{card}/members/{user}", s.api(s.apiCardMember("members", true)))
 	m.HandleFunc("DELETE /api/boards/{board}/lists/{list}/cards/{card}/members/{user}", s.api(s.apiCardMember("members", false)))
 	m.HandleFunc("POST /api/boards/{board}/lists/{list}/cards/{card}/assignees/{user}", s.api(s.apiCardMember("assignees", true)))
@@ -424,14 +425,99 @@ func (s *Server) apiBulkLabels(w http.ResponseWriter, r *http.Request, u *User) 
 }
 
 // roles are WeKan's board roles and the member flags each sets.
-var roles = map[string]Member{
-	"normal":           {},
-	"admin":            {IsAdmin: true},
-	"noComments":       {IsNoComments: true},
-	"commentOnly":      {IsCommentOnly: true},
-	"worker":           {IsWorker: true},
-	"readOnly":         {IsReadOnly: true},
-	"readAssignedOnly": {IsReadAssignedOnly: true},
+// roleFlags is WeKan's boardMemberRoleToFlags: a role's name, in any case,
+// as the member's flags; ok false for a name that is no role.
+func roleFlags(role string) (Member, bool) {
+	switch strings.ToLower(strings.TrimSpace(role)) {
+	case "normal", "member":
+		return Member{}, true
+	case "admin":
+		return Member{IsAdmin: true}, true
+	case "nocomments":
+		return Member{IsNoComments: true}, true
+	case "comment", "commentonly":
+		return Member{IsCommentOnly: true}, true
+	case "worker":
+		return Member{IsWorker: true}, true
+	case "normalassignedonly":
+		return Member{IsNormalAssignedOnly: true}, true
+	case "commentassignedonly":
+		return Member{IsCommentAssignedOnly: true}, true
+	case "readonly":
+		return Member{IsReadOnly: true}, true
+	case "readassignedonly":
+		return Member{IsReadAssignedOnly: true}, true
+	}
+	return Member{}, false
+}
+
+// memberFlags is a body's role, or - without one - its eight flags, as WeKan reads them.
+func memberFlags(req map[string]any) (Member, error) {
+	if v, ok := req["role"]; ok {
+		name, _ := v.(string)
+		m, ok := roleFlags(name)
+		if !ok {
+			return m, fmt.Errorf("invalid role: %v", v)
+		}
+		return m, nil
+	}
+	return Member{IsAdmin: isTrue(req["isAdmin"]), IsNoComments: isTrue(req["isNoComments"]), IsCommentOnly: isTrue(req["isCommentOnly"]),
+		IsWorker: isTrue(req["isWorker"]), IsNormalAssignedOnly: isTrue(req["isNormalAssignedOnly"]),
+		IsCommentAssignedOnly: isTrue(req["isCommentAssignedOnly"]), IsReadOnly: isTrue(req["isReadOnly"]),
+		IsReadAssignedOnly: isTrue(req["isReadAssignedOnly"])}, nil
+}
+
+// apiMemberPermission is WeKan's POST /api/boards/:boardId/members/:memberId: a
+// board admin or a site admin sets a member's role; nobody changes their own
+// admin flag that way.
+func (s *Server) apiMemberPermission(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil && !u.IsAdmin {
+		apiError(w, http.StatusForbidden, "Only a board admin can change member permissions")
+		return
+	}
+	if err != nil {
+		var any Board
+		if !validID(r.PathValue("board")) || s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(r.PathValue("board"))}).Decode(&any) != nil {
+			apiError(w, http.StatusNotFound, "Board not found")
+			return
+		}
+		b = &any
+	}
+	if !b.AdminOf(u.ID) && !u.IsAdmin {
+		apiError(w, http.StatusForbidden, "Only a board admin can change member permissions")
+		return
+	}
+	var req map[string]any
+	_ = decodeJSON(r, &req)
+	flags, err := memberFlags(req)
+	if err != nil {
+		apiError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	id := r.PathValue("member")
+	at := -1
+	for i, m := range b.Members {
+		if m.UserID == id {
+			at = i
+		}
+	}
+	if at < 0 {
+		apiError(w, http.StatusNotFound, "no such member of this board")
+		return
+	}
+	m := b.Members[at]
+	if id == u.ID {
+		flags.IsAdmin = m.IsAdmin
+	}
+	flags.UserID, flags.IsActive = m.UserID, m.IsActive
+	b.Members[at] = flags
+	if _, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"members": b.Members}}); err != nil {
+		apiError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	s.hub.publish(b.ID, "board-changed")
+	writeJSON(w, http.StatusOK, 1) // WeKan answers the number of boards changed
 }
 
 // apiBoardMember adds a user to the board with a role, or removes them - only a
@@ -441,27 +527,21 @@ func (s *Server) apiBoardMember(w http.ResponseWriter, r *http.Request, u *User)
 	if b == nil {
 		return
 	}
-	if !b.AdminOf(u.ID) {
+	if !b.AdminOf(u.ID) && !u.IsAdmin {
 		apiError(w, http.StatusForbidden, "only a board admin adds members")
 		return
 	}
 	action := r.PathValue("action")
-	var req struct {
-		Role   string `json:"role"`
-		Action string `json:"action"`
-	}
+	var req map[string]any
 	_ = decodeJSON(r, &req)
 	// HashBleed sibling: WeKan answered any other body action with the whole user
 	// document, password hash included. The action must be the route's own verb.
-	if (action == "add" || action == "remove") && req.Action != action {
+	if bodyAction, _ := req["action"].(string); (action == "add" || action == "remove") && bodyAction != action {
 		apiError(w, http.StatusBadRequest, `action must be "`+action+`"`)
 		return
 	}
-	if req.Role == "" {
-		req.Role = "normal"
-	}
-	role, ok := roles[req.Role]
-	if action != "add" && action != "remove" || !ok {
+	role, err := memberFlags(req)
+	if action != "add" && action != "remove" || err != nil {
 		apiError(w, http.StatusBadRequest, "action add or remove, and one of WeKan's roles")
 		return
 	}
