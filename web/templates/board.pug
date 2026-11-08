@@ -390,6 +390,26 @@
             span.card-member.js-member(data-user="{{.ID}}") {{.Username}}
           if $.CanEdit
             a.card-details-item-add-button.js-add-members(href="#", title="{{t $.L `add-members`}}", aria-label="{{t $.L `add-members`}}") +
+        //- WeKan's card list picker: the card's list, and another of the board.
+        .card-details-item.card-details-item-list
+          h3.card-details-item-title {{t $.L "list"}}
+          if $.CanEdit
+            details.card-details-list-picker
+              summary
+                each li in $.Lists
+                  if eq .ID $.Card.ListID
+                    | {{.Title}}
+              .card-details-list-options(role="listbox", aria-label="{{t $.L `list`}}")
+                each li in $.Lists
+                  form(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/move-to", up-submit, up-target=".board-wrapper")
+                    input(type="hidden", name="boardId", value="{{$.Board.ID}}")
+                    input(type="hidden", name="swimlaneId", value="{{$.Card.SwimlaneID}}")
+                    input(type="hidden", name="listId", value="{{.ID}}")
+                    button.js-select-card-details-list-option(type="submit", role="option", data-list-id="{{.ID}}", aria-selected="{{if eq .ID $.Card.ListID}}true{{else}}false{{end}}") {{.Title}}
+          else
+            each li in $.Lists
+              if eq .ID $.Card.ListID
+                span {{.Title}}
         //- WeKan's card labels, and the + that opens cardLabelsPopup.
         .card-details-item.card-details-item-labels
           h3.card-details-item-title {{t $.L "labels"}}

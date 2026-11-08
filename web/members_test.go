@@ -441,3 +441,29 @@ func TestAddCardTopOrBottom(t *testing.T) {
 		t.Fatalf("top first, bottom last: %v", cards)
 	}
 }
+
+// WeKan's card list picker: for whoever may change the card; others only see the list.
+func TestCardListPicker(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ro := w.seedUser(t, "rob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Pick")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": ro.ID, "isActive": true, "isReadOnly": true}}})
+	la, _ := w.s.AddList(ctx, b, "Todo")
+	_, _ = w.s.AddList(ctx, b, "Done")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, la.ID, sw.ID, "C")
+	cardURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/" + c.ID
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if _, html := get(t, ann, cardURL); !strings.Contains(html, "card-details-list-picker") || !strings.Contains(html, ">Done</button>") {
+		t.Fatal("the picker, with the board's other lists")
+	}
+	rob := w.client(t)
+	body(t, w.signIn(t, rob, "rob", "pw"))
+	if _, html := get(t, rob, cardURL); strings.Contains(html, "card-details-list-picker") || !strings.Contains(html, "<span>Todo</span>") {
+		t.Fatal("negative: a read-only member sees the list, and no picker")
+	}
+}
