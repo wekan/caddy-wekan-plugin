@@ -365,8 +365,10 @@ func TestBoardVisibility(t *testing.T) {
 	if res, page := get(t, c, w.srv.URL+"/b/"+b.ID+"/secret"); res.StatusCode != 200 || strings.Contains(page, "js-add-card") {
 		t.Fatalf("a public board is readable, without the add buttons: %d", res.StatusCode)
 	}
+	// 403, not 404: the board is public, so it plainly exists; what is refused is
+	// the write, by the same role rule as the REST API (Board.Writable).
 	res, _ = c.PostForm(w.srv.URL+"/b/"+b.ID+"/cards", url.Values{"title": {"x"}, "listId": {l.ID}, "swimlaneId": {sw.ID}})
-	if res.StatusCode != 404 {
+	if res.StatusCode != 403 {
 		t.Fatalf("negative: a public board is not writable by a non-member: %d", res.StatusCode)
 	}
 

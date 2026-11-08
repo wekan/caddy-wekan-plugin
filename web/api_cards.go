@@ -125,7 +125,7 @@ func (s *Server) apiCopyCard(w http.ResponseWriter, r *http.Request, u *User) {
 		req.ToBoardID = b.ID
 	}
 	to, err := s.boardFor(r.Context(), req.ToBoardID, u)
-	if err != nil || !to.MemberOf(u.ID) {
+	if err != nil || !to.Writable(u, "write", nil) {
 		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}

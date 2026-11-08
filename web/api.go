@@ -27,6 +27,8 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /api/boards/{board}/lists", s.api(s.apiLists))
 	m.HandleFunc("POST /api/boards/{board}/lists", s.api(s.apiAddList))
 	m.HandleFunc("GET /api/boards/{board}/lists/{list}/cards", s.api(s.apiCards))
+	m.HandleFunc("GET /api/boards/{board}/cards_count", s.api(s.apiCardsCount))
+	m.HandleFunc("GET /api/boards/{board}/lists/{list}/cards_count", s.api(s.apiCardsCount))
 	m.HandleFunc("POST /api/boards/{board}/lists/{list}/cards", s.api(s.apiAddCard))
 	m.HandleFunc("POST /api/boards/{board}/lists/{list}/cards/bulk", s.api(s.apiBulkAddCards))
 	m.HandleFunc("GET /api/boards/{board}/lists/{list}/cards/{card}", s.api(s.apiCard))
@@ -35,6 +37,15 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	s.apiMoreRoutes(m)
 	s.apiMemberRoutes(m)
 	s.apiCardRoutes(m)
+}
+
+// parentStatus is a refused parentId's own status, else 400.
+func parentStatus(err error) int {
+	var pe *parentError
+	if errors.As(err, &pe) {
+		return pe.status
+	}
+	return http.StatusBadRequest
 }
 
 func writeJSON(w http.ResponseWriter, status int, v any) {
@@ -231,10 +242,47 @@ func (s *Server) apiCreateBoard(w http.ResponseWriter, r *http.Request, u *User)
 }
 
 // apiBoardFor is the board the caller may read, or writes 403 and returns nil.
-// write: the caller must be an active member, not only a reader of a public board.
+// write: the caller's role must have the write capability.
 func (s *Server) apiBoardFor(w http.ResponseWriter, r *http.Request, u *User, write bool) *Board {
+	if write {
+		return s.apiBoardCan(w, r, u, "write")
+	}
+	return s.apiBoardCan(w, r, u, "")
+}
+
+// apiBoardCan is WeKan's server/authentication.js for a REST route: capability ""
+// reads the whole board (checkBoardAccess), "write" changes it
+// (checkBoardWriteAccess), "comment" comments. A site admin may do all of them,
+// on any board. A read needs a role that sees the whole board, so an
+// assigned-only member is refused (AssignedBleed), and a write refuses an
+// assigned-only member too: these routes act on any card of the board by id.
+// Not recorded: an API client of such a member reaches it in ordinary use.
+func (s *Server) apiBoardCan(w http.ResponseWriter, r *http.Request, u *User, capability string) *Board {
 	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
-	if err != nil || (write && !b.MemberOf(u.ID)) {
+	if err != nil && u.IsAdmin && validID(r.PathValue("board")) {
+		var any Board
+		if s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(r.PathValue("board"))}).Decode(&any) == nil {
+			b, err = &any, nil
+		}
+	}
+	if err != nil {
+		apiError(w, http.StatusForbidden, "Forbidden")
+		return nil
+	}
+	if u.IsAdmin {
+		return b
+	}
+	m := b.member(u.ID)
+	ok := true
+	switch capability {
+	case "":
+		ok = m == nil || m.ReadsWholeBoard() // a public board's reader, or a member who sees every card
+	case "write":
+		ok = m != nil && b.Can(u.ID, "write") && !m.AssignedOnly()
+	default:
+		ok = m != nil && b.Can(u.ID, capability)
+	}
+	if !ok {
 		apiError(w, http.StatusForbidden, "Forbidden")
 		return nil
 	}
@@ -329,6 +377,30 @@ func (s *Server) apiCards(w http.ResponseWriter, r *http.Request, u *User) {
 	writeJSON(w, http.StatusOK, out)
 }
 
+// apiCardsCount: the board's or a list's open cards, as WeKan answers
+// {board_cards_count} or {list_cards_count}. A non-member gets 403 (ErrorBleed:
+// WeKan once answered 200 with the error object).
+func (s *Server) apiCardsCount(w http.ResponseWriter, r *http.Request, u *User) {
+	b := s.apiBoardFor(w, r, u, false)
+	if b == nil {
+		return
+	}
+	filter, key := bson.M{"boardId": b.ID, "archived": false}, "board_cards_count"
+	if list := r.PathValue("list"); list != "" {
+		if !validID(list) {
+			apiError(w, http.StatusNotFound, "no such list")
+			return
+		}
+		filter["listId"], key = eq(list), "list_cards_count"
+	}
+	n, err := s.db.Collection("cards").CountDocuments(r.Context(), filter)
+	if err != nil {
+		apiError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]int64{key: n})
+}
+
 func (s *Server) apiAddCard(w http.ResponseWriter, r *http.Request, u *User) {
 	b := s.apiBoardFor(w, r, u, true)
 	if b == nil {
@@ -342,7 +414,7 @@ func (s *Server) apiAddCard(w http.ResponseWriter, r *http.Request, u *User) {
 	swimlane, _ := req["swimlaneId"].(string)
 	id, err := s.addCardFrom(r, b, u, r.PathValue("list"), swimlane, req)
 	if err != nil {
-		apiError(w, http.StatusBadRequest, err.Error())
+		apiError(w, parentStatus(err), err.Error())
 		return
 	}
 	s.hub.publish(b.ID, "board-changed")
@@ -391,8 +463,11 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	set, unset, err := cardFields(req)
+	if err == nil {
+		err = s.setParent(r, u, req, set)
+	}
 	if err != nil {
-		apiError(w, http.StatusBadRequest, err.Error())
+		apiError(w, parentStatus(err), err.Error())
 		return
 	}
 	set["modifiedAt"] = time.Now().UTC()

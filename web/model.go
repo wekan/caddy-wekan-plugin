@@ -15,6 +15,7 @@ import (
 	"crypto/rand"
 	"math/big"
 	"regexp"
+	"slices"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -105,6 +106,98 @@ type Member struct {
 	IsWorker           bool   `bson:"isWorker" json:"isWorker"`
 	IsReadOnly         bool   `bson:"isReadOnly" json:"isReadOnly"`
 	IsReadAssignedOnly bool   `bson:"isReadAssignedOnly" json:"isReadAssignedOnly"`
+	// The two other assigned-only roles of WeKan's board schema.
+	IsNormalAssignedOnly  bool `bson:"isNormalAssignedOnly,omitempty" json:"isNormalAssignedOnly,omitempty"`
+	IsCommentAssignedOnly bool `bson:"isCommentAssignedOnly,omitempty" json:"isCommentAssignedOnly,omitempty"`
+}
+
+// What each board role may do: WeKan's models/lib/boardRoleCapabilities.js, the
+// one table its server, client and documentation all read.
+var roleCapabilities = map[string]map[string]bool{
+	"board-admin":           {"seesAllCards": true, "comment": true, "write": true, "manageBoard": true, "moveCard": true},
+	"normal":                {"seesAllCards": true, "comment": true, "write": true, "moveCard": true},
+	"normal-assigned-only":  {"comment": true, "write": true, "moveCard": true},
+	"no-comments":           {"seesAllCards": true, "write": true, "moveCard": true},
+	"comment-only":          {"seesAllCards": true, "comment": true},
+	"comment-assigned-only": {"comment": true},
+	"worker":                {"seesAllCards": true, "comment": true, "moveCard": true},
+	"read-only":             {"seesAllCards": true},
+	"read-assigned-only":    {},
+}
+
+// Role is the member's role, in WeKan's order: the first flag set names it.
+func (m Member) Role() string {
+	switch {
+	case !m.IsActive:
+		return ""
+	case m.IsAdmin:
+		return "board-admin"
+	case m.IsNormalAssignedOnly:
+		return "normal-assigned-only"
+	case m.IsNoComments:
+		return "no-comments"
+	case m.IsCommentOnly:
+		return "comment-only"
+	case m.IsCommentAssignedOnly:
+		return "comment-assigned-only"
+	case m.IsWorker:
+		return "worker"
+	case m.IsReadOnly:
+		return "read-only"
+	case m.IsReadAssignedOnly:
+		return "read-assigned-only"
+	}
+	return "normal"
+}
+
+// AssignedOnly: the member sees and changes only the cards assigned to them.
+func (m Member) AssignedOnly() bool {
+	return m.IsNormalAssignedOnly || m.IsCommentAssignedOnly || m.IsReadAssignedOnly
+}
+
+// ReadsWholeBoard is WeKan's models/lib/boardReadAccess.js memberReadsWholeBoard:
+// what its REST reads of a whole board ask (server/authentication.js
+// checkBoardAccess). An assigned-only member is refused there (AssignedBleed),
+// and so are the no-comments, comment-only and worker roles, as in WeKan.
+func (m Member) ReadsWholeBoard() bool {
+	return m.IsActive && !m.IsNoComments && !m.IsCommentOnly && !m.IsWorker && !m.AssignedOnly()
+}
+
+// member is userID's active entry of the board, or nil.
+func (b *Board) member(userID string) *Member {
+	for i, m := range b.Members {
+		if m.UserID == userID && m.IsActive {
+			return &b.Members[i]
+		}
+	}
+	return nil
+}
+
+// Writable is WeKan's checkBoardWriteAccess, for one card or (card nil) the
+// board: a site admin, or a member whose role has the capability ("write", or
+// "moveCard" for a move) - an assigned-only member only on a card assigned to
+// them, never on the board as a whole (GHSA-r4gm-mjj9-g3x8).
+func (b *Board) Writable(u *User, capability string, card *Card) bool {
+	if u == nil {
+		return false
+	}
+	if u.IsAdmin {
+		return true
+	}
+	m := b.member(u.ID)
+	if m == nil || !roleCapabilities[m.Role()][capability] {
+		return false
+	}
+	if m.AssignedOnly() {
+		return card != nil && slices.Contains(card.Assignees, u.ID)
+	}
+	return true
+}
+
+// Can reports whether userID's role on the board has the capability.
+func (b *Board) Can(userID, capability string) bool {
+	m := b.member(userID)
+	return m != nil && roleCapabilities[m.Role()][capability]
 }
 
 // Label is one of a board's labels.

@@ -458,7 +458,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.MemberOf(u.ID)}
+	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil)}
 	if id := r.PathValue("card"); validID(id) {
 		var c Card
 		if err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c); err == nil {
@@ -469,10 +469,15 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	s.render(w, r, "board", http.StatusOK, data)
 }
 
+// editableBoard is the board when u's role may change it: add lists and cards.
 func (s *Server) editableBoard(w http.ResponseWriter, r *http.Request, u *User) *Board {
 	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
-	if err != nil || !b.MemberOf(u.ID) {
+	if err != nil {
 		http.Error(w, "not found", http.StatusNotFound)
+		return nil
+	}
+	if !b.Writable(u, "write", nil) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
 		return nil
 	}
 	return b
@@ -605,9 +610,12 @@ func (s *Server) MoveCards(ctx context.Context, b *Board, u *User, moves []Move)
 	return nil
 }
 
+// moveCards: the moveCard capability, which a Worker has too; an assigned-only
+// member moves only the cards assigned to them.
 func (s *Server) moveCards(w http.ResponseWriter, r *http.Request, u *User) {
-	b := s.editableBoard(w, r, u)
-	if b == nil {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
 	var req struct {
@@ -616,6 +624,16 @@ func (s *Server) moveCards(w http.ResponseWriter, r *http.Request, u *User) {
 	if err := decodeJSON(r, &req); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
+	}
+	for _, m := range req.Moves {
+		var c Card
+		if validID(m.CardID) {
+			_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(m.CardID), "boardId": b.ID}).Decode(&c)
+		}
+		if !b.Writable(u, "moveCard", &c) {
+			http.Error(w, "your role on this board cannot move this card", http.StatusForbidden)
+			return
+		}
 	}
 	if err := s.MoveCards(r.Context(), b, u, req.Moves); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

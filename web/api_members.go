@@ -104,12 +104,49 @@ func cardFields(req map[string]any) (bson.M, bson.M, error) {
 	return set, unset, nil
 }
 
+// parentError is a refused parentId: WeKan's NotFound (404) or Forbidden (403).
+type parentError struct {
+	code   string
+	status int
+}
+
+func (e *parentError) Error() string { return e.code }
+
+// setParent puts a REST body's parentId into set, when its card is on a board
+// the caller may see (WeKan's server/lib/visibleBoardIds.js
+// assertParentCardIsVisible). Naming another is an attempt: the UI offers only
+// visible parents, so it is recorded as ParentBleed.
+func (s *Server) setParent(r *http.Request, u *User, req map[string]any, set bson.M) error {
+	v, ok := req["parentId"]
+	if !ok || v == nil || v == "" {
+		return nil
+	}
+	id, isString := v.(string)
+	if !isString || !validID(id) {
+		return &parentError{"NotFound", http.StatusNotFound}
+	}
+	var parent Card
+	if s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id)}).Decode(&parent) != nil {
+		return &parentError{"NotFound", http.StatusNotFound}
+	}
+	if _, err := s.boardFor(r.Context(), parent.BoardID, u); err != nil {
+		s.recordSecurity(r, securityEvent{Key: "authz.parent", Action: "blocked", Source: "parentId", UserID: u.ID,
+			Detail: "A card on a board the user cannot see was named as a parent."})
+		return &parentError{"Forbidden", http.StatusForbidden}
+	}
+	set["parentId"] = id
+	return nil
+}
+
 // addCardFrom adds a card from a REST body: the author is the caller
 // (GHSA-6jr3-42jf-vhm5), members and assignees are arrays, dates are dates.
 func (s *Server) addCardFrom(r *http.Request, b *Board, u *User, listID, swimlaneID string, req map[string]any) (string, error) {
 	title, _ := req["title"].(string)
 	set, _, err := cardFields(req)
 	if err != nil {
+		return "", err
+	}
+	if err := s.setParent(r, u, req, set); err != nil {
 		return "", err
 	}
 	c, err := s.AddCard(r.Context(), b, u, listID, swimlaneID, title)
@@ -142,21 +179,30 @@ func (s *Server) apiBulkAddCards(w http.ResponseWriter, r *http.Request, u *User
 		apiError(w, http.StatusBadRequest, "1 to 500 cards")
 		return
 	}
-	ids := make([]map[string]string, 0, len(req.Cards))
-	for _, c := range req.Cards {
+	ids := make([]map[string]any, 0, len(req.Cards))
+	for i, c := range req.Cards {
 		swimlane := req.SwimlaneID
 		if v, ok := c["swimlaneId"].(string); ok && v != "" {
 			swimlane = v
+		}
+		// ParentBleed, bulk sibling: an entry whose parent the caller cannot see is
+		// refused alone, as WeKan's {index, error}, and the others are created.
+		if perr := s.setParent(r, u, c, bson.M{}); perr != nil {
+			var pe *parentError
+			if errors.As(perr, &pe) {
+				ids = append(ids, map[string]any{"index": i, "error": pe.code})
+				continue
+			}
 		}
 		id, err := s.addCardFrom(r, b, u, r.PathValue("list"), swimlane, c)
 		if err != nil {
 			apiError(w, http.StatusBadRequest, err.Error())
 			return
 		}
-		ids = append(ids, map[string]string{"_id": id})
+		ids = append(ids, map[string]any{"index": i, "_id": id})
 	}
 	s.hub.publish(b.ID, "board-changed")
-	writeJSON(w, http.StatusOK, ids) // WeKan's shape: one {_id} per card
+	writeJSON(w, http.StatusOK, ids) // WeKan's shape: {index, _id} or {index, error} per card
 }
 
 var labelColors = map[string]bool{"white": true, "green": true, "yellow": true, "orange": true, "red": true, "purple": true,
@@ -285,9 +331,16 @@ func (s *Server) apiBoardMember(w http.ResponseWriter, r *http.Request, u *User)
 	}
 	action := r.PathValue("action")
 	var req struct {
-		Role string `json:"role"`
+		Role   string `json:"role"`
+		Action string `json:"action"`
 	}
 	_ = decodeJSON(r, &req)
+	// HashBleed sibling: WeKan answered any other body action with the whole user
+	// document, password hash included. The action must be the route's own verb.
+	if (action == "add" || action == "remove") && req.Action != action {
+		apiError(w, http.StatusBadRequest, `action must be "`+action+`"`)
+		return
+	}
 	if req.Role == "" {
 		req.Role = "normal"
 	}

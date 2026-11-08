@@ -233,12 +233,12 @@ func (s *Server) boardCard(r *http.Request, u *User, boardID, cardID string) (*B
 	if err != nil {
 		return nil, nil, http.StatusNotFound
 	}
-	if !b.MemberOf(u.ID) {
-		return nil, nil, http.StatusForbidden
-	}
 	var c Card
 	if !validID(cardID) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(cardID), "boardId": b.ID}).Decode(&c) != nil {
 		return nil, nil, http.StatusNotFound
+	}
+	if !b.Writable(u, "write", &c) {
+		return nil, nil, http.StatusForbidden
 	}
 	return b, &c, 0
 }
@@ -405,7 +405,9 @@ func (s *Server) apiDeleteAttachment(w http.ResponseWriter, r *http.Request, u *
 	if a == nil {
 		return
 	}
-	if !b.MemberOf(u.ID) {
+	var c Card
+	_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": a.Meta.CardID, "boardId": b.ID}).Decode(&c)
+	if !b.Writable(u, "write", &c) {
 		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}

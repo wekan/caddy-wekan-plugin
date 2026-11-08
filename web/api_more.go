@@ -2,6 +2,7 @@ package web
 
 import (
 	"net/http"
+	"slices"
 	"strings"
 	"time"
 
@@ -440,12 +441,20 @@ func (s *Server) apiComments(w http.ResponseWriter, r *http.Request, u *User) {
 
 // apiAddComment: the author is the caller (GHSA-6jr3-42jf-vhm5), never a body's authorId.
 func (s *Server) apiAddComment(w http.ResponseWriter, r *http.Request, u *User) {
-	b := s.apiBoardFor(w, r, u, true)
+	b := s.apiBoardCan(w, r, u, "comment") // WeKan: the comment capability, not write
 	if b == nil {
 		return
 	}
 	c := s.cardOnBoard(w, r, b)
 	if c == nil {
+		return
+	}
+	// An assigned-only member comments only on their own cards (GHSA-r4gm-mjj9-g3x8):
+	// another card answers as if it did not exist, and the attempt is recorded.
+	if m := b.member(u.ID); m != nil && m.AssignedOnly() && !u.IsAdmin && !slices.Contains(c.Assignees, u.ID) {
+		s.recordSecurity(r, securityEvent{Key: "authz.assigned", Action: "blocked", Source: "rest:comment-insert",
+			UserID: u.ID, Detail: "Assigned-only member commented on a card not assigned to them."})
+		apiError(w, http.StatusNotFound, "Card not found")
 		return
 	}
 	var req struct {
