@@ -38,8 +38,9 @@ func TestEveryQueryValueIsEqOrAnID(t *testing.T) {
 			for _, m := range field.FindAllStringSubmatch(line, -1) {
 				v := strings.TrimSpace(m[2])
 				// eq(...), or an id of a document read from the database: x.ID,
-				// doc["_id"].
-				if strings.HasPrefix(v, "eq(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "hashToken(") {
+				// doc["_id"], or dbIn(...) - ids read from documents, only the
+				// ones that are ids.
+				if strings.HasPrefix(v, "eq(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || strings.HasPrefix(v, "hashToken(") {
 					continue
 				}
 				offenders = append(offenders, fmt.Sprintf("%s:%d %s: %s", f, i+1, m[1], v))

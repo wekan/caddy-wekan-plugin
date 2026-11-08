@@ -32,8 +32,9 @@ type securityCategory struct {
 }
 
 var securityCategories = map[string]securityCategory{
-	"authz.parent":   {Category: "authz", Bleed: "ParentBleed", Severity: "high", CWE: "CWE-862"},
-	"authz.assigned": {Category: "authz", Bleed: "AssignedBleed", Severity: "medium", CWE: "CWE-863"},
+	"authz.parent":       {Category: "authz", Bleed: "ParentBleed", Severity: "high", CWE: "CWE-862"},
+	"authz.assigned":     {Category: "authz", Bleed: "AssignedBleed", Severity: "medium", CWE: "CWE-863"},
+	"authz.manage-board": {Category: "authz", Bleed: "ManageBoardBleed", Severity: "high", CWE: "CWE-863"},
 }
 
 // identityFields make two events the same problem; the actor is not one of them.
