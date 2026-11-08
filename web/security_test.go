@@ -22,6 +22,9 @@ import (
 // Code scanning alerts #1-#5: a value from a request is used in a query only
 // through eq(), never put in a filter as it came. This reads every file of the
 // package, so the shape cannot come back anywhere - not only where it was found.
+// A projection's 0 or 1 is a constant of the code, never a value from a request.
+var numberConstant = regexp.MustCompile(`^-?\d+$`)
+
 func TestEveryQueryValueIsEqOrAnID(t *testing.T) {
 	field := regexp.MustCompile(`"(_id|listId|swimlaneId|boardId|userId|username|emails\.address|hashedToken|services\.resume\.loginTokens\.hashedToken)":\s*([^,}\n]+)`)
 	files, _ := filepath.Glob("*.go")
@@ -40,7 +43,7 @@ func TestEveryQueryValueIsEqOrAnID(t *testing.T) {
 				// eq(...), or an id of a document read from the database: x.ID,
 				// doc["_id"], or dbIn(...) - ids read from documents, only the
 				// ones that are ids.
-				if strings.HasPrefix(v, "eq(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || strings.HasPrefix(v, "hashToken(") {
+				if strings.HasPrefix(v, "eq(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || numberConstant.MatchString(v) || strings.HasPrefix(v, "hashToken(") {
 					continue
 				}
 				offenders = append(offenders, fmt.Sprintf("%s:%d %s: %s", f, i+1, m[1], v))
