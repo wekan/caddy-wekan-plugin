@@ -75,3 +75,42 @@ func TestExportICS(t *testing.T) {
 		t.Fatalf("a calendar app's link with the token: %d", code)
 	}
 }
+
+func TestImportICS(t *testing.T) {
+	ev := parseICS("BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nSUMMARY:Plan\\, then ship\r\nDESCRIPTION:line one\\nline\r\n  two\r\n" +
+		"DTSTART;TZID=\"Europe:Helsinki\":20300102T030405Z\r\nDTEND;VALUE=DATE:20300105\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n")
+	if len(ev) != 2 || ev[0].Summary != "Plan, then ship" || ev[0].Description != "line one\nline two" ||
+		ev[0].Start == nil || ev[0].Start.Hour() != 3 || ev[0].End == nil || ev[0].End.Day() != 5 {
+		t.Fatalf("parsed: %+v", ev)
+	}
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	a, bt := login(t, w, "ann"), login(t, w, "bob")
+	b := newRESTBoard(t, w, a, "Import")
+	url := w.srv.URL + "/api/boards/" + b.ID + "/swimlanes/" + b.Swimlane + "/lists/" + b.List + "/ics"
+	body := `{"ics":"BEGIN:VEVENT\nSUMMARY:Meeting\nDTSTART:20300102T030405Z\nEND:VEVENT\nBEGIN:VEVENT\nDTSTART:20300103\nEND:VEVENT"}`
+	var res struct {
+		Created int      `json:"created"`
+		CardIDs []string `json:"cardIds"`
+	}
+	if code := call(t, "POST", url, a, body, &res); code != 200 || res.Created != 2 {
+		t.Fatalf("import: %d %+v", code, res)
+	}
+	var c bson.M
+	_ = w.db.Collection("cards").FindOne(context.Background(), bson.M{"_id": res.CardIDs[0]}).Decode(&c)
+	if c["title"] != "Meeting" || c["dueAt"] == nil || c["startAt"] == nil || c["boardId"] != b.ID {
+		t.Fatalf("a card of an event, due at its start when it has no end: %v", c)
+	}
+	if code := call(t, "POST", url, a, `{"ics":"  "}`, nil); code != 400 {
+		t.Fatalf("negative: no calendar: %d", code)
+	}
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true, IsReadOnly: true})
+	if code := call(t, "POST", url, bt, body, nil); code != 401 {
+		t.Fatalf("negative: a read-only member: %d", code)
+	}
+	other := newRESTBoard(t, w, a, "Other")
+	if code := call(t, "POST", w.srv.URL+"/api/boards/"+b.ID+"/swimlanes/"+b.Swimlane+"/lists/"+other.List+"/ics", a, body, nil); code != 404 {
+		t.Fatalf("negative: a list of another board: %d", code)
+	}
+}

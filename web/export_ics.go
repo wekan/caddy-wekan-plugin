@@ -145,3 +145,182 @@ func (s *Server) apiExportICS(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "no-store")
 	_, _ = w.Write([]byte(ics))
 }
+
+// The import of an iCalendar file as cards, as Node.js WeKan
+// (server/methods/icsImport.js, server/lib/icsImport.js).
+func (s *Server) importICSRoutes(m *http.ServeMux) {
+	m.HandleFunc("POST /api/boards/{board}/swimlanes/{swimlane}/lists/{list}/ics", s.api(s.apiImportICS))
+}
+
+type icsEvent struct {
+	Summary, Description, UID string
+	Start, End                *time.Time
+}
+
+// icsUnfold joins RFC 5545's folded lines.
+func icsUnfold(text string) []string {
+	text = strings.ReplaceAll(strings.ReplaceAll(text, "\r\n", "\n"), "\r", "\n")
+	var out []string
+	for _, line := range strings.Split(text, "\n") {
+		if (strings.HasPrefix(line, " ") || strings.HasPrefix(line, "\t")) && len(out) > 0 {
+			out[len(out)-1] += line[1:]
+		} else {
+			out = append(out, line)
+		}
+	}
+	return out
+}
+
+// icsContentLine is a line's name (upper case) and value; a colon inside a
+// quoted parameter value is not the separator.
+func icsContentLine(line string) (string, string, bool) {
+	quoted := false
+	for i, ch := range line {
+		if ch == '"' {
+			quoted = !quoted
+		} else if ch == ':' && !quoted {
+			name := strings.ToUpper(strings.SplitN(line[:i], ";", 2)[0])
+			return name, line[i+1:], true
+		}
+	}
+	return "", "", false
+}
+
+func icsUnescape(text string) string {
+	var b strings.Builder
+	for i := 0; i < len(text); i++ {
+		if text[i] == '\\' && i+1 < len(text) {
+			switch next := text[i+1]; next {
+			case 'n', 'N':
+				b.WriteByte('\n')
+				i++
+				continue
+			case ',', ';', '\\':
+				b.WriteByte(next)
+				i++
+				continue
+			}
+		}
+		b.WriteByte(text[i])
+	}
+	return b.String()
+}
+
+// icsParseDate takes WeKan's two forms: a date-time (UTC, as WeKan reads it)
+// and a date.
+func icsParseDate(v string) *time.Time {
+	v = strings.TrimSpace(v)
+	for _, layout := range []string{"20060102T150405Z", "20060102T150405", "20060102"} {
+		if t, err := time.Parse(layout, v); err == nil {
+			return &t
+		}
+	}
+	return nil
+}
+
+func parseICS(text string) []icsEvent {
+	var events []icsEvent
+	var cur *icsEvent
+	for _, line := range icsUnfold(text) {
+		switch strings.ToUpper(line) {
+		case "":
+			continue
+		case "BEGIN:VEVENT":
+			cur = &icsEvent{}
+			continue
+		case "END:VEVENT":
+			if cur != nil {
+				events = append(events, *cur)
+			}
+			cur = nil
+			continue
+		}
+		if cur == nil {
+			continue
+		}
+		name, value, ok := icsContentLine(line)
+		if !ok {
+			continue
+		}
+		switch name {
+		case "SUMMARY":
+			cur.Summary = icsUnescape(value)
+		case "DESCRIPTION":
+			cur.Description = icsUnescape(value)
+		case "DTSTART":
+			cur.Start = icsParseDate(value)
+		case "DTEND":
+			cur.End = icsParseDate(value)
+		case "UID":
+			cur.UID = value
+		}
+	}
+	return events
+}
+
+// MaxICSEvents is the most events one import makes into cards.
+const MaxICSEvents = 5000
+
+func (s *Server) apiImportICS(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil || !b.Writable(u, "write", nil) {
+		writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "not-authorized"})
+		return
+	}
+	var req struct {
+		ICS     string `json:"ics"`
+		ICSText string `json:"icsText"`
+	}
+	_ = decodeJSON(r, &req)
+	text := req.ICS
+	if text == "" {
+		text = req.ICSText
+	}
+	if strings.TrimSpace(text) == "" {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "missing-ics", "message": "Provide the .ics file contents in the \"ics\" field."})
+		return
+	}
+	ctx := r.Context()
+	listID, swimlaneID := r.PathValue("list"), r.PathValue("swimlane")
+	if !validID(listID) || s.db.Collection("lists").FindOne(ctx, bson.M{"_id": eq(listID), "boardId": b.ID}).Err() != nil {
+		apiError(w, http.StatusNotFound, "List not found on this board.")
+		return
+	}
+	if !validID(swimlaneID) || s.db.Collection("swimlanes").FindOne(ctx, bson.M{"_id": eq(swimlaneID), "boardId": b.ID}).Err() != nil {
+		apiError(w, http.StatusNotFound, "Swimlane not found on this board.")
+		return
+	}
+	events := parseICS(text)
+	if len(events) > MaxICSEvents {
+		apiError(w, http.StatusBadRequest, "at most 5000 events in one import")
+		return
+	}
+	ids := []string{}
+	for _, e := range events {
+		title := strings.TrimSpace(e.Summary)
+		if title == "" {
+			title = "(untitled event)" // a card always has a title here
+		}
+		if len(title) > 1000 {
+			title = title[:1000]
+		}
+		c, err := s.AddCard(ctx, b, u, listID, swimlaneID, title)
+		if err != nil {
+			apiError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		set := bson.M{"description": e.Description}
+		if e.Start != nil {
+			set["startAt"] = *e.Start
+		}
+		if due := e.End; due != nil {
+			set["dueAt"] = *due
+		} else if e.Start != nil {
+			set["dueAt"] = *e.Start
+		}
+		_, _ = s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": set})
+		ids = append(ids, c.ID)
+	}
+	s.hub.publish(b.ID, "board-changed")
+	writeJSON(w, http.StatusOK, map[string]any{"created": len(ids), "cardIds": ids})
+}
