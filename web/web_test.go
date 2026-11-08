@@ -1037,3 +1037,56 @@ func TestCardRequestedAssignedBy(t *testing.T) {
 		t.Fatal("negative: hidden when the board turns it off")
 	}
 }
+
+// #6816: /checklists/remove takes the checklist's items with it, only its own.
+func TestRemoveChecklistMethod(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ro := w.seedUser(t, "rob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Lists")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": ro.ID, "isActive": true, "isReadOnly": true}}})
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Alpha")
+	for _, id := range []string{"clGone", "clKept"} {
+		_, _ = w.db.Collection("checklists").InsertOne(ctx, bson.M{"_id": id, "cardId": c.ID, "boardId": b.ID, "title": id})
+		for _, n := range []string{"1", "2"} {
+			_, _ = w.db.Collection("checklistItems").InsertOne(ctx, bson.M{"_id": id + n, "checklistId": id, "cardId": c.ID, "boardId": b.ID, "title": n})
+		}
+	}
+	call := func(cl *http.Client, args string) int {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/%2Fchecklists%2Fremove", strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cl.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+		return res.StatusCode
+	}
+	count := func(cl string) int64 {
+		n, _ := w.db.Collection("checklistItems").CountDocuments(ctx, bson.M{"checklistId": cl})
+		return n
+	}
+	rob := w.client(t)
+	body(t, w.signIn(t, rob, "rob", "pw"))
+	if code := call(rob, `[{"_id":"clGone"}]`); code != 400 || count("clGone") != 2 {
+		t.Fatalf("negative: a read-only member cannot remove it: %d", code)
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if code := call(ann, `[{"_id":"clGone","cardId":"x"}]`); code != 400 {
+		t.Fatalf("negative: by id only: %d", code)
+	}
+	if code := call(ann, `[{"_id":{"$ne":""}}]`); code != 400 || count("clKept") != 2 {
+		t.Fatalf("negative: an operator is no id: %d", code)
+	}
+	if code := call(ann, `[{"_id":"clGone"}]`); code != 200 {
+		t.Fatalf("removed: %d", code)
+	}
+	if count("clGone") != 0 || count("clKept") != 2 {
+		t.Fatalf("its items go, the other checklist's stay: %d %d", count("clGone"), count("clKept"))
+	}
+}

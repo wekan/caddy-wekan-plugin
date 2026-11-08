@@ -30,6 +30,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"cards.pokerVote":       s.methodPokerVote,
 		"setListCollapsedState": s.methodSetListCollapsedState,
 		"toggleBoardStar":       s.methodToggleBoardStar,
+		"/checklists/remove":    s.methodRemoveChecklist,
 	}
 }
 
@@ -183,4 +184,41 @@ func (s *Server) methodToggleBoardStar(r *http.Request, u *User, args []json.Raw
 		return nil, err
 	}
 	return nil, nil
+}
+
+// methodRemoveChecklist is WeKan's /checklists/remove, the collection's own
+// method: a checklist, by its id only, removed by whoever may edit its card
+// (server/permissions/checklists.js) - with its items, never anybody else's
+// (#6816). It answers how many it removed, as a Meteor mutator does.
+func (s *Server) methodRemoveChecklist(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	var sel struct {
+		ID string `json:"_id"`
+	}
+	var keys map[string]json.RawMessage
+	if len(args) < 1 || json.Unmarshal(args[0], &keys) != nil || len(keys) != 1 || json.Unmarshal(args[0], &sel) != nil || !validID(sel.ID) {
+		return nil, &methodError{"403", "Not permitted. Untrusted code may only remove documents by ID."}
+	}
+	ctx := r.Context()
+	var cl struct {
+		ID     string `bson:"_id"`
+		CardID string `bson:"cardId"`
+	}
+	if s.db.Collection("checklists").FindOne(ctx, bson.M{"_id": eq(sel.ID)}).Decode(&cl) != nil {
+		return 0, nil
+	}
+	var c Card
+	var b Board
+	if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cl.CardID)}).Decode(&c) != nil ||
+		s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(c.BoardID)}).Decode(&b) != nil || !b.Writable(u, "write", &c) {
+		return nil, &methodError{"403", "Access denied"}
+	}
+	if _, err := s.db.Collection("checklistItems").DeleteMany(ctx, bson.M{"checklistId": cl.ID}); err != nil {
+		return nil, err
+	}
+	res, err := s.db.Collection("checklists").DeleteOne(ctx, bson.M{"_id": cl.ID})
+	if err != nil {
+		return nil, err
+	}
+	s.hub.publish(b.ID, "board-changed")
+	return res.DeletedCount, nil
 }
