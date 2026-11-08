@@ -136,6 +136,13 @@
       user: function () { return currentUser; },
       userId: function () { return currentUser ? currentUser._id : null; },
       callAsync: callAsync,
+      // Meteor.apply(name, args, [options], [callback]).
+      apply: function (name, args, options, cb) {
+        if (typeof options === 'function') { cb = options; options = null; }
+        var p = callAsync.apply(null, [name].concat(args || []));
+        if (cb) p.then(function (res) { cb(undefined, res); }, function (err) { cb(err); });
+        return undefined;
+      },
       call: function () {
         var args = Array.prototype.slice.call(arguments);
         var cb = typeof args[args.length - 1] === 'function' ? args.pop() : null;

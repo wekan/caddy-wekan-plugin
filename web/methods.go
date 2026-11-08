@@ -7,7 +7,9 @@ import (
 	"mime"
 	"net/http"
 	"slices"
+	"strconv"
 	"strings"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -31,6 +33,8 @@ func (s *Server) methods() map[string]methodFunc {
 		"setListCollapsedState": s.methodSetListCollapsedState,
 		"toggleBoardStar":       s.methodToggleBoardStar,
 		"/checklists/remove":    s.methodRemoveChecklist,
+		"updateListSort":        s.methodUpdateListSort,
+		"/lists/update":         s.methodUpdateList,
 	}
 }
 
@@ -62,7 +66,12 @@ func (s *Server) methodRoutes(m *http.ServeMux) {
 		if err != nil {
 			var me *methodError
 			if errors.As(err, &me) {
-				writeJSON(w, http.StatusBadRequest, map[string]string{"error": me.Code, "reason": me.Reason})
+				// A numeric code is a number, as a collection's own 403 is in Meteor.
+				var code any = me.Code
+				if n, err := strconv.Atoi(me.Code); err == nil {
+					code = n
+				}
+				writeJSON(w, http.StatusBadRequest, map[string]any{"error": code, "reason": me.Reason})
 				return
 			}
 			writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "500", "reason": "Internal server error"})
@@ -221,4 +230,129 @@ func (s *Server) methodRemoveChecklist(r *http.Request, u *User, args []json.Raw
 	}
 	s.hub.publish(b.ID, "board-changed")
 	return res.DeletedCount, nil
+}
+
+// listOnWritableBoard is the list by id, on a board the user may change
+// (WeKan's allowIsBoardMemberWithWriteAccess), or the error to answer.
+func (s *Server) listOnWritableBoard(r *http.Request, u *User, listID string, denied error) (*List, *Board, error) {
+	var l List
+	var b Board
+	if !validID(listID) || s.db.Collection("lists").FindOne(r.Context(), bson.M{"_id": eq(listID)}).Decode(&l) != nil {
+		return nil, nil, &methodError{"list-not-found", "List not found"}
+	}
+	if s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(l.BoardID)}).Decode(&b) != nil || !b.Writable(u, "write", nil) {
+		return nil, nil, denied
+	}
+	return &l, &b, nil
+}
+
+// listSet checks a change of a list's sort or swimlane: a number, and a
+// swimlane of the same board ("" for every swimlane).
+func (s *Server) listSet(r *http.Request, b *Board, field string, raw json.RawMessage) (any, error) {
+	switch field {
+	case "sort":
+		var n float64
+		if json.Unmarshal(raw, &n) != nil {
+			return nil, &methodError{"Match.Error", "sort is a number"}
+		}
+		return n, nil
+	case "swimlaneId":
+		var id string
+		if json.Unmarshal(raw, &id) != nil || (id != "" && (!validID(id) ||
+			s.db.Collection("swimlanes").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Err() != nil)) {
+			return nil, &methodError{"invalid-swimlane", "Invalid swimlane for this board"}
+		}
+		return id, nil
+	case "title":
+		var t string
+		if json.Unmarshal(raw, &t) != nil || strings.TrimSpace(t) == "" || len(t) > 1000 {
+			return nil, &methodError{"Match.Error", "title is text"}
+		}
+		return t, nil
+	}
+	return nil, &methodError{"invalid-field", "Field " + field + " is not allowed"}
+}
+
+// methodUpdateListSort is WeKan's updateListSort: a list's place - its sort,
+// its swimlane - changed by whoever may change the board, for a list of that
+// board only (#5462, #5997).
+func (s *Server) methodUpdateListSort(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	listID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	boardID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	var data map[string]json.RawMessage
+	if len(args) < 3 || json.Unmarshal(args[2], &data) != nil || data == nil {
+		return nil, &methodError{"Match.Error", "Expected object"}
+	}
+	denied := &methodError{"permission-denied", "User does not have permission to modify this board"}
+	l, b, err := s.listOnWritableBoard(r, u, listID, denied)
+	if err != nil {
+		return nil, err
+	}
+	if b.ID != boardID {
+		return nil, &methodError{"permission-denied", "List does not belong to this board"}
+	}
+	set := bson.M{"modifiedAt": time.Now().UTC()}
+	for field, raw := range data {
+		if field == "updatedAt" || field == "modifiedAt" {
+			continue // the server's own time
+		}
+		if field == "title" {
+			return nil, &methodError{"invalid-field", "Field title is not allowed"}
+		}
+		v, err := s.listSet(r, b, field, raw)
+		if err != nil {
+			return nil, err
+		}
+		set[field] = v
+	}
+	if _, err := s.db.Collection("lists").UpdateOne(r.Context(), bson.M{"_id": l.ID}, bson.M{"$set": set}); err != nil {
+		return nil, err
+	}
+	s.hub.publish(b.ID, "board-changed")
+	return nil, nil
+}
+
+// methodUpdateList is the lists collection's own /lists/update, as WeKan's
+// allow and deny rules let it through (server/permissions/lists.js): by id,
+// a $set of its title, sort or swimlane, by whoever may change its board -
+// anybody else gets the 403 "Access denied" of #5462.
+func (s *Server) methodUpdateList(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	var sel struct {
+		ID string `json:"_id"`
+	}
+	var keys map[string]json.RawMessage
+	if len(args) < 2 || json.Unmarshal(args[0], &keys) != nil || len(keys) != 1 || json.Unmarshal(args[0], &sel) != nil || !validID(sel.ID) {
+		return nil, &methodError{"403", "Not permitted. Untrusted code may only update documents by ID."}
+	}
+	var mod map[string]map[string]json.RawMessage
+	if json.Unmarshal(args[1], &mod) != nil || len(mod) != 1 || mod["$set"] == nil {
+		return nil, &methodError{"403", "Access denied"}
+	}
+	l, b, err := s.listOnWritableBoard(r, u, sel.ID, &methodError{"403", "Access denied"})
+	if err != nil {
+		var me *methodError
+		if errors.As(err, &me) && me.Code == "list-not-found" {
+			return 0, nil
+		}
+		return nil, err
+	}
+	set := bson.M{"modifiedAt": time.Now().UTC()}
+	for field, raw := range mod["$set"] {
+		v, err := s.listSet(r, b, field, raw)
+		if err != nil {
+			return nil, &methodError{"403", "Access denied"}
+		}
+		set[field] = v
+	}
+	if _, err := s.db.Collection("lists").UpdateOne(r.Context(), bson.M{"_id": l.ID}, bson.M{"$set": set}); err != nil {
+		return nil, err
+	}
+	s.hub.publish(b.ID, "board-changed")
+	return 1, nil
 }

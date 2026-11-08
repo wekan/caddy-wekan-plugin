@@ -1166,3 +1166,71 @@ func TestAddSwimlaneFromHeader(t *testing.T) {
 		t.Fatalf("negative: a title is needed: %d", code)
 	}
 }
+
+// #5462 / #5997: a read-only member cannot reorder lists, by updateListSort or
+// /lists/update (WeKan's 403 "Access denied"); a member who may write can.
+func TestListSortMethods(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ro := w.seedUser(t, "rob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Order")
+	other, _ := w.s.CreateBoard(ctx, u, "Other")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": ro.ID, "isActive": true, "isReadOnly": true}}})
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	call := func(cl *http.Client, name, args string) (int, map[string]any) {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/"+url.PathEscape(name), strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cl.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return res.StatusCode, out
+	}
+	sortOf := func() float64 {
+		var x List
+		_ = w.db.Collection("lists").FindOne(ctx, bson.M{"_id": l.ID}).Decode(&x)
+		return x.Sort
+	}
+	before := sortOf()
+	rob := w.client(t)
+	body(t, w.signIn(t, rob, "rob", "pw"))
+	if code, out := call(rob, "updateListSort", `["`+l.ID+`","`+b.ID+`",{"sort":-999}]`); code != 400 || out["error"] != "permission-denied" {
+		t.Fatalf("negative: read-only updateListSort: %d %v", code, out)
+	}
+	if code, out := call(rob, "/lists/update", `[{"_id":"`+l.ID+`"},{"$set":{"sort":-999}}]`); code != 400 || out["error"] != float64(403) || out["reason"] != "Access denied" {
+		t.Fatalf("negative: read-only /lists/update is #5462's 403: %d %v", code, out)
+	}
+	if sortOf() != before {
+		t.Fatal("negative: the order is unchanged")
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if code, out := call(ann, "updateListSort", `["`+l.ID+`","`+b.ID+`",{"sort":-3}]`); code != 200 || sortOf() != -3 {
+		t.Fatalf("updateListSort: %d %v %v", code, out, sortOf())
+	}
+	if code, _ := call(ann, "/lists/update", `[{"_id":"`+l.ID+`"},{"$set":{"sort":7}}]`); code != 200 || sortOf() != 7 {
+		t.Fatalf("/lists/update: %d %v", code, sortOf())
+	}
+	if code, out := call(ann, "updateListSort", `["`+l.ID+`","`+other.ID+`",{"sort":1}]`); code != 400 || out["error"] != "permission-denied" {
+		t.Fatalf("negative: the list of another board: %v", out)
+	}
+	if code, out := call(ann, "updateListSort", `["`+l.ID+`","`+b.ID+`",{"boardId":"`+other.ID+`"}]`); code != 400 || out["error"] != "invalid-field" {
+		t.Fatalf("negative: only sort and swimlane: %v", out)
+	}
+	if code, _ := call(ann, "/lists/update", `[{"_id":"`+l.ID+`"},{"$set":{"boardId":"`+other.ID+`"}}]`); code != 400 {
+		t.Fatal("negative: no move to another board")
+	}
+	if code, _ := call(ann, "/lists/update", `[{"_id":"`+l.ID+`"},{"$unset":{"title":""}}]`); code != 400 {
+		t.Fatal("negative: only $set")
+	}
+	if code, _ := call(ann, "/lists/update", `[{"boardId":"`+b.ID+`"},{"$set":{"sort":1}}]`); code != 400 {
+		t.Fatal("negative: by id only")
+	}
+	if sortOf() != 7 {
+		t.Fatal("negative: nothing refused was saved")
+	}
+}
