@@ -6,88 +6,303 @@
   .content-body
     .side-menu
       ul
-        li.active
+        li(class="{{if eq .Pane `orgs`}}active{{end}}")
+          a.js-left-menu-item(href="/admin/people?pane=orgs", data-id="org-setting") {{t $.L "organizations"}}
+        li(class="{{if eq .Pane `teams`}}active{{end}}")
+          a.js-left-menu-item(href="/admin/people?pane=teams", data-id="team-setting") {{t $.L "teams"}}
+        li(class="{{if eq .Pane ``}}active{{end}}")
           a.js-left-menu-item(href="/admin/people", data-id="people-setting") {{t $.L "people"}}
     .main-body
       h2.pane-title {{t $.L "people"}}
       if .ErrorText
         p.at-error.js-people-error {{.ErrorText}}
-      p {{t $.L "people-number"}} {{len .Users}}
-      form.js-registration-form(method="post", action="/admin/registration")
-        if .RegistrationDisabled
-          input(type="hidden", name="disableRegistration", value="false")
-          button(type="submit") {{t $.L "registration"}}: {{t $.L "no"}}
-        else
-          input(type="hidden", name="disableRegistration", value="true")
-          button(type="submit") {{t $.L "registration"}}: {{t $.L "yes"}}
-      table.people-table
-        thead
-          tr
-            th {{t $.L "edit"}}
-            th {{t $.L "username"}}
-            th {{t $.L "fullname"}}
-            th {{t $.L "email"}}
-            th {{t $.L "admin"}}
-            th {{t $.L "active"}}
-        tbody
-          each p in .Users
-            tr.js-person(data-user="{{.ID}}")
-              td
-                a.edit-user(href="#", data-user-id="{{.ID}}")
-                  i.fa.fa-pencil-square-o
-                  |  {{t $.L "edit"}}
-                template.js-pop-over-template(data-pop="edit-user-{{.ID}}", data-title="{{t $.L `edit`}}")
-                  form.js-edit-user(method="post", action="/admin/people/{{.ID}}/edit")
-                    label
-                      | {{t $.L "username"}}
-                      input.js-profile-username(type="text", name="username", value="{{.Username}}", required)
-                    label
-                      | {{t $.L "fullname"}}
-                      textarea.js-profile-fullname(name="fullname", rows="2") {{.Profile.Fullname}}
-                    label
-                      | {{t $.L "initials"}}
-                      input.js-profile-initials(type="text", name="initials", value="{{.Profile.Initials}}", maxlength="8")
-                    label
-                      | {{t $.L "admin"}}
-                      select.select-role.js-profile-isadmin(name="isAdmin")
-                        option(value="false") {{t $.L "no"}}
-                        if .IsAdmin
-                          option(value="true", selected) {{t $.L "yes"}}
-                        else
-                          option(value="true") {{t $.L "yes"}}
-                    label
-                      | {{t $.L "email"}}
-                      input.js-profile-email(type="email", name="email", value="{{range .Emails}}{{.Address}}{{end}}")
-                    label
-                      | {{t $.L "active-person"}}
-                      select.select-active.js-profile-isactive(name="loginDisabled")
-                        option(value="false") {{t $.L "yes"}}
-                        if .LoginDisabled
-                          option(value="true", selected) {{t $.L "no"}}
-                        else
-                          option(value="true") {{t $.L "no"}}
-                    label
-                      | {{t $.L "password"}}
-                      input.js-profile-password(type="password", name="password", autocomplete="new-password")
-                    .buttonsContainer
-                      input.primary.wide(type="submit", value="{{t $.L `save`}}")
-              td.username {{.Username}}
-              td {{.Profile.Fullname}}
-              td
-                each e in .Emails
-                  | {{.Address}}
-              td
-                if ne .ID $.User.ID
-                  form(method="post", action="/admin/people/{{.ID}}")
-                    input(type="hidden", name="isAdmin", value="{{if .IsAdmin}}false{{else}}true{{end}}")
-                    button.js-toggle-admin(type="submit") {{if .IsAdmin}}{{t $.L "yes"}}{{else}}{{t $.L "no"}}{{end}}
-                else
-                  | {{t $.L "yes"}}
-              td.account-active-status
-                if ne .ID $.User.ID
-                  if .LoginDisabled
-                    span.text-red.js-toggle-active-status(data-user-id="{{.ID}}", data-is-active="false", title="{{t $.L `admin-people-user-inactive`}}", role="button", tabindex="0") ✕
+      if eq .Pane "orgs"
+        a.new-org(href="#")
+          | + {{t $.L "new"}}
+        template.js-pop-over-template(data-pop="new-org", data-title="{{t $.L `new`}}")
+          form.js-new-org(method="post", action="/admin/orgs")
+            label
+              | {{t $.L "displayName"}}
+              textarea.js-orgDisplayName(name="displayName", rows="2", required)
+            label
+              | {{t $.L "description"}}
+              textarea.js-orgDesc(name="desc", rows="2")
+            label
+              | {{t $.L "shortName"}}
+              input.js-orgShortName(type="text", name="shortName", required)
+            label
+              | {{t $.L "autoAddUsersWithDomainName"}}
+              input.js-orgAutoAddUsersWithDomainName(type="text", name="autoAdd")
+            label
+              | {{t $.L "website"}}
+              input.js-orgWebsite(type="text", name="website")
+            label
+              | {{t $.L "active-org"}}
+              select.select-active.js-org-isactive(name="isActive")
+                option(value="false", selected) {{t $.L "no"}}
+                option(value="true") {{t $.L "yes"}}
+            .buttonsContainer
+              input.primary.wide(type="submit", value="{{t $.L `save`}}")
+        table.org-table
+          thead
+            tr
+              th {{t $.L "edit"}}
+              th {{t $.L "displayName"}}
+              th {{t $.L "description"}}
+              th {{t $.L "shortName"}}
+              th {{t $.L "autoAddUsersWithDomainName"}}
+              th {{t $.L "website"}}
+              th {{t $.L "active"}}
+              th
+                | {{t $.L "org-shared-templates"}}
+                br
+                a.js-org-feature-all(href="#", data-feature="orgSharedTemplates", data-value="true", title="{{t $.L `select-all`}}") ☑
+                |  
+                a.js-org-feature-all(href="#", data-feature="orgSharedTemplates", data-value="false", title="{{t $.L `unselect-all`}}") ☐
+              th
+                | {{t $.L "org-propagate-members-to-boards"}}
+                br
+                a.js-org-feature-all(href="#", data-feature="orgPropagateMembersToBoards", data-value="true", title="{{t $.L `select-all`}}") ☑
+                |  
+                a.js-org-feature-all(href="#", data-feature="orgPropagateMembersToBoards", data-value="false", title="{{t $.L `unselect-all`}}") ☐
+              th
+                | {{t $.L "org-sync-members-from-auth"}}
+                br
+                a.js-org-feature-all(href="#", data-feature="orgSyncMembersFromAuth", data-value="true", title="{{t $.L `select-all`}}") ☑
+                |  
+                a.js-org-feature-all(href="#", data-feature="orgSyncMembersFromAuth", data-value="false", title="{{t $.L `unselect-all`}}") ☐
+          tbody
+            each g in .Orgs
+              tr.js-org(data-id="{{.ID}}")
+                td
+                  a.edit-org(href="#", data-id="{{.ID}}")
+                    | ✎ {{t $.L "edit"}}
+                  template.js-pop-over-template(data-pop="edit-org-{{.ID}}", data-title="{{t $.L `edit`}}")
+                    form.js-edit-org(method="post", action="/admin/orgs/{{.ID}}")
+                      label
+                        | {{t $.L "displayName"}}
+                        textarea.js-orgDisplayName(name="displayName", rows="2", required) {{.DisplayName}}
+                      label
+                        | {{t $.L "description"}}
+                        textarea.js-orgDesc(name="desc", rows="2") {{.Desc}}
+                      label
+                        | {{t $.L "shortName"}}
+                        input.js-orgShortName(type="text", name="shortName", value="{{.ShortName}}", required)
+                      label
+                        | {{t $.L "autoAddUsersWithDomainName"}}
+                        input.js-orgAutoAddUsersWithDomainName(type="text", name="autoAdd", value="{{.AutoAdd}}")
+                      label
+                        | {{t $.L "website"}}
+                        input.js-orgWebsite(type="text", name="website", value="{{.Website}}")
+                      label
+                        | {{t $.L "active-org"}}
+                        select.select-active.js-org-isactive(name="isActive")
+                          option(value="false") {{t $.L "no"}}
+                          if .IsActive
+                            option(value="true", selected) {{t $.L "yes"}}
+                          else
+                            option(value="true") {{t $.L "yes"}}
+                      .buttonsContainer
+                        input.primary.wide(type="submit", value="{{t $.L `save`}}")
+                td {{.DisplayName}}
+                td {{.Desc}}
+                td {{.ShortName}}
+                td {{.AutoAdd}}
+                td {{.Website}}
+                td {{if .IsActive}}{{t $.L "yes"}}{{else}}{{t $.L "no"}}{{end}}
+                td.text-center
+                  if .SharedTemplates
+                    input.js-toggle-org-feature(type="checkbox", data-id="{{.ID}}", data-feature="orgSharedTemplates", checked)
                   else
-                    span.text-green.js-toggle-active-status(data-user-id="{{.ID}}", data-is-active="true", title="{{t $.L `admin-people-user-active`}}", role="button", tabindex="0") ✓
-                else
-                  | {{t $.L "yes"}}
+                    input.js-toggle-org-feature(type="checkbox", data-id="{{.ID}}", data-feature="orgSharedTemplates")
+                td.text-center
+                  if .Propagate
+                    input.js-toggle-org-feature(type="checkbox", data-id="{{.ID}}", data-feature="orgPropagateMembersToBoards", checked)
+                  else
+                    input.js-toggle-org-feature(type="checkbox", data-id="{{.ID}}", data-feature="orgPropagateMembersToBoards")
+                td.text-center
+                  if .SyncFromAuth
+                    input.js-toggle-org-feature(type="checkbox", data-id="{{.ID}}", data-feature="orgSyncMembersFromAuth", checked)
+                  else
+                    input.js-toggle-org-feature(type="checkbox", data-id="{{.ID}}", data-feature="orgSyncMembersFromAuth")
+      else if eq .Pane "teams"
+        a.new-team(href="#")
+          | + {{t $.L "new"}}
+        template.js-pop-over-template(data-pop="new-team", data-title="{{t $.L `new`}}")
+          form.js-new-team(method="post", action="/admin/teams")
+            label
+              | {{t $.L "displayName"}}
+              textarea.js-teamDisplayName(name="displayName", rows="2", required)
+            label
+              | {{t $.L "description"}}
+              textarea.js-teamDesc(name="desc", rows="2")
+            label
+              | {{t $.L "shortName"}}
+              input.js-teamShortName(type="text", name="shortName", required)
+            label
+              | {{t $.L "website"}}
+              input.js-teamWebsite(type="text", name="website")
+            label
+              | {{t $.L "active-team"}}
+              select.select-active.js-team-isactive(name="isActive")
+                option(value="false", selected) {{t $.L "no"}}
+                option(value="true") {{t $.L "yes"}}
+            .buttonsContainer
+              input.primary.wide(type="submit", value="{{t $.L `save`}}")
+        table.team-table
+          thead
+            tr
+              th {{t $.L "edit"}}
+              th {{t $.L "displayName"}}
+              th {{t $.L "description"}}
+              th {{t $.L "shortName"}}
+              th {{t $.L "website"}}
+              th {{t $.L "active"}}
+              th
+                | {{t $.L "team-shared-templates"}}
+                br
+                a.js-team-feature-all(href="#", data-feature="teamSharedTemplates", data-value="true", title="{{t $.L `select-all`}}") ☑
+                |  
+                a.js-team-feature-all(href="#", data-feature="teamSharedTemplates", data-value="false", title="{{t $.L `unselect-all`}}") ☐
+              th
+                | {{t $.L "team-propagate-members-to-boards"}}
+                br
+                a.js-team-feature-all(href="#", data-feature="teamPropagateMembersToBoards", data-value="true", title="{{t $.L `select-all`}}") ☑
+                |  
+                a.js-team-feature-all(href="#", data-feature="teamPropagateMembersToBoards", data-value="false", title="{{t $.L `unselect-all`}}") ☐
+              th
+                | {{t $.L "team-sync-members-from-auth"}}
+                br
+                a.js-team-feature-all(href="#", data-feature="teamSyncMembersFromAuth", data-value="true", title="{{t $.L `select-all`}}") ☑
+                |  
+                a.js-team-feature-all(href="#", data-feature="teamSyncMembersFromAuth", data-value="false", title="{{t $.L `unselect-all`}}") ☐
+          tbody
+            each g in .Teams
+              tr.js-team(data-id="{{.ID}}")
+                td
+                  a.edit-team(href="#", data-id="{{.ID}}")
+                    | ✎ {{t $.L "edit"}}
+                  template.js-pop-over-template(data-pop="edit-team-{{.ID}}", data-title="{{t $.L `edit`}}")
+                    form.js-edit-team(method="post", action="/admin/teams/{{.ID}}")
+                      label
+                        | {{t $.L "displayName"}}
+                        textarea.js-teamDisplayName(name="displayName", rows="2", required) {{.DisplayName}}
+                      label
+                        | {{t $.L "description"}}
+                        textarea.js-teamDesc(name="desc", rows="2") {{.Desc}}
+                      label
+                        | {{t $.L "shortName"}}
+                        input.js-teamShortName(type="text", name="shortName", value="{{.ShortName}}", required)
+                      label
+                        | {{t $.L "website"}}
+                        input.js-teamWebsite(type="text", name="website", value="{{.Website}}")
+                      label
+                        | {{t $.L "active-team"}}
+                        select.select-active.js-team-isactive(name="isActive")
+                          option(value="false") {{t $.L "no"}}
+                          if .IsActive
+                            option(value="true", selected) {{t $.L "yes"}}
+                          else
+                            option(value="true") {{t $.L "yes"}}
+                      .buttonsContainer
+                        input.primary.wide(type="submit", value="{{t $.L `save`}}")
+                td {{.DisplayName}}
+                td {{.Desc}}
+                td {{.ShortName}}
+                td {{.Website}}
+                td {{if .IsActive}}{{t $.L "yes"}}{{else}}{{t $.L "no"}}{{end}}
+                td.text-center
+                  if .SharedTemplates
+                    input.js-toggle-team-feature(type="checkbox", data-id="{{.ID}}", data-feature="teamSharedTemplates", checked)
+                  else
+                    input.js-toggle-team-feature(type="checkbox", data-id="{{.ID}}", data-feature="teamSharedTemplates")
+                td.text-center
+                  if .Propagate
+                    input.js-toggle-team-feature(type="checkbox", data-id="{{.ID}}", data-feature="teamPropagateMembersToBoards", checked)
+                  else
+                    input.js-toggle-team-feature(type="checkbox", data-id="{{.ID}}", data-feature="teamPropagateMembersToBoards")
+                td.text-center
+                  if .SyncFromAuth
+                    input.js-toggle-team-feature(type="checkbox", data-id="{{.ID}}", data-feature="teamSyncMembersFromAuth", checked)
+                  else
+                    input.js-toggle-team-feature(type="checkbox", data-id="{{.ID}}", data-feature="teamSyncMembersFromAuth")
+      else
+        p {{t $.L "people-number"}} {{len .Users}}
+        form.js-registration-form(method="post", action="/admin/registration")
+          if .RegistrationDisabled
+            input(type="hidden", name="disableRegistration", value="false")
+            button(type="submit") {{t $.L "registration"}}: {{t $.L "no"}}
+          else
+            input(type="hidden", name="disableRegistration", value="true")
+            button(type="submit") {{t $.L "registration"}}: {{t $.L "yes"}}
+        table.people-table
+          thead
+            tr
+              th {{t $.L "edit"}}
+              th {{t $.L "username"}}
+              th {{t $.L "fullname"}}
+              th {{t $.L "email"}}
+              th {{t $.L "admin"}}
+              th {{t $.L "active"}}
+          tbody
+            each p in .Users
+              tr.js-person(data-user="{{.ID}}")
+                td
+                  a.edit-user(href="#", data-user-id="{{.ID}}")
+                    i.fa.fa-pencil-square-o
+                    |  {{t $.L "edit"}}
+                  template.js-pop-over-template(data-pop="edit-user-{{.ID}}", data-title="{{t $.L `edit`}}")
+                    form.js-edit-user(method="post", action="/admin/people/{{.ID}}/edit")
+                      label
+                        | {{t $.L "username"}}
+                        input.js-profile-username(type="text", name="username", value="{{.Username}}", required)
+                      label
+                        | {{t $.L "fullname"}}
+                        textarea.js-profile-fullname(name="fullname", rows="2") {{.Profile.Fullname}}
+                      label
+                        | {{t $.L "initials"}}
+                        input.js-profile-initials(type="text", name="initials", value="{{.Profile.Initials}}", maxlength="8")
+                      label
+                        | {{t $.L "admin"}}
+                        select.select-role.js-profile-isadmin(name="isAdmin")
+                          option(value="false") {{t $.L "no"}}
+                          if .IsAdmin
+                            option(value="true", selected) {{t $.L "yes"}}
+                          else
+                            option(value="true") {{t $.L "yes"}}
+                      label
+                        | {{t $.L "email"}}
+                        input.js-profile-email(type="email", name="email", value="{{range .Emails}}{{.Address}}{{end}}")
+                      label
+                        | {{t $.L "active-person"}}
+                        select.select-active.js-profile-isactive(name="loginDisabled")
+                          option(value="false") {{t $.L "yes"}}
+                          if .LoginDisabled
+                            option(value="true", selected) {{t $.L "no"}}
+                          else
+                            option(value="true") {{t $.L "no"}}
+                      label
+                        | {{t $.L "password"}}
+                        input.js-profile-password(type="password", name="password", autocomplete="new-password")
+                      .buttonsContainer
+                        input.primary.wide(type="submit", value="{{t $.L `save`}}")
+                td.username {{.Username}}
+                td {{.Profile.Fullname}}
+                td
+                  each e in .Emails
+                    | {{.Address}}
+                td
+                  if ne .ID $.User.ID
+                    form(method="post", action="/admin/people/{{.ID}}")
+                      input(type="hidden", name="isAdmin", value="{{if .IsAdmin}}false{{else}}true{{end}}")
+                      button.js-toggle-admin(type="submit") {{if .IsAdmin}}{{t $.L "yes"}}{{else}}{{t $.L "no"}}{{end}}
+                  else
+                    | {{t $.L "yes"}}
+                td.account-active-status
+                  if ne .ID $.User.ID
+                    if .LoginDisabled
+                      span.text-red.js-toggle-active-status(data-user-id="{{.ID}}", data-is-active="false", title="{{t $.L `admin-people-user-inactive`}}", role="button", tabindex="0") ✕
+                    else
+                      span.text-green.js-toggle-active-status(data-user-id="{{.ID}}", data-is-active="true", title="{{t $.L `admin-people-user-active`}}", role="button", tabindex="0") ✓
+                  else
+                    | {{t $.L "yes"}}

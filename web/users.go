@@ -263,7 +263,9 @@ func (s *Server) peoplePage(w http.ResponseWriter, r *http.Request, u *User) {
 		errText = tr(lang, key)
 	}
 	s.render(w, r, "people", http.StatusOK, map[string]any{"Title": tr(lang, "people"), "User": u,
-		"Users": users, "RegistrationDisabled": set.DisableRegistration, "ErrorText": errText})
+		"Users": users, "RegistrationDisabled": set.DisableRegistration, "ErrorText": errText,
+		"Pane": map[string]string{"orgs": "orgs", "teams": "teams"}[r.URL.Query().Get("pane")],
+		"Orgs": s.groupRows(r.Context(), "org"), "Teams": s.groupRows(r.Context(), "team")})
 }
 
 func (s *Server) setPerson(w http.ResponseWriter, r *http.Request, u *User) {

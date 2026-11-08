@@ -254,6 +254,26 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.on('click', '#notifications-drawer .js-filter-unread', function (event) { event.preventDefault(); drawerShowRead(false); });
   up.on('click', '#notifications-drawer .js-view-all', function (event) { event.preventDefault(); drawerShowRead(true); });
   // #5171: a grouped row opens to show all of its card's or board's entries.
+  // Admin Panel / Organizations and Teams: new and edit pop-overs, and the
+  // feature columns - a row's box, or a column's select-all / unselect-all.
+  ['org', 'team'].forEach(function (kind) {
+    var K = kind.charAt(0).toUpperCase() + kind.slice(1);
+    up.on('click', '.new-' + kind, function (event) { event.preventDefault(); openPopOver('new-' + kind); });
+    up.on('click', '.edit-' + kind, function (event, link) {
+      event.preventDefault();
+      openPopOver('edit-' + kind + '-' + link.getAttribute('data-id'));
+    });
+    up.on('change', '.js-toggle-' + kind + '-feature', function (event, box) {
+      var f = box.getAttribute('data-feature');
+      Meteor.callAsync('set' + f.charAt(0).toUpperCase() + f.slice(1), { _id: box.getAttribute('data-id') }, box.checked)
+        .then(function () { up.reload('.setting-content'); });
+    });
+    up.on('click', '.js-' + kind + '-feature-all', function (event, link) {
+      event.preventDefault();
+      Meteor.callAsync('setAll' + K + 'sFeature', link.getAttribute('data-feature'), link.getAttribute('data-value') === 'true')
+        .then(function () { up.reload('.setting-content'); });
+    });
+  });
   // WeKan's passwordInput: show or hide the password; a button of its own,
   // so Space and Enter work it without sending the form.
   up.on('click', '.password-toggle-btn', function (event, btn) {

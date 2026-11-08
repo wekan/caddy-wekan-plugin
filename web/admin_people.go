@@ -18,6 +18,7 @@ import (
 func (s *Server) adminPeopleRoutes(m *http.ServeMux) {
 	m.HandleFunc("POST /admin/people/{user}/edit", s.page(s.editPerson))
 	m.HandleFunc("GET /people", s.page(s.peoplePage))
+	s.orgTeamAdminRoutes(m)
 }
 
 func (s *Server) editPerson(w http.ResponseWriter, r *http.Request, u *User) {

@@ -50,6 +50,7 @@ var securityCategories = map[string]securityCategory{
 	"authz.export-disabled":  {Category: "authz", Bleed: "CrossBoardExportBleed", Severity: "medium", CWE: "CWE-863", NeverBlocks: true},
 	"authz.admin-only-field": {Category: "authz", Bleed: "AdminFieldBleed", Severity: "high", CWE: "CWE-863"},
 	"authz.legacy-avatar":    {Category: "authz", Bleed: "RelicAvatarBleed", Severity: "high", CWE: "CWE-862"},
+	"auth-race.oidc":         {Category: "auth-race", Bleed: "OIDCBleed", Severity: "high", CWE: "CWE-362"},
 	"authz.manage-board":     {Category: "authz", Bleed: "ManageBoardBleed", Severity: "high", CWE: "CWE-863"},
 	// #6798: the same refusal reaches a read-only member working from a stale
 	// screen, so it is recorded but never disables the account.

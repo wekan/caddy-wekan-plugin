@@ -179,3 +179,84 @@ func TestUserOrgsTeamsFromLdap(t *testing.T) {
 		t.Errorf("as an organization: %v", u["orgs"])
 	}
 }
+
+func TestOrgTeamAdminPanes(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	boss := w.seedUser(t, "boss", "pw")
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": boss.ID}, bson.M{"$set": bson.M{"isAdmin": true}})
+	bob := w.seedUser(t, "bob", "pw")
+	ac, bc := w.client(t), w.client(t)
+	body(t, w.signIn(t, ac, "boss", "pw"))
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	post := func(c *http.Client, path string, v map[string][]string) string {
+		res, err := c.PostForm(w.srv.URL+path, v)
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+		return res.Header.Get("Location") + "|" + res.Status
+	}
+	form := func(name, short string) map[string][]string {
+		return map[string][]string{"displayName": {name}, "desc": {"d"}, "shortName": {short}, "website": {"https://x.example"}, "isActive": {"true"}}
+	}
+	if r := post(ac, "/admin/orgs", form("Org One", "one")); !strings.HasPrefix(r, "/admin/people?pane=orgs|") {
+		t.Fatalf("made: %s", r)
+	}
+	if r := post(ac, "/admin/orgs", form("Org Again", "one")); !strings.Contains(r, "error=orgname-already-taken") {
+		t.Errorf("negative: a short name taken: %s", r)
+	}
+	if r := post(bc, "/admin/orgs", form("Bob's", "bobs")); !strings.Contains(r, "404") {
+		t.Errorf("negative: a non-admin: %s", r)
+	}
+	var org bson.M
+	_ = w.db.Collection("org").FindOne(ctx, bson.M{"orgShortName": "one"}).Decode(&org)
+	id := org["_id"].(string)
+	if org["orgIsActive"] != true || org["orgWebsite"] != "https://x.example" {
+		t.Errorf("as given: %v", org)
+	}
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": bob.ID}, bson.M{"$set": bson.M{"orgs": bson.A{bson.M{"orgId": id, "orgDisplayName": "Org One"}}}})
+	if r := post(ac, "/admin/orgs/"+id, form("Org Renamed", "one")); !strings.HasPrefix(r, "/admin/people?pane=orgs|") {
+		t.Fatalf("edited: %s", r)
+	}
+	var u bson.M
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": bob.ID}).Decode(&u)
+	if !strings.Contains(canonical(u["orgs"]), `"orgDisplayName":"Org Renamed"`) {
+		t.Errorf("the member's list says the new name: %v", u["orgs"])
+	}
+	if _, page := get(t, ac, w.srv.URL+"/admin/people?pane=orgs"); !strings.Contains(page, "Org Renamed") || !strings.Contains(page, `data-pop="edit-org-`+id+`"`) ||
+		!strings.Contains(page, `class="js-toggle-org-feature"`) || !strings.Contains(page, `data-id="org-setting"`) {
+		t.Errorf("the Organizations pane: %.300s", page)
+	}
+	// The methods, and the OIDC-only ones refused and recorded.
+	call := func(c *http.Client, m, args string) map[string]any {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/"+m, strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := c.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return out
+	}
+	if out := call(ac, "setCreateTeam", `["Devs","d","devs","",true]`); out["error"] != nil {
+		t.Fatalf("setCreateTeam: %v", out)
+	}
+	if out := call(ac, "setCreateTeam", `["Devs 2","d","devs","",true]`); out["error"] != "teamname-already-taken" {
+		t.Errorf("negative: taken: %v", out)
+	}
+	if out := call(bc, "setCreateTeam", `["Bob team","d","bobteam","",true]`); out["error"] != nil {
+		t.Errorf("a non-admin: nothing, as WeKan's: %v", out)
+	}
+	if n, _ := w.db.Collection("team").CountDocuments(ctx, bson.M{"teamShortName": "bobteam"}); n != 0 {
+		t.Error("negative: nothing is made for a non-admin")
+	}
+	if out := call(bc, "setCreateOrgFromOidc", `["x","x","x","","",true]`); out["error"] != "not-authorized" {
+		t.Errorf("negative: an OIDC-only method from a client: %v", out)
+	}
+	if n, _ := w.db.Collection("eventlog").CountDocuments(ctx, bson.M{"bleed": "OIDCBleed"}); n != 1 {
+		t.Errorf("recorded as OIDCBleed: %d", n)
+	}
+}
