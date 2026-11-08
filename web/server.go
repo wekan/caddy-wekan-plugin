@@ -577,6 +577,10 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["CanExport"] = (m != nil && !m.AssignedOnly()) || (m == nil && b.Permission == "public")
 	lang := languageOf(r, u).Tag
 	data["WatchLevel"] = s.watchLevel(r.Context(), b.ID, u.ID)
+	if b.Writable(u, "write", nil) || (m != nil && b.Can(u.ID, "write")) {
+		data["BoardButtons"] = s.buttonRules(r.Context(), b.ID, "board")
+		data["CardButtons"] = s.buttonRules(r.Context(), b.ID, "card")
+	}
 	// sidebar.jade: the board's activities, for a board admin.
 	if b.AdminOf(u.ID) {
 		data["BoardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID}, lang, 50)

@@ -8,6 +8,11 @@
     else
       a.board-header-btn.js-star-board(href="#", title="{{t $.L `click-to-star`}}", data-star="{{t $.L `click-to-star`}}", data-unstar="{{t $.L `click-to-unstar`}}")
         i.fa.fa-star-o
+    //- WeKan's boardButtons: the board's button rules.
+    each btn in .BoardButtons
+      a.board-header-btn.js-run-board-button(href="#", data-rule-id="{{.ID}}", title="{{.Label}}")
+        i.fa.fa-magic
+        span {{.Label}}
     a.board-header-btn.js-watch-board(href="#", title="{{t $.L .WatchLevel}}")
       span.board-header-btn-label {{t $.L .WatchLevel}}
     a.board-header-btn.js-toggle-page-sidebar(href="#", title="{{t $.L `sidebar-open`}}", aria-label="{{t $.L `sidebar-open`}}") ☰
@@ -170,6 +175,17 @@
             span.card-member.js-member(data-user="{{.ID}}") {{.Username}}
           if $.CanEdit
             a.card-details-item-add-button.js-add-members(href="#", title="{{t $.L `add-members`}}", aria-label="{{t $.L `add-members`}}") +
+        //- WeKan's cardButtons: the board's card button rules.
+        if .CardButtons
+          .card-details-item.card-details-item-buttons
+            h3.card-details-item-title
+              i.fa.fa-hand-pointer-o
+              |  {{t $.L "r-card-button"}}
+            .card-details-item-content.card-buttons
+              each btn in .CardButtons
+                button.primary.js-run-card-button(type="button", data-rule-id="{{.ID}}")
+                  i.fa.fa-magic
+                  |  {{.Label}}
         //- WeKan's Requested By and Assigned By: free text, Edit or Add.
         each p in .People
           .card-details-item.card-details-item-name(class="card-details-item-{{.Label}}")

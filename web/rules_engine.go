@@ -661,21 +661,30 @@ func (s *Server) methodRunButton(r *http.Request, u *User, args []json.RawMessag
 	return true, nil
 }
 
-// boardButtonRules are the board's enabled button rules, for its header.
-func (s *Server) boardButtonRules(ctx context.Context, boardID string) []bson.M {
-	cur, err := s.db.Collection("triggers").Find(ctx, bson.M{"boardId": eq(boardID), "activityType": "button"},
-		options.Find().SetProjection(bson.M{"_id": 1}))
+// ruleButton is a button rule as the board shows it: WeKan's boardButtons
+// and cardButtons.
+type ruleButton struct{ ID, Label string }
+
+// buttonRules are the board's enabled button rules of a type, "board" or
+// "card", each labelled with its button label or its title.
+func (s *Server) buttonRules(ctx context.Context, boardID, buttonType string) []ruleButton {
+	cur, err := s.db.Collection("rules").Find(ctx, bson.M{"boardId": eq(boardID), "buttonType": eq(buttonType)},
+		options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}}))
 	if err != nil {
 		return nil
 	}
-	var ts []bson.M
-	_ = cur.All(ctx, &ts)
-	var out []bson.M
-	for _, t := range ts {
-		var r bson.M
-		if s.db.Collection("rules").FindOne(ctx, bson.M{"boardId": eq(boardID), "triggerId": eq(docString(t, "_id"))}).Decode(&r) == nil && r["enabled"] != false {
-			out = append(out, r)
+	var rules []bson.M
+	_ = cur.All(ctx, &rules)
+	var out []ruleButton
+	for _, r := range rules {
+		if r["enabled"] == false {
+			continue
 		}
+		label := docString(r, "buttonLabel")
+		if label == "" {
+			label = docString(r, "title")
+		}
+		out = append(out, ruleButton{ID: docString(r, "_id"), Label: label})
 	}
 	return out
 }

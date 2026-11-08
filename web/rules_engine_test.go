@@ -158,3 +158,40 @@ func TestRunButtonRule(t *testing.T) {
 		t.Fatalf("negative: no such rule: %v", out)
 	}
 }
+
+// WeKan's boardButtons and cardButtons: the button rules, for whoever may
+// change the board; a disabled one is not shown.
+func TestRuleButtonsShown(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ro := w.seedUser(t, "rob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Buttons")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": ro.ID, "isActive": true, "isReadOnly": true}}})
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "C")
+	addRule(t, w, b.ID, "rboard", bson.M{"activityType": "button"}, bson.M{"actionType": "archive"}, true)
+	addRule(t, w, b.ID, "rcard", bson.M{"activityType": "button"}, bson.M{"actionType": "archive"}, true)
+	addRule(t, w, b.ID, "rgone", bson.M{"activityType": "button"}, bson.M{"actionType": "archive"}, false)
+	for id, set := range map[string]bson.M{"rboard": {"buttonType": "board", "buttonLabel": "Do the thing"},
+		"rcard": {"buttonType": "card", "buttonLabel": "Card thing"}, "rgone": {"buttonType": "board", "buttonLabel": "Hidden"}} {
+		_, _ = w.db.Collection("rules").UpdateOne(ctx, bson.M{"_id": id}, bson.M{"$set": set})
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	cardURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/" + c.ID
+	_, html := get(t, ann, cardURL)
+	if !strings.Contains(html, "js-run-board-button") || !strings.Contains(html, "Do the thing") || !strings.Contains(html, "js-run-card-button") || !strings.Contains(html, "Card thing") {
+		t.Fatal("the board's and the card's buttons")
+	}
+	if strings.Contains(html, "Hidden") {
+		t.Fatal("negative: a disabled rule has no button")
+	}
+	rob := w.client(t)
+	body(t, w.signIn(t, rob, "rob", "pw"))
+	if _, html := get(t, rob, cardURL); strings.Contains(html, "js-run-board-button") || strings.Contains(html, "js-run-card-button") {
+		t.Fatal("negative: none for a read-only member")
+	}
+}

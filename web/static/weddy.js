@@ -186,6 +186,15 @@
     return function () { clearInterval(timer); };
   });
 
+  // A button rule: run it, on the board or on the open card (rules.runButton).
+  up.on('click', '.js-run-board-button, .js-run-card-button', function (event, el) {
+    event.preventDefault();
+    var args = ['rules.runButton', el.dataset.ruleId];
+    var details = el.closest('.js-card-details');
+    if (el.classList.contains('js-run-card-button') && details) args.push(details.dataset.card);
+    callAsync.apply(null, args).then(function () { up.reload('.board-wrapper'); }, function () {});
+  });
+
   // An invitation to the board: accept it, or decline it and go to All Boards.
   up.on('click', '.js-member-invite-accept', function (event, el) {
     event.preventDefault();
