@@ -136,6 +136,8 @@ var funcs = template.FuncMap{
 	"t":          tr,
 	// viewer is WeKan's +viewer: a text written in Markdown, shown safely.
 	"viewer": viewer,
+	// visibilityIcon is WeKan's: the lock, the users, or the globe.
+	"visibilityIcon": visibilityIcon,
 	// copula is WeKan's ruleTriggerCopula: the linking verb of a rule's trigger,
 	// none where the language's own phrase already holds it.
 	"copula": func(lang string) string {
@@ -244,6 +246,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/cards/{card}/title", s.page(s.cardTitlePage))
 	m.HandleFunc("POST /b/{board}/title", s.page(s.renameBoardPage))
 	m.HandleFunc("POST /b/{board}/restore", s.page(s.restoreBoardPage))
+	m.HandleFunc("POST /b/{board}/visibility", s.page(s.visibilityPage))
 	m.HandleFunc("POST /b/{board}/archive/restore", s.page(s.restoreArchivedPage))
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
 	m.HandleFunc("POST /b/{board}/swimlanes", s.page(s.addSwimlanePage))
@@ -578,10 +581,49 @@ func (s *Server) boardFor(ctx context.Context, id string, u *User) (*Board, erro
 	if err := s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&b); err != nil {
 		return nil, err
 	}
-	if !b.MemberOf(u.ID) && b.Permission != "public" {
+	// #3249: an instance board is read by every signed-in user - u is one -
+	// and a public board by anybody; changing either still needs membership.
+	if !b.MemberOf(u.ID) && b.Permission != "public" && b.Permission != "instance" {
 		return nil, mongo.ErrNoDocuments // not yours: as if it did not exist
 	}
 	return &b, nil
+}
+
+// visibilityIcon is WeKan's Board.visibilityIcon.
+func visibilityIcon(permission string) string {
+	switch permission {
+	case "public":
+		return "fa-globe"
+	case "instance":
+		return "fa-users"
+	}
+	return "fa-lock"
+}
+
+// visibilityPage is WeKan's boardChangeVisibilityPopup: a board admin makes
+// the board private, visible to signed-in users, or public - never open while
+// Admin Panel allows only private boards (refused and recorded).
+func (s *Server) visibilityPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil || !b.AdminOf(u.ID) {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	perm := r.FormValue("visibility")
+	if perm != "private" && perm != "instance" && perm != "public" {
+		http.Error(w, "private, instance or public", http.StatusBadRequest)
+		return
+	}
+	if s.boardPermission(r.Context(), perm, "boardChangeVisibility") != perm {
+		http.Error(w, "only private boards are allowed", http.StatusForbidden)
+		return
+	}
+	if _, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"permission": perm, "modifiedAt": time.Now().UTC()}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.hub.publish(b.ID, "board-changed")
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
 
 // lane is a swimlane with its lists, and each list with its cards in that lane.
@@ -674,6 +716,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["Archived"] = s.archivedItems(r, b)
 	data["CanInvite"] = canInviteToBoard(u, b, s.inviteRoles(r))
 	data["IsBoardAdmin"] = b.AdminOf(u.ID)
+	data["PrivateOnly"] = s.tableSetting(r.Context(), "tableVisibilityMode-allowPrivateOnly")
 	if b.Writable(u, "write", nil) || (m != nil && b.Can(u.ID, "write")) {
 		data["BoardButtons"] = s.buttonRules(r.Context(), b.ID, "board")
 		data["CardButtons"] = s.buttonRules(r.Context(), b.ID, "card")

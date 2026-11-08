@@ -112,3 +112,51 @@ func TestEveryBoardInsertIsChecked(t *testing.T) {
 		}
 	}
 }
+
+// #3249: an instance board is read by every signed-in user, changed only by
+// its members; its visibility changed only by a board admin, and never to an
+// open one while Admin Panel allows only private boards.
+func TestInstanceVisibility(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Shared")
+	l, _ := w.s.AddList(ctx, b, "L")
+	boardURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if _, html := get(t, ann, boardURL); !strings.Contains(html, "js-change-visibility") {
+		t.Fatal("the visibility button for the admin")
+	}
+	bob := w.client(t)
+	body(t, w.signIn(t, bob, "bob", "pw"))
+	if res, _ := get(t, bob, boardURL); res.StatusCode != http.StatusNotFound {
+		t.Fatalf("negative: a private board is not theirs: %d", res.StatusCode)
+	}
+	if r, _ := bob.PostForm(w.srv.URL+"/b/"+b.ID+"/visibility", url.Values{"visibility": {"instance"}}); r.StatusCode != http.StatusNotFound {
+		t.Fatalf("negative: only a board admin changes it: %d", r.StatusCode)
+	}
+	if r, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/visibility", url.Values{"visibility": {"instance"}}); r.StatusCode != http.StatusSeeOther {
+		t.Fatalf("made instance: %d", r.StatusCode)
+	}
+	if res, html := get(t, bob, boardURL); res.StatusCode != 200 || strings.Contains(html, "js-change-visibility") {
+		t.Fatalf("a signed-in user reads it, without the admin's button: %d", res.StatusCode)
+	}
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	bt := login(t, w, "bob")
+	if code := call(t, "POST", w.srv.URL+"/api/boards/"+b.ID+"/lists/"+l.ID+"/cards", bt, `{"title":"Not a member","swimlaneId":"`+sw.ID+`"}`, nil); code == 200 {
+		t.Fatal("negative: reading is all it grants")
+	}
+	if res, _ := get(t, w.client(t), boardURL); res.StatusCode == 200 {
+		t.Fatal("negative: never to somebody signed out")
+	}
+	_, _ = w.db.Collection("tableVisibilityModeSettings").InsertOne(ctx, bson.M{"_id": "tableVisibilityMode-allowPrivateOnly", "booleanValue": true})
+	if r, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/visibility", url.Values{"visibility": {"public"}}); r.StatusCode != http.StatusForbidden {
+		t.Fatalf("negative: no open board under the private-only policy: %d", r.StatusCode)
+	}
+	if r, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/visibility", url.Values{"visibility": {"everyone"}}); r.StatusCode != http.StatusBadRequest {
+		t.Fatalf("negative: only the three: %d", r.StatusCode)
+	}
+}

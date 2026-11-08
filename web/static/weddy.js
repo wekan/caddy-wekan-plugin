@@ -287,6 +287,10 @@
     openPopOver('card-archive');
   });
 
+  up.on('click', '.js-change-visibility', function (event) {
+    event.preventDefault();
+    openPopOver('visibility');
+  });
   up.on('click', '.js-edit-board-title', function (event) {
     event.preventDefault();
     openPopOver('board-title');

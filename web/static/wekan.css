@@ -102,6 +102,9 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 .fa-shopping-cart::before { content: "\1F6D2"; }
 .fa-magic::before { content: "\2728"; }
 .fa-hand-pointer-o::before { content: "\261D"; }
+.fa-lock::before { content: "\1F512"; }
+.fa-users::before { content: "\1F465"; }
+.fa-globe::before { content: "\1F310"; }
 .fa-star::before { content: "\2605"; }
 .fa-star-o::before { content: "\2606"; }
 .js-star-board.is-active { color: #f1c40f; }

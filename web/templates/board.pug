@@ -13,6 +13,11 @@
       a.board-header-btn.js-run-board-button(href="#", data-rule-id="{{.ID}}", title="{{.Label}}")
         i.fa.fa-magic
         span {{.Label}}
+    //- WeKan's visibility button: a board admin changes it.
+    if .IsBoardAdmin
+      a.board-header-btn.js-change-visibility(href="#", title="{{t $.L .Board.Permission}}")
+        i.fa(class="{{visibilityIcon .Board.Permission}}")
+        span.board-header-btn-label {{t $.L .Board.Permission}}
     a.board-header-btn.js-watch-board(href="#", title="{{t $.L .WatchLevel}}")
       span.board-header-btn-label {{t $.L .WatchLevel}}
     a.board-header-btn.js-toggle-page-sidebar(href="#", title="{{t $.L `sidebar-open`}}", aria-label="{{t $.L `sidebar-open`}}") ☰
@@ -157,6 +162,32 @@
                   button.js-restore(type="submit") {{t $.L "restore"}}
       else
         p.empty-message {{t $.L "no-archived-cards"}}
+  if .IsBoardAdmin
+    //- WeKan's boardVisibilityList.
+    template.js-pop-over-template(data-pop="visibility", data-title="{{t $.L `boardChangeVisibilityPopup-title`}}")
+      ul.pop-over-list.described-list
+        li
+          form(method="post", action="/b/{{.Board.ID}}/visibility")
+            input(type="hidden", name="visibility", value="private")
+            button.js-select-visibility(type="submit")
+              i.fa.fa-lock
+              |  {{t $.L "private"}}
+              span.sub-name {{t $.L "private-desc"}}
+        if not .PrivateOnly
+          li
+            form(method="post", action="/b/{{.Board.ID}}/visibility")
+              input(type="hidden", name="visibility", value="instance")
+              button.js-select-visibility(type="submit")
+                i.fa.fa-users
+                |  {{t $.L "instance"}}
+                span.sub-name {{t $.L "instance-desc"}}
+          li
+            form(method="post", action="/b/{{.Board.ID}}/visibility")
+              input(type="hidden", name="visibility", value="public")
+              button.js-select-visibility(type="submit")
+                i.fa.fa-globe
+                |  {{t $.L "public"}}
+                span.sub-name {{t $.L "public-desc"}}
   template.js-pop-over-template(data-pop="watch", data-title="{{t $.L `boardChangeWatchPopup-title`}}")
     .header
       span.header-title {{t $.L "boardChangeWatchPopup-title"}}
