@@ -342,3 +342,73 @@ func TestCardLabelsPopup(t *testing.T) {
 		t.Fatal("off the card")
 	}
 }
+
+// WeKan's moveCardPopup and copyCardPopup: a board the user may change, one
+// of its lists and swimlanes; a copy only of a card the user may copy.
+func TestMoveAndCopyCardPopups(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "From")
+	other, _ := w.s.CreateBoard(ctx, u, "To")
+	foreign, _ := w.s.CreateBoard(ctx, bob, "Foreign")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": bob.ID, "isActive": true, "isNormalAssignedOnly": true}}})
+	la, _ := w.s.AddList(ctx, b, "A")
+	lb, _ := w.s.AddList(ctx, b, "B")
+	lo, _ := w.s.AddList(ctx, other, "Other list")
+	lf, _ := w.s.AddList(ctx, foreign, "F")
+	sw := func(id string) string {
+		var x Swimlane
+		_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": id}).Decode(&x)
+		return x.ID
+	}
+	c, _ := w.s.AddCard(ctx, b, u, la.ID, sw(b.ID), "Alpha")
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if _, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID); !strings.Contains(html, "js-move-card") || !strings.Contains(html, ">1. A</option>") {
+		t.Fatal("Move and Copy, with the board's lists numbered")
+	}
+	post := func(cl *http.Client, verb string, v url.Values) int {
+		r, err := cl.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/"+verb, v)
+		if err != nil {
+			t.Fatal(err)
+		}
+		r.Body.Close()
+		return r.StatusCode
+	}
+	where := func(id string) Card {
+		var x Card
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": id}).Decode(&x)
+		return x
+	}
+	if code := post(ann, "move-to", url.Values{"boardId": {b.ID}, "listId": {lb.ID}, "swimlaneId": {sw(b.ID)}}); code != http.StatusSeeOther || where(c.ID).ListID != lb.ID {
+		t.Fatalf("moved within the board: %d", code)
+	}
+	if code := post(ann, "move-to", url.Values{"boardId": {foreign.ID}, "listId": {lf.ID}}); code != http.StatusForbidden {
+		t.Fatalf("negative: a board not theirs to change: %d", code)
+	}
+	if code := post(ann, "move-to", url.Values{"boardId": {other.ID}, "listId": {lb.ID}}); code != http.StatusBadRequest {
+		t.Fatalf("negative: a list of the destination board only: %d", code)
+	}
+	if code := post(ann, "copy-to", url.Values{"boardId": {other.ID}, "listId": {lo.ID}, "title": {"Alpha copy"}}); code != http.StatusSeeOther {
+		t.Fatalf("copied: %d", code)
+	}
+	if n, _ := w.db.Collection("cards").CountDocuments(ctx, bson.M{"boardId": other.ID, "title": "Alpha copy"}); n != 1 || where(c.ID).BoardID != b.ID {
+		t.Fatal("the copy on the other board, the original where it was")
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if code := post(bc, "copy-to", url.Values{"boardId": {foreign.ID}, "listId": {lf.ID}}); code != http.StatusForbidden {
+		t.Fatalf("negative: an assigned-only member copies only their own card: %d", code)
+	}
+	if code := post(bc, "move-to", url.Values{"boardId": {b.ID}, "listId": {la.ID}}); code != http.StatusForbidden {
+		t.Fatalf("negative: nor moves another's: %d", code)
+	}
+	if code := post(ann, "move-to", url.Values{"boardId": {other.ID}, "listId": {lo.ID}}); code != http.StatusSeeOther || where(c.ID).BoardID != other.ID {
+		t.Fatalf("moved to another board: %d", code)
+	}
+	if res, _ := get(t, ann, w.srv.URL+"/b/"+foreign.ID+"/places"); res.StatusCode != http.StatusNotFound {
+		t.Fatal("negative: no places of a board not theirs")
+	}
+}

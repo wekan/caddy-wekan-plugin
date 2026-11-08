@@ -306,6 +306,7 @@ func (s *Server) userRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /sign-up", s.signUpPage)
 	s.accountEmailRoutes(m)
 	s.memberRoutes(m)
+	s.cardMoveRoutes(m)
 	m.HandleFunc("POST /sign-up", s.signUp)
 	m.HandleFunc("GET /profile", s.page(s.profilePage))
 	m.HandleFunc("POST /profile", s.page(s.saveProfile))

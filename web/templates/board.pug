@@ -152,6 +152,38 @@
               label.card-label.palette-color.js-palette-color(class="card-label-{{.}}", title="{{.}}")
                 input(type="radio", name="color", value="{{.}}")
           button.primary.wide(type="submit") {{t $.L "create"}}
+      template.js-pop-over-template(data-pop="move-card", data-title="{{t $.L `moveCardPopup-title`}}")
+        form.js-card-target(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/move-to", up-submit, up-target=".board-wrapper", up-history="true")
+          label {{t $.L "boards"}}
+          select.js-select-boards(name="boardId")
+            each tb in .TargetBoards
+              option(value="{{.ID}}") {{.Title}}
+          label {{t $.L "swimlane"}}
+          select.js-select-swimlanes(name="swimlaneId")
+            each sw in .Swimlanes
+              option(value="{{.ID}}") {{.N}}. {{.Title}}
+          label {{t $.L "list"}}
+          select.js-select-lists(name="listId")
+            each li in .Lists
+              option(value="{{.ID}}") {{.N}}. {{.Title}}
+          button.primary.confirm.js-done(type="submit") {{t $.L "done"}}
+      template.js-pop-over-template(data-pop="copy-card", data-title="{{t $.L `copyCardPopup-title`}}")
+        form.js-card-target(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/copy-to", up-submit, up-target=".board-wrapper")
+          label(for="copy-card-title") {{t $.L "title"}}
+          textarea#copy-card-title(name="title", rows="2") {{.Card.Title}}
+          label {{t $.L "boards"}}
+          select.js-select-boards(name="boardId")
+            each tb in .TargetBoards
+              option(value="{{.ID}}") {{.Title}}
+          label {{t $.L "swimlane"}}
+          select.js-select-swimlanes(name="swimlaneId")
+            each sw in .Swimlanes
+              option(value="{{.ID}}") {{.N}}. {{.Title}}
+          label {{t $.L "list"}}
+          select.js-select-lists(name="listId")
+            each li in .Lists
+              option(value="{{.ID}}") {{.N}}. {{.Title}}
+          button.primary.confirm.js-done(type="submit") {{t $.L "done"}}
       //- WeKan's cardDetailsActionsPopup, and its cardArchivePopup.
       template.js-pop-over-template(data-pop="card-actions", data-title="{{t $.L `cardDetailsActionsPopup-title`}}")
         ul.pop-over-list
@@ -159,6 +191,14 @@
             a.js-copy-card-link(href="#", data-path="/b/{{.Board.ID}}/{{.Board.Slug}}/{{.Card.ID}}")
               i.fa.fa-link
               |  {{t $.L "copy-card-link-to-clipboard"}}
+          li
+            a.js-move-card(href="#")
+              i.fa.fa-arrow-right
+              |  {{t $.L "moveCardPopup-title"}}
+          li
+            a.js-copy-card(href="#")
+              i.fa.fa-copy
+              |  {{t $.L "copyCardPopup-title"}}
           li
             a.js-archive(href="#")
               i.fa.fa-archive

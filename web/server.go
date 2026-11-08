@@ -739,6 +739,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["Poker"] = s.cardPoker(r.Context(), b, u, c.ID, lang)
 			data["People"] = s.cardPeople(r.Context(), b, u, &c)
 			data["CardLabels"] = cardLabels(b, &c)
+			data["TargetBoards"] = s.targetBoards(r, u, b)
+			data["Lists"], data["Swimlanes"] = s.boardPlaces(r, b.ID)
 			data["LabelPalette"] = labelPalette
 			data["WatchingCard"] = slices.Contains(s.cardWatchers(r.Context(), c.ID), u.ID)
 			data["CanComment"] = u.IsAdmin || (b.Can(u.ID, "comment") && (!m.AssignedOnly() || slices.Contains(c.Assignees, u.ID)))

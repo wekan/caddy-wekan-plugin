@@ -282,6 +282,30 @@
     event.preventDefault();
     openPopOver('card-actions');
   });
+  up.on('click', '.js-pop-over a.js-move-card', function (event) {
+    event.preventDefault();
+    openPopOver('move-card');
+  });
+  up.on('click', '.js-pop-over a.js-copy-card', function (event) {
+    event.preventDefault();
+    openPopOver('copy-card');
+  });
+  // Another board chosen: its swimlanes and lists in the selects.
+  up.on('change', '.js-card-target .js-select-boards', function (event, sel) {
+    var form = sel.closest('form');
+    fetch('/b/' + sel.value + '/places', { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (p) {
+      [['swimlanes', '.js-select-swimlanes'], ['lists', '.js-select-lists']].forEach(function (k) {
+        var target = form.querySelector(k[1]);
+        target.innerHTML = '';
+        (p[k[0]] || []).forEach(function (o) {
+          var opt = document.createElement('option');
+          opt.value = o._id;
+          opt.textContent = o.n + '. ' + o.title;
+          target.appendChild(opt);
+        });
+      });
+    });
+  });
   up.on('click', '.js-pop-over a.js-archive', function (event) {
     event.preventDefault();
     openPopOver('card-archive');
