@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"errors"
 	"html"
 	"net/http"
 	"regexp"
@@ -150,12 +151,18 @@ func (s *Server) notify(ctx context.Context, actorID string, activity bson.M) {
 	if id == "" {
 		return
 	}
-	for _, uid := range s.notificationRecipients(ctx, actorID, activity) {
-		res, err := s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(uid), "profile.notifications.activity": bson.M{"$ne": id}},
-			bson.M{"$push": bson.M{"profile.notifications": bson.M{"activity": id, "read": nil}}})
-		if err == nil && res.ModifiedCount == 1 {
-			s.mailNotification(ctx, uid, activity)
-		}
+	// As stored: the intent's snapshot is the activity, byte for byte.
+	var stored bson.M
+	if s.db.Collection("activities").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&stored) != nil {
+		return
+	}
+	var dispatch any
+	if actorID != "" {
+		dispatch = actorID
+	}
+	s.captureIntent(ctx, plain(stored).(map[string]any), dispatch)
+	if err := s.deliverIntent(ctx, intentIDFor(id)); err != nil && !errors.Is(err, errLeaseBusy) {
+		s.log.Warn("activity notification left for recovery", "reason", err.Error())
 	}
 }
 
@@ -193,14 +200,14 @@ var tagPattern = regexp.MustCompile(`<[^>]*>`)
 // WeKan's "Activity Notification" subject, the drawer's sentence in their
 // language, without markup. It is sent in the background, so no request
 // waits for the mail server.
-func (s *Server) mailNotification(ctx context.Context, member string, activity bson.M) {
+func (s *Server) prepareEmailJob(ctx context.Context, member string, activity bson.M) map[string]any {
 	var u User
 	if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(member)}).Decode(&u) != nil || len(u.Emails) == 0 ||
 		!s.emailNotificationsOn(ctx, member, docString(activity, "boardId")) {
-		return
+		return nil
 	}
 	if _, err := s.mailSettings(ctx, "localhost"); err != nil {
-		return // no mail server: the drawer is all there is
+		return nil // no mail server: the drawer is all there is
 	}
 	lang := u.Profile.Language
 	if lang == "" {
@@ -208,26 +215,28 @@ func (s *Server) mailNotification(ctx context.Context, member string, activity b
 	}
 	item, ok := s.notificationHTML(ctx, &u, activity, lang)
 	if !ok {
-		return
+		return nil
 	}
 	text := html.UnescapeString(tagPattern.ReplaceAllString(string(item), ""))
-	// Into the outbox (mail_outbox.go), as WeKan's prepareActivityEmail:
-	// grouped and scheduled as the member, the board or Admin Panel says.
 	boardID, cardID, eventID := docString(activity, "boardId"), docString(activity, "cardId"), docString(activity, "_id")
+	nullable := func(v string) any {
+		if v == "" {
+			return nil
+		}
+		return v
+	}
+	// WeKan's prepareActivityEmail: the plan's e-mail job, grouped and
+	// scheduled as the member, the board or Admin Panel says.
+	job := map[string]any{"userId": member, "eventId": eventID, "subject": tr(lang, msg("act-activity-notify")), "html": string(item),
+		"language": lang, "boardId": nullable(boardID), "cardId": nullable(cardID), "text": text}
 	d := s.emailDeliveryFor(ctx, member, boardID)
-	job := emailJob{UserID: member, EventID: eventID, Subject: tr(lang, msg("act-activity-notify")), HTML: string(item),
-		Language: lang, CardID: cardID, BoardID: boardID, Text: &text}
 	if !d.GroupingFromDefault && d.Grouping != "all" {
-		k := emailGroupKey(d.Grouping, boardID, cardID, eventID)
-		job.GroupKey = &k
+		job["groupKey"] = emailGroupKey(d.Grouping, boardID, cardID, eventID)
 	}
 	if d.Schedule != "immediate" || d.QuietStart != "" {
-		at := nextDeliveryAt(time.Now().UTC(), d, emailDelay())
-		job.DeliverAt = &at
+		job["deliverAt"] = float64(nextDeliveryAt(time.Now().UTC(), d, emailDelay()).UnixMilli())
 	}
-	if err := s.enqueueEmail(ctx, job); err != nil {
-		s.log.Warn("notification mail not queued", "error", err)
-	}
+	return job
 }
 
 // unreadNotifications is how many of u's notifications are unread.

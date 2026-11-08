@@ -92,6 +92,7 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 	s.emailIndexes(context.Background())
 	s.stopMail = make(chan struct{})
 	go s.runEmailOutbox(s.stopMail)
+	go s.runActivityRecovery(s.stopMail)
 	return s, nil
 }
 
