@@ -58,6 +58,9 @@ func (s *Server) methods() map[string]methodFunc {
 	for k, v := range s.customFieldMethods() {
 		m[k] = v
 	}
+	for k, v := range s.orgTeamMethods() {
+		m[k] = v
+	}
 	return m
 }
 
