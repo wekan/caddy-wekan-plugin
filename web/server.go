@@ -247,6 +247,8 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/title", s.page(s.renameBoardPage))
 	m.HandleFunc("POST /b/{board}/restore", s.page(s.restoreBoardPage))
 	m.HandleFunc("POST /b/{board}/visibility", s.page(s.visibilityPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/labels/{label}", s.page(s.toggleCardLabelPage))
+	m.HandleFunc("POST /b/{board}/labels", s.page(s.createLabelPage))
 	m.HandleFunc("POST /b/{board}/archive/restore", s.page(s.restoreArchivedPage))
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
 	m.HandleFunc("POST /b/{board}/swimlanes", s.page(s.addSwimlanePage))
@@ -736,6 +738,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["Vote"] = s.cardVote(r.Context(), b, u, c.ID)
 			data["Poker"] = s.cardPoker(r.Context(), b, u, c.ID, lang)
 			data["People"] = s.cardPeople(r.Context(), b, u, &c)
+			data["CardLabels"] = cardLabels(b, &c)
+			data["LabelPalette"] = labelPalette
 			data["WatchingCard"] = slices.Contains(s.cardWatchers(r.Context(), c.ID), u.ID)
 			data["CanComment"] = u.IsAdmin || (b.Can(u.ID, "comment") && (!m.AssignedOnly() || slices.Contains(c.Assignees, u.ID)))
 		}

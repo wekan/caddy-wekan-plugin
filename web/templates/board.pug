@@ -131,6 +131,27 @@
       ul.pop-over-list.js-member-search-results
   if .Card
     if .CanEdit
+      //- WeKan's cardLabelsPopup: each label of the board, on the card or off.
+      template.js-pop-over-template(data-pop="card-labels", data-title="{{t $.L `cardLabelsPopup-title`}}")
+        ul.edit-labels-pop-over
+          each lb in .CardLabels
+            li.js-card-label-item
+              form(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/labels/{{.ID}}", up-submit, up-target=".board-wrapper")
+                button.card-label.card-label-selectable.js-select-label(type="submit", class="card-label-{{.Color}}{{if .Selected}} active{{end}}") {{.Name}}{{if .Selected}} ✓{{end}}
+        if .IsBoardAdmin
+          a.quiet-button.full.js-add-label(href="#") {{t $.L "createLabelPopup-title"}}
+      //- WeKan's createLabelPopup: a name and a color.
+      template.js-pop-over-template(data-pop="create-label", data-title="{{t $.L `createLabelPopup-title`}}")
+        form.create-label(method="post", action="/b/{{.Board.ID}}/labels", up-submit, up-target=".board-wrapper")
+          input(type="hidden", name="card", value="{{.Card.ID}}")
+          label(for="labelName") {{t $.L "name"}}
+          textarea.js-label-name#labelName(rows="2", name="name")
+          label {{t $.L "select-color"}}
+          .palette-colors
+            each col in .LabelPalette
+              label.card-label.palette-color.js-palette-color(class="card-label-{{.}}", title="{{.}}")
+                input(type="radio", name="color", value="{{.}}")
+          button.primary.wide(type="submit") {{t $.L "create"}}
       //- WeKan's cardDetailsActionsPopup, and its cardArchivePopup.
       template.js-pop-over-template(data-pop="card-actions", data-title="{{t $.L `cardDetailsActionsPopup-title`}}")
         ul.pop-over-list
@@ -314,6 +335,14 @@
             span.card-member.js-member(data-user="{{.ID}}") {{.Username}}
           if $.CanEdit
             a.card-details-item-add-button.js-add-members(href="#", title="{{t $.L `add-members`}}", aria-label="{{t $.L `add-members`}}") +
+        //- WeKan's card labels, and the + that opens cardLabelsPopup.
+        .card-details-item.card-details-item-labels
+          h3.card-details-item-title {{t $.L "labels"}}
+          each lb in .CardLabels
+            if .Selected
+              span.card-label(class="card-label-{{.Color}}") {{.Name}}
+          if $.CanEdit
+            a.card-details-item-add-button.js-add-labels(href="#", title="{{t $.L `cardLabelsPopup-title`}}", aria-label="{{t $.L `cardLabelsPopup-title`}}") +
         //- WeKan's cardButtons: the board's card button rules.
         if .CardButtons
           .card-details-item.card-details-item-buttons

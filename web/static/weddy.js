@@ -287,6 +287,20 @@
     openPopOver('card-archive');
   });
 
+  // The card's labels (cardLabelsPopup) and a new one (createLabelPopup).
+  up.on('click', '.js-add-labels', function (event) {
+    event.preventDefault();
+    openPopOver('card-labels');
+  });
+  up.on('click', '.js-pop-over .js-add-label', function (event) {
+    event.preventDefault();
+    openPopOver('create-label');
+  });
+  up.on('click', '.js-palette-color', function (event, el) {
+    var radio = el.querySelector('input');
+    if (radio) radio.checked = true;
+    el.parentNode.querySelectorAll('.js-palette-color').forEach(function (p) { p.classList.toggle('is-selected', p === el); });
+  });
   up.on('click', '.js-change-visibility', function (event) {
     event.preventDefault();
     openPopOver('visibility');

@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 	"testing"
 
@@ -279,5 +280,65 @@ func TestCardTitleAndMaximized(t *testing.T) {
 	}
 	if _, html := get(t, rob, cardURL); strings.Contains(html, "card-details-maximized") {
 		t.Fatal("negative: one user's choice, not another's")
+	}
+}
+
+// WeKan's card labels: a board label on the card or off by whoever may change
+// it, a new label by a board admin only, in one of WeKan's colors.
+func TestCardLabelsPopup(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Labels")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": bob.ID, "isActive": true, "isReadOnly": true}}})
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "C")
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if r, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/labels", url.Values{"name": {"Seeded"}, "color": {"sky"}, "card": {c.ID}}); r.StatusCode != http.StatusSeeOther {
+		t.Fatalf("a label: %d", r.StatusCode)
+	}
+	var nb Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&nb)
+	var label string
+	for _, x := range nb.Labels {
+		if x.Name == "Seeded" && x.Color == "sky" {
+			label = x.ID
+		}
+	}
+	if label == "" {
+		t.Fatal("the label is on the board")
+	}
+	if r, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/labels", url.Values{"name": {"x"}, "color": {"chartreuse"}}); r.StatusCode != http.StatusBadRequest {
+		t.Fatal("negative: only WeKan's colors")
+	}
+	toggle := w.srv.URL + "/b/" + b.ID + "/cards/" + c.ID + "/labels/" + label
+	if r, _ := ann.PostForm(toggle, nil); r.StatusCode != http.StatusSeeOther {
+		t.Fatalf("on the card: %d", r.StatusCode)
+	}
+	if _, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID); !strings.Contains(html, `class="card-label card-label-sky">Seeded`) {
+		t.Fatal("the card shows it")
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if r, _ := bc.PostForm(toggle, nil); r.StatusCode != http.StatusForbidden {
+		t.Fatalf("negative: a read-only member: %d", r.StatusCode)
+	}
+	if r, _ := bc.PostForm(w.srv.URL+"/b/"+b.ID+"/labels", url.Values{"name": {"Mine"}}); r.StatusCode != http.StatusNotFound {
+		t.Fatalf("negative: only an admin makes labels: %d", r.StatusCode)
+	}
+	if r, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/labels/notalabel", nil); r.StatusCode != http.StatusNotFound {
+		t.Fatal("negative: a label of the board only")
+	}
+	if r, _ := ann.PostForm(toggle, nil); r.StatusCode != http.StatusSeeOther {
+		t.Fatal("off again")
+	}
+	var got Card
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&got)
+	if slices.Contains(got.LabelIDs, label) {
+		t.Fatal("off the card")
 	}
 }

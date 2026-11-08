@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -614,4 +615,86 @@ func (s *Server) apiCardMember(field string, add bool) apiHandler {
 		s.hub.publish(b.ID, "board-changed")
 		writeJSON(w, http.StatusOK, map[string]any{"_id": c.ID, "members": nonNil(now.Members), "assignees": nonNil(now.Assignees)})
 	}
+}
+
+// labelPalette is WeKan's label colors in its order, for the color picker.
+var labelPalette = []string{"green", "yellow", "orange", "red", "purple", "blue", "sky", "lime", "pink", "black", "silver",
+	"peachpuff", "crimson", "plum", "darkgreen", "slateblue", "magenta", "gold", "navy", "gray", "saddlebrown",
+	"paleturquoise", "mistyrose", "indigo"}
+
+// cardLabel is a board label as a card's labels pop-over shows it.
+type cardLabel struct {
+	Label
+	Selected bool
+}
+
+func cardLabels(b *Board, c *Card) []cardLabel {
+	out := make([]cardLabel, 0, len(b.Labels))
+	for _, l := range b.Labels {
+		out = append(out, cardLabel{Label: l, Selected: slices.Contains(c.LabelIDs, l.ID)})
+	}
+	return out
+}
+
+// toggleCardLabelPage is cardLabelsPopup's click: a label of the board on the
+// card or off it, by whoever may change the card.
+func (s *Server) toggleCardLabelPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	id, label := r.PathValue("card"), r.PathValue("label")
+	var c Card
+	if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c) != nil ||
+		!slices.ContainsFunc(b.Labels, func(l Label) bool { return l.ID == label }) {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	if !b.Writable(u, "write", &c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	update, kind := bson.M{"$addToSet": bson.M{"labelIds": label}}, "addedLabel"
+	if slices.Contains(c.LabelIDs, label) {
+		update, kind = bson.M{"$pull": bson.M{"labelIds": label}}, "removedLabel"
+	}
+	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.activity(r.Context(), u.ID, kind, bson.M{"boardId": b.ID, "cardId": c.ID, "labelId": label, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
+	s.hub.publish(b.ID, "board-changed")
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
+}
+
+// createLabelPage is WeKan's createLabelPopup: a board admin adds a label
+// (#5819) - a name and one of WeKan's colors - and is back on the card.
+func (s *Server) createLabelPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil || !b.AdminOf(u.ID) {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	name, color := strings.TrimSpace(r.FormValue("name")), r.FormValue("color")
+	if color == "" {
+		color = "green"
+	}
+	if len(name) > 200 || !labelColors[color] {
+		http.Error(w, "a label needs one of WeKan's colors", http.StatusBadRequest)
+		return
+	}
+	if !slices.ContainsFunc(b.Labels, func(l Label) bool { return l.Name == name && l.Color == color }) {
+		l := Label{ID: randomString(idAlphabet, 6), Name: name, Color: color}
+		if _, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"labels": l}}); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		s.hub.publish(b.ID, "board-changed")
+	}
+	back := "/b/" + b.ID + "/" + b.Slug
+	if card := r.FormValue("card"); validID(card) {
+		back += "/" + card
+	}
+	http.Redirect(w, r, back, http.StatusSeeOther)
 }
