@@ -453,3 +453,73 @@ func TestInvitationAcceptDeclineAndForgery(t *testing.T) {
 	}
 	_ = u
 }
+
+// #2445: an account with no address saves its first one from Edit Profile -
+// only while Admin Panel allows it, and only its own.
+func TestProfileEmail(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	other := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": u.ID}, bson.M{"$unset": bson.M{"emails": ""}})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	_, html := get(t, ann, w.srv.URL+"/")
+	if i := strings.Index(html, "js-profile-email"); !strings.Contains(html, "js-edit-profile") || i < 0 || !strings.Contains(html[i:i+120], "readonly") {
+		t.Fatal("Edit Profile, its address read-only while Admin Panel does not allow a change")
+	}
+	save := func(email string) {
+		res, err := ann.PostForm(w.srv.URL+"/profile", url.Values{"fullname": {"Ann"}, "initials": {"A"}, "email": {email}})
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+	}
+	first := func() string {
+		var d User
+		_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": u.ID}).Decode(&d)
+		if len(d.Emails) == 0 {
+			return ""
+		}
+		return d.Emails[0].Address
+	}
+	save("first@example.invalid")
+	if first() != "" {
+		t.Fatal("negative: not while Admin Panel does not allow it")
+	}
+	// It exists from the start, as WeKan makes it, so an update turns it on.
+	if res, _ := w.db.Collection("accountSettings").UpdateOne(ctx, bson.M{"_id": "accounts-allowEmailChange"}, bson.M{"$set": bson.M{"booleanValue": true}}); res.MatchedCount != 1 {
+		t.Fatal("accounts-allowEmailChange exists from the start")
+	}
+	if _, html := get(t, ann, w.srv.URL+"/"); !strings.Contains(html, `name="email"`) {
+		t.Fatal("editable when allowed")
+	}
+	save("first@example.invalid")
+	var d User
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": u.ID}).Decode(&d)
+	if first() != "first@example.invalid" || d.Emails[0].Verified {
+		t.Fatalf("the first address, unverified: %+v", d.Emails)
+	}
+	call := func(args string) map[string]any {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/setEmail", strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := ann.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return out
+	}
+	if out := call(`["cross@example.invalid","` + other.ID + `"]`); out["error"] != "not-authorized" {
+		t.Fatalf("negative: another user's address: %v", out)
+	}
+	if out := call(`["bob@example.invalid","` + u.ID + `"]`); out["error"] != "email-already-taken" {
+		t.Fatalf("negative: somebody else's address: %v", out)
+	}
+	_, _ = w.db.Collection("accountSettings").UpdateOne(ctx, bson.M{"_id": "accounts-allowEmailChange"}, bson.M{"$set": bson.M{"booleanValue": false}})
+	if out := call(`["off@example.invalid","` + u.ID + `"]`); out["error"] != "not-authorized" {
+		t.Fatalf("negative: not once Admin Panel turns it off: %v", out)
+	}
+}

@@ -41,6 +41,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"acceptInvite":          s.methodAcceptInvite,
 		"quitBoard":             s.methodQuitBoard,
 		"/users/update":         s.methodUpdateUser,
+		"setEmail":              s.methodSetEmail,
 	}
 }
 
@@ -484,4 +485,17 @@ func (s *Server) methodInsertComment(r *http.Request, u *User, args []json.RawMe
 		return nil, &methodError{"Match.Error", err.Error()}
 	}
 	return id, nil
+}
+
+// methodSetEmail is WeKan's setEmail(email, userId).
+func (s *Server) methodSetEmail(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	email, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	userID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	return nil, s.setEmail(r.Context(), u, userID, email)
 }

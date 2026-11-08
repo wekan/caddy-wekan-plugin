@@ -72,6 +72,15 @@
     var input = p.querySelector('.swimlane-name-input');
     if (input) input.focus();
   });
+  // The header's member menu, and its Edit Profile (userHeader.jade).
+  up.on('click', '.js-open-header-member-menu', function (event) {
+    event.preventDefault();
+    openPopOver('member-menu');
+  });
+  up.on('click', '.js-edit-profile', function (event) {
+    event.preventDefault();
+    openPopOver('edit-profile');
+  });
   up.on('click', '.js-add-members', function (event) {
     event.preventDefault();
     openPopOver('card-members');

@@ -94,6 +94,18 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 // Admin Panel and WeKan's tools always find it. Mail is off until set; its
 // sender is left to Admin Panel, as Weddy serves more than one domain.
 func (s *Server) ensureSettings(ctx context.Context) error {
+	// WeKan's collectionBootstrap.js: Admin Panel's account switches, off until
+	// an admin turns them on - an existing one is never changed.
+	for i, id := range []string{"accounts-allowEmailChange", "accounts-allowUserNameChange", "accounts-allowUserDelete"} {
+		sort := 0
+		if i == 1 {
+			sort = 1
+		}
+		if _, err := s.db.Collection("accountSettings").UpdateOne(ctx, bson.M{"_id": eq(id)},
+			bson.M{"$setOnInsert": bson.M{"booleanValue": false, "sort": sort}}, options.UpdateOne().SetUpsert(true)); err != nil {
+			return err
+		}
+	}
 	if n, err := s.db.Collection("settings").CountDocuments(ctx, bson.M{}); err != nil || n > 0 {
 		return err
 	}
@@ -173,6 +185,11 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 		data["Unread"] = s.unreadNotifications(r.Context(), u.ID)
 		data["CloudMenu"] = s.cloudOn() && u.IsAdmin
 		data["PanelMenu"] = s.panelAllowed(r, u)
+		data["AllowEmailChange"] = s.accountSetting(r.Context(), "accounts-allowEmailChange")
+		data["Email"] = ""
+		if len(u.Emails) > 0 {
+			data["Email"] = u.Emails[0].Address
+		}
 	}
 	t := s.pages[page]
 	if t == nil {

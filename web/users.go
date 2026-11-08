@@ -8,6 +8,7 @@ import (
 	"context"
 	"errors"
 	"net/http"
+	"net/url"
 	"regexp"
 	"strings"
 	"time"
@@ -172,6 +173,22 @@ func (s *Server) saveProfile(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	// Edit Profile's address, when Admin Panel lets a user change it.
+	current := ""
+	if len(u.Emails) > 0 {
+		current = u.Emails[0].Address
+	}
+	if email := strings.TrimSpace(r.FormValue("email")); r.Form.Has("email") && email != current {
+		if err := s.setEmail(r.Context(), u, u.ID, email); err != nil {
+			var me *methodError
+			if errors.As(err, &me) {
+				http.Redirect(w, r, "/profile?error="+url.QueryEscape(me.Code), http.StatusSeeOther)
+				return
+			}
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
 	http.Redirect(w, r, "/profile?saved=profile", http.StatusSeeOther)
 }
 
@@ -295,4 +312,36 @@ func (s *Server) userRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /admin/people", s.page(s.peoplePage))
 	m.HandleFunc("POST /admin/people/{user}", s.page(s.setPerson))
 	m.HandleFunc("POST /admin/registration", s.page(s.setRegistration))
+}
+
+// accountSetting is one of Admin Panel's accountSettings switches.
+func (s *Server) accountSetting(ctx context.Context, id string) bool {
+	var doc struct {
+		On bool `bson:"booleanValue"`
+	}
+	_ = s.db.Collection("accountSettings").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&doc)
+	return doc.On
+}
+
+// setEmail is WeKan's: a site admin sets anybody's address, a user their own
+// only while Admin Panel allows it (accounts-allowEmailChange). The address
+// is new, unverified, and nobody else's.
+func (s *Server) setEmail(ctx context.Context, actor *User, userID, email string) error {
+	email = strings.TrimSpace(email)
+	if strings.Contains(userID, "/") || strings.Contains(email, "/") {
+		return &methodError{"not-authorized", "not-authorized"}
+	}
+	if !actor.IsAdmin && (actor.ID != userID || !s.accountSetting(ctx, "accounts-allowEmailChange")) {
+		return &methodError{"not-authorized", "not-authorized"}
+	}
+	if !email_.MatchString(email) || len(email) > 254 || !validID(userID) {
+		return &methodError{"Match.Error", "an e-mail address is needed"}
+	}
+	if s.db.Collection("users").FindOne(ctx, bson.M{"emails.address": eq(strings.ToLower(email))}).Err() == nil ||
+		s.db.Collection("users").FindOne(ctx, bson.M{"emails.address": eq(email)}).Err() == nil {
+		return &methodError{"email-already-taken", "email-already-taken"}
+	}
+	_, err := s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(userID)},
+		bson.M{"$set": bson.M{"emails": bson.A{bson.M{"address": email, "verified": false}}}})
+	return err
 }

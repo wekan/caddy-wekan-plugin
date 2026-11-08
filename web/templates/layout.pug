@@ -24,6 +24,51 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
           a.notifications-drawer-toggle.js-toggle-notifications-drawer(href="#", class="{{if .Unread}}alert{{end}}", title="{{t $.L `notifications`}}", aria-label="{{t $.L `notifications`}}", data-unread="{{.Unread}}") 🔔
             span.notifications-count {{if .Unread}}{{.Unread}}{{end}}
         a.header-user.js-open-header-member-menu(href="/profile") {{memberName .User}}
+        //- WeKan's memberMenuPopup: what Weddy has of it.
+        template.js-pop-over-template(data-pop="member-menu", data-title="{{t $.L `memberMenuPopup-title`}}")
+          ul.pop-over-list
+            li
+              a(href="/", up-follow)
+                i.fa.fa-home
+                |  {{t $.L "all-boards"}}
+            if .User.IsAdmin
+              li
+                a.js-go-setting(href="/admin/people")
+                  i.fa.fa-lock
+                  |  {{t $.L "admin-panel"}}
+            hr
+            li
+              a.js-edit-profile(href="#")
+                i.fa.fa-user
+                |  {{t $.L "edit-profile"}}
+            li
+              a.js-change-password(href="/profile")
+                i.fa.fa-key
+                |  {{t $.L "changePasswordPopup-title"}}
+            li
+              a.js-change-language(href="/language")
+                i.fa.fa-globe
+                |  {{t $.L "changeLanguagePopup-title"}}
+        //- WeKan's editProfilePopup.
+        template.js-pop-over-template(data-pop="edit-profile", data-title="{{t $.L `editProfilePopup-title`}}")
+          form.js-edit-profile-form(method="post", action="/profile")
+            label
+              | {{t $.L "fullname"}}
+              textarea.js-profile-fullname(name="fullname", rows="2") {{.User.Profile.Fullname}}
+            label
+              | {{t $.L "username"}}
+              input.js-profile-username(type="text", value="{{.User.Username}}", readonly)
+            label
+              | {{t $.L "initials"}}
+              input.js-profile-initials(type="text", name="initials", value="{{.User.Profile.Initials}}", maxlength="8")
+            label
+              | {{t $.L "email"}}
+              if .AllowEmailChange
+                input.js-profile-email(type="email", name="email", value="{{.Email}}")
+              else
+                input.js-profile-email(type="email", value="{{.Email}}", readonly)
+            .buttonsContainer
+              input.primary.wide(type="submit", value="{{t $.L `save`}}")
         form.js-logout(method="post", action="/logout")
           button.js-logout-button(type="submit") {{t $.L "log-out"}}
     main#content
