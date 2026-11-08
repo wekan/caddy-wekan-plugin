@@ -47,6 +47,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"rules.deleteRule":                s.methodDeleteRule,
 		"rules.setEnabled":                s.methodSetRuleEnabled,
 		"toggleCardMaximized":             s.methodToggleCardMaximized,
+		"archiveSelectedCards":            s.methodArchiveSelectedCards,
 		"createBoardWithInitialSwimlanes": s.methodCreateBoardWithInitialSwimlanes,
 	}
 }
@@ -512,4 +513,58 @@ func (s *Server) methodToggleCardMaximized(r *http.Request, u *User, args []json
 	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
 		bson.M{"$set": bson.M{"profile.cardMaximized": !u.Profile.CardMaximized}})
 	return nil, err
+}
+
+// methodArchiveSelectedCards is WeKan's archiveSelectedCards(boardId, cardIds):
+// a Multi-Selection to the Archive, by whoever may change the board - every
+// card of the board and open, and, for an assigned-only member, every card
+// assigned to them (GHSA-6xqf-jh8x-4wxc, UnassignedArchiveBleed). The whole
+// selection is checked before the first card is archived.
+func (s *Server) methodArchiveSelectedCards(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	var ids []string
+	if len(args) < 2 || json.Unmarshal(args[1], &ids) != nil {
+		return nil, &methodError{"Match.Error", "Expected [String]"}
+	}
+	ids = slices.Compact(slices.Sorted(slices.Values(ids)))
+	if len(ids) == 0 || len(ids) > 5000 {
+		return nil, &methodError{"invalid-card-selection", "invalid-card-selection"}
+	}
+	ctx := r.Context()
+	var b Board
+	if !validID(boardID) || s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) != nil || !b.Can(u.ID, "write") {
+		return nil, &methodError{"not-authorized", "not-authorized"}
+	}
+	in, ok := inIDs(ids)
+	if !ok {
+		return nil, &methodError{"invalid-card-selection", "invalid-card-selection"}
+	}
+	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"_id": in, "boardId": b.ID, "archived": false})
+	if err != nil {
+		return nil, err
+	}
+	var cards []Card
+	_ = cur.All(ctx, &cards)
+	if len(cards) != len(ids) {
+		return nil, &methodError{"invalid-card-selection", "invalid-card-selection"}
+	}
+	for i := range cards {
+		if !b.Writable(u, "write", &cards[i]) {
+			s.recordSecurity(r, securityEvent{Key: "authz.assigned-card-write", Action: "blocked", Source: "method:archiveSelectedCards", UserID: u.ID,
+				Detail: "Assigned-only member changed a card not assigned to them."})
+			return nil, &methodError{"not-authorized", "not-authorized"}
+		}
+	}
+	now := time.Now().UTC()
+	for _, c := range cards {
+		if _, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"archived": true, "archivedAt": now, "modifiedAt": now}}); err != nil {
+			return nil, err
+		}
+		s.activity(ctx, u.ID, "archivedCard", bson.M{"boardId": b.ID, "cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID, "cardTitle": c.Title})
+	}
+	s.hub.publish(b.ID, "board-changed")
+	return map[string]int{"archived": len(cards)}, nil
 }

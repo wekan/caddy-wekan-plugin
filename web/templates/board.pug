@@ -18,6 +18,9 @@
       a.board-header-btn.js-change-visibility(href="#", title="{{t $.L .Board.Permission}}")
         i.fa(class="{{visibilityIcon .Board.Permission}}")
         span.board-header-btn-label {{t $.L .Board.Permission}}
+    //- WeKan's Multi-Selection: select cards, then act on all of them.
+    if .CanEdit
+      a.board-header-btn.js-multiselection-activate(href="#", title="{{t $.L `multi-selection`}}", aria-label="{{t $.L `multi-selection`}}") ☑
     a.board-header-btn.js-watch-board(href="#", title="{{t $.L .WatchLevel}}")
       span.board-header-btn-label {{t $.L .WatchLevel}}
     a.board-header-btn.js-toggle-page-sidebar(href="#", title="{{t $.L `sidebar-open`}}", aria-label="{{t $.L `sidebar-open`}}") ☰
@@ -33,6 +36,13 @@
           button.js-member-invite-accept.primary(type="button") {{t $.L "accept"}}
           button.js-member-invite-decline(type="button") {{t $.L "decline"}}
         hr
+      //- WeKan's multiselectionSidebar: what to do with the selected cards.
+      if .CanEdit
+        .multiselection-sidebar.js-multiselection-view.is-hidden
+          h3 {{t $.L "multi-selection-on"}}
+          ul.pop-over-list
+            li
+              a.js-archive-selection(href="#") {{t $.L "archive-selection"}}
       //- WeKan's archivesSidebar: the board's Archive, opened from Board Settings.
       .archives-sidebar.js-archives-view.is-hidden
         h3 {{t $.L "archives"}}
@@ -266,6 +276,8 @@
         li
           a.js-add-card.list-header-plus-bottom(href="#")
             | ↓ {{t $.L "add-card-to-bottom-of-list"}}
+        li
+          a.js-select-cards(href="#") {{t $.L "list-select-cards"}}
   template.js-pop-over-template(data-pop="watch", data-title="{{t $.L `boardChangeWatchPopup-title`}}")
     .header
       span.header-title {{t $.L "boardChangeWatchPopup-title"}}

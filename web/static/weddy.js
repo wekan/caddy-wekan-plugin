@@ -8,8 +8,12 @@
   var dragging = 0;   // drags in progress, over all pointers
   var stale = false;  // the board changed during a drag: reload when the last ends
 
+  var staleUnderPopOver = false; // the board changed while a pop-over was open
   function reloadBoard() {
     if (dragging > 0) { stale = true; return; }
+    // An open pop-over is not swept away by somebody else's change: the board
+    // catches up when it closes.
+    if (document.querySelector('.js-pop-over')) { staleUnderPopOver = true; return; }
     // A change of this page's own - a form still on its way - is announced
     // before its answer arrives: reload after it, or the older page wins.
     if (up.network.isBusy()) { setTimeout(reloadBoard, 150); return; }
@@ -30,7 +34,12 @@
   // As in WeKan, there is one pop-over at a time: opening one makes it from
   // its <template>, closing it takes it away.
   function closePopOvers() {
+    var had = document.querySelector('.js-pop-over');
     document.querySelectorAll('.js-pop-over').forEach(function (p) { p.remove(); });
+    if (had && staleUnderPopOver) {
+      staleUnderPopOver = false;
+      setTimeout(reloadBoard, 0);
+    }
   }
   function openPopOver(name) {
     closePopOvers();
@@ -104,8 +113,16 @@
     openPopOver('card-members');
   });
   // A choice in a pop-over is done when the board has reloaded with it.
+  // ... and only a choice made in it: an update the page was already waiting
+  // for when the pop-over opened leaves it open.
+  var closeAfterChoice = false;
+  up.on('up:form:submit', '.js-pop-over form', function () { closeAfterChoice = true; });
+  up.on('submit', '.js-pop-over form', function () { closeAfterChoice = true; });
   up.on('up:fragment:inserted', function (event, el) {
-    if (el && el.matches && el.matches('.board-wrapper')) closePopOvers();
+    if (closeAfterChoice && el && el.matches && el.matches('.board-wrapper')) {
+      closeAfterChoice = false;
+      closePopOvers();
+    }
   });
   up.on('click', '.js-close-pop-over', function (event) {
     event.preventDefault();
@@ -462,6 +479,48 @@
     up.hello(form);
     form.querySelector('textarea').focus();
   }
+  // Multi-Selection: on, the sidebar shows what to do with the selection;
+  // a list's menu selects all its cards; the selection goes to the Archive
+  // with WeKan's archiveSelectedCards.
+  // The selection outlasts the board's reloads, as WeKan's Multi-Selection.
+  var multiSelection = { on: false, cards: {} };
+  function showMultiSelection(wrapper) {
+    if (!multiSelection.on) return;
+    var sb = wrapper.querySelector('.board-sidebar');
+    if (sb) sb.classList.add('is-open');
+    var view = wrapper.querySelector('.js-multiselection-view');
+    if (view) view.classList.remove('is-hidden');
+    wrapper.querySelectorAll('.js-minicard').forEach(function (c) {
+      c.classList.toggle('is-selected', !!multiSelection.cards[c.dataset.card]);
+    });
+  }
+  up.compiler('.board-wrapper', function (wrapper) { showMultiSelection(wrapper); });
+  up.on('click', '.js-multiselection-activate', function (event, el) {
+    event.preventDefault();
+    multiSelection.on = true;
+    showMultiSelection(el.closest('.board-wrapper'));
+  });
+  up.on('click', '.js-pop-over .js-select-cards', function (event) {
+    event.preventDefault();
+    var list = menuList;
+    closePopOvers();
+    if (!list) return;
+    multiSelection.on = true;
+    list.querySelectorAll('.js-minicard').forEach(function (c) { multiSelection.cards[c.dataset.card] = true; });
+    var wrapper = document.querySelector('.board-wrapper');
+    if (wrapper) showMultiSelection(wrapper);
+  });
+  up.on('click', '.js-archive-selection', function (event) {
+    event.preventDefault();
+    var board = document.querySelector('.board-wrapper');
+    var ids = Object.keys(multiSelection.cards);
+    if (!ids.length) return;
+    callAsync('archiveSelectedCards', board.dataset.board, ids).then(function () {
+      multiSelection = { on: false, cards: {} };
+      up.reload('.board-wrapper');
+    },
+      function (e) { window.alert(e.reason || e.message); });
+  });
   up.on('click', '.js-open-list-menu', function (event, el) {
     event.preventDefault();
     menuList = el.closest('.js-list');
@@ -499,7 +558,8 @@
     if (event.ctrlKey || event.metaKey) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      el.classList.toggle('is-selected');
+      if (el.classList.toggle('is-selected')) multiSelection.cards[el.dataset.card] = true;
+      else delete multiSelection.cards[el.dataset.card];
     }
   });
 
@@ -571,6 +631,7 @@
     var anchor = target.after;
     moving.forEach(function (card) {
       card.classList.remove('is-selected');
+      delete multiSelection.cards[card.dataset.card];
       target.body.insertBefore(card, anchor);
     });
     return fetch(wrapper.getAttribute('data-move'), {

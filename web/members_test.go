@@ -484,3 +484,61 @@ func TestEveryPopOverHasItsTemplate(t *testing.T) {
 		}
 	}
 }
+
+// WeKan's archiveSelectedCards, with GHSA-6xqf-jh8x-4wxc's card check: an
+// assigned-only member archives only their own cards, and a selection with
+// one card not theirs changes nothing.
+func TestArchiveSelectedCards(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Bulk")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": bob.ID, "isActive": true, "isNormalAssignedOnly": true}}})
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	theirs, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Theirs")
+	mine, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Mine")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": mine.ID}, bson.M{"$set": bson.M{"assignees": bson.A{bob.ID}}})
+	call := func(cl *http.Client, args string) map[string]any {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/archiveSelectedCards", strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cl.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return out
+	}
+	archived := func(id string) bool {
+		var c Card
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": id}).Decode(&c)
+		return c.Archived
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if out := call(bc, `["`+b.ID+`",["`+mine.ID+`","`+theirs.ID+`"]]`); out["error"] != "not-authorized" || archived(mine.ID) || archived(theirs.ID) {
+		t.Fatalf("negative: a selection with a card not theirs changes nothing: %v", out)
+	}
+	var row struct {
+		Count int64 `bson:"count"`
+	}
+	_ = w.db.Collection("eventlog").FindOne(ctx, bson.M{"bleed": "UnassignedArchiveBleed"}).Decode(&row)
+	if row.Count != 1 {
+		t.Fatalf("the attempt is recorded: %d", row.Count)
+	}
+	if out := call(bc, `["`+b.ID+`",["`+mine.ID+`"]]`); out["result"] == nil || !archived(mine.ID) {
+		t.Fatalf("their own card: %v", out)
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if out := call(ann, `["`+b.ID+`",["`+theirs.ID+`","nosuchcard"]]`); out["error"] != "invalid-card-selection" || archived(theirs.ID) {
+		t.Fatalf("negative: every card of the board: %v", out)
+	}
+	if out := call(ann, `["`+b.ID+`",["`+theirs.ID+`"]]`); out["result"] == nil || !archived(theirs.ID) {
+		t.Fatalf("the board admin: %v", out)
+	}
+}
