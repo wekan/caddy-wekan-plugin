@@ -82,6 +82,8 @@ type User struct {
 		StarredBoards []string `bson:"starredBoards,omitempty" json:"starredBoards,omitempty"`
 		// InvitedBoards are the boards the user is invited to, server-written.
 		InvitedBoards []string `bson:"invitedBoards,omitempty" json:"invitedBoards,omitempty"`
+		// CardMaximized: the user opens a card full-screen (WeKan's profile.cardMaximized).
+		CardMaximized bool `bson:"cardMaximized,omitempty" json:"cardMaximized,omitempty"`
 	} `bson:"profile,omitempty" json:"profile,omitempty"`
 	Services struct {
 		Password struct {

@@ -46,6 +46,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"rules.createRule":      s.methodCreateRule,
 		"rules.deleteRule":      s.methodDeleteRule,
 		"rules.setEnabled":      s.methodSetRuleEnabled,
+		"toggleCardMaximized":   s.methodToggleCardMaximized,
 	}
 }
 
@@ -502,4 +503,12 @@ func (s *Server) methodSetEmail(r *http.Request, u *User, args []json.RawMessage
 		return nil, err
 	}
 	return nil, s.setEmail(r.Context(), u, userID, email)
+}
+
+// methodToggleCardMaximized is WeKan's toggleCardMaximized: the user's own
+// choice of opening a card full-screen, turned over.
+func (s *Server) methodToggleCardMaximized(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
+		bson.M{"$set": bson.M{"profile.cardMaximized": !u.Profile.CardMaximized}})
+	return nil, err
 }

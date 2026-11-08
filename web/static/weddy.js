@@ -282,6 +282,33 @@
     openPopOver('archives');
   });
 
+  // A card full-screen, or not: the user's own choice (toggleCardMaximized).
+  up.on('click', '.js-maximize-card-details, .js-minimize-card-details', function (event) {
+    event.preventDefault();
+    callAsync('toggleCardMaximized').then(function () { up.reload('.board-wrapper'); });
+  });
+  // Copy link: the card's absolute address to the clipboard.
+  up.on('click', '.js-copy-card-link', function (event, el) {
+    event.preventDefault();
+    var url = window.location.origin + el.dataset.path;
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url);
+    closePopOvers();
+  });
+  // The card title's editor: open on its leading part, Ctrl/Cmd+Enter saves.
+  up.on('click', '.card-details-title-edit-zone', function (event, el) {
+    event.preventDefault();
+    var form = el.closest('.card-details-header').querySelector('.js-card-details-title');
+    if (!form) return;
+    form.classList.remove('is-hidden');
+    form.querySelector('textarea').focus();
+  });
+  up.on('keydown', '.js-card-details-title textarea', function (event, el) {
+    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+      up.submit(el.form);
+    }
+  });
+
   // An invitation to the board: accept it, or decline it and go to All Boards.
   up.on('click', '.js-member-invite-accept', function (event, el) {
     event.preventDefault();

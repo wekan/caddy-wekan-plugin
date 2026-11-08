@@ -128,6 +128,10 @@
       template.js-pop-over-template(data-pop="card-actions", data-title="{{t $.L `cardDetailsActionsPopup-title`}}")
         ul.pop-over-list
           li
+            a.js-copy-card-link(href="#", data-path="/b/{{.Board.ID}}/{{.Board.Slug}}/{{.Card.ID}}")
+              i.fa.fa-link
+              |  {{t $.L "copy-card-link-to-clipboard"}}
+          li
             a.js-archive(href="#")
               i.fa.fa-archive
               |  {{t $.L "archive"}}
@@ -247,9 +251,22 @@
                 input.list-name-input(type="text", name="title", aria-label="{{t $.L `add-list`}}", placeholder="{{t $.L `add-list`}}", required)
                 button.primary(type="submit") {{t $.L "add-list"}}
   if .Card
-    .card-details.js-card-details(data-card="{{.Card.ID}}")
+    .card-details.js-card-details(data-card="{{.Card.ID}}", class="{{if .User.Profile.CardMaximized}}card-details-maximized{{end}}")
       .card-details-header
-        h2.card-details-title.js-card-title {{.Card.Title}}
+        //- WeKan's card title: its leading part opens the editor (Ctrl+Enter saves).
+        h2.card-details-title.js-card-title
+          if .CanEdit
+            span.card-details-title-edit-zone.js-open-inlined-form {{.Card.Title}}
+          else
+            | {{.Card.Title}}
+        if .CanEdit
+          form.js-card-details-title.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/title", up-submit, up-target=".board-wrapper")
+            textarea(name="title", rows="2", dir="auto", aria-label="{{t $.L `title`}}", required) {{.Card.Title}}
+            button.primary(type="submit") {{t $.L "save"}}
+        if .User.Profile.CardMaximized
+          a.js-minimize-card-details(href="#", title="{{t $.L `minimize-card`}}", aria-label="{{t $.L `minimize-card`}}") 🗗
+        else
+          a.js-maximize-card-details(href="#", title="{{t $.L `maximize-card`}}", aria-label="{{t $.L `maximize-card`}}") 🗖
         if .CanEdit
           a.card-details-menu.js-open-card-details-menu(href="#", title="{{t $.L `cardDetailsActionsPopup-title`}}", aria-label="{{t $.L `cardDetailsActionsPopup-title`}}") ☰
         a.js-close-card-details(href="/b/{{.Board.ID}}/{{.Board.Slug}}", aria-label="{{t $.L `close`}}", up-follow, up-target=".board-wrapper") ×

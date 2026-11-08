@@ -237,3 +237,47 @@ func TestArchivedBoards(t *testing.T) {
 		t.Fatal("the board is back")
 	}
 }
+
+// A card's title edited in place, and the user's own maximized card.
+func TestCardTitleAndMaximized(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ro := w.seedUser(t, "rob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Cards")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": ro.ID, "isActive": true, "isReadOnly": true}}})
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Alpha")
+	cardURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/" + c.ID
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if r, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/title", url.Values{"title": {"Alpha Renamed"}}); r.StatusCode != http.StatusSeeOther {
+		t.Fatalf("renamed: %d", r.StatusCode)
+	}
+	rob := w.client(t)
+	body(t, w.signIn(t, rob, "rob", "pw"))
+	if r, _ := rob.PostForm(w.srv.URL+"/b/"+b.ID+"/cards/"+c.ID+"/title", url.Values{"title": {"Mine"}}); r.StatusCode != http.StatusForbidden {
+		t.Fatalf("negative: a read-only member: %d", r.StatusCode)
+	}
+	var got Card
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&got)
+	if got.Title != "Alpha Renamed" {
+		t.Fatalf("the title: %s", got.Title)
+	}
+	if _, html := get(t, ann, cardURL); strings.Contains(html, "card-details-maximized") || !strings.Contains(html, "js-maximize-card-details") {
+		t.Fatal("not maximized at first")
+	}
+	req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/toggleCardMaximized", strings.NewReader(`[]`))
+	req.Header.Set("Content-Type", "application/json")
+	if res, err := ann.Do(req); err != nil || res.StatusCode != 200 {
+		t.Fatal("toggleCardMaximized")
+	}
+	if _, html := get(t, ann, cardURL); !strings.Contains(html, "card-details-maximized") || !strings.Contains(html, "js-minimize-card-details") {
+		t.Fatal("maximized after the toggle")
+	}
+	if _, html := get(t, rob, cardURL); strings.Contains(html, "card-details-maximized") {
+		t.Fatal("negative: one user's choice, not another's")
+	}
+}

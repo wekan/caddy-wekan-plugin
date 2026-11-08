@@ -238,6 +238,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}/rules/export", s.page(s.rulesExport))
 	m.HandleFunc("POST /b/{board}/cards/{card}/people", s.page(s.cardPeoplePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/archive", s.page(s.archiveCardPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/title", s.page(s.cardTitlePage))
 	m.HandleFunc("POST /b/{board}/title", s.page(s.renameBoardPage))
 	m.HandleFunc("POST /b/{board}/restore", s.page(s.restoreBoardPage))
 	m.HandleFunc("POST /b/{board}/archive/restore", s.page(s.restoreArchivedPage))
@@ -1490,4 +1491,37 @@ func (s *Server) restoreArchivedPage(w http.ResponseWriter, r *http.Request, u *
 	}
 	s.hub.publish(b.ID, "board-changed")
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+}
+
+// cardTitlePage saves the card's title, for whoever may change the card.
+func (s *Server) cardTitlePage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	id := r.PathValue("card")
+	var c Card
+	if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c) != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	title := strings.TrimSpace(r.FormValue("title"))
+	if !b.Writable(u, "write", &c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	if title == "" || len(title) > 10000 {
+		http.Error(w, "a card needs a title", http.StatusBadRequest)
+		return
+	}
+	if title != c.Title {
+		if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"title": title, "modifiedAt": time.Now().UTC()}}); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		s.activity(r.Context(), u.ID, "a-changedTitle", bson.M{"boardId": b.ID, "cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
+		s.hub.publish(b.ID, "board-changed")
+	}
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
