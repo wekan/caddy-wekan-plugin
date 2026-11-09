@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 func TestAttachments(t *testing.T) {
@@ -255,5 +256,69 @@ func TestCardCopyAttachments(t *testing.T) {
 	}
 	if n, _ := w.db.Collection("attachments").CountDocuments(ctx, bson.M{"meta.cardId": rb.Card}); n != 3 {
 		t.Errorf("negative: the source keeps its attachments: %d", n)
+	}
+}
+
+// An attachment Node.js WeKan keeps in GridFS - the "attachments" bucket,
+// named by versions.original.meta.gridFsFileId - is read as one on disk:
+// downloaded on the board, over REST, and copied with its card; a GridFS id
+// that is missing or malformed is not found.
+func TestGridFSAttachments(t *testing.T) {
+	w := newTestWeKan(t)
+	w.s.FilesDir = filepath.Join(t.TempDir(), "files")
+	w.seedUser(t, "ann", "pw")
+	at := login(t, w, "ann")
+	ctx := context.Background()
+	rb := newRESTBoard(t, w, at, "Grid")
+	bucket := w.db.GridFSBucket(options.GridFSBucket().SetName("attachments"))
+	oid, err := bucket.UploadFromStream(ctx, "kept.txt", strings.NewReader("in gridfs"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	doc := func(id string, grid string) {
+		_, _ = w.db.Collection("attachments").InsertOne(ctx, bson.M{"_id": id, "name": id + ".txt", "type": "text/plain", "size": 9,
+			"meta": bson.M{"boardId": rb.ID, "cardId": rb.Card}, "uploadedAt": time.Now(),
+			"versions": bson.M{"original": bson.M{"storage": "gridfs", "meta": bson.M{"gridFsFileId": grid}}}})
+	}
+	doc("gridOK", oid.Hex())
+	cl := w.client(t)
+	body(t, w.signIn(t, cl, "ann", "pw"))
+	res, err := cl.Get(w.srv.URL + "/cdn/storage/attachments/gridOK")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := body(t, res); res.StatusCode != 200 || got != "in gridfs" {
+		t.Errorf("downloaded from GridFS: %d %q", res.StatusCode, got)
+	}
+	var out struct {
+		Base64Data string `json:"base64Data"`
+	}
+	if code := call(t, "GET", w.srv.URL+"/api/attachment/download/gridOK", at, "", &out); code != 200 {
+		t.Errorf("REST download: %d", code)
+	}
+	if data, _ := base64.StdEncoding.DecodeString(out.Base64Data); string(data) != "in gridfs" {
+		t.Errorf("REST download's bytes: %q", data)
+	}
+	// Copied with its card.
+	var copied struct {
+		ID string `json:"_id"`
+	}
+	call(t, "POST", w.srv.URL+"/api/boards/"+rb.ID+"/lists/"+rb.List+"/cards/"+rb.Card+"/copy", at,
+		`{"toBoardId":"`+rb.ID+`","toSwimlaneId":"`+rb.Swimlane+`","toListId":"`+rb.List+`"}`, &copied)
+	var c bson.M
+	if w.db.Collection("attachments").FindOne(ctx, bson.M{"meta.cardId": copied.ID, "meta.copyFrom": "gridOK"}).Decode(&c) != nil {
+		t.Error("a GridFS attachment is copied with its card")
+	}
+	// Negative: a GridFS id with nothing behind it, or not an id at all.
+	doc("gridMissing", bson.NewObjectID().Hex())
+	doc("gridBad", "not-an-object-id")
+	for _, id := range []string{"gridMissing", "gridBad"} {
+		res, err := cl.Get(w.srv.URL + "/cdn/storage/attachments/" + id)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if body(t, res); res.StatusCode != http.StatusNotFound {
+			t.Errorf("negative: %s is not found: %d", id, res.StatusCode)
+		}
 	}
 }

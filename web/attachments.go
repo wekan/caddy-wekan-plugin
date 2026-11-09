@@ -7,6 +7,7 @@ package web
 // WeKan's soft delete does.
 
 import (
+	"context"
 	"encoding/base64"
 	"errors"
 	"fmt"
@@ -38,7 +39,11 @@ type Attachment struct {
 	UserID   string `bson:"userId" json:"userId"`
 	Versions struct {
 		Original struct {
-			Path string `bson:"path"`
+			Path    string `bson:"path"`
+			Storage string `bson:"storage"`
+			Meta    struct {
+				GridFsFileID string `bson:"gridFsFileId"`
+			} `bson:"meta"`
 		} `bson:"original"`
 	} `bson:"versions" json:"-"`
 	Meta struct {
@@ -200,18 +205,12 @@ func (s *Server) serveAttachment(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Attachment not found", http.StatusNotFound)
 		return
 	}
-	path, err := s.attachmentFile(a)
-	if err != nil {
-		http.Error(w, "Attachment not found", http.StatusNotFound)
-		return
-	}
-	f, err := os.Open(path)
+	f, err := s.openAttachment(r.Context(), a)
 	if err != nil {
 		http.Error(w, "Attachment not found", http.StatusNotFound)
 		return
 	}
 	defer f.Close()
-	st, _ := f.Stat()
 	disposition := "attachment"
 	typ := a.Type
 	if inline[typ] {
@@ -225,7 +224,7 @@ func (s *Server) serveAttachment(w http.ResponseWriter, r *http.Request) {
 	h.Set("X-Content-Type-Options", "nosniff")
 	h.Set("Content-Security-Policy", "sandbox; default-src 'none'")
 	h.Set("Cache-Control", "private, no-cache")
-	http.ServeContent(w, r, "", st.ModTime(), f)
+	http.ServeContent(w, r, "", f.modTime, f)
 }
 
 // boardCard is the board and the card of a request's ids, writable by u.
@@ -411,14 +410,9 @@ func (s *Server) apiDownloadAttachment(w http.ResponseWriter, r *http.Request, u
 	if a == nil {
 		return
 	}
-	path, err := s.attachmentFile(a)
+	data, err := s.readAttachmentBytes(r.Context(), a)
 	if err != nil {
 		apiError(w, http.StatusNotFound, "Attachment file not found")
-		return
-	}
-	data, err := os.ReadFile(path)
-	if err != nil {
-		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 	out := attachmentJSON(a)
@@ -491,13 +485,9 @@ func (s *Server) copyCardAttachments(r *http.Request, u *User, from *Board, src 
 	ctx := r.Context()
 	newOf := map[string]string{}
 	for _, a := range s.cardAttachments(r, from, src.ID) {
-		p, err := s.attachmentFile(&a)
+		f, err := s.openAttachment(ctx, &a)
 		if err != nil {
 			continue // its bytes are gone: nothing to copy
-		}
-		f, err := os.Open(p)
-		if err != nil {
-			continue
 		}
 		copied, err := s.StoreAttachment(r, to, dst, u, a.Name, a.Type, f)
 		f.Close()
@@ -516,4 +506,87 @@ func (s *Server) copyCardAttachments(r *http.Request, u *User, from *Board, src 
 	} else {
 		_, _ = s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(dst.ID)}, bson.M{"$unset": bson.M{"coverId": ""}})
 	}
+}
+
+// attachmentFileHandle is an attachment's bytes, open: seekable, with a time.
+type attachmentFileHandle struct {
+	*os.File
+	modTime time.Time
+	cleanup func()
+}
+
+func (h *attachmentFileHandle) Close() error {
+	err := h.File.Close()
+	if h.cleanup != nil {
+		h.cleanup()
+	}
+	return err
+}
+
+// openAttachment opens an attachment's bytes wherever Node.js WeKan keeps
+// them (models/lib/fileStoreStrategy.js getFileStrategy): GridFS - the
+// "attachments" bucket - when the version says gridfs or names a GridFS file,
+// or an imported file; otherwise the attachments directory. A GridFS file is
+// copied to a temporary file, at most MaxAttachmentBytes, removed on Close.
+func (s *Server) openAttachment(ctx context.Context, a *Attachment) (*attachmentFileHandle, error) {
+	o := a.Versions.Original
+	if o.Storage == "gridfs" || o.Meta.GridFsFileID != "" {
+		return s.openGridFSAttachment(ctx, o.Meta.GridFsFileID)
+	}
+	p, err := s.attachmentFile(a)
+	if err != nil {
+		return nil, err
+	}
+	f, err := os.Open(p)
+	if err != nil {
+		return nil, err
+	}
+	st, err := f.Stat()
+	if err != nil {
+		f.Close()
+		return nil, err
+	}
+	return &attachmentFileHandle{File: f, modTime: st.ModTime()}, nil
+}
+
+func (s *Server) openGridFSAttachment(ctx context.Context, hexID string) (*attachmentFileHandle, error) {
+	oid, err := bson.ObjectIDFromHex(hexID)
+	if err != nil {
+		return nil, os.ErrNotExist
+	}
+	bucket := s.db.GridFSBucket(options.GridFSBucket().SetName("attachments"))
+	stream, err := bucket.OpenDownloadStream(ctx, oid)
+	if err != nil {
+		return nil, os.ErrNotExist
+	}
+	defer stream.Close()
+	if stream.GetFile().Length > MaxAttachmentBytes {
+		return nil, errors.New("the attachment is larger than an attachment may be")
+	}
+	tmp, err := os.CreateTemp("", "weddy-gridfs-*")
+	if err != nil {
+		return nil, err
+	}
+	remove := func() { _ = os.Remove(tmp.Name()) }
+	if _, err := io.Copy(tmp, io.LimitReader(stream, MaxAttachmentBytes+1)); err != nil {
+		tmp.Close()
+		remove()
+		return nil, err
+	}
+	if _, err := tmp.Seek(0, io.SeekStart); err != nil {
+		tmp.Close()
+		remove()
+		return nil, err
+	}
+	return &attachmentFileHandle{File: tmp, modTime: stream.GetFile().UploadDate, cleanup: remove}, nil
+}
+
+// readAttachmentBytes is the whole of an attachment, wherever it is kept.
+func (s *Server) readAttachmentBytes(ctx context.Context, a *Attachment) ([]byte, error) {
+	f, err := s.openAttachment(ctx, a)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	return io.ReadAll(f)
 }

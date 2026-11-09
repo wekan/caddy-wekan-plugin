@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/base64"
 	"net/http"
-	"os"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -127,10 +126,8 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, withoutFiles bool) (bs
 			var at Attachment
 			doc, _ := bson.Marshal(a)
 			if bson.Unmarshal(doc, &at) == nil {
-				if p, err := s.attachmentFile(&at); err == nil {
-					if data, err := os.ReadFile(p); err == nil {
-						e["file"] = base64.StdEncoding.EncodeToString(data)
-					}
+				if data, err := s.readAttachmentBytes(ctx, &at); err == nil {
+					e["file"] = base64.StdEncoding.EncodeToString(data)
 				}
 			}
 		}

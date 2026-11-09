@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"io"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -19,8 +18,8 @@ import (
 // triggering card's live attachments - never a linked card's, never an id an
 // action names - as files of the mail, with a manifest in its text. At most
 // 100 files and 8 MiB together. (WeKan also times out a read after 30
-// seconds, for its S3 and GridFS stores; Weddy's are files in its own
-// directory, read with a byte limit instead.) The card must
+// seconds, for its S3 and GridFS stores; Weddy reads a file, or a GridFS
+// file copied to one, with a byte limit instead.) The card must
 // be readable by the rule's user before the reads and after them, and its
 // files and cover the same afterwards; otherwise no mail is sent.
 
@@ -104,12 +103,8 @@ func (s *Server) ruleMailAttachments(ctx context.Context, userID, boardID, cardI
 		if _, ok := coverOf(); !ok {
 			return nil, "", errors.New("rule-email-attachments-not-authorized")
 		}
-		path, err := s.attachmentFile(&a)
-		if err != nil {
-			return nil, "", errors.New("rule-email-attachment-unavailable")
-		}
 		data, err := func() ([]byte, error) {
-			f, err := os.Open(path)
+			f, err := s.openAttachment(ctx, &a)
 			if err != nil {
 				return nil, err
 			}

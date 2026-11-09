@@ -3,7 +3,6 @@ package web
 import (
 	"encoding/base64"
 	"net/http"
-	"os"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -169,10 +168,8 @@ func (s *Server) apiExportAttachment(w http.ResponseWriter, r *http.Request) {
 	if meta, ok := raw["meta"].(bson.D); ok {
 		out["source"] = docMap(meta)["source"]
 	}
-	if p, err := s.attachmentFile(&a); err == nil {
-		if data, err := os.ReadFile(p); err == nil {
-			out["file"] = base64.StdEncoding.EncodeToString(data)
-		}
+	if data, err := s.readAttachmentBytes(r.Context(), &a); err == nil {
+		out["file"] = base64.StdEncoding.EncodeToString(data)
 	}
 	writeJSON(w, http.StatusOK, out)
 }

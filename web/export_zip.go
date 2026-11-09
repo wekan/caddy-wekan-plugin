@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -79,7 +78,7 @@ func (s *Server) apiExportZip(w http.ResponseWriter, r *http.Request) {
 	}
 	used := map[string]bool{}
 	for _, a := range s.liveAttachments(r, b.ID) {
-		p, err := s.attachmentFile(&a)
+		in, err := s.openAttachment(r.Context(), &a)
 		if err != nil {
 			continue
 		}
@@ -92,10 +91,6 @@ func (s *Server) apiExportZip(w http.ResponseWriter, r *http.Request) {
 			n = numberedName(want, i)
 		}
 		used[n] = true
-		in, err := os.Open(p)
-		if err != nil {
-			continue
-		}
 		if f, err := zw.Create("attachments/" + n); err == nil {
 			_, _ = io.Copy(f, in)
 		}
