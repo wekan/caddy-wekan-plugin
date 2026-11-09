@@ -337,3 +337,80 @@ func TestRuleSendEmailAttachments(t *testing.T) {
 		t.Error("negative: not without includeAttachments")
 	}
 }
+
+// Votes, planning poker and Scrum in the details: voters by name only for a
+// public vote, poker results only once it has ended, nothing the board turns
+// off, and only the Scrum fields the board shows.
+func TestRuleSendEmailDetailsVotingScrum(t *testing.T) {
+	sink := newSMTPSink(t)
+	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	for _, u := range []*User{ann, bob} {
+		_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": u.ID}, bson.M{"$set": bson.M{"profile.fullname": strings.ToUpper(u.Username) + " Person"}})
+	}
+	b, _ := w.s.CreateBoard(ctx, ann, "Votes")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, ann, l.ID, sw.ID, "Decide")
+	past := time.Now().Add(-time.Hour).UTC().Truncate(time.Millisecond)
+	future := time.Now().Add(time.Hour).UTC().Truncate(time.Millisecond)
+	_, _ = w.db.Collection("scrumSprints").InsertMany(ctx, []any{
+		bson.M{"_id": "sp1", "boardId": b.ID, "name": "Sprint 7"},
+		bson.M{"_id": "sp0", "boardId": b.ID, "name": "Old sprint", "deletedAt": past}})
+	_, _ = w.db.Collection("scrumReleases").InsertOne(ctx, bson.M{"_id": "rel1", "boardId": b.ID, "name": "v2"})
+	set := func(coll, id string, fields bson.M) {
+		if _, err := w.db.Collection(coll).UpdateOne(ctx, bson.M{"_id": id}, bson.M{"$set": fields}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	set("boards", b.ID, bson.M{"scrum.visibility": bson.M{"cardSprint": true, "cardPastSprints": true, "cardRelease": true, "cardIssueType": false}})
+	set("cards", c.ID, bson.M{
+		"vote":  bson.M{"question": "Ship it?", "public": true, "positive": bson.A{ann.ID, bob.ID}, "negative": bson.A{}},
+		"poker": bson.M{"question": true, "end": future, "five": bson.A{bob.ID}, "estimation": 5.0},
+		"scrum": bson.M{"sprintId": "sp1", "pastSprintIds": bson.A{"sp0"}, "releaseIds": bson.A{"rel1"}, "issueType": "HIDDEN-TYPE"}})
+	mail := func() string {
+		t.Helper()
+		before := len(sink.messages())
+		if err := w.s.performAction(ctx, bson.M{"boardId": b.ID, "cardId": c.ID, "userId": ann.ID},
+			bson.M{"actionType": "sendEmail", "emailTo": "ann@example.org", "includeCardDetails": true}); err != nil {
+			t.Fatal(err)
+		}
+		msgs := sink.messages()
+		if len(msgs) != before+1 {
+			t.Fatalf("one e-mail: %d", len(msgs)-before)
+		}
+		d, _ := io.ReadAll(quotedprintable.NewReader(strings.NewReader(msgs[len(msgs)-1])))
+		return strings.ReplaceAll(string(d), "\r\n", "\n")
+	}
+	m := mail()
+	for _, want := range []string{"Vote question: Ship it?", "Votes for: 2", "For voters: ANN Person, BOB Person", "Votes against: 0",
+		"Poker enabled: true", "Poker estimation: 5", "Scrum sprint: Sprint 7", "Scrum release: v2"} {
+		if !strings.Contains(m, want) {
+			t.Errorf("the details have %q: %q", want, m)
+		}
+	}
+	for _, not := range []string{"Poker 5 votes", "HIDDEN-TYPE", "Old sprint"} {
+		if strings.Contains(m, not) {
+			t.Errorf("negative: no %q - poker still open, a hidden field, a deleted sprint: %q", not, m)
+		}
+	}
+	// A private vote: counts, no names; an ended poker: its results.
+	set("cards", c.ID, bson.M{"vote.public": false, "poker.end": past})
+	m = mail()
+	if strings.Contains(m, "For voters") || !strings.Contains(m, "Votes for: 2") {
+		t.Errorf("negative: a private vote names nobody: %q", m)
+	}
+	if !strings.Contains(m, "Poker 5 votes: 1") || !strings.Contains(m, "Poker 5 voters: BOB Person") {
+		t.Errorf("an ended poker's results: %q", m)
+	}
+	// Negative: the board turns votes and poker off.
+	set("boards", b.ID, bson.M{"allowsVote": false, "allowsPoker": false})
+	m = mail()
+	if strings.Contains(m, "Vote question") || strings.Contains(m, "Poker") {
+		t.Errorf("negative: nothing the board turns off: %q", m)
+	}
+}

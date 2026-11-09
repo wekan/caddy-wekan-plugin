@@ -19,8 +19,9 @@ import (
 // cards it names - parents, dependencies and subtasks - each only when the
 // rule's user may read that card too. The card must be readable before the
 // reads and after them; a board admin who stops being one mid-way gets none.
-// Not here yet: votes and planning poker, Scrum fields, string-template
-// formatting, and a linked card's or a linked board's source.
+// Votes, planning poker and Scrum fields are rule_mail_voting.go's. Not here
+// yet: string-template formatting, and a linked card's or a linked board's
+// source.
 
 var errRuleMailDetails = errors.New("rule-email-details-not-authorized")
 
@@ -159,6 +160,11 @@ func (s *Server) ruleMailDetails(ctx context.Context, userID, boardID, cardID st
 			add(f[1], s.ruleMailDisplayName(ctx, id))
 		}
 	}
+	rawBoard := s.ruleMailRawBoard(ctx, boardID)
+	votingPolicy := ruleMailVotingPolicy(card, rawBoard)
+	scrumPolicy := canonical(ruleMailScrumPolicy(rawBoard))
+	s.ruleMailVoting(ctx, card, rawBoard, add)
+	scrumCurrent := s.ruleMailScrum(ctx, card, rawBoard, boardID, add)
 	labels := map[string]string{}
 	for _, l := range b.Labels {
 		name := l.Name
@@ -365,8 +371,21 @@ func (s *Server) ruleMailDetails(ctx context.Context, userID, boardID, cardID st
 	if !sameDefs(definitions(), defs) {
 		return "", errors.New("rule-email-details-changed")
 	}
+	if err := scrumCurrent(); err != nil {
+		return "", err
+	}
 	if !s.ruleMailCardReadable(ctx, userID, boardID, cardID) {
 		return "", errRuleMailDetails
+	}
+	// What decided the votes and Scrum fields shown is what it is now.
+	var nowCard bson.M
+	nowBoard := s.ruleMailRawBoard(ctx, boardID)
+	if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID)}).Decode(&nowCard) != nil || nowBoard == nil {
+		return "", errRuleMailDetails
+	}
+	if nc, _ := plain(nowCard).(map[string]any); ruleMailVotingPolicy(nc, nowBoard) != votingPolicy ||
+		canonical(ruleMailScrumPolicy(nowBoard)) != scrumPolicy {
+		return "", errRuleMailVotingChanged
 	}
 	if admin {
 		var now Board
