@@ -27,9 +27,38 @@ func (s *Server) ruleSendEmail(ctx context.Context, a, act bson.M, c *Card, vars
 	if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(c.BoardID)}).Decode(&b) != nil {
 		return nil
 	}
+	userID := docString(a, "userId")
+	// A linked card's mail is about the card it shows (rule_mail_source.go):
+	// its variables, its people, what is included.
+	src, chain := c, []string{c.ID}
+	linkedBoard := ""
+	if c.Type == "cardType-linkedCard" || c.Type == "cardType-linkedBoard" {
+		var err error
+		if src, chain, err = s.ruleMailSource(ctx, userID, c); err != nil {
+			return err
+		}
+		// A linked board shows that board's title and description
+		// (rule_mail_linked_board.go).
+		if src.Type == "cardType-linkedBoard" {
+			if src, linkedBoard, err = s.ruleMailLinkedBoardView(ctx, userID, src); err != nil {
+				return err
+			}
+		}
+		placed := bson.M{}
+		for k, v := range a {
+			placed[k] = v
+		}
+		placed["boardId"], placed["cardId"] = src.BoardID, src.ID
+		var actor *User
+		var au User
+		if validID(userID) && s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(userID)}).Decode(&au) == nil {
+			actor = &au
+		}
+		vars = s.ruleVars(ctx, placed, src, actor)
+	}
 	// The people tokens are addresses here.
 	people := map[string]string{}
-	for token, ids := range map[string][]string{"creator": {c.UserID}, "assignees": c.Assignees, "members": c.Members} {
+	for token, ids := range map[string][]string{"creator": {src.UserID}, "assignees": src.Assignees, "members": src.Members} {
 		var addrs []string
 		for _, id := range ids {
 			var u User
@@ -88,23 +117,48 @@ func (s *Server) ruleSendEmail(ctx context.Context, a, act bson.M, c *Card, vars
 	}
 	// "Details": the card's own fields (rule_mail_details.go).
 	if act["includeCardDetails"] == true {
-		details, err := s.ruleMailDetails(ctx, docString(a, "userId"), c.BoardID, c.ID)
+		details, err := s.ruleMailDetails(ctx, userID, src.BoardID, src.ID)
 		if err != nil {
 			return err
 		}
 		if details != "" {
 			text += "\n\n" + details
 		}
+		// And the triggering card's own local details: a linked board's, or
+		// a link's.
+		switch {
+		case c.Type == "cardType-linkedBoard":
+			local, err := s.ruleMailDetailsOf(ctx, userID, c.BoardID, c.ID, true)
+			if err != nil {
+				return err
+			}
+			text += "\n\nLinked card local details:\n" + local
+		case c.Type == "cardType-linkedCard":
+			wrapper, err := s.ruleMailWrapper(ctx, userID, c)
+			if err != nil {
+				return err
+			}
+			text += "\n\n" + wrapper
+		}
 	}
 	// "Checklists / Comments": the card's, as its user may read them; a card
 	// they no longer may sends no mail at all, as in WeKan.
 	if act["includeChecklistsAndComments"] == true {
-		discussion, err := s.ruleMailDiscussion(ctx, docString(a, "userId"), c.BoardID, c.ID)
+		discussion, err := s.ruleMailDiscussion(ctx, userID, src.BoardID, src.ID)
 		if err != nil {
 			return err
 		}
 		if discussion != "" {
 			text += "\n\n" + discussion
+		}
+		if linkedBoard != "" {
+			boardTalk, err := s.ruleMailLinkedBoardDiscussion(ctx, userID, src.ID, linkedBoard)
+			if err != nil {
+				return err
+			}
+			if boardTalk != "" {
+				text += "\n\n" + boardTalk
+			}
 		}
 	}
 	// "Attachments": the card's own files, with their manifest in the text.
@@ -112,12 +166,19 @@ func (s *Server) ruleSendEmail(ctx context.Context, a, act bson.M, c *Card, vars
 	if act["includeAttachments"] == true {
 		var manifest string
 		var err error
-		if files, manifest, err = s.ruleMailAttachments(ctx, docString(a, "userId"), c.BoardID, c.ID); err != nil {
+		if files, manifest, err = s.ruleMailAttachments(ctx, userID, src.BoardID, src.ID); err != nil {
 			return err
 		}
 		if manifest != "" {
 			text += "\n\n" + manifest
 		}
+	}
+	// Every card on the way to the source is still readable and linked as it was.
+	if err := s.ruleMailSourceCurrent(ctx, userID, chain); err != nil {
+		return err
+	}
+	if linkedBoard != "" && !s.ruleMailBoardReadable(ctx, userID, linkedBoard) {
+		return errRuleMailSource
 	}
 	return s.sendMail(ctx, "localhost", mailMessage{To: to, Subject: subject, Text: text, Attachments: files})
 }

@@ -445,3 +445,159 @@ func TestRuleSendEmailDetailsStringTemplate(t *testing.T) {
 		t.Errorf("the template's text %q: %q", want, d)
 	}
 }
+
+// A linked card's mail is about the card it shows - through a link of a
+// link too - with the link's own local details after the source's; a user
+// who may not read the source, or a circle of links, sends nothing.
+func TestRuleSendEmailLinkedCard(t *testing.T) {
+	sink := newSMTPSink(t)
+	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	lane := func(b *Board) string {
+		var sw Swimlane
+		_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+		return sw.ID
+	}
+	a, _ := w.s.CreateBoard(ctx, ann, "Source board")
+	al, _ := w.s.AddList(ctx, a, "Source list")
+	src, _ := w.s.AddCard(ctx, a, ann, al.ID, lane(a), "Original")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": src.ID}, bson.M{"$set": bson.M{"description": "The real one"}})
+	_, _ = w.db.Collection("card_comments").InsertOne(ctx, bson.M{"_id": "cmS", "cardId": src.ID, "boardId": a.ID, "userId": ann.ID, "text": "Source talk", "createdAt": time.Now()})
+	bb, _ := w.s.CreateBoard(ctx, ann, "Link board")
+	setMember(t, w, bb.ID, Member{UserID: bob.ID, IsActive: true})
+	bl, _ := w.s.AddList(ctx, bb, "Link list")
+	link := func(title, target string) *Card {
+		l, _ := w.s.AddCard(ctx, bb, ann, bl.ID, lane(bb), title)
+		_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": l.ID}, bson.M{"$set": bson.M{"type": "cardType-linkedCard", "linkedId": target}})
+		var c Card
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": l.ID}).Decode(&c)
+		return &c
+	}
+	l1 := link("Copied title", src.ID)
+	l2 := link("Link of link", l1.ID)
+	act := bson.M{"actionType": "sendEmail", "emailTo": "ann@example.org", "emailSubject": "About {card}", "emailMsg": "On {board}",
+		"includeCardDetails": true, "includeChecklistsAndComments": true}
+	send := func(c *Card, userID string) (string, error) {
+		before := len(sink.messages())
+		err := w.s.performAction(ctx, bson.M{"boardId": c.BoardID, "cardId": c.ID, "userId": userID}, act)
+		msgs := sink.messages()
+		if len(msgs) == before {
+			return "", err
+		}
+		d, _ := io.ReadAll(quotedprintable.NewReader(strings.NewReader(msgs[len(msgs)-1])))
+		return strings.ReplaceAll(string(d), "\r\n", "\n"), err
+	}
+	for _, c := range []*Card{l1, l2} {
+		m, err := send(c, ann.ID)
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, want := range []string{"Subject: About Original", "On Source board", "Card: Original", "Description: The real one",
+			"Board: Source board\nList: Source list", "Linked card local details:\nBoard: Link board\nList: Link list", "Comments:", "Source talk"} {
+			if !strings.Contains(m, want) {
+				t.Errorf("%s: the mail has %q: %q", c.Title, want, m)
+			}
+		}
+		if strings.Contains(m, "Copied title") || strings.Contains(m, "Link of link") {
+			t.Errorf("negative: not the link's copied title: %q", m)
+		}
+	}
+	// Negative: bob is on the link's board, not the source's.
+	if m, err := send(l1, bob.ID); err == nil || m != "" {
+		t.Errorf("negative: a source its user may not read sends nothing: %v %q", err, m)
+	}
+	// Negative: nor a plain mail, nothing included - its subject and footer
+	// would carry the source's title.
+	plainAct := bson.M{"actionType": "sendEmail", "emailTo": "ann@example.org", "emailSubject": "About {card}"}
+	before := len(sink.messages())
+	if err := w.s.performAction(ctx, bson.M{"boardId": l1.BoardID, "cardId": l1.ID, "userId": bob.ID}, plainAct); err == nil || len(sink.messages()) != before {
+		t.Error("negative: a plain mail about a source its user may not read sends nothing")
+	}
+	// Negative: a circle of links.
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": l1.ID}, bson.M{"$set": bson.M{"linkedId": l2.ID}})
+	if m, err := send(l2, ann.ID); err == nil || m != "" {
+		t.Errorf("negative: a circle of links sends nothing: %v %q", err, m)
+	}
+}
+
+// A linked-board card's mail: the board's title, description and active
+// members, the card's own local fields - never its stale copied ones - and
+// the linked board's discussion, each card as its user may read it; a user
+// who may not read the linked board gets no mail.
+func TestRuleSendEmailLinkedBoard(t *testing.T) {
+	sink := newSMTPSink(t)
+	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	carl := w.seedUser(t, "carl", "pw")
+	dan := w.seedUser(t, "dan", "pw")
+	ctx := context.Background()
+	for _, u := range []*User{ann, bob, carl, dan} {
+		_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": u.ID}, bson.M{"$set": bson.M{"profile.fullname": strings.ToUpper(u.Username) + " Person"}})
+	}
+	lane := func(b *Board) string {
+		var sw Swimlane
+		_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+		return sw.ID
+	}
+	target, _ := w.s.CreateBoard(ctx, ann, "Roadmap")
+	setMember(t, w, target.ID, Member{UserID: bob.ID, IsActive: true})
+	setMember(t, w, target.ID, Member{UserID: dan.ID, IsActive: true, IsNormalAssignedOnly: true})
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": target.ID}, bson.M{"$set": bson.M{"description": "Q1 plans"}})
+	tl, _ := w.s.AddList(ctx, target, "Goals")
+	goal, _ := w.s.AddCard(ctx, target, ann, tl.ID, lane(target), "Goal")
+	_, _ = w.db.Collection("card_comments").InsertOne(ctx, bson.M{"_id": "cmG", "cardId": goal.ID, "boardId": target.ID, "userId": bob.ID, "text": "Ship Q1", "createdAt": time.Now()})
+	here, _ := w.s.CreateBoard(ctx, ann, "Here")
+	setMember(t, w, here.ID, Member{UserID: carl.ID, IsActive: true})
+	setMember(t, w, here.ID, Member{UserID: dan.ID, IsActive: true})
+	hl, _ := w.s.AddList(ctx, here, "Portfolio")
+	wrap, _ := w.s.AddCard(ctx, here, ann, hl.ID, lane(here), "Stale title")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": wrap.ID}, bson.M{"$set": bson.M{"type": "cardType-linkedBoard", "linkedId": target.ID,
+		"color": "red", "description": "copied stale", "dueAt": time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)}})
+	act := bson.M{"actionType": "sendEmail", "emailTo": "ann@example.org", "emailSubject": "About {card}",
+		"includeCardDetails": true, "includeChecklistsAndComments": true}
+	send := func(userID string) (string, error) {
+		before := len(sink.messages())
+		err := w.s.performAction(ctx, bson.M{"boardId": here.ID, "cardId": wrap.ID, "userId": userID}, act)
+		msgs := sink.messages()
+		if len(msgs) == before {
+			return "", err
+		}
+		d, _ := io.ReadAll(quotedprintable.NewReader(strings.NewReader(msgs[len(msgs)-1])))
+		return strings.ReplaceAll(string(d), "\r\n", "\n"), err
+	}
+	m, err := send(ann.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{"Subject: About Roadmap", "Card: Roadmap", "Linked board: Roadmap", "Description: Q1 plans",
+		"Members: ANN Person, BOB Person, DAN Person", "Linked card local details:\nBoard: Here\nList: Portfolio", "Color: red",
+		"Linked board discussion:\nCard: Goal\nComments:", "Ship Q1"} {
+		if !strings.Contains(m, want) {
+			t.Errorf("the mail has %q: %q", want, m)
+		}
+	}
+	// Every active member, whatever the role, as WeKan's getters list them.
+	for _, not := range []string{"Stale title", "copied stale", "2020-01-01"} {
+		if strings.Contains(m, not) {
+			t.Errorf("negative: no %q - the card's copied fields: %q", not, m)
+		}
+	}
+	// Negative: carl is on this board, not the linked one.
+	if m, err := send(carl.ID); err == nil || m != "" {
+		t.Errorf("negative: a linked board its user may not read sends nothing: %v %q", err, m)
+	}
+	// dan reads the linked board only assigned-only: the mail, without the
+	// comments of a card not assigned to him.
+	m, err = send(dan.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(m, "Ship Q1") {
+		t.Errorf("negative: not a card its user may not read: %q", m)
+	}
+}

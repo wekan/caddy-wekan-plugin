@@ -78,8 +78,27 @@ var ruleMailCardFields = [][2]string{{"cardNumber", "Card number"}, {"color", "C
 // The Gantt link types, as DHTMLX numbers them.
 var ruleMailGanttTypes = []string{"finish-to-start", "start-to-start", "finish-to-finish", "start-to-finish"}
 
-// ruleMailDetails is WeKan's prepareRuleCardDetails for an ordinary card.
+// ruleMailDetails is WeKan's prepareRuleCardDetails: an ordinary card's, or a
+// linked board's (rule_mail_linked_board.go).
 func (s *Server) ruleMailDetails(ctx context.Context, userID, boardID, cardID string) (string, error) {
+	return s.ruleMailDetailsOf(ctx, userID, boardID, cardID, false)
+}
+
+// The fields a linked-board card keeps as its own (WeKan's localFields): the
+// rest - its dates, description, people, votes - are the linked board's.
+var linkedBoardLocalFields = []string{"_id", "boardId", "listId", "swimlaneId", "cardNumber", "color",
+	"archived", "archivedAt", "createdAt", "modifiedAt", "dateLastActivity", "sort", "subtaskSort",
+	"lastMoveReason", "listEnteredAt", "requestedBy", "assignedBy", "requesters", "assigners",
+	"recurrenceInterval", "lastRecurrenceAt", "flowStartAt", "flowInterruptions", "flowUserId",
+	"pomodoroStartAt", "pomodoroPhase", "pomodoroCount", "pomodoroWorkMinutes", "pomodoroUserId",
+	"locationName", "locationAddress", "locationLatitude", "locationLongitude", "locations",
+	"userId", "stickers", "scrum", "labelIds", "customFields", "parentId", "parentIds", "cardDependencies",
+	"targetId_gantt", "linkType_gantt"}
+
+// ruleMailDetailsOf: local is WeKan's localLinkedBoard - a linked-board
+// card's own fields, rendered as an ordinary card's under the linked board's
+// title.
+func (s *Server) ruleMailDetailsOf(ctx context.Context, userID, boardID, cardID string, local bool) (string, error) {
 	if !s.ruleMailCardReadable(ctx, userID, boardID, cardID) {
 		return "", errRuleMailDetails
 	}
@@ -90,8 +109,30 @@ func (s *Server) ruleMailDetails(ctx context.Context, userID, boardID, cardID st
 		return "", errRuleMailDetails
 	}
 	card, _ := plain(raw).(map[string]any)
-	if t, _ := card["type"].(string); t == "cardType-linkedCard" || t == "cardType-linkedBoard" {
-		return "", nil // a link's cached fields may be a now-private source's: not exported here
+	linkedID, _ := card["linkedId"].(string)
+	if local {
+		target := s.ruleMailRawBoard(ctx, linkedID)
+		if card["type"] != "cardType-linkedBoard" {
+			return "", errors.New("rule-email-local-board-required")
+		}
+		if target == nil || !s.ruleMailBoardReadable(ctx, userID, linkedID) {
+			return "", errRuleMailDetails
+		}
+		own := map[string]any{}
+		for _, f := range linkedBoardLocalFields {
+			if v, ok := card[f]; ok {
+				own[f] = v
+			}
+		}
+		own["title"] = target["title"] // the string template's card.title is the live display title
+		card = own
+	} else {
+		switch card["type"] {
+		case "cardType-linkedBoard":
+			return s.ruleMailLinkedBoardDetails(ctx, userID, &b, card)
+		case "cardType-linkedCard":
+			return "", nil // a link's cached fields may be a now-private source's: not exported here
+		}
 	}
 	admin := b.AdminOf(userID)
 	var lines []string
@@ -390,6 +431,19 @@ func (s *Server) ruleMailDetails(ctx context.Context, userID, boardID, cardID st
 	if nc, _ := plain(nowCard).(map[string]any); ruleMailVotingPolicy(nc, nowBoard) != votingPolicy ||
 		canonical(ruleMailScrumPolicy(nowBoard)) != scrumPolicy {
 		return "", errRuleMailVotingChanged
+	}
+	if local {
+		var now struct {
+			Type     string `bson:"type"`
+			LinkedID string `bson:"linkedId"`
+		}
+		if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID)}).Decode(&now) != nil ||
+			now.Type != "cardType-linkedBoard" || now.LinkedID != linkedID {
+			return "", errors.New("rule-email-details-changed")
+		}
+		if !s.ruleMailBoardReadable(ctx, userID, linkedID) {
+			return "", errRuleMailDetails
+		}
 	}
 	if admin {
 		var now Board

@@ -86,6 +86,15 @@ func (s *Server) ruleMailDisplayName(ctx context.Context, userID string) string 
 
 // ruleMailDiscussion is WeKan's prepareRuleCardDiscussion.
 func (s *Server) ruleMailDiscussion(ctx context.Context, userID, boardID, cardID string) (string, error) {
+	return s.ruleMailDiscussionOf(ctx, userID, boardID, cardID, false)
+}
+
+// ruleMailComments is its commentsOnly: a linked board's cards' comments.
+func (s *Server) ruleMailComments(ctx context.Context, userID, boardID, cardID string) (string, error) {
+	return s.ruleMailDiscussionOf(ctx, userID, boardID, cardID, true)
+}
+
+func (s *Server) ruleMailDiscussionOf(ctx context.Context, userID, boardID, cardID string, commentsOnly bool) (string, error) {
 	if !s.ruleMailCardReadable(ctx, userID, boardID, cardID) {
 		return "", errRuleMailContent
 	}
@@ -99,8 +108,11 @@ func (s *Server) ruleMailDiscussion(ctx context.Context, userID, boardID, cardID
 		return out
 	}
 	bySort := bson.D{{Key: "sort", Value: 1}, {Key: "_id", Value: 1}}
-	checklists := find("checklists", bson.M{"cardId": eq(cardID), "deletedAt": nil}, bySort)
-	items := find("checklistItems", bson.M{"cardId": eq(cardID), "deletedAt": nil}, bySort)
+	var checklists, items []bson.M
+	if !commentsOnly {
+		checklists = find("checklists", bson.M{"cardId": eq(cardID), "deletedAt": nil}, bySort)
+		items = find("checklistItems", bson.M{"cardId": eq(cardID), "deletedAt": nil}, bySort)
+	}
 	comments := find("card_comments", bson.M{"cardId": eq(cardID), "boardId": eq(boardID), "deletedAt": nil},
 		bson.D{{Key: "createdAt", Value: 1}, {Key: "_id", Value: 1}})
 
