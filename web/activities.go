@@ -16,6 +16,23 @@ import (
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
+// cardTextActivities are WeKan's a-changedTitle and a-changedDescription, for
+// a card whose title or description an update just changed: what it was and
+// what it is, as server/models/cards.js records them - for the activities,
+// the webhooks and the rules that read them.
+func (s *Server) cardTextActivities(ctx context.Context, u *User, before *Card, set bson.M) {
+	title := before.Title
+	if t, ok := set["title"].(string); ok && t != before.Title {
+		title = t
+		s.activity(ctx, u.ID, "a-changedTitle", bson.M{"username": u.Username, "boardId": before.BoardID, "cardId": before.ID, // inserted, not a filter
+			"cardTitle": t, "oldValue": before.Title, "value": t, "listId": before.ListID, "swimlaneId": before.SwimlaneID})
+	}
+	if d, ok := set["description"].(string); ok && d != before.Description {
+		s.activity(ctx, u.ID, "a-changedDescription", bson.M{"username": u.Username, "boardId": before.BoardID, "cardId": before.ID, // inserted, not a filter
+			"cardTitle": title, "oldValue": before.Description, "value": d, "listId": before.ListID, "swimlaneId": before.SwimlaneID})
+	}
+}
+
 func (s *Server) activity(ctx context.Context, userID, activityType string, fields bson.M) {
 	now := time.Now().UTC()
 	doc := bson.M{"_id": randomID(), "userId": userID, "activityType": activityType, "createdAt": now, "modifiedAt": now} // inserted, not a filter
@@ -125,6 +142,8 @@ func (s *Server) activityRows(ctx context.Context, b *Board, filter bson.M, lang
 		case "a-changedTitle":
 			key, args = msg("activity-changedTitle"), []string{"", card}
 			shown = viewer(str("value"), policy)
+		case "a-changedDescription":
+			key, args = msg("activity-changedDescription"), []string{card}
 		case "createBoard":
 			key, args = msg("activity-created"), []string{board}
 		case "importBoard":

@@ -929,6 +929,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       return { activityType: val(p, 'spec-assignee-action') === 'removed' ? 'unjoinAssignee' : 'joinAssignee', username: val(p, 'spec-assignee') };
     },
     'js-add-attachment-trigger': function (p) { return { activityType: val(p, 'attach-action') === 'removed' ? 'deleteAttachment' : 'addAttachment' }; },
+    // #2194: the card's title or description contains a text; nothing without one.
+    'js-add-text-contains-trigger': function (p) {
+      var text = val(p, 'text-contains-value').trim();
+      return text ? { activityType: 'textContainsTrigger', textContains: text } : null;
+    },
     'js-add-due-date-changed-trigger': function () { return { activityType: 'a-dueAt' }; },
     'js-add-start-date-changed-trigger': function () { return { activityType: 'a-startAt' }; },
     'js-add-end-date-changed-trigger': function () { return { activityType: 'a-endAt' }; },
@@ -1001,6 +1006,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (!make) return;
     var page = rulesPage(el);
     var trigger = make(el.closest('.js-rules-tab'));
+    if (!trigger) return; // a trigger that needs a value, without one
     trigger.desc = ruleDesc(el);
     ruleState.trigger = trigger;
     showPane(page, 'action');

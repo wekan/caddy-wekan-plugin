@@ -261,7 +261,7 @@ func TestRulesPage(t *testing.T) {
 	body(t, w.signIn(t, ann, "ann", "pw"))
 	rulesURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/rules"
 	res, html := get(t, ann, rulesURL)
-	for _, want := range []string{"rules-page", "rules-lists-item", "Archive new", `id="ruleTitle"`, "js-goto-trigger", "js-add-create-trigger", "js-add-move-direction-trigger", `value="back"`, "js-add-gen-move-action", "js-set-date-action"} {
+	for _, want := range []string{"rules-page", "rules-lists-item", "Archive new", `id="ruleTitle"`, "js-goto-trigger", "js-add-create-trigger", "js-add-move-direction-trigger", `value="back"`, "js-add-text-contains-trigger", `id="text-contains-value"`, "js-add-gen-move-action", "js-set-date-action"} {
 		if res.StatusCode != 200 || !strings.Contains(html, want) {
 			t.Errorf("the Rules page has %s (%d)", want, res.StatusCode)
 		}
@@ -415,5 +415,70 @@ func TestRuleMoveDirection(t *testing.T) {
 	}
 	if w.s.moveDirection(ctx, first.ID, first.ID) != "" {
 		t.Error("negative: the same list is no direction")
+	}
+}
+
+// #2194: "a card's title or description contains" - case-insensitive, on a new
+// card, a changed title and a changed description; WeKan's activities for the
+// last two carry what was and what is.
+func TestRuleTextContains(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	a := login(t, w, "ann")
+	b := newRESTBoard(t, w, a, "Text")
+	ctx := context.Background()
+	addRule(t, w, b.ID, "rtext", bson.M{"activityType": "textContainsTrigger", "textContains": "URGENT"},
+		bson.M{"actionType": "setColor", "selectedColor": "red"}, true)
+	addRule(t, w, b.ID, "rempty", bson.M{"activityType": "textContainsTrigger", "textContains": "  "},
+		bson.M{"actionType": "setColor", "selectedColor": "blue"}, true)
+	color := func(id string) any {
+		var c bson.M
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": id}).Decode(&c)
+		return c["color"]
+	}
+	reset := func(id string) {
+		_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": id}, bson.M{"$unset": bson.M{"color": ""}})
+	}
+	cards := w.srv.URL + "/api/boards/" + b.ID + "/lists/" + b.List + "/cards"
+	var made struct {
+		ID string `json:"_id"`
+	}
+	call(t, "POST", cards, a, `{"title":"An urgent fix","swimlaneId":"`+b.Swimlane+`"}`, &made)
+	if color(made.ID) != "red" {
+		t.Errorf("a new card whose title contains it, in any case: %v", color(made.ID))
+	}
+	if color(b.Card) != nil {
+		t.Errorf("negative: a card without the text: %v", color(b.Card))
+	}
+	edit := func(body string) {
+		if code := call(t, "PUT", cards+"/"+b.Card, a, body, nil); code != 200 {
+			t.Fatalf("edit: %d", code)
+		}
+	}
+	edit(`{"description":"this is Urgent now"}`)
+	if color(b.Card) != "red" {
+		t.Errorf("a description changed to contain it: %v", color(b.Card))
+	}
+	var act bson.M
+	_ = w.db.Collection("activities").FindOne(ctx, bson.M{"activityType": "a-changedDescription", "cardId": b.Card}).Decode(&act)
+	if act["oldValue"] != "" || act["value"] != "this is Urgent now" || act["cardTitle"] != "C" || act["username"] != "ann" {
+		t.Errorf("WeKan's a-changedDescription: %v", act)
+	}
+	reset(b.Card)
+	edit(`{"description":"calm","title":"URGENT title"}`)
+	_ = w.db.Collection("activities").FindOne(ctx, bson.M{"activityType": "a-changedTitle", "cardId": b.Card}).Decode(&act)
+	if color(b.Card) != "red" || act["oldValue"] != "C" || act["value"] != "URGENT title" {
+		t.Errorf("a title changed to contain it: %v %v", color(b.Card), act)
+	}
+	reset(b.Card)
+	edit(`{"title":"URGENT title"}`)
+	if color(b.Card) != nil {
+		t.Error("negative: an unchanged title is no activity, and starts no rule")
+	}
+	if n, _ := w.db.Collection("activities").CountDocuments(ctx, bson.M{"activityType": "a-changedTitle", "cardId": b.Card}); n != 1 {
+		t.Errorf("negative: one title change, one activity: %d", n)
+	}
+	if textContains("anything", " ") || textContains("", "x") || !textContains("Ab", "aB") {
+		t.Error("WeKan's textContainsMatch")
 	}
 }

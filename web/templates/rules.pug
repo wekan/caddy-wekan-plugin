@@ -302,6 +302,14 @@
                     .trigger-text {{t $.L "r-a-card"}}
                   button.trigger-button.js-add-attachment-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
                     i.fa.fa-plus(aria-hidden="true")
+                //- #2194: a card's title or description contains a text.
+                .trigger-item(title="{{t $.L `text-contains-trigger-description`}}")
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-card-title-or-description-contains"}}
+                    .trigger-dropdown
+                      textarea.text-contains-trigger-value#text-contains-value(rows="2", placeholder="{{t $.L `text-contains-trigger-label`}}")
+                  button.trigger-button.js-add-text-contains-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
                 .trigger-item
                   .trigger-content
                     .trigger-text {{t $.L "r-when-a-due-date-changed"}}

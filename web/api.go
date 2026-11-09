@@ -603,6 +603,7 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+	s.cardTextActivities(r.Context(), u, c, set)
 	if moveTo != nil {
 		var raw bson.M
 		_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": c.ID}).Decode(&raw)

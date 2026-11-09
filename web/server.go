@@ -1616,7 +1616,7 @@ func (s *Server) cardTitlePage(w http.ResponseWriter, r *http.Request, u *User) 
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		s.activity(r.Context(), u.ID, "a-changedTitle", bson.M{"boardId": b.ID, "cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
+		s.cardTextActivities(r.Context(), u, &c, bson.M{"title": title})
 		s.hub.publish(b.ID, "board-changed")
 	}
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)

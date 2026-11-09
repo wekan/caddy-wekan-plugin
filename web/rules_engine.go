@@ -134,15 +134,17 @@ func (s *Server) ruleValues(ctx context.Context, a bson.M, fields []string) map[
 func (s *Server) matchingRules(ctx context.Context, a bson.M) []bson.M {
 	kind, boardID := docString(a, "activityType"), docString(a, "boardId")
 	fields, known := triggerFields[kind]
-	if !known || !validID(boardID) {
-		return nil
-	}
-	cur, err := s.db.Collection("triggers").Find(ctx, bson.M{"activityType": eq(kind)})
-	if err != nil {
+	if !validID(boardID) {
 		return nil
 	}
 	var triggers []bson.M
-	_ = cur.All(ctx, &triggers)
+	if known {
+		cur, err := s.db.Collection("triggers").Find(ctx, bson.M{"activityType": eq(kind)})
+		if err != nil {
+			return nil
+		}
+		_ = cur.All(ctx, &triggers)
+	}
 	values := s.ruleValues(ctx, a, fields)
 	var rules []bson.M
 	seen := map[string]bool{}
@@ -195,7 +197,35 @@ func (s *Server) matchingRules(ctx context.Context, a bson.M) []bson.M {
 			}
 		}
 	}
+	// #2194: "a card's title or description contains" - the card's text now,
+	// case-insensitive - on what changes that text: a new card, a title or a
+	// description changed.
+	if (kind == "createCard" || kind == "a-changedTitle" || kind == "a-changedDescription") && validID(docString(a, "cardId")) {
+		var card struct {
+			Title       string `bson:"title"`
+			Description string `bson:"description"`
+		}
+		if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(docString(a, "cardId")), "boardId": eq(boardID)}).Decode(&card) == nil {
+			cur, err := s.db.Collection("triggers").Find(ctx, bson.M{"activityType": "textContainsTrigger", "boardId": eq(boardID)})
+			if err == nil {
+				var tt []bson.M
+				_ = cur.All(ctx, &tt)
+				for _, t := range tt {
+					needle := docString(t, "textContains")
+					if textContains(card.Title, needle) || textContains(card.Description, needle) {
+						rules = s.addTriggerRules(ctx, boardID, docString(t, "_id"), seen, rules)
+					}
+				}
+			}
+		}
+	}
 	return rules
+}
+
+// textContains is WeKan's textContainsMatch: a case-insensitive substring; an
+// empty value, or an empty text, never matches.
+func textContains(text, needle string) bool {
+	return strings.TrimSpace(needle) != "" && text != "" && strings.Contains(strings.ToLower(text), strings.ToLower(needle))
 }
 
 // moveDirection is WeKan's models/lib/ruleMoveDirection.js: "forward" to a
