@@ -676,6 +676,13 @@ func (s *Server) performAction(ctx context.Context, a bson.M, act bson.M) error 
 		return s.ruleLinkCard(ctx, a, act, c)
 	case "sendEmail":
 		return s.ruleSendEmail(ctx, a, act, c, vars)
+	case "dispatchBot":
+		// Board Settings / Bots: hand the card to a bot of its own board
+		// (bots.go) - the bot is sent the card, and nothing else.
+		if id := docString(act, "integrationId"); id != "" {
+			_, err := s.dispatchToBot(ctx, id, c.ID, userID, "rule")
+			return err
+		}
 	case "archive":
 		if !c.Archived {
 			if err := touch(bson.M{"$set": bson.M{"archived": true, "archivedAt": now}}); err != nil {
