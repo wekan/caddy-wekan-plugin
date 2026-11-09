@@ -695,3 +695,27 @@ func TestRuleEditButton(t *testing.T) {
 		t.Errorf("the edit button: %s", html[strings.Index(html, "rules-lists-item"):][:600])
 	}
 }
+
+// WeKan's Rules workflow palette (#6489): labelled chips, each carrying the
+// rule part it makes, the builder's slots and Add Rule.
+func TestRulesWorkflowPalette(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	b, _ := w.s.CreateBoard(context.Background(), u, "Palette")
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	_, html := get(t, c, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/rules")
+	if strings.Count(html, "js-trigger-chip") != len(triggerPalette) || strings.Count(html, "js-action-chip") != len(actionPalette) {
+		t.Errorf("every chip: %d %d", strings.Count(html, "js-trigger-chip"), strings.Count(html, "js-action-chip"))
+	}
+	for _, want := range []string{"js-when-slot", "js-then-slot", "js-create-workflow-rule", "Every day at 09:00", "&#34;activityType&#34;:&#34;createCard&#34;"} {
+		if !strings.Contains(html, want) {
+			t.Errorf("the palette has %s", want)
+		}
+	}
+	for _, chip := range paletteChips("en", append(append([]paletteEntry{}, triggerPalette...), actionPalette...)) {
+		if chip.Label == "" || strings.Contains(chip.Label, "__") {
+			t.Errorf("negative: a label in words, its parameters filled: %q", chip.Label)
+		}
+	}
+}

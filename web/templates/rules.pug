@@ -114,12 +114,44 @@
           h2
             i.fa.fa-sitemap
             |  {{t $.L "r-workflow-view"}}
+          p.workflow-help {{t $.L "r-workflow-help"}}
+          p.warning.js-workflow-error(role="alert", hidden)
+          //- WeKan's builder: a trigger chip dropped into When, an action into Then.
+          .workflow-builder
+            .workflow-builder-row
+              .workflow-slot.js-when-slot(data-empty="{{t $.L `r-when`}}: {{t $.L `r-drop-trigger`}}")
+                span.workflow-slot-placeholder {{t $.L "r-when"}}: {{t $.L "r-drop-trigger"}}
+              .workflow-arrow
+                i.fa.fa-long-arrow-right
+              .workflow-slot.js-then-slot(data-empty="{{t $.L `r-action`}}: {{t $.L `r-drop-action`}}")
+                span.workflow-slot-placeholder {{t $.L "r-action"}}: {{t $.L "r-drop-action"}}
+            .workflow-builder-controls
+              textarea.js-workflow-rule-title(rows="2", placeholder="{{t $.L `r-new-rule-name`}}")
+              button.primary.js-create-workflow-rule(type="button", disabled)
+                i.fa.fa-plus
+                |  {{t $.L "r-add-rule"}}
+          .workflow-palettes
+            .workflow-palette
+              h3 {{t $.L "r-trigger"}}
+              each chip in $.TriggerPalette
+                .workflow-chip.js-trigger-chip(draggable="true", data-idx="{{.Idx}}", data-doc="{{.Doc}}", data-label="{{.Label}}")
+                  i.fa.fa-bolt
+                  span {{.Label}}
+            .workflow-palette
+              h3 {{t $.L "r-action"}}
+              each chip in $.ActionPalette
+                .workflow-chip.js-action-chip(draggable="true", data-idx="{{.Idx}}", data-doc="{{.Doc}}", data-label="{{.Label}}")
+                  i.fa.fa-play
+                  span {{.Label}}
+          h3.workflow-existing-title {{t $.L "r-board-rules"}}
           each rule in .Rules
-            .workflow-rule(data-rule-id="{{.ID}}")
+            .workflow-rule.js-rule-node(data-rule-id="{{.ID}}", data-trigger="{{.TriggerDoc}}")
               .workflow-rule-title {{.Title}}
               .workflow-node.workflow-trigger {{.Trigger}}
               each act in .Actions
                 .workflow-node.workflow-action {{.}}
+              a.workflow-rule-delete.js-delete-workflow-rule(href="#", title="{{t $.L `r-delete-rule`}}")
+                i.fa.fa-trash
       each rule in .Rules
         //- WeKan's ruleDetails: what the rule waits for, and what it does.
         template.js-rules-pane(data-pane="details-{{.ID}}")

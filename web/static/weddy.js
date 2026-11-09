@@ -897,6 +897,60 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       up.reload('.rules-page');
     }, function (e) { msg.textContent = e.reason || e.message; });
   });
+  // WeKan's rulesWorkflow builder: chips dragged into When and Then, Add Rule;
+  // an action dropped onto a rule replaces what it does.
+  var workflowDrag = null; // { kind: 'trigger' | 'action', doc, label }
+  var workflowPick = { trigger: null, action: null };
+  function workflowSlot(slot, pick) {
+    slot.textContent = '';
+    var span = document.createElement('span');
+    span.className = pick ? 'workflow-node-text' : 'workflow-slot-placeholder';
+    span.textContent = pick ? pick.label : slot.dataset.empty;
+    slot.appendChild(span);
+    var stage = slot.closest('.rules-workflow');
+    var add = stage && stage.querySelector('.js-create-workflow-rule');
+    if (add) add.disabled = !(workflowPick.trigger && workflowPick.action);
+  }
+  document.addEventListener('dragstart', function (event) {
+    var chip = event.target.closest && event.target.closest('.js-trigger-chip, .js-action-chip');
+    if (!chip) return;
+    workflowDrag = { kind: chip.matches('.js-trigger-chip') ? 'trigger' : 'action', doc: JSON.parse(chip.dataset.doc), label: chip.dataset.label };
+    if (event.dataTransfer) event.dataTransfer.setData('text/plain', chip.dataset.label);
+  });
+  document.addEventListener('dragover', function (event) {
+    if (event.target.closest && event.target.closest('.js-when-slot, .js-then-slot, .js-rule-node')) event.preventDefault();
+  });
+  document.addEventListener('drop', function (event) {
+    var target = event.target.closest && event.target.closest('.js-when-slot, .js-then-slot, .js-rule-node');
+    if (!target || !workflowDrag) return;
+    event.preventDefault();
+    var drag = workflowDrag;
+    workflowDrag = null;
+    if (target.matches('.js-when-slot') && drag.kind === 'trigger') { workflowPick.trigger = drag; workflowSlot(target, drag); }
+    else if (target.matches('.js-then-slot') && drag.kind === 'action') { workflowPick.action = drag; workflowSlot(target, drag); }
+    else if (target.matches('.js-rule-node') && drag.kind === 'action') {
+      var err = target.closest('.rules-workflow').querySelector('.js-workflow-error');
+      var title = (target.querySelector('.workflow-rule-title') || {}).textContent || '';
+      callAsync('rules.updateRule', target.dataset.ruleId, title, JSON.parse(target.dataset.trigger || '{}'), drag.doc).then(function () { up.reload('.rules-page'); }, function (e) { err.textContent = e.reason || e.message; err.hidden = false; });
+    }
+  });
+  up.on('click', '.js-create-workflow-rule', function (event, el) {
+    event.preventDefault();
+    if (!workflowPick.trigger || !workflowPick.action) return;
+    var stage = el.closest('.rules-workflow');
+    var titleField = stage.querySelector('.js-workflow-rule-title');
+    var title = titleField.value.trim() || (workflowPick.trigger.label + ' \u2192 ' + workflowPick.action.label);
+    var err = stage.querySelector('.js-workflow-error');
+    el.disabled = true;
+    callAsync('rules.createRule', rulesPage(el).dataset.board, title, workflowPick.trigger.doc, workflowPick.action.doc).then(function () {
+      workflowPick = { trigger: null, action: null };
+      up.reload('.rules-page');
+    }, function (e) { err.textContent = e.reason || e.message; err.hidden = false; el.disabled = false; });
+  });
+  up.on('click', '.js-delete-workflow-rule', function (event, el) {
+    event.preventDefault();
+    callAsync('rules.deleteRule', el.closest('.js-rule-node').dataset.ruleId).then(function () { up.reload('.rules-page'); });
+  });
   // WeKan's Wrike workflow import: lists and rules made on the server.
   up.on('click', '.js-rules-import-wrike', function (event, el) {
     event.preventDefault();

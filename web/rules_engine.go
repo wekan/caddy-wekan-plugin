@@ -1148,6 +1148,7 @@ func (s *Server) buttonRules(ctx context.Context, boardID, buttonType string) []
 // ruleRow is a rule as the Rules page lists it.
 type ruleRow struct {
 	ID, Title, Trigger string
+	TriggerDoc         string // the trigger in the Rules export's portable shape, as JSON
 	Actions            []string
 	Enabled            bool
 }
@@ -1166,7 +1167,8 @@ func (s *Server) rulesPage(w http.ResponseWriter, r *http.Request, u *User) {
 		view = "list"
 	}
 	data := map[string]any{"Title": tr(lang, "rules"), "User": u, "Board": b, "CanEdit": b.AdminOf(u.ID), "View": view,
-		"RuleTokens": s.ruleVariableTokens(r.Context(), b.ID), "CopyBoards": s.copyBoards(r.Context(), u, b.ID)}
+		"RuleTokens": s.ruleVariableTokens(r.Context(), b.ID), "CopyBoards": s.copyBoards(r.Context(), u, b.ID),
+		"TriggerPalette": paletteChips(lang, triggerPalette), "ActionPalette": paletteChips(lang, actionPalette)}
 	if b.AdminOf(u.ID) {
 		ctx := r.Context()
 		cur, err := s.db.Collection("rules").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}}))
@@ -1179,6 +1181,9 @@ func (s *Server) rulesPage(w http.ResponseWriter, r *http.Request, u *User) {
 				var t bson.M
 				if s.db.Collection("triggers").FindOne(ctx, bson.M{"_id": eq(docString(x, "triggerId"))}).Decode(&t) == nil {
 					row.Trigger = docString(t, "desc")
+					if raw, err := json.Marshal(portableRule(t)); err == nil {
+						row.TriggerDoc = string(raw)
+					}
 					if row.Trigger == "" {
 						row.Trigger = docString(t, "activityType")
 					}

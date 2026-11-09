@@ -50,7 +50,8 @@ func TestEveryQueryValueIsEqOrAnID(t *testing.T) {
 				// eq(...), or an id of a document read from the database: x.ID,
 				// doc["_id"], or dbIn(...) - ids read from documents, only the
 				// ones that are ids.
-				if strings.HasPrefix(v, "eq(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || strings.HasPrefix(v, "storedHash(") || constantsOnly(v) || numberConstant.MatchString(v) || strings.HasPrefix(v, "hashToken(") {
+				if strings.HasPrefix(v, "eq(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || strings.HasPrefix(v, "storedHash(") || constantsOnly(v) || numberConstant.MatchString(v) || strings.HasPrefix(v, "hashToken(") ||
+					v == `"*"` {
 					continue
 				}
 				offenders = append(offenders, fmt.Sprintf("%s:%d %s: %s", f, i+1, m[1], v))
@@ -62,6 +63,12 @@ func TestEveryQueryValueIsEqOrAnID(t *testing.T) {
 	}
 	if !constantsOnly(`bson.M{"$in": bson.A{nil, ""}}`) || constantsOnly(`bson.M{"$in": bson.A{id}}`) || constantsOnly(`bson.M{"$ne": userID}`) {
 		t.Fatal("constantsOnly takes a value from a request, or misses constants")
+	}
+	// "*" is WeKan's wildcard in a rule part - a constant of the code, as the
+	// Rules workflow palette's documents write it (rules_palette.go). Only that
+	// literal: any other value still has to come through eq().
+	if !field.MatchString(`bson.M{"userId": "*", "boardId": id}`) {
+		t.Fatal("the scan misses a request value beside the wildcard")
 	}
 	// The scan itself catches the old shape (negative).
 	if !field.MatchString(`bson.M{"_id": id, "boardId": b.ID}`) {
