@@ -238,6 +238,7 @@
   "delete-all-notifications": "Пур пӗлтерӗве кӑларса пӑрахас",
   "delete-all-notifications-confirm": "Пур пӗлтерӗве кӑларса пӑрахасси ҫинчен шанатӑр-и? Ҫак ӗҫе каялла тавӑрма ҫук.",
   "description": "Ӑнлантару",
+  "details": "Тӗплӗ кӑтартусем",
   "displayName": "Кӑтартмалли ят",
   "domain": "Домен",
   "domains": "Доменсем",

@@ -238,6 +238,7 @@
   "delete-all-notifications": "அனைத்து அறிவிப்புகளையும் நீக்கு",
   "delete-all-notifications-confirm": "அனைத்து அறிவிப்புகளையும் நிச்சயமாக நீக்க வேண்டுமா? இந்தச் செயலை மீட்க முடியாது.",
   "description": "விவரம்",
+  "details": "விவரங்கள்",
   "displayName": "காட்சிப் பெயர்",
   "domain": "டொமைன்",
   "domains": "டொமைன்கள்",

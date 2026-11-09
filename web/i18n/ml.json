@@ -238,6 +238,7 @@
   "delete-all-notifications": "എല്ലാ അറിയിപ്പുകളും ഇല്ലാതാക്കുക",
   "delete-all-notifications-confirm": "എല്ലാ അറിയിപ്പുകളും ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ? ഈ പ്രവർത്തനം പഴയപടിയാക്കാനാകില്ല.",
   "description": "വിവരണം",
+  "details": "വിശദാംശങ്ങൾ",
   "displayName": "പ്രദർശനനാമം",
   "domain": "ഡൊമെയ്ൻ",
   "domains": "ഡൊമെയ്‌നുകൾ",

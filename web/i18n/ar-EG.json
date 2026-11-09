@@ -238,6 +238,7 @@
   "delete-all-notifications": "حذف جميع الإشعارات",
   "delete-all-notifications-confirm": "هل أنت متأكد أنك تريد حذف جميع الإشعارات؟ لا يمكن التراجع عن هذا الإجراء.",
   "description": "وصف",
+  "details": "تفاصيل",
   "displayName": "الاسم المعروض",
   "domain": "النطاق",
   "domains": "النطاقات",

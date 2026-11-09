@@ -238,6 +238,7 @@
   "delete-all-notifications": "Alle Benachrichtigungen löschen",
   "delete-all-notifications-confirm": "Möchten Sie wirklich alle Benachrichtigungen löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
   "description": "Beschreibung",
+  "details": "Einzelheiten",
   "displayName": "Anzeigename",
   "domain": "Domäne",
   "domains": "Domänen",

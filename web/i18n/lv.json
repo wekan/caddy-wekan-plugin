@@ -238,6 +238,7 @@
   "delete-all-notifications": "Dzēst visus paziņojumus",
   "delete-all-notifications-confirm": "Vai tiešām vēlaties izdzēst visus paziņojumus? Šo darbību nevar atsaukt.",
   "description": "Apraksts",
+  "details": "Detaļas",
   "displayName": "Rodomas pavadinimas",
   "domain": "Domēns",
   "domains": "Domēni",

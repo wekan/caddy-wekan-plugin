@@ -238,6 +238,7 @@
   "delete-all-notifications": "Izbriši sve obavijesti",
   "delete-all-notifications-confirm": "Jeste li sigurni da želite izbrisati sve obavijesti? Ova se radnja ne može poništiti.",
   "description": "Opis",
+  "details": "Pojedinosti",
   "displayName": "Prikazno ime",
   "domain": "Domena",
   "domains": "Domene",

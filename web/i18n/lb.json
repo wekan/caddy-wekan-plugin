@@ -238,6 +238,7 @@
   "delete-all-notifications": "All Notifikatiounen läschen",
   "delete-all-notifications-confirm": "Möchten Dir wierklech all Notifikatiounen läschen? Dës Aktion kann net rückgängig gemacht ginn.",
   "description": "Beschreiwung",
+  "details": "Einzelheiten",
   "displayName": "Anzeigename",
   "domain": "Domäne",
   "domains": "Domänen",

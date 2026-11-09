@@ -238,6 +238,7 @@
   "delete-all-notifications": "ਸਾਰੀਆਂ ਸੂਚਨਾਵਾਂ ਮਿਟਾਓ",
   "delete-all-notifications-confirm": "ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ 'ਤੇ ਸਾਰੀਆਂ ਸੂਚਨਾਵਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ? ਇਸ ਕਾਰਵਾਈ ਨੂੰ ਅਣਕੀਤਾ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ।",
   "description": "ਵਰਣਨ",
+  "details": "ਵੇਰਵੇ",
   "displayName": "ਦਿਖਾਇਆ ਹੋਇਆ ਨਾਮ",
   "domain": "ਡੋਮੇਨ",
   "domains": "ਡੋਮੇਨ",

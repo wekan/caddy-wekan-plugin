@@ -1286,8 +1286,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     'js-mail-action': function (p) {
       var to = val(p, 'email-to').trim();
       var discussion = p.querySelector('#email-discussion');
+      var details = p.querySelector('#email-card-details');
       return to ? { actionType: 'sendEmail', emailTo: to, emailSubject: val(p, 'email-subject'), emailMsg: val(p, 'email-msg'),
-        includeChecklistsAndComments: !!(discussion && discussion.checked) } : null;
+        includeCardDetails: !!(details && details.checked), includeChecklistsAndComments: !!(discussion && discussion.checked) } : null;
     },
     'js-link-card-action': function (p) {
       return { actionType: 'linkCard', boardId: val(p, 'board-id-link'), listName: val(p, 'listName-link') || '*', swimlaneName: val(p, 'swimlaneName-link') || '*' };

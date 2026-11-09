@@ -140,3 +140,83 @@ func TestRuleSendEmailDiscussion(t *testing.T) {
 		t.Errorf("negative: no mail for a refused card: %d", len(sink.messages()))
 	}
 }
+
+// "Details": the card's board, list, swimlane, fields, people by name only,
+// labels, custom fields (an admin-only one for a board admin alone), notes and
+// the cards it names - a card on a board its user may not read left out.
+func TestRuleSendEmailDetails(t *testing.T) {
+	sink := newSMTPSink(t)
+	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	for _, u := range []*User{ann, bob} {
+		_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": u.ID}, bson.M{"$set": bson.M{
+			"emails": bson.A{bson.M{"address": u.Username + "@example.org"}}, "profile.fullname": strings.ToUpper(u.Username) + " Person"}})
+	}
+	b, _ := w.s.CreateBoard(ctx, ann, "Plans")
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true})
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"labels": bson.A{bson.M{"_id": "lab1", "name": "Urgent", "color": "red"}}}})
+	l, _ := w.s.AddList(ctx, b, "Doing")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	parent, _ := w.s.AddCard(ctx, b, ann, l.ID, sw.ID, "Epic")
+	secret, _ := w.s.CreateBoard(ctx, ann, "Secret") // ann's alone
+	sl, _ := w.s.AddList(ctx, secret, "Hidden")
+	var ssw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": secret.ID}).Decode(&ssw)
+	hidden, _ := w.s.AddCard(ctx, secret, ann, sl.ID, ssw.ID, "Hidden plan")
+	c, _ := w.s.AddCard(ctx, b, ann, l.ID, sw.ID, "Task")
+	due := time.Date(2026, 12, 1, 9, 0, 0, 0, time.UTC)
+	_, _ = w.db.Collection("customFields").InsertMany(ctx, []any{
+		bson.M{"_id": "cfPrio", "boardIds": bson.A{b.ID}, "name": "Priority", "type": "dropdown", "sort": 1.0,
+			"settings": bson.M{"dropdownItems": bson.A{bson.M{"_id": "hi", "name": "High"}}}},
+		bson.M{"_id": "cfCost", "boardIds": bson.A{b.ID}, "name": "Cost", "type": "currency", "sort": 2.0, "settings": bson.M{"currencyCode": "EUR"}},
+		bson.M{"_id": "cfSalary", "boardIds": bson.A{b.ID}, "name": "Salary", "type": "text", "adminOnly": true, "sort": 3.0}})
+	_, _ = w.db.Collection("card_text_notes").InsertOne(ctx, bson.M{"_id": "n1", "cardId": c.ID, "boardId": b.ID, "title": "Plan", "text": "Do it", "createdAt": due})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{
+		"dueAt": due, "labelIds": bson.A{"lab1"}, "members": bson.A{bob.ID}, "assignees": bson.A{ann.ID},
+		"parentId": parent.ID, "cardDependencies": bson.A{bson.M{"cardId": hidden.ID, "type": "blocks"}},
+		"customFields": bson.A{bson.M{"_id": "cfPrio", "value": "hi"}, bson.M{"_id": "cfCost", "value": 12.5}, bson.M{"_id": "cfSalary", "value": "9000"}}}})
+	mail := func(userID string) string {
+		t.Helper()
+		before := len(sink.messages())
+		act := bson.M{"actionType": "sendEmail", "emailTo": "ann@example.org", "emailSubject": "S", "emailMsg": "M", "includeCardDetails": true}
+		if err := w.s.performAction(ctx, bson.M{"boardId": b.ID, "cardId": c.ID, "userId": userID}, act); err != nil {
+			t.Fatal(err)
+		}
+		msgs := sink.messages()
+		if len(msgs) != before+1 {
+			t.Fatalf("one e-mail: %d", len(msgs)-before)
+		}
+		decoded, _ := io.ReadAll(quotedprintable.NewReader(strings.NewReader(msgs[len(msgs)-1])))
+		return strings.ReplaceAll(string(decoded), "\r\n", "\n")
+	}
+	m := mail(bob.ID) // a normal member
+	for _, want := range []string{"Board: Plans", "List: Doing", "Due: 2026-12-01T09:00:00.000Z", "Created by: ANN Person",
+		"Labels: Urgent", "Members: BOB Person", "Assignees: ANN Person", "Priority: High", "Cost: 12.5 EUR", "Plan: Do it", "Parent: Epic"} {
+		if !strings.Contains(m, want) {
+			t.Errorf("the details have %q: %q", want, m)
+		}
+	}
+	for _, not := range []string{"Salary", "9000", "Hidden plan", "bob@example.org"} {
+		if strings.Contains(m, not) {
+			t.Errorf("negative: a normal member's mail has no %q: %q", not, m)
+		}
+	}
+	// The board admin sees the admin-only field, and the card it can read.
+	m = mail(ann.ID)
+	for _, want := range []string{"Salary: 9000", "blocks: Hidden plan"} {
+		if !strings.Contains(m, want) {
+			t.Errorf("a board admin's details have %q: %q", want, m)
+		}
+	}
+	// Negative: a stranger's rule gets no details and no mail.
+	zed := w.seedUser(t, "zed", "pw")
+	before := len(sink.messages())
+	if err := w.s.performAction(ctx, bson.M{"boardId": b.ID, "cardId": c.ID, "userId": zed.ID},
+		bson.M{"actionType": "sendEmail", "emailTo": "ann@example.org", "includeCardDetails": true}); err == nil || len(sink.messages()) != before {
+		t.Error("negative: a card its user may not read sends nothing")
+	}
+}

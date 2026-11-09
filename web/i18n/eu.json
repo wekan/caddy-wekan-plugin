@@ -238,6 +238,7 @@
   "delete-all-notifications": "Ezabatu jakinarazpen guztiak",
   "delete-all-notifications-confirm": "Ziur zaude jakinarazpen guztiak ezabatu nahi dituzula? Ekintza hau ezin da desegin.",
   "description": "Deskripzioa",
+  "details": "Xehetasunak",
   "displayName": "Bistaratzeko izena",
   "domain": "Domeinua",
   "domains": "Domeinuak",

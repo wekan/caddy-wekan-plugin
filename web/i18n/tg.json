@@ -238,6 +238,7 @@
   "delete-all-notifications": "Нест кардани ҳамаи огоҳиномаҳо",
   "delete-all-notifications-confirm": "Мутмаин ҳастед, ки ҳамаи огоҳиномаҳоро нест кардан мехоҳед? Ин амалро бекор кардан мумкин нест.",
   "description": "Тавсиф",
+  "details": "Тафсилот",
   "displayName": "Номи намоишӣ",
   "domain": "Домен",
   "domains": "Доменҳо",

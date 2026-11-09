@@ -238,6 +238,7 @@
   "delete-all-notifications": "सबै सूचनाहरू मेटाउनुहोस्",
   "delete-all-notifications-confirm": "के तपाईं सबै सूचनाहरू मेटाउन निश्चित हुनुहुन्छ? यो कार्य पूर्ववत् गर्न सकिँदैन।",
   "description": "विवरण",
+  "details": "विवरणहरू",
   "displayName": "देखाइने नाम",
   "domain": "डोमेन",
   "domains": "डोमेनहरू",

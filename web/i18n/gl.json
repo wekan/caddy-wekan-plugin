@@ -238,6 +238,7 @@
   "delete-all-notifications": "Eliminar todas as notificacións",
   "delete-all-notifications-confirm": "Estás seguro de que queres eliminar todas as notificacións? Esta acción non se pode desfacer.",
   "description": "Descrición",
+  "details": "Detalles",
   "displayName": "Nome para mostrar",
   "domain": "Dominio",
   "domains": "Dominios",

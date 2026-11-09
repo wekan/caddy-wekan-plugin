@@ -16,9 +16,9 @@ import (
 // {creator}, {assignees}, {members} - in To are their addresses, and an
 // @username in To is that board member's own address, a non-member's
 // dropped. The card's title, description and link close the message (#3301,
-// #2713). On request, the card's checklists and comments follow
-// (rule_mail_discussion.go); WeKan's card details and attachments are not in
-// Weddy's mail yet.
+// #2713). On request, the card's details (rule_mail_details.go) and its
+// checklists and comments (rule_mail_discussion.go) follow, in WeKan's
+// order; its attachments are not in Weddy's mail yet.
 
 var mentionPart = regexp.MustCompile(`^@([A-Za-z0-9._-]{1,100})$`)
 
@@ -85,6 +85,16 @@ func (s *Server) ruleSendEmail(ctx context.Context, a, act bson.M, c *Card, vars
 			text += "\n\n"
 		}
 		text += "-- \n" + strings.Join(footer, "\n")
+	}
+	// "Details": the card's own fields (rule_mail_details.go).
+	if act["includeCardDetails"] == true {
+		details, err := s.ruleMailDetails(ctx, docString(a, "userId"), c.BoardID, c.ID)
+		if err != nil {
+			return err
+		}
+		if details != "" {
+			text += "\n\n" + details
+		}
 	}
 	// "Checklists / Comments": the card's, as its user may read them; a card
 	// they no longer may sends no mail at all, as in WeKan.

@@ -238,6 +238,7 @@
   "delete-all-notifications": "සියලු දැනුම්දීම් මකා දමන්න",
   "delete-all-notifications-confirm": "සියලු දැනුම්දීම් මකා දැමීමට ඔබට විශ්වාසද? මෙම ක්‍රියාව අහෝසි කළ නොහැක.",
   "description": "විස්තරය",
+  "details": "විස්තර",
   "displayName": "පෙන්වන නම",
   "domain": "වසම",
   "domains": "වසම්",

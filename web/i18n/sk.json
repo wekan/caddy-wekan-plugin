@@ -238,6 +238,7 @@
   "delete-all-notifications": "Odstrániť všetky oznámenia",
   "delete-all-notifications-confirm": "Naozaj chcete odstrániť všetky oznámenia? Túto akciu nie je možné vrátiť späť.",
   "description": "Popis",
+  "details": "Podrobnosti",
   "displayName": "Zobrazovaný názov",
   "domain": "Doména",
   "domains": "Domény",

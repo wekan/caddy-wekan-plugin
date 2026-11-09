@@ -238,6 +238,7 @@
   "delete-all-notifications": "Tanggalin Lahat abisos",
   "delete-all-notifications-confirm": "Sigurado ka ba ikaw want sa tanggalin lahat abisos? Ito aksyon hindi maaaring maging undone.",
   "description": "Paglalarawan",
+  "details": "Mga detalye",
   "displayName": "Ipakita Pangalan",
   "domain": "Sakop",
   "domains": "Mga domain",

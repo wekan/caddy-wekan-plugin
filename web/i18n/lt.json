@@ -238,6 +238,7 @@
   "delete-all-notifications": "Ištrinti visus pranešimus",
   "delete-all-notifications-confirm": "Ar tikrai norite ištrinti visus pranešimus? Šio veiksmo anuliuoti negalima.",
   "description": "Aprašymas",
+  "details": "Detalės",
   "displayName": "Rodomas pavadinimas",
   "domain": "Domenas",
   "domains": "Domenai",

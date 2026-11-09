@@ -238,6 +238,7 @@
   "delete-all-notifications": "Изтриване на всички известия",
   "delete-all-notifications-confirm": "Наистина ли искате да изтриете всички известия? Това действие е необратимо.",
   "description": "Описание",
+  "details": "Подробности",
   "displayName": "Име",
   "domain": "Домейн",
   "domains": "Домейни",

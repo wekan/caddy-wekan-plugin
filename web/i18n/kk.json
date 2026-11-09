@@ -238,6 +238,7 @@
   "delete-all-notifications": "Барлық хабарландыруларды жою",
   "delete-all-notifications-confirm": "Барлық хабарландыруларды шынымен жойғыңыз келе ме? Бұл әрекетті қайтару мүмкін емес.",
   "description": "Сипаттама",
+  "details": "Мәліметтер",
   "displayName": "Көрсетілетін атау",
   "domain": "Домен",
   "domains": "Домендер",

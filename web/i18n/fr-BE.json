@@ -238,6 +238,7 @@
   "delete-all-notifications": "Supprimer toutes les notifications",
   "delete-all-notifications-confirm": "Êtes-vous sûr de vouloir supprimer toutes les notifications ? Cette action est irréversible.",
   "description": "Texte descriptif",
+  "details": "Détails",
   "displayName": "Nom d'Affichage",
   "domain": "Domaine",
   "domains": "Domaines",

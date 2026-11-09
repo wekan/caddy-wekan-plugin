@@ -238,6 +238,7 @@
   "delete-all-notifications": "Удалить все уведомления",
   "delete-all-notifications-confirm": "Вы уверены, что хотите удалить все уведомления? Это действие нельзя отменить.",
   "description": "Описание",
+  "details": "Детали",
   "displayName": "Отображаемое название",
   "domain": "Домен",
   "domains": "Домены",

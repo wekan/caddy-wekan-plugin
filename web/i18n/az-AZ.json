@@ -238,6 +238,7 @@
   "delete-all-notifications": "Bütün bildirişləri silin",
   "delete-all-notifications-confirm": "Bütün bildirişləri silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz.",
   "description": "Təsvir",
+  "details": "Təfərrüatlar",
   "displayName": "Görünən Adı",
   "domain": "Domen",
   "domains": "Domenlər",

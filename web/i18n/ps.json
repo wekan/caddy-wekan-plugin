@@ -238,6 +238,7 @@
   "delete-all-notifications": "ټولې خبرتياوې ړنګې کړئ",
   "delete-all-notifications-confirm": "ډاډه ياست چې ټولې خبرتياوې ړنګول غواړئ؟ دا کړنه بېرته نه راګرځي.",
   "description": "تشريح",
+  "details": "جزئيات",
   "displayName": "ښودل کېدونکی نوم",
   "domain": "ډومېن",
   "domains": "ډومېنونه",

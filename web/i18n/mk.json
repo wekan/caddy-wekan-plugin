@@ -238,6 +238,7 @@
   "delete-all-notifications": "Избриши сва",
   "delete-all-notifications-confirm": "Дали сте сигурни дека сакате да ги избришете сите известувања? Ова дејство не може да се поништи.",
   "description": "Описание",
+  "details": "Детаљи",
   "displayName": "Име",
   "domain": "Домен",
   "domains": "Домени",

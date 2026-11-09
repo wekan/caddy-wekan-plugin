@@ -238,6 +238,7 @@
   "delete-all-notifications": "Hapus Semua Pemberitahuan",
   "delete-all-notifications-confirm": "Apakah Anda yakin ingin menghapus semua pemberitahuan? Tindakan ini tidak dapat dibatalkan.",
   "description": "Deskripsi",
+  "details": "Perincian",
   "displayName": "Nama Tampilan",
   "domain": "Ranah",
   "domains": "Domain",

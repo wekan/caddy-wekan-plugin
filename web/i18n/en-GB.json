@@ -238,6 +238,7 @@
   "delete-all-notifications": "Delete All Notifications",
   "delete-all-notifications-confirm": "Are you sure you want to delete all notifications? This action cannot be undone.",
   "description": "Description",
+  "details": "Details",
   "displayName": "Display Name",
   "domain": "Domain",
   "domains": "Domains",

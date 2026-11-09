@@ -238,6 +238,7 @@
   "delete-all-notifications": "Suprimir totas las notificacions",
   "delete-all-notifications-confirm": "Volètz vertadièrament suprimir totas las notificacions ? Aquesta accion se pòt pas anullar.",
   "description": "Descripcion",
+  "details": "Detalhs",
   "displayName": "Nom visible",
   "domain": "Domeni",
   "domains": "Domenis",

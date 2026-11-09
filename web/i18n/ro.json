@@ -238,6 +238,7 @@
   "delete-all-notifications": "Șterge toate notificările",
   "delete-all-notifications-confirm": "Sigur doriți să ștergeți toate notificările? Această acțiune nu poate fi anulată.",
   "description": "Descriere",
+  "details": "Detalii",
   "displayName": "Nume afișat",
   "domain": "Domeniu",
   "domains": "Domenii",

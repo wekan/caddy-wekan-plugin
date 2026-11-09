@@ -238,6 +238,7 @@
   "delete-all-notifications": "Verwijder Alle Notificaties",
   "delete-all-notifications-confirm": "Weet je zeker dat je alle notificaties wilt verwijderen? Er is geen herstelmogelijkheid.",
   "description": "Beschrijving",
+  "details": "Bijzonderheden",
   "displayName": "Schermnaam",
   "domain": "Domein",
   "domains": "Domeinen",

@@ -238,6 +238,7 @@
   "delete-all-notifications": "حذف همه اعلان‌ها",
   "delete-all-notifications-confirm": "آیا مطمئن هستید که می‌خواهید همه اعلان‌ها را حذف کنید؟ این اقدام قابل بازگشت نیست.",
   "description": "توضیحات",
+  "details": "تفاصيل",
   "displayName": "نام نمایشی",
   "domain": "دامنه",
   "domains": "دامنه‌ها",

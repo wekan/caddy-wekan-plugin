@@ -238,6 +238,7 @@
   "delete-all-notifications": "Slet alle notifikationer",
   "delete-all-notifications-confirm": "Er du sikker på, at du vil slette alle notifikationer? Denne handling kan ikke fortrydes.",
   "description": "Beskrivelse",
+  "details": "Detaljer",
   "displayName": "Visningsnavn",
   "domain": "Domæne",
   "domains": "Domæner",

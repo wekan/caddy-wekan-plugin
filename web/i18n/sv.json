@@ -238,6 +238,7 @@
   "delete-all-notifications": "Ta bort alla notifieringar",
   "delete-all-notifications-confirm": "Är du säker på att du vill ta bort alla notifieringar? Denna åtgärd kan inte ångras.",
   "description": "Beskrivning",
+  "details": "Detaljer",
   "displayName": "Visningsnamn",
   "domain": "Domän",
   "domains": "Domäner",

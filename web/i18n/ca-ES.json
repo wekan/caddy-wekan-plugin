@@ -238,6 +238,7 @@
   "delete-all-notifications": "Esborra totes les notificacions",
   "delete-all-notifications-confirm": "Segur que voleu esborrar totes les notificacions? Aquesta acció no es pot desfer.",
   "description": "Descripció",
+  "details": "Detalls",
   "displayName": "Nom de visualització",
   "domain": "Domini",
   "domains": "Dominis",

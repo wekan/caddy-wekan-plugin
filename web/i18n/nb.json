@@ -238,6 +238,7 @@
   "delete-all-notifications": "Slett alle varsler",
   "delete-all-notifications-confirm": "Er du sikker på at du vil slette alle varsler? Denne handlingen kan ikke angres.",
   "description": "Beskrivelse",
+  "details": "Detaljer",
   "displayName": "Visningsnavn",
   "domain": "Domene",
   "domains": "Domener",

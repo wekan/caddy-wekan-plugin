@@ -238,6 +238,7 @@
   "delete-all-notifications": "Ħassar Kollha Notifiki",
   "delete-all-notifications-confirm": "Żgur you want għal delete all notifications? Dan action cannot be undone.",
   "description": "Deskrizzjoni",
+  "details": "Dettalji",
   "displayName": "Display Isem",
   "domain": "Dominju",
   "domains": "Dominji",

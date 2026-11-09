@@ -238,6 +238,7 @@
   "delete-all-notifications": "ลบการแจ้งเตือนทั้งหมด",
   "delete-all-notifications-confirm": "คุณแน่ใจหรือไม่ว่าต้องการลบการแจ้งเตือนทั้งหมด? การกระทำนี้ไม่สามารถยกเลิกได้",
   "description": "คำอธิบาย",
+  "details": "รายละเอียด",
   "displayName": "ชื่อที่แสดง",
   "domain": "โดเมน",
   "domains": "โดเมน",

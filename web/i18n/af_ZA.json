@@ -238,6 +238,7 @@
   "delete-all-notifications": "Vee alle kennisgewings uit",
   "delete-all-notifications-confirm": "Is jy seker jy wil alle kennisgewings uitvee? Hierdie handeling kan nie ontdoen word nie.",
   "description": "Beskrywing",
+  "details": "Besonderhede",
   "displayName": "Vertoon Naam",
   "domain": "Domein",
   "domains": "Domeine",

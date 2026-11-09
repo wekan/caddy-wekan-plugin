@@ -238,6 +238,7 @@
   "delete-all-notifications": "সব বিজ্ঞপ্তি মুছুন",
   "delete-all-notifications-confirm": "আপনি কি নিশ্চিত যে সব বিজ্ঞপ্তি মুছে ফেলতে চান? এই কাজটি ফেরানো যাবে না।",
   "description": "বিবরণ",
+  "details": "বিবরণ",
   "displayName": "প্রদর্শিত নাম",
   "domain": "ডোমেইন",
   "domains": "ডোমেইন",

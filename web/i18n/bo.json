@@ -238,6 +238,7 @@
   "delete-all-notifications": "བརྡ་ཐོ་ཚང་མ་སུབ།",
   "delete-all-notifications-confirm": "བརྡ་ཐོ་ཚང་མ་སུབ་རྒྱུ་ངེས་གཏན་ཡིན་ནམ། བྱ་བ་འདི་ཕྱིར་བཟློག་མི་ཐུབ།",
   "description": "འགྲེལ་བཤད།",
+  "details": "ཞིབ་ཕྲ།",
   "displayName": "མངོན་པའི་མིང་།",
   "domain": "དྲ་ཁོངས།",
   "domains": "དྲ་ཁོངས།",

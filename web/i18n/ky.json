@@ -238,6 +238,7 @@
   "delete-all-notifications": "Бардык билдирмелерди өчүрүү",
   "delete-all-notifications-confirm": "Бардык билдирмелерди чын эле өчүрөсүзбү? Бул аракетти артка кайтаруу мүмкүн эмес.",
   "description": "Сүрөттөмө",
+  "details": "Чоо-жайы",
   "displayName": "Көрсөтүлүүчү аты",
   "domain": "Домен",
   "domains": "Домендер",

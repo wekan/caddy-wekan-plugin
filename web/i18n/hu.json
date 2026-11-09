@@ -238,6 +238,7 @@
   "delete-all-notifications": "Összes értesítés törlése",
   "delete-all-notifications-confirm": "Biztosan törölni szeretnéd az összes értesítést? Ez a művelet nem vonható vissza.",
   "description": "Leírás",
+  "details": "Részletek",
   "displayName": "Megjelenítendő név",
   "domain": "Tartomány",
   "domains": "Domainek",

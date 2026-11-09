@@ -810,6 +810,9 @@
                     input#email-subject(type="text", placeholder="{{t $.L `r-subject`}}")
                     textarea#email-msg
                     label
+                      input#email-card-details(type="checkbox")
+                      | {{t $.L "details"}}
+                    label
                       input#email-discussion(type="checkbox")
                       | {{t $.L "checklists"}} / {{t $.L "comments"}}
                     .trigger-hint.trigger-hint-email-vars {{t $.L "r-email-vars-hint"}}

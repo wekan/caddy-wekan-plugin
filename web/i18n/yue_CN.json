@@ -238,6 +238,7 @@
   "delete-all-notifications": "刪除所有通知",
   "delete-all-notifications-confirm": "您確定要刪除所有通知嗎？此操作無法撤銷。",
   "description": "描述",
+  "details": "細節",
   "displayName": "顯示名稱",
   "domain": "域",
   "domains": "域",

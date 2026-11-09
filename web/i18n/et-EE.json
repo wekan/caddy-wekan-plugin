@@ -238,6 +238,7 @@
   "delete-all-notifications": "Kustuta kõik teavitused",
   "delete-all-notifications-confirm": "Kas oled kindel, et soovid kustutada kõik teavitused? Seda toimingut ei saa tagasi võtta.",
   "description": "Kirjeldus",
+  "details": "Üksikasjad",
   "displayName": "Kuva nimi",
   "domain": "Domeen",
   "domains": "Domeenid",

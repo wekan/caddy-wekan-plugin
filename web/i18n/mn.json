@@ -238,6 +238,7 @@
   "delete-all-notifications": "Бүх мэдэгдлийг устгах",
   "delete-all-notifications-confirm": "Бүх мэдэгдлийг устгахдаа итгэлтэй байна уу? Энэ үйлдлийг буцаах боломжгүй.",
   "description": "Тайлбар",
+  "details": "Дэлгэрэнгүй",
   "displayName": "Харагдах нэр",
   "domain": "Домэйн",
   "domains": "Домэйнүүд",

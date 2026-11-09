@@ -238,6 +238,7 @@
   "delete-all-notifications": "Strika øll boð",
   "delete-all-notifications-confirm": "Ert tú vís/ur í, at tú vilt strika øll boð? Henda gerðin kann ikki angrast.",
   "description": "Lýsing",
+  "details": "Nágreiningar",
   "displayName": "Víst navn",
   "domain": "Økisnavn",
   "domains": "Økisnøvn",

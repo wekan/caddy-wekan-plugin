@@ -238,6 +238,7 @@
   "delete-all-notifications": "Xóa tất cả thông báo",
   "delete-all-notifications-confirm": "Bạn có chắc chắn muốn xóa tất cả thông báo không? Hành động này không thể hoàn tác.",
   "description": "Mô tả",
+  "details": "Perincian",
   "displayName": "Tên Hiển Thị",
   "domain": "Tên miền",
   "domains": "Domain",

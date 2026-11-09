@@ -238,6 +238,7 @@
   "delete-all-notifications": "Scrios Gach Fógra",
   "delete-all-notifications-confirm": "An bhfuil tú cinnte gur mhaith leat gach fógra a scriosadh? Ní féidir an gníomh seo a chealú.",
   "description": "Cur síos",
+  "details": "Sonraí",
   "displayName": "Ainm Taispeána",
   "domain": "Fearann",
   "domains": "Fearainn",

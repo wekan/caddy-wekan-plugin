@@ -238,6 +238,7 @@
   "delete-all-notifications": "အသိပေးချက်အားလုံး ဖျက်ရန်",
   "delete-all-notifications-confirm": "အသိပေးချက်အားလုံးကို ဖျက်ရန် သေချာပါသလား။ ဤလုပ်ဆောင်ချက်ကို ပြန်ဖျက်၍ မရပါ။",
   "description": "ဖော်ပြချက်",
+  "details": "အသေးစိတ်",
   "displayName": "ပြသအမည်",
   "domain": "ဒိုမိန်း",
   "domains": "ဒိုမိန်းများ",

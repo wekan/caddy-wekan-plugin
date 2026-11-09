@@ -238,6 +238,7 @@
   "delete-all-notifications": "सभी सूचनाएँ हटाएँ",
   "delete-all-notifications-confirm": "क्या आप वाकई सभी सूचनाएँ हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।",
   "description": "विवरण",
+  "details": "विवरण",
   "displayName": "प्रदर्शित नाम",
   "domain": "डोमेन",
   "domains": "डोमेन",

@@ -238,6 +238,7 @@
   "delete-all-notifications": "Barcha bildirishnomalarni o'chirish",
   "delete-all-notifications-confirm": "Haqiqatan ham barcha bildirishnomalarni oʻchirib tashlamoqchimisiz? Bu amalni ortga qaytarib bo‘lmaydi.",
   "description": "Tavsif",
+  "details": "Tafsilotlar",
   "displayName": "Ko'rsatiladigan ism",
   "domain": "Domen",
   "domains": "Domenlar",

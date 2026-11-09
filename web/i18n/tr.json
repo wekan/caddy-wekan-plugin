@@ -238,6 +238,7 @@
   "delete-all-notifications": "Tüm Bildirimleri Sil",
   "delete-all-notifications-confirm": "Tüm bildirimleri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
   "description": "Açıklama",
+  "details": "Detaylar",
   "displayName": "Görünen İsim",
   "domain": "Alan Adı",
   "domains": "Alan Adları",

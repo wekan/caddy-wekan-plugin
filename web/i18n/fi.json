@@ -238,6 +238,7 @@
   "delete-all-notifications": "Poista kaikki ilmoitukset",
   "delete-all-notifications-confirm": "Oletko varma että haluat poistaa kaikki ilmoitukset? Tätä toimintoa ei voi perua.",
   "description": "Kuvaus",
+  "details": "Yksityiskohdat",
   "displayName": "Näyttönimi",
   "domain": "Verkkotunnus",
   "domains": "Verkkotunnukset",

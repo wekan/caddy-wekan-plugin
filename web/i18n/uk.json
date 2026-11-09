@@ -238,6 +238,7 @@
   "delete-all-notifications": "Видалити всі сповіщення",
   "delete-all-notifications-confirm": "Ви впевнені, що хочете видалити всі сповіщення? Цю дію не можна скасувати.",
   "description": "Опис",
+  "details": "Деталі",
   "displayName": "Відображене Ім'я",
   "domain": "Домен",
   "domains": "Домени",
