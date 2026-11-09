@@ -471,6 +471,13 @@ func (s *Server) ruleVars(ctx context.Context, a bson.M, c *Card, actor *User) m
 	v["board"] = v["boardname"]
 	if c != nil {
 		s.cardPeopleAndFields(ctx, v, c)
+		// #3301: {cardLink}, the card's own address.
+		var cb Board
+		if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(c.BoardID)}).Decode(&cb) == nil {
+			if link := cardLink(&cb, c); link != "" {
+				v["cardlink"] = link
+			}
+		}
 	}
 	return v
 }
@@ -667,6 +674,8 @@ func (s *Server) performAction(ctx context.Context, a bson.M, act bson.M) error 
 		return s.ruleCopyCard(ctx, a, act, c)
 	case "linkCard":
 		return s.ruleLinkCard(ctx, a, act, c)
+	case "sendEmail":
+		return s.ruleSendEmail(ctx, a, act, c, vars)
 	case "archive":
 		if !c.Archived {
 			if err := touch(bson.M{"$set": bson.M{"archived": true, "archivedAt": now}}); err != nil {

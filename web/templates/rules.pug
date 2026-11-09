@@ -445,6 +445,7 @@
                   i.fa.fa-file-text-o
                 li.js-set-checklist-actions(data-tab="checklist-actions")
                   i.fa.fa-check
+                li.js-set-mail-actions(data-tab="mail-actions") @
             .triggers-main-body
               //- #3195: insert a rule variable into the text field last focused.
               label.rule-variable-picker
@@ -656,6 +657,21 @@
                         option(value="months") {{t $.L "r-unit-months"}}
                     .trigger-text {{t $.L "r-later"}}
                   button.trigger-button.js-set-reldate-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+              //- WeKan's mailActions: an e-mail, To with addresses, people
+                tokens and @members, and the rule's variables.
+              .js-rules-tab.is-hidden(data-tab="mail-actions")
+                .trigger-item.trigger-item-mail
+                  .trigger-content.trigger-content-mail
+                    .trigger-text.trigger-text-email {{t $.L "r-send-email"}}
+                    .trigger-dropdown-mail
+                      input#email-to(type="text", placeholder="{{t $.L `r-to`}}")
+                    input#email-subject(type="text", placeholder="{{t $.L `r-subject`}}")
+                    textarea#email-msg
+                    .trigger-hint.trigger-hint-email-vars {{t $.L "r-email-vars-hint"}}
+                    .trigger-hint.trigger-hint-people-vars {{t $.L "r-vars-people-hint"}}
+                    .trigger-hint.trigger-hint-email-members {{t $.L "r-email-members-hint"}}
+                  button.trigger-button.trigger-button-email.js-mail-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
                     i.fa.fa-plus(aria-hidden="true")
               .js-rules-tab.is-hidden(data-tab="checklist-actions")
                 .trigger-item
