@@ -438,6 +438,7 @@
   "r-due-is-set": "被设置",
   "r-due-overdue": "已逾期",
   "r-due-soon": "即将到来",
+  "r-edit-rule-trigger-action": "编辑规则 (扳機/行動)",
   "r-email-members-hint": "由清單加入嘅看板會員會以 @username 放入「到」，並發送到嗰位會員自己嘅電子郵件地址。其他電子郵件地址仍然可以打入「到」。",
   "r-email-vars-hint": "可用嘅標籤: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "导出",

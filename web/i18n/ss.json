@@ -438,6 +438,7 @@
   "r-due-is-set": "lusethiwe",
   "r-due-overdue": "selwephutile",
   "r-due-soon": "lusondzela",
+  "r-edit-rule-trigger-action": "Hlela umtsetfo (Sicupho/Sento)",
   "r-email-members-hint": "Lilunga lelibhodi lelengetwe ohlwini liya ku-Ku njenge-@username bese litfunyelwa kulikheli le-imeyili lalo. Lamanye emakheli e-imeyili asengabhalwa ku-Ku.",
   "r-email-vars-hint": "Tiphawulo letikhona: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Tfumela",

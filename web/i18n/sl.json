@@ -438,6 +438,7 @@
   "r-due-is-set": "nastavljen",
   "r-due-overdue": "prekoračen",
   "r-due-soon": "se približuje",
+  "r-edit-rule-trigger-action": "Uredi sprožilec/dejanje",
   "r-email-members-hint": "Član table, dodan s seznama, gre v polje Za kot @username in sporočilo se pošlje na njegov lastni e-poštni naslov. Druge e-poštne naslove je še vedno mogoče vpisati v polje Za.",
   "r-email-vars-hint": "Razpoložljive oznake: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Izvozi",

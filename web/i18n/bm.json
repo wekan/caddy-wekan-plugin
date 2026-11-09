@@ -438,6 +438,7 @@
   "r-due-is-set": "sɛmɛntiyalen don",
   "r-due-overdue": "tɛmɛna",
   "r-due-soon": "surunyalen don",
+  "r-edit-rule-trigger-action": "Sariya yɛlɛma (Daminɛla/Kɛwale)",
   "r-email-members-hint": "Walan tɔnden min farala a kan ka bɔ lisi la, o bɛ don To kɔnɔ i n'a fɔ @username, ka ci o tɔnden yɛrɛ ka Imɛli adiresi ma. Imɛli adiresi wɛrɛw bɛ se ka sɛbɛn To kɔnɔ hali bi.",
   "r-email-vars-hint": "Taagiw minnu bɛ sɔrɔ: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Labɔ",

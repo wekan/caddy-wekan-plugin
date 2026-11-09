@@ -438,6 +438,7 @@
   "r-due-is-set": "constituitur",
   "r-due-overdue": "praeteriit",
   "r-due-soon": "appropinquat",
+  "r-edit-rule-trigger-action": "Muta condicionem excitantem vel actionem",
   "r-email-members-hint": "Sodalis tabulae ex indice additus in Ad ut @username ponitur et ad propriam inscriptionem litterarum electronicarum eius sodalis mittitur. Aliae inscriptiones litterarum electronicarum adhuc in Ad scribi possunt.",
   "r-email-vars-hint": "Tesserae disponibiles: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exporta",

@@ -438,6 +438,7 @@
   "r-due-is-set": "ሲዘጋጅ",
   "r-due-overdue": "ጊዜው ሲያልፍ",
   "r-due-soon": "ሲቃረብ",
+  "r-edit-rule-trigger-action": "ደንብ አርትዕ (አስጀማሪ/ድርጊት)",
   "r-email-members-hint": "ከዝርዝሩ የተጨመረ የሰሌዳ አባል ወደ «ለ» መስክ እንደ @username ይገባል፣ እና ወደዚያ አባል የራሱ የኢሜይል አድራሻ ይላካል። ሌሎች የኢሜይል አድራሻዎች አሁንም በ«ለ» መስክ ውስጥ ሊጻፉ ይችላሉ።",
   "r-email-vars-hint": "ያሉ መለያዎች: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "ላክ",

@@ -934,6 +934,12 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     ruleState = { name: val(page, 'ruleTitle').trim(), trigger: null };
     showPane(page, 'trigger');
   });
+  // #2713: edit a rule - the same wizard, saving it in place (rules.updateRule).
+  up.on('click', '.rules-page .js-edit-rule-full', function (event, el) {
+    event.preventDefault();
+    ruleState = { name: el.dataset.title || '', trigger: null, editing: el.dataset.ruleId };
+    showPane(rulesPage(el), 'trigger');
+  });
   up.on('click', '.rules-page .js-goback', function (event, el) {
     event.preventDefault();
     showPane(rulesPage(el), el.dataset.to);
@@ -1116,7 +1122,10 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var action = make(el.closest('.js-rules-tab'));
     if (!action) return; // an action that needs a value, without one
     action.desc = ruleDesc(el);
-    callAsync('rules.createRule', page.dataset.board, ruleState.name, ruleState.trigger, action).then(function () {
+    var saved = ruleState.editing
+      ? callAsync('rules.updateRule', ruleState.editing, ruleState.name, ruleState.trigger, action)
+      : callAsync('rules.createRule', page.dataset.board, ruleState.name, ruleState.trigger, action);
+    saved.then(function () {
       up.reload('.rules-page');
     }, function (e) { window.alert(e.reason || e.message); });
   });

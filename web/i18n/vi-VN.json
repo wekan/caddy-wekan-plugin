@@ -438,6 +438,7 @@
   "r-due-is-set": "được đặt",
   "r-due-overdue": "đã quá hạn",
   "r-due-soon": "sắp đến",
+  "r-edit-rule-trigger-action": "Sửa quy tắc (Kích hoạt/Hoạt động)",
   "r-email-members-hint": "Thành viên bảng được thêm từ danh sách sẽ vào ô Đến dưới dạng @username và được gửi đến địa chỉ email riêng của thành viên đó. Vẫn có thể gõ các địa chỉ email khác vào ô Đến.",
   "r-email-vars-hint": "Thẻ có sẵn: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Xuất",

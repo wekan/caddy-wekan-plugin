@@ -438,6 +438,7 @@
   "r-due-is-set": "i gat taim bilong pinis yu makim",
   "r-due-overdue": "taim bilong pinis i lus pinis",
   "r-due-soon": "taim bilong pinis i klostu",
+  "r-edit-rule-trigger-action": "Editim samting i kirapim wok / wok",
   "r-email-members-hint": "Memba bilong bot yu putim long lista i go long To olsem @username na i go long Imel adres bilong dispela memba yet. Yu ken raitim narapela Imel adres long To yet.",
   "r-email-vars-hint": "Ol tag i stap: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Salim i go aut",

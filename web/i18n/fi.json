@@ -438,6 +438,7 @@
   "r-due-is-set": "asetetaan",
   "r-due-overdue": "on myöhässä",
   "r-due-soon": "lähestyy",
+  "r-edit-rule-trigger-action": "Muokkaa sääntöä (Liipaisin/Toiminto)",
   "r-email-members-hint": "Listasta lisätty taulun jäsen menee Vastaanottaja-kenttään muodossa @username, ja viesti lähetetään jäsenen omaan sähköpostiosoitteeseen. Muita sähköpostiosoitteita voi edelleen kirjoittaa Vastaanottaja-kenttään.",
   "r-email-vars-hint": "Käytettävissä olevat tunnisteet: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Vie",

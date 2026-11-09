@@ -438,6 +438,7 @@
   "r-due-is-set": "aka saita ta",
   "r-due-overdue": "ta wuce",
   "r-due-soon": "take gabatowa",
+  "r-edit-rule-trigger-action": "Gyara ƙa'ida (Mai kunnawa/Aiki)",
   "r-email-members-hint": "Mamban allo da aka ƙara daga jerin yana shiga cikin Zuwa a matsayin @username kuma ana aika shi zuwa adireshin imel na wannan mamban. Har yanzu ana iya rubuta wasu adiresoshin imel a cikin Zuwa.",
   "r-email-vars-hint": "Alamomin da ake da su: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Fitar da",

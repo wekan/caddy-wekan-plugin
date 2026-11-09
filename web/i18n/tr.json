@@ -438,6 +438,7 @@
   "r-due-is-set": "ayarlandığında",
   "r-due-overdue": "geçtiğinde",
   "r-due-soon": "yaklaştığında",
+  "r-edit-rule-trigger-action": "Kuralı düzenle (Tetikleyici/Aksiyon)",
   "r-email-members-hint": "Listeden eklenen pano üyesi Kime alanına @username olarak girer ve o üyenin kendi e-posta adresine gönderilir. Başka e-posta adresleri de Kime alanına yazılabilir.",
   "r-email-vars-hint": "Kullanılabilir etiketler: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Dışa Aktar",

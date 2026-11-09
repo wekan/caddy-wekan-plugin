@@ -438,6 +438,7 @@
   "r-due-is-set": "la dejiyo",
   "r-due-overdue": "waqtigeedu dhaafo",
   "r-due-soon": "soo dhowaanayso",
+  "r-edit-rule-trigger-action": "Wax ka beddel xeerka (Kiciye/Ficil)",
   "r-email-members-hint": "Xubin sabuuradda oo laga soo daray liiska waxay galaysaa Loogu talagalay sida @username waxaana loo dirayaa cinwaanka iimaylka xubintaas. Cinwaanno iimayl oo kale weli waa lagu qori karaa Loogu talagalay.",
   "r-email-vars-hint": "Calaamadaha diyaarka ah: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Soo saar",

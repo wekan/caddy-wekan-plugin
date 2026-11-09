@@ -438,6 +438,7 @@
   "r-due-is-set": "מוגדר",
   "r-due-overdue": "עבר",
   "r-due-soon": "מתקרב",
+  "r-edit-rule-trigger-action": "עריכת כלל (הקפצה/פעולה)",
   "r-email-members-hint": "חבר לוח שנוסף מהרשימה נכנס לשדה \"אל\" בתור @username וההודעה נשלחת לכתובת הדוא״ל של אותו חבר. עדיין אפשר להקליד כתובות דוא״ל אחרות בשדה \"אל\".",
   "r-email-vars-hint": "תגיות זמינות: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "ייצוא",

@@ -438,6 +438,7 @@
   "r-due-is-set": "ir iestatīts",
   "r-due-overdue": "ir nokavēts",
   "r-due-soon": "tuvojas",
+  "r-edit-rule-trigger-action": "Labot noteikumu (Trigeris/Darbība)",
   "r-email-members-hint": "No saraksta pievienots dēļa dalībnieks nonāk laukā Kam kā @username, un vēstule tiek nosūtīta uz šī dalībnieka paša e-pasta adresi. Citas e-pasta adreses joprojām var ierakstīt laukā Kam.",
   "r-email-vars-hint": "Pieejamie tagi: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksportēt",

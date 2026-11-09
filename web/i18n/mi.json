@@ -438,6 +438,7 @@
   "r-due-is-set": "kua tautuhia",
   "r-due-overdue": "kua hipa te wā",
   "r-due-soon": "e tata mai ana",
+  "r-edit-rule-trigger-action": "Whakatika ture (Keu/Hohenga)",
   "r-email-members-hint": "Ko te mema papa i tāpirihia mai i te rārangi ka uru ki te Ki hei @username, ā, ka tukuna ki te wāhitau īmēra ake o taua mema. Ka taea tonu te pato i ētahi atu wāhitau īmēra ki te Ki.",
   "r-email-vars-hint": "Ngā tohu e wātea ana: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Kaweatu",

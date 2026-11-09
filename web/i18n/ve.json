@@ -438,6 +438,7 @@
   "r-due-is-set": "ḽo vhewa",
   "r-due-overdue": "ḽo fhira",
   "r-due-soon": "ḽi khou sendela",
+  "r-edit-rule-trigger-action": "Lugisa tshiṱusi/nyito",
   "r-email-members-hint": "Muraḓo wa bodo o engedzwaho u bva kha mutevhe u ya kha To sa @username nahone u rumelwa kha ḽiresi ḽa Imeiḽi ḽa muraḓo uyo. Maḓiresi a Imeiḽi manwe a kha ḓi nga ṅwalwa kha To.",
   "r-email-vars-hint": "Zwiredzo zwi wanalaho: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Bvisela nnda",

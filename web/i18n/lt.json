@@ -438,6 +438,7 @@
   "r-due-is-set": "yra nustatyta",
   "r-due-overdue": "yra pradelsta",
   "r-due-soon": "artėja",
+  "r-edit-rule-trigger-action": "Redaguoti taisyklę (Trigeris/Veiksmas)",
   "r-email-members-hint": "Iš sąrašo pridėtas lentos narys patenka į laukelį \"į\" kaip @username, ir laiškas siunčiamas to nario el. pašto adresu. Kitus el. pašto adresus vis tiek galima įvesti į laukelį \"į\".",
   "r-email-vars-hint": "Prieinamos žymos: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksportuoti",

@@ -438,6 +438,7 @@
   "r-due-is-set": "est définie",
   "r-due-overdue": "est dépassée",
   "r-due-soon": "approche",
+  "r-edit-rule-trigger-action": "Modifier la règle (Déclencheur/opération de règle)",
   "r-email-members-hint": "Un participant du tableau ajouté depuis la liste va dans À sous la forme @username et le message est envoyé à sa propre adresse e-mail. D'autres adresses e-mail peuvent toujours être saisies dans À.",
   "r-email-vars-hint": "Balises disponibles: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exporter",

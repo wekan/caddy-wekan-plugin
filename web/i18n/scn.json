@@ -438,6 +438,7 @@
   "r-due-is-set": "è impostata",
   "r-due-overdue": "è scaduta",
   "r-due-soon": "si avvicina",
+  "r-edit-rule-trigger-action": "Cancia regola (Attivatore/Azzzioni)",
   "r-email-members-hint": "Un membru dâ tavula agghiunciutu dâ lista va nta A comu @username e veni mannatu ô so propiu indirizzu di posta elettronica. Àutri indirizzi di posta si ponnu ancora scrìviri nta A.",
   "r-email-vars-hint": "Etichetti dispunibbili: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Esporta",

@@ -438,6 +438,7 @@
   "r-due-is-set": "murtaa'u",
   "r-due-overdue": "yeroo isaa darbe",
   "r-due-soon": "dhiyaachaa jiru",
+  "r-edit-rule-trigger-action": "Seera gulaali (Kaka'umsa/Tarkaanfii)",
   "r-email-members-hint": "Miseensi gabatee tarree irraa dabalame akka @username tti gara Gara seena, teessoo imeelii miseensa sanaa ofii isaatiif ergama. Teessoowwan imeelii biroo ammas Gara keessatti barreeffamuu danda'u.",
   "r-email-vars-hint": "Mallattoowwan jiran: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Baasi",

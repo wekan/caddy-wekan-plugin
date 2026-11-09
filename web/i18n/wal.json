@@ -438,6 +438,7 @@
   "r-due-is-set": "wottettiyo wode",
   "r-due-overdue": "aadhdhiyo wode",
   "r-due-soon": "matiyo wode",
+  "r-edit-rule-trigger-action": "Denttiyaabaa/oosuwaa laamma",
   "r-email-members-hint": "Dizhiyaappe gujjettida bookkiyaa yarattay \"to\" giyaagaa @username gidi gelees, qassi he yarattaa iimeeliyaa sohuwaa kiitettees. Hara iimeeliyaa sohuwaa ha'ikka \"to\" giyaagaan xaafana danddayettees.",
   "r-email-vars-hint": "De’iya malaatiya: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Kessa",

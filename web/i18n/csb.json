@@ -438,6 +438,7 @@
   "r-due-is-set": "zostanié ustawiony",
   "r-due-overdue": "je pò terminie",
   "r-due-soon": "sã zblëżô",
+  "r-edit-rule-trigger-action": "Editëjë wëzwôlôcz/dzejbã",
   "r-email-members-hint": "Nôleżnik tôflë dodóny z lëstë trôfiô do \"do\" jakno @username i je wësyłóny na swòjã elektroniczną adresã. Jinszé adrese elektroniczny pòcztë wcyg mòżna wpisac w \"do\".",
   "r-email-vars-hint": "Dostãpné etiketë: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Ekspòrtowac",

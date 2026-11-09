@@ -438,6 +438,7 @@
   "r-due-is-set": "cherlu'",
   "r-due-overdue": "poH juSpu'",
   "r-due-soon": "SumchoH",
+  "r-edit-rule-trigger-action": "pab choH (Auslöser/Aktion)",
   "r-email-members-hint": "tetlh vo' 'echlet chuD chellu'bogh 'el \"ghoSmeH Daq:\" Daq, @username rur, 'ej chuD'e' ghaH jabbI'ID Daq ngeHlu'. latlh jabbI'ID Daqmey ghItlhlu'laH \"ghoSmeH Daq:\" Daq.",
   "r-email-vars-hint": "maqmey: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "ngeH",

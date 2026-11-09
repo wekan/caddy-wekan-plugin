@@ -438,6 +438,7 @@
   "r-due-is-set": "termenet",
   "r-due-overdue": "diamzeret",
   "r-due-soon": "o tostaat",
+  "r-edit-rule-trigger-action": "Kemmañ ar reolenn (Tarzher/Ober)",
   "r-email-members-hint": "Un ezel eus an daolenn ouzhpennet diwar ar roll a ya e \"da\" evel @username hag a vez kaset da chomlec'h e-mail an ezel-se. Chomlec'hioù e-mail all a c'hall bezañ skrivet c'hoazh e \"da\".",
   "r-email-vars-hint": "Balizennoù hegerz: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Ezporzhiañ",

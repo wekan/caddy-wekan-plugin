@@ -438,6 +438,7 @@
   "r-due-is-set": "easti bãgatã",
   "r-due-overdue": "easti tricutã",
   "r-due-soon": "s-apruchie",
+  "r-edit-rule-trigger-action": "Alãxea declanshatorlu/actsiunea",
   "r-email-members-hint": "Un membru a tabelãljei adavgat dit listã intrã tu Cãtrã ca @username shi s-pitreatsi la adresa di postã electronicã a membrului. Alti adresi di postã electronicã pot s-hibã ninga scriati tu Cãtrã.",
   "r-email-vars-hint": "Eticheti tsi ari: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportã",

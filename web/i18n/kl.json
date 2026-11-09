@@ -438,6 +438,7 @@
   "r-due-is-set": "inissinneqarpat",
   "r-due-overdue": "qaangiuppat",
   "r-due-soon": "qanillippat",
+  "r-edit-rule-trigger-action": "Malittarisassaq allanngortiguk (Aallartitsisoq/Iliuuseq)",
   "r-email-members-hint": "Ilisarnaammi ilaasortaq allattorsimasunit ilanngunneqartoq Tigusisumut @username-tut ilanngunneqartarpoq, ilaasortallu taassuma nammineq e-mail-imut najugaanut nassiunneqartarluni. E-mail-imut najukkat allat suli Tigusisumut allanneqarsinnaapput.",
   "r-email-vars-hint": "Atugassiuutit pissutsit: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Nuussuk",

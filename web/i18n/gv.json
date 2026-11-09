@@ -438,6 +438,7 @@
   "r-due-is-set": "er ny chur",
   "r-due-overdue": "er ny lurgaghey",
   "r-due-soon": "çheet er-gerrey",
+  "r-edit-rule-trigger-action": "Reaghey reill (Greesag/Jantys)",
   "r-email-members-hint": "Ta oltey boayrd currit stiagh voish y rolley goll stiagh ayns Gys myr @username as t'eh currit gys enmys post-l y oltey shen hene. Foddee enmyssyn post-l elley ve screeuit ayns Gys foast.",
   "r-email-vars-hint": "Bolagyn t’astoilagh: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Cur magh",

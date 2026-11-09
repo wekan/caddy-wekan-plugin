@@ -438,6 +438,7 @@
   "r-due-is-set": "le behilwe",
   "r-due-overdue": "le fetilwe ke nako",
   "r-due-soon": "le atamela",
+  "r-edit-rule-trigger-action": "Hlophisa molao (Sehlasimolli/Ketso)",
   "r-email-members-hint": "Setho sa boto se eketsitsweng lenaneng se ya ho \"ho\" jwalo ka @username mme se romelwa atereseng ya imeile ya setho seo. Diaterese tse ding tsa imeile di ntse di ka ngolwa ho \"ho\".",
   "r-email-vars-hint": "Ditshwaontlha tse teng: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Ntsha",

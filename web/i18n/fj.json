@@ -438,6 +438,7 @@
   "r-due-is-set": "sa lesi",
   "r-due-overdue": "sa sivi",
   "r-due-soon": "sa voleka",
+  "r-edit-rule-trigger-action": "Veisautaka na lawa (iVakatubu/Cakacaka)",
   "r-email-members-hint": "Na lewe ni vola e vakurai mai na lisi e curu ki Vei me vaka na @username ka vakau ki na nona tikina ni imeli. E rawa tiko ni vola eso tale na tikina ni imeli ki Vei.",
   "r-email-vars-hint": "Tag e rawa: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Vakau yani",

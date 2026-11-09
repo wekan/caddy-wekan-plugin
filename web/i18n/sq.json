@@ -438,6 +438,7 @@
   "r-due-is-set": "caktohet",
   "r-due-overdue": "ka kaluar",
   "r-due-soon": "po afrohet",
+  "r-edit-rule-trigger-action": "Redakto rregullin (Shkrehësi/Veprimi)",
   "r-email-members-hint": "Një anëtar i tabelës i shtuar nga lista shkon te Për si @username dhe mesazhi dërgohet në adresën email të vetë atij anëtari. Adresa të tjera email mund të shkruhen ende te Për.",
   "r-email-vars-hint": "Etiketat në dispozicion: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksporto",

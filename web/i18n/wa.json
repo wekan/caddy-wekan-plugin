@@ -438,6 +438,7 @@
   "r-due-is-set": "est metowe",
   "r-due-overdue": "est passêye",
   "r-due-soon": "s' aprepeye",
+  "r-edit-rule-trigger-action": "Candjî l' rîle (Déclencheur/Accion)",
   "r-email-members-hint": "On mimbe del tåvlea radjouté dispoy l' djivêye va dins A come @username et c' est evoyî a l' adresse emile do mimbe. On pout todi tcheure d' ôtès adresses emile dins A.",
   "r-email-vars-hint": "Etiketes k’on pout eployî: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eberweter",

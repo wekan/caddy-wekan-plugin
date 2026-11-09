@@ -438,6 +438,7 @@
   "r-due-is-set": "düzülende",
   "r-due-overdue": "möhleti geçende",
   "r-due-soon": "ýakynlaşanda",
+  "r-edit-rule-trigger-action": "Kadany redaktirläň (Işlediji/Hereket)",
   "r-email-members-hint": "Sanawdan goşulan geňeş agzasy Kime meýdanyna @username görnüşinde girýär we hat şol agzanyň öz e-poçta salgysyna iberilýär. Beýleki e-poçta salgylaryny Kime meýdanyna henizem ýazyp bolýar.",
   "r-email-vars-hint": "Elýeterli tegler: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksport",

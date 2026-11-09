@@ -438,6 +438,7 @@
   "r-due-is-set": "ie stabilida",
   "r-due-overdue": "ie passeda",
   "r-due-soon": "ie dlongia",
+  "r-edit-rule-trigger-action": "Mudé l mutif/l’azion",
   "r-email-members-hint": "N mëmber dl tofl junté dala lista va te A sciöche @username y vëgn mandé al indirizo e-mail de chël mëmber. D'autri indirizi e-mail possa ciamò gnì scrić te A.",
   "r-email-vars-hint": "Etichetes a dispusizion: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Esporté",

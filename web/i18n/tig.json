@@ -438,6 +438,7 @@
   "r-due-is-set": "ምስ ዝዳሎ",
   "r-due-overdue": "ግዜኡ ምስ ዝሓልፍ",
   "r-due-soon": "ምስ ዝቐርብ",
+  "r-edit-rule-trigger-action": "ደንቢ አስነ (መበገሲ/ትግባር)",
   "r-email-members-hint": "ምን ዝርዝር ልትወሰከ አባል ምዱድ ውሽጥ To ከም @username ይአቱ፡ ወለአባል ለሀ ኢመይል አድራሻ ይትፈነው። ካልኣት አድራሻታት ኢመይል ምስል ውሽጥ To ለትጸሐፋ ይቀድራ።",
   "r-email-vars-hint": "ዘሎ ምልክታት: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "አግዕዞ",

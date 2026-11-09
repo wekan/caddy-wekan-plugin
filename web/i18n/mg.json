@@ -438,6 +438,7 @@
   "r-due-is-set": "dia voafaritra",
   "r-due-overdue": "dia tara",
   "r-due-soon": "dia manakaiky",
+  "r-edit-rule-trigger-action": "Ovay ny fitsipika (Mpanetsika/Hetsika)",
   "r-email-members-hint": "Ny mpikambana ao amin'ny solaitra nampiana avy amin'ny lisitra dia miditra ao amin'ny To ho @username ary alefa any amin'ny adiresy mailaky ny tenany. Mbola azo soratana ao amin'ny To ny adiresy mailaka hafa.",
   "r-email-vars-hint": "Marika azo ampiasaina: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Hamoaka",

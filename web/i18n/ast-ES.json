@@ -438,6 +438,7 @@
   "r-due-is-set": "s'afita",
   "r-due-overdue": "ta vencida",
   "r-due-soon": "s'avecina",
+  "r-edit-rule-trigger-action": "Editar el disparador o l’aición",
   "r-email-members-hint": "Un miembru del tableru amestáu dende la llista va a Pa como @username y unvíase a la direición de corréu propia d'esi miembru. Otres direiciones de corréu pueden escribise igualmente en Pa.",
   "r-email-vars-hint": "Etiquetes disponibles: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Esportar",

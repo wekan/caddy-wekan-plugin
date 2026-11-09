@@ -438,6 +438,7 @@
   "r-due-is-set": "er satt",
   "r-due-overdue": "har passert",
   "r-due-soon": "nærmer seg",
+  "r-edit-rule-trigger-action": "Rediger regel (Utløser/Aksjon)",
   "r-email-members-hint": "Et tavlemedlem som legges til fra listen, havner i Til som @username og sendes til medlemmets egen e-postadresse. Andre e-postadresser kan fortsatt skrives inn i Til.",
   "r-email-vars-hint": "Tilgjengelige tagger: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksporter",

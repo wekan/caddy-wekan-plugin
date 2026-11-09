@@ -438,6 +438,7 @@
   "r-due-is-set": "설정됨",
   "r-due-overdue": "기한 초과됨",
   "r-due-soon": "임박함",
+  "r-edit-rule-trigger-action": "규칙 편집 (트리거/동작)",
   "r-email-members-hint": "목록에서 추가한 보드 멤버는 받는 사람에 @username으로 들어가고 그 멤버 자신의 이메일 주소로 전송됩니다. 다른 이메일 주소도 여전히 받는 사람에 직접 입력할 수 있습니다.",
   "r-email-vars-hint": "사용 가능한 태그: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "내보내기",

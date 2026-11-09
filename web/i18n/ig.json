@@ -438,6 +438,7 @@
   "r-due-is-set": "edobere ya",
   "r-due-overdue": "agafeela",
   "r-due-soon": "na-abịaru nso",
+  "r-edit-rule-trigger-action": "Dezie iwu (Mkpali/Omume)",
   "r-email-members-hint": "Onye otu bọọdụ etinyere site na ndepụta na-aba na Nye dị ka @username ma a na-eziga ya na adreesị ozi-e nke onye otu ahụ. Enwere ike ịpịnye adreesị ozi-e ndị ọzọ na Nye.",
   "r-email-vars-hint": "Akara ndị dị: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Bupụ",

@@ -438,6 +438,7 @@
   "r-due-is-set": "awa set",
   "r-due-overdue": "awa overdue",
   "r-due-soon": "awa approaching",
+  "r-edit-rule-trigger-action": "askichaña rule (Aymar aruna: Trigger/luräwi)",
   "r-email-members-hint": "Listat yapxatat pirqa masix \"to\" ukar @username ukham mantani, ukat uka masin pachpa aruskipäwi chiqapar apayatawa. Yaqha aruskipäwi chiqanakax \"to\" ukar qillqantasirakispawa.",
   "r-email-vars-hint": "Utjasita sañunaka: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Apsuña",

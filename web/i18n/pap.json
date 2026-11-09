@@ -438,6 +438,7 @@
   "r-due-is-set": "se establese",
   "r-due-overdue": "ta bensida",
   "r-due-soon": "se aserca",
+  "r-edit-rule-trigger-action": "Editá regla (disparador/akshon)",
   "r-email-members-hint": "Un miembro di e tabla añadí for di e lista ta bai den Pa komo @username i ta wòrdu manda na e adrès di e-mail di e miembro ei mes. Bo por ainda tek otro adrès di e-mail den Pa.",
   "r-email-vars-hint": "Etiketnan disponibel: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksportá",

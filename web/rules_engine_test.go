@@ -680,3 +680,18 @@ func TestRuleLinkCard(t *testing.T) {
 		t.Error("the cross-board write is recorded")
 	}
 }
+
+// The Rules page offers "Edit trigger/action" on each rule, to its admin.
+func TestRuleEditButton(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Editing")
+	addRule(t, w, b.ID, "redit", bson.M{"activityType": "createCard"}, bson.M{"actionType": "archive"}, true)
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	if _, html := get(t, c, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/rules"); !strings.Contains(html, `js-edit-rule-full" type="button" data-rule-id="redit"`) &&
+		!strings.Contains(html, `data-rule-id="redit" data-title="redit"`) {
+		t.Errorf("the edit button: %s", html[strings.Index(html, "rules-lists-item"):][:600])
+	}
+}

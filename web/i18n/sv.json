@@ -438,6 +438,7 @@
   "r-due-is-set": "anges",
   "r-due-overdue": "har passerats",
   "r-due-soon": "närmar sig",
+  "r-edit-rule-trigger-action": "Redigera regel (Utlösare/Åtgärd)",
   "r-email-members-hint": "En tavelmedlem som läggs till från listan hamnar i Till som @username och skickas till den medlemmens egen e-postadress. Andra e-postadresser kan fortfarande skrivas i Till.",
   "r-email-vars-hint": "Tillgängliga taggar: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportera",

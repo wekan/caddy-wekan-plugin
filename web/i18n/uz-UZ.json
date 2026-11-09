@@ -438,6 +438,7 @@
   "r-due-is-set": "oʻrnatilgan",
   "r-due-overdue": "muddati oʻtgan",
   "r-due-soon": "yaqinlashmoqda",
+  "r-edit-rule-trigger-action": "Qoidani tahrirlash (Ishga tushirgich/Harakat)",
   "r-email-members-hint": "Ro'yxatdan qo'shilgan taxta a'zosi Kimga maydoniga @username sifatida tushadi va shu a'zoning o'z elektron pochta manziliga yuboriladi. Boshqa elektron pochta manzillarini hali ham Kimga maydoniga yozish mumkin.",
   "r-email-vars-hint": "Mavjud teglar: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksport",

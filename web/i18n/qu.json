@@ -438,6 +438,7 @@
   "r-due-is-set": "churasqa kaptin",
   "r-due-overdue": "pachanmanta qhipa kaptin",
   "r-due-soon": "chayamuchkaptin",
+  "r-edit-rule-trigger-action": "Qallariqta/ruranata allichay",
   "r-email-members-hint": "Sutisqa qillqamanta yapasqa pirqa ayllumasiqa Maman nisqaman @username hina yaykun, chay ayllumasipa kikin elektroniku chaski tiyananmantaq kachakun. Huk elektroniku chaski tiyanakunatapas Maman nisqapi qillqakullanmi.",
   "r-email-vars-hint": "Kaq etiquetakuna: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Hurquy",

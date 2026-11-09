@@ -438,6 +438,7 @@
   "r-due-is-set": "tê sazkirin",
   "r-due-overdue": "derbas dibe",
   "r-due-soon": "nêzîk dibe",
+  "r-edit-rule-trigger-action": "Rêbazê biguherîne (Destpêker/Kiryar)",
   "r-email-members-hint": "Endamekî depoyê yê ji lîsteyê lê zêdekirî wek @username dikeve Ji bo û ji navnîşana e-nameya wî endamî re tê şandin. Navnîşanên e-nameyê yên din hîn jî dikarin di Ji bo de werin nivîsandin.",
   "r-email-vars-hint": "Nîşaneyên berdest: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Derxe",

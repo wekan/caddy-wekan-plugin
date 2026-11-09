@@ -438,6 +438,7 @@
   "r-due-is-set": "es definida",
   "r-due-overdue": "es passada",
   "r-due-soon": "s'apròcha",
+  "r-edit-rule-trigger-action": "Modificar la règla (Déclencheur/Acció)",
   "r-email-members-hint": "Un membre del tablèu apondut a partir de la lista va dins A coma @username e es mandat a l'adreça de corrièl pròpria d'aqueste membre. D'autras adreças de corrièl se pòdon totjorn picar dins A.",
   "r-email-vars-hint": "Etiquetas disponiblas: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportar",

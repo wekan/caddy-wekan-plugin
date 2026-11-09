@@ -438,6 +438,7 @@
   "r-due-is-set": "設定されたとき",
   "r-due-overdue": "過ぎたとき",
   "r-due-soon": "近づいたとき",
+  "r-edit-rule-trigger-action": "ルールを編集 (トリガー/操作)",
   "r-email-members-hint": "リストから追加したボードメンバーは @username として宛先（To）に入り、そのメンバー自身のメールアドレスに送信されます。ほかのメールアドレスも引き続き宛先（To）に入力できます。",
   "r-email-vars-hint": "利用可能なタグ: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "エクスポート",

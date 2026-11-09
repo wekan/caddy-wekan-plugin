@@ -438,6 +438,7 @@
   "r-due-is-set": "ezartzen denean",
   "r-due-overdue": "iraungitzen denean",
   "r-due-soon": "hurbiltzen denean",
+  "r-edit-rule-trigger-action": "Editatu araua (disparador/acción)",
   "r-email-members-hint": "Zerrendatik gehitutako arbelaren kidea \"honi\" eremuan sartzen da @username gisa, eta kide horren beraren helbide elektronikora bidaltzen da. Beste helbide elektroniko batzuk ere idatz daitezke oraindik \"honi\" eremuan.",
   "r-email-vars-hint": "Erabilgarri dauden etiketak: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Esportatu",

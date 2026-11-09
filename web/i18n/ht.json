@@ -438,6 +438,7 @@
   "r-due-is-set": "defini",
   "r-due-overdue": "anreta",
   "r-due-soon": "ap pwoche",
+  "r-edit-rule-trigger-action": "Modifye règ (Deklanche/Aksyon)",
   "r-email-members-hint": "Yon manm tablo yo ajoute nan lis la ale nan \"bay\" kòm @username epi yo voye l bay adrès imèl pwòp manm sa a. Ou ka toujou tape lòt adrès imèl nan \"bay\".",
   "r-email-vars-hint": "Tag ki disponib: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Ekspòte",

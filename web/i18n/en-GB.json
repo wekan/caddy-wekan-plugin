@@ -438,6 +438,7 @@
   "r-due-is-set": "is set",
   "r-due-overdue": "is overdue",
   "r-due-soon": "is approaching",
+  "r-edit-rule-trigger-action": "Edit rule",
   "r-email-members-hint": "A board member added from the list goes into To as @username and is sent to that member's own email address. Other email addresses can still be typed into To.",
   "r-email-vars-hint": "Available tags: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Export",

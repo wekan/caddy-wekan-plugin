@@ -438,6 +438,7 @@
   "r-due-is-set": "kuo fokotuʻu",
   "r-due-overdue": "kuo hili hono taimi",
   "r-due-soon": "ʻoku ofi mai",
+  "r-edit-rule-trigger-action": "Fakatonutonu ʻa e meʻa fakatupu/ngāue",
   "r-email-members-hint": "Ko ha mēmipa ʻo e papa naʻe tānaki mei he lisi ʻoku hū ki he Ki he ko e @username pea ʻoku ʻave ki he tuasila ʻĪmeili pē ʻaʻana. ʻE kei lava pē ke taipe ha ngaahi tuasila ʻĪmeili kehe ki he Ki he.",
   "r-email-vars-hint": "Ngaahi fakaʻilonga ʻoku ai: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "ʻAve",

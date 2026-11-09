@@ -438,6 +438,7 @@
   "r-due-is-set": "təyin edildikdə",
   "r-due-overdue": "gecikdikdə",
   "r-due-soon": "yaxınlaşdıqda",
+  "r-edit-rule-trigger-action": "Qaydanı redaktə et (Tətik/Fəaliyyət)",
   "r-email-members-hint": "Siyahıdan əlavə edilən lövhə üzvü Kimə sahəsinə @username kimi düşür və həmin üzvün öz e-poçt ünvanına göndərilir. Digər e-poçt ünvanlarını hələ də Kimə sahəsinə yazmaq olar.",
   "r-email-vars-hint": "Mövcud teqlər: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "İxrac",

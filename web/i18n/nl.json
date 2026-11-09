@@ -438,6 +438,7 @@
   "r-due-is-set": "is ingesteld",
   "r-due-overdue": "is verstreken",
   "r-due-soon": "nadert",
+  "r-edit-rule-trigger-action": "Regel bewerken (Signaal/Actie)",
   "r-email-members-hint": "Een bordlid dat uit de lijst wordt toegevoegd, komt in \"Aan\" als @username en wordt verzonden naar het eigen e-mailadres van dat lid. Andere e-mailadressen kunnen nog steeds in \"Aan\" worden getypt.",
   "r-email-vars-hint": "Beschikbare tags: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exporteren",

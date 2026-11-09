@@ -438,6 +438,7 @@
   "r-due-is-set": "er stilltur",
   "r-due-overdue": "er liðinn",
   "r-due-soon": "nálgast",
+  "r-edit-rule-trigger-action": "Breyta reglu (Kveikja/Aðgerð)",
   "r-email-members-hint": "Meðlimur töflunnar sem bætt er við af listanum fer í Til sem @username og pósturinn er sendur á hans eigið netfang. Enn er hægt að slá önnur netföng inn í Til.",
   "r-email-vars-hint": "Tiltæk merki: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Flytja út",

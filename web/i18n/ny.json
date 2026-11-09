@@ -438,6 +438,7 @@
   "r-due-is-set": "lakhazikitsidwa",
   "r-due-overdue": "ladutsa",
   "r-due-soon": "layandikira",
+  "r-edit-rule-trigger-action": "Sinthani lamulo (Choyambitsa/Chochita)",
   "r-email-members-hint": "Membala wa bolodi wowonjezeredwa kuchokera pa mndandanda amapita mu To ngati @username ndipo amatumizidwa ku adilesi ya Imelo ya membalayo. Ma adilesi ena a Imelo angalembedwebe mu To.",
   "r-email-vars-hint": "Zizindikiro zomwe zilipo: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Tulutsani",

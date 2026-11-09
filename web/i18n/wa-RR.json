@@ -438,6 +438,7 @@
   "r-due-is-set": "gintakda",
   "r-due-overdue": "lapas na",
   "r-due-soon": "hirani na",
+  "r-edit-rule-trigger-action": "Bag-oha an panhitabo nga nagpapagana/aksyon",
   "r-email-members-hint": "An membro han pisara nga gindugang tikang ha listahan nakadto ha Para kan sugad nga @username ngan igpapadara ha kalugaringon nga adres han e-mail hiton nga membro. An iba nga adres han e-mail mahimo pa gihapon isurat ha Para kan.",
   "r-email-vars-hint": "Mga marka nga mahimo gamiton: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "I-export",

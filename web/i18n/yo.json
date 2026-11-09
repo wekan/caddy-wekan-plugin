@@ -438,6 +438,7 @@
   "r-due-is-set": "ti ṣeto",
   "r-due-overdue": "ti kọja",
   "r-due-soon": "ti nsunmọ",
+  "r-edit-rule-trigger-action": "Ṣatunkọ ofin (Nfa/Iṣe)",
   "r-email-members-hint": "Ọmọ ẹgbẹ ọkọ tí a fi kún un láti inú àtòjọ yóò lọ sínú Sí gẹ́gẹ́ bí @username, a ó sì fi ránṣẹ́ sí àdírẹ́sì imeeli ti ọmọ ẹgbẹ náà fúnra rẹ̀. A ṣì lè tẹ àwọn àdírẹ́sì imeeli mìíràn sínú Sí.",
   "r-email-vars-hint": "Àmì tí ó wà: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Gbejade",

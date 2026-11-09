@@ -438,6 +438,7 @@
   "r-due-is-set": "woɖoe",
   "r-due-overdue": "va yi",
   "r-due-soon": "te ɖe ŋu",
+  "r-edit-rule-trigger-action": "Trɔ̃ se (Gɔmedzedzenu/Nuwɔnaɖoanyi)",
   "r-email-members-hint": "Ŋɔŋlɔkpe ƒe hametɔ si wotsɔ kpe ɖe eŋu tso ŋkɔnuŋlɔɖia me yia Na me abe @username ene eye woɖoa eɖa hametɔ ma ŋutɔ ƒe e-mail adrɛs dzi. Woate ŋu aŋlɔ e-mail adrɛs bubuwo ɖe Na me kokoko.",
   "r-email-vars-hint": "Dzesideŋuwo si li: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Ɖe ɖe go",

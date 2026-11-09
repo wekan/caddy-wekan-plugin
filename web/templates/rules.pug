@@ -90,6 +90,10 @@
                     else
                       i.fa.fa-toggle-off
                       |  {{t $.L "r-rule-disabled"}}
+                  //- #2713: WeKan's "Edit trigger/action" - the wizard, saving this rule.
+                  button.primary.wide.js-edit-rule-full(type="button", data-rule-id="{{.ID}}", data-title="{{.Title}}")
+                    i.fa.fa-sliders
+                    |  {{t $.L "r-edit-rule-trigger-action"}}
                   button.primary.wide.js-delete-rule(type="button", data-rule-id="{{.ID}}")
                     i.fa.fa-trash
                     |  {{t $.L "r-delete-rule"}}

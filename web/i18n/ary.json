@@ -438,6 +438,7 @@
   "r-due-is-set": "محدداً",
   "r-due-overdue": "متأخراً",
   "r-due-soon": "قريباً",
+  "r-edit-rule-trigger-action": "عدّل المُشغّل/الإجراء",
   "r-email-members-hint": "العضو ديال البرد اللي تزاد من اللائحة كيدخل ف\"إلى\" بحال @username وكيتصيفط للعنوان ديال البريد الإلكتروني ديالو. باقي تقدر تكتب عناوين أخرين ف\"إلى\".",
   "r-email-vars-hint": "الوسوم المتوفرة: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "تصدير",

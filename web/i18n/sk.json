@@ -438,6 +438,7 @@
   "r-due-is-set": "je nastavený",
   "r-due-overdue": "je po termíne",
   "r-due-soon": "sa blíži",
+  "r-edit-rule-trigger-action": "Upraviť spúšťač/akciu",
   "r-email-members-hint": "Člen nástenky pridaný zo zoznamu sa dostane do poľa Komu ako @username a správa sa odošle na jeho vlastnú e-mailovú adresu. Iné e-mailové adresy je stále možné napísať do poľa Komu.",
   "r-email-vars-hint": "Dostupné značky: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportovať",

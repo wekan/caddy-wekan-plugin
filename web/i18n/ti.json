@@ -438,6 +438,7 @@
   "r-due-is-set": "ምስ ዝቕመጥ",
   "r-due-overdue": "ምስ ዝሓልፍ",
   "r-due-soon": "ምስ ዝቐርብ",
+  "r-edit-rule-trigger-action": "ሕጊ ኣርም (መበገሲ/ተግባር)",
   "r-email-members-hint": "ካብ ዝርዝር ዝተወሰኸ ኣባል ሰሌዳ ናብ ንዓኣ ከም @username ይኣቱ፡ ናብ ናይቲ ኣባል ናይ ገዛእ ርእሱ ኣድራሻ ኢመይል ድማ ይለኣኽ። ካልኦት ኣድራሻታት ኢመይል ሕጂ'ውን ኣብ ንዓኣ ክጽሓፉ ይኽእሉ።",
   "r-email-vars-hint": "ዘለዉ ምልክታት: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "ኣውጽእ",

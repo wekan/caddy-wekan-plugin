@@ -438,6 +438,7 @@
   "r-due-is-set": "ay itakda",
   "r-due-overdue": "ay lampas sa takda",
   "r-due-soon": "ay approaching",
+  "r-edit-rule-trigger-action": "I-edit tuntunin (Panimula/Aksyon)",
   "r-email-members-hint": "Ang miyembro ng pisara na idinagdag mula sa listahan ay napupunta sa Para kay bilang @username at ipinapadala sa sariling address ng e-liham ng miyembrong iyon. Maaari pa ring mag-type ng ibang address ng e-liham sa Para kay.",
   "r-email-vars-hint": "Mga tag na magagamit: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "I-export",

@@ -438,6 +438,7 @@
   "r-due-is-set": "gestel is",
   "r-due-overdue": "agterstallig is",
   "r-due-soon": "naderkom",
+  "r-edit-rule-trigger-action": "Wysig reël (Sneller/Aksie)",
   "r-email-members-hint": "'n Bordlid wat uit die lys bygevoeg word, gaan in Aan as @username en word na daardie lid se eie e-posadres gestuur. Ander e-posadresse kan steeds in Aan ingetik word.",
   "r-email-vars-hint": "Beskikbare merkers: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Uitvoer",

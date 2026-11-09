@@ -438,6 +438,7 @@
   "r-due-is-set": "ټاکل شوې وي",
   "r-due-overdue": "له وخته تېره وي",
   "r-due-soon": "رانږدې کېږي",
+  "r-edit-rule-trigger-action": "قاعده سمه کړئ (محرک/کړنه)",
   "r-email-members-hint": "د تختې هغه غړی چې له لېست څخه ورزیات شي د @username په توګه ته (To) ته ځي او د هغه غړي خپلې برېښنالیک پتې ته لېږل کېږي. نورې برېښنالیک پتې لا هم په ته کې ليکل کېدای شي.",
   "r-email-vars-hint": "شته ټاګونه: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "صادرول",

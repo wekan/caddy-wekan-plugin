@@ -438,6 +438,7 @@
   "r-due-is-set": "तय होखे",
   "r-due-overdue": "बीत गइल होखे",
   "r-due-soon": "नजदीक आवत होखे",
+  "r-edit-rule-trigger-action": "नियम संपादित करीं (कारक/कार्रवाई)",
   "r-email-members-hint": "सूची से जोड़ल बोर्ड सदस्य 'To' में @username के रूप में जाला आ ओह सदस्य के आपन ईमेल पता पर भेजल जाला। दोसर ईमेल पता अबहियो 'To' में लिखल जा सकेला।",
   "r-email-vars-hint": "उपलब्ध टैग: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "निर्यात करीं",

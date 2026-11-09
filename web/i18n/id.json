@@ -438,6 +438,7 @@
   "r-due-is-set": "disetel",
   "r-due-overdue": "terlewat",
   "r-due-soon": "mendekat",
+  "r-edit-rule-trigger-action": "Sunting aturan (Picu/Tindakan)",
   "r-email-members-hint": "Anggota papan yang ditambahkan dari daftar masuk ke Kepada sebagai @username dan dikirim ke alamat surel anggota itu sendiri. Alamat surel lain tetap bisa diketik di Kepada.",
   "r-email-vars-hint": "Tag yang tersedia: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Ekspor",

@@ -438,6 +438,7 @@
   "r-due-is-set": "ynsteld is",
   "r-due-overdue": "ferrûn is",
   "r-due-soon": "tichteby komt",
+  "r-edit-rule-trigger-action": "Regel bewurkje (trigger/Aksje)",
   "r-email-members-hint": "In lid fan it boerd dat út de list tafoege wurdt, komt yn Oan as @username en wurdt nei it eigen e-mailadres fan dat lid stjoerd. Oare e-mailadressen kinne noch altyd yn Oan typt wurde.",
   "r-email-vars-hint": "Beskikbere tags: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksportearje",

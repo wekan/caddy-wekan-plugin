@@ -438,6 +438,7 @@
   "r-due-is-set": "ᐋᖅᑭᒃᑕᐅᑎᓪᓗᒍ",
   "r-due-overdue": "ᖄᖏᖅᑎᓪᓗᒍ",
   "r-due-soon": "ᖃᓪᓕᑎᓪᓗᒍ",
+  "r-edit-rule-trigger-action": "ᒪᓕᒐᖅ ᐋᖅᑭᒋᐊᕐᓗᒍ (ᐱᒋᐊᖅᑎᑦᓯᔾᔪᑎ/ᐱᓕᕆᐊᖅ)",
   "r-email-members-hint": "ᐊᓪᓚᕕᒻᒥ ᐃᓚᒋᔭᐅᔪᖅ ᑎᑎᖅᑲᓕᐊᕐᓂᑦ ᐃᓚᓕᐅᔭᐅᔪᖅ To-ᒧᑦ ᐃᓕᔭᐅᕙᒃᑐᖅ @username ᐊᒻᒪ ᐃᓚᒋᔭᐅᔪᐅᑉ ᖃᕆᑕᐅᔭᒃᑯᑦ ᑎᑎᖅᑲᖓᓄᑦ ᐊᐅᓪᓚᖅᑎᑕᐅᕙᒃᑐᖅ. ᐊᓯᖏᑦ ᖃᕆᑕᐅᔭᒃᑯᑦ ᑎᑎᖅᑲᐃᑦ ᑐᕌᕝᕕᖏᑦ ᑐᓂᓯᒪᔪᓐᓇᖅᑐᑦ To-ᒧᑦ.",
   "r-email-vars-hint": "ᐊᑐᖅᑕᐅᔪᓐᓇᖅᑐᑦ ᑎᑎᕋᐅᓯᐊᑦ: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "ᐊᓂᖅᑎᑕᐅᔪᖅ",

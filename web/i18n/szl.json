@@ -438,6 +438,7 @@
   "r-due-is-set": "zostanie ustawiony",
   "r-due-overdue": "je przekroczony",
   "r-due-soon": "sie zbliża",
+  "r-edit-rule-trigger-action": "Edytuj wyzwalŏcz/działanie",
   "r-email-members-hint": "Czōnek tabule przidany z listy idzie do Do jako @username i je posyłany na włŏsnõ adresã mejla tego czōnka. Inksze adresy mejla dalij idzie wpisać w Do.",
   "r-email-vars-hint": "Dostympne fana: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksportuj",

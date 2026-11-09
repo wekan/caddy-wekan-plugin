@@ -438,6 +438,7 @@
   "r-due-is-set": "se establece",
   "r-due-overdue": "está vencida",
   "r-due-soon": "se acerca",
+  "r-edit-rule-trigger-action": "Editar disparador/acción",
   "r-email-members-hint": "Un miembro d'o tablero adhibiu dende la lista va a Ta como @username y se ninvia a la adreza de correu electronico d'ixe miembro. Atras adrezas de correu se pueden escribir encara en Ta.",
   "r-email-vars-hint": "Etiquetas disponibles: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportar",

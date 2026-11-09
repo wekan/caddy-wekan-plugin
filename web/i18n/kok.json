@@ -438,6 +438,7 @@
   "r-due-is-set": "थारायता",
   "r-due-overdue": "वेळ सरता",
   "r-due-soon": "लागीं येता",
+  "r-edit-rule-trigger-action": "नेम संपादित करात (चालक/कृती)",
   "r-email-members-hint": "वळेरेंतल्यान जोडिल्लो फळ्याचो सदस्य To हांगा @username म्हूण वता आनी त्या सदस्याच्या स्वताच्या ईमेल पत्त्यार धाडटात. हेर ईमेल पत्ते अजूनय To हांगा टायप करूं येतात.",
   "r-email-vars-hint": "उपलब्ध टॅग्स: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "निर्यात करची",

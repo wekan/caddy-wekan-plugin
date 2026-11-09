@@ -438,6 +438,7 @@
   "r-due-is-set": "ke beakanya",
   "r-due-overdue": "ke e fetile nako",
   "r-due-soon": "ke atamela",
+  "r-edit-rule-trigger-action": "Rulaganya molao (Sekgotlho/Tiro)",
   "r-email-members-hint": "Leloko la boto le le tsentsweng go tswa mo lenaaneng le tsena mo Go jaaka @username mme le romelwa kwa atereseng ya imeile ya leloko leo. Diaterese tse dingwe tsa imeile di ka nna tsa kwalwa mo Go.",
   "r-email-vars-hint": "Matshwao a a leng teng: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Ntsha",

@@ -438,6 +438,7 @@
   "r-due-is-set": "postavljen",
   "r-due-overdue": "prekoračen",
   "r-due-soon": "se približava",
+  "r-edit-rule-trigger-action": "Uredi okidač/radnju",
   "r-email-members-hint": "Član ploče dodan s popisa ide u polje Prima kao @username i šalje se na vlastitu adresu e-pošte tog člana. Druge adrese e-pošte i dalje se mogu upisati u polje Prima.",
   "r-email-vars-hint": "Dostupne oznake: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Izvezi",

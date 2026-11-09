@@ -438,6 +438,7 @@
   "r-due-is-set": "settys",
   "r-due-overdue": "dre'n termyn",
   "r-due-soon": "ow neshe",
+  "r-edit-rule-trigger-action": "Chanjya reul (Dallether/Ober)",
   "r-email-members-hint": "Esel an estyllen keworrys dhyworth an rol a yn \"to\" avel @username hag yw danvenys dhe drigva ebost an esel na y honan. Trigvaow ebost erel a yll bos skrifys hwath yn \"to\".",
   "r-email-vars-hint": "Tagennow usyes: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Esperthi",

@@ -438,6 +438,7 @@
   "r-due-is-set": "disetel",
   "r-due-overdue": "wis kliwat",
   "r-due-soon": "wis cedhak",
+  "r-edit-rule-trigger-action": "Owahi aturan (Pemicu/Tumindak)",
   "r-email-members-hint": "Anggota papan sing ditambahake saka dhaptar mlebu ing Kanggo minangka @username lan dikirim menyang alamat layang elektronike anggota kasebut. Alamat layang liyane isih bisa diketik ing Kanggo.",
   "r-email-vars-hint": "Tag sing kasedhiya: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Ekspor",

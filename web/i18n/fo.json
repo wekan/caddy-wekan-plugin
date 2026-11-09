@@ -438,6 +438,7 @@
   "r-due-is-set": "verður ásett",
   "r-due-overdue": "er farin",
   "r-due-soon": "nærkast",
+  "r-edit-rule-trigger-action": "Broyt reglu (Ígongdsetari/Gerð)",
   "r-email-members-hint": "Ein limur á talvuni, sum er lagdur afturat úr listanum, kemur í \"to\" sum @username og verður sendur til teldupostadressuna hjá júst tí liminum. Aðrar teldupostadressur kunnu enn skrivast í \"to\".",
   "r-email-vars-hint": "Tøkir frámerkingar: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Útflyt",

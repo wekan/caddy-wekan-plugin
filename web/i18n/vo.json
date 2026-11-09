@@ -438,6 +438,7 @@
   "r-due-is-set": "pesäton",
   "r-due-overdue": "binon tu lätik",
   "r-due-soon": "nilon",
+  "r-edit-rule-trigger-action": "Redakön nomi (Jenot primöl/Dun)",
   "r-email-members-hint": "Liman taba pläükölöl se lised golon ini Lü as @username e pasedon lü ladet leäktronik lönik limana at. Ladets leäktronik votik kanons nog papenön in Lü.",
   "r-email-vars-hint": "Tags davedön: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Seveigön",

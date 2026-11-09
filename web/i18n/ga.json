@@ -438,6 +438,7 @@
   "r-due-is-set": "socraithe",
   "r-due-overdue": "thar téarma",
   "r-due-soon": "ag druidim",
+  "r-edit-rule-trigger-action": "Cuir riail in eagar (Truicear/Gníomh)",
   "r-email-members-hint": "Téann ball den chlár a chuirtear leis ón liosta isteach in Chuig mar @username agus seoltar é chuig seoladh ríomhphoist an bhaill sin féin. Is féidir seoltaí ríomhphoist eile a chlóscríobh in Chuig fós.",
   "r-email-vars-hint": "Clibeanna atá ar fáil: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Easpórtáil",

@@ -438,6 +438,7 @@
   "r-due-is-set": "ua seti",
   "r-due-overdue": "ua tuai",
   "r-due-soon": "ua latalata mai",
+  "r-edit-rule-trigger-action": "Teuteu le tulafono (Faaoso/Gaoioiga)",
   "r-email-members-hint": "O se sui o le laupapa ua faaopoopo mai le lisi e alu i le \"to\" e pei o @username ma e auina atu i le tuatusi imeli a lena sui. E mafai lava ona tusi isi tuatusi imeli i le \"to\".",
   "r-email-vars-hint": "Fa’ailoga o lo’o iai: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Auina atu",

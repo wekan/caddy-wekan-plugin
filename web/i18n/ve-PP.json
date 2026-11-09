@@ -438,6 +438,7 @@
   "r-due-is-set": "om pandud",
   "r-due-overdue": "om männu",
   "r-due-soon": "läheneb",
+  "r-edit-rule-trigger-action": "Toimita pravil (Liipaisin/Toimi)",
   "r-email-members-hint": "Laudan ühtnik, kudamb ližatud nimikirjaspäi, mäneb Kenele-pöudho kut @username i oigetas necen ühtnikan ičeze email-počtan adresale. Toižid email-počtan adresoid voib völ kirjutada Kenele-pöudho.",
   "r-email-vars-hint": "Zwiredzo zwi wanalaho: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Vedä irdale",

@@ -438,6 +438,7 @@
   "r-due-is-set": "gesetzt gëtt",
   "r-due-overdue": "überfällig ass",
   "r-due-soon": "näher rückt",
+  "r-edit-rule-trigger-action": "Regel beaarbechten (Auslöser/Aktion)",
   "r-email-members-hint": "E Member vun der Tafel, deen aus der Lëscht derbäigesat gëtt, kënnt an An als @username a gëtt un déi eegen E-Mail-Adress vun deem Member geschéckt. Aner E-Mail-Adresse kënnen ëmmer nach an An agetippt ginn.",
   "r-email-vars-hint": "Verfügbar Tags: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportéieren",

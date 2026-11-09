@@ -438,6 +438,7 @@
   "r-due-is-set": "ñu ko def",
   "r-due-overdue": "weesu na",
   "r-due-soon": "jege na",
+  "r-edit-rule-trigger-action": "Soppali sart (Déclencheur/Jëf)",
   "r-email-members-hint": "Ku bokk ci Tablo bi bu ñu yokk ci limu bi dina dugg ci Ci kan ni @username te ñu yónnee ko ci adreesu E-mail bu boppam. Yeneen adreesu E-mail mën nañu leen bind ci Ci kan.",
   "r-email-vars-hint": "Baatam yi am: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Génne",

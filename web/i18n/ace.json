@@ -438,6 +438,7 @@
   "r-due-is-set": "geupeuduek",
   "r-due-overdue": "ka leubeh tempo",
   "r-due-soon": "ka rap",
+  "r-edit-rule-trigger-action": "Sunting pemicu/tindakan",
   "r-email-members-hint": "Anggota papan nyang geutamah dari dapeuta jitamong u \"kepada\" sibagoe @username ngon geukirém u alamat emel droe anggota nyan. Alamat emel laén mantong jeuet geutuléh lam \"kepada\".",
   "r-email-vars-hint": "Tag nyang na: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Ekspor",

@@ -438,6 +438,7 @@
   "r-due-is-set": "wɔahyɛ",
   "r-due-overdue": "ne bere atwam",
   "r-due-soon": "ɛrebɛn",
+  "r-edit-rule-trigger-action": "Sesa ade a ɛhyɛ dwumadi ase/adeyɛ",
   "r-email-members-hint": "Bɔɔd mu nipa a wode no fi list no mu ka ho no kɔ To mu sɛ @username na wɔde kɔ saa onipa no ankasa Ɛmɛl address so. Wobɛtumi akyerɛw Ɛmɛl address foforɔ wɔ To mu da so.",
   "r-email-vars-hint": "Nsɛnkyerɛnne a ɛwɔ hɔ: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Yi adi",

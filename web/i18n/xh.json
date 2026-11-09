@@ -438,6 +438,7 @@
   "r-due-is-set": "umiselwe",
   "r-due-overdue": "udlulile",
   "r-due-soon": "usondela",
+  "r-edit-rule-trigger-action": "Hlela umthetho (Qalisa/Isenzo)",
   "r-email-members-hint": "Ilungu lebhodi elongezwe kuluhlu liya ku-To njenge-@username kwaye lithunyelwa kwidilesi ye-imeyile yelo lungu. Ezinye iidilesi ze-imeyile zisenokuchwetheza ku-To.",
   "r-email-vars-hint": "Iitegi ezikhoyo: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Thumela ngaphandle",

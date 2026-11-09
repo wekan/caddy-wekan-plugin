@@ -438,6 +438,7 @@
   "r-due-is-set": "suɓaama",
   "r-due-overdue": "yawtii",
   "r-due-soon": "ina ɓadondira",
+  "r-edit-rule-trigger-action": "Taƴto laawol (Hurminoowo/Golle)",
   "r-email-members-hint": "Tergal alluwal ɓeydaangal iwde e doggol ngol naatay e To no @username, neldee e ñiiɓirde Iimeel tergal ngal e hoore mum. Ñiiɓirɗe Iimeel goɗɗe no mbaawi winndeede e To haa jooni.",
   "r-email-vars-hint": "Baynguure ngoodaaɗe: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Yaltin",

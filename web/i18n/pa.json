@@ -438,6 +438,7 @@
   "r-due-is-set": "ਸੈੱਟ ਹੁੰਦੀ ਹੈ",
   "r-due-overdue": "ਲੰਘ ਚੁੱਕੀ ਹੈ",
   "r-due-soon": "ਨੇੜੇ ਆ ਰਹੀ ਹੈ",
+  "r-edit-rule-trigger-action": "ਨਿਯਮ ਸੰਪਾਦਿਤ ਕਰੋ (ਟਰਿੱਗਰ/ਕਾਰਵਾਈ)",
   "r-email-members-hint": "ਸੂਚੀ ਵਿੱਚੋਂ ਜੋੜਿਆ ਬੋਰਡ ਮੈਂਬਰ ਪ੍ਰਤੀ (To) ਵਿੱਚ @username ਵਜੋਂ ਜਾਂਦਾ ਹੈ ਅਤੇ ਉਸ ਮੈਂਬਰ ਦੇ ਆਪਣੇ ਈਮੇਲ ਪਤੇ ਉੱਤੇ ਭੇਜਿਆ ਜਾਂਦਾ ਹੈ। ਹੋਰ ਈਮੇਲ ਪਤੇ ਅਜੇ ਵੀ ਪ੍ਰਤੀ (To) ਵਿੱਚ ਲਿਖੇ ਜਾ ਸਕਦੇ ਹਨ।",
   "r-email-vars-hint": "ਉਪਲਬਧ ਟੈਗ: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "ਨਿਰਯਾਤ ਕਰੋ",

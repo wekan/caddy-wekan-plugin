@@ -438,6 +438,7 @@
   "r-due-is-set": "i setem finis",
   "r-due-overdue": "i pas finis",
   "r-due-soon": "i kam klosap",
+  "r-edit-rule-trigger-action": "Jenisim triga/aksen",
   "r-email-members-hint": "Wan memba blong bod we yu putum long lis i go long To olsem @username mo i go long adres blong imel blong memba ia. Yu save raetem ol narafala adres blong imel long To yet.",
   "r-email-vars-hint": "Ol tag we i stap: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Ekspotem",

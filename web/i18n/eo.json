@@ -438,6 +438,7 @@
   "r-due-is-set": "estas agordita",
   "r-due-overdue": "estas malfrua",
   "r-due-soon": "proksimiĝas",
+  "r-edit-rule-trigger-action": "Redakti ekigilon/agon",
   "r-email-members-hint": "Tabula membro aldonita el la listo iras en Al kiel @username kaj estas sendata al la propra retpoŝtadreso de tiu membro. Aliaj retpoŝtadresoj ankoraŭ povas esti tajpitaj en Al.",
   "r-email-vars-hint": "Disponeblaj etikedoj: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksporti",

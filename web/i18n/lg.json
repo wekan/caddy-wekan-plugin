@@ -438,6 +438,7 @@
   "r-due-is-set": "kiri teeka",
   "r-due-overdue": "kiri overdue",
   "r-due-soon": "kiri approaching",
+  "r-edit-rule-trigger-action": "Kyusa ekitandika/ekikolwa",
   "r-email-members-hint": "Omumemba w'olubaawo ayongeddwa okuva ku lukalala agenda mu Eri nga @username era aweerezebwa ku ndagiriro ya imeyilo ye yennyini. Endagiriro za imeyilo endala zikyasobola okuwandiikibwa mu Eri.",
   "r-email-vars-hint": "Obubonero obuliwo: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Fulumya",

@@ -438,6 +438,7 @@
   "r-due-is-set": "está definido",
   "r-due-overdue": "está atrasado",
   "r-due-soon": "está se aproximando",
+  "r-edit-rule-trigger-action": "Editar regra (Gatilho/Ação)",
   "r-email-members-hint": "Um membro do quadro adicionado da lista vai para Para como @username e é enviado ao endereço de e-mail do próprio membro. Outros endereços de e-mail ainda podem ser digitados em Para.",
   "r-email-vars-hint": "Etiquetas disponíveis: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportar",

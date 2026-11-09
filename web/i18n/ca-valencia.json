@@ -438,6 +438,7 @@
   "r-due-is-set": "s'estableix",
   "r-due-overdue": "està vençuda",
   "r-due-soon": "s'apropa",
+  "r-edit-rule-trigger-action": "Edita la regla (Disparador/Acció)",
   "r-email-members-hint": "Un membre del tauler afegit des de la llista va a Per a com a @username i s'envia a l'adreça de correu electrònic pròpia d'eixe membre. Encara es poden escriure altres adreces de correu electrònic a Per a.",
   "r-email-vars-hint": "Etiquetes disponibles: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exporta",

@@ -438,6 +438,7 @@
   "r-due-is-set": "ditetapkan",
   "r-due-overdue": "telah lewat",
   "r-due-soon": "semakin hampir",
+  "r-edit-rule-trigger-action": "Sunting peraturan (Picu/Tindakan)",
   "r-email-members-hint": "Ahli papan yang ditambah daripada senarai masuk ke Kepada sebagai @username dan dihantar ke alamat emel ahli itu sendiri. Alamat emel lain masih boleh ditaip dalam Kepada.",
   "r-email-vars-hint": "Tag yang tersedia: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksport",

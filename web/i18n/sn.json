@@ -438,6 +438,7 @@
   "r-due-is-set": "iri set",
   "r-due-overdue": "iri overdue",
   "r-due-soon": "iri approaching",
+  "r-edit-rule-trigger-action": "Gadzirisa chinotanga mutemo kana chiito",
   "r-email-members-hint": "Nhengo yebhodhi yakawedzerwa kubva parondedzero inopinda muKuna se @username uye inotumirwa kukero yetsamba yemagetsi yenhengo iyoyo. Dzimwe kero dzetsamba yemagetsi dzinogona kunyorwa muKuna.",
   "r-email-vars-hint": "Zviratidzo zviripo: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Buritsa",

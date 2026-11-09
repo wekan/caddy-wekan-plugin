@@ -438,6 +438,7 @@
   "r-due-is-set": "air a shuidheachadh",
   "r-due-overdue": "thar an ama",
   "r-due-soon": "a' teannadh",
+  "r-edit-rule-trigger-action": "Deasaich riaghailt (Brosnaiche/Gnìomh)",
   "r-email-members-hint": "Thèid ball dhen bhòrd a chuirear ris on liosta dhan raon Gu mar @username agus thèid a chur gu seòladh puist-d a’ bhuill sin fhèin. Faodar seòlaidhean puist-d eile a sgrìobhadh san raon Gu fhathast.",
   "r-email-vars-hint": "Tagaichean a tha ri fhaighinn: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Às-phortaich",

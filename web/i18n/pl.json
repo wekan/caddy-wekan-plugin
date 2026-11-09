@@ -438,6 +438,7 @@
   "r-due-is-set": "zostanie ustawiony",
   "r-due-overdue": "jest przekroczony",
   "r-due-soon": "się zbliża",
+  "r-edit-rule-trigger-action": "Edytuj regułę (Aktywator/Reakcja)",
   "r-email-members-hint": "Użytkownik tablicy dodany z listy trafia do pola Do jako @username, a wiadomość jest wysyłana na jego własny adres e-mail. Inne adresy e-mail nadal można wpisać w polu Do.",
   "r-email-vars-hint": "Dostępne znaczniki: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksportuj",

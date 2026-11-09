@@ -438,6 +438,7 @@
   "r-due-is-set": "igenwe",
   "r-due-overdue": "yarengeje igihe",
   "r-due-soon": "yegereje",
+  "r-edit-rule-trigger-action": "Hindura itegeko (Imbarutso/Igikorwa)",
   "r-email-members-hint": "Umunyamuryango w'ikibaho wongewe avuye ku rutonde ajya muri Kuri nka @username kandi yoherezwa kuri aderesi ya imeyili ye bwite. Izindi aderesi za imeyili ziracyashobora kwandikwa muri Kuri.",
   "r-email-vars-hint": "Ibimenyetso bihari: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Sohora",

@@ -438,6 +438,7 @@
   "r-due-is-set": "on määratud",
   "r-due-overdue": "on möödas",
   "r-due-soon": "läheneb",
+  "r-edit-rule-trigger-action": "Muuda reeglit (Päästik/Tegevus)",
   "r-email-members-hint": "Loendist lisatud tahvli liige läheb väljale Kellele kujul @username ja kiri saadetakse selle liikme enda e-posti aadressile. Teisi e-posti aadresse saab väljale Kellele endiselt sisse trükkida.",
   "r-email-vars-hint": "Saadaolevad sildid: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Ekspordi",

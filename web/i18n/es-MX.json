@@ -438,6 +438,7 @@
   "r-due-is-set": "se establece",
   "r-due-overdue": "está vencida",
   "r-due-soon": "se acerca",
+  "r-edit-rule-trigger-action": "Editar regla (disparador/acción)",
   "r-email-members-hint": "Un miembro del tablero agregado desde la lista va en Para como @username y se envía a la propia dirección de correo de ese miembro. Aún se pueden escribir otras direcciones de correo en Para.",
   "r-email-vars-hint": "Etiquetas disponibles: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportar",

@@ -438,6 +438,7 @@
   "r-due-is-set": "je nastajeny",
   "r-due-overdue": "je překročeny",
   "r-due-soon": "so bliži",
+  "r-edit-rule-trigger-action": "Spušćak/akciju wobdźěłać",
   "r-email-members-hint": "Čłon tafle přidaty z lisćiny přińdźe do Komu jako @username a mejl so na jeho swójsku e-mejlowu adresu pósćele. Druhe e-mejlowe adresy hodźa so dale do Komu zapisać.",
   "r-email-vars-hint": "K dispoziciji stejace wobznamjenja: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Eksportować",

@@ -438,6 +438,7 @@
   "r-due-is-set": "مقرر ٿئي",
   "r-due-overdue": "گذري وڃي",
   "r-due-soon": "ويجهي اچي",
+  "r-edit-rule-trigger-action": "قاعدو سنواريو (محرڪ/عمل)",
   "r-email-members-hint": "لسٽ مان شامل ڪيل بورڊ ميمبر \"to\" ۾ @username طور وڃي ٿو ۽ ان ميمبر جي پنهنجي اي ميل پتي تي موڪليو وڃي ٿو. ٻيا اي ميل پتا اڃا به \"to\" ۾ لکي سگهجن ٿا.",
   "r-email-vars-hint": "موجود ٽيگ: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "برآمد ڪريو",

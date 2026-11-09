@@ -438,6 +438,7 @@
   "r-due-is-set": "设定好仔",
   "r-due-overdue": "已逾期",
   "r-due-soon": "快到仔",
+  "r-edit-rule-trigger-action": "修改触发器／操作",
   "r-email-members-hint": "从列表里加个看板成员会以 @username 个样子进收件人，并发到搿个成员自家个电子邮件地址。别个电子邮件地址还是好直接打进收件人。",
   "r-email-vars-hint": "可用标签：{card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "导出",

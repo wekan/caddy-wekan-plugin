@@ -438,6 +438,7 @@
   "r-due-is-set": "yi vekiwile",
   "r-due-overdue": "yi hundzile nkarhi",
   "r-due-soon": "yi le kusuhi",
+  "r-edit-rule-trigger-action": "Hlela xihlohlotelo/xiendlo",
   "r-email-members-hint": "Xirho xa bodo lexi engeteriweke ku suka eka nxaxamelo xi ya eka Eka tanihi @username naswona xi rhumeriwa eka adirese ya imeyili ya xona. Tiadirese tin'wana ta imeyili ta ha koteka ku tsariwa eka Eka.",
   "r-email-vars-hint": "Swikombiso leswi kumekaka: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Humesa",

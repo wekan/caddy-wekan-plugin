@@ -438,6 +438,7 @@
   "r-due-is-set": "ła xe impostà",
   "r-due-overdue": "ła xe in ritardo",
   "r-due-soon": "ła se avicina",
+  "r-edit-rule-trigger-action": "Modìfega evento de avìo/asion",
   "r-email-members-hint": "Un membro del quadro xontà da ła lista el va in A cofà @username e vien mandà al so indiriso de posta eletrònica. Se pol ancora scrìvar altri indirisi de posta eletrònica in A.",
   "r-email-vars-hint": "Segni disponibiłi: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Esporta",

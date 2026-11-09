@@ -438,6 +438,7 @@
   "r-due-is-set": "e je impostade",
   "r-due-overdue": "e je scjadude",
   "r-due-soon": "si svicine",
+  "r-edit-rule-trigger-action": "Modifiche regola (Attivatoris/Azione)",
   "r-email-members-hint": "Un membri de taule zontât de liste al va in \"a\" come @username e al ven mandât ae direzion e-mail di chel membri. Si pues ancjemò scrivi altris direzions e-mail in \"a\".",
   "r-email-vars-hint": "Etichetis disponibilis: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Espuarte",

@@ -438,6 +438,7 @@
   "r-due-is-set": "mearriduvvo",
   "r-due-overdue": "lea mannan",
   "r-due-soon": "lahkona",
+  "r-edit-rule-trigger-action": "Rievdat njuolggadusa (Álggaheaddji/Doaibma)",
   "r-email-members-hint": "Listtus lasihuvvon dávvala lahttu boahtá Vuostáiváldi-gieddái nugo @username ja sáddejuvvo dan lahtu iežas e-boastačujuhussii. Eará e-boastačujuhusaid sáhttá ain čállit Vuostáiváldi-gieddái.",
   "r-email-vars-hint": "Fidnemis mearkkat: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Olggosfievrrit",

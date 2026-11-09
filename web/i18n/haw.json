@@ -438,6 +438,7 @@
   "r-due-is-set": "he keka",
   "r-due-overdue": "he olelakue",
   "r-due-soon": "he apapaloakinaka",
+  "r-edit-rule-trigger-action": "hoʻoponopono lule (kalikakela/hana)",
   "r-email-members-hint": "Komo ka lālā o ka papa i hoʻohui ʻia mai ka papa inoa i loko o Iā ma ke ʻano he @username, a hoʻouna ʻia i ka wahi leka uila ponoʻī o ia lālā. Hiki nō ke kikokiko i nā wahi leka uila ʻē aʻe i loko o Iā.",
   "r-email-vars-hint": "Nā puni loaʻa: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Hoʻopuka",

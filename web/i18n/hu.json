@@ -438,6 +438,7 @@
   "r-due-is-set": "beállításra kerül",
   "r-due-overdue": "lejárt",
   "r-due-soon": "közeledik",
+  "r-edit-rule-trigger-action": "Szabály szerkesztése (Kiváltó ok/Művelet)",
   "r-email-members-hint": "A listából hozzáadott tábla tag @username formában kerül a Címzett mezőbe, és a tag saját e-mail-címére megy. Más e-mail-címek továbbra is beírhatók a Címzett mezőbe.",
   "r-email-vars-hint": "Elérhető címkék: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportálás",

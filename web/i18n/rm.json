@@ -438,6 +438,7 @@
   "r-due-is-set": "vegn definida",
   "r-due-overdue": "è scadida",
   "r-due-soon": "s'avischina",
+  "r-edit-rule-trigger-action": "Modifitgar l’activatur/l’acziun",
   "r-email-members-hint": "In commember da la tabella agiuntà da la glista va en A sco @username e vegn tramess a l'atgna adressa dad e-mail da quel commember. Autras adressas dad e-mail pon anc adina vegnir scrittas en A.",
   "r-email-vars-hint": "Etichettas disponiblas: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportar",

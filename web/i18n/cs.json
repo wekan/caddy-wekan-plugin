@@ -438,6 +438,7 @@
   "r-due-is-set": "je nastaven",
   "r-due-overdue": "je po termínu",
   "r-due-soon": "se blíží",
+  "r-edit-rule-trigger-action": "Upravit pravidlo (Spouštěč/Akce)",
   "r-email-members-hint": "Člen tabla přidaný ze seznamu se vloží do pole Komu jako @username a zpráva se odešle na jeho vlastní e-mailovou adresu. Další e-mailové adresy lze do pole Komu stále psát ručně.",
   "r-email-vars-hint": "Dostupné značky: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportovat",

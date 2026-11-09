@@ -438,6 +438,7 @@
   "r-due-is-set": "imewekwa",
   "r-due-overdue": "imepitwa na wakati",
   "r-due-soon": "inakaribia",
+  "r-edit-rule-trigger-action": "Hariri kanuni (Anzisha/Kitendo)",
   "r-email-members-hint": "Mwanachama wa bodi aliyeongezwa kutoka kwenye orodha huingia kwenye Kwa kama @username na hutumwa kwa anwani ya barua pepe ya mwanachama huyo mwenyewe. Anwani nyingine za barua pepe bado zinaweza kuandikwa kwenye Kwa.",
   "r-email-vars-hint": "Lebo zinazopatikana: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Hamisha",

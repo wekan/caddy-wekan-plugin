@@ -438,6 +438,7 @@
   "r-due-is-set": "已經設定",
   "r-due-overdue": "已逾期",
   "r-due-soon": "即將到來",
+  "r-edit-rule-trigger-action": "編輯觸發器/動作",
   "r-email-members-hint": "從清單新增的看板成員會以 @username 的形式加入收件者，並寄送到該成員自己的電子郵件地址。仍可在收件者中輸入其他電子郵件地址。",
   "r-email-vars-hint": "可用：{card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "匯出",

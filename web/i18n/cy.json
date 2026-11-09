@@ -438,6 +438,7 @@
   "r-due-is-set": "wedi'i osod",
   "r-due-overdue": "yn hwyr",
   "r-due-soon": "yn agosáu",
+  "r-edit-rule-trigger-action": "Golygu rheol (Sbardun/Gweithred)",
   "r-email-members-hint": "Mae aelod o'r bwrdd a ychwanegir o'r rhestr yn mynd i At fel @username ac yn cael ei anfon i gyfeiriad ebost yr aelod hwnnw ei hun. Gellir dal i deipio cyfeiriadau ebost eraill i At.",
   "r-email-vars-hint": "Tagiau sydd ar gael: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Allforio",

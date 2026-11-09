@@ -438,6 +438,7 @@
   "r-due-is-set": "este setată",
   "r-due-overdue": "este depășită",
   "r-due-soon": "se apropie",
+  "r-edit-rule-trigger-action": "Editează declanșatorul/acțiunea",
   "r-email-members-hint": "Un membru al panoului adăugat din listă intră în Către ca @username și i se trimite la propria adresă de e-mail. Alte adrese de e-mail pot fi în continuare scrise în Către.",
   "r-email-vars-hint": "Etichete disponibile: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportă",

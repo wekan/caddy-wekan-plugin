@@ -438,6 +438,7 @@
   "r-due-is-set": "oñemoĩ jave",
   "r-due-overdue": "hasáma jave",
   "r-due-soon": "oñemoag̃uívo",
+  "r-edit-rule-trigger-action": "Embosako'i mbojojaha (Moñepyrũha/Tembiapo)",
   "r-email-members-hint": "Tembiapo renda ñemoirũha ojembojuajúva lísta guive oike Mávapepe @username ramo ha ojeguerahauka upe ñemoirũha ñanduti veve kundaharape teépe. Ñanduti veve kundaharape ambue ikatu gueteri ojehai Mávapepe.",
   "r-email-vars-hint": "Marandu oĩva: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Emosẽ",

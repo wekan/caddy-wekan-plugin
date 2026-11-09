@@ -438,6 +438,7 @@
   "r-due-is-set": "yagizwe",
   "r-due-overdue": "yarengeje igihe",
   "r-due-soon": "iriko iregereza",
+  "r-edit-rule-trigger-action": "Hindura itegeko (Imbarutso/Igikorwa)",
   "r-email-members-hint": "Umunywanyi w'icapa yongewe avuye ku rutonde aja muri \"to\" nka @username kandi arungikirwa kuri aderesi ya imeyili yiwe bwite. Izindi aderesi za imeyili ziracashobora kwandikwa muri \"to\".",
   "r-email-vars-hint": "Ivyapa bihari: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Sohora",

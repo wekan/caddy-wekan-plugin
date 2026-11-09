@@ -438,6 +438,7 @@
   "r-due-is-set": "huwa set",
   "r-due-overdue": "huwa overdue",
   "r-due-soon": "huwa approaching",
+  "r-edit-rule-trigger-action": "Editja l-avveniment li jattiva r-regola jew l-azzjoni",
   "r-email-members-hint": "Membru tal-bord miżjud mil-lista jmur f'Lil bħala @username u jintbagħat lill-indirizz tal-posta elettronika tiegħu stess. Indirizzi oħra tal-posta elettronika xorta jistgħu jinkitbu f'Lil.",
   "r-email-vars-hint": "Tikketti disponibbli: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Esporta",

@@ -438,6 +438,7 @@
   "r-due-is-set": "gesetzt wird",
   "r-due-overdue": "überfällig ist",
   "r-due-soon": "näher rückt",
+  "r-edit-rule-trigger-action": "Regel bearbeiten (Auslöser/Aktion)",
   "r-email-members-hint": "Ein aus der Liste hinzugefügtes Mitglied der Arbeitstafel kommt als @username in An und wird an die eigene E-Mail-Adresse dieses Mitglieds gesendet. Andere E-Mail-Adressen können weiterhin in An eingegeben werden.",
   "r-email-vars-hint": "Verfügbare Platzhalter: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Exportieren",

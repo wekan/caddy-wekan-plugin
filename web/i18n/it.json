@@ -438,6 +438,7 @@
   "r-due-is-set": "è impostata",
   "r-due-overdue": "è scaduta",
   "r-due-soon": "si avvicina",
+  "r-edit-rule-trigger-action": "Modifica regola (Attivatore/Azione)",
   "r-email-members-hint": "Un membro della bacheca aggiunto dall'elenco va in \"A\" come @username e il messaggio viene inviato al suo indirizzo email. Si possono ancora digitare altri indirizzi email in \"A\".",
   "r-email-vars-hint": "Tag disponibili: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Esporta",

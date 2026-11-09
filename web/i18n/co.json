@@ -438,6 +438,7 @@
   "r-due-is-set": "hè definita",
   "r-due-overdue": "hè passata",
   "r-due-soon": "s’avvicina",
+  "r-edit-rule-trigger-action": "Mudificà l’attivatore/l’azzione",
   "r-email-members-hint": "Un membru di a tavula aghjuntu da a lista và in À cum'è @username è hè mandatu à l'indirizzu di posta elettronica di quellu membru. Altri indirizzi di posta ponu sempre esse scritti in À.",
   "r-email-vars-hint": "Etichette dispunibule: {card}, {cardLink}, {list}, {board}, {member}",
   "r-export": "Espurtà",
