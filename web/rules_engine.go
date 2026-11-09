@@ -274,6 +274,59 @@ func textContains(text, needle string) bool {
 	return strings.TrimSpace(needle) != "" && text != "" && strings.Contains(strings.ToLower(text), strings.ToLower(needle))
 }
 
+// copyBoard is a board the Copy Card action may name, with its lists and
+// swimlanes.
+type copyBoard struct {
+	ID, Title        string
+	Current          bool
+	Lists, Swimlanes []copyTarget
+}
+
+// copyTarget is a list or a swimlane of a board the copy may name.
+type copyTarget struct{ ID, Title, Board string }
+
+// copyBoards are WeKan's boardActions boards: those the user may change, not
+// archived and not templates - the current one first - with their lists and
+// swimlanes, as the Copy Card action offers them.
+func (s *Server) copyBoards(ctx context.Context, u *User, current string) []copyBoard {
+	cur, err := s.db.Collection("boards").Find(ctx, bson.M{"members.userId": eq(u.ID), "archived": bson.M{"$ne": true}},
+		options.Find().SetSort(bson.D{{Key: "title", Value: 1}}).SetLimit(500))
+	if err != nil {
+		return nil
+	}
+	var boards []Board
+	_ = cur.All(ctx, &boards)
+	var out []copyBoard
+	for i := range boards {
+		b := &boards[i]
+		if !b.Can(u.ID, "write") || strings.HasPrefix(b.Type, "template") {
+			continue
+		}
+		cb := copyBoard{ID: b.ID, Title: b.Title, Current: b.ID == current}
+		for _, part := range []struct {
+			coll string
+			to   *[]copyTarget
+		}{{"lists", &cb.Lists}, {"swimlanes", &cb.Swimlanes}} {
+			c2, err := s.db.Collection(part.coll).Find(ctx, bson.M{"boardId": b.ID, "archived": bson.M{"$ne": true}},
+				options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}).SetProjection(bson.M{"title": 1}).SetLimit(500))
+			if err != nil {
+				continue
+			}
+			var docs []bson.M
+			_ = c2.All(ctx, &docs)
+			for _, d := range docs {
+				*part.to = append(*part.to, copyTarget{ID: docString(d, "_id"), Title: docString(d, "title"), Board: b.ID})
+			}
+		}
+		if cb.Current {
+			out = append([]copyBoard{cb}, out...)
+		} else {
+			out = append(out, cb)
+		}
+	}
+	return out
+}
+
 // ruleVariableTokens is WeKan's models/lib/ruleVariablePicker.js: the card's
 // people, its card, list and board names, and a {customField:Name} for each
 // of the board's custom fields - not an admin-only one, nor a name with a
@@ -609,6 +662,8 @@ func (s *Server) performAction(ctx context.Context, a bson.M, act bson.M) error 
 	switch kind {
 	case "moveCardToTop", "moveCardToBottom":
 		return s.ruleMoveCard(ctx, a, act, &b, c, actor, vars)
+	case "copyCard":
+		return s.ruleCopyCard(ctx, a, act, c)
 	case "archive":
 		if !c.Archived {
 			if err := touch(bson.M{"$set": bson.M{"archived": true, "archivedAt": now}}); err != nil {
@@ -996,7 +1051,7 @@ func (s *Server) rulesPage(w http.ResponseWriter, r *http.Request, u *User) {
 		view = "list"
 	}
 	data := map[string]any{"Title": tr(lang, "rules"), "User": u, "Board": b, "CanEdit": b.AdminOf(u.ID), "View": view,
-		"RuleTokens": s.ruleVariableTokens(r.Context(), b.ID)}
+		"RuleTokens": s.ruleVariableTokens(r.Context(), b.ID), "CopyBoards": s.copyBoards(r.Context(), u, b.ID)}
 	if b.AdminOf(u.ID) {
 		ctx := r.Context()
 		cur, err := s.db.Collection("rules").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}}))

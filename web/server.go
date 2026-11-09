@@ -1193,6 +1193,12 @@ func (s *Server) addList(w http.ResponseWriter, r *http.Request, u *User) {
 
 // AddCard adds a card at the end of a list in a swimlane.
 func (s *Server) AddCard(ctx context.Context, b *Board, u *User, listID, swimlaneID, title string) (*Card, error) {
+	return s.AddCardWith(ctx, b, u, listID, swimlaneID, title, nil)
+}
+
+// AddCardWith is AddCard with more of the card's fields - a due date, a sort -
+// stored before its createCard activity, so the rules see the card whole.
+func (s *Server) AddCardWith(ctx context.Context, b *Board, u *User, listID, swimlaneID, title string, extra bson.M) (*Card, error) {
 	title = strings.TrimSpace(title)
 	if title == "" {
 		return nil, errors.New("a card needs a title")
@@ -1215,6 +1221,11 @@ func (s *Server) AddCard(ctx context.Context, b *Board, u *User, listID, swimlan
 		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": b.ID, "listId": eq(listID), "swimlaneId": eq(swimlaneID)})}
 	if _, err := s.db.Collection("cards").InsertOne(ctx, c); err != nil {
 		return nil, err
+	}
+	if len(extra) > 0 {
+		if _, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": extra}); err != nil {
+			return nil, err
+		}
 	}
 	s.activity(ctx, u.ID, "createCard", bson.M{"boardId": b.ID, "listId": listID, "swimlaneId": swimlaneID, "cardId": c.ID, // inserted, not a filter
 		"cardTitle": c.Title, "listName": s.titleOfID(ctx, "lists", listID), "swimlaneName": s.titleOfID(ctx, "swimlanes", swimlaneID)})

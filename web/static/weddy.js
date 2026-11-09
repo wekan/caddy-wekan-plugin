@@ -1042,6 +1042,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       return { actionType: val(p, 'check-item-action') === 'uncheck' ? 'uncheckItem' : 'checkItem',
         checkItemName: val(p, 'checkitem-name'), checklistName: val(p, 'checklist-name3') };
     },
+    // WeKan's copyCard: a list and swimlane of the chosen board, or nothing.
+    'js-copy-card-action': function (p) {
+      var board = val(p, 'board-id-copy'), list = val(p, 'list-id-copy'), lane = val(p, 'swimlane-id-copy');
+      return board && list && lane ? { actionType: 'copyCard', boardId: board, listId: list, swimlaneId: lane } : null;
+    },
     'js-add-checklist-items-action': function (p) {
       return { actionType: 'addChecklistWithItems', checklistName: val(p, 'checklist-name-3'), checklistItems: val(p, 'checklist-items') };
     },
@@ -1067,6 +1072,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (!make || !ruleState.trigger) return;
     var page = rulesPage(el);
     var action = make(el.closest('.js-rules-tab'));
+    if (!action) return; // an action that needs a value, without one
     action.desc = ruleDesc(el);
     callAsync('rules.createRule', page.dataset.board, ruleState.name, ruleState.trigger, action).then(function () {
       up.reload('.rules-page');
@@ -1082,6 +1088,25 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     callAsync('rules.setEnabled', el.dataset.ruleId, on).then(function () { up.reload('.rules-page'); });
   });
 
+  // The Copy Card action offers the lists and swimlanes of the board chosen.
+  function copyTargets(select) {
+    var tab = select.closest('.js-rules-tab');
+    if (!tab) return;
+    ['list-id-copy', 'swimlane-id-copy'].forEach(function (id) {
+      var target = tab.querySelector('#' + id);
+      if (!target) return;
+      var first = null;
+      Array.prototype.forEach.call(target.options, function (o) {
+        o.hidden = o.dataset.board !== select.value;
+        if (!o.hidden && !first) first = o;
+      });
+      if (!target.selectedOptions[0] || target.selectedOptions[0].hidden) target.value = first ? first.value : '';
+    });
+  }
+  up.compiler('#board-id-copy', function (select) { copyTargets(select); });
+  document.addEventListener('change', function (event) {
+    if (event.target.matches && event.target.matches('#board-id-copy')) copyTargets(event.target);
+  });
   // #3195: the rule editor's "Insert variable" picker, as WeKan's
   // ruleVariablePicker: the token goes in at the caret of the text field last
   // focused in that editor, the caret after it, the field focused again.

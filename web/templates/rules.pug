@@ -454,6 +454,33 @@
                   each tok in $.RuleTokens
                     option(value="{{.}}") {{.}}
               .js-rules-tab(data-tab="board-actions")
+                //- WeKan's boardActions: copy the card to a list and swimlane of
+                  a board the user may change.
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "copyCardPopup-title"}}
+                    .trigger-text {{t $.L "r-the-board"}}
+                    .trigger-dropdown
+                      select#board-id-copy(aria-label="{{t $.L `board`}}")
+                        each cb in $.CopyBoards
+                          if .Current
+                            option(value="{{.ID}}", selected) {{t $.L "current"}}
+                          else
+                            option(value="{{.ID}}") {{.Title}}
+                    .trigger-text {{t $.L "r-in-list"}}
+                    .trigger-dropdown
+                      select#list-id-copy(aria-label="{{t $.L `list`}}")
+                        each cb in $.CopyBoards
+                          each l in .Lists
+                            option(value="{{.ID}}", data-board="{{.Board}}") {{.Title}}
+                    .trigger-text {{t $.L "r-in-swimlane"}}
+                    .trigger-dropdown
+                      select#swimlane-id-copy(aria-label="{{t $.L `swimlane`}}")
+                        each cb in $.CopyBoards
+                          each l in .Swimlanes
+                            option(value="{{.ID}}", data-board="{{.Board}}") {{.Title}}
+                  button.trigger-button.js-copy-card-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
                 .trigger-item
                   .trigger-content
                     .trigger-text {{t $.L "r-move-card-to"}}
