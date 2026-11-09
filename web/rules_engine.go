@@ -229,6 +229,20 @@ func (s *Server) matchingRules(ctx context.Context, a bson.M) []bson.M {
 			}
 		}
 	}
+	// #3092: "a card matches the advanced filter" - the Filter sidebar's own
+	// language, against the card's current state, on any card activity.
+	if cardID := docString(a, "cardId"); validID(cardID) {
+		cur, err := s.db.Collection("triggers").Find(ctx, bson.M{"activityType": "advancedFilterTrigger", "boardId": eq(boardID)})
+		if err == nil {
+			var at []bson.M
+			_ = cur.All(ctx, &at)
+			for _, t := range at {
+				if s.cardMatchesAdvancedFilter(ctx, boardID, cardID, docString(t, "advancedFilter")) {
+					rules = s.addTriggerRules(ctx, boardID, docString(t, "_id"), seen, rules)
+				}
+			}
+		}
+	}
 	// #2194: "a card's title or description contains" - the card's text now,
 	// case-insensitive - on what changes that text: a new card, a title or a
 	// description changed.

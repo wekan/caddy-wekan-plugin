@@ -83,6 +83,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     el.closest('.board-sidebar').classList.remove('is-open');
     sidebarState('open', false);
     sidebarState('archives', false);
+    sidebarState('filter', false);
   });
   up.on('click', '.js-open-board-menu', function (event) {
     event.preventDefault();
@@ -360,9 +361,45 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var input = document.querySelector('.js-pop-over .js-search-member-input');
     if (input) input.focus();
   });
+  // WeKan's Filter sidebar: its Advanced Filter applied on change, by the
+  // board drawn again with only the cards it matches - the server decides,
+  // with the same query a rule's advanced-filter trigger uses.
+  function applyBoardFilter(text) {
+    var wrapper = document.querySelector('.board-wrapper');
+    var view = document.querySelector('.js-filter-view');
+    if (!wrapper) return;
+    var url = new URL(window.location.href);
+    url.searchParams.delete('advanced'); url.searchParams.delete('last');
+    if (text) {
+      url.searchParams.set('advanced', text);
+      var last = view ? view.dataset.applied : '';
+      if (last) url.searchParams.set('last', last);
+    }
+    up.navigate({ url: url.pathname + url.search, target: '.board-wrapper', history: 'replace', cache: false });
+  }
+  up.on('click', '.js-open-filter-view', function (event) {
+    event.preventDefault();
+    closePopOvers();
+    var sb = document.querySelector('.board-sidebar');
+    if (!sb) return;
+    sb.classList.add('is-open');
+    var view = sb.querySelector('.js-filter-view');
+    if (view) view.classList.remove('is-hidden');
+    sidebarState('open', true);
+    sidebarState('filter', true);
+  });
+  up.on('click', '.js-filter-reset', function (event) {
+    event.preventDefault();
+    applyBoardFilter('');
+  });
+  up.on('change', '.js-field-advanced-filter', function (event, el) {
+    applyBoardFilter(el.value.trim());
+  });
   var memberSearch = null;
   up.compiler('.board-sidebar', function (sb) {
     if (sidebarState('open')) sb.classList.add('is-open');
+    var filterView = sb.querySelector('.js-filter-view');
+    if (filterView && sidebarState('filter')) filterView.classList.remove('is-hidden');
     var archives = sb.querySelector('.js-archives-view');
     if (archives && sidebarState('archives')) archives.classList.remove('is-hidden');
     var toggle = sb.querySelector('.js-toggle-show-activities');

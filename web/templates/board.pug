@@ -23,6 +23,16 @@
       a.board-header-btn.js-multiselection-activate(href="#", title="{{t $.L `multi-selection`}}", aria-label="{{t $.L `multi-selection`}}") ☑
     a.board-header-btn.js-watch-board(href="#", title="{{t $.L .WatchLevel}}")
       span.board-header-btn-label {{t $.L .WatchLevel}}
+    //- WeKan's boardHeader: the Filter, on while a filter is.
+    if .FilterActive
+      a.board-header-btn.js-open-filter-view.js-filter-active(href="#", title="{{t $.L `filter-on-desc`}}")
+        i.fa.fa-filter
+        span.board-header-btn-label {{t $.L "filter-on-desc"}}
+      a.board-header-btn-close.js-filter-reset(href="#", title="{{t $.L `filter-clear`}}") ✕
+    else
+      a.board-header-btn.js-open-filter-view(href="#", title="{{t $.L `filter`}}")
+        i.fa.fa-filter
+        span.board-header-btn-label {{t $.L "filter"}}
     a.board-header-btn.js-toggle-page-sidebar(href="#", title="{{t $.L `sidebar-open`}}", aria-label="{{t $.L `sidebar-open`}}") ☰
   .board-sidebar.sidebar
     a.sidebar-xmark.js-close-sidebar(href="#", aria-label="{{t $.L `close`}}") ✕
@@ -43,6 +53,14 @@
           ul.pop-over-list
             li
               a.js-archive-selection(href="#") {{t $.L "archive-selection"}}
+      //- WeKan's filterSidebar: its Advanced Filter, the board's cards by their
+        custom fields and dates (advanced_filter.go). The board shows only the
+        cards it matches; one that does not parse keeps the last that did.
+      .filter-sidebar.js-filter-view.is-hidden(data-applied="{{.AppliedFilter}}")
+        h3 {{t $.L "advanced-filter-label"}}
+        input.js-field-advanced-filter(type="text", value="{{.AdvancedFilter}}")
+        span {{t $.L "advanced-filter-description"}}
+        p.quiet {{t $.L "advanced-filter-card-dates-hint"}}
       //- WeKan's archivesSidebar: the board's Archive, opened from Board Settings.
       .archives-sidebar.js-archives-view.is-hidden
         h3 {{t $.L "archives"}}
@@ -368,7 +386,7 @@
                 each c in .Cards
                   //- A block that opens the card, not a link: a link in its title
                     must not sit inside another link (WeKan's minicard is a block too).
-                  .minicard-wrapper.js-minicard(up-href="/b/{{$.Board.ID}}/{{$.Board.Slug}}/{{.ID}}", up-follow, up-clickable, up-target=".board-wrapper", data-card="{{.ID}}", data-sort="{{.Sort}}")
+                  .minicard-wrapper.js-minicard(up-href="/b/{{$.Board.ID}}/{{$.Board.Slug}}/{{.ID}}", up-follow, up-clickable, up-target=".board-wrapper", data-card="{{.ID}}", data-card-id="{{.ID}}", data-sort="{{.Sort}}")
                     .minicard
                       .minicard-title
                         //- WeKan's "Mark as complete" on the minicard, when Card

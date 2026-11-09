@@ -713,6 +713,36 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	// The Filter sidebar's Advanced Filter: the typed one when it parses, else
+	// the last that did (?last=), as WeKan's sidebar keeps its last selector.
+	typed, applied := strings.TrimSpace(r.URL.Query().Get("advanced")), ""
+	if len(typed) > 2000 {
+		typed = typed[:2000]
+	}
+	var shown map[string]bool
+	for _, f := range []string{typed, strings.TrimSpace(r.URL.Query().Get("last"))} {
+		if f == "" {
+			continue
+		}
+		if ids, ok := s.filteredCardIDs(r.Context(), b.ID, f); ok {
+			shown, applied = ids, f
+			break
+		}
+	}
+	if shown != nil {
+		for i := range lanes {
+			for j := range lanes[i].Lists {
+				ll := &lanes[i].Lists[j]
+				kept := ll.Cards[:0]
+				for _, c := range ll.Cards {
+					if shown[c.ID] {
+						kept = append(kept, c)
+					}
+				}
+				ll.Cards = kept
+			}
+		}
+	}
 	starred := slices.Contains(u.Profile.StarredBoards, b.ID)
 	invited := slices.Contains(u.Profile.InvitedBoards, b.ID)
 	folded := s.collapsedLists(r.Context(), u.ID, b.ID)
@@ -726,7 +756,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			ll.Collapsed = v
 		}
 	}
-	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "Starred": starred, "Invited": invited}
+	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "Starred": starred, "Invited": invited,
+		"AdvancedFilter": typed, "AppliedFilter": applied, "FilterActive": applied != ""}
 	// WeKan's sidebar: the board menu for a member who is not comment-only or a
 	// worker; its Export for whoever may export the board (models/lib/exportAccess.js).
 	m := b.member(u.ID)
