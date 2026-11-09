@@ -47,8 +47,24 @@
           h3 {{t $.L "r-import"}}
           p.rules-ie-hint {{t $.L "r-import-paste"}}
           textarea.rules-ie-textarea.js-rules-import-text(rows="8")
-          .rules-ie-btns
+          .rules-ie-btns(data-done="{{t $.L `r-import-done`}}", data-unmapped="{{t $.L `r-import-unmapped`}}")
             button.primary.full.js-rules-import-json(type="button") {{t $.L "r-import-json"}}
+            button.primary.full.js-rules-import-csv(type="button") {{t $.L "r-import-csv"}}
+          hr
+          //- WeKan's visual workflow import: n8n and Node-RED.
+          h3 {{t $.L "r-import-workflow"}}
+          p.rules-ie-hint {{t $.L "r-import-workflow-note"}}
+          .rules-ie-btns
+            select.js-workflow-format
+              option(value="auto") {{t $.L "r-format-auto"}}
+              option(value="n8n") n8n
+              option(value="nodered") Node-RED
+            button.primary.full.js-rules-import-workflow(type="button") {{t $.L "r-import-workflow"}}
+          hr
+          h3 {{t $.L "r-import-trello"}}
+          p.rules-ie-hint {{t $.L "r-import-trello-note"}}
+          .rules-ie-btns
+            button.primary.full.js-rules-import-trello(type="button") {{t $.L "r-import-trello"}}
           hr
           h3 {{t $.L "r-wrike-workflow"}}
           p.rules-ie-hint {{t $.L "r-wrike-workflow-note"}}

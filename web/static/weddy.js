@@ -881,6 +881,142 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var ids = Array.prototype.map.call(page.querySelectorAll('.js-rule-select:checked'), function (b) { return b.dataset.ruleId; });
     if (ids.length) el.href = el.href.split('&ids=')[0] + '&ids=' + ids.join(',');
   });
+  // WeKan's rulesImportExport parsers: its round-trippable CSV, Trello Butler
+  // text and n8n / Node-RED workflows, each a list of { title, trigger, action }.
+  function csvRecords(text) {
+    var rows = [], row = [], field = '', quoted = false;
+    for (var i = 0; i < text.length; i++) {
+      var ch = text[i];
+      if (quoted) {
+        if (ch === '"' && text[i + 1] === '"') { field += '"'; i++; }
+        else if (ch === '"') quoted = false;
+        else field += ch;
+      } else if (ch === '"') quoted = true;
+      else if (ch === ',') { row.push(field); field = ''; }
+      else if (ch === '\n' || ch === '\r') {
+        if (ch === '\r' && text[i + 1] === '\n') i++;
+        row.push(field); field = '';
+        if (row.length > 1 || row[0] !== '') rows.push(row);
+        row = [];
+      } else field += ch;
+    }
+    if (field !== '' || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+  function csvToRules(text) {
+    var rows = csvRecords(String(text || '').trim());
+    if (!rows.length) return [];
+    var head = rows.shift();
+    var json = function (v) { try { return v ? JSON.parse(v) : {}; } catch (e) { return {}; } };
+    return rows.map(function (cells) {
+      var r = {};
+      head.forEach(function (h, i) { r[h] = cells[i]; });
+      if (!r.triggerType || !r.actionType) return null;
+      var trigger = json(r.triggerFields), action = json(r.actionFields);
+      trigger.activityType = r.triggerType; action.actionType = r.actionType;
+      return { title: r.title, trigger: trigger, action: action };
+    }).filter(Boolean);
+  }
+  function parseTrelloButler(text) {
+    var rules = [], unmapped = [];
+    String(text || '').split('\n').map(function (l) { return l.trim(); }).filter(Boolean).forEach(function (line) {
+      // The list name as written: a trigger matches its list by exact name.
+      var m = line.match(/when a card is added to list ["\u201c](.+?)["\u201d].*move the card to the (top|bottom)/i);
+      if (!m) { unmapped.push(line); return; }
+      rules.push({ title: line, trigger: { activityType: 'createCard', listName: m[1], swimlaneName: '*', cardTitle: '*', userId: '*' },
+        action: { actionType: m[2].toLowerCase() === 'top' ? 'moveCardToTop' : 'moveCardToBottom', listName: '*', swimlaneName: '*' } });
+    });
+    return { rules: rules, unmapped: unmapped };
+  }
+  function workflowTrigger(type, name) {
+    var s = ((type || '') + ' ' + (name || '')).toLowerCase();
+    if (/schedule|cron|interval|inject/.test(s)) return { activityType: 'scheduledTrigger', scheduleKind: 'calendar', scheduleType: 'daily', atTime: '09:00', listName: '*', swimlaneName: '*' };
+    if (/trigger|webhook|http in|http-in|start/.test(s)) return { activityType: 'createCard', listName: '*', swimlaneName: '*', cardTitle: '*', userId: '*' };
+    return null;
+  }
+  function workflowAction(type, name) {
+    var s = ((type || '') + ' ' + (name || '')).toLowerCase();
+    if (/archive/.test(s)) return { actionType: 'archive' };
+    if (/move.*top|to top/.test(s)) return { actionType: 'moveCardToTop', listName: '*', swimlaneName: '*' };
+    if (/move.*bottom/.test(s)) return { actionType: 'moveCardToBottom', listName: '*', swimlaneName: '*' };
+    if (/complete|done/.test(s)) return { actionType: 'markCardComplete' };
+    if (/email|mail|smtp|gmail/.test(s)) return { actionType: 'sendEmail', emailTo: '', emailSubject: 'Imported workflow', emailMsg: '' };
+    if (/create.*card|wekan|card/.test(s)) return { actionType: 'createCard', cardName: name || 'Imported card', listName: '*', swimlaneName: '*' };
+    return null;
+  }
+  function parseWorkflow(text, format) {
+    var data;
+    try { data = JSON.parse(text); } catch (e) { return { rules: [], unmapped: [], error: 'invalid JSON' }; }
+    var fmt = format;
+    if (!fmt || fmt === 'auto') {
+      if (data && data.nodes && data.connections) fmt = 'n8n';
+      else if (Array.isArray(data) || (data && data.flows)) fmt = 'nodered';
+    }
+    var rules = [], unmapped = [];
+    if (fmt === 'n8n') {
+      var byName = {};
+      (data.nodes || []).forEach(function (n) { byName[n.name] = n; });
+      Object.keys(data.connections || {}).forEach(function (src) {
+        var from = byName[src];
+        if (!from) return;
+        var trig = workflowTrigger(from.type, src);
+        ((data.connections[src].main || []).flat()).forEach(function (o) {
+          var to = o && byName[o.node];
+          if (!to) return;
+          var act = workflowAction(to.type, to.name);
+          if (trig && act) rules.push({ title: src + ' \u2192 ' + (to.name || o.node), trigger: trig, action: act });
+          else unmapped.push(src + ' \u2192 ' + o.node);
+        });
+      });
+    } else if (fmt === 'nodered') {
+      var nodes = Array.isArray(data) ? data : (data.flows || []), byId = {};
+      nodes.forEach(function (n) { byId[n.id] = n; });
+      nodes.forEach(function (n) {
+        var trig = workflowTrigger(n.type, n.name);
+        if (!trig) return;
+        ((n.wires || []).flat()).forEach(function (id) {
+          var to = byId[id];
+          if (!to) return;
+          var act = workflowAction(to.type, to.name), label = (n.name || n.type) + ' \u2192 ' + (to.name || to.type);
+          if (act) rules.push({ title: label, trigger: trig, action: act }); else unmapped.push(label);
+        });
+      });
+    } else return { rules: [], unmapped: [], error: 'unknown format' };
+    return { rules: rules, unmapped: unmapped };
+  }
+  // Saves each as a new rule of this board, and says how many - and how many
+  // lines it could not map - as WeKan's reportImport.
+  function importParsedRules(el, rules, unmapped) {
+    var page = document.querySelector('.rules-page');
+    var pop = el.closest('.js-pop-over');
+    var msg = pop.querySelector('.js-rules-import-message');
+    var words = pop.querySelector('[data-done]');
+    Promise.all(rules.map(function (r) {
+      return callAsync('rules.createRule', page.dataset.board, r.title || 'Imported rule', r.trigger || {}, r.action || {});
+    })).then(function () {
+      var text = (words.dataset.done || '').replace('__count__', rules.length);
+      if (unmapped && unmapped.length) text += ' \u2014 ' + (words.dataset.unmapped || '').replace('__count__', unmapped.length);
+      msg.textContent = text;
+      up.reload('.rules-list');
+    }, function (e) { msg.textContent = e.reason || e.message; });
+  }
+  up.on('click', '.js-rules-import-csv', function (event, el) {
+    event.preventDefault();
+    importParsedRules(el, csvToRules(el.closest('.js-pop-over').querySelector('.js-rules-import-text').value), []);
+  });
+  up.on('click', '.js-rules-import-trello', function (event, el) {
+    event.preventDefault();
+    var p = parseTrelloButler(el.closest('.js-pop-over').querySelector('.js-rules-import-text').value);
+    importParsedRules(el, p.rules, p.unmapped);
+  });
+  up.on('click', '.js-rules-import-workflow', function (event, el) {
+    event.preventDefault();
+    var pop = el.closest('.js-pop-over');
+    var p = parseWorkflow(pop.querySelector('.js-rules-import-text').value, pop.querySelector('.js-workflow-format').value);
+    if (p.error) { pop.querySelector('.js-rules-import-message').textContent = p.error; return; }
+    importParsedRules(el, p.rules, p.unmapped);
+  });
+  window.weddyRulesImport = { csvToRules: csvToRules, parseTrelloButler: parseTrelloButler, parseWorkflow: parseWorkflow }; // for the tests
   // Import: each rule of an exported JSON, saved as a new rule of this board.
   up.on('click', '.js-rules-import-json', function (event, el) {
     event.preventDefault();
