@@ -96,6 +96,7 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 	go s.runActivityPlanCleanup(s.stopMail)
 	go s.runEmailReceipts(s.stopMail)
 	go s.runScheduledRules(s.stopMail)
+	go s.runWebhookQueue(s.stopMail)
 	return s, nil
 }
 

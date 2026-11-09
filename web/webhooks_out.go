@@ -37,9 +37,9 @@ import (
 // "Leave my name out of outgoing webhooks", set in WeKan's Member Settings,
 // is honoured, and a two-way webhook's answer edits the comment it was sent
 // (webhookReply), and a webhook marked for it also sends Mattermost direct
-// messages to the card's people (#1297). Not here yet: Notification
-// delivery's grouping and schedule for webhooks. An outbound proxy and a
-// certificate to trust are webhooks_proxy.go's.
+// messages to the card's people (#1297). What a webhook carries and when -
+// grouped, scheduled, quiet hours (#3695) - is webhooks_delivery.go's; an
+// outbound proxy and a certificate to trust are webhooks_proxy.go's.
 
 var errSSRFBlocked = errors.New("SSRF_GUARD: the address is a private, loopback or reserved one")
 
@@ -215,13 +215,8 @@ func (s *Server) webhookBody(ctx context.Context, hook bson.M, description strin
 			body[k] = v
 		}
 	} else {
-		body = map[string]any{"text": user + " " + sentence + "\n" + link}
-		for _, k := range webhookAttributes {
-			if v, ok := p[k]; ok {
-				body[k] = v
-			}
-		}
-		body["description"] = description
+		// #3695: the sentence or not, and the property groups asked for.
+		body = webhookPayload(s.webhookDeliveryFor(ctx, hook), description, user+" "+sentence+"\n"+link, p)
 	}
 	for idKey, fields := range webhookIdentityFields {
 		if hidden[idKey] {
@@ -461,6 +456,21 @@ func (s *Server) sendActivityWebhooks(activity bson.M) {
 					for _, dm := range mattermostDirectBodies(body, s.mattermostUsernames(ctx, cardID, boardID, actor)) {
 						_ = s.deliverWebhook(ctx, hook, dm)
 					}
+				}
+			}
+			// #3695: a one-way webhook grouped or scheduled is queued
+			// (webhooks_delivery.go); a two-way one always goes at once.
+			if docString(hook, "type") != "bidirectional-webhooks" {
+				cardID, _ := p["cardId"].(string)
+				activityID, _ := p["activityId"].(string)
+				if key, at, queued := webhookQueueTarget(s.webhookDeliveryFor(ctx, hook), boardID, cardID, activityID, time.Now().UTC()); queued {
+					var m map[string]any
+					if json.Unmarshal(body, &m) == nil {
+						if err := s.enqueueWebhook(ctx, docString(hook, "_id"), activityID, key, m, at); err != nil {
+							s.log.Warn("outgoing webhook not queued", "webhook", docString(hook, "_id"), "error", err)
+						}
+					}
+					continue
 				}
 			}
 			if err := s.deliverWebhook(ctx, hook, body); err != nil {
