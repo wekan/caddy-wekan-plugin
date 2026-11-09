@@ -44,6 +44,7 @@ func (s *Server) activity(ctx context.Context, userID, activityType string, fiel
 		return
 	}
 	s.notify(ctx, userID, doc)
+	s.sendActivityWebhooks(doc)
 	s.executeRules(ctx, doc)
 }
 
