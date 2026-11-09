@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"crypto/tls"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"mime"
@@ -95,6 +96,14 @@ type mailMessage struct {
 	// HTML, when set, is the message's HTML, with Text as its plain-text
 	// alternative when there is one.
 	HTML string
+	// Attachments, when there are any, follow the text as files.
+	Attachments []mailAttachment
+}
+
+// mailAttachment is one file of a message.
+type mailAttachment struct {
+	Filename, ContentType string
+	Data                  []byte
 }
 
 // headerSafe: no line break, so a value can never start another header.
@@ -123,6 +132,11 @@ func buildMail(from string, m mailMessage, now time.Time) ([]byte, error) {
 	fmt.Fprintf(&b, "From: %s\r\nTo: %s\r\nSubject: %s\r\nDate: %s\r\nMessage-ID: <%s@%s>\r\n",
 		sender.String(), strings.Join(m.To, ", "), mime.QEncoding.Encode("utf-8", m.Subject), now.Format(time.RFC1123Z), randomID(), domain)
 	b.WriteString("MIME-Version: 1.0\r\n")
+	mixed := ""
+	if len(m.Attachments) > 0 {
+		mixed = "weddy-mixed-" + randomID()
+		b.WriteString("Content-Type: multipart/mixed; boundary=\"" + mixed + "\"\r\n\r\n--" + mixed + "\r\n")
+	}
 	part := func(typ, body string) {
 		b.WriteString("Content-Type: " + typ + "; charset=utf-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n")
 		qp := quotedprintable.NewWriter(&b)
@@ -142,6 +156,27 @@ func buildMail(from string, m mailMessage, now time.Time) ([]byte, error) {
 		b.WriteString("\r\n--" + boundary + "\r\n")
 		part("text/html", m.HTML)
 		b.WriteString("\r\n--" + boundary + "--\r\n")
+	}
+	for _, a := range m.Attachments {
+		// The name is a parameter, encoded by mime - never a raw header value.
+		typ := a.ContentType
+		if _, _, err := mime.ParseMediaType(typ); err != nil || !headerSafe(typ) {
+			typ = "application/octet-stream"
+		}
+		disposition := mime.FormatMediaType("attachment", map[string]string{"filename": a.Filename})
+		if disposition == "" {
+			disposition = "attachment"
+		}
+		b.WriteString("\r\n--" + mixed + "\r\nContent-Type: " + typ + "\r\nContent-Transfer-Encoding: base64\r\nContent-Disposition: " + disposition + "\r\n\r\n")
+		enc := base64.StdEncoding.EncodeToString(a.Data)
+		for len(enc) > 76 {
+			b.WriteString(enc[:76] + "\r\n")
+			enc = enc[76:]
+		}
+		b.WriteString(enc + "\r\n")
+	}
+	if mixed != "" {
+		b.WriteString("\r\n--" + mixed + "--\r\n")
 	}
 	return b.Bytes(), nil
 }

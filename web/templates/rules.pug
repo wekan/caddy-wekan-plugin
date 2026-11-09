@@ -815,6 +815,9 @@
                     label
                       input#email-discussion(type="checkbox")
                       | {{t $.L "checklists"}} / {{t $.L "comments"}}
+                    label
+                      input#email-attachments(type="checkbox")
+                      | {{t $.L "attachments"}}
                     .trigger-hint.trigger-hint-email-vars {{t $.L "r-email-vars-hint"}}
                     .trigger-hint.trigger-hint-people-vars {{t $.L "r-vars-people-hint"}}
                     .trigger-hint.trigger-hint-email-members {{t $.L "r-email-members-hint"}}

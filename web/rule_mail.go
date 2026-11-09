@@ -18,7 +18,7 @@ import (
 // dropped. The card's title, description and link close the message (#3301,
 // #2713). On request, the card's details (rule_mail_details.go) and its
 // checklists and comments (rule_mail_discussion.go) follow, in WeKan's
-// order; its attachments are not in Weddy's mail yet.
+// order, and its attachments (rule_mail_attachments.go).
 
 var mentionPart = regexp.MustCompile(`^@([A-Za-z0-9._-]{1,100})$`)
 
@@ -107,7 +107,19 @@ func (s *Server) ruleSendEmail(ctx context.Context, a, act bson.M, c *Card, vars
 			text += "\n\n" + discussion
 		}
 	}
-	return s.sendMail(ctx, "localhost", mailMessage{To: to, Subject: subject, Text: text})
+	// "Attachments": the card's own files, with their manifest in the text.
+	var files []mailAttachment
+	if act["includeAttachments"] == true {
+		var manifest string
+		var err error
+		if files, manifest, err = s.ruleMailAttachments(ctx, docString(a, "userId"), c.BoardID, c.ID); err != nil {
+			return err
+		}
+		if manifest != "" {
+			text += "\n\n" + manifest
+		}
+	}
+	return s.sendMail(ctx, "localhost", mailMessage{To: to, Subject: subject, Text: text, Attachments: files})
 }
 
 // cardLink is the card's own address when Weddy knows its ROOT_URL, as

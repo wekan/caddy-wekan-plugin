@@ -2,8 +2,14 @@ package web
 
 import (
 	"context"
+	"encoding/base64"
 	"io"
+	"mime"
+	"mime/multipart"
 	"mime/quotedprintable"
+	"net/mail"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -218,5 +224,116 @@ func TestRuleSendEmailDetails(t *testing.T) {
 	if err := w.s.performAction(ctx, bson.M{"boardId": b.ID, "cardId": c.ID, "userId": zed.ID},
 		bson.M{"actionType": "sendEmail", "emailTo": "ann@example.org", "includeCardDetails": true}); err == nil || len(sink.messages()) != before {
 		t.Error("negative: a card its user may not read sends nothing")
+	}
+}
+
+// "Attachments": the triggering card's live files go with the mail, with a
+// manifest in its text; never a deleted one or another card's, a name or a
+// type never becomes a header, 8 MiB is the limit, and a card its user may
+// not read sends nothing.
+func TestRuleSendEmailAttachments(t *testing.T) {
+	sink := newSMTPSink(t)
+	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
+	w := newTestWeKan(t)
+	w.s.FilesDir = filepath.Join(t.TempDir(), "files")
+	ann := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": ann.ID}, bson.M{"$set": bson.M{"profile.fullname": "ANN Person"}})
+	b, _ := w.s.CreateBoard(ctx, ann, "Files")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, ann, l.ID, sw.ID, "With files")
+	other, _ := w.s.AddCard(ctx, b, ann, l.ID, sw.ID, "Elsewhere")
+	if err := os.MkdirAll(filepath.Join(w.s.FilesDir, "attachments"), 0o750); err != nil {
+		t.Fatal(err)
+	}
+	at := time.Date(2026, 11, 9, 8, 0, 0, 0, time.UTC)
+	file := func(id, cardID, name, typ string, data []byte, extra bson.M) {
+		doc := bson.M{"_id": id, "name": name, "type": typ, "size": len(data), "userId": ann.ID, "uploadedAt": at,
+			"meta": bson.M{"boardId": b.ID, "cardId": cardID}}
+		for k, v := range extra {
+			doc[k] = v
+		}
+		if _, err := w.db.Collection("attachments").InsertOne(ctx, doc); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(filepath.Join(w.s.FilesDir, "attachments", id), data, 0o640); err != nil {
+			t.Fatal(err)
+		}
+	}
+	file("a1", c.ID, "report.txt", "text/plain", []byte("report body"), nil)
+	file("a2", c.ID, "../evil\r\nBcc: x@evil.example.png", "image/png\r\nX-Evil: 1", []byte{0x89, 'P', 'N', 'G'}, nil)
+	file("a3", c.ID, "gone.txt", "text/plain", []byte("gone"), bson.M{"deletedAt": at})
+	file("a4", other.ID, "other.txt", "text/plain", []byte("other"), nil)
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"coverId": "a1"}})
+	act := bson.M{"actionType": "sendEmail", "emailTo": "ann@example.org", "emailSubject": "Files", "emailMsg": "Here", "includeAttachments": true}
+	if err := w.s.performAction(ctx, bson.M{"boardId": b.ID, "cardId": c.ID, "userId": ann.ID}, act); err != nil {
+		t.Fatal(err)
+	}
+	msgs := sink.messages()
+	if len(msgs) != 1 {
+		t.Fatalf("one e-mail: %d", len(msgs))
+	}
+	msg, err := mail.ReadMessage(strings.NewReader(msgs[0]))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if msg.Header.Get("Bcc") != "" || msg.Header.Get("X-Evil") != "" {
+		t.Error("negative: a name or a type never becomes a header")
+	}
+	mt, params, _ := mime.ParseMediaType(msg.Header.Get("Content-Type"))
+	if mt != "multipart/mixed" {
+		t.Fatalf("multipart/mixed: %s", mt)
+	}
+	mr := multipart.NewReader(msg.Body, params["boundary"])
+	var text string
+	got := map[string]string{}
+	types := map[string]string{}
+	for {
+		p, err := mr.NextPart()
+		if err != nil {
+			break
+		}
+		body, _ := io.ReadAll(p)
+		if p.FileName() == "" {
+			d, _ := io.ReadAll(quotedprintable.NewReader(strings.NewReader(string(body))))
+			text = strings.ReplaceAll(string(d), "\r\n", "\n")
+			continue
+		}
+		data, _ := base64.StdEncoding.DecodeString(strings.ReplaceAll(string(body), "\r\n", ""))
+		got[p.FileName()] = string(data)
+		types[p.FileName()] = p.Header.Get("Content-Type")
+	}
+	if got["report.txt"] != "report body" || types["report.txt"] != "text/plain" {
+		t.Errorf("report.txt as it is: %q %q", got["report.txt"], types["report.txt"])
+	}
+	if got["evilBcc: x@evil.example.png"] != "\x89PNG" || types["evilBcc: x@evil.example.png"] != "application/octet-stream" {
+		t.Errorf("negative: the name's path and line breaks gone, an unsafe type octet-stream: %v %v", got, types)
+	}
+	if len(got) != 2 {
+		t.Errorf("negative: no deleted file and no other card's: %v", got)
+	}
+	for _, want := range []string{"Attachments:\nFile: report.txt\nSize (bytes): 11\nType: text/plain\nCover: true\nUploaded: 2026-11-09T08:00:00.000Z\nUploaded by: ANN Person"} {
+		if !strings.Contains(text, want) {
+			t.Errorf("the manifest has %q: %q", want, text)
+		}
+	}
+	// Negative: over 8 MiB together, nothing is sent.
+	file("a5", c.ID, "big.bin", "application/octet-stream", make([]byte, ruleMailMaxAttachmentBytes), nil)
+	if err := w.s.performAction(ctx, bson.M{"boardId": b.ID, "cardId": c.ID, "userId": ann.ID}, act); err == nil || len(sink.messages()) != 1 {
+		t.Error("negative: over the limit sends nothing")
+	}
+	_, _ = w.db.Collection("attachments").DeleteOne(ctx, bson.M{"_id": "a5"})
+	// Negative: a user who may not read the card.
+	zed := w.seedUser(t, "zed", "pw")
+	if err := w.s.performAction(ctx, bson.M{"boardId": b.ID, "cardId": c.ID, "userId": zed.ID}, act); err == nil || len(sink.messages()) != 1 {
+		t.Error("negative: a card its user may not read sends nothing")
+	}
+	// Without the choice, no files.
+	delete(act, "includeAttachments")
+	_ = w.s.performAction(ctx, bson.M{"boardId": b.ID, "cardId": c.ID, "userId": ann.ID}, act)
+	if m := sink.messages(); len(m) != 2 || strings.Contains(m[1], "multipart/mixed") || strings.Contains(m[1], "report.txt") {
+		t.Error("negative: not without includeAttachments")
 	}
 }
