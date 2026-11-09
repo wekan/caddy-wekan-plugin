@@ -874,6 +874,63 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.on('click', '.js-open-rules-view, .js-open-rules-list-view', rulesMenuEntry('list'));
   up.on('click', '.js-open-rules-workflow-view', rulesMenuEntry('workflow'));
   up.on('click', '.js-open-rules-import-export', rulesMenuEntry('import'));
+  // WeKan's rulesBots: add and remove a bot, hand a card to one, stop, answer
+  // and reply - each a method, then the view again; drag a card to a column
+  // to move it, as on the board.
+  function botsDone(promise, errorBox) {
+    return promise.then(function () { location.reload(); }, function (e) {
+      var box = errorBox && document.querySelector(errorBox);
+      if (box) { box.textContent = (e && (e.reason || e.error)) || String(e); box.hidden = false; }
+    });
+  }
+  up.on('submit', '.js-bots-add', function (event, form) {
+    event.preventDefault();
+    var view = form.closest('.bots-view');
+    var token = form.querySelector('.js-bots-token').value;
+    var doc = { boardId: view.dataset.board, title: form.querySelector('.js-bots-title').value.trim(),
+      url: form.querySelector('.js-bots-url').value.trim(), bot: true, enabled: true };
+    if (token) doc.token = token;
+    botsDone(Meteor.callAsync('/integrations/insert', doc), '.js-bots-add-error');
+  });
+  up.on('click', '.js-bots-remove', function (event, el) {
+    event.preventDefault();
+    botsDone(Meteor.callAsync('/integrations/remove', { _id: el.getAttribute('data-id') }));
+  });
+  up.on('click', '.js-bots-dispatch', function (event, el) {
+    var choose = el.closest('.bots-drawer').querySelector('.js-bots-choose');
+    if (choose && choose.value) botsDone(Meteor.callAsync('botDispatch', el.getAttribute('data-card-id'), choose.value));
+  });
+  up.on('click', '.js-bots-stop', function (event, el) {
+    botsDone(Meteor.callAsync('botStop', el.getAttribute('data-run-id')));
+  });
+  up.on('click', '.js-bots-answer', function (event, el) {
+    botsDone(Meteor.callAsync('botAnswer', el.getAttribute('data-run-id'), el.getAttribute('data-value')));
+  });
+  up.on('submit', '.js-bots-reply', function (event, form) {
+    event.preventDefault();
+    var text = form.querySelector('.js-bots-reply-text').value;
+    if (text.trim()) botsDone(Meteor.callAsync('botReply', form.getAttribute('data-run-id'), text));
+  });
+  var botsDragged = null;
+  up.on('dragstart', '.js-bots-card', function (event, el) {
+    botsDragged = el;
+    if (event.dataTransfer) event.dataTransfer.setData('text/plain', el.getAttribute('data-card-id'));
+  });
+  up.on('dragover', '.js-bots-drop', function (event) { event.preventDefault(); });
+  up.on('drop', '.js-bots-drop', function (event, column) {
+    event.preventDefault();
+    var card = botsDragged;
+    botsDragged = null;
+    if (!card || card.closest('.js-bots-drop') === column) return;
+    var view = column.closest('.bots-view');
+    var last = 0;
+    column.querySelectorAll('.js-bots-card').forEach(function (c) { last = Math.max(last, Number(c.getAttribute('data-sort')) || 0); });
+    fetch('/b/' + view.dataset.board + '/move', {
+      method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ moves: [{ cardId: card.getAttribute('data-card-id'), listId: column.getAttribute('data-list-id'),
+        swimlaneId: card.getAttribute('data-swimlane-id'), sort: last + 1 }] }),
+    }).then(function () { location.reload(); });
+  });
   // Export the ticked rules, or all of them.
   up.on('click', '.js-rules-export-json, .js-rules-export-csv', function (event, el) {
     var page = document.querySelector('.rules-page');

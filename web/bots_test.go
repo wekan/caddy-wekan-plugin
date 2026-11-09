@@ -237,3 +237,53 @@ func TestBotRuleAction(t *testing.T) {
 		t.Errorf("only the board's own bot is sent the card: %d %d", len(sink.bodies("/botHere")), len(sink.bodies("/botThere")))
 	}
 }
+
+// The Rules page's Bots view: for a board admin, the bots, the lists as
+// columns with each card's run - its words, its question and answers - and a
+// card's drawer with its comments and the run's events; for anybody else,
+// none of it.
+func TestRulesBotsView(t *testing.T) {
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, ann, "Botboard")
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true})
+	l, _ := w.s.AddList(ctx, b, "In progress")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, ann, l.ID, sw.ID, "Fix login")
+	_, _ = w.db.Collection("integrations").InsertOne(ctx, bson.M{"_id": "botv", "boardId": b.ID, "title": "Coder", "url": "https://bots.example/run",
+		"type": "outgoing-webhooks", "enabled": true, "bot": true, "activities": bson.A{"bot-dispatch"}})
+	now := time.Now().UTC()
+	_, _ = w.db.Collection("botRuns").InsertOne(ctx, bson.M{"_id": "runv", "boardId": b.ID, "cardId": c.ID, "integrationId": "botv",
+		"status": "awaiting_input", "question": "Which file?", "options": bson.A{bson.M{"value": "a.js", "label": "a.js"}},
+		"createdAt": now, "updatedAt": now, "costUsd": 0.12,
+		"events": bson.A{bson.M{"text": "dispatched", "status": "queued", "at": now.Add(-time.Minute)}, bson.M{"tool": "Bash", "text": "npm test", "status": "running", "at": now}}})
+	_, _ = w.db.Collection("card_comments").InsertOne(ctx, bson.M{"_id": "cmv", "cardId": c.ID, "boardId": b.ID, "userId": ann.ID, "text": "please fix", "createdAt": now.Add(-2 * time.Minute)})
+	page := func(user string) string {
+		cl := w.client(t)
+		body(t, w.signIn(t, cl, user, "pw"))
+		res, err := cl.Get(w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/rules?view=bots&card=" + c.ID)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return body(t, res)
+	}
+	html := page("ann")
+	for _, want := range []string{`data-pane="bots"`, "Coder", "bots.example", "In progress", "Fix login", "Which file?",
+		`data-value="a.js"`, "please fix", "npm test", "$0.12", "js-bots-reply", "js-bots-dispatch", `data-swimlane-id="` + sw.ID + `"`} {
+		if !strings.Contains(html, want) {
+			t.Errorf("the Bots view has %q", want)
+		}
+	}
+	if !strings.Contains(html, "Waiting for you") && !strings.Contains(html, "bots-status-awaiting_input") {
+		t.Error("the run's state in words")
+	}
+	if strings.Contains(html, "bots-status-awaiting_input<") {
+		t.Error("the state's key is translated, not shown")
+	}
+	if m := page("bob"); strings.Contains(m, "Coder") || strings.Contains(m, "bots.example") || strings.Contains(m, "Which file?") {
+		t.Error("negative: a normal member sees no bot, no address, no run")
+	}
+}

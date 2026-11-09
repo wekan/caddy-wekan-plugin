@@ -32,6 +32,10 @@
                 i.fa.fa-sitemap
                 |  {{t $.L "r-workflow-view"}}
             li
+              a.js-open-rules-bots-view(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules?view=bots", title="{{t $.L `bots`}}")
+                i.fa.fa-android
+                |  {{t $.L "bots"}}
+            li
               a.js-open-rules-import-export(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules?view=import", title="{{t $.L `rulesImportExportPopup-title`}}")
                 i.fa.fa-exchange
                 |  {{t $.L "rulesImportExportPopup-title"}}
@@ -124,6 +128,130 @@
             button.primary.js-goto-trigger(type="button")
               i.fa.fa-plus
               |  {{t $.L "r-add-trigger"}}
+      //- WeKan's rulesBots: the board's bots, its lists as columns with each
+        card's run, and a card's thread in the drawer (rules_bots_view.go).
+      template.js-rules-pane(data-pane="bots")
+        .bots-view(data-board="{{$.Board.ID}}", data-slug="{{$.Board.Slug}}")
+          aside.bots-rail
+            section.bots-rail-section
+              h3
+                i.fa.fa-android
+                |  {{t $.L "bots"}}
+              ul.bots-list
+                if $.Bots
+                  each bot in $.Bots
+                    li.bots-bot(class="{{if not .Enabled}}is-disabled{{end}}")
+                      span.bots-bot-name {{.Title}}
+                      span.quiet.bots-bot-host {{.Host}}
+                      a.js-bots-remove(href="#", data-id="{{.ID}}", title="{{t $.L `delete`}}")
+                        i.fa.fa-trash-o
+                else
+                  li.quiet {{t $.L "bots-none"}}
+              form.bots-add.js-bots-add
+                input.js-bots-title(type="text", required, placeholder="{{t $.L `bots-name`}}", aria-label="{{t $.L `bots-name`}}")
+                input.js-bots-url(type="url", required, placeholder="{{t $.L `bots-url`}}", aria-label="{{t $.L `bots-url`}}")
+                input.js-bots-token(type="password", autocomplete="off", placeholder="{{t $.L `bots-token`}}", aria-label="{{t $.L `bots-token`}}")
+                button.primary(type="submit")
+                  i.fa.fa-plus
+                  |  {{t $.L "bots-add"}}
+                p.warning.js-bots-add-error(role="alert", hidden)
+            section.bots-rail-section
+              h3
+                i.fa.fa-bolt
+                |  {{t $.L "bots-live"}}
+              ul.bots-live
+                if $.BotLive
+                  each run in $.BotLive
+                    li
+                      a(href="/b/{{$.Board.ID}}/{{$.Board.Slug}}/rules?view=bots&card={{.CardID}}")
+                        span.bots-pill(class="is-{{.Status}}") {{t $.L .StatusKey}}
+                        |  {{.CardTitle}}
+                      if .Ticker
+                        .bots-ticker.quiet {{.Ticker}}
+                else
+                  li.quiet {{t $.L "bots-no-runs"}}
+            section.bots-rail-section
+              h3
+                i.fa.fa-history
+                |  {{t $.L "activity"}}
+              ul.bots-activity
+                each act in $.BotActivity
+                  li.quiet
+                    strong {{.BotTitle}}
+                    | : {{.Text}}
+          main.bots-board
+            header.bots-header
+              h2 {{$.Board.Title}} / {{t $.L "bots"}}
+              span.quiet {{$.BotSummary}}
+            .bots-columns
+              each col in $.BotColumns
+                section.bots-column.js-bots-drop(data-list-id="{{.ID}}")
+                  header.bots-column-header
+                    span.bots-column-title {{.Title}}
+                    span.bots-counter {{len .Cards}}
+                  each card in .Cards
+                    article.bots-card.js-bots-card(draggable="true", data-card-id="{{.ID}}", data-swimlane-id="{{.SwimlaneID}}", data-sort="{{.Sort}}", class="{{if .Selected}}is-selected{{end}}")
+                      .bots-card-top
+                        if .TagName
+                          span.card-label.bots-tag(class="card-label-{{.TagColor}}") {{.TagName}}
+                        if .Number
+                          span.quiet {{.Number}}
+                        if .Run
+                          span.bots-pill(class="is-{{.Run.Status}}") {{t $.L .Run.StatusKey}}
+                      a.bots-card-title(href="/b/{{$.Board.ID}}/{{$.Board.Slug}}/rules?view=bots&card={{.ID}}") {{.Title}}
+                      if .Run
+                        if .Run.Ticker
+                          .bots-ticker
+                            i.fa.fa-terminal
+                            |  {{.Run.Ticker}}
+                        if .Run.Question
+                          .bots-question
+                            i.fa.fa-question-circle
+                            |  {{.Run.Question}}
+                          .bots-options
+                            each opt in .Run.Options
+                              button.js-bots-answer(type="button", data-run-id="{{index . `runId`}}", data-value="{{index . `value`}}") {{index . "label"}}
+                      .bots-card-meta.quiet
+                        span {{.Age}}
+          if $.BotDrawer
+            aside.bots-drawer
+              header.bots-drawer-header
+                h3 {{$.BotDrawer.Title}}
+                a(href="/b/{{$.Board.ID}}/{{$.Board.Slug}}/rules?view=bots", title="{{t $.L `close`}}")
+                  i.fa.fa-times
+              .bots-dispatch
+                if $.BotDrawer.Bots
+                  select.js-bots-choose(aria-label="{{t $.L `bots`}}")
+                    each bot in $.BotDrawer.Bots
+                      option(value="{{.ID}}") {{.Title}}
+                  button.primary.js-bots-dispatch(type="button", data-card-id="{{$.BotDrawer.ID}}")
+                    i.fa.fa-play
+                    |  {{t $.L "bots-dispatch"}}
+                if $.BotDrawer.Run
+                  if $.BotDrawer.Run.Active
+                    button.js-bots-stop(type="button", data-run-id="{{$.BotDrawer.Run.ID}}")
+                      i.fa.fa-stop
+                      |  {{t $.L "bots-stop"}}
+              if $.BotDrawer.Run
+                p
+                  span.bots-pill(class="is-{{$.BotDrawer.Run.Status}}") {{t $.L $.BotDrawer.Run.StatusKey}}
+                  if $.BotDrawer.Run.CostText
+                    span.quiet  {{$.BotDrawer.Run.CostText}}
+              ul.bots-thread
+                each item in $.BotDrawer.Thread
+                  li.bots-thread-item(class="is-{{.Kind}}")
+                    .bots-thread-meta.quiet
+                      if .IsEvent
+                        i.fa.fa-cog
+                      else
+                        i.fa.fa-comment-o
+                      |  {{.Who}} · {{.When}}
+                    .bots-thread-text {{.Text}}
+              if $.BotDrawer.Run
+                if $.BotDrawer.Run.Active
+                  form.bots-reply.js-bots-reply(data-run-id="{{$.BotDrawer.Run.ID}}")
+                    textarea.js-bots-reply-text(rows="3", placeholder="{{t $.L `bots-reply`}}", aria-label="{{t $.L `bots-reply`}}")
+                    button.primary(type="submit") {{t $.L "bots-send"}}
       //- WeKan's rulesWorkflow: each rule as its trigger leading to its actions.
       template.js-rules-pane(data-pane="workflow")
         .rules-workflow
