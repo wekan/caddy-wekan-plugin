@@ -12,6 +12,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strings"
 	"sync"
 	"testing"
@@ -332,5 +333,55 @@ func TestTwoWayWebhookReply(t *testing.T) {
 	send(map[string]any{"commentId": id, "cardId": c.ID, "boardId": b.ID, "comment": "from a one-way hook"}, oneWay)
 	if text(id) != "edited by chat" {
 		t.Error("negative: a one-way webhook's answer changes nothing")
+	}
+}
+
+// #1297: a webhook marked for it also sends the card's members and assignees
+// a Mattermost direct message each - never the actor, never a name
+// Mattermost could not have - and a webhook not marked sends none.
+func TestMattermostDirectMessages(t *testing.T) {
+	sink := newWebhookSink(t)
+	webhookAllowLoopbackForTests = true
+	t.Cleanup(func() { webhookAllowLoopbackForTests = false })
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	carl := w.seedUser(t, "carl", "pw")
+	ctx := context.Background()
+	_, _ = w.db.Collection("users").InsertOne(ctx, bson.M{"_id": "badnameuser0001", "username": "bad name!"})
+	b, _ := w.s.CreateBoard(ctx, ann, "Chatty")
+	for id, dm := range map[string]bool{"mm": true, "plain": false} {
+		_, _ = w.db.Collection("integrations").InsertOne(ctx, bson.M{"_id": id, "boardId": b.ID, "url": sink.srv.URL + "/" + id,
+			"type": "outgoing-webhooks", "enabled": true, "activities": bson.A{"act-addComment"}, "userId": ann.ID, "mattermostDirectMessages": dm})
+	}
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, ann, l.ID, sw.ID, "Discuss")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{
+		"members": bson.A{ann.ID, bob.ID, "badnameuser0001"}, "assignees": bson.A{carl.ID, bob.ID}}})
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(c)
+	if _, err := w.s.AddComment(ctx, b, ann, c, "Ping"); err != nil {
+		t.Fatal(err)
+	}
+	channels := func(path string) []string {
+		var out []string
+		for _, body := range sink.bodies(path) {
+			ch, _ := body["channel"].(string)
+			out = append(out, ch)
+		}
+		sort.Strings(out)
+		return out
+	}
+	deadline := time.Now().Add(5 * time.Second)
+	for time.Now().Before(deadline) && len(sink.bodies("/mm")) < 3 {
+		time.Sleep(20 * time.Millisecond)
+	}
+	time.Sleep(200 * time.Millisecond)
+	if got := strings.Join(channels("/mm"), ","); got != ",@bob,@carl" {
+		t.Errorf("the channel message and one each to bob and carl, not ann or a bad name: %q", got)
+	}
+	if got := channels("/plain"); len(got) != 1 || got[0] != "" {
+		t.Errorf("negative: an unmarked webhook sends no direct message: %v", got)
 	}
 }

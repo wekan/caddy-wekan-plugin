@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"strings"
 	"sync"
 	"syscall"
@@ -36,8 +37,9 @@ import (
 //
 // "Leave my name out of outgoing webhooks", set in WeKan's Member Settings,
 // is honoured, and a two-way webhook's answer edits the comment it was sent
-// (webhookReply). Not here yet: Notification delivery's grouping and schedule
-// for webhooks, Mattermost direct messages, and an outbound proxy.
+// (webhookReply), and a webhook marked for it also sends Mattermost direct
+// messages to the card's people (#1297). Not here yet: Notification
+// delivery's grouping and schedule for webhooks, and an outbound proxy.
 
 var errSSRFBlocked = errors.New("SSRF_GUARD: the address is a private, loopback or reserved one")
 
@@ -249,6 +251,55 @@ func (s *Server) webhookBody(ctx context.Context, hook bson.M, description strin
 	return out
 }
 
+var mattermostUsername = regexp.MustCompile(`(?i)^[a-z0-9._-]{1,64}$`)
+
+// mattermostUsernames is WeKan's directMessageUsernames: the card's members
+// and assignees, once each, never the actor, a name Mattermost could have,
+// at most 50.
+func (s *Server) mattermostUsernames(ctx context.Context, cardID, boardID, actorID string) []string {
+	var c Card
+	if !validID(cardID) || s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID), "boardId": eq(boardID)}).Decode(&c) != nil {
+		return nil
+	}
+	seen := map[string]bool{}
+	var out []string
+	for _, id := range append(append([]string{}, c.Members...), c.Assignees...) {
+		if id == "" || id == actorID || seen[id] {
+			continue
+		}
+		seen[id] = true
+		var u User
+		if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&u) == nil && mattermostUsername.MatchString(u.Username) {
+			out = append(out, u.Username)
+		}
+		if len(out) >= 50 {
+			break
+		}
+	}
+	return out
+}
+
+// mattermostDirectBodies is WeKan's directMessageBodies: the webhook's own
+// message, once per person, to "@username".
+func mattermostDirectBodies(body []byte, usernames []string) [][]byte {
+	var message map[string]any
+	if json.Unmarshal(body, &message) != nil || message == nil {
+		return nil
+	}
+	var out [][]byte
+	for _, name := range usernames {
+		m := map[string]any{}
+		for k, v := range message {
+			m[k] = v
+		}
+		m["channel"] = "@" + name
+		if b, err := json.Marshal(m); err == nil {
+			out = append(out, b)
+		}
+	}
+	return out
+}
+
 // webhookIdentityFields are what names a person (WeKan's IDENTITY_FIELDS).
 var webhookIdentityFields = map[string][]string{
 	"userId":     {"user", "username", "userId", "userEmails"},
@@ -407,6 +458,16 @@ func (s *Server) sendActivityWebhooks(activity bson.M) {
 			if cid, _ := p["commentId"].(string); cid != "" && docString(hook, "type") == "bidirectional-webhooks" {
 				if text, _ := p["comment"].(string); webhookEchoBusy(cid, text) {
 					continue
+				}
+			}
+			// #1297: and a Mattermost direct message to each of the card's
+			// members and assignees, beside the channel message, best effort.
+			if hook["mattermostDirectMessages"] == true && docString(hook, "type") != "bidirectional-webhooks" {
+				if cardID, _ := p["cardId"].(string); cardID != "" {
+					actor, _ := p["userId"].(string)
+					for _, dm := range mattermostDirectBodies(body, s.mattermostUsernames(ctx, cardID, boardID, actor)) {
+						_ = s.deliverWebhook(ctx, hook, dm)
+					}
 				}
 			}
 			if err := s.deliverWebhook(ctx, hook, body); err != nil {
