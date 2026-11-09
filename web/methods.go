@@ -52,6 +52,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"rules.setEnabled":                s.methodSetRuleEnabled,
 		"toggleCardMaximized":             s.methodToggleCardMaximized,
 		"archiveSelectedCards":            s.methodArchiveSelectedCards,
+		"/cards/update":                   s.methodCardsUpdate,
 		"watch":                           s.methodWatch,
 		"createBoardWithInitialSwimlanes": s.methodCreateBoardWithInitialSwimlanes,
 	}
