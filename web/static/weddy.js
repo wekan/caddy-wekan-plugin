@@ -1285,7 +1285,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     // WeKan's mailActions; nothing without a recipient.
     'js-mail-action': function (p) {
       var to = val(p, 'email-to').trim();
-      return to ? { actionType: 'sendEmail', emailTo: to, emailSubject: val(p, 'email-subject'), emailMsg: val(p, 'email-msg') } : null;
+      var discussion = p.querySelector('#email-discussion');
+      return to ? { actionType: 'sendEmail', emailTo: to, emailSubject: val(p, 'email-subject'), emailMsg: val(p, 'email-msg'),
+        includeChecklistsAndComments: !!(discussion && discussion.checked) } : null;
     },
     'js-link-card-action': function (p) {
       return { actionType: 'linkCard', boardId: val(p, 'board-id-link'), listName: val(p, 'listName-link') || '*', swimlaneName: val(p, 'swimlaneName-link') || '*' };
