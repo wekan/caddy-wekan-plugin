@@ -32,9 +32,10 @@ import (
 // for the whole request. A refused address is recorded in Admin Panel /
 // Problems as IntegrationBleed (ssrf.webhook).
 //
-// Not here yet: Notification delivery's grouping and schedule for webhooks,
-// "Leave my name out of outgoing webhooks", Mattermost direct messages, a
-// two-way webhook's reply editing the comment, and an outbound proxy.
+// "Leave my name out of outgoing webhooks", set in WeKan's Member Settings,
+// is honoured. Not here yet: Notification delivery's grouping and schedule
+// for webhooks, Mattermost direct messages, a two-way webhook's reply editing
+// the comment, and an outbound proxy.
 
 var errSSRFBlocked = errors.New("SSRF_GUARD: the address is a private, loopback or reserved one")
 
@@ -191,7 +192,21 @@ func (s *Server) webhookBody(ctx context.Context, hook bson.M, description strin
 	if sentence == "-" {
 		return nil
 	}
+	// Member Settings -> Notifications -> "Leave my name out of outgoing
+	// webhooks" (WeKan's #3695): the actor, and the person a join or an
+	// assignment is about, named in neither the sentence nor the payload.
+	hidden := s.webhookHiddenFields(ctx, p)
+	textParams := map[string]any{}
 	for k, v := range p {
+		textParams[k] = v
+	}
+	someone := tr(lang, msg("webhook-someone"))
+	for idKey, names := range map[string]string{"userId": "user", "memberId": "member", "assigneeId": "assignee"} {
+		if hidden[idKey] {
+			textParams[names] = someone
+		}
+	}
+	for k, v := range textParams {
 		text, ok := v.(string)
 		if !ok {
 			continue
@@ -201,7 +216,7 @@ func (s *Server) webhookBody(ctx context.Context, hook bson.M, description strin
 		}
 		sentence = strings.ReplaceAll(sentence, "__"+k+"__", text)
 	}
-	user, _ := p["user"].(string)
+	user, _ := textParams["user"].(string)
 	link, _ := p["url"].(string)
 	var body map[string]any
 	if docString(hook, "type") == "bidirectional-webhooks" {
@@ -218,11 +233,46 @@ func (s *Server) webhookBody(ctx context.Context, hook bson.M, description strin
 		}
 		body["description"] = description
 	}
+	for idKey, fields := range webhookIdentityFields {
+		if hidden[idKey] {
+			for _, f := range fields {
+				delete(body, f)
+			}
+		}
+	}
 	out, err := json.Marshal(body)
 	if err != nil {
 		return nil
 	}
 	return out
+}
+
+// webhookIdentityFields are what names a person (WeKan's IDENTITY_FIELDS).
+var webhookIdentityFields = map[string][]string{
+	"userId":     {"user", "username", "userId", "userEmails"},
+	"memberId":   {"member", "memberUsername", "memberId"},
+	"assigneeId": {"assignee", "assigneeUsername", "assigneeId"},
+}
+
+// webhookHiddenFields: which of the activity's people asked to be left out
+// of outgoing webhooks (profile.webhookHideIdentity), by their params key.
+func (s *Server) webhookHiddenFields(ctx context.Context, p map[string]any) map[string]bool {
+	hidden := map[string]bool{}
+	for idKey := range webhookIdentityFields {
+		id, _ := p[idKey].(string)
+		if !validID(id) {
+			continue
+		}
+		var u struct {
+			Profile struct {
+				Hide bool `bson:"webhookHideIdentity"`
+			} `bson:"profile"`
+		}
+		if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&u) == nil && u.Profile.Hide {
+			hidden[idKey] = true
+		}
+	}
+	return hidden
 }
 
 // deliverWebhook posts one body; a blocked address is recorded.

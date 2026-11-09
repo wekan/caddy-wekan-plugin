@@ -203,3 +203,59 @@ func TestNoUnguardedOutboundHTTP(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+// "Leave my name out of outgoing webhooks": an actor who asked is "A member"
+// in the sentence and nowhere in the payload, and so is a member a join is
+// about; somebody who did not ask is named as before.
+func TestOutgoingWebhookHideIdentity(t *testing.T) {
+	sink := newWebhookSink(t)
+	webhookAllowLoopbackForTests = true
+	t.Cleanup(func() { webhookAllowLoopbackForTests = false })
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	carl := w.seedUser(t, "carl", "pw")
+	ctx := context.Background()
+	for _, u := range []*User{ann, bob} {
+		_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": u.ID}, bson.M{"$set": bson.M{"profile.webhookHideIdentity": true}})
+	}
+	b, _ := w.s.CreateBoard(ctx, ann, "Private hooks")
+	_, _ = w.db.Collection("integrations").InsertOne(ctx, bson.M{"_id": "hp", "boardId": b.ID, "url": sink.srv.URL + "/p",
+		"type": "outgoing-webhooks", "enabled": true, "activities": bson.A{"all"}, "userId": carl.ID})
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, ann, l.ID, sw.ID, "Quiet card")
+	w.s.activity(ctx, carl.ID, "joinMember", bson.M{"boardId": b.ID, "cardId": c.ID, "memberId": bob.ID})
+	find := func(desc string) map[string]any {
+		deadline := time.Now().Add(5 * time.Second)
+		for time.Now().Before(deadline) {
+			for _, body := range sink.bodies("/p") {
+				if body["description"] == desc {
+					return body
+				}
+			}
+			time.Sleep(20 * time.Millisecond)
+		}
+		t.Fatalf("%s delivered: %v", desc, sink.bodies("/p"))
+		return nil
+	}
+	created := find("act-createCard")
+	for _, k := range []string{"user", "username", "userId", "userEmails"} {
+		if _, has := created[k]; has {
+			t.Errorf("negative: a hidden actor's %s: %v", k, created[k])
+		}
+	}
+	if text, _ := created["text"].(string); !strings.HasPrefix(text, "A member ") || strings.Contains(text, "ann") {
+		t.Errorf("the actor is A member: %q", text)
+	}
+	joined := find("act-joinMember")
+	for _, k := range []string{"member", "memberUsername", "memberId"} {
+		if _, has := joined[k]; has {
+			t.Errorf("negative: a hidden member's %s: %v", k, joined[k])
+		}
+	}
+	if joined["username"] != "carl" {
+		t.Errorf("an actor who did not ask is named: %v", joined["username"])
+	}
+}
