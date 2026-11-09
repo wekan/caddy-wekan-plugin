@@ -445,6 +445,11 @@ func (s *Server) apiAddCard(w http.ResponseWriter, r *http.Request, u *User) {
 	if b == nil {
 		return
 	}
+	// The list it goes into: a list that refuses the caller's role refuses the API too.
+	if s.refuseInList(r.Context(), b, r.PathValue("list"), u, "write", "rest:card-add") {
+		apiError(w, http.StatusForbidden, "Forbidden")
+		return
+	}
 	var req map[string]any
 	if err := decodeJSON(r, &req); err != nil {
 		apiError(w, http.StatusBadRequest, err.Error())
@@ -468,7 +473,7 @@ func (s *Server) apiAddCard(w http.ResponseWriter, r *http.Request, u *User) {
 			apiError(w, http.StatusForbidden, "Forbidden")
 			return
 		}
-		if !sb.Writable(u, "write", &src) {
+		if !sb.WritableIn(r.Context(), s, u, "write", &src) {
 			s.recordSecurity(r, securityEvent{Key: "authz.linked-write", Action: "blocked", Source: "rest:card-link", UserID: u.ID,
 				Detail: "a card link from a board the user may not change: " + sb.ID})
 			apiError(w, http.StatusForbidden, "Forbidden")
@@ -543,6 +548,11 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 	if c == nil {
 		return
 	}
+	// A list that refuses the caller's role refuses the API too.
+	if s.refuseInList(r.Context(), b, c.ListID, u, "write", "rest:card-edit") {
+		apiError(w, http.StatusForbidden, "Forbidden")
+		return
+	}
 	var req map[string]any
 	if err := decodeJSON(r, &req); err != nil {
 		apiError(w, http.StatusBadRequest, err.Error())
@@ -577,6 +587,10 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 			apiError(w, http.StatusNotFound, "Destination swimlane not found or does not belong to destination board")
 			return
 		}
+		if s.refuseInList(r.Context(), moveTo, newList, u, "moveCard", "rest:card-move-into") {
+			apiError(w, http.StatusForbidden, "Forbidden")
+			return
+		}
 	}
 	listID, hasList := req["listId"].(string)
 	swimlaneID, hasSwimlane := req["swimlaneId"].(string)
@@ -592,7 +606,11 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 			m.SwimlaneID = swimlaneID
 		}
 		if err := s.MoveCards(r.Context(), b, u, []Move{m}); err != nil {
-			apiError(w, http.StatusBadRequest, err.Error())
+			code := http.StatusBadRequest
+			if errors.Is(err, errForbidden) {
+				code = http.StatusForbidden
+			}
+			apiError(w, code, err.Error())
 			return
 		}
 	}
@@ -625,6 +643,11 @@ func (s *Server) apiDeleteCard(w http.ResponseWriter, r *http.Request, u *User) 
 	}
 	c := s.cardOf(w, r, b)
 	if c == nil {
+		return
+	}
+	// A list that refuses the caller's role refuses the API too.
+	if s.refuseInList(r.Context(), b, c.ListID, u, "write", "rest:card-delete") {
+		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}
 	if err := s.DeleteCard(r.Context(), b, u, c); err != nil {

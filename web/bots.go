@@ -258,7 +258,7 @@ func (s *Server) botCommentAndTell(ctx context.Context, u *User, runID, kind, te
 		return "", err
 	}
 	var c Card
-	if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(docString(run, "cardId"))}).Decode(&c) != nil || !b.Can(u.ID, "comment") {
+	if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(docString(run, "cardId"))}).Decode(&c) != nil || !b.CommentableIn(ctx, s, u, &c) {
 		return "", &methodError{"not-authorized", "not-authorized"}
 	}
 	commentID, err := s.AddComment(ctx, b, u, &c, text)

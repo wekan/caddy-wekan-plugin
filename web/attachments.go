@@ -238,7 +238,7 @@ func (s *Server) boardCard(r *http.Request, u *User, boardID, cardID string) (*B
 	if !validID(cardID) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(cardID), "boardId": b.ID}).Decode(&c) != nil {
 		return nil, nil, http.StatusNotFound
 	}
-	if !b.Writable(u, "write", &c) {
+	if !b.WritableIn(r.Context(), s, u, "write", &c) {
 		return nil, nil, http.StatusForbidden
 	}
 	return b, &c, 0
@@ -441,7 +441,7 @@ func (s *Server) apiDeleteAttachment(w http.ResponseWriter, r *http.Request, u *
 	}
 	var c Card
 	_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": a.Meta.CardID, "boardId": b.ID}).Decode(&c)
-	if !b.Writable(u, "write", &c) {
+	if !b.WritableIn(r.Context(), s, u, "write", &c) {
 		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}

@@ -285,6 +285,10 @@ func (s *Server) apiBulkAddCards(w http.ResponseWriter, r *http.Request, u *User
 	if b == nil {
 		return
 	}
+	if s.refuseInList(r.Context(), b, r.PathValue("list"), u, "write", "rest:card-bulk-add") {
+		apiError(w, http.StatusForbidden, "Forbidden")
+		return
+	}
 	var req struct {
 		SwimlaneID string           `json:"swimlaneId"`
 		Cards      []map[string]any `json:"cards"`
@@ -404,6 +408,17 @@ func (s *Server) apiBulkLabels(w http.ResponseWriter, r *http.Request, u *User) 
 		return
 	}
 	filter := bson.M{"boardId": b.ID, "_id": in}
+	// Every card's list first: a refused one stops the whole batch.
+	if cur, err := s.db.Collection("cards").Find(r.Context(), filter); err == nil {
+		var cards []Card
+		_ = cur.All(r.Context(), &cards)
+		for _, c := range cards {
+			if s.refuseInList(r.Context(), b, c.ListID, u, "write", "rest:card-bulk-labels") {
+				apiError(w, http.StatusForbidden, "Forbidden")
+				return
+			}
+		}
+	}
 	if n, _ := s.db.Collection("cards").CountDocuments(r.Context(), filter); int(n) != len(req.CardIDs) {
 		apiError(w, http.StatusBadRequest, "a card is not on this board")
 		return
@@ -597,6 +612,10 @@ func (s *Server) apiCardMember(field string, add bool) apiHandler {
 		if c == nil {
 			return
 		}
+		if s.refuseInList(r.Context(), b, c.ListID, u, "write", "rest:card-"+field) {
+			apiError(w, http.StatusForbidden, "Forbidden")
+			return
+		}
 		userID := r.PathValue("user")
 		update := bson.M{"$pull": bson.M{field: userID}}
 		if add {
@@ -651,7 +670,7 @@ func (s *Server) toggleCardLabelPage(w http.ResponseWriter, r *http.Request, u *
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
-	if !b.Writable(u, "write", &c) {
+	if !b.WritableIn(r.Context(), s, u, "write", &c) {
 		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
 		return
 	}

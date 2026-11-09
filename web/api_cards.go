@@ -87,6 +87,13 @@ func (s *Server) apiBulkDeleteCards(w http.ResponseWriter, r *http.Request, u *U
 	}
 	var cards []Card
 	_ = cur.All(r.Context(), &cards)
+	// Every card's list first: a refused one stops the whole batch.
+	for i := range cards {
+		if s.refuseInList(r.Context(), b, cards[i].ListID, u, "write", "rest:card-bulk-delete") {
+			apiError(w, http.StatusForbidden, "Forbidden")
+			return
+		}
+	}
 	deleted := make([]string, 0, len(cards))
 	for i := range cards {
 		if err := s.DeleteCard(r.Context(), b, u, &cards[i]); err != nil {
@@ -125,7 +132,7 @@ func (s *Server) apiCopyCard(w http.ResponseWriter, r *http.Request, u *User) {
 		req.ToBoardID = b.ID
 	}
 	to, err := s.boardFor(r.Context(), req.ToBoardID, u)
-	if err != nil || !to.Writable(u, "write", nil) {
+	if err != nil || !to.Writable(u, "write", nil) || s.refuseInList(r.Context(), to, req.ToListID, u, "write", "rest:card-copy-into") {
 		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}

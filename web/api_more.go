@@ -30,6 +30,7 @@ func (s *Server) apiMoreRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /api/boards/{board}/cards/{card}/checklists", s.api(s.apiChecklists))
 	m.HandleFunc("POST /api/boards/{board}/cards/{card}/checklists", s.api(s.apiAddChecklist))
 	m.HandleFunc("GET /api/boards/{board}/cards/{card}/checklists/{id}", s.api(s.apiChecklist))
+	m.HandleFunc("PUT /api/boards/{board}/cards/{card}/checklists/{id}", s.api(s.apiEditChecklist))
 	m.HandleFunc("DELETE /api/boards/{board}/cards/{card}/checklists/{id}", s.api(s.apiDeleteChecklist))
 	m.HandleFunc("POST /api/boards/{board}/cards/{card}/checklists/{id}/items", s.api(s.apiAddChecklistItem))
 	m.HandleFunc("GET /api/boards/{board}/cards/{card}/comments", s.api(s.apiComments))
@@ -327,6 +328,11 @@ func (s *Server) apiAddChecklist(w http.ResponseWriter, r *http.Request, u *User
 	if c == nil {
 		return
 	}
+	// A list that refuses the caller's role refuses the API too.
+	if s.refuseInList(r.Context(), b, c.ListID, u, "write", "rest:checklist") {
+		apiError(w, http.StatusForbidden, "Forbidden")
+		return
+	}
 	req, title, ok := titleOf(w, r)
 	if !ok {
 		return
@@ -375,12 +381,76 @@ func (s *Server) apiDeleteChecklist(w http.ResponseWriter, r *http.Request, u *U
 	if c == nil {
 		return
 	}
+	// A list that refuses the caller's role refuses the API too.
+	if s.refuseInList(r.Context(), b, c.ListID, u, "write", "rest:checklist") {
+		apiError(w, http.StatusForbidden, "Forbidden")
+		return
+	}
 	cl := s.checklistOf(w, r, c)
 	if cl == nil {
 		return
 	}
 	_, _ = s.db.Collection("checklistItems").DeleteMany(r.Context(), bson.M{"checklistId": cl["_id"]})
 	if _, err := s.db.Collection("checklists").DeleteOne(r.Context(), bson.M{"_id": cl["_id"]}); err != nil {
+		apiError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	s.hub.publish(b.ID, "board-changed")
+	writeJSON(w, http.StatusOK, map[string]any{"_id": cl["_id"]})
+}
+
+// apiEditChecklist is WeKan's PUT of a checklist (#1037): its title, its due
+// date (null clears it), or both - the other per-checklist settings are not
+// on the REST API in WeKan either.
+func (s *Server) apiEditChecklist(w http.ResponseWriter, r *http.Request, u *User) {
+	b := s.apiBoardFor(w, r, u, true)
+	if b == nil {
+		return
+	}
+	c := s.cardOnBoard(w, r, b)
+	if c == nil {
+		return
+	}
+	// A list that refuses the caller's role refuses the API too.
+	if s.refuseInList(r.Context(), b, c.ListID, u, "write", "rest:checklist") {
+		apiError(w, http.StatusForbidden, "Forbidden")
+		return
+	}
+	cl := s.checklistOf(w, r, c)
+	if cl == nil {
+		return
+	}
+	var req map[string]any
+	if err := decodeJSON(r, &req); err != nil {
+		apiError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	hasDue, due, err := parseDueAt(req)
+	rawTitle, hasTitle := req["title"]
+	title, isString := rawTitle.(string)
+	if err != nil || (hasTitle && (!isString || strings.TrimSpace(title) == "")) || (!hasTitle && !hasDue) {
+		msg := "title or dueAt is required"
+		if err != nil {
+			msg = err.Error()
+		}
+		apiError(w, http.StatusBadRequest, msg)
+		return
+	}
+	set, update := bson.M{}, bson.M{}
+	if hasTitle {
+		set["title"] = title
+	}
+	if hasDue {
+		if due == nil {
+			update["$unset"] = bson.M{"dueAt": ""}
+		} else {
+			set["dueAt"] = *due
+		}
+	}
+	if len(set) > 0 {
+		update["$set"] = set
+	}
+	if _, err := s.db.Collection("checklists").UpdateOne(r.Context(), bson.M{"_id": cl["_id"], "cardId": eq(c.ID)}, update); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -395,6 +465,11 @@ func (s *Server) apiAddChecklistItem(w http.ResponseWriter, r *http.Request, u *
 	}
 	c := s.cardOnBoard(w, r, b)
 	if c == nil {
+		return
+	}
+	// A list that refuses the caller's role refuses the API too.
+	if s.refuseInList(r.Context(), b, c.ListID, u, "write", "rest:checklist-item") {
+		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}
 	cl := s.checklistOf(w, r, c)
@@ -455,6 +530,11 @@ func (s *Server) apiAddComment(w http.ResponseWriter, r *http.Request, u *User) 
 		s.recordSecurity(r, securityEvent{Key: "authz.assigned", Action: "blocked", Source: "rest:comment-insert",
 			UserID: u.ID, Detail: "Assigned-only member commented on a card not assigned to them."})
 		apiError(w, http.StatusNotFound, "Card not found")
+		return
+	}
+	// A list that refuses the caller's role a comment refuses the API too.
+	if s.refuseInList(r.Context(), b, c.ListID, u, "comment", "rest:comment-insert") {
+		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}
 	var req struct {

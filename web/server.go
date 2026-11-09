@@ -795,7 +795,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["Lists"], data["Swimlanes"] = s.boardPlaces(r, b.ID)
 			data["LabelPalette"] = labelPalette
 			data["WatchingCard"] = slices.Contains(s.cardWatchers(r.Context(), c.ID), u.ID)
-			data["CanComment"] = u.IsAdmin || (b.Can(u.ID, "comment") && (!m.AssignedOnly() || slices.Contains(c.Assignees, u.ID)))
+			data["CanComment"] = (u.IsAdmin || (b.Can(u.ID, "comment") && (!m.AssignedOnly() || slices.Contains(c.Assignees, u.ID)))) &&
+				!s.listRefuses(r.Context(), b, c.ListID, u.ID, "comment")
 		}
 	}
 	s.render(w, r, "board", http.StatusOK, data)
@@ -841,7 +842,7 @@ func (s *Server) toggleCardMemberPage(w http.ResponseWriter, r *http.Request, u 
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
-	if !b.Writable(u, "write", &c) {
+	if !b.WritableIn(r.Context(), s, u, "write", &c) {
 		http.Error(w, "your role on this board cannot change this card", http.StatusForbidden)
 		return
 	}
@@ -1239,6 +1240,10 @@ func (s *Server) addCard(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	ctx := r.Context()
+	if s.refuseInList(ctx, b, r.FormValue("listId"), u, "write", "page:add-card") {
+		http.Error(w, "this list does not let your role add cards", http.StatusForbidden)
+		return
+	}
 	top := s.topSort(ctx, b.ID, r.FormValue("listId"))
 	c, err := s.AddCard(ctx, b, u, r.FormValue("listId"), r.FormValue("swimlaneId"), r.FormValue("title"))
 	if err != nil {
@@ -1281,6 +1286,11 @@ func (s *Server) MoveCards(ctx context.Context, b *Board, u *User, moves []Move)
 		}
 		var old Card
 		_ = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(m.CardID), "boardId": b.ID}).Decode(&old)
+		// The list it leaves and the list it goes to (list_permissions.go).
+		if old.ID != "" && (s.refuseInList(ctx, b, old.ListID, u, "moveCard", "list-locked:move-out") ||
+			old.ListID != m.ListID && s.refuseInList(ctx, b, m.ListID, u, "moveCard", "list-locked:move-into")) {
+			return errForbidden
+		}
 		res, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(m.CardID), "boardId": b.ID},
 			bson.M{"$set": bson.M{"listId": m.ListID, "swimlaneId": m.SwimlaneID, "sort": m.Sort, "modifiedAt": time.Now().UTC()}})
 		if err != nil {
@@ -1319,7 +1329,7 @@ func (s *Server) moveCards(w http.ResponseWriter, r *http.Request, u *User) {
 		if validID(m.CardID) {
 			_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(m.CardID), "boardId": b.ID}).Decode(&c)
 		}
-		if !b.Writable(u, "moveCard", &c) {
+		if !b.WritableIn(r.Context(), s, u, "moveCard", &c) {
 			http.Error(w, "your role on this board cannot move this card", http.StatusForbidden)
 			return
 		}
@@ -1442,7 +1452,7 @@ func (s *Server) cardPeople(ctx context.Context, b *Board, u *User, c *Card) []c
 	_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&board)
 	_ = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&card)
 	m := b.member(u.ID)
-	editable := b.Writable(u, "write", c) && (m == nil || !m.IsWorker)
+	editable := b.Writable(u, "write", c) && (m == nil || !m.IsWorker) && !s.listRefuses(ctx, b, c.ListID, u.ID, "write")
 	var out []cardPerson
 	for _, f := range cardPeopleFields {
 		if board[f.Allows] == false {
@@ -1465,6 +1475,10 @@ func (s *Server) cardPeoplePage(w http.ResponseWriter, r *http.Request, u *User)
 	var c Card
 	if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c) != nil {
 		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	if s.refuseInList(r.Context(), b, c.ListID, u, "write", "page:card-people") {
+		http.Error(w, "this list does not let your role change its cards", http.StatusForbidden)
 		return
 	}
 	field, value := r.FormValue("field"), strings.TrimSpace(r.FormValue("value"))
@@ -1547,7 +1561,7 @@ func (s *Server) archiveCardPage(w http.ResponseWriter, r *http.Request, u *User
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
-	if !b.Writable(u, "write", &c) {
+	if !b.WritableIn(r.Context(), s, u, "write", &c) {
 		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
 		return
 	}
@@ -1646,7 +1660,7 @@ func (s *Server) cardTitlePage(w http.ResponseWriter, r *http.Request, u *User) 
 		return
 	}
 	title := strings.TrimSpace(r.FormValue("title"))
-	if !b.Writable(u, "write", &c) {
+	if !b.WritableIn(r.Context(), s, u, "write", &c) {
 		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
 		return
 	}
@@ -1679,7 +1693,7 @@ func (s *Server) cardCompletePage(w http.ResponseWriter, r *http.Request, u *Use
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
-	if !b.Writable(u, "write", &c) {
+	if !b.WritableIn(r.Context(), s, u, "write", &c) {
 		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
 		return
 	}

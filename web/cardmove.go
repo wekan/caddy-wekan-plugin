@@ -121,7 +121,7 @@ func (s *Server) moveCardToPage(w http.ResponseWriter, r *http.Request, u *User)
 	if b == nil {
 		return
 	}
-	if !b.Writable(u, "write", c) {
+	if !b.WritableIn(r.Context(), s, u, "write", c) {
 		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
 		return
 	}
@@ -131,6 +131,9 @@ func (s *Server) moveCardToPage(w http.ResponseWriter, r *http.Request, u *User)
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
+	} else if s.refuseInList(ctx, to, listID, u, "moveCard", "list-locked:move-into") {
+		http.Error(w, "your role cannot add cards to that list", http.StatusForbidden)
+		return
 	} else if err := s.moveCardTo(ctx, u, raw, b, to, swimlaneID, listID); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -150,6 +153,10 @@ func (s *Server) copyCardToPage(w http.ResponseWriter, r *http.Request, u *User)
 	}
 	if m := b.member(u.ID); !u.IsAdmin && (m == nil || (m.AssignedOnly() && !slices.Contains(c.Assignees, u.ID))) {
 		http.Error(w, "this card is not yours to copy", http.StatusForbidden)
+		return
+	}
+	if s.refuseInList(r.Context(), to, listID, u, "write", "page:card-copy-into") {
+		http.Error(w, "your role cannot add cards to that list", http.StatusForbidden)
 		return
 	}
 	id, err := s.copyCardTo(r, u, raw, b, to, swimlaneID, listID)

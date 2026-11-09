@@ -96,6 +96,10 @@ func (s *Server) apiEditChecklistItem(w http.ResponseWriter, r *http.Request, u 
 	if it == nil {
 		return
 	}
+	if s.refuseInList(r.Context(), b, s.listOfCard(r.Context(), docString(it, "cardId")), u, "write", "rest:checklist-item") {
+		apiError(w, http.StatusForbidden, "Forbidden")
+		return
+	}
 	var req map[string]any
 	if err := decodeJSON(r, &req); err != nil {
 		apiError(w, http.StatusBadRequest, err.Error())
@@ -144,6 +148,10 @@ func (s *Server) apiDeleteChecklistItem(w http.ResponseWriter, r *http.Request, 
 	}
 	it := s.itemOf(w, r, b)
 	if it == nil {
+		return
+	}
+	if s.refuseInList(r.Context(), b, s.listOfCard(r.Context(), docString(it, "cardId")), u, "write", "rest:checklist-item") {
+		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}
 	if _, err := s.db.Collection("checklistItems").DeleteOne(r.Context(), bson.M{"_id": it["_id"]}); err != nil {

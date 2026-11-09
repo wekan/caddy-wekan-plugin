@@ -70,7 +70,7 @@ func (s *Server) customFieldMethod(kind string) methodFunc {
 		doc, _ := bson.Marshal(raw)
 		_ = bson.Unmarshal(doc, &card)
 		var b Board
-		if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(card.BoardID)}).Decode(&b) != nil || !b.Writable(u, "write", &card) {
+		if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(card.BoardID)}).Decode(&b) != nil || !b.WritableIn(ctx, s, u, "write", &card) {
 			return nil, &methodError{"not-authorized", "not-authorized"}
 		}
 		filter := bson.M{"_id": eq(fieldID), "boardIds": b.ID}

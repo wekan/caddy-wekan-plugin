@@ -271,7 +271,7 @@ func (s *Server) methodRemoveChecklist(r *http.Request, u *User, args []json.Raw
 	var c Card
 	var b Board
 	if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cl.CardID)}).Decode(&c) != nil ||
-		s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(c.BoardID)}).Decode(&b) != nil || !b.Writable(u, "write", &c) {
+		s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(c.BoardID)}).Decode(&b) != nil || !b.WritableIn(ctx, s, u, "write", &c) {
 		return nil, &methodError{"403", "Access denied"}
 	}
 	if _, err := s.db.Collection("checklistItems").DeleteMany(ctx, bson.M{"checklistId": cl.ID}); err != nil {
@@ -591,7 +591,7 @@ func (s *Server) methodArchiveSelectedCards(r *http.Request, u *User, args []jso
 		return nil, &methodError{"invalid-card-selection", "invalid-card-selection"}
 	}
 	for i := range cards {
-		if !b.Writable(u, "write", &cards[i]) {
+		if !b.WritableIn(ctx, s, u, "write", &cards[i]) {
 			s.recordSecurity(r, securityEvent{Key: "authz.assigned-card-write", Action: "blocked", Source: "method:archiveSelectedCards", UserID: u.ID,
 				Detail: "Assigned-only member changed a card not assigned to them."})
 			return nil, &methodError{"not-authorized", "not-authorized"}

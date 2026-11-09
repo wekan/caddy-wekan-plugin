@@ -366,7 +366,10 @@ func TestEveryLinkMakerChecksSourceWrite(t *testing.T) {
 			continue
 		}
 		makers++
-		if !strings.Contains(string(src), `Writable(u, "write", &src)`) || !strings.Contains(string(src), `"authz.linked-write"`) {
+		// WritableIn is Writable and the source card's list (#4527,
+		// list_permissions.go): the same check, stricter, since a list that
+		// refuses the role refuses linking its cards too.
+		if !regexp.MustCompile(`Writable(In\([^,]+, s,)?\(? ?u, "write", &src\)`).Match(src) || !strings.Contains(string(src), `"authz.linked-write"`) {
 			t.Errorf("%s makes a linked card without WeKan's source write check and its LinkedWriteBleed record", f)
 		}
 	}

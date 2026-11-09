@@ -160,6 +160,9 @@ func (s *Server) methodCreateCardWithDueDate(r *http.Request, u *User, args []js
 	if !b.Can(u.ID, "write") {
 		return nil, refuse("Card insert refused: no write access to the board")
 	}
+	if s.refuseInList(r.Context(), &b, listID, u, "write", "method:createCardWithDueDate") {
+		return nil, &methodError{"not-authorized", "not-authorized"}
+	}
 	c, err := s.AddCardWith(r.Context(), &b, u, listID, laneID, title, bson.M{"dueAt": due, "sort": 0.0})
 	if err != nil {
 		return nil, &methodError{"400", err.Error()}

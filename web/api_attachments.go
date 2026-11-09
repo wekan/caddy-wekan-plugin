@@ -84,7 +84,7 @@ func (s *Server) mayChangeAttachment(r *http.Request, u *User, a *Attachment) bo
 	}
 	var c Card
 	if a.Meta.CardID != "" && s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(a.Meta.CardID)}).Decode(&c) == nil {
-		return b.Writable(u, "write", &c)
+		return b.WritableIn(r.Context(), s, u, "write", &c)
 	}
 	return b.Writable(u, "write", nil)
 }

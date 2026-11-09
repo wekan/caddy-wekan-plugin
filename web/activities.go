@@ -9,7 +9,6 @@ import (
 	"errors"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 	"html/template"
-	"slices"
 	"strings"
 	"time"
 
@@ -250,7 +249,8 @@ func (s *Server) AddComment(ctx context.Context, b *Board, u *User, c *Card, tex
 	if text == "" || len(text) > 100000 {
 		return "", errors.New("a comment is needed")
 	}
-	if !u.IsAdmin && (!b.Can(u.ID, "comment") || (b.member(u.ID).AssignedOnly() && !slices.Contains(c.Assignees, u.ID))) {
+	// The board's rule, then the card's list (list_permissions.go).
+	if !b.CommentableIn(ctx, s, u, c) {
 		return "", errForbidden
 	}
 	now := time.Now().UTC()

@@ -269,6 +269,10 @@ func (s *Server) apiImportICS(w http.ResponseWriter, r *http.Request, u *User) {
 		writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "not-authorized"})
 		return
 	}
+	if s.refuseInList(r.Context(), b, r.PathValue("list"), u, "write", "rest:ics-import") {
+		apiError(w, http.StatusForbidden, "Forbidden")
+		return
+	}
 	var req struct {
 		ICS     string `json:"ics"`
 		ICSText string `json:"icsText"`

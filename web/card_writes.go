@@ -96,7 +96,7 @@ func (s *Server) methodCardsUpdate(r *http.Request, u *User, args []json.RawMess
 		return 0, nil // as Meteor: no such card is no document updated
 	}
 	b, err := s.boardFor(ctx, card.BoardID, u)
-	if err != nil || !b.Writable(u, "write", &card) {
+	if err != nil || !b.WritableIn(ctx, s, u, "write", &card) {
 		return nil, denied
 	}
 	now := time.Now().UTC()
