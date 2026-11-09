@@ -481,3 +481,39 @@ func (s *Server) apiListAttachments(w http.ResponseWriter, r *http.Request, u *U
 	}
 	writeJSON(w, http.StatusOK, map[string]any{"success": true, "attachments": out, "count": len(out)})
 }
+
+// copyCardAttachments is WeKan's Cards.copy for attachments: the source
+// card's live attachments copied onto the copy as new files, each recording
+// where it came from (meta.copyFrom), and the copy's cover pointed at the copy
+// of the source's cover (#5364) - or none, when that one could not be copied,
+// so a copy never names another card's attachment as its cover.
+func (s *Server) copyCardAttachments(r *http.Request, u *User, from *Board, src *Card, to *Board, dst *Card) {
+	ctx := r.Context()
+	newOf := map[string]string{}
+	for _, a := range s.cardAttachments(r, from, src.ID) {
+		p, err := s.attachmentFile(&a)
+		if err != nil {
+			continue // its bytes are gone: nothing to copy
+		}
+		f, err := os.Open(p)
+		if err != nil {
+			continue
+		}
+		copied, err := s.StoreAttachment(r, to, dst, u, a.Name, a.Type, f)
+		f.Close()
+		if err != nil || copied == nil {
+			continue
+		}
+		newOf[a.ID] = copied.ID
+		_, _ = s.db.Collection("attachments").UpdateOne(ctx, bson.M{"_id": eq(copied.ID)}, bson.M{"$set": bson.M{"meta.copyFrom": a.ID}})
+	}
+	var raw struct {
+		CoverID string `bson:"coverId"`
+	}
+	_ = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(src.ID)}).Decode(&raw)
+	if id, ok := newOf[raw.CoverID]; ok && raw.CoverID != "" {
+		_, _ = s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(dst.ID)}, bson.M{"$set": bson.M{"coverId": id}})
+	} else {
+		_, _ = s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(dst.ID)}, bson.M{"$unset": bson.M{"coverId": ""}})
+	}
+}

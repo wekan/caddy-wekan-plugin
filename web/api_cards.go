@@ -164,6 +164,7 @@ func (s *Server) apiCopyCard(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	s.copyChecklists(r.Context(), c.ID, n.ID)
+	s.copyCardAttachments(r, u, b, c, to, n)
 	s.copySubtasksAndComments(r, u, c, n, to)
 	s.hub.publish(to.ID, "board-changed")
 	writeJSON(w, http.StatusOK, map[string]string{"_id": n.ID})

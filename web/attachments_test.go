@@ -181,3 +181,79 @@ func TestCleanFileName(t *testing.T) {
 		}
 	}
 }
+
+// A copied card gets copies of its live attachments - new files, each
+// recording its origin - and its cover is the copy of the source's cover; a
+// deleted attachment is not copied, and when the cover's file is gone the
+// copy has no cover rather than another card's.
+func TestCardCopyAttachments(t *testing.T) {
+	w := newTestWeKan(t)
+	w.s.FilesDir = filepath.Join(t.TempDir(), "files")
+	w.seedUser(t, "ann", "pw")
+	at := login(t, w, "ann")
+	ctx := context.Background()
+	rb := newRESTBoard(t, w, at, "Copies")
+	if err := os.MkdirAll(filepath.Join(w.s.FilesDir, "attachments"), 0o750); err != nil {
+		t.Fatal(err)
+	}
+	file := func(id, name, data string, extra bson.M, write bool) {
+		doc := bson.M{"_id": id, "name": name, "type": "text/plain", "size": len(data), "meta": bson.M{"boardId": rb.ID, "cardId": rb.Card}, "uploadedAt": time.Now()}
+		for k, v := range extra {
+			doc[k] = v
+		}
+		_, _ = w.db.Collection("attachments").InsertOne(ctx, doc)
+		if write {
+			_ = os.WriteFile(filepath.Join(w.s.FilesDir, "attachments", id), []byte(data), 0o640)
+		}
+	}
+	file("attA", "a.txt", "alpha", nil, true)
+	file("attB", "b.txt", "bravo", nil, true)
+	file("attGone", "gone.txt", "x", bson.M{"deletedAt": time.Now()}, true)
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": rb.Card}, bson.M{"$set": bson.M{"coverId": "attB"}})
+	copyCard := func() string {
+		var res struct {
+			ID string `json:"_id"`
+		}
+		if code := call(t, "POST", w.srv.URL+"/api/boards/"+rb.ID+"/lists/"+rb.List+"/cards/"+rb.Card+"/copy", at,
+			`{"toBoardId":"`+rb.ID+`","toSwimlaneId":"`+rb.Swimlane+`","toListId":"`+rb.List+`"}`, &res); code != 200 || res.ID == "" {
+			t.Fatalf("copy: %d", code)
+		}
+		return res.ID
+	}
+	copyID := copyCard()
+	cur, _ := w.db.Collection("attachments").Find(ctx, bson.M{"meta.cardId": copyID})
+	var copies []bson.M
+	_ = cur.All(ctx, &copies)
+	if len(copies) != 2 {
+		t.Fatalf("the live attachments are copied, not the deleted one: %d", len(copies))
+	}
+	byOrigin := map[string]string{}
+	for _, a := range copies {
+		meta, _ := plain(a["meta"]).(map[string]any)
+		origin, _ := meta["copyFrom"].(string)
+		id := docString(a, "_id")
+		byOrigin[origin] = id
+		data, _ := os.ReadFile(filepath.Join(w.s.FilesDir, "attachments", id))
+		if want := map[string]string{"attA": "alpha", "attB": "bravo"}[origin]; string(data) != want {
+			t.Errorf("the copy of %s has its own bytes: %q", origin, data)
+		}
+	}
+	var copied struct {
+		CoverID string `bson:"coverId"`
+	}
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": copyID}).Decode(&copied)
+	if copied.CoverID == "" || copied.CoverID != byOrigin["attB"] {
+		t.Errorf("the cover is the copy of the source's cover: %q, want %q", copied.CoverID, byOrigin["attB"])
+	}
+	// Negative: the cover's file gone - no cover, never the source's.
+	_ = os.Remove(filepath.Join(w.s.FilesDir, "attachments", "attB"))
+	second := copyCard()
+	copied.CoverID = ""
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": second}).Decode(&copied)
+	if copied.CoverID != "" {
+		t.Errorf("negative: no cover rather than another card's: %q", copied.CoverID)
+	}
+	if n, _ := w.db.Collection("attachments").CountDocuments(ctx, bson.M{"meta.cardId": rb.Card}); n != 3 {
+		t.Errorf("negative: the source keeps its attachments: %d", n)
+	}
+}

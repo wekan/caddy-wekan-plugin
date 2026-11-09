@@ -4,7 +4,6 @@ import (
 	"context"
 	"math"
 	"net/http"
-	"os"
 	"slices"
 	"strings"
 	"time"
@@ -240,14 +239,7 @@ func (s *Server) copyCardTo(r *http.Request, u *User, card bson.M, from, to *Boa
 	var n, src Card
 	_ = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&n)
 	_ = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(old)}).Decode(&src)
-	for _, a := range s.cardAttachments(r, from, old) {
-		if p, err := s.attachmentFile(&a); err == nil {
-			if f, err := os.Open(p); err == nil {
-				_, _ = s.StoreAttachment(r, to, &n, u, a.Name, a.Type, f)
-				f.Close()
-			}
-		}
-	}
+	s.copyCardAttachments(r, u, from, &src, to, &n)
 	s.copySubtasksAndComments(r, u, &src, &n, to)
 	return id, nil
 }
