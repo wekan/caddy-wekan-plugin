@@ -616,3 +616,67 @@ func TestRuleRelativeDateAndSortList(t *testing.T) {
 		}
 	}
 }
+
+// WeKan's linkCard action: a linked card of the original, in the named list
+// and swimlane of a board its user may change, with only that board's fields.
+func TestRuleLinkCard(t *testing.T) {
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	eve := w.seedUser(t, "eve", "pw")
+	ctx := context.Background()
+	src, _ := w.s.CreateBoard(ctx, ann, "Source")
+	dst, _ := w.s.CreateBoard(ctx, ann, "Destination")
+	hidden, _ := w.s.CreateBoard(ctx, eve, "Hidden")
+	in, _ := w.s.AddList(ctx, src, "In")
+	w.s.AddList(ctx, dst, "Linked")
+	w.s.AddList(ctx, hidden, "Linked")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": src.ID}).Decode(&sw)
+	_, _ = w.db.Collection("customFields").InsertOne(ctx, bson.M{"_id": "srcfield0000001", "name": "Here", "type": "text", "boardIds": bson.A{src.ID}})
+	addRule(t, w, src.ID, "rlink", bson.M{"activityType": "createCard", "cardTitle": "*"},
+		bson.M{"actionType": "linkCard", "boardId": dst.ID, "listName": "Linked", "swimlaneName": "*"}, true)
+	c, _ := w.s.AddCard(ctx, src, ann, in.ID, sw.ID, "Original")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"labelIds": bson.A{"l1"}, "customFields": bson.A{bson.M{"_id": "srcfield0000001", "value": "x"}}}})
+	var link bson.M
+	if w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": dst.ID, "linkedId": c.ID}).Decode(&link) != nil {
+		t.Fatal("linked into the destination")
+	}
+	if link["type"] != "cardType-linkedCard" || link["_id"] == c.ID || link["swimlaneId"] == "" {
+		t.Errorf("a linked card in the board's first swimlane: %v", link)
+	}
+	// A link of the link names the original; no labels, no other board's fields.
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": link["_id"]}, bson.M{"$set": bson.M{"labelIds": bson.A{"l1"}, "customFields": bson.A{bson.M{"_id": "srcfield0000001", "value": "x"}}}})
+	addRule(t, w, dst.ID, "rlink2", bson.M{"activityType": "archivedCard"}, bson.M{"actionType": "linkCard", "boardId": dst.ID, "listName": "Linked", "swimlaneName": "*"}, true)
+	w.s.activity(ctx, ann.ID, "archivedCard", bson.M{"boardId": dst.ID, "cardId": link["_id"]})
+	cur, _ := w.db.Collection("cards").Find(ctx, bson.M{"boardId": dst.ID, "linkedId": c.ID})
+	var links []bson.M
+	_ = cur.All(ctx, &links)
+	if len(links) != 2 {
+		t.Fatalf("a link of a link: %d", len(links))
+	}
+	for _, l := range links {
+		if l["_id"] != link["_id"] && (l["labelIds"] != nil || len(l["customFields"].(bson.A)) != 0) {
+			t.Errorf("negative: no labels, no other board's fields: %v", l)
+		}
+	}
+	// Negative: a board its user may not change, and a list that is not there.
+	for _, act := range []bson.M{{"actionType": "linkCard", "boardId": hidden.ID, "listName": "Linked"}, {"actionType": "linkCard", "boardId": dst.ID, "listName": "Nowhere"}} {
+		before, _ := w.db.Collection("cards").CountDocuments(ctx, bson.M{"linkedId": c.ID})
+		if err := w.s.performAction(ctx, bson.M{"boardId": src.ID, "cardId": c.ID, "userId": ann.ID}, act); err != nil {
+			t.Fatal(err)
+		}
+		if after, _ := w.db.Collection("cards").CountDocuments(ctx, bson.M{"linkedId": c.ID}); after != before {
+			t.Errorf("negative: nothing linked by %v", act)
+		}
+	}
+	if n, _ := w.db.Collection("cards").CountDocuments(ctx, bson.M{"boardId": hidden.ID}); n != 0 {
+		t.Error("negative: nothing on the hidden board")
+	}
+	var ev struct {
+		Count int64 `bson:"count"`
+	}
+	_ = w.db.Collection("eventlog").FindOne(ctx, bson.M{"source": "canary:rule.cross-board-write"}).Decode(&ev)
+	if ev.Count < 1 {
+		t.Error("the cross-board write is recorded")
+	}
+}

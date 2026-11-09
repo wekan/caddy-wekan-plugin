@@ -1047,6 +1047,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       var board = val(p, 'board-id-copy'), list = val(p, 'list-id-copy'), lane = val(p, 'swimlane-id-copy');
       return board && list && lane ? { actionType: 'copyCard', boardId: board, listId: list, swimlaneId: lane } : null;
     },
+    'js-link-card-action': function (p) {
+      return { actionType: 'linkCard', boardId: val(p, 'board-id-link'), listName: val(p, 'listName-link') || '*', swimlaneName: val(p, 'swimlaneName-link') || '*' };
+    },
     'js-sort-list-action': function (p) {
       return { actionType: 'sortList', listName: val(p, 'sort-list-name') || '*', sortField: val(p, 'sort-field') };
     },

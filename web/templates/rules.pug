@@ -543,6 +543,26 @@
                       textarea#swimlane-name2(rows="2", placeholder="{{t $.L `r-name`}}")
                   button.trigger-button.js-create-card-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
                     i.fa.fa-plus(aria-hidden="true")
+                //- WeKan's linkCard: a linked card in a list of a board the user may change.
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-link-card"}}
+                    .trigger-text {{t $.L "r-the-board"}}
+                    .trigger-dropdown
+                      select#board-id-link
+                        each cb in $.CopyBoards
+                          if .Current
+                            option(value="{{.ID}}", selected) {{t $.L "current"}}
+                          else
+                            option(value="{{.ID}}") {{.Title}}
+                    .trigger-text {{t $.L "r-in-list"}}
+                    .trigger-dropdown
+                      textarea#listName-link(rows="2", placeholder="{{t $.L `r-name`}}")
+                    .trigger-text {{t $.L "r-in-swimlane"}}
+                    .trigger-dropdown
+                      textarea#swimlaneName-link(rows="2", placeholder="{{t $.L `r-name`}}")
+                  button.trigger-button.js-link-card-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
                 //- WeKan's sortList: a list's cards in order.
                 .trigger-item
                   .trigger-content

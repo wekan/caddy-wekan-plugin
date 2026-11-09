@@ -665,6 +665,8 @@ func (s *Server) performAction(ctx context.Context, a bson.M, act bson.M) error 
 		return s.ruleMoveCard(ctx, a, act, &b, c, actor, vars)
 	case "copyCard":
 		return s.ruleCopyCard(ctx, a, act, c)
+	case "linkCard":
+		return s.ruleLinkCard(ctx, a, act, c)
 	case "archive":
 		if !c.Archived {
 			if err := touch(bson.M{"$set": bson.M{"archived": true, "archivedAt": now}}); err != nil {
