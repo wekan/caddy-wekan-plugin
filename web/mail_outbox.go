@@ -14,6 +14,7 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -141,9 +142,59 @@ func (s *Server) drainEmail(ctx context.Context) {
 			seen = append(seen, d.UserID)
 		}
 	}
-	for _, id := range seen {
-		s.drainEmailUser(ctx, id)
+	// Four recipients progress while another's SMTP server is slow, as
+	// WeKan's drainBatch; each recipient's lease keeps out other senders, and
+	// a pass stops when every send slot is taken.
+	var mu sync.Mutex
+	next, full := 0, false
+	var wg sync.WaitGroup
+	for range min(4, len(seen)) {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for {
+				mu.Lock()
+				if full || next >= len(seen) {
+					mu.Unlock()
+					return
+				}
+				id := seen[next]
+				next++
+				mu.Unlock()
+				if errors.Is(s.drainEmailRecipient(ctx, id), errEmailCapacityBusy) {
+					mu.Lock()
+					full = true
+					mu.Unlock()
+				}
+			}
+		}()
 	}
+	wg.Wait()
+}
+
+// errEmailCapacityBusy: all of WeKan's send slots are someone's.
+var errEmailCapacityBusy = errors.New("email-capacity-busy")
+
+// emailSendCapacity is WeKan's EMAIL_SEND_CAPACITY: the SMTP sessions all
+// servers sharing the database have at once.
+const emailSendCapacity = 4
+
+// drainEmailRecipient delivers one recipient's due mail under its lease
+// (notificationEmailLeases) and a send slot (notificationEmailSendSlots),
+// claimed before any attempt is counted, so waiting for capacity costs none.
+func (s *Server) drainEmailRecipient(ctx context.Context, userID string) error {
+	return s.withLease(ctx, "notificationEmailLeases", userID, func() error {
+		for slot := range emailSendCapacity {
+			err := s.withLease(ctx, "notificationEmailSendSlots", "slot-"+strconv.Itoa(slot), func() error {
+				s.drainEmailUser(ctx, userID)
+				return nil
+			})
+			if !errors.Is(err, errLeaseBusy) {
+				return err
+			}
+		}
+		return errEmailCapacityBusy
+	})
 }
 
 // migrateEmailBuffers is WeKan's migrateLegacyEmailBuffer: an older
@@ -187,7 +238,26 @@ var payloadUnset = bson.M{"html": "", "text": "", "subject": "", "language": "",
 
 func (s *Server) drainEmailUser(ctx context.Context, userID string) {
 	jobs := s.db.Collection("notificationEmailJobs")
-	cur, err := jobs.Find(ctx, bson.M{"userId": eq(userID), "state": "pending", "nextAttemptAt": bson.M{"$lte": time.Now().UTC()}},
+	// The administrator's controls (mail_recovery.go): what was cancelled is
+	// gone, and a paused recipient's mail waits - out of the next pass's way.
+	var control struct {
+		Paused       bool      `bson:"paused"`
+		CancelBefore time.Time `bson:"cancelBefore"`
+	}
+	_ = s.db.Collection("notificationEmailControls").FindOne(ctx, bson.M{"_id": eq(userID)}).Decode(&control)
+	if !control.CancelBefore.IsZero() {
+		_, _ = jobs.UpdateMany(ctx, bson.M{"userId": eq(userID), "state": bson.M{"$in": bson.A{"pending", "failed"}}, "createdAt": bson.M{"$lte": control.CancelBefore}},
+			bson.M{"$set": bson.M{"state": "cancelled", "finishedAt": time.Now().UTC()}, "$unset": emailPayloadFields})
+	}
+	if control.Paused {
+		_, _ = jobs.UpdateMany(ctx, bson.M{"userId": eq(userID), "state": "pending"}, bson.M{"$max": bson.M{"nextAttemptAt": time.Now().UTC().Add(time.Minute)}})
+		return
+	}
+	due := bson.M{"userId": eq(userID), "state": "pending", "nextAttemptAt": bson.M{"$lte": time.Now().UTC()}}
+	if !control.CancelBefore.IsZero() {
+		due["createdAt"] = bson.M{"$gt": control.CancelBefore}
+	}
+	cur, err := jobs.Find(ctx, due,
 		options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}, {Key: "_id", Value: 1}}).SetLimit(100))
 	if err != nil {
 		return

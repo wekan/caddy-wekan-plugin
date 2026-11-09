@@ -1022,6 +1022,121 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     callAsync('rules.setEnabled', el.dataset.ruleId, on).then(function () { up.reload('.rules-page'); });
   });
 
+  // Admin Panel / Problems / Recovery: WeKan's emailRecoveryReports - one row a
+  // recipient, paused, resumed, cancelled and retried. A request keeps its id
+  // until it is confirmed, so trying it again never repeats an old cancel
+  // against mail queued later.
+  up.compiler('.email-recovery-reports', function (panel) {
+    var strings = {};
+    var tpl = panel.querySelector('template.js-recovery-strings');
+    if (tpl) tpl.content.querySelectorAll('[data-k]').forEach(function (el) { strings[el.dataset.k] = el.textContent; });
+    var say = function (key) { return strings[key] || key; };
+    var state = { search: '', page: 1, total: 0, rows: [], busy: false, request: 0 };
+    var commands = {};
+    var errorEl = panel.querySelector('.js-recovery-error'), busyEl = panel.querySelector('.js-recovery-busy');
+    var body = panel.querySelector('tbody'), empty = panel.querySelector('.table-page-empty');
+    function message(text) { errorEl.textContent = text || ''; errorEl.hidden = !text; }
+    function setBusy(on) { state.busy = on; busyEl.hidden = !on; render(); }
+    function para(text, cls) {
+      var p = document.createElement('p');
+      if (cls) p.className = cls;
+      p.textContent = text;
+      return p;
+    }
+    function when(v) { return v ? new Date(v).toLocaleString() : '—'; }
+    function render() {
+      body.textContent = '';
+      state.rows.forEach(function (row) {
+        var tr = document.createElement('tr');
+        tr.dataset.recipient = row.userId;
+        var cells = [[para(row.username), para(row.userId, 'quiet')],
+          [document.createTextNode(say(row.paused ? 'email-recovery-paused' : row.failed ? 'email-recovery-attention' : 'email-recovery-pending'))],
+          [para(say('email-recovery-queued') + ': ' + row.queued), para(say('email-recovery-retrying') + ': ' + row.retrying),
+            para(say('email-recovery-stopped') + ': ' + row.failed)]
+            .concat((row.failures || []).map(function (f) { return para(say('email-failure-' + f.reason) + ': ' + f.count, 'quiet'); }))
+            .concat([para(say('email-recovery-attempts') + ': ' + row.attempts)]),
+          [para(say('email-recovery-oldest') + ': ' + when(row.oldest)), para(say('email-recovery-next') + ': ' + (!row.paused ? when(row.nextAttemptAt) : '—'))]
+            .concat(row.changedAt ? [para(say('email-recovery-changed') + ': ' + when(row.changedAt)), para(row.changedBy || '', 'quiet')] : []),
+          []];
+        var actions = [[row.paused ? 'resume' : 'pause', true], ['retry', row.failed > 0], ['cancel', row.queued > 0]];
+        actions.forEach(function (a) {
+          if (!a[1]) return;
+          var b = document.createElement('button');
+          b.type = 'button'; b.className = 'js-email-queue-action'; b.dataset.action = a[0]; b.disabled = state.busy;
+          b.textContent = say('email-recovery-' + a[0]); b.weddyRow = row;
+          cells[4].push(b);
+        });
+        cells.forEach(function (children) {
+          var td = document.createElement('td');
+          children.forEach(function (c) { td.appendChild(c); });
+          tr.appendChild(td);
+        });
+        body.appendChild(tr);
+      });
+      empty.hidden = state.rows.length > 0;
+      var pages = Math.max(1, Math.ceil(state.total / 10));
+      panel.querySelector('.table-page-page-info').textContent = state.page + ' / ' + pages;
+      panel.querySelector('.table-page-total').textContent = state.total ? String(state.total) : '';
+      panel.querySelector('.js-table-page-prev').classList.toggle('disabled', state.page <= 1);
+      panel.querySelector('.js-table-page-next').classList.toggle('disabled', state.page >= pages);
+    }
+    function load(page) {
+      var request = ++state.request;
+      state.rows = []; state.page = page || 1;
+      render();
+      callAsync('emailRecoveryReport', { search: state.search, page: state.page }).then(function (result) {
+        if (request !== state.request) return;
+        state.rows = result.rows || []; state.total = result.total || 0; state.page = result.page || 1;
+        render();
+      }, function () { if (request === state.request) message(say('email-recovery-unavailable')); });
+    }
+    function random() {
+      var a = new Uint8Array(24); crypto.getRandomValues(a);
+      return Array.prototype.map.call(a, function (b) { return 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'[b % 62]; }).join('');
+    }
+    function onSearchKey(event) {
+      event.stopPropagation();
+      if (event.key !== 'Enter') return;
+      event.preventDefault();
+      state.search = event.target.value.trim().slice(0, 100);
+      load(1);
+    }
+    function onClick(event) {
+      var el = event.target.closest('button');
+      if (!el || !panel.contains(el)) return;
+      if (el.matches('.js-table-page-prev, .js-table-page-next')) {
+        event.preventDefault();
+        var pages = Math.max(1, Math.ceil(state.total / 10));
+        var next = state.page + (el.matches('.js-table-page-next') ? 1 : -1);
+        if (next >= 1 && next <= pages && next !== state.page) load(next);
+        return;
+      }
+      if (el.matches('.js-table-page-action')) { event.preventDefault(); message(''); load(state.page); return; }
+      if (!el.matches('.js-email-queue-action') || state.busy) return;
+      event.preventDefault();
+      var action = el.dataset.action, userId = el.weddyRow.userId;
+      if (action === 'cancel' && !window.confirm(say('email-recovery-confirm-cancel'))) return;
+      var key = userId + ':' + action;
+      if (!commands[key]) commands[key] = random();
+      setBusy(true); message('');
+      callAsync('controlEmailRecovery', { userId: userId, action: action, requestId: commands[key] }).then(function (result) {
+        setBusy(false);
+        delete commands[key];
+        if (result && result.status === 'superseded') message(say('email-recovery-superseded'));
+        load(state.page);
+      }, function (error) {
+        setBusy(false);
+        message(say(error && error.error === 'email-recovery-busy' ? 'email-recovery-busy' : 'email-recovery-failed'));
+        load(state.page);
+      });
+    }
+    var search = panel.querySelector('.js-table-page-search');
+    search.addEventListener('keydown', onSearchKey);
+    panel.addEventListener('click', onClick);
+    load(1);
+    return function () { search.removeEventListener('keydown', onSearchKey); panel.removeEventListener('click', onClick); };
+  });
+
   // Admin Panel / Problems / Recovery: WeKan's activityNotificationRecoveryReports.
   // The table is the report of activityNotificationRecoveryReport, ten a page;
   // each row's buttons pause, resume, cancel and retry with the revision the

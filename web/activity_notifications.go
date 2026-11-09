@@ -161,7 +161,14 @@ func (s *Server) captureIntent(ctx context.Context, activity map[string]any, dis
 // withActivityLease is WeKan's withSyncLease on activityNotificationLeases:
 // one worker an intent, its reservation renewed while it works.
 func (s *Server) withActivityLease(ctx context.Context, id string, work func() error) error {
-	leases := s.db.Collection("activityNotificationLeases")
+	return s.withLease(ctx, "activityNotificationLeases", id, work)
+}
+
+// withLease is WeKan's withSyncLease on a collection of leases: a minute's
+// reservation of id, renewed every 15 s while work runs, released after - and
+// a former owner's late release never removes a newer one's.
+func (s *Server) withLease(ctx context.Context, collection, id string, work func() error) error {
+	leases := s.db.Collection(collection)
 	owner := randomID() + randomID()
 	now := time.Now().UTC()
 	res, err := leases.UpdateOne(ctx, bson.M{"_id": eq(id), "expiresAt": bson.M{"$lte": now}},
@@ -175,7 +182,24 @@ func (s *Server) withActivityLease(ctx context.Context, id string, work func() e
 			return errLeaseBusy
 		}
 	}
-	defer func() { _, _ = leases.DeleteOne(context.WithoutCancel(ctx), bson.M{"_id": eq(id), "owner": owner}) }()
+	done := make(chan struct{})
+	go func() {
+		t := time.NewTicker(15 * time.Second)
+		defer t.Stop()
+		for {
+			select {
+			case <-done:
+				return
+			case <-t.C:
+				_, _ = leases.UpdateOne(context.WithoutCancel(ctx), bson.M{"_id": eq(id), "owner": owner},
+					bson.M{"$set": bson.M{"expiresAt": time.Now().UTC().Add(time.Minute)}})
+			}
+		}
+	}()
+	defer func() {
+		close(done)
+		_, _ = leases.DeleteOne(context.WithoutCancel(ctx), bson.M{"_id": eq(id), "owner": owner})
+	}()
 	return work()
 }
 

@@ -1,5 +1,6 @@
-//- WeKan's Admin Panel / Problems / Recovery (adminProblems.jade): its
-  pending activity notifications (activityNotificationRecoveryReports), ten a
+//- WeKan's Admin Panel / Problems / Recovery (adminProblems.jade): the
+  e-mail delivery queue (emailRecoveryReports) and the pending activity
+  notifications (activityNotificationRecoveryReports), ten a
   page, paused, resumed, cancelled and retried. The table is the report of
   activityNotificationRecoveryReport, filled by weddy.js; the strings it shows
   are below, in the user's language.
@@ -11,6 +12,60 @@
           a.js-left-menu-item(href="/admin/problems/recovery", data-id="report-recovery") {{t $.L "recoveryReportTitle"}}
     .main-body
       h2.pane-title {{t $.L "recoveryReportTitle"}}
+      section.email-recovery-reports
+        h2 {{t $.L "email-recovery-heading"}}
+        p.quiet {{t $.L "email-recovery-description"}}
+        p.error.js-recovery-error(role="alert", hidden)
+        p.quiet.js-recovery-busy(hidden) {{t $.L "email-recovery-saving"}}
+        .table-page
+          .table-page-controls
+            input.js-table-page-search(type="search", placeholder="{{t $.L `search`}}", aria-label="{{t $.L `search`}}")
+            button.js-table-page-action(data-action="refresh-email") {{t $.L "refresh"}}
+            span.table-page-total
+            .table-page-pagination
+              button.js-table-page-prev(title="{{t $.L `previous`}}") &lt;
+              span.table-page-page-info 1 / 1
+              button.js-table-page-next(title="{{t $.L `next`}}") &gt;
+          .table-page-table-wrap
+            table.table-page-table
+              thead
+                tr
+                  th {{t $.L "username"}}
+                  th {{t $.L "status"}}
+                  th {{t $.L "email-recovery-queued"}}
+                  th {{t $.L "date"}}
+                  th {{t $.L "actions"}}
+              tbody
+            p.quiet.table-page-empty(hidden) {{t $.L "email-recovery-empty"}}
+        template.js-recovery-strings
+          span(data-k="email-recovery-unavailable") {{t $.L "email-recovery-unavailable"}}
+          span(data-k="email-recovery-queued") {{t $.L "email-recovery-queued"}}
+          span(data-k="email-recovery-retrying") {{t $.L "email-recovery-retrying"}}
+          span(data-k="email-recovery-stopped") {{t $.L "email-recovery-stopped"}}
+          span(data-k="email-recovery-attempts") {{t $.L "email-recovery-attempts"}}
+          span(data-k="email-recovery-oldest") {{t $.L "email-recovery-oldest"}}
+          span(data-k="email-recovery-next") {{t $.L "email-recovery-next"}}
+          span(data-k="email-recovery-changed") {{t $.L "email-recovery-changed"}}
+          span(data-k="email-recovery-pause") {{t $.L "email-recovery-pause"}}
+          span(data-k="email-recovery-resume") {{t $.L "email-recovery-resume"}}
+          span(data-k="email-recovery-cancel") {{t $.L "email-recovery-cancel"}}
+          span(data-k="email-recovery-retry") {{t $.L "email-recovery-retry"}}
+          span(data-k="email-recovery-paused") {{t $.L "email-recovery-paused"}}
+          span(data-k="email-recovery-pending") {{t $.L "email-recovery-pending"}}
+          span(data-k="email-recovery-attention") {{t $.L "email-recovery-attention"}}
+          span(data-k="email-recovery-busy") {{t $.L "email-recovery-busy"}}
+          span(data-k="email-recovery-failed") {{t $.L "email-recovery-failed"}}
+          span(data-k="email-recovery-superseded") {{t $.L "email-recovery-superseded"}}
+          span(data-k="email-recovery-confirm-cancel") {{t $.L "email-recovery-confirm-cancel"}}
+          span(data-k="email-failure-smtp-temporary") {{t $.L "email-failure-smtp-temporary"}}
+          span(data-k="email-failure-smtp-rejected") {{t $.L "email-failure-smtp-rejected"}}
+          span(data-k="email-failure-smtp-authentication") {{t $.L "email-failure-smtp-authentication"}}
+          span(data-k="email-failure-smtp-configuration") {{t $.L "email-failure-smtp-configuration"}}
+          span(data-k="email-failure-recipient-unavailable") {{t $.L "email-failure-recipient-unavailable"}}
+          span(data-k="email-failure-delivery-unconfirmed") {{t $.L "email-failure-delivery-unconfirmed"}}
+          span(data-k="email-failure-acknowledgement-failed") {{t $.L "email-failure-acknowledgement-failed"}}
+          span(data-k="email-failure-delivery-failed") {{t $.L "email-failure-delivery-failed"}}
+          span(data-k="email-failure-retry-limit") {{t $.L "email-failure-retry-limit"}}
       section.activity-notification-recovery-reports
         h2 {{t $.L "activity-recovery-heading"}}
         p.quiet {{t $.L "activity-recovery-description"}}

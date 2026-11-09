@@ -146,7 +146,7 @@ progress; update it with the template.
 | `components/rules/triggers/checklistTriggers.jade` | | not yet |
 | `components/rules/triggers/scheduledTriggers.jade` | | not yet |
 | `components/settings/adminAuditLog.jade` | | not yet |
-| `components/settings/adminProblems.jade` | problems.pug: Recovery's pending activity notifications - paused, resumed, cancelled, retried | started |
+| `components/settings/adminProblems.jade` | problems.pug: Recovery's e-mail delivery queue and pending activity notifications - paused, resumed, cancelled, retried | started |
 | `components/settings/attachments.jade` | | not yet |
 | `components/settings/authProviderSettings.jade` | | not yet |
 | `components/settings/backupRunsStatus.jade` | | not yet |
