@@ -19,9 +19,9 @@ import (
 // cards it names - parents, dependencies and subtasks - each only when the
 // rule's user may read that card too. The card must be readable before the
 // reads and after them; a board admin who stops being one mid-way gets none.
-// Votes, planning poker and Scrum fields are rule_mail_voting.go's. Not here
-// yet: string-template formatting, and a linked card's or a linked board's
-// source.
+// Votes, planning poker and Scrum fields are rule_mail_voting.go's, a
+// string-template field's display string_template.go's. Not here yet: a
+// linked card's or a linked board's source.
 
 var errRuleMailDetails = errors.New("rule-email-details-not-authorized")
 
@@ -267,6 +267,10 @@ func (s *Server) ruleMailDetails(ctx context.Context, userID, boardID, cardID st
 				names = append(names, ruleMailScalar(itemName(id)))
 			}
 			value = strings.Join(names, ", ")
+		case "stringtemplate":
+			listTitle, laneTitle := titleIn("lists", str(card["listId"])), titleIn("swimlanes", str(card["swimlaneId"]))
+			value = formatStringTemplate(r.value, str(settings["stringtemplateFormat"]), str(settings["stringtemplateSeparator"]),
+				map[string]string{"card.title": str(card["title"]), "board.title": b.Title, "list.title": listTitle, "swimlane.title": laneTitle})
 		case "currency":
 			value = strings.TrimSpace(ruleMailScalar(r.value) + " " + str(settings["currencyCode"]))
 		}

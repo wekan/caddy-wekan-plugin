@@ -414,3 +414,34 @@ func TestRuleSendEmailDetailsVotingScrum(t *testing.T) {
 		t.Errorf("negative: nothing the board turns off: %q", m)
 	}
 }
+
+// A string-template custom field is shown formatted, with the card's own
+// titles, in the mail's details.
+func TestRuleSendEmailDetailsStringTemplate(t *testing.T) {
+	sink := newSMTPSink(t)
+	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, ann, "Links")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, ann, l.ID, sw.ID, "Bug 7")
+	_, _ = w.db.Collection("customFields").InsertOne(ctx, bson.M{"_id": "cfLink", "boardIds": bson.A{b.ID}, "name": "Tickets", "type": "stringtemplate",
+		"settings": bson.M{"stringtemplateFormat": "https://t.example/%{value|urlencode}?from=%{card.title|urlencode}&in=%{list.title}", "stringtemplateSeparator": " | "}})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"customFields": bson.A{bson.M{"_id": "cfLink", "value": bson.A{"A 1", "", "B&2"}}}}})
+	if err := w.s.performAction(ctx, bson.M{"boardId": b.ID, "cardId": c.ID, "userId": ann.ID},
+		bson.M{"actionType": "sendEmail", "emailTo": "ann@example.org", "includeCardDetails": true}); err != nil {
+		t.Fatal(err)
+	}
+	msgs := sink.messages()
+	if len(msgs) != 1 {
+		t.Fatalf("one e-mail: %d", len(msgs))
+	}
+	d, _ := io.ReadAll(quotedprintable.NewReader(strings.NewReader(msgs[0])))
+	want := "Tickets: https://t.example/A%201?from=Bug%207&in=Todo | https://t.example/B%262?from=Bug%207&in=Todo"
+	if !strings.Contains(strings.ReplaceAll(string(d), "\r\n", "\n"), want) {
+		t.Errorf("the template's text %q: %q", want, d)
+	}
+}
