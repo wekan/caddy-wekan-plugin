@@ -5,11 +5,13 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"io"
 	"net"
 	"net/http"
 	"net/url"
 	"os"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 
@@ -33,9 +35,9 @@ import (
 // Problems as IntegrationBleed (ssrf.webhook).
 //
 // "Leave my name out of outgoing webhooks", set in WeKan's Member Settings,
-// is honoured. Not here yet: Notification delivery's grouping and schedule
-// for webhooks, Mattermost direct messages, a two-way webhook's reply editing
-// the comment, and an outbound proxy.
+// is honoured, and a two-way webhook's answer edits the comment it was sent
+// (webhookReply). Not here yet: Notification delivery's grouping and schedule
+// for webhooks, Mattermost direct messages, and an outbound proxy.
 
 var errSSRFBlocked = errors.New("SSRF_GUARD: the address is a private, loopback or reserved one")
 
@@ -303,11 +305,66 @@ func (s *Server) deliverWebhook(ctx context.Context, hook bson.M, body []byte) e
 		}
 		return err
 	}
-	_ = resp.Body.Close()
+	defer resp.Body.Close()
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		return errors.New("webhook answered " + resp.Status)
 	}
+	// A two-way webhook's answer may edit the comment the event was about.
+	if docString(hook, "type") == "bidirectional-webhooks" {
+		var reply map[string]any
+		if json.NewDecoder(io.LimitReader(resp.Body, 1<<20)).Decode(&reply) == nil && reply != nil {
+			s.webhookReply(ctx, hook, reply)
+		}
+	}
 	return nil
+}
+
+// webhookEcho is WeKan's Lock: a comment a two-way webhook just answered, or
+// was just sent, is not sent again at once - its reply's edit would bounce
+// back and forth between WeKan and the chat.
+var webhookEcho = struct {
+	sync.Mutex
+	until map[string]time.Time
+	value map[string]string
+}{until: map[string]time.Time{}, value: map[string]string{}}
+
+// webhookEchoBusy reports whether a comment is locked; when it is not, it
+// locks it for a second.
+func webhookEchoBusy(commentID, text string) bool {
+	webhookEcho.Lock()
+	defer webhookEcho.Unlock()
+	now := time.Now()
+	if t, ok := webhookEcho.until[commentID]; ok && now.Before(t) {
+		return true
+	}
+	webhookEcho.until[commentID], webhookEcho.value[commentID] = now.Add(time.Second), text
+	return false
+}
+
+// webhookReply is WeKan's responseFunc: a two-way webhook's answer edits an
+// existing comment of its own board - never another board's, never a new one.
+func (s *Server) webhookReply(ctx context.Context, hook bson.M, data map[string]any) {
+	str := func(k string) string { v, _ := data[k].(string); return v }
+	commentID, cardID, boardID, text := str("commentId"), str("cardId"), str("boardId"), str("comment")
+	if docString(hook, "type") != "bidirectional-webhooks" || boardID == "" || boardID != docString(hook, "boardId") ||
+		!validID(commentID) || !validID(cardID) || text == "" || len(text) > 100000 {
+		return
+	}
+	var cm struct {
+		ID string `bson:"_id"`
+	}
+	var c Card
+	if s.db.Collection("card_comments").FindOne(ctx, bson.M{"_id": eq(commentID), "cardId": eq(cardID), "boardId": eq(boardID)}).Decode(&cm) != nil ||
+		s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID), "boardId": eq(boardID)}).Decode(&c) != nil {
+		return
+	}
+	webhookEcho.Lock()
+	webhookEcho.until[commentID], webhookEcho.value[commentID] = time.Now().Add(500*time.Millisecond), text
+	webhookEcho.Unlock()
+	if _, err := s.db.Collection("card_comments").UpdateOne(ctx, bson.M{"_id": eq(commentID), "cardId": eq(cardID), "boardId": eq(boardID)},
+		bson.M{"$set": bson.M{"text": text, "modifiedAt": time.Now().UTC()}}); err == nil {
+		s.hub.publish(boardID, "board-changed")
+	}
 }
 
 func (s *Server) recordWebhookBlocked(ctx context.Context, hook bson.M, why string) {
@@ -345,6 +402,12 @@ func (s *Server) sendActivityWebhooks(activity bson.M) {
 			body := s.webhookBody(ctx, hook, description, p)
 			if body == nil {
 				continue
+			}
+			// A comment a two-way webhook is answering, or was just sent, waits.
+			if cid, _ := p["commentId"].(string); cid != "" && docString(hook, "type") == "bidirectional-webhooks" {
+				if text, _ := p["comment"].(string); webhookEchoBusy(cid, text) {
+					continue
+				}
 			}
 			if err := s.deliverWebhook(ctx, hook, body); err != nil {
 				s.log.Warn("outgoing webhook not delivered", "webhook", docString(hook, "_id"), "error", err)

@@ -259,3 +259,78 @@ func TestOutgoingWebhookHideIdentity(t *testing.T) {
 		t.Errorf("an actor who did not ask is named: %v", joined["username"])
 	}
 }
+
+// A two-way webhook's answer edits the comment the event was about - on its
+// own board only, an existing comment only - and a one-way webhook's answer
+// changes nothing.
+func TestTwoWayWebhookReply(t *testing.T) {
+	var mu sync.Mutex
+	reply := map[string]any{}
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		mu.Lock()
+		defer mu.Unlock()
+		_ = json.NewEncoder(w).Encode(reply)
+	}))
+	t.Cleanup(srv.Close)
+	webhookAllowLoopbackForTests = true
+	t.Cleanup(func() { webhookAllowLoopbackForTests = false })
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, ann, "Chat")
+	other, _ := w.s.CreateBoard(ctx, ann, "Elsewhere")
+	l, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, ann, l.ID, sw.ID, "Talk")
+	// A real card and comment on another board, so only the webhook's own
+	// board stands between a reply and it.
+	ol, _ := w.s.AddList(ctx, other, "There")
+	var osw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": other.ID}).Decode(&osw)
+	oc, _ := w.s.AddCard(ctx, other, ann, ol.ID, osw.ID, "Other talk")
+	_, _ = w.db.Collection("card_comments").InsertOne(ctx, bson.M{"_id": "cOther", "cardId": oc.ID, "boardId": other.ID, "text": "untouched"})
+	hook := bson.M{"_id": "h2", "boardId": b.ID, "url": srv.URL + "/two", "type": "bidirectional-webhooks", "enabled": true}
+	text := func(id string) string {
+		var cm struct {
+			Text string `bson:"text"`
+		}
+		_ = w.db.Collection("card_comments").FindOne(ctx, bson.M{"_id": id}).Decode(&cm)
+		return cm.Text
+	}
+	id, err := w.s.AddComment(ctx, b, ann, c, "hello chat")
+	if err != nil {
+		t.Fatal(err)
+	}
+	send := func(r map[string]any, h bson.M) {
+		mu.Lock()
+		reply = r
+		mu.Unlock()
+		if err := w.s.deliverWebhook(ctx, h, []byte("{}")); err != nil {
+			t.Fatal(err)
+		}
+	}
+	send(map[string]any{"commentId": id, "cardId": c.ID, "boardId": b.ID, "comment": "edited by chat"}, hook)
+	if got := text(id); got != "edited by chat" {
+		t.Errorf("the reply edits the comment: %q", got)
+	}
+	for name, r := range map[string]map[string]any{
+		"another board":      {"commentId": "cOther", "cardId": oc.ID, "boardId": other.ID, "comment": "hijacked"},
+		"another card":       {"commentId": id, "cardId": "nocard", "boardId": b.ID, "comment": "hijacked"},
+		"no such comment":    {"commentId": "nosuchcomment1", "cardId": c.ID, "boardId": b.ID, "comment": "planted"},
+		"the board mismatch": {"commentId": "cOther", "cardId": oc.ID, "boardId": b.ID, "comment": "hijacked"},
+	} {
+		send(r, hook)
+		if text("cOther") != "untouched" || text(id) != "edited by chat" {
+			t.Errorf("negative: %s changes nothing", name)
+		}
+	}
+	if n, _ := w.db.Collection("card_comments").CountDocuments(ctx, bson.M{"text": "planted"}); n != 0 {
+		t.Error("negative: a reply makes no new comment")
+	}
+	oneWay := bson.M{"_id": "h1", "boardId": b.ID, "url": srv.URL + "/one", "type": "outgoing-webhooks", "enabled": true}
+	send(map[string]any{"commentId": id, "cardId": c.ID, "boardId": b.ID, "comment": "from a one-way hook"}, oneWay)
+	if text(id) != "edited by chat" {
+		t.Error("negative: a one-way webhook's answer changes nothing")
+	}
+}
