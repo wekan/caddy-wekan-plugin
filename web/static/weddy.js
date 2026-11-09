@@ -984,6 +984,33 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       var text = val(p, 'text-contains-value').trim();
       return text ? { activityType: 'textContainsTrigger', textContains: text } : null;
     },
+    // scheduledTriggers.js
+    'js-add-scheduled-trigger': function (p) {
+      return { activityType: 'scheduledTrigger', scheduleKind: 'calendar', scheduleType: val(p, 'schedule-type'),
+        atTime: val(p, 'schedule-time') || '09:00', weekday: parseInt(val(p, 'schedule-weekday'), 10),
+        dayOfMonth: parseInt(val(p, 'schedule-dom'), 10) || 1, onDate: val(p, 'schedule-date') || '',
+        listName: val(p, 'schedule-list-name') || '*', swimlaneName: '*' };
+    },
+    'js-add-due-trigger': function (p) {
+      return { activityType: 'scheduledTrigger', scheduleKind: 'due', dueCondition: val(p, 'due-condition'),
+        dateField: val(p, 'due-date-field') === 'startAt' ? 'startAt' : 'dueAt', days: parseInt(val(p, 'due-days'), 10) || 0,
+        atTime: val(p, 'due-time') || '09:00', listName: '*', swimlaneName: '*' };
+    },
+    'js-add-aging-trigger': function (p) {
+      return { activityType: 'scheduledTrigger', scheduleKind: 'aging', days: parseInt(val(p, 'aging-days'), 10) || 7,
+        atTime: val(p, 'aging-time') || '09:00', listName: val(p, 'aging-list-name') || '*', swimlaneName: '*' };
+    },
+    'js-add-cron-trigger': function (p) {
+      var input = p.querySelector('#cron-expression');
+      var cron = String(input.value || '').trim().replace(/\s+/g, ' ');
+      // Five fields, as WeKan's form asks; the server checks the rest.
+      if (cron.split(' ').length !== 5) {
+        input.setCustomValidity(input.dataset.invalid || 'invalid'); input.reportValidity();
+        return null;
+      }
+      input.setCustomValidity('');
+      return { activityType: 'scheduledTrigger', scheduleKind: 'cron', cron: cron, listName: val(p, 'cron-list-name') || '*', swimlaneName: '*' };
+    },
     'js-add-due-date-changed-trigger': function () { return { activityType: 'a-dueAt' }; },
     'js-add-start-date-changed-trigger': function () { return { activityType: 'a-startAt' }; },
     'js-add-end-date-changed-trigger': function () { return { activityType: 'a-endAt' }; },

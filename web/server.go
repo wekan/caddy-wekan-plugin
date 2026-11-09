@@ -95,6 +95,7 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 	go s.runActivityRecovery(s.stopMail)
 	go s.runActivityPlanCleanup(s.stopMail)
 	go s.runEmailReceipts(s.stopMail)
+	go s.runScheduledRules(s.stopMail)
 	return s, nil
 }
 

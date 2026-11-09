@@ -149,6 +149,8 @@
                   i.fa.fa-file-text-o
                 li.js-set-checklist-triggers(data-tab="checklist")
                   i.fa.fa-check
+                li.js-set-scheduled-triggers(data-tab="scheduled", title="{{t $.L `r-set-scheduled-triggers`}}")
+                  i.fa.fa-clock-o
                 li.js-set-button-triggers(data-tab="button", title="{{t $.L `r-set-button-triggers`}}")
                   i.fa.fa-hand-pointer-o
             .triggers-main-body
@@ -412,6 +414,87 @@
                         option(value="checked") {{t $.L "r-checked"}}
                         option(value="unchecked") {{t $.L "r-unchecked"}}
                   button.trigger-button.js-add-spec-check-item-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+              //- WeKan's scheduledTriggers: on a calendar, by a card's date, by its
+                days in a list, or on a cron schedule in UTC.
+              .js-rules-tab.is-hidden(data-tab="scheduled")
+                .trigger-item#trigger-scheduled
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-scheduled"}}
+                    .trigger-text {{t $.L "r-schedule-type"}}
+                    .trigger-dropdown
+                      select#schedule-type.js-schedule-type
+                        option(value="once") {{t $.L "r-schedule-once"}}
+                        option(value="daily", selected) {{t $.L "r-schedule-daily"}}
+                        option(value="weekday") {{t $.L "r-schedule-weekday"}}
+                        option(value="weekly") {{t $.L "r-schedule-weekly"}}
+                        option(value="monthly") {{t $.L "r-schedule-monthly"}}
+                    .trigger-text {{t $.L "r-schedule-at-time"}}
+                    .trigger-dropdown
+                      input#schedule-time(type="time", value="09:00")
+                    .trigger-text {{t $.L "r-schedule-on-weekday"}}
+                    .trigger-dropdown
+                      select#schedule-weekday
+                        option(value="1", selected) {{t $.L "monday"}}
+                        option(value="2") {{t $.L "tuesday"}}
+                        option(value="3") {{t $.L "wednesday"}}
+                        option(value="4") {{t $.L "thursday"}}
+                        option(value="5") {{t $.L "friday"}}
+                        option(value="6") {{t $.L "saturday"}}
+                        option(value="0") {{t $.L "sunday"}}
+                    .trigger-text {{t $.L "r-schedule-on-day"}}
+                    .trigger-dropdown
+                      input#schedule-dom(type="number", min="1", max="31", value="1")
+                    .trigger-text {{t $.L "r-schedule-on-date"}}
+                    .trigger-dropdown
+                      input#schedule-date(type="date")
+                    .trigger-text {{t $.L "r-of-cards-in-list"}}
+                    .trigger-dropdown
+                      textarea#schedule-list-name(rows="2", placeholder="{{t $.L `r-list-name`}}")
+                  button.trigger-button.js-add-scheduled-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item#trigger-due
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-card-date"}}
+                    .trigger-dropdown
+                      select#due-date-field
+                        option(value="dueAt", selected) {{t $.L "due-date"}}
+                        option(value="startAt") {{t $.L "card-start"}}
+                    .trigger-dropdown
+                      select#due-condition
+                        option(value="set") {{t $.L "r-due-is-set"}}
+                        option(value="soon", selected) {{t $.L "r-due-soon"}}
+                        option(value="overdue") {{t $.L "r-due-overdue"}}
+                    .trigger-dropdown
+                      input#due-days(type="number", min="0", value="1")
+                    .trigger-text {{t $.L "r-days-before"}} / {{t $.L "r-days-after"}}
+                    .trigger-text {{t $.L "r-schedule-at-time"}}
+                    .trigger-dropdown
+                      input#due-time(type="time", value="09:00")
+                  button.trigger-button.js-add-due-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item#trigger-aging
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-card-in-list"}}
+                    .trigger-dropdown
+                      textarea#aging-list-name(rows="2", placeholder="{{t $.L `r-list-name`}}")
+                    .trigger-text {{t $.L "r-for-n-days"}}
+                    .trigger-dropdown
+                      input#aging-days(type="number", min="1", value="7")
+                    .trigger-text {{t $.L "r-schedule-at-time"}}
+                    .trigger-dropdown
+                      input#aging-time(type="time", value="09:00")
+                  button.trigger-button.js-add-aging-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                .trigger-item#trigger-cron
+                  .trigger-content
+                    .trigger-text {{t $.L "r-on-cron-schedule"}}
+                    .trigger-dropdown
+                      input#cron-expression(type="text", value="0 9 * * 1-5", aria-label="{{t $.L `r-on-cron-schedule`}}", placeholder="0 9 * * 1-5", data-invalid="{{t $.L `r-cron-invalid`}}")
+                    .trigger-text {{t $.L "r-for-cards-in-list"}}
+                    .trigger-dropdown
+                      textarea#cron-list-name(rows="2", placeholder="{{t $.L `r-list-name`}}")
+                  button.trigger-button.js-add-cron-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
                     i.fa.fa-plus(aria-hidden="true")
               .js-rules-tab.is-hidden(data-tab="button")
                 .trigger-item#trigger-button
