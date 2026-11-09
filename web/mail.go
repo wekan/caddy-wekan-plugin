@@ -158,23 +158,32 @@ func (s *Server) sendMail(ctx context.Context, domain string, m mailMessage) err
 	}
 	sender, _ := mail.ParseAddress(cfg.From)
 	addr := net.JoinHostPort(cfg.Host, cfg.Port)
-	dialer := &net.Dialer{Timeout: 20 * time.Second}
+	// WeKan's limits (mail_timeouts.go): a deadline for the whole message,
+	// and the connection closed when it passes - not merely abandoned.
+	limits := mailLimits()
+	start := time.Now()
+	ctx, cancel := context.WithDeadline(ctx, start.Add(limits.Total))
+	defer cancel()
+	dialer := &net.Dialer{Timeout: limits.Connection}
 	var conn net.Conn
 	if cfg.ImplicitTLS {
-		conn, err = tls.DialWithDialer(dialer, "tcp", addr, &tls.Config{ServerName: cfg.Host, MinVersion: tls.VersionTLS12})
+		conn, err = (&tls.Dialer{NetDialer: dialer, Config: &tls.Config{ServerName: cfg.Host, MinVersion: tls.VersionTLS12}}).DialContext(ctx, "tcp", addr)
 	} else {
 		conn, err = dialer.DialContext(ctx, "tcp", addr)
 	}
 	if err != nil {
 		return err
 	}
-	_ = conn.SetDeadline(time.Now().Add(60 * time.Second))
-	c, err := smtp.NewClient(conn, cfg.Host)
+	stop := context.AfterFunc(ctx, func() { _ = conn.Close() })
+	defer stop()
+	dc := newDeadlineConn(conn, limits, start)
+	c, err := smtp.NewClient(dc, cfg.Host)
 	if err != nil {
 		conn.Close()
 		return err
 	}
 	defer c.Close()
+	dc.greeted()
 	if ok, _ := c.Extension("STARTTLS"); ok && !cfg.ImplicitTLS {
 		if err := c.StartTLS(&tls.Config{ServerName: cfg.Host, MinVersion: tls.VersionTLS12}); err != nil {
 			return err
