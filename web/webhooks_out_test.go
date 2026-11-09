@@ -172,9 +172,10 @@ func TestOutgoingWebhookSSRFGuard(t *testing.T) {
 // bare http.Get, is a new SSRF to judge, and fails here until it is.
 func TestNoUnguardedOutboundHTTP(t *testing.T) {
 	allowed := map[string]string{
-		"web/webhooks_out.go": "the SSRF-guarded webhook client",
-		"web/oidc.go":         "OAUTH2_* settings: the administrator's identity provider",
-		"cloudflare.go":       "api.cloudflare.com, with the administrator's token",
+		"web/webhooks_out.go":   "the SSRF-guarded webhook client",
+		"web/webhooks_proxy.go": "the same guarded client, direct or through the administrator's proxy",
+		"web/oidc.go":           "OAUTH2_* settings: the administrator's identity provider",
+		"cloudflare.go":         "api.cloudflare.com, with the administrator's token",
 	}
 	pattern := regexp.MustCompile(`http\.(Get|Post|PostForm|Head)\(|http\.DefaultClient|http\.Client\{`)
 	root := ".."

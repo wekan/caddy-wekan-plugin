@@ -13,7 +13,6 @@ import (
 	"regexp"
 	"strings"
 	"sync"
-	"syscall"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -39,7 +38,8 @@ import (
 // is honoured, and a two-way webhook's answer edits the comment it was sent
 // (webhookReply), and a webhook marked for it also sends Mattermost direct
 // messages to the card's people (#1297). Not here yet: Notification
-// delivery's grouping and schedule for webhooks, and an outbound proxy.
+// delivery's grouping and schedule for webhooks. An outbound proxy and a
+// certificate to trust are webhooks_proxy.go's.
 
 var errSSRFBlocked = errors.New("SSRF_GUARD: the address is a private, loopback or reserved one")
 
@@ -49,21 +49,7 @@ var webhookAllowLoopbackForTests = false
 
 // webhookClient is the guarded client.
 func webhookClient() *http.Client {
-	dialer := &net.Dialer{Timeout: 10 * time.Second, Control: func(network, address string, _ syscall.RawConn) error {
-		host, _, err := net.SplitHostPort(address)
-		if err != nil {
-			return errSSRFBlocked
-		}
-		if webhookAllowLoopbackForTests {
-			if ip := net.ParseIP(host); ip != nil && ip.IsLoopback() {
-				return nil
-			}
-		}
-		if ipBlocked(host) {
-			return errSSRFBlocked
-		}
-		return nil
-	}}
+	dialer := &net.Dialer{Timeout: 10 * time.Second, Control: guardedControl}
 	return &http.Client{
 		Timeout:       30 * time.Second,
 		CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse },
@@ -349,7 +335,14 @@ func (s *Server) deliverWebhook(ctx context.Context, hook bson.M, body []byte) e
 	if token := docString(hook, "token"); token != "" {
 		req.Header.Set("X-Wekan-Token", token)
 	}
-	resp, err := webhookClient().Do(req)
+	client, err := webhookRequestClient(ctx, req)
+	if err != nil {
+		if errors.Is(err, errSSRFBlocked) {
+			s.recordWebhookBlocked(ctx, hook, err.Error())
+		}
+		return err
+	}
+	resp, err := client.Do(req)
 	if err != nil {
 		if errors.Is(err, errSSRFBlocked) {
 			s.recordWebhookBlocked(ctx, hook, err.Error())
