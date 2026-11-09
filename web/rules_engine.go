@@ -168,22 +168,87 @@ func (s *Server) matchingRules(ctx context.Context, a bson.M) []bson.M {
 		if !ok {
 			continue
 		}
-		tid := docString(t, "_id")
-		cur, err := s.db.Collection("rules").Find(ctx, bson.M{"boardId": eq(boardID), "$or": bson.A{
-			bson.M{"triggerId": eq(tid)}, bson.M{"extraTriggerIds": eq(tid)}}})
-		if err != nil {
+		rules = s.addTriggerRules(ctx, boardID, docString(t, "_id"), seen, rules)
+	}
+	// #2076: "a card is moved forward / back" - to a later or earlier list in
+	// the board's list order - is matched by comparing the two lists.
+	if oldList, newList := docString(a, "oldListId"), docString(a, "listId"); kind == "moveCard" && validID(oldList) && validID(newList) && oldList != newList {
+		if direction := s.moveDirection(ctx, oldList, newList); direction != "" {
+			cur, err := s.db.Collection("triggers").Find(ctx, bson.M{"activityType": "moveCardDirection", "boardId": eq(boardID)})
+			if err == nil {
+				var dt []bson.M
+				_ = cur.All(ctx, &dt)
+				title := ""
+				var card struct {
+					Title string `bson:"title"`
+				}
+				if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(docString(a, "cardId"))}).Decode(&card) == nil {
+					title = card.Title
+				}
+				for _, t := range dt {
+					want, has := t["cardTitle"]
+					if docString(t, "direction") != direction || (has && !cardTitleMatches(want, title)) {
+						continue
+					}
+					rules = s.addTriggerRules(ctx, boardID, docString(t, "_id"), seen, rules)
+				}
+			}
+		}
+	}
+	return rules
+}
+
+// moveDirection is WeKan's models/lib/ruleMoveDirection.js: "forward" to a
+// list later in the board's list order, "back" to an earlier one - the
+// lists' sort, not the screen, so it holds in right-to-left languages too.
+func (s *Server) moveDirection(ctx context.Context, oldListID, newListID string) string {
+	var from, to struct {
+		BoardID string `bson:"boardId"`
+		Sort    any    `bson:"sort"`
+	}
+	if s.db.Collection("lists").FindOne(ctx, bson.M{"_id": eq(oldListID)}).Decode(&from) != nil ||
+		s.db.Collection("lists").FindOne(ctx, bson.M{"_id": eq(newListID)}).Decode(&to) != nil || from.BoardID != to.BoardID {
+		return ""
+	}
+	a, b := numberOf(from.Sort), numberOf(to.Sort)
+	if math.IsNaN(a) || math.IsNaN(b) || math.IsInf(a, 0) || math.IsInf(b, 0) || a == b {
+		return ""
+	}
+	if b > a {
+		return "forward"
+	}
+	return "back"
+}
+
+// numberOf is a stored number, NaN for anything else.
+func numberOf(v any) float64 {
+	switch x := v.(type) {
+	case float64:
+		return x
+	case int32:
+		return float64(x)
+	case int64:
+		return float64(x)
+	}
+	return math.NaN()
+}
+
+// addTriggerRules adds the board's enabled rules of a trigger, each once.
+func (s *Server) addTriggerRules(ctx context.Context, boardID, tid string, seen map[string]bool, rules []bson.M) []bson.M {
+	cur, err := s.db.Collection("rules").Find(ctx, bson.M{"boardId": eq(boardID), "$or": bson.A{
+		bson.M{"triggerId": eq(tid)}, bson.M{"extraTriggerIds": eq(tid)}}})
+	if err != nil {
+		return rules
+	}
+	var found []bson.M
+	_ = cur.All(ctx, &found)
+	for _, r := range found {
+		id := docString(r, "_id")
+		if r["enabled"] == false || seen[id] {
 			continue
 		}
-		var found []bson.M
-		_ = cur.All(ctx, &found)
-		for _, r := range found {
-			id := docString(r, "_id")
-			if r["enabled"] == false || seen[id] {
-				continue
-			}
-			seen[id] = true
-			rules = append(rules, r)
-		}
+		seen[id] = true
+		rules = append(rules, r)
 	}
 	return rules
 }

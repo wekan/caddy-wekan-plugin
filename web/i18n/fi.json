@@ -442,6 +442,8 @@
   "r-made-incomplete": "Merkitty keskeneräiseksi",
   "r-member": "jäsen",
   "r-move-card-to": "Siirrä kortti kohteeseen",
+  "r-moved-back": "siirretty taaksepäin aiempaan listaan",
+  "r-moved-forward": "siirretty eteenpäin myöhempään listaan",
   "r-moved-from": "Siirretty kohteesta",
   "r-moved-to": "Siirretty kohteeseen",
   "r-name": "nimi",

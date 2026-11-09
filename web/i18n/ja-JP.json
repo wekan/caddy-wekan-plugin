@@ -442,6 +442,8 @@
   "r-made-incomplete": "未完了になった時",
   "r-member": "メンバー",
   "r-move-card-to": "カードを次に移動",
+  "r-moved-back": "前のリストへ戻る方向に移動",
+  "r-moved-forward": "後のリストへ進む方向に移動",
   "r-moved-from": "次から移動された時",
   "r-moved-to": "次に移動した時",
   "r-name": "名前",

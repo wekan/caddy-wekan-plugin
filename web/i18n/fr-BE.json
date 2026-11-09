@@ -442,6 +442,8 @@
   "r-made-incomplete": "Rendu incomplet",
   "r-member": "participant",
   "r-move-card-to": "Déplacer la carte vers",
+  "r-moved-back": "déplacée vers une liste précédente",
+  "r-moved-forward": "déplacée vers une liste suivante",
   "r-moved-from": "Déplacé depuis",
   "r-moved-to": "Déplacé vers",
   "r-name": "nom",

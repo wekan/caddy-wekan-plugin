@@ -261,7 +261,7 @@ func TestRulesPage(t *testing.T) {
 	body(t, w.signIn(t, ann, "ann", "pw"))
 	rulesURL := w.srv.URL + "/b/" + b.ID + "/" + b.Slug + "/rules"
 	res, html := get(t, ann, rulesURL)
-	for _, want := range []string{"rules-page", "rules-lists-item", "Archive new", `id="ruleTitle"`, "js-goto-trigger", "js-add-create-trigger", "js-add-gen-move-action", "js-set-date-action"} {
+	for _, want := range []string{"rules-page", "rules-lists-item", "Archive new", `id="ruleTitle"`, "js-goto-trigger", "js-add-create-trigger", "js-add-move-direction-trigger", `value="back"`, "js-add-gen-move-action", "js-set-date-action"} {
 		if res.StatusCode != 200 || !strings.Contains(html, want) {
 			t.Errorf("the Rules page has %s (%d)", want, res.StatusCode)
 		}
@@ -366,5 +366,54 @@ func TestRuleTriggerGrammar(t *testing.T) {
 	i = strings.Index(eu, `id="spec-member"`)
 	if i < 0 || strings.Contains(eu[i:i+400], `<div class="trigger-text">da</div>`) || !strings.Contains(eu[i:i+400], "Kide hau") {
 		t.Fatal("negative: Basque has no separate da, and its name comes before Kide hau")
+	}
+}
+
+// #2076: a "moved forward" rule fires on a move to a later list in the board's
+// list order, never on a move back - and "moved back" the other way round.
+func TestRuleMoveDirection(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Direction")
+	first, _ := w.s.AddList(ctx, b, "First")
+	second, _ := w.s.AddList(ctx, b, "Second")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	addRule(t, w, b.ID, "rfwd", bson.M{"activityType": "moveCardDirection", "direction": "forward", "cardTitle": "*"},
+		bson.M{"actionType": "setColor", "selectedColor": "red"}, true)
+	addRule(t, w, b.ID, "rback", bson.M{"activityType": "moveCardDirection", "direction": "back", "cardTitle": "Beta"},
+		bson.M{"actionType": "setColor", "selectedColor": "blue"}, true)
+	alpha, _ := w.s.AddCard(ctx, b, u, first.ID, sw.ID, "Alpha")
+	beta, _ := w.s.AddCard(ctx, b, u, second.ID, sw.ID, "Beta")
+	gamma, _ := w.s.AddCard(ctx, b, u, second.ID, sw.ID, "Gamma")
+	color := func(id string) any {
+		var c bson.M
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": id}).Decode(&c)
+		return c["color"]
+	}
+	move := func(id, list string) {
+		if err := w.s.MoveCards(ctx, b, u, []Move{{CardID: id, ListID: list, SwimlaneID: sw.ID, Sort: 0}}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	move(alpha.ID, second.ID)
+	move(beta.ID, first.ID)
+	move(gamma.ID, first.ID)
+	if color(alpha.ID) != "red" || color(beta.ID) != "blue" {
+		t.Errorf("forward and back: %v %v", color(alpha.ID), color(beta.ID))
+	}
+	if color(gamma.ID) != nil {
+		t.Errorf("negative: moved back, but its title has no word Beta: %v", color(gamma.ID))
+	}
+	// Negative: within the same list, and between lists of equal sort, there is no direction.
+	_, _ = w.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": second.ID}, bson.M{"$set": bson.M{"sort": first.Sort}})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": gamma.ID}, bson.M{"$unset": bson.M{"color": ""}})
+	move(gamma.ID, second.ID)
+	if color(gamma.ID) != nil {
+		t.Errorf("negative: equal sort is no direction: %v", color(gamma.ID))
+	}
+	if w.s.moveDirection(ctx, first.ID, first.ID) != "" {
+		t.Error("negative: the same list is no direction")
 	}
 }

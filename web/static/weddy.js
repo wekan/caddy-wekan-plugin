@@ -907,6 +907,10 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         ? { activityType: 'moveCard', cardTitle: '*', swimlaneName: sw, listName: '*', oldListName: list }
         : { activityType: 'moveCard', cardTitle: '*', swimlaneName: sw, listName: list, oldListName: '*' };
     },
+    // #2076: moved forward or back, matched by list order on the server.
+    'js-add-move-direction-trigger': function (p) {
+      return { activityType: 'moveCardDirection', direction: val(p, 'move-direction') === 'back' ? 'back' : 'forward', cardTitle: '*' };
+    },
     'js-add-arch-trigger': function (p) {
       var kind = { archived: 'archivedCard', unarchived: 'restoredCard', commented: 'addComment' }[val(p, 'arch-action')];
       return { activityType: kind, cardTitle: '*' };

@@ -442,6 +442,8 @@
   "r-made-incomplete": "미완료로 표시됨",
   "r-member": "멤버",
   "r-move-card-to": "카드를 다음으로 이동",
+  "r-moved-back": "앞쪽 목록으로 이동",
+  "r-moved-forward": "뒤쪽 목록으로 이동",
   "r-moved-from": "이동해 온 곳",
   "r-moved-to": "이동한 곳",
   "r-name": "이름",

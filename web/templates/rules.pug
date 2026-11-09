@@ -188,6 +188,18 @@
                       textarea#create-swimlane-name-2(rows="2", placeholder="{{t $.L `r-swimlane-name`}}")
                   button.trigger-button.js-add-moved-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
                     i.fa.fa-plus(aria-hidden="true")
+                //- #2076: a card moved forward (to a later list) or back (to an
+                  earlier one), in the board's list order.
+                .trigger-item#trigger-move-direction
+                  .trigger-content
+                    .trigger-text {{t $.L "r-when-a-card"}}
+                    .trigger-text {{copula $.L}}
+                    .trigger-dropdown
+                      select#move-direction
+                        option(value="forward") {{t $.L "r-moved-forward"}}
+                        option(value="back") {{t $.L "r-moved-back"}}
+                  button.trigger-button.js-add-move-direction-trigger.js-goto-action(type="button", aria-label="{{t $.L `r-add-trigger`}}")
+                    i.fa.fa-plus(aria-hidden="true")
                 .trigger-item#trigger-five
                   .trigger-content
                     .trigger-text {{t $.L "r-when-a-card"}}

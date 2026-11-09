@@ -442,6 +442,8 @@
   "r-made-incomplete": "置为未完成",
   "r-member": "成员",
   "r-move-card-to": "移动卡片到",
+  "r-moved-back": "向后移动到了更靠前的列表",
+  "r-moved-forward": "向前移动到了更靠后的列表",
   "r-moved-from": "已移动",
   "r-moved-to": "移至",
   "r-name": "名称",
