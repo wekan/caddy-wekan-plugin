@@ -148,6 +148,25 @@ func (s *Server) matchingRules(ctx context.Context, a bson.M) []bson.M {
 	values := s.ruleValues(ctx, a, fields)
 	var rules []bson.M
 	seen := map[string]bool{}
+	// #4294 / #3195: a trigger value may hold the action {tokens}, read for
+	// the card the activity is about - built once, only when one does.
+	var vars map[string]string
+	tokenValues := func() map[string]string {
+		if vars == nil {
+			var c *Card
+			var card Card
+			if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(docString(a, "cardId"))}).Decode(&card) == nil {
+				c = &card
+			}
+			var actor *User
+			var au User
+			if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(docString(a, "userId"))}).Decode(&au) == nil {
+				actor = &au
+			}
+			vars = s.ruleVars(ctx, a, c, actor)
+		}
+		return vars
+	}
 	for _, t := range triggers {
 		tb, has := t["boardId"]
 		if has && tb != nil && tb != "*" && tb != boardID {
@@ -159,6 +178,19 @@ func (s *Server) matchingRules(ctx context.Context, a bson.M) []bson.M {
 				continue
 			}
 			want, has := t[f]
+			if triggerHasVars(want) {
+				actual := values[f]
+				if f == "userId" {
+					// People tokens resolve to usernames; the activity names its actor by id.
+					var au User
+					actual = ""
+					if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(values[f])}).Decode(&au) == nil {
+						actual = au.Username
+					}
+				}
+				ok = ok && triggerVarMatches(want.(string), actual, tokenValues())
+				continue
+			}
 			if f == "cardTitle" {
 				ok = ok && (!has || cardTitleMatches(want, values[f]))
 				continue
@@ -226,6 +258,30 @@ func (s *Server) matchingRules(ctx context.Context, a bson.M) []bson.M {
 // empty value, or an empty text, never matches.
 func textContains(text, needle string) bool {
 	return strings.TrimSpace(needle) != "" && text != "" && strings.Contains(strings.ToLower(text), strings.ToLower(needle))
+}
+
+// ruleVariableTokens is WeKan's models/lib/ruleVariablePicker.js: the card's
+// people, its card, list and board names, and a {customField:Name} for each
+// of the board's custom fields - not an admin-only one, nor a name with a
+// brace, which the token syntax cannot spell.
+func (s *Server) ruleVariableTokens(ctx context.Context, boardID string) []string {
+	out := []string{"{creator}", "{assignees}", "{members}", "{card}", "{list}", "{board}"}
+	cur, err := s.db.Collection("customFields").Find(ctx, bson.M{"boardIds": eq(boardID)}, options.Find().SetSort(bson.D{{Key: "name", Value: 1}}))
+	if err != nil {
+		return out
+	}
+	var defs []struct {
+		Name      string `bson:"name"`
+		AdminOnly bool   `bson:"adminOnly"`
+	}
+	_ = cur.All(ctx, &defs)
+	for _, d := range defs {
+		name := strings.TrimSpace(d.Name)
+		if tok := "{customField:" + name + "}"; !d.AdminOnly && name != "" && !strings.ContainsAny(name, "{}") && !slices.Contains(out, tok) {
+			out = append(out, tok)
+		}
+	}
+	return out
 }
 
 // moveDirection is WeKan's models/lib/ruleMoveDirection.js: "forward" to a
@@ -331,19 +387,139 @@ func (s *Server) ruleVars(ctx context.Context, a bson.M, c *Card, actor *User) m
 		v["listname"] = s.titleOfID(ctx, "lists", c.ListID)
 		v["swimlanename"] = s.titleOfID(ctx, "swimlanes", c.SwimlaneID)
 	}
+	// #3304: {member} - the member the activity is about, else its actor.
+	member := docString(a, "memberId")
+	if member == "" {
+		member = docString(a, "userId")
+	}
+	var mu User
+	if validID(member) && s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(member)}).Decode(&mu) == nil {
+		v["membername"], v["member"] = mu.Username, mu.Username
+	}
+	// #3304: the short aliases.
+	if c != nil {
+		v["card"], v["list"] = v["cardname"], v["listname"]
+	}
+	v["board"] = v["boardname"]
+	if c != nil {
+		s.cardPeopleAndFields(ctx, v, c)
+	}
 	return v
 }
 
-var ruleVarPattern = regexp.MustCompile(`\{(\w+)\}`)
+// cardPeopleAndFields is WeKan's addCardPeopleAndFields: {creator},
+// {assignees} and {members} by username, and one {customField:Name} a custom
+// field of the board with a value on the card - its displayed value, a
+// dropdown's option names. Admin-only fields are left out: a rule must not
+// copy them into card text or mail.
+func (s *Server) cardPeopleAndFields(ctx context.Context, v map[string]string, c *Card) {
+	names := func(ids []string) string {
+		var out []string
+		for _, id := range ids {
+			var u User
+			if validID(id) && s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&u) == nil && u.Username != "" && !slices.Contains(out, u.Username) {
+				out = append(out, u.Username)
+			}
+		}
+		return strings.Join(out, ", ")
+	}
+	v["creator"], v["assignees"], v["members"] = names([]string{c.UserID}), names(c.Assignees), names(c.Members)
+	var raw bson.M
+	if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(c.ID)}).Decode(&raw) != nil {
+		return
+	}
+	values, _ := raw["customFields"].(bson.A)
+	for _, e := range values {
+		f := docMap(e.(bson.D))
+		var def bson.M
+		if s.db.Collection("customFields").FindOne(ctx, bson.M{"_id": eq(strOf(f["_id"])), "boardIds": eq(c.BoardID)}).Decode(&def) != nil || def["adminOnly"] == true {
+			continue
+		}
+		value := ""
+		switch def["type"] {
+		case "dropdown", "dropdownMultiSelect":
+			opts := dropdownItems(def)
+			ids := stringsOf(f["value"])
+			if one, ok := f["value"].(string); ok {
+				ids = []string{one}
+			}
+			var got []string
+			for _, id := range ids {
+				if opts[id] != "" {
+					got = append(got, opts[id])
+				}
+			}
+			value = strings.Join(got, ", ")
+		default:
+			switch x := plain(f["value"]).(type) {
+			case string:
+				value = x
+			case nil:
+			case []any:
+				var parts []string
+				for _, p := range x {
+					parts = append(parts, fmt.Sprint(p))
+				}
+				value = strings.Join(parts, ", ")
+			case time.Time:
+				value = x.Format(time.RFC3339)
+			default:
+				value = fmt.Sprint(x)
+			}
+		}
+		if name := strings.ToLower(strings.TrimSpace(strOf(def["name"]))); name != "" && value != "" {
+			v["customfield:"+name] = value
+		}
+	}
+}
 
-// substituteVars is WeKan's: {name} becomes the variable, an unknown one stays.
+var ruleVarPattern = regexp.MustCompile(`\{(\w+)(?::([^{}]+))?\}`)
+
+// substituteVars is WeKan's: {name} becomes the variable, {customField:Name}
+// the card's value of that field (any case) - and an unknown one stays.
 func substituteVars(text string, vars map[string]string) string {
 	return ruleVarPattern.ReplaceAllStringFunc(text, func(m string) string {
-		if v, ok := vars[strings.ToLower(m[1:len(m)-1])]; ok {
+		p := ruleVarPattern.FindStringSubmatch(m)
+		key := strings.ToLower(p[1])
+		if strings.Contains(m, ":") {
+			if key != "customfield" {
+				return m
+			}
+			key = "customfield:" + strings.ToLower(strings.TrimSpace(p[2]))
+		}
+		if v, ok := vars[key]; ok {
 			return v
 		}
 		return m
 	})
+}
+
+// triggerHasVars is WeKan's triggerValueHasVars.
+func triggerHasVars(v any) bool {
+	s, ok := v.(string)
+	return ok && ruleVarPattern.MatchString(s)
+}
+
+// listTokens name several people; a trigger value that is one of them
+// matches any one of those names.
+var listTokens = regexp.MustCompile(`(?i)^\{(?:creator|assignees|members)\}$`)
+
+// triggerVarMatches is WeKan's: the value with its variables resolved for the
+// card is what the activity carries.
+func triggerVarMatches(pattern, actual string, vars map[string]string) bool {
+	if actual == "" {
+		return false
+	}
+	resolved := substituteVars(pattern, vars)
+	if listTokens.MatchString(strings.TrimSpace(pattern)) {
+		for _, n := range strings.Split(resolved, ",") {
+			if strings.TrimSpace(n) == actual {
+				return true
+			}
+		}
+		return false
+	}
+	return resolved == actual
 }
 
 // ruleUsers are the people an action's username names: the acting user, "*"
@@ -805,7 +981,8 @@ func (s *Server) rulesPage(w http.ResponseWriter, r *http.Request, u *User) {
 	if !slices.Contains([]string{"list", "workflow", "import"}, view) {
 		view = "list"
 	}
-	data := map[string]any{"Title": tr(lang, "rules"), "User": u, "Board": b, "CanEdit": b.AdminOf(u.ID), "View": view}
+	data := map[string]any{"Title": tr(lang, "rules"), "User": u, "Board": b, "CanEdit": b.AdminOf(u.ID), "View": view,
+		"RuleTokens": s.ruleVariableTokens(r.Context(), b.ID)}
 	if b.AdminOf(u.ID) {
 		ctx := r.Context()
 		cur, err := s.db.Collection("rules").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}}))

@@ -152,6 +152,14 @@
                 li.js-set-button-triggers(data-tab="button", title="{{t $.L `r-set-button-triggers`}}")
                   i.fa.fa-hand-pointer-o
             .triggers-main-body
+              p.rules-vars-hint.js-trigger-vars-hint {{t $.L "r-trigger-vars-hint"}}
+              //- #3195: insert a rule variable into the text field last focused.
+              label.rule-variable-picker
+                span {{t $.L "r-insert-variable"}}
+                select.js-rule-variable-picker
+                  option(value="") -
+                  each tok in $.RuleTokens
+                    option(value="{{.}}") {{.}}
               .js-rules-tab(data-tab="board")
                 .trigger-item#trigger-two
                   .trigger-content
@@ -438,6 +446,13 @@
                 li.js-set-checklist-actions(data-tab="checklist-actions")
                   i.fa.fa-check
             .triggers-main-body
+              //- #3195: insert a rule variable into the text field last focused.
+              label.rule-variable-picker
+                span {{t $.L "r-insert-variable"}}
+                select.js-rule-variable-picker
+                  option(value="") -
+                  each tok in $.RuleTokens
+                    option(value="{{.}}") {{.}}
               .js-rules-tab(data-tab="board-actions")
                 .trigger-item
                   .trigger-content

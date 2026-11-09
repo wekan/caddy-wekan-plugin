@@ -482,3 +482,64 @@ func TestRuleTextContains(t *testing.T) {
 		t.Error("WeKan's textContainsMatch")
 	}
 }
+
+// #4294 / #3195: the action {tokens} - the card's people and its custom
+// fields - in actions and in trigger values, read for the activity's card.
+func TestRuleTokens(t *testing.T) {
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, ann, "Tokens")
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true})
+	todo, _ := w.s.AddList(ctx, b, "Todo")
+	target, _ := w.s.AddList(ctx, b, "Review")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	_, _ = w.db.Collection("customFields").InsertOne(ctx, bson.M{"_id": "cftarget0000001", "boardIds": bson.A{b.ID}, "name": "Target", "type": "text"})
+	_, _ = w.db.Collection("customFields").InsertOne(ctx, bson.M{"_id": "cfsecret0000001", "boardIds": bson.A{b.ID}, "name": "Secret", "type": "text", "adminOnly": true})
+	_, _ = w.db.Collection("customFields").InsertOne(ctx, bson.M{"_id": "cfstage00000001", "boardIds": bson.A{b.ID}, "name": "Stage", "type": "dropdown",
+		"settings": bson.M{"dropdownItems": bson.A{bson.M{"_id": "opt1", "name": "Done"}}}})
+	alpha, _ := w.s.AddCard(ctx, b, ann, todo.ID, sw.ID, "Alpha")
+	beta, _ := w.s.AddCard(ctx, b, ann, todo.ID, sw.ID, "Beta")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": alpha.ID}, bson.M{"$set": bson.M{"assignees": bson.A{bob.ID}, "customFields": bson.A{
+		bson.M{"_id": "cftarget0000001", "value": "Review"}, bson.M{"_id": "cfsecret0000001", "value": "hush"}, bson.M{"_id": "cfstage00000001", "value": "opt1"}}}})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": beta.ID}, bson.M{"$set": bson.M{"customFields": bson.A{bson.M{"_id": "cftarget0000001", "value": "Elsewhere"}}}})
+	var card Card
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": alpha.ID}).Decode(&card)
+	v := w.s.ruleVars(ctx, bson.M{"boardId": b.ID, "userId": ann.ID}, &card, ann)
+	got := substituteVars("{creator}|{assignees}|{customField:target}|{customField:Stage}|{customField:Secret}|{card}|{list}|{board}|{nobody}", v)
+	if got != "ann|bob|Review|Done|{customField:Secret}|Alpha|Todo|Tokens|{nobody}" {
+		t.Errorf("tokens: %s", got)
+	}
+	// A trigger list name read from the card's own field: only the card whose
+	// Target names the list it moved to.
+	addRule(t, w, b.ID, "rtarget", bson.M{"activityType": "moveCard", "listName": "{customField:Target}", "oldListName": "*", "swimlaneName": "*", "userId": "*", "cardTitle": "*"},
+		bson.M{"actionType": "setColor", "selectedColor": "red"}, true)
+	addRule(t, w, b.ID, "rby", bson.M{"activityType": "moveCard", "listName": "*", "oldListName": "*", "swimlaneName": "*", "userId": "{assignees}", "cardTitle": "*"},
+		bson.M{"actionType": "setColor", "selectedColor": "blue"}, true)
+	color := func(id string) any {
+		var c bson.M
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": id}).Decode(&c)
+		return c["color"]
+	}
+	for _, id := range []string{alpha.ID, beta.ID} {
+		if err := w.s.MoveCards(ctx, b, ann, []Move{{CardID: id, ListID: target.ID, SwimlaneID: sw.ID}}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if color(alpha.ID) != "red" || color(beta.ID) != nil {
+		t.Errorf("negative too: only the card whose field names the list: %v %v", color(alpha.ID), color(beta.ID))
+	}
+	// "by one of the card's {assignees}": bob is alpha's, ann is not.
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": alpha.ID}, bson.M{"$unset": bson.M{"color": ""}})
+	if err := w.s.MoveCards(ctx, b, bob, []Move{{CardID: alpha.ID, ListID: todo.ID, SwimlaneID: sw.ID}}); err != nil {
+		t.Fatal(err)
+	}
+	if color(alpha.ID) != "blue" {
+		t.Errorf("by an assignee: %v", color(alpha.ID))
+	}
+	if toks := w.s.ruleVariableTokens(ctx, b.ID); !slices.Contains(toks, "{customField:Target}") || slices.Contains(toks, "{customField:Secret}") || toks[0] != "{creator}" {
+		t.Errorf("the picker: %v", toks)
+	}
+}

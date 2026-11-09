@@ -1032,6 +1032,35 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     callAsync('rules.setEnabled', el.dataset.ruleId, on).then(function () { up.reload('.rules-page'); });
   });
 
+  // #3195: the rule editor's "Insert variable" picker, as WeKan's
+  // ruleVariablePicker: the token goes in at the caret of the text field last
+  // focused in that editor, the caret after it, the field focused again.
+  var RULE_TEXT_FIELD = 'input[type="text"], input:not([type]), textarea';
+  document.addEventListener('focusin', function (event) {
+    var body = event.target.closest && event.target.closest('.triggers-main-body');
+    if (body && event.target.matches(RULE_TEXT_FIELD)) body.weddyLastField = event.target;
+  });
+  document.addEventListener('change', function (event) {
+    var select = event.target;
+    if (!select.matches || !select.matches('.js-rule-variable-picker')) return;
+    var token = select.value;
+    select.value = '';
+    var body = select.closest('.triggers-main-body');
+    if (!token || !body) return;
+    var field = body.weddyLastField && body.contains(body.weddyLastField) && body.weddyLastField.offsetParent !== null ? body.weddyLastField : null;
+    if (!field) {
+      field = Array.prototype.find.call(body.querySelectorAll(RULE_TEXT_FIELD), function (f) { return f.offsetParent !== null; });
+    }
+    if (!field) return;
+    var text = field.value || '', start = field.selectionStart, end = field.selectionEnd;
+    var valid = typeof start === 'number' && typeof end === 'number' && start >= 0 && start <= end && end <= text.length;
+    var from = valid ? start : text.length, to = valid ? end : text.length;
+    field.value = text.slice(0, from) + token + text.slice(to);
+    field.dispatchEvent(new Event('input', { bubbles: true }));
+    field.focus();
+    field.setSelectionRange(from + token.length, from + token.length);
+  });
+
   // Admin Panel / Problems / Recovery: WeKan's emailRecoveryReports - one row a
   // recipient, paused, resumed, cancelled and retried. A request keeps its id
   // until it is confirmed, so trying it again never repeats an old cancel
