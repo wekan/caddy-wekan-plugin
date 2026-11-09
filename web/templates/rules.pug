@@ -543,6 +543,21 @@
                       textarea#swimlane-name2(rows="2", placeholder="{{t $.L `r-name`}}")
                   button.trigger-button.js-create-card-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
                     i.fa.fa-plus(aria-hidden="true")
+                //- WeKan's sortList: a list's cards in order.
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-sort-list"}}
+                    .trigger-dropdown
+                      textarea#sort-list-name(rows="2", placeholder="{{t $.L `r-list-name`}}")
+                    .trigger-text {{t $.L "r-sort-by"}}
+                    .trigger-dropdown
+                      select#sort-field
+                        option(value="due") {{t $.L "r-sort-due"}}
+                        option(value="name") {{t $.L "r-sort-name"}}
+                        option(value="created") {{t $.L "createdAt"}}
+                        option(value="modified") {{t $.L "modifiedAt"}}
+                  button.trigger-button.js-sort-list-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
               .js-rules-tab.is-hidden(data-tab="card-actions")
                 .trigger-item
                   .trigger-content
@@ -599,6 +614,28 @@
                   .trigger-content
                     .trigger-text {{t $.L "r-add-actinguser-member"}}
                   button.trigger-button.js-add-actinguser-member-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
+                    i.fa.fa-plus(aria-hidden="true")
+                //- WeKan's setDateRelative (#5621): a date to now and an offset.
+                .trigger-item
+                  .trigger-content
+                    .trigger-text {{t $.L "r-set-date-relative"}}
+                    .trigger-dropdown
+                      select#reldate-datefield
+                        option(value="startAt") {{t $.L "r-df-start-at"}}
+                        option(value="dueAt") {{t $.L "r-df-due-at"}}
+                        option(value="endAt") {{t $.L "r-df-end-at"}}
+                        option(value="receivedAt") {{t $.L "r-df-received-at"}}
+                    .trigger-dropdown
+                      input#reldate-days(type="number", value="0")
+                    .trigger-dropdown
+                      select#reldate-unit
+                        option(value="minutes") {{t $.L "r-unit-minutes"}}
+                        option(value="hours") {{t $.L "r-unit-hours"}}
+                        option(value="days", selected) {{t $.L "r-unit-days"}}
+                        option(value="weeks") {{t $.L "r-unit-weeks"}}
+                        option(value="months") {{t $.L "r-unit-months"}}
+                    .trigger-text {{t $.L "r-later"}}
+                  button.trigger-button.js-set-reldate-action.js-goto-rules(type="button", aria-label="{{t $.L `r-add-action`}}")
                     i.fa.fa-plus(aria-hidden="true")
               .js-rules-tab.is-hidden(data-tab="checklist-actions")
                 .trigger-item

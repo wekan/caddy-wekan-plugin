@@ -8,8 +8,10 @@ import (
 	"slices"
 	"strings"
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // addRule stores a rule of a board: its trigger and action, as WeKan keeps them.
@@ -541,5 +543,76 @@ func TestRuleTokens(t *testing.T) {
 	}
 	if toks := w.s.ruleVariableTokens(ctx, b.ID); !slices.Contains(toks, "{customField:Target}") || slices.Contains(toks, "{customField:Secret}") || toks[0] != "{creator}" {
 		t.Errorf("the picker: %v", toks)
+	}
+}
+
+// WeKan's setDateRelative (#5621) and sortList actions.
+func TestRuleRelativeDateAndSortList(t *testing.T) {
+	base := time.Date(2026, 1, 31, 10, 0, 0, 0, time.UTC)
+	for _, c := range []struct {
+		value any
+		unit  string
+		want  time.Time
+	}{
+		{float64(2), "days", base.AddDate(0, 0, 2)}, {"3 days", "", base.AddDate(0, 0, 3)}, {float64(-1), "weeks", base.AddDate(0, 0, -7)},
+		{float64(90), "minutes", base.Add(90 * time.Minute)}, {float64(5), "hours", base.Add(5 * time.Hour)},
+		{float64(1), "months", time.Date(2026, 3, 3, 10, 0, 0, 0, time.UTC)}, {"nonsense", "days", base}, {float64(2), "fortnights", base.AddDate(0, 0, 2)},
+	} {
+		if got := relativeDateOffset(base, c.value, c.unit); !got.Equal(c.want) {
+			t.Errorf("%v %s: %v, want %v", c.value, c.unit, got, c.want)
+		}
+	}
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Sorting")
+	todo, _ := w.s.AddList(ctx, b, "Todo")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	addRule(t, w, b.ID, "rsort", bson.M{"activityType": "createCard", "cardTitle": "*"}, bson.M{"actionType": "sortList", "listName": "*", "sortField": "name"}, true)
+	addRule(t, w, b.ID, "rdue", bson.M{"activityType": "createCard", "cardTitle": "*"}, bson.M{"actionType": "setDateRelative", "dateField": "dueAt", "days": float64(2), "unit": "days"}, true)
+	var ids []string
+	for _, title := range []string{"cherry", "Apple", "banana"} {
+		c, _ := w.s.AddCard(ctx, b, u, todo.ID, sw.ID, title)
+		ids = append(ids, c.ID)
+	}
+	order := func() []string {
+		cur, _ := w.db.Collection("cards").Find(ctx, bson.M{"listId": todo.ID}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
+		var cs []Card
+		_ = cur.All(ctx, &cs)
+		var out []string
+		for _, c := range cs {
+			out = append(out, c.Title)
+		}
+		return out
+	}
+	if got := order(); !slices.Equal(got, []string{"Apple", "banana", "cherry"}) {
+		t.Errorf("sorted by name, any case: %v", got)
+	}
+	var raw bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": ids[0]}).Decode(&raw)
+	due, _ := plain(raw["dueAt"]).(time.Time)
+	if d := time.Until(due); d < 47*time.Hour || d > 49*time.Hour {
+		t.Errorf("due in two days: %v", due)
+	}
+	if n, _ := w.db.Collection("activities").CountDocuments(ctx, bson.M{"activityType": "a-dueAt", "cardId": ids[0]}); n != 1 {
+		t.Errorf("WeKan's a-dueAt: %d", n)
+	}
+	// Negative: a "date field" that is not one of the card's dates is never written.
+	if err := w.s.performAction(ctx, bson.M{"boardId": b.ID, "cardId": ids[0], "userId": u.ID},
+		bson.M{"actionType": "setDateRelative", "dateField": "title", "days": float64(1)}); err != nil {
+		t.Fatal(err)
+	}
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": ids[0]}).Decode(&raw)
+	if raw["title"] != "cherry" {
+		t.Errorf("negative: the title stays: %v", raw["title"])
+	}
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	_, html := get(t, c, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/rules")
+	for _, want := range []string{"js-sort-list-action", `id="sort-field"`, "js-set-reldate-action", `id="reldate-unit"`} {
+		if !strings.Contains(html, want) {
+			t.Errorf("the Rules page has %s", want)
+		}
 	}
 }

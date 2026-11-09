@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"regexp"
 	"slices"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -800,7 +801,110 @@ func (s *Server) performAction(ctx context.Context, a bson.M, act bson.M) error 
 			return err
 		}
 		cardActivity("a-"+field, nil)
+	case "setDateRelative":
+		// #5621: a date field set to now and an offset - minutes, hours, days
+		// (the unit of rules made before there was a choice), weeks or months.
+		field := docString(act, "dateField")
+		if !slices.Contains([]string{"startAt", "endAt", "dueAt", "receivedAt"}, field) {
+			return nil
+		}
+		if err := touch(bson.M{"$set": bson.M{field: relativeDateOffset(now, act["days"], docString(act, "unit"))}}); err != nil {
+			return err
+		}
+		cardActivity("a-"+field, nil)
+	case "sortList":
+		return s.ruleSortList(ctx, act, c)
 	}
+	return nil
+}
+
+// relativeDateOffset is WeKan's models/lib/relativeDateOffset.js: base moved
+// by a whole number of units - parseInt's, so "3 days" is 3 and nonsense 0 -
+// months by the calendar, as JavaScript's setMonth: 31 January and one month
+// is early March.
+func relativeDateOffset(base time.Time, value any, unit string) time.Time {
+	amount := 0
+	switch v := value.(type) {
+	case float64:
+		amount = int(v)
+	case int32:
+		amount = int(v)
+	case int64:
+		amount = int(v)
+	case string:
+		m := regexp.MustCompile(`^\s*([+-]?\d+)`).FindStringSubmatch(v)
+		if m != nil {
+			amount, _ = strconv.Atoi(m[1])
+		}
+	}
+	switch unit {
+	case "minutes":
+		return base.Add(time.Duration(amount) * time.Minute)
+	case "hours":
+		return base.Add(time.Duration(amount) * time.Hour)
+	case "weeks":
+		return base.Add(time.Duration(amount) * 7 * 24 * time.Hour)
+	case "months":
+		return base.AddDate(0, amount, 0)
+	}
+	return base.Add(time.Duration(amount) * 24 * time.Hour)
+}
+
+// ruleSortList is WeKan's sortList action (models/lib/ruleSortList.js): the
+// cards of the card's list - or the list it names, on the card's board - in
+// the card's swimlane, by name, creation, modification or due date (the
+// default, cards without one last), each card then taking its index as its sort.
+func (s *Server) ruleSortList(ctx context.Context, act bson.M, c *Card) error {
+	listID := c.ListID
+	if name := docString(act, "listName"); name != "" && name != "*" {
+		var l struct {
+			ID string `bson:"_id"`
+		}
+		if s.db.Collection("lists").FindOne(ctx, bson.M{"title": eq(name), "boardId": eq(c.BoardID)}).Decode(&l) != nil {
+			return nil
+		}
+		listID = l.ID
+	}
+	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"listId": eq(listID), "swimlaneId": eq(c.SwimlaneID), "archived": false},
+		options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
+	if err != nil {
+		return err
+	}
+	var cards []bson.M
+	_ = cur.All(ctx, &cards)
+	key := func(card bson.M) any {
+		t := func(k string) float64 {
+			if v, ok := plain(card[k]).(time.Time); ok {
+				return float64(v.UnixMilli())
+			}
+			return 0
+		}
+		switch docString(act, "sortField") {
+		case "name":
+			return strings.ToLower(docString(card, "title"))
+		case "created":
+			return t("createdAt")
+		case "modified":
+			return t("modifiedAt")
+		}
+		if v, ok := plain(card["dueAt"]).(time.Time); ok {
+			return float64(v.UnixMilli())
+		}
+		return float64(1<<53 - 1)
+	}
+	sort.SliceStable(cards, func(i, j int) bool {
+		a, b := key(cards[i]), key(cards[j])
+		if as, ok := a.(string); ok {
+			return as < b.(string)
+		}
+		return a.(float64) < b.(float64)
+	})
+	for i, card := range cards {
+		if _, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(docString(card, "_id"))}, bson.M{"$set": bson.M{"sort": float64(i)}}); err != nil {
+			return err
+		}
+	}
+	s.hub.publish(c.BoardID, "board-changed")
 	return nil
 }
 

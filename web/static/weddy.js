@@ -1047,6 +1047,13 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       var board = val(p, 'board-id-copy'), list = val(p, 'list-id-copy'), lane = val(p, 'swimlane-id-copy');
       return board && list && lane ? { actionType: 'copyCard', boardId: board, listId: list, swimlaneId: lane } : null;
     },
+    'js-sort-list-action': function (p) {
+      return { actionType: 'sortList', listName: val(p, 'sort-list-name') || '*', sortField: val(p, 'sort-field') };
+    },
+    'js-set-reldate-action': function (p) {
+      return { actionType: 'setDateRelative', dateField: val(p, 'reldate-datefield'),
+        days: parseInt(val(p, 'reldate-days'), 10) || 0, unit: val(p, 'reldate-unit') };
+    },
     'js-add-checklist-items-action': function (p) {
       return { actionType: 'addChecklistWithItems', checklistName: val(p, 'checklist-name-3'), checklistItems: val(p, 'checklist-items') };
     },
