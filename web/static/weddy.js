@@ -1022,5 +1022,154 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     callAsync('rules.setEnabled', el.dataset.ruleId, on).then(function () { up.reload('.rules-page'); });
   });
 
+  // Admin Panel / Problems / Recovery: WeKan's activityNotificationRecoveryReports.
+  // The table is the report of activityNotificationRecoveryReport, ten a page;
+  // each row's buttons pause, resume, cancel and retry with the revision the
+  // administrator saw, never a newer one.
+  up.compiler('.activity-notification-recovery-reports', function (panel) {
+    var strings = {};
+    var tpl = panel.querySelector('template.js-recovery-strings');
+    if (tpl) tpl.content.querySelectorAll('[data-k]').forEach(function (el) { strings[el.dataset.k] = el.textContent; });
+    var say = function (key) {
+      var args = Array.prototype.slice.call(arguments, 1), i = 0;
+      return (strings[key] || key).replace(/%s/g, function () { return String(args[i++]); });
+    };
+    var state = { search: '', page: 1, total: 0, rows: [], busy: false, request: 0 };
+    var errorEl = panel.querySelector('.js-recovery-error'), busyEl = panel.querySelector('.js-recovery-busy');
+    var body = panel.querySelector('tbody'), empty = panel.querySelector('.table-page-empty');
+    function message(text) { errorEl.textContent = text || ''; errorEl.hidden = !text; }
+    function setBusy(on) { state.busy = on; busyEl.hidden = !on; render(); }
+    function cell(tr, children) {
+      var td = document.createElement('td');
+      children.forEach(function (c) { if (c) td.appendChild(c); });
+      tr.appendChild(td);
+      return td;
+    }
+    function para(text, cls) {
+      var p = document.createElement('p');
+      if (cls) p.className = cls;
+      p.textContent = text;
+      return p;
+    }
+    function button(cls, label, disabled, row) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = cls; b.textContent = label; b.disabled = disabled;
+      b.weddyRow = row;
+      return b;
+    }
+    function render() {
+      body.textContent = '';
+      state.rows.forEach(function (row) {
+        var tr = document.createElement('tr');
+        tr.dataset.intent = row.intentId;
+        cell(tr, [para(row.activityId), row.cardId ? para(say('card') + ': ' + row.cardId, 'quiet') : null]);
+        cell(tr, [document.createTextNode(row.boardId)]);
+        cell(tr, [para(say('activity-recovery-status-' + row.status)),
+          row.paused && row.status !== 'cancelled' ? para(say('activity-recovery-paused')) : null]);
+        cell(tr, [document.createTextNode(row.createdAt ? new Date(row.createdAt).toLocaleString() : '—')]);
+        var noControl = state.busy || !row.canControl;
+        cell(tr, [button('js-cancel-activity-notification', say('activity-recovery-cancel'), noControl, row),
+          button('js-control-activity-notification', say(row.paused ? 'activity-recovery-resume' : 'activity-recovery-pause'), noControl, row),
+          button('js-retry-activity-notification', say('activity-recovery-retry'), state.busy || !row.canRetry, row)]);
+        body.appendChild(tr);
+      });
+      empty.hidden = state.rows.length > 0;
+      var pages = Math.max(1, Math.ceil(state.total / 10));
+      panel.querySelector('.table-page-page-info').textContent = state.page + ' / ' + pages;
+      panel.querySelector('.table-page-total').textContent = state.total ? String(state.total) : '';
+      panel.querySelector('.js-table-page-prev').classList.toggle('disabled', state.page <= 1);
+      panel.querySelector('.js-table-page-next').classList.toggle('disabled', state.page >= pages);
+    }
+    function load(page) {
+      var request = ++state.request;
+      state.rows = []; state.page = page || 1;
+      render();
+      callAsync('activityNotificationRecoveryReport', { search: state.search, page: state.page }).then(function (result) {
+        if (request !== state.request) return;
+        state.rows = result.rows || []; state.total = result.total || 0; state.page = result.page || 1;
+        render();
+      }, function () {
+        if (request !== state.request) return;
+        message(say('activity-recovery-unavailable'));
+      });
+    }
+    function known(error, codes, fallback) {
+      return say(error && codes.indexOf(error.error) >= 0 ? error.error : fallback);
+    }
+    function onSearchKey(event) {
+      event.stopPropagation();
+      if (event.key !== 'Enter') return;
+      event.preventDefault();
+      state.search = event.target.value.trim().slice(0, 100);
+      load(1);
+    }
+    function onClick(event) {
+      var el = event.target.closest('button');
+      if (!el || !panel.contains(el)) return;
+      var row = el.weddyRow;
+      if (el.matches('.js-table-page-prev, .js-table-page-next')) {
+        event.preventDefault();
+        var pages = Math.max(1, Math.ceil(state.total / 10));
+        var next = state.page + (el.matches('.js-table-page-next') ? 1 : -1);
+        if (next >= 1 && next <= pages && next !== state.page) load(next);
+        return;
+      }
+      if (el.matches('.js-table-page-action')) {
+        event.preventDefault(); message('');
+        var done = function (result) {
+          setBusy(false);
+          message(say('activity-recovery-bulk-result', result.cancelled || 0, result.completed || 0, result.remaining || 0));
+          load(state.page);
+        };
+        var failed = function () { setBusy(false); message(say('activity-recovery-control-failed')); load(state.page); };
+        if (el.dataset.action === 'retry-all-activity-notifications') {
+          setBusy(true);
+          callAsync('retryAllActivityNotifications').then(done, failed);
+        } else if (el.dataset.action === 'cancel-old-activity-notifications') {
+          var answer = window.prompt(say('activity-recovery-cancel-older-prompt'), '7');
+          var days = Number(answer);
+          if (answer === null || !isFinite(days) || days < 0) return;
+          setBusy(true);
+          callAsync('cancelActivityNotificationsOlderThan', { days: days }).then(done, failed);
+        } else load(state.page);
+        return;
+      }
+      if (!row || state.busy) return;
+      event.preventDefault();
+      var controlCodes = ['activity-recovery-busy', 'activity-recovery-control-conflict'];
+      var after = function (codes, fallback) {
+        return [function () { setBusy(false); load(state.page); },
+          function (error) { setBusy(false); message(known(error, codes, fallback)); load(state.page); }];
+      };
+      var random = function () {
+        var a = new Uint8Array(24); crypto.getRandomValues(a);
+        return Array.prototype.map.call(a, function (b) { return 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'[b % 62]; }).join('');
+      };
+      var then;
+      if (el.matches('.js-cancel-activity-notification')) {
+        if (!row.canControl || !window.confirm(say('activity-recovery-cancel-confirm'))) return;
+        message(''); setBusy(true); then = after(controlCodes, 'activity-recovery-control-failed');
+        callAsync('cancelActivityNotificationRecovery', { intentId: row.intentId, expectedRevision: row.controlRevision, requestId: random() })
+          .then(then[0], then[1]);
+      } else if (el.matches('.js-control-activity-notification')) {
+        if (!row.canControl) return;
+        message(''); setBusy(true); then = after(controlCodes, 'activity-recovery-control-failed');
+        callAsync('controlActivityNotificationRecovery', { intentId: row.intentId, paused: !row.paused,
+          expectedRevision: row.controlRevision, requestId: random() }).then(then[0], then[1]);
+      } else if (el.matches('.js-retry-activity-notification')) {
+        if (!row.canRetry) return;
+        message(''); setBusy(true);
+        then = after(['activity-recovery-busy', 'activity-recovery-denied', 'activity-recovery-source-unavailable',
+          'activity-recovery-disabled', 'activity-recovery-paused', 'activity-recovery-status-cancelled'], 'activity-recovery-failed');
+        callAsync('retryActivityNotification', { intentId: row.intentId }).then(then[0], then[1]);
+      }
+    }
+    var search = panel.querySelector('.js-table-page-search');
+    search.addEventListener('keydown', onSearchKey);
+    panel.addEventListener('click', onClick);
+    load(1);
+    return function () { search.removeEventListener('keydown', onSearchKey); panel.removeEventListener('click', onClick); };
+  });
+
   window.weddyMultiDrag = { sorts: sorts }; // for the tests
 })();

@@ -281,6 +281,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /language", s.page(s.languagePage))
 	s.notificationRoutes(m)
 	s.methodRoutes(m)
+	s.problemsRoutes(m)
 	m.HandleFunc("POST /language", s.page(s.setLanguage))
 	s.apiRoutes(m)
 	s.cloudRoutes(m)

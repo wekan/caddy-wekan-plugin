@@ -64,6 +64,9 @@ func (s *Server) methods() map[string]methodFunc {
 	for k, v := range s.orgTeamAdminMethods() {
 		m[k] = v
 	}
+	for k, v := range s.activityRecoveryMethods() {
+		m[k] = v
+	}
 	return m
 }
 

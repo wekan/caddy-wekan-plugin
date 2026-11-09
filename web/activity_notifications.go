@@ -9,6 +9,7 @@ import (
 	"errors"
 	"math"
 	"os"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -31,8 +32,9 @@ import (
 //     receipt without the snapshot, and the plan a receipt without its body.
 //
 // A background scan resumes any intent left pending, a crashed worker's too,
-// from its plan when there is one. An intent whose activity is gone stays
-// pending: it may have been deleted, and is never recreated.
+// from its plan when there is one. An intent whose activity is gone is never
+// recreated: it may have been deleted. An administrator pauses or cancels one,
+// and one that can never finish is given up (activity_recovery.go).
 
 // canonical is WeKan's models/lib/changeHistoryIntegrity.js canonical(): JSON
 // with sorted keys and a date as {"$date": ISO}, as JavaScript writes it.
@@ -181,19 +183,37 @@ var errLeaseBusy = errors.New("sync-busy")
 
 // deliverIntent runs one pending intent to its end: plan, delivery, receipts.
 func (s *Server) deliverIntent(ctx context.Context, intentID string) error {
-	return s.withActivityLease(ctx, intentID, func() error {
+	_, err := s.deliverIntentStatus(ctx, intentID)
+	return err
+}
+
+// deliverIntentStatus is WeKan's resumeActivityNotifications: "completed", or
+// "skipped" when there is nothing pending; paused or cancelled by an
+// administrator, it delivers nothing - a cancelled one is compacted.
+func (s *Server) deliverIntentStatus(ctx context.Context, intentID string) (string, error) {
+	status := "skipped"
+	err := s.withActivityLease(ctx, intentID, func() error {
 		var row bson.M
 		if s.db.Collection("activityNotificationIntents").FindOne(ctx, bson.M{"_id": eq(intentID)}).Decode(&row) != nil {
 			return nil
 		}
 		intent := plain(row).(map[string]any)
+		if intent["state"] == "cancelled" {
+			return errActivityCancelled
+		}
 		if intent["state"] != "pending" {
 			return nil
+		}
+		if err := s.assertActivityUnpaused(ctx, intentID); err != nil {
+			if errors.Is(err, errActivityCancelled) {
+				_, _ = s.compactCancelledActivity(ctx, intentID)
+			}
+			return err
 		}
 		snapshot, _ := intent["activity"].(map[string]any)
 		activityID := strOf(snapshot["_id"])
 		if activityID == "" || sha256Hex(canonical(snapshot)) != strOf(intent["activityHash"]) {
-			return errors.New("activity-notification-intent-invalid")
+			return errIntentInvalid
 		}
 		var stored bson.M
 		if s.db.Collection("activities").FindOne(ctx, bson.M{"_id": eq(activityID)}).Decode(&stored) != nil {
@@ -212,6 +232,18 @@ func (s *Server) deliverIntent(ctx context.Context, intentID string) error {
 		for _, r := range recipients {
 			rec, _ := r.(map[string]any)
 			uid := strOf(rec["userId"])
+			// Asked again before each delivery: a recipient who lost access,
+			// or changed their mind, since the plan was frozen gets nothing.
+			if rec["tray"] == true {
+				if err := s.assertNotificationAccess(ctx, activity, uid, "Tray"); err != nil {
+					return err
+				}
+			}
+			if rec["email"] != nil {
+				if err := s.assertNotificationAccess(ctx, activity, uid, "Email"); err != nil {
+					return err
+				}
+			}
 			if rec["tray"] == true {
 				_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(uid), "profile.notifications.activity": bson.M{"$ne": activityID}},
 					bson.M{"$push": bson.M{"profile.notifications": bson.M{"activity": activityID, "read": nil}}})
@@ -228,6 +260,7 @@ func (s *Server) deliverIntent(ctx context.Context, intentID string) error {
 		if _, err := s.db.Collection("activityNotificationIntents").ReplaceOne(ctx, bson.M{"_id": eq(intentID), "state": "pending"}, receipt); err != nil {
 			return err
 		}
+		status = "completed"
 		// And the plan its receipt, without the body.
 		var p bson.M
 		pid := planIDFor(activityID)
@@ -237,6 +270,47 @@ func (s *Server) deliverIntent(ctx context.Context, intentID string) error {
 		}
 		return nil
 	})
+	return status, err
+}
+
+// assertNotificationAccess is WeKan's assertAccess of a recipient: an active
+// user, still on the activity's board - an assigned-only member only for a
+// card assigned to them - with that kind of notification on.
+func (s *Server) assertNotificationAccess(ctx context.Context, activity map[string]any, userID, service string) error {
+	var u User
+	if !validID(userID) || s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(userID)}).Decode(&u) != nil || u.LoginDisabled {
+		return errRecipientDenied
+	}
+	boardID := strOf(activity["boardId"])
+	if boardID != "" {
+		var b Board
+		if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) != nil || !b.MemberOf(userID) {
+			return errRecipientDenied
+		}
+		var card Card
+		hasCard := false
+		if id := strOf(activity["cardId"]); id != "" {
+			hasCard = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&card) == nil
+			if hasCard && card.BoardID != boardID {
+				return errRecipientDenied
+			}
+		}
+		if id := strOf(activity["listId"]); id != "" {
+			var l struct {
+				BoardID string `bson:"boardId"`
+			}
+			if s.db.Collection("lists").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&l) == nil && l.BoardID != boardID {
+				return errRecipientDenied
+			}
+		}
+		if m := b.member(userID); m != nil && m.AssignedOnly() && (!hasCard || !slices.Contains(card.Assignees, userID)) {
+			return errRecipientDenied
+		}
+	}
+	if !s.notificationsOn(ctx, service, userID, boardID) {
+		return errPreferenceChanged
+	}
+	return nil
 }
 
 // activityPlan is the activity's frozen plan: the stored one, or - built once
@@ -270,7 +344,9 @@ func (s *Server) activityPlan(ctx context.Context, activity map[string]any, disp
 		if job := s.prepareEmailJob(ctx, uid, bson.M(activity)); job != nil {
 			email = job
 		}
-		recipients = append(recipients, map[string]any{"userId": uid, "tray": true, "email": email})
+		// Only what the recipient has on now: a later change stops delivery
+		// rather than silently changing the frozen audience.
+		recipients = append(recipients, map[string]any{"userId": uid, "tray": s.notificationsOn(ctx, "Tray", uid, strOf(activity["boardId"])), "email": email})
 	}
 	plan := map[string]any{"version": 1, "activityId": activityID, "activityHash": sha256Hex(canonical(activity)),
 		"dispatchUserId": dispatch, "recipients": recipients}
@@ -310,29 +386,34 @@ func activityRecoveryInterval() time.Duration {
 
 // recoverActivityNotifications resumes the pending intents, a hundred at a
 // time, moving past the ones that cannot finish so they hide no others.
-func (s *Server) recoverActivityNotifications(ctx context.Context, after *string) {
+func (s *Server) recoverActivityNotifications(ctx context.Context, after *string) recoveryTotals {
+	var t recoveryTotals
 	filter := bson.M{"state": "pending"}
 	if *after != "" {
 		filter["_id"] = bson.M{"$gt": *after}
 	}
 	cur, err := s.db.Collection("activityNotificationIntents").Find(ctx, filter,
-		options.Find().SetProjection(bson.M{"_id": 1}).SetSort(bson.D{{Key: "_id", Value: 1}}).SetLimit(100))
+		options.Find().SetProjection(bson.M{"_id": 1, "activity.createdAt": 1}).SetSort(bson.D{{Key: "_id", Value: 1}}).SetLimit(100))
 	if err != nil {
-		return
+		return t
 	}
 	var rows []struct {
-		ID string `bson:"_id"`
+		ID       string `bson:"_id"`
+		Activity struct {
+			CreatedAt time.Time `bson:"createdAt"`
+		} `bson:"activity"`
 	}
 	_ = cur.All(ctx, &rows)
+	now := time.Now()
+	t.Visited = len(rows)
 	for _, r := range rows {
-		if err := s.deliverIntent(ctx, r.ID); err != nil && !errors.Is(err, errLeaseBusy) && !errors.Is(err, errOrphanActivity) {
-			s.log.Warn("activity notification not delivered", "reason", err.Error())
-		}
+		s.recoverOne(ctx, r.ID, r.Activity.CreatedAt, now, &t)
 	}
 	*after = ""
 	if len(rows) == 100 {
 		*after = rows[len(rows)-1].ID
 	}
+	return t
 }
 
 // runActivityRecovery scans for pending intents until stop.

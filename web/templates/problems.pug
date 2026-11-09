@@ -1,0 +1,66 @@
+//- WeKan's Admin Panel / Problems / Recovery (adminProblems.jade): its
+  pending activity notifications (activityNotificationRecoveryReports), ten a
+  page, paused, resumed, cancelled and retried. The table is the report of
+  activityNotificationRecoveryReport, filled by weddy.js; the strings it shows
+  are below, in the user's language.
+.setting-content.admin-reports-content
+  .content-body
+    .side-menu
+      ul
+        li.active
+          a.js-left-menu-item(href="/admin/problems/recovery", data-id="report-recovery") {{t $.L "recoveryReportTitle"}}
+    .main-body
+      h2.pane-title {{t $.L "recoveryReportTitle"}}
+      section.activity-notification-recovery-reports
+        h2 {{t $.L "activity-recovery-heading"}}
+        p.quiet {{t $.L "activity-recovery-description"}}
+        p.error.js-recovery-error(role="alert", hidden)
+        p.quiet.js-recovery-busy(hidden) {{t $.L "activity-recovery-retrying"}}
+        .table-page
+          .table-page-controls
+            input.js-table-page-search(type="search", placeholder="{{t $.L `search`}}", aria-label="{{t $.L `search`}}")
+            button.js-table-page-action(data-action="refresh-activity-notifications") {{t $.L "refresh"}}
+            button.js-table-page-action(data-action="retry-all-activity-notifications") {{t $.L "activity-recovery-retry-all"}}
+            button.js-table-page-action(data-action="cancel-old-activity-notifications") {{t $.L "activity-recovery-cancel-older"}}
+            span.table-page-total
+            .table-page-pagination
+              button.js-table-page-prev(title="{{t $.L `previous`}}") &lt;
+              span.table-page-page-info 1 / 1
+              button.js-table-page-next(title="{{t $.L `next`}}") &gt;
+          .table-page-table-wrap
+            table.table-page-table
+              thead
+                tr
+                  th {{t $.L "activity"}}
+                  th {{t $.L "board"}}
+                  th {{t $.L "status"}}
+                  th {{t $.L "date"}}
+                  th {{t $.L "actions"}}
+              tbody
+            p.quiet.table-page-empty(hidden) {{t $.L "activity-recovery-empty"}}
+        template.js-recovery-strings
+          span(data-k="card") {{t $.L "card"}}
+          span(data-k="activity-recovery-unavailable") {{t $.L "activity-recovery-unavailable"}}
+          span(data-k="activity-recovery-retry") {{t $.L "activity-recovery-retry"}}
+          span(data-k="activity-recovery-pause") {{t $.L "activity-recovery-pause"}}
+          span(data-k="activity-recovery-resume") {{t $.L "activity-recovery-resume"}}
+          span(data-k="activity-recovery-paused") {{t $.L "activity-recovery-paused"}}
+          span(data-k="activity-recovery-cancel") {{t $.L "activity-recovery-cancel"}}
+          span(data-k="activity-recovery-cancel-confirm") {{t $.L "activity-recovery-cancel-confirm"}}
+          span(data-k="activity-recovery-cancel-older-prompt") {{t $.L "activity-recovery-cancel-older-prompt"}}
+          span(data-k="activity-recovery-bulk-result") {{t $.L "activity-recovery-bulk-result"}}
+          span(data-k="activity-recovery-busy") {{t $.L "activity-recovery-busy"}}
+          span(data-k="activity-recovery-denied") {{t $.L "activity-recovery-denied"}}
+          span(data-k="activity-recovery-source-unavailable") {{t $.L "activity-recovery-source-unavailable"}}
+          span(data-k="activity-recovery-disabled") {{t $.L "activity-recovery-disabled"}}
+          span(data-k="activity-recovery-failed") {{t $.L "activity-recovery-failed"}}
+          span(data-k="activity-recovery-control-conflict") {{t $.L "activity-recovery-control-conflict"}}
+          span(data-k="activity-recovery-control-failed") {{t $.L "activity-recovery-control-failed"}}
+          span(data-k="activity-recovery-status-pending") {{t $.L "activity-recovery-status-pending"}}
+          span(data-k="activity-recovery-status-preparing") {{t $.L "activity-recovery-status-preparing"}}
+          span(data-k="activity-recovery-status-processing") {{t $.L "activity-recovery-status-processing"}}
+          span(data-k="activity-recovery-status-missing") {{t $.L "activity-recovery-status-missing"}}
+          span(data-k="activity-recovery-status-changed") {{t $.L "activity-recovery-status-changed"}}
+          span(data-k="activity-recovery-status-invalid") {{t $.L "activity-recovery-status-invalid"}}
+          span(data-k="activity-recovery-status-inconsistent") {{t $.L "activity-recovery-status-inconsistent"}}
+          span(data-k="activity-recovery-status-cancelled") {{t $.L "activity-recovery-status-cancelled"}}

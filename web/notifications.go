@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // Notifications, as Node.js WeKan makes them (server/models/activities.js
@@ -166,29 +167,35 @@ func (s *Server) notify(ctx context.Context, actorID string, activity bson.M) {
 	}
 }
 
-// emailNotificationsOn is WeKan's resolveNotificationSetting for e-mail: the
-// member's own choice, else the board's, else Admin Panel's default, else on.
+// emailNotificationsOn is WeKan's resolveNotificationSetting for e-mail.
 func (s *Server) emailNotificationsOn(ctx context.Context, member, boardID string) bool {
+	return s.notificationsOn(ctx, "Email", member, boardID)
+}
+
+// notificationsOn is WeKan's resolveNotificationSetting for "Email" or "Tray":
+// the member's own choice, else the board's, else Admin Panel's default, else on.
+func (s *Server) notificationsOn(ctx context.Context, field, member, boardID string) bool {
+	if field != "Email" && field != "Tray" {
+		return false
+	}
 	var u struct {
-		Profile struct {
-			Override *bool `bson:"notifyOverrideEmail"`
-		} `bson:"profile"`
+		Profile bson.M `bson:"profile"`
 	}
 	_ = s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(member)}).Decode(&u)
-	if u.Profile.Override != nil {
-		return *u.Profile.Override
+	if v, ok := u.Profile["notifyOverride"+field].(bool); ok {
+		return v
 	}
-	var b struct {
-		Override *bool `bson:"notifyOverrideEmail"`
+	var b bson.M
+	if validID(boardID) && s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}, options.FindOne().SetProjection(bson.M{"notifyOverride" + field: 1})).Decode(&b) == nil {
+		if v, ok := b["notifyOverride"+field].(bool); ok {
+			return v
+		}
 	}
-	if validID(boardID) && s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) == nil && b.Override != nil {
-		return *b.Override
-	}
-	var set struct {
-		Default *bool `bson:"notifyDefaultEmail"`
-	}
-	if s.db.Collection("settings").FindOne(ctx, bson.M{}).Decode(&set) == nil && set.Default != nil {
-		return *set.Default
+	var set bson.M
+	if s.db.Collection("settings").FindOne(ctx, bson.M{}, options.FindOne().SetProjection(bson.M{"notifyDefault" + field: 1})).Decode(&set) == nil {
+		if v, ok := set["notifyDefault"+field].(bool); ok {
+			return v
+		}
 	}
 	return true
 }
