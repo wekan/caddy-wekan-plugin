@@ -187,8 +187,21 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
           e.error = d.error; e.reason = d.reason;
           throw e;
         }
-        return refreshUser().then(function () { return d.result; });
+        var done = function () { return d.result; };
+        // WeKan's pages change language the moment it is set: draw this page
+        // again in it - its lang and direction too - before the call answers.
+        if (name === 'setLanguage') return refreshUser().then(rerenderPage).then(done, done);
+        return refreshUser().then(done);
       });
+    });
+  }
+  function rerenderPage() {
+    return fetch(window.location.href, { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (html) {
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      document.documentElement.lang = doc.documentElement.lang;
+      document.documentElement.dir = doc.documentElement.dir;
+      document.title = doc.title;
+      return up.render({ target: 'body', document: html, history: false });
     });
   }
   if (!window.Meteor) {
