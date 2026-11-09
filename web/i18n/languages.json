@@ -94,6 +94,11 @@
     "name": "Беларуская"
   },
   {
+    "code": "be-BE",
+    "tag": "be-BE",
+    "name": "Беларуская (Беларусь)"
+  },
+  {
     "code": "bg",
     "tag": "bg",
     "name": "Български"
@@ -142,6 +147,16 @@
     "code": "ca",
     "tag": "ca",
     "name": "Català"
+  },
+  {
+    "code": "ca-ES",
+    "tag": "ca-ES",
+    "name": "Català (Espanya)"
+  },
+  {
+    "code": "ca-valencia",
+    "tag": "ca-valencia",
+    "name": "Català (Valencià)"
   },
   {
     "code": "chr",
@@ -213,6 +228,11 @@
     "code": "de-CH",
     "tag": "de-CH",
     "name": "Deutsch (Schweiz)"
+  },
+  {
+    "code": "de-DE",
+    "tag": "de-DE",
+    "name": "Deutsch (Deutschland)"
   },
   {
     "code": "dz",
@@ -549,6 +569,11 @@
     "name": "日本語"
   },
   {
+    "code": "ja-Hira",
+    "tag": "ja-Hira",
+    "name": "平仮名"
+  },
+  {
     "code": "ja-JP",
     "tag": "ja-JP",
     "name": "日本語（日本）"
@@ -763,6 +788,11 @@
     "code": "om",
     "tag": "om",
     "name": "Afaan Oromoo"
+  },
+  {
+    "code": "or-IN",
+    "tag": "or-IN",
+    "name": "ଓଡିଆ (ଭାରତ)"
   },
   {
     "code": "pa",
@@ -1184,6 +1214,11 @@
     "code": "zh-Hant",
     "tag": "zh-Hant",
     "name": "正體字"
+  },
+  {
+    "code": "zh-SG",
+    "tag": "zh-SG",
+    "name": "中文 (新加坡)"
   },
   {
     "code": "zh-TW",

@@ -1369,3 +1369,15 @@ func TestInsertCommentMethod(t *testing.T) {
 		t.Fatal("negative: no refused comment was saved")
 	}
 }
+
+// WeKan's languages whose file is not named by their tag are offered too.
+func TestLanguagesWithOtherFileNames(t *testing.T) {
+	for _, tag := range []string{"or_IN", "or-IN", "ca-valencia", "ja-Hira", "de-DE", "zh-SG", "ca-ES", "be-BE"} {
+		if translations.lookup(tag) == nil {
+			t.Errorf("%s is offered", tag)
+		}
+	}
+	if got := tr("or-IN", "save"); got == "" || got == "Save" {
+		t.Errorf("or-IN is in its own language: %q", got)
+	}
+}

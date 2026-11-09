@@ -23,6 +23,9 @@ import (
 var (
 	useRe  = regexp.MustCompile("(?:\\bt \\$?\\.L |\\btr\\([^;\"]*?, |\\bmsg\\()[\"`]([A-Za-z0-9_.-]+)[\"`]")
 	langRe = regexp.MustCompile(`\["([^"]+)", "[^"]*", "([^"]+)", "((?:[^"\\]|\\.)*)", (true|false)\]`)
+	// loadRe is languages.js's loader table: the file of each tag, which is
+	// not always <tag>.i18n.json - or-IN is or_IN, ca-valencia ca@valencia.
+	loadRe = regexp.MustCompile(`"([^"]+)": \(\) => import\("\./data/([^"/]+\.i18n\.json)"\)`)
 )
 
 type language struct {
@@ -104,6 +107,10 @@ func run(wekan, dir string) error {
 		}
 		langs = append(langs, language{Code: m[1], Tag: m[2], Name: name, RTL: m[4] == "true"})
 	}
+	files := map[string]string{}
+	for _, m := range loadRe.FindAllStringSubmatch(string(src), -1) {
+		files[m[1]] = m[2]
+	}
 	out := filepath.Join(dir, "i18n")
 	if err := os.RemoveAll(out); err != nil {
 		return err
@@ -114,7 +121,11 @@ func run(wekan, dir string) error {
 	var kept []language
 	for _, l := range langs {
 		all := map[string]string{}
-		if err := readJSON(filepath.Join(data, l.Tag+".i18n.json"), &all); err != nil {
+		file := files[l.Tag]
+		if file == "" {
+			file = l.Tag + ".i18n.json"
+		}
+		if err := readJSON(filepath.Join(data, file), &all); err != nil {
 			continue // a language whose file is missing is not offered
 		}
 		sub := map[string]string{}
