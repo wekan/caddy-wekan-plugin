@@ -897,6 +897,18 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       up.reload('.rules-page');
     }, function (e) { msg.textContent = e.reason || e.message; });
   });
+  // WeKan's Wrike workflow import: lists and rules made on the server.
+  up.on('click', '.js-rules-import-wrike', function (event, el) {
+    event.preventDefault();
+    var page = document.querySelector('.rules-page');
+    var pop = el.closest('.js-pop-over');
+    var msg = pop.querySelector('.js-rules-import-message');
+    callAsync('rules.importWrikeWorkflow', page.dataset.board, pop.querySelector('.js-rules-import-text').value).then(function (res) {
+      msg.textContent = (el.dataset.done || '').replace('__name__', res.name).replace('__lists__', res.listsCreated)
+        .replace('__rules__', res.rulesCreated).replace('__skipped__', res.notRead);
+      up.reload('.rules-list');
+    }, function (e) { msg.textContent = e.reason || e.message; });
+  });
   up.on('click', '.rules-page .js-goto-details', function (event, el) {
     event.preventDefault();
     showPane(rulesPage(el), 'details-' + el.dataset.ruleId);

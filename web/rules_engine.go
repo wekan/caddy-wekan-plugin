@@ -1317,6 +1317,14 @@ func (s *Server) rulesExport(w http.ResponseWriter, r *http.Request, u *User) {
 		}
 		entries = append(entries, e)
 	}
+	// The board as a Wrike workflow: every rule, since the workflow is the board's.
+	if r.URL.Query().Get("format") == "wrike" {
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Content-Disposition", `attachment; filename="wrike-workflow.json"`)
+		out, _ := json.MarshalIndent(wrikeWorkflowFromBoard(b.Title, s.boardLists(ctx, b.ID), s.boardRuleParts(ctx, b.ID)), "", "  ")
+		_, _ = w.Write(out)
+		return
+	}
 	if r.URL.Query().Get("format") == "csv" {
 		w.Header().Set("Content-Type", "text/csv; charset=utf-8")
 		w.Header().Set("Content-Disposition", `attachment; filename="wekan-rules.csv"`)

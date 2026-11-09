@@ -49,7 +49,13 @@
           textarea.rules-ie-textarea.js-rules-import-text(rows="8")
           .rules-ie-btns
             button.primary.full.js-rules-import-json(type="button") {{t $.L "r-import-json"}}
-          p.js-rules-import-message
+          hr
+          h3 {{t $.L "r-wrike-workflow"}}
+          p.rules-ie-hint {{t $.L "r-wrike-workflow-note"}}
+          .rules-ie-btns
+            a.button.primary.full.js-rules-export-wrike(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules/export?format=wrike", download="wrike-workflow.json") {{t $.L "r-export-wrike-workflow"}}
+            button.primary.full.js-rules-import-wrike(type="button", data-done="{{t $.L `r-import-wrike-workflow-done`}}") {{t $.L "r-import-wrike-workflow"}}
+          p.rules-ie-message.js-rules-import-message
     .rules-back-to-board
       a.js-rules-back-to-board(href="/b/{{.Board.ID}}/{{.Board.Slug}}", title="{{.Board.Title}}")
         i.fa.fa-arrow-left

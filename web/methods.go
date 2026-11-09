@@ -50,6 +50,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"rules.createRule":                s.methodCreateRule,
 		"rules.deleteRule":                s.methodDeleteRule,
 		"rules.updateRule":                s.methodUpdateRule,
+		"rules.importWrikeWorkflow":       s.methodImportWrikeWorkflow,
 		"createCardWithDueDate":           s.methodCreateCardWithDueDate,
 		"rules.setEnabled":                s.methodSetRuleEnabled,
 		"toggleCardMaximized":             s.methodToggleCardMaximized,
