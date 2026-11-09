@@ -339,3 +339,35 @@ func mustTime(s string) time.Time {
 	}
 	return t
 }
+
+// A rule keeps what WeKan keeps beside its fields - a trigger's extraData -
+// as a small plain object; never an operator, a path, or nesting without end.
+func TestRuleComponentObjects(t *testing.T) {
+	if _, err := ruleComponent(map[string]any{"activityType": "createCard", "extraData": map[string]any{"keep": "unchanged", "n": 1.0}}, "activityType"); err != nil {
+		t.Errorf("a small object is kept: %v", err)
+	}
+	deep := map[string]any{"a": map[string]any{"b": map[string]any{"c": map[string]any{"d": "x"}}}}
+	listy := []any{map[string]any{"a": []any{map[string]any{"b": []any{map[string]any{"c": "x"}}}}}}
+	for name, v := range map[string]any{
+		"an operator":       map[string]any{"$where": "1"},
+		"a path":            map[string]any{"a.b": "x"},
+		"four deep":         deep,
+		"lists and objects": listy,
+	} {
+		if _, err := ruleComponent(map[string]any{"activityType": "createCard", "extraData": v}, "activityType"); err == nil {
+			t.Errorf("negative: %s is refused", name)
+		}
+	}
+}
+
+// Negative: a custom field's value stays flat - no object anywhere.
+func TestRuleValueStaysFlat(t *testing.T) {
+	for _, v := range []any{map[string]any{"a": "x"}, []any{map[string]any{"a": "x"}}} {
+		if ruleValue(v, true) {
+			t.Errorf("negative: %v is not a flat value", v)
+		}
+	}
+	if !ruleValue([]any{"a", 1.0, true}, true) {
+		t.Error("a list of text, numbers and booleans")
+	}
+}

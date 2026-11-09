@@ -1170,7 +1170,7 @@ func (s *Server) rulesPage(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	view := r.URL.Query().Get("view")
-	if !slices.Contains([]string{"list", "workflow", "import", "bots"}, view) {
+	if !slices.Contains([]string{"list", "workflow", "import", "bots", "blocks"}, view) {
 		view = "list"
 	}
 	data := map[string]any{"Title": tr(lang, "rules"), "User": u, "Board": b, "CanEdit": b.AdminOf(u.ID), "View": view,
@@ -1222,8 +1222,11 @@ func (s *Server) rulesPage(w http.ResponseWriter, r *http.Request, u *User) {
 			}
 		}
 		data["Boards"] = writable
-		if view == "bots" {
+		switch view {
+		case "bots":
 			s.botsViewData(ctx, b, r.URL.Query().Get("card"), lang, data)
+		case "blocks":
+			s.blocksViewData(ctx, b, lang, languageOf(r, u).RTL, data)
 		}
 	}
 	s.render(w, r, "rules", http.StatusOK, data)

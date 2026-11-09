@@ -69,6 +69,17 @@ func UsedKeys(dir string) ([]string, error) {
 			set[string(m[1])] = true
 		}
 	}
+	// The Rules Blocks view's Blockly messages: WeKan's own translations of
+	// them, named by the mapping the page uses (blockly_message_keys.json).
+	if b, err := os.ReadFile(filepath.Join(dir, "blockly_message_keys.json")); err == nil {
+		var mapping map[string]string
+		if err := json.Unmarshal(b, &mapping); err != nil {
+			return nil, fmt.Errorf("blockly_message_keys.json: %w", err)
+		}
+		for _, k := range mapping {
+			set[k] = true
+		}
+	}
 	keys := make([]string, 0, len(set))
 	for k := range set {
 		keys = append(keys, k)

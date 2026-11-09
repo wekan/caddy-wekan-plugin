@@ -75,8 +75,8 @@ func ruleComponent(v any, kindField string) (bson.M, error) {
 		if !ruleFieldName.MatchString(k) {
 			return nil, errors.New("a field of a trigger or an action is a plain name: " + k)
 		}
-		if !ruleValue(val, true) {
-			return nil, errors.New("the value of " + k + " is text, a number, true or false, or a list of them")
+		if !ruleValueAt(val, true, 0, true) {
+			return nil, errors.New("the value of " + k + " is text, a number, true or false, a list of them, or a small object of them")
 		}
 		out[k] = val
 	}
@@ -86,7 +86,25 @@ func ruleComponent(v any, kindField string) (bson.M, error) {
 	return out, nil
 }
 
-func ruleValue(v any, listOK bool) bool {
+// ruleValue is a flat value - no object anywhere - as a custom field's.
+func ruleValue(v any, listOK bool) bool { return ruleValueAt(v, listOK, 0, false) }
+
+// ruleValueAt also takes what WeKan's rules keep beside their fields - a
+// trigger's extraData, say - as a plain object: at most 3 deep, 64 fields
+// each, every key a plain name (never an operator or a path), so editing a
+// rule in the Blocks view keeps it as it was.
+func ruleValueAt(v any, listOK bool, depth int, objects bool) bool {
+	if m, ok := v.(map[string]any); ok {
+		if !objects || depth >= 3 || len(m) > 64 {
+			return false
+		}
+		for k, e := range m {
+			if !ruleFieldName.MatchString(k) || !ruleValueAt(e, true, depth+1, objects) {
+				return false
+			}
+		}
+		return true
+	}
 	switch x := v.(type) {
 	case nil, bool, float64:
 		return true
@@ -97,7 +115,7 @@ func ruleValue(v any, listOK bool) bool {
 			return false
 		}
 		for _, e := range x {
-			if !ruleValue(e, false) {
+			if !ruleValueAt(e, false, depth+1, objects) {
 				return false
 			}
 		}
