@@ -531,7 +531,7 @@ func (h *attachmentFileHandle) Close() error {
 func (s *Server) openAttachment(ctx context.Context, a *Attachment) (*attachmentFileHandle, error) {
 	o := a.Versions.Original
 	if o.Storage == "gridfs" || o.Meta.GridFsFileID != "" {
-		return s.openGridFSAttachment(ctx, o.Meta.GridFsFileID)
+		return s.openGridFS(ctx, "attachments", o.Meta.GridFsFileID)
 	}
 	p, err := s.attachmentFile(a)
 	if err != nil {
@@ -549,12 +549,14 @@ func (s *Server) openAttachment(ctx context.Context, a *Attachment) (*attachment
 	return &attachmentFileHandle{File: f, modTime: st.ModTime()}, nil
 }
 
-func (s *Server) openGridFSAttachment(ctx context.Context, hexID string) (*attachmentFileHandle, error) {
+// openGridFS opens a file of one of WeKan's GridFS buckets ("attachments",
+// "avatars") by its hex ObjectId.
+func (s *Server) openGridFS(ctx context.Context, bucketName, hexID string) (*attachmentFileHandle, error) {
 	oid, err := bson.ObjectIDFromHex(hexID)
 	if err != nil {
 		return nil, os.ErrNotExist
 	}
-	bucket := s.db.GridFSBucket(options.GridFSBucket().SetName("attachments"))
+	bucket := s.db.GridFSBucket(options.GridFSBucket().SetName(bucketName))
 	stream, err := bucket.OpenDownloadStream(ctx, oid)
 	if err != nil {
 		return nil, os.ErrNotExist

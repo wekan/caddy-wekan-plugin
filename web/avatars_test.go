@@ -13,6 +13,7 @@ import (
 	"testing"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 func TestAvatarDisplayURL(t *testing.T) {
@@ -216,5 +217,46 @@ func TestMinicardCompleteAndAvatarBlock(t *testing.T) {
 	_, _ = w.db.Collection("attachmentStorageSettings").InsertOne(ctx, bson.M{"limitSettings": bson.M{"avatarsUploadBlocked": true}})
 	if call() != true {
 		t.Error("blocked")
+	}
+}
+
+// An avatar Node.js WeKan keeps in its "avatars" GridFS bucket is served to a
+// signed-in user as one on disk; an anonymous one still gets nothing, and a
+// GridFS id with nothing behind it is not found.
+func TestGridFSAvatar(t *testing.T) {
+	w := newTestWeKan(t)
+	ann := w.seedUser(t, "ann", "pw")
+	ctx := context.Background()
+	png := "\x89PNG\r\n\x1a\nfake"
+	oid, err := w.db.GridFSBucket(options.GridFSBucket().SetName("avatars")).UploadFromStream(ctx, "a.png", strings.NewReader(png))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for id, grid := range map[string]string{"avGrid": oid.Hex(), "avMissing": bson.NewObjectID().Hex()} {
+		_, _ = w.db.Collection("avatars").InsertOne(ctx, bson.M{"_id": id, "userId": ann.ID, "type": "image/png", "size": len(png),
+			"versions": bson.M{"original": bson.M{"storage": "gridfs", "meta": bson.M{"gridFsFileId": grid}}}})
+	}
+	cl := w.client(t)
+	body(t, w.signIn(t, cl, "ann", "pw"))
+	res, err := cl.Get(w.srv.URL + "/cdn/storage/avatars/avGrid-original-a.png")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := body(t, res); res.StatusCode != 200 || got != png {
+		t.Errorf("served from GridFS: %d %q", res.StatusCode, got)
+	}
+	res, err = testClient.Get(w.srv.URL + "/cdn/storage/avatars/avGrid-original-a.png")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if body(t, res); res.StatusCode != http.StatusUnauthorized {
+		t.Errorf("negative: an anonymous caller gets nothing: %d", res.StatusCode)
+	}
+	res, err = cl.Get(w.srv.URL + "/cdn/storage/avatars/avMissing-original-a.png")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if body(t, res); res.StatusCode != http.StatusNotFound {
+		t.Errorf("negative: a GridFS id with nothing behind it: %d", res.StatusCode)
 	}
 }

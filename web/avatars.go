@@ -61,7 +61,11 @@ type avatarDoc struct {
 	Size     int64  `bson:"size"`
 	Versions struct {
 		Original struct {
-			Path string `bson:"path"`
+			Path    string `bson:"path"`
+			Storage string `bson:"storage"`
+			Meta    struct {
+				GridFsFileID string `bson:"gridFsFileId"`
+			} `bson:"meta"`
 		} `bson:"original"`
 	} `bson:"versions"`
 }
@@ -86,8 +90,22 @@ func (s *Server) serveAvatar(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Authentication required", http.StatusUnauthorized)
 		return
 	}
+	// An avatar Node.js WeKan keeps in its "avatars" GridFS bucket.
+	var grid *attachmentFileHandle
+	if o := a.Versions.Original; o.Storage == "gridfs" || o.Meta.GridFsFileID != "" {
+		f, err := s.openGridFS(r.Context(), "avatars", o.Meta.GridFsFileID)
+		if err != nil {
+			http.Error(w, "Avatar file not found in storage", http.StatusNotFound)
+			return
+		}
+		defer f.Close()
+		grid = f
+	}
 	var path string
 	for _, name := range []string{filepath.Base(a.Versions.Original.Path), a.ID} {
+		if grid != nil {
+			break
+		}
 		if name == "" || name == "." || name == "/" || name == ".." {
 			continue
 		}
@@ -97,7 +115,7 @@ func (s *Server) serveAvatar(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
-	if path == "" {
+	if path == "" && grid == nil {
 		http.Error(w, "Avatar file not found in storage", http.StatusNotFound)
 		return
 	}
@@ -117,6 +135,10 @@ func (s *Server) serveAvatar(w http.ResponseWriter, r *http.Request) {
 		typ = "application/octet-stream"
 	}
 	w.Header().Set("Content-Type", typ)
+	if grid != nil {
+		http.ServeContent(w, r, "", grid.modTime, grid)
+		return
+	}
 	http.ServeFile(w, r, path)
 }
 
