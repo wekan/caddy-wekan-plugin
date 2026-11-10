@@ -67,6 +67,8 @@ func formatDateByUserPreference(t time.Time, format string, withTime bool, zone 
 type excelCardOptions struct {
 	Lang, DateFormat, Zone string
 	Fields                 []string
+	// Scope is a swimlane's or a list's export (#1173).
+	Scope exportScope
 }
 
 func (o excelCardOptions) has(key string) bool {
@@ -210,14 +212,26 @@ func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOp
 	}
 	board := plain(raw)
 	listFilter, cardFilter := bson.M{"boardId": b.ID, "archived": false}, bson.M{"boardId": b.ID, "archived": false, "linkedId": bson.M{"$in": bson.A{"", nil}}}
+	laneFilter := listFilter
 	if only != nil {
 		// A card's export: that card, archived or not, and its list and
 		// swimlane whatever they are (ReactiveCache.getList).
 		listFilter = bson.M{"boardId": b.ID}
+		laneFilter = listFilter
 		cardFilter = bson.M{"_id": eq(only.ID), "boardId": b.ID, "listId": eq(only.ListID)}
+	} else {
+		// A swimlane's or a list's: its cards, and only it of its kind.
+		if id := o.Scope.SwimlaneID; id != "" {
+			cardFilter["swimlaneId"] = eq(id)
+			laneFilter = bson.M{"boardId": b.ID, "archived": false, "_id": eq(id)}
+		}
+		if id := o.Scope.ListID; id != "" {
+			cardFilter["listId"] = eq(id)
+			listFilter = bson.M{"boardId": b.ID, "archived": false, "_id": eq(id)}
+		}
 	}
 	lists := find("lists", listFilter, bySort)
-	swimlanes := find("swimlanes", listFilter, bySort)
+	swimlanes := find("swimlanes", laneFilter, bySort)
 	cards := find("cards", cardFilter, bySort)
 	ids := bson.A{}
 	for _, c := range cards {
@@ -333,7 +347,25 @@ func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOp
 	t := func(key string) string { return tr(o.Lang, key) }
 	font := t("excel-font")
 
-	ws := newXSheet(excelSheetNameOf(cdOr(cdGet(board, "title"))))
+	// What the export is: the board, or the one swimlane or list.
+	scopeTitle, scopeHeading := cdOr(cdGet(board, "title")), cdOr(cdGet(board, "title"))
+	firstTitle := func(rows []any, key string) string {
+		if len(rows) > 0 {
+			if v := cdOr(cdGet(rows[0], "title")); v != "" {
+				return v
+			}
+		}
+		return tr(o.Lang, key)
+	}
+	switch {
+	case o.Scope.ListID != "":
+		scopeTitle = scopeTitle + " - " + firstTitle(lists, "list")
+		scopeHeading = tr(o.Lang, "list") + ": " + firstTitle(lists, "list")
+	case o.Scope.SwimlaneID != "":
+		scopeTitle = scopeTitle + " - " + firstTitle(swimlanes, "swimlane")
+		scopeHeading = tr(o.Lang, "swimlane") + ": " + firstTitle(swimlanes, "swimlane")
+	}
+	ws := newXSheet(excelSheetNameOf(scopeTitle))
 	if only != nil && len(cards) > 0 {
 		ws.Name = excelCardSheetName(cdOr(cdGet(cards[0], "title")))
 	}
@@ -381,9 +413,9 @@ func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOp
 		row++
 	}
 	if only == nil {
-		mergedRow(cdOr(cdGet(board, "title")), xObj("name", font, "size", 16, "bold", true), nil, 40)
+		mergedRow(scopeHeading, xObj("name", font, "size", 16, "bold", true), nil, 40)
 	}
-	if only == nil && o.has("board-header") {
+	if only == nil && o.Scope.ListID == "" && o.Scope.SwimlaneID == "" && o.has("board-header") {
 		var names []string
 		for _, m := range b.Members {
 			if n := userName(m.UserID); n != "" {
@@ -514,8 +546,14 @@ func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOp
 		if len(groups) == 0 {
 			groups = []laneGroup{{nil, t("swimlane")}}
 		}
+		// A list's export starts at the list: its cards, under no heading.
+		if o.Scope.ListID != "" {
+			groups = []laneGroup{{nil, ""}}
+		}
 		for _, g := range groups {
-			mergedRow(t("swimlane")+": "+g.title, xObj("name", font, "size", 12, "bold", true), xGray(), 22)
+			if g.title != "" && o.Scope.SwimlaneID == "" {
+				mergedRow(t("swimlane")+": "+g.title, xObj("name", font, "size", 12, "bold", true), xGray(), 22)
+			}
 			for _, l := range lists {
 				var listCards []any
 				for _, c := range cards {
@@ -528,7 +566,9 @@ func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOp
 				if title == "" {
 					title = t("list")
 				}
-				mergedRow(t("list")+": "+title+" ("+strconv.Itoa(len(listCards))+")", xObj("name", font, "size", 11, "bold", true), xGray(), 20)
+				if o.Scope.ListID == "" {
+					mergedRow(t("list")+": "+title+" ("+strconv.Itoa(len(listCards))+")", xObj("name", font, "size", 11, "bold", true), xGray(), 20)
+				}
 				for _, c := range listCards {
 					drawCard(c, l, g.lane)
 				}

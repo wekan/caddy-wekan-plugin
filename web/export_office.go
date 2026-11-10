@@ -112,9 +112,9 @@ func (s *Server) apiExportOffice(format string, oneCard bool) http.HandlerFunc {
 				}
 				want := exportWanted(q.Get("fields"))
 				if c == nil && want != nil && !want["card-details"] {
-					out, err = s.excelTableWorkbook(ctx, b, lang)
+					out, err = s.excelTableWorkbook(ctx, b, lang, exportScopeOf(q))
 				} else {
-					o := excelCardOptions{Lang: lang, DateFormat: "YYYY-MM-DD"}
+					o := excelCardOptions{Lang: lang, DateFormat: "YYYY-MM-DD", Scope: exportScopeOf(q)}
 					if u != nil && u.Profile.DateFormat != "" {
 						o.DateFormat = u.Profile.DateFormat
 					}

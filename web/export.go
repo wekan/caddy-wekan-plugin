@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/base64"
 	"net/http"
+	"net/url"
+	"regexp"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -53,7 +55,9 @@ func (s *Server) apiExport(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	out, err := s.exportBoard(r.Context(), &b, r.URL.Query().Get("attachments") == "false")
+	q := r.URL.Query()
+	out, err := s.exportBoardWith(r.Context(), &b, exportDocOptions{WithoutFiles: q.Get("attachments") == "false",
+		Want: exportWanted(q.Get("fields")), Scope: exportScopeOf(q), r: r})
 	if err != nil {
 		apiError(w, http.StatusInternalServerError, "Export failed")
 		return
@@ -66,7 +70,43 @@ func (s *Server) apiExport(w http.ResponseWriter, r *http.Request) {
 // exportBoard is WeKan's Exporter.build: the board and everything of it, each
 // without its boardId, the users it names with only their public fields.
 func (s *Server) exportBoard(ctx context.Context, b *Board, withoutFiles bool) (any, error) {
-	raw, err := s.boardDocs(ctx, b, withoutFiles)
+	return s.exportBoardWith(ctx, b, exportDocOptions{WithoutFiles: withoutFiles})
+}
+
+// exportScope is parseExportScope: which cards an export is about - a
+// swimlane's, a list's, one card or the card of one checklist - each id
+// only when it is one.
+type exportScope struct{ SwimlaneID, ListID, CardID, ChecklistID string }
+
+var exportScopeID = regexp.MustCompile(`^[A-Za-z0-9_-]{1,64}$`)
+
+func exportScopeOf(q url.Values) exportScope {
+	get := func(k string) string {
+		if v := q.Get(k); exportScopeID.MatchString(v) {
+			return v
+		}
+		return ""
+	}
+	return exportScope{get("swimlaneId"), get("listId"), get("cardId"), get("checklistId")}
+}
+
+func (sc exportScope) scoped() bool {
+	return sc.SwimlaneID != "" || sc.ListID != "" || sc.CardID != "" || sc.ChecklistID != ""
+}
+
+// exportDocOptions are an export's: without the files, its selection (nil
+// is all), its scope, and the request it answers.
+type exportDocOptions struct {
+	WithoutFiles bool
+	Want         exportWant
+	Scope        exportScope
+	r            *http.Request
+}
+
+// exportBoardWith is the streaming exporter's document (models/exporter.js):
+// the board, what the selection asks for of it, for the scope's cards.
+func (s *Server) exportBoardWith(ctx context.Context, b *Board, o exportDocOptions) (any, error) {
+	raw, err := s.boardDocs(ctx, b, o)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +125,9 @@ func (s *Server) exportBoard(ctx context.Context, b *Board, withoutFiles bool) (
 }
 
 // boardDocs is the board and everything of it, as the export has them.
-func (s *Server) boardDocs(ctx context.Context, b *Board, withoutFiles bool) (bson.M, error) {
+func (s *Server) boardDocs(ctx context.Context, b *Board, o exportDocOptions) (bson.M, error) {
+	withoutFiles, want, sc := o.WithoutFiles, o.Want, o.Scope
+	none := bson.M{"_id": eq("__none__")}
 	all := func(coll string, filter bson.M, drop ...string) ([]bson.M, error) {
 		proj := bson.M{}
 		for _, f := range drop {
@@ -112,7 +154,56 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, withoutFiles bool) (bs
 	}
 	result["_format"] = "wekan-board-1.0.0"
 
-	atts, err := all("attachments", bson.M{"meta.boardId": b.ID, "deletedAt": nil})
+	// _scopedCardSelector: the cards, resolved before anything keyed off them.
+	cardSel := bson.M{"boardId": b.ID, "linkedId": bson.M{"$in": bson.A{"", nil}}}
+	switch {
+	case sc.CardID != "":
+		cardSel["_id"] = eq(sc.CardID)
+	case sc.ChecklistID != "":
+		var cl struct {
+			CardID string `bson:"cardId"`
+		}
+		cardSel["_id"] = eq("__no_such_card__")
+		if s.db.Collection("checklists").FindOne(ctx, bson.M{"_id": eq(sc.ChecklistID)}).Decode(&cl) == nil {
+			cardSel["_id"] = eq(cl.CardID)
+			// CrossBoardExportBleed (GHSA-8885-xrq4-j47h): a checklist on
+			// another board's card names nothing on this one, and no menu
+			// asks for it.
+			if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cl.CardID), "boardId": b.ID}).Err() != nil && o.r != nil {
+				func() {
+					defer func() { _ = recover() }() // logging must never break the guard
+					s.recordSecurity(o.r, securityEvent{Key: "authz.export-checklist-scope", Action: "blocked", Source: "export",
+						Detail: "checklist scope from another board"})
+				}()
+			}
+		}
+	default:
+		if sc.SwimlaneID != "" {
+			cardSel["swimlaneId"] = eq(sc.SwimlaneID)
+		}
+		if sc.ListID != "" {
+			cardSel["listId"] = eq(sc.ListID)
+		}
+	}
+	scoped := sc.scoped()
+	var scopedIDs bson.A
+	if scoped {
+		ids, err := all("cards", cardSel)
+		if err != nil {
+			return nil, err
+		}
+		for _, c := range ids {
+			scopedIDs = append(scopedIDs, c["_id"])
+		}
+	}
+	attSel := bson.M{"meta.boardId": b.ID, "deletedAt": nil}
+	switch {
+	case !want.has("attachments"):
+		attSel = none
+	case scoped:
+		attSel = bson.M{"meta.cardId": dbIn(scopedIDs), "deletedAt": nil}
+	}
+	atts, err := all("attachments", attSel)
 	if err != nil {
 		return nil, err
 	}
@@ -136,19 +227,43 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, withoutFiles bool) (bs
 	result["attachments"] = exported
 
 	byBoard := bson.M{"boardId": b.ID}
-	lists, err := all("lists", byBoard, "boardId")
+	// A scoped export carries the lists and swimlanes its cards are in.
+	listSel, laneSel := byBoard, byBoard
+	if scoped {
+		refs, err := all("cards", bson.M{"_id": dbIn(scopedIDs)})
+		if err != nil {
+			return nil, err
+		}
+		listIDs, laneIDs := bson.A{}, bson.A{}
+		for _, c := range refs {
+			listIDs = append(listIDs, c["listId"])
+			laneIDs = append(laneIDs, c["swimlaneId"])
+		}
+		if sc.ListID != "" {
+			listIDs = append(listIDs, sc.ListID)
+		}
+		if sc.SwimlaneID != "" {
+			laneIDs = append(laneIDs, sc.SwimlaneID)
+		}
+		listSel, laneSel = bson.M{"boardId": b.ID, "_id": dbIn(listIDs)}, bson.M{"boardId": b.ID, "_id": dbIn(laneIDs)}
+	}
+	lists, err := all("lists", listSel, "boardId")
 	if err != nil {
 		return nil, err
 	}
-	cards, err := all("cards", bson.M{"boardId": b.ID, "linkedId": bson.M{"$in": bson.A{"", nil}}}, "boardId")
+	cards, err := all("cards", cardSel, "boardId")
 	if err != nil {
 		return nil, err
 	}
-	swimlanes, err := all("swimlanes", byBoard, "boardId")
+	swimlanes, err := all("swimlanes", laneSel, "boardId")
 	if err != nil {
 		return nil, err
 	}
-	customFields, err := all("customFields", bson.M{"boardIds": b.ID}, "boardIds")
+	cfSel := bson.M{"boardIds": b.ID}
+	if !want.has("custom-fields") {
+		cfSel = none
+	}
+	customFields, err := all("customFields", cfSel, "boardIds")
 	if err != nil {
 		return nil, err
 	}
@@ -161,27 +276,49 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, withoutFiles bool) (bs
 		cardIDs = append(cardIDs, c["_id"])
 	}
 	inCards := bson.M{"$in": cardIDs}
-	comments, err := all("card_comments", bson.M{"cardId": inCards}, "boardId")
+	pick := func(field string, sel bson.M) bson.M {
+		if !want.has(field) {
+			return none
+		}
+		return sel
+	}
+	comments, err := all("card_comments", pick("comments", bson.M{"cardId": inCards}), "boardId")
 	if err != nil {
 		return nil, err
 	}
-	activities, err := all("activities", bson.M{"$or": bson.A{byBoard, bson.M{"cardId": inCards}}}, "boardId")
+	// A scoped export's activities are its cards', not the board's.
+	actSel := bson.M{"$or": bson.A{byBoard, bson.M{"cardId": inCards}}}
+	if scoped {
+		actSel = bson.M{"cardId": inCards}
+	}
+	activities, err := all("activities", pick("activities", actSel), "boardId")
 	if err != nil {
 		return nil, err
 	}
-	rules, err := all("rules", byBoard, "boardId")
+	ruleSel := byBoard
+	if scoped {
+		ruleSel = none
+	}
+	rules, err := all("rules", ruleSel, "boardId")
 	if err != nil {
 		return nil, err
 	}
-	checklists, err := all("checklists", bson.M{"cardId": inCards})
+	// A checklist scope: that checklist, on a card of this export.
+	clSel, itemSel := bson.M{"cardId": inCards}, bson.M{"cardId": inCards}
+	if sc.ChecklistID != "" {
+		clSel = bson.M{"_id": eq(sc.ChecklistID), "cardId": inCards}
+		itemSel = bson.M{"checklistId": eq(sc.ChecklistID), "cardId": inCards}
+	}
+	checklists, err := all("checklists", pick("checklists", clSel))
 	if err != nil {
 		return nil, err
 	}
-	items, err := all("checklistItems", bson.M{"cardId": inCards})
+	items, err := all("checklistItems", pick("checklists", itemSel))
 	if err != nil {
 		return nil, err
 	}
-	subtasks, err := all("cards", bson.M{"boardId": b.ID, "parentId": inCards})
+	// #3626: a subtask under any of its parents.
+	subtasks, err := all("cards", pick("subtasks", bson.M{"boardId": b.ID, "$or": bson.A{bson.M{"parentId": inCards}, bson.M{"parentIds": inCards}}}))
 	if err != nil {
 		return nil, err
 	}

@@ -59,7 +59,9 @@ func excelSheetTitle(title string) string {
 }
 
 // excelTableWorkbook is ExporterExcel.build for one board.
-func (s *Server) excelTableWorkbook(ctx context.Context, b *Board, lang string) ([]byte, error) {
+//
+// A swimlane's or a list's export is its cards (ExporterExcel cardSelector).
+func (s *Server) excelTableWorkbook(ctx context.Context, b *Board, lang string, scope exportScope) ([]byte, error) {
 	find := func(coll string, filter bson.M) []bson.M {
 		docs := []bson.M{}
 		if cur, err := s.db.Collection(coll).Find(ctx, filter); err == nil {
@@ -86,7 +88,14 @@ func (s *Server) excelTableWorkbook(ctx context.Context, b *Board, lang string) 
 			jlabel[l.ID] = "," + l.Name
 		}
 	}
-	cards := find("cards", bson.M{"boardId": b.ID, "linkedId": bson.M{"$in": bson.A{"", nil}}})
+	cardSel := bson.M{"boardId": b.ID, "linkedId": bson.M{"$in": bson.A{"", nil}}}
+	if scope.ListID != "" {
+		cardSel["listId"] = eq(scope.ListID)
+	}
+	if scope.SwimlaneID != "" {
+		cardSel["swimlaneId"] = eq(scope.SwimlaneID)
+	}
+	cards := find("cards", cardSel)
 	cardTitle := map[string]string{}
 	ids := bson.A{}
 	userIDs, seen := bson.A{}, map[string]bool{}

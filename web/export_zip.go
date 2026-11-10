@@ -56,7 +56,9 @@ func (s *Server) apiExportZip(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	doc, err := s.exportBoard(r.Context(), &b, true)
+	// The same scope and selection as the JSON export (models/importZip.js).
+	q := r.URL.Query()
+	doc, err := s.exportBoardWith(r.Context(), &b, exportDocOptions{WithoutFiles: true, Want: exportWanted(q.Get("fields")), Scope: exportScopeOf(q), r: r})
 	if err != nil {
 		apiError(w, http.StatusInternalServerError, "Export failed")
 		return
@@ -76,8 +78,22 @@ func (s *Server) apiExportZip(w http.ResponseWriter, r *http.Request) {
 	if f, err := zw.Create("wekan.json"); err == nil {
 		_ = json.NewEncoder(f).Encode(doc)
 	}
+	// The files of the attachments the document carries, no others.
+	inDoc := map[string]bool{}
+	if m, ok := doc.(map[string]any); ok {
+		if list, ok := m["attachments"].([]any); ok {
+			for _, x := range list {
+				if e, ok := x.(map[string]any); ok {
+					inDoc[strOf(e["_id"])] = true
+				}
+			}
+		}
+	}
 	used := map[string]bool{}
 	for _, a := range s.liveAttachments(r, b.ID) {
+		if !inDoc[a.ID] {
+			continue
+		}
 		in, err := s.openAttachment(r.Context(), &a)
 		if err != nil {
 			continue

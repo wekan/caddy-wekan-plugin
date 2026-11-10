@@ -123,9 +123,10 @@ func TestEveryExportOfUsersIsAnonymized(t *testing.T) {
 	if seen < 2 {
 		t.Fatalf("the guard sees the exports' user reads: %d", seen)
 	}
-	// boardDocs is shared with the copy; its exports all go through exportBoard.
+	// boardDocs is shared with the copy; its exports all go through
+	// exportBoardWith, which exportBoard calls.
 	src, _ := os.ReadFile("export.go")
-	i := strings.Index(string(src), "func (s *Server) exportBoard(")
+	i := strings.Index(string(src), "func (s *Server) exportBoardWith(")
 	if i < 0 || !strings.Contains(string(src)[i:i+800], "exportAnonymizer(") {
 		t.Error("exportBoard anonymizes what boardDocs read")
 	}

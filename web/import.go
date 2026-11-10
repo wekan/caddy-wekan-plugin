@@ -645,7 +645,7 @@ func (s *Server) apiCopyBoard(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	_ = decodeJSON(r, &req)
 	ctx := r.Context()
-	raw, err := s.boardDocs(ctx, b, false)
+	raw, err := s.boardDocs(ctx, b, exportDocOptions{})
 	if err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
