@@ -397,7 +397,8 @@ var _ = []string{msg("error-json-malformed"), msg("error-json-schema"), msg("imp
 // new board opens. A file that is not the source's JSON is refused, as
 // WeKan's error-json-malformed and error-json-schema.
 func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *User, source string) {
-	r.Body = http.MaxBytesReader(w, r.Body, maxImportForm+1<<20)
+	limit := importPageLimit(source)
+	r.Body = http.MaxBytesReader(w, r.Body, int64(limit)+1<<20)
 	data := s.importData(r, u, source)
 	fail := func(code string) {
 		data["Error"] = code
@@ -406,8 +407,8 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 	var raw []byte
 	if f, _, err := r.FormFile("file"); err == nil {
 		defer f.Close()
-		raw, err = io.ReadAll(io.LimitReader(f, maxImportForm+1))
-		if err != nil || len(raw) > maxImportForm {
+		raw, err = io.ReadAll(io.LimitReader(f, int64(limit)+1))
+		if err != nil || len(raw) > limit {
 			fail("error-json-malformed")
 			return
 		}

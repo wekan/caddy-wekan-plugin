@@ -73,14 +73,16 @@ func (s *Server) importMembersPage(w http.ResponseWriter, r *http.Request, u *Us
 			return
 		}
 	}
-	r.Body = http.MaxBytesReader(w, r.Body, maxImportForm*2+1<<20)
+	// The payload is the file in base64: a third larger.
+	limit := importPageLimit(source)
+	r.Body = http.MaxBytesReader(w, r.Body, int64(limit)/3*4+8+1<<20)
 	data := s.importData(r, u, source)
 	fail := func(code string) {
 		data["Error"] = code
 		s.render(w, r, "import", http.StatusBadRequest, data)
 	}
 	raw, err := base64.StdEncoding.DecodeString(r.FormValue("payload"))
-	if err != nil || len(raw) > maxImportForm {
+	if err != nil || len(raw) > limit {
 		fail("error-json-malformed")
 		return
 	}

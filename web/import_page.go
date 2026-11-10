@@ -18,6 +18,21 @@ import (
 
 const maxImportForm = 32 << 20
 
+// importPageLimit is the largest file the import page reads for source: an
+// export .zip takes its parser's limit, as WeKan's - Vikunja's, Plane's and
+// Notion's 64 MB - and every other file maxImportForm.
+func importPageLimit(source string) int {
+	switch source {
+	case "vikunja":
+		return maxVikunjaZipBytes
+	case "plane":
+		return maxPlaneZipBytes
+	case "notion":
+		return maxNotionZipBytes
+	}
+	return maxImportForm
+}
+
 // tableSources are the sources this page reads, with the files they take.
 var tableSources = map[string]string{"csv": ".csv,.tsv,.txt", "excel": ".xlsx"}
 
