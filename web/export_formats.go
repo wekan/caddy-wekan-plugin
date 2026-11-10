@@ -56,6 +56,9 @@ var externalFormats = map[string][2]string{
 	"wrikeworkflow":     {"json", "application/json"},
 	"wrike":             {"xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
 	"teamwork":          {"xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
+	"monday":            {"xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
+	"businessmap":       {"xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
+	"planner":           {"xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
 }
 
 type extChecklistItem struct {
@@ -573,6 +576,15 @@ func (s *Server) externalExport(ctx context.Context, b *Board, format string) []
 		return out
 	case "teamwork":
 		out, _ := teamworkWorkbook(formatTeamworkSheet(d))
+		return out
+	case "monday":
+		out, _ := sheetsWorkbook(formatMondaySheets(d))
+		return out
+	case "businessmap":
+		out, _ := sheetsWorkbook(formatBusinessmapSheets(d))
+		return out
+	case "planner":
+		out, _ := plannerWorkbook(formatPlannerRows(d, time.Now()))
 		return out
 	case "wrikeworkflow":
 		return jsJSON(formatWrikeWorkflow(d, s.boardRuleParts(ctx, b.ID)), "")

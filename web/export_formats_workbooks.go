@@ -1,6 +1,7 @@
 package web
 
 import (
+	"strconv"
 	"strings"
 	"time"
 
@@ -255,4 +256,251 @@ func teamworkWorkbook(r workbookRows) ([]byte, error) {
 		return c
 	}, r.Name)), "Tasks")
 	return xlsxBook([]xlsxSpec{{Name: title, Rows: r.Rows, BoldRow: 1}})
+}
+
+// --- monday.com, Businessmap and Microsoft Planner, as WeKan's
+// mondayFormat.js, businessmapFormat.js and plannerFormat.js write their
+// rows and mondayWorkbook.js, businessmapWorkbook.js and plannerWorkbook.js
+// their workbooks.
+
+type workbookSheet struct {
+	Name string  `json:"name"`
+	Rows [][]any `json:"rows"`
+}
+
+type workbookSheets struct {
+	Sheets []workbookSheet `json:"sheets"`
+}
+
+var mondayColumns = []string{"Name", "Group", "Status", "Person", "Date", "Timeline", "Tags", "Priority", "Description", "Item ID"}
+
+func formatMondaySheets(d extBoard) workbookSheets {
+	rows := [][]any{toAny(mondayColumns)}
+	for _, i := range d.Items {
+		name := jsTrim(i.Title)
+		if name == "" {
+			name = "Untitled"
+		}
+		group := ""
+		if i.SwimlaneTitle != "" && i.SwimlaneTitle != "Default" {
+			group = i.SwimlaneTitle
+		}
+		timeline := ""
+		if i.StartAt != "" && i.DueAt != "" {
+			timeline = obsidianDay(i.StartAt) + " - " + obsidianDay(i.DueAt)
+		}
+		tags := make([]string, len(i.Labels))
+		for k, l := range i.Labels {
+			tags[k] = strings.ReplaceAll(l, ",", " ")
+		}
+		rows = append(rows, []any{name, group, i.ListTitle, strings.Join(people(i), ", "), obsidianDay(i.DueAt), timeline,
+			strings.Join(tags, ", "), "", i.Description, i.CardID})
+	}
+	title := d.Board.Title
+	if title == "" {
+		title = "board"
+	}
+	return workbookSheets{Sheets: []workbookSheet{{Name: jsSlice16(strings.ToLower(title), 31), Rows: rows}}}
+}
+
+func formatBusinessmapSheets(d extBoard) workbookSheets {
+	type bmRow struct {
+		v        map[string]any
+		comments []string
+	}
+	var rows []bmRow
+	for _, i := range d.Items {
+		color := ""
+		if len(i.Color) == 7 && kanriHexPattern.MatchString(i.Color) && strings.HasPrefix(i.Color, "#") {
+			color = strings.ToUpper(i.Color)
+		} else if hex := wekanColorHex[i.Color]; hex != "" {
+			color = strings.ToUpper(hex)
+		}
+		var labels []string
+		for _, l := range i.Labels {
+			if t := jsTrim(strings.ReplaceAll(l, ",", " ")); t != "" {
+				labels = append(labels, t)
+			}
+		}
+		tags := strings.Join(labels, ", ")
+		if len(labels) == 1 && strings.IndexFunc(labels[0], jsSpace) >= 0 {
+			tags = labels[0] + "," // a lone tag with a space is not split
+		}
+		title := jsTrim(i.Title)
+		if title == "" {
+			title = "Untitled"
+		}
+		var comments []string
+		for _, c := range i.Comments {
+			t := jsTrim(c.Text)
+			if t == "" {
+				continue
+			}
+			if c.Author != "" {
+				t = c.Author + ": " + t
+			}
+			comments = append(comments, t)
+		}
+		lane := ""
+		if i.SwimlaneTitle != "" && i.SwimlaneTitle != "Default" {
+			lane = i.SwimlaneTitle
+		}
+		rows = append(rows, bmRow{v: map[string]any{"Card ID": "", "Custom Card ID": "", "Title": title, "Description": i.Description,
+			"Column": i.ListTitle, "Lane": lane, "Workflow name": "", "Owner": i.Owner, "Co-Owners": strings.Join(uniqueKeep(i.Assignees), ", "),
+			"Priority": "", "Color": color, "Size": "", "Tags": tags, "Deadline": obsidianDay(i.DueAt), "Start Date": obsidianDay(i.StartAt),
+			"End Date": obsidianDay(i.EndAt), "Type": "", "Planned Start": "", "Planned End": "", "Track": "", "Parent": ""}, comments: comments})
+	}
+	always := []string{"Title", "Description", "Column", "Lane", "Owner", "Co-Owners", "Tags", "Deadline", "Color"}
+	optional := []string{"Card ID", "Custom Card ID", "Workflow name", "Priority", "Size", "Type", "Start Date", "End Date", "Planned Start", "Planned End", "Track", "Parent"}
+	order := []string{"Card ID", "Custom Card ID", "Title", "Description", "Workflow name", "Column", "Lane", "Owner", "Co-Owners",
+		"Priority", "Color", "Size", "Tags", "Deadline", "Start Date", "End Date", "Type", "Planned Start", "Planned End", "Track", "Parent"}
+	var named []string
+	for _, n := range order {
+		if contains(always, n) {
+			named = append(named, n)
+			continue
+		}
+		if contains(optional, n) {
+			for _, r := range rows {
+				if r.v[n] != "" {
+					named = append(named, n)
+					break
+				}
+			}
+		}
+	}
+	nComments := 0
+	for _, r := range rows {
+		nComments = max(nComments, len(r.comments))
+	}
+	header := append(toAny(named), toAny(repeatCells("Comment", nComments))...)
+	out := [][]any{header}
+	for _, r := range rows {
+		row := []any{}
+		for _, n := range named {
+			row = append(row, r.v[n])
+		}
+		for k := 0; k < nComments; k++ {
+			c := ""
+			if k < len(r.comments) {
+				c = r.comments[k]
+			}
+			row = append(row, c)
+		}
+		out = append(out, row)
+	}
+	title := d.Board.Title
+	if title == "" {
+		title = "Cards"
+	}
+	return workbookSheets{Sheets: []workbookSheet{{Name: jsSlice16(title, 31), Rows: out}}}
+}
+
+// uniqueKeep is values.filter(Boolean), in order, repeats kept.
+func uniqueKeep(values []string) []string {
+	var out []string
+	for _, v := range values {
+		if v != "" {
+			out = append(out, v)
+		}
+	}
+	return out
+}
+
+var plannerColumns = []string{"Task ID", "Task Name", "Bucket Name", "Progress", "Priority", "Assigned To",
+	"Created By", "Created Date", "Start Date", "Due Date", "Late", "Completed Date", "Completed By",
+	"Description", "Completed Checklist Items", "Checklist Items", "Labels"}
+
+// plannerDateText is MM/DD/YYYY, as Planner writes a date.
+func plannerDateText(iso string) string {
+	if t := parseISO(iso); !t.IsZero() {
+		return t.Format("01/02/2006")
+	}
+	return ""
+}
+
+func formatPlannerRows(d extBoard, now time.Time) workbookRows {
+	title := d.Board.Title
+	if title == "" {
+		title = "WeKan board"
+	}
+	rows := [][]any{{"Plan name", title}, {"Plan ID", d.Board.ID}, {"Date of export", now.UTC().Format("01/02/2006")}, {}, toAny(plannerColumns)}
+	for _, i := range d.Items {
+		completed := i.EndAt != ""
+		progress := "Not started"
+		if completed {
+			progress = "Completed"
+		}
+		entries := checklistEntries(i)
+		done := 0
+		var items []string
+		for _, x := range entries {
+			if x.Done {
+				done++
+			}
+			if t := jsTrim(strings.ReplaceAll(x.Title, ";", ",")); t != "" {
+				items = append(items, t)
+			}
+		}
+		count := ""
+		if len(entries) > 0 {
+			count = strconv.Itoa(done) + "/" + strconv.Itoa(len(entries))
+		}
+		labels := make([]string, len(i.Labels))
+		for k, l := range i.Labels {
+			labels[k] = strings.ReplaceAll(l, ";", ",")
+		}
+		late := "false"
+		if due := parseISO(i.DueAt); !due.IsZero() && !completed && due.Before(now) {
+			late = "true"
+		}
+		name := jsTrim(i.Title)
+		if name == "" {
+			name = "Untitled"
+		}
+		bucket := i.ListTitle
+		if bucket == "" {
+			bucket = "No bucket"
+		}
+		creator := i.Creator
+		if creator == "" {
+			creator = i.RequestedBy
+		}
+		completedDate := ""
+		if completed {
+			completedDate = plannerDateText(i.EndAt)
+		}
+		rows = append(rows, []any{i.CardID, name, bucket, progress, "Medium", strings.Join(people(i), ";"), creator,
+			plannerDateText(i.CreatedAt), plannerDateText(i.StartAt), plannerDateText(i.DueAt), late, completedDate, "",
+			i.Description, count, strings.Join(items, ";"), strings.Join(labels, ";")})
+	}
+	return workbookRows{Sheet: "Tasks", Rows: rows}
+}
+
+func sheetsWorkbook(w workbookSheets) ([]byte, error) {
+	var specs []xlsxSpec
+	for n, sh := range w.Sheets {
+		bold := 0
+		if len(sh.Rows) > 0 {
+			bold = 1
+		}
+		specs = append(specs, xlsxSpec{Name: xlsxSheetName(sh.Name, "sheet"+strconv.Itoa(n+1)), Rows: sh.Rows, BoldRow: bold})
+	}
+	return xlsxBook(specs)
+}
+
+func plannerWorkbook(r workbookRows) ([]byte, error) {
+	bold := 0
+	for n, row := range r.Rows {
+		for _, c := range row {
+			if c == "Task Name" {
+				bold = n + 1
+				break
+			}
+		}
+		if bold != 0 {
+			break
+		}
+	}
+	return xlsxBook([]xlsxSpec{{Name: "Tasks", Rows: r.Rows, BoldRow: bold}})
 }

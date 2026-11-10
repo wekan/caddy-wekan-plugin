@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -48,6 +49,9 @@ func TestExternalFormatsAreWeKans(t *testing.T) {
 	formats["wrikeworkflow"] = string(jsJSON(formatWrikeWorkflow(d, rules), ""))
 	formats["wrike"] = string(jsJSON(formatWrikeRows(d, rules), ""))
 	formats["teamwork"] = string(jsJSON(formatTeamworkSheet(d), ""))
+	formats["monday"] = string(jsJSON(formatMondaySheets(d), ""))
+	formats["businessmap"] = string(jsJSON(formatBusinessmapSheets(d), ""))
+	formats["planner"] = string(jsJSON(formatPlannerRows(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC)), ""))
 	formats["superproductivity"] = formatSuperProductivity(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC).UnixMilli())
 	formats["tasksorg"] = string(jsJSON(formatTasksOrgBackup(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC)), ""))
 	formats["focalboard"] = formatFocalboard(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC).UnixMilli())
@@ -198,6 +202,7 @@ func TestExportWorkbooks(t *testing.T) {
 	}{
 		"wrike":    {formatWrikeRows(d, nil), wrikeWorkbook, "Tasks"},
 		"teamwork": {formatTeamworkSheet(d), teamworkWorkbook, xlsxSheetName(d.Board.Title, "Tasks")},
+		"planner":  {formatPlannerRows(d, time.Now()), plannerWorkbook, "Tasks"},
 	} {
 		data, err := c.write(c.rows)
 		if err != nil {
@@ -226,8 +231,15 @@ func TestExportWorkbooks(t *testing.T) {
 				}
 			}
 		}
-		if !strings.Contains(string(mustUnzip(t, data, "xl/worksheets/sheet1.xml")), `<c r="A1" s="1" t="inlineStr">`) {
-			t.Errorf("%s: the header is bold", name)
+		// The header is bold: row 1, or Planner's "Task ID" row below its plan details.
+		headerRow := 1
+		for r, row := range c.rows.Rows {
+			if len(row) > 1 && (row[0] == "Task ID" || row[1] == "Task Name") {
+				headerRow = r + 1
+			}
+		}
+		if !strings.Contains(string(mustUnzip(t, data, "xl/worksheets/sheet1.xml")), `<c r="A`+strconv.Itoa(headerRow)+`" s="1" t="inlineStr">`) {
+			t.Errorf("%s: the header, row %d, is bold", name, headerRow)
 		}
 	}
 	wb, _ := wrikeWorkbook(formatWrikeRows(d, nil))

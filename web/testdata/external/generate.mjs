@@ -22,9 +22,11 @@ const { formatTasksOrgBackup } = await import(pathToFileURL(path.join(wekan, 'mo
 fs.writeFileSync(path.join(here, 'tasksorg.golden'), JSON.stringify(formatTasksOrgBackup(structuredClone(collected), ticktickNow)));
 const { formatSuperProductivity } = await import(pathToFileURL(path.join(wekan, 'models/lib/superProductivityFormat.js')).href);
 fs.writeFileSync(path.join(here, 'superproductivity.golden'), formatSuperProductivity(structuredClone(collected), { now: ticktickNow.getTime() }));
+const { formatPlannerRows } = await import(pathToFileURL(path.join(wekan, 'models/lib/plannerFormat.js')).href);
+fs.writeFileSync(path.join(here, 'planner.golden'), JSON.stringify(formatPlannerRows(structuredClone(collected), ticktickNow)));
 for (const format of ['markdown', 'opml', 'todotxt', 'taskwarrior', 'zenkit', 'nullboard', 'obsidian', 'orgmode', 'kanri',
   'deck', 'kanboard', 'openproject', 'github', 'gitea', 'forgejo', 'gitlab', 'trello', 'asana',
-  'leo', 'meistertask', 'todoist', 'linear', 'clickup', 'pivotal', 'quire', 'redmine', 'notion', 'wrikeworkflow', 'wrike', 'teamwork']) {
+  'leo', 'meistertask', 'todoist', 'linear', 'clickup', 'pivotal', 'quire', 'redmine', 'notion', 'wrikeworkflow', 'wrike', 'teamwork', 'monday', 'businessmap']) {
   const out = formatters[format](structuredClone(collected));
   fs.writeFileSync(path.join(here, `${format}.golden`), typeof out === 'string' ? out : JSON.stringify(out));
 }
