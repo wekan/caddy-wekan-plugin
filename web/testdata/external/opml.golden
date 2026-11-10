@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>Plan &amp; &lt;Go&gt; &quot;q&quot; 🚀</title>
+  </head>
+  <body>
+    <outline text="To Do">
+      <outline text="Write   spec now" _note="line one&#10;&#10;line &quot;two&quot; &lt;b&gt;">
+        <outline text="Steps">
+          <outline text="a &amp; b" _complete="true"/>
+          <outline text="c"/>
+        </outline>
+      </outline>
+      <outline text="   "/>
+    </outline>
+    <outline text="Done">
+      <outline text="Ship" _complete="true"/>
+    </outline>
+    <outline text="Empty"/>
+  </body>
+</opml>

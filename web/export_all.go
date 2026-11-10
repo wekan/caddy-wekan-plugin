@@ -23,8 +23,13 @@ func (s *Server) exportAllRoutes(m *http.ServeMux) {
 
 // massExportFormats are the formats Weddy writes so far; WeKan's others - Excel
 // and the other tools' formats - are still to come.
-var massExportFormats = map[string]string{"wekan": "json", "csv": "csv", "scsv": "csv", "tsv": "tsv",
-	"markdown": "md", "opml": "opml", "todotxt": "txt"}
+var massExportFormats = func() map[string]string {
+	m := map[string]string{"wekan": "json", "csv": "csv", "scsv": "csv", "tsv": "tsv"}
+	for f, ext := range externalFormats {
+		m[f] = ext[0]
+	}
+	return m
+}()
 
 const maxMassExportBoards = 1000
 
@@ -124,11 +129,11 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 				continue
 			}
 			_ = json.NewEncoder(f).Encode(doc)
-		case "markdown", "opml", "todotxt":
-			_, _ = f.Write(s.externalExport(ctx, b, format))
-		default:
+		case "csv", "scsv", "tsv":
 			delim := map[string]string{"csv": ",", "scsv": ";", "tsv": "\t"}[format]
 			_, _ = f.Write(s.boardCSV(ctx, b, delim))
+		default:
+			_, _ = f.Write(s.externalExport(ctx, b, format))
 		}
 	}
 	if len(skipped) > 0 {

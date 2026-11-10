@@ -2,36 +2,57 @@ package web
 
 import (
 	"context"
+	"encoding/json"
 	"io"
 	"net/http"
+	"os"
+	"regexp"
 	"strings"
 	"testing"
-	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
-// The same board WeKan's own formatters were given (.tools/tmp/mc/fmt.mjs):
-// their output, byte for byte.
+// The same board WeKan's own formatters were given (testdata/external/
+// collected.json; generate.mjs writes their output): Weddy's, byte for byte.
 func TestExternalFormatsAreWeKans(t *testing.T) {
-	at := func(s string) time.Time { v, _ := time.Parse(time.RFC3339, s); return v }
-	d := extBoard{Title: `Plan & <Go> "q"`, Lists: []string{"To Do", "Done"}, Items: []extItem{
-		{Title: "Write   spec", Description: "line one\n\nline \"two\" <b>", ListTitle: "To Do", Labels: []string{"priority:A", "web dev", "@home"},
-			DueAt: at("2026-11-20T10:00:00Z"), StartAt: at("2026-11-10T00:00:00Z"), CreatedAt: at("2026-11-01T08:00:00Z"),
-			Checklists: []extChecklist{{Title: "Steps", Items: []struct {
-				Title string
-				Done  bool
-			}{{"a & b", true}, {"c", false}}}}},
-		{Title: "Ship", ListTitle: "Done", Labels: []string{"priority:B"}, EndAt: at("2026-11-05T00:00:00Z"), CreatedAt: at("2026-11-02T00:00:00Z")},
-	}}
-	for name, c := range map[string]struct{ got, want string }{
-		"markdown": {formatMarkdownKanban(d), "# Plan & <Go> \"q\"\n\n## To Do\n\n- [ ] Write   spec\n  line one\n  line \"two\" <b>\n\n## Done\n\n- [x] Ship\n"},
-		"opml":     {formatOpml(d), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<opml version=\"2.0\">\n  <head>\n    <title>Plan &amp; &lt;Go&gt; &quot;q&quot;</title>\n  </head>\n  <body>\n    <outline text=\"To Do\">\n      <outline text=\"Write   spec\" _note=\"line one&#10;&#10;line &quot;two&quot; &lt;b&gt;\">\n        <outline text=\"Steps\">\n          <outline text=\"a &amp; b\" _complete=\"true\"/>\n          <outline text=\"c\"/>\n        </outline>\n      </outline>\n    </outline>\n    <outline text=\"Done\">\n      <outline text=\"Ship\" _complete=\"true\"/>\n    </outline>\n  </body>\n</opml>\n"},
-		"todotxt":  {formatTodoTxt(d), "(A) 2026-11-01 Write spec +web_dev @home due:2026-11-20 t:2026-11-10 list:To_Do\nx 2026-11-05 2026-11-02 Ship pri:B list:Done\n"},
-	} {
-		if c.got != c.want {
-			t.Errorf("%s:\n%q\nWeKan's:\n%q", name, c.got, c.want)
+	raw, err := os.ReadFile("testdata/external/collected.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var d extBoard
+	if err := json.Unmarshal(raw, &d); err != nil {
+		t.Fatal(err)
+	}
+	for format, got := range map[string]string{"markdown": formatMarkdownKanban(d), "opml": formatOpml(d), "todotxt": formatTodoTxt(d),
+		"taskwarrior": formatTaskwarrior(d), "zenkit": string(formatZenkit(d))} {
+		want, err := os.ReadFile("testdata/external/" + format + ".golden")
+		if err != nil {
+			t.Fatal(err)
 		}
+		if got != string(want) {
+			t.Errorf("%s:\n%s\nWeKan's:\n%s", format, got, want)
+		}
+	}
+	// Every format Weddy offers is one of these.
+	for f := range externalFormats {
+		if _, err := os.Stat("testdata/external/" + f + ".golden"); err != nil {
+			t.Errorf("negative: %s has no WeKan output to be checked against", f)
+		}
+	}
+}
+
+// taskwarriorUuid of WeKan's, for ids beyond the fixture's.
+func TestTaskwarriorUUID(t *testing.T) {
+	re := regexp.MustCompile(`^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$`)
+	for _, id := range []string{"", "x", "QWERTYqwerty123", "äöå", "𝄞𝄞"} {
+		if u := taskwarriorUUID(id); !re.MatchString(u) || u != taskwarriorUUID(id) {
+			t.Errorf("%q: %s is not a stable RFC 4122 v4 uuid", id, u)
+		}
+	}
+	if taskwarriorUUID("a") == taskwarriorUUID("b") {
+		t.Error("negative: two cards, two uuids")
 	}
 }
 
@@ -76,5 +97,51 @@ func TestExportFormatRoutes(t *testing.T) {
 	_, _ = w.db.Collection("settings").UpdateOne(context.Background(), bson.M{}, bson.M{"$set": bson.M{"disableAllExport": true}})
 	if code, _, _ := get("/api/boards/"+b.ID+"/export/todotxt", a); code != 403 {
 		t.Errorf("negative: export off: %d", code)
+	}
+}
+
+// The JSON formats through the route: the card's people by username, its
+// comments with their authors, and Admin Panel's Anonymize export users over
+// all of it.
+func TestExportFormatsCarryPeopleAndComments(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	ann := w.seedUser(t, "ann", "pw")
+	a := login(t, w, "ann")
+	b := newRESTBoard(t, w, a, "People")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card}, bson.M{"$set": bson.M{"members": bson.A{ann.ID}}})
+	call(t, "POST", w.srv.URL+"/api/boards/"+b.ID+"/cards/"+b.Card+"/comments", a, `{"comment":"Ready, @ann"}`, nil)
+	fetch := func(format string) string {
+		req, _ := http.NewRequest("GET", w.srv.URL+"/api/boards/"+b.ID+"/export/"+format, nil)
+		req.Header.Set("Authorization", "Bearer "+a)
+		res, err := testClient.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		data, _ := io.ReadAll(res.Body)
+		if res.StatusCode != 200 {
+			t.Fatalf("%s: %d", format, res.StatusCode)
+		}
+		return string(data)
+	}
+	var zk zkBoard
+	if err := json.Unmarshal([]byte(fetch("zenkit")), &zk); err != nil || len(zk.Items) != 1 {
+		t.Fatalf("zenkit is one JSON document: %v", err)
+	}
+	if it := zk.Items[0]; len(it.Assignees) != 1 || it.Assignees[0] != "ann" || len(it.Comments) != 1 || it.Comments[0].Author != "ann" || it.ID != b.Card {
+		t.Errorf("zenkit carries the people and the comments: %+v", it)
+	}
+	var tasks []twTask
+	if err := json.Unmarshal([]byte(fetch("taskwarrior")), &tasks); err != nil || len(tasks) != 1 || tasks[0].UUID != taskwarriorUUID(b.Card) ||
+		len(tasks[0].Annotations) != 1 || tasks[0].Annotations[0].Description != "ann: Ready, @ann" {
+		t.Errorf("taskwarrior carries the comment as an annotation: %v %+v", err, tasks)
+	}
+	// Admin Panel -> Anonymize export users.
+	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"anonymizeExportUsers": true}}, options.UpdateOne().SetUpsert(true))
+	for _, format := range []string{"zenkit", "taskwarrior"} {
+		if body := fetch(format); strings.Contains(body, `"ann"`) || strings.Contains(body, "@ann") || strings.Contains(body, "ann:") {
+			t.Errorf("negative: %s names nobody once Admin Panel says so: %s", format, body)
+		}
 	}
 }

@@ -1,0 +1,21 @@
+{
+  "board": { "title": "Plan & <Go> \"q\" 🚀" },
+  "lists": [{ "_id": "L1", "title": "To Do" }, { "_id": "L2", "title": "Done" }, { "_id": "L3", "title": "Empty" }],
+  "swimlanes": [{ "_id": "S1", "title": "Default" }],
+  "items": [
+    { "cardId": "cardA1", "listId": "L1", "title": "Write   spec now", "description": "line one\n\nline \"two\" <b>",
+      "listTitle": "To Do", "swimlaneTitle": "Default", "dueAt": "2026-11-20T10:00:00.000Z",
+      "labelIds": ["a", "b", "c", "d", "f"], "labels": ["priority:H", "web  dev", "project:Plant.Pumps", "@home", "big\u00a0deal"],
+      "startAt": "2026-11-10T00:00:00.000Z", "createdAt": "2026-11-01T08:00:00.000Z",
+      "owner": "alice", "assignees": ["bob"], "creator": "carol",
+      "comments": [{ "text": "Looks <i>good</i>", "author": "bob", "date": "2026-11-02T09:30:00.000Z" },
+                   { "text": "   ", "author": "bob", "date": "2026-11-02T09:31:00.000Z" },
+                   { "text": "no author" }],
+      "checklists": [{ "title": "Steps", "items": [{ "title": "a & b", "done": true }, { "title": "c", "done": false }] }] },
+    { "cardId": "cardB😀2", "listId": "L2", "title": "Ship", "description": "", "listTitle": "Done", "swimlaneTitle": "Default",
+      "labelIds": ["e"], "labels": ["priority:B"], "endAt": "2026-11-05T00:00:00.000Z", "createdAt": "2026-11-02T00:00:00.000Z",
+      "parentCardId": "cardA1" },
+    { "cardId": "cardC3", "listId": "L1", "title": "   ", "description": "", "listTitle": "To Do", "swimlaneTitle": "Default",
+      "labelIds": [], "labels": [] }
+  ]
+}
