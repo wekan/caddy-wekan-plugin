@@ -38,14 +38,14 @@ type importMappingPerson struct {
 	Key, Name string
 }
 
-func (s *Server) importMappingStep(w http.ResponseWriter, r *http.Request, u *User, source string, raw []byte, people []importPerson) {
+func (s *Server) importMappingStep(w http.ResponseWriter, r *http.Request, u *User, source string, raw []byte, people []importPerson, split bool) {
 	data := s.importData(r, u, source)
 	var list []importMappingPerson
 	for i, p := range people {
 		list = append(list, importMappingPerson{Index: i, Key: p.key, Name: p.name})
 	}
 	data["MapMembers"] = map[string]any{"People": list, "Payload": base64.StdEncoding.EncodeToString(raw),
-		"Action": "/import/" + source + "/members"}
+		"Action": "/import/" + source + "/members", "Split": split}
 	s.render(w, r, "import", http.StatusOK, data)
 }
 
@@ -89,7 +89,7 @@ func (s *Server) importMembersPage(w http.ResponseWriter, r *http.Request, u *Us
 		fail(err.Error())
 		return
 	}
-	people := importPeopleOptions{Mode: "map", Mapping: map[string]string{}}
+	people := importPeopleOptions{Mode: "map", Mapping: map[string]string{}, Split: r.FormValue("splitBy") == "swimlane"}
 	if r.FormValue("skipMapping") != "" {
 		people.Mode = "placeholder"
 	} else {

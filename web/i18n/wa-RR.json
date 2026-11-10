@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Pili hin aada na nga user para ha kada usa ha ira",
   "import-members-mode-me": "Himoa sira ngatanan nga ako",
   "import-members-mode-placeholder": "Hibilina sira sugad nga placeholder nga mga user upod an ira kalugaringon nga ngaran, para imapa ha tinuod nga mga user ha urhi",
+  "import-one-board-per-project": "Usa nga pisara kada proyekto",
+  "import-one-board-per-project-hint": "Kada agianan nga himoon han import (usa nga proyekto, folder o lista han tool) magigin iya kalugaringon nga pisara. An mga ginikanan nga kard ngan mga dependensya butnga hito nga mga pisara nakalista ha report han import.",
   "import-report-description": "Nahimo an pisara, pero may pipira nga bahin han file nga waray madara. An amo gihapon nga report gintipigan ha Panel han pagdumara → Mga problema → Pagpahiuli.",
   "import-report-heading": "Na-import nga may mga pahamangno",
   "import-report-open-board": "Abrihi an pisara",

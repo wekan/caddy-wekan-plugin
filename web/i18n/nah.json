@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Xicpehpena ce tequitini tlen ye onca para sesen yehhuantin",
   "import-members-mode-me": "Xiquinchihua nochtin nehhuatl",
   "import-members-mode-placeholder": "Xiquinpiya quen tequitinimeh tlaixiptlayotl ica intocayo, ic satepan tiquinnamictiz ica nelli tequitinimeh",
+  "import-one-board-per-project": "Ce huapalli ica sesen tequiyotl",
+  "import-one-board-per-project-hint": "Sesen ohtli tlen icalaquiliz quichihuazquia (ce tequiyotl, amatlatlatiloni noso tocatlahtolli inin tepoztli) mocuepa ihuapal. Tetahtzin amatlapaltin ihuan netechpanoliztli itzalan inon huapaltin monextiah ipan icalaquiliz tlanonotzaliztli.",
   "import-report-description": "Huapalli omochiuh, zan cequi tlen onca itic archivo ahmo huel mocalaqui. Inin tlanonotzaliztli noihqui mopiya ipan Tepachoani ihuapal → Tlahtlacoltin → Cuepaliztli.",
   "import-report-heading": "Ocalac ica tenonotzaliztli",
   "import-report-open-board": "Xictlapo in huapalli",

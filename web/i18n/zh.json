@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "为每个人选择一个现有用户",
   "import-members-mode-me": "全部替换为我的用户账户",
   "import-members-mode-placeholder": "保留为使用原有姓名的占位用户，以便稍后映射到真实用户",
+  "import-one-board-per-project": "每个项目一个看板",
+  "import-one-board-per-project-hint": "原本由导入创建的每条泳道（该工具中的项目、文件夹或列表）都会成为独立的看板。这些看板之间的父卡片和依赖关系会列在导入报告中。",
   "import-report-description": "看板已创建，但文件的某些部分未能导入。同一报告也保存在管理面板 → 问题 → 恢复中。",
   "import-report-heading": "导入完成，但有警告",
   "import-report-open-board": "打开看板",

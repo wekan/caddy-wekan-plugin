@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Za vsako osebo izberite obstoječega uporabnika",
   "import-members-mode-me": "Vse zamenjaj z mojim uporabniškim računom",
   "import-members-mode-placeholder": "Ohranite jih kot začasne uporabnike z njihovimi imeni, da jih pozneje povežete s pravimi uporabniki",
+  "import-one-board-per-project": "Ena tabla na projekt",
+  "import-one-board-per-project-hint": "Vsaka plavalna steza, ki bi jo ustvaril uvoz (projekt, mapa ali seznam orodja), postane svoja tabla. Nadrejene kartice in odvisnosti med temi tablami so navedene v poročilu o uvozu.",
   "import-report-description": "Tabla je bila ustvarjena, vendar nekaterih delov datoteke ni bilo mogoče prenesti. Isto poročilo je shranjeno v Skrbniška plošča → Težave → Obnovitev.",
   "import-report-heading": "Uvoženo z opozorili",
   "import-report-open-board": "Odpri tablo",

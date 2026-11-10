@@ -405,12 +405,14 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 
 /* WeKan's Export pop-over (popup.css, forms.css): what to include beside the
    formats when the window has room, stacked when it does not; each row a
-   materialCheckBox, the tick when it is on. */
+   materialCheckBox, the tick when it is on - as the import page's People in
+   the file and One board per project are. */
 @media screen and (min-width: 801px) {
   .pop-over:has(.export-board-panes) { top: 10px; right: 10px; width: calc(100vw - 20px); max-width: calc(100vw - 20px); max-height: calc(100vh - 20px); }
   .pop-over .export-board-panes { display: grid; grid-template-columns: minmax(260px, 0.8fr) minmax(340px, 1.2fr); column-gap: 18px; align-items: start; }
   .pop-over .export-board-pane-formats { border-inline-start: 1px solid rgba(0, 0, 0, 0.12); padding-inline-start: 18px; }
 }
 .pop-over .export-board-pane .pop-over-list.export-scope-select a { display: flex; align-items: flex-start; gap: 6px; }
-.export-scope-select .materialCheckBox { position: relative; width: 13px; height: 13px; z-index: 0; border: 2px solid #5a5a5a; border-radius: 1px; transition: 0.2s; margin: 3px 0 0 0; cursor: pointer; flex: none; }
-.export-scope-select .materialCheckBox.is-checked { top: -4px; left: -3px; width: 7px; height: 15px; margin-right: 6px; border-top: 2px solid transparent; border-left: 2px solid transparent; border-bottom: 2px solid #3cb500; border-right: 2px solid #3cb500; transform: rotate(40deg); backface-visibility: hidden; transform-origin: 100% 100%; }
+.export-scope-select .materialCheckBox, .import-members-mode .materialCheckBox, .js-import-split-toggle .materialCheckBox { position: relative; width: 13px; height: 13px; z-index: 0; border: 2px solid #5a5a5a; border-radius: 1px; transition: 0.2s; margin: 3px 0 0 0; cursor: pointer; flex: none; }
+.export-scope-select .materialCheckBox.is-checked, .import-members-mode .materialCheckBox.is-checked, .js-import-split-toggle .materialCheckBox.is-checked { top: -4px; left: -3px; width: 7px; height: 15px; margin-right: 6px; border-top: 2px solid transparent; border-left: 2px solid transparent; border-bottom: 2px solid #3cb500; border-right: 2px solid #3cb500; transform: rotate(40deg); backface-visibility: hidden; transform-origin: 100% 100%; }
+.js-import-members-mode, .js-import-split-toggle { display: flex; align-items: flex-start; gap: 6px; }

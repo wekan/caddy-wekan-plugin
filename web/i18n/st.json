@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Kgetha mosebedisi ya seng a le teng bakeng sa e mong le e mong wa bona",
   "import-members-mode-me": "Ba etse bohle nna",
   "import-members-mode-placeholder": "Ba boloke e le basebedisi ba nakwana ka mabitso a bona, hore ba hokahanngwe le basebedisi ba nnete hamorao",
+  "import-one-board-per-project": "Boto e le nngwe bakeng sa projeke ka nngwe",
+  "import-one-board-per-project-hint": "Tsela ka nngwe e neng e tla thehwa ha ho kenngwa (projeke, foldara kapa lenane la sesebediswa) e fetoha boto ya yona. Dikarete tsa batswadi le dikamano tsa ho itshetleha pakeng tsa diboto tseo di thathamiswa tlalehong ya ho kenya.",
   "import-report-description": "Boto e entsoe, empa likarolo tse ling tsa faele ha lia ka tsa fetisetsoa. Tlaleho eona eo e bolokiloe ho Phanele ea motsamaisi → Mathata → Ho kgutlisetsa.",
   "import-report-heading": "E kentsoe ka litemoso",
   "import-report-open-board": "Bula boto",

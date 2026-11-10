@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Kies voor elke persoon een bestaande gebruiker",
   "import-members-mode-me": "Vervang ze allemaal door mij",
   "import-members-mode-placeholder": "Behoud ze als tijdelijke gebruikers met hun eigen namen, om ze later aan echte gebruikers te koppelen",
+  "import-one-board-per-project": "Eén bord per project",
+  "import-one-board-per-project-hint": "Elke werkbaan die de import zou maken (een project, map of lijst van het hulpmiddel), wordt een afzonderlijk bord. Bovenliggende kaarten en afhankelijkheden tussen die borden worden vermeld in het importrapport.",
   "import-report-description": "Het bord is aangemaakt, maar sommige delen van het bestand konden niet worden overgenomen. Hetzelfde rapport wordt bewaard onder Beheerpaneel → Problemen → Herstel.",
   "import-report-heading": "Geïmporteerd met waarschuwingen",
   "import-report-open-board": "Open het bord",

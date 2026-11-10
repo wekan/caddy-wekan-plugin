@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Nangani mushumisi o no vhaho kha muṅwe na muṅwe wavho",
   "import-members-mode-me": "Vha iteni vhoṱhe vha vhe nṋe",
   "import-members-mode-placeholder": "Vha vhulungeni sa vhashumisi vha fhethu na madzina avho, u vha ṱumanya na vhashumisi vha vhukuma nga murahu",
+  "import-one-board-per-project": "Bodo nthihi kha phurodzhege iṅwe na iṅwe",
+  "import-one-board-per-project-hint": "Ḽaini iṅwe na iṅwe ine u dzhenisa ha nga i ita (phurodzhege, fodara kana mutevhe wa tshishumiswa) i vha bodo yayo. Khadi dza vhubebi na zwi ḓitikaho vhukati ha bodo idzo zwo ṅwalwa kha muvhigo wa u dzhenisa.",
   "import-report-description": "Bodo yo sikiwa, fhedzi zwiṅwe zwipiḓa zwa faela a zwo ngo kona u ḓiswa. Muvhigo wonoyo wo vhulungwa kha Phanele ya mulanguli → Vhuleme → U vhuedzedza.",
   "import-report-heading": "Zwo dzheniswa hu na tsivhudzo",
   "import-report-open-board": "Vulani bodo",

@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Zaɓi mai amfani da ke akwai ga kowannensu",
   "import-members-mode-me": "Mai da su duka ni",
   "import-members-mode-placeholder": "Bar su a matsayin masu amfani na wucin gadi da sunayensu, don haɗa su da masu amfani na gaske daga baya",
+  "import-one-board-per-project": "Allo ɗaya ga kowane aiki",
+  "import-one-board-per-project-hint": "Kowane layi da shigowar za ta yi (aiki, babban fayil ko jerin kayan aikin) yana zama allonsa na kansa. Katunan iyaye da dogaro tsakanin waɗannan alluna ana lissafa su a rahoton shigowa.",
   "import-report-description": "An ƙirƙiri allon, amma an kasa shigo da wasu sassan fayil ɗin. Ana ajiye wannan rahoton a Panel na Admin → Matsaloli → Farfaɗowa.",
   "import-report-heading": "An shigo da shi tare da gargadi",
   "import-report-open-board": "Buɗe allon",

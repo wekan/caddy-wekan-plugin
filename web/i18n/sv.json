@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Välj en befintlig användare för var och en",
   "import-members-mode-me": "Ersätt dem alla med mig",
   "import-members-mode-placeholder": "Behåll dem som platshållaranvändare med sina egna namn, för att koppla dem till riktiga användare senare",
+  "import-one-board-per-project": "En tavla per projekt",
+  "import-one-board-per-project-hint": "Varje simbana som importen skulle skapa (ett projekt, en mapp eller en lista i verktyget) blir en egen tavla. Överordnade kort och beroenden mellan dessa tavlor anges i importrapporten.",
   "import-report-description": "Tavlan skapades, men vissa delar av filen kunde inte överföras. Samma rapport sparas under Administrationspanelen → Problem → Återställning.",
   "import-report-heading": "Importerad med varningar",
   "import-report-open-board": "Öppna tavlan",

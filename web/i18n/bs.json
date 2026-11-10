@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Odaberite postojećeg korisnika za svaku osobu",
   "import-members-mode-me": "Zamijeni sve mojim korisničkim računom",
   "import-members-mode-placeholder": "Zadržite ih kao privremene korisnike s njihovim imenima kako biste ih kasnije povezali sa stvarnim korisnicima",
+  "import-one-board-per-project": "Jedna tabla po projektu",
+  "import-one-board-per-project-hint": "Svaka traka koju bi uvoz napravio (projekt, fascikla ili lista alata) postaje zasebna tabla. Nadređene kartice i zavisnosti između tih tabli navedene su u izvještaju o uvozu.",
   "import-report-description": "Tabla je napravljena, ali neki dijelovi datoteke nisu se mogli prenijeti. Isti izvještaj čuva se u Administratorski panel → Problemi → Oporavak.",
   "import-report-heading": "Uvezeno s upozorenjima",
   "import-report-open-board": "Otvori tablu",

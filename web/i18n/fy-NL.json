@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Kies foar elk fan harren in besteande brûker",
   "import-members-mode-me": "Meitsje se allegear my",
   "import-members-mode-placeholder": "Hâld se as plakhâlderbrûkers mei harren eigen nammen, om letter oan echte brûkers te keppeljen",
+  "import-one-board-per-project": "Ien boerd per projekt",
+  "import-one-board-per-project-hint": "Elke swimbaan dy't de ymport meitsje soe (in projekt, map of list fan it ark) wurdt in eigen boerd. Âlderkaarten en ôfhinklikheden tusken dy boerden steane yn it ymportrapport.",
   "import-report-description": "It boerd is oanmakke, mar guon dielen fan it bestân koene net oernommen wurde. Itselde rapport wurdt bewarre yn Adminpaniel → Problemen → Werstel.",
   "import-report-heading": "Ymportearre mei warskôgingen",
   "import-report-open-board": "Iepenje it boerd",

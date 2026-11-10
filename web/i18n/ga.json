@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Roghnaigh úsáideoir atá ann cheana do gach duine acu",
   "import-members-mode-me": "Cuir mise ina n-áit go léir",
   "import-members-mode-placeholder": "Coinnigh iad mar úsáideoirí ionaid lena n-ainmneacha féin, chun iad a mheaitseáil le fíorúsáideoirí níos déanaí",
+  "import-one-board-per-project": "Clár amháin in aghaidh an tionscadail",
+  "import-one-board-per-project-hint": "Déantar clár ar leith de gach lána a chruthódh an iompórtáil (tionscadal, fillteán nó liosta ón uirlis). Liostaítear máthair-chártaí agus spleáchais idir na cláir sin sa tuairisc iompórtála.",
   "import-report-description": "Cruthaíodh an clár, ach níorbh fhéidir codanna áirithe den chomhad a aistriú. Coinnítear an tuairisc chéanna in Painéal Riaracháin → Fadhbanna → Athshlánú.",
   "import-report-heading": "Iompórtáilte le rabhaidh",
   "import-report-open-board": "Oscail an clár",

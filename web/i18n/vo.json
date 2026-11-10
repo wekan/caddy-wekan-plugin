@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Välolös gebani dabinöl pro alik onas",
   "import-members-mode-me": "Mekön onis valikis obi",
   "import-members-mode-placeholder": "Kipön onis as gebans plaädik labü nems lönik onas, ad kobükön onis ko gebans jenöfik poso",
+  "import-one-board-per-project": "Tab bal a proyeg",
+  "import-one-board-per-project-hint": "Dil horitätik alik, keli nüveig ömekon (proyeg, ragivastak u lised stuma), vedon tab lönik. Kads pala e dependots vü tabs at palisedons in nunod nüveiga.",
   "import-report-description": "Tab pejafon, ab dils anik ragiva no äkanons panüveigön. Nunod ot pakipon in Guvanamafenät → Säkäds → Regetam.",
   "import-report-heading": "Penüveigöl ko nuneds",
   "import-report-open-board": "Maifükön tabi",

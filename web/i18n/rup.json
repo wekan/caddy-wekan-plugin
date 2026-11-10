@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Alãdzi un ufilisitor tsi easti trã cathi unu di eshlji",
   "import-members-mode-me": "Fã-lj tuts mini",
   "import-members-mode-placeholder": "Tsãni-lj ca ufilisitori di loc cu numa a lor, tra s-hibã ligats di ufilisitori adevãrats ma amanatlu",
+  "import-one-board-per-project": "Unã tabelã trã cathi proiect",
+  "import-one-board-per-project-hint": "Cathi cali tsi va u facã importul (un proiect, unã dosarã i unã listã a ergaliului) s-fatsi tabela a ljei. Cãrtsãli-pãrinti shi dependentsili namisa di aesti tabeli suntu scriati tu raportul di import.",
   "import-report-description": "Tabela fu fãcutã, ma niscãnti pãrtsã di fișier nu puturã s' hibã adusi. Același raport s' țãni tu Panou di administrator → Probleme → Recuperare.",
   "import-report-heading": "Importatã cu cãnusiri",
   "import-report-open-board": "Discl'idi tabela",

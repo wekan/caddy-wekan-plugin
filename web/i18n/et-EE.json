@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Vali igaühele olemasolev kasutaja",
   "import-members-mode-me": "Asenda kõik minu kasutajakontoga",
   "import-members-mode-placeholder": "Säilita nad oma nimedega kohatäitekasutajatena, et siduda nad hiljem tegelike kasutajatega",
+  "import-one-board-per-project": "Üks juhatus projekti kohta",
+  "import-one-board-per-project-hint": "Igast ujumisrajast, mille import looks (tööriista projekt, kaust või loetelu), saab eraldi juhatus. Nende juhatuste vahelised ülemkaardid ja sõltuvused loetletakse impordiaruandes.",
   "import-report-description": "Tahvel loodi, kuid mõnda faili osa ei saanud üle tuua. Sama aruanne säilitatakse jaotises Halduspaneel → Probleemid → Taastamine.",
   "import-report-heading": "Imporditud hoiatustega",
   "import-report-open-board": "Ava tahvel",

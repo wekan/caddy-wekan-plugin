@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Wubjerće za kóždeho z nich eksistowaceho wužiwarja",
   "import-members-mode-me": "Wšitcy maja ja być",
   "import-members-mode-placeholder": "Wobchować jich jako zastupowacych wužiwarjow z jich swójskimi mjenami, zo byšće jich pozdźišo z woprawdźitymi wužiwarjemi zwjazali",
+  "import-one-board-per-project": "Jedna tafla na projekt",
+  "import-one-board-per-project-hint": "Kóžda dróha, kotruž by import wutworił (projekt, rjadowak abo lisćina nastroja), budźe swójska tafla. Nadrjadowane karty a wotwisnosće mjez tutymi taflemi so w importowej rozprawje nalistuja.",
   "import-report-description": "Tafla je so wutworiła, ale někotre dźěle dataje njedachu so přenjesć. Samsna rozprawa so w administraciskim panelu → Problemy → Wobnowjenje wobchowa.",
   "import-report-heading": "Z warnowanjemi importowane",
   "import-report-open-board": "Taflu wočinić",

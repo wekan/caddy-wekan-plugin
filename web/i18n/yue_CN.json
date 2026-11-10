@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "幫每個人揀一個現有用戶",
   "import-members-mode-me": "全部當係我",
   "import-members-mode-placeholder": "保留做用返自己名嘅佔位用戶，遲啲再對應去真正用戶",
+  "import-one-board-per-project": "每個專案一個看板",
+  "import-one-board-per-project-hint": "匯入會整嘅每條泳道（工具嘅一個專案、資料夾或者清單）會變成自己嘅看板。嗰啲看板之間嘅上層卡片同依賴關係會列喺匯入報告入面。",
   "import-report-description": "看板已建立，但檔案入面有部分內容無法匯入。同一份報告亦會保留喺管理面板 → 問題 → 復原。",
   "import-report-heading": "已匯入，但有警告",
   "import-report-open-board": "開啟看板",

@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Wybier istniyjōncego użytkownika dlŏ kożdego z nich",
   "import-members-mode-me": "Zrōb ich wszyskich mnōm",
   "import-members-mode-placeholder": "Ôstŏw ich jako zastympczych użytkownikōw z włŏsnymi mianami, coby niyskorzij przipisać ich do prŏwdziwych użytkownikōw",
+  "import-one-board-per-project": "Jedna tabula na projekt",
+  "import-one-board-per-project-hint": "Kożdy ślak, kery by zrobiōł import (projekt, folder abo lista narzyndzia), stŏwŏ sie włŏsnōm tabulōm. Nadrzyndne karty i zależności miyndzy tymi tabulami sōm wymiyniōne w raporcie importu.",
   "import-report-description": "Tabula ôstała stworzōnŏ, ale niykerych czyńści pliku niy szło przeniyś. Tyn sam raport je trzimany w Panelu administratōra → Problymy → Ôdtwŏrzanie.",
   "import-report-heading": "Zaimportowane ze ôstrzeżyniami",
   "import-report-open-board": "Ôtwōrz tabula",

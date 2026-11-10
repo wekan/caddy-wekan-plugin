@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Kgethela yo mongwe le yo mongwe wa bona mošomiši yo a lego gona",
   "import-members-mode-me": "Ba dire bohle nna",
   "import-members-mode-placeholder": "Ba boloke bjalo ka bašomiši ba nakwana ka maina a bona, go ba kgokaganya le bašomiši ba nnete ka morago",
+  "import-one-board-per-project": "Poto e tee ka projeke",
+  "import-one-board-per-project-hint": "Tsela ye nngwe le ye nngwe yeo go tsenya go bego go tla e dira (projeke, foltara goba lelokelelo la sedirišwa) e fetoga poto ya yona. Dikarata tša batswadi le go ithekga magareng ga dipoto tšeo di ngwalwa pegong ya go tsenya.",
   "import-report-description": "Poto e hlamilwe, eupša dikarolo tše dingwe tša faele ga se tša kgona go fetišetšwa. Pego yona yeo e bolokilwe go Phanele ya molaodi → Mathata → Khwetšo.",
   "import-report-heading": "E tsentšwe ka ditemošo",
   "import-report-open-board": "Bula poto",

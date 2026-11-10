@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Olaryň her biri üçin bar bolan ulanyjyny saýlaň",
   "import-members-mode-me": "Olaryň hemmesini men et",
   "import-members-mode-placeholder": "Olary soňra hakyky ulanyjylara baglamak üçin öz atlary bilen orunbasar ulanyjylar hökmünde saklaň",
+  "import-one-board-per-project": "Her taslama üçin bir tagta",
+  "import-one-board-per-project-hint": "Importyň döretjek her zolagy (guralyň taslamasy, bukjasy ýa-da sanawy) öz tagtasyna öwrülýär. Şol tagtalaryň arasyndaky ene kartlar we baglylyklar import hasabatynda görkezilýär.",
   "import-report-description": "Geňeş döredildi, ýöne faýlyň käbir böleklerini geçirip bolmady. Şol hasabat Dolandyryş paneli → Meseleler → Dikeldiş bölüminde saklanýar.",
   "import-report-heading": "Duýduryşlar bilen import edildi",
   "import-report-open-board": "Geňeşi açyň",

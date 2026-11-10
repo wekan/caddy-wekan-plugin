@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Eta ubbaas de'iya oosanchchaa doora",
   "import-members-mode-me": "Eta ubbaa tana ootta",
   "import-members-mode-placeholder": "Guyyeppe tumu oosanchchataara gattanaw, eta huuphe sunttaara sohuwaa naagiya oosanchchata gidi naaga",
+  "import-one-board-per-project": "Projektiyaa ubbaas issi bookkiya",
+  "import-one-board-per-project-hint": "Gelissuwaa medhiya ogiyay ubbay (programiyaa projektiyaa, folderiyaa woykko mazgabaa) ba huuphe bookkiya gidees. Aawaa kaardiyatinne he bookkiyata giddon de'iya gaittoti gelissuwaa erissuwaa giddon xaafettoosona.",
   "import-report-description": "Bookkiyay medhettiis, shin faayiliyaa issi issi baggati gelanaw danddayibookkona. He yootettidobay Alaafiyaa sohuwaa → Metota → Zaaruwaa giddon naagettees.",
   "import-report-heading": "Zoriyaara gelissiis",
   "import-report-open-board": "Bookkiyaa dooy",

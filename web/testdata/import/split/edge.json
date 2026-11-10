@@ -1,0 +1,17 @@
+{
+  "board": {"name": "Projects", "description": "All of them"},
+  "columns": [{"title": "Todo"}, {"title": "Done"}],
+  "swimlane_columns": {"Alpha": ["Todo"], "Beta": ["Done", "Later"]},
+  "swimlanes": [{"name": "Alpha"}, {"name": "Beta"}],
+  "tasks": [
+    {"title": "A1", "ref": "a1", "swimlane_name": "Alpha", "column": "Todo"},
+    {"title": "A2", "ref": "a2", "swimlane": "Alpha", "parent_ref": "b1", "dependencies": [{"ref": "a1"}, {"ref": "b1", "type": "blocks"}, null, {"ref": "gone"}]},
+    {"title": "B1", "ref": "b1", "swimlane_name": "Beta", "parent_ref": "a1"},
+    {"title": "D1", "ref": "", "parent_ref": "a2"},
+    {"title": "N1", "ref": 7, "swimlane_name": "Beta", "dependencies": [{"ref": 7}]},
+    {"title": "E1", "swimlane_name": "", "swimlane": "Gamma", "ref": "e1"}
+  ],
+  "warnings": ["one warning"],
+  "unsupported": [{"path": "/x", "reason": "the source's own"}],
+  "extra": {"kept": true}
+}

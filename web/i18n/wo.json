@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Tànnal jëfandikukat bu am ngir ku nekk ci ñoom",
   "import-members-mode-me": "Def leen ñoom ñépp man",
   "import-members-mode-placeholder": "Denc leen ni jëfandikukat yu wuutu ak seen tur, ngir boole leen ak jëfandikukat yu dëgg ginaaw",
+  "import-one-board-per-project": "Benn tablo ci benn-benn projet",
+  "import-one-board-per-project-hint": "Benn-benn yoon bu import bi di def (projet, kaas walla limu bu jumtukaay bi) dafay nekk tablo bu moom. Karta yu mag ak dependency yi diggante tablo yooyu ñu ngi nekk ci rapóoru import bi.",
   "import-report-description": "Tablo bi sos nañu ko, waaye maneesul a indi yenn xaaj yi ci dencukaay bi. Rapoor boobu deñc nañu ko ci Paneelu admin → Jafe-jafe yi → Delloo.",
   "import-report-heading": "Dugal nañu ko ak ay artu",
   "import-report-open-board": "Ubbil tablo bi",

@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Pilih panganggo sing wis ana kanggo saben wong",
   "import-members-mode-me": "Dadekake kabeh aku",
   "import-members-mode-placeholder": "Simpen minangka panganggo sementara kanthi jenenge dhewe, kanggo dicocogake karo panganggo asli mengko",
+  "import-one-board-per-project": "Siji papan saben proyek",
+  "import-one-board-per-project-hint": "Saben lajur sing bakal digawe impor (proyek, folder utawa dhaptar saka piranti kuwi) dadi papan dhewe. Kertu induk lan katergantungan antarane papan-papan kuwi didhaptar ing laporan impor.",
   "import-report-description": "Papan wis digawe, nanging sawetara bagean berkas ora bisa dipindhah. Laporan sing padha disimpen ing Panel Admin → Masalah → Pamulihan.",
   "import-report-heading": "Diimpor kanthi pepeling",
   "import-report-open-board": "Bukak papan",

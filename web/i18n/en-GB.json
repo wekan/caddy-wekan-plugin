@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Choose an existing user for each of them",
   "import-members-mode-me": "Make them all me",
   "import-members-mode-placeholder": "Keep them as placeholder users with their own names, to map to real users later",
+  "import-one-board-per-project": "One board per project",
+  "import-one-board-per-project-hint": "Each swimlane the import would make (a project, folder or list of the tool) becomes its own board. Parent cards and dependencies between those boards are listed in the import report.",
   "import-report-description": "The board was created, but some parts of the file could not be brought over. The same report is kept in Admin Panel → Problems → Recovery.",
   "import-report-heading": "Imported with warnings",
   "import-report-open-board": "Open the board",

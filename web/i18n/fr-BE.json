@@ -1095,6 +1095,8 @@
   "import-members-mode-map": "Choisir un utilisateur existant pour chacune d’elles",
   "import-members-mode-me": "Toutes les remplacer par moi",
   "import-members-mode-placeholder": "Les conserver comme utilisateurs provisoires avec leurs propres noms, pour les associer à de vrais utilisateurs plus tard",
+  "import-one-board-per-project": "Un tableau par projet",
+  "import-one-board-per-project-hint": "Chaque couloir que l’importation créerait (un projet, un dossier ou une liste de l’outil) devient un tableau distinct. Les cartes parentes et les dépendances entre ces tableaux sont indiquées dans le rapport d’importation.",
   "import-report-description": "Le tableau a été créé, mais certaines parties du fichier n’ont pas pu être transférées. Le même rapport est conservé dans Panneau d’administration → Problèmes → Récupération.",
   "import-report-heading": "Importé avec des avertissements",
   "import-report-open-board": "Ouvrir le tableau",

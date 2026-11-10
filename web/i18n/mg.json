@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Misafidiana mpampiasa efa misy ho an’ny tsirairay",
   "import-members-mode-me": "Ataovy izaho izy rehetra",
   "import-members-mode-placeholder": "Tazomy ho mpampiasa solon-toerana miaraka amin’ny anarany manokana izy ireo, mba hampifandraisina amin’ny mpampiasa tena izy any aoriana",
+  "import-one-board-per-project": "Solaitra iray isaky ny tetikasa",
+  "import-one-board-per-project-hint": "Lasa solaitra misaraka ny lalana tsirairay tokony ho noforonin’ny fanafarana (tetikasa, lahatahiry na lisitry ny fitaovana). Voatanisa ao amin’ny tatitra fanafarana ny karatra ray aman-dreny sy ny fiankinana eo amin’ireo solaitra ireo.",
   "import-report-description": "Noforonina ny solaitra, saingy tsy azo nafindra ny ampahany sasany tamin'ny rakitra. Tehirizina ao amin'ny Tontonana mpitantana → Olana → Famerenana amin'ny laoniny koa io tatitra io.",
   "import-report-heading": "Nampidirina niaraka tamin'ny fampitandremana",
   "import-report-open-board": "Sokafy ny solaitra",

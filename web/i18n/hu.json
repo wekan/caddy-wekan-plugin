@@ -1099,6 +1099,8 @@
   "import-members-mode-map": "Meglévő felhasználó kiválasztása mindegyikükhöz",
   "import-members-mode-me": "Mindegyikük helyett én szerepeljek",
   "import-members-mode-placeholder": "Megtartás helyőrző felhasználóként a saját nevükkel, későbbi hozzárendeléshez valódi felhasználókhoz",
+  "import-one-board-per-project": "Projektenként egy tábla",
+  "import-one-board-per-project-hint": "Minden úszósávból, amelyet az importálás létrehozna (az eszköz projektje, mappája vagy listája), külön tábla lesz. A szülőkártyákat és a táblák közötti függőségeket az importálási jelentés sorolja fel.",
   "import-report-description": "A tábla létrejött, de a fájl egyes részeit nem sikerült átvinni. Ugyanez a jelentés az Adminisztrációs panel → Problémák → Helyreállítás alatt is megmarad.",
   "import-report-heading": "Importálva figyelmeztetésekkel",
   "import-report-open-board": "Tábla megnyitása",

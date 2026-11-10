@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Kies 'n bestaande gebruiker vir elkeen",
   "import-members-mode-me": "Vervang almal met my gebruikersrekening",
   "import-members-mode-placeholder": "Hou hulle as plekhouergebruikers met hul eie name, om hulle later aan werklike gebruikers toe te wys",
+  "import-one-board-per-project": "Een raad per projek",
+  "import-one-board-per-project-hint": "Elke swembaan wat die invoer sou skep ('n projek, vouer of lys van die hulpmiddel), word sy eie raad. Ouerkaarte en afhanklikhede tussen daardie rade word in die invoerverslag gelys.",
   "import-report-description": "Die bord is geskep, maar sommige dele van die lêer kon nie oorgedra word nie. Dieselfde verslag word in Administrasiepaneel → Probleme → Herstel gehou.",
   "import-report-heading": "Ingevoer met waarskuwings",
   "import-report-open-board": "Maak die bord oop",

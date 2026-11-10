@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "ንነፍሲ ወከፎም ዘሎ ተጠቃሚ ምረጽ",
   "import-members-mode-me": "ኩሎም ኣነ ግበሮም",
   "import-members-mode-placeholder": "ደሓር ናብ ሓቀኛታት ተጠቀምቲ ንምትሕሓዝ፡ ምስ ገዛእ ርእሶም ስም ከም ተተካእቲ ተጠቀምቲ ሓዞም",
+  "import-one-board-per-project": "ሓደ ሰሌዳ ንነፍሲ ወከፍ ፕሮጀክት",
+  "import-one-board-per-project-hint": "እቲ ምእታው ዝፈጥሮ ነፍሲ ወከፍ መስመር (ፕሮጀክት፡ ፎልደር ወይ ዝርዝር ናይቲ መሳርሒ) ናይ ገዛእ ርእሱ ሰሌዳ ይኸውን። ወለዲ ካርድታትን ኣብ መንጎ እቶም ሰሌዳታት ዘለዉ ምትእስሳራትን ኣብ ጸብጻብ ምእታው ይዝርዘሩ።",
   "import-report-description": "እቲ ሰሌዳ ተፈጢሩ፣ ግን ገለ ክፋላት ናይቲ ፋይል ክመጹ ኣይከኣሉን። እቲ ተመሳሳሊ ጸብጻብ ኣብ ናይ ኣመሓዳሪ ሰሌዳ → ጸገማት → ምሕዋይ ተዓቂቡ ኣሎ።",
   "import-report-heading": "ምስ መጠንቀቕታታት ኣትዩ",
   "import-report-open-board": "ነቲ ሰሌዳ ክፈት",

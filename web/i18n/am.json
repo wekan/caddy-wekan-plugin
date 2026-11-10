@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "ለእያንዳንዳቸው ነባር ተጠቃሚ ይምረጡ",
   "import-members-mode-me": "ሁሉንም እኔ አድርጋቸው",
   "import-members-mode-placeholder": "በኋላ ከእውነተኛ ተጠቃሚዎች ጋር ለማዛመድ በራሳቸው ስም እንደ ቦታ ያዥ ተጠቃሚዎች ያቆዩዋቸው",
+  "import-one-board-per-project": "ለእያንዳንዱ ፕሮጀክት አንድ ሰሌዳ",
+  "import-one-board-per-project-hint": "ማስመጣቱ የሚሠራው እያንዳንዱ መስመር (የመሣሪያው ፕሮጀክት፣ አቃፊ ወይም ዝርዝር) የራሱ ሰሌዳ ይሆናል። በእነዚያ ሰሌዳዎች መካከል ያሉ የወላጅ ካርዶች እና ጥገኞች በማስመጣት ሪፖርቱ ውስጥ ተዘርዝረዋል።",
   "import-report-description": "ሰሌዳው ተፈጥሯል፣ ግን አንዳንድ የፋይሉን ክፍሎች ማስገባት አልተቻለም። ተመሳሳዩ ሪፖርት በአስተዳዳሪ ፓነል → ችግሮች → መልሶ ማግኘት ውስጥ ይቀመጣል።",
   "import-report-heading": "ከማስጠንቀቂያዎች ጋር ገብቷል",
   "import-report-open-board": "ሰሌዳውን ክፈት",

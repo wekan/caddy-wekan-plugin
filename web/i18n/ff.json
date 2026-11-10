@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Suɓo kuutoro gonɗo wonande kala gooto e maɓɓe",
   "import-members-mode-me": "Waɗ ɓe fof ko kam",
   "import-members-mode-placeholder": "Jogit ɓe no huutorɓe nokkol e inɗe mum en, ngam jokkondirde ɓe e huutorɓe goonga caggal",
+  "import-one-board-per-project": "Alluwal gootal e kala porose",
+  "import-one-board-per-project-hint": "Kala laawol ngol naatnugol ngol sosata (porose, dosiyee walla doggol kuutorgal ngal) ina wonta alluwal mum. Karte daddo e jokkondire hakkunde alluuje ɗee ina mbinndaa e jaŋtol naatnugol ngol.",
   "import-report-description": "Alluwal ngal waɗaama, kono won e pecce fiilde nde mbaawaaka addude. Jaŋtol ngol tigi mooftaama e Palanteere jiiloowo → Caɗeele → Ruttindol.",
   "import-report-heading": "Naatnaama e jertinaango",
   "import-report-open-board": "Uddit alluwal ngal",

@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Pumili ng umiiral na user para sa bawat isa sa kanila",
   "import-members-mode-me": "Gawin silang lahat na ako",
   "import-members-mode-placeholder": "Panatilihin sila bilang pansamantalang user na may sariling pangalan, para itugma sa tunay na user mamaya",
+  "import-one-board-per-project": "Isang pisara bawat proyekto",
+  "import-one-board-per-project-hint": "Ang bawat daanan na gagawin ng import (isang proyekto, folder o listahan ng tool) ay magiging sariling pisara. Ang mga parent kard at mga dependency sa pagitan ng mga pisarang iyon ay nakalista sa ulat ng import.",
   "import-report-description": "Nalikha ang pisara, ngunit hindi nailipat ang ilang bahagi ng file. Nakaimbak din ang parehong ulat sa Panel ng Tagapangasiwa → Mga problema → Pagbawi.",
   "import-report-heading": "Na-import na may mga babala",
   "import-report-open-board": "Buksan ang pisara",

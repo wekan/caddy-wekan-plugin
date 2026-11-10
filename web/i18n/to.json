@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Fili ha tokotaha ngāueʻaki ʻoku ʻi ai ki he tokotaha takitaha",
   "import-members-mode-me": "Ngaohi kinautolu kotoa ko au",
   "import-members-mode-placeholder": "Tauhi kinautolu ko e kau ngāueʻaki fakataimi mo honau hingoa pē ʻonautolu, ke fakahoa ki he kau ngāueʻaki moʻoni ʻamui",
+  "import-one-board-per-project": "Papa ʻe taha ki he poloseki takitaha",
+  "import-one-board-per-project-hint": "Ko e hala takitaha ʻe faʻu ʻe he hū mai (ko ha poloseki, fōlota pe lisi ʻo e meʻangāue) ʻoku hoko ko hono papa pē ʻoʻona. Ko e ngaahi kaati tefito mo e ngaahi falalaʻanga ʻi he vahaʻa ʻo e ngaahi papa ko ia ʻoku lisi ʻi he lipooti hū mai.",
   "import-report-description": "Kuo faʻu ʻa e papá, ka naʻe ʻikai lava ke ʻomi ha ngaahi konga ʻo e failé. ʻOku tauhi ʻa e lipooti tatau ʻi he Palanisi ʻo e pule → Ngaahi palopalema → Fakafoki.",
   "import-report-heading": "Kuo ʻomi ki loto mo e ngaahi fakatokanga",
   "import-report-open-board": "Fakaava ʻa e papá",

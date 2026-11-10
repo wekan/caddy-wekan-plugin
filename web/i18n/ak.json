@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Paw dwumadini a ɔwɔ hɔ dada ma wɔn mu biara",
   "import-members-mode-me": "Yɛ wɔn nyinaa me",
   "import-members-mode-placeholder": "Ma wɔn ntena hɔ sɛ dwumadini a wɔsi ananmu a wɔn ankasa din ka ho, na akyiri yi wode wɔn ahyia dwumadini ankasa",
+  "import-one-board-per-project": "Bɔɔd baako ma prɔgyɛkt biara",
+  "import-one-board-per-project-hint": "Kwan biara a nneɛma a wɔde ba mu no bɛyɛ (dwumadie no prɔgyɛkt, fɔlda anaa nhwɛso) bɛyɛ ne ankasa bɔɔd. Agya kaad ne nneɛma a wɔde wɔn ho to so wɔ saa bɔɔd no ntam no, wɔakyerɛw wɔ nsɛm a ɛfa fa ba mu ho no mu.",
   "import-report-description": "Wɔayɛ bɔɔd no, nanso wɔantumi amfa fael no afã bi amma mu. Wɔakora saa amanneɛbɔ no ara so wɔ Sohwɛfoɔ paanel → Ɔhaw → San fa bra.",
   "import-report-heading": "Wɔde aba mu a kɔkɔbɔ ahorow ka ho",
   "import-report-open-board": "Bue bɔɔd no",

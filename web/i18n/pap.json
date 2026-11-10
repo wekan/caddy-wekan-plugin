@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Skohe un usuario eksistente pa kada un di nan",
   "import-members-mode-me": "Usa mi na lugá di tur e personanan",
   "import-members-mode-placeholder": "Warda nan komo usuarionan provisional ku nan mes nòmber, pa konektá nan na usuarionan real despues",
+  "import-one-board-per-project": "Un tabla pa kada proyekto",
+  "import-one-board-per-project-hint": "Kada kaminda ku e importashon lo krea (un proyekto, mapa òf lista di e instrumento) ta bira su mes tabla. Karchinan prinsipal i dependensianan entre e tablanan ei ta wordu listá den e rapòrt di importashon.",
   "import-report-description": "A krea e tabla, pero no por a trese algun parti di e fail. E mesun rapòrt ta warda den Panel di administradó → Problemas → Recuperashon.",
   "import-report-heading": "Importá ku atvertensianan",
   "import-report-open-board": "Habri e tabla",

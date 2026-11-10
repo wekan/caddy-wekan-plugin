@@ -1,0 +1,6036 @@
+{
+  "asana-asana.parsed.golden": "whole",
+  "asana-wekan-asana.parsed.golden": "whole",
+  "businessmap-businessmap.parsed.golden": [
+    {
+      "board": {
+        "name": "Plan & <Go> \"q\" 🚀"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "No column"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Write   spec now",
+          "description": "line one\n\nline \"two\" <b>",
+          "tags": [
+            "priority:H",
+            "web  dev",
+            "project:Plant.Pumps",
+            "@home",
+            "big deal",
+            "p2",
+            "a;b",
+            "Bug",
+            "x   y"
+          ],
+          "owner_username": "alice",
+          "assignees": [
+            "bob",
+            "alice",
+            "bob",
+            "jr"
+          ],
+          "color": "#ff78cb",
+          "date_due": "2026-11-20T00:00:00.000Z",
+          "date_started": "2026-11-10T00:00:00.000Z",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "comments": [
+            {
+              "text": "bob: Looks <i>good</i>"
+            },
+            {
+              "text": "no author"
+            }
+          ]
+        },
+        {
+          "title": "-minus first",
+          "description": "first\nsecond",
+          "tags": [
+            "priority:B",
+            "raw",
+            "done",
+            "won't do",
+            "=SUM(1)"
+          ],
+          "color": "#0d9488",
+          "date_end": "2026-11-05T00:00:00.000Z",
+          "column_name": "Done",
+          "swimlane_name": "Default"
+        },
+        {
+          "title": "No list item",
+          "description": "",
+          "tags": [
+            "p1"
+          ],
+          "date_due": "2026-11-12T00:00:00.000Z",
+          "date_started": "2026-11-11T00:00:00.000Z",
+          "column_name": "Started",
+          "swimlane_name": "Default"
+        },
+        {
+          "title": "Orphan of an archived list",
+          "description": "",
+          "tags": [],
+          "date_end": "2026-11-06T00:00:00.000Z",
+          "column_name": "No column",
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "No column"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "multi\n  line\ttitle",
+          "description": "",
+          "tags": [],
+          "assignees": [
+            "dave"
+          ],
+          "color": "#dda0dd",
+          "date_due": "2026-12-24T00:00:00.000Z",
+          "column_name": "Archived list",
+          "swimlane_name": "Default",
+          "comments": [
+            {
+              "text": "orphan"
+            }
+          ]
+        },
+        {
+          "title": "Backlogged",
+          "description": "",
+          "tags": [],
+          "column_name": "Backlog",
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "businessmap-edge.parsed.golden": [
+    {
+      "board": {
+        "name": "Lane A"
+      },
+      "columns": [
+        {
+          "title": "Doing"
+        },
+        {
+          "title": "No column"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Order valves",
+          "description": "Two of them",
+          "tags": [
+            "shop",
+            "urgent"
+          ],
+          "ref": "101",
+          "owner_username": "ann",
+          "assignees": [
+            "bob",
+            "cy"
+          ],
+          "color": "#067db7",
+          "date_due": "2026-10-10T15:00:00.000Z",
+          "date_creation": "2026-10-01T00:00:00.000Z",
+          "date_started": "2026-10-01T00:00:00.000Z",
+          "column_name": "Doing",
+          "swimlane_name": "Default",
+          "comments": [
+            {
+              "text": "Looks good"
+            },
+            {
+              "text": "Second"
+            }
+          ],
+          "custom_fields": {
+            "7": "seven",
+            "Card ID": 101,
+            "Custom Card ID": "C-1",
+            "Priority": "high",
+            "Size": 3,
+            "Type": "Task",
+            "Workflow name": "Flow",
+            "Planned Start": "Q4",
+            "Track": "T1",
+            "Budget": 1200
+          },
+          "dependencies": [
+            {
+              "ref": "104",
+              "type": "is-blocked-by"
+            }
+          ]
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/sheet/Notes",
+          "reason": "the \"Notes\" sheet is not imported; Links and Parent columns of the card sheet are"
+        },
+        {
+          "path": "/row/1",
+          "reason": "1 row(s) above the header are not imported"
+        },
+        {
+          "path": "/Board ID",
+          "reason": "Board ID names a Businessmap board; the cards are imported into one new board"
+        },
+        {
+          "path": "/row/3/Template",
+          "reason": "the Businessmap card template \"Std\" is not imported"
+        },
+        {
+          "path": "/row/3/End Date",
+          "reason": "Businessmap date \"2026-02-30\" is not MM/DD/YYYY, DD-MM-YYYY or YYYY-MM-DD"
+        },
+        {
+          "path": "/row/4/Priority",
+          "reason": "Businessmap priority \"urgent\" is not low, average, high or critical; kept as written"
+        },
+        {
+          "path": "/row/4/Color",
+          "reason": "Businessmap color \"blue\" is not a hex color like #067DB7"
+        },
+        {
+          "path": "/row/4/Size",
+          "reason": "Businessmap size \"-1\" is not a number"
+        },
+        {
+          "path": "/row/4/Deadline",
+          "reason": "Businessmap deadline \"1/1/1969\" is not MM/DD/YYYY, DD-MM-YYYY or YYYY-MM-DD between 1970 and 2037"
+        },
+        {
+          "path": "/row/4/Archived At",
+          "reason": "the card is archived; its Businessmap archive date is not kept"
+        },
+        {
+          "path": "/row/5",
+          "reason": "a blank Title (it keeps the existing title in Businessmap); named \"Card 103\""
+        },
+        {
+          "path": "/row/6/Size",
+          "reason": "Businessmap size \"x\" is not a number"
+        },
+        {
+          "path": "/row/6/Deadline",
+          "reason": "Businessmap deadline \"1/1/38\" is not MM/DD/YYYY, DD-MM-YYYY or YYYY-MM-DD between 1970 and 2037"
+        },
+        {
+          "path": "/row/8",
+          "reason": "a Businessmap row without a Title or Card ID is not imported"
+        },
+        {
+          "path": "/row/3/Links",
+          "reason": "Businessmap link \"siblings: 1\" is not Parents, Children, Relatives, Predecessors or Successors"
+        },
+        {
+          "path": "/row/3/Links",
+          "reason": "child card 999 is not part of this import"
+        },
+        {
+          "path": "/row/6/Links",
+          "reason": "child card 102 already has another parent"
+        },
+        {
+          "path": "/row/9/Links",
+          "reason": "a further parent 103; a WeKan card has one parent"
+        },
+        {
+          "path": "/Lane A/101",
+          "reason": "its parent card \"103\" went to the board \"Default\""
+        },
+        {
+          "path": "/Lane A/101",
+          "reason": "its dependency on \"102\" went to the board \"Flow2\""
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Flow2"
+      },
+      "columns": [
+        {
+          "title": "Doing"
+        },
+        {
+          "title": "No column"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Child",
+          "description": "",
+          "tags": [
+            "a",
+            "b"
+          ],
+          "ref": "102",
+          "assignees": [
+            "dee",
+            "eve"
+          ],
+          "date_creation": "2026-01-02T00:00:00.000Z",
+          "archived": true,
+          "column_name": "No column",
+          "swimlane_name": "Default",
+          "custom_fields": {
+            "Card ID": 102,
+            "Priority": "urgent",
+            "Workflow name": "Flow2"
+          },
+          "dependencies": []
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/Flow2/102",
+          "reason": "its parent card \"101\" went to the board \"Lane A\""
+        },
+        {
+          "path": "/Flow2/102",
+          "reason": "its dependency on \"101\" went to the board \"Lane A\""
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Garden"
+      },
+      "columns": [
+        {
+          "title": "Doing"
+        },
+        {
+          "title": "No column"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Card 103",
+          "description": "",
+          "tags": [],
+          "ref": "103",
+          "date_due": "2037-12-31T00:00:00.000Z",
+          "column_name": "No column",
+          "swimlane_name": "Default",
+          "custom_fields": {
+            "Card ID": 103
+          }
+        },
+        {
+          "title": "Custom only",
+          "description": "",
+          "tags": [],
+          "ref": "C-4",
+          "column_name": "No column",
+          "swimlane_name": "Default",
+          "custom_fields": {
+            "Custom Card ID": "C-4"
+          }
+        },
+        {
+          "title": "Last",
+          "description": "",
+          "tags": [],
+          "ref": "105",
+          "column_name": "No column",
+          "swimlane_name": "Default",
+          "custom_fields": {
+            "Card ID": 105
+          },
+          "dependencies": []
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/Default/105",
+          "reason": "its parent card \"101\" went to the board \"Lane A\""
+        },
+        {
+          "path": "/Default/105",
+          "reason": "its dependency on \"101\" went to the board \"Lane A\""
+        }
+      ]
+    }
+  ],
+  "businessmap-no-header.parsed.golden": "whole",
+  "clickup-clickup-edge.parsed.golden": [
+    {
+      "board": {
+        "name": "Sprint 1"
+      },
+      "columns": [
+        {
+          "title": "to do"
+        },
+        {
+          "title": "in progress"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Parent task",
+          "description": "Body\n\n[Spec \\[v2\\]](https://x.test/a%20b%281%29%3Cc%3E)\n[http://y.test/](http://y.test/)",
+          "column_name": "to do",
+          "swimlane_name": "Default",
+          "tags": [
+            "shop",
+            "urgent"
+          ],
+          "ref": "a1",
+          "owner_username": "Ann",
+          "assignees": [
+            "Bob",
+            "Cy"
+          ],
+          "date_creation": "2023-10-01T10:40:00.000Z",
+          "date_due": "2026-10-10T00:00:00.000Z",
+          "spent_hours": 0.5,
+          "checklists": [
+            {
+              "title": "Checklist",
+              "items": [
+                {
+                  "title": "step one",
+                  "done": false
+                },
+                {
+                  "title": "step two",
+                  "done": false
+                }
+              ]
+            }
+          ],
+          "custom_fields": {
+            "Priority": "Urgent",
+            "Task Type": "Milestone",
+            "Custom ID": "CU-1",
+            "Folder": "Proj/Sub",
+            "Time Estimate (hours)": 1.5
+          }
+        },
+        {
+          "title": "Child",
+          "description": "",
+          "column_name": "in progress",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "a2",
+          "date_started": "2026-10-01T07:00:00.000Z",
+          "custom_fields": {
+            "Priority": "High"
+          },
+          "parent_ref": "a1"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/row/3/Attachments",
+          "reason": "ClickUp attachments are not the documented JSON list"
+        },
+        {
+          "path": "/row/3/Checklists",
+          "reason": "ClickUp Checklists cells have no documented format and are not imported"
+        },
+        {
+          "path": "/row/3/Comments",
+          "reason": "ClickUp Comments cells have no documented format and are not imported"
+        },
+        {
+          "path": "/row/3/Date created",
+          "reason": "ClickUp date \"2026-02-30\" is neither milliseconds nor ISO 8601"
+        },
+        {
+          "path": "/row/3/Due date",
+          "reason": "ClickUp date \"2026-10-10T25:00Z\" is neither milliseconds nor ISO 8601"
+        },
+        {
+          "path": "/row/4/Priority",
+          "reason": "ClickUp priority \"9\" is not urgent, high, normal, low or 1-4"
+        },
+        {
+          "path": "/row/4/Attachments",
+          "reason": "ClickUp attachments are not the documented JSON list"
+        },
+        {
+          "path": "/row/4/Start date",
+          "reason": "ClickUp date \"yesterday\" is neither milliseconds nor ISO 8601"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Space One"
+      },
+      "columns": [
+        {
+          "title": "to do"
+        },
+        {
+          "title": "in progress"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Second child",
+          "description": "",
+          "column_name": "No status",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "a3",
+          "parent_ref": "a9",
+          "owner_username": "Solo",
+          "date_creation": "1970-01-15T06:56:07.890Z",
+          "date_due": "5138-11-16T09:46:39.999Z",
+          "spent_hours": 0,
+          "custom_fields": {
+            "Time Estimate (hours)": 0
+          }
+        },
+        {
+          "title": "No ID",
+          "description": "",
+          "column_name": "done",
+          "swimlane_name": "Default",
+          "tags": []
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "clickup-clickup.parsed.golden": [
+    {
+      "board": {
+        "name": "Plan & <Go> \"q\" 🚀"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Write   spec now",
+          "description": "line one\n\nline \"two\" <b>",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:H",
+            "web  dev",
+            "project:Plant.Pumps",
+            "@home",
+            "big deal",
+            "p2",
+            "a;b",
+            "Bug",
+            "x   y"
+          ],
+          "ref": "cardA1",
+          "owner_username": "alice",
+          "assignees": [
+            "bob",
+            "alice",
+            "bob  jr"
+          ],
+          "date_creation": "2026-11-01T08:00:00.000Z",
+          "date_due": "2026-11-20T10:00:00.000Z",
+          "date_started": "2026-11-10T00:00:00.000Z",
+          "checklists": [
+            {
+              "title": "Checklist",
+              "items": [
+                {
+                  "title": "a & b",
+                  "done": false
+                },
+                {
+                  "title": "c",
+                  "done": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "-minus first",
+          "description": "first\r\nsecond",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:B",
+            "raw",
+            "done",
+            "won't do",
+            "=SUM(1)"
+          ],
+          "ref": "cardB😀2",
+          "parent_ref": "cardA1",
+          "date_creation": "2026-11-02T00:00:00.000Z",
+          "checklists": [
+            {
+              "title": "Checklist",
+              "items": [
+                {
+                  "title": "one",
+                  "done": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "No list item",
+          "description": "",
+          "column_name": "Started",
+          "swimlane_name": "Default",
+          "tags": [
+            "p1"
+          ],
+          "ref": "cardD4",
+          "parent_ref": "cardB😀2",
+          "date_due": "2026-11-12T00:00:00.000Z",
+          "date_started": "2026-11-11T00:00:00.000Z"
+        },
+        {
+          "title": "Orphan of an archived list",
+          "description": "",
+          "column_name": "No status",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "cardE5"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "multi\n  line\ttitle",
+          "description": "",
+          "column_name": "Archived list",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "cardC3",
+          "owner_username": "dave",
+          "date_due": "2026-12-24T18:30:00.000Z"
+        },
+        {
+          "title": "Backlogged",
+          "description": "",
+          "column_name": "Backlog",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "cardF6",
+          "parent_ref": "cardC3"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "deck-deck-edge.parsed.golden": "whole",
+  "deck-deck.parsed.golden": "whole",
+  "deck-wekan-deck.parsed.golden": "whole",
+  "focalboard-focalboard-edge.parsed.golden": "whole",
+  "focalboard-focalboard.parsed.golden": "whole",
+  "forgejo-forgejo.parsed.golden": "whole",
+  "forgejo-wekan-forgejo.parsed.golden": "whole",
+  "gitea-gitea.parsed.golden": "whole",
+  "gitea-github-edge.parsed.golden": "whole",
+  "gitea-wekan-gitea.parsed.golden": "whole",
+  "github-github-edge.parsed.golden": "whole",
+  "github-github.parsed.golden": "whole",
+  "github-wekan-github.parsed.golden": "whole",
+  "gitlab-gitlab.parsed.golden": "whole",
+  "gitlab-wekan-gitlab-scrum.parsed.golden": "whole",
+  "gitlab-wekan-gitlab.parsed.golden": "whole",
+  "kanboard-kanboard-api.parsed.golden": [
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "Backlog",
+          "task_limit": 3
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "ref": "100",
+          "dependencies": [],
+          "title": "Order valves",
+          "description": "Two of them\n\nSource: https://kb.example/task/100",
+          "column_name": "Backlog",
+          "swimlane_name": "Default",
+          "date_due": "1793520000",
+          "date_started": 0,
+          "date_end": null,
+          "date_creation": 1790000000,
+          "archived": false,
+          "color": "crimson",
+          "spent_hours": 1.5,
+          "owner_id": 4,
+          "owner_username": "ann",
+          "requested_by": "Carl",
+          "tags": [
+            "urgent",
+            "shop",
+            "Hardware",
+            "priority:2"
+          ],
+          "checklists": [
+            {
+              "title": "Subtasks",
+              "items": [
+                {
+                  "title": "Find vendor",
+                  "done": true
+                },
+                {
+                  "title": "Pay",
+                  "done": false
+                },
+                {
+                  "title": null,
+                  "done": false
+                }
+              ]
+            }
+          ],
+          "comments": [
+            {
+              "text": "Call them",
+              "author": "ann",
+              "date": "1793530000"
+            },
+            {
+              "text": "x",
+              "author": "Bob"
+            },
+            {
+              "text": null,
+              "author": null,
+              "date": null
+            }
+          ]
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/tasks/0/links/2",
+          "reason": "linked task #999 is not part of this import"
+        },
+        {
+          "path": "/tasks/0/links/3",
+          "reason": "only one link between the same two tasks is kept"
+        },
+        {
+          "path": "/tasks/1/links/weird/0",
+          "reason": "link type \"weird\" has no WeKan equivalent; not imported"
+        },
+        {
+          "path": "/tasks/1/links/relates to/0",
+          "reason": "not a task link"
+        },
+        {
+          "path": "/tasks/3/links/0",
+          "reason": "the task has no id, so its child cannot point at it"
+        },
+        {
+          "path": "/tasks/0/time_estimated",
+          "reason": "WeKan cards have no estimate field; map it to a custom field by hand"
+        },
+        {
+          "path": "/tasks/0/files",
+          "reason": "1 file(s): the API export carries metadata, not file contents"
+        },
+        {
+          "path": "/Ops/100",
+          "reason": "its parent card \"102\" went to the board \"Default\""
+        },
+        {
+          "path": "/Ops/100",
+          "reason": "its dependency on \"101\" went to the board \"Default\""
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Plant"
+      },
+      "columns": [
+        {
+          "title": "Backlog",
+          "task_limit": 3
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "ref": "101",
+          "parent_ref": "102",
+          "title": "Imported task",
+          "description": "",
+          "column_name": "Done",
+          "archived": true,
+          "color": "gray",
+          "tags": [
+            "urgent",
+            "x"
+          ],
+          "checklists": [],
+          "comments": [],
+          "swimlane_name": "Default"
+        },
+        {
+          "ref": "102",
+          "title": "Child",
+          "description": "",
+          "column_name": "Backlog",
+          "swimlane_name": "Default",
+          "archived": true,
+          "tags": [],
+          "checklists": [],
+          "comments": []
+        },
+        {
+          "dependencies": [],
+          "title": "No id",
+          "description": "",
+          "archived": false,
+          "tags": [],
+          "checklists": [],
+          "comments": [],
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/Default/102",
+          "reason": "its parent card \"100\" went to the board \"Ops\""
+        },
+        {
+          "path": "/Default/No id",
+          "reason": "its dependency on \"100\" went to the board \"Ops\""
+        }
+      ]
+    }
+  ],
+  "kanboard-kanboard.parsed.golden": [
+    {
+      "board": {
+        "name": "Plan & <Go> \"q\" 🚀"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Empty"
+        },
+        {
+          "title": "Won't fix"
+        },
+        {
+          "title": "  To Do  "
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "ref": "1",
+          "dependencies": [
+            {
+              "ref": "2",
+              "type": "is-blocked-by"
+            }
+          ],
+          "title": "Write   spec now",
+          "description": "line one\n\nline \"two\" <b>",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "date_due": "2026-11-20T10:00:00.000Z",
+          "date_started": "2026-11-10T00:00:00.000Z",
+          "date_creation": "2026-11-01T08:00:00.000Z",
+          "archived": false,
+          "owner_username": "alice",
+          "requested_by": "carol",
+          "tags": [
+            "priority:H",
+            "web  dev",
+            "project:Plant.Pumps",
+            "@home",
+            "big deal",
+            "p2",
+            "a;b",
+            "Bug",
+            "x , y"
+          ],
+          "checklists": [
+            {
+              "title": "Subtasks",
+              "items": [
+                {
+                  "title": "a & b",
+                  "done": true
+                },
+                {
+                  "title": "c",
+                  "done": false
+                }
+              ]
+            }
+          ],
+          "comments": [
+            {
+              "text": "Looks <i>good</i>",
+              "author": "bob",
+              "date": "2026-11-02T09:30:00.000Z"
+            },
+            {
+              "text": "   ",
+              "author": "bob",
+              "date": "2026-11-02T09:31:00.000Z"
+            },
+            {
+              "text": "no author"
+            }
+          ]
+        },
+        {
+          "ref": "2",
+          "parent_ref": "1",
+          "dependencies": [],
+          "title": "-minus first",
+          "description": "first\r\nsecond  \n\n",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "date_end": "2026-11-05T00:00:00.000Z",
+          "date_creation": "2026-11-02T00:00:00.000Z",
+          "archived": false,
+          "tags": [
+            "priority:B",
+            "raw",
+            "done",
+            "won't do",
+            "=SUM(1)"
+          ],
+          "checklists": [
+            {
+              "title": "Subtasks",
+              "items": [
+                {
+                  "title": "  one  ",
+                  "done": false
+                },
+                {
+                  "title": "   ",
+                  "done": true
+                }
+              ]
+            }
+          ],
+          "comments": []
+        },
+        {
+          "ref": "4",
+          "parent_ref": "2",
+          "title": "No list item",
+          "description": "",
+          "column_name": "Started",
+          "swimlane_name": "Default",
+          "date_due": "2026-11-12T00:00:00.000Z",
+          "date_started": "2026-11-11T00:00:00.000Z",
+          "archived": false,
+          "tags": [
+            "p1"
+          ],
+          "checklists": [],
+          "comments": []
+        },
+        {
+          "ref": "5",
+          "title": "Orphan of an archived list",
+          "description": "",
+          "swimlane_name": "Default",
+          "date_end": "2026-11-06T00:00:00.000Z",
+          "archived": false,
+          "tags": [],
+          "checklists": [],
+          "comments": []
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/tasks/1/links/3",
+          "reason": "only one link between the same two tasks is kept"
+        },
+        {
+          "path": "/Default/1",
+          "reason": "its dependency on \"3\" went to the board \"Ops\""
+        },
+        {
+          "path": "/Default/2",
+          "reason": "its dependency on \"3\" went to the board \"Ops\""
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Empty"
+        },
+        {
+          "title": "Won't fix"
+        },
+        {
+          "title": "  To Do  "
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "ref": "3",
+          "title": "multi\n  line\ttitle",
+          "description": "",
+          "column_name": "Archived list",
+          "swimlane_name": "Default",
+          "date_due": "2026-12-24T18:30:00.000Z",
+          "archived": false,
+          "tags": [],
+          "checklists": [],
+          "comments": [
+            {
+              "text": "orphan",
+              "date": "2026-11-04T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "ref": "6",
+          "parent_ref": "3",
+          "title": "Backlogged",
+          "description": "",
+          "column_name": "Backlog",
+          "swimlane_name": "Default",
+          "archived": false,
+          "tags": [],
+          "checklists": [],
+          "comments": []
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "kanri-kanri-edge.parsed.golden": [
+    {
+      "board": {
+        "name": "Home"
+      },
+      "columns": [
+        {
+          "title": "Todo"
+        },
+        {
+          "title": "Todo (2)"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Paint",
+          "description": "walls",
+          "column_name": "Todo",
+          "swimlane_name": "Default",
+          "tags": [
+            {
+              "name": "red",
+              "color": "red"
+            },
+            {
+              "name": "styled",
+              "color": "#aabbcc"
+            },
+            {
+              "name": "bad"
+            },
+            {
+              "name": "plain"
+            }
+          ],
+          "ref": "k1",
+          "date_due": "2026-11-20T10:00:00.000Z",
+          "due_complete": true,
+          "color": "#0d9488",
+          "checklists": [
+            {
+              "title": "Tasks",
+              "items": [
+                {
+                  "title": "buy paint",
+                  "done": true
+                },
+                {
+                  "title": "brush",
+                  "done": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "",
+          "description": "",
+          "column_name": "Todo",
+          "swimlane_name": "Default",
+          "tags": []
+        },
+        {
+          "title": "Num due",
+          "description": "",
+          "column_name": "Todo",
+          "swimlane_name": "Default",
+          "tags": [],
+          "date_due": "2026-09-21T14:13:20.000Z",
+          "color": "magenta"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/",
+          "reason": "Kanri app settings (activeTheme, colors) belong to the app, not to a board, and are not imported"
+        },
+        {
+          "path": "/boards/0/background",
+          "reason": "Kanri background image \"/home/u/pic.png\" is a file on the computer that exported it and is not imported"
+        },
+        {
+          "path": "/boards/0/columns/0/cards/0/isDueDateCounterRelative",
+          "reason": "Kanri shows this due date as a countdown; WeKan shows the date"
+        },
+        {
+          "path": "/boards/0/columns/0/cards/0/tags",
+          "reason": "Kanri tag \"bad\" color \"nope\" is not a color WeKan can show"
+        },
+        {
+          "path": "/boards/0/columns/0/cards/1/dueDate",
+          "reason": "Kanri due date \"not a date\" is not a date"
+        },
+        {
+          "path": "/boards/0/columns/0/cards/1/color",
+          "reason": "Kanri card color \"magenta-ish\" is not a color WeKan can show"
+        },
+        {
+          "path": "/boards/0/columns/0/cards/3",
+          "reason": "a Kanri card that is not an object is not imported"
+        },
+        {
+          "path": "/boards/0/columns/1/title",
+          "reason": "Kanri has two columns named \"Todo\"; this one is imported as \"Todo (2)\""
+        },
+        {
+          "path": "/boards/0/columns/2",
+          "reason": "a Kanri column that is not an object is not imported"
+        },
+        {
+          "path": "/boards/0/globalTags",
+          "reason": "Kanri tags no card uses are not imported: unused"
+        },
+        {
+          "path": "/boards/2",
+          "reason": "a Kanri board that is not an object is not imported"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Home (2)"
+      },
+      "columns": [
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "x",
+          "description": "",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": []
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "kanri-kanri.parsed.golden": "whole",
+  "leo-leo-edge.parsed.golden": "whole",
+  "leo-leo.parsed.golden": "whole",
+  "linear-linear-edge.parsed.golden": [
+    {
+      "board": {
+        "name": "Eng"
+      },
+      "columns": [
+        {
+          "title": "Todo"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "=SUM(A1)",
+          "description": "'plain",
+          "column_name": "Todo",
+          "swimlane_name": "Default",
+          "tags": [
+            "a",
+            "b"
+          ],
+          "ref": "ENG-1",
+          "owner_username": "Bob",
+          "requested_by": "Ann",
+          "date_creation": "2026-10-01T10:00:00.000Z",
+          "date_started": "2026-10-02T00:00:00.000Z",
+          "date_due": "2026-10-10T00:00:00.000Z",
+          "custom_fields": {
+            "Priority": "Urgent",
+            "Estimate": 16,
+            "Project": "Garden",
+            "Cycle": "Cycle 3"
+          }
+        },
+        {
+          "title": "'Not formula",
+          "description": "",
+          "column_name": "Todo",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "ENG-5",
+          "custom_fields": {
+            "Priority": "Medium",
+            "Estimate": 12
+          }
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/columns/SLA Status",
+          "reason": "Linear column \"SLA Status\" has no WeKan place and is not imported"
+        },
+        {
+          "path": "/columns/Extra",
+          "reason": "Linear column \"Extra\" has no WeKan place and is not imported"
+        },
+        {
+          "path": "/row/3/Archived",
+          "reason": "Linear date \"yes\" is not an ISO 8601 date"
+        },
+        {
+          "path": "/row/3/Created",
+          "reason": "Linear date \"2026-02-30\" is not an ISO 8601 date"
+        },
+        {
+          "path": "/row/3/Started",
+          "reason": "Linear date \"2026-10-02T25:00Z\" is not an ISO 8601 date"
+        },
+        {
+          "path": "/row/3/Due Date",
+          "reason": "Linear date \"2026-13-01\" is not an ISO 8601 date"
+        },
+        {
+          "path": "/row/4/Priority",
+          "reason": "Linear priority \"Higher\" is not one of Urgent, High, Medium, Low"
+        },
+        {
+          "path": "/row/4/Estimate",
+          "reason": "Linear estimate \"abc\" is not a number"
+        },
+        {
+          "path": "/row/4/Created",
+          "reason": "Linear date \"bad\" is not an ISO 8601 date"
+        },
+        {
+          "path": "/row/5/Estimate",
+          "reason": "Linear estimate \"Infinity\" is not a number"
+        },
+        {
+          "path": "/row/5/Archived",
+          "reason": "Linear date \"2026-10-08junk\" is not an ISO 8601 date"
+        },
+        {
+          "path": "/row/6",
+          "reason": "a Linear row without a title is not imported"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Imported Linear issues"
+      },
+      "columns": [
+        {
+          "title": "Todo"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Second",
+          "description": "",
+          "column_name": "No status",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "ENG-2",
+          "date_end": "2026-10-05T00:00:00.000Z",
+          "archived": true,
+          "custom_fields": {
+            "Estimate": 1000,
+            "Cycle": "Sprint 9",
+            "Canceled": true
+          }
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/Default/ENG-2",
+          "reason": "its parent card \"ENG-1\" went to the board \"Eng\""
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "Todo"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Third",
+          "description": "",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "ENG-3",
+          "date_end": "2026-10-07T07:00:00.000Z",
+          "custom_fields": {
+            "Canceled": true
+          }
+        },
+        {
+          "title": "Fourth",
+          "description": "",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "ENG-4",
+          "date_creation": "2026-10-01T00:00:00.000Z",
+          "archived": true,
+          "custom_fields": {
+            "Priority": "Low",
+            "Cycle": "Cycle 7"
+          }
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "linear-linear.parsed.golden": [
+    {
+      "board": {
+        "name": "Imported Linear issues"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Write   spec now",
+          "description": "line one\n\nline \"two\" <b>",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:H",
+            "web  dev",
+            "project:Plant.Pumps",
+            "@home",
+            "big deal",
+            "p2",
+            "a;b",
+            "Bug",
+            "x   y"
+          ],
+          "ref": "cardA1",
+          "owner_username": "alice",
+          "requested_by": "carol",
+          "date_creation": "2026-11-01T08:00:00.000Z",
+          "date_started": "2026-11-10T00:00:00.000Z",
+          "date_due": "2026-11-20T00:00:00.000Z"
+        },
+        {
+          "title": "-minus first",
+          "description": "first\r\nsecond",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:B",
+            "raw",
+            "done",
+            "won't do",
+            "=SUM(1)"
+          ],
+          "ref": "cardB😀2",
+          "parent_ref": "cardA1",
+          "date_creation": "2026-11-02T00:00:00.000Z",
+          "date_end": "2026-11-05T00:00:00.000Z"
+        },
+        {
+          "title": "No list item",
+          "description": "",
+          "column_name": "Started",
+          "swimlane_name": "Default",
+          "tags": [
+            "p1"
+          ],
+          "ref": "cardD4",
+          "parent_ref": "cardB😀2",
+          "requested_by": "Eve",
+          "date_started": "2026-11-11T00:00:00.000Z",
+          "date_due": "2026-11-12T00:00:00.000Z"
+        },
+        {
+          "title": "Orphan of an archived list",
+          "description": "",
+          "column_name": "No status",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "cardE5",
+          "date_end": "2026-11-06T00:00:00.000Z"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/columns/Cycle Start",
+          "reason": "Linear column \"Cycle Start\" has no WeKan place and is not imported"
+        },
+        {
+          "path": "/columns/Cycle End",
+          "reason": "Linear column \"Cycle End\" has no WeKan place and is not imported"
+        },
+        {
+          "path": "/columns/Updated",
+          "reason": "Linear column \"Updated\" has no WeKan place and is not imported"
+        },
+        {
+          "path": "/columns/Triaged",
+          "reason": "Linear column \"Triaged\" has no WeKan place and is not imported"
+        },
+        {
+          "path": "/columns/Initiatives",
+          "reason": "Linear column \"Initiatives\" has no WeKan place and is not imported"
+        },
+        {
+          "path": "/columns/Project Milestone ID",
+          "reason": "Linear column \"Project Milestone ID\" has no WeKan place and is not imported"
+        },
+        {
+          "path": "/columns/Project Milestone",
+          "reason": "Linear column \"Project Milestone\" has no WeKan place and is not imported"
+        },
+        {
+          "path": "/columns/SLA Status",
+          "reason": "Linear column \"SLA Status\" has no WeKan place and is not imported"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "multi\n  line\ttitle",
+          "description": "",
+          "column_name": "Archived list",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "cardC3",
+          "date_due": "2026-12-24T00:00:00.000Z"
+        },
+        {
+          "title": "Backlogged",
+          "description": "",
+          "column_name": "Backlog",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "cardF6",
+          "parent_ref": "cardC3"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "markdown-markdown-edge.parsed.golden": "whole",
+  "markdown-markdown.parsed.golden": "whole",
+  "markdown-obsidian.parsed.golden": "whole",
+  "markdown-wekan-markdown.parsed.golden": "whole",
+  "meistertask-meistertask-edge.parsed.golden": "whole",
+  "meistertask-meistertask.parsed.golden": "whole",
+  "monday-edge.parsed.golden": [
+    {
+      "board": {
+        "name": "Spring"
+      },
+      "columns": [
+        {
+          "title": "Working on it"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Stuck"
+        },
+        {
+          "title": "x"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Order valves",
+          "description": "Two of them",
+          "tags": [
+            "shop",
+            "urgent"
+          ],
+          "swimlane_name": "Default",
+          "owner_username": "Ann",
+          "assignees": [
+            "Bob"
+          ],
+          "date_due": "2026-10-10T00:00:00.000Z",
+          "date_started": "2026-10-01T00:00:00.000Z",
+          "ref": "101",
+          "custom_fields": {
+            "Budget": 1200,
+            "Ratio": -0.5,
+            "Link": "site"
+          },
+          "column_name": "Working on it",
+          "comments": [
+            {
+              "text": "Ordered",
+              "author": "Dee",
+              "date": "2025-05-27T15:26:42.000Z"
+            }
+          ]
+        },
+        {
+          "title": "Measure",
+          "description": "",
+          "tags": [],
+          "swimlane_name": "Default",
+          "owner_username": "Cy",
+          "ref": "monday/row/7",
+          "parent_ref": "101",
+          "column_name": "Done"
+        },
+        {
+          "title": "Call",
+          "description": "",
+          "tags": [],
+          "swimlane_name": "Default",
+          "date_due": "2026-05-10T15:26:42.000Z",
+          "ref": "monday/row/8",
+          "parent_ref": "101",
+          "column_name": "No status"
+        },
+        {
+          "title": "Fit",
+          "description": "",
+          "tags": [],
+          "swimlane_name": "Default",
+          "ref": "102",
+          "column_name": "Stuck"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/row/7/Date",
+          "reason": "monday.com date \"2026-02-30\" is not YYYY-MM-DD"
+        },
+        {
+          "path": "/row/10/Date",
+          "reason": "monday.com date \"tomorrow\" is not YYYY-MM-DD"
+        },
+        {
+          "path": "/row/10/Timeline",
+          "reason": "monday.com timeline \"2026-10-01 to 2026-10-02\" is not \"YYYY-MM-DD - YYYY-MM-DD\""
+        },
+        {
+          "path": "/updates/row/4",
+          "reason": "an update for an item that is not in the board sheet"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Lane X"
+      },
+      "columns": [
+        {
+          "title": "Working on it"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Stuck"
+        },
+        {
+          "title": "x"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Water",
+          "description": "",
+          "tags": [],
+          "swimlane_name": "Default",
+          "date_due": "2026-07-01T00:00:00.000Z",
+          "ref": "monday/row/14",
+          "column_name": "No status",
+          "comments": [
+            {
+              "text": "Watered"
+            }
+          ]
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "Summer"
+      },
+      "columns": [
+        {
+          "title": "Working on it"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Stuck"
+        },
+        {
+          "title": "x"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Orphan",
+          "description": "",
+          "tags": [],
+          "swimlane_name": "Default",
+          "ref": "monday/row/16",
+          "column_name": "x"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/Summer/monday/row/16",
+          "reason": "its parent card \"monday/row/14\" went to the board \"Lane X\""
+        }
+      ]
+    }
+  ],
+  "monday-monday.parsed.golden": [
+    {
+      "board": {
+        "name": "plan & <go> \"q\" 🚀"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Write   spec now",
+          "description": "line one\n\nline \"two\" <b>",
+          "tags": [
+            "priority:H",
+            "web  dev",
+            "project:Plant.Pumps",
+            "@home",
+            "big deal",
+            "p2",
+            "a;b",
+            "Bug",
+            "x   y"
+          ],
+          "swimlane_name": "Default",
+          "owner_username": "alice",
+          "assignees": [
+            "bob",
+            "alice",
+            "bob",
+            "jr"
+          ],
+          "date_due": "2026-11-20T00:00:00.000Z",
+          "date_started": "2026-11-10T00:00:00.000Z",
+          "ref": "cardA1",
+          "column_name": "To Do"
+        },
+        {
+          "title": "-minus first",
+          "description": "first\nsecond",
+          "tags": [
+            "priority:B",
+            "raw",
+            "done",
+            "won't do",
+            "=SUM(1)"
+          ],
+          "swimlane_name": "Default",
+          "ref": "cardB😀2",
+          "column_name": "Done"
+        },
+        {
+          "title": "No list item",
+          "description": "",
+          "tags": [
+            "p1"
+          ],
+          "swimlane_name": "Default",
+          "date_due": "2026-11-12T00:00:00.000Z",
+          "date_started": "2026-11-11T00:00:00.000Z",
+          "ref": "cardD4",
+          "column_name": "Started"
+        },
+        {
+          "title": "Orphan of an archived list",
+          "description": "",
+          "tags": [],
+          "swimlane_name": "Default",
+          "ref": "cardE5",
+          "column_name": "No status"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "No status"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "multi\n  line\ttitle",
+          "description": "",
+          "tags": [],
+          "swimlane_name": "Default",
+          "owner_username": "dave",
+          "date_due": "2026-12-24T00:00:00.000Z",
+          "ref": "cardC3",
+          "column_name": "Archived list"
+        },
+        {
+          "title": "Backlogged",
+          "description": "",
+          "tags": [],
+          "swimlane_name": "Default",
+          "ref": "cardF6",
+          "column_name": "Backlog"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "monday-no-header.parsed.golden": "whole",
+  "notion-export.parsed.golden": [
+    {
+      "board": {
+        "name": "Tasks"
+      },
+      "columns": [
+        {
+          "title": "In progress"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "No Status"
+        },
+        {
+          "title": "New"
+        },
+        {
+          "title": "Old"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Order valves",
+          "column_name": "In progress",
+          "swimlane_name": "Default",
+          "tags": [
+            "shop",
+            "urgent"
+          ],
+          "owner_username": "Ann",
+          "assignees": [
+            "Bob"
+          ],
+          "date_started": "2026-10-01T00:00:00.000Z",
+          "date_due": "2026-10-08T17:00:00.000Z",
+          "date_creation": "2026-09-01T00:00:00.000Z",
+          "description": "Two of them\n\nThe body [file](Order%20valves/a.png) and [web](https://x.test).",
+          "custom_fields": {
+            "Done": true,
+            "Points": "3",
+            "Priority": "High",
+            "Owner": "Carl"
+          }
+        },
+        {
+          "title": "A very long title that Notion shortened in its file name",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "date_due": "2026-10-12T21:00:00.000Z",
+          "description": "Notes only, no heading\nline two",
+          "custom_fields": {
+            "Done": false,
+            "Points": "4.5",
+            "Priority": "Low"
+          }
+        },
+        {
+          "title": "Third",
+          "column_name": "No Status",
+          "swimlane_name": "Default",
+          "owner_username": "Dee",
+          "date_started": "2026-10-09T00:00:00.000Z",
+          "date_due": "2026-10-12T00:00:00.000Z",
+          "custom_fields": {
+            "Done": false,
+            "Points": "x",
+            "Priority": "Mid"
+          }
+        }
+      ],
+      "warnings": [
+        {
+          "path": "/databases/1/columns/Stage",
+          "reason": "Notion database \"Ideas\" has no Status column; \"Stage\" looks like a select and its values became the lists"
+        }
+      ],
+      "unsupported": [
+        {
+          "path": "/databases/0/columns/Last edited time",
+          "reason": "Notion column \"Last edited time\" (last edited time) has no WeKan place and is not imported"
+        },
+        {
+          "path": "/databases/0/columns/Related",
+          "reason": "Notion relation column \"Related\" links to other pages; relations are not imported"
+        },
+        {
+          "path": "/databases/0/columns/14",
+          "reason": "Notion column \"constructor\" is not imported: the name is reserved"
+        },
+        {
+          "path": "/databases/0/row/2/page",
+          "reason": "the page of \"Order valves\" links to files or pages inside the export; they are not imported and the links are kept as text"
+        },
+        {
+          "path": "/databases/0/row/4",
+          "reason": "a Notion row without a title is not imported"
+        },
+        {
+          "path": "/databases/0/pages",
+          "reason": "1 page file(s) of Notion database \"Tasks\" match no row and are not imported"
+        },
+        {
+          "path": "/databases/1/pages",
+          "reason": "1 page file(s) of Notion database \"Ideas\" match no row and are not imported"
+        },
+        {
+          "path": "/files",
+          "reason": "1 image(s) or other file(s) in the Notion export are not imported"
+        },
+        {
+          "path": "/subpages",
+          "reason": "1 nested subpage file(s) in the Notion export are not imported"
+        },
+        {
+          "path": "/views",
+          "reason": "1 view CSV(s) were left out for the _all.csv of the same database, which has every row"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Ideas"
+      },
+      "columns": [
+        {
+          "title": "In progress"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "No Status"
+        },
+        {
+          "title": "New"
+        },
+        {
+          "title": "Old"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Idea one",
+          "column_name": "New",
+          "swimlane_name": "Default",
+          "custom_fields": {
+            "When": "2026-11-01"
+          }
+        },
+        {
+          "title": "Idea two",
+          "column_name": "Old",
+          "swimlane_name": "Default",
+          "custom_fields": {
+            "When": "bad"
+          }
+        },
+        {
+          "title": "Idea three",
+          "column_name": "New",
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "notion-nested.parsed.golden": "whole",
+  "notion-no-csv.parsed.golden": "whole",
+  "notion-single.parsed.golden": "whole",
+  "notion-weddy-export.parsed.golden": [
+    {
+      "board": {
+        "name": "Imported Notion database"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "No Status"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Write   spec now",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:H",
+            "web  dev",
+            "project:Plant.Pumps",
+            "@home",
+            "big deal",
+            "p2",
+            "a;b",
+            "Bug",
+            "x   y"
+          ],
+          "owner_username": "alice",
+          "assignees": [
+            "bob",
+            "bob  jr"
+          ],
+          "date_started": "2026-11-10T00:00:00.000Z",
+          "date_due": "2026-11-20T00:00:00.000Z",
+          "description": "line one\n\nline \"two\" <b>"
+        },
+        {
+          "title": "-minus first",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:B",
+            "raw",
+            "done",
+            "won't do",
+            "=SUM(1)"
+          ],
+          "description": "first\r\nsecond"
+        },
+        {
+          "title": "No list item",
+          "column_name": "Started",
+          "swimlane_name": "Default",
+          "tags": [
+            "p1"
+          ],
+          "date_started": "2026-11-11T00:00:00.000Z",
+          "date_due": "2026-11-12T00:00:00.000Z"
+        },
+        {
+          "title": "Orphan of an archived list",
+          "column_name": "No Status",
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "No Status"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "multi\n  line\ttitle",
+          "column_name": "Archived list",
+          "swimlane_name": "Default",
+          "owner_username": "dave",
+          "date_due": "2026-12-24T00:00:00.000Z"
+        },
+        {
+          "title": "Backlogged",
+          "column_name": "Backlog",
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "nullboard-nullboard-edge.parsed.golden": "whole",
+  "nullboard-nullboard.parsed.golden": "whole",
+  "obsidian-obsidian-edge.parsed.golden": "whole",
+  "obsidian-obsidian.parsed.golden": "whole",
+  "openproject-openproject.parsed.golden": "whole",
+  "openproject-wekan-openproject.parsed.golden": "whole",
+  "opml-opml-edge.parsed.golden": "whole",
+  "opml-opml.parsed.golden": "whole",
+  "orgmode-orgmode-edge.parsed.golden": "whole",
+  "orgmode-orgmode.parsed.golden": "whole",
+  "pivotal-pivotal-edge.parsed.golden": "whole",
+  "pivotal-pivotal.parsed.golden": "whole",
+  "plane-empty.parsed.golden": "whole",
+  "plane-export.parsed.golden": [
+    {
+      "board": {
+        "name": "Garden"
+      },
+      "columns": [
+        {
+          "title": "In Progress"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Todo"
+        },
+        {
+          "title": "No state"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Order valves",
+          "description": "Links:\n- [Spec \\[v2\\]](https://x.test/a%20b)\n- [mailto:a@x.test](mailto:a@x.test)",
+          "column_name": "In Progress",
+          "tags": [
+            "shop",
+            "urgent"
+          ],
+          "ref": "GAR-1",
+          "owner_username": "Ann",
+          "assignees": [
+            "Bob"
+          ],
+          "watchers": [
+            "Cy"
+          ],
+          "requested_by": "Carl",
+          "date_creation": "2026-09-01T08:00:00.123Z",
+          "date_started": "2026-10-01T00:00:00.000Z",
+          "date_due": "2026-10-10T11:30:00.000Z",
+          "custom_fields": {
+            "Priority": "High",
+            "Estimate": 3,
+            "Cycle": "Sprint 1",
+            "Module": "Pipes, Pumps"
+          },
+          "comments": [
+            {
+              "text": "Looks good",
+              "author": "Ann",
+              "date": "2026-09-02T09:00:00.000Z"
+            }
+          ],
+          "dependencies": [
+            {
+              "ref": "GAR-2",
+              "type": "is-blocked-by"
+            },
+            {
+              "ref": "GAR-2",
+              "type": "related-to"
+            }
+          ],
+          "swimlane_name": "Default"
+        },
+        {
+          "title": "Second",
+          "description": "",
+          "column_name": "Done",
+          "tags": [],
+          "ref": "GAR-2",
+          "parent_ref": "GAR-1",
+          "archived": true,
+          "custom_fields": {
+            "Estimate": "big"
+          },
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/issues.csv/row/2/labels",
+          "reason": "Plane labels \"[broken\" is not a JSON list"
+        },
+        {
+          "path": "/issues.xlsx/row/2/relations",
+          "reason": "Plane's XLSX export writes relations as Python text, not JSON; it is not imported (use the JSON or CSV export)"
+        },
+        {
+          "path": "/description",
+          "reason": "Plane's export does not include issue descriptions; cards are imported without them"
+        },
+        {
+          "path": "/issues/0/is_draft",
+          "reason": "a Plane draft issue is imported as an ordinary card"
+        },
+        {
+          "path": "/issues/0/attachment_count",
+          "reason": "2 attachment(s) are not in Plane's export and are not imported"
+        },
+        {
+          "path": "/issues/0/links/1",
+          "reason": "Plane link \"ftp://no\" is not an http(s) or mailto link and is not imported"
+        },
+        {
+          "path": "/issues/0/relations",
+          "reason": "Plane \"start_before\" relations have no WeKan dependency type and are not imported"
+        },
+        {
+          "path": "/issues/1/archived_at",
+          "reason": "Plane date \"2026-02-30\" is not an ISO 8601 date"
+        },
+        {
+          "path": "/row/2/target_date",
+          "reason": "Plane date \"10/10/2026\" is not an ISO 8601 date"
+        },
+        {
+          "path": "/updated_at",
+          "reason": "Plane's updated_at has no WeKan place and is not imported"
+        },
+        {
+          "path": "/fields/=formula_col",
+          "reason": "Plane field \"=formula_col\" has no WeKan place and is not imported"
+        },
+        {
+          "path": "/fields/custom_thing",
+          "reason": "Plane field \"custom_thing\" has no WeKan place and is not imported"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Beds"
+      },
+      "columns": [
+        {
+          "title": "In Progress"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Todo"
+        },
+        {
+          "title": "No state"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "=SUM(1)",
+          "description": "Links:\n- [https://y.test](https://y.test)",
+          "column_name": "Todo",
+          "tags": [],
+          "owner_username": "Ann",
+          "custom_fields": {
+            "Priority": "Urgent"
+          },
+          "swimlane_name": "Default"
+        },
+        {
+          "title": "Water",
+          "description": "",
+          "column_name": "No state",
+          "tags": [
+            "a",
+            "b"
+          ],
+          "date_due": "2026-10-11T00:00:00.000Z",
+          "custom_fields": {
+            "Priority": "Medium"
+          },
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "Lawn"
+      },
+      "columns": [
+        {
+          "title": "In Progress"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Todo"
+        },
+        {
+          "title": "No state"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Mow",
+          "description": "",
+          "column_name": "Backlog",
+          "tags": [
+            "green,"
+          ],
+          "owner_username": "Ann",
+          "assignees": [
+            "Bob"
+          ],
+          "date_started": "2026-10-01T00:00:00.000Z",
+          "custom_fields": {
+            "Estimate": 2
+          },
+          "swimlane_name": "Default"
+        },
+        {
+          "title": "Rake leaves",
+          "description": "",
+          "column_name": "Backlog",
+          "tags": [],
+          "custom_fields": {
+            "Estimate": 2
+          },
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "plane-issues-csv.parsed.golden": "whole",
+  "plane-issues-json.parsed.golden": [
+    {
+      "board": {
+        "name": "Garden (GAR)"
+      },
+      "columns": [
+        {
+          "title": "In Progress"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "No state"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Order valves",
+          "description": "Links:\n- [Spec \\[v2\\]](https://x.test/a%20b)\n- [mailto:a@x.test](mailto:a@x.test)",
+          "column_name": "In Progress",
+          "tags": [
+            "shop",
+            "urgent"
+          ],
+          "ref": "GAR-1",
+          "owner_username": "Ann",
+          "assignees": [
+            "Bob"
+          ],
+          "watchers": [
+            "Cy"
+          ],
+          "requested_by": "Carl",
+          "date_creation": "2026-09-01T08:00:00.123Z",
+          "date_started": "2026-10-01T00:00:00.000Z",
+          "date_due": "2026-10-10T11:30:00.000Z",
+          "custom_fields": {
+            "Priority": "High",
+            "Estimate": 3,
+            "Cycle": "Sprint 1",
+            "Module": "Pipes, Pumps"
+          },
+          "comments": [
+            {
+              "text": "Looks good",
+              "author": "Ann",
+              "date": "2026-09-02T09:00:00.000Z"
+            }
+          ],
+          "dependencies": [
+            {
+              "ref": "GAR-2",
+              "type": "is-blocked-by"
+            },
+            {
+              "ref": "GAR-2",
+              "type": "related-to"
+            }
+          ],
+          "swimlane_name": "Default"
+        },
+        {
+          "title": "Second",
+          "description": "",
+          "column_name": "Done",
+          "tags": [],
+          "ref": "GAR-2",
+          "parent_ref": "GAR-1",
+          "archived": true,
+          "custom_fields": {
+            "Estimate": "big"
+          },
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/description",
+          "reason": "Plane's export does not include issue descriptions; cards are imported without them"
+        },
+        {
+          "path": "/issues/0/is_draft",
+          "reason": "a Plane draft issue is imported as an ordinary card"
+        },
+        {
+          "path": "/issues/0/attachment_count",
+          "reason": "2 attachment(s) are not in Plane's export and are not imported"
+        },
+        {
+          "path": "/issues/0/links/1",
+          "reason": "Plane link \"ftp://no\" is not an http(s) or mailto link and is not imported"
+        },
+        {
+          "path": "/issues/0/relations",
+          "reason": "Plane \"start_before\" relations have no WeKan dependency type and are not imported"
+        },
+        {
+          "path": "/issues/1/archived_at",
+          "reason": "Plane date \"2026-02-30\" is not an ISO 8601 date"
+        },
+        {
+          "path": "/issues/3",
+          "reason": "a Plane issue without a name is not imported"
+        },
+        {
+          "path": "/issues/4",
+          "reason": "a Plane issue that is not an object is not imported"
+        },
+        {
+          "path": "/updated_at",
+          "reason": "Plane's updated_at has no WeKan place and is not imported"
+        },
+        {
+          "path": "/fields/custom_thing",
+          "reason": "Plane field \"custom_thing\" has no WeKan place and is not imported"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Garden (G2)"
+      },
+      "columns": [
+        {
+          "title": "In Progress"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "No state"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Other garden",
+          "description": "",
+          "column_name": "No state",
+          "tags": [],
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "plane-not-a-list.parsed.golden": "whole",
+  "plane-workbook.parsed.golden": "whole",
+  "planner-edge.parsed.golden": "whole",
+  "planner-planner.parsed.golden": "whole",
+  "planner-real.parsed.golden": "whole",
+  "quire-quire-edge.parsed.golden": "whole",
+  "quire-quire.parsed.golden": "whole",
+  "redmine-redmine-edge.parsed.golden": [
+    {
+      "board": {
+        "name": "Garden"
+      },
+      "columns": [
+        {
+          "title": "New"
+        },
+        {
+          "title": "In progress"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Order valves",
+          "description": "Two of them",
+          "column_name": "New",
+          "swimlane_name": "Default",
+          "tags": [
+            "Bug"
+          ],
+          "ref": "41",
+          "owner_username": "Bob",
+          "requested_by": "Ann",
+          "watchers": [
+            "Cy",
+            "Dee"
+          ],
+          "date_creation": "2026-10-01T07:00:00.000Z",
+          "date_started": "2026-12-25T00:00:00.000Z",
+          "date_due": "2026-12-31T14:30:00.000Z",
+          "comments": [
+            {
+              "text": "Called them"
+            }
+          ],
+          "custom_fields": {
+            "2026": "yes",
+            "Priority": "High",
+            "Category": "Pipes",
+            "Target version": "v1",
+            "Estimated time": 1.5,
+            "% Done": 50,
+            "Sprint": "S1"
+          },
+          "dependencies": [
+            {
+              "ref": "42",
+              "type": "blocks"
+            },
+            {
+              "ref": "99",
+              "type": "related-to"
+            }
+          ]
+        },
+        {
+          "title": "Second",
+          "description": "",
+          "column_name": "In progress",
+          "swimlane_name": "Default",
+          "tags": [
+            "Feature"
+          ],
+          "ref": "42",
+          "date_creation": "2026-10-13T23:59:59.000Z",
+          "date_started": "2026-02-01T00:00:00.000Z",
+          "date_due": "2026-01-13T00:00:00.000Z",
+          "dependencies": [
+            {
+              "ref": "41",
+              "type": "related-to"
+            }
+          ]
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/columns/Updated",
+          "reason": "Redmine column \"Updated\" has no WeKan place and is not imported"
+        },
+        {
+          "path": "/columns/Parent task subject",
+          "reason": "Redmine column \"Parent task subject\" names a parent without its id and is not imported"
+        },
+        {
+          "path": "/row/2/Related issues",
+          "reason": "Redmine relation \"Weird #9\" is not one of Redmine's English relation names"
+        },
+        {
+          "path": "/row/3/Estimated time",
+          "reason": "Redmine Estimated time \"abc\" is not a number"
+        },
+        {
+          "path": "/row/3/% Done",
+          "reason": "Redmine % Done \"x\" is not a number"
+        },
+        {
+          "path": "/row/3/Closed",
+          "reason": "Redmine date \"2026-02-30\" is not in a numeric date format"
+        },
+        {
+          "path": "/row/4/Closed",
+          "reason": "Redmine date \"05-01-2026 10:00:61\" is not in a numeric date format"
+        },
+        {
+          "path": "/row/4/Created",
+          "reason": "Redmine date \"1.1.2026 13:00 pm\" is not in a numeric date format"
+        },
+        {
+          "path": "/row/4/Due date",
+          "reason": "Redmine date \"2026-01-05T10:00:00z\" is not in a numeric date format"
+        },
+        {
+          "path": "/row/2/Related issues",
+          "reason": "Redmine relation \"Precedes\" has no WeKan type and is imported as related-to"
+        },
+        {
+          "path": "/row/2/Related issues",
+          "reason": "the delay of Redmine relation \"Precedes\" (3 days) is not imported"
+        },
+        {
+          "path": "/row/3/Related issues",
+          "reason": "Redmine relation \"Copied from\" has no WeKan type and is imported as related-to"
+        },
+        {
+          "path": "/row/4/Related issues",
+          "reason": "Redmine relation \"Follows\" has no WeKan type and is imported as related-to"
+        },
+        {
+          "path": "/Garden/41",
+          "reason": "its dependency on \"43\" went to the board \"Default\""
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Imported Redmine issues"
+      },
+      "columns": [
+        {
+          "title": "New"
+        },
+        {
+          "title": "In progress"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Third",
+          "description": "",
+          "column_name": "New",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "43",
+          "date_started": "2026-01-05T00:00:00.000Z",
+          "spent_hours": 2.25,
+          "dependencies": []
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/Default/43",
+          "reason": "its dependency on \"41\" went to the board \"Garden\""
+        }
+      ]
+    }
+  ],
+  "redmine-redmine-semicolon.parsed.golden": "whole",
+  "redmine-redmine.parsed.golden": [
+    {
+      "board": {
+        "name": "Imported Redmine issues"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "New"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Write   spec now",
+          "description": "line one\n\nline \"two\" <b>",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:H"
+          ],
+          "ref": "cardA1",
+          "owner_username": "alice",
+          "requested_by": "carol",
+          "date_creation": "2026-11-01T08:00:00.000Z",
+          "date_started": "2026-11-10T00:00:00.000Z",
+          "date_due": "2026-11-20T00:00:00.000Z",
+          "spent_hours": 1.13
+        },
+        {
+          "title": "-minus first",
+          "description": "first\r\nsecond",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:B"
+          ],
+          "ref": "cardB😀2",
+          "parent_ref": "cardA1",
+          "date_creation": "2026-11-02T00:00:00.000Z",
+          "date_end": "2026-11-05T00:00:00.000Z",
+          "spent_hours": 2.5,
+          "dependencies": [
+            {
+              "ref": "cardA1",
+              "type": "blocks"
+            }
+          ]
+        },
+        {
+          "title": "No list item",
+          "description": "",
+          "column_name": "Started",
+          "swimlane_name": "Default",
+          "tags": [
+            "p1"
+          ],
+          "ref": "cardD4",
+          "parent_ref": "cardB😀2",
+          "requested_by": "Eve",
+          "date_started": "2026-11-11T00:00:00.000Z",
+          "date_due": "2026-11-12T00:00:00.000Z"
+        },
+        {
+          "title": "Orphan of an archived list",
+          "description": "",
+          "column_name": "New",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "cardE5",
+          "date_end": "2026-11-06T00:00:00.000Z",
+          "spent_hours": 0.5
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/Default/cardB😀2",
+          "reason": "its dependency on \"cardC3\" went to the board \"Ops\""
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "New"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "multi\n  line\ttitle",
+          "description": "",
+          "column_name": "Archived list",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "cardC3",
+          "date_due": "2026-12-24T00:00:00.000Z",
+          "dependencies": []
+        },
+        {
+          "title": "Backlogged",
+          "description": "",
+          "column_name": "Backlog",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "cardF6",
+          "parent_ref": "cardC3"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/Ops/cardC3",
+          "reason": "its dependency on \"cardB😀2\" went to the board \"Default\""
+        },
+        {
+          "path": "/Ops/cardC3",
+          "reason": "its dependency on \"cardA1\" went to the board \"Default\""
+        }
+      ]
+    }
+  ],
+  "superproductivity-superproductivity-edge.parsed.golden": [
+    {
+      "board": {
+        "name": "Garden"
+      },
+      "columns": [
+        {
+          "title": "Backlog"
+        },
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "In Progress"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Order valves",
+          "description": "Two of them\n\n- [Spec \\[v2\\]](https://x.test/a%20b)",
+          "column_name": "In Progress",
+          "swimlane_name": "Default",
+          "tags": [
+            "shop"
+          ],
+          "ref": "t1",
+          "date_due": "2023-10-01T12:00:00.000Z",
+          "date_started": "2026-10-01T00:00:00.000Z",
+          "date_creation": "2023-09-29T15:06:40.000Z",
+          "spent_hours": 0.5,
+          "custom_fields": {
+            "Time estimate (hours)": 1.5,
+            "Priority": "High"
+          }
+        },
+        {
+          "title": "Untitled",
+          "description": "",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "t2",
+          "parent_ref": "t3",
+          "date_due": "2023-10-01T11:33:20.000Z",
+          "date_end": "2023-10-02T12:33:20.000Z",
+          "custom_fields": {}
+        },
+        {
+          "title": "Backlog parent",
+          "description": "",
+          "column_name": "Backlog",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "t3"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/data/task/t1/tagIds",
+          "reason": "tag \"nope\" is not in the backup's tag model"
+        },
+        {
+          "path": "/data/task/t1/attachments/1",
+          "reason": "a FILE attachment is a path on the user's device, not a web link, and is not imported"
+        },
+        {
+          "path": "/data/task/t1/attachments/2",
+          "reason": "a local attachment is a path on the user's device, not a web link, and is not imported"
+        },
+        {
+          "path": "/data/task/t1/remindAt",
+          "reason": "Super Productivity reminders are not imported"
+        },
+        {
+          "path": "/data/task/t1/issueId",
+          "reason": "the link to GITHUB issue 42 is not imported"
+        },
+        {
+          "path": "/data/task/t3/repeatCfgId",
+          "reason": "Super Productivity repeat configurations are not imported; the task imports once"
+        },
+        {
+          "path": "/data/task/t6/issueId",
+          "reason": "the link to JIRA issue  is not imported"
+        },
+        {
+          "path": "/data/task/timeSpentOnDay",
+          "reason": "the per-day breakdown of tracked time is not imported; each card keeps the total as spent hours"
+        },
+        {
+          "path": "/data/note",
+          "reason": "1 Super Productivity note(s) belong to projects, not tasks, and are not imported"
+        },
+        {
+          "path": "/data/boards",
+          "reason": "Super Productivity boards are saved filters, not containers; lists come from each task's done state, in-progress tag and backlog instead"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Garden (2)"
+      },
+      "columns": [
+        {
+          "title": "Backlog"
+        },
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "In Progress"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Second Garden",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "t4",
+          "parent_ref": "missing",
+          "custom_fields": {
+            "Priority": "Medium"
+          }
+        },
+        {
+          "title": "Not in ids",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "t7",
+          "date_due": "1950-01-01T00:00:00.000Z"
+        },
+        {
+          "title": "Archived",
+          "description": "",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "a1",
+          "archived": true
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "Untitled project"
+      },
+      "columns": [
+        {
+          "title": "Backlog"
+        },
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "In Progress"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Numeric id",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "5"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "No project"
+      },
+      "columns": [
+        {
+          "title": "Backlog"
+        },
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "In Progress"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "No project",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "t6"
+        },
+        {
+          "title": "Old",
+          "description": "",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "a2",
+          "archived": true
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "superproductivity-superproductivity.parsed.golden": [
+    {
+      "board": {
+        "name": "Super Productivity"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Write   spec now",
+          "description": "line one\n\nline \"two\" <b>\n\n### Steps\n- [x] a & b\n- [ ] c",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:H",
+            "web  dev",
+            "project:Plant.Pumps",
+            "@home",
+            "big deal",
+            "p2",
+            "a;b",
+            "Bug",
+            "x , y"
+          ],
+          "ref": "cardA1",
+          "date_due": "2026-11-20T10:00:00.000Z",
+          "date_creation": "2026-11-01T08:00:00.000Z",
+          "spent_hours": 1.13
+        },
+        {
+          "title": "-minus first",
+          "description": "first\r\nsecond\n\n### Checklist\n- [ ] one\n- [x] ",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:B",
+            "raw",
+            "done",
+            "won't do",
+            "=SUM(1)"
+          ],
+          "ref": "cardB😀2",
+          "parent_ref": "cardA1",
+          "date_end": "2026-11-05T00:00:00.000Z",
+          "date_creation": "2026-11-02T00:00:00.000Z",
+          "spent_hours": 2.5
+        },
+        {
+          "title": "No list item",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "p1",
+            "Started"
+          ],
+          "ref": "cardD4",
+          "parent_ref": "cardA1",
+          "date_due": "2026-11-12T00:00:00.000Z",
+          "date_creation": "2026-11-10T12:00:00.000Z"
+        },
+        {
+          "title": "Orphan of an archived list",
+          "description": "",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [
+            "Untitled"
+          ],
+          "ref": "cardE5",
+          "date_end": "2026-11-06T00:00:00.000Z",
+          "date_creation": "2026-11-10T12:00:00.000Z",
+          "spent_hours": 0.5
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/data/task/timeSpentOnDay",
+          "reason": "the per-day breakdown of tracked time is not imported; each card keeps the total as spent hours"
+        },
+        {
+          "path": "/data/boards",
+          "reason": "Super Productivity boards are saved filters, not containers; lists come from each task's done state, in-progress tag and backlog instead"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "multi\n  line\ttitle",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "Archived list"
+          ],
+          "ref": "cardC3",
+          "date_due": "2026-12-24T18:30:00.000Z",
+          "date_creation": "2026-11-10T12:00:00.000Z"
+        },
+        {
+          "title": "Backlogged",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "cardF6",
+          "parent_ref": "cardC3",
+          "date_creation": "2026-11-10T12:00:00.000Z"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "taiga-taiga-edge.parsed.golden": [
+    {
+      "board": {
+        "name": "Unclassified"
+      },
+      "columns": [
+        {
+          "title": "New"
+        },
+        {
+          "title": "Doing"
+        },
+        {
+          "title": "Archived"
+        },
+        {
+          "title": "Fresh"
+        },
+        {
+          "title": "Open"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "#2",
+          "description": "",
+          "column_name": "Archived",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "us-2",
+          "archived": true,
+          "comments": [],
+          "custom_fields": {}
+        },
+        {
+          "title": "No ref",
+          "description": "",
+          "column_name": "New",
+          "swimlane_name": "Default",
+          "tags": [],
+          "comments": [],
+          "custom_fields": {}
+        }
+      ],
+      "label_colors": {
+        "shop": "crimson",
+        "urgent": "green",
+        "old": "red"
+      },
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/epics/0/related_user_stories",
+          "reason": "a story of project \"other\" is not part of this import"
+        },
+        {
+          "path": "/user_stories/2/created_date",
+          "reason": "a date that is not a date is left out"
+        },
+        {
+          "path": "/user_stories/0/finish_date",
+          "reason": "a date that is not a date is left out"
+        },
+        {
+          "path": "/user_stories/0/history",
+          "reason": "a date that is not a date is left out"
+        },
+        {
+          "path": "/tasks/1/due_date",
+          "reason": "a date that is not a date is left out"
+        },
+        {
+          "path": "/attachments",
+          "reason": "3 attachment(s) are not imported: download them from Taiga and attach them to the cards"
+        },
+        {
+          "path": "/logo",
+          "reason": "the project logo is not imported"
+        },
+        {
+          "path": "/wiki_pages",
+          "reason": "1 wiki page(s) are not imported: a WeKan board has no wiki"
+        },
+        {
+          "path": "/wiki_links",
+          "reason": "2 wiki link(s) are not imported"
+        },
+        {
+          "path": "/timeline",
+          "reason": "the project timeline (1 event(s)) is not imported; comments are"
+        },
+        {
+          "path": "/issues/votes",
+          "reason": "2 issue vote(s) are not imported"
+        },
+        {
+          "path": "/memberships",
+          "reason": "1 project member(s) are not added to the board; Taiga names people by email, and an item keeps them only where a WeKan user is mapped"
+        }
+      ],
+      "scrumTransfer": {
+        "format": "wekan-scrum-2",
+        "settings": {
+          "enabled": true,
+          "estimateSource": "customField",
+          "estimateCustomFieldId": "Story points",
+          "estimateUnit": "points"
+        },
+        "sprints": [
+          {
+            "_id": "taiga-sprint-Sprint 1",
+            "name": "Sprint 1",
+            "state": "planned",
+            "provenance": {
+              "system": "taiga",
+              "recordId": "Sprint 1"
+            }
+          }
+        ],
+        "releases": [],
+        "events": [],
+        "cards": [],
+        "lists": [],
+        "swimlanes": []
+      }
+    },
+    {
+      "board": {
+        "name": "Lane A"
+      },
+      "columns": [
+        {
+          "title": "New"
+        },
+        {
+          "title": "Doing"
+        },
+        {
+          "title": "Archived"
+        },
+        {
+          "title": "Fresh"
+        },
+        {
+          "title": "Open"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Order valves",
+          "description": "",
+          "column_name": "Doing",
+          "swimlane_name": "Default",
+          "tags": [
+            "shop",
+            "urgent"
+          ],
+          "ref": "us-1",
+          "dependencies": [],
+          "date_creation": "2024-03-01T10:15:00.000Z",
+          "date_due": "2024-03-15T00:00:00.000Z",
+          "comments": [
+            {
+              "text": "Looks good",
+              "author": "ann@x",
+              "authorName": "Ann",
+              "date": "2024-03-02T09:00:00.000Z"
+            },
+            {
+              "text": "bad date",
+              "author": "Bob",
+              "authorName": "Bob"
+            }
+          ],
+          "custom_fields": {
+            "7": "seven",
+            "Size": "L",
+            "Zero": 0,
+            "Blocked": "Blocked",
+            "Due date reason": "vendor",
+            "Story points": 8,
+            "Client requirement": true
+          },
+          "owner_username": "ann",
+          "assignees": [
+            "bob"
+          ],
+          "requested_by": "carl",
+          "watchers": [
+            "dee"
+          ]
+        },
+        {
+          "title": "#12",
+          "description": "",
+          "column_name": "New",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "task-12",
+          "parent_ref": "us-99",
+          "comments": [],
+          "custom_fields": {}
+        },
+        {
+          "title": "Loose",
+          "description": "",
+          "column_name": "New",
+          "swimlane_name": "Default",
+          "tags": [],
+          "comments": [],
+          "custom_fields": {}
+        },
+        {
+          "title": "Fit",
+          "description": "",
+          "column_name": "Doing",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "task-11",
+          "parent_ref": "us-1",
+          "date_end": "2024-03-10T08:00:00.000Z",
+          "comments": [],
+          "custom_fields": {
+            "Task status": "In progress",
+            "Iocaine": true
+          }
+        }
+      ],
+      "label_colors": {
+        "shop": "crimson",
+        "urgent": "green",
+        "old": "red"
+      },
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/Lane A/us-1",
+          "reason": "its parent card \"epic-8\" went to the board \"Epics\""
+        },
+        {
+          "path": "/Lane A/us-1",
+          "reason": "its dependency on \"epic-9\" went to the board \"Epics\""
+        },
+        {
+          "path": "/Lane A/us-1",
+          "reason": "its dependency on \"issue-4\" went to the board \"Issues\""
+        }
+      ],
+      "scrumTransfer": {
+        "format": "wekan-scrum-2",
+        "settings": {
+          "enabled": true,
+          "estimateSource": "customField",
+          "estimateCustomFieldId": "Story points",
+          "estimateUnit": "points"
+        },
+        "sprints": [
+          {
+            "_id": "taiga-sprint-Sprint 1",
+            "name": "Sprint 1",
+            "state": "planned",
+            "provenance": {
+              "system": "taiga",
+              "recordId": "Sprint 1"
+            }
+          }
+        ],
+        "releases": [],
+        "events": [],
+        "cards": [],
+        "lists": [],
+        "swimlanes": []
+      }
+    },
+    {
+      "board": {
+        "name": "Epics"
+      },
+      "columns": [
+        {
+          "title": "New"
+        },
+        {
+          "title": "Doing"
+        },
+        {
+          "title": "Archived"
+        },
+        {
+          "title": "Fresh"
+        },
+        {
+          "title": "Open"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "#8",
+          "description": "",
+          "column_name": "Fresh",
+          "swimlane_name": "Default",
+          "tags": [
+            "old"
+          ],
+          "ref": "epic-8",
+          "comments": [],
+          "custom_fields": {}
+        },
+        {
+          "title": "Big epic",
+          "description": "",
+          "column_name": "Fresh",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "epic-9",
+          "color": "#abcdef",
+          "comments": [],
+          "custom_fields": {
+            "Client requirement": true
+          }
+        }
+      ],
+      "label_colors": {
+        "shop": "crimson",
+        "urgent": "green",
+        "old": "red"
+      },
+      "warnings": [],
+      "unsupported": [],
+      "scrumTransfer": {
+        "format": "wekan-scrum-2",
+        "settings": {
+          "enabled": true,
+          "estimateSource": "customField",
+          "estimateCustomFieldId": "Story points",
+          "estimateUnit": "points"
+        },
+        "sprints": [
+          {
+            "_id": "taiga-sprint-Sprint 1",
+            "name": "Sprint 1",
+            "state": "planned",
+            "provenance": {
+              "system": "taiga",
+              "recordId": "Sprint 1"
+            }
+          }
+        ],
+        "releases": [],
+        "events": [],
+        "cards": [],
+        "lists": [],
+        "swimlanes": []
+      }
+    },
+    {
+      "board": {
+        "name": "Issues"
+      },
+      "columns": [
+        {
+          "title": "New"
+        },
+        {
+          "title": "Doing"
+        },
+        {
+          "title": "Archived"
+        },
+        {
+          "title": "Fresh"
+        },
+        {
+          "title": "Open"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Leak",
+          "description": "",
+          "column_name": "Open",
+          "swimlane_name": "Default",
+          "tags": [
+            "shop",
+            "type:Bug",
+            "priority:High"
+          ],
+          "ref": "issue-4",
+          "comments": [
+            {
+              "text": "Confirmed",
+              "author": "carl",
+              "authorName": ""
+            }
+          ],
+          "custom_fields": {}
+        }
+      ],
+      "label_colors": {
+        "shop": "crimson",
+        "urgent": "green",
+        "old": "red"
+      },
+      "warnings": [],
+      "unsupported": [],
+      "scrumTransfer": {
+        "format": "wekan-scrum-2",
+        "settings": {
+          "enabled": true,
+          "estimateSource": "customField",
+          "estimateCustomFieldId": "Story points",
+          "estimateUnit": "points"
+        },
+        "sprints": [
+          {
+            "_id": "taiga-sprint-Sprint 1",
+            "name": "Sprint 1",
+            "state": "planned",
+            "provenance": {
+              "system": "taiga",
+              "recordId": "Sprint 1"
+            }
+          }
+        ],
+        "releases": [],
+        "events": [],
+        "cards": [],
+        "lists": [],
+        "swimlanes": []
+      }
+    }
+  ],
+  "taiga-taiga.parsed.golden": [
+    {
+      "board": {
+        "name": "Plan & <Go> \"q\" 🚀"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Empty"
+        },
+        {
+          "title": "Won't fix"
+        },
+        {
+          "title": "To Do (2)"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Write   spec now",
+          "description": "line one\n\nline \"two\" <b>",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:H",
+            "web  dev",
+            "project:Plant.Pumps",
+            "@home",
+            "big deal",
+            "p2",
+            "a;b",
+            "Bug",
+            "x , y"
+          ],
+          "ref": "us-1",
+          "date_creation": "2026-11-01T08:00:00.000Z",
+          "date_due": "2026-11-20T10:00:00.000Z",
+          "comments": [
+            {
+              "text": "Looks <i>good</i>",
+              "author": "bob",
+              "authorName": "bob",
+              "date": "2026-11-02T09:30:00.000Z"
+            },
+            {
+              "text": "no author",
+              "author": "",
+              "authorName": "",
+              "date": "2026-11-10T12:00:00.000Z"
+            }
+          ],
+          "custom_fields": {},
+          "owner_username": "alice",
+          "assignees": [
+            "bob",
+            "bob, jr"
+          ],
+          "requested_by": "carol"
+        },
+        {
+          "title": "Orphan of an archived list",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "us-3",
+          "date_creation": "2026-11-10T12:00:00.000Z",
+          "comments": [],
+          "custom_fields": {}
+        },
+        {
+          "title": "-minus first",
+          "description": "first\r\nsecond  \n\n\n\n### Checklist\n- [ ]   one  \n- [x]    ",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:B",
+            "raw",
+            "done",
+            "won't do",
+            "=SUM(1)"
+          ],
+          "ref": "task-4",
+          "parent_ref": "us-1",
+          "date_creation": "2026-11-02T00:00:00.000Z",
+          "date_end": "2026-11-05T00:00:00.000Z",
+          "comments": [],
+          "custom_fields": {
+            "Task status": "Closed"
+          }
+        },
+        {
+          "title": "No list item",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "p1"
+          ],
+          "ref": "task-5",
+          "parent_ref": "us-1",
+          "date_creation": "2026-11-10T12:00:00.000Z",
+          "date_due": "2026-11-12T00:00:00.000Z",
+          "comments": [],
+          "custom_fields": {
+            "Task status": "New"
+          },
+          "requested_by": "Eve"
+        },
+        {
+          "title": "a & b",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "task-7",
+          "parent_ref": "us-1",
+          "date_creation": "2026-11-01T08:00:00.000Z",
+          "date_end": "2026-11-10T12:00:00.000Z",
+          "comments": [],
+          "custom_fields": {
+            "Task status": "Closed"
+          }
+        },
+        {
+          "title": "c",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "task-8",
+          "parent_ref": "us-1",
+          "date_creation": "2026-11-01T08:00:00.000Z",
+          "comments": [],
+          "custom_fields": {
+            "Task status": "New"
+          }
+        }
+      ],
+      "label_colors": {
+        "@home": "navy",
+        "big deal": "yellow",
+        "raw": "black",
+        "done": "lime"
+      },
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/us_statuses",
+          "reason": "the WIP limits of 1 status(es) are not imported; set them on the lists"
+        }
+      ],
+      "scrumTransfer": {
+        "format": "wekan-scrum-2",
+        "settings": {},
+        "sprints": [],
+        "releases": [],
+        "events": [],
+        "cards": [
+          {
+            "_id": "task-0",
+            "scrum": {
+              "backlogRank": 1
+            }
+          },
+          {
+            "_id": "task-1",
+            "scrum": {
+              "backlogRank": 2
+            }
+          },
+          {
+            "_id": "task-2",
+            "scrum": {
+              "backlogRank": 3
+            }
+          }
+        ],
+        "lists": [],
+        "swimlanes": []
+      }
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Empty"
+        },
+        {
+          "title": "Won't fix"
+        },
+        {
+          "title": "To Do (2)"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "multi\n  line\ttitle",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "us-2",
+          "date_creation": "2026-11-10T12:00:00.000Z",
+          "date_due": "2026-12-24T18:30:00.000Z",
+          "comments": [
+            {
+              "text": "orphan",
+              "author": "",
+              "authorName": "",
+              "date": "2026-11-04T00:00:00.000Z"
+            }
+          ],
+          "custom_fields": {},
+          "owner_username": "dave"
+        },
+        {
+          "title": "Backlogged",
+          "description": "",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "task-6",
+          "parent_ref": "us-2",
+          "date_creation": "2026-11-10T12:00:00.000Z",
+          "comments": [],
+          "custom_fields": {
+            "Task status": "New"
+          }
+        }
+      ],
+      "label_colors": {
+        "@home": "navy",
+        "big deal": "yellow",
+        "raw": "black",
+        "done": "lime"
+      },
+      "warnings": [],
+      "unsupported": [],
+      "scrumTransfer": {
+        "format": "wekan-scrum-2",
+        "settings": {},
+        "sprints": [],
+        "releases": [],
+        "events": [],
+        "cards": [
+          {
+            "_id": "task-0",
+            "scrum": {
+              "backlogRank": 1
+            }
+          },
+          {
+            "_id": "task-1",
+            "scrum": {
+              "backlogRank": 2
+            }
+          },
+          {
+            "_id": "task-2",
+            "scrum": {
+              "backlogRank": 3
+            }
+          }
+        ],
+        "lists": [],
+        "swimlanes": []
+      }
+    }
+  ],
+  "taiga-wekan-taiga.parsed.golden": [
+    {
+      "board": {
+        "name": "Website relaunch"
+      },
+      "columns": [
+        {
+          "title": "New"
+        },
+        {
+          "title": "Ready"
+        },
+        {
+          "title": "In progress"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived"
+        },
+        {
+          "title": "Needs Info"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Design hero",
+          "description": "",
+          "column_name": "New",
+          "swimlane_name": "Default",
+          "tags": [
+            "design"
+          ],
+          "ref": "us-2",
+          "date_creation": "2024-03-01T10:22:00.000Z",
+          "comments": [],
+          "custom_fields": {
+            "Client requirement": true
+          },
+          "requested_by": "ann@example.com"
+        },
+        {
+          "title": "Write copy",
+          "description": "Draft the **intro**",
+          "column_name": "In progress",
+          "swimlane_name": "Default",
+          "tags": [
+            "copy",
+            "seo"
+          ],
+          "ref": "us-1",
+          "dependencies": [],
+          "date_creation": "2024-03-01T10:20:00.000Z",
+          "date_due": "2024-03-15T00:00:00.000Z",
+          "comments": [
+            {
+              "text": "Looks good",
+              "author": "ann@example.com",
+              "authorName": "Ann",
+              "date": "2024-03-01T11:00:00.000Z"
+            }
+          ],
+          "custom_fields": {
+            "Audience": "Customers",
+            "Words": 800,
+            "Blocked": "Waiting for the brand guide",
+            "Due date reason": "Launch",
+            "Story points": 5
+          },
+          "owner_username": "ann@example.com",
+          "assignees": [
+            "bob@example.com"
+          ],
+          "requested_by": "carol@example.com",
+          "watchers": [
+            "bob@example.com"
+          ]
+        },
+        {
+          "title": "Old landing page",
+          "description": "",
+          "column_name": "Archived",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "us-3",
+          "archived": true,
+          "date_creation": "2024-02-01T10:00:00.000Z",
+          "date_end": "2024-02-10T10:00:00.000Z",
+          "comments": [],
+          "custom_fields": {},
+          "requested_by": "ann@example.com"
+        },
+        {
+          "title": "Intro paragraph",
+          "description": "About us, in three lines",
+          "column_name": "In progress",
+          "swimlane_name": "Default",
+          "tags": [
+            "copy"
+          ],
+          "ref": "task-4",
+          "parent_ref": "us-1",
+          "date_creation": "2024-03-01T10:40:00.000Z",
+          "date_due": "2024-03-10T00:00:00.000Z",
+          "comments": [
+            {
+              "text": "First draft is in",
+              "author": "dave@example.com",
+              "authorName": "Dave",
+              "date": "2024-03-02T09:00:00.000Z"
+            }
+          ],
+          "custom_fields": {
+            "Task status": "In progress",
+            "Iocaine": true
+          },
+          "owner_username": "dave@example.com",
+          "requested_by": "ann@example.com"
+        },
+        {
+          "title": "Outro paragraph",
+          "description": "",
+          "column_name": "In progress",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "task-5",
+          "parent_ref": "us-1",
+          "date_creation": "2024-03-01T10:41:00.000Z",
+          "date_end": "2024-03-03T10:40:00.000Z",
+          "comments": [],
+          "custom_fields": {
+            "Task status": "Closed"
+          },
+          "owner_username": "dave@example.com",
+          "requested_by": "ann@example.com"
+        }
+      ],
+      "label_colors": {
+        "design": "slateblue",
+        "copy": "red"
+      },
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/us_statuses",
+          "reason": "the WIP limits of 1 status(es) are not imported; set them on the lists"
+        },
+        {
+          "path": "/epics/0/related_user_stories",
+          "reason": "a story of project \"other-project\" is not part of this import"
+        },
+        {
+          "path": "/attachments",
+          "reason": "1 attachment(s) are not imported: download them from Taiga and attach them to the cards"
+        },
+        {
+          "path": "/wiki_pages",
+          "reason": "1 wiki page(s) are not imported: a WeKan board has no wiki"
+        },
+        {
+          "path": "/wiki_links",
+          "reason": "1 wiki link(s) are not imported"
+        },
+        {
+          "path": "/timeline",
+          "reason": "the project timeline (2 event(s)) is not imported; comments are"
+        },
+        {
+          "path": "/issues/votes",
+          "reason": "1 issue vote(s) are not imported"
+        },
+        {
+          "path": "/memberships",
+          "reason": "2 project member(s) are not added to the board; Taiga names people by email, and an item keeps them only where a WeKan user is mapped"
+        },
+        {
+          "path": "/Default/us-1",
+          "reason": "its parent card \"epic-7\" went to the board \"Epics\""
+        },
+        {
+          "path": "/Default/us-1",
+          "reason": "its dependency on \"issue-6\" went to the board \"Issues\""
+        }
+      ],
+      "scrumTransfer": {
+        "format": "wekan-scrum-2",
+        "settings": {
+          "enabled": true,
+          "estimateSource": "customField",
+          "estimateCustomFieldId": "Story points",
+          "estimateUnit": "points"
+        },
+        "sprints": [
+          {
+            "_id": "taiga-sprint-sprint-1",
+            "name": "Sprint 1",
+            "state": "planned",
+            "plannedStart": "2024-03-01T00:00:00.000Z",
+            "plannedEnd": "2024-03-14T00:00:00.000Z",
+            "provenance": {
+              "system": "taiga",
+              "recordId": "sprint-1"
+            }
+          }
+        ],
+        "releases": [],
+        "events": [],
+        "cards": [
+          {
+            "_id": "task-0",
+            "scrum": {
+              "backlogRank": 1
+            }
+          },
+          {
+            "_id": "task-1",
+            "scrum": {
+              "sprintId": "taiga-sprint-sprint-1",
+              "backlogRank": 2
+            }
+          },
+          {
+            "_id": "task-2",
+            "scrum": {
+              "backlogRank": 3
+            }
+          },
+          {
+            "_id": "task-3",
+            "scrum": {
+              "sprintId": "taiga-sprint-sprint-1"
+            }
+          },
+          {
+            "_id": "task-4",
+            "scrum": {
+              "sprintId": "taiga-sprint-sprint-1"
+            }
+          }
+        ],
+        "lists": [],
+        "swimlanes": []
+      },
+      "scrumLosses": [
+        {
+          "path": "/milestones/0",
+          "reason": "closed sprint \"Sprint 0\" is not imported: the export has no commitment or close snapshot; its items stay in the backlog"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Epics"
+      },
+      "columns": [
+        {
+          "title": "New"
+        },
+        {
+          "title": "Ready"
+        },
+        {
+          "title": "In progress"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived"
+        },
+        {
+          "title": "Needs Info"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Content",
+          "description": "All the words on the site",
+          "column_name": "In progress",
+          "swimlane_name": "Default",
+          "tags": [
+            "copy"
+          ],
+          "ref": "epic-7",
+          "color": "#E44057",
+          "date_creation": "2024-03-01T10:18:00.000Z",
+          "comments": [],
+          "custom_fields": {
+            "Team requirement": true
+          },
+          "owner_username": "ann@example.com",
+          "requested_by": "ann@example.com"
+        }
+      ],
+      "label_colors": {
+        "design": "slateblue",
+        "copy": "red"
+      },
+      "warnings": [],
+      "unsupported": [],
+      "scrumTransfer": {
+        "format": "wekan-scrum-2",
+        "settings": {
+          "enabled": true,
+          "estimateSource": "customField",
+          "estimateCustomFieldId": "Story points",
+          "estimateUnit": "points"
+        },
+        "sprints": [
+          {
+            "_id": "taiga-sprint-sprint-1",
+            "name": "Sprint 1",
+            "state": "planned",
+            "plannedStart": "2024-03-01T00:00:00.000Z",
+            "plannedEnd": "2024-03-14T00:00:00.000Z",
+            "provenance": {
+              "system": "taiga",
+              "recordId": "sprint-1"
+            }
+          }
+        ],
+        "releases": [],
+        "events": [],
+        "cards": [
+          {
+            "_id": "task-0",
+            "scrum": {
+              "backlogRank": 1
+            }
+          },
+          {
+            "_id": "task-1",
+            "scrum": {
+              "sprintId": "taiga-sprint-sprint-1",
+              "backlogRank": 2
+            }
+          },
+          {
+            "_id": "task-2",
+            "scrum": {
+              "backlogRank": 3
+            }
+          },
+          {
+            "_id": "task-3",
+            "scrum": {
+              "sprintId": "taiga-sprint-sprint-1"
+            }
+          },
+          {
+            "_id": "task-4",
+            "scrum": {
+              "sprintId": "taiga-sprint-sprint-1"
+            }
+          }
+        ],
+        "lists": [],
+        "swimlanes": []
+      },
+      "scrumLosses": [
+        {
+          "path": "/milestones/0",
+          "reason": "closed sprint \"Sprint 0\" is not imported: the export has no commitment or close snapshot; its items stay in the backlog"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Issues"
+      },
+      "columns": [
+        {
+          "title": "New"
+        },
+        {
+          "title": "Ready"
+        },
+        {
+          "title": "In progress"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Archived"
+        },
+        {
+          "title": "Needs Info"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Broken footer link",
+          "description": "The imprint link 404s",
+          "column_name": "Needs Info",
+          "swimlane_name": "Default",
+          "tags": [
+            "type:Bug",
+            "priority:High",
+            "severity:Critical"
+          ],
+          "ref": "issue-6",
+          "date_creation": "2024-03-01T10:50:00.000Z",
+          "comments": [],
+          "custom_fields": {},
+          "owner_username": "ann@example.com",
+          "requested_by": "bob@example.com"
+        }
+      ],
+      "label_colors": {
+        "design": "slateblue",
+        "copy": "red"
+      },
+      "warnings": [],
+      "unsupported": [],
+      "scrumTransfer": {
+        "format": "wekan-scrum-2",
+        "settings": {
+          "enabled": true,
+          "estimateSource": "customField",
+          "estimateCustomFieldId": "Story points",
+          "estimateUnit": "points"
+        },
+        "sprints": [
+          {
+            "_id": "taiga-sprint-sprint-1",
+            "name": "Sprint 1",
+            "state": "planned",
+            "plannedStart": "2024-03-01T00:00:00.000Z",
+            "plannedEnd": "2024-03-14T00:00:00.000Z",
+            "provenance": {
+              "system": "taiga",
+              "recordId": "sprint-1"
+            }
+          }
+        ],
+        "releases": [],
+        "events": [],
+        "cards": [
+          {
+            "_id": "task-0",
+            "scrum": {
+              "backlogRank": 1
+            }
+          },
+          {
+            "_id": "task-1",
+            "scrum": {
+              "sprintId": "taiga-sprint-sprint-1",
+              "backlogRank": 2
+            }
+          },
+          {
+            "_id": "task-2",
+            "scrum": {
+              "backlogRank": 3
+            }
+          },
+          {
+            "_id": "task-3",
+            "scrum": {
+              "sprintId": "taiga-sprint-sprint-1"
+            }
+          },
+          {
+            "_id": "task-4",
+            "scrum": {
+              "sprintId": "taiga-sprint-sprint-1"
+            }
+          }
+        ],
+        "lists": [],
+        "swimlanes": []
+      },
+      "scrumLosses": [
+        {
+          "path": "/milestones/0",
+          "reason": "closed sprint \"Sprint 0\" is not imported: the export has no commitment or close snapshot; its items stay in the backlog"
+        }
+      ]
+    }
+  ],
+  "tasksorg-tasksorg-edge.parsed.golden": "whole",
+  "tasksorg-tasksorg.parsed.golden": "whole",
+  "taskwarrior-taskwarrior-edge.parsed.golden": "whole",
+  "taskwarrior-taskwarrior.parsed.golden": "whole",
+  "teamwork-edge.parsed.golden": "whole",
+  "teamwork-orphan-sub.parsed.golden": "whole",
+  "teamwork-teamwork.parsed.golden": "whole",
+  "ticktick-ticktick-edge.parsed.golden": [
+    {
+      "board": {
+        "name": "Garden"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Tasks"
+        },
+        {
+          "title": "Doing"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Order valves",
+          "description": "Two of them",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "shop",
+            "urgent"
+          ],
+          "ref": "t1",
+          "date_started": "2026-10-02T00:00:00.000Z",
+          "date_due": "2026-10-10T00:00:00.000Z",
+          "date_creation": "2026-09-01T12:00:00.000Z",
+          "checklists": [
+            {
+              "title": "Checklist",
+              "items": [
+                {
+                  "title": "Measure",
+                  "done": false
+                },
+                {
+                  "title": "Call the vendor",
+                  "done": true
+                }
+              ]
+            }
+          ],
+          "custom_fields": {
+            "Priority": "High",
+            "Folder": "Home"
+          }
+        },
+        {
+          "title": "Done one",
+          "description": "plain",
+          "column_name": "Tasks",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "t2",
+          "parent_ref": "t1",
+          "date_started": "2026-10-01T00:00:00.000Z",
+          "date_end": "2026-10-02T10:00:00.000Z",
+          "custom_fields": {
+            "Priority": "Medium"
+          }
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/row/6/Created Time",
+          "reason": "TickTick date \"bad\" is not in its backup format"
+        },
+        {
+          "path": "/row/7/Priority",
+          "reason": "TickTick priority \"2\" is not 0, 1, 3 or 5"
+        },
+        {
+          "path": "/row/7/Reminder",
+          "reason": "TickTick reminders have no WeKan place"
+        },
+        {
+          "path": "/row/7/Repeat",
+          "reason": "repeating task \"RRULE:FREQ=WEEKLY\" is imported once"
+        },
+        {
+          "path": "/row/8/Completed Time",
+          "reason": "TickTick date \"2026-13-01T00:00:00+0000\" is not in its backup format"
+        },
+        {
+          "path": "/row/9",
+          "reason": "a TickTick row without a title is not imported"
+        },
+        {
+          "path": "/row/10/Status",
+          "reason": "TickTick status \"7\" is not 0, 1 or 2; imported as open"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Imported TickTick backup"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Tasks"
+        },
+        {
+          "title": "Doing"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Wont",
+          "description": "",
+          "column_name": "Doing",
+          "swimlane_name": "Default",
+          "tags": [
+            "won't do"
+          ]
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "Work"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Tasks"
+        },
+        {
+          "title": "Doing"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Archived",
+          "description": "",
+          "column_name": "Doing",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "t4",
+          "date_started": "2026-03-02T10:00:00.000Z",
+          "date_creation": "2026-10-03T11:30:00.000Z",
+          "archived": true
+        },
+        {
+          "title": "Odd status",
+          "description": "",
+          "column_name": "Tasks",
+          "swimlane_name": "Default",
+          "tags": [],
+          "custom_fields": {
+            "Priority": "Low"
+          }
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "ticktick-ticktick.parsed.golden": "whole",
+  "todoist-todoist-edge.parsed.golden": "whole",
+  "todoist-todoist.parsed.golden": "whole",
+  "todotxt-todotxt-edge.parsed.golden": "whole",
+  "todotxt-todotxt.parsed.golden": "whole",
+  "vikunja-vikunja-edge.parsed.golden": [
+    {
+      "board": {
+        "name": "Beds (2)"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Untitled"
+        },
+        {
+          "title": "Older"
+        },
+        {
+          "title": "Old"
+        },
+        {
+          "title": "To-Do"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "No id",
+          "description": "",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [],
+          "custom_fields": {
+            "Done": true
+          }
+        },
+        {
+          "title": "Second",
+          "description": "",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "102",
+          "date_end": "2026-10-05T12:00:00.000Z",
+          "custom_fields": {
+            "Percent Done": 100,
+            "Done": true
+          },
+          "parent_ref": "101",
+          "dependencies": [
+            {
+              "ref": "101",
+              "type": "is-blocked-by"
+            },
+            {
+              "ref": "101",
+              "type": "related-to"
+            }
+          ]
+        },
+        {
+          "title": "Child one",
+          "description": "",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "103",
+          "parent_ref": "101"
+        },
+        {
+          "title": "Order valves",
+          "description": "Two & **three**",
+          "column_name": "Untitled",
+          "swimlane_name": "Default",
+          "tags": [
+            "shop"
+          ],
+          "ref": "101",
+          "owner_username": "ann",
+          "assignees": [
+            "Bob"
+          ],
+          "requested_by": "carl",
+          "date_due": "2026-10-10T08:00:00.000Z",
+          "date_creation": "2026-09-01T08:00:00.000Z",
+          "color": "1973ff",
+          "custom_fields": {
+            "Priority": "High",
+            "Percent Done": 46
+          },
+          "checklists": [
+            {
+              "title": "Steps",
+              "items": [
+                {
+                  "title": "Measure",
+                  "done": true
+                },
+                {
+                  "title": "Call",
+                  "done": false
+                }
+              ]
+            }
+          ],
+          "comments": [
+            {
+              "text": "Looks _good_\n\n- [x] done item",
+              "author": "dee",
+              "date": "2026-09-02T09:00:00.000Z"
+            },
+            {
+              "text": "plain md",
+              "author": ""
+            }
+          ]
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/projects/1",
+          "reason": "project \"Garden\" has no tasks and is not imported"
+        },
+        {
+          "path": "/projects/5",
+          "reason": "project \"Empty\" has no tasks and is not imported"
+        },
+        {
+          "path": "/projects/2/views",
+          "reason": "only the first kanban view's buckets (\"Board\") become lists; 1 other kanban view(s) are not imported"
+        },
+        {
+          "path": "/projects/2/buckets/20/limit",
+          "reason": "bucket \"To Do\" has a limit of 5 tasks; WIP limits are not imported"
+        },
+        {
+          "path": "/projects/2/hex_color",
+          "reason": "the project color is not imported"
+        },
+        {
+          "path": "/projects/2/description",
+          "reason": "the project description is not imported"
+        },
+        {
+          "path": "/projects/2/background_information",
+          "reason": "the project background image is not imported"
+        },
+        {
+          "path": "/projects/2/tasks/102/priority",
+          "reason": "Vikunja priority 7 is not one of 0-5"
+        },
+        {
+          "path": "/projects/2/tasks/102/related_tasks/parenttask",
+          "reason": "a card has one parent; 1 further parent task(s) are not linked"
+        },
+        {
+          "path": "/projects/2/tasks/102/repeat_after",
+          "reason": "a repeating Vikunja task is imported once; its repeat is not imported"
+        },
+        {
+          "path": "/projects/2/tasks/104",
+          "reason": "a Vikunja task without a title is not imported"
+        },
+        {
+          "path": "/projects/2/tasks/101/related_tasks/precedes",
+          "reason": "Vikunja \"precedes\" relations have no WeKan dependency type and are not imported"
+        },
+        {
+          "path": "/projects/2/tasks/101/attachments/7",
+          "reason": "attachment \"plan.pdf\" is not imported; its bytes are files/8 in the export"
+        },
+        {
+          "path": "/projects/2/tasks/101/attachments/9",
+          "reason": "attachment \"file \" is not imported; its bytes are files/ in the export"
+        },
+        {
+          "path": "/projects/2/tasks/101/attachments/",
+          "reason": "attachment \"file 10\" is not imported; its bytes are files/10 in the export"
+        },
+        {
+          "path": "/projects/2/tasks/101/reminders",
+          "reason": "2 reminder(s) are not imported"
+        },
+        {
+          "path": "/projects/2/tasks/101/repeat_after",
+          "reason": "a repeating Vikunja task is imported once; its repeat is not imported"
+        },
+        {
+          "path": "/projects/2/tasks/101/reactions",
+          "reason": "reactions are not imported"
+        },
+        {
+          "path": "/projects/3/background_information",
+          "reason": "the project background image is not imported"
+        },
+        {
+          "path": "/projects/3/is_archived",
+          "reason": "the project is archived; its tasks are imported as archived cards"
+        },
+        {
+          "path": "/labels",
+          "reason": "Vikunja label colors are not imported; labels get WeKan's default color"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Beds (3)"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Untitled"
+        },
+        {
+          "title": "Older"
+        },
+        {
+          "title": "Old"
+        },
+        {
+          "title": "To-Do"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Archived task",
+          "description": "",
+          "column_name": "Old",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "201",
+          "archived": true,
+          "custom_fields": {
+            "Done": true
+          }
+        },
+        {
+          "title": "Open task",
+          "description": "",
+          "column_name": "Older",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "202",
+          "archived": true
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "Elsewhere"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Untitled"
+        },
+        {
+          "title": "Older"
+        },
+        {
+          "title": "Old"
+        },
+        {
+          "title": "To-Do"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Not imported",
+          "description": "",
+          "column_name": "To-Do",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "301"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "vikunja-vikunja.parsed.golden": [
+    {
+      "board": {
+        "name": "Plan & <Go> \"q\" 🚀"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Empty"
+        },
+        {
+          "title": "Won't fix"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "Untitled"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Write   spec now",
+          "description": "line one\n\nline \"two\" <b>",
+          "column_name": "To Do",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:H",
+            "web  dev",
+            "project:Plant.Pumps",
+            "@home",
+            "big deal",
+            "p2",
+            "a;b",
+            "Bug",
+            "x , y"
+          ],
+          "ref": "1",
+          "owner_username": "alice",
+          "assignees": [
+            "bob",
+            "bob, jr"
+          ],
+          "requested_by": "carol",
+          "date_due": "2026-11-20T10:00:00.000Z",
+          "date_started": "2026-11-10T00:00:00.000Z",
+          "date_creation": "2026-11-01T08:00:00.000Z",
+          "checklists": [
+            {
+              "title": "Steps",
+              "items": [
+                {
+                  "title": "a & b",
+                  "done": true
+                },
+                {
+                  "title": "c",
+                  "done": false
+                }
+              ]
+            }
+          ],
+          "comments": [
+            {
+              "text": "Looks <i>good</i>",
+              "author": "bob",
+              "date": "2026-11-02T09:30:00.000Z"
+            },
+            {
+              "text": "no author",
+              "author": "",
+              "date": "2026-11-10T12:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "title": "-minus first",
+          "description": "first\nsecond",
+          "column_name": "Done",
+          "swimlane_name": "Default",
+          "tags": [
+            "priority:B",
+            "raw",
+            "done",
+            "won't do",
+            "=SUM(1)"
+          ],
+          "ref": "2",
+          "date_end": "2026-11-05T00:00:00.000Z",
+          "date_creation": "2026-11-02T00:00:00.000Z",
+          "custom_fields": {
+            "Done": true
+          },
+          "checklists": [
+            {
+              "title": "Checklist",
+              "items": [
+                {
+                  "title": "one",
+                  "done": false
+                }
+              ]
+            }
+          ],
+          "parent_ref": "1"
+        },
+        {
+          "title": "No list item",
+          "description": "",
+          "column_name": "Started",
+          "swimlane_name": "Default",
+          "tags": [
+            "p1"
+          ],
+          "ref": "4",
+          "requested_by": "Eve",
+          "date_due": "2026-11-12T00:00:00.000Z",
+          "date_started": "2026-11-11T00:00:00.000Z",
+          "date_creation": "2026-11-10T12:00:00.000Z",
+          "parent_ref": "2"
+        },
+        {
+          "title": "Orphan of an archived list",
+          "description": "",
+          "column_name": "Untitled",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "5",
+          "date_end": "2026-11-06T00:00:00.000Z",
+          "date_creation": "2026-11-10T12:00:00.000Z"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Empty"
+        },
+        {
+          "title": "Won't fix"
+        },
+        {
+          "title": "Archived list"
+        },
+        {
+          "title": "Started"
+        },
+        {
+          "title": "Untitled"
+        },
+        {
+          "title": "Backlog"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "multi\n  line\ttitle",
+          "description": "",
+          "column_name": "Archived list",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "3",
+          "owner_username": "dave",
+          "date_due": "2026-12-24T18:30:00.000Z",
+          "date_creation": "2026-11-10T12:00:00.000Z",
+          "comments": [
+            {
+              "text": "orphan",
+              "author": "",
+              "date": "2026-11-04T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "title": "Backlogged",
+          "description": "",
+          "column_name": "Backlog",
+          "swimlane_name": "Default",
+          "tags": [],
+          "ref": "6",
+          "date_creation": "2026-11-10T12:00:00.000Z",
+          "parent_ref": "3"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "wrike-edge.parsed.golden": [
+    {
+      "board": {
+        "name": "Garden/Beds"
+      },
+      "columns": [
+        {
+          "title": "In review"
+        },
+        {
+          "title": "Waiting"
+        },
+        {
+          "title": "Active"
+        },
+        {
+          "title": "Cancelled"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Order valves",
+          "description": "Two of them",
+          "ref": "2",
+          "swimlane_name": "Default",
+          "column_name": "In review",
+          "tags": [],
+          "owner_username": "Ann Lee",
+          "assignees": [
+            "bob@x.test",
+            "Cy"
+          ],
+          "date_started": "2026-10-10T00:00:00.000Z",
+          "date_due": "2026-10-20T00:00:00.000Z",
+          "dependencies": [
+            {
+              "ref": "3",
+              "type": "is-blocked-by"
+            },
+            {
+              "ref": "4",
+              "type": "is-blocked-by"
+            }
+          ],
+          "custom_fields": {
+            "Priority": "High",
+            "Duration": "3d",
+            "Budget": 1200,
+            "Ratio": -0.25
+          }
+        },
+        {
+          "title": "Fit",
+          "description": "",
+          "ref": "3",
+          "swimlane_name": "Default",
+          "column_name": "Waiting",
+          "tags": [],
+          "parent_ref": "2",
+          "date_started": "2026-10-03T00:00:00.000Z"
+        },
+        {
+          "title": "No key",
+          "description": "",
+          "ref": "wrike/row/7",
+          "swimlane_name": "Default",
+          "column_name": "Active",
+          "tags": []
+        },
+        {
+          "title": "Bad key",
+          "description": "",
+          "ref": "abc",
+          "swimlane_name": "Default",
+          "column_name": "Active",
+          "tags": []
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/row/1",
+          "reason": "a row above the header row is not imported"
+        },
+        {
+          "path": "/row/3",
+          "reason": "a Wrike folder or project's own Status, Assigned To, Description is not imported"
+        },
+        {
+          "path": "/row/4/Status",
+          "reason": "the Completed status group of \"In review\" is not kept by the list: import the Wrike workflow in Rules to add the rule that does what it does"
+        },
+        {
+          "path": "/row/4/Start Date Constraint",
+          "reason": "a Wrike start date constraint (2026-10-01) is not imported"
+        },
+        {
+          "path": "/row/4/Depends On",
+          "reason": "the SS kind of Wrike dependency \"4 ss\" is kept as is-blocked-by"
+        },
+        {
+          "path": "/row/4/Depends On",
+          "reason": "a dependency on the folder with Key 1 is not imported"
+        },
+        {
+          "path": "/row/4/Depends On",
+          "reason": "Wrike dependency \"x9\" is not <Key><FS|SS|FF|SF>"
+        },
+        {
+          "path": "/row/4/Default task workflow",
+          "reason": "the Wrike Default task workflow \"Default\" of a task is not imported"
+        },
+        {
+          "path": "/row/5/End Date",
+          "reason": "Wrike date \"2026-02-30\" is not a date"
+        },
+        {
+          "path": "/row/6",
+          "reason": "a repeated row of the task with Key 3 (a task in several folders) is imported once"
+        },
+        {
+          "path": "/row/7",
+          "reason": "a Wrike task without a Key cannot be a parent or a dependency"
+        },
+        {
+          "path": "/row/7/Start Date",
+          "reason": "Wrike date \"9999999\" is not a date"
+        },
+        {
+          "path": "/row/8/Key",
+          "reason": "Wrike Key \"abc\" is not an integer between 1 and 999999"
+        },
+        {
+          "path": "/row/10",
+          "reason": "a Wrike row without a Title is not imported"
+        }
+      ]
+    },
+    {
+      "board": {
+        "name": "Late folder"
+      },
+      "columns": [
+        {
+          "title": "In review"
+        },
+        {
+          "title": "Waiting"
+        },
+        {
+          "title": "Active"
+        },
+        {
+          "title": "Cancelled"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "In late folder",
+          "description": "",
+          "ref": "7",
+          "swimlane_name": "Default",
+          "column_name": "Cancelled",
+          "tags": []
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "wrike-wrike.parsed.golden": [
+    {
+      "board": {
+        "name": "Plan & <Go> \"q\" 🚀"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "Write   spec now",
+          "description": "line one\n\nline \"two\" <b>",
+          "ref": "1",
+          "swimlane_name": "Default",
+          "column_name": "To Do",
+          "tags": [],
+          "owner_username": "alice",
+          "assignees": [
+            "bob",
+            "alice",
+            "bob",
+            "jr"
+          ],
+          "date_started": "2026-11-10T00:00:00.000Z",
+          "date_due": "2026-11-20T00:00:00.000Z"
+        },
+        {
+          "title": "-minus first",
+          "description": "first\nsecond",
+          "ref": "2",
+          "swimlane_name": "Default",
+          "column_name": "Done",
+          "tags": [],
+          "parent_ref": "1"
+        },
+        {
+          "title": "No list item",
+          "description": "",
+          "ref": "3",
+          "swimlane_name": "Default",
+          "column_name": "To Do",
+          "tags": [],
+          "parent_ref": "2",
+          "date_started": "2026-11-11T00:00:00.000Z",
+          "date_due": "2026-11-12T00:00:00.000Z"
+        },
+        {
+          "title": "Orphan of an archived list",
+          "description": "",
+          "ref": "4",
+          "swimlane_name": "Default",
+          "column_name": "To Do",
+          "tags": []
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    },
+    {
+      "board": {
+        "name": "Ops"
+      },
+      "columns": [
+        {
+          "title": "To Do"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "multi\n  line\ttitle",
+          "description": "",
+          "ref": "6",
+          "swimlane_name": "Default",
+          "column_name": "To Do",
+          "tags": [],
+          "owner_username": "dave",
+          "date_due": "2026-12-24T00:00:00.000Z"
+        },
+        {
+          "title": "Backlogged",
+          "description": "",
+          "ref": "7",
+          "swimlane_name": "Default",
+          "column_name": "To Do",
+          "tags": [],
+          "parent_ref": "6"
+        }
+      ],
+      "warnings": [],
+      "unsupported": []
+    }
+  ],
+  "zenkit-wekan-zenkit-adapter.parsed.golden": "whole",
+  "zenkit-wekan-zenkit-api.parsed.golden": "whole",
+  "zenkit-zenkit.parsed.golden": "whole",
+  "split/edge.json": [
+    {
+      "board": {
+        "name": "Alpha",
+        "description": "All of them"
+      },
+      "columns": [
+        {
+          "title": "Todo"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "A1",
+          "ref": "a1",
+          "swimlane_name": "Default",
+          "column": "Todo"
+        },
+        {
+          "title": "A2",
+          "ref": "a2",
+          "dependencies": [
+            {
+              "ref": "a1"
+            },
+            null,
+            {
+              "ref": "gone"
+            }
+          ],
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [
+        "one warning"
+      ],
+      "unsupported": [
+        {
+          "path": "/x",
+          "reason": "the source's own"
+        },
+        {
+          "path": "/Alpha/a2",
+          "reason": "its parent card \"b1\" went to the board \"Beta\""
+        },
+        {
+          "path": "/Alpha/a2",
+          "reason": "its dependency on \"b1\" went to the board \"Beta\""
+        }
+      ],
+      "extra": {
+        "kept": true
+      }
+    },
+    {
+      "board": {
+        "name": "Beta",
+        "description": "All of them"
+      },
+      "columns": [
+        {
+          "title": "Done"
+        },
+        {
+          "title": "Later"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "B1",
+          "ref": "b1",
+          "swimlane_name": "Default"
+        },
+        {
+          "title": "N1",
+          "ref": 7,
+          "swimlane_name": "Default",
+          "dependencies": [
+            {
+              "ref": 7
+            }
+          ]
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/Beta/b1",
+          "reason": "its parent card \"a1\" went to the board \"Alpha\""
+        }
+      ],
+      "extra": {
+        "kept": true
+      }
+    },
+    {
+      "board": {
+        "name": "Projects",
+        "description": "All of them"
+      },
+      "columns": [
+        {
+          "title": "Todo"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "D1",
+          "ref": "",
+          "swimlane_name": "Default"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [
+        {
+          "path": "/Default/D1",
+          "reason": "its parent card \"a2\" went to the board \"Alpha\""
+        }
+      ],
+      "extra": {
+        "kept": true
+      }
+    },
+    {
+      "board": {
+        "name": "Gamma",
+        "description": "All of them"
+      },
+      "columns": [
+        {
+          "title": "Todo"
+        },
+        {
+          "title": "Done"
+        }
+      ],
+      "swimlanes": [
+        {
+          "name": "Default"
+        }
+      ],
+      "tasks": [
+        {
+          "title": "E1",
+          "swimlane_name": "Default",
+          "ref": "e1"
+        }
+      ],
+      "warnings": [],
+      "unsupported": [],
+      "extra": {
+        "kept": true
+      }
+    }
+  ],
+  "split/one.json": "whole"
+}

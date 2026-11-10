@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Tokkoon tokkoon isaaniif fayyadamaa jiru filadhu",
   "import-members-mode-me": "Hunda isaanii ana godhi",
   "import-members-mode-placeholder": "Akka fayyadamtoota bakka bu'aa maqaa mataa isaanii wajjinitti eegi, booda fayyadamtoota dhugaatti walsimsiisuuf",
+  "import-one-board-per-project": "Pirojektii tokkoof gabatee tokko",
+  "import-one-board-per-project-hint": "Karaan galchiin uumu tokkoon tokkoon isaa (pirojektii, kuusaa ykn tarree meeshaa sanaa) gabatee mataa isaa ta'a. Kaardiiwwan maatii fi hirkattummaan gabateewwan sana gidduu jiran gabaasa galchuu keessatti tarreeffamu.",
   "import-report-description": "Gabateen uumameera, garuu kutaan faayilii tokko tokko fidamuu hin dandeenye. Gabaasni kun Paanaalii bulchaa → Rakkoolee → Deebisuu keessatti kuufama.",
   "import-report-heading": "Akeekkachiisa waliin galfame",
   "import-report-open-board": "Gabatee bani",

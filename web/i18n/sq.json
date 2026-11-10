@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Zgjidhni një përdorues ekzistues për secilin prej tyre",
   "import-members-mode-me": "Zëvendësoji të gjithë me llogarinë time",
   "import-members-mode-placeholder": "Mbajini si përdorues të përkohshëm me emrat e tyre, për t'i lidhur më vonë me përdorues të vërtetë",
+  "import-one-board-per-project": "Një tabelë për çdo projekt",
+  "import-one-board-per-project-hint": "Çdo korsi që do të krijonte importi (një projekt, dosje ose listë e mjetit) bëhet tabelë më vete. Kartat prind dhe varësitë midis këtyre tabelave renditen në raportin e importit.",
   "import-report-description": "Tabela u krijua, por disa pjesë të skedarit nuk mund të transferoheshin. I njëjti raport ruhet te Paneli i administratorit → Problemet → Rikuperimi.",
   "import-report-heading": "Importuar me paralajmërime",
   "import-report-open-board": "Hap tabelën",

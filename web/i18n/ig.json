@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Họrọ onye ọrụ dị adị maka onye ọ bụla n’ime ha",
   "import-members-mode-me": "Mee ka ha niile bụrụ m",
   "import-members-mode-placeholder": "Debe ha dịka ndị ọrụ nnọchi anya nwere aha nke ha, ka e jikọọ ha na ndị ọrụ n’ezie ma emechaa",
+  "import-one-board-per-project": "Otu bọọdụ maka ọrụ ukwu ọ bụla",
+  "import-one-board-per-project-hint": "Ahịrị igwu mmiri ọ bụla mbubata ga-eme (ọrụ ukwu, nchekwa ma ọ bụ ndepụta nke ngwa ahụ) na-aghọ bọọdụ nke ya. Akụkọ mbubata na-edepụta kaadị nne na nna na ihe bọọdụ ndị ahụ dabere na ibe ha.",
   "import-report-description": "Emepụtara bọọdụ ahụ, mana enweghị ike ibubata akụkụ ụfọdụ nke faịlụ ahụ. A na-echekwa otu akụkọ ahụ na Ogwe nchịkwa → Nsogbu → Mgbake.",
   "import-report-heading": "Ebubatara ya na ịdọ aka ná ntị",
   "import-report-open-board": "Mepee bọọdụ ahụ",

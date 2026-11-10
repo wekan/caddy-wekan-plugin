@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Pre každého z nich vybrať existujúceho používateľa",
   "import-members-mode-me": "Nahradiť ich všetkých mnou",
   "import-members-mode-placeholder": "Ponechať ich ako zástupných používateľov s vlastnými menami a priradiť ich ku skutočným používateľom neskôr",
+  "import-one-board-per-project": "Jedna nástenka na projekt",
+  "import-one-board-per-project-hint": "Každá dráha, ktorú by import vytvoril (projekt, priečinok alebo zoznam daného nástroja), sa stane samostatnou nástenkou. Nadradené karty a závislosti medzi týmito nástenkami sú uvedené v správe o importe.",
   "import-report-description": "Nástenka bola vytvorená, ale niektoré časti súboru sa nepodarilo preniesť. Rovnaká správa je uložená v časti Panel správcu → Problémy → Obnova.",
   "import-report-heading": "Importované s upozorneniami",
   "import-report-open-board": "Otvoriť nástenku",

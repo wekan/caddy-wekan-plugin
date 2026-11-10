@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Vel ein verandi brúkara fyri hvønn teirra",
   "import-members-mode-me": "Ger tey øll til meg",
   "import-members-mode-placeholder": "Varðveit tey sum fyribils brúkarar við egnum nøvnum, at knýta at veruligum brúkarum seinni",
+  "import-one-board-per-project": "Ein talva fyri hvørja verkætlan",
+  "import-one-board-per-project-hint": "Hvørt bein, sum innflutningurin hevði gjørt (ein verkætlan, mappa ella listi í amboðnum), verður til sína egnu talvu. Foreldrakort og tengsl millum hesar talvur verða skrásett í innflutningsfrágreiðingini.",
   "import-report-description": "Talvan varð stovnað, men summir partar av fíluni kundu ikki flytast inn. Sama frágreiðing verður goymd í Umsitaraborð → Trupulleikar → Endurstovnan.",
   "import-report-heading": "Innflutt við ávaringum",
   "import-report-open-board": "Lat talvuna upp",

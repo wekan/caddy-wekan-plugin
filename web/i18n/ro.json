@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Alege un utilizator existent pentru fiecare dintre ele",
   "import-members-mode-me": "Înlocuiește-le pe toate cu mine",
   "import-members-mode-placeholder": "Păstrează-le ca utilizatori provizorii cu propriile nume, pentru a le asocia ulterior cu utilizatori reali",
+  "import-one-board-per-project": "Un panou pentru fiecare proiect",
+  "import-one-board-per-project-hint": "Fiecare culoar pe care l-ar crea importul (un proiect, dosar sau listă din instrument) devine un panou separat. Cardurile părinte și dependențele dintre aceste panouri sunt enumerate în raportul de import.",
   "import-report-description": "Panoul a fost creat, dar unele părți ale fișierului nu au putut fi transferate. Același raport este păstrat în Panou de administrare → Probleme → Recuperare.",
   "import-report-heading": "Importat cu avertismente",
   "import-report-open-board": "Deschide panoul",

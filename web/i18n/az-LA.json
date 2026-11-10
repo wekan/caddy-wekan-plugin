@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Hər biri üçün mövcud istifadəçi seçin",
   "import-members-mode-me": "Hamısını mənə aid edin",
   "import-members-mode-placeholder": "Sonradan real istifadəçilərə uyğunlaşdırmaq üçün onları öz adları ilə müvəqqəti istifadəçilər kimi saxlayın",
+  "import-one-board-per-project": "Hər layihə üçün bir lövhə",
+  "import-one-board-per-project-hint": "İdxalın yaradacağı hər üzgüçülük zolağı (alətdəki layihə, qovluq və ya siyahı) ayrıca lövhəyə çevrilir. Bu lövhələr arasındakı ana kartlar və asılılıqlar idxal hesabatında göstərilir.",
   "import-report-description": "Lövhə yaradıldı, lakin faylın bəzi hissələrini köçürmək mümkün olmadı. Eyni hesabat İdarəetmə paneli → Problemlər → Bərpa bölməsində saxlanılır.",
   "import-report-heading": "Xəbərdarlıqlarla idxal edildi",
   "import-report-open-board": "Lövhəni aç",

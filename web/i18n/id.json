@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Pilih pengguna yang sudah ada untuk masing-masing orang",
   "import-members-mode-me": "Ganti semuanya dengan saya",
   "import-members-mode-placeholder": "Pertahankan sebagai pengguna sementara dengan nama masing-masing untuk dipetakan ke pengguna nyata nanti",
+  "import-one-board-per-project": "Satu papan per proyek",
+  "import-one-board-per-project-hint": "Setiap jalur yang akan dibuat oleh impor (proyek, folder, atau daftar dari alat tersebut) menjadi papan tersendiri. Kartu induk dan ketergantungan antarpapan dicantumkan dalam laporan impor.",
   "import-report-description": "Papan telah dibuat, tetapi beberapa bagian berkas tidak dapat dipindahkan. Laporan yang sama disimpan di Panel Admin → Masalah → Pemulihan.",
   "import-report-heading": "Diimpor dengan peringatan",
   "import-report-open-board": "Buka papan",

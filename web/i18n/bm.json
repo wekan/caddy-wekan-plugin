@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Baarakɛla min bɛ yen kaban, o kelen sugandi u kelen-kelen bɛɛ ye",
   "import-members-mode-me": "U bɛɛ kɛ ne ye",
   "import-members-mode-placeholder": "U to i n'a fɔ baarakɛla nɔnabilaw ni u yɛrɛ tɔgɔw ye, walasa k'u siri baarakɛla lakikaw la kɔfɛ",
+  "import-one-board-per-project": "Walan kelen porozɛ kelen-kelen bɛɛ ye",
+  "import-one-board-per-project-hint": "Sira o sira donni bɛna min dilan (minɛn ka porozɛ, kɛsu walima lisiti), o bɛ kɛ a yɛrɛ ka walan ye. Karti fadenw ni sirilenw minnu bɛ o walanw cɛ, olu bɛ sɛbɛn donni rapɔɔri kɔnɔ.",
   "import-report-description": "Walan dabɔra, nka dosiye yɔrɔ dɔw ma se ka na. O kunnafonisɛbɛn kelen bɛ mara Ɲɛmɔgɔ ka walan → Gɛlɛyaw → Laseginni kɔnɔ.",
   "import-report-heading": "A donna ni lasɔmiliw ye",
   "import-report-open-board": "Walan dayɛlɛ",

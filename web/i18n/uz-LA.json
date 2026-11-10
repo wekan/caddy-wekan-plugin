@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Har biri uchun mavjud foydalanuvchini tanlash",
   "import-members-mode-me": "Hammasini menga biriktirish",
   "import-members-mode-placeholder": "Keyin haqiqiy foydalanuvchilarga moslash uchun ularni oʻz nomlari bilan vaqtinchalik foydalanuvchi sifatida saqlash",
+  "import-one-board-per-project": "Har bir loyiha uchun bitta taxta",
+  "import-one-board-per-project-hint": "Import yaratadigan har bir suzish chizigʻi (vositadagi loyiha, jild yoki roʻyxat) alohida taxtaga aylanadi. Bu taxtalar orasidagi ota kartalar va bogʻliqliklar import hisobotida koʻrsatiladi.",
   "import-report-description": "Taxta yaratildi, ammo faylning ayrim qismlarini olib oʻtib boʻlmadi. Xuddi shu hisobot Administrator paneli → Muammolar → Tiklash boʻlimida saqlanadi.",
   "import-report-heading": "Ogohlantirishlar bilan import qilindi",
   "import-report-open-board": "Taxtani ochish",

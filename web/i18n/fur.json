@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Sielç un utent esistent par ognidun di lôr",
   "import-members-mode-me": "Fasiju ducj me",
   "import-members-mode-placeholder": "Tignîju come utents segnepuest cui lôr nons, di associâ a utents vêrs plui indenant",
+  "import-one-board-per-project": "Une taule par progjet",
+  "import-one-board-per-project-hint": "Ogni corsie che la impuartazion e fasarès (un progjet, une cartele o une liste dal strument) e devente une taule sô. Lis cjartis gjenitoris e lis dipendencis tra chês taulis a son listadis tal rapuart di impuartazion.",
   "import-report-description": "La taule e je stade creade, ma ciertis parts dal file no son stadis impuartadis. Il stes rapuart al ven conservât in Panel di aministratôr → Problemis → Ripristinament.",
   "import-report-heading": "Impuartât cun avertiments",
   "import-report-open-board": "Vierç la taule",

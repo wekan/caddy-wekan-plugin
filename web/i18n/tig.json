@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "ንነፍሲ ወከፎም ዘሎ መትነፍዓይ ምረጽ",
   "import-members-mode-me": "ኩሎም ኣነ ግበሮም",
   "import-members-mode-placeholder": "ብ ገዛእ ስሜቶም ከም ተተካእቲ መትነፍዕያም ኣጽንሖም፣ ደሓር ምስ ሓቀኛታት መትነፍዕያም ንምዝማድ",
+  "import-one-board-per-project": "ሓደ ምዱድ ን ነፍሲ ወከፍ ፕሮጀክት",
+  "import-one-board-per-project-hint": "ነፍሲ ወከፍ መገዲ እቲ ምእታው ዝገብሮ (ፕሮጀክት፣ ፎልደር ወይ ዝርዝር ናይቲ መሳርሒ) ናይ ገዛእ ርእሱ ምዱድ ይኸውን። ወለድቲ ወረቀት ካርዳትን ምትእስሳራት ማእከል እዞም ምዱዳትን ዲብ ጸብጻብ ምእታው ይዝርዘሩ።",
   "import-report-description": "ለምዱድ ትወደ፣ ላኪን በዐድ አግዛእ ለፈይል እግል ልእተ ኢቀድረ። እሊ ተቅሪር ዲብ ምዱድ ለሓክም → መሻክል → ምምላስ ልትዐቀብ።",
   "import-report-heading": "እብ መሻክል አተ",
   "import-report-open-board": "ፍታሕ ለምዱድ",

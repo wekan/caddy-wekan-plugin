@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Pileh ureueng ngui nyang ka na keu tiep ureueng",
   "import-members-mode-me": "Peujeuet bandum jih keu lôn",
   "import-members-mode-placeholder": "Peutheun sibagoe ureueng ngui peuganto ngon nan keudroe, keu geuhubong u ureueng ngui asli lheuh nyoe",
+  "import-one-board-per-project": "Saboh papan keu tiep proyek",
+  "import-one-board-per-project-hint": "Tiep jalur nyang geupeugöt le impor (saboh proyek, map atawa dapeuta alat) jeuet keu papan keudroe. Kad induk ngon ketergantungan antara papan nyan geutuléh lam laporan impor.",
   "import-report-description": "Papan ka geupeugot, teuma na padum bagi lam fail nyang hana jeut geuba. Laporan nyang sama geukeubah bak Panel Admin → Masalah → Peuulang.",
   "import-report-heading": "Ka geupeutamong ngön peuringatan",
   "import-report-open-board": "Peuhah papan",

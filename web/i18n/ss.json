@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Khetsa umsebentisi lokhona kulowo nalowo wabo",
   "import-members-mode-me": "Bente bonkhe babe nguMI",
   "import-members-mode-placeholder": "Bagcine njengebasebentisi bendzawo ngemabito abo, kute ubahlanganise nebasebentisi bangempela ngekuhamba kwesikhatsi",
+  "import-one-board-per-project": "Libhodi linye ngephrojekthi ngayinye",
+  "import-one-board-per-project-hint": "Umzila ngamunye kungenisa lobekungawenta (iphrojekthi, lifolda noma luhlu lwelithulusi) uba libhodi lawo. Emakhadi labatali nekuncikana emkhatsini walawo mabhodi kubhalwe embikweni wekungenisa.",
   "import-report-description": "Libhodi lakhiwe, kodvwa letinye tincenye telifayela atikakwati kudluliselwa. Umbiko lofanako ugcinwe ku-Iphaneli yemlawuli → Tinkinga → Kubuyisela.",
   "import-report-heading": "Kungeniswe netecwayiso",
   "import-report-open-board": "Vula libhodi",

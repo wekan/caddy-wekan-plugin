@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Dewiswch ddefnyddiwr sy'n bodoli ar gyfer pob un ohonynt",
   "import-members-mode-me": "Gwneud pob un ohonynt yn fi",
   "import-members-mode-placeholder": "Eu cadw fel defnyddwyr dalfan gyda'u henwau eu hunain, i'w paru â defnyddwyr go iawn yn nes ymlaen",
+  "import-one-board-per-project": "Un bwrdd i bob prosiect",
+  "import-one-board-per-project-hint": "Daw pob lôn nofio y byddai'r mewnforio yn ei gwneud (prosiect, ffolder neu restr o'r offeryn) yn fwrdd ei hun. Rhestrir cardiau rhiant a dibyniaethau rhwng y byrddau hynny yn yr adroddiad mewnforio.",
   "import-report-description": "Crëwyd y bwrdd, ond ni ellid dod â rhai rhannau o'r ffeil drosodd. Cedwir yr un adroddiad yn Panel Gweinyddu → Problemau → Adfer.",
   "import-report-heading": "Wedi'i fewnforio gyda rhybuddion",
   "import-report-open-board": "Agor y bwrdd",

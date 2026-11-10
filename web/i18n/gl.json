@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Escoller un usuario existente para cada persoa",
   "import-members-mode-me": "Substituílas todas por min",
   "import-members-mode-placeholder": "Conservalas como usuarios provisionais cos seus propios nomes para asocialas con usuarios reais máis adiante",
+  "import-one-board-per-project": "Un taboleiro por proxecto",
+  "import-one-board-per-project-hint": "Cada carril que crearía a importación (un proxecto, cartafol ou lista da ferramenta) convértese nun taboleiro propio. As tarxetas nai e as dependencias entre estes taboleiros figuran no informe de importación.",
   "import-report-description": "Creouse o taboleiro, pero non se puideron transferir algunhas partes do ficheiro. O mesmo informe consérvase en Panel de administración → Problemas → Recuperación.",
   "import-report-heading": "Importado con avisos",
   "import-report-open-board": "Abrir o taboleiro",

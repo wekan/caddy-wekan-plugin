@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Scegghi n'utenti esistenti pi ognunu",
   "import-members-mode-me": "Fàlli tutti a mia",
   "import-members-mode-placeholder": "Tènili comu utenti pruvisori cu li so nomi, pi assuciàrili a utenti veri doppu",
+  "import-one-board-per-project": "Na tavula pi ogni prugettu",
+  "import-one-board-per-project-hint": "Ogni curseva ca l'importazzioni facissi (nu prugettu, na cartedda o na lista dô strumentu) addiventa na tavula sò. Carti patri e dipinnenzi tra ddi tavuli sunnu elencati nnô rapportu d'importazzioni.",
   "import-report-description": "La tavula fu criata, ma quarchi parti di lu file nun si potti trasfiriri. Lu stissu rapportu veni cunsirvatu nta Pannellu d'amministrazzioni → Prubblemi → Ricùpiru.",
   "import-report-heading": "Mpurtatu cu avvisi",
   "import-report-open-board": "Grapi la tavula",

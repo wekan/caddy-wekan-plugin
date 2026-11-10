@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Tscherner in utilisader existent per mintgina da quellas",
   "import-members-mode-me": "Far da tuttas mai",
   "import-members-mode-placeholder": "Mantegnair ellas sco utilisaders provisorics cun lur atgns nums, per als attribuir pli tard ad utilisaders reals",
+  "import-one-board-per-project": "Ina tabella per project",
+  "import-one-board-per-project-hint": "Mintga via che l'importaziun creass (in project, in ordinatur u ina glista da l'instrument) daventa ina atgna tabella. Cartas superiuras e dependenzas tranter quellas tabellas vegnan enumeradas en il rapport d'importaziun.",
   "import-report-description": "La tabella è vegnida creada, ma tschertas parts da la datoteca n’han betg pudì vegnir transferidas. Il medem rapport vegn conservà sut Panel d’administraziun → Problems → Restabiliment.",
   "import-report-heading": "Importà cun avertiments",
   "import-report-open-board": "Avrir la tabella",

@@ -20,6 +20,8 @@
       p.import-members-map-note {{t $.L "import-members-map-note"}}
       form(method="post", action="{{.MapMembers.Action}}")
         input(type="hidden", name="payload", value="{{.MapMembers.Payload}}")
+        if .MapMembers.Split
+          input(type="hidden", name="splitBy", value="swimlane")
         .mapping-list
           each p in .MapMembers.People
             .mapping-item.js-select-member
@@ -79,9 +81,9 @@
         input.js-import-file(id="import-file", type="file", name="file", accept="{{.Accept}}")
       if .Paste
         textarea.js-import-json(id="import-textarea", name="text", rows="10")
-      //- WeKan's "People in the file": placeholder users keeping the names
-        (and "map" too, while Weddy has no members-mapping step - nobody
-        mapped is a placeholder), or the person importing.
+      //- WeKan's "People in the file": each mapped to an existing user (the
+        members-mapping step; nobody mapped is a placeholder), placeholder
+        users keeping the names, or the person importing.
       if .General
         .import-members-mode
           p
@@ -91,6 +93,17 @@
             a.flex.js-import-members-mode(data-mode="{{.Mode}}", href="#")
               .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
               span {{t $.L .Label}}
+      //- "One board per project" (import_split.go): each swimlane the import
+        would make becomes its own board.
+      if .General
+        //- A div, not WeKan's p: the box is a div, and a parser closes a p
+          at one, which split the link in two.
+        .import-file-row
+          input.js-import-split-value(type="hidden", name="splitBy", value="")
+          a.flex.js-import-split-toggle(href="#")
+            .materialCheckBox
+            span {{t $.L "import-one-board-per-project"}}
+          span.quiet.import-file-hint {{t $.L "import-one-board-per-project-hint"}}
       //- WeKan's "Import" - with "map", the members-mapping step first - and
         its "Import without mapping members".
       if .General

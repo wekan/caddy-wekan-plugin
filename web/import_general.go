@@ -421,6 +421,7 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 		return
 	}
 	mode := importMembersMode(r.FormValue("membersMode"))
+	split := r.FormValue("splitBy") == "swimlane"
 	// WeKan's "Import" with "Choose an existing user for each of them": the
 	// file's people first, to map; "Import without mapping members" skips it.
 	if r.FormValue("skipMapping") != "" {
@@ -431,12 +432,12 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 		parsed, err := s.importParse(r, u, source, input)
 		if err == nil {
 			if people := importPeople(importTasks(parsed)); len(people) > 0 {
-				s.importMappingStep(w, r, u, source, raw, people)
+				s.importMappingStep(w, r, u, source, raw, people, split)
 				return
 			}
 		}
 	}
-	s.importFromPage(w, r, u, source, input, importPeopleOptions{Mode: mode}, fail)
+	s.importFromPage(w, r, u, source, input, importPeopleOptions{Mode: mode, Split: split}, fail)
 }
 
 // importFromPage writes the page's document and opens the new board - or,

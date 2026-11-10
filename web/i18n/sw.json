@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Chagua mtumiaji aliyepo kwa kila mmoja wao",
   "import-members-mode-me": "Wote wawe mimi",
   "import-members-mode-placeholder": "Waweke kama watumiaji wa muda wenye majina yao wenyewe, ili kuwaoanisha na watumiaji halisi baadaye",
+  "import-one-board-per-project": "Bodi moja kwa kila mradi",
+  "import-one-board-per-project-hint": "Kila njia ambayo uagizaji ungeunda (mradi, folda au orodha ya zana) inakuwa bodi yake. Kadi mzazi na utegemezi kati ya bodi hizo huorodheshwa kwenye ripoti ya uagizaji.",
   "import-report-description": "Bodi imeundwa, lakini baadhi ya sehemu za faili hazikuweza kuhamishwa. Ripoti hiyo pia imehifadhiwa katika Paneli ya Msimamizi → Matatizo → Urejeshaji.",
   "import-report-heading": "Imeingizwa pamoja na maonyo",
   "import-report-open-board": "Fungua bodi",

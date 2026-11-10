@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Sapa mayniru mä utjki uka apnaqiri ajlliña",
   "import-members-mode-me": "Taqinir nayaru tukuyaña",
   "import-members-mode-placeholder": "Pachpa sutinakapamp sustituto apnaqirinakjama imaña, qhipat chiqpach apnaqirinakar chikt'añataki",
+  "import-one-board-per-project": "Sapa proyectotak mä pirqa",
+  "import-one-board-per-project-hint": "Apaniñax luraspa uka sapa thakhi (mä proyecto, carpeta jan ukax yänakan listapa) pachpa pirqaparuw tuku. Uka pirqanak taypin awki tarjetanakas dependencias ukanakas apaniñ yatiyäwin qillqatawa.",
   "import-report-description": "Pirqa lurataxiwa, ukampis archivon yaqhip chiqanakap janiw apaniñjamäkänti. Uka pachpa yatiyawix Apnaqirin pankapa → Jan waltʼäwinaka → Kuttʼayaña ukan imatawa.",
   "import-report-heading": "Iwxawinakampi mantayata",
   "import-report-open-board": "Pirqa jistʼaram",

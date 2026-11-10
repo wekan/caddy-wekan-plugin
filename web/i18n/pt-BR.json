@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Escolha um usuário existente para cada pessoa",
   "import-members-mode-me": "Substituí-las todas por mim",
   "import-members-mode-placeholder": "Mantê-las como usuários provisórios com os seus próprios nomes, para as associar a usuários reais mais tarde",
+  "import-one-board-per-project": "Um quadro por projeto",
+  "import-one-board-per-project-hint": "Cada raia que a importação criaria (um projeto, uma pasta ou uma lista da ferramenta) torna-se um quadro separado. Os cartões superiores e as dependências entre esses quadros são indicados no relatório de importação.",
   "import-report-description": "O quadro foi criado, mas algumas partes do arquivo não puderam ser transferidas. O mesmo relatório é mantido em Painel de administração → Problemas → Recuperação.",
   "import-report-heading": "Importado com avisos",
   "import-report-open-board": "Abrir o quadro",

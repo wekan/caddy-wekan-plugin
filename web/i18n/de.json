@@ -1099,6 +1099,8 @@
   "import-members-mode-map": "Wähle für jede Person einen vorhandenen Benutzer",
   "import-members-mode-me": "Ersetze sie alle durch mich",
   "import-members-mode-placeholder": "Behalte sie als Platzhalterbenutzer mit ihren eigenen Namen, um sie später echten Benutzern zuzuordnen",
+  "import-one-board-per-project": "Eine Arbeitstafel pro Projekt",
+  "import-one-board-per-project-hint": "Jede Arbeitsbahn, die der Import erstellen würde (ein Projekt, ein Ordner oder eine Liste des Werkzeugs), wird zu einer eigenen Arbeitstafel. Übergeordnete Karten und Abhängigkeiten zwischen diesen Arbeitstafeln werden im Importbericht aufgeführt.",
   "import-report-description": "Das Board wurde erstellt, aber einige Teile der Datei konnten nicht übernommen werden. Derselbe Bericht wird unter Administrationsbereich → Probleme → Wiederherstellung gespeichert.",
   "import-report-heading": "Mit Warnungen importiert",
   "import-report-open-board": "Board öffnen",

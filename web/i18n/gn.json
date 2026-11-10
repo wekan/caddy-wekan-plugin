@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Eiporavo peteĩ puruhára oĩmava peteĩteĩme g̃uarã",
   "import-members-mode-me": "Ejapo opavave che",
   "import-members-mode-placeholder": "Eñongatu chupekuéra puruhára moĩmbyre ramo hérakuéra reheve, ojejoaju hag̃ua puruhára añetéguape upéi",
+  "import-one-board-per-project": "Peteĩ peteĩcha peteĩteĩ tembiaporãme",
+  "import-one-board-per-project-hint": "Peteĩteĩ tape mboguahẽ ojapóva (peteĩ tembiaporã, ñongatuha térã ysaja tembiporu pegua) oiko ipeteĩcha. Kuatia'i ru ha jeko umi peteĩcha pa'ũme oñemohenda mboguahẽ momarandúpe.",
   "import-report-description": "Ojejapo tembiapo renda, hákatu ndaikatúi ojegueru kuatia ñongatupy pehẽnguekuéra apytégui oĩva. Upe marandu avei oñeñongatu Sãmbyhyhára renda → Apañuãi kuéra → Ñemboguevi ryepýpe.",
   "import-report-heading": "Oñemog̃uahẽ jesarekorã reheve",
   "import-report-open-board": "Eipe'a tembiapo renda",

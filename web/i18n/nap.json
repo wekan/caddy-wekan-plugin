@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Scigli n'utente ca già esiste pe' ognuno 'e lloro",
   "import-members-mode-me": "Falle tutte quante a me",
   "import-members-mode-placeholder": "Tienele comme utente segnaposto cu 'e nomme lloro, pe' l'associà a utente vere cchiù tarde",
+  "import-one-board-per-project": "Na tavula pe' ogne progetto",
+  "import-one-board-per-project-hint": "Ogne corsia ca facesse 'a mportazione (nu progetto, na cartella o na lista d''o strumento) addeventa na tavula soja. 'E carte pate e 'e dipendenze nfra chelle tavule stanno int'o rapporto 'e mportazione.",
   "import-report-description": "'A tavula è stata criata, ma cierti parte d''o file nun se songo putute mpurtà. 'O stesso rapporto è cunservato dint'ô Pannello 'e amministrazzione → Prubbleme → Recupero.",
   "import-report-heading": "Mpurtato cu avvertimiente",
   "import-report-open-board": "Apre 'a tavula",

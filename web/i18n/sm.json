@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Filifili se tagata faaaoga o loo iai mo i latou taitasi",
   "import-members-mode-me": "Faia i latou uma o aʻu",
   "import-members-mode-placeholder": "Teu i latou o ni tagata faaaoga suitulaga ma o latou lava igoa, e faafesootai i tagata faaaoga moni mulimuli ane",
+  "import-one-board-per-project": "Tasi le laupapa i le poloketi",
+  "import-one-board-per-project-hint": "O ala taitasi e faia e le faaulufale (se poloketi, faila po o se lisi o le meafaigaluega) e avea ma ona lava laupapa. O pepa matua ma faalagolago i le va o na laupapa o loo lisiina i le lipoti faaulufale.",
   "import-report-description": "Ua faia le laupapa, ae e leʻi mafai ona aumai nisi vaega o le faila. O loo teuina le lipoti lava lea i le Laulau a le pule → Faafitauli → Toe Faaleleia.",
   "import-report-heading": "Ua faaulufale mai ma lapataiga",
   "import-report-open-board": "Tatala le laupapa",

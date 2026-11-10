@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Tría un usuario existent pa cadaguna d'ellas",
   "import-members-mode-me": "Fer que totz sigan yo",
   "import-members-mode-placeholder": "Conservar-las como usuarios provisionals con os suyos nombres, pa asignar-las a usuarios reals mas tardi",
+  "import-one-board-per-project": "Un tablero por prochecto",
+  "import-one-board-per-project-hint": "Cada carril que fería a importación (un prochecto, carpeta u lista d'a ferramienta) se torna un tablero propio. As tarchetas pai y as dependencias entre ixos tableros s'amuestran en l'informe d'importación.",
   "import-report-description": "S'ha creau o tablero, pero bellas partes d'o fichero no s'han puesto importar. O mesmo informe se conserva en Panel d'administración → Problemas → Recuperación.",
   "import-report-heading": "Importau con avisos",
   "import-report-open-board": "Ubrir o tablero",

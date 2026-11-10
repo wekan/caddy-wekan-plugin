@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Sapankapaq kaqña llamk'aqta akllay",
   "import-members-mode-me": "Llapankuta ñuqa kananpaq ruway",
   "import-members-mode-placeholder": "Kikin sutinkuwan rantinpi llamk'aq hina waqaychay, qhipaman chiqap llamk'aqkunaman tupachinapaq",
+  "import-one-board-per-project": "Sapa proyectopaq huk pirqa",
+  "import-one-board-per-project-hint": "Yaykuchiy ruwananpaq sapa ñan (programap proyecton, carpetan utaq sutisuyun) kikin pirqanmi kanqa. Chay pirqakuna chawpipi tayta kartakuna, hap'ipakuykuna ima yaykuchiy willakuypi sutisuyusqa kanqa.",
   "import-report-description": "Pirqa ruwasqañam, ichaqa khipu wakin rakinkunata apamuyta mana atikurqanchu. Chay willakuyllataq Kamachiqpa panelnin → Sasachakuykuna → Kutichiy nisqapi waqaychasqa kachkan.",
   "import-report-heading": "Yaykuchisqa willanakunawan",
   "import-report-open-board": "Pirqata kichay",

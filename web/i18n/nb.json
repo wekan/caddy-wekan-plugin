@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Velg en eksisterende bruker for hver av dem",
   "import-members-mode-me": "Erstatt dem alle med meg",
   "import-members-mode-placeholder": "Behold dem som plassholderbrukere med egne navn, slik at de kan kobles til virkelige brukere senere",
+  "import-one-board-per-project": "Én tavle per prosjekt",
+  "import-one-board-per-project-hint": "Hver svømmebane som importen ville opprettet (et prosjekt, en mappe eller en liste i verktøyet), blir en egen tavle. Overordnede kort og avhengigheter mellom disse tavlene vises i importrapporten.",
   "import-report-description": "Tavlen ble opprettet, men enkelte deler av filen kunne ikke overføres. Den samme rapporten lagres under Administrasjonspanel → Problemer → Gjenoppretting.",
   "import-report-heading": "Importert med advarsler",
   "import-report-open-board": "Åpne tavlen",

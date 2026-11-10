@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "各ユーザーに対応する既存のユーザーを選択",
   "import-members-mode-me": "全員を自分に置き換える",
   "import-members-mode-placeholder": "元の名前を持つ仮ユーザーとして残し、後で実際のユーザーに対応付ける",
+  "import-one-board-per-project": "プロジェクトごとに1つのボード",
+  "import-one-board-per-project-hint": "インポートで作成される各スイムレーン（元のツールのプロジェクト、フォルダー、リスト）を個別のボードにします。親カードとボード間の依存関係はインポートレポートに記載されます。",
   "import-report-description": "ボードは作成されましたが、ファイルの一部を取り込めませんでした。同じレポートは管理パネル → 問題 → 復旧にも保存されます。",
   "import-report-heading": "警告付きでインポートされました",
   "import-report-open-board": "ボードを開く",

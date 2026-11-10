@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "為每個人選擇一個現有使用者",
   "import-members-mode-me": "全部替換為我的使用者帳號",
   "import-members-mode-placeholder": "保留為使用原有姓名的預留位置使用者，以便稍後對應至實際使用者",
+  "import-one-board-per-project": "每個專案一個看板",
+  "import-one-board-per-project-hint": "原本由匯入建立的每條泳道（該工具中的專案、資料夾或清單）都會成為獨立的看板。這些看板之間的父卡片和相依關係會列在匯入報告中。",
   "import-report-description": "看板已建立，但檔案的某些部分未能匯入。同一報告也儲存在管理面板 → 問題 → 復原中。",
   "import-report-heading": "匯入完成，但有警告",
   "import-report-open-board": "開啟看板",

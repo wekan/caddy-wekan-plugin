@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Londa omukozesa aliwo eri buli omu ku bo",
   "import-members-mode-me": "Bonna bafuule nze",
   "import-members-mode-placeholder": "Bakuume nga abakozesa ab'ekifo n'amannya gaabwe, okubagatta ku bakozesa ab'amazima oluvannyuma",
+  "import-one-board-per-project": "Olubaawo lumu buli pulojekiti",
+  "import-one-board-per-project-hint": "Buli kakubo okuyingiza kwe kwandikoze (pulojekiti, folda oba olukalala lw'ekikozesebwa) kufuuka olubaawo lwako. Kaadi enkulu n'ebyesigamiziddwako wakati w'embaawo ezo biwandiikibwa mu alipoota y'okuyingiza.",
   "import-report-description": "Olubaawo lukoleddwa, naye ebitundu ebimu ebya fayiro tebyasobodde kuleetebwa. Lipoota y'emu eterekeddwa mu Ekifo ky'abaddukanya → Bizibu → Okuzzaawo.",
   "import-report-heading": "Biyingiziddwa nga biriko okulabula",
   "import-report-open-board": "Ggulawo olubaawo",

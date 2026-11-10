@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Hitamwo uwukoresha asanzweho kuri umwe wese muri bo",
   "import-members-mode-me": "Bose babe jewe",
   "import-members-mode-placeholder": "Bagumane nk'abakoresha b'agateganyo bafise amazina yabo, kugira bazohuzwe n'abakoresha nyabo hanyuma",
+  "import-one-board-per-project": "Icapa kimwe ku mugambi umwe",
+  "import-one-board-per-project-hint": "Umurongo wose kwinjiza kwokora (umugambi, ububiko canke urutonde rw'igikoresho) uhinduka icapa cawo. Amakarata nyamukuru n'ivyo bishingiyeko hagati y'ivyo vyapa vyanditswe muri raporo yo kwinjiza.",
   "import-report-description": "Icapa carakozwe, ariko ibice bimwebimwe vya dosiye ntivyashoboye kwimurwa. Iyo raporo ibikwa muri Ikibaho c'umuyobozi → Ingorane → Kugarura.",
   "import-report-heading": "Vyinjijwe hari imburi",
   "import-report-open-board": "Ugurura icapa",

@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Tamarmik atuisumik pioreersumik toqqaruk",
   "import-members-mode-me": "Tamarmik uangaatinngortikkit",
   "import-members-mode-placeholder": "Atuisutut inissiisutut namminneq atiminnik toqqorlugit, kingusinnerusukkut atuisunut piviusunut atassutissallugit",
+  "import-one-board-per-project": "Suliniut ataaseq ilisarnaat ataaseq",
+  "import-one-board-per-project-hint": "Aqqut tamarmi eqqussinerup pilersitassaa (sakkup suliniutaa, poortua imaluunniit allattorsimaffia) namminneq ilisarnaatinngortarpoq. Kortsit angajoqqaat ilisarnaatillu taakku akornanni attuumassutit eqqussinerup nalunaarusiaani allattorneqarput.",
   "import-report-description": "Allattarfik pilersinneqarpoq, kisianni filip ilai nuunneqarsinnaanngillat. Nalunaarusiaq taanna aamma uani toqqorneqarpoq: Aqutsisup iserfia → Ajornartorsiutit → Utertitsineq.",
   "import-report-heading": "Aarlerisaarutinik ilaqartumik eqqunneqarpoq",
   "import-report-open-board": "Allattarfik ammaruk",

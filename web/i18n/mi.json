@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Kōwhiria he kaiwhakamahi o nāianei mō ia tangata",
   "import-members-mode-me": "Meinga ko au katoa",
   "import-members-mode-placeholder": "Puritia hei kaiwhakamahi pupuri wāhi me ō rātou ake ingoa, hei mahere ki ngā kaiwhakamahi tūturu ā muri ake",
+  "import-one-board-per-project": "Kotahi te papa mō ia kaupapa",
+  "import-one-board-per-project-hint": "Ka huri ia ara ka hangaia e te kawemai (he kaupapa, he kōpaki, he rārangi rānei o te taputapu) hei papa motuhake. Ka whakarārangitia ngā kāri matua me ngā whakawhirinakitanga i waenga i aua papa i te pūrongo kawemai.",
   "import-report-description": "Kua waihangatia te papa, engari kāore i taea te kawe mai i ētahi wāhanga o te kōnae. Ka puritia taua pūrongo ki Papatohu Kaiwhakahaere → Ngā Raruraru → Whakaora.",
   "import-report-heading": "Kua kawemai me ngā whakatūpato",
   "import-report-open-board": "Whakatuwheratia te papa",

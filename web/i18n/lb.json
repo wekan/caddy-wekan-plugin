@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Fir jiddereen e bestoende Benotzer auswielen",
   "import-members-mode-me": "Se all zu mir maachen",
   "import-members-mode-placeholder": "Se als Plazhalter-Benotzer mat hiren eegenen Nimm behalen, fir se méi spéit richtege Benotzer zouzeuerdnen",
+  "import-one-board-per-project": "Eng Tafel pro Projet",
+  "import-one-board-per-project-hint": "All Bunn, déi den Import géif maachen (e Projet, Dossier oder eng Lëscht vum Tool), gëtt seng eege Tafel. Iwwergeuerdnet Kaarten an Ofhängegkeeten tëscht deenen Tafele stinn am Importbericht.",
   "import-report-description": "D’Tafel gouf erstallt, mee verschidden Deeler vun der Datei konnten net iwwerholl ginn. Dee selwechte Rapport gëtt am Admin-Panel → Probleme → Restauratioun gespäichert.",
   "import-report-heading": "Mat Warnungen importéiert",
   "import-report-open-board": "D’Tafel opmaachen",

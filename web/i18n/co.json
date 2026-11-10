@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Sceglie un utilizatore esistente per ognuna",
   "import-members-mode-me": "Rimpiazzà le tutte da mè",
   "import-members-mode-placeholder": "Cunservà le cum'è utilizatori pruvisori cù i so nomi, da assucià à utilizatori veri più tardi",
+  "import-one-board-per-project": "Una tavula per prughjettu",
+  "import-one-board-per-project-hint": "Ogni curridore chì l'impurtazione creerebbe (un prughjettu, cartulare o lista di l'arnese) diventa una tavula distinta. E carte parente è e dipendenze trà ste tavule sò elencate in u raportu d'impurtazione.",
   "import-report-description": "A tavula hè stata creata, ma certe parte di u schedariu ùn anu pussutu esse trasferite. U listessu raportu hè cunservatu in Pannellu d'amministrazione → Prublemi → Ricuperazione.",
   "import-report-heading": "Impurtatu cù avvisi",
   "import-report-open-board": "Apre a tavula",

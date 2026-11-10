@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Pro každého z nich vybrat existujícího uživatele",
   "import-members-mode-me": "Nahradit je všechny mnou",
   "import-members-mode-placeholder": "Ponechat je jako zástupné uživatele s jejich vlastními jmény a přiřadit je ke skutečným uživatelům později",
+  "import-one-board-per-project": "Jedno tablo na projekt",
+  "import-one-board-per-project-hint": "Každá dráha, kterou by import vytvořil (projekt, složka nebo seznam daného nástroje), se stane samostatným tablem. Nadřazené karty a závislosti mezi těmito tably jsou uvedeny ve zprávě o importu.",
   "import-report-description": "Tablo bylo vytvořeno, ale některé části souboru se nepodařilo přenést. Stejná zpráva je uložena v části Panel správce → Problémy → Obnova.",
   "import-report-heading": "Importováno s varováními",
   "import-report-open-board": "Otevřít tablo",

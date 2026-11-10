@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Elige usorem iam exsistentem pro unaquaque persona",
   "import-members-mode-me": "Omnes mihi attribue",
   "import-members-mode-placeholder": "Serva eas ut usores vicarios propriis nominibus, ut postea cum veris usoribus coniungantur",
+  "import-one-board-per-project": "Una tabula pro quoque proposito",
+  "import-one-board-per-project-hint": "Quaeque semita quam importatio crearet (propositum, plica aut index instrumenti) fit tabula propria. Chartae superiores et necessitudines inter illas tabulas in relatione importationis enumerantur.",
   "import-report-description": "Tabula creata est, sed nonnullae partes fasciculi importari non potuerunt. Eadem relatio servatur in Tabula administrationis → Problemata → Recuperatio.",
   "import-report-heading": "Importatum cum monitionibus",
   "import-report-open-board": "Tabulam aperi",

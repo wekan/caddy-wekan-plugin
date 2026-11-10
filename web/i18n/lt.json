@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Kiekvienam parinkti esamą naudotoją",
   "import-members-mode-me": "Visus priskirti man",
   "import-members-mode-placeholder": "Išsaugoti juos kaip laikinus naudotojų pakaitalus su jų vardais, kad vėliau būtų galima susieti su tikrais naudotojais",
+  "import-one-board-per-project": "Atskira lenta kiekvienam projektui",
+  "import-one-board-per-project-hint": "Kiekviena plaukimo juosta, kurią sukurtų importas (įrankio projektas, aplankas ar sąrašas), tampa atskira lenta. Pirminės kortelės ir priklausomybės tarp šių lentų išvardijamos importo ataskaitoje.",
   "import-report-description": "Lenta sukurta, tačiau kai kurių failo dalių perkelti nepavyko. Ta pati ataskaita saugoma skiltyje Administravimo skydelis → Problemos → Atkūrimas.",
   "import-report-heading": "Importuota su įspėjimais",
   "import-report-open-board": "Atverti lentą",

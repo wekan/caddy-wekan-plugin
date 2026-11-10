@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Dewisewgh devnydhyer usi ow pos rag pubonan anedha",
   "import-members-mode-me": "Gwrewgh i oll my",
   "import-members-mode-placeholder": "Gwithewgh i avel devnydhyoryon le-synsyas gans aga henwyn aga honan, dhe vappya dhe dhevnydhyoryon wir diwettha",
+  "import-one-board-per-project": "Unn estyllen rag pub ragdres",
+  "import-one-board-per-project-hint": "Pub hyns a vynn an ynperth gul (ragdres, plegell po rol a'n toul) a dhe ha bos hy estyllen hy honan. Kartennow kerens ha kregyansow ynter an estyll na yw rolys yn derivas an ynperth.",
   "import-report-description": "An estyllen o gwrys, mes ny allas rannow a'n restren bos ynporzhys. An keth derivas yw gwithys yn Panel an menystrer → Kudynnow → Daskorrans.",
   "import-report-heading": "Ynporzhys gans gwarnyansow",
   "import-report-open-board": "Ygeri an estyllen",

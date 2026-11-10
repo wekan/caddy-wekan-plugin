@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Scegli un utente esistente per ciascuna persona",
   "import-members-mode-me": "Sostituiscile tutte con me",
   "import-members-mode-placeholder": "Mantienile come utenti segnaposto con i loro nomi, da associare a utenti reali in seguito",
+  "import-one-board-per-project": "Una bacheca per progetto",
+  "import-one-board-per-project-hint": "Ogni corsia che l'importazione creerebbe (un progetto, una cartella o una lista dello strumento) diventa una bacheca separata. Le schede superiori e le dipendenze tra queste bacheche sono elencate nel resoconto dell'importazione.",
   "import-report-description": "La bacheca è stata creata, ma alcune parti del file non sono state trasferite. Lo stesso rapporto viene conservato in Pannello di amministrazione → Problemi → Recupero.",
   "import-report-heading": "Importato con avvisi",
   "import-report-open-board": "Apri la bacheca",

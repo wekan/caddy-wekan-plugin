@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "それぞれに たいおうする きそんの ゆーざーを えらぶ",
   "import-members-mode-me": "ぜんいんを じぶんに おきかえる",
   "import-members-mode-placeholder": "もとの なまえを もつ かりの ゆーざーとして のこし、あとで じっさいの ゆーざーに たいおうづける",
+  "import-one-board-per-project": "ぷろじぇくとごとに ひとつの ぼーど",
+  "import-one-board-per-project-hint": "いんぽーとで つくられる それぞれの すいむれーん（もとの つーるの ぷろじぇくと、ふぉるだー、りすと）を べつべつの ぼーどに します。おやかーどと ぼーどどうしの いぞんかんけいは、いんぽーとれぽーとに かかれます。",
   "import-report-description": "ボードは作成されましたが、ファイルの一部を取り込めませんでした。同じレポートは管理パネル → 問題 → 復旧にも保存されます。",
   "import-report-heading": "警告付きでインポートされました",
   "import-report-open-board": "ボードを開く",

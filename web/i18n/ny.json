@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Sankhani wogwiritsa ntchito yemwe alipo kale pa aliyense wa iwo",
   "import-members-mode-me": "Apangeni onse kukhala ine",
   "import-members-mode-placeholder": "Asungeni ngati ogwiritsa ntchito osakhalitsa ndi mayina awo, kuti muwafananitse ndi ogwiritsa ntchito enieni pambuyo pake",
+  "import-one-board-per-project": "Bolodi limodzi pa pulojekiti iliyonse",
+  "import-one-board-per-project-hint": "Mzere wosambira uliwonse womwe kulowetsa kukanapanga (pulojekiti, foda kapena mndandanda wa chida) umakhala bolodi lake. Makhadi a kholo ndi kudalirana pakati pa mabolodi amenewo zimalembedwa mu lipoti la kulowetsa.",
   "import-report-description": "Bolodi lapangidwa, koma mbali zina za fayiloyo sizinathe kusamutsidwa. Lipoti lomweli lasungidwa mu Gulu la oyang'anira → Mavuto → Kubwezeretsa.",
   "import-report-heading": "Zalowetsedwa ndi machenjezo",
   "import-report-open-board": "Tsegulani bolodi",

@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Escueyi un usuariu esistente pa cada ún d'ellos",
   "import-members-mode-me": "Facelos toos yo",
   "import-members-mode-placeholder": "Caltenelos como usuarios provisionales colos sos propios nomes, p'asociar con usuarios reales más sero",
+  "import-one-board-per-project": "Un tableru per proyeutu",
+  "import-one-board-per-project-hint": "Cada carril que fadría la importación (un proyeutu, carpeta o llista de la ferramienta) conviértese nel so propiu tableru. Les tarxetes madre y les dependencies ente esos tableros apaecen nel informe d'importación.",
   "import-report-description": "Creóse'l tableru, pero delles partes del ficheru nun se pudieron importar. El mesmu informe consérvase en Panel d'alministración → Problemes → Recuperación.",
   "import-report-heading": "Importáu con avisos",
   "import-report-open-board": "Abrir el tableru",

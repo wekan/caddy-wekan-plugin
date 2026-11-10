@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Sielgi un utente esistente par ognuno de łori",
   "import-members-mode-me": "Fałi tuti mi",
   "import-members-mode-placeholder": "Tienli come utenti segnaposto co i so nomi, da asociar a utenti veri pì tardi",
+  "import-one-board-per-project": "Un quadro par progeto",
+  "import-one-board-per-project-hint": "Ogni corsia che l'inportasion ła faria (un progeto, cartełe o lista del strumento) ła deventa un quadro sò. Łe schede pare e łe dipendense tra cuei quadri łe ze elencà inte el raporto de inportasion.",
   "import-report-description": "Ła bacheca ła xe stà creà, ma no se ga podesto trasferir tute łe parti del file. El stesso raporto el vien conservà in Paneło de aministrasion → Problemi → Recupero.",
   "import-report-heading": "Importà co avisi",
   "import-report-open-board": "Verzi ła bacheca",

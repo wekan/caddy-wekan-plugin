@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Tagh cleachdaiche a tha ann mu thràth airson gach duine dhiubh",
   "import-members-mode-me": "Cuir mise nan àite uile",
   "import-members-mode-placeholder": "Cùm iad mar chleachdaichean ionaid leis na h-ainmean aca fhèin, gus an co-fhreagairt ri fìor chleachdaichean nas anmoiche",
+  "import-one-board-per-project": "Aon bhòrd airson gach pròiseact",
+  "import-one-board-per-project-hint": "Thèid gach slighe a chruthaicheadh an ion-phortadh (pròiseact, pasgan no liosta san inneal) na bhòrd fa leth. Tha cairtean pàrant agus eisimeileachdan eadar na bùird sin air an liostadh san aithisg ion-phortaidh.",
   "import-report-description": "Chaidh am bòrd a chruthachadh, ach cha b' urrainn dhuinn cuid dhen fhaidhle a thoirt a-steach. Tha an aon aithisg ga cumail ann am Pannal rianachd → Duilgheadasan → Ath-bheothachadh.",
   "import-report-heading": "Air ion-phortadh le rabhaidhean",
   "import-report-open-board": "Fosgail am bòrd",

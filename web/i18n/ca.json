@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Tria un usuari existent per a cadascuna",
   "import-members-mode-me": "Substitueix-les totes per mi",
   "import-members-mode-placeholder": "Conserva-les com a usuaris provisionals amb els seus noms per associar-les a usuaris reals més endavant",
+  "import-one-board-per-project": "Un tauler per projecte",
+  "import-one-board-per-project-hint": "Cada carril que crearia la importació (un projecte, carpeta o llista de l’eina) es converteix en un tauler propi. Les fitxes pare i les dependències entre aquests taulers s’indiquen a l’informe d’importació.",
   "import-report-description": "S'ha creat el tauler, però no s'han pogut traslladar algunes parts del fitxer. El mateix informe es conserva a Tauler d'administració → Problemes → Recuperació.",
   "import-report-heading": "Importat amb advertiments",
   "import-report-open-board": "Obre el tauler",

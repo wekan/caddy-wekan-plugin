@@ -392,6 +392,17 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       chooseMembersMode(box, link.getAttribute('data-mode'));
     });
   });
+  // "One board per project": a checkbox the form sends as splitBy, kept in
+  // Session('importSplitByProject') as WeKan's page keeps it.
+  function chooseSplit(on) {
+    document.querySelectorAll('.js-import-split-toggle .materialCheckBox').forEach(function (c) { c.classList.toggle('is-checked', !!on); });
+    document.querySelectorAll('.js-import-split-value').forEach(function (i) { i.value = on ? 'swimlane' : ''; });
+  }
+  up.on('click', '.js-import-split-toggle', function (event) {
+    event.preventDefault();
+    Session.set('importSplitByProject', !Session.get('importSplitByProject'));
+  });
+  up.compiler('.js-import-split-toggle', function () { chooseSplit(window.Session && Session.get('importSplitByProject')); });
   // Meteor's Session, for the page state WeKan keeps there.
   if (!window.Session) {
     var session = {};
@@ -402,6 +413,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         if (key === 'importMembersMode') {
           document.querySelectorAll('.import-members-mode').forEach(function (box) { chooseMembersMode(box, value); });
         }
+        if (key === 'importSplitByProject') chooseSplit(value);
       },
     };
   }

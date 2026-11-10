@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Koho i mea hoʻohana e kū nei no kēlā me kēia kanaka",
   "import-members-mode-me": "Hoʻolilo iā lākou a pau iaʻu",
   "import-members-mode-placeholder": "Mālama iā lākou ma ke ʻano he mau mea hoʻohana pani me ko lākou mau inoa ponoʻī, e hoʻopili ai i nā mea hoʻohana maoli ma hope",
+  "import-one-board-per-project": "Hoʻokahi papa no kēlā me kēia papahana",
+  "import-one-board-per-project-hint": "Lilo kēlā me kēia ala e hana ʻia ma ka hoʻokomo ʻana (he papahana, waihona a i ʻole papa inoa o ka mea hana) i papa nona iho. Hōʻike ʻia nā kāleka makua a me nā pilina hilinaʻi ma waena o ia mau papa ma ka hōʻike hoʻokomo.",
   "import-report-description": "Ua hana ʻia ka papa, akā ʻaʻole i hiki ke lawe mai i kekahi mau ʻāpana o ka waihona. Mālama ʻia kēlā hōʻike ma Papa hoʻomalu → Nā pilikia → Hoʻihoʻi.",
   "import-report-heading": "Ua hoʻokomo ʻia me nā ʻōlelo aʻo",
   "import-report-open-board": "E wehe i ka papa",

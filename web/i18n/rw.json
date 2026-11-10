@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Hitamo ukoresha usanzwe uhari kuri buri wese muri bo",
   "import-members-mode-me": "Bose babe njye",
   "import-members-mode-placeholder": "Bagumane nk'abakoresha b'agateganyo bafite amazina yabo, bazahuzwe n'abakoresha nyabo nyuma",
+  "import-one-board-per-project": "Ikibaho kimwe kuri buri mushinga",
+  "import-one-board-per-project-hint": "Buri murongo kwinjiza kwakora (umushinga, ububiko cyangwa urutonde rw'igikoresho) uba ikibaho cyawo. Amakarita akomokwaho n'ibyo bishingiyeho hagati y'ibyo bibaho byanditswe muri raporo yo kwinjiza.",
   "import-report-description": "Ikibaho cyarakozwe, ariko ibice bimwe bya dosiye ntibyashoboye kwimurwa. Iyo raporo ibikwa muri Ubuyobozi → Ibibazo → Kugarura.",
   "import-report-heading": "Byinjijwe hari imiburo",
   "import-report-open-board": "Fungura ikibaho",

@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Wëbierzë jistniejącégò brëkòwnika dlô kòżdégò z nich",
   "import-members-mode-me": "Zrobi jich wszëtczich mną",
   "import-members-mode-placeholder": "Òstawi jich jakno zastãpczich brëkòwników z jich włôsnyma mionama, żebë pózni przëpisac jich do prôwdzëwëch brëkòwników",
+  "import-one-board-per-project": "Jedna tôfla na projekt",
+  "import-one-board-per-project-hint": "Kòżdô stegna, chtërną bë zrobił impòrt (projekt, katalog abò lësta nôrzãdza), stôwô sã swòją tôflą. Nadrzãdné kôrtë i zanôleżnotë midzë tima tôflama są wëmienioné w rapòrce impòrtu.",
   "import-report-description": "Tôfla je ùsôdzonô, ale nie dało sã przeniésc niechtërnëch dzélów lopka. Nen sóm rapòrt je trzëmóny w Panelu administratora → Problemë → Òdzëskiwanié.",
   "import-report-heading": "Zaimportowóné z òstrzégama",
   "import-report-open-board": "Òtemkni tôflã",

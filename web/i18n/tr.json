@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Her biri için mevcut bir kullanıcı seç",
   "import-members-mode-me": "Hepsini benimle değiştir",
   "import-members-mode-placeholder": "Daha sonra gerçek kullanıcılarla eşleştirmek üzere kendi adlarıyla yer tutucu kullanıcılar olarak tut",
+  "import-one-board-per-project": "Her proje için bir pano",
+  "import-one-board-per-project-hint": "İçe aktarımın oluşturacağı her kulvar (aracın bir projesi, klasörü veya listesi) ayrı bir pano olur. Üst kartlar ve bu panolar arasındaki bağımlılıklar içe aktarım raporunda listelenir.",
   "import-report-description": "Pano oluşturuldu, ancak dosyanın bazı bölümleri aktarılamadı. Aynı rapor Yönetim Paneli → Sorunlar → Kurtarma bölümünde saklanır.",
   "import-report-heading": "Uyarılarla içe aktarıldı",
   "import-report-open-board": "Panoyu aç",

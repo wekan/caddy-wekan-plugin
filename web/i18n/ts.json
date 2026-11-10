@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Hlawula mutirhisi la nga kona eka un'wana na un'wana wa vona",
   "import-members-mode-me": "Va endle hinkwavo va va mina",
   "import-members-mode-placeholder": "Va hlayise tanihi vatirhisi va xivandla na mavito ya vona, ku va fambelanisa na vatirhisi va xiviri endzhaku",
+  "import-one-board-per-project": "Bodo yin'we eka phurojeke yin'wana na yin'wana",
+  "import-one-board-per-project-hint": "Ndlela yin'wana na yin'wana leyi ku nghenisa a ku ta yi endla (phurojeke, folidara kumbe nxaxamelo wa xitirho) yi va bodo ya yona. Makhadi ya vatswari na swiboho exikarhi ka tibodo toleto swi kombisiwa eka xiviko xa ku nghenisa.",
   "import-report-description": "Bodo yi endliwile, kambe swiphemu swin'wana swa fayili a swi kotanga ku hundziseriwa. Xiviko xexo xi hlayisiwile eka Phanele ya valawuri → Swiphiqo → Ku vuyisela.",
   "import-report-heading": "Swi nghenisiwile ku ri ni switsundzuxo",
   "import-report-open-board": "Pfula bodo",

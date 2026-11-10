@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Sarudza mushandisi aripo kune mumwe nemumwe wavo",
   "import-members-mode-me": "Vaite vese ini",
   "import-members-mode-placeholder": "Vachengete sevashandisi vechinguvana vane mazita avo, kuti vazoenderaniswa nevashandisi chaivo gare gare",
+  "import-one-board-per-project": "Bhodhi rimwe papurojekiti imwe neimwe",
+  "import-one-board-per-project-hint": "Mugwagwa wega wega waizogadzirwa nekupinza (purojekiti, folda kana rondedzero yechishandiso) unova bhodhi rawo. Makadhi makuru nekuvimbana pakati pemabhodhi iwayo zvinonyorwa mumushumo wekupinza.",
   "import-report-description": "Bhodhi ragadzirwa, asi zvimwe zvikamu zvefaira hazvina kukwanisa kupinzwa. Mushumo mumwe chete unochengetwa muPaneru yemutarisiri → Matambudziko → Kudzoreredza.",
   "import-report-heading": "Zvapinzwa paine yambiro",
   "import-report-open-board": "Vhura bhodhi",

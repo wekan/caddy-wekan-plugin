@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Valiče olijan kävutajan jogahižele heišpäi",
   "import-members-mode-me": "Tehkat heid kaikid minuks",
   "import-members-mode-placeholder": "Jätkat heid vaihtkävutajikš ičeze nimidenke, miše sidoda todesižihe kävutajihe jäl'ghe",
+  "import-one-board-per-project": "Üks' laud jogahižele projektale",
+  "import-one-board-per-project-hint": "Jogahine ujundšoid, kudamban import tegiš (programman projekt, papk vai lugetiž), tegese ičeze laudaks. Vanhembaižed kartad i riippumused nenoiden laudoiden keskes ozutadas importan raportas.",
   "import-report-description": "Laud om tehtud, no erazid failan ozid ei sand toda. Sama tedotuz om kaitud: Administratoran panel’ → Problemad → Endištand.",
   "import-report-heading": "Todud; om problemad",
   "import-report-open-board": "Avaida laud",

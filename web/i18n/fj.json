@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Digitaka e dua na dauvakayagataka e tiko oti me baleti ira yadua",
   "import-members-mode-me": "Cakava me ra yau kece",
   "import-members-mode-placeholder": "Maroroi ira me dauvakayagataka vakawasoma vata kei na nodra yaca, me vakasemati ki na dauvakayagataka dina e muri",
+  "import-one-board-per-project": "Dua na vola ena yadua na parokaramu",
+  "import-one-board-per-project-hint": "Yadua na sala ena cakava na kauta mai (e dua na parokaramu, folder se lisi ni iyaya) e yaco me nona vola. Na kadi tina kei na veitaqomaki ena maliwa ni vola oqori e lisitaki ena ripote ni kauta mai.",
   "import-report-description": "Sa buli na vola, ia eso na tiki ni faile e sega ni rawa ni kau mai. Na itukutuku vata ga e maroroi ena Tabana ni dauniveiliutaki → Leqa → Veivakalesui.",
   "import-report-heading": "Sa kau mai kei na ivakasala ni qaqarauni",
   "import-report-open-board": "Dolava na vola",

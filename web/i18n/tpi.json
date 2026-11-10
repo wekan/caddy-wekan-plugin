@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Makim wanpela man i stap pinis long olgeta wan wan",
   "import-members-mode-me": "Mekim olgeta i kamap mi",
   "import-members-mode-placeholder": "Holim ol olsem ol giaman man wantaim nem bilong ol yet, bilong joinim wantaim ol tru man bihain",
+  "import-one-board-per-project": "Wanpela bot long wanpela projek",
+  "import-one-board-per-project-hint": "Olgeta rot we bringim i kam bai i wokim (projek, folda o lis bilong tul) i kamap bot bilong em yet. Ol kat papa na ol samting i wetim namel long ol dispela bot i stap long ripot bilong bringim i kam.",
   "import-report-description": "Ol i wokim bot pinis, tasol ol i no inap bringim sampela hap bilong fail i kam. Dispela ripot i stap tu long Panel bilong admin → Ol hevi → Putim bek.",
   "import-report-heading": "Ol i bringim i kam wantaim ol tok lukaut",
   "import-report-open-board": "Opim bot",

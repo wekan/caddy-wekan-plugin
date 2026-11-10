@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Sèbera un'utente esistente pro cada unu de issos",
   "import-members-mode-me": "Faghe·ddos totu deo",
   "import-members-mode-placeholder": "Mantene·ddos comente utentes provisòrios cun sos nùmenes issoro, pro ddos assotziare a utentes reales a pustis",
+  "import-one-board-per-project": "Una tàula pro cada progetu",
+  "import-one-board-per-project-hint": "Cada caminu chi s'importatzione diat creare (unu progetu, una cartella o una lista de s'ainu) diventat una tàula sua. Sas cartas printzipales e sas dipendèntzias intre cussas tàulas sunt elencadas in su resocontu de importatzione.",
   "import-report-description": "Sa tàula est istada creada, ma unas cantas partes de s'archìviu non sunt istadas trasferidas. Su matessi raportu est cunservadu in Pannellu de amministratzione → Problemas → Recuperu.",
   "import-report-heading": "Importadu cun avisos",
   "import-report-open-board": "Aberi sa tàula",

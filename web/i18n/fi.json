@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Valitse jokaiselle olemassa oleva käyttäjä",
   "import-members-mode-me": "Korvaa heidät kaikki minulla",
   "import-members-mode-placeholder": "Säilytä heidät paikkamerkkikäyttäjinä omilla nimillään, jotta heidät voi myöhemmin yhdistää oikeisiin käyttäjiin",
+  "import-one-board-per-project": "Yksi taulu projektia kohden",
+  "import-one-board-per-project-hint": "Jokaisesta tuonnin luomasta uimaradasta (työkalun projekti, kansio tai lista) tulee oma taulu. Näiden taulujen väliset yläkortit ja riippuvuudet luetellaan tuontiraportissa.",
   "import-report-description": "Taulu luotiin, mutta kaikkia tiedoston osia ei voitu tuoda. Sama raportti säilytetään kohdassa Ylläpitopaneeli → Ongelmat → Palautus.",
   "import-report-heading": "Tuotu varoituksin",
   "import-report-open-board": "Avaa taulu",

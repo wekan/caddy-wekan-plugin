@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "替每个人选一只已有用户",
   "import-members-mode-me": "全部算作我",
   "import-members-mode-placeholder": "保留伊拉自家个名字，作为占位用户，等歇再匹配到实际用户",
+  "import-one-board-per-project": "每只项目一块看板",
+  "import-one-board-per-project-hint": "导入原本会建立个每条泳道（工具个项目、文件夹或者列表），各自变成一块看板。搿眼看板之间个父卡片搭依赖关系会列勒导入报告里向。",
   "import-report-description": "看板建立好哉，但是文件里有一眼内容呒没带进来。同样个报告也保留勒管理面板 → 问题 → 恢复里。",
   "import-report-heading": "导入好哉，但是有警告",
   "import-report-open-board": "打开搿个看板",

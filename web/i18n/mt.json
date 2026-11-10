@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Agħżel utent eżistenti għal kull waħda minnhom",
   "import-members-mode-me": "Agħmel li kollha jirrappreżentaw lili",
   "import-members-mode-placeholder": "Żommhom bħala utenti proviżorji bl-ismijiet tagħhom stess, biex tqabbilhom ma' utenti reali aktar tard",
+  "import-one-board-per-project": "Bord wieħed għal kull proġett",
+  "import-one-board-per-project-hint": "Kull korsija li kienet toħloq l-importazzjoni (proġett, folder jew lista tal-għodda) issir bord għaliha. Il-karti ġenituri u d-dipendenzi bejn dawk il-bordijiet jiġu elenkati fir-rapport tal-importazzjoni.",
   "import-report-description": "Il-bord inħoloq, iżda xi partijiet tal-fajl ma setgħux jiġu trasferiti. L-istess rapport jinżamm f’Panel tal-Amministratur → Problemi → Irkupru.",
   "import-report-heading": "Importat bi twissijiet",
   "import-report-open-board": "Iftaħ il-bord",

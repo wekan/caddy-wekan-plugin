@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Tlhopha modirisi yo o leng teng mo go mongwe le mongwe wa bona",
   "import-members-mode-me": "Ba dire botlhe go nna nna",
   "import-members-mode-placeholder": "Ba boloke jaaka badirisi ba boemedi ka maina a bona, go ba amanya le badirisi ba nnete moragonyana",
+  "import-one-board-per-project": "Boto e le nngwe ka porojeke",
+  "import-one-board-per-project-hint": "Tsela nngwe le nngwe e go tsenya go neng go tla e dira (porojeke, foltara kgotsa lenaane la sedirisiwa) e nna boto ya yona. Dikarata tsa batsadi le dikgolagano magareng ga diboto tseo di kwadilwe mo pegong ya go tsenya.",
   "import-report-description": "Boto e dirilwe, mme dikarolo dingwe tsa faele ga di a kgona go fetisiwa. Pego eo e bolokilwe mo Phanele ya motsamaisi → Mathata → Pholoso.",
   "import-report-heading": "E tsentswe ka ditlhagiso",
   "import-report-open-board": "Bula boto",

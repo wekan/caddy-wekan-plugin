@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Aukeratu lehendik dagoen erabiltzaile bat bakoitzarentzat",
   "import-members-mode-me": "Ordezkatu guztiak nire erabiltzailearekin",
   "import-members-mode-placeholder": "Mantendu beren izenak dituzten behin-behineko erabiltzaile gisa, gero benetako erabiltzaileekin lotzeko",
+  "import-one-board-per-project": "Arbel bat proiektu bakoitzeko",
+  "import-one-board-per-project-hint": "Inportazioak sortuko lukeen errail bakoitza (tresnako proiektu, karpeta edo zerrenda bat) bere arbel bihurtzen da. Arbel horien arteko txartel nagusiak eta mendekotasunak inportazio-txostenean zerrendatzen dira.",
   "import-report-description": "Arbela sortu da, baina fitxategiaren zati batzuk ezin izan dira ekarri. Txosten bera Administrazio-panela → Arazoak → Berreskuratzea atalean gordetzen da.",
   "import-report-heading": "Abisuekin inportatuta",
   "import-report-open-board": "Ireki arbela",

@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Causissètz un utilizaire existent per cadun d'eles",
   "import-members-mode-me": "Los far totes ieu",
   "import-members-mode-placeholder": "Los gardar coma utilizaires provisòris amb lors pròpris noms, per los associar a d'utilizaires vertadièrs pus tard",
+  "import-one-board-per-project": "Un tablèu per projècte",
+  "import-one-board-per-project-hint": "Cada corredor que l'importacion fariá (un projècte, un dorsièr o una lista de l'aisina) ven son pròpri tablèu. Las cartas parentas e las dependéncias entre aqueles tablèus son listadas dins lo rapòrt d'importacion.",
   "import-report-description": "Lo tablèu es estat creat, mas qualques parts del fichièr an pas pogut èsser importadas. Lo meteis rapòrt es conservat dins Panèl d'administracion → Problèmas → Recuperacion.",
   "import-report-heading": "Importat amb d'avertiments",
   "import-report-open-board": "Dobrir lo tablèu",

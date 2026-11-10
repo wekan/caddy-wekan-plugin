@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Veldu fyrirliggjandi notanda fyrir hvern þeirra",
   "import-members-mode-me": "Skipta öllum út fyrir minn notandareikning",
   "import-members-mode-placeholder": "Halda þeim sem bráðabirgðanotendum með eigin nöfnum til að tengja við raunverulega notendur síðar",
+  "import-one-board-per-project": "Ein tafla fyrir hvert verkefni",
+  "import-one-board-per-project-hint": "Hver sundbraut sem innflutningurinn myndi búa til (verkefni, mappa eða listi verkfærisins) verður að sérstakri töflu. Yfirspjöld og tengsl háðra verkefna milli þessara taflna eru talin upp í innflutningsskýrslunni.",
   "import-report-description": "Taflan var búin til en ekki tókst að flytja inn suma hluta skrárinnar. Sama skýrsla er geymd í Stjórnborð → Vandamál → Endurheimt.",
   "import-report-heading": "Flutt inn með viðvörunum",
   "import-report-open-board": "Opna töfluna",

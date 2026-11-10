@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Chọn một người dùng hiện có cho từng người",
   "import-members-mode-me": "Thay tất cả bằng tài khoản của tôi",
   "import-members-mode-placeholder": "Giữ họ làm người dùng tạm với tên riêng, để ánh xạ sang người dùng thật sau",
+  "import-one-board-per-project": "Một bảng cho mỗi dự án",
+  "import-one-board-per-project-hint": "Mỗi làn ngang mà quá trình nhập sẽ tạo (dự án, thư mục hoặc danh sách của công cụ) trở thành một bảng riêng. Các thẻ cha và quan hệ phụ thuộc giữa những bảng đó được liệt kê trong báo cáo nhập.",
   "import-report-description": "Bảng đã được tạo, nhưng không thể chuyển một số phần của tệp sang. Báo cáo này cũng được lưu trong Bảng quản trị → Sự cố → Khôi phục.",
   "import-report-heading": "Đã nhập kèm cảnh báo",
   "import-report-open-board": "Mở bảng",

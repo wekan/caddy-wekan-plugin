@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Elekti ekzistantan uzanton por ĉiu el ili",
   "import-members-mode-me": "Anstataŭigi ilin ĉiujn per mi",
   "import-members-mode-placeholder": "Konservi ilin kiel provizorajn uzantojn kun siaj propraj nomoj, por ligi ilin al veraj uzantoj poste",
+  "import-one-board-per-project": "Unu tabulo por ĉiu projekto",
+  "import-one-board-per-project-hint": "Ĉiu naĝlinio, kiun la importo kreus (projekto, dosierujo aŭ listo de la ilo), fariĝas aparta tabulo. Gepatraj kartoj kaj dependecoj inter tiuj tabuloj estas listigitaj en la importa raporto.",
   "import-report-description": "La tabulo estis kreita, sed kelkaj partoj de la dosiero ne povis esti transigitaj. La sama raporto estas konservata en Administra panelo → Problemoj → Reakiro.",
   "import-report-heading": "Importita kun avertoj",
   "import-report-open-board": "Malfermi la tabulon",

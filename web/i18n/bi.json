@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Jusum wan yusa we i stap finis blong evri wan long olgeta",
   "import-members-mode-me": "Mekem olgeta evriwan i kam mi",
   "import-members-mode-placeholder": "Kipim olgeta olsem ol yusa blong ples wetem nem blong olgeta, blong joenem wetem ol tru yusa biaen",
+  "import-one-board-per-project": "Wan bod long evri projek",
+  "import-one-board-per-project-hint": "Evri rod we import bambae i mekem (wan projek, folda o lis blong tul) i kam bod blong hem wan. Ol papa kad mo ol samting we oli dipen long olgeta bitwin ol bod ia oli stap long ripot blong import.",
   "import-report-description": "Oli mekem bod finis, be oli no save tekem sam pat blong fael i kam. Sem ripot i stap long Panel blong admin → Ol problem → Putumbak.",
   "import-report-heading": "Oli tekem i kam wetem ol woning",
   "import-report-open-board": "Openem bod",

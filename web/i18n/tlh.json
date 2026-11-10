@@ -1097,6 +1097,8 @@
   "import-members-mode-map": "Hoch ghotvaD tu'lu'bogh lo'wI' yIwIv",
   "import-members-mode-me": "Hoch jIH yImoHmoH",
   "import-members-mode-placeholder": "pongchaj ghajbogh Daq lo'wI'pu' rur yIpol, qaStaHvIS poH ghotpu' teH chaH rarmeH",
+  "import-one-board-per-project": "jInmol HochvaD wa' raS",
+  "import-one-board-per-project-hint": "qem chenmoHbogh He Hoch (jan' jInmol, qengwI' pagh tetlh) raS Daj moj. raSmey jojDaq vav 'echletHommey ponglu'meH Qu'mey je qemmeH ja'Daq tetlhlu'.",
   "import-report-description": "'echlet chenmoHlu'pu', 'ach ta 'ay'mey puS SuqlaHbe' pat. che'wI' leQmey → Qaghmey → chu'qa'ghachDaq De' rap pollu'.",
   "import-report-heading": "Suqlu'pu'; ghuHmey tu'lu'",
   "import-report-open-board": "'echlet yIpoSmoH",

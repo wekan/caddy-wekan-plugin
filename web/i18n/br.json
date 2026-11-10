@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Dibab un implijer zo anezhañ evit pep hini anezho",
   "import-members-mode-me": "Lakaat anezho holl da vezañ me",
   "import-members-mode-placeholder": "Mirout anezho evel implijerien da zerc'hel plas gant o anvioù dezho, evit o lakaat da glotañ gant implijerien wir diwezhatoc'h",
+  "import-one-board-per-project": "Un daolenn dre raktres",
+  "import-one-board-per-project-hint": "Pep bandenn a vefe krouet gant an enporzhiañ (ur raktres, un teuliad pe ur roll eus an ostilh) a zeu da vezañ un daolenn dezhi hec'h-unan. Ar c'hartennoù kar hag an dalc'hioù etre an taolennoù-se a vez rollet e danevell an enporzhiañ.",
   "import-report-description": "Krouet eo bet an daolenn, met n'eus ket bet gallet enporzhiañ rannoù zo eus ar restr. Miret eo an hevelep danevell e Panell verañ → Kudennoù → Adsevel.",
   "import-report-heading": "Enporzhiet gant kemennadennoù diwall",
   "import-report-open-board": "Digeriñ an daolenn",

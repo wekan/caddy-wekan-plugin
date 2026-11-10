@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Chwazi yon itilizatè ki egziste pou chak moun",
   "import-members-mode-me": "Ranplase yo tout pa mwen",
   "import-members-mode-placeholder": "Kenbe yo kòm itilizatè ranplasan ak non pa yo, pou asosye yo ak itilizatè reyèl pita",
+  "import-one-board-per-project": "Yon tablo pou chak pwojè",
+  "import-one-board-per-project-hint": "Chak kouloir enpòtasyon an ta kreye (yon pwojè, dosye oswa lis zouti a) vin yon tablo apa. Kat paran ak depandans ant tablo sa yo parèt nan rapò enpòtasyon an.",
   "import-report-description": "Tablo a kreye, men kèk pati nan fichye a pa t kapab enpòte. Menm rapò a konsève nan Panèl administratè → Pwoblèm → Rekiperasyon.",
   "import-report-heading": "Enpòte ak avètisman",
   "import-report-open-board": "Ouvri tablo a",

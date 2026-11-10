@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Mid kasta u dooro isticmaale jira",
   "import-members-mode-me": "Dhammaantood aniga ka dhig",
   "import-members-mode-placeholder": "U hay sidii isticmaaleyaal ku-meel-gaar ah oo magacyadooda leh, si dambe loogu waafajiyo isticmaaleyaal dhab ah",
+  "import-one-board-per-project": "Hal sabuurad mashruuc kasta",
+  "import-one-board-per-project-hint": "Waddo kasta oo soo dejintu samayn lahayd (mashruuc, gal ama liis oo qalabka ah) waxay noqotaa sabuurad u gaar ah. Kaararka waalidka iyo ku-tiirsanaanta u dhexeeya sabuuradahaas waxaa lagu taxaa warbixinta soo dejinta.",
   "import-report-description": "Sabuuradda waa la sameeyey, laakiin qaybo ka mid ah faylka lama soo wareejin karin. Isla warbixinta waxaa lagu hayaa Guddiga Maamulka → Dhibaatooyin → Soo-kabasho.",
   "import-report-heading": "La soo dejiyey iyadoo digniino jiraan",
   "import-report-open-board": "Fur sabuuradda",

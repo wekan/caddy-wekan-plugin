@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Kies voor elk van hen een bestaande gebruiker",
   "import-members-mode-me": "Maak ze allemaal mij",
   "import-members-mode-placeholder": "Behoud hen als plaatsvervangende gebruikers met hun eigen namen, om later aan echte gebruikers te koppelen",
+  "import-one-board-per-project": "Eén bord per project",
+  "import-one-board-per-project-hint": "Elke swimlane die de import zou maken (een project, map of lijst van het programma) wordt een eigen bord. Bovenliggende kaarten en afhankelijkheden tussen die borden staan in het importrapport.",
   "import-report-description": "Het bord is aangemaakt, maar sommige delen van het bestand konden niet worden overgenomen. Hetzelfde rapport wordt bewaard onder Beheerpaneel → Problemen → Herstel.",
   "import-report-heading": "Geïmporteerd met waarschuwingen",
   "import-report-open-board": "Open het bord",

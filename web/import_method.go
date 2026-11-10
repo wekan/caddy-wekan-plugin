@@ -75,9 +75,13 @@ func validImportShape(source string, v any) bool {
 // JSON of any other - as a new board.
 // importPeopleOptions are the import's people: WeKan's membersMode, and the
 // file's people mapped to existing users ("map").
+//
+// Split is WeKan's splitBy "swimlane", "One board per project": each of the
+// document's swimlanes its own board (splitBySwimlane).
 type importPeopleOptions struct {
 	Mode    string
 	Mapping map[string]string
+	Split   bool
 }
 
 // importInput writes one document - the text of a text source, the decoded
@@ -87,7 +91,25 @@ func (s *Server) importInput(r *http.Request, u *User, source string, input any,
 	if err != nil {
 		return nil, err
 	}
-	return s.importGeneral(r.Context(), u, parsed, source, people)
+	if !people.Split {
+		return s.importGeneral(r.Context(), u, parsed, source, people)
+	}
+	// models/import.js: each part its own import, the first board answered.
+	parts, err := splitBySwimlane(parsed)
+	if err != nil {
+		return nil, &methodError{"invalid-import-format", err.Error()}
+	}
+	var first *Board
+	for _, part := range parts {
+		b, err := s.importGeneral(r.Context(), u, part, source, people)
+		if err != nil {
+			return nil, err
+		}
+		if first == nil {
+			first = b
+		}
+	}
+	return first, nil
 }
 
 // importParse is the document as WeKan's importBoard reads it before its
@@ -217,6 +239,7 @@ func (s *Server) methodImportBoard(r *http.Request, u *User, args []json.RawMess
 		MembersMode    string         `json:"membersMode"`
 		MembersMapping map[string]any `json:"membersMapping"`
 		PreviewPeople  bool           `json:"previewPeople"`
+		SplitBy        any            `json:"splitBy"`
 	}
 	if len(args) > 1 {
 		_ = json.Unmarshal(args[1], &data)
@@ -247,7 +270,7 @@ func (s *Server) methodImportBoard(r *http.Request, u *User, args []json.RawMess
 			mapping[k] = id
 		}
 	}
-	b, err := s.importInput(r, u, source, board, importPeopleOptions{Mode: data.MembersMode, Mapping: mapping})
+	b, err := s.importInput(r, u, source, board, importPeopleOptions{Mode: data.MembersMode, Mapping: mapping, Split: data.SplitBy == "swimlane"})
 	var me *methodError
 	switch {
 	case err == nil:

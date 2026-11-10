@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Khetha umsebenzisi okhoyo kumntu ngamnye",
   "import-members-mode-me": "Sebenzisa mna endaweni yabo bonke",
   "import-members-mode-placeholder": "Bagcine njengabasebenzisi ababambe indawo abanamagama abo, ukuze badityaniswe nabasebenzisi bokwenene kamva",
+  "import-one-board-per-project": "Ibhodi enye ngeprojekthi nganye",
+  "import-one-board-per-project-hint": "Umzila wokuqubha ngamnye obuya kwenziwa kukungenisa (iprojekthi, ifolda okanye uluhlu lwesixhobo) uba yibhodi yawo. Amakhadi angabazali nezinto ezixhomekeke kwezinye phakathi kwezi bhodi zidweliswa kwingxelo yokungenisa.",
   "import-report-description": "Ibhodi yenziwe, kodwa ezinye iinxalenye zefayile azikwazanga ukudluliselwa. Ingxelo efanayo igcinwe ku-Iphaneli yoLawulo → Iingxaki → Ukubuyisela.",
   "import-report-heading": "Kungeniswe ngezilumkiso",
   "import-report-open-board": "Vula ibhodi",

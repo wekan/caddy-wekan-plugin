@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Katrai personai izvēlieties esošu lietotāju",
   "import-members-mode-me": "Aizstāt visus ar manu lietotāja kontu",
   "import-members-mode-placeholder": "Saglabāt tās kā pagaidu lietotājus ar viņu vārdiem, lai vēlāk piesaistītu īstiem lietotājiem",
+  "import-one-board-per-project": "Viens dēlis katram projektam",
+  "import-one-board-per-project-hint": "Katra josla, ko izveidotu imports (rīka projekts, mape vai saraksts), kļūst par atsevišķu dēli. Vecākkartiņas un atkarības starp šiem dēļiem ir norādītas importa pārskatā.",
   "import-report-description": "Dēlis tika izveidots, taču dažas faila daļas neizdevās pārnest. Tas pats pārskats glabājas sadaļā Administrēšanas panelis → Problēmas → Atkopšana.",
   "import-report-heading": "Importēts ar brīdinājumiem",
   "import-report-open-board": "Atvērt dēli",

@@ -1094,6 +1094,8 @@
   "import-members-mode-map": "Wybierz istniejącego użytkownika dla każdej osoby",
   "import-members-mode-me": "Zastąp je wszystkie mną",
   "import-members-mode-placeholder": "Zachowaj je jako użytkowników zastępczych z ich własnymi nazwami, aby później przypisać je do rzeczywistych użytkowników",
+  "import-one-board-per-project": "Jedna tablica na projekt",
+  "import-one-board-per-project-hint": "Każda ścieżka, którą utworzyłby import (projekt, folder lub lista z narzędzia), staje się osobną tablicą. Karty nadrzędne i zależności między tymi tablicami są wymienione w raporcie importu.",
   "import-report-description": "Tablica została utworzona, ale nie udało się przenieść niektórych części pliku. Ten sam raport jest przechowywany w sekcji Panel administratora → Problemy → Odzyskiwanie.",
   "import-report-heading": "Zaimportowano z ostrzeżeniami",
   "import-report-open-board": "Otwórz tablicę",
