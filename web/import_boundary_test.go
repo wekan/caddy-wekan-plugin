@@ -449,3 +449,68 @@ func TestImportBoardMethodReasons(t *testing.T) {
 		t.Errorf("the refusal and its reason: %v", out)
 	}
 }
+
+// TestImportLossReportIsWeKans: the Recovery report detail of each parsed
+// fixture is WeKan's importLossReport (testdata/import/losses.golden).
+func TestImportLossReportIsWeKans(t *testing.T) {
+	raw, err := os.ReadFile("testdata/import/losses.golden")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var want map[string]*string
+	if err := json.Unmarshal(raw, &want); err != nil {
+		t.Fatal(err)
+	}
+	for name, detail := range want {
+		gold, err := os.ReadFile("testdata/import/" + name + ".parsed.golden")
+		if err != nil {
+			t.Fatal(err)
+		}
+		doc, _ := decodeJS(gold)
+		source, _, _ := strings.Cut(name, "-")
+		warnings, _ := jsGet(doc, "warnings").([]any)
+		unsupported, _ := jsGet(doc, "unsupported").([]any)
+		got, ok := importLossReport(source, warnings, unsupported)
+		switch {
+		case detail == nil && ok:
+			t.Errorf("%s: Weddy reports %q, WeKan nothing", name, got)
+		case detail != nil && got != *detail:
+			t.Errorf("%s:\nWeddy %q\nWeKan %q", name, got, *detail)
+		}
+	}
+}
+
+// TestImportRecordsItsLosses: an import that left something out writes one
+// import-completed-with-warnings row to recoveryEvents, as WeKan's does for
+// Admin Panel -> Problems -> Recovery; an import that left nothing out
+// writes none.
+func TestImportRecordsItsLosses(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	ann := w.seedUser(t, "ann", "pw")
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	if res, err := c.PostForm(w.srv.URL+"/import/markdown", url.Values{"text": {"# Lossy\n## To Do\n- [ ] One\nstray line\n"}}); err != nil || res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("the import: %v %d", err, res.StatusCode)
+	}
+	var b Board
+	if err := w.db.Collection("boards").FindOne(ctx, bson.M{"title": "Lossy"}).Decode(&b); err != nil {
+		t.Fatal(err)
+	}
+	var row bson.M
+	if err := w.db.Collection("recoveryEvents").FindOne(ctx, bson.M{"type": "import-completed-with-warnings"}).Decode(&row); err != nil {
+		t.Fatal("no Recovery row:", err)
+	}
+	if !strings.HasPrefix(docString(row, "detail"), "markdown: 1 not imported, 0 warning(s). /3 line matched no known markdown-kanban construct") ||
+		docString(row, "source") != "import:markdown" || docString(row, "userId") != ann.ID || row["severity"] != "warning" {
+		t.Errorf("the row: %v", row)
+	}
+	if ids, _ := row["boardIds"].(bson.A); len(ids) != 1 || ids[0] != b.ID {
+		t.Errorf("the row names the board: %v", row["boardIds"])
+	}
+	// Negative: a clean import writes no row.
+	_, _ = c.PostForm(w.srv.URL+"/import/markdown", url.Values{"text": {"# Clean\n## To Do\n- [ ] One\n"}})
+	if n, _ := w.db.Collection("recoveryEvents").CountDocuments(ctx, bson.M{}); n != 1 {
+		t.Errorf("negative: a clean import is reported: %d rows", n)
+	}
+}

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -65,6 +66,9 @@ func jsOr(vs ...any) any {
 var allowedColors = append([]string{"white"}, labelPalette...)
 
 type generalImport struct {
+	// losses are the creator's own, beside the parser's: fields, watchers,
+	// attachments and links that did not come over (WeKan's this.losses).
+	losses  []any
 	s       *Server
 	ctx     context.Context
 	u       *User
@@ -211,6 +215,10 @@ func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source, mo
 	if err := g.cards(b, tasks, columns); err != nil {
 		return nil, err
 	}
+	unsupported, _ := jsGet(doc, "unsupported").([]any)
+	warnings, _ := jsGet(doc, "warnings").([]any)
+	boardTitle, _ := jsOr(jsGet(jsGet(doc, "board"), "name"), jsGet(jsGet(doc, "board"), "title")).(string)
+	s.recordImportLosses(ctx, source, warnings, append(append([]any{}, unsupported...), g.losses...), b.ID, boardTitle, u.ID)
 	s.hub.publish(b.ID, "board-changed")
 	return b, nil
 }
@@ -244,6 +252,9 @@ func importedPeople(tasks []any) []string {
 func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 	s, ctx := g.s, g.ctx
 	fields := planImportedCustomFields(tasks)
+	for _, u := range fields.Unsupported {
+		g.losses = append(g.losses, importUnsupportedObj(u.Path, u.Reason))
+	}
 	fieldIDs := map[string]string{}
 	for _, f := range fields.Fields {
 		id := randomID()
@@ -262,6 +273,18 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 		}
 		lane, _ := jsOr(jsGet(task, "swimlane_name"), jsGet(task, "swimlane"), "Default").(string)
 		plan := planImportedTask(task, g.members, allowedColors, []string{g.u.ID})
+		if plan.UnwatchedCount > 0 {
+			g.losses = append(g.losses, importUnsupportedObj("/tasks/"+strconv.Itoa(n)+"/watchers",
+				strconv.Itoa(plan.UnwatchedCount)+" watcher(s) are not members of this board and do not watch the card"))
+		}
+		// The attachments a parser found: WeKan downloads them, Weddy does
+		// not yet, and says so rather than leaving them out silently.
+		if atts, _ := jsGet(task, "attachments").([]any); len(atts) > 0 {
+			for _, a := range atts {
+				name := jsOr(jsStr(jsOr(jsGet(a, "name"), "")), "attachment").(string)
+				g.losses = append(g.losses, importUnsupportedObj("/tasks/"+strconv.Itoa(n)+"/attachments", name+": not downloaded - Weddy does not fetch an import's attachment files yet"))
+			}
+		}
 		card := bson.M{"_id": randomID(), "boardId": b.ID, "dateLastActivity": g.now, "sort": float64(n), "userId": g.u.ID, // inserted, not a filter
 			"labelIds": bson.A{}, "type": "cardType-card"}
 		for _, kv := range plan.Card {
@@ -344,6 +367,9 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 	}
 	// Parents and dependencies point at cards of this import.
 	links := planImportedLinks(tasks)
+	for _, u := range links.Unsupported {
+		g.losses = append(g.losses, importUnsupportedObj(u.Path, u.Reason))
+	}
 	for _, p := range links.Parents {
 		_, _ = s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(cardIDs[p.Index])}, bson.M{"$set": bson.M{"parentId": cardIDs[p.Parent]}})
 	}

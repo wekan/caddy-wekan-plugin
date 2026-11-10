@@ -19,6 +19,8 @@ const lib = name => pathToFileURL(path.join(wekan, 'models/lib', name)).href;
 EXTERNAL_PARSERS.opml = (await import(lib('opmlOutline.js'))).parseOpml;
 EXTERNAL_PARSERS.leo = (await import(lib('leoOutline.js'))).parseLeo;
 const { importedPeople } = await import(lib('importMembersMode.js'));
+const { importLossReport } = await import(lib('importLossReport.js'));
+const losses = {};
 // people.golden: the people WeKan's import makes users of, for each parsed
 // file (TestImportPeopleAreWeKans).
 const people = {};
@@ -31,6 +33,10 @@ for (const [source, inputs] of Object.entries(cases)) {
     const name = path.basename(input).replace(/\.[^.]+$/, '');
     fs.writeFileSync(path.join(here, `${source}-${name}.parsed.golden`), `${JSON.stringify(parsed, null, 2)}\n`);
     people[`${source}-${name}`] = importedPeople(parsed.tasks);
+    const report = importLossReport({ source, warnings: parsed.warnings, unsupported: parsed.unsupported });
+    losses[`${source}-${name}`] = report ? report.detail : null;
   }
 }
 fs.writeFileSync(path.join(here, 'people.golden'), `${JSON.stringify(people, null, 2)}\n`);
+// losses.golden: the Recovery report detail of each parse (TestImportLossReportIsWeKans).
+fs.writeFileSync(path.join(here, 'losses.golden'), `${JSON.stringify(losses, null, 2)}\n`);
