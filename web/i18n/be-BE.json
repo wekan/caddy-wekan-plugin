@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Змяніць пароль",
   "changeSettingsPopup-title": "Змяніць налады",
   "checklist": "Кантрольны спіс",
+  "checklist-item-assignee": "Хто адказны за гэты пункт",
+  "checklist-item-assignee-none": "Ніхто",
   "checklistActionsPopup-title": "Дзеянні з кантрольным спісам",
   "checklists": "Кантрольныя спісы",
   "click-to-star": "Пстрыкніце, каб дадаць гэтую дошку ў абраныя.",

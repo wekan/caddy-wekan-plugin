@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Muuda salasõna",
   "changeSettingsPopup-title": "Seadete muutmine",
   "checklist": "Kontrollnimekiri",
+  "checklist-item-assignee": "Kes vastutab selle punkti eest",
+  "checklist-item-assignee-none": "Mitte keegi",
   "checklistActionsPopup-title": "Kontrollnimekirja toimingud",
   "checklists": "Kontrollnimekirjad",
   "click-to-star": "Kliki, et seda tahvlit tähistada.",

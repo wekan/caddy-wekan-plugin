@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Parola Değiştir",
   "changeSettingsPopup-title": "Ayarları değiştir",
   "checklist": "Kontrol listesi",
+  "checklist-item-assignee": "Bu öğeden kim sorumlu",
+  "checklist-item-assignee-none": "Hiç kimse",
   "checklistActionsPopup-title": "Kontrol Listesi Eylemleri",
   "checklists": "Yapılacak Listeleri",
   "click-to-star": "Bu panoyu yıldızlamak için tıkla.",

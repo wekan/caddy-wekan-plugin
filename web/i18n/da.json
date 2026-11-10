@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Skift kodeord",
   "changeSettingsPopup-title": "Tilpas indstillinger",
   "checklist": "Tjekliste",
+  "checklist-item-assignee": "Hvem er ansvarlig for dette punkt",
+  "checklist-item-assignee-none": "Ingen",
   "checklistActionsPopup-title": "Tjeklistehandlinger",
   "checklists": "Tjeklister",
   "click-to-star": "Klik for at tilføje stjerne til tavlen.",

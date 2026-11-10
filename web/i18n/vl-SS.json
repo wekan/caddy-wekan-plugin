@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Wijzig wachtwoord",
   "changeSettingsPopup-title": "Wijzig instellingen",
   "checklist": "Controlelijst",
+  "checklist-item-assignee": "Wie is verantwoordelijk voor dit item",
+  "checklist-item-assignee-none": "Niemand",
   "checklistActionsPopup-title": "Checklist acties",
   "checklists": "Controlelijsten",
   "click-to-star": "Klik om het bord als favoriet in te stellen",

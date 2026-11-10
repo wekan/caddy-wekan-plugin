@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Senisim paswot",
   "changeSettingsPopup-title": "Senisim ol seting",
   "checklist": "Lis bilong sekim",
+  "checklist-item-assignee": "Husat i lukautim dispela samting",
+  "checklist-item-assignee-none": "I no gat wanpela",
   "checklistActionsPopup-title": "Ol wok bilong lis bilong sekim",
   "checklists": "Ol seklis",
   "click-to-star": "Klik bilong putim sta long dispela bot.",

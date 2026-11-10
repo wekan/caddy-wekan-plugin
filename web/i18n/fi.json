@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Vaihda salasana",
   "changeSettingsPopup-title": "Muokkaa asetuksia",
   "checklist": "Tarkistuslista",
+  "checklist-item-assignee": "Kuka on vastuussa tästä kohdasta",
+  "checklist-item-assignee-none": "Ei kukaan",
   "checklistActionsPopup-title": "Tarkistuslista toimet",
   "checklists": "Tarkistuslistat",
   "click-to-star": "Klikkaa merkataksesi tämä taulu tähdellä.",

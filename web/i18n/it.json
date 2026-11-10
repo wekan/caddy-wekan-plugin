@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Modifica password",
   "changeSettingsPopup-title": "Modifica impostazioni",
   "checklist": "Lista di controllo",
+  "checklist-item-assignee": "Chi è responsabile di questo elemento",
+  "checklist-item-assignee-none": "Nessuno",
   "checklistActionsPopup-title": "Azioni checklist",
   "checklists": "Checklist",
   "click-to-star": "Clicca per stellare questa bacheca",

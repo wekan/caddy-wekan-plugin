@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Tesseram muta",
   "changeSettingsPopup-title": "Muta optiones",
   "checklist": "Index probationis",
+  "checklist-item-assignee": "Quis huic rei praeest",
+  "checklist-item-assignee-none": "Nemo",
   "checklistActionsPopup-title": "Actiones indicis probationis",
   "checklists": "Indices probationis",
   "click-to-star": "Preme ut hanc tabulam stella notes.",

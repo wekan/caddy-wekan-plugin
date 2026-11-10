@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "പാസ്‌വേഡ് മാറ്റുക",
   "changeSettingsPopup-title": "ക്രമീകരണങ്ങൾ മാറ്റുക",
   "checklist": "പരിശോധനാ പട്ടിക",
+  "checklist-item-assignee": "ഈ ഇനത്തിന്റെ ഉത്തരവാദി ആര്",
+  "checklist-item-assignee-none": "ആരുമില്ല",
   "checklistActionsPopup-title": "ചെക്ക്‌ലിസ്റ്റ് പ്രവർത്തനങ്ങൾ",
   "checklists": "പരിശോധനാ പട്ടികകൾ",
   "click-to-star": "ഈ ബോർഡിന് നക്ഷത്രമിടാൻ ക്ലിക്ക് ചെയ്യുക.",

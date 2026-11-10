@@ -901,6 +901,8 @@
   "changePasswordPopup-title": "Modifier le mot de passe",
   "changeSettingsPopup-title": "Modifier les paramètres",
   "checklist": "Check-list",
+  "checklist-item-assignee": "Qui est responsable de cet élément",
+  "checklist-item-assignee-none": "Personne",
   "checklistActionsPopup-title": "Actions sur la checklist",
   "checklists": "Check-lists",
   "click-to-star": "Cliquez pour ajouter ce tableau aux favoris.",

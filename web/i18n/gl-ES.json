@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Cambiar o contrasinal",
   "changeSettingsPopup-title": "Cambiar a configuración",
   "checklist": "Lista de verificación",
+  "checklist-item-assignee": "Quen é o responsable deste elemento",
+  "checklist-item-assignee-none": "Ninguén",
   "checklistActionsPopup-title": "Accións da lista de verificación",
   "checklists": "Listas de verificación",
   "click-to-star": "Fai clic para marcar este taboleiro como favorito.",

@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Mainīt paroli",
   "changeSettingsPopup-title": "Iestatījumi",
   "checklist": "Kontrolsaraksts",
+  "checklist-item-assignee": "Kurš ir atbildīgs par šo vienumu",
+  "checklist-item-assignee-none": "Neviens",
   "checklistActionsPopup-title": "Kontrolsaraksta darbības",
   "checklists": "Kontrolsaraksti",
   "click-to-star": "Spied lai atzīmēt ar zvaigzni.",

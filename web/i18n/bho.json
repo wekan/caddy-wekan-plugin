@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "पासवर्ड बदलीं",
   "changeSettingsPopup-title": "सेटिंग बदलीं",
   "checklist": "जाँच सूची",
+  "checklist-item-assignee": "एह आइटम खातिर के जिम्मेदार बा",
+  "checklist-item-assignee-none": "केहू ना",
   "checklistActionsPopup-title": "जाँच-सूची कार्रवाई",
   "checklists": "जाँच सूची",
   "click-to-star": "एह बोर्ड पर तारा लगावे खातिर क्लिक करीं।",

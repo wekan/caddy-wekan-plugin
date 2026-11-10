@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Verander wagwoord",
   "changeSettingsPopup-title": "Verander instellings",
   "checklist": "Kontrolelys",
+  "checklist-item-assignee": "Wie is verantwoordelik vir hierdie item",
+  "checklist-item-assignee-none": "Niemand",
   "checklistActionsPopup-title": "Kontrolelysaksies",
   "checklists": "Kontrolelyste",
   "click-to-star": "Klik om hierdie bord te ster.",

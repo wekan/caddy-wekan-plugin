@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Badilisha Nenosiri",
   "changeSettingsPopup-title": "Badilisha Mipangilio",
   "checklist": "Orodha ya ukaguzi",
+  "checklist-item-assignee": "Nani anahusika na kipengee hiki",
+  "checklist-item-assignee-none": "Hakuna mtu",
   "checklistActionsPopup-title": "Vitendo vya Orodha",
   "checklists": "Orodha za ukaguzi",
   "click-to-star": "Bofya ili kuweka nyota kwenye ubao huu.",

@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "SHINTSHA iphasiwedi",
   "changeSettingsPopup-title": "Shintsha izilungiselelo",
   "checklist": "Uhlu lokuhlola",
+  "checklist-item-assignee": "Ubani obhekele le nto",
+  "checklist-item-assignee-none": "Akekho muntu",
   "checklistActionsPopup-title": "Izenzo zohlu lokuhlola",
   "checklists": "Izinhla zokuhlola",
   "click-to-star": "Chofoza ukuze ufake inkanyezi leli bhodi.",

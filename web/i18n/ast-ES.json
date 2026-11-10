@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Cambiar la contraseña",
   "changeSettingsPopup-title": "Cambiar las preferencias",
   "checklist": "Llista de comprobación",
+  "checklist-item-assignee": "Quién ye responsable d'esti elementu",
+  "checklist-item-assignee-none": "Naide",
   "checklistActionsPopup-title": "Aiciones de la llista de comprobación",
   "checklists": "Lista de verificación",
   "click-to-star": "Fai clic pa marcar esti tableru como favoritu.",

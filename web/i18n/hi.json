@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "गोपनीयता परिवर्तन करें",
   "changeSettingsPopup-title": "व्यवस्था परिवर्तित करें",
   "checklist": "चेकलिस्ट",
+  "checklist-item-assignee": "इस आइटम के लिए कौन ज़िम्मेदार है",
+  "checklist-item-assignee-none": "कोई नहीं",
   "checklistActionsPopup-title": "चेकलिस्ट की क्रियाएँ",
   "checklists": "जांच सूची",
   "click-to-star": "इस बोर्ड को स्टार करने के लिए क्लिक करें ।",

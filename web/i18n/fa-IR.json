@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "تغییر کلمه عبور",
   "changeSettingsPopup-title": "تغییر تنظیمات",
   "checklist": "چک‌لیست",
+  "checklist-item-assignee": "چه کسی مسئول این مورد است",
+  "checklist-item-assignee-none": "هیچ‌کس",
   "checklistActionsPopup-title": "اقدامات چک‌لیست",
   "checklists": "چک‌لیست‌ها",
   "click-to-star": "با کلیک کردن ستاره بدهید",

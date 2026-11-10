@@ -361,3 +361,61 @@ func TestCardDetailsChecklistMoveAndCopy(t *testing.T) {
 		t.Errorf("negative: a checklist no longer on this card: %d", code)
 	}
 }
+
+// #1618: an item's assignee - an active member of the board, or nobody -
+// set by whoever may change the card, and shown by name.
+func TestChecklistItemAssignee(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	gone := w.seedUser(t, "gone", "pw")
+	out := w.seedUser(t, "out", "pw")
+	wk := w.seedUser(t, "wes", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Assign")
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": bob.ID}, bson.M{"$set": bson.M{"profile.fullname": "Bob Builder"}})
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"$each": []any{
+		bson.M{"userId": bob.ID, "isActive": true}, bson.M{"userId": gone.ID, "isActive": false},
+		bson.M{"userId": wk.ID, "isActive": true, "isWorker": true}}}}})
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "C")
+	_, _ = w.db.Collection("checklists").InsertOne(ctx, bson.M{"_id": "cl", "cardId": c.ID, "title": "L", "sort": 0})
+	_, _ = w.db.Collection("checklistItems").InsertOne(ctx, bson.M{"_id": "it", "checklistId": "cl", "cardId": c.ID, "title": "Do it", "sort": 0})
+	path := w.srv.URL + "/b/" + b.ID + "/cards/" + c.ID + "/checklists/cl/items/it/assignee"
+	assignee := func() any {
+		var d bson.M
+		_ = w.db.Collection("checklistItems").FindOne(ctx, bson.M{"_id": "it"}).Decode(&d)
+		return d["assigneeId"]
+	}
+	post := func(cl *http.Client, who string) int {
+		r, err := cl.PostForm(path, url.Values{"userId": {who}})
+		if err != nil {
+			t.Fatal(err)
+		}
+		r.Body.Close()
+		return r.StatusCode
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if code := post(ann, bob.ID); code != http.StatusSeeOther || assignee() != bob.ID {
+		t.Fatalf("assigned: %d %v", code, assignee())
+	}
+	if _, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID); !strings.Contains(html, ">Bob Builder</span>") {
+		t.Error("shown by full name")
+	}
+	for _, who := range []string{out.ID, gone.ID, "nobody-at-all"} {
+		if code := post(ann, who); code != http.StatusBadRequest || assignee() != bob.ID {
+			t.Errorf("negative: %s is not an active member: %d", who, code)
+		}
+	}
+	wes := w.client(t)
+	body(t, w.signIn(t, wes, "wes", "pw"))
+	if code := post(wes, wk.ID); code != http.StatusForbidden || assignee() != bob.ID {
+		t.Errorf("negative: a Worker assigns nobody: %d", code)
+	}
+	if code := post(ann, ""); code != http.StatusSeeOther || assignee() != nil {
+		t.Errorf("nobody: %d %v", code, assignee())
+	}
+}

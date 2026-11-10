@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Endre passord",
   "changeSettingsPopup-title": "Endre innstillinger",
   "checklist": "Sjekkliste",
+  "checklist-item-assignee": "Hvem er ansvarlig for dette punktet",
+  "checklist-item-assignee-none": "Ingen",
   "checklistActionsPopup-title": "Sjekkliste aksjoner",
   "checklists": "Sjekklister",
   "click-to-star": "Favorittmerke Tavlen",

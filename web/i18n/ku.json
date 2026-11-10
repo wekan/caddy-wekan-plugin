@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Şîfreyê biguherîne",
   "changeSettingsPopup-title": "Mîhengan biguherîne",
   "checklist": "Lîsteya kontrolê",
+  "checklist-item-assignee": "Kî ji vê hêmanê berpirsyar e",
+  "checklist-item-assignee-none": "Tu kes",
   "checklistActionsPopup-title": "Kiryarên lîsteya kontrolê",
   "checklists": "Lîsteyên kontrolê",
   "click-to-star": "Ji bo stêrkkirina vê depoyê bitikîne.",

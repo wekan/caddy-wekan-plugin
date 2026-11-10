@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Isissutissaq allanngortiguk",
   "changeSettingsPopup-title": "Aaqqissugaanera allanngortiguk",
   "checklist": "Misissuiffiusumik allattorsimaffik",
+  "checklist-item-assignee": "Kina una pillugu akisussaava",
+  "checklist-item-assignee-none": "Kinaluunniit",
   "checklistActionsPopup-title": "Misissuiffiusup iliuusai",
   "checklists": "Misissuiffiit",
   "click-to-star": "Ilisarnaat una ulloriaqutsinniarlugu tooruk.",

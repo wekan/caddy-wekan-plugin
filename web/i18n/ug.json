@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "پارولنى ئۆزگەرتىش",
   "changeSettingsPopup-title": "تەڭشەكلەرنى ئۆزگەرتىڭ",
   "checklist": "تەكشۈرۈش تىزىملىكى",
+  "checklist-item-assignee": "بۇ تۈرگە كىم مەسئۇل",
+  "checklist-item-assignee-none": "ھېچكىم",
   "checklistActionsPopup-title": "تەكشۈرۈش تىزىملىكى",
   "checklists": "تەكشۈرۈش تىزىملىكى",
   "click-to-star": "بۇ تاختىنى چېكىش ئۈچۈن چېكىڭ.",

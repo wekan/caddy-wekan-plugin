@@ -436,3 +436,8 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 .checklist-item button.check-box.is-checked { background: #3cb500; border-color: #3cb500; }
 .checklists-bottom-actions { margin: .3em 0; }
 .add-checklist-item, .add-checklist, .add-checklist-top { cursor: pointer; text-decoration: none; margin-left: .3em; }
+.fa-ban::before { content: "\26D4"; }
+.checklist-item-assignee { margin-left: auto; text-decoration: none; cursor: pointer; }
+.checklist-item-assignee .member { font-size: .8em; padding: 0 .4em; border-radius: 3px; background: #dfe1e6; }
+.js-checklist-item-assignee-form button { background: none; border: 0; width: 100%; text-align: left; padding: .3em .6em; cursor: pointer; }
+.js-checklist-item-assignee-form button.is-active { font-weight: bold; }

@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Kyusa ekigambo ekyekusifu",
   "changeSettingsPopup-title": "Kyusa Entegeka",
   "checklist": "Olukalala lw'okukebera",
+  "checklist-item-assignee": "Ani avunaanyizibwa ku kintu kino",
+  "checklist-item-assignee-none": "Tewali muntu",
   "checklistActionsPopup-title": "Lukalala-lw'okukebera Ebikolwa",
   "checklists": "Enkalala z'okukebera",
   "click-to-star": "nyiga star kino lubaawo.",

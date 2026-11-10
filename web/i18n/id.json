@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Ubah Kata Sandi",
   "changeSettingsPopup-title": "Ubah Setelan",
   "checklist": "Daftar periksa",
+  "checklist-item-assignee": "Siapa yang bertanggung jawab atas item ini",
+  "checklist-item-assignee-none": "Tidak ada",
   "checklistActionsPopup-title": "Tindakan Checklist",
   "checklists": "Daftar Periksa",
   "click-to-star": "Klik untuk tandai bintang panel ini",

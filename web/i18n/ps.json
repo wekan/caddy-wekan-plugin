@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "پټنوم بدلول",
   "changeSettingsPopup-title": "امستنې بدلې کړئ",
   "checklist": "کتنليک",
+  "checklist-item-assignee": "د دې توکي مسؤل څوک دی",
+  "checklist-item-assignee-none": "هېڅوک نه",
   "checklistActionsPopup-title": "د کتنليک کړنې",
   "checklists": "کتنليکونه",
   "click-to-star": "دې تختې ته د ستوري ورکولو لپاره ټک وکړئ.",

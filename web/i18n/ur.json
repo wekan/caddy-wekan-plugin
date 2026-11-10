@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "پاس ورڈ تبدیل کریں",
   "changeSettingsPopup-title": "ترتیبات تبدیل کریں",
   "checklist": "چیک لسٹ",
+  "checklist-item-assignee": "اس آئٹم کا ذمہ دار کون ہے",
+  "checklist-item-assignee-none": "کوئی نہیں",
   "checklistActionsPopup-title": "جانچ فہرست کے اقدامات",
   "checklists": "چیک لسٹیں",
   "click-to-star": "اس بورڈ پر ستارہ لگانے کے لیے کلک کریں۔",

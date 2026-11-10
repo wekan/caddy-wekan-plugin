@@ -905,6 +905,8 @@
   "changePasswordPopup-title": "Passwort ändern",
   "changeSettingsPopup-title": "Einstellungen ändern",
   "checklist": "Checkliste",
+  "checklist-item-assignee": "Wer für diesen Eintrag verantwortlich ist",
+  "checklist-item-assignee-none": "Niemand",
   "checklistActionsPopup-title": "Checklistenaktionen",
   "checklists": "Checklisten",
   "click-to-star": "Klicken Sie, um das Board mit einem Stern zu markieren.",

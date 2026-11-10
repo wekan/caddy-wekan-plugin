@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "پارولنی اۉزگرتیریش",
   "changeSettingsPopup-title": "سازلمه‌لرنی اۉزگرتیریش",
   "checklist": "تیکشیروو رۉیختی",
+  "checklist-item-assignee": "بو عنصر اوچون کیم جوابگر",
+  "checklist-item-assignee-none": "هیچ کیم",
   "checklistActionsPopup-title": "تیکشیریش رۉیختیدگی حرکتلر",
   "checklists": "تیکشیریش رۉیختلری",
   "click-to-star": "اوشبو تخته‌گه یولدوزچه بیلگیلش اوچون باسینگ.",

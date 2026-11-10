@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Ändra lösenord",
   "changeSettingsPopup-title": "Ändra inställningar",
   "checklist": "Checklista",
+  "checklist-item-assignee": "Vem är ansvarig för denna punkt",
+  "checklist-item-assignee-none": "Ingen",
   "checklistActionsPopup-title": "Liståtgärder",
   "checklists": "Checklistor",
   "click-to-star": "Klicka för att stjärnmärka denna tavla.",

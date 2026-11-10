@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "ផ្លាស់ប្តូរពាក្យសម្ងាត់",
   "changeSettingsPopup-title": "ផ្លាស់ប្តូរការកំណត់",
   "checklist": "បញ្ជីត្រួតពិនិត្យ",
+  "checklist-item-assignee": "អ្នកណាទទួលខុសត្រូវលើធាតុនេះ",
+  "checklist-item-assignee-none": "គ្មាននរណា",
   "checklistActionsPopup-title": "សកម្មភាពបញ្ជីត្រួតពិនិត្យ",
   "checklists": "បញ្ជីត្រួតពិនិត្យ",
   "click-to-star": "ចុចដើម្បីដាក់ផ្កាយលើក្ដារខៀននេះ។",

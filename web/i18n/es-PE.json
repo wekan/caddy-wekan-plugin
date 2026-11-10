@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Cambiar la contraseña",
   "changeSettingsPopup-title": "Cambiar la configuración",
   "checklist": "Lista de tareas",
+  "checklist-item-assignee": "Quién es responsable de este elemento",
+  "checklist-item-assignee-none": "Nadie",
   "checklistActionsPopup-title": "Acciones de la Lista de Tareas",
   "checklists": "Listas de comprobación",
   "click-to-star": "Haga clic para destacar este tablero.",

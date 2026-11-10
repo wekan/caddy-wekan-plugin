@@ -27,6 +27,7 @@ func (s *Server) registerChecklistWrites(m *http.ServeMux) {
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/title", s.page(s.renameChecklistPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/title", s.page(s.checklistItemTitlePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/delete", s.page(s.deleteChecklistItemPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/assignee", s.page(s.checklistItemAssigneePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/move-to", s.page(s.moveChecklistPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/copy-to", s.page(s.copyChecklistPage))
 }
@@ -387,6 +388,40 @@ func (s *Server) copyChecklistPage(w http.ResponseWriter, r *http.Request, u *Us
 	}
 	if tb.ID != b.ID {
 		s.hub.publish(tb.ID, "board-changed")
+	}
+	s.backToCard(w, r, b, c)
+}
+
+// checklistItemAssigneePage is checklistItemAssigneePopup's setAssignee: an
+// active member of the board responsible for the item, or nobody (#1618).
+// WeKan's popup offers only the board's active members; the server holds
+// to the same.
+func (s *Server) checklistItemAssigneePage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, c, cl, ok := s.checklistTarget(w, r, u, true)
+	if !ok {
+		return
+	}
+	if !b.WritableIn(r.Context(), s, u, "write", c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	it, ok := s.checklistItemOf(w, r, c, cl)
+	if !ok {
+		return
+	}
+	who := r.FormValue("userId")
+	update := bson.M{"$unset": bson.M{"assigneeId": ""}, "$set": bson.M{"modifiedAt": time.Now().UTC()}}
+	if who != "" {
+		m := b.member(who)
+		if !validID(who) || m == nil || !m.IsActive {
+			http.Error(w, "not an active member of this board", http.StatusBadRequest)
+			return
+		}
+		update = bson.M{"$set": bson.M{"assigneeId": who, "modifiedAt": time.Now().UTC()}}
+	}
+	if _, err := s.db.Collection("checklistItems").UpdateOne(r.Context(), bson.M{"_id": eq(docString(it, "_id"))}, update); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 	s.backToCard(w, r, b, c)
 }

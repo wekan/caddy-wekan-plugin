@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Zmeniť heslo",
   "changeSettingsPopup-title": "Zmeniť nastavenia",
   "checklist": "Kontrolný zoznam",
+  "checklist-item-assignee": "Kto je zodpovedný za túto položku",
+  "checklist-item-assignee-none": "Nikto",
   "checklistActionsPopup-title": "Akcie checklistu",
   "checklists": "Checklisty",
   "click-to-star": "Pridať hviezdičku na nástenku",

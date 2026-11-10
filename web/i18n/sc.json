@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Càmbia sa crae",
   "changeSettingsPopup-title": "Càmbia sas impostatziones",
   "checklist": "Lista de controllu",
+  "checklist-item-assignee": "Chie est responsàbile de custu elementu",
+  "checklist-item-assignee-none": "Nemos",
   "checklistActionsPopup-title": "Atziones de sa lista de controllu",
   "checklists": "Listas de controllu",
   "click-to-star": "Craca pro marcare custa tàula cun istella.",

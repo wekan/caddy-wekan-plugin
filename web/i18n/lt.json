@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Keisti slaptažodį",
   "changeSettingsPopup-title": "Keisti nustatymus",
   "checklist": "Kontrolinis sąrašas",
+  "checklist-item-assignee": "Kas atsakingas už šį elementą",
+  "checklist-item-assignee-none": "Niekas",
   "checklistActionsPopup-title": "Kontrolinio sąrašo veiksmai",
   "checklists": "Kontroliniai sąrašai",
   "click-to-star": "Spustelėkite norėdami pažymėti šią lentą žvaigždute.",

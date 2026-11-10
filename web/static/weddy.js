@@ -307,6 +307,19 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     form.classList.remove('is-hidden');
     form.querySelector('textarea').focus();
   });
+  // checklistItemAssigneePopup: for that item, its assignee marked.
+  up.on('click', '.js-checklist-item-assignee', function (event, el) {
+    event.preventDefault();
+    event.stopPropagation();
+    var url = el.getAttribute('data-url'), current = el.getAttribute('data-assignee');
+    openPopOver('checklist-item-assignee');
+    var f = document.querySelector('.js-pop-over .js-checklist-item-assignee-form');
+    if (!f) return;
+    f.setAttribute('action', url);
+    f.querySelectorAll('.js-set-checklist-item-assignee').forEach(function (b) {
+      b.classList.toggle('is-active', !!current && b.value === current);
+    });
+  });
   // checklistItemDeletePopup: the confirmation, for that item.
   up.on('click', '.js-delete-checklist-item', function (event, el) {
     event.preventDefault();

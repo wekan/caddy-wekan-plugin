@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Рамзро иваз кардан",
   "changeSettingsPopup-title": "Тағйир додани танзимот",
   "checklist": "Рӯйхати санҷиш",
+  "checklist-item-assignee": "Кӣ барои ин банд масъул аст",
+  "checklist-item-assignee-none": "Ҳеҷ кас",
   "checklistActionsPopup-title": "Амалҳои рӯйхати санҷиш",
   "checklists": "Рӯйхатҳои санҷиш",
   "click-to-star": "Барои ситорачадор кардани ин тахта пахш кунед.",

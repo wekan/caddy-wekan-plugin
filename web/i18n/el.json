@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Αλλαγή Κωδικού",
   "changeSettingsPopup-title": "Αλλαγή Ρυθμίσεων",
   "checklist": "Check-list",
+  "checklist-item-assignee": "Ποιος είναι υπεύθυνος για αυτό το στοιχείο",
+  "checklist-item-assignee-none": "Κανείς",
   "checklistActionsPopup-title": "Ενέργειες λίστας ελέγχου",
   "checklists": "Λίστες Ελέγχου - Checklists",
   "click-to-star": "Κλικ για να προσθέσετε αστεράκι στον πίνακα",

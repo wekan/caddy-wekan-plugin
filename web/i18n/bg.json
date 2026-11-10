@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Промени паролата",
   "changeSettingsPopup-title": "Промяна на настройките",
   "checklist": "Чеклист",
+  "checklist-item-assignee": "Кой отговаря за този елемент",
+  "checklist-item-assignee-none": "Никой",
   "checklistActionsPopup-title": "Действия с чеклиста",
   "checklists": "Списъци със задачи",
   "click-to-star": "Щракнете, за да отбележите това табло със звезда.",

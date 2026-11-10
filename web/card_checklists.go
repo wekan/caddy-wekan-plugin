@@ -17,6 +17,8 @@ import (
 type cardChecklistItem struct {
 	ID, ChecklistID, Title string
 	Finished               bool
+	// AssigneeID is #1618's responsible member, AssigneeName how they show.
+	AssigneeID, AssigneeName string
 }
 
 type cardChecklist struct {
@@ -48,7 +50,8 @@ func (s *Server) cardChecklists(ctx context.Context, cardID string) []cardCheckl
 					if f {
 						done++
 					}
-					c.Items = append(c.Items, cardChecklistItem{ID: docString(it, "_id"), ChecklistID: c.ID, Title: docString(it, "title"), Finished: f})
+					c.Items = append(c.Items, cardChecklistItem{ID: docString(it, "_id"), ChecklistID: c.ID, Title: docString(it, "title"), Finished: f,
+						AssigneeID: docString(it, "assigneeId")})
 				}
 				c.Percent = checklistPercent(done, len(items))
 			}
@@ -64,4 +67,28 @@ func checklistPercent(done, count int) int {
 		return 0
 	}
 	return int(math.Floor(float64(done)/float64(count)*100 + 0.5))
+}
+
+// nameChecklistAssignees is the assignee's avatar title, from the board's
+// active members (checklistItemAssigneePopup's displayName): the full name,
+// else the username.
+func nameChecklistAssignees(lists []cardChecklist, members []memberChoice) {
+	names := map[string]string{}
+	for _, m := range members {
+		names[m.ID] = m.Username
+		if m.Fullname != "" {
+			names[m.ID] = m.Fullname
+		}
+	}
+	for i := range lists {
+		for j := range lists[i].Items {
+			it := &lists[i].Items[j]
+			if it.AssigneeID != "" {
+				it.AssigneeName = names[it.AssigneeID]
+				if it.AssigneeName == "" {
+					it.AssigneeName = it.AssigneeID
+				}
+			}
+		}
+	}
 }

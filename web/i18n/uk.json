@@ -901,6 +901,8 @@
   "changePasswordPopup-title": "Змінити пароль",
   "changeSettingsPopup-title": "Змінити налаштування",
   "checklist": "Контрольний список",
+  "checklist-item-assignee": "Хто відповідає за цей пункт",
+  "checklist-item-assignee-none": "Ніхто",
   "checklistActionsPopup-title": "Дії з чек-листом",
   "checklists": "Контрольні списки",
   "click-to-star": "Натисніть, щоб відзначити цю дошку зірочкою.",

@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Вӑрттӑн сӑмаха улӑштарас",
   "changeSettingsPopup-title": "Ӗнерлевсене улӑштарас",
   "checklist": "Тӗрӗслев списокӗ",
+  "checklist-item-assignee": "Ку пункт валли кам яваплӑ",
+  "checklist-item-assignee-none": "Никам та",
   "checklistActionsPopup-title": "Тӗрӗслев списокӗн ӗҫӗсем",
   "checklists": "Тӗрӗслев спискисем",
   "click-to-star": "Ҫак хӑмана паллӑ тӑвас тесен пусӑр.",

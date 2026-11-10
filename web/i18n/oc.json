@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Cambiar lo senhal",
   "changeSettingsPopup-title": "Cambiar los paramètres",
   "checklist": "Lista de verificacion",
+  "checklist-item-assignee": "Qual es responsable d'aqueste element",
+  "checklist-item-assignee-none": "Degun",
   "checklistActionsPopup-title": "Accions de la lista de contraròtle",
   "checklists": "Listas de verificacion",
   "click-to-star": "Apondre lo tablèu als favorits",

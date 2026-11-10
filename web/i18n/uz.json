@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Parolni o'zgartirish",
   "changeSettingsPopup-title": "Sozlamalarni o'zgartirish",
   "checklist": "Tekshirish roʻyxati",
+  "checklist-item-assignee": "Bu band uchun kim mas'ul",
+  "checklist-item-assignee-none": "Hech kim",
   "checklistActionsPopup-title": "Tekshirish roʻyxatidagi harakatlar",
   "checklists": "Tekshirish ro'yxatlari",
   "click-to-star": "Ushbu panelga yulduzcha belgilash uchun bosing.",

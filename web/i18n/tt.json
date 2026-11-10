@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Серсүзне үзгәртү",
   "changeSettingsPopup-title": "Көйләүләрне үзгәртү",
   "checklist": "Тикшерү исемлеге",
+  "checklist-item-assignee": "Бу әйбер өчен кем җаваплы",
+  "checklist-item-assignee-none": "Беркем дә",
   "checklistActionsPopup-title": "Тикшерү исемлеге гамәлләре",
   "checklists": "Тикшерү исемлекләре",
   "click-to-star": "Бу тактага йолдыз кую өчен басыгыз.",

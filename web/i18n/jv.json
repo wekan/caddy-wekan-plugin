@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Ganti tembung sandi",
   "changeSettingsPopup-title": "Owahi Setelan",
   "checklist": "Dhaptar priksa",
+  "checklist-item-assignee": "Sapa sing tanggung jawab kanggo item iki",
+  "checklist-item-assignee-none": "Ora ana sapa-sapa",
   "checklistActionsPopup-title": "Tumindak Dhaptar Priksa",
   "checklists": "Dhaptar priksa",
   "click-to-star": "Klik kanggo menehi lintang marang papan iki.",

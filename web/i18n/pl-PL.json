@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Zmień hasło",
   "changeSettingsPopup-title": "Zmień ustawienia",
   "checklist": "Checklista",
+  "checklist-item-assignee": "Kto odpowiada za ten element",
+  "checklist-item-assignee-none": "Nikt",
   "checklistActionsPopup-title": "Akcje checklisty",
   "checklists": "Czeklisty",
   "click-to-star": "Kliknij by odznaczyć tę tablicę.",

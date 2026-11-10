@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Kemmañ ger-tremen",
   "changeSettingsPopup-title": "Kemmañ an arventennoù",
   "checklist": "Roll-gwiriañ",
+  "checklist-item-assignee": "Piv a zo e karg eus an elfenn-mañ",
+  "checklist-item-assignee-none": "Den ebet",
   "checklistActionsPopup-title": "Actions sur la checklist",
   "checklists": "Liskadurien",
   "click-to-star": "Klikit evit merkañ an daolenn-mañ gant ur steredenn.",

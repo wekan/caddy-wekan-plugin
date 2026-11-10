@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Промени лозинка",
   "changeSettingsPopup-title": "Промени параметри",
   "checklist": "Список со задачи",
+  "checklist-item-assignee": "Кој е одговорен за оваа ставка",
+  "checklist-item-assignee-none": "Никој",
   "checklistActionsPopup-title": "Дејства со списокот за проверка",
   "checklists": "Контролни списоци",
   "click-to-star": "Кликнете за да ја означите оваа табла како омилена.",

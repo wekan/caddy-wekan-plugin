@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Change Password",
   "changeSettingsPopup-title": "Change Settings",
   "checklist": "Checklist",
+  "checklist-item-assignee": "Who is responsible for this item",
+  "checklist-item-assignee-none": "Nobody",
   "checklistActionsPopup-title": "Checklist Actions",
   "checklists": "Checklists",
   "click-to-star": "Click to star this board.",

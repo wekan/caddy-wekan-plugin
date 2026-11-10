@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Panonihia te kupuhipa",
   "changeSettingsPopup-title": "Huri Tautuhinga",
   "checklist": "Rārangi arowhai",
+  "checklist-item-assignee": "Ko wai te kaiwhakahaere o tēnei tūemi",
+  "checklist-item-assignee-none": "Kāore he tangata",
   "checklistActionsPopup-title": "Ngā Hohenga Rārangi Arowhai",
   "checklists": "Ngā rārangi arowhai",
   "click-to-star": "Pāwhiria hei whetūrangi i tēnei papa.",

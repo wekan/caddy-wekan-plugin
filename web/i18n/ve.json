@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Shandula phasiwede",
   "changeSettingsPopup-title": "Shandula nzudzanyo",
   "checklist": "Mutevhe wa u ṱola",
+  "checklist-item-assignee": "Ndi nnyi ane a vha na vhuḓifhinduleli ha ichi tshithu",
+  "checklist-item-assignee-none": "A hu na muthu",
   "checklistActionsPopup-title": "Nyito dza mutevhe wa u sedza",
   "checklists": "Mitevhe ya u sedza",
   "click-to-star": "Kiḽikani u vhea ṋaledzi kha bodo iyi ya Kanban.",

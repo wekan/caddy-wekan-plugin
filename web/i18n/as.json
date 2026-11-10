@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "পাছৱৰ্ড সলনি কৰক",
   "changeSettingsPopup-title": "ছেটিংছ সলনি কৰক",
   "checklist": "পৰীক্ষা তালিকা",
+  "checklist-item-assignee": "এই বস্তুটোৰ বাবে কোন দায়বদ্ধ",
+  "checklist-item-assignee-none": "কোনো নহয়",
   "checklistActionsPopup-title": "চেকলিষ্টৰ কাৰ্যসমূহ",
   "checklists": "পৰীক্ষা তালিকাসমূহ",
   "click-to-star": "এই ব'ৰ্ড তাৰকাচিহ্নিত কৰিবলৈ ক্লিক কৰক।",

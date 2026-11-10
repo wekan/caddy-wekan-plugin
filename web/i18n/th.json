@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "เปลี่ยนรหัสผ่าน",
   "changeSettingsPopup-title": "เปลี่ยนการตั้งค่า",
   "checklist": "เช็คลิสต์",
+  "checklist-item-assignee": "ใครเป็นผู้รับผิดชอบรายการนี้",
+  "checklist-item-assignee-none": "ไม่มีใคร",
   "checklistActionsPopup-title": "การกระทำของเช็คลิสต์",
   "checklists": "รายการตรวจสอบ",
   "click-to-star": "คลิกดาวบอร์ดนี้",

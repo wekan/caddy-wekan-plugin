@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "စကားဝှက်ပြောင်းရန်",
   "changeSettingsPopup-title": "ဆက်တင်များ ပြောင်းရန်",
   "checklist": "စစ်ဆေးရန်စာရင်း",
+  "checklist-item-assignee": "ဤအရာအတွက် မည်သူတာဝန်ရှိသနည်း",
+  "checklist-item-assignee-none": "မည်သူမျှမရှိ",
   "checklistActionsPopup-title": "စစ်ဆေးရန်စာရင်း လုပ်ဆောင်ချက်များ",
   "checklists": "စစ်ဆေးရန်စာရင်းများ",
   "click-to-star": "ဤဘုတ်ကို ကြယ်ပွင့်တပ်ရန် နှိပ်ပါ။",

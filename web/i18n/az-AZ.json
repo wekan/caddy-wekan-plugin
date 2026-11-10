@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Parolun dəyişdirilməsi",
   "changeSettingsPopup-title": "Parametrləri dəyişdirin",
   "checklist": "Yoxlama siyahısı",
+  "checklist-item-assignee": "Bu elementə kim cavabdehdir",
+  "checklist-item-assignee-none": "Heç kim",
   "checklistActionsPopup-title": "Yoxlama siyahısı hərəkətləri",
   "checklists": "Yoxlama siyahıları",
   "click-to-star": "Bu lövhəyə ulduz qoymaq üçün klikləyin.",

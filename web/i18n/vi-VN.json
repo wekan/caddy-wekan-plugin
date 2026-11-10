@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Đổi mật khẩu",
   "changeSettingsPopup-title": "Thay đổi Cài đặt",
   "checklist": "Danh sách kiểm tra",
+  "checklist-item-assignee": "Ai chịu trách nhiệm cho mục này",
+  "checklist-item-assignee-none": "Không ai",
   "checklistActionsPopup-title": "Hành động checklist",
   "checklists": "Danh sách việc cần hoàn thành",
   "click-to-star": "Bấm để gắn dấu sao bảng này.",

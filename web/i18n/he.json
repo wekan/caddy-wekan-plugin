@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "החלפת ססמה",
   "changeSettingsPopup-title": "שינוי הגדרות",
   "checklist": "רשימת מטלות",
+  "checklist-item-assignee": "מי אחראי על פריט זה",
+  "checklist-item-assignee-none": "אף אחד",
   "checklistActionsPopup-title": "פעולות על רשימת מטלות",
   "checklists": "רשימות",
   "click-to-star": "יש ללחוץ להוספת הלוח למועדפים.",

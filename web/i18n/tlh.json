@@ -903,6 +903,8 @@
   "changePasswordPopup-title": "chaw' ngoq choH",
   "changeSettingsPopup-title": "DuHmey choH",
   "checklist": "ghItlhHommey tetlh",
+  "checklist-item-assignee": "ta'vam 'ay' yepbogh 'Iv",
+  "checklist-item-assignee-none": "pagh",
   "checklistActionsPopup-title": "ta'meH tetlh mIwmey",
   "checklists": "ta'meH tetlhmey",
   "click-to-star": "raSvamvaD Hov per DachelmeH yIqIp.",

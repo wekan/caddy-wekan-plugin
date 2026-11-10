@@ -296,6 +296,18 @@
           select.js-select-cards(name="cardId")
           .edit-controls.clearfix
             button.primary.confirm.js-done(type="submit") {{t $.L "done"}}
+      //- WeKan's checklistItemAssigneePopup: the board's active members, or nobody.
+      template.js-pop-over-template(data-pop="checklist-item-assignee", data-title="{{t $.L `checklist-item-assignee`}}")
+        form.js-checklist-item-assignee-form(method="post", action="#", up-submit, up-target=".board-wrapper")
+          ul.pop-over-list
+            li
+              button.js-set-checklist-item-assignee(type="submit", name="userId", value="")
+                i.fa.fa-ban
+                |  {{t $.L "checklist-item-assignee-none"}}
+            each bm in .BoardMembers
+              li
+                button.js-set-checklist-item-assignee(type="submit", name="userId", value="{{.ID}}", data-user-id="{{.ID}}")
+                  span.member {{if .Fullname}}{{.Fullname}}{{else}}{{.Username}}{{end}}
       //- WeKan's checklistItemDeletePopup.
       template.js-pop-over-template(data-pop="checklist-item-delete", data-title="{{t $.L `delete`}}")
         .content
@@ -815,6 +827,17 @@
                       else
                         .item-title(class="{{if .Finished}}is-checked{{end}}")
                           .viewer {{viewer .Title $.TextPolicy}}
+                      //- #1618: who is responsible for this item.
+                      if $.CanModifyCard
+                        a.checklist-item-assignee.js-checklist-item-assignee(href="#", title="{{t $.L `checklist-item-assignee`}}", aria-label="{{t $.L `checklist-item-assignee`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/assignee", data-assignee="{{.AssigneeID}}")
+                          if .AssigneeID
+                            span.member.js-checklist-item-assignee-name(title="{{.AssigneeName}}") {{.AssigneeName}}
+                          else
+                            i.fa.fa-user-plus
+                      else
+                        if .AssigneeID
+                          span.checklist-item-assignee
+                            span.member(title="{{.AssigneeName}}") {{.AssigneeName}}
                 if $.CanModifyCard
                   a.add-checklist-item.js-open-inlined-form(href="#", data-opens="add-checklist-item", title="{{t $.L `add-checklist-item`}}", aria-label="{{t $.L `add-checklist-item`}}")
                     i.fa.fa-plus

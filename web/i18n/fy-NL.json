@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Feroarje wachtwurd",
   "changeSettingsPopup-title": "Ynstellings feroarje",
   "checklist": "Kontrôlelist",
+  "checklist-item-assignee": "Wa is ferantwurdlik foar dit item",
+  "checklist-item-assignee-none": "Nimmen",
   "checklistActionsPopup-title": "Checklist Aksjes",
   "checklists": "Kontrôlelisten",
   "click-to-star": "Klikje om dit boerd te stjerren.",

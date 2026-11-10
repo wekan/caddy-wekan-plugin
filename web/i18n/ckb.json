@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "گۆڕینی وشەی نهێنی",
   "changeSettingsPopup-title": "ڕێکخستنەکان بگۆڕە",
   "checklist": "لیستی پشکنین",
+  "checklist-item-assignee": "کێ بەرپرسیارە لەم بڕگەیە",
+  "checklist-item-assignee-none": "هیچ کەس",
   "checklistActionsPopup-title": "کردارەکانی لیستی پشکنین",
   "checklists": "لیستی پشکنین",
   "click-to-star": "کرتە بکە بۆ ئەستێرەدارکردنی ئەم تەختەیە.",

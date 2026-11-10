@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Tukar Kata Laluan",
   "changeSettingsPopup-title": "Tukar Tetapan",
   "checklist": "Senarai semak",
+  "checklist-item-assignee": "Siapa yang bertanggungjawab ke atas item ini",
+  "checklist-item-assignee-none": "Tiada sesiapa",
   "checklistActionsPopup-title": "Tindakan Senarai Semak",
   "checklists": "Senarai semak",
   "click-to-star": "Klik untuk beri bintang",

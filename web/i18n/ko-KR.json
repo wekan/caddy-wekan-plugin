@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "암호 변경",
   "changeSettingsPopup-title": "설정 변경",
   "checklist": "체크리스트",
+  "checklist-item-assignee": "이 항목의 담당자",
+  "checklist-item-assignee-none": "없음",
   "checklistActionsPopup-title": "확인목록 동작",
   "checklists": "체크리스트",
   "click-to-star": "보드에 별 추가.",

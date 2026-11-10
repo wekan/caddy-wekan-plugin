@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "पासवर्ड बदलू",
   "changeSettingsPopup-title": "सेटिंग बदलू",
   "checklist": "जाँच सूची",
+  "checklist-item-assignee": "एहि वस्तुक लेल के जिम्मेदार अछि",
+  "checklist-item-assignee-none": "केओ नहि",
   "checklistActionsPopup-title": "जाँचसूची कार्रवाई",
   "checklists": "जाँच सूची",
   "click-to-star": "ई बोर्ड तारांकित करबाक लेल क्लिक करू।",

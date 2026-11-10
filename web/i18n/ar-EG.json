@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "تغيير كلمة المرور",
   "changeSettingsPopup-title": "تغيير الاعدادات",
   "checklist": "قائمة التحقق",
+  "checklist-item-assignee": "مين المسؤول عن العنصر ده",
+  "checklist-item-assignee-none": "ولا حد",
   "checklistActionsPopup-title": "إجراءات قائمة التحقق",
   "checklists": "قوائم التّدقيق",
   "click-to-star": "اضغط لإضافة اللوحة للمفضلة.",

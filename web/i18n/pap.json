@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Kambia kontraseña",
   "changeSettingsPopup-title": "Kambia e preferensias",
   "checklist": "Lista di chèk",
+  "checklist-item-assignee": "Ken ta responsabel pa e item aki",
+  "checklist-item-assignee-none": "Ningun hende",
   "checklistActionsPopup-title": "Akshonnan di e Lista di Tareas",
   "checklists": "Listanan di chèk",
   "click-to-star": "Hasi clic pa destacar e tabla.",

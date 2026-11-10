@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Փոխել գաղտնաբառը",
   "changeSettingsPopup-title": "Փոխել կարգավորումները",
   "checklist": "Ստուգաթերթիկ",
+  "checklist-item-assignee": "Ով է պատասխանատու այս տարրի համար",
+  "checklist-item-assignee-none": "Ոչ ոք",
   "checklistActionsPopup-title": "Ստուգաթերթի գործողություններ",
   "checklists": "Ստուգաթերթեր",
   "click-to-star": "Սեղմեք՝ այս տախտակը աստղանշելու համար:",

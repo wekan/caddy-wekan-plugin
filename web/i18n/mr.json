@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "पासवर्ड बदला",
   "changeSettingsPopup-title": "सेटिंग्ज बदला",
   "checklist": "तपासणी यादी",
+  "checklist-item-assignee": "या घटकासाठी कोण जबाबदार आहे",
+  "checklist-item-assignee-none": "कोणीही नाही",
   "checklistActionsPopup-title": "तपासणीसूची क्रिया",
   "checklists": "तपासणी याद्या",
   "click-to-star": "या फलकाला तारा लावण्यासाठी क्लिक करा.",

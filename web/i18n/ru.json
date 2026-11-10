@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Изменить пароль",
   "changeSettingsPopup-title": "Изменить настройки",
   "checklist": "Чек-лист",
+  "checklist-item-assignee": "Кто отвечает за этот пункт",
+  "checklist-item-assignee-none": "Никто",
   "checklistActionsPopup-title": "Действия Чек-листа",
   "checklists": "Контрольные списки",
   "click-to-star": "Добавить в  «Избранное»",

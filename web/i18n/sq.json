@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Ndrysho fjalëkalimin",
   "changeSettingsPopup-title": "Ndrysho cilësimet",
   "checklist": "Listë kontrolli",
+  "checklist-item-assignee": "Kush është përgjegjës për këtë element",
+  "checklist-item-assignee-none": "Askush",
   "checklistActionsPopup-title": "Veprimet e listës së kontrollit",
   "checklists": "Lista kontrolli",
   "click-to-star": "Kliko për ta shënuar këtë tabelë me yll.",

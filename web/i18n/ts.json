@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Cinca xiletelo xa xihundla",
   "changeSettingsPopup-title": "cinca swiyimiso",
   "checklist": "Nxaxamelo wo kambela",
+  "checklist-item-assignee": "I mani loyi a nga ni vutihlamuleri bya nchumu lowu",
+  "checklist-item-assignee-none": "A nga kona",
   "checklistActionsPopup-title": "nxaxamelo wo kambela swiendlo",
   "checklists": "Minxaxamelo yo kambela",
   "click-to-star": "Tshikelela ku nyika bodo leyi nyeleti.",

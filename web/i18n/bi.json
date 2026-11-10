@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Jenisim paswod",
   "changeSettingsPopup-title": "Jenisim Ol seting",
   "checklist": "Lis blong jekem",
+  "checklist-item-assignee": "Hu i lukaotem samting ia",
+  "checklist-item-assignee-none": "Nobodi",
   "checklistActionsPopup-title": "Ol aksen blong Jeklis",
   "checklists": "Ol jeklis",
   "click-to-star": "Klik blong putum sta long bod ia.",

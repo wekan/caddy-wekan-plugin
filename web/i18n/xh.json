@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Tshintsha iphasiwedi",
   "changeSettingsPopup-title": "Tshintsha iisetingi",
   "checklist": "Uluhlu lokukhangela",
+  "checklist-item-assignee": "Ngubani onoxanduva lwale nto",
+  "checklist-item-assignee-none": "Akukho mntu",
   "checklistActionsPopup-title": "Iintshukumo zoluhlu lokuhlola",
   "checklists": "Uluhlu lokutshekisha",
   "click-to-star": "Cofa ukwenza inkwenkwezi kule bhodi.",

@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Сырсөздү өзгөртүү",
   "changeSettingsPopup-title": "Жөндөөлөрдү өзгөртүү",
   "checklist": "Текшерүү тизмеси",
+  "checklist-item-assignee": "Бул элемент үчүн ким жооптуу",
+  "checklist-item-assignee-none": "Эч ким",
   "checklistActionsPopup-title": "Текшерүү тизмесинин аракеттери",
   "checklists": "Текшерүү тизмелери",
   "click-to-star": "Бул тактага жылдызча коюу үчүн басыңыз.",

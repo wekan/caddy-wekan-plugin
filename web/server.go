@@ -823,6 +823,10 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["CanCheckItems"] = s.canCheckChecklistItem(r.Context(), b, u, &c)
 			data["CardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID, "cardId": c.ID}, lang, 100)
 			data["CardMembers"], data["BoardMembers"] = s.cardMemberChoices(r.Context(), b, &c)
+			if cls, ok := data["Checklists"].([]cardChecklist); ok {
+				bm, _ := data["BoardMembers"].([]memberChoice)
+				nameChecklistAssignees(cls, bm)
+			}
 			data["Vote"] = s.cardVote(r.Context(), b, u, c.ID)
 			data["Poker"] = s.cardPoker(r.Context(), b, u, c.ID, lang)
 			data["People"] = s.cardPeople(r.Context(), b, u, &c)

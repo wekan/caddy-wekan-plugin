@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Midar il pled-clav",
   "changeSettingsPopup-title": "Midar ils parameters",
   "checklist": "Glista da controlla",
+  "checklist-item-assignee": "Tgi ch'è responsabel per quest element",
+  "checklist-item-assignee-none": "Nagin",
   "checklistActionsPopup-title": "Acziuns da la glista da controlla",
   "checklists": "Glistas da controlla",
   "click-to-star": "Clicca per marcar questa tabella cun ina staila.",

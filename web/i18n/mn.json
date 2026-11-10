@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Нууц үг солих",
   "changeSettingsPopup-title": "Тохиргоо өөрчлөх",
   "checklist": "Чеклист",
+  "checklist-item-assignee": "Энэ зүйлийг хэн хариуцах вэ",
+  "checklist-item-assignee-none": "Хэн ч биш",
   "checklistActionsPopup-title": "Шалгах хуудасны үйлдлүүд",
   "checklists": "Шалгах хуудсууд",
   "click-to-star": "Энэ самбарыг одлохын тулд дарна уу.",

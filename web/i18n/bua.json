@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Нюуса үгэ һэлгэхэ",
   "changeSettingsPopup-title": "Тохируулгануудые хубилгаха",
   "checklist": "Шалгалтын жагсаалта",
+  "checklist-item-assignee": "Энэ зүйлдэ хэн харюусалгатайб",
+  "checklist-item-assignee-none": "Хэншье бэшэ",
   "checklistActionsPopup-title": "Шалгалтын жагсаалтын үйлэнүүд",
   "checklists": "Шалгалтын жагсаалтанууд",
   "click-to-star": "Энэ самбарта одо табихын тула дарагты.",

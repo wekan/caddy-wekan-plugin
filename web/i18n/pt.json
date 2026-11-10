@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Alterar a Senha",
   "changeSettingsPopup-title": "Alterar as Configurações",
   "checklist": "Lista de verificação",
+  "checklist-item-assignee": "Quem é responsável por este item",
+  "checklist-item-assignee-none": "Ninguém",
   "checklistActionsPopup-title": "Ações da Lista de verificação",
   "checklists": "Listas de verificação",
   "click-to-star": "Clique para marcar este quadro como favorito.",

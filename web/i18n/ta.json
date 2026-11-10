@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "கடவுச்சொல்லை மாற்று",
   "changeSettingsPopup-title": "அமைப்புகளை மாற்று",
   "checklist": "சரிபார்ப்புப் பட்டியல்",
+  "checklist-item-assignee": "இந்த உருப்படிக்கு யார் பொறுப்பு",
+  "checklist-item-assignee-none": "யாருமில்லை",
   "checklistActionsPopup-title": "சரிபார்ப்புப் பட்டியல் செயல்கள்",
   "checklists": "சரிபார்ப்புப் பட்டியல்கள்",
   "click-to-star": "இந்தப் பலகைக்கு நட்சத்திரமிட சொடுக்கவும்.",

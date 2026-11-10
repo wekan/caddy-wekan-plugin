@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Xicpatla ichtaca tlahtolli",
   "changeSettingsPopup-title": "Xicpatla tlaahxitiliztli",
   "checklist": "Tlaixnamiquiliztli tocatlahtolli",
+  "checklist-item-assignee": "Aquin quimocuitlahuia inin tlamantli",
+  "checklist-item-assignee-none": "Ayac",
   "checklistActionsPopup-title": "Tlanextiliztocatlahtolli tequitl",
   "checklists": "Tlanextiliztocatlahtolli",
   "click-to-star": "Xictoca inic ticcitlalmachiotis inin huapalli.",

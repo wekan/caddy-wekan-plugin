@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Athraigh an pasfhocal",
   "changeSettingsPopup-title": "Athraigh Socruithe",
   "checklist": "Seicliosta",
+  "checklist-item-assignee": "Cé atá freagrach as an mír seo",
+  "checklist-item-assignee-none": "Níl aon duine",
   "checklistActionsPopup-title": "Gníomhartha Seicliosta",
   "checklists": "Seicliostaí",
   "click-to-star": "Cliceáil chun réiltín a chur leis an gclár seo.",

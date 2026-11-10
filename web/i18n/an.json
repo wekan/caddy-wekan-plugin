@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Cambiar la clau de paso",
   "changeSettingsPopup-title": "Cambiar as preferencias",
   "checklist": "Lista de comprebación",
+  "checklist-item-assignee": "Quí ye responsable d'iste elemento",
+  "checklist-item-assignee-none": "Dengún",
   "checklistActionsPopup-title": "Accions de la Lista de Tareas",
   "checklists": "Listas de comprebación",
   "click-to-star": "Fe clic ta destacar iste tablero.",

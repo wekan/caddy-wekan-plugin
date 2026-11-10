@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Broyt loyniorð",
   "changeSettingsPopup-title": "Broyt stillingar",
   "checklist": "Eftirkanningarlisti",
+  "checklist-item-assignee": "Hvør hevur ábyrgdina av hesum liði",
+  "checklist-item-assignee-none": "Eingin",
   "checklistActionsPopup-title": "Gerðir fyri kanningarlista",
   "checklists": "Kanningarlistar",
   "click-to-star": "Trýst fyri at yndismerkja hesa talvuna.",

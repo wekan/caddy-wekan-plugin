@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Promijeni lozinku",
   "changeSettingsPopup-title": "Promijeni postavke",
   "checklist": "Kontrolna lista",
+  "checklist-item-assignee": "Ko je odgovoran za ovu stavku",
+  "checklist-item-assignee-none": "Niko",
   "checklistActionsPopup-title": "Radnje s kontrolnom listom",
   "checklists": "Kontrolne liste",
   "click-to-star": "Kliknite da biste ovu tablu označili zvjezdicom.",

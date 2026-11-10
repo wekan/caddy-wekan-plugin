@@ -905,6 +905,8 @@
   "changePasswordPopup-title": "Jelszó megváltoztatása",
   "changeSettingsPopup-title": "Beállítások megváltoztatása",
   "checklist": "Ellenőrzőlista",
+  "checklist-item-assignee": "Ki felelős ezért az elemért",
+  "checklist-item-assignee-none": "Senki",
   "checklistActionsPopup-title": "Ellenőrzőlista műveletek",
   "checklists": "Ellenőrző-listák",
   "click-to-star": "Kattints a tábla csillagozásához.",

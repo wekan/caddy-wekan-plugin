@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Zmienic parolã",
   "changeSettingsPopup-title": "Zmieni nastôwë",
   "checklist": "Kòntrolnô lësta",
+  "checklist-item-assignee": "Chto òdpòwiôdô za ten element",
+  "checklist-item-assignee-none": "Nikt",
   "checklistActionsPopup-title": "Dzejbë lëstë kòntrólny",
   "checklists": "Lëstë kòntrolë",
   "click-to-star": "Klëkni, żebë òznaczëc nã tôflã gwiôzdką.",

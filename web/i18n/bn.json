@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "পাসওয়ার্ড পরিবর্তন",
   "changeSettingsPopup-title": "সেটিংস পরিবর্তন করুন",
   "checklist": "চেকলিস্ট",
+  "checklist-item-assignee": "এই আইটেমের জন্য কে দায়ী",
+  "checklist-item-assignee-none": "কেউ না",
   "checklistActionsPopup-title": "যাচাইতালিকার কার্যাবলি",
   "checklists": "চেকলিস্টসমূহ",
   "click-to-star": "এই বোর্ডে তারকা দিতে ক্লিক করুন।",

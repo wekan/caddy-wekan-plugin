@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Canvia la contrasenya",
   "changeSettingsPopup-title": "Canvia configuració",
   "checklist": "Llista de verificació",
+  "checklist-item-assignee": "Qui és el responsable d'este element",
+  "checklist-item-assignee-none": "Ningú",
   "checklistActionsPopup-title": "Accions de checklist",
   "checklists": "Llistes de verificació",
   "click-to-star": "Fes clic per destacar aquest tauler.",

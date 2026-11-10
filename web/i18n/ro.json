@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Schimbă parola",
   "changeSettingsPopup-title": "Schimbă setările",
   "checklist": "Listă de verificare",
+  "checklist-item-assignee": "Cine este responsabil pentru acest element",
+  "checklist-item-assignee-none": "Nimeni",
   "checklistActionsPopup-title": "Acțiuni listă de verificare",
   "checklists": "Liste de verificare",
   "click-to-star": "Faceți clic pentru a marca acest panou ca favorit.",

@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Hindura ijambo ry'ibanga",
   "changeSettingsPopup-title": "Hindura ibigenwa",
   "checklist": "Urutonde rwo kugenzura",
+  "checklist-item-assignee": "Ni nde ajejwe iki kintu",
+  "checklist-item-assignee-none": "Nta n'umwe",
   "checklistActionsPopup-title": "Ibikorwa vy'Urutonde rwo Kugenzura",
   "checklists": "Intonde zo kugenzura",
   "click-to-star": "Kanda kugira ushire inyenyeri kuri iki capa.",

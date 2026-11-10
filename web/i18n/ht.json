@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Chanje modpas",
   "changeSettingsPopup-title": "Chanje paramèt",
   "checklist": "Lis verifikasyon",
+  "checklist-item-assignee": "Ki moun ki responsab atik sa a",
+  "checklist-item-assignee-none": "Pèsonn",
   "checklistActionsPopup-title": "Aksyon lis verifikasyon",
   "checklists": "Lis verifikasyon",
   "click-to-star": "Klike pou mete tablo sa a nan favori.",

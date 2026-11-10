@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "ཆོག་ཡིག་བསྒྱུར།",
   "changeSettingsPopup-title": "སྒྲིག་སྟངས་བསྒྱུར།",
   "checklist": "ཞིབ་དཔྱད་ཐོ་ཡིག",
+  "checklist-item-assignee": "རྣམ་གྲངས་འདི་གི་འགན་འཁྲི་འབག་མི་ག་སྨོ།",
+  "checklist-item-assignee-none": "ག་ཡང་མེད།",
   "checklistActionsPopup-title": "ཞིབ་ཐོའི་བྱ་བ།",
   "checklists": "ཞིབ་དཔྱད་ཐོ་ཡིག",
   "click-to-star": "བྱང་གཞི་འདི་ལུ་སྐར་རྟགས་བཀལ་ནི་ལུ་ཨེབ།",

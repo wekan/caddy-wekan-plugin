@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Ŝangi pasvorton",
   "changeSettingsPopup-title": "Ŝanĝi agordojn",
   "checklist": "Kontrollisto",
+  "checklist-item-assignee": "Kiu respondecas pri ĉi tiu ero",
+  "checklist-item-assignee-none": "Neniu",
   "checklistActionsPopup-title": "Agoj de kontrollisto",
   "checklists": "Kontrollistoj",
   "click-to-star": "Alklaku por steligi ĉi tiun tabulon.",

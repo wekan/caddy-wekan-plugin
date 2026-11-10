@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Vajehta peitsana",
   "changeSettingsPopup-title": "Vajehta valičused",
   "checklist": "Kodvindlugetiž",
+  "checklist-item-assignee": "Ken vastab necen punktan täht",
+  "checklist-item-assignee-none": "Ei ken",
   "checklistActionsPopup-title": "Kodvindlugetišen tegendad",
   "checklists": "Kodvindlugetišed",
   "click-to-star": "Painda, miše znamoita nece laud tähthanke.",

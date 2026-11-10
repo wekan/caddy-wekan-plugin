@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Кистэлэҥ тылы уларытар",
   "changeSettingsPopup-title": "Туруоруулары уларыт",
   "checklist": "Бэрэбиэркэ испииһэгэ",
+  "checklist-item-assignee": "Бу пууҥкаҕа ким эппиэттиир",
+  "checklist-item-assignee-none": "Ким да суох",
   "checklistActionsPopup-title": "Бэрэбиэркэ испииһэгин дьайыылара",
   "checklists": "Бэрэбиэркэ испииһэктэрэ",
   "click-to-star": "Бу дуоскаҕа сулус туруорарга баттаа.",

@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Aldatu pasahitza",
   "changeSettingsPopup-title": "Aldatu ezarpenak",
   "checklist": "Kontrol-zerrenda",
+  "checklist-item-assignee": "Nor da elementu honen arduraduna",
+  "checklist-item-assignee-none": "Inor ez",
   "checklistActionsPopup-title": "Kontrol-zerrendaren ekintzak",
   "checklists": "Kontrol-zerrendak",
   "click-to-star": "Egin klik arbel honi izarra jartzeko",

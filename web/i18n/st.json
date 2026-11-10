@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Fetola phasewete",
   "changeSettingsPopup-title": "Fetola ditlhophiso",
   "checklist": "Lenane la ho hlahloba",
+  "checklist-item-assignee": "Ke mang ya ikarabellang ntho ena",
+  "checklist-item-assignee-none": "Ha ho motho",
   "checklistActionsPopup-title": "Diketso tsa lenane la tlhahlobo",
   "checklists": "Manane a ho hlahloba",
   "click-to-star": "Tobetsa ho tshwaya boto ena ka naledi.",

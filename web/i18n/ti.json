@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "መሕለፊ ቃል ቀይር",
   "changeSettingsPopup-title": "ቅንብራት ቀይር",
   "checklist": "ናይ ምርመራ ዝርዝር",
+  "checklist-item-assignee": "ነዚ ኣቕሓ ሓላፍነት ዝወስድ መን እዩ",
+  "checklist-item-assignee-none": "ዋላ ሓደ የለን",
   "checklistActionsPopup-title": "ተግባራት ዝርዝር መረጋገጺ",
   "checklists": "ናይ ምርመራ ዝርዝራት",
   "click-to-star": "ነዚ ሰሌዳ ኮኾብ ንምግባር ጠውቕ።",

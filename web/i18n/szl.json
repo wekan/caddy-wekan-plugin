@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Zmiynić hasło",
   "changeSettingsPopup-title": "Zmiyn sztelōnki",
   "checklist": "Lista kōntrole",
+  "checklist-item-assignee": "Fto je ôdpowiedzialny za tyn elymynt",
+  "checklist-item-assignee-none": "Nikt",
   "checklistActionsPopup-title": "Akcje checklisty",
   "checklists": "Listy kōntrole",
   "click-to-star": "Kliknij by odznaczyć tę tabula.",

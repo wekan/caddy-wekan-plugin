@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "પાસવર્ડ બદલો",
   "changeSettingsPopup-title": "સેટિંગ્સ બદલો",
   "checklist": "ચેકલિસ્ટ",
+  "checklist-item-assignee": "આ આઇટમ માટે કોણ જવાબદાર છે",
+  "checklist-item-assignee-none": "કોઈ નહીં",
   "checklistActionsPopup-title": "ચેકલિસ્ટ ક્રિયાઓ",
   "checklists": "ચેકલિસ્ટ્સ",
   "click-to-star": "આ બોર્ડને તારાંકિત કરવા માટે ક્લિક કરો.",

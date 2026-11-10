@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Ibdel il-password",
   "changeSettingsPopup-title": "Ibdel Settings",
   "checklist": "Lista ta' verifika",
+  "checklist-item-assignee": "Min hu responsabbli għal din il-partita",
+  "checklist-item-assignee-none": "Ħadd",
   "checklistActionsPopup-title": "Lista ta’ kontroll Azzjonijiet",
   "checklists": "Listi ta' verifika",
   "click-to-star": "Ikklikkja biex star dan bord.",

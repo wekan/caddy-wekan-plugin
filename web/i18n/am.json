@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "የይለፍ ቃል ቀይር",
   "changeSettingsPopup-title": "ቅንብሮችን ቀይር",
   "checklist": "የማረጋገጫ ዝርዝር",
+  "checklist-item-assignee": "ለዚህ ንጥል ኃላፊው ማን ነው",
+  "checklist-item-assignee-none": "ማንም",
   "checklistActionsPopup-title": "የማረጋገጫ ዝርዝር እርምጃዎች",
   "checklists": "የማረጋገጫ ዝርዝሮች",
   "click-to-star": "ይህን ሰሌዳ በኮከብ ለመለየት ጠቅ ያድርጉ።",

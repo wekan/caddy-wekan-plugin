@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Newid Cyfrinair",
   "changeSettingsPopup-title": "Newid Gosodiadau",
   "checklist": "Rhestr wirio",
+  "checklist-item-assignee": "Pwy sy'n gyfrifol am yr eitem hon",
+  "checklist-item-assignee-none": "Neb",
   "checklistActionsPopup-title": "Gweithrediadau Rhestr Wirio",
   "checklists": "Rhestrau gwirio",
   "click-to-star": "Cliciwch i serennu'r bwrdd hwn.",

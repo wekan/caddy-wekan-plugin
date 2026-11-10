@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "更改密碼",
   "changeSettingsPopup-title": "更改設定",
   "checklist": "清單",
+  "checklist-item-assignee": "邊個負責呢個項目",
+  "checklist-item-assignee-none": "冇人",
   "checklistActionsPopup-title": "清單行動",
   "checklists": "清單",
   "click-to-star": "按一下為此板加註星標。",

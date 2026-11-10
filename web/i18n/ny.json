@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Sinthani mawu achinsinsi",
   "changeSettingsPopup-title": "Sinthani Zokonda",
   "checklist": "Mndandanda woyang'anira",
+  "checklist-item-assignee": "Ndani ali ndi udindo pa chinthu ichi",
+  "checklist-item-assignee-none": "Palibe",
   "checklistActionsPopup-title": "Zochita za mndandanda wowunika",
   "checklists": "Mindandanda yoyang'anira",
   "click-to-star": "Dinani kuti muyike nyenyezi pa bolodi ili.",

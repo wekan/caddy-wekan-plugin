@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Jecha darbii jijjiiri",
   "changeSettingsPopup-title": "Qindaa'inoota Jijjiiri",
   "checklist": "Tarree qorannoo",
+  "checklist-item-assignee": "Wanta kanaaf eenyutu itti gaafatamaa dha",
+  "checklist-item-assignee-none": "Namni hin jiru",
   "checklistActionsPopup-title": "Tarkaanfiiwwan Tarree Qorannoo",
   "checklists": "Tarreewwan qorannoo",
   "click-to-star": "Gabatee kana urjiidhaan mallatteessuuf cuqaasi.",

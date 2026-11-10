@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Құпия сөзді өзгерту",
   "changeSettingsPopup-title": "Параметрлерді өзгерту",
   "checklist": "Тексеру тізімі",
+  "checklist-item-assignee": "Бұл элементке кім жауапты",
+  "checklist-item-assignee-none": "Ешкім",
   "checklistActionsPopup-title": "Тексеру тізімі әрекеттері",
   "checklists": "Тексеру тізімдері",
   "click-to-star": "Бұл тақтаны таңдаулы ету үшін басыңыз.",

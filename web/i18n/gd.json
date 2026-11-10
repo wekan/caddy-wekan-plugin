@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Atharraich am facal-faire",
   "changeSettingsPopup-title": "Atharraich Roghainnean",
   "checklist": "Liosta-dearbhaidh",
+  "checklist-item-assignee": "Cò air a bheil an t-uallach airson an nì seo",
+  "checklist-item-assignee-none": "Duine sam bith",
   "checklistActionsPopup-title": "Gnìomhan na liosta-sgrùdaidh",
   "checklists": "Liostaichean-cromaig",
   "click-to-star": "Briog gus rionnag a chur ris a' bhòrd seo.",

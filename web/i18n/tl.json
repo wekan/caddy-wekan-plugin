@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Palitan ang password",
   "changeSettingsPopup-title": "Baguhin Mga setting",
   "checklist": "Tsek-listahan",
+  "checklist-item-assignee": "Sino ang responsable sa item na ito",
+  "checklist-item-assignee-none": "Walang sinuman",
   "checklistActionsPopup-title": "tsek-listahanahan Mga aksyon",
   "checklists": "Mga tsek-listahan",
   "click-to-star": "Click sa star ito pisara.",

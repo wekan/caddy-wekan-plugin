@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Igliwat an Password",
   "changeSettingsPopup-title": "Igliwat an mga Setting",
   "checklist": "Lista han pagsusi",
+  "checklist-item-assignee": "Hin-o an responsable hini nga butang",
+  "checklist-item-assignee-none": "Waray bisan hin-o",
   "checklistActionsPopup-title": "Mga Aksyon han Checklist",
   "checklists": "Mga Checklist",
   "click-to-star": "I-klik basi butangan hin bituon ini nga board.",

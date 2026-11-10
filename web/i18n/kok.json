@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "पासवर्ड बदलचो",
   "changeSettingsPopup-title": "मांडावळ बदलात",
   "checklist": "तपासणी वळेरी",
+  "checklist-item-assignee": "ह्या वस्तूची जापसालदारी कोणाची",
+  "checklist-item-assignee-none": "कोणूच ना",
   "checklistActionsPopup-title": "तपास वळेरी कृती",
   "checklists": "तपासणी वळेऱ्यो",
   "click-to-star": "ह्या फळ्याक तारांकित करपाक क्लिक करात.",

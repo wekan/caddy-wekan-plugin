@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Промена лозинке",
   "changeSettingsPopup-title": "Општа поставка предмета",
   "checklist": "Предметна радња",
+  "checklist-item-assignee": "Ко је одговоран за ову ставку",
+  "checklist-item-assignee-none": "Нико",
   "checklistActionsPopup-title": "Руковање списковима радњи",
   "checklists": "Предметне радње",
   "click-to-star": "Означи звездицом ове списе.",

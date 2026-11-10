@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "更改密码",
   "changeSettingsPopup-title": "更改设置",
   "checklist": "清单",
+  "checklist-item-assignee": "啥人负责搿只项目",
+  "checklist-item-assignee-none": "呒没人",
   "checklistActionsPopup-title": "清单操作",
   "checklists": "清单",
   "click-to-star": "点一下拿搿块看板加星标。",

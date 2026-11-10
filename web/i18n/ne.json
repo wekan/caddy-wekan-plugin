@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "पासवर्ड बदल्नुहोस्",
   "changeSettingsPopup-title": "सेटिङहरू परिवर्तन गर्नुहोस्",
   "checklist": "जाँचसूची",
+  "checklist-item-assignee": "यस वस्तुको जिम्मेवार को हो",
+  "checklist-item-assignee-none": "कोही पनि होइन",
   "checklistActionsPopup-title": "जाँचसूची कार्यहरू",
   "checklists": "जाँचसूचीहरू",
   "click-to-star": "यो बोर्डमा तारा लगाउन क्लिक गर्नुहोस्।",

@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "මුරපදය වෙනස් කරන්න",
   "changeSettingsPopup-title": "සැකසුම් වෙනස් කරන්න",
   "checklist": "පිරික්සුම් ලැයිස්තුව",
+  "checklist-item-assignee": "මෙම අයිතමය සඳහා වගකිව යුත්තේ කවුද",
+  "checklist-item-assignee-none": "කිසිවෙක් නැත",
   "checklistActionsPopup-title": "පිරික්සුම් ලැයිස්තු ක්‍රියා",
   "checklists": "පිරික්සුම් ලැයිස්තු",
   "click-to-star": "මෙම පුවරුවට තරුවක් යෙදීමට ක්ලික් කරන්න.",

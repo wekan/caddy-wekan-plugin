@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "Breyta lykilorði",
   "changeSettingsPopup-title": "Breyta stillingum",
   "checklist": "Gátlisti",
+  "checklist-item-assignee": "Hver ber ábyrgð á þessu atriði",
+  "checklist-item-assignee-none": "Enginn",
   "checklistActionsPopup-title": "Aðgerðir gátlista",
   "checklists": "Gátlistar",
   "click-to-star": "Smelltu til að stjörnumerkja þessa töflu.",

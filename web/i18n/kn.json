@@ -900,6 +900,8 @@
   "changePasswordPopup-title": "ಪಾಸ್‌ವರ್ಡ್ ಬದಲಾಯಿಸಿ",
   "changeSettingsPopup-title": "ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಿ",
   "checklist": "ಪರಿಶೀಲನಾ ಪಟ್ಟಿ",
+  "checklist-item-assignee": "ಈ ಅಂಶಕ್ಕೆ ಯಾರು ಜವಾಬ್ದಾರರು",
+  "checklist-item-assignee-none": "ಯಾರೂ ಇಲ್ಲ",
   "checklistActionsPopup-title": "ಪರಿಶೀಲನಾ ಪಟ್ಟಿಯ ಕ್ರಿಯೆಗಳು",
   "checklists": "ಪರಿಶೀಲನಾ ಪಟ್ಟಿಗಳು",
   "click-to-star": "ಈ ಫಲಕಕ್ಕೆ ನಕ್ಷತ್ರ ಗುರುತು ಹಾಕಲು ಕ್ಲಿಕ್ ಮಾಡಿ.",
