@@ -1,0 +1,19 @@
+{
+  "unicode-and-pictures": [
+    {"type": "title", "runs": [{"text": "Grüße – ünïcödé ā ł 日本 😀 (paren) \\back", "bold": false, "italic": false, "code": false, "strike": false, "link": ""}]},
+    {"type": "meta", "pairs": [["A very long translated label that goes on", "2026-10-10 08:30 UTC"], ["Short", "x"], ["Members", "ann, bob, a-really-long-username-that-wraps-the-column-for-sure"]]},
+    {"type": "section", "key": "description", "title": "Description"},
+    {"type": "text", "blocks": [
+      {"type": "heading", "level": 2, "runs": [{"text": "Plan", "bold": false, "italic": false, "code": false, "strike": false, "link": ""}]},
+      {"type": "paragraph", "level": 0, "quote": 1, "runs": [{"text": "mixed ", "bold": false, "italic": false, "code": false, "strike": false, "link": ""}, {"text": "bold", "bold": true, "italic": false, "code": false, "strike": false, "link": ""}]},
+      {"type": "ordered", "level": 1, "index": 3, "quote": 0, "runs": [{"text": "third", "bold": false, "italic": false, "code": false, "strike": false, "link": ""}]},
+      {"type": "code", "level": 0, "text": "line one\nline two", "language": "js"},
+      {"type": "rule", "level": 0}
+    ]},
+    {"type": "section", "key": "attachments", "title": "Attachments"},
+    {"type": "list", "items": [{"runs": [{"text": "photo.jpg (1 KB)", "bold": false, "italic": false, "code": false, "strike": false, "link": ""}], "done": false, "marker": "-", "level": 0,
+      "attachment": {"name": "photo.jpg", "size": "1 KB", "type": "image/jpeg", "uploaded": "today", "uploader": "ann"}}]},
+    {"type": "images", "images": [{"name": "photo.jpg", "size": "1 KB", "ext": "jpeg"}, {"name": "two.jpg", "size": "2 KB", "ext": "jpeg"}, {"name": "three.jpg", "size": "3 KB", "ext": "jpeg"}, {"name": "four.jpg", "size": "4 KB", "ext": "jpeg"}]},
+    {"type": "note", "runs": [], "progress": {"done": 1, "total": 3}}
+  ]
+}

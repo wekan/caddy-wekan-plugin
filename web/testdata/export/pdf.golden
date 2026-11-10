@@ -1,0 +1,1510 @@
+{
+ "documents": {
+  "full": {
+   "lines": [
+    {
+     "text": "The card",
+     "bold": true
+    },
+    {
+     "text": "==========================================================================================",
+     "bold": false
+    },
+    {
+     "runs": [
+      {
+       "text": "Board: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Board A",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "List: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Doing",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                   ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Swimlane: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Default",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Card number: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "7",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Creator: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "ann",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                  ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Members: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "ann, bob, gone",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Assignees: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "bob",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Requested By: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "cy, Bea",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "         ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Created at: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                              ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                              ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "2026-01-02T03:04:05.000Z UTC",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Received: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                    ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Due: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                         ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Last activity: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "2026-01-03T00:00:00.000Z UTC",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "  ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "2026-10-10T08:30:00.000Z UTC",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "  ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "2026-02-03T04:05:06.000Z UTC",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Spent Time: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "1.5",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                              ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Overtime: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Yes",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "labelRow": [
+      {
+       "_id": "l1",
+       "name": "bug",
+       "color": "red"
+      },
+      {
+       "_id": "l2",
+       "name": "",
+       "color": "blue"
+      },
+      {
+       "_id": "l3",
+       "color": ""
+      }
+     ],
+     "labelTitle": "Labels",
+     "runs": [
+      {
+       "text": "Labels: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "bug, , ",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Sort: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "2.5",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Stickers",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "- ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Star - fa-star - gold",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "- ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "yes",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Location",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "Location 1",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Location name: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Office",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "         ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Address: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Main st 1",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "            ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Latitude: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "60.17",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Longitude: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "24.94",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Location 2",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Latitude: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Dependencies",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "- ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "c9",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "- ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "c8 - blocks - red",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Description",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Plan",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": " with a ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "link",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "- one",
+    "- two “quoted”",
+    "",
+    {
+     "text": "Custom Fields",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "Priority: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "High",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                               ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Zero: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Checklists",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "Release",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "progress": {
+      "done": 1,
+      "total": 2
+     },
+     "text": "1/2"
+    },
+    {
+     "runs": [
+      {
+       "text": "[x] ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Call ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "vendor",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "[ ] ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Pay",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "progress": {
+      "done": 0,
+      "total": 0
+     },
+     "text": "0/0"
+    },
+    "",
+    {
+     "text": "Subtasks",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "[x] ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Sub one",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "[ ] ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Sub two",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Comments",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "2026-03-01T10:00:00.000Z UTC  ",
+       "bold": false,
+       "italic": true
+      },
+      {
+       "text": "bob: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Looks ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "good",
+       "bold": false,
+       "italic": true
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "  ",
+       "bold": false,
+       "italic": true
+      },
+      {
+       "text": "anon",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "  ",
+       "bold": false,
+       "italic": true
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Attachments",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "attachmentCells": [
+      "#",
+      "Name",
+      "Size",
+      "Type",
+      "Uploaded at",
+      "Uploaded by"
+     ],
+     "attachmentHeader": true,
+     "text": "# | Name | Size | Type | Uploaded at | Uploaded by"
+    },
+    {
+     "attachmentCells": [
+      1,
+      "plan.pdf",
+      "2.0 KB",
+      "application/pdf",
+      "2026-03-02T00:00:00.000Z UTC",
+      "ann"
+     ],
+     "text": "1 | plan.pdf | 2.0 KB | application/pdf | 2026-03-02T00:00:00.000Z UTC | ann"
+    },
+    {
+     "attachmentCells": [
+      2,
+      "pic.png",
+      "10 B",
+      "image/png",
+      "",
+      "bob"
+     ],
+     "text": "2 | pic.png | 10 B | image/png |  | bob"
+    },
+    {
+     "attachmentCells": [
+      3,
+      "a3",
+      "1.5 MB",
+      "",
+      "",
+      ""
+     ],
+     "text": "3 | a3 | 1.5 MB |  |  | "
+    },
+    "",
+    {
+     "text": "Voting",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "Voting question: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Ship it?",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "     ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "for it: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "2",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                     ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "against: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "1",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Planning Poker",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "Planning Poker: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Yes",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                          ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Estimation: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "5",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "pdf": "JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFs4IDAgUiAxMCAwIFJdIC9Db3VudCAyID4+CmVuZG9iagozIDAgb2JqCjw8IC9UeXBlIC9Gb250IC9TdWJ0eXBlIC9UeXBlMSAvQmFzZUZvbnQgL0NvdXJpZXIgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgPj4KZW5kb2JqCjQgMCBvYmoKPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvQ291cmllci1Cb2xkIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nID4+CmVuZG9iago1IDAgb2JqCjw8IC9UeXBlIC9Gb250IC9TdWJ0eXBlIC9UeXBlMSAvQmFzZUZvbnQgL0NvdXJpZXItT2JsaXF1ZSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyA+PgplbmRvYmoKNiAwIG9iago8PCAvVHlwZSAvRm9udCAvU3VidHlwZSAvVHlwZTEgL0Jhc2VGb250IC9Db3VyaWVyLUJvbGRPYmxpcXVlIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nID4+CmVuZG9iago3IDAgb2JqCjw8IC9MZW5ndGggMzA4MCA+PgpzdHJlYW0KMC44NSBnCjQ2IDYxMSA1MDMgMTQgcmUgZgowIGcKMC44NSBnCjQ2IDU1NSA1MDMgMTQgcmUgZgowIGcKMC44NSBnCjQ2IDQ1NyA1MDMgMTQgcmUgZgowIGcKMC44NSBnCjQ2IDQwMSA1MDMgMTQgcmUgZgowIGcKMC44NSBnCjQ2IDMzMSA1MDMgMTQgcmUgZgowIGcKMC44NSBnCjQ2IDI4OSA1MDMgMTQgcmUgZgowIGcKMC44NSBnCjQ2IDE3NyA1MDMgMTQgcmUgZgowIGcKMC44NSBnCjQ2IDEyMSA1MDMgMTQgcmUgZgowIGcKMC44NSBnCjQ2IDUxIDUwMyAxNCByZSBmCjAgZwpCVAovRjEgMTAgVGYKMTQgVEwKMSAwIDAgMSA1MCA3ODIgVG0KL0YyIDEwIFRmCihUaGUgY2FyZCkgVGoKVCoKL0YxIDEwIFRmCig9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0pIFRqClQqCi9GMiAxMCBUZgooQm9hcmQ6ICkgVGoKL0YxIDEwIFRmCihCb2FyZCBBKSBUagooICAgICAgICAgICAgICAgICkgVGoKL0YyIDEwIFRmCihMaXN0OiApIFRqCi9GMSAxMCBUZgooRG9pbmcpIFRqCiggICAgICAgICAgICAgICAgICAgKSBUagovRjIgMTAgVGYKKFN3aW1sYW5lOiApIFRqCi9GMSAxMCBUZgooRGVmYXVsdCkgVGoKVCoKL0YyIDEwIFRmCihDYXJkIG51bWJlcjogKSBUagovRjEgMTAgVGYKKDcpIFRqCiggICAgICAgICAgICAgICAgKSBUagovRjIgMTAgVGYKKENyZWF0b3I6ICkgVGoKL0YxIDEwIFRmCihhbm4pIFRqCiggICAgICAgICAgICAgICAgICApIFRqCi9GMiAxMCBUZgooTWVtYmVyczogKSBUagovRjEgMTAgVGYKKGFubiwgYm9iLCBnb25lKSBUagpUKgovRjIgMTAgVGYKKEFzc2lnbmVlczogKSBUagovRjEgMTAgVGYKKGJvYikgVGoKKCAgICAgICAgICAgICAgICApIFRqCi9GMiAxMCBUZgooUmVxdWVzdGVkIEJ5OiApIFRqCi9GMSAxMCBUZgooY3ksIEJlYSkgVGoKKCAgICAgICAgICkgVGoKL0YyIDEwIFRmCihDcmVhdGVkIGF0OiApIFRqCi9GMSAxMCBUZgooKSBUagpUKgooKSBUagooICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKSBUagooKSBUagooICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKSBUagooMjAyNi0wMS0wMlQwMzowNDowNS4wMDBaIFVUQykgVGoKVCoKL0YyIDEwIFRmCihSZWNlaXZlZDogKSBUagovRjEgMTAgVGYKKCkgVGoKKCAgICAgICAgICAgICAgICAgICAgKSBUagovRjIgMTAgVGYKKER1ZTogKSBUagovRjEgMTAgVGYKKCkgVGoKKCAgICAgICAgICAgICAgICAgICAgICAgICApIFRqCi9GMiAxMCBUZgooTGFzdCBhY3Rpdml0eTogKSBUagovRjEgMTAgVGYKKCkgVGoKVCoKKDIwMjYtMDEtMDNUMDA6MDA6MDAuMDAwWiBVVEMpIFRqCiggICkgVGoKKDIwMjYtMTAtMTBUMDg6MzA6MDAuMDAwWiBVVEMpIFRqCiggICkgVGoKKDIwMjYtMDItMDNUMDQ6MDU6MDYuMDAwWiBVVEMpIFRqClQqCi9GMiAxMCBUZgooU3BlbnQgVGltZTogKSBUagovRjEgMTAgVGYKKDEuNSkgVGoKKCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkgVGoKL0YyIDEwIFRmCihPdmVydGltZTogKSBUagovRjEgMTAgVGYKKFllcykgVGoKVCoKL0YyIDEwIFRmCihMYWJlbHM6ICkgVGoKL0YxIDEwIFRmCihidWcsICwgKSBUagpUKgovRjIgMTAgVGYKKFNvcnQ6ICkgVGoKL0YxIDEwIFRmCigyLjUpIFRqClQqCigpIFRqClQqCi9GMiAxMCBUZgooU3RpY2tlcnMpIFRqClQqCi9GMSAxMCBUZgooLSApIFRqCihTdGFyIC0gZmEtc3RhciAtIGdvbGQpIFRqClQqCigtICkgVGoKKHllcykgVGoKVCoKKCkgVGoKVCoKL0YyIDEwIFRmCihMb2NhdGlvbikgVGoKVCoKL0YxIDEwIFRmCihMb2NhdGlvbiAxKSBUagpUKgovRjIgMTAgVGYKKExvY2F0aW9uIG5hbWU6ICkgVGoKL0YxIDEwIFRmCihPZmZpY2UpIFRqCiggICAgICAgICApIFRqCi9GMiAxMCBUZgooQWRkcmVzczogKSBUagovRjEgMTAgVGYKKE1haW4gc3QgMSkgVGoKKCAgICAgICAgICAgICkgVGoKL0YyIDEwIFRmCihMYXRpdHVkZTogKSBUagovRjEgMTAgVGYKKDYwLjE3KSBUagpUKgovRjIgMTAgVGYKKExvbmdpdHVkZTogKSBUagovRjEgMTAgVGYKKDI0Ljk0KSBUagpUKgooTG9jYXRpb24gMikgVGoKVCoKL0YyIDEwIFRmCihMYXRpdHVkZTogKSBUagovRjEgMTAgVGYKKDApIFRqClQqCigpIFRqClQqCi9GMiAxMCBUZgooRGVwZW5kZW5jaWVzKSBUagpUKgovRjEgMTAgVGYKKC0gKSBUagooYzkpIFRqClQqCigtICkgVGoKKGM4IC0gYmxvY2tzIC0gcmVkKSBUagpUKgooKSBUagpUKgovRjIgMTAgVGYKKERlc2NyaXB0aW9uKSBUagpUKgovRjEgMTAgVGYKKCkgVGoKL0YyIDEwIFRmCihQbGFuKSBUagovRjEgMTAgVGYKKCB3aXRoIGEgKSBUagoobGluaykgVGoKVCoKKC0gb25lKSBUagpUKgooLSB0d28gk3F1b3RlZJQpIFRqClQqCigpIFRqClQqCi9GMiAxMCBUZgooQ3VzdG9tIEZpZWxkcykgVGoKVCoKKFByaW9yaXR5OiApIFRqCi9GMSAxMCBUZgooSGlnaCkgVGoKKCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICApIFRqCi9GMiAxMCBUZgooWmVybzogKSBUagovRjEgMTAgVGYKKDApIFRqClQqCigpIFRqClQqCi9GMiAxMCBUZgooQ2hlY2tsaXN0cykgVGoKVCoKKFJlbGVhc2UpIFRqClQqCi9GMSAxMCBUZgooMS8yKSBUagpUKgooW3hdICkgVGoKKENhbGwgKSBUagovRjIgMTAgVGYKKHZlbmRvcikgVGoKVCoKL0YxIDEwIFRmCihbIF0gKSBUagooUGF5KSBUagpUKgovRjIgMTAgVGYKKCkgVGoKVCoKL0YxIDEwIFRmCigwLzApIFRqClQqCigpIFRqClQqCi9GMiAxMCBUZgooU3VidGFza3MpIFRqClQqCi9GMSAxMCBUZgooW3hdICkgVGoKKFN1YiBvbmUpIFRqClQqCihbIF0gKSBUagooU3ViIHR3bykgVGoKVCoKKCkgVGoKVCoKL0YyIDEwIFRmCihDb21tZW50cykgVGoKVCoKL0YzIDEwIFRmCigyMDI2LTAzLTAxVDEwOjAwOjAwLjAwMFogVVRDICApIFRqCi9GMiAxMCBUZgooYm9iOiApIFRqCi9GMSAxMCBUZgooTG9va3MgKSBUagovRjMgMTAgVGYKKGdvb2QpIFRqClQqCiggICkgVGoKL0YxIDEwIFRmCihhbm9uKSBUagpUKgovRjMgMTAgVGYKKCAgKSBUagpUKgovRjEgMTAgVGYKKCkgVGoKVCoKL0YyIDEwIFRmCihBdHRhY2htZW50cykgVGoKRVQKZW5kc3RyZWFtCmVuZG9iago4IDAgb2JqCjw8IC9UeXBlIC9QYWdlIC9QYXJlbnQgMiAwIFIgL01lZGlhQm94IFswIDAgNTk1IDg0Ml0gL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgMyAwIFIgL0YyIDQgMCBSIC9GMyA1IDAgUiAvRjQgNiAwIFIgPj4gL1hPYmplY3QgPDwgID4+ID4+IC9Db250ZW50cyA3IDAgUiA+PgplbmRvYmoKOSAwIG9iago8PCAvTGVuZ3RoIDY4OSA+PgpzdHJlYW0KMC44NSBnCjQ2IDcwOSA1MDMgMTQgcmUgZgowIGcKMC44NSBnCjQ2IDY2NyA1MDMgMTQgcmUgZgowIGcKQlQKL0YxIDEwIFRmCjE0IFRMCjEgMCAwIDEgNTAgNzgyIFRtCigjIHwgTmFtZSB8IFNpemUgfCBUeXBlIHwgVXBsb2FkZWQgYXQgfCBVcGxvYWRlZCBieSkgVGoKVCoKKDEgfCBwbGFuLnBkZiB8IDIuMCBLQiB8IGFwcGxpY2F0aW9uL3BkZiB8IDIwMjYtMDMtMDJUMDA6MDA6MDAuMDAwWiBVVEMgfCBhbm4pIFRqClQqCigyIHwgcGljLnBuZyB8IDEwIEIgfCBpbWFnZS9wbmcgfCAgfCBib2IpIFRqClQqCigzIHwgYTMgfCAxLjUgTUIgfCAgfCAgfCApIFRqClQqCigpIFRqClQqCi9GMiAxMCBUZgooVm90aW5nKSBUagpUKgooVm90aW5nIHF1ZXN0aW9uOiApIFRqCi9GMSAxMCBUZgooU2hpcCBpdD8pIFRqCiggICAgICkgVGoKL0YyIDEwIFRmCihmb3IgaXQ6ICkgVGoKL0YxIDEwIFRmCigyKSBUagooICAgICAgICAgICAgICAgICAgICAgKSBUagovRjIgMTAgVGYKKGFnYWluc3Q6ICkgVGoKL0YxIDEwIFRmCigxKSBUagpUKgooKSBUagpUKgovRjIgMTAgVGYKKFBsYW5uaW5nIFBva2VyKSBUagpUKgooUGxhbm5pbmcgUG9rZXI6ICkgVGoKL0YxIDEwIFRmCihZZXMpIFRqCiggICAgICAgICAgICAgICAgICAgICAgICAgICkgVGoKL0YyIDEwIFRmCihFc3RpbWF0aW9uOiApIFRqCi9GMSAxMCBUZgooNSkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagoxMCAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZW50IDIgMCBSIC9NZWRpYUJveCBbMCAwIDU5NSA4NDJdIC9SZXNvdXJjZXMgPDwgL0ZvbnQgPDwgL0YxIDMgMCBSIC9GMiA0IDAgUiAvRjMgNSAwIFIgL0Y0IDYgMCBSID4+IC9YT2JqZWN0IDw8ICA+PiA+PiAvQ29udGVudHMgOSAwIFIgPj4KZW5kb2JqCnhyZWYKMCAxMQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTIyIDAwMDAwIG4gCjAwMDAwMDAyMTcgMDAwMDAgbiAKMDAwMDAwMDMxNyAwMDAwMCBuIAowMDAwMDAwNDIwIDAwMDAwIG4gCjAwMDAwMDA1MjcgMDAwMDAgbiAKMDAwMDAwMzY1OSAwMDAwMCBuIAowMDAwMDAzODMxIDAwMDAwIG4gCjAwMDAwMDQ1NzEgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSAxMSAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKNDc0NAolJUVPRg=="
+  },
+  "minimal": {
+   "lines": [
+    {
+     "text": "Only a title",
+     "bold": true
+    },
+    {
+     "text": "==========================================================================================",
+     "bold": false
+    }
+   ],
+   "pdf": "JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFs4IDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvQ291cmllciAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyA+PgplbmRvYmoKNCAwIG9iago8PCAvVHlwZSAvRm9udCAvU3VidHlwZSAvVHlwZTEgL0Jhc2VGb250IC9Db3VyaWVyLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgPj4KZW5kb2JqCjUgMCBvYmoKPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvQ291cmllci1PYmxpcXVlIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nID4+CmVuZG9iago2IDAgb2JqCjw8IC9UeXBlIC9Gb250IC9TdWJ0eXBlIC9UeXBlMSAvQmFzZUZvbnQgL0NvdXJpZXItQm9sZE9ibGlxdWUgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgPj4KZW5kb2JqCjcgMCBvYmoKPDwgL0xlbmd0aCAxNzYgPj4Kc3RyZWFtCkJUCi9GMSAxMCBUZgoxNCBUTAoxIDAgMCAxIDUwIDc4MiBUbQovRjIgMTAgVGYKKE9ubHkgYSB0aXRsZSkgVGoKVCoKL0YxIDEwIFRmCig9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0pIFRqCkVUCmVuZHN0cmVhbQplbmRvYmoKOCAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZW50IDIgMCBSIC9NZWRpYUJveCBbMCAwIDU5NSA4NDJdIC9SZXNvdXJjZXMgPDwgL0ZvbnQgPDwgL0YxIDMgMCBSIC9GMiA0IDAgUiAvRjMgNSAwIFIgL0Y0IDYgMCBSID4+IC9YT2JqZWN0IDw8ICA+PiA+PiAvQ29udGVudHMgNyAwIFIgPj4KZW5kb2JqCnhyZWYKMCA5CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDIxMCAwMDAwMCBuIAowMDAwMDAwMzEwIDAwMDAwIG4gCjAwMDAwMDA0MTMgMDAwMDAgbiAKMDAwMDAwMDUyMCAwMDAwMCBuIAowMDAwMDAwNzQ3IDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgOSAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKOTE5CiUlRU9G"
+  },
+  "selection": {
+   "lines": [
+    {
+     "text": "Sel",
+     "bold": true
+    },
+    {
+     "text": "==========================================================================================",
+     "bold": false
+    },
+    {
+     "runs": [
+      {
+       "text": "Board: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "B",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                                     ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Swimlane: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Lane",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "labelRow": [
+      {
+       "_id": "l1",
+       "name": "ui",
+       "color": "green"
+      }
+     ],
+     "labelTitle": "Labels",
+     "runs": [
+      {
+       "text": "Labels: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "ui",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Sort: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Location",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "Location 1",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Location name: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "Legacy place",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                  ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Latitude: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "1.5",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Checklists",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "Empty list",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "progress": {
+      "done": 0,
+      "total": 0
+     },
+     "text": "0/0"
+    },
+    "",
+    {
+     "text": "Planning Poker",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "Planning Poker: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                             ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Estimation: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "0",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    }
+   ],
+   "pdf": "JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFs4IDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvQ291cmllciAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyA+PgplbmRvYmoKNCAwIG9iago8PCAvVHlwZSAvRm9udCAvU3VidHlwZSAvVHlwZTEgL0Jhc2VGb250IC9Db3VyaWVyLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgPj4KZW5kb2JqCjUgMCBvYmoKPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvQ291cmllci1PYmxpcXVlIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nID4+CmVuZG9iago2IDAgb2JqCjw8IC9UeXBlIC9Gb250IC9TdWJ0eXBlIC9UeXBlMSAvQmFzZUZvbnQgL0NvdXJpZXItQm9sZE9ibGlxdWUgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgPj4KZW5kb2JqCjcgMCBvYmoKPDwgL0xlbmd0aCA5MTQgPj4Kc3RyZWFtCjAuODUgZwo0NiA2OTUgNTAzIDE0IHJlIGYKMCBnCjAuODUgZwo0NiA2MzkgNTAzIDE0IHJlIGYKMCBnCjAuODUgZwo0NiA1ODMgNTAzIDE0IHJlIGYKMCBnCkJUCi9GMSAxMCBUZgoxNCBUTAoxIDAgMCAxIDUwIDc4MiBUbQovRjIgMTAgVGYKKFNlbCkgVGoKVCoKL0YxIDEwIFRmCig9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0pIFRqClQqCi9GMiAxMCBUZgooQm9hcmQ6ICkgVGoKL0YxIDEwIFRmCihCKSBUagooICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkgVGoKL0YyIDEwIFRmCihTd2ltbGFuZTogKSBUagovRjEgMTAgVGYKKExhbmUpIFRqClQqCi9GMiAxMCBUZgooTGFiZWxzOiApIFRqCi9GMSAxMCBUZgoodWkpIFRqClQqCi9GMiAxMCBUZgooU29ydDogKSBUagovRjEgMTAgVGYKKDApIFRqClQqCigpIFRqClQqCi9GMiAxMCBUZgooTG9jYXRpb24pIFRqClQqCi9GMSAxMCBUZgooTG9jYXRpb24gMSkgVGoKVCoKL0YyIDEwIFRmCihMb2NhdGlvbiBuYW1lOiApIFRqCi9GMSAxMCBUZgooTGVnYWN5IHBsYWNlKSBUagooICAgICAgICAgICAgICAgICAgKSBUagovRjIgMTAgVGYKKExhdGl0dWRlOiApIFRqCi9GMSAxMCBUZgooMS41KSBUagpUKgooKSBUagpUKgovRjIgMTAgVGYKKENoZWNrbGlzdHMpIFRqClQqCihFbXB0eSBsaXN0KSBUagpUKgovRjEgMTAgVGYKKDAvMCkgVGoKVCoKKCkgVGoKVCoKL0YyIDEwIFRmCihQbGFubmluZyBQb2tlcikgVGoKVCoKKFBsYW5uaW5nIFBva2VyOiApIFRqCi9GMSAxMCBUZgooKSBUagooICAgICAgICAgICAgICAgICAgICAgICAgICAgICApIFRqCi9GMiAxMCBUZgooRXN0aW1hdGlvbjogKSBUagovRjEgMTAgVGYKKDApIFRqCkVUCmVuZHN0cmVhbQplbmRvYmoKOCAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZW50IDIgMCBSIC9NZWRpYUJveCBbMCAwIDU5NSA4NDJdIC9SZXNvdXJjZXMgPDwgL0ZvbnQgPDwgL0YxIDMgMCBSIC9GMiA0IDAgUiAvRjMgNSAwIFIgL0Y0IDYgMCBSID4+IC9YT2JqZWN0IDw8ICA+PiA+PiAvQ29udGVudHMgNyAwIFIgPj4KZW5kb2JqCnhyZWYKMCA5CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDIxMCAwMDAwMCBuIAowMDAwMDAwMzEwIDAwMDAwIG4gCjAwMDAwMDA0MTMgMDAwMDAgbiAKMDAwMDAwMDUyMCAwMDAwMCBuIAowMDAwMDAxNDg1IDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgOSAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKMTY1NwolJUVPRg=="
+  },
+  "people-and-dates": {
+   "lines": [
+    {
+     "text": "PD",
+     "bold": true
+    },
+    {
+     "text": "==========================================================================================",
+     "bold": false
+    },
+    {
+     "runs": [
+      {
+       "text": "Creator: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "u9",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                   ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Assigned By: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "ann, bob, Boss",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "   ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "End: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                              ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                              ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "2026-05-05T05:05:05.000Z UTC",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "Spent Time: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "2",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                                ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Overtime: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "No",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Attachments",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "attachmentCells": [
+      "#",
+      "Name",
+      "Size",
+      "Type",
+      "Uploaded at",
+      "Uploaded by"
+     ],
+     "attachmentHeader": true,
+     "text": "# | Name | Size | Type | Uploaded at | Uploaded by"
+    },
+    {
+     "attachmentCells": [
+      1,
+      "x",
+      "12 B",
+      "",
+      "",
+      ""
+     ],
+     "text": "1 | x | 12 B |  |  | "
+    }
+   ],
+   "pdf": "JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFs4IDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvQ291cmllciAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyA+PgplbmRvYmoKNCAwIG9iago8PCAvVHlwZSAvRm9udCAvU3VidHlwZSAvVHlwZTEgL0Jhc2VGb250IC9Db3VyaWVyLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgPj4KZW5kb2JqCjUgMCBvYmoKPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvQ291cmllci1PYmxpcXVlIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nID4+CmVuZG9iago2IDAgb2JqCjw8IC9UeXBlIC9Gb250IC9TdWJ0eXBlIC9UeXBlMSAvQmFzZUZvbnQgL0NvdXJpZXItQm9sZE9ibGlxdWUgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgPj4KZW5kb2JqCjcgMCBvYmoKPDwgL0xlbmd0aCA3NjEgPj4Kc3RyZWFtCjAuODUgZwo0NiA2OTUgNTAzIDE0IHJlIGYKMCBnCkJUCi9GMSAxMCBUZgoxNCBUTAoxIDAgMCAxIDUwIDc4MiBUbQovRjIgMTAgVGYKKFBEKSBUagpUKgovRjEgMTAgVGYKKD09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PSkgVGoKVCoKL0YyIDEwIFRmCihDcmVhdG9yOiApIFRqCi9GMSAxMCBUZgoodTkpIFRqCiggICAgICAgICAgICAgICAgICAgKSBUagovRjIgMTAgVGYKKEFzc2lnbmVkIEJ5OiApIFRqCi9GMSAxMCBUZgooYW5uLCBib2IsIEJvc3MpIFRqCiggICApIFRqCi9GMiAxMCBUZgooRW5kOiApIFRqCi9GMSAxMCBUZgooKSBUagpUKgooKSBUagooICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKSBUagooKSBUagooICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKSBUagooMjAyNi0wNS0wNVQwNTowNTowNS4wMDBaIFVUQykgVGoKVCoKL0YyIDEwIFRmCihTcGVudCBUaW1lOiApIFRqCi9GMSAxMCBUZgooMikgVGoKKCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKSBUagovRjIgMTAgVGYKKE92ZXJ0aW1lOiApIFRqCi9GMSAxMCBUZgooTm8pIFRqClQqCigpIFRqClQqCi9GMiAxMCBUZgooQXR0YWNobWVudHMpIFRqClQqCi9GMSAxMCBUZgooIyB8IE5hbWUgfCBTaXplIHwgVHlwZSB8IFVwbG9hZGVkIGF0IHwgVXBsb2FkZWQgYnkpIFRqClQqCigxIHwgeCB8IDEyIEIgfCAgfCAgfCApIFRqCkVUCmVuZHN0cmVhbQplbmRvYmoKOCAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZW50IDIgMCBSIC9NZWRpYUJveCBbMCAwIDU5NSA4NDJdIC9SZXNvdXJjZXMgPDwgL0ZvbnQgPDwgL0YxIDMgMCBSIC9GMiA0IDAgUiAvRjMgNSAwIFIgL0Y0IDYgMCBSID4+IC9YT2JqZWN0IDw8ICA+PiA+PiAvQ29udGVudHMgNyAwIFIgPj4KZW5kb2JqCnhyZWYKMCA5CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDIxMCAwMDAwMCBuIAowMDAwMDAwMzEwIDAwMDAwIG4gCjAwMDAwMDA0MTMgMDAwMDAgbiAKMDAwMDAwMDUyMCAwMDAwMCBuIAowMDAwMDAxMzMyIDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgOSAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKMTUwNAolJUVPRg=="
+  },
+  "unicode-and-pictures": {
+   "lines": [
+    {
+     "text": "Grüße – ünïcödé ā ł 日本 😀 (paren) \\back",
+     "bold": true
+    },
+    {
+     "text": "==========================================================================================",
+     "bold": false
+    },
+    {
+     "runs": [
+      {
+       "text": "A very long translated label ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": " ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Short: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "x",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                      ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "Members: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "that goes on: ",
+       "bold": true,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                              ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "ann, bob, a-really-long-usern",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "2026-10-10 08:30 UTC",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "          ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                              ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "ame-that-wraps-the-column-for",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                              ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "                              ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "-sure",
+       "bold": false,
+       "italic": false
+      }
+     ]
+    },
+    "",
+    {
+     "text": "Description",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "runs": [
+      {
+       "text": "    Plan",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    {
+     "runs": [
+      {
+       "text": "> ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "mixed ",
+       "bold": false,
+       "italic": false
+      },
+      {
+       "text": "bold",
+       "bold": true,
+       "italic": false
+      }
+     ]
+    },
+    "  3. third",
+    {
+     "text": "    line one",
+     "bold": false
+    },
+    {
+     "text": "    line two",
+     "bold": false
+    },
+    {
+     "text": "--------------------",
+     "bold": false
+    },
+    "",
+    {
+     "text": "Attachments",
+     "bold": true,
+     "bar": true
+    },
+    {
+     "attachmentCells": [
+      "#",
+      "Name",
+      "Size",
+      "Type",
+      "Uploaded at",
+      "Uploaded by"
+     ],
+     "attachmentHeader": true,
+     "text": "# | Name | Size | Type | Uploaded at | Uploaded by"
+    },
+    {
+     "attachmentCells": [
+      1,
+      "photo.jpg",
+      "1 KB",
+      "image/jpeg",
+      "today",
+      "ann"
+     ],
+     "text": "1 | photo.jpg | 1 KB | image/jpeg | today | ann"
+    },
+    {
+     "imageRow": [
+      {
+       "name": "photo.jpg",
+       "size": "1 KB",
+       "ext": "jpeg"
+      },
+      {
+       "name": "two.jpg",
+       "size": "2 KB",
+       "ext": "jpeg"
+      },
+      {
+       "name": "three.jpg",
+       "size": "3 KB",
+       "ext": "jpeg"
+      }
+     ],
+     "span": 9,
+     "imageCaptions": [
+      "photo.jpg",
+      "two.jpg",
+      "three.jpg"
+     ],
+     "text": ""
+    },
+    {
+     "imageRow": [
+      {
+       "name": "four.jpg",
+       "size": "4 KB",
+       "ext": "jpeg"
+      }
+     ],
+     "span": 9,
+     "imageCaptions": [
+      "four.jpg"
+     ],
+     "text": ""
+    },
+    {
+     "progress": {
+      "done": 1,
+      "total": 3
+     },
+     "text": "1/3"
+    }
+   ],
+   "pdf": "JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFsxMiAwIFJdIC9Db3VudCAxID4+CmVuZG9iagozIDAgb2JqCjw8IC9UeXBlIC9Gb250IC9TdWJ0eXBlIC9UeXBlMSAvQmFzZUZvbnQgL0NvdXJpZXIgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgPj4KZW5kb2JqCjQgMCBvYmoKPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvQ291cmllci1Cb2xkIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nID4+CmVuZG9iago1IDAgb2JqCjw8IC9UeXBlIC9Gb250IC9TdWJ0eXBlIC9UeXBlMSAvQmFzZUZvbnQgL0NvdXJpZXItT2JsaXF1ZSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyA+PgplbmRvYmoKNiAwIG9iago8PCAvVHlwZSAvRm9udCAvU3VidHlwZSAvVHlwZTEgL0Jhc2VGb250IC9Db3VyaWVyLUJvbGRPYmxpcXVlIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nID4+CmVuZG9iago3IDAgb2JqCjw8IC9UeXBlIC9YT2JqZWN0IC9TdWJ0eXBlIC9JbWFnZSAvV2lkdGggMzIgL0hlaWdodCAxNiAvQ29sb3JTcGFjZSAvRGV2aWNlUkdCIC9CaXRzUGVyQ29tcG9uZW50IDggL0ZpbHRlciAvRENURGVjb2RlIC9MZW5ndGggMjggPj4Kc3RyZWFtCv/Y/8AAEQgAEAAgAwEiAAIRAQMRAf/ZAAAAAAAKZW5kc3RyZWFtCmVuZG9iago4IDAgb2JqCjw8IC9UeXBlIC9YT2JqZWN0IC9TdWJ0eXBlIC9JbWFnZSAvV2lkdGggMzIgL0hlaWdodCAxNiAvQ29sb3JTcGFjZSAvRGV2aWNlUkdCIC9CaXRzUGVyQ29tcG9uZW50IDggL0ZpbHRlciAvRENURGVjb2RlIC9MZW5ndGggMjggPj4Kc3RyZWFtCv/Y/8AAEQgAEAAgAwEiAAIRAQMRAf/ZAAAAAAAKZW5kc3RyZWFtCmVuZG9iago5IDAgb2JqCjw8IC9UeXBlIC9YT2JqZWN0IC9TdWJ0eXBlIC9JbWFnZSAvV2lkdGggMzIgL0hlaWdodCAxNiAvQ29sb3JTcGFjZSAvRGV2aWNlUkdCIC9CaXRzUGVyQ29tcG9uZW50IDggL0ZpbHRlciAvRENURGVjb2RlIC9MZW5ndGggMjggPj4Kc3RyZWFtCv/Y/8AAEQgAEAAgAwEiAAIRAQMRAf/ZAAAAAAAKZW5kc3RyZWFtCmVuZG9iagoxMCAwIG9iago8PCAvVHlwZSAvWE9iamVjdCAvU3VidHlwZSAvSW1hZ2UgL1dpZHRoIDMyIC9IZWlnaHQgMTYgL0NvbG9yU3BhY2UgL0RldmljZVJHQiAvQml0c1BlckNvbXBvbmVudCA4IC9GaWx0ZXIgL0RDVERlY29kZSAvTGVuZ3RoIDI4ID4+CnN0cmVhbQr/2P/AABEIABAAIAMBIgACEQEDEQH/2QAAAAAACmVuZHN0cmVhbQplbmRvYmoKMTEgMCBvYmoKPDwgL0xlbmd0aCAxNTE5ID4+CnN0cmVhbQowLjg1IGcKNDYgNjgxIDUwMyAxNCByZSBmCjAgZwowLjg1IGcKNDYgNTY5IDUwMyAxNCByZSBmCjAgZwpxCjMyIDAgMCAxNiA1MCA1MTQgY20KL0ltMSBEbwpRCnEKMzIgMCAwIDE2IDIxOC4zMzMzMzMzMzMzMzMzNCA1MTQgY20KL0ltMiBEbwpRCnEKMzIgMCAwIDE2IDM4Ni42NjY2NjY2NjY2NjY3IDUxNCBjbQovSW0zIERvClEKcQozMiAwIDAgMTYgNTAgMzg4IGNtCi9JbTQgRG8KUQpCVAovRjEgMTAgVGYKMTQgVEwKMSAwIDAgMSA1MCA3ODIgVG0KL0YyIDEwIFRmCihHcvzfZSCWIPxu72P2ZOkgYSBsID8/ID8gXChwYXJlblwpIFxcYmFjaykgVGoKVCoKL0YxIDEwIFRmCig9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0pIFRqClQqCi9GMiAxMCBUZgooQSB2ZXJ5IGxvbmcgdHJhbnNsYXRlZCBsYWJlbCApIFRqCi9GMSAxMCBUZgooKSBUagooICkgVGoKL0YyIDEwIFRmCihTaG9ydDogKSBUagovRjEgMTAgVGYKKHgpIFRqCiggICAgICAgICAgICAgICAgICAgICAgKSBUagovRjIgMTAgVGYKKE1lbWJlcnM6ICkgVGoKL0YxIDEwIFRmCigpIFRqClQqCi9GMiAxMCBUZgoodGhhdCBnb2VzIG9uOiApIFRqCi9GMSAxMCBUZgooKSBUagooICAgICAgICAgICAgICAgICkgVGoKKCkgVGoKKCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkgVGoKKGFubiwgYm9iLCBhLXJlYWxseS1sb25nLXVzZXJuKSBUagpUKgooMjAyNi0xMC0xMCAwODozMCBVVEMpIFRqCiggICAgICAgICAgKSBUagooKSBUagooICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKSBUagooYW1lLXRoYXQtd3JhcHMtdGhlLWNvbHVtbi1mb3IpIFRqClQqCigpIFRqCiggICAgICAgICAgICAgICAgICAgICAgICAgICAgICApIFRqCigpIFRqCiggICAgICAgICAgICAgICAgICAgICAgICAgICAgICApIFRqCigtc3VyZSkgVGoKVCoKKCkgVGoKVCoKL0YyIDEwIFRmCihEZXNjcmlwdGlvbikgVGoKVCoKKCAgICBQbGFuKSBUagpUKgovRjEgMTAgVGYKKD4gKSBUagoobWl4ZWQgKSBUagovRjIgMTAgVGYKKGJvbGQpIFRqClQqCi9GMSAxMCBUZgooICAzLiB0aGlyZCkgVGoKVCoKKCAgICBsaW5lIG9uZSkgVGoKVCoKKCAgICBsaW5lIHR3bykgVGoKVCoKKC0tLS0tLS0tLS0tLS0tLS0tLS0tKSBUagpUKgooKSBUagpUKgovRjIgMTAgVGYKKEF0dGFjaG1lbnRzKSBUagpUKgovRjEgMTAgVGYKKCMgfCBOYW1lIHwgU2l6ZSB8IFR5cGUgfCBVcGxvYWRlZCBhdCB8IFVwbG9hZGVkIGJ5KSBUagpUKgooMSB8IHBob3RvLmpwZyB8IDEgS0IgfCBpbWFnZS9qcGVnIHwgdG9kYXkgfCBhbm4pIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigpIFRqClQqCigxLzMpIFRqCkVUCmVuZHN0cmVhbQplbmRvYmoKMTIgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA1OTUgODQyXSAvUmVzb3VyY2VzIDw8IC9Gb250IDw8IC9GMSAzIDAgUiAvRjIgNCAwIFIgL0YzIDUgMCBSIC9GNCA2IDAgUiA+PiAvWE9iamVjdCA8PCAvSW0xIDcgMCBSIC9JbTIgOCAwIFIgL0ltMyA5IDAgUiAvSW00IDEwIDAgUiA+PiA+PiAvQ29udGVudHMgMTEgMCBSID4+CmVuZG9iagp4cmVmCjAgMTMKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAwNTggMDAwMDAgbiAKMDAwMDAwMDExNiAwMDAwMCBuIAowMDAwMDAwMjExIDAwMDAwIG4gCjAwMDAwMDAzMTEgMDAwMDAgbiAKMDAwMDAwMDQxNCAwMDAwMCBuIAowMDAwMDAwNTIxIDAwMDAwIG4gCjAwMDAwMDA3MTMgMDAwMDAgbiAKMDAwMDAwMDkwNSAwMDAwMCBuIAowMDAwMDAxMDk3IDAwMDAwIG4gCjAwMDAwMDEyOTAgMDAwMDAgbiAKMDAwMDAwMjg2MiAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDEzIC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgozMDgwCiUlRU9G"
+  }
+ },
+ "encode": {
+  "Grüße ä ö ü €": "R3L832Ug5CD2IPwggA==",
+  "ā ő ł đ ß æ ẞ ﬁ −": "YSBvIGwgZCDfIOYgU1MgZmkgLQ==",
+  "Привет 日本 😀": "Pz8/Pz8/ID8/ID8=",
+  "tab\there": "dGFiP2hlcmU=",
+  "a b​c﻿d": "YaBiY2Q=",
+  "Ǆ ǅ": "PyA/",
+  "“quotes” – — … •": "k3F1b3Rlc5QgliCXIIUglQ=="
+ },
+ "flatten": {
+  "**bold** *it* ***both*** `code` ~~gone~~": "bold it both code gone",
+  "snake_case _it_ __b__ ___bi___": "snake_case it b bi",
+  "# Head\n> quote\n* bullet\n---\n```js\ncode\n```": "Head\nquote\n- bullet\n\ncode\n",
+  "![alt](http://x/i.png) [text](http://x \"t\") [](http://y)": "alt (http://x/i.png) text (http://x) http://y",
+  "<b>html</b>\ttab  \nline": "<b>html</b>\ttab\nline",
+  "**unclosed and * lone": "**unclosed and * lone"
+ },
+ "wrap": {
+  "|word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx end": [
+   "word word word word word word word word word word word word word word word word word word",
+   "word word word word word word word word word word word word",
+   "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "end"
+  ],
+  "    |word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx end": [
+   "    word word word word word word word word word word word word word word word word word",
+   "    word word word word word word word word word word word word word",
+   "    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "    end"
+  ],
+  "  |Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 ": [
+   "  Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße",
+   "  😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀 Grüße 😀",
+   "  Grüße 😀"
+  ],
+  "|": [
+   ""
+  ],
+  "|a\n\nb": [
+   "a",
+   "",
+   "b"
+  ]
+ },
+ "png": {
+  "file": "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAG0lEQVR4nGP8z8Dwn+E/QwMzA8N/h////zMAAEBFB779PLH7AAAAAElFTkSuQmCC",
+  "width": 2,
+  "height": 2,
+  "rgb": "/wAA//+An0D/1q+v"
+ }
+}
