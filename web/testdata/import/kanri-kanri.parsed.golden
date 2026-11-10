@@ -1,0 +1,156 @@
+{
+  "board": {
+    "name": "Plan & <Go> \"q\" 🚀"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Empty"
+    },
+    {
+      "title": "Won't fix"
+    },
+    {
+      "title": "To Do (2)"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Untitled"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        {
+          "name": "priority:H",
+          "color": "red"
+        },
+        {
+          "name": "web  dev",
+          "color": "#aabbcc"
+        },
+        {
+          "name": "project:Plant.Pumps"
+        },
+        {
+          "name": "@home",
+          "color": "navy"
+        },
+        {
+          "name": "big deal",
+          "color": "yellow"
+        }
+      ],
+      "ref": "cardA1",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "due_complete": true,
+      "color": "pink",
+      "checklists": [
+        {
+          "title": "Tasks",
+          "items": [
+            {
+              "title": "a & b",
+              "done": true
+            },
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "cardD4",
+      "date_due": "2026-11-12T00:00:00.000Z"
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "cardF6"
+    },
+    {
+      "title": "-minus first",
+      "description": "first\r\nsecond  \n\n",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        {
+          "name": "priority:B",
+          "color": "#0d9488"
+        },
+        {
+          "name": "raw",
+          "color": "black"
+        },
+        {
+          "name": "done",
+          "color": "lime"
+        }
+      ],
+      "ref": "cardB😀2",
+      "color": "#0d9488",
+      "checklists": [
+        {
+          "title": "Tasks",
+          "items": [
+            {
+              "title": "one",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "cardC3",
+      "date_due": "2026-12-24T18:30:00.000Z",
+      "color": "plum"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "Untitled",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "cardE5"
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/columns/4/title",
+      "reason": "Kanri has two columns named \"To Do\"; this one is imported as \"To Do (2)\""
+    }
+  ]
+}

@@ -53,5 +53,13 @@
   "taskwarrior": [
     "taskwarrior-edge.ndjson",
     "../external/taskwarrior.golden"
+  ],
+  "nullboard": [
+    "nullboard-edge.nbx",
+    "../external/nullboard.golden"
+  ],
+  "kanri": [
+    "kanri-edge.json",
+    "../external/kanri.golden"
   ]
 }

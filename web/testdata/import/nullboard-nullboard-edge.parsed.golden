@@ -1,0 +1,76 @@
+{
+  "board": {
+    "name": "NB"
+  },
+  "columns": [
+    {
+      "title": "Todo"
+    },
+    {
+      "title": "Todo (2)"
+    },
+    {
+      "title": "Untitled list"
+    },
+    {
+      "title": "Weird"
+    },
+    {
+      "title": "Untitled list (2)"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "First",
+      "description": "more\n\nlines",
+      "column_name": "Todo",
+      "swimlane_name": "Default",
+      "tags": [
+        "raw"
+      ]
+    },
+    {
+      "title": "Second",
+      "description": "",
+      "column_name": "Todo (2)",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/1",
+      "reason": "Nullboard board \"Other\" is not imported: one import creates one board, import its own export"
+    },
+    {
+      "path": "/lists/0/notes/1",
+      "reason": "an empty Nullboard note is not imported"
+    },
+    {
+      "path": "/lists/0/notes/2",
+      "reason": "a Nullboard note without text is not imported"
+    },
+    {
+      "path": "/lists/0/notes/3",
+      "reason": "a Nullboard note without text is not imported"
+    },
+    {
+      "path": "/lists/1/title",
+      "reason": "a second Nullboard list \"Todo\" is imported as \"Todo (2)\""
+    },
+    {
+      "path": "/lists/3/notes",
+      "reason": "Nullboard list notes are not an array and are not imported"
+    },
+    {
+      "path": "/lists/notes/min",
+      "reason": "1 collapsed Nullboard note(s) are imported expanded: a WeKan card has no collapsed state"
+    }
+  ]
+}

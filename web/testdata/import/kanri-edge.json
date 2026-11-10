@@ -1,0 +1,16 @@
+{ "activeTheme": "dark", "colors": {}, "pins": [], "columnZoomLevel": null,
+  "boards": [
+    { "title": "Home", "background": { "src": "/home/u/pic.png" },
+      "columns": [{ "id": "c1", "title": "Todo", "cards": [
+        { "id": "k1", "name": "  Paint  ", "description": "walls", "color": "bg-teal-600", "dueDate": "2026-11-20T10:00:00.000Z",
+          "isDueDateCompleted": true, "isDueDateCounterRelative": true,
+          "tags": [{ "text": "red", "color": "#EB4646" }, { "text": "styled", "style": "background-color: #abc; color: #000" },
+                   { "text": "bad", "color": "nope" }, { "text": "red" }, { "text": "  " }, { "text": "plain" }],
+          "tasks": [{ "name": "buy paint", "finished": true }, { "name": "  " }, "x", { "name": "brush" }] },
+        { "name": "", "color": "magenta-ish", "dueDate": "not a date" },
+        { "name": "Num due", "dueDate": 1790000000000, "color": "#FF00FF" }, "notacard" ] },
+        { "title": "Todo", "cards": [] }, "notacolumn" ],
+      "globalTags": [{ "text": "unused" }, { "text": "red" }, { "text": "unused" }] },
+    { "title": "Home", "lists": [{ "title": "Done", "cards": [{ "name": "x" }] }] },
+    "notaboard"
+  ] }

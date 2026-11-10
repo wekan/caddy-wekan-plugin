@@ -1,0 +1,146 @@
+{
+  "board": {
+    "name": "Kanri"
+  },
+  "columns": [
+    {
+      "title": "Todo"
+    },
+    {
+      "title": "Todo (2)"
+    },
+    {
+      "title": "Done"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Home"
+    },
+    {
+      "name": "Home (2)"
+    }
+  ],
+  "swimlane_columns": {
+    "Home": [
+      "Todo",
+      "Todo (2)"
+    ],
+    "Home (2)": [
+      "Done"
+    ]
+  },
+  "tasks": [
+    {
+      "title": "Paint",
+      "description": "walls",
+      "column_name": "Todo",
+      "swimlane_name": "Home",
+      "tags": [
+        {
+          "name": "red",
+          "color": "red"
+        },
+        {
+          "name": "styled",
+          "color": "#aabbcc"
+        },
+        {
+          "name": "bad"
+        },
+        {
+          "name": "plain"
+        }
+      ],
+      "ref": "k1",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "due_complete": true,
+      "color": "#0d9488",
+      "checklists": [
+        {
+          "title": "Tasks",
+          "items": [
+            {
+              "title": "buy paint",
+              "done": true
+            },
+            {
+              "title": "brush",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "description": "",
+      "column_name": "Todo",
+      "swimlane_name": "Home",
+      "tags": []
+    },
+    {
+      "title": "Num due",
+      "description": "",
+      "column_name": "Todo",
+      "swimlane_name": "Home",
+      "tags": [],
+      "date_due": "2026-09-21T14:13:20.000Z",
+      "color": "magenta"
+    },
+    {
+      "title": "x",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Home (2)",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/",
+      "reason": "Kanri app settings (activeTheme, colors) belong to the app, not to a board, and are not imported"
+    },
+    {
+      "path": "/boards/0/background",
+      "reason": "Kanri background image \"/home/u/pic.png\" is a file on the computer that exported it and is not imported"
+    },
+    {
+      "path": "/boards/0/columns/0/cards/0/isDueDateCounterRelative",
+      "reason": "Kanri shows this due date as a countdown; WeKan shows the date"
+    },
+    {
+      "path": "/boards/0/columns/0/cards/0/tags",
+      "reason": "Kanri tag \"bad\" color \"nope\" is not a color WeKan can show"
+    },
+    {
+      "path": "/boards/0/columns/0/cards/1/dueDate",
+      "reason": "Kanri due date \"not a date\" is not a date"
+    },
+    {
+      "path": "/boards/0/columns/0/cards/1/color",
+      "reason": "Kanri card color \"magenta-ish\" is not a color WeKan can show"
+    },
+    {
+      "path": "/boards/0/columns/0/cards/3",
+      "reason": "a Kanri card that is not an object is not imported"
+    },
+    {
+      "path": "/boards/0/columns/1/title",
+      "reason": "Kanri has two columns named \"Todo\"; this one is imported as \"Todo (2)\""
+    },
+    {
+      "path": "/boards/0/columns/2",
+      "reason": "a Kanri column that is not an object is not imported"
+    },
+    {
+      "path": "/boards/0/globalTags",
+      "reason": "Kanri tags no card uses are not imported: unused"
+    },
+    {
+      "path": "/boards/2",
+      "reason": "a Kanri board that is not an object is not imported"
+    }
+  ]
+}

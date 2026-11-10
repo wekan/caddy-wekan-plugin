@@ -1,0 +1,86 @@
+{
+  "board": {
+    "name": "Plan & <Go> \"q\" 🚀"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Empty"
+    },
+    {
+      "title": "Won't fix"
+    },
+    {
+      "title": "To Do (2)"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "List"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>\n\nSteps\n[x] a & b\n[ ] c",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "-minus first",
+      "description": "first\nsecond\n\nChecklist\n[ ] one\n[x]",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "raw"
+      ]
+    },
+    {
+      "title": "multi line\ttitle",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "List",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/lists/4/title",
+      "reason": "a second Nullboard list \"To Do\" is imported as \"To Do (2)\""
+    }
+  ]
+}
