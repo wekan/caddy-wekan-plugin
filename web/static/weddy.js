@@ -163,6 +163,18 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     openScope(el.classList.contains('js-export-card') ? 'export' : 'import', 'card', { cardId: el.dataset.card, listId: el.dataset.list });
   });
+  // A checklist's menu (checklistActionsPopup) and its Export
+  // (exportChecklistPopup): the same body, the checklist as its scope.
+  var menuChecklist = null;
+  up.on('click', '.js-open-checklist-details-menu', function (event, el) {
+    event.preventDefault();
+    menuChecklist = el.getAttribute('data-checklist');
+    openPopOver('checklist-actions');
+  });
+  up.on('click', '.js-pop-over .js-export-checklist', function (event) {
+    event.preventDefault();
+    if (menuChecklist) openScope('export', 'checklist', { checklistId: menuChecklist });
+  });
   up.on('change', '.js-pop-over .js-scope-import-file', function (event, el) {
     var file = el.files && el.files[0];
     if (!file || !scope) return;

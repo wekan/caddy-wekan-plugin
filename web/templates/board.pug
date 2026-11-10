@@ -241,6 +241,18 @@
             each li in .Lists
               option(value="{{.ID}}") {{.N}}. {{.Title}}
           button.primary.confirm.js-done(type="submit") {{t $.L "done"}}
+      //- WeKan's checklistActionsPopup: its Export / Import first - reading,
+        so above the rows that change the checklist.
+      template.js-pop-over-template(data-pop="checklist-actions", data-title="{{t $.L `checklistActionsPopup-title`}}")
+        .header
+          span.header-title {{t $.L "checklistActionsPopup-title"}}
+          a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+        .content
+          ul.pop-over-list
+            li
+              a.js-export-checklist(href="#")
+                i.fa.fa-exchange
+                |  {{t $.L "export"}} / {{t $.L "import"}} ...
       //- WeKan's cardDetailsActionsPopup, and its cardArchivePopup.
       template.js-pop-over-template(data-pop="card-actions", data-title="{{t $.L `cardDetailsActionsPopup-title`}}")
         ul.pop-over-list
@@ -374,7 +386,8 @@
       what to include, and its files - PDF, Excel, JSON and the .zip - for
       that scope; static/weddy.js fills in the scope and the title.
     template.js-pop-over-template(data-pop="export-scope", data-board="{{.Board.ID}}", data-title-swimlane="{{t $.L `exportSwimlanePopup-title`}}",
-      data-title-list="{{t $.L `exportListPopup-title`}}", data-title-card="{{t $.L `exportCardPopup-title`}}")
+      data-title-list="{{t $.L `exportListPopup-title`}}", data-title-card="{{t $.L `exportCardPopup-title`}}",
+      data-title-checklist="{{t $.L `exportChecklistPopup-title`}}")
       .header
         span.header-title.js-scope-title {{t $.L "export"}}
         a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
@@ -684,6 +697,34 @@
                       button.inner.js-poker(type="submit", name="state", value="{{.Field}}", class="js-poker-vote-{{.Class}}{{if .Voted}} poker-voted{{end}}") {{.Label}}
       h3 {{t $.L "description"}}
       .card-description.js-card-description {{.Card.Description}}
+      //- WeKan's checklists (checklists.jade): each checklist's title, its
+        progress and its items; the menu - for whoever may change the card -
+        is checklistActionsPopup, whose Export is the checklist's own.
+      if .Checklists
+        .card-checklist-attachmentGallery.card-checklists
+          h3.card-details-item-title
+            i.fa.fa-check
+            |  {{t $.L "checklists"}}
+          .card-checklist-items
+            each cl in .Checklists
+              .js-checklist.checklist(data-checklist="{{.ID}}")
+                .checklist-title
+                  if $.CanEdit
+                    a.fa.fa-navicon.checklist-details-menu.js-open-checklist-details-menu(href="#", data-checklist="{{.ID}}", title="{{t $.L `checklistActionsPopup-title`}}", aria-label="{{t $.L `checklistActionsPopup-title`}}")
+                  h4.title
+                    .viewer {{viewer .Title $.TextPolicy}}
+                if .Percent
+                  .checklist-progress-bar-container
+                    .checklist-progress-text {{.Percent}}%
+                    .checklist-progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="{{.Percent}}", aria-label="{{.Title}}")
+                      .checklist-progress(style="width:{{.Percent}}%")
+                .checklist-items
+                  each it in .Items
+                    .js-checklist-item.checklist-item(class="{{if .Finished}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Finished}}true{{else}}false{{end}}", aria-readonly="true", tabindex="-1")
+                      .check-box-container
+                        .check-box.materialCheckBox(class="{{if .Finished}}is-checked{{end}}")
+                      .item-title
+                        .viewer {{viewer .Title $.TextPolicy}}
       h3 {{t $.L "attachments"}}
       ul.attachments.js-attachments
         each a in .Attachments

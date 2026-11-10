@@ -817,6 +817,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["Card"] = c
 			data["Attachments"] = s.cardAttachments(r, b, c.ID)
 			data["Comments"] = s.cardComments(r.Context(), b, c.ID)
+			data["Checklists"] = s.cardChecklists(r.Context(), c.ID)
 			data["CardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID, "cardId": c.ID}, lang, 100)
 			data["CardMembers"], data["BoardMembers"] = s.cardMemberChoices(r.Context(), b, &c)
 			data["Vote"] = s.cardVote(r.Context(), b, u, c.ID)
