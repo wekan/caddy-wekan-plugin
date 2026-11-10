@@ -82,7 +82,9 @@ func TestImportZip(t *testing.T) {
 		t.Fatalf("its bytes: %q", got)
 	}
 
-	// Into an existing board: cards added, a label of the same name reused.
+	// Into an existing board: WeKan's ScopedImporter - cards added, with no
+	// labels (its cards are created with labelIds: []), the board's own
+	// labels left as they are.
 	into := newRESTBoard(t, w, a, "Into")
 	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": into.ID}, bson.M{"$set": bson.M{"labels.0.name": "Bug"}})
 	code, out = postZip(t, w.srv.URL+"/api/import/zip?boardId="+into.ID, a, zipped)
@@ -94,8 +96,8 @@ func TestImportZip(t *testing.T) {
 	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": into.ID}).Decode(&target)
 	var added Card
 	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": into.ID, "_id": bson.M{"$ne": into.Card}}).Decode(&added)
-	if len(target.Labels) != 6 || len(added.LabelIDs) != 1 || added.LabelIDs[0] != target.Labels[0].ID {
-		t.Fatalf("the board's own label of that name, no new one: %v %v", target.Labels, added.LabelIDs)
+	if len(target.Labels) != 6 || len(added.LabelIDs) != 0 || added.Title == "" {
+		t.Fatalf("the board's own labels, none on the card: %v %v", target.Labels, added.LabelIDs)
 	}
 
 	// Negatives.

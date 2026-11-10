@@ -178,6 +178,26 @@ func (s *Server) apiImportZip(w http.ResponseWriter, r *http.Request) {
 		}
 		return io.NopCloser(bytes.NewReader(data))
 	}
+	// Into a board: the scoped importer, beside the list, swimlane or card
+	// the query names, with the selection - as WeKan's (models/importZip.js).
+	if into != nil {
+		want := exportWanted(q.Get("fields"))
+		pruneImportDocument(doc, want)
+		sc := exportScopeOf(q)
+		counts, err := s.importScopedInto(r, u, into, scopedTarget{BoardID: into.ID, SwimlaneID: sc.SwimlaneID, ListID: sc.ListID,
+			CardID: sc.CardID}, doc, want, "import:zip", files)
+		var pe errImportPlacement
+		if errors.As(err, &pe) {
+			answer(http.StatusBadRequest, map[string]string{"error": pe.Error()})
+			return
+		}
+		if err != nil {
+			answer(http.StatusInternalServerError, map[string]string{"error": "import-failed"})
+			return
+		}
+		answer(http.StatusOK, map[string]any{"ok": true, "counts": counts})
+		return
+	}
 	counts := map[string]int{}
 	id, err := s.importBoardWith(r, u, doc, nil, importOptions{Into: into, Files: files, Counts: counts})
 	if errors.Is(err, errBoardCreation) {

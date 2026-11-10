@@ -50,6 +50,9 @@ var securityCategories = map[string]securityCategory{
 	// CrossBoardExportBleed: an export while Admin Panel has turned export
 	// off - recorded, never costing the account, as WeKan's key is.
 	"authz.export-disabled": {Category: "authz", Bleed: "CrossBoardExportBleed", Severity: "medium", CWE: "CWE-863", NeverBlocks: true},
+	// ImportPlacementBleed: an import beside another board's list, swimlane
+	// or card - recorded, never costing the account, as WeKan's key is.
+	"authz.import-placement": {Category: "authz", Bleed: "ImportPlacementBleed", Severity: "medium", CWE: "CWE-639", NeverBlocks: true},
 	// A board export scoped to another board's checklist: no menu asks for it.
 	"authz.export-checklist-scope": {Category: "authz", Bleed: "CrossBoardExportBleed", Severity: "medium", CWE: "CWE-639"},
 	"authz.admin-only-field":       {Category: "authz", Bleed: "AdminFieldBleed", Severity: "high", CWE: "CWE-863"},
