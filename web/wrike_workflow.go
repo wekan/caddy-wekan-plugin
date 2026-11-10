@@ -132,7 +132,15 @@ func wrikeGroupForList(title string, completion map[string]string) string {
 // keys in WeKan's order, so the Rules page's download and the board export
 // are WeKan's byte for byte.
 func wrikeWorkflowFromBoard(title string, lists []bson.M, rules []bson.M) jsObject {
+	wf, _ := wrikeWorkflowParts(title, lists, rules)
+	return wf
+}
+
+// wrikeWorkflowParts is the workflow and WeKan's statusOf: a list's status
+// name and group by its trimmed title, else the first Active one.
+func wrikeWorkflowParts(title string, lists []bson.M, rules []bson.M) (jsObject, func(string) (string, string)) {
 	completion := wrikeCompletion(rules)
+	byTitle := map[string][2]string{}
 	var statuses []jsObject
 	seen := map[string]bool{}
 	taken := func(name string) bool {
@@ -180,6 +188,7 @@ func wrikeWorkflowFromBoard(title string, lists []bson.M, rules []bson.M) jsObje
 			color = "Gray"
 		}
 		statuses = append(statuses, status(name, color, group))
+		byTitle[t] = [2]string{name, group}
 	}
 	for _, group := range []string{"Active", "Completed"} {
 		has := false
@@ -214,7 +223,18 @@ func wrikeWorkflowFromBoard(title string, lists []bson.M, rules []bson.M) jsObje
 	out := jsObject{}
 	out.set("kind", "workflows")
 	out.set("data", []any{wf})
-	return out
+	statusOf := func(t string) (string, string) {
+		if st, ok := byTitle[jsTrim(t)]; ok {
+			return st[0], st[1]
+		}
+		for _, st := range statuses {
+			if groupOf(st) == "Active" {
+				return st[0].Value.(string), "Active"
+			}
+		}
+		return "", ""
+	}
+	return out, statusOf
 }
 
 type wrikeStatus struct{ Name, Group, Color string }

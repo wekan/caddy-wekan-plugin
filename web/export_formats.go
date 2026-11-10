@@ -54,6 +54,8 @@ var externalFormats = map[string][2]string{
 	"tasksorg":          {"json", "application/json"},
 	"superproductivity": {"json", "application/json"},
 	"wrikeworkflow":     {"json", "application/json"},
+	"wrike":             {"xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
+	"teamwork":          {"xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
 }
 
 type extChecklistItem struct {
@@ -566,6 +568,12 @@ func (s *Server) externalExport(ctx context.Context, b *Board, format string) []
 		return []byte(formatRedmineCsv(d))
 	case "notion":
 		return []byte(formatNotionCsv(d))
+	case "wrike":
+		out, _ := wrikeWorkbook(formatWrikeRows(d, s.boardRuleParts(ctx, b.ID)))
+		return out
+	case "teamwork":
+		out, _ := teamworkWorkbook(formatTeamworkSheet(d))
+		return out
 	case "wrikeworkflow":
 		return jsJSON(formatWrikeWorkflow(d, s.boardRuleParts(ctx, b.ID)), "")
 	case "superproductivity":
@@ -587,6 +595,14 @@ func (s *Server) exportFormatRoutes(m *http.ServeMux) {
 	}
 }
 
+// exportContentType is a format's type: text with its charset, a workbook as it is.
+func exportContentType(ext [2]string) string {
+	if ext[0] == "xlsx" {
+		return ext[1]
+	}
+	return ext[1] + "; charset=utf-8"
+}
+
 func (s *Server) apiExportFormat(format string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		b, _, ok := s.exportReader(w, r, false)
@@ -594,7 +610,7 @@ func (s *Server) apiExportFormat(format string) http.HandlerFunc {
 			return
 		}
 		ext := externalFormats[format]
-		w.Header().Set("Content-Type", ext[1]+"; charset=utf-8")
+		w.Header().Set("Content-Type", exportContentType(ext))
 		w.Header().Set("Content-Disposition", `attachment; filename="export-board-`+b.ID+`.`+ext[0]+`"`)
 		w.Header().Set("Cache-Control", "no-store")
 		_, _ = w.Write(s.externalExport(r.Context(), b, format))

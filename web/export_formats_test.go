@@ -1,6 +1,8 @@
 package web
 
 import (
+	"archive/zip"
+	"bytes"
 	"context"
 	"encoding/json"
 	"io"
@@ -44,6 +46,8 @@ func TestExternalFormatsAreWeKans(t *testing.T) {
 		rules = append(rules, bson.M{"trigger": bson.M(r.Trigger), "action": bson.M(r.Action)})
 	}
 	formats["wrikeworkflow"] = string(jsJSON(formatWrikeWorkflow(d, rules), ""))
+	formats["wrike"] = string(jsJSON(formatWrikeRows(d, rules), ""))
+	formats["teamwork"] = string(jsJSON(formatTeamworkSheet(d), ""))
 	formats["superproductivity"] = formatSuperProductivity(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC).UnixMilli())
 	formats["tasksorg"] = string(jsJSON(formatTasksOrgBackup(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC)), ""))
 	formats["focalboard"] = formatFocalboard(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC).UnixMilli())
@@ -110,7 +114,7 @@ func TestExportFormatRoutes(t *testing.T) {
 	}
 	// Every format Weddy offers answers as its file, and refuses a stranger.
 	for f, ext := range externalFormats {
-		if code, typ, body := get("/api/boards/"+b.ID+"/export/"+f, a); code != 200 || typ != ext[1]+"; charset=utf-8" || !strings.Contains(body, "C") {
+		if code, typ, body := get("/api/boards/"+b.ID+"/export/"+f, a); code != 200 || typ != exportContentType(ext) || (ext[0] != "xlsx" && !strings.Contains(body, "C")) {
 			t.Errorf("%s: %d %s %q", f, code, typ, body)
 		}
 		if code, _, _ := get("/api/boards/"+b.ID+"/export/"+f, bt); code != 403 {
@@ -177,4 +181,79 @@ func TestExportFormatsCarryPeopleAndComments(t *testing.T) {
 			t.Errorf("negative: %s names nobody once Admin Panel says so: %s", format, body)
 		}
 	}
+}
+
+// The workbooks read back as the rows WeKan's formatters write: text as
+// text, the Keys as numbers, the dates as date cells, the header bold.
+func TestExportWorkbooks(t *testing.T) {
+	raw, _ := os.ReadFile("testdata/external/collected.json")
+	var d extBoard
+	if err := json.Unmarshal(raw, &d); err != nil {
+		t.Fatal(err)
+	}
+	for name, c := range map[string]struct {
+		rows  workbookRows
+		write func(workbookRows) ([]byte, error)
+		sheet string
+	}{
+		"wrike":    {formatWrikeRows(d, nil), wrikeWorkbook, "Tasks"},
+		"teamwork": {formatTeamworkSheet(d), teamworkWorkbook, xlsxSheetName(d.Board.Title, "Tasks")},
+	} {
+		data, err := c.write(c.rows)
+		if err != nil {
+			t.Fatal(err)
+		}
+		sheets, err := readXlsx(data)
+		if err != nil || len(sheets) != 1 || sheets[0].Name != c.sheet {
+			t.Fatalf("%s: one sheet named %q: %v %+v", name, c.sheet, err, sheets)
+		}
+		got := sheets[0].Rows
+		if len(got) != len(c.rows.Rows) {
+			t.Fatalf("%s: %d rows, not %d", name, len(got), len(c.rows.Rows))
+		}
+		for r, row := range c.rows.Rows {
+			for k, cell := range row {
+				want := cellText(cell)
+				if dt, ok := cell.(jsDate); ok {
+					want = time.Time(dt).Format("2006-01-02")
+				}
+				have := ""
+				if k < len(got[r]) {
+					have = got[r][k]
+				}
+				if !strings.HasPrefix(have, want) {
+					t.Errorf("%s row %d col %d: %q, not %q", name, r+1, k+1, have, want)
+				}
+			}
+		}
+		if !strings.Contains(string(mustUnzip(t, data, "xl/worksheets/sheet1.xml")), `<c r="A1" s="1" t="inlineStr">`) {
+			t.Errorf("%s: the header is bold", name)
+		}
+	}
+	wb, _ := wrikeWorkbook(formatWrikeRows(d, nil))
+	sheet := string(mustUnzip(t, wb, "xl/worksheets/sheet1.xml"))
+	if !strings.Contains(sheet, `<c r="A2"><v>1</v></c>`) {
+		t.Error("wrike: a Key is a number")
+	}
+	if !strings.Contains(sheet, ` s="2"><v>`) {
+		t.Error("wrike: a date is a date cell")
+	}
+}
+
+func mustUnzip(t *testing.T, data []byte, name string) []byte {
+	t.Helper()
+	z, err := zip.NewReader(bytes.NewReader(data), int64(len(data)))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, f := range z.File {
+		if f.Name == name {
+			rc, _ := f.Open()
+			defer rc.Close()
+			b, _ := io.ReadAll(rc)
+			return b
+		}
+	}
+	t.Fatalf("no %s", name)
+	return nil
 }
