@@ -469,3 +469,8 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .js-calendar-day[aria-pressed="true"] { outline: 2px solid #172b4d; }
 .js-calendar-day.is-today { font-weight: bold; }
 .edit-date .warning { color: #b04632; margin: .3em 0; }
+.fa-sign-out::before { content: "\21E5"; }
+.fa-hourglass-start::before { content: "\23F3"; }
+.fa-hourglass-end::before { content: "\231B"; }
+.card-date { display: inline-block; font-size: .85em; padding: 0 .4em; border-radius: 3px; background: #dfe1e6; color: #172b4d; text-decoration: none; }
+.calendar-time-input { display: flex; align-items: center; gap: .2em; }

@@ -431,6 +431,10 @@ func (s *Server) executeRules(ctx context.Context, a bson.M) {
 		return
 	}
 	ctx = context.WithValue(ctx, ruleDepthKey{}, depth+1)
+	// A card date cleared is not "a card's date is set or changed" (#2474).
+	if isTimingClear(a) {
+		return
+	}
 	for _, rule := range s.matchingRules(ctx, a) {
 		for _, act := range s.ruleActions(ctx, rule) {
 			if err := s.performAction(ctx, a, act); err != nil {

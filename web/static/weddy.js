@@ -421,25 +421,53 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       tr.appendChild(td);
     }
   }
+  // calendarTimeInput: the hour and minute selects over the hidden time.
+  function setPickerTime(form, hhmm) {
+    var p = hhmm.split(':');
+    var fill = function (sel, n, want) {
+      sel.innerHTML = '';
+      for (var i = 0; i < n; i++) {
+        var o = document.createElement('option');
+        o.value = o.textContent = pad2(i);
+        if (pad2(i) === want) o.selected = true;
+        sel.appendChild(o);
+      }
+    };
+    fill(form.querySelector('.js-calendar-hour'), 24, pad2(+p[0]));
+    fill(form.querySelector('.js-calendar-minute'), 60, pad2(+(p[1] || 0)));
+    form.querySelector('.js-time-field').value = pad2(+p[0]) + ':' + pad2(+(p[1] || 0));
+  }
   function openDatePicker(el, defaultTime) {
     openPopOver('edit-date');
     var form = document.querySelector('.js-pop-over form.edit-date');
     if (!form) return;
+    var pop = form.closest('.js-pop-over');
+    if (el.getAttribute('data-title')) pop.setAttribute('aria-label', el.getAttribute('data-title'));
     form.setAttribute('action', el.getAttribute('data-url'));
-    form._defaultTime = defaultTime;
+    var now = new Date();
+    if (defaultTime === 'now') defaultTime = pad2(now.getHours()) + ':' + pad2(now.getMinutes());
     var at = el.getAttribute('data-date') ? new Date(el.getAttribute('data-date')) : null;
-    if (at && !isNaN(at)) {
-      form.querySelector('.js-date-field').value = isoDay(at);
-      form.querySelector('.js-time-field').value = pad2(at.getHours()) + ':' + pad2(at.getMinutes());
-    }
+    if (at && isNaN(at)) at = null;
+    // #6809: no date yet - today is picked, so Save alone saves today.
+    form.querySelector('.js-date-field').value = isoDay(at || now);
+    setPickerTime(form, at ? pad2(at.getHours()) + ':' + pad2(at.getMinutes()) : defaultTime);
     form.querySelector('.js-delete-date').hidden = !at;
-    form._shown = at && !isNaN(at) ? new Date(at.getFullYear(), at.getMonth(), 1) : new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    form._shown = new Date((at || now).getFullYear(), (at || now).getMonth(), 1);
     drawCalendar(form);
   }
   up.on('click', '.js-checklist-due-date, .js-checklist-item-due-date, .js-checklists-section .js-edit-date', function (event, el) {
     event.preventDefault();
     event.stopPropagation();
     openDatePicker(el, '17:00');
+  });
+  up.on('click', '.js-card-details .card-details-item .js-edit-date, .js-received-date, .js-start-date, .js-due-date, .js-end-date', function (event, el) {
+    event.preventDefault();
+    event.stopPropagation();
+    openDatePicker(el, el.getAttribute('data-default-time') || '12:00');
+  });
+  up.on('change', '.js-pop-over form.edit-date .js-calendar-hour, .js-pop-over form.edit-date .js-calendar-minute', function (event, el) {
+    var form = el.form;
+    form.querySelector('.js-time-field').value = form.querySelector('.js-calendar-hour').value + ':' + form.querySelector('.js-calendar-minute').value;
   });
   up.on('click', '.js-pop-over form.edit-date .js-calendar-day', function (event, el) {
     var form = el.form;
@@ -450,6 +478,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var form = el.form, s = form._shown;
     if (el.classList.contains('js-calendar-today')) form._shown = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     else form._shown = new Date(s.getFullYear(), s.getMonth() + (el.classList.contains('js-calendar-next') ? 1 : -1), 1);
+    drawCalendar(form);
+  });
+  up.on('click', '.js-pop-over form.edit-date .js-calendar-year-previous, .js-pop-over form.edit-date .js-calendar-year-next', function (event, el) {
+    var form = el.form, s = form._shown;
+    form._shown = new Date(s.getFullYear() + (el.classList.contains('js-calendar-year-next') ? 1 : -1), s.getMonth(), 1);
     drawCalendar(form);
   });
   up.on('click', '.js-pop-over form.edit-date .js-delete-date', function (event, el) {

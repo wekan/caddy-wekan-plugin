@@ -310,17 +310,24 @@
                   input.js-calendar-native-value.js-date-field#date(type="hidden", name="date")
                   .selected-calendar-picker
                     .selected-calendar-heading
+                      button.primary.js-calendar-year-previous(type="button", aria-label="{{t $.L `previous`}} {{t $.L `predicate-year`}}") «
                       button.primary.js-calendar-previous(type="button", aria-label="{{t $.L `previous`}} {{t $.L `month`}}") ‹
                       span.js-calendar-month-label(aria-live="polite")
                       button.primary.js-calendar-today(type="button", aria-label="{{t $.L `today`}}") {{t $.L "today"}}
                       button.primary.js-calendar-next(type="button", aria-label="{{t $.L `next`}} {{t $.L `month`}}") ›
+                      button.primary.js-calendar-year-next(type="button", aria-label="{{t $.L `next`}} {{t $.L `predicate-year`}}") »
                     table
                       thead
                         tr.js-calendar-weekdays
                       tbody.js-calendar-weeks
               .right
-                label(for="time") {{t $.L "time"}}
-                input.js-time-field#time(type="text", name="time", inputmode="numeric", placeholder="HH:mm", autocomplete="off")
+                label {{t $.L "time"}}
+                //- calendarTimeInput: an hour and a minute picked.
+                .calendar-time-input
+                  input.js-calendar-native-time.js-time-field#time(type="hidden", name="time")
+                  select.js-calendar-hour(aria-label="{{t $.L `hours`}}")
+                  span(aria-hidden="true") :
+                  select.js-calendar-minute(aria-label="{{t $.L `minutes`}}")
             .warning.js-date-error(hidden, data-invalid-date="{{t $.L `invalid-date`}}", data-invalid-time="{{t $.L `invalid-time`}}", data-invalid-year="{{t $.L `invalid-year`}}")
             button.primary.wide.left.js-submit-date(type="submit") {{t $.L "save"}}
             button.js-delete-date.negate.wide.right(type="button") {{t $.L "delete"}}
@@ -727,6 +734,23 @@
               span.card-label(class="card-label-{{.Color}}") {{.Name}}
           if $.CanEdit
             a.card-details-item-add-button.js-add-labels(href="#", title="{{t $.L `cardLabelsPopup-title`}}", aria-label="{{t $.L `cardLabelsPopup-title`}}") +
+        //- WeKan's card dates: Received, Start, Due and End, as the board
+          allows them - a badge, or a "+" for whoever may set them.
+        each cd in .CardDates
+          .card-details-item(class="card-details-item-{{.Kind}}")
+            h3.card-details-item-title
+              i.fa(class="{{.Icon}}")
+              |  {{t $.L .Label}}
+            if .Date.Set
+              if $.CanSetDates
+                a.js-edit-date.card-date(href="#", class="{{.Kind}}-date", title="{{t $.L .Label}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/dates/{{.Kind}}", data-date="{{.Date.ISO}}", data-default-time="{{.DefaultTime}}", data-title="{{t $.L .Title}}")
+                  time(datetime="{{.Date.ISO}}") {{.Date.Show $.DateFormat}}
+              else
+                a.card-date(class="{{.Kind}}-date", title="{{t $.L .Label}}")
+                  time(datetime="{{.Date.ISO}}") {{.Date.Show $.DateFormat}}
+            else if $.CanSetDates
+              a.card-label.add-label(href="#", class="js-{{.Kind}}-date", title="{{t $.L .Label}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/dates/{{.Kind}}", data-default-time="{{.DefaultTime}}", data-title="{{t $.L .Title}}")
+                i.fa.fa-plus
         //- WeKan's cardButtons: the board's card button rules.
         if .CardButtons
           .card-details-item.card-details-item-buttons
