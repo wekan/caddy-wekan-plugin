@@ -62,6 +62,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"createCardWithDueDate":           s.methodCreateCardWithDueDate,
 		"rules.setEnabled":                s.methodSetRuleEnabled,
 		"toggleCardMaximized":             s.methodToggleCardMaximized,
+		"toggleSubmitOnEnter":             s.methodToggleSubmitOnEnter,
 		"archiveSelectedCards":            s.methodArchiveSelectedCards,
 		"/cards/update":                   s.methodCardsUpdate,
 		"watch":                           s.methodWatch,
@@ -578,6 +579,14 @@ func (s *Server) methodSetEmail(r *http.Request, u *User, args []json.RawMessage
 func (s *Server) methodToggleCardMaximized(r *http.Request, u *User, args []json.RawMessage) (any, error) {
 	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
 		bson.M{"$set": bson.M{"profile.cardMaximized": !u.Profile.CardMaximized}})
+	return nil, err
+}
+
+// methodToggleSubmitOnEnter is WeKan's toggleSubmitOnEnter: the user's own
+// profile.submitOnEnter, flipped.
+func (s *Server) methodToggleSubmitOnEnter(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
+		bson.M{"$set": bson.M{"profile.submitOnEnter": !u.Profile.SubmitOnEnter}})
 	return nil, err
 }
 

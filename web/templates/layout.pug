@@ -9,7 +9,7 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
     script(src="/static/vendor/unpoly.min.js")
     script(src="/static/vendor/interact.min.js")
     script(src="/static/weddy.js")
-  body
+  body(data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}")
     if .User
       #header.header-bar
         a.header-all-boards.js-all-boards(href="/", up-follow) {{t $.L "all-boards"}}
@@ -95,6 +95,18 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
               a.js-change-language(href="/language")
                 i.fa.fa-globe
                 |  {{t $.L "changeLanguagePopup-title"}}
+            li
+              a.js-change-settings(href="#")
+                i.fa.fa-cog
+                |  {{t $.L "change-settings"}}
+        //- WeKan's changeSettingsPopup: what Weddy has of it.
+        template.js-pop-over-template(data-pop="change-settings", data-title="{{t $.L `changeSettingsPopup-title`}}")
+          ul.pop-over-list
+            li
+              a.js-toggle-submit-on-enter(href="#", title="{{t $.L `submit-on-enter-description`}}")
+                i.fa.fa-level-down
+                |  {{t $.L "submit-on-enter"}}
+                i.fa.fa-check.js-submit-on-enter-check(hidden)
         //- WeKan's editProfilePopup.
         template.js-pop-over-template(data-pop="edit-profile", data-title="{{t $.L `editProfilePopup-title`}}")
           form.js-edit-profile-form(method="post", action="/profile")

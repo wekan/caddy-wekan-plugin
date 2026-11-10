@@ -17,6 +17,14 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
 
   var staleUnderPopOver = false; // the board changed while a pop-over was open
   var staleUnderForm = false;    // ... or while an inlined form was open
+  // An inlined form closed: hidden, and a templated one's fields taken away.
+  function closeInlinedForm(form) {
+    form.classList.add('is-hidden');
+    if (!form.querySelector(':scope > template.js-inlined-form-body')) return;
+    Array.prototype.slice.call(form.childNodes).forEach(function (n) {
+      if (!(n.matches && n.matches('template.js-inlined-form-body'))) form.removeChild(n);
+    });
+  }
   function reloadBoard() {
     if (dragging > 0) { stale = true; return; }
     // An open pop-over is not swept away by somebody else's change: the board
@@ -35,6 +43,48 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
 
   // A form sent is answered with the whole board: what was waiting is in it.
   up.on('up:form:submit', function () { staleUnderForm = false; });
+  // WeKan's submit-on-Enter (models/lib/editorSubmitKey.js, editorSubmit.js):
+  // in every editor, with the member's preference Enter saves and
+  // Shift+Enter is a new line; without it Enter is a new line and
+  // Ctrl/Cmd+Enter saves. Enter that ends an IME composition never saves.
+  // The preference as the newest page part says it: the board is re-rendered
+  // on each card opened, the body only on a full load.
+  function submitOnEnter(el) {
+    var at = (el && el.closest && el.closest('[data-submit-on-enter]')) || document.querySelector('.board-wrapper[data-submit-on-enter]') || document.body;
+    return !!at && at.getAttribute('data-submit-on-enter') === 'true';
+  }
+  function isSubmitKey(event) {
+    if (event.defaultPrevented || event.isComposing || event.keyCode === 229) return false;
+    if (event.key !== 'Enter' && event.keyCode !== 13) return false;
+    return submitOnEnter(event.target) ? !event.shiftKey : !!(event.ctrlKey || event.metaKey);
+  }
+  document.addEventListener('keydown', function (event) {
+    var editor = event.target;
+    if (!editor || editor.tagName !== 'TEXTAREA' || editor.readOnly || editor.disabled || !editor.form || !isSubmitKey(event)) return;
+    var button = Array.prototype.find.call(editor.form.elements, function (c) {
+      return (c.tagName === 'BUTTON' || c.tagName === 'INPUT') && c.type === 'submit' && !c.disabled && c.getClientRects().length;
+    });
+    event.preventDefault();
+    event.stopPropagation();
+    if (button) button.click();
+    else if (editor.form.requestSubmit) editor.form.requestSubmit();
+  });
+  // Member Settings' toggle: the profile, and this page, at once.
+  up.on('click', '.js-change-settings', function (event) {
+    event.preventDefault();
+    openPopOver('change-settings');
+    var c = document.querySelector('.js-pop-over .js-submit-on-enter-check');
+    if (c) c.hidden = !submitOnEnter();
+  });
+  up.on('click', '.js-pop-over .js-toggle-submit-on-enter', function (event) {
+    event.preventDefault();
+    var on = !submitOnEnter();
+    callAsync('toggleSubmitOnEnter').then(function () {
+      document.querySelectorAll('[data-submit-on-enter]').forEach(function (e) { e.setAttribute('data-submit-on-enter', on ? 'true' : ''); });
+      var c = document.querySelector('.js-pop-over .js-submit-on-enter-check');
+      if (c) c.hidden = !on;
+    });
+  });
   // Other users' changes arrive as "board-changed".
   up.compiler('.board-wrapper[data-live]', function (el) {
     if (typeof EventSource === 'undefined') return;
@@ -202,12 +252,13 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var box = el.closest(where[0]);
     var form = box && box.querySelector(where[1]);
     if (!form) return;
-    // One inlined form at a time, as WeKan's.
-    el.closest('.js-checklists-section').querySelectorAll('.js-inlined-form').forEach(function (f) { if (f !== form) f.classList.add('is-hidden'); });
+    // One inlined form at a time, as WeKan's, and its fields only while open.
+    el.closest('.js-checklists-section').querySelectorAll('.js-inlined-form').forEach(function (f) { if (f !== form) closeInlinedForm(f); });
+    var body = form.querySelector(':scope > template.js-inlined-form-body');
+    if (body && !form.querySelector('textarea')) form.appendChild(body.content.cloneNode(true));
     form.classList.remove('is-hidden');
     form.querySelector('textarea').focus();
   });
-  // Enter saves, as WeKan's addChecklistItemForm; Shift+Enter is a new line.
   // checklistItemDeletePopup: the confirmation, for that item.
   up.on('click', '.js-delete-checklist-item', function (event, el) {
     event.preventDefault();
@@ -215,12 +266,6 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     openPopOver('checklist-item-delete');
     var f = document.querySelector('.js-pop-over .js-checklist-item-delete-form');
     if (f) f.setAttribute('action', url);
-  });
-  up.on('keydown', '.js-checklists-section textarea.js-add-checklist-item, .js-checklists-section textarea.js-edit-checklist-item', function (event, el) {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      up.submit(el.form);
-    }
   });
   up.on('click', '.js-pop-over .js-export-checklist', function (event) {
     event.preventDefault();
@@ -345,13 +390,6 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (caret) {
       caret.classList.toggle('fa-caret-down', open);
       caret.classList.toggle('fa-caret-right', !open);
-    }
-  });
-  // Enter adds the comment; Shift+Enter is a new line.
-  up.on('keydown', '.js-new-comment-input', function (event, el) {
-    if (event.key === 'Enter' && !event.shiftKey && (event.ctrlKey || event.metaKey)) {
-      event.preventDefault();
-      up.submit(el.form);
     }
   });
 
@@ -779,19 +817,13 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url);
     closePopOvers();
   });
-  // The card title's editor: open on its leading part, Ctrl/Cmd+Enter saves.
+  // The card title's editor: open on its leading part.
   up.on('click', '.card-details-title-edit-zone', function (event, el) {
     event.preventDefault();
     var form = el.closest('.card-details-header').querySelector('.js-card-details-title');
     if (!form) return;
     form.classList.remove('is-hidden');
     form.querySelector('textarea').focus();
-  });
-  up.on('keydown', '.js-card-details-title textarea', function (event, el) {
-    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
-      event.preventDefault();
-      up.submit(el.form);
-    }
   });
 
   // A link in a minicard's title opens on its own, without opening the card
@@ -948,15 +980,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     var form = el.closest('.js-inlined-form');
     if (form.classList.contains('js-card-composer')) form.remove();
-    else form.classList.add('is-hidden');
+    else closeInlinedForm(form);
     if (staleUnderForm) { staleUnderForm = false; setTimeout(reloadBoard, 0); }
-  });
-  // Enter adds the card, as in WeKan; Shift+Enter is a new line.
-  up.on('keydown', '.js-card-composer textarea', function (event, el) {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      up.submit(el.form);
-    }
   });
 
   // Ctrl/Cmd-click selects cards for a drag that moves many.

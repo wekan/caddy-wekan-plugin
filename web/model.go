@@ -88,6 +88,9 @@ type User struct {
 		InvitedBoards []string `bson:"invitedBoards,omitempty" json:"invitedBoards,omitempty"`
 		// CardMaximized: the user opens a card full-screen (WeKan's profile.cardMaximized).
 		CardMaximized bool `bson:"cardMaximized,omitempty" json:"cardMaximized,omitempty"`
+		// SubmitOnEnter: Enter saves an editor and Shift+Enter is a new line
+		// (WeKan's profile.submitOnEnter); off, Ctrl/Cmd+Enter saves.
+		SubmitOnEnter bool `bson:"submitOnEnter,omitempty" json:"submitOnEnter,omitempty"`
 	} `bson:"profile,omitempty" json:"profile,omitempty"`
 	Services struct {
 		Password struct {

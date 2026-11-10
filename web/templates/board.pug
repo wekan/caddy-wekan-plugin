@@ -1,4 +1,4 @@
-.board-wrapper(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live", data-move="/b/{{.Board.ID}}/move")
+.board-wrapper(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live", data-move="/b/{{.Board.ID}}/move", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}")
   .board-header
     h1.header-board-name.js-board-title {{.Board.Title}}
     //- WeKan's boardStarButton: the user's favorite, kept in their profile.
@@ -605,7 +605,7 @@
             | {{viewer .Card.Title $.TextPolicy}}
         if .CanEdit
           form.js-card-details-title.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/title", up-submit, up-target=".board-wrapper")
-            textarea(name="title", rows="2", dir="auto", aria-label="{{t $.L `title`}}", required) {{.Card.Title}}
+            textarea.js-edit-card-title(name="title", rows="2", dir="auto", aria-label="{{t $.L `title`}}", required) {{.Card.Title}}
             button.primary(type="submit") {{t $.L "save"}}
         if .User.Profile.CardMaximized
           a.js-minimize-card-details(href="#", title="{{t $.L `minimize-card`}}", aria-label="{{t $.L `minimize-card`}}") 🗗
@@ -744,10 +744,12 @@
                       .viewer {{viewer .Title $.TextPolicy}}
                 if $.CanModifyCard
                   form.js-edit-checklist-title.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/title", up-submit, up-target=".board-wrapper")
-                    textarea.js-edit-checklist-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `checklist`}}", required) {{.Title}}
-                    .edit-controls.clearfix
-                      button.primary.confirm.js-submit-edit-checklist-item-form(type="submit") {{t $.L "save"}}
-                      a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+                    //- Its fields are on the page only while it is open (WeKan's inlinedForm).
+                    template.js-inlined-form-body
+                      textarea.js-edit-checklist-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `checklist`}}", required) {{.Title}}
+                      .edit-controls.clearfix
+                        button.primary.confirm.js-submit-edit-checklist-item-form(type="submit") {{t $.L "save"}}
+                        a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
                 if .Percent
                   .checklist-progress-bar-container
                     .checklist-progress-text {{.Percent}}%
@@ -766,11 +768,13 @@
                         .item-title.js-open-inlined-form.is-editable(data-opens="edit-checklist-item", class="{{if .Finished}}is-checked{{end}}")
                           .viewer {{viewer .Title $.TextPolicy}}
                         form.js-edit-checklist-item.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/title", up-submit, up-target=".board-wrapper")
-                          textarea.js-edit-checklist-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `add-checklist-item`}}", required) {{.Title}}
-                          .edit-controls.clearfix
-                            button.primary.confirm.js-submit-edit-checklist-item-form(type="submit") {{t $.L "save"}}
-                            a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
-                            a.js-delete-checklist-item(href="#", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/delete") {{t $.L "delete"}}...
+                          //- Its fields are on the page only while it is open (WeKan's inlinedForm).
+                          template.js-inlined-form-body
+                            textarea.js-edit-checklist-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `add-checklist-item`}}", required) {{.Title}}
+                            .edit-controls.clearfix
+                              button.primary.confirm.js-submit-edit-checklist-item-form(type="submit") {{t $.L "save"}}
+                              a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+                              a.js-delete-checklist-item(href="#", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/delete") {{t $.L "delete"}}...
                       else
                         .item-title(class="{{if .Finished}}is-checked{{end}}")
                           .viewer {{viewer .Title $.TextPolicy}}
@@ -778,20 +782,24 @@
                   a.add-checklist-item.js-open-inlined-form(href="#", data-opens="add-checklist-item", title="{{t $.L `add-checklist-item`}}", aria-label="{{t $.L `add-checklist-item`}}")
                     i.fa.fa-plus
                   form.js-add-checklist-item.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items", up-submit, up-target=".board-wrapper")
-                    textarea.js-add-checklist-item(name="title", rows="1", aria-label="{{t $.L `add-checklist-item`}}", required)
-                    .edit-controls.clearfix
-                      button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
-                      a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+                    //- Its fields are on the page only while it is open (WeKan's inlinedForm).
+                    template.js-inlined-form-body
+                      textarea.js-add-checklist-item(name="title", rows="1", aria-label="{{t $.L `add-checklist-item`}}", required)
+                      .edit-controls.clearfix
+                        button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
+                        a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
           if .CanModifyCard
             .checklists-bottom-actions
               if .Checklists
                 a.add-checklist.js-open-inlined-form(href="#", data-opens="add-checklist", title="{{t $.L `add-checklist`}}", aria-label="{{t $.L `add-checklist`}}")
                   i.fa.fa-plus
               form.js-add-checklist.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/checklists", up-submit, up-target=".board-wrapper")
-                textarea.js-add-checklist-item(name="title", rows="1", aria-label="{{t $.L `add-checklist`}}", required)
-                .edit-controls.clearfix
-                  button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
-                  a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+                //- Its fields are on the page only while it is open (WeKan's inlinedForm).
+                template.js-inlined-form-body
+                  textarea.js-add-checklist-item(name="title", rows="1", aria-label="{{t $.L `add-checklist`}}", required)
+                  .edit-controls.clearfix
+                    button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
+                    a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
       h3 {{t $.L "attachments"}}
       ul.attachments.js-attachments
         each a in .Attachments
