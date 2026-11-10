@@ -13,7 +13,7 @@
       </outline>
     </outline>
     <outline text="Done">
-      <outline text="Ship" _note="first&#10;second  &#10;&#10;" _complete="true">
+      <outline text="-minus first" _note="first&#10;second  &#10;&#10;" _complete="true">
         <outline text="">
           <outline text="  one  "/>
           <outline text="   " _complete="true"/>

@@ -105,7 +105,9 @@
         "web  dev",
         "project:Plant.Pumps",
         "@home",
-        "big deal"
+        "big deal",
+        "p2",
+        "a;b"
       ],
       "startAt": "2026-11-10T00:00:00.000Z",
       "createdAt": "2026-11-01T08:00:00.000Z",
@@ -150,7 +152,7 @@
     {
       "cardId": "cardB😀2",
       "listId": "L2",
-      "title": "Ship",
+      "title": "-minus first",
       "description": "first\r\nsecond  \n\n",
       "listTitle": "Done",
       "swimlaneTitle": "Default",
@@ -163,7 +165,9 @@
       "labels": [
         "priority:B",
         "raw",
-        "done"
+        "done",
+        "won't do",
+        "=SUM(1)"
       ],
       "endAt": "2026-11-05T00:00:00.000Z",
       "createdAt": "2026-11-02T00:00:00.000Z",
@@ -232,6 +236,22 @@
           "date": "2026-11-04T00:00:00.000Z"
         }
       ]
+    },
+    {
+      "cardId": "cardD4",
+      "listId": "L1",
+      "title": "No list item",
+      "description": "",
+      "listTitle": "",
+      "swimlaneTitle": "Default",
+      "labelIds": [],
+      "labels": [
+        "p1"
+      ],
+      "startAt": "2026-11-11T00:00:00.000Z",
+      "dueAt": "2026-11-12T00:00:00.000Z",
+      "requestedBy": "Eve",
+      "parentCardId": "cardB😀2"
     }
   ]
 }

@@ -6,7 +6,7 @@ kanban-plugin: board
 
 ## To Do (3)
 
-- [ ] Write spec now #priority:H #web-dev #project:Plant.Pumps #@home #big-deal @{2026-11-20} @@{10:00} 🛫 2026-11-10
+- [ ] Write spec now #priority:H #web-dev #project:Plant.Pumps #@home #big-deal #p2 #a;b @{2026-11-20} @@{10:00} 🛫 2026-11-10
     line one
     
     line "two" <b>
@@ -17,7 +17,7 @@ kanban-plugin: board
 
 ## Done
 
-- [x] Ship #priority:B #raw ✅ 2026-11-05
+- [x] -minus first #priority:B #raw #won't-do #=SUM(1) ✅ 2026-11-05
     first
     second  
     

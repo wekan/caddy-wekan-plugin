@@ -1,0 +1,21 @@
+"Date: 2026-11-10+0000"
+"Version: 7.2"
+"Status: 
+0 Normal
+1 Completed
+2 Archived"
+"Folder Name","List Name","Title","Kind","Tags","Content","Is Check list","Start Date","Due Date","Reminder","Repeat","Priority","Status","Created Time","Completed Time","Order","Timezone","Is All Day","Is Floating","Column Name","Column Order","View Mode","taskId","parentId","projectKind"
+"","Plan & <Go> ""q"" 🚀","Write   spec now","CHECKLIST","priority:H, web  dev, project:Plant.Pumps, @home, big deal, p2, a;b","line one
+
+line ""two"" <b>
+▪a & b
+▫c","Y","2026-11-10T00:00:00+0000","2026-11-20T10:00:00+0000","","","0","0","2026-11-01T08:00:00+0000","","0","UTC","false","false","To Do","0","kanban","1","","TASK"
+"","Plan & <Go> ""q"" 🚀","-minus first","CHECKLIST","priority:B, raw, done, =SUM(1)","first
+second  
+
+
+▫  one  
+▪   ","Y","","","","","0","-1","2026-11-02T00:00:00+0000","2026-11-05T00:00:00+0000","1099511627776","UTC","","false","Done","1","kanban","2","1","TASK"
+"","Plan & <Go> ""q"" 🚀","multi
+  line	title","TEXT","","","N","","2026-12-24T18:30:00+0000","","","0","0","","","2199023255552","UTC","false","false","Archived list","0","kanban","3","","TASK"
+"","Plan & <Go> ""q"" 🚀","No list item","TEXT","p1","","N","2026-11-11T00:00:00+0000","2026-11-12T00:00:00+0000","","","0","0","","","3298534883328","UTC","true","false","Tasks","0","kanban","4","2","TASK"

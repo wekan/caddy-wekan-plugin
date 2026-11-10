@@ -40,6 +40,11 @@ var externalFormats = map[string][2]string{
 	"gitlab":      {"json", "application/json"},
 	"trello":      {"json", "application/json"},
 	"asana":       {"json", "application/json"},
+	"leo":         {"leo", "application/xml"},
+	"meistertask": {"csv", "text/csv"},
+	"todoist":     {"csv", "text/csv"},
+	"linear":      {"csv", "text/csv"},
+	"ticktick":    {"csv", "text/csv"},
 }
 
 type extChecklistItem struct {
@@ -515,6 +520,16 @@ func (s *Server) externalExport(ctx context.Context, b *Board, format string) []
 		return []byte(formatOrgMode(d))
 	case "kanri":
 		return formatKanri(d, time.Now())
+	case "leo":
+		return []byte(formatLeo(d))
+	case "meistertask":
+		return []byte(formatMeisterTaskCsv(d))
+	case "todoist":
+		return []byte(formatTodoistCsv(d))
+	case "linear":
+		return []byte(formatLinearCsv(d))
+	case "ticktick":
+		return []byte(formatTickTickCsv(d, time.Now()))
 	}
 	if f := apiFormatters[format]; f != nil {
 		return jsJSON(f(d), "")

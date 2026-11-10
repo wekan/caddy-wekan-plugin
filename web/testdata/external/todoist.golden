@@ -1,0 +1,19 @@
+TYPE,CONTENT,DESCRIPTION,PRIORITY,INDENT,AUTHOR,RESPONSIBLE,DATE,DATE_LANG,TIMEZONE,DURATION,DURATION_UNIT,DEADLINE,DEADLINE_LANG
+meta,view_style=board,,,,,,,,,,,,
+section,To Do,,,,,,,,,,,,
+task,Write spec now @priority:H @web_dev @project:Plant.Pumps @@home @big_deal @a;b,"line one
+
+line ""two"" <b>",2,1,,alice,2026-11-10,en,UTC,,,2026-11-20 10:00,en
+task,c,,4,2,,,,,,,,,
+note,Looks <i>good</i>,,,,bob,,,,,,,,
+note,no author,,,,,,,,,,,,
+section,Done,,,,,,,,,,,,
+task,-minus first @priority:B @raw @done @won't_do @=SUM(1),"first
+second  
+
+",4,1,,,,,,,,,
+task,  one  ,,4,2,,,,,,,,,
+section,Archived list,,,,,,,,,,,,
+task,multi line title,,4,1,,,2026-12-24 18:30,en,UTC,,,,
+note,orphan,,,,,,,,,,,,
+task,No list item,,1,1,,,2026-11-11,en,UTC,,,2026-11-12,en

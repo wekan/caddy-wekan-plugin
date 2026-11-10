@@ -11,7 +11,9 @@
     "tags": [
       "web_dev",
       "@home",
-      "big_deal"
+      "big_deal",
+      "p2",
+      "a;b"
     ],
     "annotations": [
       {
@@ -28,13 +30,15 @@
   {
     "uuid": "5b1158c8-283f-405d-9b7b-cb825d257e3f",
     "status": "completed",
-    "description": "Ship",
+    "description": "-minus first",
     "entry": "20261102T000000Z",
     "end": "20261105T000000Z",
     "tags": [
       "priority:B",
       "raw",
-      "done"
+      "done",
+      "won't_do",
+      "=SUM(1)"
     ],
     "wekanlist": "Done",
     "wekandescription": "first\r\nsecond  \n\n"
@@ -51,5 +55,15 @@
       }
     ],
     "wekanlist": "Archived list"
+  },
+  {
+    "uuid": "80d0bbef-431f-480a-b5ee-e4915df8fcec",
+    "status": "pending",
+    "description": "No list item",
+    "due": "20261112T000000Z",
+    "scheduled": "20261111T000000Z",
+    "tags": [
+      "p1"
+    ]
   }
 ]

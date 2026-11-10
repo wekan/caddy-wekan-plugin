@@ -29,6 +29,9 @@ func TestExternalFormatsAreWeKans(t *testing.T) {
 	formats := map[string]string{"markdown": formatMarkdownKanban(d), "opml": formatOpml(d), "todotxt": formatTodoTxt(d),
 		"taskwarrior": formatTaskwarrior(d), "zenkit": string(formatZenkit(d)), "nullboard": formatNullboard(d, time.Now()),
 		"obsidian": formatObsidianKanban(d), "orgmode": formatOrgMode(d), "kanri": string(formatKanri(d, time.Now()))}
+	formats["leo"], formats["meistertask"], formats["todoist"] = formatLeo(d), formatMeisterTaskCsv(d), formatTodoistCsv(d)
+	formats["linear"] = formatLinearCsv(d)
+	formats["ticktick"] = formatTickTickCsv(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC))
 	for f, format := range apiFormatters {
 		formats[f] = string(jsJSON(format(d), ""))
 	}

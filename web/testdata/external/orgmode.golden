@@ -2,7 +2,7 @@
 #+TODO: TODO | DONE
 
 * To Do
-** TODO [#H] Write spec now :web_dev:project_Plant_Pumps:@home:big_deal:
+** TODO [#H] Write spec now :web_dev:project_Plant_Pumps:@home:big_deal:p2:a_b:
    SCHEDULED: <2026-11-10 Tue> DEADLINE: <2026-11-20 Fri 10:00>
    :PROPERTIES:
    :CREATED:  [2026-11-01 Sun 08:00]
@@ -14,7 +14,7 @@
 **** DONE a & b
 **** TODO c
 * Done
-** DONE [#B] Ship :raw:
+** DONE [#B] -minus first :raw:won_t_do:SUM_1:
    CLOSED: [2026-11-05 Thu]
    :PROPERTIES:
    :CREATED:  [2026-11-02 Mon]

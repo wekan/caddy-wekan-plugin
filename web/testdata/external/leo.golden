@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<leo_file xmlns:leo="http://leoeditor.com/namespaces/leo-python-editor/1.1">
+<leo_header file_format="2" wekan_board="Plan &amp; &lt;Go&gt; &quot;q&quot; 🚀"/>
+<vnodes>
+<v t="wekan.1.1"><vh>To Do</vh>
+  <v t="wekan.1.2"><vh>Write   spec now</vh>
+    <v t="wekan.1.3"><vh>Steps</vh>
+      <v t="wekan.1.4" a="M"><vh>a &amp; b</vh></v>
+      <v t="wekan.1.5"><vh>c</vh></v>
+    </v>
+  </v>
+</v>
+<v t="wekan.1.6"><vh>Done</vh>
+  <v t="wekan.1.7" a="M"><vh>-minus first</vh>
+    <v t="wekan.1.8"><vh></vh>
+      <v t="wekan.1.9"><vh>  one  </vh></v>
+      <v t="wekan.1.10" a="M"><vh>   </vh></v>
+    </v>
+    <v t="wekan.1.11"><vh>Nothing</vh></v>
+  </v>
+</v>
+<v t="wekan.1.12"><vh>Empty</vh></v>
+</vnodes>
+<tnodes>
+<t tx="wekan.1.2">line one
+
+line &quot;two&quot; &lt;b&gt;</t>
+<t tx="wekan.1.7">first
+second  
+
+</t>
+</tnodes>
+</leo_file>
