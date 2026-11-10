@@ -168,7 +168,7 @@ func (s *Server) profilePage(w http.ResponseWriter, r *http.Request, u *User) {
 	_ = s.db.Collection("users").FindOne(r.Context(), bson.M{"_id": eq(u.ID)}).Decode(&me)
 	s.render(w, r, "profile", http.StatusOK, map[string]any{"Title": tr(lang, "edit-profile"), "User": u,
 		"Saved": r.URL.Query().Get("saved"), "Error": key, "ErrorText": text,
-		"Delivery": memberDeliveryViews(me, lang), "HideIdentity": nestedField(me, "profile", "webhookHideIdentity") == true})
+		"Delivery": memberDeliveryForm(me, lang), "HideIdentity": nestedField(me, "profile", "webhookHideIdentity") == true})
 }
 
 func (s *Server) saveProfile(w http.ResponseWriter, r *http.Request, u *User) {

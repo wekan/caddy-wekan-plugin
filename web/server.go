@@ -186,9 +186,23 @@ func (s *Server) compileTemplates() error {
 	if err != nil {
 		return err
 	}
+	// templates/_<name>.pug are partials: every page may call them, as
+	// {{template "_<name>" .}}.
+	partials := map[string]string{}
+	for _, e := range entries {
+		if name := strings.TrimSuffix(e.Name(), ".pug"); strings.HasPrefix(name, "_") {
+			src, err := templateFiles.ReadFile("templates/" + e.Name())
+			if err != nil {
+				return err
+			}
+			if partials[name], err = jade.Parse(name, src); err != nil {
+				return fmt.Errorf("%s: %w", e.Name(), err)
+			}
+		}
+	}
 	for _, e := range entries {
 		name := strings.TrimSuffix(e.Name(), ".pug")
-		if name == "layout" {
+		if name == "layout" || strings.HasPrefix(name, "_") {
 			continue
 		}
 		src, err := templateFiles.ReadFile("templates/" + e.Name())
@@ -205,6 +219,11 @@ func (s *Server) compileTemplates() error {
 		}
 		if _, err := t.New("content").Parse(body); err != nil {
 			return fmt.Errorf("%s: %w", e.Name(), err)
+		}
+		for pn, psrc := range partials {
+			if _, err := t.New(pn).Parse(psrc); err != nil {
+				return fmt.Errorf("%s.pug: %w", pn, err)
+			}
 		}
 		s.pages[name] = t
 	}
@@ -259,6 +278,8 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}", s.page(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/{card}", s.page(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/rules", s.page(s.rulesPage))
+	m.HandleFunc("GET /b/{board}/{slug}/notifications", s.page(s.boardNotificationsPage))
+	m.HandleFunc("POST /b/{board}/notifications", s.page(s.saveBoardDelivery))
 	m.HandleFunc("GET /b/{board}/{slug}/rules/export", s.page(s.rulesExport))
 	m.HandleFunc("POST /b/{board}/cards/{card}/people", s.page(s.cardPeoplePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/archive", s.page(s.archiveCardPage))

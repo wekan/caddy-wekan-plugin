@@ -144,6 +144,10 @@
             a.js-open-rules-import-export(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules?view=import", title="{{t $.L `rulesImportExportPopup-title`}}")
               i.fa.fa-exchange
               |  {{t $.L "rulesImportExportPopup-title"}}
+          li
+            a.js-open-board-notifications(href="/b/{{.Board.ID}}/{{.Board.Slug}}/notifications", title="{{t $.L `notifications`}}")
+              i.fa.fa-bell
+              |  {{t $.L "notifications"}}
   if .CanEdit
     //- WeKan's swimlaneAddPopup: a swimlane below or above the chosen one.
     template.js-pop-over-template(data-pop="add-swimlane", data-title="{{t $.L `swimlaneAddPopup-title`}}")

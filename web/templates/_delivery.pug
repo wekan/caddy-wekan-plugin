@@ -1,0 +1,87 @@
+//- How one level's channels deliver (#3695 / #5171), as WeKan's
+  notificationDeliverySettings: a form per channel, posted to .Delivery.Action;
+  "Default" leaves a setting to the next level. Called with the page's data.
+each d in .Delivery.Views
+  form(class="js-delivery-form js-{{$.Delivery.Scope}}-delivery", method="post", action="{{$.Delivery.Action}}", data-channel="{{.Channel}}")
+    input(type="hidden", name="channel", value="{{.Channel}}")
+    input.js-browser-timezone(type="hidden", name="browserTimezone", value="")
+    h3 {{.Title}}
+    if .IsWebhook
+      p.quiet {{t $.L "webhook-payload-description"}}
+      label(for="delivery-{{.Channel}}-text") {{t $.L "webhook-payload-text"}}
+      select.js-delivery-text(id="delivery-{{.Channel}}-text", name="text")
+        each o in .Texts
+          if .Selected
+            option(value="{{.Value}}", selected) {{.Label}}
+          else
+            option(value="{{.Value}}") {{.Label}}
+      p {{t $.L "webhook-payload-fields"}}
+      label.notification-delivery-default
+        if .FieldsDefault
+          input.js-delivery-fields-default(type="checkbox", name="fieldsDefault", value="true", checked)
+        else
+          input.js-delivery-fields-default(type="checkbox", name="fieldsDefault", value="true")
+        | {{t $.L "default"}}
+      each o in .Fields
+        label.notification-delivery-part
+          if .Selected
+            input.js-delivery-field(type="checkbox", name="fields", value="{{.Value}}", checked)
+          else
+            input.js-delivery-field(type="checkbox", name="fields", value="{{.Value}}")
+          | {{.Label}}
+    else
+      label(for="delivery-{{.Channel}}-layout") {{t $.L "notification-delivery-layout"}}
+      select.js-delivery-layout(id="delivery-{{.Channel}}-layout", name="layout")
+        each o in .Layouts
+          if .Selected
+            option(value="{{.Value}}", selected) {{.Label}}
+          else
+            option(value="{{.Value}}") {{.Label}}
+      p {{t $.L "notification-delivery-parts"}}
+      label.notification-delivery-default
+        if .PartsDefault
+          input.js-delivery-parts-default(type="checkbox", name="partsDefault", value="true", checked)
+        else
+          input.js-delivery-parts-default(type="checkbox", name="partsDefault", value="true")
+        | {{t $.L "default"}}
+      each o in .Parts
+        label.notification-delivery-part
+          if .Selected
+            input.js-delivery-part(type="checkbox", name="parts", value="{{.Value}}", checked)
+          else
+            input.js-delivery-part(type="checkbox", name="parts", value="{{.Value}}")
+          | {{.Label}}
+    label(for="delivery-{{.Channel}}-grouping") {{t $.L "notification-delivery-grouping"}}
+    select.js-delivery-grouping(id="delivery-{{.Channel}}-grouping", name="grouping")
+      each o in .Groupings
+        if .Selected
+          option(value="{{.Value}}", selected) {{.Label}}
+        else
+          option(value="{{.Value}}") {{.Label}}
+    label(for="delivery-{{.Channel}}-schedule") {{t $.L "notification-delivery-schedule"}}
+    select.js-delivery-schedule(id="delivery-{{.Channel}}-schedule", name="schedule")
+      each o in .Schedules
+        if .Selected
+          option(value="{{.Value}}", selected) {{.Label}}
+        else
+          option(value="{{.Value}}") {{.Label}}
+    label(for="delivery-{{.Channel}}-interval") {{t $.L "notification-delivery-interval"}}
+    select.js-delivery-interval(id="delivery-{{.Channel}}-interval", name="intervalMinutes")
+      each o in .Intervals
+        if .Selected
+          option(value="{{.Value}}", selected) {{.Label}}
+        else
+          option(value="{{.Value}}") {{.Label}}
+    label(for="delivery-{{.Channel}}-daily") {{t $.L "notification-delivery-daily-time"}}
+    input.js-delivery-daily(id="delivery-{{.Channel}}-daily", type="time", name="dailyTime", value="{{.DailyTime}}")
+    p {{t $.L "notification-delivery-quiet"}}
+    label
+      | {{t $.L "notification-delivery-quiet-from"}}
+      input.js-delivery-quiet-start(type="time", name="quietStart", value="{{.QuietStart}}")
+    label
+      | {{t $.L "notification-delivery-quiet-to"}}
+      input.js-delivery-quiet-end(type="time", name="quietEnd", value="{{.QuietEnd}}")
+    if .Timezone
+      p.quiet.js-delivery-timezone {{t $.L "notification-delivery-timezone"}} {{.Timezone}}
+      input(type="hidden", name="timezone", value="{{.Timezone}}")
+    button.primary.js-delivery-save(type="submit") {{t $.L "save"}}

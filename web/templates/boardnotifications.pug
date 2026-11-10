@@ -1,0 +1,12 @@
+//- WeKan's Board Settings / Notifications, its delivery part (#3695 / #5171):
+  how this board's e-mail, tray and webhooks deliver, for the board's admins.
+  A member's own setting, and a webhook's own, win over this.
+.setting-content.board-notifications
+  h1
+    a.js-back-to-board(href="/b/{{.Board.ID}}/{{.Board.Slug}}") {{.Board.Title}}
+    |  - {{t $.L "notifications"}}
+  if .Saved
+    p.cloud-saved.js-delivery-saved {{t $.L "cloud-saved"}}
+  if .Error
+    p.at-error.js-delivery-error {{t $.L "notification-delivery-invalid"}}
+  | {{template "_delivery" .}}

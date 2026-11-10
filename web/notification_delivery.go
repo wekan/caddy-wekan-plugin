@@ -385,7 +385,8 @@ func (s *Server) methodSetNotificationDelivery(r *http.Request, u *User, args []
 	return s.setNotificationDelivery(r.Context(), u, scope, targetID, channel, change, settings == nil)
 }
 
-// --- Member Settings' notification part, on the profile page.
+// --- The pages that set a level: Member Settings' part of the profile page,
+// and a board's Notifications page for its admins.
 
 type deliveryOption struct {
 	Value, Label string
@@ -394,24 +395,32 @@ type deliveryOption struct {
 
 type deliveryChannelView struct {
 	Channel, Title                  string
+	IsWebhook                       bool
 	Layouts, Groupings, Schedules   []deliveryOption
-	Intervals                       []deliveryOption
-	Parts                           []deliveryOption
-	PartsDefault                    bool
+	Intervals, Texts                []deliveryOption
+	Parts, Fields                   []deliveryOption
+	PartsDefault, FieldsDefault     bool
 	DailyTime, QuietStart, QuietEnd string
 	Timezone                        string
 }
 
-// memberDeliveryViews are the member's e-mail and tray, as they stand at the
-// member's own level ("" = the default, from the board or Admin Panel).
-func memberDeliveryViews(user bson.M, lang string) []deliveryChannelView {
+// deliveryForm is what templates/_delivery.pug shows: one form per channel
+// of a level, posted to Action.
+type deliveryForm struct {
+	Scope, Action string
+	Views         []deliveryChannelView
+}
+
+// deliveryViews are a level's channels as they stand at that level ("" = the
+// default, from the next level). stored gives a channel's stored value.
+func deliveryViews(stored func(channel string) any, channels []string, lang string) []deliveryChannelView {
 	views := []deliveryChannelView{}
-	for _, ch := range deliveryMemberChannels {
-		own, _ := normalizeChannelSettings(ch, asJSON(nestedField(user, "profile", "notificationDelivery", ch)))
+	for _, ch := range channels {
+		own, _ := normalizeChannelSettings(ch, asJSON(stored(ch)))
 		get := func(k string) string { v, _ := own[k].(string); return v }
 		opts := func(key string, values []string, label func(string) string) []deliveryOption {
 			cur := ""
-			if own != nil && own[key] != nil {
+			if own[key] != nil {
 				cur = fmt.Sprint(own[key])
 			}
 			out := []deliveryOption{{Value: "", Label: tr(lang, "default"), Selected: cur == ""}}
@@ -427,87 +436,182 @@ func memberDeliveryViews(user bson.M, lang string) []deliveryChannelView {
 		for _, n := range emailIntervals {
 			intervals = append(intervals, fmt.Sprint(n))
 		}
-		v := deliveryChannelView{Channel: ch, Title: tr(lang, map[string]string{"email": "email", "tray": "notification-settings-tray"}[ch]),
-			Layouts:   opts("layout", deliveryLayouts, key("notification-delivery-layout-")),
+		titles := map[string]string{"email": "email", "tray": "notification-settings-tray", "webhook": "outgoing-webhooks"}
+		v := deliveryChannelView{Channel: ch, Title: tr(lang, titles[ch]), IsWebhook: ch == "webhook",
 			Groupings: opts("grouping", deliveryGroupings[ch], key("notification-delivery-grouping-")),
 			Schedules: opts("schedule", emailSchedules, key("notification-delivery-schedule-")),
 			Intervals: opts("intervalMinutes", intervals, func(n string) string {
 				return fillParams(tr(lang, "notification-delivery-minutes"), map[string]string{"count": n})
-			}),
-			PartsDefault: own == nil || own["parts"] == nil}
+			})}
 		v.DailyTime, v.Timezone, v.QuietStart, v.QuietEnd = get("dailyTime"), get("timezone"), get("quietStart"), get("quietEnd")
-		var ownParts []string
-		if own != nil {
-			ownParts, _ = own["parts"].([]string)
+		checklist := func(field string, values []string, prefix string) ([]deliveryOption, bool) {
+			mine, isSet := own[field].([]string)
+			out := []deliveryOption{}
+			for _, x := range values {
+				labelKey := prefix + x
+				out = append(out, deliveryOption{Value: x, Label: tr(lang, labelKey), Selected: !isSet || slices.Contains(mine, x)})
+			}
+			return out, !isSet
 		}
-		for _, p := range deliveryParts {
-			partKey := "notification-delivery-part-" + p
-			v.Parts = append(v.Parts, deliveryOption{Value: p, Label: tr(lang, partKey),
-				Selected: v.PartsDefault || slices.Contains(ownParts, p)})
+		if v.IsWebhook {
+			v.Texts = opts("text", []string{"true", "false"}, func(b string) string { return tr(lang, map[string]string{"true": "yes", "false": "no"}[b]) })
+			v.Fields, v.FieldsDefault = checklist("fields", webhookFieldGroups, "webhook-payload-field-")
+		} else {
+			v.Layouts = opts("layout", deliveryLayouts, key("notification-delivery-layout-"))
+			v.Parts, v.PartsDefault = checklist("parts", deliveryParts, "notification-delivery-part-")
 		}
 		views = append(views, v)
 	}
 	return views
 }
 
-// saveMemberDelivery is the profile page's form for one channel: every
-// setting at once, "" for the default.
+// The words of the webhook channel's own settings.
+var _ = []string{msg("webhook-payload-text"), msg("webhook-payload-fields"), msg("webhook-payload-description"), msg("yes"), msg("no"),
+	msg("webhook-payload-field-standard"), msg("webhook-payload-field-ids"), msg("webhook-payload-field-names"),
+	msg("webhook-payload-field-links"), msg("webhook-payload-field-actor"), msg("webhook-payload-field-people"),
+	msg("webhook-payload-field-details")}
+
+// deliveryChange is one channel's form as a change: every setting at once,
+// "" for the default.
+func deliveryChange(r *http.Request, channel string) (map[string]any, bool) {
+	change := map[string]any{}
+	keys := []string{"grouping", "schedule", "dailyTime", "timezone"}
+	if channel != "webhook" {
+		keys = append(keys, "layout")
+	}
+	for _, k := range keys {
+		change[k] = nil
+		if v := strings.TrimSpace(r.FormValue(k)); v != "" {
+			change[k] = v
+		}
+	}
+	change["intervalMinutes"] = nil
+	if v := r.FormValue("intervalMinutes"); v != "" {
+		var n float64
+		if _, err := fmt.Sscan(v, &n); err != nil {
+			return nil, false
+		}
+		change["intervalMinutes"] = n
+	}
+	// Quiet hours are one setting: both ends, or neither.
+	start, end := strings.TrimSpace(r.FormValue("quietStart")), strings.TrimSpace(r.FormValue("quietEnd"))
+	change["quietStart"], change["quietEnd"] = nil, nil
+	if start != "" || end != "" {
+		change["quietStart"], change["quietEnd"] = start, end
+	}
+	list, def := "parts", "partsDefault"
+	if channel == "webhook" {
+		list, def = "fields", "fieldsDefault"
+		change["text"] = nil
+		switch r.FormValue("text") {
+		case "true":
+			change["text"] = true
+		case "false":
+			change["text"] = false
+		case "":
+		default:
+			return nil, false
+		}
+	}
+	change[list] = nil
+	if r.FormValue(def) != "true" {
+		picked := []any{}
+		for _, p := range r.Form[list] {
+			picked = append(picked, p)
+		}
+		change[list] = picked
+	}
+	// A schedule is read in the clock of whoever set it: the browser's,
+	// when the page could tell; no time zone is UTC.
+	if change["timezone"] == nil && (change["schedule"] != nil || change["quietStart"] != nil) {
+		if tz := strings.TrimSpace(r.FormValue("browserTimezone")); validTimezone(tz) {
+			change["timezone"] = tz
+		}
+	}
+	return change, true
+}
+
+// saveMemberDelivery is the profile page's form for one channel.
 func (s *Server) saveMemberDelivery(w http.ResponseWriter, r *http.Request, u *User) {
+	fail := func() { http.Redirect(w, r, "/profile?error=notification-delivery-invalid", http.StatusSeeOther) }
 	if err := r.ParseForm(); err != nil {
-		http.Redirect(w, r, "/profile?error=notification-delivery-invalid", http.StatusSeeOther)
+		fail()
 		return
 	}
 	channel := r.FormValue("channel")
-	change := map[string]any{}
-	if channel == "webhook" {
-		change["hideIdentity"] = r.FormValue("hideIdentity") == "true"
-	} else {
-		for _, k := range []string{"layout", "grouping", "schedule", "dailyTime", "timezone"} {
-			if v := strings.TrimSpace(r.FormValue(k)); v != "" {
-				change[k] = v
-			} else {
-				change[k] = nil
-			}
-		}
-		change["intervalMinutes"] = nil
-		if v := r.FormValue("intervalMinutes"); v != "" {
-			var n float64
-			if _, err := fmt.Sscan(v, &n); err != nil {
-				http.Redirect(w, r, "/profile?error=notification-delivery-invalid", http.StatusSeeOther)
-				return
-			}
-			change["intervalMinutes"] = n
-		}
-		// Quiet hours are one setting: both ends, or neither.
-		start, end := strings.TrimSpace(r.FormValue("quietStart")), strings.TrimSpace(r.FormValue("quietEnd"))
-		change["quietStart"], change["quietEnd"] = nil, nil
-		if start != "" || end != "" {
-			change["quietStart"], change["quietEnd"] = start, end
-		}
-		change["parts"] = nil
-		if r.FormValue("partsDefault") != "true" {
-			parts := []any{}
-			for _, p := range r.Form["parts"] {
-				parts = append(parts, p)
-			}
-			change["parts"] = parts
-		}
-		// A schedule is read in the clock of whoever set it: the browser's,
-		// when the page could tell; no time zone is UTC.
-		if change["timezone"] == nil && (change["schedule"] != nil || change["quietStart"] != nil) {
-			if tz := strings.TrimSpace(r.FormValue("browserTimezone")); validTimezone(tz) {
-				change["timezone"] = tz
-			}
+	change := map[string]any{"hideIdentity": r.FormValue("hideIdentity") == "true"}
+	if channel != "webhook" {
+		var ok bool
+		if change, ok = deliveryChange(r, channel); !ok {
+			fail()
+			return
 		}
 	}
 	if _, err := s.setNotificationDelivery(r.Context(), u, "member", "", channel, change, false); err != nil {
 		var me *methodError
 		if errors.As(err, &me) {
-			http.Redirect(w, r, "/profile?error=notification-delivery-invalid", http.StatusSeeOther)
+			fail()
 			return
 		}
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	http.Redirect(w, r, "/profile?saved=notifications#notification-settings", http.StatusSeeOther)
+}
+
+func memberDeliveryForm(user bson.M, lang string) deliveryForm {
+	return deliveryForm{Scope: "member", Action: "/profile/notifications", Views: deliveryViews(func(ch string) any {
+		return nestedField(user, "profile", "notificationDelivery", ch)
+	}, deliveryMemberChannels, lang)}
+}
+
+// boardNotificationsPage is WeKan's Board Settings / Notifications, its
+// delivery part: how this board's e-mail, tray and webhooks deliver, for the
+// board's admins. A member's own setting wins over it, a webhook's own too.
+func (s *Server) boardNotificationsPage(w http.ResponseWriter, r *http.Request, u *User) {
+	lang := languageOf(r, u).Tag
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil || !b.AdminOf(u.ID) {
+		s.render(w, r, "notfound", http.StatusNotFound, map[string]any{"Title": tr(lang, "board-not-found"), "User": u})
+		return
+	}
+	var board bson.M
+	_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&board)
+	form := deliveryForm{Scope: "board", Action: "/b/" + b.ID + "/notifications", Views: deliveryViews(func(ch string) any {
+		return nestedField(board, "notificationDelivery", ch)
+	}, deliveryChannels, lang)}
+	s.render(w, r, "boardnotifications", http.StatusOK, map[string]any{"Title": tr(lang, "notifications"), "User": u, "Board": b,
+		"Delivery": form, "Saved": r.URL.Query().Get("saved"), "Error": r.URL.Query().Get("error")})
+}
+
+func (s *Server) saveBoardDelivery(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+	back := "/b/" + b.ID + "/" + b.Slug + "/notifications"
+	if err := r.ParseForm(); err != nil {
+		http.Redirect(w, r, back+"?error=notification-delivery-invalid", http.StatusSeeOther)
+		return
+	}
+	channel := r.FormValue("channel")
+	change, ok := deliveryChange(r, channel)
+	if !ok {
+		http.Redirect(w, r, back+"?error=notification-delivery-invalid", http.StatusSeeOther)
+		return
+	}
+	if _, err := s.setNotificationDelivery(r.Context(), u, "board", b.ID, channel, change, false); err != nil {
+		var me *methodError
+		switch {
+		case errors.As(err, &me) && me.Code == "not-authorized":
+			http.Error(w, "Forbidden", http.StatusForbidden)
+		case errors.As(err, &me):
+			http.Redirect(w, r, back+"?error=notification-delivery-invalid", http.StatusSeeOther)
+		default:
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+	http.Redirect(w, r, back+"?saved=notifications", http.StatusSeeOther)
 }

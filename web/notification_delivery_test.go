@@ -274,6 +274,84 @@ func TestMemberDeliveryPage(t *testing.T) {
 	}
 }
 
+// A board's Notifications page, WeKan's Board Settings / Notifications: its
+// admins set the board's e-mail, tray and webhooks; a normal member neither
+// sees the page nor saves a setting.
+func TestBoardDeliveryPage(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Notify")
+	setMember(t, w, rb.ID, Member{UserID: bob.ID, IsActive: true})
+	var b Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&b)
+	ac, bc := w.client(t), w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	pagePath := w.srv.URL + "/b/" + rb.ID + "/" + b.Slug + "/notifications"
+	page := getBody(t, ac, pagePath)
+	for _, want := range []string{`data-channel="email"`, `data-channel="tray"`, `data-channel="webhook"`, `name="fields"`, `name="text"`, `js-board-delivery`} {
+		if !strings.Contains(page, want) {
+			t.Errorf("the board's page has %s", want)
+		}
+	}
+	if !strings.Contains(getBody(t, ac, w.srv.URL+"/b/"+rb.ID+"/"+b.Slug), "js-open-board-notifications") {
+		t.Error("the board menu links it for the board's admin")
+	}
+	stored := func(keys ...string) any {
+		var doc bson.M
+		_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&doc)
+		return plain(nestedField(doc, keys...))
+	}
+	post := func(c *http.Client, form url.Values) *http.Response {
+		res, err := c.PostForm(w.srv.URL+"/b/"+rb.ID+"/notifications", form)
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+		return res
+	}
+	res := post(ac, url.Values{"channel": {"webhook"}, "text": {"false"}, "fields": {"ids", "links"}, "grouping": {"card"}})
+	if !strings.HasSuffix(res.Header.Get("Location"), "/notifications?saved=notifications") {
+		t.Errorf("the webhook form saves: %s", res.Header.Get("Location"))
+	}
+	if m, _ := stored("notificationDelivery", "webhook").(map[string]any); m["text"] != false || m["grouping"] != "card" || len(m["fields"].([]any)) != 2 {
+		t.Errorf("the board's webhooks as chosen: %v", m)
+	}
+	post(ac, url.Values{"channel": {"email"}, "grouping": {"card"}, "partsDefault": {"true"}})
+	if d := w.s.emailDeliveryFor(ctx, bob.ID, rb.ID); d.Grouping != "card" {
+		t.Errorf("a member without their own setting gets the board's: %+v", d)
+	}
+	page = getBody(t, ac, pagePath)
+	if !strings.Contains(page, `<option value="card" selected`) {
+		t.Error("the page shows what is set")
+	}
+	// Negative: a normal member.
+	if res, _ := get(t, bc, pagePath); res.StatusCode != http.StatusNotFound {
+		t.Errorf("negative: a normal member does not get the page: %d", res.StatusCode)
+	}
+	if strings.Contains(getBody(t, bc, w.srv.URL+"/b/"+rb.ID+"/"+b.Slug), "js-open-board-notifications") {
+		t.Error("negative: nor the menu's link")
+	}
+	if res := post(bc, url.Values{"channel": {"email"}, "grouping": {"none"}, "partsDefault": {"true"}}); res.StatusCode != http.StatusForbidden {
+		t.Errorf("negative: a normal member's post is 403: %d", res.StatusCode)
+	}
+	if stored("notificationDelivery", "email", "grouping") != "card" {
+		t.Error("negative: and changes nothing")
+	}
+	// Negative: what the form never offers.
+	if res := post(ac, url.Values{"channel": {"webhook"}, "text": {"maybe"}, "fieldsDefault": {"true"}}); !strings.Contains(res.Header.Get("Location"), "error=notification-delivery-invalid") {
+		t.Errorf("negative: a text that is not yes or no: %s", res.Header.Get("Location"))
+	}
+	if res := post(ac, url.Values{"channel": {"webhook"}, "fields": {"secrets"}}); !strings.Contains(res.Header.Get("Location"), "error=notification-delivery-invalid") {
+		t.Errorf("negative: a field group that is not one: %s", res.Header.Get("Location"))
+	}
+	if m, _ := stored("notificationDelivery", "webhook").(map[string]any); m["text"] != false {
+		t.Errorf("negative: a refused form writes nothing: %v", m)
+	}
+}
+
 func getBody(t *testing.T, c *http.Client, u string) string {
 	t.Helper()
 	res, err := c.Get(u)
