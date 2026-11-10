@@ -274,3 +274,90 @@ func TestCardDetailsChecklistEdits(t *testing.T) {
 		t.Error("negative: no edit forms for a Worker")
 	}
 }
+
+// moveChecklist and checklist.copy: to a card the user may change, the
+// items and (on a move) the activities going along; refused for a card on
+// a board the user cannot change, and never from another card's path.
+func TestCardDetailsChecklistMoveAndCopy(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	other := w.seedUser(t, "olga", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "From")
+	tb, _ := w.s.CreateBoard(ctx, u, "To")
+	foreign, _ := w.s.CreateBoard(ctx, other, "Not ann's")
+	lane := func(bb *Board) string {
+		var sw Swimlane
+		_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": bb.ID}).Decode(&sw)
+		return sw.ID
+	}
+	l, _ := w.s.AddList(ctx, b, "L")
+	tl, _ := w.s.AddList(ctx, tb, "TL")
+	fl, _ := w.s.AddList(ctx, foreign, "FL")
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, lane(b), "Source")
+	tc, _ := w.s.AddCard(ctx, tb, u, tl.ID, lane(tb), "Target")
+	fc, _ := w.s.AddCard(ctx, foreign, other, fl.ID, lane(foreign), "Foreign")
+	_, _ = w.db.Collection("checklists").InsertMany(ctx, []any{
+		bson.M{"_id": "mv", "cardId": c.ID, "boardId": b.ID, "title": "Moved", "sort": 3},
+		bson.M{"_id": "cp", "cardId": c.ID, "boardId": b.ID, "title": "Copied", "sort": 4}})
+	_, _ = w.db.Collection("checklistItems").InsertMany(ctx, []any{
+		bson.M{"_id": "mv1", "checklistId": "mv", "cardId": c.ID, "boardId": b.ID, "title": "M1", "sort": 0, "isFinished": true},
+		bson.M{"_id": "cp1", "checklistId": "cp", "cardId": c.ID, "boardId": b.ID, "title": "C1", "sort": 0, "isFinished": true}})
+	_, _ = w.db.Collection("activities").InsertOne(ctx, bson.M{"_id": "act", "checklistId": "mv", "cardId": c.ID, "activityType": "addChecklist"})
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	base := w.srv.URL + "/b/" + b.ID + "/cards/" + c.ID + "/checklists/"
+	post := func(p string, v url.Values) int {
+		r, err := ann.PostForm(base+p, v)
+		if err != nil {
+			t.Fatal(err)
+		}
+		r.Body.Close()
+		return r.StatusCode
+	}
+	// The places carry the cards the user may change, for the card select.
+	_, js := get(t, ann, w.srv.URL+"/b/"+tb.ID+"/places?cards=1")
+	if !strings.Contains(js, tc.ID) {
+		t.Error("the target board's cards in its places")
+	}
+	// Negative: a card on a board ann cannot change, and a card that is not on the named board.
+	if code := post("mv/move-to", url.Values{"boardId": {foreign.ID}, "cardId": {fc.ID}}); code != http.StatusNotFound && code != http.StatusForbidden {
+		t.Errorf("negative: a foreign board's card: %d", code)
+	}
+	if code := post("mv/move-to", url.Values{"boardId": {tb.ID}, "cardId": {fc.ID}}); code != http.StatusNotFound {
+		t.Errorf("negative: a card not on the named board: %d", code)
+	}
+	var cl bson.M
+	_ = w.db.Collection("checklists").FindOne(ctx, bson.M{"_id": "mv"}).Decode(&cl)
+	if cl["cardId"] != c.ID {
+		t.Fatal("negative: nothing moved")
+	}
+	if code := post("mv/move-to", url.Values{"boardId": {tb.ID}, "cardId": {tc.ID}}); code != http.StatusSeeOther {
+		t.Fatalf("moved: %d", code)
+	}
+	_ = w.db.Collection("checklists").FindOne(ctx, bson.M{"_id": "mv"}).Decode(&cl)
+	var it, act bson.M
+	_ = w.db.Collection("checklistItems").FindOne(ctx, bson.M{"_id": "mv1"}).Decode(&it)
+	_ = w.db.Collection("activities").FindOne(ctx, bson.M{"_id": "act"}).Decode(&act)
+	if cl["cardId"] != tc.ID || cl["boardId"] != tb.ID || it["cardId"] != tc.ID || it["boardId"] != tb.ID || act["cardId"] != tc.ID {
+		t.Errorf("the checklist, its item and its activity on the target: %v %v %v", cl, it, act)
+	}
+	if code := post("cp/copy-to", url.Values{"boardId": {tb.ID}, "cardId": {tc.ID}}); code != http.StatusSeeOther {
+		t.Fatalf("copied: %d", code)
+	}
+	var copied bson.M
+	if w.db.Collection("checklists").FindOne(ctx, bson.M{"cardId": tc.ID, "title": "Copied"}).Decode(&copied) != nil || copied["boardId"] != tb.ID {
+		t.Fatal("a copy on the target card")
+	}
+	var ci bson.M
+	if w.db.Collection("checklistItems").FindOne(ctx, bson.M{"checklistId": copied["_id"]}).Decode(&ci) != nil || ci["title"] != "C1" || ci["isFinished"] != true || ci["cardId"] != tc.ID {
+		t.Errorf("its item, as it was: %v", ci)
+	}
+	if n, _ := w.db.Collection("checklists").CountDocuments(ctx, bson.M{"_id": "cp", "cardId": c.ID}); n != 1 {
+		t.Error("the original stays")
+	}
+	// Negative: the moved checklist is no longer reached through the source card.
+	if code := post("mv/copy-to", url.Values{"boardId": {tb.ID}, "cardId": {tc.ID}}); code != http.StatusNotFound {
+		t.Errorf("negative: a checklist no longer on this card: %d", code)
+	}
+}

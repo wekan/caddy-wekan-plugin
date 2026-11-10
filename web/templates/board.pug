@@ -259,6 +259,43 @@
               a.js-delete-checklist.delete-checklist(href="#")
                 i.fa.fa-trash
                 |  {{t $.L "delete"}} ...
+              a.js-move-checklist.move-checklist(href="#")
+                i.fa.fa-arrow-right
+                |  {{t $.L "moveChecklist"}} ...
+              a.js-copy-checklist.copy-checklist(href="#")
+                i.fa.fa-copy
+                |  {{t $.L "copyChecklist"}} ...
+      //- WeKan's moveChecklistPopup and copyChecklistPopup (copyAndMoveChecklist):
+        a board, swimlane, list and card the user may change; static/weddy.js
+        fills the swimlanes, lists and cards of the chosen board.
+      template.js-pop-over-template(data-pop="checklist-move", data-title="{{t $.L `moveChecklistPopup-title`}}", data-path="move-to")
+        form.js-checklist-target(method="post", action="#", up-submit, up-target=".board-wrapper", data-board="{{.Board.ID}}", data-swimlane="{{.Card.SwimlaneID}}", data-list="{{.Card.ListID}}", data-card="{{.Card.ID}}")
+          label {{t $.L "boards"}}:
+          select.js-select-boards(name="boardId")
+            each tb in .TargetBoards
+              option(value="{{.ID}}") {{.Title}}
+          label {{t $.L "swimlanes"}}:
+          select.js-select-swimlanes
+          label {{t $.L "lists"}}:
+          select.js-select-lists
+          label {{t $.L "cards"}}:
+          select.js-select-cards(name="cardId")
+          .edit-controls.clearfix
+            button.primary.confirm.js-done(type="submit") {{t $.L "done"}}
+      template.js-pop-over-template(data-pop="checklist-copy", data-title="{{t $.L `copyChecklistPopup-title`}}", data-path="copy-to")
+        form.js-checklist-target(method="post", action="#", up-submit, up-target=".board-wrapper", data-board="{{.Board.ID}}", data-swimlane="{{.Card.SwimlaneID}}", data-list="{{.Card.ListID}}", data-card="{{.Card.ID}}")
+          label {{t $.L "boards"}}:
+          select.js-select-boards(name="boardId")
+            each tb in .TargetBoards
+              option(value="{{.ID}}") {{.Title}}
+          label {{t $.L "swimlanes"}}:
+          select.js-select-swimlanes
+          label {{t $.L "lists"}}:
+          select.js-select-lists
+          label {{t $.L "cards"}}:
+          select.js-select-cards(name="cardId")
+          .edit-controls.clearfix
+            button.primary.confirm.js-done(type="submit") {{t $.L "done"}}
       //- WeKan's checklistItemDeletePopup.
       template.js-pop-over-template(data-pop="checklist-item-delete", data-title="{{t $.L `delete`}}")
         .content

@@ -27,6 +27,8 @@ func (s *Server) registerChecklistWrites(m *http.ServeMux) {
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/title", s.page(s.renameChecklistPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/title", s.page(s.checklistItemTitlePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/delete", s.page(s.deleteChecklistItemPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/move-to", s.page(s.moveChecklistPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/copy-to", s.page(s.copyChecklistPage))
 }
 
 // canCheckChecklistItem is Utils.canCheckChecklistItem: canModifyCard, or a
@@ -288,6 +290,103 @@ func (s *Server) deleteChecklistItemPage(w http.ResponseWriter, r *http.Request,
 	if _, err := s.db.Collection("checklistItems").DeleteOne(r.Context(), bson.M{"_id": eq(docString(it, "_id"))}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
+	}
+	s.backToCard(w, r, b, c)
+}
+
+// checklistDestination is copyAndMoveChecklist's choice: a card the user may
+// change, on a board they belong to - or the answer already written.
+func (s *Server) checklistDestination(w http.ResponseWriter, r *http.Request, u *User) (*Board, *Card, bool) {
+	tb, err := s.boardFor(r.Context(), r.FormValue("boardId"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return nil, nil, false
+	}
+	id := r.FormValue("cardId")
+	var tc Card
+	if !validID(id) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": tb.ID}).Decode(&tc) != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return nil, nil, false
+	}
+	// Both cards change: the caller may edit each (GHSA-r4gm-mjj9-g3x8).
+	if !tb.WritableIn(r.Context(), s, u, "write", &tc) {
+		http.Error(w, "your role on that board cannot change it", http.StatusForbidden)
+		return nil, nil, false
+	}
+	return tb, &tc, true
+}
+
+// moveChecklistPage is WeKan's moveChecklist: the checklist, its items and
+// its activities to another card.
+func (s *Server) moveChecklistPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, c, cl, ok := s.checklistTarget(w, r, u, true)
+	if !ok {
+		return
+	}
+	if !b.WritableIn(r.Context(), s, u, "write", c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	tb, tc, ok := s.checklistDestination(w, r, u)
+	if !ok {
+		return
+	}
+	clID := docString(cl, "_id")
+	now := time.Now().UTC()
+	_, _ = s.db.Collection("activities").UpdateMany(r.Context(), bson.M{"checklistId": eq(clID)}, bson.M{"$set": bson.M{"cardId": tc.ID}})
+	_, _ = s.db.Collection("checklistItems").UpdateMany(r.Context(), bson.M{"checklistId": eq(clID)},
+		bson.M{"$set": bson.M{"cardId": tc.ID, "boardId": tb.ID, "modifiedAt": now}})
+	if _, err := s.db.Collection("checklists").UpdateOne(r.Context(), bson.M{"_id": eq(clID), "cardId": eq(c.ID)},
+		bson.M{"$set": bson.M{"cardId": tc.ID, "boardId": tb.ID, "modifiedAt": now}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if tb.ID != b.ID {
+		s.hub.publish(tb.ID, "board-changed")
+	}
+	s.backToCard(w, r, b, c)
+}
+
+// copyChecklistPage is checklist.copy: the checklist and its items, as they
+// are, on another card - without an activity per item (#5688).
+func (s *Server) copyChecklistPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, c, cl, ok := s.checklistTarget(w, r, u, true)
+	if !ok {
+		return
+	}
+	if !b.WritableIn(r.Context(), s, u, "write", c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	tb, tc, ok := s.checklistDestination(w, r, u)
+	if !ok {
+		return
+	}
+	clID := docString(cl, "_id")
+	cur, err := s.db.Collection("checklistItems").Find(r.Context(), bson.M{"checklistId": eq(clID)})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var items []bson.M
+	_ = cur.All(r.Context(), &items)
+	now := time.Now().UTC()
+	copyID := randomID()
+	doc := bson.M{}
+	for k, v := range cl {
+		doc[k] = v
+	}
+	doc["_id"], doc["cardId"], doc["boardId"], doc["createdAt"], doc["modifiedAt"] = copyID, tc.ID, tb.ID, now, now
+	if _, err := s.db.Collection("checklists").InsertOne(r.Context(), doc); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	for _, it := range items {
+		it["_id"], it["checklistId"], it["cardId"], it["boardId"] = randomID(), copyID, tc.ID, tb.ID
+		_, _ = s.db.Collection("checklistItems").InsertOne(r.Context(), it)
+	}
+	if tb.ID != b.ID {
+		s.hub.publish(tb.ID, "board-changed")
 	}
 	s.backToCard(w, r, b, c)
 }

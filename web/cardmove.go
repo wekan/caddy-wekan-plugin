@@ -77,6 +77,23 @@ func (s *Server) placesPage(w http.ResponseWriter, r *http.Request, u *User) {
 	for _, sw := range swimlanes {
 		out["swimlanes"] = append(out["swimlanes"], map[string]any{"_id": sw.ID, "title": sw.Title, "n": sw.N})
 	}
+	// ?cards=1: the open cards the user may change, for the checklist's Move
+	// and Copy (copyAndMoveChecklist's card select).
+	if r.URL.Query().Get("cards") == "1" {
+		out["cards"] = []map[string]any{}
+		cur, err := s.db.Collection("cards").Find(r.Context(), bson.M{"boardId": eq(b.ID), "archived": false},
+			options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}).SetLimit(5000))
+		if err == nil {
+			var cards []Card
+			_ = cur.All(r.Context(), &cards)
+			for i := range cards {
+				if b.WritableIn(r.Context(), s, u, "write", &cards[i]) {
+					c := cards[i]
+					out["cards"] = append(out["cards"], map[string]any{"_id": c.ID, "title": c.Title, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
+				}
+			}
+		}
+	}
 	writeJSON(w, http.StatusOK, out)
 }
 

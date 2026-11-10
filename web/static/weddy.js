@@ -237,6 +237,54 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var f = document.querySelector('.js-pop-over .js-checklist-delete-form');
     if (f && t) f.setAttribute('action', t.getAttribute('data-card-url') + encodeURIComponent(menuChecklist) + '/delete');
   });
+  // copyAndMoveChecklist: the chosen board's swimlanes, lists and the cards
+  // of that swimlane and list, the checklist's own card chosen first.
+  function fillChecklistTarget(form, boardId, first) {
+    fetch('/b/' + encodeURIComponent(boardId) + '/places?cards=1', { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); }).then(function (p) {
+        form._places = p;
+        var fill = function (sel, rows, label, want) {
+          sel.innerHTML = '';
+          rows.forEach(function (o) {
+            var opt = document.createElement('option');
+            opt.value = o._id;
+            opt.textContent = label(o);
+            if (o._id === want) opt.selected = true;
+            sel.appendChild(opt);
+          });
+        };
+        fill(form.querySelector('.js-select-swimlanes'), p.swimlanes || [], function (o) { return o.title; }, first && form.dataset.swimlane);
+        fill(form.querySelector('.js-select-lists'), p.lists || [], function (o) { return o.title; }, first && form.dataset.list);
+        fillChecklistCards(form, first && form.dataset.card);
+      });
+  }
+  function fillChecklistCards(form, want) {
+    var p = form._places || {};
+    var lane = form.querySelector('.js-select-swimlanes').value, list = form.querySelector('.js-select-lists').value;
+    var sel = form.querySelector('.js-select-cards');
+    sel.innerHTML = '';
+    (p.cards || []).forEach(function (c) {
+      if (c.listId !== list || (lane && c.swimlaneId !== lane)) return;
+      var opt = document.createElement('option');
+      opt.value = c._id;
+      opt.textContent = c.title;
+      if (c._id === want) opt.selected = true;
+      sel.appendChild(opt);
+    });
+  }
+  up.on('click', '.js-pop-over .js-move-checklist, .js-pop-over .js-copy-checklist', function (event, el) {
+    event.preventDefault();
+    if (!menuChecklist) return;
+    var name = el.classList.contains('js-move-checklist') ? 'checklist-move' : 'checklist-copy';
+    var t = document.querySelector('template.js-pop-over-template[data-pop="' + name + '"]');
+    openPopOver(name);
+    var form = document.querySelector('.js-pop-over .js-checklist-target');
+    if (!form || !t) return;
+    form.setAttribute('action', '/b/' + form.dataset.board + '/cards/' + form.dataset.card + '/checklists/' + encodeURIComponent(menuChecklist) + '/' + t.getAttribute('data-path'));
+    fillChecklistTarget(form, form.querySelector('.js-select-boards').value, true);
+  });
+  up.on('change', '.js-checklist-target .js-select-boards', function (event, sel) { fillChecklistTarget(sel.form, sel.value, false); });
+  up.on('change', '.js-checklist-target .js-select-swimlanes, .js-checklist-target .js-select-lists', function (event, sel) { fillChecklistCards(sel.form); });
   // The checklists' inlined forms: a "+" opens its own form - the
   // checklist's for an item, the section's for a checklist.
   up.on('click', '.js-checklists-section .js-open-inlined-form', function (event, el) {
