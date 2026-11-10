@@ -1,6 +1,7 @@
 package web
 
 import (
+	"errors"
 	"net/http"
 	"time"
 
@@ -150,12 +151,28 @@ func (s *Server) apiEditIntegration(w http.ResponseWriter, r *http.Request, u *U
 		}
 		set["activities"] = list
 	}
-	if _, ok := req["notificationDelivery"]; ok {
-		writeJSON(w, http.StatusBadRequest, map[string]any{"error": "invalid-notification-delivery",
-			"reason": "notification delivery settings are not kept by Weddy yet"})
-		return
+	// #3695: how this webhook delivers - { webhook: {...} }, or null to
+	// inherit; validated before ANY field is written, as WeKan's.
+	update := bson.M{}
+	if v, ok := req["notificationDelivery"]; ok {
+		nd, err := normalizeDeliverySettings(v, []string{"webhook"})
+		if err != nil {
+			reason := err.Error()
+			var me *methodError
+			if errors.As(err, &me) {
+				reason = me.Reason
+			}
+			writeJSON(w, http.StatusBadRequest, map[string]any{"error": "invalid-notification-delivery", "reason": reason})
+			return
+		}
+		if nd == nil {
+			update["$unset"] = bson.M{"notificationDelivery": ""}
+		} else {
+			set["notificationDelivery"] = nd
+		}
 	}
-	if _, err := s.db.Collection("integrations").UpdateOne(r.Context(), bson.M{"_id": doc["_id"]}, bson.M{"$set": set}); err != nil {
+	update["$set"] = set
+	if _, err := s.db.Collection("integrations").UpdateOne(r.Context(), bson.M{"_id": doc["_id"]}, update); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}

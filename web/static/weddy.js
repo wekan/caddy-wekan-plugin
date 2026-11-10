@@ -342,6 +342,12 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     });
   });
 
+  // Member Settings' notification delivery: a schedule is read in the
+  // clock of the browser that saves it (WeKan's browserTimezone).
+  up.compiler('input.js-browser-timezone', function (el) {
+    try { el.value = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { el.value = ''; }
+  });
+
   // The notifications indicator: alert while there are unread ones.
   up.compiler('.notifications-drawer-toggle', function () {
     refreshUser();

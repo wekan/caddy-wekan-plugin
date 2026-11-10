@@ -164,8 +164,11 @@ func (s *Server) profilePage(w http.ResponseWriter, r *http.Request, u *User) {
 	if key != "" {
 		text = fillParams(tr(lang, key), map[string]string{"size": "72 kB"})
 	}
+	var me bson.M
+	_ = s.db.Collection("users").FindOne(r.Context(), bson.M{"_id": eq(u.ID)}).Decode(&me)
 	s.render(w, r, "profile", http.StatusOK, map[string]any{"Title": tr(lang, "edit-profile"), "User": u,
-		"Saved": r.URL.Query().Get("saved"), "Error": key, "ErrorText": text})
+		"Saved": r.URL.Query().Get("saved"), "Error": key, "ErrorText": text,
+		"Delivery": memberDeliveryViews(me, lang), "HideIdentity": nestedField(me, "profile", "webhookHideIdentity") == true})
 }
 
 func (s *Server) saveProfile(w http.ResponseWriter, r *http.Request, u *User) {
@@ -325,6 +328,7 @@ func (s *Server) userRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /profile", s.page(s.profilePage))
 	m.HandleFunc("POST /profile", s.page(s.saveProfile))
 	m.HandleFunc("POST /profile/password", s.page(s.changePassword))
+	m.HandleFunc("POST /profile/notifications", s.page(s.saveMemberDelivery))
 	m.HandleFunc("GET /admin/people", s.page(s.peoplePage))
 	m.HandleFunc("POST /admin/people/{user}", s.page(s.setPerson))
 	s.adminPeopleRoutes(m)
