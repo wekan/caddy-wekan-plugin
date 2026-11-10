@@ -1,0 +1,116 @@
+{
+  "board": {
+    "name": "Imported GitLab issues"
+  },
+  "columns": [
+    {
+      "title": "Open"
+    },
+    {
+      "title": "Closed"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "owner_username": "alice",
+      "assignees": [
+        "bob",
+        "alice",
+        "bob, jr"
+      ],
+      "requested_by": "carol",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x , y"
+      ],
+      "comments": [
+        {
+          "text": "Looks <i>good</i>",
+          "author": "bob",
+          "date": "2026-11-02T09:30:00.000Z"
+        },
+        {
+          "text": "no author"
+        }
+      ]
+    },
+    {
+      "title": "-minus first",
+      "description": "first\r\nsecond",
+      "column_name": "Closed",
+      "swimlane_name": "Default",
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "date_end": "2026-11-05T00:00:00.000Z",
+      "assignees": [],
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ]
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Closed",
+      "swimlane_name": "Default",
+      "date_due": "2026-12-24T18:30:00.000Z",
+      "assignees": [],
+      "tags": [],
+      "comments": [
+        {
+          "text": "orphan",
+          "date": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-12T00:00:00.000Z",
+      "assignees": [],
+      "tags": [
+        "p1"
+      ]
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "assignees": [],
+      "tags": []
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "assignees": [],
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

@@ -1,7 +1,39 @@
 {
-  "kanboard": ["kanboard-api.json", "../external/kanboard.golden"],
-  "deck": ["wekan-deck.json", "deck-edge.json", "../external/deck.golden"],
-  "github": ["wekan-github.json", "github-edge.json", "../external/github.golden"],
-  "gitea": ["wekan-gitea.json", "github-edge.json", "../external/gitea.golden"],
-  "forgejo": ["wekan-forgejo.json", "../external/forgejo.golden"]
+  "kanboard": [
+    "kanboard-api.json",
+    "../external/kanboard.golden"
+  ],
+  "deck": [
+    "wekan-deck.json",
+    "deck-edge.json",
+    "../external/deck.golden"
+  ],
+  "github": [
+    "wekan-github.json",
+    "github-edge.json",
+    "../external/github.golden"
+  ],
+  "gitea": [
+    "wekan-gitea.json",
+    "github-edge.json",
+    "../external/gitea.golden"
+  ],
+  "forgejo": [
+    "wekan-forgejo.json",
+    "../external/forgejo.golden"
+  ],
+  "gitlab": [
+    "wekan-gitlab.json",
+    "wekan-gitlab-scrum.json",
+    "../external/gitlab.golden"
+  ],
+  "asana": [
+    "wekan-asana.json",
+    "../external/asana.golden"
+  ],
+  "zenkit": [
+    "wekan-zenkit-adapter.json",
+    "wekan-zenkit-api.json",
+    "../external/zenkit.golden"
+  ]
 }

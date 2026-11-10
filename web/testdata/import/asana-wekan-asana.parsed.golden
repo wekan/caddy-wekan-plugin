@@ -1,0 +1,65 @@
+{
+  "board": {
+    "name": "Audit Asana"
+  },
+  "columns": [
+    {
+      "title": "Audit list"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "attachments": [
+        {
+          "name": "audit.txt",
+          "asanaGid": "5"
+        }
+      ],
+      "ref": "1",
+      "dependencies": [],
+      "title": "Audit task – Å 中文",
+      "description": "First line: café, comma, and \"quotes\".\nSecond line: 日本語.\n\nSource: https://app.asana.com/0/2/1",
+      "column_name": "Audit list",
+      "swimlane_name": "Default",
+      "date_due": "2026-09-30",
+      "date_started": "2026-09-01",
+      "date_creation": "2026-08-01T10:00:00.000Z",
+      "owner_username": "asana-a@example.com",
+      "tags": [
+        "Audit label"
+      ],
+      "custom_fields": {
+        "Audit points": 5,
+        "Audit stage": "Review"
+      },
+      "watchers": [
+        "Asana Assignee"
+      ],
+      "checklists": [
+        {
+          "title": "Subtasks",
+          "items": [
+            {
+              "title": "Audit subtask",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "text": "Audit comment",
+          "author": "asana-user",
+          "date": "2026-09-30T12:34:56.000Z"
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

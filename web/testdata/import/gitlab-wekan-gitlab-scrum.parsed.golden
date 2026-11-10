@@ -1,0 +1,104 @@
+{
+  "board": {
+    "name": "Imported GitLab issues"
+  },
+  "columns": [
+    {
+      "title": "Open"
+    },
+    {
+      "title": "Closed"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "externalId": "1",
+      "ref": "1",
+      "title": "Pump controller",
+      "description": "Replace the pump controller.\n\nSource: #1 https://example.invalid/group/project/-/issues/1",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "date_due": "2026-10-15",
+      "assignees": [],
+      "requested_by": "dummy",
+      "tags": [
+        "backend",
+        "milestone:v3.0",
+        "iteration:Sprint 12"
+      ]
+    },
+    {
+      "externalId": "2",
+      "ref": "2",
+      "title": "Release notes",
+      "description": "Source: #2 https://example.invalid/group/project/-/issues/2",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "date_due": "2026-10-30",
+      "assignees": [],
+      "requested_by": "dummy",
+      "tags": [
+        "milestone:v3.0"
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": [],
+  "scrumTransfer": {
+    "format": "wekan-scrum-2",
+    "settings": {
+      "enabled": true
+    },
+    "sprints": [
+      {
+        "_id": "gitlab-sprint-90",
+        "name": "Sprint 12",
+        "goal": "",
+        "state": "planned",
+        "plannedStart": "2026-10-05T00:00:00.000Z",
+        "plannedEnd": "2026-10-16T00:00:00.000Z",
+        "provenance": {
+          "system": "gitlab",
+          "recordId": "90"
+        }
+      }
+    ],
+    "releases": [
+      {
+        "_id": "gitlab-release-11",
+        "name": "v3.0",
+        "notes": "Spring release",
+        "state": "planned",
+        "plannedStart": "2026-10-01T00:00:00.000Z",
+        "plannedEnd": "2026-10-30T00:00:00.000Z",
+        "provenance": {
+          "system": "gitlab",
+          "recordId": "11"
+        }
+      }
+    ],
+    "events": [],
+    "cards": [
+      {
+        "_id": "task-0",
+        "scrum": {
+          "sprintId": "gitlab-sprint-90",
+          "releaseId": "gitlab-release-11"
+        }
+      },
+      {
+        "_id": "task-1",
+        "scrum": {
+          "releaseId": "gitlab-release-11"
+        }
+      }
+    ],
+    "lists": [],
+    "swimlanes": []
+  }
+}

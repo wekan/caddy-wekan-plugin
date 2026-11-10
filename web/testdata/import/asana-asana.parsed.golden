@@ -1,0 +1,183 @@
+{
+  "board": {
+    "name": "Imported Asana project"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "In Progress"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "ref": "cardA1",
+      "dependencies": [],
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "date_started": "2026-11-10T00:00:00.000Z",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "owner_username": "alice",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x , y"
+      ],
+      "custom_fields": {},
+      "checklists": [
+        {
+          "title": "Subtasks",
+          "items": [
+            {
+              "title": "a & b",
+              "done": true
+            },
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "text": "Looks <i>good</i>",
+          "author": "bob",
+          "date": "2026-11-02T09:30:00.000Z"
+        },
+        {
+          "text": "   ",
+          "author": "bob",
+          "date": "2026-11-02T09:31:00.000Z"
+        },
+        {
+          "text": "no author"
+        }
+      ]
+    },
+    {
+      "ref": "cardB😀2",
+      "parent_ref": "cardA1",
+      "dependencies": [],
+      "title": "-minus first",
+      "description": "first\r\nsecond  \n\n",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "date_end": "2026-11-05T00:00:00.000Z",
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "custom_fields": {},
+      "checklists": [
+        {
+          "title": "Subtasks",
+          "items": [
+            {
+              "title": "  one  ",
+              "done": false
+            },
+            {
+              "title": "   ",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "comments": []
+    },
+    {
+      "ref": "cardC3",
+      "dependencies": [],
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Default",
+      "date_due": "2026-12-24T18:30:00.000Z",
+      "tags": [],
+      "custom_fields": {},
+      "checklists": [],
+      "comments": [
+        {
+          "text": "orphan",
+          "date": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "ref": "cardD4",
+      "parent_ref": "cardB😀2",
+      "dependencies": [],
+      "title": "No list item",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-12T00:00:00.000Z",
+      "date_started": "2026-11-11T00:00:00.000Z",
+      "tags": [
+        "p1"
+      ],
+      "custom_fields": {},
+      "checklists": [],
+      "comments": []
+    },
+    {
+      "ref": "cardE5",
+      "dependencies": [],
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "In Progress",
+      "swimlane_name": "Default",
+      "tags": [],
+      "custom_fields": {},
+      "checklists": [],
+      "comments": []
+    },
+    {
+      "ref": "cardF6",
+      "parent_ref": "cardC3",
+      "dependencies": [],
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Default",
+      "tags": [],
+      "custom_fields": {},
+      "checklists": [],
+      "comments": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

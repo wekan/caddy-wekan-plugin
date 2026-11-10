@@ -1,0 +1,61 @@
+{
+  "board": {
+    "name": "Audit Zenkit adapter"
+  },
+  "columns": [
+    {
+      "title": "Audit list"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "ref": "z1",
+      "title": "Audit task – Å 中文",
+      "description": "First line: café, comma, and \"quotes\".\nSecond line: 日本語.",
+      "column_name": "Audit list",
+      "swimlane_name": "Default",
+      "date_due": "2026-09-30",
+      "owner_username": "zen-a",
+      "assignees": [
+        "zen-b"
+      ],
+      "tags": [
+        "Audit label"
+      ],
+      "custom_fields": {
+        "Audit estimate": 3,
+        "Audit owner team": "Blue"
+      },
+      "checklists": [
+        {
+          "title": "Audit checklist",
+          "items": [
+            {
+              "title": "Audit item",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "text": "Audit comment",
+          "author": "zen-user",
+          "date": "2026-09-30T12:34:56Z"
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/items/0",
+      "reason": "unrecognized field(s): vendorOnly"
+    }
+  ]
+}

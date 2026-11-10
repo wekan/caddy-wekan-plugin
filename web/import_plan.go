@@ -122,7 +122,7 @@ func jsGet(o any, k string) any {
 // jsTruthy is JavaScript's Boolean(v).
 func jsTruthy(v any) bool {
 	switch x := v.(type) {
-	case nil:
+	case nil, undefinedValue:
 		return false
 	case bool:
 		return x

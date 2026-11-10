@@ -235,7 +235,8 @@ func importInstruction(lang, source string) string {
 		return fillParams(tr(lang, "import-board-instruction-issues"), map[string]string{"sourceName": is[0], "endpoint": is[1]})
 	}
 	key := map[string]string{"csv": msg("import-board-instruction-csv"), "excel": msg("import-board-instruction-excel"),
-		"kanboard": msg("import-board-instruction-kanboard"), "deck": msg("import-board-instruction-deck")}[source]
+		"kanboard": msg("import-board-instruction-kanboard"), "deck": msg("import-board-instruction-deck"),
+		"asana": msg("import-board-instruction-asana"), "zenkit": msg("import-board-instruction-zenkit")}[source]
 	return tr(lang, key)
 }
 

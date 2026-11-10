@@ -1,0 +1,84 @@
+{
+  "board": {
+    "name": "Audit Zenkit API list"
+  },
+  "columns": [
+    {
+      "title": "Audit list"
+    },
+    {
+      "title": "Done"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "ref": "u1",
+      "dependencies": [],
+      "title": "Audit task – Å 中文",
+      "description": "First line: café, comma, and \"quotes\".\nSecond line: 日本語.",
+      "column_name": "Audit list",
+      "swimlane_name": "Default",
+      "date_due": "2026-09-30",
+      "date_creation": "2026-08-01T10:00:00Z",
+      "owner_username": "zen-a",
+      "assignees": [
+        "zen-b"
+      ],
+      "tags": [
+        "Audit label"
+      ],
+      "custom_fields": {
+        "Audit points": 5
+      },
+      "checklists": [
+        {
+          "title": "Audit checklist",
+          "items": [
+            {
+              "title": "Audit item",
+              "done": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ref": "u2",
+      "parent_ref": "u1",
+      "dependencies": [],
+      "title": "Audit child",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "assignees": [],
+      "tags": [],
+      "custom_fields": {},
+      "checklists": []
+    }
+  ],
+  "warnings": [
+    {
+      "path": "/entries",
+      "reason": "1 deleted entr(ies) skipped"
+    }
+  ],
+  "unsupported": [
+    {
+      "path": "/elements/8",
+      "reason": "Files: files are not part of the export"
+    },
+    {
+      "path": "/elements/9",
+      "reason": "Score: formula results are computed by Zenkit and not imported"
+    },
+    {
+      "path": "/entries/0/comment_count",
+      "reason": "2 comment(s) are fetched separately from Zenkit"
+    }
+  ]
+}
