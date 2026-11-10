@@ -198,6 +198,13 @@ func (s *Server) methodImportBoard(r *http.Request, u *User, args []json.RawMess
 	if err != nil {
 		return nil, &methodError{"Match.Error", "Match failed"}
 	}
+	if source == "csv" || source == "excel" {
+		var data json.RawMessage
+		if len(args) > 1 {
+			data = args[1]
+		}
+		return s.methodImportTable(r, u, source, board, data)
+	}
 	if s.importDisabled(r.Context()) {
 		return nil, &methodError{"import-disabled", "Import is disabled by the administrator."}
 	}

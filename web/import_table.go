@@ -325,6 +325,12 @@ func cellDate(v string) (time.Time, bool) {
 
 var truthyCell = regexp.MustCompile(`(?i)^(true|yes|1|x)$`)
 
+// jsDateString is JavaScript's String(new Date()) on a server at UTC, as
+// WeKan's runs.
+func jsDateString(t time.Time) string {
+	return t.UTC().Format("Mon Jan 02 2006 15:04:05") + " GMT+0000 (Coordinated Universal Time)"
+}
+
 // importTable makes the board: planCsvBoard's lists, swimlanes, labels and
 // custom fields, and a card a row, for u, who may make boards. People are
 // kept only when a name is the importer's own, as WeKan does with no member
@@ -337,14 +343,14 @@ func (s *Server) importTable(ctx context.Context, u *User, title string, rows []
 	if err := checkTableMapping(m, len(header)); err != nil {
 		return nil, err
 	}
-	if _, ok := m.Columns["title"]; !ok {
-		return nil, errors.New("csv-mapping-title-required")
-	}
+	// No title column is the page's to refuse (csv-mapping-title-required);
+	// WeKan's planCsvBoard makes the cards untitled.
 	if err := s.mayCreateBoard(ctx, u, "board", "import:csv"); err != nil {
 		return nil, err
 	}
-	if strings.TrimSpace(title) == "" {
-		title = "Imported board"
+	// CsvCreator's `Imported Board ${new Date()}`.
+	if title == "" {
+		title = "Imported Board " + jsDateString(time.Now())
 	}
 	b, err := s.insertBoard(ctx, u, title, "board", s.boardPermission(ctx, "private", "import:csv"))
 	if err != nil {
