@@ -3,6 +3,7 @@ package web
 import (
 	"context"
 	"math"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -19,12 +20,53 @@ type cardChecklistItem struct {
 	Finished               bool
 	// AssigneeID is #1618's responsible member, AssigneeName how they show.
 	AssigneeID, AssigneeName string
+	// Due is #4755's dueAt.
+	Due dueDate
 }
 
 type cardChecklist struct {
 	ID, Title string
 	Percent   int
 	Items     []cardChecklistItem
+	Due       dueDate
+}
+
+// dueDate is a dueAt as the date badge (dateBadgeBody) shows it: the
+// <time datetime>, and the date in the member's own format.
+type dueDate struct{ At *time.Time }
+
+func dueDateOf(v any) dueDate {
+	if t, ok := v.(time.Time); ok && !t.IsZero() {
+		return dueDate{&t}
+	}
+	if d, ok := v.(bson.DateTime); ok {
+		t := d.Time()
+		return dueDate{&t}
+	}
+	return dueDate{}
+}
+
+// Set is whether there is a date.
+func (d dueDate) Set() bool { return d.At != nil }
+
+// ISO is the date for <time datetime>.
+func (d dueDate) ISO() string {
+	if d.At == nil {
+		return ""
+	}
+	return d.At.UTC().Format(time.RFC3339)
+}
+
+// Show is the date in the member's format (profile.dateFormat), in the
+// server's zone, with its time.
+func (d dueDate) Show(format string) string {
+	if d.At == nil {
+		return ""
+	}
+	if format == "" {
+		format = "YYYY-MM-DD"
+	}
+	return formatDateByUserPreference(*d.At, format, true, time.Local.String())
 }
 
 // cardChecklists is card.checklists() and each checklist's items(), sorted.
@@ -39,7 +81,7 @@ func (s *Server) cardChecklists(ctx context.Context, cardID string) []cardCheckl
 	}
 	out := make([]cardChecklist, 0, len(lists))
 	for _, cl := range lists {
-		c := cardChecklist{ID: docString(cl, "_id"), Title: docString(cl, "title")}
+		c := cardChecklist{ID: docString(cl, "_id"), Title: docString(cl, "title"), Due: dueDateOf(cl["dueAt"])}
 		ic, err := s.db.Collection("checklistItems").Find(ctx, bson.M{"checklistId": eq(c.ID), "cardId": eq(cardID)}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
 		if err == nil {
 			var items []bson.M
@@ -51,7 +93,7 @@ func (s *Server) cardChecklists(ctx context.Context, cardID string) []cardCheckl
 						done++
 					}
 					c.Items = append(c.Items, cardChecklistItem{ID: docString(it, "_id"), ChecklistID: c.ID, Title: docString(it, "title"), Finished: f,
-						AssigneeID: docString(it, "assigneeId")})
+						AssigneeID: docString(it, "assigneeId"), Due: dueDateOf(it["dueAt"])})
 				}
 				c.Percent = checklistPercent(done, len(items))
 			}

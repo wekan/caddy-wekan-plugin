@@ -454,3 +454,18 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 .card-details .card-details-items .card-details-item.card-details-item-labels { display: block; word-wrap: break-word; max-width: 95%; }
 .card-details .card-details-item-title { margin: 0 0 .2em; }
 body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; }
+
+/* WeKan's date badges and editDateForm (datepicker.css, calendarDateInput.css). */
+.fa-clock-o::before { content: "\1F552"; }
+.checklist-due-date-add, .checklist-item-due-date-add { background: none; border: 0; cursor: pointer; padding: 0 .2em; text-decoration: none; }
+.card-date.due-date { display: inline-block; font-size: .85em; padding: 0 .4em; border-radius: 3px; background: #dfe1e6; color: #172b4d; text-decoration: none; margin: .1em 0; }
+.edit-date .fields { display: flex; gap: 1em; flex-wrap: wrap; }
+.edit-date .right input { width: 6em; }
+.selected-calendar-heading { display: flex; align-items: center; gap: .3em; margin-bottom: .3em; }
+.selected-calendar-heading span { flex: 1; text-align: center; font-weight: bold; }
+.selected-calendar-picker table { border-collapse: collapse; }
+.selected-calendar-picker th { font-size: .75em; font-weight: normal; color: #5e6c84; }
+.js-calendar-day { width: 2.2em; height: 2em; padding: 0; margin: 1px; }
+.js-calendar-day[aria-pressed="true"] { outline: 2px solid #172b4d; }
+.js-calendar-day.is-today { font-weight: bold; }
+.edit-date .warning { color: #b04632; margin: .3em 0; }

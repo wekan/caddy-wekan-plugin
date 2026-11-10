@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // The card details' checklist writes, as WeKan's checklists.js makes them
@@ -29,6 +30,8 @@ func (s *Server) registerChecklistWrites(m *http.ServeMux) {
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/delete", s.page(s.deleteChecklistItemPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/assignee", s.page(s.checklistItemAssigneePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/sort", s.page(s.sortChecklistItemsPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/due", s.page(s.checklistDuePage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/due", s.page(s.checklistDuePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/move-to", s.page(s.moveChecklistPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/copy-to", s.page(s.copyChecklistPage))
 }
@@ -474,4 +477,72 @@ func (s *Server) sortChecklistItemsPage(w http.ResponseWriter, r *http.Request, 
 	}
 	s.hub.publish(b.ID, "board-changed")
 	w.WriteHeader(http.StatusNoContent)
+}
+
+// datePickerValue is editDateForm's submit: the time the browser made of the
+// date and time picked (RFC 3339), or a delete. A year outside
+// 1000-9999 is refused, as the date picker refuses a two-digit one.
+func datePickerValue(r *http.Request) (at *time.Time, del bool, why string) {
+	if r.FormValue("delete") == "1" {
+		return nil, true, ""
+	}
+	t, err := time.Parse(time.RFC3339, r.FormValue("at"))
+	if err != nil {
+		return nil, false, "invalid-date"
+	}
+	if y := t.Year(); y < 1000 || y > 9999 {
+		return nil, false, "invalid-year"
+	}
+	t = t.UTC()
+	return &t, false, ""
+}
+
+// checklistDuePage is editChecklistDueDatePopup and
+// editChecklistItemDueDatePopup (#4755): setDue or unsetDue of the
+// checklist, or of its item, by whoever may change the card - unless the
+// board has turned checklist due dates off (allowsChecklistDueDate).
+func (s *Server) checklistDuePage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, c, cl, ok := s.checklistTarget(w, r, u, true)
+	if !ok {
+		return
+	}
+	if !b.WritableIn(r.Context(), s, u, "write", c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	if !s.boardAllows(r.Context(), b.ID, "allowsChecklistDueDate") {
+		http.Error(w, "this board does not use checklist due dates", http.StatusForbidden)
+		return
+	}
+	coll, filter := "checklists", bson.M{"_id": eq(docString(cl, "_id")), "cardId": eq(c.ID)}
+	if r.PathValue("item") != "" {
+		it, ok := s.checklistItemOf(w, r, c, cl)
+		if !ok {
+			return
+		}
+		coll, filter = "checklistItems", bson.M{"_id": eq(docString(it, "_id"))}
+	}
+	at, del, why := datePickerValue(r)
+	if why != "" {
+		http.Error(w, why, http.StatusBadRequest)
+		return
+	}
+	update := bson.M{"$unset": bson.M{"dueAt": ""}}
+	if !del {
+		update = bson.M{"$set": bson.M{"dueAt": *at}}
+	}
+	if _, err := s.db.Collection(coll).UpdateOne(r.Context(), filter, update); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.backToCard(w, r, b, c)
+}
+
+// boardAllows is a board's allows* setting: on unless it is false.
+func (s *Server) boardAllows(ctx context.Context, boardID, field string) bool {
+	var d bson.M
+	if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}, options.FindOne().SetProjection(bson.M{field: 1})).Decode(&d) != nil {
+		return true
+	}
+	return d[field] != false
 }

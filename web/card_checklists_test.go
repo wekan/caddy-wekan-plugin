@@ -482,3 +482,67 @@ func TestChecklistItemsSort(t *testing.T) {
 		t.Error("negative: not sortable for a Worker")
 	}
 }
+
+// #4755: a checklist's and an item's due date, set and cleared by whoever
+// may change the card; a time the browser made, a year of four digits.
+func TestChecklistDueDates(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	wk := w.seedUser(t, "wes", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Due")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": wk.ID, "isActive": true, "isWorker": true}}})
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "C")
+	_, _ = w.db.Collection("checklists").InsertOne(ctx, bson.M{"_id": "cl", "cardId": c.ID, "title": "L"})
+	_, _ = w.db.Collection("checklistItems").InsertOne(ctx, bson.M{"_id": "it", "checklistId": "cl", "cardId": c.ID, "title": "I"})
+	base := w.srv.URL + "/b/" + b.ID + "/cards/" + c.ID + "/checklists/cl"
+	due := func(coll, id string) any {
+		var d bson.M
+		_ = w.db.Collection(coll).FindOne(ctx, bson.M{"_id": id}).Decode(&d)
+		return d["dueAt"]
+	}
+	post := func(cl *http.Client, p string, v url.Values) int {
+		r, err := cl.PostForm(base+p, v)
+		if err != nil {
+			t.Fatal(err)
+		}
+		r.Body.Close()
+		return r.StatusCode
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if code := post(ann, "/due", url.Values{"at": {"2026-11-20T15:00:00.000Z"}}); code != http.StatusSeeOther || due("checklists", "cl") == nil {
+		t.Fatalf("the checklist's due date: %d", code)
+	}
+	if code := post(ann, "/items/it/due", url.Values{"at": {"2026-11-21T15:00:00Z"}}); code != http.StatusSeeOther || due("checklistItems", "it") == nil {
+		t.Fatalf("the item's due date: %d", code)
+	}
+	_, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID)
+	if !strings.Contains(html, `<time datetime="2026-11-20T15:00:00Z">`) || !strings.Contains(html, "checklist-item-due-date") {
+		t.Error("both badges, with their <time>")
+	}
+	for _, bad := range []string{"", "tomorrow", "0026-11-20T15:00:00Z", "12026-11-20T15:00:00Z"} {
+		if code := post(ann, "/due", url.Values{"at": {bad}}); code != http.StatusBadRequest {
+			t.Errorf("negative: %q refused: %d", bad, code)
+		}
+	}
+	wes := w.client(t)
+	body(t, w.signIn(t, wes, "wes", "pw"))
+	if code := post(wes, "/due", url.Values{"delete": {"1"}}); code != http.StatusForbidden || due("checklists", "cl") == nil {
+		t.Errorf("negative: a Worker sets no due date: %d", code)
+	}
+	if code := post(ann, "/due", url.Values{"delete": {"1"}}); code != http.StatusSeeOther || due("checklists", "cl") != nil {
+		t.Errorf("cleared: %d", code)
+	}
+	// A board that turns checklist due dates off shows and takes none.
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"allowsChecklistDueDate": false}})
+	if code := post(ann, "/due", url.Values{"at": {"2026-11-20T15:00:00Z"}}); code != http.StatusForbidden {
+		t.Errorf("negative: the board does not use them: %d", code)
+	}
+	if _, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID); strings.Contains(html, "js-checklist-due-date") || strings.Contains(html, "checklist-item-due-date") {
+		t.Error("negative: no due date controls on that board")
+	}
+}

@@ -296,6 +296,34 @@
           select.js-select-cards(name="cardId")
           .edit-controls.clearfix
             button.primary.confirm.js-done(type="submit") {{t $.L "done"}}
+      //- WeKan's editDateForm (forms/datepicker.jade) with its inline calendar
+        (calendarDateInput): static/weddy.js draws the month and sends the
+        time the browser makes of the date and time picked.
+      template.js-pop-over-template(data-pop="edit-date", data-title="{{t $.L `editCardDueDatePopup-title`}}")
+        .datepicker-container
+          form.edit-date(method="post", action="#", up-submit, up-target=".board-wrapper")
+            input(type="hidden", name="at")
+            input(type="hidden", name="delete", value="")
+            .fields
+              .left
+                .calendar-date-input
+                  input.js-calendar-native-value.js-date-field#date(type="hidden", name="date")
+                  .selected-calendar-picker
+                    .selected-calendar-heading
+                      button.primary.js-calendar-previous(type="button", aria-label="{{t $.L `previous`}} {{t $.L `month`}}") ‹
+                      span.js-calendar-month-label(aria-live="polite")
+                      button.primary.js-calendar-today(type="button", aria-label="{{t $.L `today`}}") {{t $.L "today"}}
+                      button.primary.js-calendar-next(type="button", aria-label="{{t $.L `next`}} {{t $.L `month`}}") ›
+                    table
+                      thead
+                        tr.js-calendar-weekdays
+                      tbody.js-calendar-weeks
+              .right
+                label(for="time") {{t $.L "time"}}
+                input.js-time-field#time(type="text", name="time", inputmode="numeric", placeholder="HH:mm", autocomplete="off")
+            .warning.js-date-error(hidden, data-invalid-date="{{t $.L `invalid-date`}}", data-invalid-time="{{t $.L `invalid-time`}}", data-invalid-year="{{t $.L `invalid-year`}}")
+            button.primary.wide.left.js-submit-date(type="submit") {{t $.L "save"}}
+            button.js-delete-date.negate.wide.right(type="button") {{t $.L "delete"}}
       //- WeKan's checklistItemAssigneePopup: the board's active members, or nobody.
       template.js-pop-over-template(data-pop="checklist-item-assignee", data-title="{{t $.L `checklist-item-assignee`}}")
         form.js-checklist-item-assignee-form(method="post", action="#", up-submit, up-target=".board-wrapper")
@@ -783,6 +811,10 @@
             each cl in .Checklists
               .js-checklist.checklist(data-checklist="{{.ID}}")
                 .checklist-title
+                  //- #4755: the checklist's due date - added here, shown below.
+                  if and $.ChecklistDue $.CanModifyCard (not .Due.Set)
+                    button.js-checklist-due-date.checklist-due-date-add(type="button", title="{{t $.L `card-due`}}", aria-label="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/due")
+                      i.fa.fa-clock-o
                   if $.CanModifyCard
                     a.fa.fa-navicon.checklist-details-menu.js-open-checklist-details-menu(href="#", data-checklist="{{.ID}}", title="{{t $.L `checklistActionsPopup-title`}}", aria-label="{{t $.L `checklistActionsPopup-title`}}")
                   if $.CanModifyCard
@@ -799,6 +831,13 @@
                       .edit-controls.clearfix
                         button.primary.confirm.js-submit-edit-checklist-item-form(type="submit") {{t $.L "save"}}
                         a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+                if and $.ChecklistDue .Due.Set
+                  if $.CanModifyCard
+                    a.js-edit-date.card-date.due-date.checklist-due-date(href="#", title="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/due", data-date="{{.Due.ISO}}")
+                      time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
+                  else
+                    a.card-date.due-date.checklist-due-date(title="{{t $.L `card-due`}}")
+                      time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
                 if .Percent
                   .checklist-progress-bar-container
                     .checklist-progress-text {{.Percent}}%
@@ -829,6 +868,18 @@
                       else
                         .item-title(class="{{if .Finished}}is-checked{{end}}")
                           .viewer {{viewer .Title $.TextPolicy}}
+                      //- #4755: the item's due date.
+                      if $.ChecklistDue
+                        if .Due.Set
+                          if $.CanModifyCard
+                            a.js-edit-date.card-date.due-date.checklist-item-due-date(href="#", title="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/due", data-date="{{.Due.ISO}}")
+                              time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
+                          else
+                            a.card-date.due-date.checklist-item-due-date(title="{{t $.L `card-due`}}")
+                              time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
+                        else if $.CanModifyCard
+                          a.checklist-item-due-date-add.js-checklist-item-due-date(href="#", title="{{t $.L `card-due`}}", aria-label="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/due")
+                            i.fa.fa-clock-o
                       //- #1618: who is responsible for this item.
                       if $.CanModifyCard
                         a.checklist-item-assignee.js-checklist-item-assignee(href="#", title="{{t $.L `checklist-item-assignee`}}", aria-label="{{t $.L `checklist-item-assignee`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/assignee", data-assignee="{{.AssigneeID}}")

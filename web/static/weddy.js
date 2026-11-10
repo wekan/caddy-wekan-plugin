@@ -379,6 +379,100 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     form.classList.remove('is-hidden');
     form.querySelector('textarea').focus();
   });
+  // WeKan's editDateForm: a month drawn day by day, the day picked marked,
+  // and on Save the time the browser makes of that date and the time typed
+  // (empty: the opener's default - 17:00 for a due date), refused when the
+  // date is missing or its year is not four digits (datepicker.js).
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function isoDay(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+  function drawCalendar(form) {
+    var lang = document.documentElement.lang || undefined;
+    var shown = form._shown, picked = form.querySelector('.js-date-field').value;
+    form.querySelector('.js-calendar-month-label').textContent = shown.toLocaleDateString(lang, { month: 'long', year: 'numeric' });
+    var head = form.querySelector('.js-calendar-weekdays');
+    head.innerHTML = '';
+    for (var i = 0; i < 7; i++) {
+      var th = document.createElement('th');
+      th.scope = 'col';
+      th.textContent = new Date(2024, 0, 1 + i).toLocaleDateString(lang, { weekday: 'short' });
+      head.appendChild(th);
+    }
+    var body = form.querySelector('.js-calendar-weeks');
+    body.innerHTML = '';
+    var first = new Date(shown.getFullYear(), shown.getMonth(), 1);
+    var lead = (first.getDay() + 6) % 7; // weeks start on Monday
+    var days = new Date(shown.getFullYear(), shown.getMonth() + 1, 0).getDate();
+    var today = isoDay(new Date()), tr = null;
+    for (var cell = 0; cell < lead + days; cell++) {
+      if (cell % 7 === 0) { tr = document.createElement('tr'); body.appendChild(tr); }
+      var td = document.createElement('td');
+      if (cell >= lead) {
+        var d = new Date(shown.getFullYear(), shown.getMonth(), cell - lead + 1), iso = isoDay(d);
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'primary js-calendar-day' + (iso === today ? ' is-today' : '');
+        b.setAttribute('data-date', iso);
+        b.setAttribute('aria-pressed', iso === picked ? 'true' : 'false');
+        b.title = d.toLocaleDateString(lang, { dateStyle: 'full' });
+        b.textContent = String(d.getDate());
+        if (iso === today) td.className = 'is-today-cell';
+        td.appendChild(b);
+      }
+      tr.appendChild(td);
+    }
+  }
+  function openDatePicker(el, defaultTime) {
+    openPopOver('edit-date');
+    var form = document.querySelector('.js-pop-over form.edit-date');
+    if (!form) return;
+    form.setAttribute('action', el.getAttribute('data-url'));
+    form._defaultTime = defaultTime;
+    var at = el.getAttribute('data-date') ? new Date(el.getAttribute('data-date')) : null;
+    if (at && !isNaN(at)) {
+      form.querySelector('.js-date-field').value = isoDay(at);
+      form.querySelector('.js-time-field').value = pad2(at.getHours()) + ':' + pad2(at.getMinutes());
+    }
+    form.querySelector('.js-delete-date').hidden = !at;
+    form._shown = at && !isNaN(at) ? new Date(at.getFullYear(), at.getMonth(), 1) : new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    drawCalendar(form);
+  }
+  up.on('click', '.js-checklist-due-date, .js-checklist-item-due-date, .js-checklists-section .js-edit-date', function (event, el) {
+    event.preventDefault();
+    event.stopPropagation();
+    openDatePicker(el, '17:00');
+  });
+  up.on('click', '.js-pop-over form.edit-date .js-calendar-day', function (event, el) {
+    var form = el.form;
+    form.querySelector('.js-date-field').value = el.getAttribute('data-date');
+    form.querySelectorAll('.js-calendar-day').forEach(function (b) { b.setAttribute('aria-pressed', b === el ? 'true' : 'false'); });
+  });
+  up.on('click', '.js-pop-over form.edit-date .js-calendar-previous, .js-pop-over form.edit-date .js-calendar-next, .js-pop-over form.edit-date .js-calendar-today', function (event, el) {
+    var form = el.form, s = form._shown;
+    if (el.classList.contains('js-calendar-today')) form._shown = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    else form._shown = new Date(s.getFullYear(), s.getMonth() + (el.classList.contains('js-calendar-next') ? 1 : -1), 1);
+    drawCalendar(form);
+  });
+  up.on('click', '.js-pop-over form.edit-date .js-delete-date', function (event, el) {
+    var form = el.form;
+    form.querySelector('[name=delete]').value = '1';
+    up.submit(form, { params: { delete: '1' } });
+  });
+  up.on('up:form:submit', 'form.edit-date', function (event, form) {
+    if (form.querySelector('[name=delete]').value === '1') return;
+    var err = form.querySelector('.js-date-error');
+    var fail = function (key) { event.preventDefault(); err.textContent = err.getAttribute('data-' + key); err.hidden = false; };
+    var day = form.querySelector('.js-date-field').value;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return fail('invalid-date');
+    var time = (form.querySelector('.js-time-field').value || form._defaultTime || '12:00').trim();
+    var m = /^(\d{1,2})(?::(\d{2}))?$/.exec(time);
+    if (!m || +m[1] > 23 || +(m[2] || 0) > 59) return fail('invalid-time');
+    var at = new Date(day + 'T' + pad2(+m[1]) + ':' + (m[2] || '00') + ':00');
+    if (isNaN(at)) return fail('invalid-date');
+    if (at.getFullYear() < 1000 || at.getFullYear() > 9999) return fail('invalid-year');
+    form.querySelector('[name=at]').value = at.toISOString();
+    // Unpoly has read the form already: the time goes into what it sends.
+    if (event.params && event.params.set) event.params.set('at', at.toISOString());
+  });
   // checklistItemAssigneePopup: for that item, its assignee marked.
   up.on('click', '.js-checklist-item-assignee', function (event, el) {
     event.preventDefault();

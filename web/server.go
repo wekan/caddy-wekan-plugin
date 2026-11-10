@@ -821,6 +821,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["Checklists"] = s.cardChecklists(r.Context(), c.ID)
 			data["CanModifyCard"] = b.WritableIn(r.Context(), s, u, "write", &c)
 			data["CanCheckItems"] = s.canCheckChecklistItem(r.Context(), b, u, &c)
+			data["ChecklistDue"] = s.boardAllows(r.Context(), b.ID, "allowsChecklistDueDate")
+			data["DateFormat"] = u.Profile.DateFormat
 			data["CardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID, "cardId": c.ID}, lang, 100)
 			data["CardMembers"], data["BoardMembers"] = s.cardMemberChoices(r.Context(), b, &c)
 			if cls, ok := data["Checklists"].([]cardChecklist); ok {
