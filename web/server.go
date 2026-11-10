@@ -824,10 +824,19 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["CanCheckItems"] = s.canCheckChecklistItem(r.Context(), b, u, &c)
 			data["ChecklistDue"] = s.boardAllows(r.Context(), b.ID, "allowsChecklistDueDate")
 			data["DateFormat"] = u.Profile.DateFormat
-			var rawCard bson.M
+			var rawCard, rawBoard bson.M
 			_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(c.ID)}).Decode(&rawCard)
+			_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&rawBoard)
 			data["CardDates"] = s.cardDates(r.Context(), b.ID, rawCard)
 			data["CanSetDates"] = s.canSetCardDates(r.Context(), b, u, &c)
+			// cardFieldSectionDescription: shown to an editor always, to anyone
+			// else when there is a description; its title and text as the
+			// board allows (allowsDescriptionTitle, allowsDescriptionText).
+			canDesc := s.canSetCardDates(r.Context(), b, u, &c)
+			data["CanEditDescription"] = canDesc
+			data["DescriptionTitle"] = rawBoardAllows(rawBoard, "allowsDescriptionTitle")
+			data["DescriptionText"] = rawBoardAllows(rawBoard, "allowsDescriptionText")
+			data["DescriptionShown"] = canDesc || c.Description != ""
 			data["CardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID, "cardId": c.ID}, lang, 100)
 			data["CardMembers"], data["BoardMembers"] = s.cardMemberChoices(r.Context(), b, &c)
 			if cls, ok := data["Checklists"].([]cardChecklist); ok {

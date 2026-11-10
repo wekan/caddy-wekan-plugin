@@ -375,7 +375,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.on('change', '.js-checklist-target .js-select-swimlanes, .js-checklist-target .js-select-lists', function (event, sel) { fillChecklistCards(sel.form); });
   // The checklists' inlined forms: a "+" opens its own form - the
   // checklist's for an item, the section's for a checklist.
-  up.on('click', '.js-checklists-section .js-open-inlined-form', function (event, el) {
+  up.on('click', '.js-checklists-section .js-open-inlined-form, .card-details-group-description .js-open-inlined-form', function (event, el) {
     event.preventDefault();
     var opens = el.getAttribute('data-opens');
     var where = {
@@ -383,13 +383,14 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       'add-checklist-item': ['.js-checklist', 'form.js-add-checklist-item'],
       'edit-checklist-title': ['.js-checklist', 'form.js-edit-checklist-title'],
       'edit-checklist-item': ['.js-checklist-item', 'form.js-edit-checklist-item'],
+      'edit-description': ['.card-details-group-description', 'form.js-card-description'],
     }[opens];
     if (!where) return;
     var box = el.closest(where[0]);
     var form = box && box.querySelector(where[1]);
     if (!form) return;
     // One inlined form at a time, as WeKan's, and its fields only while open.
-    el.closest('.js-checklists-section').querySelectorAll('.js-inlined-form').forEach(function (f) { if (f !== form) closeInlinedForm(f); });
+    el.closest('.js-card-details').querySelectorAll('.js-checklists-section .js-inlined-form, .card-details-group-description .js-inlined-form').forEach(function (f) { if (f !== form) closeInlinedForm(f); });
     var body = form.querySelector(':scope > template.js-inlined-form-body');
     if (body && !form.querySelector('textarea')) form.appendChild(body.content.cloneNode(true));
     form.classList.remove('is-hidden');
@@ -647,7 +648,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (event.key === 'Escape') {
       // WeKan's EscapeActions: a pop-over first, else an inlined form of the card.
       if (document.querySelector('.js-pop-over')) closePopOvers();
-      else document.querySelectorAll('.js-card-details .js-checklists-section .js-inlined-form:not(.is-hidden)').forEach(function (f) { closeInlinedForm(f); });
+      else document.querySelectorAll('.js-card-details .js-checklists-section .js-inlined-form:not(.is-hidden), .js-card-details .card-details-group-description .js-inlined-form:not(.is-hidden)').forEach(function (f) { closeInlinedForm(f); });
       if (staleUnderForm && !document.querySelector('.board-wrapper .js-card-details .js-inlined-form:not(.is-hidden)')) { staleUnderForm = false; setTimeout(reloadBoard, 0); }
     }
   });

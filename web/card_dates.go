@@ -3,6 +3,7 @@ package web
 import (
 	"context"
 	"net/http"
+	"strings"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -51,6 +52,43 @@ func (s *Server) canSetCardDates(ctx context.Context, b *Board, u *User, c *Card
 
 func (s *Server) cardDateRoutes(m *http.ServeMux) {
 	m.HandleFunc("POST /b/{board}/cards/{card}/dates/{kind}", s.page(s.cardDatePage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/description", s.page(s.cardDescriptionPage))
+}
+
+// rawBoardAllows is a board document's allows* setting: on unless false.
+func rawBoardAllows(board bson.M, field string) bool { return board[field] != false }
+
+// cardDescriptionPage is descriptionForm's save: the card's description, by
+// whoever may change the card but a Worker, unless the board hides the
+// description's text; a change writes WeKan's a-changedDescription.
+func (s *Server) cardDescriptionPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, c, _, ok := s.checklistTarget(w, r, u, false)
+	if !ok {
+		return
+	}
+	if !s.canSetCardDates(r.Context(), b, u, c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	if !s.boardAllows(r.Context(), b.ID, "allowsDescriptionText") {
+		http.Error(w, "this board does not use card descriptions", http.StatusForbidden)
+		return
+	}
+	desc := strings.TrimRight(r.FormValue("description"), " \t\r\n")
+	if len(desc) > 100000 {
+		http.Error(w, "the description is too long", http.StatusBadRequest)
+		return
+	}
+	if desc != c.Description {
+		set := bson.M{"description": desc}
+		if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": eq(c.ID), "boardId": eq(b.ID)},
+			bson.M{"$set": bson.M{"description": desc, "modifiedAt": time.Now().UTC()}}); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		s.cardTextActivities(r.Context(), u, c, set)
+	}
+	s.backToCard(w, r, b, c)
 }
 
 // cardDatePage is setReceived/setStart/setDue/setEnd and their unset.

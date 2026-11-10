@@ -814,8 +814,32 @@
                   .poker-deck
                     .poker-card
                       button.inner.js-poker(type="submit", name="state", value="{{.Field}}", class="js-poker-vote-{{.Class}}{{if .Voted}} poker-voted{{end}}") {{.Label}}
-      h3 {{t $.L "description"}}
-      .card-description.js-card-description {{.Card.Description}}
+      //- WeKan's cardFieldSectionDescription: the description as markdown; for
+        whoever may change the card but a Worker, the pencil - and the text -
+        open descriptionForm, whose fields are on the page only while open.
+      if .DescriptionShown
+        .card-details-group.card-details-group-description
+          if .DescriptionTitle
+            h3.card-details-item-title
+              i.fa.fa-file-text-o
+              |  {{t $.L "description"}}
+          if .DescriptionText
+            if .CanEditDescription
+              a.js-open-inlined-form(href="#", data-opens="edit-description", title="{{t $.L `edit`}}", aria-label="{{t $.L `edit`}}")
+                i.fa.fa-pencil-square-o(aria-hidden="true")
+              a.js-open-inlined-form.card-description-view(href="#", data-opens="edit-description", title="{{t $.L `edit`}}")
+                if .Card.Description
+                  .viewer {{viewer .Card.Description $.TextPolicy}}
+              form.card-description.js-card-description.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/description", up-submit, up-target=".board-wrapper")
+                template.js-inlined-form-body
+                  .new-description.js-new-description.is-open
+                    textarea.editor.js-new-description-input(name="description", dir="auto", aria-label="{{t $.L `description`}}") {{.Card.Description}}
+                  .edit-controls.clearfix
+                    button.primary(type="submit") {{t $.L "save"}}
+                    a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+            else if .Card.Description
+              .card-description
+                .viewer {{viewer .Card.Description $.TextPolicy}}
       //- WeKan's checklists (checklists.jade): each checklist's title, its
         progress and its items, an item ticked by whoever may check it (a
         Worker too, #3307); for whoever may change the card, a checklist

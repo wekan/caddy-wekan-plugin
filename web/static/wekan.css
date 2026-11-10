@@ -474,3 +474,6 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .fa-hourglass-end::before { content: "\231B"; }
 .card-date { display: inline-block; font-size: .85em; padding: 0 .4em; border-radius: 3px; background: #dfe1e6; color: #172b4d; text-decoration: none; }
 .calendar-time-input { display: flex; align-items: center; gap: .2em; }
+.fa-file-text-o::before { content: "\1F4C4"; }
+.card-details-group-description .card-description-view { display: block; color: inherit; text-decoration: none; min-height: 1.5em; }
+.card-details-group-description textarea.js-new-description-input { width: 100%; min-height: 8em; }
