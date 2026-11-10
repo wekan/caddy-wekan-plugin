@@ -694,7 +694,11 @@ func (s *Server) recoveryPage(w http.ResponseWriter, r *http.Request, u *User) {
 		s.render(w, r, "notfound", http.StatusNotFound, map[string]any{"Title": tr(lang, "error-notAuthorized"), "User": u})
 		return
 	}
-	s.render(w, r, "problems", http.StatusOK, map[string]any{"Title": tr(lang, "recoveryReportTitle"), "User": u})
+	data := map[string]any{"Title": tr(lang, "recoveryReportTitle"), "User": u}
+	for k, v := range s.recoveryEventsPage(r) {
+		data[k] = v
+	}
+	s.render(w, r, "problems", http.StatusOK, data)
 }
 
 func (s *Server) problemsRoutes(m *http.ServeMux) {

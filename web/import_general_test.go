@@ -29,12 +29,26 @@ func TestImportKanboard(t *testing.T) {
 	}
 	raw, _ := os.ReadFile("testdata/import/kanboard-api.json")
 	res, err := c.PostForm(w.srv.URL+"/import/kanboard", url.Values{"text": {string(raw)}})
-	if err != nil || res.StatusCode != http.StatusSeeOther || !strings.HasPrefix(res.Header.Get("Location"), "/b/") {
-		t.Fatalf("the import opens the new board: %v %d %s", err, res.StatusCode, res.Header.Get("Location"))
+	// The fixture has what Kanboard's parser leaves out: the page says so
+	// first, as WeKan's does, and links the new board.
+	if err != nil || res.StatusCode != http.StatusSeeOther || !strings.HasPrefix(res.Header.Get("Location"), "/import/kanboard/report?board=") {
+		t.Fatalf("the import reports what it left out: %v %d %s", err, res.StatusCode, res.Header.Get("Location"))
 	}
 	var b Board
 	if err := w.db.Collection("boards").FindOne(ctx, bson.M{"title": "Plant"}).Decode(&b); err != nil {
 		t.Fatal(err)
+	}
+	report := getBody(t, c, w.srv.URL+res.Header.Get("Location"))
+	if !strings.Contains(report, "js-import-report") || !strings.Contains(report, "import-report-row") ||
+		!strings.Contains(report, `href="/b/`+b.ID+`/`+b.Slug+`"`) {
+		t.Errorf("the report and the board's link: %s", report)
+	}
+	// Negative: another user's report is never shown; theirs opens the board.
+	w.seedUser(t, "eve", "pw")
+	eve := w.client(t)
+	body(t, w.signIn(t, eve, "eve", "pw"))
+	if page := getBody(t, eve, w.srv.URL+res.Header.Get("Location")); strings.Contains(page, "import-report-row") {
+		t.Error("negative: a user who did not import it sees the report")
 	}
 	if !b.AdminOf(ann.ID) {
 		t.Error("the person importing is the board's admin")

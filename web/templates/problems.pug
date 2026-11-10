@@ -12,6 +12,63 @@
           a.js-left-menu-item(href="/admin/problems/recovery", data-id="report-recovery") {{t $.L "recoveryReportTitle"}}
     .main-body
       h2.pane-title {{t $.L "recoveryReportTitle"}}
+      //- WeKan's recovery events (report-recovery): what imports left out,
+        among the data-safety actions, newest first, ten a page.
+      section.recovery-events-report
+        p.quiet {{t $.L "recovery-report-desc"}}
+        form.table-page-controls.js-recovery-events(method="get", action="/admin/problems/recovery")
+          input.js-table-page-search(type="search", name="q", value="{{.RecoverySearch}}", placeholder="{{t $.L `search`}}", aria-label="{{t $.L `search`}}")
+          label(for="recovery-status") Show
+          select#recovery-status(name="status")
+            each o in .RecoveryStatuses
+              if eq .Value $.RecoveryStatus
+                option(value="{{.Value}}", selected) {{.Label}}
+              else
+                option(value="{{.Value}}") {{.Label}}
+          button(type="submit") {{t $.L "search"}}
+          span.table-page-total {{.RecoveryTotal}}
+          .table-page-pagination
+            if .RecoveryPrev
+              a.js-recovery-prev(href="{{.RecoveryPrev}}", title="{{t $.L `previous`}}") &lt;
+            span.table-page-page-info {{.RecoveryPage}} / {{.RecoveryPages}}
+            if .RecoveryNext
+              a.js-recovery-next(href="{{.RecoveryNext}}", title="{{t $.L `next`}}") &gt;
+        if .RecoveryEvents
+          .table-page-table-wrap
+            table.table-page-table.recovery-events-table
+              thead
+                tr
+                  th {{t $.L "done"}}
+                  th {{t $.L "date"}}
+                  th {{t $.L "recovery-event"}}
+                  th User ID
+                  th {{t $.L "username"}}
+                  th {{t $.L "event-ipv4"}}
+                  th {{t $.L "location"}}
+                  th {{t $.L "event-ipv6"}}
+                  th {{t $.L "location"}} (IPv6)
+                  th {{t $.L "recovery-detail"}}
+              tbody
+                each e in .RecoveryEvents
+                  tr(class="recovery-severity-{{.Severity}}")
+                    td.nowrap
+                      if .Done
+                        i.fa.fa-check.table-page-status-done(title="true")
+                      else
+                        i.fa.fa-exclamation-triangle.table-page-status-failed(title="false")
+                      if .Deleted
+                        i.fa.fa-trash.table-page-status-deleted(title="Deleted data")
+                    td.nowrap {{.Date}}
+                    td {{.Type}}
+                    td {{.UserID}}
+                    td {{.Username}}
+                    td {{.IPv4}}
+                    td {{.IPv4Location}}
+                    td {{.IPv6}}
+                    td {{.IPv6Location}}
+                    td {{.Detail}}
+        else
+          p.quiet.table-page-empty {{t $.L "recovery-no-events"}}
       section.email-recovery-reports
         h2 {{t $.L "email-recovery-heading"}}
         p.quiet {{t $.L "email-recovery-description"}}

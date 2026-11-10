@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -431,6 +432,12 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 		default:
 			fail("error-json-schema")
 		}
+		return
+	}
+	// An import that left something out says so first (WeKan's import page
+	// loss report); a complete one opens its board at once.
+	if len(s.importReportRows(r.Context(), u, b.ID)) > 0 {
+		http.Redirect(w, r, "/import/"+url.PathEscape(source)+"/report?board="+url.QueryEscape(b.ID), http.StatusSeeOther)
 		return
 	}
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)

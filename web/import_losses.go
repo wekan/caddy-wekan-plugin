@@ -2,11 +2,14 @@ package web
 
 import (
 	"context"
+	"encoding/json"
+	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // What an import could not bring over, as Node.js WeKan records it
@@ -96,4 +99,75 @@ func (s *Server) recordImportLosses(ctx context.Context, source string, warnings
 		row["boardTitles"] = bson.A{boardTitle}
 	}
 	_, _ = s.db.Collection("recoveryEvents").InsertOne(context.WithoutCancel(ctx), row)
+}
+
+// importReportWindow: the page asks right after its import finishes.
+const importReportWindow = time.Hour
+
+// importReportRows is WeKan's importReportForBoard: the loss reports this
+// user's own import recorded for this board in the last hour, newest first,
+// five at most - their detail and time, never another user's.
+func (s *Server) importReportRows(ctx context.Context, u *User, boardID string) []jsObject {
+	if u == nil || !validID(boardID) {
+		return nil
+	}
+	var rows []bson.M
+	opts := options.Find().SetSort(bson.D{{Key: "createdAt", Value: -1}}).SetLimit(5)
+	cur, err := s.db.Collection("recoveryEvents").Find(ctx, bson.M{"type": importWarningsEvent, "userId": u.ID, "boardIds": eq(boardID),
+		"createdAt": bson.M{"$gte": time.Now().Add(-importReportWindow)}}, opts)
+	if err != nil {
+		return nil
+	}
+	_ = cur.All(ctx, &rows)
+	var out []jsObject
+	for _, r := range rows {
+		o := jsObject{}
+		o.set("detail", strOf(r["detail"]))
+		if t, ok := r["createdAt"].(bson.DateTime); ok {
+			o.set("createdAt", jsDate(t.Time()))
+		}
+		out = append(out, o)
+	}
+	return out
+}
+
+// methodImportReportForBoard is WeKan's importReportForBoard method.
+func (s *Server) methodImportReportForBoard(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	var boardID string
+	if len(args) < 1 || json.Unmarshal(args[0], &boardID) != nil {
+		return nil, &methodError{"Match.Error", "Expected string"}
+	}
+	rows := []any{}
+	for _, row := range s.importReportRows(r.Context(), u, boardID) {
+		rows = append(rows, row)
+	}
+	return rows, nil
+}
+
+var _ = []string{msg("import-report-heading"), msg("import-report-description"), msg("import-report-open-board")}
+
+// importReportPage is WeKan's import page loss report: what the import
+// could not bring over, and the board to open. With nothing to report, the
+// board opens.
+func (s *Server) importReportPage(w http.ResponseWriter, r *http.Request, u *User) {
+	boardID := r.URL.Query().Get("board")
+	var b Board
+	// The rows are the user's own import's only (importReportRows); the
+	// board is read for its address.
+	if !validID(boardID) || s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(boardID)}).Decode(&b) != nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+	rows := s.importReportRows(r.Context(), u, boardID)
+	if len(rows) == 0 {
+		http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+		return
+	}
+	var details []string
+	for _, row := range rows {
+		details = append(details, jsGet(row, "detail").(string))
+	}
+	data := s.importData(r, u, r.PathValue("source"))
+	data["Report"] = map[string]any{"Rows": details, "BoardURL": "/b/" + b.ID + "/" + b.Slug}
+	s.render(w, r, "import", http.StatusOK, data)
 }

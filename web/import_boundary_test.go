@@ -508,9 +508,42 @@ func TestImportRecordsItsLosses(t *testing.T) {
 	if ids, _ := row["boardIds"].(bson.A); len(ids) != 1 || ids[0] != b.ID {
 		t.Errorf("the row names the board: %v", row["boardIds"])
 	}
+	// importReportForBoard: the importer's own report, nobody else's.
+	call := func(cl *http.Client) []any {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/importReportForBoard", strings.NewReader(`["`+b.ID+`"]`))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cl.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		list, _ := out["result"].([]any)
+		return list
+	}
+	if rows := call(c); len(rows) != 1 || !strings.HasPrefix(fmt.Sprint(jsGet(mapToJS(rows[0]), "detail")), "markdown: 1 not imported") {
+		t.Errorf("the importer's report: %v", rows)
+	}
+	w.seedUser(t, "eve", "pw")
+	eve := w.client(t)
+	body(t, w.signIn(t, eve, "eve", "pw"))
+	if rows := call(eve); len(rows) != 0 {
+		t.Errorf("negative: another user's report: %v", rows)
+	}
 	// Negative: a clean import writes no row.
 	_, _ = c.PostForm(w.srv.URL+"/import/markdown", url.Values{"text": {"# Clean\n## To Do\n- [ ] One\n"}})
 	if n, _ := w.db.Collection("recoveryEvents").CountDocuments(ctx, bson.M{}); n != 1 {
 		t.Errorf("negative: a clean import is reported: %d rows", n)
 	}
+}
+
+// mapToJS is a decoded JSON object as a jsObject, for jsGet.
+func mapToJS(v any) jsObject {
+	m, _ := v.(map[string]any)
+	o := jsObject{}
+	for k, x := range m {
+		o.set(k, x)
+	}
+	return o
 }
