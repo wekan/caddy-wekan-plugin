@@ -1,0 +1,82 @@
+{
+  "board": {
+    "name": "Outline & co &nbsp;"
+  },
+  "columns": [
+    {
+      "title": "List A"
+    },
+    {
+      "title": "Imported"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Titled card",
+      "description": "line1\nline2",
+      "column_name": "List A",
+      "swimlane_name": "Default",
+      "tags": [
+        "done"
+      ],
+      "checklists": [
+        {
+          "title": "Titled card",
+          "items": [
+            {
+              "title": "loose one",
+              "done": true
+            },
+            {
+              "title": "loose two",
+              "done": false
+            }
+          ]
+        },
+        {
+          "title": "Group",
+          "items": [
+            {
+              "title": "g1",
+              "done": false
+            },
+            {
+              "title": "g1a",
+              "done": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Imported item",
+      "description": "",
+      "column_name": "List A",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "card in unnamed",
+      "description": "",
+      "column_name": "Imported",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/outline/1/1/@url",
+      "reason": "OPML url has no WeKan field"
+    },
+    {
+      "path": "/outline/1/@_note",
+      "reason": "a list note has no WeKan field"
+    }
+  ]
+}

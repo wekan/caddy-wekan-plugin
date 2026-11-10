@@ -1,0 +1,107 @@
+{
+  "board": {
+    "name": "Leo <board>"
+  },
+  "columns": [
+    {
+      "title": "List one"
+    },
+    {
+      "title": "Imported"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Card one",
+      "description": "Body & text",
+      "column_name": "List one",
+      "swimlane_name": "Default",
+      "tags": [
+        "done"
+      ],
+      "checklists": [
+        {
+          "title": "Card one",
+          "items": [
+            {
+              "title": "item",
+              "done": false
+            }
+          ]
+        },
+        {
+          "title": "Group",
+          "items": [
+            {
+              "title": "deep",
+              "done": true
+            },
+            {
+              "title": "deeper",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Card one",
+      "description": "Body & text",
+      "column_name": "List one",
+      "swimlane_name": "Default",
+      "tags": [
+        "done"
+      ],
+      "checklists": [
+        {
+          "title": "Card one",
+          "items": [
+            {
+              "title": "item",
+              "done": false
+            }
+          ]
+        },
+        {
+          "title": "Group",
+          "items": [
+            {
+              "title": "deep",
+              "done": true
+            },
+            {
+              "title": "deeper",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "List one",
+      "description": "list body",
+      "column_name": "List one",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Imported node",
+      "description": "",
+      "column_name": "Imported",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "List one",
+      "reason": "list body text has no WeKan field"
+    }
+  ]
+}

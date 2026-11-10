@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE opml [<!ENTITY ext SYSTEM "file:///etc/passwd">]>
+<opml version="2.0"><head><title>  Outline &amp; co &nbsp; </title></head>
+<body>
+  <outline text="List A" _note="a list note">
+    <outline title="Titled card" _note="line1&#10;line2" _complete="TRUE" url="https://x.example">
+      <outline text="loose one" complete="true"/>
+      <outline text="Group">
+        <outline text="g1"><outline text="g1a" _complete="true"/></outline>
+      </outline>
+      <outline text="loose two"/>
+    </outline>
+    <outline text=""/>
+  </outline>
+  <outline text="  ">
+    <outline text="card in unnamed"/>
+  </outline>
+  <notoutline/>
+</body></opml>

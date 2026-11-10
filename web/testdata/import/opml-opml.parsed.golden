@@ -1,0 +1,118 @@
+{
+  "board": {
+    "name": "Plan & <Go> \"q\" 🚀"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Empty"
+    },
+    {
+      "title": "Won't fix"
+    },
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "checklists": [
+        {
+          "title": "Steps",
+          "items": [
+            {
+              "title": "a & b",
+              "done": true
+            },
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "-minus first",
+      "description": "first\nsecond  \n\n",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "done"
+      ],
+      "checklists": [
+        {
+          "title": "-minus first",
+          "items": [
+            {
+              "title": "Nothing",
+              "done": false
+            }
+          ]
+        },
+        {
+          "title": "",
+          "items": [
+            {
+              "title": "one",
+              "done": false
+            },
+            {
+              "title": "",
+              "done": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Default",
+      "tags": [
+        "done"
+      ]
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

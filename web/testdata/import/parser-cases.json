@@ -61,5 +61,13 @@
   "kanri": [
     "kanri-edge.json",
     "../external/kanri.golden"
+  ],
+  "opml": [
+    "opml-edge.opml",
+    "../external/opml.golden"
+  ],
+  "leo": [
+    "leo-edge.leo",
+    "../external/leo.golden"
   ]
 }
