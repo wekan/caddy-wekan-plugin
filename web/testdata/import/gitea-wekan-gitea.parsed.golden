@@ -1,0 +1,40 @@
+{
+  "board": {
+    "name": "Imported Gitea/Forgejo issues"
+  },
+  "columns": [
+    {
+      "title": "Open"
+    },
+    {
+      "title": "Closed"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "externalId": "1",
+      "title": "Audit task – Å 中文",
+      "description": "First line: café, comma, and \"quotes\".\nSecond line: 日本語.\n\nSource: #1 https://example.invalid/issues/1",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "date_due": "2026-09-30T12:34:56.000Z",
+      "requested_by": "dummy",
+      "tags": [
+        "Audit label",
+        "milestone:Audit milestone"
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/0/comments",
+      "reason": "1 comment(s) exist upstream but were not embedded in this export"
+    }
+  ]
+}

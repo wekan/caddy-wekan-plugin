@@ -1,0 +1,12 @@
+[
+  { "number": 1, "title": "Bug", "state": "closed", "state_reason": "not_planned", "body": "See ![shot](https://github.com/user-attachments/assets/12345678-1234-1234-1234-123456789abc) and [log](https://example.com/page)",
+    "html_url": "https://github.com/o/r/issues/1", "labels": [{ "name": "bug" }, "plain"], "milestone": { "title": "v1", "due_on": "2026-12-01T00:00:00Z" },
+    "assignee": { "login": "ann" }, "assignees": [{ "login": "ann" }, { "login": "bob" }, { "name": "Carl" }, null], "user": { "login": "dee" },
+    "comments": 5, "comments_data": [{ "id": 7, "body": " first ", "user": { "login": "bob" }, "created_at": "2026-11-02T00:00:00Z",
+      "assets": [{ "name": "a.txt", "browser_download_url": "https://gitea.example/attachments/abcdef12-1234-1234-1234-123456789abc", "size": 12 }] },
+      { "body": "" }, { "body": "anon <img src=\"https://user-images.githubusercontent.com/1/x.png\" alt=\"x\">", "author": "eve" }] },
+  { "title": "PR", "pull_request": { "url": "x" } },
+  { "id": 99, "description": "Gitea body", "state": "open", "due_date": "2026-11-30", "url": "https://gitea.example/api/issues/2",
+    "author": { "username": "fay" }, "assets": [{ "browser_download_url": "https://gitea.example/attachments/00000000-0000-0000-0000-000000000000" }, { "name": "bad", "browser_download_url": "ftp://x" }],
+    "comments": [{ "body": "embedded", "author": { "name": "Gus" }, "date": "2026-11-03" }] }
+]

@@ -1,0 +1,65 @@
+{
+  "board": {
+    "name": "Audit Deck"
+  },
+  "columns": [
+    {
+      "title": "Audit list"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "attachments": [
+        {
+          "name": "audit.txt",
+          "deck": {
+            "boardId": 1,
+            "stackId": 1,
+            "cardId": 1,
+            "id": 1,
+            "type": "file"
+          }
+        }
+      ],
+      "title": "Audit task – Å 中文",
+      "description": "First line: café, comma, and \"quotes\".\nSecond line: 日本語.",
+      "column_name": "Audit list",
+      "swimlane_name": "Default",
+      "date_due": "2026-09-30T12:34:56.000Z",
+      "date_creation": 1788220800,
+      "archived": false,
+      "owner_username": "deck-a",
+      "assignees": [
+        "deck-b"
+      ],
+      "requested_by": "deck-owner",
+      "tags": [
+        "Audit label"
+      ],
+      "comments": [
+        {
+          "text": "Audit comment",
+          "author": "deck-user",
+          "date": "2026-09-30T12:34:56+00:00"
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    {
+      "path": "/stacks/0/cards",
+      "reason": "1 deleted card(s) skipped"
+    }
+  ],
+  "unsupported": [
+    {
+      "path": "/acl",
+      "reason": "1 sharing rule(s): board access is granted in WeKan, not by an import"
+    }
+  ]
+}

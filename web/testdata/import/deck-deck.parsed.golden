@@ -1,0 +1,92 @@
+{
+  "board": {
+    "name": "Plan & <Go> \"q\" 🚀"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Empty"
+    },
+    {
+      "title": "Won't fix"
+    },
+    {
+      "title": "  To Do  "
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "archived": false,
+      "owner_username": "alice",
+      "assignees": [
+        "bob",
+        "alice",
+        "bob, jr"
+      ],
+      "requested_by": "carol",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x , y"
+      ],
+      "comments": [
+        {
+          "text": "Looks <i>good</i>",
+          "author": "bob",
+          "date": "2026-11-02T09:30:00.000Z"
+        },
+        {
+          "text": "   ",
+          "author": "bob",
+          "date": "2026-11-02T09:31:00.000Z"
+        },
+        {
+          "text": "no author"
+        }
+      ]
+    },
+    {
+      "title": "-minus first",
+      "description": "first\r\nsecond  \n\n",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "date_end": "2026-11-05T00:00:00.000Z",
+      "due_complete": true,
+      "archived": false,
+      "assignees": [],
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "comments": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

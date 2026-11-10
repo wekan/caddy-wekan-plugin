@@ -1,0 +1,15 @@
+{ "board": { "id": 9, "title": "Deck board", "acl": [{ "participant": { "uid": "x" } }],
+  "stacks": [
+    { "id": 2, "title": "Later", "order": 2, "cards": [] },
+    { "id": 1, "title": "Now", "order": 1, "cards": [
+      { "id": 11, "title": "Second", "order": "5", "done": "2026-11-05T10:00:00+00:00", "owner": { "uid": "ann" },
+        "assignedUsers": [{ "participant": { "uid": "bob" } }, "carl", { "primaryKey": "dee" }, null],
+        "labels": [{ "title": "red" }, "plain", null, { "title": "" }], "duedate": "2026-11-20T00:00:00+00:00", "createdAt": 1790000000,
+        "attachments": [{ "id": 3, "type": "file", "extendedData": { "info": { "basename": "plan.pdf" } } },
+                        { "id": 4, "type": "deck_file", "data": "photo.png", "deletedAt": 0 }, { "id": 5, "deletedAt": 1790000000 }],
+        "comments": [{ "message": "Hi", "actorId": "ann", "creationDateTime": "2026-11-01T00:00:00+00:00" }, { "message": "Yo", "actorDisplayName": "Bob" }, null] },
+      { "id": 10, "title": "", "order": 1, "done": true, "archived": true, "attachmentCount": "2", "stackId": 7 },
+      { "id": 12, "title": "Gone", "deletedAt": 1790000000 } ] },
+    { "id": 3, "title": "Trashed", "deletedAt": 1790000000, "cards": [{ "title": "x" }] },
+    { "id": 4, "title": "Unordered", "cards": [{ "title": "u", "owner": "zed", "dueDate": "2026-12-01" }] }
+  ] } }

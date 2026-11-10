@@ -46,8 +46,7 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 		accept, paste = ".json,application/json", true
 	}
 	return map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source, "Accept": accept, "Paste": paste, "General": general,
-		"Instruction": tr(lang, map[string]string{"csv": msg("import-board-instruction-csv"), "excel": msg("import-board-instruction-excel"),
-			"kanboard": msg("import-board-instruction-kanboard")}[source])}
+		"Instruction": importInstruction(lang, source)}
 }
 
 func (s *Server) importPage(w http.ResponseWriter, r *http.Request, u *User) {
@@ -222,3 +221,22 @@ func (s *Server) importBoardPage(w http.ResponseWriter, r *http.Request, u *User
 	}
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
+
+// importIssueSources are the issue trackers WeKan's import page names, with
+// the endpoint their JSON comes from.
+var importIssueSources = map[string][2]string{"github": {"GitHub", "GET /repos/OWNER/REPO/issues"},
+	"gitlab": {"GitLab", "GET /projects/ID/issues"}, "gitea": {"Gitea", "GET /repos/OWNER/REPO/issues"},
+	"forgejo": {"Forgejo", "GET /repos/OWNER/REPO/issues"}}
+
+// importInstruction is WeKan's importBoardInstructions: an issue tracker's
+// with its name and endpoint, else the source's own.
+func importInstruction(lang, source string) string {
+	if is, ok := importIssueSources[source]; ok {
+		return fillParams(tr(lang, "import-board-instruction-issues"), map[string]string{"sourceName": is[0], "endpoint": is[1]})
+	}
+	key := map[string]string{"csv": msg("import-board-instruction-csv"), "excel": msg("import-board-instruction-excel"),
+		"kanboard": msg("import-board-instruction-kanboard"), "deck": msg("import-board-instruction-deck")}[source]
+	return tr(lang, key)
+}
+
+var _ = msg("import-board-instruction-issues")

@@ -1,0 +1,126 @@
+{
+  "board": {
+    "name": "Deck board"
+  },
+  "columns": [
+    {
+      "title": "Unordered"
+    },
+    {
+      "title": "Now"
+    },
+    {
+      "title": "Later"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "u",
+      "description": "",
+      "column_name": "Unordered",
+      "swimlane_name": "Default",
+      "date_due": "2026-12-01",
+      "archived": false,
+      "owner_username": "zed",
+      "assignees": [],
+      "requested_by": "zed",
+      "tags": [],
+      "comments": []
+    },
+    {
+      "title": "Imported card",
+      "description": "",
+      "column_name": "Now",
+      "swimlane_name": "Default",
+      "due_complete": true,
+      "archived": true,
+      "assignees": [],
+      "tags": [],
+      "comments": []
+    },
+    {
+      "attachments": [
+        {
+          "name": "plan.pdf",
+          "deck": {
+            "boardId": 9,
+            "stackId": 1,
+            "cardId": 11,
+            "id": 3,
+            "type": "file"
+          }
+        },
+        {
+          "name": "photo.png",
+          "deck": {
+            "boardId": 9,
+            "stackId": 1,
+            "cardId": 11,
+            "id": 4,
+            "type": "deck_file"
+          }
+        }
+      ],
+      "title": "Second",
+      "description": "",
+      "column_name": "Now",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-20T00:00:00+00:00",
+      "date_creation": 1790000000,
+      "date_end": "2026-11-05T10:00:00+00:00",
+      "due_complete": true,
+      "archived": false,
+      "owner_username": "bob",
+      "assignees": [
+        "carl",
+        "dee"
+      ],
+      "requested_by": "ann",
+      "tags": [
+        "red",
+        "plain"
+      ],
+      "comments": [
+        {
+          "text": "Hi",
+          "author": "ann",
+          "date": "2026-11-01T00:00:00+00:00"
+        },
+        {
+          "text": "Yo",
+          "author": "Bob"
+        },
+        {
+          "text": null,
+          "author": null,
+          "date": null
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    {
+      "path": "/stacks",
+      "reason": "1 deleted stack(s) skipped"
+    },
+    {
+      "path": "/stacks/1/cards",
+      "reason": "1 deleted card(s) skipped"
+    }
+  ],
+  "unsupported": [
+    {
+      "path": "/acl",
+      "reason": "1 sharing rule(s): board access is granted in WeKan, not by an import"
+    },
+    {
+      "path": "/stacks/1/cards/1/attachments",
+      "reason": "2 attachment(s) not listed in the export (GET .../cards/{id}/attachments lists them)"
+    }
+  ]
+}

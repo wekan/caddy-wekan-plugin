@@ -1,0 +1,103 @@
+{
+  "board": {
+    "name": "Imported GitHub issues"
+  },
+  "columns": [
+    {
+      "title": "Open"
+    },
+    {
+      "title": "Closed"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "externalId": "1",
+      "title": "Bug",
+      "description": "See ![shot](https://github.com/user-attachments/assets/12345678-1234-1234-1234-123456789abc) and [log](https://example.com/page)\n\nSource: #1 https://github.com/o/r/issues/1",
+      "column_name": "Closed",
+      "swimlane_name": "Default",
+      "date_due": "2026-12-01T00:00:00Z",
+      "owner_username": "ann",
+      "requested_by": "dee",
+      "tags": [
+        "bug",
+        "plain",
+        "milestone:v1",
+        "assignee:bob",
+        "assignee:Carl",
+        "state_reason:not_planned"
+      ],
+      "comments": [
+        {
+          "text": "first",
+          "author": "bob",
+          "date": "2026-11-02T00:00:00Z",
+          "externalId": "7"
+        },
+        {
+          "text": "anon <img src=\"https://user-images.githubusercontent.com/1/x.png\" alt=\"x\">",
+          "author": "eve"
+        }
+      ],
+      "attachments": [
+        {
+          "name": "shot",
+          "url": "https://github.com/user-attachments/assets/12345678-1234-1234-1234-123456789abc"
+        },
+        {
+          "name": "a.txt",
+          "url": "https://gitea.example/attachments/abcdef12-1234-1234-1234-123456789abc",
+          "size": 12
+        },
+        {
+          "name": "x.png",
+          "url": "https://user-images.githubusercontent.com/1/x.png"
+        }
+      ]
+    },
+    {
+      "externalId": "99",
+      "title": "Imported issue",
+      "description": "Gitea body\n\nhttps://gitea.example/api/issues/2",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-30",
+      "requested_by": "fay",
+      "tags": [],
+      "comments": [
+        {
+          "text": "embedded",
+          "author": "Gus",
+          "date": "2026-11-03"
+        }
+      ],
+      "attachments": [
+        {
+          "name": "00000000-0000-0000-0000-000000000000",
+          "url": "https://gitea.example/attachments/00000000-0000-0000-0000-000000000000"
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/0/assignees",
+      "reason": "only the first assignee becomes the task Owner; the rest are kept as tags"
+    },
+    {
+      "path": "/0/comments_data/1",
+      "reason": "comment has no text; not imported"
+    },
+    {
+      "path": "/0/comments",
+      "reason": "2 comment(s) exist upstream but were not embedded in this export"
+    }
+  ]
+}

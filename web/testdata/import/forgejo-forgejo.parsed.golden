@@ -1,0 +1,85 @@
+{
+  "board": {
+    "name": "Imported Gitea/Forgejo issues"
+  },
+  "columns": [
+    {
+      "title": "Open"
+    },
+    {
+      "title": "Closed"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x , y"
+      ]
+    },
+    {
+      "title": "-minus first",
+      "description": "first\r\nsecond",
+      "column_name": "Closed",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ]
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Closed",
+      "swimlane_name": "Default",
+      "date_due": "2026-12-24T18:30:00.000Z",
+      "tags": []
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-12T00:00:00.000Z",
+      "tags": [
+        "p1"
+      ]
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Open",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}
