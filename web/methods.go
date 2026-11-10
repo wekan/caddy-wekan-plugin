@@ -48,6 +48,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"setEmail":                        s.methodSetEmail,
 		"rules.runButton":                 s.methodRunButton,
 		"setNotificationDelivery":         s.methodSetNotificationDelivery,
+		"lists.setRoleExceptions":         s.methodSetListExceptions,
 		"botDispatch":                     s.methodBotDispatch,
 		"botAnswer":                       s.methodBotAnswer,
 		"botReply":                        s.methodBotReply,
@@ -324,7 +325,23 @@ func (s *Server) listSet(r *http.Request, b *Board, field string, raw json.RawMe
 		}
 		return t, nil
 	}
+	if field == "roleExceptions" {
+		s.recordListExceptionsCanary(r, nil)
+	}
 	return nil, &methodError{"invalid-field", "Field " + field + " is not allowed"}
+}
+
+// recordListExceptionsCanary: only lists.setRoleExceptions changes a list's
+// exceptions; a direct write is an attempt to grant oneself access (WeKan's
+// canary list.role-exceptions-direct), in Admin Panel / Problems.
+func (s *Server) recordListExceptionsCanary(r *http.Request, u *User) {
+	defer func() { _ = recover() }() // logging must never break the guard
+	e := securityEvent{Key: "authz.canary", Action: "detected", Source: "canary:list.role-exceptions-direct",
+		Detail: "A list's exceptions written directly instead of through lists.setRoleExceptions."}
+	if u != nil {
+		e.UserID = u.ID
+	}
+	s.recordSecurity(r, e)
 }
 
 // methodUpdateListSort is WeKan's updateListSort: a list's place - its sort,
@@ -386,6 +403,12 @@ func (s *Server) methodUpdateList(r *http.Request, u *User, args []json.RawMessa
 	}
 	var mod map[string]map[string]json.RawMessage
 	if json.Unmarshal(args[1], &mod) != nil || len(mod) != 1 || mod["$set"] == nil {
+		return nil, &methodError{"403", "Access denied"}
+	}
+	// WeKan's Lists.deny: a list's exceptions are only lists.setRoleExceptions',
+	// whoever writes them directly - an attempt, seen before anything else.
+	if _, direct := mod["$set"]["roleExceptions"]; direct {
+		s.recordListExceptionsCanary(r, u)
 		return nil, &methodError{"403", "Access denied"}
 	}
 	l, b, err := s.listOnWritableBoard(r, u, sel.ID, &methodError{"403", "Access denied"})

@@ -691,6 +691,14 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (!list) return;
     callAsync('watch', 'list', list.dataset.list, list.dataset.watching ? null : 'watching').then(function () { up.reload('.board-wrapper'); });
   });
+  // WeKan's List permissions (#4527): the page of the list whose menu is open.
+  up.on('click', '.js-pop-over .js-list-permissions', function (event, el) {
+    event.preventDefault();
+    var list = menuList;
+    closePopOvers();
+    if (!list) return;
+    up.navigate({ url: el.dataset.base + '/lists/' + encodeURIComponent(list.dataset.list) + '/permissions' });
+  });
   up.on('click', '.js-open-list-menu', function (event, el) {
     event.preventDefault();
     menuList = el.closest('.js-list');

@@ -17,7 +17,11 @@ import (
 // and the REST API - and a refused write is recorded in Admin Panel / Problems
 // as ListLockBleed (authz.list-locked): the pages never offer it, so reaching
 // the server is an attempt. A list that GRANTS a role more than the board
-// gives is not applied yet: Weddy only takes away.
+// gives opens what WeKan's allow rules open (server/listPermissions.js):
+// adding a card to it and commenting on its cards, from the pages and the
+// methods - canAddCardIn and canCommentIn. As WeKan's assertListNotRefused
+// says, a grant never opens the REST API to a role the board does not let
+// write (TestListGrantsNeverReachREST).
 
 // listRoleIn is WeKan's roleIn: the user's role on the board - "signed-in"
 // on a public or instance board they are not a member of - or "" for none.
@@ -126,4 +130,32 @@ func (s *Server) listOfCard(ctx context.Context, cardID string) string {
 		_ = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID)}).Decode(&c)
 	}
 	return c.ListID
+}
+
+// canAddCardIn is WeKan's canWriteInList for a new card: the list's rule for
+// the user's role when it has one, else the board's. The pages' card
+// composer and its form only - never REST.
+func (s *Server) canAddCardIn(ctx context.Context, b *Board, listID string, u *User) bool {
+	if u == nil {
+		return false
+	}
+	if e := s.listException(ctx, b, listID, u.ID, "write"); e != nil {
+		return *e
+	}
+	return b.Writable(u, "write", nil)
+}
+
+// canCommentIn is WeKan's canCommentInList for a card: a list that grants
+// its comments to the user's role lets them comment there whatever the board
+// says - an assigned-only member still only on a card assigned to them -
+// else CommentableIn. The pages and the methods only - never REST.
+func (s *Server) canCommentIn(ctx context.Context, b *Board, u *User, c *Card) bool {
+	if u == nil || c == nil {
+		return false
+	}
+	if e := s.listException(ctx, b, c.ListID, u.ID, "comment"); e != nil && *e {
+		m := b.member(u.ID)
+		return u.IsAdmin || m == nil || !m.AssignedOnly() || containsString(c.Assignees, u.ID)
+	}
+	return b.CommentableIn(ctx, s, u, c)
 }

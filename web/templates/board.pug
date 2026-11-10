@@ -305,6 +305,11 @@
           a.js-select-cards(href="#") {{t $.L "list-select-cards"}}
         li
           a.js-toggle-watch-list(href="#", data-watch="{{t $.L `watch`}}", data-unwatch="{{t $.L `unwatch`}}") {{t $.L "watch"}}
+        if .Board.AdminOf .User.ID
+          li
+            a.js-list-permissions(href="#", data-base="/b/{{.Board.ID}}/{{.Board.Slug}}")
+              i.fa.fa-lock
+              |  {{t $.L "listPermissionsPopup-title"}}
   template.js-pop-over-template(data-pop="watch", data-title="{{t $.L `boardChangeWatchPopup-title`}}")
     .header
       span.header-title {{t $.L "boardChangeWatchPopup-title"}}
@@ -383,8 +388,9 @@
                 span.list-header-name {{.Title}}
                 if watching $.User .Watchers
                   i.list-header-watch-icon.fa.fa-eye(title="{{t $.L `watching`}}")
-                if $.CanEdit
+                if .CanAdd
                   a.js-add-card.list-header-plus-top(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `add-card-to-top-of-list`}}", aria-label="{{t $.L `add-card-to-top-of-list`}}") +
+                if $.CanEdit
                   a.js-open-list-menu(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `listActionPopup-title`}}", aria-label="{{t $.L `listActionPopup-title`}}") ☰
               .list-body.js-minicards(data-list="{{.ID}}", data-swimlane="{{.Lane}}")
                 each c in .Cards
@@ -400,7 +406,7 @@
                             a.minicard-complete-toggle.js-toggle-card-complete(href="#", data-card="{{.ID}}", data-complete="{{if .DueComplete}}false{{else}}true{{end}}", title="{{if .DueComplete}}{{t $.L `card-mark-incomplete`}}{{else}}{{t $.L `card-mark-complete`}}{{end}}")
                               .materialCheckBox(class="{{if .DueComplete}}is-checked{{end}}")
                         span.minicard-title-text {{viewer .Title $.TextPolicy}}
-              if $.CanEdit
+              if .CanAdd
                 //- The card composer is on the page only while it is open, at
                   the top or the bottom of the list (WeKan's inlined form).
                 template.js-card-composer-template

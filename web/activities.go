@@ -249,8 +249,10 @@ func (s *Server) AddComment(ctx context.Context, b *Board, u *User, c *Card, tex
 	if text == "" || len(text) > 100000 {
 		return "", errors.New("a comment is needed")
 	}
-	// The board's rule, then the card's list (list_permissions.go).
-	if !b.CommentableIn(ctx, s, u, c) {
+	// The board's rule and the card's list (list_permissions.go): a list may
+	// grant its comments to a role the board does not. AddComment is the
+	// pages' and the methods'; the REST API has its own, which never grants.
+	if !s.canCommentIn(ctx, b, u, c) {
 		return "", errForbidden
 	}
 	now := time.Now().UTC()

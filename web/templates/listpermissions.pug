@@ -1,0 +1,37 @@
+//- WeKan's listPermissionsPopup (#4527), as a page: for each role, whether it
+  may edit and comment in this list - as the board says, allowed, or refused.
+  For the board's admins; an exception never restricts them.
+.setting-content.list-permissions
+  h1
+    a.js-back-to-board(href="/b/{{.Board.ID}}/{{.Board.Slug}}") {{.Board.Title}}
+    |  - {{.ListTitle}} - {{t $.L "listPermissionsPopup-title"}}
+  if .Saved
+    p.cloud-saved.js-list-permissions-saved {{t $.L "cloud-saved"}}
+  p.quiet {{t $.L "list-permissions-desc"}}
+  form.js-list-permissions-form(method="post", action="/b/{{.Board.ID}}/lists/{{.ListID}}/permissions")
+    table.list-permissions-table
+      thead
+        tr
+          th
+          th {{t $.L "edit"}}
+          th {{t $.L "comment"}}
+      tbody
+        each row in .Rows
+          tr(data-role="{{.Key}}")
+            th(scope="row") {{.Label}}
+            each cell in .Cells
+              td
+                select.js-list-permission(name="{{.Name}}", data-role="{{.Role}}", data-cap="{{.Capability}}", aria-label="{{.Aria}}")
+                  if eq .Choice ""
+                    option(value="", selected) {{t $.L "list-permission-board"}}
+                  else
+                    option(value="") {{t $.L "list-permission-board"}}
+                  if eq .Choice "allow"
+                    option(value="allow", selected) {{t $.L "list-permission-allow"}}
+                  else
+                    option(value="allow") {{t $.L "list-permission-allow"}}
+                  if eq .Choice "deny"
+                    option(value="deny", selected) {{t $.L "list-permission-deny"}}
+                  else
+                    option(value="deny") {{t $.L "list-permission-deny"}}
+    button.primary.full.js-save-list-permissions(type="submit") {{t $.L "save"}}

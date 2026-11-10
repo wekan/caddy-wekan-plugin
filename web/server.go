@@ -280,6 +280,8 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}/rules", s.page(s.rulesPage))
 	m.HandleFunc("GET /b/{board}/{slug}/notifications", s.page(s.boardNotificationsPage))
 	m.HandleFunc("POST /b/{board}/notifications", s.page(s.saveBoardDelivery))
+	m.HandleFunc("GET /b/{board}/{slug}/lists/{list}/permissions", s.page(s.listPermissionsPage))
+	m.HandleFunc("POST /b/{board}/lists/{list}/permissions", s.page(s.saveListPermissions))
 	m.HandleFunc("POST /b/{board}/integrations/{hook}/notifications", s.page(s.saveHookDelivery))
 	m.HandleFunc("GET /admin/notifications", s.page(s.adminNotificationsPage))
 	m.HandleFunc("POST /admin/notifications", s.page(s.saveAdminDelivery))
@@ -685,6 +687,7 @@ type laneList struct {
 	Lane      string // the swimlane this list is shown in
 	Cards     []Card
 	Collapsed bool // folded by this user, in this swimlane (#6712)
+	CanAdd    bool // this user may add a card here: the list's rule, else the board's (#4527)
 }
 
 func (s *Server) boardData(ctx context.Context, b *Board) ([]lane, []List, error) {
@@ -780,6 +783,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 				v = folded[ll.ID]
 			}
 			ll.Collapsed = v
+			ll.CanAdd = s.canAddCardIn(r.Context(), b, ll.ID, u)
 		}
 	}
 	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "Starred": starred, "Invited": invited,
@@ -820,8 +824,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["Lists"], data["Swimlanes"] = s.boardPlaces(r, b.ID)
 			data["LabelPalette"] = labelPalette
 			data["WatchingCard"] = slices.Contains(s.cardWatchers(r.Context(), c.ID), u.ID)
-			data["CanComment"] = (u.IsAdmin || (b.Can(u.ID, "comment") && (!m.AssignedOnly() || slices.Contains(c.Assignees, u.ID)))) &&
-				!s.listRefuses(r.Context(), b, c.ListID, u.ID, "comment")
+			data["CanComment"] = s.canCommentIn(r.Context(), b, u, &c)
 		}
 	}
 	s.render(w, r, "board", http.StatusOK, data)
@@ -1260,13 +1263,20 @@ func (s *Server) AddCardWith(ctx context.Context, b *Board, u *User, listID, swi
 }
 
 func (s *Server) addCard(w http.ResponseWriter, r *http.Request, u *User) {
-	b := s.editableBoard(w, r, u)
-	if b == nil {
+	ctx := r.Context()
+	b, err := s.boardFor(ctx, r.PathValue("board"), u)
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
-	ctx := r.Context()
-	if s.refuseInList(ctx, b, r.FormValue("listId"), u, "write", "page:add-card") {
-		http.Error(w, "this list does not let your role add cards", http.StatusForbidden)
+	// The list's rule for the user's role, else the board's: a list may grant
+	// a role the board does not let write (#4527), or refuse one it does.
+	if !s.canAddCardIn(ctx, b, r.FormValue("listId"), u) {
+		if s.refuseInList(ctx, b, r.FormValue("listId"), u, "write", "page:add-card") {
+			http.Error(w, "this list does not let your role add cards", http.StatusForbidden)
+			return
+		}
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
 		return
 	}
 	top := s.topSort(ctx, b.ID, r.FormValue("listId"))
