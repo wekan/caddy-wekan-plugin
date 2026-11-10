@@ -291,6 +291,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/cards/{card}/title", s.page(s.cardTitlePage))
 	s.registerChecklistWrites(m)
 	s.cardDateRoutes(m)
+	s.cardCustomFieldRoutes(m)
 	m.HandleFunc("POST /b/{board}/cards/{card}/complete", s.page(s.cardCompletePage))
 	m.HandleFunc("POST /b/{board}/title", s.page(s.renameBoardPage))
 	m.HandleFunc("POST /b/{board}/restore", s.page(s.restoreBoardPage))
@@ -837,6 +838,12 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["DescriptionTitle"] = rawBoardAllows(rawBoard, "allowsDescriptionTitle")
 			data["DescriptionText"] = rawBoardAllows(rawBoard, "allowsDescriptionText")
 			data["DescriptionShown"] = canDesc || c.Description != ""
+			// cardFieldSectionCustomFields: for whoever may change the card, on
+			// a board that allows custom fields (canShowCustomFieldsOnCard).
+			if b.WritableIn(r.Context(), s, u, "write", &c) && rawBoardAllows(rawBoard, "allowsCustomFields") {
+				data["CardFieldsShown"] = true
+				data["CardFields"], data["BoardFields"] = s.cardCustomFields(r.Context(), b, u, rawCard, u.Profile.DateFormat)
+			}
 			data["CardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID, "cardId": c.ID}, lang, 100)
 			data["CardMembers"], data["BoardMembers"] = s.cardMemberChoices(r.Context(), b, &c)
 			if cls, ok := data["Checklists"].([]cardChecklist); ok {

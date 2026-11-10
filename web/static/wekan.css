@@ -484,3 +484,23 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .js-list:has(form.js-card-composer) .open-minicard-composer { display: none; }
 .minicard-composer textarea { width: 100%; border: 0; resize: both; min-height: 3em; }
 .add-controls { display: flex; align-items: center; gap: .5em; margin-top: .3em; }
+
+/* WeKan's custom fields on the card (cardCustomFields.css). */
+.fa-list-alt::before, .fa-list::before { content: "\2261"; }
+.fa-copy::before { content: "\2398"; }
+.fa-times-thin::before { content: "\00D7"; }
+.card-details-group-custom-fields .custom-fields-grid { display: flex; flex-wrap: wrap; gap: .5em 1em; }
+.card-details-item-customfield { min-width: 8em; }
+.card-details-item-customfield .is-editable { cursor: pointer; }
+.card-details-section-menu { margin-left: .4em; text-decoration: none; }
+.js-card-custom-field-checkbox { cursor: pointer; display: inline-flex; }
+.js-copy-custom-field { text-decoration: none; margin-right: .3em; }
+.js-copy-custom-field.is-copied::after { content: " \2713"; color: #3cb500; }
+.js-pop-over li.item .js-select-field { background: none; border: 0; display: flex; gap: .5em; align-items: center; width: 100%; text-align: left; cursor: pointer; padding: .3em .5em; }
+/* WeKan's forms.css materialCheckBox, wherever the card details and their
+   pop-overs show one: a square, the tick when it is on. */
+.card-details .materialCheckBox, .js-pop-over .materialCheckBox { display: inline-block; position: relative; width: 13px; height: 13px; border: 2px solid #5a5a5a; border-radius: 1px; flex: none; cursor: pointer; box-sizing: content-box; }
+.card-details .materialCheckBox.is-checked, .js-pop-over .materialCheckBox.is-checked { width: 7px; height: 15px; border-top-color: transparent; border-left-color: transparent; border-bottom-color: #3cb500; border-right-color: #3cb500; transform: rotate(40deg); top: -4px; }
+.card-details label.check-box-container { cursor: pointer; display: inline-flex; align-items: center; }
+.card-details label.check-box-container input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.create-custom-field label { display: block; margin-top: .4em; }

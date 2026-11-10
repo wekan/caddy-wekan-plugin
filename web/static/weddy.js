@@ -373,6 +373,49 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   });
   up.on('change', '.js-checklist-target .js-select-boards', function (event, sel) { fillChecklistTarget(sel.form, sel.value, false); });
   up.on('change', '.js-checklist-target .js-select-swimlanes, .js-checklist-target .js-select-lists', function (event, sel) { fillChecklistCards(sel.form); });
+  // cardCustomFieldsPopup, from the Custom Fields section's hamburger.
+  up.on('click', '.js-open-custom-fields-settings', function (event) {
+    event.preventDefault();
+    openPopOver('card-custom-fields');
+  });
+  up.on('click', '.js-pop-over .js-open-create-custom-field', function (event) {
+    event.preventDefault();
+    openPopOver('create-custom-field');
+    var name = document.querySelector('.js-pop-over .js-field-name');
+    if (name) name.focus();
+  });
+  // cardCustomField-*: the field's title, its value or its pencil opens its
+  // editor; a checkbox's square alone saves the other value at once.
+  up.on('click', '.card-details-item-customfield .js-edit-card-custom-field-value', function (event, el) {
+    event.preventDefault();
+    var item = el.closest('.card-details-item-customfield');
+    if (event.target.closest && event.target.closest('.js-card-custom-field-checkbox .check-box-container')) {
+      var toggle = item.querySelector('form.js-card-custom-field-checkbox-toggle');
+      if (toggle) up.submit(toggle);
+      return;
+    }
+    var form = item.querySelector('form.js-inlined-form');
+    if (!form) return;
+    el.closest('.js-card-details').querySelectorAll('.card-details-item-customfield .js-inlined-form').forEach(function (f) { if (f !== form) closeInlinedForm(f); });
+    var body = form.querySelector(':scope > template.js-inlined-form-body');
+    if (body && !form.querySelector('input, textarea, select')) form.appendChild(body.content.cloneNode(true));
+    form.classList.remove('is-hidden');
+    var input = form.querySelector('textarea, select, input:not([type=hidden])');
+    if (input) input.focus();
+  });
+  // The checkbox editor's square follows its box.
+  up.on('change', '.js-card-customfield-checkbox-editor .js-card-customfield-checkbox-input', function (event, el) {
+    var square = el.parentNode.querySelector('.materialCheckBox');
+    if (square) square.classList.toggle('is-checked', el.checked);
+  });
+  // customFieldCopyButton: the field's value to the clipboard.
+  up.on('click', '.js-copy-custom-field', function (event, el) {
+    event.preventDefault();
+    var value = el.getAttribute('data-value') || '';
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(value);
+    el.classList.add('is-copied');
+    setTimeout(function () { el.classList.remove('is-copied'); }, 1200);
+  });
   // The checklists' inlined forms: a "+" opens its own form - the
   // checklist's for an item, the section's for a checklist.
   up.on('click', '.js-checklists-section .js-open-inlined-form, .card-details-group-description .js-open-inlined-form', function (event, el) {
@@ -648,7 +691,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (event.key === 'Escape') {
       // WeKan's EscapeActions: a pop-over first, else an inlined form of the card.
       if (document.querySelector('.js-pop-over')) closePopOvers();
-      else document.querySelectorAll('.js-card-details .js-checklists-section .js-inlined-form:not(.is-hidden), .js-card-details .card-details-group-description .js-inlined-form:not(.is-hidden)').forEach(function (f) { closeInlinedForm(f); });
+      else document.querySelectorAll('.js-card-details .js-checklists-section .js-inlined-form:not(.is-hidden), .js-card-details .card-details-group-description .js-inlined-form:not(.is-hidden), .js-card-details .card-details-item-customfield .js-inlined-form:not(.is-hidden)').forEach(function (f) { closeInlinedForm(f); });
       if (staleUnderForm && !document.querySelector('.board-wrapper .js-card-details .js-inlined-form:not(.is-hidden)')) { staleUnderForm = false; setTimeout(reloadBoard, 0); }
     }
   });
