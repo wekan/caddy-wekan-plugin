@@ -63,53 +63,117 @@ type tableMapping struct {
 	ListName     string
 }
 
-var spaces = regexp.MustCompile(`\s+`)
-
 func normalizeHeader(s string) string {
-	s = strings.TrimSpace(spaces.ReplaceAllString(s, " "))
-	return strings.ToLower(strings.TrimSpace(strings.TrimSuffix(s, ":")))
+	// JavaScript's \s and trim(): Unicode's spaces too, a no-break space
+	// among them.
+	var b strings.Builder
+	space := false
+	for _, r := range s {
+		if jsSpace(r) {
+			if !space {
+				b.WriteByte(' ')
+			}
+			space = true
+			continue
+		}
+		space = false
+		b.WriteRune(r)
+	}
+	return jsLower(jsTrim(strings.TrimSuffix(jsTrim(b.String()), ":")))
 }
 
 func isCustomFieldHeader(s string) bool { return strings.HasPrefix(normalizeHeader(s), "customfield") }
 
-// guessTableMapping is guessCsvMapping: a column for each field its header
-// names - in the file's own language first, then the English names, then
-// any language - and, with no title column found, the first ordinary column.
+// tableCSVExportLayout and tableExcelExportLayout are CSV_EXPORT_LAYOUT and
+// EXCEL_EXPORT_LAYOUT: the column order of WeKan's own CSV/TSV export
+// (models/exporter.js) and Excel table (models/server/ExporterExcel.js).
+var tableCSVExportLayout = []string{"title", "description", "list", "swimlane", "owner", "requested-by",
+	"assigned-by", "members", "assignee", "labels", "card-start", "card-due", "card-end", "overtime-hours",
+	"spent-time-hours", "createdAt", "last-modified-at", "last-activity", "voting", "archived"}
+var tableExcelExportLayout = []string{"number", "title", "description", "parent-card", "owner", "createdAt",
+	"last-modified-at", "card-received", "card-start", "card-due", "card-end", "list", "swimlane", "assignee",
+	"members", "requested-by", "assigned-by", "labels", "overtime-hours", "spent-time-hours"}
+
+// tableFieldByExportKey is fieldByExportKey.
+func tableFieldByExportKey(key string) string {
+	for _, f := range tableFields {
+		if f.ExportKey == key {
+			return f.Field
+		}
+	}
+	return ""
+}
+
+// bestHeaderLanguage is bestLanguage: the language whose export headers
+// match the most names, English winning a tie; -1 is none.
+func bestHeaderLanguage(names []string, index []headerLanguage) int {
+	best, bestCount := -1, 0
+	for i, hl := range index {
+		count := 0
+		for _, n := range names {
+			if _, ok := hl.names[n]; ok && n != "" {
+				count++
+			}
+		}
+		if count > bestCount || (count == bestCount && count > 0 && hl.tag == "en") {
+			best, bestCount = i, count
+		}
+	}
+	return best
+}
+
+// tableExportLayoutOf is exportLayoutOf: a header that is exactly one of
+// WeKan's export layouts in one language is read by position - some
+// languages translate two of its keys with one word ("Owner" and "Assigned
+// By" in Latvian), and their places say which is which.
+func tableExportLayoutOf(names []string, lang int, index []headerLanguage) map[string]int {
+	if lang < 0 {
+		return nil
+	}
+	m := index[lang].names
+	for _, layout := range [][]string{tableCSVExportLayout, tableExcelExportLayout} {
+		if len(names) < len(layout) {
+			continue
+		}
+		fits := true
+		for i, key := range layout {
+			if !slices.Contains(m[names[i]], key) {
+				fits = false
+				break
+			}
+		}
+		for _, n := range names[len(layout):] {
+			if n != "" && !isCustomFieldHeader(n) {
+				fits = false
+			}
+		}
+		if !fits {
+			continue
+		}
+		columns := map[string]int{}
+		for i, key := range layout {
+			if f := tableFieldByExportKey(key); f != "" {
+				columns[f] = i
+			}
+		}
+		return columns
+	}
+	return nil
+}
+
+// guessTableMapping is guessCsvMapping: WeKan's own export layout by
+// position, else a column for each field its header names - in the file's
+// own language first, then the English names, then any language - and, with
+// no title column found, the first ordinary column no language knows.
 func guessTableMapping(header []string) tableMapping {
+	index := headerIndex()
 	names := make([]string, len(header))
 	for i, h := range header {
 		names[i] = normalizeHeader(h)
 	}
-	// Each language's export names of the fields.
-	byLang := map[string]map[string]string{}
-	best, bestCount := "", 0
-	for _, l := range Languages() {
-		m := map[string]string{}
-		for _, f := range tableFields {
-			if n := normalizeHeader(tr(l.Tag, f.ExportKey)); n != "" {
-				if _, taken := m[n]; !taken {
-					m[n] = f.Field
-				}
-			}
-		}
-		byLang[l.Tag] = m
-		count := 0
-		for _, n := range names {
-			if _, ok := m[n]; ok && n != "" {
-				count++
-			}
-		}
-		if count > bestCount || (count == bestCount && count > 0 && l.Tag == "en") {
-			best, bestCount = l.Tag, count
-		}
-	}
-	alias := map[string]string{}
-	for _, f := range tableFields {
-		for _, a := range tableAliases[f.Field] {
-			if _, ok := alias[a]; !ok {
-				alias[a] = f.Field
-			}
-		}
+	lang := bestHeaderLanguage(names, index)
+	if layout := tableExportLayoutOf(names, lang, index); layout != nil {
+		return tableMapping{Columns: layout}
 	}
 	candidates := func(n string) []string {
 		out := []string{}
@@ -118,16 +182,26 @@ func guessTableMapping(header []string) tableMapping {
 				out = append(out, f)
 			}
 		}
-		if best != "" {
-			add(byLang[best][n])
+		if lang >= 0 {
+			for _, k := range index[lang].names[n] {
+				add(tableFieldByExportKey(k))
+			}
 		}
-		add(alias[n])
-		for _, l := range Languages() {
-			add(byLang[l.Tag][n])
+		add(tableAliasField(n))
+		for _, hl := range index {
+			for _, k := range hl.names[n] {
+				add(tableFieldByExportKey(k))
+			}
 		}
 		return out
 	}
-	known := func(n string) bool { return len(candidates(n)) > 0 }
+	// knownHeader: an English name, or any language's export header.
+	known := func(n string) bool {
+		if tableAliasField(n) != "" {
+			return true
+		}
+		return slices.ContainsFunc(index, func(hl headerLanguage) bool { _, ok := hl.names[n]; return ok })
+	}
 	m := tableMapping{Columns: map[string]int{}}
 	taken := map[string]bool{}
 	for i, n := range names {

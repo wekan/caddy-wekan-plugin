@@ -80,29 +80,28 @@ func (s *Server) importPage(w http.ResponseWriter, r *http.Request, u *User) {
 	s.render(w, r, "import", http.StatusOK, s.importData(r, u, source))
 }
 
-// importRows are the rows of the first step's file or text.
-func importRows(r *http.Request, source string) (string, [][]string, error) {
+// importRows are the boards of the first step's file or text: a CSV/TSV
+// text is one, a workbook every sheet with a header (excelSheetBoards), with
+// the sheets that have none.
+func importRows(r *http.Request, source string) ([]sheetBoard, []string, error) {
 	var data []byte
 	if f, _, err := r.FormFile("file"); err == nil {
 		defer f.Close()
 		data, err = io.ReadAll(io.LimitReader(f, maxImportForm+1))
 		if err != nil || len(data) > maxImportForm {
-			return "", nil, errors.New("error-csv-schema")
+			return nil, nil, errors.New("error-csv-schema")
 		}
 	}
 	if source == "excel" {
-		sheets, err := readXlsx(data)
+		sheets, err := readXlsxValues(data)
 		if err != nil {
-			return "", nil, errors.New("error-csv-schema")
+			return nil, nil, errors.New("error-csv-schema")
 		}
-		name, rows := firstTable(sheets)
-		if len(rows) == 0 {
-			return "", nil, errors.New("error-csv-schema")
+		boards, skipped := excelSheetBoards(sheets)
+		if len(boards) == 0 || len(boards[0].Rows) == 0 {
+			return nil, nil, errors.New("error-csv-schema")
 		}
-		if len(sheets) == 1 {
-			name = ""
-		}
-		return name, rows, nil
+		return boards, skipped, nil
 	}
 	text := string(data)
 	if strings.TrimSpace(text) == "" {
@@ -110,9 +109,9 @@ func importRows(r *http.Request, source string) (string, [][]string, error) {
 	}
 	rows, err := csvRows(text)
 	if err != nil || len(rows) == 0 {
-		return "", nil, errors.New("error-csv-schema")
+		return nil, nil, errors.New("error-csv-schema")
 	}
-	return "", rows, nil
+	return []sheetBoard{{Rows: rows}}, nil, nil
 }
 
 // importMappingPage is the second step: every field with the file's columns,
@@ -131,12 +130,25 @@ func (s *Server) importMappingPage(w http.ResponseWriter, r *http.Request, u *Us
 	}
 	r.Body = http.MaxBytesReader(w, r.Body, maxImportForm+1<<20)
 	data := s.importData(r, u, source)
-	title, rows, err := importRows(r, source)
+	boards, skipped, err := importRows(r, source)
 	if err != nil {
 		data["Error"] = err.Error()
 		s.render(w, r, "import", http.StatusBadRequest, data)
 		return
 	}
+	title, rows := boards[0].Title, boards[0].Rows
+	// csvMapping.js boardsText and skippedText: the boards a workbook holds,
+	// when it holds several, and the sheets that are none. The boards after
+	// the first go with the form, to be imported with it.
+	if len(boards) > 1 {
+		names := make([]string, len(boards))
+		for i, b := range boards {
+			names[i] = jsOr(b.Title, b.Sheet).(string)
+		}
+		more, _ := json.Marshal(boards[1:])
+		data["BoardsText"], data["Sheets"] = strings.Join(names, ", "), string(more)
+	}
+	data["SkippedText"] = strings.Join(skipped, ", ")
 	lang := languageOf(r, u).Tag
 	header := rows[0]
 	guess := guessTableMapping(header)
@@ -232,17 +244,43 @@ func (s *Server) importBoardPage(w http.ResponseWriter, r *http.Request, u *User
 		s.render(w, r, "import", http.StatusBadRequest, data)
 		return
 	}
-	b, err := s.importTable(r.Context(), u, r.FormValue("boardTitle"), rows, m, tr(lang, "scrum-category-todo"))
-	if errors.Is(err, errBoardCreation) {
-		http.Error(w, err.Error(), http.StatusForbidden)
-		return
+	// A workbook's other boards (models/import.js): each its own board, with
+	// the confirmed mapping when its header is the first board's, else by
+	// its column names; the first board opens.
+	parts := []sheetBoard{{Title: r.FormValue("boardTitle"), Rows: rows}}
+	if more := r.FormValue("sheets"); source == "excel" && more != "" {
+		var rest []sheetBoard
+		if err := json.Unmarshal([]byte(more), &rest); err != nil {
+			data["Error"] = "error-csv-schema"
+			s.render(w, r, "import", http.StatusBadRequest, data)
+			return
+		}
+		parts = append(parts, rest...)
 	}
-	if err != nil {
-		data["Error"] = err.Error()
-		s.render(w, r, "import", http.StatusBadRequest, data)
-		return
+	var first *Board
+	for i, part := range parts {
+		pm := m
+		if i > 0 && !sameSheetHeader(parts, i) {
+			if len(part.Rows) == 0 {
+				continue
+			}
+			pm = guessTableMapping(part.Rows[0])
+		}
+		b, err := s.importTable(r.Context(), u, part.Title, part.Rows, pm, tr(lang, "scrum-category-todo"))
+		if errors.Is(err, errBoardCreation) {
+			http.Error(w, err.Error(), http.StatusForbidden)
+			return
+		}
+		if err != nil {
+			data["Error"] = err.Error()
+			s.render(w, r, "import", http.StatusBadRequest, data)
+			return
+		}
+		if first == nil {
+			first = b
+		}
 	}
-	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+	http.Redirect(w, r, "/b/"+first.ID+"/"+first.Slug, http.StatusSeeOther)
 }
 
 // importIssueSources are the issue trackers WeKan's import page names, with

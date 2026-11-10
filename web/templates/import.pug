@@ -35,7 +35,13 @@
     form.import-csv-mapping.js-csv-mapping(method="post", action="/import/{{.Source}}/board")
       h2 {{t $.L "csv-mapping-title"}}
       p {{t $.L "csv-mapping-description"}}
+      if .BoardsText
+        p.quiet.js-csv-mapping-boards {{t $.L "csv-mapping-boards"}} {{.BoardsText}}
+      if .SkippedText
+        p.quiet.js-csv-mapping-skipped {{t $.L "csv-mapping-skipped-sheets"}} {{.SkippedText}}
       textarea(name="rows", hidden) {{.Rows}}
+      if .Sheets
+        textarea(name="sheets", hidden) {{.Sheets}}
       input(type="hidden", name="boardTitle", value="{{.BoardTitle}}")
       table.csv-mapping-fields
         tbody

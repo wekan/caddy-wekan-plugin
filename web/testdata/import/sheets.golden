@@ -1,0 +1,1030 @@
+{
+  "sheets.xlsx": {
+    "boards": [
+      {
+        "title": "Board One title",
+        "sheet": "Board One",
+        "rows": [
+          [
+            "Numero",
+            "Otsikko",
+            "Kuvaus",
+            "Lista",
+            "Uimarata",
+            "Erääntyy",
+            "Nimilaput",
+            "CustomField-Size-text"
+          ],
+          [
+            "1",
+            "Rich card",
+            "First",
+            "To do",
+            "Default",
+            "2026-03-04T05:06:07.000Z",
+            "red",
+            "L"
+          ],
+          [
+            "2",
+            "Linked",
+            "First!",
+            "Done",
+            "",
+            "2023-03-15T12:00:00.000Z",
+            "",
+            ""
+          ],
+          [
+            "3",
+            "true",
+            "",
+            "1.25",
+            "0",
+            "1e+21"
+          ]
+        ]
+      },
+      {
+        "title": "Second",
+        "sheet": "Second",
+        "rows": [
+          [
+            "Title",
+            "Description",
+            "List",
+            "Labels"
+          ],
+          [
+            "Two A",
+            "Text",
+            "Doing",
+            "blue"
+          ],
+          [
+            "Two B",
+            "",
+            "Doing",
+            ""
+          ]
+        ]
+      },
+      {
+        "title": "Other columns",
+        "sheet": "Other columns",
+        "rows": [
+          [
+            "Name",
+            "Status",
+            "Due date",
+            "Assigned to",
+            "Tags"
+          ],
+          [
+            "Three",
+            "Backlog",
+            "2026-04-01",
+            "ann",
+            "x"
+          ]
+        ]
+      },
+      {
+        "title": "Same header board",
+        "sheet": "Same header",
+        "rows": [
+          [
+            "Numero",
+            "Otsikko",
+            "Kuvaus",
+            "Lista",
+            "Uimarata",
+            "Erääntyy",
+            "Nimilaput",
+            "CustomField-Size-text"
+          ],
+          [
+            "1",
+            "Copied",
+            "",
+            "To do",
+            "Default",
+            "",
+            "",
+            "S"
+          ]
+        ]
+      }
+    ],
+    "skipped": [
+      "Activity",
+      "Notes",
+      "Empty"
+    ],
+    "mappings": [
+      {
+        "columns": {
+          "title": 1,
+          "description": 2,
+          "list": 3,
+          "swimlane": 4,
+          "dueAt": 5,
+          "labels": 6
+        },
+        "customFieldColumns": []
+      },
+      {
+        "columns": {
+          "title": 0,
+          "description": 1,
+          "list": 2,
+          "labels": 3
+        },
+        "customFieldColumns": []
+      },
+      {
+        "columns": {
+          "title": 0,
+          "list": 1,
+          "dueAt": 2,
+          "assignees": 3,
+          "labels": 4
+        },
+        "customFieldColumns": []
+      },
+      {
+        "columns": {
+          "title": 1,
+          "description": 2,
+          "list": 3,
+          "swimlane": 4,
+          "dueAt": 5,
+          "labels": 6
+        },
+        "customFieldColumns": []
+      }
+    ]
+  },
+  "sheets-none.xlsx": {
+    "boards": [
+      {
+        "title": "",
+        "sheet": "Plain",
+        "rows": [
+          [
+            "alpha",
+            "beta"
+          ],
+          [
+            "gamma",
+            "delta"
+          ]
+        ]
+      }
+    ],
+    "skipped": [
+      "Blank",
+      "Later"
+    ],
+    "mappings": [
+      {
+        "columns": {
+          "title": 0
+        },
+        "customFieldColumns": []
+      }
+    ]
+  },
+  "headers": [
+    {
+      "header": [
+        "Title",
+        "Description",
+        "List",
+        "Swimlane",
+        "Owner",
+        "Requested By",
+        "Assigned By",
+        "Members",
+        "Assignee",
+        "Labels",
+        "Start",
+        "Due",
+        "End",
+        "Overtime (hours)",
+        "Spent time (hours)",
+        "Created at",
+        "Last modified at",
+        "Last activity",
+        "Voting",
+        "Archived"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 0,
+          "description": 1,
+          "list": 2,
+          "swimlane": 3,
+          "owner": 4,
+          "requestedBy": 5,
+          "assignedBy": 6,
+          "members": 7,
+          "assignees": 8,
+          "labels": 9,
+          "startAt": 10,
+          "dueAt": 11,
+          "endAt": 12,
+          "isOvertime": 13,
+          "spentTime": 14,
+          "createdAt": 15,
+          "modifiedAt": 16,
+          "archived": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Number",
+        "Title",
+        "Description",
+        "Parent card",
+        "Owner",
+        "Created at",
+        "Last modified at",
+        "Received",
+        "Start",
+        "Due",
+        "End",
+        "List",
+        "Swimlane",
+        "Assignee",
+        "Members",
+        "Requested By",
+        "Assigned By",
+        "Labels",
+        "Overtime (hours)",
+        "Spent time (hours)"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 1,
+          "description": 2,
+          "parentCard": 3,
+          "owner": 4,
+          "createdAt": 5,
+          "modifiedAt": 6,
+          "receivedAt": 7,
+          "startAt": 8,
+          "dueAt": 9,
+          "endAt": 10,
+          "list": 11,
+          "swimlane": 12,
+          "assignees": 13,
+          "members": 14,
+          "requestedBy": 15,
+          "assignedBy": 16,
+          "labels": 17,
+          "isOvertime": 18,
+          "spentTime": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Number",
+        "Title",
+        "Description",
+        "Parent card",
+        "Owner",
+        "Created at",
+        "Last modified at",
+        "Received",
+        "Start",
+        "Due",
+        "End",
+        "List",
+        "Swimlane",
+        "Assignee",
+        "Members",
+        "Requested By",
+        "Assigned By",
+        "Labels",
+        "Overtime (hours)",
+        "Spent time (hours)",
+        "CustomField-Size-text"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 1,
+          "description": 2,
+          "parentCard": 3,
+          "owner": 4,
+          "createdAt": 5,
+          "modifiedAt": 6,
+          "receivedAt": 7,
+          "startAt": 8,
+          "dueAt": 9,
+          "endAt": 10,
+          "list": 11,
+          "swimlane": 12,
+          "assignees": 13,
+          "members": 14,
+          "requestedBy": 15,
+          "assignedBy": 16,
+          "labels": 17,
+          "isOvertime": 18,
+          "spentTime": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Archived",
+        "Voting",
+        "Last activity",
+        "Last modified at",
+        "Created at",
+        "Spent time (hours)",
+        "Overtime (hours)",
+        "End",
+        "Due",
+        "Start",
+        "Labels",
+        "Assignee",
+        "Members",
+        "Assigned By",
+        "Requested By",
+        "Owner",
+        "Swimlane",
+        "List",
+        "Description",
+        "Title"
+      ],
+      "mapping": {
+        "columns": {
+          "archived": 0,
+          "modifiedAt": 3,
+          "createdAt": 4,
+          "spentTime": 5,
+          "isOvertime": 6,
+          "endAt": 7,
+          "dueAt": 8,
+          "startAt": 9,
+          "labels": 10,
+          "assignees": 11,
+          "members": 12,
+          "assignedBy": 13,
+          "requestedBy": 14,
+          "owner": 15,
+          "swimlane": 16,
+          "list": 17,
+          "description": 18,
+          "title": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Otsikko",
+        "Kuvaus",
+        "Lista",
+        "Uimarata",
+        "Omistaja",
+        "Pyytäjä",
+        "Tehtävänantaja",
+        "Jäsenet",
+        "Käsittelijä",
+        "Nimilaput",
+        "Alkaa",
+        "Erääntyy",
+        "Loppuu",
+        "Ylityö (tuntia)",
+        "Käytetty aika (tuntia)",
+        "Luotu",
+        "Viimeksi muokattu",
+        "Viimeisin toiminta",
+        "Äänestys",
+        "Arkistoitu"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 0,
+          "description": 1,
+          "list": 2,
+          "swimlane": 3,
+          "owner": 4,
+          "requestedBy": 5,
+          "assignedBy": 6,
+          "members": 7,
+          "assignees": 8,
+          "labels": 9,
+          "startAt": 10,
+          "dueAt": 11,
+          "endAt": 12,
+          "isOvertime": 13,
+          "spentTime": 14,
+          "createdAt": 15,
+          "modifiedAt": 16,
+          "archived": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Numero",
+        "Otsikko",
+        "Kuvaus",
+        "Ylätehtäväkortti",
+        "Omistaja",
+        "Luotu",
+        "Viimeksi muokattu",
+        "Vastaanotettu",
+        "Alkaa",
+        "Erääntyy",
+        "Loppuu",
+        "Lista",
+        "Uimarata",
+        "Käsittelijä",
+        "Jäsenet",
+        "Pyytäjä",
+        "Tehtävänantaja",
+        "Nimilaput",
+        "Ylityö (tuntia)",
+        "Käytetty aika (tuntia)"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 1,
+          "description": 2,
+          "parentCard": 3,
+          "owner": 4,
+          "createdAt": 5,
+          "modifiedAt": 6,
+          "receivedAt": 7,
+          "startAt": 8,
+          "dueAt": 9,
+          "endAt": 10,
+          "list": 11,
+          "swimlane": 12,
+          "assignees": 13,
+          "members": 14,
+          "requestedBy": 15,
+          "assignedBy": 16,
+          "labels": 17,
+          "isOvertime": 18,
+          "spentTime": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Numero",
+        "Otsikko",
+        "Kuvaus",
+        "Ylätehtäväkortti",
+        "Omistaja",
+        "Luotu",
+        "Viimeksi muokattu",
+        "Vastaanotettu",
+        "Alkaa",
+        "Erääntyy",
+        "Loppuu",
+        "Lista",
+        "Uimarata",
+        "Käsittelijä",
+        "Jäsenet",
+        "Pyytäjä",
+        "Tehtävänantaja",
+        "Nimilaput",
+        "Ylityö (tuntia)",
+        "Käytetty aika (tuntia)",
+        "CustomField-Size-text"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 1,
+          "description": 2,
+          "parentCard": 3,
+          "owner": 4,
+          "createdAt": 5,
+          "modifiedAt": 6,
+          "receivedAt": 7,
+          "startAt": 8,
+          "dueAt": 9,
+          "endAt": 10,
+          "list": 11,
+          "swimlane": 12,
+          "assignees": 13,
+          "members": 14,
+          "requestedBy": 15,
+          "assignedBy": 16,
+          "labels": 17,
+          "isOvertime": 18,
+          "spentTime": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Arkistoitu",
+        "Äänestys",
+        "Viimeisin toiminta",
+        "Viimeksi muokattu",
+        "Luotu",
+        "Käytetty aika (tuntia)",
+        "Ylityö (tuntia)",
+        "Loppuu",
+        "Erääntyy",
+        "Alkaa",
+        "Nimilaput",
+        "Käsittelijä",
+        "Jäsenet",
+        "Tehtävänantaja",
+        "Pyytäjä",
+        "Omistaja",
+        "Uimarata",
+        "Lista",
+        "Kuvaus",
+        "Otsikko"
+      ],
+      "mapping": {
+        "columns": {
+          "archived": 0,
+          "modifiedAt": 3,
+          "createdAt": 4,
+          "spentTime": 5,
+          "isOvertime": 6,
+          "endAt": 7,
+          "dueAt": 8,
+          "startAt": 9,
+          "labels": 10,
+          "assignees": 11,
+          "members": 12,
+          "assignedBy": 13,
+          "requestedBy": 14,
+          "owner": 15,
+          "swimlane": 16,
+          "list": 17,
+          "description": 18,
+          "title": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Nosaukums",
+        "Apraksts",
+        "Saraksts",
+        "Josla",
+        "Īpašnieks",
+        "Pieprasītājs",
+        "Īpašnieks",
+        "Dalībnieki",
+        "Īpašnieks",
+        "Birkas",
+        "Sākt",
+        "Termiņš",
+        "Beigas",
+        "Virsstundas (stundās)",
+        "Pavadītais laiks (stundas)",
+        "Izveidots",
+        "Pēdējo reizi labots",
+        "Pēdējā darbība",
+        "Balsošana",
+        "Arhivēts"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 0,
+          "description": 1,
+          "list": 2,
+          "swimlane": 3,
+          "owner": 4,
+          "requestedBy": 5,
+          "assignedBy": 6,
+          "members": 7,
+          "assignees": 8,
+          "labels": 9,
+          "startAt": 10,
+          "dueAt": 11,
+          "endAt": 12,
+          "isOvertime": 13,
+          "spentTime": 14,
+          "createdAt": 15,
+          "modifiedAt": 16,
+          "archived": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Skaits",
+        "Nosaukums",
+        "Apraksts",
+        "Pieder kartiņai",
+        "Īpašnieks",
+        "Izveidots",
+        "Pēdējo reizi labots",
+        "Saņemts",
+        "Sākt",
+        "Termiņš",
+        "Beigas",
+        "Saraksts",
+        "Josla",
+        "Īpašnieks",
+        "Dalībnieki",
+        "Pieprasītājs",
+        "Īpašnieks",
+        "Birkas",
+        "Virsstundas (stundās)",
+        "Pavadītais laiks (stundas)"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 1,
+          "description": 2,
+          "parentCard": 3,
+          "owner": 4,
+          "createdAt": 5,
+          "modifiedAt": 6,
+          "receivedAt": 7,
+          "startAt": 8,
+          "dueAt": 9,
+          "endAt": 10,
+          "list": 11,
+          "swimlane": 12,
+          "assignees": 13,
+          "members": 14,
+          "requestedBy": 15,
+          "assignedBy": 16,
+          "labels": 17,
+          "isOvertime": 18,
+          "spentTime": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Skaits",
+        "Nosaukums",
+        "Apraksts",
+        "Pieder kartiņai",
+        "Īpašnieks",
+        "Izveidots",
+        "Pēdējo reizi labots",
+        "Saņemts",
+        "Sākt",
+        "Termiņš",
+        "Beigas",
+        "Saraksts",
+        "Josla",
+        "Īpašnieks",
+        "Dalībnieki",
+        "Pieprasītājs",
+        "Īpašnieks",
+        "Birkas",
+        "Virsstundas (stundās)",
+        "Pavadītais laiks (stundas)",
+        "CustomField-Size-text"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 1,
+          "description": 2,
+          "parentCard": 3,
+          "owner": 4,
+          "createdAt": 5,
+          "modifiedAt": 6,
+          "receivedAt": 7,
+          "startAt": 8,
+          "dueAt": 9,
+          "endAt": 10,
+          "list": 11,
+          "swimlane": 12,
+          "assignees": 13,
+          "members": 14,
+          "requestedBy": 15,
+          "assignedBy": 16,
+          "labels": 17,
+          "isOvertime": 18,
+          "spentTime": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Arhivēts",
+        "Balsošana",
+        "Pēdējā darbība",
+        "Pēdējo reizi labots",
+        "Izveidots",
+        "Pavadītais laiks (stundas)",
+        "Virsstundas (stundās)",
+        "Beigas",
+        "Termiņš",
+        "Sākt",
+        "Birkas",
+        "Īpašnieks",
+        "Dalībnieki",
+        "Īpašnieks",
+        "Pieprasītājs",
+        "Īpašnieks",
+        "Josla",
+        "Saraksts",
+        "Apraksts",
+        "Nosaukums"
+      ],
+      "mapping": {
+        "columns": {
+          "archived": 0,
+          "modifiedAt": 3,
+          "createdAt": 4,
+          "spentTime": 5,
+          "isOvertime": 6,
+          "endAt": 7,
+          "dueAt": 8,
+          "startAt": 9,
+          "labels": 10,
+          "owner": 11,
+          "members": 12,
+          "assignees": 13,
+          "requestedBy": 14,
+          "assignedBy": 15,
+          "swimlane": 16,
+          "list": 17,
+          "description": 18,
+          "title": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Titel",
+        "Beschreibung",
+        "Liste",
+        "Arbeitsbahn",
+        "Eigentümer",
+        "Angefordert von",
+        "Zugewiesen von",
+        "Mitglieder",
+        "Zugewiesen",
+        "Kennzeichnungen",
+        "Beginn",
+        "Fällig",
+        "Ende",
+        "Mehrarbeit (Stunden)",
+        "Aufgewendete Zeit (Stunden)",
+        "Erstellt am",
+        "Zuletzt geändert um",
+        "Letzte Aktivität",
+        "Abstimunng",
+        "Archiviert"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 0,
+          "description": 1,
+          "list": 2,
+          "swimlane": 3,
+          "owner": 4,
+          "requestedBy": 5,
+          "assignedBy": 6,
+          "members": 7,
+          "assignees": 8,
+          "labels": 9,
+          "startAt": 10,
+          "dueAt": 11,
+          "endAt": 12,
+          "isOvertime": 13,
+          "spentTime": 14,
+          "createdAt": 15,
+          "modifiedAt": 16,
+          "archived": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Zahl",
+        "Titel",
+        "Beschreibung",
+        "Übergeordnete Karte",
+        "Eigentümer",
+        "Erstellt am",
+        "Zuletzt geändert um",
+        "Empfangen",
+        "Beginn",
+        "Fällig",
+        "Ende",
+        "Liste",
+        "Arbeitsbahn",
+        "Zugewiesen",
+        "Mitglieder",
+        "Angefordert von",
+        "Zugewiesen von",
+        "Kennzeichnungen",
+        "Mehrarbeit (Stunden)",
+        "Aufgewendete Zeit (Stunden)"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 1,
+          "description": 2,
+          "parentCard": 3,
+          "owner": 4,
+          "createdAt": 5,
+          "modifiedAt": 6,
+          "receivedAt": 7,
+          "startAt": 8,
+          "dueAt": 9,
+          "endAt": 10,
+          "list": 11,
+          "swimlane": 12,
+          "assignees": 13,
+          "members": 14,
+          "requestedBy": 15,
+          "assignedBy": 16,
+          "labels": 17,
+          "isOvertime": 18,
+          "spentTime": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Zahl",
+        "Titel",
+        "Beschreibung",
+        "Übergeordnete Karte",
+        "Eigentümer",
+        "Erstellt am",
+        "Zuletzt geändert um",
+        "Empfangen",
+        "Beginn",
+        "Fällig",
+        "Ende",
+        "Liste",
+        "Arbeitsbahn",
+        "Zugewiesen",
+        "Mitglieder",
+        "Angefordert von",
+        "Zugewiesen von",
+        "Kennzeichnungen",
+        "Mehrarbeit (Stunden)",
+        "Aufgewendete Zeit (Stunden)",
+        "CustomField-Size-text"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 1,
+          "description": 2,
+          "parentCard": 3,
+          "owner": 4,
+          "createdAt": 5,
+          "modifiedAt": 6,
+          "receivedAt": 7,
+          "startAt": 8,
+          "dueAt": 9,
+          "endAt": 10,
+          "list": 11,
+          "swimlane": 12,
+          "assignees": 13,
+          "members": 14,
+          "requestedBy": 15,
+          "assignedBy": 16,
+          "labels": 17,
+          "isOvertime": 18,
+          "spentTime": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Archiviert",
+        "Abstimunng",
+        "Letzte Aktivität",
+        "Zuletzt geändert um",
+        "Erstellt am",
+        "Aufgewendete Zeit (Stunden)",
+        "Mehrarbeit (Stunden)",
+        "Ende",
+        "Fällig",
+        "Beginn",
+        "Kennzeichnungen",
+        "Zugewiesen",
+        "Mitglieder",
+        "Zugewiesen von",
+        "Angefordert von",
+        "Eigentümer",
+        "Arbeitsbahn",
+        "Liste",
+        "Beschreibung",
+        "Titel"
+      ],
+      "mapping": {
+        "columns": {
+          "archived": 0,
+          "modifiedAt": 3,
+          "createdAt": 4,
+          "spentTime": 5,
+          "isOvertime": 6,
+          "endAt": 7,
+          "dueAt": 8,
+          "startAt": 9,
+          "labels": 10,
+          "assignees": 11,
+          "members": 12,
+          "assignedBy": 13,
+          "requestedBy": 14,
+          "owner": 15,
+          "swimlane": 16,
+          "list": 17,
+          "description": 18,
+          "title": 19
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Numero",
+        "Something",
+        "Lista"
+      ],
+      "mapping": {
+        "columns": {
+          "list": 2,
+          "title": 1
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "Number",
+        "Voting",
+        "Task"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 2
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "  Due Date: ",
+        " Name "
+      ],
+      "mapping": {
+        "columns": {
+          "dueAt": 0,
+          "title": 1
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "İSSUE",
+        "Status"
+      ],
+      "mapping": {
+        "columns": {
+          "list": 1,
+          "title": 0
+        },
+        "customFieldColumns": []
+      }
+    },
+    {
+      "header": [
+        "",
+        "customfield-x",
+        "Card name"
+      ],
+      "mapping": {
+        "columns": {
+          "title": 2
+        },
+        "customFieldColumns": []
+      }
+    }
+  ]
+}

@@ -86,7 +86,7 @@ func TestReadXlsx(t *testing.T) {
 	if err != nil || len(sheets) != 1 || sheets[0].Name != "Board" {
 		t.Fatalf("%+v %v", sheets, err)
 	}
-	if _, rows := firstTable(sheets); len(rows) != 2 || rows[1][1] != "Doing" {
+	if rows := sheets[0].Rows; len(rows) != 2 || rows[1][1] != "Doing" {
 		t.Fatalf("rows: %q", rows)
 	}
 	if !dateFormat(14, nil) || dateFormat(2, nil) || !dateFormat(164, map[int]string{164: "yyyy-mm-dd"}) || dateFormat(165, map[int]string{165: `"day"0`}) {

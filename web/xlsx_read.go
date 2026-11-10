@@ -248,23 +248,3 @@ func readXlsx(data []byte) ([]xlsxSheet, error) {
 	}
 	return sheets, nil
 }
-
-// firstTable is the first sheet with something in it, its empty rows
-// skipped: rows[0] is its header.
-func firstTable(sheets []xlsxSheet) (string, [][]string) {
-	for _, sh := range sheets {
-		rows := [][]string{}
-		for _, row := range sh.Rows {
-			for _, c := range row {
-				if strings.TrimSpace(c) != "" {
-					rows = append(rows, row)
-					break
-				}
-			}
-		}
-		if len(rows) > 0 {
-			return sh.Name, rows
-		}
-	}
-	return "", nil
-}
