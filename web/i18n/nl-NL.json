@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Plak een Kanboard-export-JSON: een object met \"columns\" (of taken met column_name) en een \"tasks\"-array (title, description, column_name, swimlane_name, date_due, owner, tags). Kolommen worden lijsten en taken worden kaarten.",
   "import-board-instruction-markdown": "Plak een markdown-taaklijst (de conventie die markdown-kanban-tools zoals Obsidian Kanban gebruiken): \"## Lijstnaam\"-koppen, met \"- [ ]\"/\"- [x]\"-items eronder. Koppen worden lijsten en items worden kaarten; een gewone opsommingslijst zonder selectievakjes wordt ook geïmporteerd, als open kaarten.",
   "import-board-instruction-openproject": "Plak een OpenProject work-packages-collectie-JSON (GET /api/v3/work_packages). Statussen worden lijsten en work packages worden kaarten.",
+  "import-board-instruction-taskwarrior": "Plak de uitvoer van task export: een JSON-array of één taak per regel. Voltooide taken gaan naar Done, project en priority worden aanduidingsmarkeringen, annotations wordt opmerkingen en depends wordt afhankelijkheden van blokkerende taken.",
+  "import-board-instruction-todotxt": "Plak een todo.txt-bestand: één taak per regel, zoals de todo.txt-app en compatibele apps het schrijven. Voltooide taken (\"x\") gaan naar Gereed, +project en @context worden labels, (A) wordt een prioriteitslabel en due: en t: worden de verval- en startdatum.",
   "import-board-instruction-zenkit": "Plak een ZenKit-lijstexport-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages worden lijsten en items worden kaarten.",
   "import-file-label": "Kies het exportbestand, of plak de tekst ervan hieronder:",
   "initials": "Initialen",

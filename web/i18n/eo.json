@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Algluu Kanboard-eksportan JSON: objekton kun \"columns\" (aŭ taskoj portantaj column_name) kaj tabelon \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Kolumnoj iĝas listoj kaj taskoj iĝas kartoj.",
   "import-board-instruction-markdown": "Algluu markdown-an taskoliston (la konvencio kiun uzas markdown-kanbanaj iloj kiel Obsidian Kanban): titoloj \"## Listnomo\", kun eroj \"- [ ]\"/\"- [x]\" sube. Titoloj fariĝas listoj kaj eroj fariĝas kartoj; simpla punktolisto sen kontrolkestoj ankaŭ importiĝas, kiel malfermitaj kartoj.",
   "import-board-instruction-openproject": "Algluu OpenProject work-packages-kolektan JSON (GET /api/v3/work_packages). Statusoj iĝas listoj kaj laborpakoj iĝas kartoj.",
+  "import-board-instruction-taskwarrior": "Algluu la eligon de task export: JSON-tabelon aŭ unu taskon en ĉiu linio. Finitaj taskoj iras al Done, project kaj priority fariĝas etikedoj, annotations fariĝas komentoj, kaj depends fariĝas dependecoj de blokantaj taskoj.",
+  "import-board-instruction-todotxt": "Algluu dosieron todo.txt: unu tasko en ĉiu linio, kiel ĝin verkas la aplikaĵo todo.txt kaj kongruaj aplikaĵoj. Finitaj taskoj (\"x\") iras al Farite, +project kaj @context fariĝas etikedoj, (A) fariĝas prioritata etikedo, kaj due: kaj t: fariĝas limdato kaj komencdato.",
   "import-board-instruction-zenkit": "Algluu ZenKit-listan eksportan JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stadioj iĝas listoj kaj eroj iĝas kartoj.",
   "import-file-label": "Elektu la eksportan dosieron, aŭ algluu ĝian tekston sube:",
   "initials": "Inicialoj",

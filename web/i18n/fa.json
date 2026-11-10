@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "یک JSON خروجی Kanboard را جای‌گذاری کنید: شیئی با «columns» (یا وظایفی که column_name دارند) و یک آرایه «tasks» (title، description، column_name، swimlane_name، date_due، owner، tags). ستون‌ها به لیست و وظایف به کارت تبدیل می‌شوند.",
   "import-board-instruction-markdown": "یک فهرست کار markdown را جای‌گذاری کنید (قراردادی که ابزارهای markdown-kanban مانند Obsidian Kanban استفاده می‌کنند): عنوان‌های \"## نام فهرست\"، همراه با موارد \"- [ ]\"/\"- [x]\" در زیر آن‌ها. عنوان‌ها به فهرست تبدیل می‌شوند و موارد به کارت؛ یک فهرست نقطه‌ای ساده بدون چک‌باکس نیز به‌عنوان کارت‌های باز وارد می‌شود.",
   "import-board-instruction-openproject": "یک JSON مجموعه work-packages از OpenProject را جای‌گذاری کنید (GET /api/v3/work_packages). وضعیت‌ها به لیست و بسته‌های کاری به کارت تبدیل می‌شوند.",
+  "import-board-instruction-taskwarrior": "خروجی task export را بچسبانید: یک آرایهٔ JSON یا یک وظیفه در هر خط. وظیفه‌های تکمیل‌شده به Done می‌روند، project و priority به برچسب‌ها، annotations به دیدگاه‌ها و depends به وابستگی به وظیفه‌های مسدودکننده تبدیل می‌شوند.",
+  "import-board-instruction-todotxt": "یک فایل todo.txt بچسبانید: هر خط یک کار، با قالبی که برنامهٔ todo.txt و برنامه‌های سازگار می‌نویسند. کارهای تکمیل‌شده (\"x\") به بخش انجام‌شده می‌روند، +project و @context به برچسب، (A) به برچسب اولویت، و due: و t: به تاریخ سررسید و شروع تبدیل می‌شوند.",
   "import-board-instruction-zenkit": "یک JSON خروجی فهرست ZenKit را جای‌گذاری کنید ({ \"title\", \"stages\":[...], \"items\":[...] }). Stageها به لیست و آیتم‌ها به کارت تبدیل می‌شوند.",
   "import-file-label": "فایل خروجی را انتخاب کنید یا متن آن را در پایین بچسبانید:",
   "initials": "تخصیصات اولیه",

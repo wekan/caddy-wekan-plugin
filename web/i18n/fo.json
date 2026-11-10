@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Líma eitt Kanboard-útflutnings-JSON: ein lut við \"columns\" (ella uppgávum við column_name) og einum \"tasks\"-fylki (title, description, column_name, swimlane_name, date_due, owner, tags). Teigar verða listar, og uppgávur verða kort.",
   "import-board-instruction-markdown": "Set inn ein markdown-uppgávulista (siðvenjan sum markdown-kanban amboð sum Obsidian Kanban nýta): \"## Listanavn\"-fyrisagnir, við \"- [ ]\"/\"- [x]\"-lutum niðanundir. Fyrisagnir gerast listar og lutir gerast kort; ein einfaldur punktalisti uttan avmerkingarbox verður eisini innfluttur, sum opin kort.",
   "import-board-instruction-openproject": "Líma eitt OpenProject-arbeiðspakka-JSON-savn (GET /api/v3/work_packages). Støður verða listar, og arbeiðspakkar verða kort.",
+  "import-board-instruction-taskwarrior": "Líma úttakið frá task export inn: eitt JSON-fylki ella eina uppgávu á hvørjari reglu. Lidnar uppgávur fara í Done, project og priority verða merki, annotations verða viðmerkingar, og depends verður tengingar til uppgávur, sum forða teimum.",
+  "import-board-instruction-todotxt": "Set eina todo.txt-fílu inn: ein uppgáva á hvørjari reglu, soleiðis sum todo.txt-forritið og samsvarandi forrit skriva hana. Lidnar uppgávur (\"x\") fara til Liðugt, +project og @context verða merki, (A) verður eitt raðfestingarmerki, og due: og t: verða freistir og byrjanardagfestingar.",
   "import-board-instruction-zenkit": "Líma eitt ZenKit-listaútflutnings-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stig verða listar, og lutir verða kort.",
   "import-file-label": "Vel útflutningsfíluna, ella set tekstin inn niðanfyri:",
   "initials": "Forstavar",

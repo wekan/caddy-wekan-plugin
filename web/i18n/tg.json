@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "JSON-и содиршудаи Kanboard-ро гузоред: объекте бо \"columns\" (ё вазифаҳое бо column_name) ва массиви \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Сутунҳо ба рӯйхат ва вазифаҳо ба корт табдил мешаванд.",
   "import-board-instruction-markdown": "Рӯйхати вазифаҳои markdown-ро гузоред (қоидае, ки абзорҳои markdown-kanban ба монанди Obsidian Kanban истифода мебаранд): сарлавҳаҳои \"## Номи рӯйхат\", бо унсурҳои \"- [ ]\"/\"- [x]\" дар зер. Сарлавҳаҳо ба рӯйхатҳо ва унсурҳо ба кортҳо табдил меёбанд.",
   "import-board-instruction-openproject": "JSON-и маҷмӯаи бастаҳои кории OpenProject-ро гузоред (GET /api/v3/work_packages). Ҳолатҳо ба рӯйхат ва бастаҳои корӣ ба корт табдил мешаванд.",
+  "import-board-instruction-taskwarrior": "Натиҷаи фармони task export-ро гузоред: массиви JSON ё як вазифа дар ҳар сатр. Вазифаҳои анҷомёфта ба Done мегузаранд, project ва priority ба нишонаҳо, annotations ба шарҳҳо ва depends ба вобастагиҳо аз вазифаҳои боздоранда табдил меёбанд.",
+  "import-board-instruction-todotxt": "Файли todo.txt-ро гузоред: дар ҳар сатр як вазифа, ҳамон тавре ки барномаи todo.txt ва барномаҳои мувофиқ менависанд. Вазифаҳои анҷомёфта (\"x\") ба Done мегузаранд, +project ва @context ба тамғаҳо, (A) ба тамғаи афзалият ва due: ва t: мутаносибан ба муҳлат ва санаи оғоз табдил меёбанд.",
   "import-board-instruction-zenkit": "JSON-и содироти рӯйхати ZenKit-ро гузоред ({ \"title\", \"stages\":[...], \"items\":[...] }). Марҳилаҳо ба рӯйхат ва бандҳо ба корт табдил мешаванд.",
   "import-file-label": "Файли содиротро интихоб кунед, ё матни онро дар поён гузоред:",
   "initials": "Ҳарфҳои аввал",

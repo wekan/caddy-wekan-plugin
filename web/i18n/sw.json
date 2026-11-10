@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Bandika JSON ya kuhamisha ya Kanboard: kitu chenye \"columns\" (au kazi zilizobeba column_name) na safu ya \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Safu wima huwa orodha na kazi huwa kadi.",
   "import-board-instruction-markdown": "Bandika orodha ya kazi ya markdown (mkataba unaotumiwa na zana za markdown-kanban kama Obsidian Kanban): vichwa \"## Jina la orodha\", vikiwa na vitu \"- [ ]\"/\"- [x]\" chini yake. Vichwa vinakuwa orodha na vitu vinakuwa kadi; orodha rahisi ya vitone bila visanduku vya kuteua pia huingizwa, kama kadi zilizo wazi.",
   "import-board-instruction-openproject": "Bandika JSON ya mkusanyiko wa work-packages wa OpenProject (GET /api/v3/work_packages). Hali huwa orodha na work packages huwa kadi.",
+  "import-board-instruction-taskwarrior": "Bandika matokeo ya task export: safu ya JSON au kazi moja kwa kila mstari. Kazi zilizokamilika huenda kwenye Done, project na priority huwa lebo, annotations huwa maoni, na depends huwa utegemezi wa kazi zinazozuia utekelezaji.",
+  "import-board-instruction-todotxt": "Bandika faili la todo.txt: kazi moja kwa kila mstari, kama linavyoandikwa na programu ya todo.txt na programu zinazooana nayo. Kazi zilizokamilika (\"x\") huenda kwenye Zilizokamilika, +project na @context huwa lebo, (A) huwa lebo ya kipaumbele, na due: na t: huwa tarehe za mwisho na za kuanza.",
   "import-board-instruction-zenkit": "Bandika JSON ya kuhamisha orodha ya ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages huwa orodha na items huwa kadi.",
   "import-file-label": "Chagua faili iliyohamishwa, au bandika maandishi yake hapa chini:",
   "initials": "Awali",

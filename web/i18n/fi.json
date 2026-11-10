@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Liitä Kanboard-viennin JSON: objekti, jossa on \"columns\" (tai tehtäviä, joissa on column_name) ja \"tasks\"-taulukko (title, description, column_name, swimlane_name, date_due, owner, tags). Sarakkeista tulee listoja ja tehtävistä kortteja.",
   "import-board-instruction-markdown": "Liitä markdown-tehtävälista (käytäntö, jota markdown-kanban-työkalut kuten Obsidian Kanban käyttävät): \"## Listan nimi\" -otsikot, joiden alla \"- [ ]\"/\"- [x]\" -kohdat. Otsikoista tulee listoja ja kohdista kortteja; myös tavallinen luettelomerkillinen lista ilman valintaruutuja tuodaan, avoimina kortteina.",
   "import-board-instruction-openproject": "Liitä OpenProjectin work-packages-kokoelman JSON (GET /api/v3/work_packages). Tiloista tulee listoja ja work packageista kortteja.",
+  "import-board-instruction-taskwarrior": "Liitä task export -komennon tuloste: JSON-taulukko tai yksi tehtävä riviä kohti. Valmiit tehtävät siirtyvät Done-listaan, project ja priority muuttuvat nimilapuiksi, annotations kommenteiksi ja depends estävien tehtävien riippuvuuksiksi.",
+  "import-board-instruction-todotxt": "Liitä todo.txt-tiedosto: yksi tehtävä rivillä, kuten todo.txt-sovellus ja yhteensopivat sovellukset sen kirjoittavat. Valmiit tehtävät (\"x\") siirtyvät Valmis-luokkaan, +project ja @context muuttuvat tunnisteiksi, (A) prioriteettitunnisteeksi sekä due: ja t: eräpäiväksi ja aloituspäiväksi.",
   "import-board-instruction-zenkit": "Liitä ZenKit-listan vienti-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Vaiheista tulee listoja ja kohteista kortteja.",
   "import-file-label": "Valitse vientitiedosto tai liitä sen teksti alle:",
   "initials": "Nimikirjaimet",

@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "粘贴 Kanboard 导出的 JSON：一个包含 \"columns\"（或带有 column_name 的任务）和 \"tasks\" 数组（title、description、column_name、swimlane_name、date_due、owner、tags）的对象。列成为列表，任务成为卡片。",
   "import-board-instruction-markdown": "貼上一個 markdown 任務清單（好似 Obsidian Kanban 咁嘅 markdown-kanban 工具用嘅慣例）：「## 清單名」標題，下面有「- [ ]」/「- [x]」項目。標題會變成清單，項目會變成卡片；冇checkbox嘅普通項目符號清單都可以匯入，變成開放卡片。",
   "import-board-instruction-openproject": "粘贴 OpenProject 工作包集合 JSON（GET /api/v3/work_packages）。状态成为列表，工作包成为卡片。",
+  "import-board-instruction-taskwarrior": "貼上 task export 嘅輸出：可以係 JSON 陣列，或者每行一個工作。做完嘅工作會去 Done，project 同 priority 會變成標籤，annotations 會變成留言，depends 會變成對阻住佢嘅工作嘅依賴關係。",
+  "import-board-instruction-todotxt": "貼上 todo.txt 檔案：每行一項任務，格式同 todo.txt 應用程式及相容程式寫出嚟嘅一樣。已完成嘅任務（\"x\"）會放入「已完成」，+project 同 @context 會變成標籤，(A) 會變成優先次序標籤，而 due: 同 t: 會變成到期日同開始日期。",
   "import-board-instruction-zenkit": "粘贴 ZenKit 列表导出 JSON（{ \"title\", \"stages\":[...], \"items\":[...] }）。Stages 成为列表，items 成为卡片。",
   "import-file-label": "揀匯出檔，或者喺下面貼上佢嘅文字：",
   "initials": "縮寫",

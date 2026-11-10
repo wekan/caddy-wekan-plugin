@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Залепете Kanboard извоз JSON: објект со \"columns\" (или задачи што носат column_name) и низа \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Колоните стануваат листи, а задачите стануваат картички.",
   "import-board-instruction-markdown": "Залепете markdown листа на задачи (конвенцијата што ја користат markdown-kanban алатки како Obsidian Kanban): наслови \"## Име на листа\", со ставки \"- [ ]\"/\"- [x]\" под нив. Насловите стануваат листи, а ставките стануваат картички; едноставна листа со точки без чекбокс исто така се увезува, како отворени картички.",
   "import-board-instruction-openproject": "Залепете OpenProject work-packages колекција JSON (GET /api/v3/work_packages). Статусите стануваат листи, а работните пакети стануваат картички.",
+  "import-board-instruction-taskwarrior": "Залепете го излезот од task export: JSON низа или една задача по ред. Завршените задачи одат во Done, project и priority стануваат етикети, annotations станува коментари, а depends станува зависности од задачите што ги блокираат.",
+  "import-board-instruction-todotxt": "Залепете датотека todo.txt: една задача во секој ред, како што ја запишуваат апликацијата todo.txt и компатибилните апликации. Завршените задачи (\"x\") се преместуваат во Завршено, +project и @context стануваат ознаки, (A) станува ознака за приоритет, а due: и t: стануваат рок и почетен датум.",
   "import-board-instruction-zenkit": "Залепете ZenKit list извоз JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages стануваат листи, а items стануваат картички.",
   "import-file-label": "Изберете ја извезената датотека или залепете го нејзиниот текст подолу:",
   "initials": "Инициали",

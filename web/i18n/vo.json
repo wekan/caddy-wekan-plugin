@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Letälolöd Kanboard-ekspori JSON: subat ko \"columns\" (u tasks laböl column_name) e list \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Columns vedons liseds e tasks vedons kads.",
   "import-board-instruction-markdown": "Pladön kartöduli labotamalik markdona (fasit vödemamikam-kartöduli-kanban äsemik olös Obsidian Kanban): topits \"## Nem lasa\", ko begs \"- [ ]\"/\"- [x]\" ün bevünanöd. Topits bevögo lasis e begs bevögo kartis.",
   "import-board-instruction-openproject": "Letälolöd OpenProject work-packages kolekti JSON (GET /api/v3/work_packages). Statuses vedons liseds e work packages vedons kads.",
+  "import-board-instruction-taskwarrior": "Nüpladön seki büda task export: lisedi JSON, u jäfi bali pö ked bal alik. Jäfs pefiduinöl golons lü Done, project e priority vedons ninädapenäds, annotations vedon küpets, e depends vedon pendets de jäfs kels stöpons jäfi.",
+  "import-board-instruction-todotxt": "Nüpladolös ragivi todo.txt: vobot bal in ked alik, äsä program: todo.txt e programs balädik penons onis. Vobots pefinüköl (\"x\") mogolons lü «Färmükön», +project e @context vedons malüls, (A) vedon malül büoranga, e due: e t: vedons däts finüpa e primüpa.",
   "import-board-instruction-zenkit": "Letälolöd ZenKit list-ekspori JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages vedons liseds e items vedons kads.",
   "import-file-label": "Välolös ragivi seveiga, u pladolös vödemi onik dono:",
   "initials": "Primatonats",

@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard eksport JSON goýuň: \"columns\" bilen obýekt (ýa-da column_name göterýän tasks) we \"tasks\" massiwi (title, description, column_name, swimlane_name, date_due, owner, tags). Columns sanawlara we tasks kartoçkalara öwrülýär.",
   "import-board-instruction-markdown": "Markdown wezipe sanawyny goýuň (Obsidian Kanban ýaly markdown-kanban gurallarynyň ulanýan konwensiýasy): aşagynda \"- [ ]\"/\"- [x]\" elementleri bolan \"## Sanaw ady\" sözbaşylary. Sözbaşylar sanawlara, elementler bolsa kartoçkalara öwrülýär.",
   "import-board-instruction-openproject": "OpenProject work-packages ýygyndy JSON goýuň (GET /api/v3/work_packages). Statuslar sanawlara we work packages kartoçkalara öwrülýär.",
+  "import-board-instruction-taskwarrior": "task export buýrugynyň çykyşyny goýuň: JSON massiwi ýa-da her setirde bir ýumuş. Tamamlanan ýumuşlar Done sanawyna geçýär, project we priority belliklere, annotations teswirlere, depends bolsa päsgel berýän ýumuşlara baglylyklara öwrülýär.",
+  "import-board-instruction-todotxt": "todo.txt faýlyny goýuň: todo.txt programmasynyň we oňa gabat gelýän programmalaryň ýazyşy ýaly, her setirde bir ýumuş. Tamamlanan ýumuşlar (\"x\") Done bölümine geçýär, +project we @context belliklere, (A) ileri tutulma belligine, due: we t: bolsa degişlilikde möhlete we başlangyç senesine öwrülýär.",
   "import-board-instruction-zenkit": "ZenKit list eksport JSON goýuň ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages sanawlara we items kartoçkalara öwrülýär.",
   "import-file-label": "Eksport faýlyny saýlaň ýa-da onuň tekstini aşakda goýuň:",
   "initials": "Baş harplar",

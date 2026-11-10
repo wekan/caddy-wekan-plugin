@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Dán một JSON xuất từ Kanboard: một đối tượng có \"columns\" (hoặc các nhiệm vụ mang column_name) và một mảng \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Các cột trở thành danh sách và các nhiệm vụ trở thành thẻ.",
   "import-board-instruction-markdown": "Dán một danh sách công việc markdown (quy ước mà các công cụ markdown-kanban như Obsidian Kanban sử dụng): tiêu đề \"## Tên danh sách\", với các mục \"- [ ]\"/\"- [x]\" bên dưới. Tiêu đề trở thành danh sách và các mục trở thành thẻ; một danh sách gạch đầu dòng đơn giản không có ô chọn cũng được nhập, dưới dạng thẻ mở.",
   "import-board-instruction-openproject": "Dán một JSON tập hợp gói công việc OpenProject (GET /api/v3/work_packages). Các trạng thái trở thành danh sách và các gói công việc trở thành thẻ.",
+  "import-board-instruction-taskwarrior": "Dán đầu ra của task export: một mảng JSON hoặc mỗi dòng một tác vụ. Các tác vụ đã hoàn thành được đưa vào Done, project và priority trở thành nhãn, annotations trở thành bình luận, còn depends trở thành quan hệ phụ thuộc vào các tác vụ đang chặn.",
+  "import-board-instruction-todotxt": "Dán tệp todo.txt: mỗi dòng một công việc, theo định dạng do ứng dụng todo.txt và các ứng dụng tương thích ghi ra. Công việc đã hoàn thành (\"x\") được đưa vào mục Đã xong, +project và @context trở thành nhãn, (A) trở thành nhãn ưu tiên, còn due: và t: trở thành ngày đến hạn và ngày bắt đầu.",
   "import-board-instruction-zenkit": "Dán một JSON xuất danh sách ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Các stage trở thành danh sách và các item trở thành thẻ.",
   "import-file-label": "Chọn tệp xuất, hoặc dán nội dung văn bản bên dưới:",
   "initials": "Tên viết tắt",

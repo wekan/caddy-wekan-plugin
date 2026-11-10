@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "JSON ergaa Kanboard maxxansi: wanta \"columns\" qabu (yookaan hojiiwwan column_name qaban) fi tarree \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Columns tarreewwan ta'u; tasks kaardiiwwan ta'u.",
   "import-board-instruction-markdown": "Tarreewwan hojii markdown maxxansi (haala meeshaaleen markdown-kanban akka Obsidian Kanban itti fayyadaman): mataduree \"## Maqaa tarree\", waliin wantoota \"- [ ]\"/\"- [x]\" gadi. Matadureewwan tarree ta'anii wantoonnis kaardii ta'u.",
   "import-board-instruction-openproject": "JSON walitti qabama work-packages OpenProject maxxansi (GET /api/v3/work_packages). Statuses tarreewwan ta'u; work packages kaardiiwwan ta'u.",
+  "import-board-instruction-taskwarrior": "Bu’aa task export maxxansi: tarree JSON ykn hojii tokko sarara tokkoon tokkoon irratti. Hojiiwwan xumuraman gara Done deemu, project fi priority mallattoowwan ta’u, annotations yaadawwan ta’a, depends immoo hojiiwwan isaan ugguran irratti hirkachuu ta’a.",
+  "import-board-instruction-todotxt": "Faayila todo.txt maxxansi: sarara tokko irratti hojii tokko, akkuma appiin todo.txt fi appoonni walsiman barreessan. Hojiileen xumuraman (\"x\") gara Xumurame deemu, +project fi @context asxaalee ta'u, (A) asxaa dursa kennamuu ta'a, due: fi t: immoo guyyaa daangaa fi guyyaa jalqabaa ta'u.",
   "import-board-instruction-zenkit": "JSON ergaa tarree ZenKit maxxansi ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages tarreewwan ta'u; items kaardiiwwan ta'u.",
   "import-file-label": "Faayilii baasuu filadhu, ykn barreeffama isaa gadi itti maxxansi:",
   "initials": "Qubee jalqabaa",

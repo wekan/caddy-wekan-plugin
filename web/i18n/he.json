@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "יש להדביק JSON של ייצוא Kanboard: אובייקט עם \"columns\" (או משימות שנושאות column_name) ומערך \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). העמודות הופכות לרשימות והמשימות הופכות לכרטיסים.",
   "import-board-instruction-markdown": "הדבק רשימת משימות בפורמט markdown (המוסכמה שבה משתמשים כלי markdown-kanban כגון Obsidian Kanban): כותרות \"## שם הרשימה\", עם פריטי \"- [ ]\"/\"- [x]\" מתחתיהן. הכותרות הופכות לרשימות והפריטים הופכים לכרטיסים; רשימה פשוטה עם תבליטים ללא תיבות סימון גם היא מיובאת, ככרטיסים פתוחים.",
   "import-board-instruction-openproject": "יש להדביק JSON של אוסף work-packages של OpenProject ‏(GET /api/v3/work_packages). הסטטוסים הופכים לרשימות וה־work packages הופכים לכרטיסים.",
+  "import-board-instruction-taskwarrior": "יש להדביק את הפלט של task export: מערך JSON או משימה אחת בכל שורה. משימות שהושלמו עוברות אל Done, השדות project ו-priority הופכים לתוויות, annotations הופך לתגובות, ו-depends הופך לתלויות במשימות החוסמות.",
+  "import-board-instruction-todotxt": "יש להדביק קובץ todo.txt: משימה אחת בכל שורה, כפי שנכתב ביישום todo.txt וביישומים תואמים. משימות שהושלמו (\"x\") עוברות למצב הושלם, +project ו־@context הופכים לתוויות, (A) הופך לתווית עדיפות, ו־due: ו־t: הופכים לתאריך יעד ולתאריך התחלה.",
   "import-board-instruction-zenkit": "יש להדביק JSON של ייצוא רשימת ZenKit ‏({ \"title\", \"stages\":[...], \"items\":[...] }). ה־stages הופכים לרשימות וה־items הופכים לכרטיסים.",
   "import-file-label": "בחרו את קובץ הייצוא, או הדביקו את הטקסט שלו למטה:",
   "initials": "ראשי תיבות",

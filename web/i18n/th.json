@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "วาง JSON การส่งออก Kanboard: อ็อบเจกต์ที่มี \"columns\" (หรือ tasks ที่มี column_name) และอาร์เรย์ \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags) คอลัมน์จะกลายเป็นรายการและ tasks จะกลายเป็นการ์ด",
   "import-board-instruction-markdown": "วางรายการงาน markdown (ธรรมเนียมที่เครื่องมือ markdown-kanban เช่น Obsidian Kanban ใช้): หัวข้อ \"## ชื่อรายการ\" พร้อมรายการ \"- [ ]\"/\"- [x]\" ด้านล่าง หัวข้อจะกลายเป็นรายการ และรายการย่อยจะกลายเป็นการ์ด รายการสัญลักษณ์แสดงหัวข้อย่อยธรรมดาที่ไม่มีช่องทำเครื่องหมายก็จะถูกนำเข้าเช่นกัน ในรูปแบบการ์ดที่เปิดอยู่",
   "import-board-instruction-openproject": "วาง JSON คอลเลกชัน work-packages ของ OpenProject (GET /api/v3/work_packages) สถานะจะกลายเป็นรายการและ work packages จะกลายเป็นการ์ด",
+  "import-board-instruction-taskwarrior": "วางผลลัพธ์ของ task export เป็นอาร์เรย์ JSON หรือหนึ่งงานต่อบรรทัด งานที่เสร็จแล้วจะไปอยู่ใน Done โดย project และ priority จะกลายเป็นป้ายกำกับ annotations จะกลายเป็นความคิดเห็น และ depends จะกลายเป็นความสัมพันธ์ที่ต้องรอให้งานที่ขัดขวางเสร็จก่อน",
+  "import-board-instruction-todotxt": "วางไฟล์ todo.txt โดยมีงานหนึ่งงานต่อบรรทัด ตามรูปแบบที่แอป todo.txt และแอปที่เข้ากันได้เขียน งานที่เสร็จแล้ว (\"x\") จะไปยังรายการที่เสร็จแล้ว +project และ @context จะกลายเป็นป้ายกำกับ (A) จะกลายเป็นป้ายกำกับความสำคัญ ส่วน due: และ t: จะกลายเป็นวันครบกำหนดและวันเริ่มต้น",
   "import-board-instruction-zenkit": "วาง JSON การส่งออก list ของ ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }) Stages จะกลายเป็นรายการและ items จะกลายเป็นการ์ด",
   "import-file-label": "เลือกไฟล์ส่งออก หรือวางข้อความจากไฟล์ด้านล่าง:",
   "initials": "ชื่อย่อ",

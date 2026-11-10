@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Prilepite izvoz JSON iz Kanboard: objekt s »columns« (ali opravili z column_name) in polje »tasks« (title, description, column_name, swimlane_name, date_due, owner, tags). Stolpci postanejo seznami, opravila pa kartice.",
   "import-board-instruction-markdown": "Prilepite seznam opravil v markdownu (konvencija, ki jo uporabljajo orodja markdown-kanban, kot je Obsidian Kanban): naslove \"## Ime seznama\", s postavkami \"- [ ]\"/\"- [x]\" spodaj. Naslovi postanejo seznami, postavke pa kartice; navaden seznam s pikami brez potrditvenih polj se prav tako uvozi, kot odprte kartice.",
   "import-board-instruction-openproject": "Prilepite JSON zbirke delovnih paketov OpenProject (GET /api/v3/work_packages). Statusi postanejo seznami, delovni paketi pa kartice.",
+  "import-board-instruction-taskwarrior": "Prilepite izhod ukaza task export: polje JSON ali eno opravilo na vrstico. Dokončana opravila gredo v Done, project in priority postaneta oznaki, annotations se pretvori v komentarje, depends pa v odvisnosti od opravil, ki jih blokirajo.",
+  "import-board-instruction-todotxt": "Prilepite datoteko todo.txt: po eno opravilo v vsaki vrstici, kot jo zapisujejo aplikacija todo.txt in združljive aplikacije. Dokončana opravila (\"x\") se premaknejo v Dokončano, +project in @context postaneta oznaki, (A) postane oznaka prednosti, due: in t: pa postaneta rok in začetni datum.",
   "import-board-instruction-zenkit": "Prilepite JSON izvoza seznama ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Faze postanejo seznami, elementi pa kartice.",
   "import-file-label": "Izberite izvozno datoteko ali spodaj prilepite njeno besedilo:",
   "initials": "Inicialke",

@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard kessido JSON qaachi wotta: \"columns\" (woykko column_name oykkiya tasks) qassi \"tasks\" shiishshuwaa (title, description, column_name, swimlane_name, date_due, owner, tags) de'iya miishshaa. Columns mazgabata gidoosona qassi tasks kaardiyata gidoosona.",
   "import-board-instruction-markdown": "Markdoone ooso xaafo doorssaa akayaa (Obsidian Kanban mala markdown-kanban miishati go'ettiyo wogaa): garssan \"- [ ]\"/\"- [x]\" mishatinne \"## Doorssaa sunthaa\" huucettaa. Huucettati doorssa gidoosonanne mishati kaardde gidoosona.",
   "import-board-instruction-openproject": "OpenProject work-packages shiishshuwaa JSON qaachi wotta (GET /api/v3/work_packages). Hanotati mazgabata gidoosona qassi work packages kaardiyata gidoosona.",
+  "import-board-instruction-taskwarrior": "task export kessidoogaa qaachi wotta: JSON shiishshuwaa, woykko haariya ubban issi oosuwaa. Polettida oosoti Done-kko bees; project-ne priority malaatata gidees; annotations qofata gidees; depends hara oosoti oykkiyo gathetettata gidees.",
+  "import-board-instruction-todotxt": "todo.txt fayliyaa shiisha: issi xiqiyan issi oosuwaa, todo.txt appiine aara gaitti oottiya appeti xaafiyoogaadan. Polettida oosoti (\"x\") \"Polettiis\" baggaa boosona, +project nna @context malaata gidoosona, (A) kase oottiyoogaa malaata gidees, due: nna t: wurssiyo gallassaanne doommiya gallassaa gidoosona.",
   "import-board-instruction-zenkit": "ZenKit mazgabaa kessido JSON qaachi wotta ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages mazgabata gidoosona qassi items kaardiyata gidoosona.",
   "import-file-label": "Kessuwaa fayliyaa doora, woykko a xaafaa garssan wotta:",
   "initials": "Sunttaa koyro birshshettata",

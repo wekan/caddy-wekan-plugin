@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Устаўце JSON-экспарт Kanboard: аб'ект з \"columns\" (або задачамі, якія нясуць column_name) і масівам \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Слупкі становяцца спісамі, а задачы — карткамі.",
   "import-board-instruction-markdown": "Устаўце markdown-спіс задач (канвенцыя, якую выкарыстоўваюць markdown-kanban інструменты, напрыклад Obsidian Kanban): загалоўкі \"## Назва спіса\", з элементамі \"- [ ]\"/\"- [x]\" пад імі. Загалоўкі становяцца спісамі, а элементы — карткамі; просты пункцёрны спіс без сцяжкоў таксама імпартуецца, як адкрытыя карткі.",
   "import-board-instruction-openproject": "Устаўце JSON калекцыі work-packages OpenProject (GET /api/v3/work_packages). Статусы становяцца спісамі, а рабочыя пакеты — карткамі.",
+  "import-board-instruction-taskwarrior": "Устаўце вынік каманды task export: масіў JSON або адну задачу ў кожным радку. Завершаныя задачы трапляюць у Done, project і priority становяцца меткамі, annotations — каментарыямі, а depends — залежнасцямі ад задач, якія блакуюць выкананне.",
+  "import-board-instruction-todotxt": "Устаўце файл todo.txt: адна задача ў кожным радку, як яго запісваюць праграма todo.txt і сумяшчальныя праграмы. Завершаныя задачы (\"x\") перамяшчаюцца ў Завершана, +project і @context становяцца пазнакамі, (A) становіцца пазнакай прыярытэту, а due: і t: становяцца тэрмінам і датай пачатку.",
   "import-board-instruction-zenkit": "Устаўце JSON-экспарт спіса ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Этапы становяцца спісамі, а элементы — карткамі.",
   "import-file-label": "Выберыце файл экспарту або ўстаўце яго тэкст ніжэй:",
   "initials": "Ініцыялы",

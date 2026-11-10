@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Shiraho JSON yasohowe na Kanboard: ikintu gifise \"columns\" (canke tasks zifise column_name) n'urutonde rwa \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Columns ziba intonde, tasks zikaba amakarata.",
   "import-board-instruction-markdown": "Numukiriza urutonde rw'imirimo rwa markdown (uburyo ibikoresho vya markdown-kanban nka Obsidian Kanban bikoresha): imitwe \"## Izina ry'urutonde\", n'ibintu \"- [ ]\"/\"- [x]\" munsi yayo. Imitwe iba ivyandikwa naho ibintu bikaba amakarita.",
   "import-board-instruction-openproject": "Shiraho JSON y'ikusanyirizo rya work-packages rya OpenProject (GET /api/v3/work_packages). Statuses ziba intonde, work packages zikaba amakarata.",
+  "import-board-instruction-taskwarrior": "Shiramwo ibiva muri task export: urutonde rwa JSON canke igikorwa kimwe ku murongo umwumwe. Ibikorwa vyarangiye bija muri Done, project na priority bihinduka ibimenyetso, annotations ihinduka ivyiyumviro, nayo depends ihinduka ukwizigira ibikorwa bibibuza kubandanya.",
+  "import-board-instruction-todotxt": "Omekamwo dosiye todo.txt: igikorwa kimwe ku murongo, nk'uko porogarama todo.txt n'izindi porogarama bihuye ziyandika. Ibikorwa vyarangiye (\"x\") bija muri Vyarangiye, +project na @context biba uturango, (A) iba akarango k'ivyihutirwa, due: na t: na vyo biba amatariki ntarengwa n'amatariki yo gutangura.",
   "import-board-instruction-zenkit": "Shiraho JSON yasohowe y'urutonde rwa ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages ziba intonde, items zikaba amakarata.",
   "import-file-label": "Hitamwo idosiye yasohowe, canke ushiremwo inyandiko yayo hepfo:",
   "initials": "Inyuguti zitangura amazina",

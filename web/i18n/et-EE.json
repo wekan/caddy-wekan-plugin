@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kleebi Kanboardi ekspordi JSON: objekt, milles on \"columns\" (või ülesanded väljaga column_name) ja massiiv \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Veergudest saavad nimekirjad ja ülesannetest kaardid.",
   "import-board-instruction-markdown": "Kleepige markdown-vormingus ülesannete loend (tava, mida kasutavad markdown-kanban tööriistad, näiteks Obsidian Kanban): pealkirjad \"## Loendi nimi\", nende all üksustega \"- [ ]\"/\"- [x]\". Pealkirjadest saavad loendid ja üksustest kaardid; ka lihtne täpploend ilma märkeruutudeta imporditakse, avatud kaartidena.",
   "import-board-instruction-openproject": "Kleebi OpenProjecti work-packages kogumi JSON (GET /api/v3/work_packages). Staatustest saavad nimekirjad ja tööpakettidest kaardid.",
+  "import-board-instruction-taskwarrior": "Kleebi käsu task export väljund: JSON-massiiv või üks ülesanne rea kohta. Lõpetatud ülesanded lähevad loendisse Done, project ja priority muutuvad märgisteks, annotations kommentaarideks ning depends sõltuvusteks blokeerivatest ülesannetest.",
+  "import-board-instruction-todotxt": "Kleebi todo.txt fail: üks ülesanne rea kohta, nagu selle kirjutavad todo.txt ja ühilduvad rakendused. Lõpetatud ülesanded (\"x\") lähevad tehtud tööde hulka, +project ja @context muutuvad siltideks, (A) muutub prioriteedisildiks ning due: ja t: muutuvad tähtajaks ja alguskuupäevaks.",
   "import-board-instruction-zenkit": "Kleebi ZenKit loendi ekspordi JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Etappidest (stages) saavad nimekirjad ja objektidest kaardid.",
   "import-file-label": "Vali ekspordifail või kleebi selle tekst allpool:",
   "initials": "Initsiaalid",

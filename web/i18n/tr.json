@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Bir Kanboard dışa aktarma JSON'u yapıştırın: \"columns\" (veya column_name taşıyan görevler) içeren bir nesne ve bir \"tasks\" dizisi (title, description, column_name, swimlane_name, date_due, owner, tags). Sütunlar listelere, görevler kartlara dönüşür.",
   "import-board-instruction-markdown": "Bir markdown görev listesi yapıştırın (Obsidian Kanban gibi markdown-kanban araçlarının kullandığı kural): altında \"- [ ]\"/\"- [x]\" öğeleri bulunan \"## Liste adı\" başlıkları. Başlıklar listelere, öğeler ise kartlara dönüşür; onay kutusu olmayan düz madde işaretli bir liste de açık kartlar olarak içe aktarılır.",
   "import-board-instruction-openproject": "Bir OpenProject iş paketleri koleksiyonu JSON'u yapıştırın (GET /api/v3/work_packages). Durumlar listelere, iş paketleri kartlara dönüşür.",
+  "import-board-instruction-taskwarrior": "task export çıktısını yapıştırın: bir JSON dizisi veya her satırda bir görev. Tamamlanan görevler Done listesine gider, project ve priority etiketlere, annotations yorumlara, depends ise engelleyen görevlere olan bağımlılıklara dönüşür.",
+  "import-board-instruction-todotxt": "Bir todo.txt dosyası yapıştırın: todo.txt uygulamasının ve uyumlu uygulamaların yazdığı biçimde, her satırda bir görev. Tamamlanan görevler (\"x\") Tamamlandı bölümüne gider, +project ve @context etiketlere, (A) öncelik etiketine, due: ve t: ise son tarih ve başlangıç tarihine dönüşür.",
   "import-board-instruction-zenkit": "Bir ZenKit liste dışa aktarma JSON'u yapıştırın ({ \"title\", \"stages\":[...], \"items\":[...] }). Aşamalar listelere, öğeler kartlara dönüşür.",
   "import-file-label": "Dışa aktarılmış dosyayı seçin veya metnini aşağıya yapıştırın:",
   "initials": "İlk Harfleri",

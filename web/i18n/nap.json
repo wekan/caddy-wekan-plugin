@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Incolla un JSON di esportazione Kanboard: un oggetto cu \"columns\" (o task che riportano column_name) e un array \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Le colonne diventano liste e i task diventano carte.",
   "import-board-instruction-markdown": "Attacca na lista 'e cose 'a fa' in markdown (a convenzione ca ausano l'attrezzi markdown-kanban comme Obsidian Kanban): titole \"## Nomme d''a lista\", cu elementi \"- [ ]\"/\"- [x]\" sotto. 'E titole addeventano liste e ll'elementi addeventano schede.",
   "import-board-instruction-openproject": "Incolla un JSON di una raccolta di work package OpenProject (GET /api/v3/work_packages). Gli stati diventano liste e i work package diventano carte.",
+  "import-board-instruction-taskwarrior": "Ncolla l’uscita ’e task export: na matrice JSON o nu compito pe riga. ’E compite fernute vanno a Done, project e priority addeventano etichette, annotations addeventa cummente e depends addeventa dipendenze d’’e compite ca ’e bloccano.",
+  "import-board-instruction-todotxt": "Incolla nu file todo.txt: nu còmpito pe riga, comme 'o scrivono l'applicazzione todo.txt e ll'applicazzione cumpatibbile. 'E còmpite fernute (\"x\") vanno a Fatto, +project e @context addeventano etichette, (A) addeventa n'etichetta 'e priurità, e due: e t: addeventano 'e date 'e scadenza e d'inizio.",
   "import-board-instruction-zenkit": "Incolla un JSON di esportazione di una lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Gli stage diventano liste e gli item diventano carte.",
   "import-file-label": "Scigli 'o file 'e esportazione, o ncolla 'o testo suojo ccà abbascio:",
   "initials": "Iniziali",

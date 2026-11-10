@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kole yon JSON ekspòtasyon Kanboard: yon objè ki gen \"columns\" (oswa travay ki gen column_name) ak yon tablo \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Kolòn yo vin lis epi travay yo vin kat.",
   "import-board-instruction-markdown": "Kole yon lis travay markdown (konvansyon zouti markdown-kanban tankou Obsidian Kanban itilize): tit \"## Non lis la\", ak eleman \"- [ ]\"/\"- [x]\" anba yo. Tit yo vin lis epi eleman yo vin kat; yon senp lis ak pwen san checkbox tou enpòte, kòm kat ouvè.",
   "import-board-instruction-openproject": "Kole JSON yon koleksyon pakè travay OpenProject (GET /api/v3/work_packages). Estati yo vin lis epi pakè travay yo vin kat.",
+  "import-board-instruction-taskwarrior": "Kole rezilta task export la: yon tablo JSON oswa yon travay sou chak liy. Travay ki fini yo ale nan Done, project ak priority vin etikèt, annotations vin kòmantè, epi depends vin depandans sou travay k ap bloke yo.",
+  "import-board-instruction-todotxt": "Kole yon fichye todo.txt: yon travay sou chak liy, jan aplikasyon todo.txt ak aplikasyon konpatib yo ekri li. Travay ki fini yo (\"x\") ale nan Done, +project ak @context vin etikèt, (A) vin yon etikèt priyorite, epi due: ak t: vin dat limit ak dat kòmansman.",
   "import-board-instruction-zenkit": "Kole yon JSON ekspòtasyon lis ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Etap yo vin lis epi eleman yo vin kat.",
   "import-file-label": "Chwazi fichye ekspòtasyon an, oswa kole tèks li anba a:",
   "initials": "Inisyal",

@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Lipește un export JSON de Kanboard: un obiect cu „columns” (sau sarcini care conțin column_name) și un tablou „tasks” (title, description, column_name, swimlane_name, date_due, owner, tags). Coloanele devin liste, iar sarcinile devin carduri.",
   "import-board-instruction-markdown": "Lipiți o listă de sarcini markdown (convenția folosită de instrumente markdown-kanban precum Obsidian Kanban): titluri \"## Numele listei\", cu elemente \"- [ ]\"/\"- [x]\" dedesubt. Titlurile devin liste, iar elementele devin carduri; o listă simplă cu marcatori fără casete de bifat este de asemenea importată, ca și carduri deschise.",
   "import-board-instruction-openproject": "Lipește un JSON de colecție de pachete de lucru OpenProject (GET /api/v3/work_packages). Statusurile devin liste, iar pachetele de lucru devin carduri.",
+  "import-board-instruction-taskwarrior": "Lipiți rezultatul comenzii task export: un tablou JSON sau o sarcină pe linie. Sarcinile finalizate ajung în Done, project și priority devin etichete, annotations devine comentarii, iar depends devine dependențe de sarcinile care le blochează.",
+  "import-board-instruction-todotxt": "Lipiți un fișier todo.txt: o sarcină pe rând, așa cum îl scriu aplicația todo.txt și aplicațiile compatibile. Sarcinile finalizate (\"x\") ajung la Finalizat, +project și @context devin etichete, (A) devine o etichetă de prioritate, iar due: și t: devin data scadentă și data de început.",
   "import-board-instruction-zenkit": "Lipește un export JSON de listă ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Etapele devin liste, iar elementele devin carduri.",
   "import-file-label": "Alegeți fișierul exportat sau lipiți textul său mai jos:",
   "initials": "Inițiale",

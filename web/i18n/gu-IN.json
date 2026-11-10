@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard નિકાસ JSON પેસ્ટ કરો: \"columns\" (અથવા column_name ધરાવતા tasks) અને \"tasks\" એરે (title, description, column_name, swimlane_name, date_due, owner, tags) ધરાવતું ઑબ્જેક્ટ. Columns યાદીઓ બને છે અને tasks કાર્ડ બને છે.",
   "import-board-instruction-markdown": "માર્કડાઉન કાર્ય સૂચિ પેસ્ટ કરો (Obsidian Kanban જેવા markdown-kanban સાધનો ઉપયોગ કરે છે તે સંમેલન): \"## સૂચિનું નામ\" મથાળાં, નીચે \"- [ ]\"/\"- [x]\" આઇટમ સાથે. મથાળાં સૂચિ બની જાય છે અને આઇટમ કાર્ડ બની જાય છે; ચેકબોક્સ વગરની સાદી બુલેટ સૂચિ પણ ખુલ્લા કાર્ડ તરીકે આયાત થાય છે.",
   "import-board-instruction-openproject": "OpenProject work-packages સંગ્રહ JSON પેસ્ટ કરો (GET /api/v3/work_packages). Statuses યાદીઓ બને છે અને work packages કાર્ડ બને છે.",
+  "import-board-instruction-taskwarrior": "task export નું આઉટપુટ પેસ્ટ કરો: JSON એરે અથવા દરેક પંક્તિમાં એક કાર્ય. પૂર્ણ થયેલાં કાર્યો Done માં જાય છે, project અને priority લેબલ બને છે, annotations ટિપ્પણીઓમાં અને depends અવરોધતાં કાર્યો પરની નિર્ભરતામાં ફેરવાય છે.",
+  "import-board-instruction-todotxt": "todo.txt ફાઇલ પેસ્ટ કરો: todo.txt ઍપ અને સુસંગત ઍપ લખે છે તેમ, દરેક લીટીમાં એક કામ. પૂર્ણ થયેલા કામ (\"x\") પૂર્ણ યાદીમાં જાય છે, +project અને @context લેબલ બને છે, (A) પ્રાથમિકતાનું લેબલ બને છે, અને due: તથા t: અનુક્રમે નિયત અને શરૂઆતની તારીખ બને છે.",
   "import-board-instruction-zenkit": "ZenKit list નિકાસ JSON પેસ્ટ કરો ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages યાદીઓ બને છે અને items કાર્ડ બને છે.",
   "import-file-label": "નિકાસ ફાઇલ પસંદ કરો, અથવા તેનું લખાણ નીચે પેસ્ટ કરો:",
   "initials": "આદ્યાક્ષરો",

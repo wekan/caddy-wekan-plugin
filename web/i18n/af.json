@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Plak 'n Kanboard-uitvoer-JSON: 'n objek met \"columns\" (of take wat column_name dra) en 'n \"tasks\"-skikking (title, description, column_name, swimlane_name, date_due, owner, tags). Kolomme word lyste en take word kaarte.",
   "import-board-instruction-markdown": "Plak 'n markdown-taaklys (die konvensie wat markdown-kanban-nutsgoed soos Obsidian Kanban gebruik): \"## Lysnaam\"-opskrifte, met \"- [ ]\"/\"- [x]\"-items daaronder. Opskrifte word lyste en items word kaarte; 'n gewone koeëllys sonder merkblokkies word ook ingevoer, as oop kaarte.",
   "import-board-instruction-openproject": "Plak 'n OpenProject work-packages-versameling-JSON (GET /api/v3/work_packages). Statusse word lyste en werkpakkette word kaarte.",
+  "import-board-instruction-taskwarrior": "Plak die uitvoer van task export: ’n JSON-skikking of een taak per reël. Voltooide take gaan na Done, project en priority word etikette, annotations word opmerkings en depends word afhanklikhede van blokkerende take.",
+  "import-board-instruction-todotxt": "Plak 'n todo.txt-lêer: een taak per reël, soos die todo.txt-toepassing en versoenbare toepassings dit skryf. Voltooide take (\"x\") gaan na die lys vir voltooide take, +project en @context word etikette, (A) word 'n prioriteitsetiket, en due: en t: word sperdatums en begindatums.",
   "import-board-instruction-zenkit": "Plak 'n ZenKit lys-uitvoer-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stadiums word lyste en items word kaarte.",
   "import-file-label": "Kies die uitvoerlêer, of plak die teks daarvan hieronder:",
   "initials": "Voorletters",

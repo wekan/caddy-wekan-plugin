@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Įklijuokite Kanboard eksporto JSON: objektą su \"columns\" (arba užduotimis, turinčiomis column_name) ir masyvą \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Stulpeliai tampa sąrašais, o užduotys — kortelėmis.",
   "import-board-instruction-markdown": "Įklijuokite markdown užduočių sąrašą (konvencija, kurią naudoja markdown-kanban įrankiai, pvz., Obsidian Kanban): antraštes \"## Sąrašo pavadinimas\", su elementais \"- [ ]\"/\"- [x]\" žemiau. Antraštės tampa sąrašais, o elementai — kortelėmis; paprastas ženklelinis sąrašas be žymimųjų langelių taip pat importuojamas, kaip atviros kortelės.",
   "import-board-instruction-openproject": "Įklijuokite OpenProject work-packages kolekcijos JSON (GET /api/v3/work_packages). Būsenos tampa sąrašais, o darbo paketai — kortelėmis.",
+  "import-board-instruction-taskwarrior": "Įklijuokite komandos task export išvestį: JSON masyvą arba po vieną užduotį eilutėje. Užbaigtos užduotys patenka į Done, project ir priority tampa etiketėmis, annotations — komentarais, o depends — priklausomybėmis nuo blokuojančių užduočių.",
+  "import-board-instruction-todotxt": "Įklijuokite todo.txt failą: po vieną užduotį eilutėje, kaip jį įrašo todo.txt ir suderinamos programos. Atliktos užduotys (\"x\") perkeliamos į atliktų užduočių sąrašą, +project ir @context tampa žymomis, (A) tampa prioriteto žyma, o due: ir t: tampa termino ir pradžios datomis.",
   "import-board-instruction-zenkit": "Įklijuokite ZenKit sąrašo eksporto JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Etapai (stages) tampa sąrašais, o elementai — kortelėmis.",
   "import-file-label": "Pasirinkite eksporto failą arba įklijuokite jo tekstą žemiau:",
   "initials": "Inicialai",

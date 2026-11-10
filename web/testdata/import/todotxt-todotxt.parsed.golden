@@ -1,0 +1,99 @@
+{
+  "board": {
+    "name": "Imported todo.txt"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write spec now",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:H",
+        "web dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x , y"
+      ],
+      "date_due": "2026-11-20",
+      "date_started": "2026-11-10",
+      "date_creation": "2026-11-01"
+    },
+    {
+      "title": "-minus first",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "date_creation": "2026-11-02",
+      "date_end": "2026-11-05"
+    },
+    {
+      "title": "multi line title",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_due": "2026-12-24"
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "tags": [
+        "p1"
+      ],
+      "date_due": "2026-11-12",
+      "date_started": "2026-11-11"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

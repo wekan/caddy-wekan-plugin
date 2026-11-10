@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard-ᒥᑦ ᐊᓂᑎᑕᐅᓯᒪᔪᖅ JSON ᐃᓕᓗᒍ: \"columns\"-ᓕᒃ (ᐅᕝᕙᓘᓐᓃᑦ column_name-ᓕᓐᓂᒃ ᐱᓕᕆᐊᓕᒃ) ᐊᒻᒪ \"tasks\"-ᓂᒃ ᑎᑎᖅᑲᓕᐊᓕᒃ (title, description, column_name, swimlane_name, date_due, owner, tags). Columns ᑎᑎᖅᑲᓕᐊᙳᖅᑐᑦ ᐊᒻᒪ tasks ᐊᓪᓚᖅᓯᒪᔪᙳᖅᑐᑦ.",
   "import-board-instruction-markdown": "ᒪᐊᒃᑖᐅᓐ ᐱᓕᕆᐊᒃᓴᓕᐅᖅᑎᐅᑉ ᑎᑎᖅᑲᖏᑦ ᒪᓕᒐᖅ (Obsidian Kanban ᐊᑐᖅᑕᖓᑦ): ᖁᓕᐊᖓ \"## ᑎᑎᖅᑲᐃᑦ ᐊᑎᖓ\" ᖃᓄᐃᖏᓐᓇᖅ, \"- [ ]\"/\"- [x]\" ᐊᐃᑦᑐᑦ ᐊᑖᒍᑦ.",
   "import-board-instruction-openproject": "OpenProject-ᒥᑦ work-packages-ᓂᒃ ᑲᑎᖅᓱᐃᓯᒪᔪᖅ JSON ᐃᓕᓗᒍ (GET /api/v3/work_packages). Statuses ᑎᑎᖅᑲᓕᐊᙳᖅᑐᑦ ᐊᒻᒪ work packages ᐊᓪᓚᖅᓯᒪᔪᙳᖅᑐᑦ.",
+  "import-board-instruction-taskwarrior": "task export-ᒥᑦ ᓴᖅᑭᑕᐅᔪᑦ ᓂᐱᑎᓪᓗᒋᑦ: JSON-ᒥ ᑎᑎᖅᑲᓕᐊᖅ, ᐅᕝᕙᓘᓐᓃᑦ ᐱᓕᕆᐊᒃᓴᖅ ᐊᑕᐅᓯᖅ ᐊᑐᓂ ᑎᑎᕋᖅᓯᒪᔪᒥ. ᐱᔭᕇᖅᑕᐅᔪᑦ ᐱᓕᕆᐊᒃᓴᑦ Done-ᒧᑦ ᓅᑕᐅᔪᑦ, project ᐊᒻᒪ priority ᓇᓗᓇᐃᒃᑯᑕᙳᖅᑐᑦ, annotations ᐅᖃᐅᓯᙳᖅᑐᑦ, ᐊᒻᒪ depends ᐊᓯᖏᓐᓄᑦ ᐊᔪᖅᑎᑕᐅᓂᕐᒧᑦ ᐊᑕᓂᙳᖅᑐᖅ.",
+  "import-board-instruction-todotxt": "todo.txt ᑎᑎᖅᑲᖓ ᓂᐱᑎᓪᓗᒍ: ᐊᑕᐅᓯᖅ ᐱᓕᕆᐊᒃᓴᖅ ᐊᑕᐅᓯᕐᒥ ᑎᑎᕋᖅᓯᒪᓂᕐᒥ, todo.txt ᐊᒻᒪ ᐃᖏᕐᕋᖃᑎᒌᒍᓐᓇᖅᑐᑦ ᐱᓕᕈᑎᑦ ᑎᑎᕋᖃᑦᑕᕐᓂᖏᑎᑐᑦ. ᐱᔭᕇᖅᑐᑦ (\"x\") \"ᐱᔭᕇᖅᑐᖅ\"-ᒧᑦ ᓅᑕᐅᓲᑦ, +project ᐊᒻᒪ @context ᓇᓗᓇᐃᒃᑯᑕᙳᓲᑦ, (A) ᓯᕗᓪᓕᐅᔭᕆᐊᓕᖕᒧᑦ ᓇᓗᓇᐃᒃᑯᑕᙳᓲᖅ, due: ᐊᒻᒪ t: ᐱᔭᕇᕐᕕᒃᓴᐅᑉ ᐱᒋᐊᕐᕕᒃᓴᐅᓪᓗ ᐅᓪᓗᖏᓐᓄᑦ ᐊᓯᔾᔨᖅᑕᐅᓲᑦ.",
   "import-board-instruction-zenkit": "ZenKit-ᒥᑦ ᑎᑎᖅᑲᓕᐊᐅᑉ JSON-ᖓ ({ \"title\", \"stages\":[...], \"items\":[...] }) ᐃᓕᓗᒍ. Stages ᑎᑎᖅᑲᓕᐊᙳᖅᑐᑦ ᐊᒻᒪ items ᐊᓪᓚᖅᓯᒪᔪᙳᖅᑐᑦ.",
   "import-file-label": "ᐊᓂᑎᑦᓯᓂᕐᒧᑦ ᑎᑎᖅᑲᖅ ᓂᕈᐊᕐᓗᒍ, ᐅᕝᕙᓘᓐᓃᑦ ᑎᑎᕋᖅᓯᒪᓂᖓ ᐊᑖᓂ ᐃᓕᓪᓗᒍ:",
   "initials": "ᐊᑎᐅᑉ ᐱᒋᐊᕐᓂᖏᑦ",

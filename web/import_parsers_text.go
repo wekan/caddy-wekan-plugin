@@ -17,11 +17,41 @@ var importTextParsers = map[string]func(string) (jsObject, error){
 // and the byte order mark (Go's \s is ASCII only).
 const jsWS = `\t\n\v\f\r \x{a0}\x{1680}\x{2000}-\x{200a}\x{2028}\x{2029}\x{202f}\x{205f}\x{3000}\x{feff}`
 
-// jsRegexp compiles a pattern whose \s and \S mean JavaScript's.
+// jsRegexp compiles a pattern whose \s and \S mean JavaScript's: outside a
+// character class as a class of their own, inside one as its members (\S
+// inside a class is not supported, and refused).
 func jsRegexp(pattern string) *regexp.Regexp {
-	p := strings.ReplaceAll(pattern, `\S`, `[^`+jsWS+`]`)
-	p = strings.ReplaceAll(p, `\s`, `[`+jsWS+`]`)
-	return regexp.MustCompile(p)
+	var b strings.Builder
+	inClass := false
+	for i := 0; i < len(pattern); i++ {
+		c := pattern[i]
+		if c == '\\' && i+1 < len(pattern) {
+			next := pattern[i+1]
+			switch {
+			case next == 's' && inClass:
+				b.WriteString(jsWS)
+			case next == 's':
+				b.WriteString("[" + jsWS + "]")
+			case next == 'S' && inClass:
+				panic("jsRegexp: \\S inside a character class")
+			case next == 'S':
+				b.WriteString("[^" + jsWS + "]")
+			default:
+				b.WriteByte(c)
+				b.WriteByte(next)
+			}
+			i++
+			continue
+		}
+		switch c {
+		case '[':
+			inClass = true
+		case ']':
+			inClass = false
+		}
+		b.WriteByte(c)
+	}
+	return regexp.MustCompile(b.String())
 }
 
 var (

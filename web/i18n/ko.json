@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard 내보내기 JSON을 붙여넣으세요: \"columns\"(또는 column_name을 포함하는 tasks)와 \"tasks\" 배열(title, description, column_name, swimlane_name, date_due, owner, tags)을 가진 객체입니다. 컬럼은 목록이 되고 태스크는 카드가 됩니다.",
   "import-board-instruction-markdown": "markdown 작업 목록을 붙여넣으세요 (Obsidian Kanban과 같은 markdown-kanban 도구가 사용하는 규칙): 아래에 \"- [ ]\"/\"- [x]\" 항목이 있는 \"## 목록 이름\" 제목. 제목은 목록이 되고 항목은 카드가 됩니다. 체크박스가 없는 일반 글머리 기호 목록도 열린 카드로 가져옵니다.",
   "import-board-instruction-openproject": "OpenProject work-packages 컬렉션 JSON(GET /api/v3/work_packages)을 붙여넣으세요. 상태는 목록이 되고 work package는 카드가 됩니다.",
+  "import-board-instruction-taskwarrior": "task export의 출력을 붙여 넣으세요. JSON 배열 또는 한 줄에 하나의 작업을 사용할 수 있습니다. 완료된 작업은 Done으로 이동하고, project와 priority는 라벨로, annotations는 댓글로, depends는 차단하는 작업에 대한 의존 관계로 변환됩니다.",
+  "import-board-instruction-todotxt": "todo.txt 파일을 붙여넣으세요. todo.txt 앱 및 호환 앱이 작성하는 형식으로, 한 줄에 작업 하나를 기록합니다. 완료된 작업(\"x\")은 완료로 이동하고, +project와 @context는 라벨로, (A)는 우선순위 라벨로, due:와 t:는 마감일과 시작일로 변환됩니다.",
   "import-board-instruction-zenkit": "ZenKit 목록 내보내기 JSON({ \"title\", \"stages\":[...], \"items\":[...] })을 붙여넣으세요. 스테이지는 목록이 되고 항목은 카드가 됩니다.",
   "import-file-label": "내보낸 파일을 선택하거나 그 내용을 아래에 붙여넣으세요:",
   "initials": "이니셜",

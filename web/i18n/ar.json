@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "الصق ملف JSON مُصدَّر من Kanboard: كائن يحتوي على \"columns\" (أو مهام تحمل column_name) ومصفوفة \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). تصبح الأعمدة قوائم وتصبح المهام بطاقات.",
   "import-board-instruction-markdown": "الصق قائمة مهام بصيغة Markdown (الاصطلاح الذي تستخدمه أدوات markdown-kanban مثل Obsidian Kanban): عناوين \"## اسم القائمة\"، مع عناصر \"- [ ]\"‏/\"- [x]\" تحتها. تصبح العناوين قوائم وتصبح العناصر بطاقات؛ كما يتم استيراد قائمة نقطية عادية بدون مربعات اختيار، كبطاقات مفتوحة.",
   "import-board-instruction-openproject": "الصق ملف JSON لمجموعة حزم العمل من OpenProject (GET /api/v3/work_packages). تصبح الحالات قوائم وتصبح حزم العمل بطاقات.",
+  "import-board-instruction-taskwarrior": "ألصق ناتج الأمر task export: مصفوفة JSON أو مهمة واحدة في كل سطر. تنتقل المهام المكتملة إلى Done، ويصبح project وpriority علامات، وتصبح annotations تعليقات، ويصبح depends تبعيات للمهام التي تمنع التنفيذ.",
+  "import-board-instruction-todotxt": "الصق ملف todo.txt: مهمة واحدة في كل سطر، بالصيغة التي يكتبها تطبيق todo.txt والتطبيقات المتوافقة معه. تنتقل المهام المكتملة (\"x\") إلى «تم»، ويتحول +project و@context إلى تسميات، و(A) إلى تسمية أولوية، وdue: وt: إلى تاريخ الاستحقاق وتاريخ البدء.",
   "import-board-instruction-zenkit": "الصق ملف JSON لتصدير قائمة ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). تصبح المراحل قوائم وتصبح العناصر بطاقات.",
   "import-file-label": "اختر ملف التصدير، أو الصق نصه أدناه:",
   "initials": "أولية",

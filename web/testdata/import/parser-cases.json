@@ -45,5 +45,13 @@
     "markdown-edge.md",
     "../external/markdown.golden",
     "../external/obsidian.golden"
+  ],
+  "todotxt": [
+    "todotxt-edge.txt",
+    "../external/todotxt.golden"
+  ],
+  "taskwarrior": [
+    "taskwarrior-edge.ndjson",
+    "../external/taskwarrior.golden"
   ]
 }

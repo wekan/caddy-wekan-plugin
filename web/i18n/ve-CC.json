@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Incoła un JSON de esport Kanboard: un ogeto co \"columns\" (o task che porta column_name) e un array \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Le colone deventa liste e i task deventa schede.",
   "import-board-instruction-markdown": "Incoła na lista de conpiti markdown (ła convension che dòpara i strumenti markdown-kanban come Obsidian Kanban): intestasion \"## Nome de ła lista\", co sote łe voze \"- [ ]\"/\"- [x]\". Łe intestasion łe deventa liste e łe voze łe deventa schede; anca na lista a ponti sensa casełe ła se inporta, come schede vèrte.",
   "import-board-instruction-openproject": "Incoła un JSON de na cołezion de work-packages OpenProject (GET /api/v3/work_packages). I stati deventa liste e i work package deventa schede.",
+  "import-board-instruction-taskwarrior": "Incoła el risultato de task export: un array JSON o un conpito par riga. I conpiti finìi i va in Done, project e priority i deventa etichete, annotations el deventa comenti e depends el deventa dependense dai conpiti che i łi bloca.",
+  "import-board-instruction-todotxt": "Incola un file todo.txt: un laoro par riga, come che lo scrive l'aplicasion todo.txt e le aplicasion compatibili. I laori finii (\"x\") i va in Finio, +project e @context i deventa etichete, (A) el deventa na eticheta de priorità, e due: e t: i deventa date de scadensa e de inisio.",
   "import-board-instruction-zenkit": "Incoła un JSON de esport lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Le stage deventa liste e i item deventa schede.",
   "import-file-label": "Sielgi el file de esportasion, o incoła el so testo cuà soto:",
   "initials": "Iniziałi",

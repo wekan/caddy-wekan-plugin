@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard निर्यात JSON टाँस्नुहोस्: \"columns\" भएको वस्तु (वा column_name भएका कार्यहरू) र \"tasks\" एरे (title, description, column_name, swimlane_name, date_due, owner, tags)। स्तम्भहरू सूची र कार्यहरू कार्ड बन्छन्।",
   "import-board-instruction-markdown": "markdown कार्य सूची टाँस्नुहोस् (Obsidian Kanban जस्ता markdown-kanban उपकरणहरूले प्रयोग गर्ने परम्परा): \"## सूचीको नाम\" शीर्षकहरू, तल \"- [ ]\"/\"- [x]\" वस्तुहरूसहित। शीर्षकहरू सूची बन्छन् र वस्तुहरू कार्ड बन्छन्; चेकबक्स नभएको साधारण बुलेट सूची पनि खुला कार्डको रूपमा आयात हुन्छ।",
   "import-board-instruction-openproject": "OpenProject कार्य-प्याकेज सङ्ग्रह JSON (GET /api/v3/work_packages) टाँस्नुहोस्। स्थितिहरू सूची र कार्य प्याकेजहरू कार्ड बन्छन्।",
+  "import-board-instruction-taskwarrior": "task export को नतिजा टाँस्नुहोस्: JSON एरे वा प्रत्येक पङ्क्तिमा एउटा कार्य। पूरा भएका कार्यहरू Done मा जान्छन्, project र priority लेबल बन्छन्, annotations टिप्पणी बन्छ र depends रोकिरहेका कार्यहरूमाथिको निर्भरतामा बदलिन्छ।",
+  "import-board-instruction-todotxt": "todo.txt फाइल टाँस्नुहोस्: todo.txt एप र मिल्दो एपहरूले लेखेजस्तै, प्रत्येक पङ्क्तिमा एउटा काम। सकिएका कामहरू (\"x\") सम्पन्न सूचीमा जान्छन्, +project र @context लेबल बन्छन्, (A) प्राथमिकताको लेबल बन्छ, अनि due: र t: क्रमशः म्याद र सुरु मिति बन्छन्।",
   "import-board-instruction-zenkit": "ZenKit सूची निर्यात JSON ({ \"title\", \"stages\":[...], \"items\":[...] }) टाँस्नुहोस्। चरणहरू सूची र वस्तुहरू कार्ड बन्छन्।",
   "import-file-label": "निर्यात फाइल छान्नुहोस्, वा त्यसको पाठ तल टाँस्नुहोस्:",
   "initials": "नामको छोटकरी",

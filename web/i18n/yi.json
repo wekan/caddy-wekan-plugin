@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "פּײַסט אַ Kanboard אַרויספיר JSON: אַן אָביעקט מיט \"columns\" (אָדער טאַסקס וואָס טראָגן column_name) און אַ \"tasks\" מאַסיוו (title, description, column_name, swimlane_name, date_due, owner, tags). קאָלומנעס ווערן רשימות און טאַסקס ווערן קאַרדס.",
   "import-board-instruction-markdown": "לייגט אריין אַ מארקדאון אויפֿגאבע רשימה (די קאנווענץ וואָס markdown-kanban געצייג ווי Obsidian Kanban ניצן): \"## רשימה נאָמען\" קעפּלעך, מיט \"- [ ]\"/\"- [x]\" זאכן אונטן. קעפּלעך ווערן רשימות און זאכן ווערן קארטן.",
   "import-board-instruction-openproject": "פּײַסט אַן OpenProject work-packages זאַמלונג JSON (GET /api/v3/work_packages). סטאַטוסן ווערן רשימות און אַרבעט־פּעקלעך ווערן קאַרדס.",
+  "import-board-instruction-taskwarrior": "קלעבט אַרײַן דעם רעזולטאַט פֿון task export: אַ JSON־מאַסיוו אָדער איין אויפֿגאַבע אויף יעדער שורה. פֿאַרענדיקטע אויפֿגאַבעס גייען צו Done, project און priority ווערן לאַבעלס, annotations ווערט קאָמענטאַרן, און depends ווערט אָפּהענגיקייטן פֿון בלאָקירנדיקע אויפֿגאַבעס.",
+  "import-board-instruction-todotxt": "קלעבט אַרײַן אַ todo.txt טעקע: איין אויפֿגאַבע אויף יעדער שורה, ווי די todo.txt אַפּליקאַציע און קאָמפּאַטיבלע אַפּליקאַציעס שרײַבן עס. פֿאַרענדיקטע אויפֿגאַבעס (\"x\") גייען צו פֿאַרענדיקט, +project און @context ווערן עטיקעטן, (A) ווערט אַ פּריאָריטעט־עטיקעט, און due: און t: ווערן דער טערמין און דער אָנהייב־דאַטום.",
   "import-board-instruction-zenkit": "פּײַסט אַ ZenKit רשימה־אַרויספיר JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). סטעדזשעס ווערן רשימות און אײַטעמס ווערן קאַרדס.",
   "import-file-label": "קלײַבט אויס די עקספּאָרט־טעקע, אָדער קלעפּט אַרײַן איר טעקסט אונטן:",
   "initials": "איניציאלן",

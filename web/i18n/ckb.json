@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "JSONی هەناردەکراوی Kanboard دابنێ: ئۆبجێکتێک بە \"columns\" (یان ئەرکەکان بە column_name) و ڕیزبەندی \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). ستوونەکان دەبنە لیست و ئەرکەکان دەبنە کارت.",
   "import-board-instruction-markdown": "لیستێکی ئەرکی مارکدائون بلکێنە (ڕێککەوتنی ئامرازە مارکدائون-کانبانەکان وەک Obsidian Kanban بەکاریدەهێنن): سەرنووسی \"## ناوی لیست\"، لەگەڵ بڕگەکانی \"- [ ]\"/\"- [x]\" لەژێریدا. سەرنووسەکان دەبنە لیست و بڕگەکان دەبنە کارت؛ لیستێکی خاڵی ساکاریش بەبێ چوارگۆشەی هەڵبژاردن هاورده دەکرێت، وەک کارتی کراوە.",
   "import-board-instruction-openproject": "JSONی کۆمەڵەی work-packagesی OpenProject دابنێ (GET /api/v3/work_packages). دۆخەکان دەبنە لیست و work packageەکان دەبنە کارت.",
+  "import-board-instruction-taskwarrior": "دەرئەنجامی task export بلکێنە: ڕیزەیەکی JSON یان ئەرکێک لە هەر دێڕێکدا. ئەرکە تەواوبووەکان دەچنە Done، project و priority دەبنە پێناسە، annotations دەبێتە لێدوان و depends دەبێتە پشتبەستن بە ئەرکە ڕێگرەکان.",
+  "import-board-instruction-todotxt": "فایلێکی todo.txt بلکێنە: لە هەر دێڕێکدا ئەرکێک، وەک ئەوەی بەرنامەی todo.txt و بەرنامە هاوتاکان دەینووسن. ئەرکە تەواوبووەکان (\"x\") دەچنە بەشی تەواوبوو، +project و @context دەبنە تاگ، (A) دەبێتە تاگی ئەولەویەت، و due: و t: دەبنە بەرواری دوا مۆڵەت و دەستپێک.",
   "import-board-instruction-zenkit": "JSONی هەناردەی لیستی ZenKit دابنێ ({ \"title\", \"stages\":[...], \"items\":[...] }). قۆناغەکان دەبنە لیست و بڕگەکان دەبنە کارت.",
   "import-file-label": "فایلی هەناردە هەڵبژێرە، یان دەقەکەی لە خوارەوە بلکێنە:",
   "initials": "پیتە سەرەتاییەکان",

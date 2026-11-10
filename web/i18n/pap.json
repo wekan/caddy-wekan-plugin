@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Pega un HSON di eksportashon di Kanboard: un obheto ku \"columns\" (òf tareas ku column_name) i un array \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). E columnas se conbierten den listas i e tareas den karchinan.",
   "import-board-instruction-markdown": "Pega un lista di tarea markdown (e konvenshon ku hermentnan markdown-kanban manera Obsidian Kanban ta usa): titulo \"## Nòmber di lista\", ku elementonan \"- [ ]\"/\"- [x]\" bou di dje. Titulonan ta bira lista i elementonan ta bira karchi.",
   "import-board-instruction-openproject": "Pega un HSON di colecshon di work-packages di OpenProhect (GET /api/v3/work_packages). E estados se conbierten den listas i e work packages den karchinan.",
+  "import-board-instruction-taskwarrior": "Plak e resultado di task export: un array JSON òf un tarea pa liña. Tareanan terminá ta bai na Done, project i priority ta bira etiketanan, annotations ta bira komentarionan, i depends ta bira dependensianan di e tareanan ku ta blokia nan.",
+  "import-board-instruction-todotxt": "Plak un fail todo.txt: un tarea pa kada liña, manera e aplikashon todo.txt i aplikashonnan kompatibel ta skirbi. Tareanan kompletá (\"x\") ta bai na Kompletá, +project i @context ta bira etiketa, (A) ta bira un etiketa di prioridat, i due: i t: ta bira fecha límite i fecha di kuminsamentu.",
   "import-board-instruction-zenkit": "Pega un HSON di eksportashon di lista di ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). E stages se conbierten den listas i e items den karchinan.",
   "import-file-label": "Skohe e fail eksportá, òf pega su teksto abou:",
   "initials": "Inisiales",

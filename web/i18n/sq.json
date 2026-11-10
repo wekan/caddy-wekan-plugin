@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Ngjit një eksport JSON të Kanboard: objekt me \"columns\" (ose detyra me column_name) dhe një varg \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Kolonat bëhen lista dhe detyrat bëhen karta.",
   "import-board-instruction-markdown": "Ngjitni një listë detyrash markdown (konventa që përdorin mjetet markdown-kanban si Obsidian Kanban): titujt \"## Emri i listës\", me elementet \"- [ ]\"/\"- [x]\" poshtë. Titujt bëhen lista dhe elementet bëhen karta; një listë e thjeshtë me pika pa kutiza zgjedhjeje gjithashtu importohet, si karta të hapura.",
   "import-board-instruction-openproject": "Ngjit një koleksion JSON të paketave të punës OpenProject (GET /api/v3/work_packages). Statuset bëhen lista dhe paketat e punës bëhen karta.",
+  "import-board-instruction-taskwarrior": "Ngjitni daljen e task export: një varg JSON ose një detyrë për rresht. Detyrat e përfunduara kalojnë te Done, project dhe priority bëhen etiketa, annotations bëhet komente dhe depends bëhet varësi nga detyrat bllokuese.",
+  "import-board-instruction-todotxt": "Ngjit një skedar todo.txt: një detyrë për rresht, siç e shkruajnë aplikacioni todo.txt dhe aplikacionet e përputhshme. Detyrat e përfunduara (\"x\") kalojnë te Të përfunduara, +project dhe @context bëhen etiketa, (A) bëhet etiketë përparësie, dhe due: e t: bëhen data afati dhe fillimi.",
   "import-board-instruction-zenkit": "Ngjit një eksport JSON të listës ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Fazat bëhen lista dhe elementet bëhen karta.",
   "import-file-label": "Zgjidhni skedarin e eksportit, ose ngjitni tekstin e tij më poshtë:",
   "initials": "Inicialet",

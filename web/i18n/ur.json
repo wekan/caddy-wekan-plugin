@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard کی برآمد کردہ JSON چسپاں کریں: ایک آبجیکٹ جس میں \"columns\" (یا column_name رکھنے والے tasks) اور ایک \"tasks\" صف (title, description, column_name, swimlane_name, date_due, owner, tags) ہو۔ کالم فہرستیں اور کام کارڈز بن جاتے ہیں۔",
   "import-board-instruction-markdown": "ایک markdown ٹاسک لسٹ پیسٹ کریں (وہ کنونشن جو Obsidian Kanban جیسے markdown-kanban ٹولز استعمال کرتے ہیں): \"## فہرست کا نام\" عنوانات، نیچے \"- [ ]\"/\"- [x]\" آئٹمز کے ساتھ۔ عنوانات فہرستیں بن جاتے ہیں اور آئٹمز کارڈز بن جاتے ہیں؛ بغیر چیک باکس کے سادہ بلٹ فہرست بھی درآمد ہوتی ہے، کھلے کارڈز کے طور پر۔",
   "import-board-instruction-openproject": "OpenProject کے work-packages مجموعے کی JSON چسپاں کریں (GET /api/v3/work_packages)۔ حالتیں فہرستیں اور work packages کارڈز بن جاتے ہیں۔",
+  "import-board-instruction-taskwarrior": "کمانڈ task export کا نتیجہ چسپاں کریں: ایک JSON صف یا ہر سطر میں ایک کام۔ مکمل شدہ کام Done میں جاتے ہیں، project اور priority لیبل بن جاتے ہیں، annotations تبصرے بن جاتے ہیں، اور depends رکاوٹ بننے والے کاموں پر انحصار میں تبدیل ہوتا ہے۔",
+  "import-board-instruction-todotxt": "todo.txt فائل چسپاں کریں: ہر سطر میں ایک کام، جیسے todo.txt ایپ اور ہم آہنگ ایپس لکھتی ہیں۔ مکمل کام (\"x\") مکمل شدہ فہرست میں جاتے ہیں، +project اور @context لیبل بنتے ہیں، (A) ترجیحی لیبل بنتا ہے، اور due: اور t: بالترتیب آخری تاریخ اور آغاز کی تاریخ بنتے ہیں۔",
   "import-board-instruction-zenkit": "ZenKit فہرست کی برآمد کردہ JSON چسپاں کریں ({ \"title\", \"stages\":[...], \"items\":[...] })۔ Stages فہرستیں اور items کارڈز بن جاتے ہیں۔",
   "import-file-label": "برآمد شدہ فائل منتخب کریں، یا اس کا متن نیچے چسپاں کریں:",
   "initials": "نام کے ابتدائی حروف",

@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "একটি Kanboard রপ্তানি JSON পেস্ট করুন: \"columns\"-সহ একটি অবজেক্ট (অথবা column_name-সহ কাজ) এবং একটি \"tasks\" অ্যারে (title, description, column_name, swimlane_name, date_due, owner, tags)। কলাম তালিকা এবং কাজ কার্ড হবে।",
   "import-board-instruction-markdown": "একটি markdown টাস্ক তালিকা পেস্ট করুন (Obsidian Kanban-এর মতো markdown-kanban টুলগুলো যে প্রথা ব্যবহার করে): \"## তালিকার নাম\" শিরোনাম, নিচে \"- [ ]\"/\"- [x]\" আইটেম সহ। শিরোনাম তালিকায় পরিণত হয় এবং আইটেমগুলো কার্ডে পরিণত হয়; চেকবক্স ছাড়া একটি সাধারণ বুলেট তালিকাও খোলা কার্ড হিসেবে আমদানি হয়।",
   "import-board-instruction-openproject": "একটি OpenProject কাজ-প্যাকেজ সংগ্রহের JSON পেস্ট করুন (GET /api/v3/work_packages)। অবস্থা তালিকা এবং কাজ-প্যাকেজ কার্ড হবে।",
+  "import-board-instruction-taskwarrior": "task export-এর আউটপুট পেস্ট করুন: একটি JSON অ্যারে অথবা প্রতি লাইনে একটি কাজ। সম্পন্ন কাজগুলো Done-এ যায়, project ও priority লেবেল হয়, annotations মন্তব্য হয় এবং depends বাধা দেওয়া কাজগুলোর ওপর নির্ভরতায় পরিণত হয়।",
+  "import-board-instruction-todotxt": "একটি todo.txt ফাইল পেস্ট করুন: প্রতি লাইনে একটি কাজ, যেভাবে todo.txt অ্যাপ ও সামঞ্জস্যপূর্ণ অ্যাপগুলো লেখে। সম্পন্ন কাজগুলো (\"x\") সম্পন্ন কাজের তালিকায় যায়, +project ও @context লেবেল হয়, (A) অগ্রাধিকারের লেবেল হয়, এবং due: ও t: যথাক্রমে নির্ধারিত ও শুরুর তারিখ হয়।",
   "import-board-instruction-zenkit": "ZenKit তালিকার রপ্তানি JSON পেস্ট করুন ({ \"title\", \"stages\":[...], \"items\":[...] })। ধাপ তালিকা এবং আইটেম কার্ড হবে।",
   "import-file-label": "রপ্তানি ফাইল বেছে নিন, অথবা তার লেখা নিচে পেস্ট করুন:",
   "initials": "আদ্যক্ষর",

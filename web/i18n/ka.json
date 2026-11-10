@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "ჩასვით Kanboard-ის ექსპორტის JSON: ობიექტი „columns“-ით (ან დავალებები column_name-ით) და „tasks“ მასივით (title, description, column_name, swimlane_name, date_due, owner, tags). სვეტები ხდება სიები და დავალებები ხდება ბარათები.",
   "import-board-instruction-markdown": "ჩასვით markdown დავალებების სია (კონვენცია, რომელსაც იყენებენ markdown-kanban ხელსაწყოები, როგორიცაა Obsidian Kanban): \"## სიის სახელი\" სათაურები, ქვემოთ \"- [ ]\"/\"- [x]\" ელემენტებით. სათაურები იქცევა სიებად და ელემენტები ბარათებად; მარტივი წერტილოვანი სია გადამოწმების ველების გარეშეც შემოდის, როგორც ღია ბარათები.",
   "import-board-instruction-openproject": "ჩასვით OpenProject-ის work-packages კოლექციის JSON (GET /api/v3/work_packages). სტატუსები ხდება სიები და სამუშაო პაკეტები ხდება ბარათები.",
+  "import-board-instruction-taskwarrior": "ჩასვით task export ბრძანების შედეგი: JSON მასივი ან თითო დავალება თითო სტრიქონში. დასრულებული დავალებები გადადის Done-ში, project და priority იქცევა ნიშნებად, annotations — კომენტარებად, ხოლო depends — დამბლოკავ დავალებებზე დამოკიდებულებებად.",
+  "import-board-instruction-todotxt": "ჩასვით todo.txt ფაილი: თითო დავალება თითო ხაზზე, როგორც მას todo.txt და თავსებადი აპები წერენ. დასრულებული დავალებები (\"x\") გადადის დასრულებულთა სიაში, +project და @context იქცევა ჭდეებად, (A) — პრიორიტეტის ჭდედ, ხოლო due: და t: — ვადისა და დაწყების თარიღებად.",
   "import-board-instruction-zenkit": "ჩასვით ZenKit სიის ექსპორტის JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). ეტაპები ხდება სიები და ელემენტები ხდება ბარათები.",
   "import-file-label": "აირჩიეთ ექსპორტის ფაილი ან ჩასვით მისი ტექსტი ქვემოთ:",
   "initials": "ინიციალები",

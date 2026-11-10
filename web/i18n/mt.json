@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Paste a Kanboard export JSON: an object with \"columns\" (or tasks carrying column_name) and a \"tasks\" array (title, description, column_name, swimlane_name, date_due, owner, tags). Columns become listi u tasks become kards.",
   "import-board-instruction-markdown": "Waħħal lista ta' xogħol f'markdown (il-konvenzjoni li għodda markdown-kanban bħal Obsidian Kanban jużaw): intestaturi \"## Isem tal-lista\", b'elementi \"- [ ]\"/\"- [x]\" taħt. L-intestaturi jsiru listi u l-elementi jsiru karti; lista sempliċi b'bullets mingħajr kaxxi tal-immarkar tiġi importata wkoll, bħala karti miftuħa.",
   "import-board-instruction-openproject": "Paste an OpenProject work-packages collection JSON (GET /api/v3/work_packages). Statuses become listi u work packages become kards.",
+  "import-board-instruction-taskwarrior": "Waħħal l-output ta’ task export: array JSON jew kompitu wieħed għal kull linja. Il-kompiti lesti jmorru f’Done, project u priority isiru tikketti, annotations isir kummenti, u depends isir dipendenzi fuq kompiti li jimblukkawhom.",
+  "import-board-instruction-todotxt": "Waħħal fajl todo.txt: kompitu wieħed għal kull linja, kif jinkiteb mill-applikazzjoni todo.txt u applikazzjonijiet kompatibbli. Il-kompiti lesti (\"x\") imorru f’Lest, +project u @context isiru tikketti, (A) issir tikketta ta’ prijorità, u due: u t: isiru dati ta’ skadenza u ta’ bidu.",
   "import-board-instruction-zenkit": "Paste a ZenKit lista export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages become listi u items become kards.",
   "import-file-label": "Agħżel il-fajl tal-esportazzjoni, jew waħħal it-test tiegħu hawn taħt:",
   "initials": "Inizjali",

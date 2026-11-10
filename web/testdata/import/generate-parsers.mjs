@@ -10,7 +10,7 @@ const wekan = process.argv[2];
 if (!wekan) throw new Error('usage: generate-parsers.mjs /path/to/wekan');
 const here = path.dirname(new URL(import.meta.url).pathname);
 const { EXTERNAL_PARSERS } = await import(pathToFileURL(path.join(wekan, 'models/lib/externalParsers.js')).href);
-const TEXT_SOURCES = ['markdown'];
+const TEXT_SOURCES = ['markdown', 'todotxt', 'taskwarrior'];
 const cases = JSON.parse(fs.readFileSync(path.join(here, 'parser-cases.json'), 'utf8'));
 for (const [source, inputs] of Object.entries(cases)) {
   for (const input of inputs) {

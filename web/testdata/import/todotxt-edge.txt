@@ -1,0 +1,7 @@
+x (A) 2026-11-05 2026-11-01 Finished +web_dev @home due:2026-11-20 list:Archive_bin
+(B) 2026-11-02 Pri spaced t:bad due:2026-11-21 due:2026-11-22 pri:C
+
+   
+plain words only pri:D extra:pair
+x done without dates +p
+(c) lower stays title

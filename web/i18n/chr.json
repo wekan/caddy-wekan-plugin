@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard ᎤᏄᎪᏫᏍᏔᏅ JSON ᎯᏍᏓᏱ: \"columns\" ᎠᏂᏯᎢ ᎪᏪᎵ (ᎠᎴ column_name ᎠᏂᏯᎢ ᏗᎦᎸᏫᏍᏓᏁᏗ) ᎠᎴ \"tasks\" ᏗᎪᏪᎵ (title, description, column_name, swimlane_name, date_due, owner, tags). ᏗᏙᏢᏍᏗ ᏗᎪᏪᎵ ᏂᎦᎵᏍᏔᏂ ᎠᎴ ᏗᎦᎸᏫᏍᏓᏁᏗ ᏗᎪᏪᎵ ᏗᏍᏗ ᏂᎦᎵᏍᏔᏂ.",
   "import-board-instruction-markdown": "ᎠᏗᏔᏫ ᏗᎫᎪᏙᏗ ᎠᏓᏅᏖᏗ ᎦᏂᎳᏫᏍᎩ ᎢᏣᏌᎳᏛ (Obsidian Kanban ᎾᏍᎩᏯ ᎢᏳᏍᏗ ᏗᎫᎪᏙᏗ ᎠᎬᏙᏗ): \"## ᏗᎫᎪᏙᏗ ᏚᏙᎥ\" ᏗᎧᏃᎩᏛ, \"- [ ]\"/\"- [x]\" ᏗᏂᏰᎸᎢ ᎭᏫᎠ. ᏗᎧᏃᎩᏛ ᏗᎫᎪᏙᏗ ᎨᏎᏍᏗ ᎠᎴ ᏗᏂᏰᎸᎢ ᎦᏟᎶᏍᏙᏗ ᎨᏎᏍᏗ.",
   "import-board-instruction-openproject": "OpenProject work-packages JSON ᎯᏍᏓᏱ (GET /api/v3/work_packages). Statuses ᏗᎪᏪᎵ ᏂᎦᎵᏍᏔᏂ ᎠᎴ work packages ᏗᎪᏪᎵ ᏗᏍᏗ ᏂᎦᎵᏍᏔᏂ.",
+  "import-board-instruction-taskwarrior": "task export ᎤᏓᏅᏖᏗ ᎦᏯᎸᏗ: JSON ᎠᏎᏊᎢ, ᎠᎴ ᏌᏊ ᏗᎸᏫᏍᏓᏁᏗ ᎾᎿ ᏂᎦᏓ ᎪᏪᎵ ᎤᏓᏅᏅ. ᏗᎸᏫᏍᏓᏁᏗ ᎠᏍᏆᏛᎯ Done ᏓᎦᏅᎭ, project ᎠᎴ priority ᏗᎪᏪᎳᏅᎯ ᏓᎦᏁᎳ, annotations ᏗᎯᏬᏂᎯᏍᏗ ᏓᎦᏁᎳ, ᎠᎴ depends ᎠᎵᏍᎦᏍᏙᏗ ᏗᏓᏚᏓᎸ ᏓᎦᏁᎳ, ᏅᏩᏓᎴ ᏗᎸᏫᏍᏓᏁᏗ ᎾᏍᎩ ᏓᏓᎴᏫᏍᏓ.",
+  "import-board-instruction-todotxt": "todo.txt ᎪᏪᎵ ᎯᏢᎯ: ᏌᏊ ᎢᏳᏍᏗ ᎢᏳᏅᏁᏗ ᏌᏊ ᎤᏓᏡᎬ, todo.txt ᎠᎴ ᎤᏠᏱ ᏗᎬᏙᏗ ᏚᏃᏪᎳᏅ ᎢᏳᏍᏗ. ᎠᎵᏍᏆᏛ ᏗᎦᎸᏫᏍᏓᏁᏗ (\"x\") \"ᎠᎵᏍᏆᏛ\" ᏗᏜ ᏓᏂᏴᎵ, +project ᎠᎴ @context ᏗᎪᏪᎸ ᏓᎾᏓᎴᏂ, (A) ᎢᎬᏱ ᎢᏳᏅᏁᏗ ᎪᏪᎸ ᎨᏎᏍᏗ, due: ᎠᎴ t: ᎠᎵᏍᏆᏗ ᎠᎴ ᎠᎴᏅᏗ ᎢᎦ ᏓᎾᏓᎴᏂ.",
   "import-board-instruction-zenkit": "ZenKit ᏗᎪᏪᎵ ᎤᏄᎪᏫᏍᏔᏅ JSON ᎯᏍᏓᏱ ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages ᏗᎪᏪᎵ ᏂᎦᎵᏍᏔᏂ ᎠᎴ items ᏗᎪᏪᎵ ᏗᏍᏗ ᏂᎦᎵᏍᏔᏂ.",
   "import-file-label": "ᎤᏄᎪᏫᏒ ᎪᏪᎸ ᎯᏑᏰᏍᏓ, ᎠᎴᏉ ᎪᏪᎵ ᎡᎳᏗ ᎯᏂᏴ:",
   "initials": "ᎢᎬᏱ ᏗᎪᏪᎵ",

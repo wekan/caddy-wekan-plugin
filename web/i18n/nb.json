@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Lim inn en Kanboard-eksport-JSON: et objekt med \"columns\" (eller oppgaver som bærer column_name) og en \"tasks\"-array (title, description, column_name, swimlane_name, date_due, owner, tags). Kolonner blir lister og oppgaver blir kort.",
   "import-board-instruction-markdown": "Lim inn en markdown-oppgaveliste (konvensjonen som markdown-kanban-verktøy som Obsidian Kanban bruker): \"## Listenavn\"-overskrifter, med \"- [ ]\"/\"- [x]\"-elementer under. Overskrifter blir lister, og elementer blir kort; en vanlig punktliste uten avkrysningsbokser importeres også, som åpne kort.",
   "import-board-instruction-openproject": "Lim inn en OpenProject work-packages-samling-JSON (GET /api/v3/work_packages). Statuser blir lister og arbeidspakker blir kort.",
+  "import-board-instruction-taskwarrior": "Lim inn resultatet av task export: en JSON-tabell eller én oppgave per linje. Fullførte oppgaver havner i Done, project og priority blir etiketter, annotations blir kommentarer, og depends blir avhengigheter av blokkerende oppgaver.",
+  "import-board-instruction-todotxt": "Lim inn en todo.txt-fil: én oppgave per linje, slik todo.txt-appen og kompatible apper skriver den. Fullførte oppgaver (\"x\") flyttes til Ferdig, +project og @context blir etiketter, (A) blir en prioritetsetikett, og due: og t: blir forfalls- og startdatoer.",
   "import-board-instruction-zenkit": "Lim inn en ZenKit-listeeksport-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages blir lister og items blir kort.",
   "import-file-label": "Velg eksportfilen, eller lim inn teksten fra den nedenfor:",
   "initials": "Initialer",

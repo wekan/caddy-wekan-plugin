@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard экспортын JSON-г буулгана уу: \"columns\" (эсвэл column_name агуулсан tasks) болон \"tasks\" массив (title, description, column_name, swimlane_name, date_due, owner, tags) бүхий объект. Багана нь жагсаалт, tasks нь карт болно.",
   "import-board-instruction-markdown": "Markdown даалгаврын жагсаалт буулгана уу (Obsidian Kanban зэрэг markdown-kanban хэрэгслүүдийн ашигладаг конвенц): доор нь \"- [ ]\"/\"- [x]\" зүйлүүдтэй \"## Жагсаалтын нэр\" гарчгууд. Гарчгууд жагсаалт болж, зүйлүүд карт болно; чекбоксгүй энгийн цэгэн жагсаалт ч мөн нээлттэй карт болж импортлогдоно.",
   "import-board-instruction-openproject": "OpenProject work-packages цуглуулгын JSON-г буулгана уу (GET /api/v3/work_packages). Төлвүүд нь жагсаалт, work package-ууд нь карт болно.",
+  "import-board-instruction-taskwarrior": "task export командын гаралтыг буулгана уу: JSON массив эсвэл мөр бүрд нэг даалгавар. Дууссан даалгаврууд Done руу шилжинэ. project болон priority нь шошго, annotations нь сэтгэгдэл, depends нь саатуулж буй даалгавруудаас хамаарах хамаарал болно.",
+  "import-board-instruction-todotxt": "todo.txt файлыг буулгана уу: todo.txt апп болон түүнтэй нийцтэй аппуудын бичдэг хэлбэрээр мөр бүрд нэг ажил байна. Дууссан ажлууд (\"x\") Done хэсэгт орж, +project ба @context нь шошго, (A) нь ач холбогдлын шошго, due: ба t: нь тус тус дуусах болон эхлэх огноо болно.",
   "import-board-instruction-zenkit": "ZenKit жагсаалтын экспортын JSON-г буулгана уу ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages нь жагсаалт, items нь карт болно.",
   "import-file-label": "Экспортын файлыг сонгох, эсвэл текстийг нь доор буулгана уу:",
   "initials": "Товчилсон нэр",

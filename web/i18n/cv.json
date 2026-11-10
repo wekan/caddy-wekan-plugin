@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard экспорт JSONне вырнаҫтарӑр: \"columns\" пур объект (е column_name илсе пыракан ӗҫсем) тата \"tasks\" массивӗ (title, description, column_name, swimlane_name, date_due, owner, tags). Колонкӑсем список, ӗҫсем карточка пулаҫҫӗ.",
   "import-board-instruction-markdown": "Markdown ĕҫ спискине ҫыпӑҫтарӑр (Obsidian Kanban пек markdown-kanban хатӗрсем усӑ куракан йӗрке): аяларах \"- [ ]\"/\"- [x]\" пункчӗсемпе \"## Спис ячӗ\" заголовокӗсем. Заголовоксем спискана, пункчӗсем карточкӑна куҫаҫҫӗ.",
   "import-board-instruction-openproject": "OpenProject ӗҫ пакетӗсен коллекци JSONне вырнаҫтарӑр (GET /api/v3/work_packages). Статуссем список, ӗҫ пакетӗсем карточка пулаҫҫӗ.",
+  "import-board-instruction-taskwarrior": "task export командӑн результатне лартӑр: JSON массивӗ е кашни йӗркере пӗр ӗҫ. Туса пӗтернӗ ӗҫсем Done спискине куҫаҫҫӗ, project тата priority паллӑсем пулаҫҫӗ, annotations хушса калани пулать, depends вара ӗҫе чарса тӑракан ытти ӗҫсенчен килнине кӑтартать.",
+  "import-board-instruction-todotxt": "Todo.txt файлне кӳртӗр: кашни йӗркере пӗр ӗҫ, todo.txt программи тата унпа килӗшӳллӗ программӑсем ҫырнӑ пек. Тунӑ ӗҫсем (\"x\") «Пулчӗ» ҫине куҫаҫҫӗ, +project тата @context паллӑсем пулаҫҫӗ, (A) пӗлтерӗш палли пулать, due: тата t: вӗҫленӳ тата пуҫланӳ датисем пулаҫҫӗ.",
   "import-board-instruction-zenkit": "ZenKit списокӗн экспорт JSONне вырнаҫтарӑр ({ \"title\", \"stages\":[...], \"items\":[...] }). Шайсем список, пунктсем карточка пулаҫҫӗ.",
   "import-file-label": "Экспорт файлне суйлӑр, е унӑн текстне аялта лартӑр:",
   "initials": "Ятӑн пӗрремӗш саспаллисем",

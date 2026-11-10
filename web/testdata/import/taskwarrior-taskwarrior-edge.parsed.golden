@@ -1,0 +1,91 @@
+{
+  "board": {
+    "name": "Imported Taskwarrior"
+  },
+  "columns": [
+    {
+      "title": "In Progress"
+    },
+    {
+      "title": "Shipped"
+    },
+    {
+      "title": "Waiting"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "ref": "a1",
+      "title": "Ship",
+      "description": "",
+      "column_name": "In Progress",
+      "swimlane_name": "Default",
+      "tags": [
+        "project:Plant",
+        "priority:H",
+        "one",
+        "two"
+      ],
+      "date_due": "2026-11-20T00:00:00.000Z",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "comments": [
+        {
+          "text": "note",
+          "date": "2026-11-02T09:00:00.000Z"
+        }
+      ],
+      "dependencies": [
+        {
+          "ref": "b2",
+          "type": "is-blocked-by"
+        },
+        {
+          "ref": "c3",
+          "type": "is-blocked-by"
+        }
+      ]
+    },
+    {
+      "ref": "b2",
+      "title": "Done",
+      "description": "desc",
+      "column_name": "Shipped",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_end": "2026-11-05T00:00:00.000Z"
+    },
+    {
+      "title": "Imported task",
+      "description": "",
+      "column_name": "Waiting",
+      "swimlane_name": "Default",
+      "tags": [
+        "x"
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/0/custom",
+      "reason": "Taskwarrior attribute custom has no WeKan field"
+    },
+    {
+      "path": "/1/due",
+      "reason": "due is not a Taskwarrior date"
+    },
+    {
+      "path": "/2/status",
+      "reason": "a deleted task is not imported"
+    },
+    {
+      "path": "/3/status",
+      "reason": "a recurring template is not imported; its instances are"
+    }
+  ]
+}

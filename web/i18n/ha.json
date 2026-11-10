@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Liƙa JSON na fitarwar Kanboard: abu mai \"columns\" (ko ayyuka masu column_name) da jerin \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Ginshiƙai su zama jerin, ayyuka su zama katuna.",
   "import-board-instruction-markdown": "Manna jerin ayyuka na markdown (al'adar da kayan aikin markdown-kanban kamar Obsidian Kanban ke amfani da ita): taken \"## Sunan jeri\", tare da abubuwa \"- [ ]\"/\"- [x]\" a ƙasa. Taken suna zama jerin sunayen kuma abubuwa suna zama katunan; jeri mai sauƙi na maki ba tare da akwatin duba ba shima ana shigar da shi, a matsayin katunan buɗe.",
   "import-board-instruction-openproject": "Liƙa JSON na tarin fakitin-aiki na OpenProject (GET /api/v3/work_packages). Matsayi su zama jerin, fakitin aiki su zama katuna.",
+  "import-board-instruction-taskwarrior": "Manna sakamakon task export: jerin JSON ko aiki ɗaya a kowane layi. Ayyukan da aka kammala suna zuwa Done, project da priority suna zama alamomi, annotations yana zama sharhi, depends kuma yana zama dogaro da ayyukan da ke toshe su.",
+  "import-board-instruction-todotxt": "Manna fayil ɗin todo.txt: aiki ɗaya a kowane layi, kamar yadda manhajar todo.txt da manhajojin da suka dace da ita suke rubutawa. Ayyukan da aka kammala (\"x\") suna zuwa Done, +project da @context suna zama alamomi, (A) yana zama alamar fifiko, sannan due: da t: suna zama ranar ƙarshe da ranar farawa.",
   "import-board-instruction-zenkit": "Liƙa JSON na fitarwar jerin ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages su zama jerin, items su zama katuna.",
   "import-file-label": "Zaɓi fayil ɗin fitarwa, ko liƙa rubutunsa a ƙasa:",
   "initials": "Haruffan farko",

@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Gludwch JSON allforio Kanboard: gwrthrych gyda \"columns\" (neu dasgau sy'n cario column_name) ac arae \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Daw'r colofnau'n rhestrau a'r tasgau'n gardiau.",
   "import-board-instruction-markdown": "Gludwch restr dasgau markdown (y confensiwn y mae offer markdown-kanban fel Obsidian Kanban yn ei ddefnyddio): penawdau \"## Enw'r rhestr\", gyda eitemau \"- [ ]\"/\"- [x]\" oddi tanynt. Mae penawdau'n dod yn rhestrau ac eitemau'n dod yn gardiau; mae rhestr bwled blaen heb flychau ticio hefyd yn cael ei mewnforio, fel cardiau agored.",
   "import-board-instruction-openproject": "Gludwch JSON casgliad pecynnau-gwaith OpenProject (GET /api/v3/work_packages). Daw'r statwsau'n rhestrau a'r pecynnau gwaith yn gardiau.",
+  "import-board-instruction-taskwarrior": "Gludwch allbwn task export: arae JSON neu un dasg fesul llinell. Mae tasgau gorffenedig yn mynd i Done, daw project a priority yn labeli, annotations yn sylwadau, a depends yn ddibyniaethau ar dasgau sy’n eu rhwystro.",
+  "import-board-instruction-todotxt": "Gludwch ffeil todo.txt: un dasg fesul llinell, fel y mae ap todo.txt ac apiau cydnaws yn ei hysgrifennu. Mae tasgau gorffenedig (\"x\") yn mynd i Wedi gorffen, mae +project a @context yn troi'n labeli, mae (A) yn troi'n label blaenoriaeth, ac mae due: a t: yn troi'n ddyddiadau cau a dechrau.",
   "import-board-instruction-zenkit": "Gludwch JSON allforio rhestr ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Daw'r camau'n rhestrau a'r eitemau'n gardiau.",
   "import-file-label": "Dewiswch y ffeil allforio, neu gludwch ei thestun isod:",
   "initials": "Llythrennau blaen",

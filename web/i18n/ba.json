@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard экспорт JSON-ын ҡуйығыҙ: \"columns\" булған объект (йәки column_name йөрөткән бурыстар) һәм \"tasks\" массивы (title, description, column_name, swimlane_name, date_due, owner, tags). Бағаналар исемлектәргә, бурыстар карточкаларға әйләнә.",
   "import-board-instruction-markdown": "Markdown бурыс исемлеген ябыштырығыҙ (Obsidian Kanban кеүек markdown-kanban ҡоралдары ҡулланған ҡағиҙә): аҫтарында \"- [ ]\"/\"- [x]\" элементтары менән \"## Исемлек исеме\" исемдәре. Исемдәр исемлектәргә, элементтар картаға әйләнә; чекбокссыҙ ябай нөктәле исемлек тә асыҡ карталар булараҡ импортлана.",
   "import-board-instruction-openproject": "OpenProject эш пакеттары коллекцияһының JSON-ын ҡуйығыҙ (GET /api/v3/work_packages). Статустар исемлектәргә, эш пакеттары карточкаларға әйләнә.",
+  "import-board-instruction-taskwarrior": "task export бойороғоноң һөҙөмтәһен ҡуйығыҙ: JSON массивы йәки һәр юлда бер эш. Тамамланған эштәр Done исемлегенә күсә, project һәм priority билдәләргә, annotations аңлатмаларға, ә depends тотҡарлаусы эштәргә бәйлелектәргә әйләнә.",
+  "import-board-instruction-todotxt": "todo.txt файлын ҡуйығыҙ: һәр юлда бер эш, todo.txt ҡушымтаһы һәм уға ярашлы ҡушымталар яҙғанса. Тамамланған эштәр (\"x\") тамамланғандар бүлегенә күсә, +project һәм @context тамғаларға әйләнә, (A) өҫтөнлөк тамғаһына әйләнә, ә due: һәм t: үтәү мөҙҙәте һәм башлау датаһы була.",
   "import-board-instruction-zenkit": "ZenKit исемлек экспортының JSON-ын ҡуйығыҙ ({ \"title\", \"stages\":[...], \"items\":[...] }). Этаптар исемлектәргә, пункттар карточкаларға әйләнә.",
   "import-file-label": "Экспорт файлын һайлағыҙ, йәки уның тексын аҫта ҡуйығыҙ:",
   "initials": "Инициалдар",

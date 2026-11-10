@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Lẹẹmọ Kanboard export JSON: ohun kan pẹlu \"columns\" (tabi awọn iṣẹ-ṣiṣe ti o gbe column_name) ati akojọ \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Awọn ọwọn di awọn atokọ ati awọn iṣẹ-ṣiṣe di awọn kaadi.",
   "import-board-instruction-markdown": "Lẹ̀ àkọsílẹ̀ iṣẹ́ markdown kan (àṣà tí àwọn irinṣẹ́ markdown-kanban bí Obsidian Kanban ń lò): àwọn àkọlé \"## Orúkọ àkọsílẹ̀\", pẹ̀lú àwọn nǹkan \"- [ ]\"/\"- [x]\" ní ìsàlẹ̀. Àwọn àkọlé máa di àkọsílẹ̀ tí àwọn nǹkan yóò sì di kaadi.",
   "import-board-instruction-openproject": "Lẹẹmọ OpenProject work-packages collection JSON (GET /api/v3/work_packages). Awọn ipo di awọn atokọ ati awọn idii iṣẹ di awọn kaadi.",
+  "import-board-instruction-taskwarrior": "Lẹ àbájáde task export mọ́: àkójọpọ̀ JSON tàbí iṣẹ́ kan lórí ìlà kọ̀ọ̀kan. Àwọn iṣẹ́ tí ó parí lọ sí Done, project àti priority di àwọn àkọlé, annotations di àwọn àlàyé, depends sì di ìgbẹ́kẹ̀lé àwọn iṣẹ́ tí ń dí wọn lọ́wọ́.",
+  "import-board-instruction-todotxt": "Lẹ fáìlì todo.txt mọ́ ibi: iṣẹ́ kan ní ìlà kọ̀ọ̀kan, bí ohun èlò todo.txt àti àwọn ohun èlò tó bá a mu ṣe ń kọ ọ́. Àwọn iṣẹ́ tí ó parí (\"x\") lọ sí Done, +project àti @context di àmì, (A) di àmì ìṣáájú, due: àti t: sì di ọjọ́ ìparí àti ọjọ́ ìbẹ̀rẹ̀ lẹ́sẹẹsẹ.",
   "import-board-instruction-zenkit": "Lẹẹmọ ZenKit list export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Awọn ipele di awọn atokọ ati awọn nkan di awọn kaadi.",
   "import-file-label": "Yan faili gbigbe jade, tabi lẹ ọrọ rẹ si isalẹ:",
   "initials": "Awọn ibẹrẹ",

@@ -1,0 +1,77 @@
+{
+  "board": {
+    "name": "Imported todo.txt"
+  },
+  "columns": [
+    {
+      "title": "Archive bin"
+    },
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "(A) 2026-11-05 2026-11-01 Finished",
+      "description": "",
+      "column_name": "Archive bin",
+      "swimlane_name": "Default",
+      "tags": [
+        "web dev",
+        "@home"
+      ],
+      "date_due": "2026-11-20"
+    },
+    {
+      "title": "Pri spaced due:2026-11-22",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B"
+      ],
+      "date_due": "2026-11-21",
+      "date_creation": "2026-11-02"
+    },
+    {
+      "title": "plain words only extra:pair",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:D"
+      ]
+    },
+    {
+      "title": "done without dates",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "p"
+      ]
+    },
+    {
+      "title": "(c) lower stays title",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/1/t",
+      "reason": "t: is not a YYYY-MM-DD date"
+    }
+  ]
+}

@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Namatsisela i-JSON letfunyelwe yi-Kanboard: intfo lena-\"columns\" (noma imisebenti lena-column_name) kanye neluhlu lwe-\"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Emakholomu aba tinhlu nemisebenti iba emakhadi.",
   "import-board-instruction-markdown": "Namathisela luhlu lwemisebenti lwe-markdown (indlela lesetjentiswa ngemathulusi ye-markdown-kanban afana ne-Obsidian Kanban): tinhloko \"## Ligama lwelluhlu\", netintfo \"- [ ]\"/\"- [x]\" ngentasi. Tinhloko tiba luhlu naletintfo tibe emakhadi.",
   "import-board-instruction-openproject": "Namatsisela i-JSON yelicembu lemaphakheji emsebenti we-OpenProject (GET /api/v3/work_packages). Timo tiba tinhlu nemaphakheji emsebenti aba emakhadi.",
+  "import-board-instruction-taskwarrior": "Namatselisa umphumela we-task export: luhla lwe-JSON noma umsebenti munye emgceni ngamunye. Imisebenti lephelile iya ku-Done, project ne-priority kuba emalebula, annotations iba imibono, kantsi depends iba kwetsemba imisebenti levimbako.",
+  "import-board-instruction-todotxt": "Namatselisa lifayela le-todo.txt: umsebenti munye emgceni ngamunye, ngendlela luhlelo lwe-todo.txt netinhlelo letihambisanako letibhala ngayo. Imisebenti lephelile (\"x\") iya kulokuphelile, +project na-@context kuba ngemalebula, (A) iba lilebula lekubaluleka, kantsi due: na-t: kuba tinsuku tekugcina netekucala.",
   "import-board-instruction-zenkit": "Namatsisela i-JSON yekutfunyelwa kweluhlu lwe-ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Tigaba tiba tinhlu netintfo tiba emakhadi.",
   "import-file-label": "Khetsa lifayela lekutfumela, noma unamatsisele umbhalo walo ngentansi:",
   "initials": "Tinhlavu Tekucala",

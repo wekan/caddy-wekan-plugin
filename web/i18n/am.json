@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "የKanboard ወደ ውጭ የተላከ JSON ይለጥፉ፦ \"columns\" ያለው ነገር (ወይም column_name የያዙ ተግባራት) እና የ\"tasks\" ድርድር (title, description, column_name, swimlane_name, date_due, owner, tags)። ዓምዶች ዝርዝሮች ይሆናሉ፣ ተግባራትም ካርዶች ይሆናሉ።",
   "import-board-instruction-markdown": "የMarkdown የስራ ዝርዝር ይለጥፉ (እንደ Obsidian Kanban ያሉ markdown-kanban መሳሪያዎች የሚጠቀሙበት ስምምነት)፦ \"## የዝርዝር ስም\" ራስጌዎች፣ ከስራቸው \"- [ ]\"/\"- [x]\" ንጥሎች ጋር። ራስጌዎች ዝርዝሮች ይሆናሉ፣ ንጥሎችም ካርዶች ይሆናሉ፤ ቼክቦክስ የሌለው ተራ የነጥብ ዝርዝርም እንደ ክፍት ካርዶች ይገባል።",
   "import-board-instruction-openproject": "የOpenProject የሥራ-ጥቅሎች ስብስብ JSON (GET /api/v3/work_packages) ይለጥፉ። ሁኔታዎች ዝርዝሮች ይሆናሉ፣ የሥራ ጥቅሎችም ካርዶች ይሆናሉ።",
+  "import-board-instruction-taskwarrior": "የ task export ውጤትን ይለጥፉ፦ የJSON ድርድር ወይም በእያንዳንዱ መስመር አንድ ተግባር። የተጠናቀቁ ተግባራት ወደ Done ይሄዳሉ፣ project እና priority መለያዎች፣ annotations አስተያየቶች፣ depends ደግሞ በሚያግዱ ተግባራት ላይ ጥገኛ ግንኙነቶች ይሆናሉ።",
+  "import-board-instruction-todotxt": "የtodo.txt ፋይል ይለጥፉ፦ የtodo.txt መተግበሪያ እና ተስማሚ መተግበሪያዎች እንደሚጽፉት፣ በእያንዳንዱ መስመር አንድ ተግባር። የተጠናቀቁ ተግባሮች (\"x\") ወደ ተጠናቀቀ ክፍል ይሄዳሉ፣ +project እና @context መለያዎች ይሆናሉ፣ (A) የቅድሚያ መለያ ይሆናል፣ due: እና t: ደግሞ የመጨረሻ እና የመጀመሪያ ቀኖች ይሆናሉ።",
   "import-board-instruction-zenkit": "የZenKit ዝርዝር ወደ ውጭ የተላከ JSON ({ \"title\", \"stages\":[...], \"items\":[...] }) ይለጥፉ። Stages ዝርዝሮች ይሆናሉ፣ items ደግሞ ካርዶች ይሆናሉ።",
   "import-file-label": "የመላኪያ ፋይሉን ይምረጡ፣ ወይም ጽሑፉን ከታች ይለጥፉ፦",
   "initials": "የስም መነሻ ፊደላት",

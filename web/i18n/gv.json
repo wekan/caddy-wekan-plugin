@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Cur stiagh JSON cur magh Kanboard: nhee lesh \"columns\" (ny obbraghyn lesh column_name) as rolley \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Hig columnyn dy ve rolleyghyn as obbraghyn dy ve kaartyn.",
   "import-board-instruction-markdown": "Cur lhiastey obbraghyn markdown ayn (yn cliaghtey ta greienyn markdown-kanban myr Obsidian Kanban jannoo ymmyd jeh): kione-lhieyn \"## Ennym y rolley\", lesh reddyn \"- [ ]\"/\"- [x]\" fo. Ta kione-lhieyn cheet dy ve nyn rolleyn as reddyn cheet dy ve nyn gairtyn.",
   "import-board-instruction-openproject": "Cur stiagh JSON çhaglym work-packages OpenProject (GET /api/v3/work_packages). Hig staydyn dy ve rolleyghyn as pakidyn obbee dy ve kaartyn.",
+  "import-board-instruction-taskwarrior": "Cur stiagh toradh task export: straneys JSON, ny un obbyr er dagh linney. Ta obbraghyn creaghnit goll gys Done, ta project as priority cheet dy ve lipaidyn, ta annotations cheet dy ve cooishyn, as ta depends cheet dy ve croghaneyn er obbraghyn ta cur bac orroo.",
+  "import-board-instruction-todotxt": "Jean pastal coadan todo.txt: un obbyr er dagh linney, myr ta'n claare todo.txt as claaryn coardailagh screeu eh. Ta obbraghyn jeant (\"x\") goll dys Jeant, ta +project as @context çheet dy ve lipaidyn, ta (A) çheet dy ve lipaid tosheeaght, as ta due: as t: çheet dy ve dateyn jerrey as toshiaght.",
   "import-board-instruction-zenkit": "Cur stiagh JSON cur magh rolley ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Hig keimyn dy ve rolleyghyn as nheeghyn dy ve kaartyn.",
   "import-file-label": "Reih y coadan cur magh, ny greimee y teks echey fo:",
   "initials": "Kied lettyraghyn",

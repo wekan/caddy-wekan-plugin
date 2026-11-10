@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Liibme Kanboard-olggosfievrrideami JSON: objeavtta mas leat \"columns\" (dahje barggut main lea column_name) ja \"tasks\"-ráidu (title, description, column_name, swimlane_name, date_due, owner, tags). Columns šaddet listun ja tasks šaddet goartan.",
   "import-board-instruction-markdown": "Liibme markdown bargobihttáseamis (vuogádat maid markdown-kanban reaidut nugo Obsidian Kanban geavahit): \"## Listu namma\" bajilčállosat, \"- [ ]\"/\"- [x]\" ášši mielde vuolábealde. Bajilčállosat šaddet listtun ja áššit šaddet koarttan.",
   "import-board-instruction-openproject": "Liibme OpenProject work-packages -čoakkáldaga JSON (GET /api/v3/work_packages). Statusat šaddet listun ja work packages šaddet goartan.",
+  "import-board-instruction-taskwarrior": "Liibme task export bohtosa: JSON-matriisa dahje okta bargu juohke linnjás. Geargan barggut mannet Done-listui, project ja priority šaddet gilkorin, annotations šaddá kommeantan ja depends šaddá sorjavašvuohtan bargguide mat estejit ovdáneami.",
+  "import-board-instruction-todotxt": "Liibme todo.txt-fiilla: okta bargu juohke linnjás, nu go todo.txt-prográmma ja heivvolaš prográmmat čállet dan. Gárvvistuvvon barggut (\"x\") mannet Gárvvis-listui, +project ja @context šaddet merkošan, (A) šaddá vuoruhusmerkošan, ja due: ja t: šaddet áigemearre- ja álgindáhton.",
   "import-board-instruction-zenkit": "Liibme ZenKit-listtu olggosfievrrideami JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages šaddet listun ja items šaddet goartan.",
   "import-file-label": "Vállje olggosfievrridanfiilla, dahje liibme dan teavstta vuollái:",
   "initials": "Álgobustávat",

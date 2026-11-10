@@ -48,7 +48,8 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 	if general {
 		accept, paste = ".json,application/json", true
 		if _, text := importTextParsers[source]; text {
-			accept = map[string]string{"markdown": ".md,text/markdown,text/plain"}[source]
+			accept = map[string]string{"markdown": ".md,text/markdown,text/plain", "todotxt": ".txt,text/plain",
+				"taskwarrior": ".json,application/json,.ndjson,text/plain"}[source]
 		}
 	}
 	return map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source, "Accept": accept, "Paste": paste, "General": general,
@@ -248,7 +249,8 @@ func importInstruction(lang, source string) string {
 	key := map[string]string{"csv": msg("import-board-instruction-csv"), "excel": msg("import-board-instruction-excel"),
 		"kanboard": msg("import-board-instruction-kanboard"), "deck": msg("import-board-instruction-deck"),
 		"asana": msg("import-board-instruction-asana"), "zenkit": msg("import-board-instruction-zenkit"),
-		"openproject": msg("import-board-instruction-openproject"), "markdown": msg("import-board-instruction-markdown")}[source]
+		"openproject": msg("import-board-instruction-openproject"), "markdown": msg("import-board-instruction-markdown"),
+		"todotxt": msg("import-board-instruction-todotxt"), "taskwarrior": msg("import-board-instruction-taskwarrior")}[source]
 	return tr(lang, key)
 }
 

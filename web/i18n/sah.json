@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard таһаарыытын JSON-ын ук: \"columns\" диэннээх обьуос (эбэтэр column_name диэннээх сорудахтар) уонна \"tasks\" эрээйдээх (title, description, column_name, swimlane_name, date_due, owner, tags). Колонкалар испииһэк, сорудахтар карточка буолаллар.",
   "import-board-instruction-markdown": "Markdown соруктар испииһэгин чапчаппыт (Obsidian Kanban курдук markdown-kanban айахтара туттар түбэлтэ): аллара \"- [ ]\"/\"- [x]\" тэрилтэлэрдээх \"## Испиис аата\" caha caalыгар.",
   "import-board-instruction-openproject": "OpenProject work-packages хомуурунньугун JSON-ын ук (GET /api/v3/work_packages). Туруктар испииһэк, үлэ паакеттара карточка буолаллар.",
+  "import-board-instruction-taskwarrior": "task export түмүгүн уган биэр: JSON массивын эбэтэр хас устуруока аайы биир сорудаҕы. Бүтэриллибит сорудахтар Done испииһэгэр киирэллэр, project уонна priority бэлиэлэр буолаллар, annotations быһаарыылар буолар, depends атын сорудахтар бүөлүүр сибээстэрин көрдөрөр.",
+  "import-board-instruction-todotxt": "Todo.txt билэтин сыһыар: todo.txt приложениета уонна кинини кытта сөп түбэһэр приложениелар суруйалларын курдук, устуруока аайы биир сорудах. Бүппүт сорудахтар (\"x\") «Бүттэ» диэҥҥэ көһөллөр, +project уонна @context бэлиэлэр буолаллар, (A) эрдэтээһин бэлиэтэ буолар, due: уонна t: толоруу уонна саҕалааһын күннэрэ буолаллар.",
   "import-board-instruction-zenkit": "ZenKit испииһэгин таһаарыытын JSON-ын ук ({ \"title\", \"stages\":[...], \"items\":[...] }). Түһүмэхтэр испииһэк, пууннар карточка буолаллар.",
   "import-file-label": "Таһаарыы билэтин тал, эбэтэр тиэкиһин аллара киллэр:",
   "initials": "Аат бастакы буукубалара",

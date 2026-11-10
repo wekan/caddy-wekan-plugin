@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Klistra in en Kanboard-export som JSON: ett objekt med \"columns\" (eller tasks som bär column_name) och en \"tasks\"-array (title, description, column_name, swimlane_name, date_due, owner, tags). Kolumner blir listor och uppgifter blir kort.",
   "import-board-instruction-markdown": "Klistra in en markdown-uppgiftslista (konventionen som markdown-kanban-verktyg som Obsidian Kanban använder): \"## Listnamn\"-rubriker, med \"- [ ]\"/\"- [x]\"-punkter under. Rubriker blir listor och punkter blir kort; en vanlig punktlista utan kryssrutor importeras också, som öppna kort.",
   "import-board-instruction-openproject": "Klistra in en OpenProject work-packages-samling som JSON (GET /api/v3/work_packages). Statusar blir listor och work packages blir kort.",
+  "import-board-instruction-taskwarrior": "Klistra in resultatet av task export: en JSON-array eller en uppgift per rad. Slutförda uppgifter hamnar i Done, project och priority blir etiketter, annotations blir kommentarer och depends blir beroenden av blockerande uppgifter.",
+  "import-board-instruction-todotxt": "Klistra in en todo.txt-fil: en uppgift per rad, som den skrivs av todo.txt-appen och kompatibla appar. Slutförda uppgifter (\"x\") hamnar i Klart, +project och @context blir etiketter, (A) blir en prioritetsetikett och due: och t: blir förfallo- och startdatum.",
   "import-board-instruction-zenkit": "Klistra in en ZenKit-listexport som JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages blir listor och items blir kort.",
   "import-file-label": "Välj exportfilen, eller klistra in dess text nedan:",
   "initials": "Initialer",

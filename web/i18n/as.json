@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Kanboard ৰপ্তানি JSON পেষ্ট কৰক: \"columns\" থকা এটা অবজেক্ট (বা column_name বহন কৰা tasks) আৰু এটা \"tasks\" এৰে (title, description, column_name, swimlane_name, date_due, owner, tags)। স্তম্ভসমূহ তালিকা আৰু কাৰ্যসমূহ কাৰ্ড হয়।",
   "import-board-instruction-markdown": "মাৰ্কডাউন কাৰ্য তালিকা এটা পেষ্ট কৰক (Obsidian Kanban ৰ দৰে মাৰ্কডাউন-কানবান সঁজুলিয়ে ব্যৱহাৰ কৰা প্ৰথা): \"## তালিকাৰ নাম\" হেডিং, তলত \"- [ ]\"/\"- [x]\" বস্তুৰ সৈতে। হেডিং তালিকা হয় আৰু বস্তুবোৰ কাৰ্ড হয়; চেকবক্স নথকা সাধাৰণ বুলেট তালিকাও খোলা কাৰ্ড হিচাপে আমদানি হয়।",
   "import-board-instruction-openproject": "OpenProject work-packages সংগ্ৰহ JSON পেষ্ট কৰক (GET /api/v3/work_packages)। Statuses তালিকা আৰু work packages কাৰ্ড হয়।",
+  "import-board-instruction-taskwarrior": "task export ৰ আউটপুট পেষ্ট কৰক: এটা JSON এৰে অথবা প্ৰতি শাৰীত এটা কাম। সম্পূৰ্ণ হোৱা কামবোৰ Done লৈ যায়, project আৰু priority লেবেল হয়, annotations মন্তব্য হয় আৰু depends বাধা দিয়া কামবোৰৰ ওপৰত নিৰ্ভৰতালৈ সলনি হয়।",
+  "import-board-instruction-todotxt": "এটা todo.txt ফাইল পেষ্ট কৰক: প্ৰতি শাৰীত এটা কাম, todo.txt এপ আৰু ইয়াৰ সৈতে সামঞ্জস্যপূৰ্ণ এপে লিখাৰ দৰে। সম্পূৰ্ণ হোৱা কামবোৰ (\"x\") সম্পূৰ্ণ শাখালৈ যায়, +project আৰু @context লেবেল হয়, (A) অগ্ৰাধিকাৰৰ লেবেল হয়, আৰু due: আৰু t: ক্ৰমে শেষ সময়সীমাৰ তাৰিখ আৰু আৰম্ভণিৰ তাৰিখ হয়।",
   "import-board-instruction-zenkit": "ZenKit তালিকা ৰপ্তানি JSON ({ \"title\", \"stages\":[...], \"items\":[...] }) পেষ্ট কৰক। Stages তালিকা আৰু items কাৰ্ড হয়।",
   "import-file-label": "ৰপ্তানি ফাইলটো বাছক, বা ইয়াৰ পাঠ তলত পেষ্ট কৰক:",
   "initials": "আদ্যাক্ষৰ",

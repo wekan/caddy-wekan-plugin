@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "ଏକ Kanboard ରପ୍ତାନି JSON ପେଷ୍ଟ କରନ୍ତୁ: \"columns\" (କିମ୍ବା column_name ବହନ କରୁଥିବା tasks) ଏବଂ ଏକ \"tasks\" ଆରେ (title, description, column_name, swimlane_name, date_due, owner, tags) ଥିବା ଏକ ଅବ୍ଜେକ୍ଟ। କଲମ୍‌ଗୁଡ଼ିକ ତାଲିକା ହୁଅନ୍ତି ଏବଂ ଟାସ୍କଗୁଡ଼ିକ କାର୍ଡ ହୁଅନ୍ତି।",
   "import-board-instruction-markdown": "ଏକ markdown କାର୍ଯ୍ୟ ତାଲିକା ପେଷ୍ଟ କରନ୍ତୁ (Obsidian Kanban ପରି markdown-kanban ଉପକରଣଗୁଡ଼ିକ ବ୍ୟବହାର କରୁଥିବା ପ୍ରଥା): \"## ତାଲିକା ନାମ\" ଶୀର୍ଷକ, ତଳେ \"- [ ]\"/\"- [x]\" ଆଇଟମ ସହିତ। ଶୀର୍ଷକଗୁଡ଼ିକ ତାଲିକା ହୋଇଯାଏ ଏବଂ ଆଇଟମଗୁଡ଼ିକ କାର୍ଡ ହୋଇଯାଏ।",
   "import-board-instruction-openproject": "ଏକ OpenProject work-packages ସଂଗ୍ରହ JSON ପେଷ୍ଟ କରନ୍ତୁ (GET /api/v3/work_packages)। ସ୍ଥିତିଗୁଡ଼ିକ ତାଲିକା ହୁଅନ୍ତି ଏବଂ work packages କାର୍ଡ ହୁଅନ୍ତି।",
+  "import-board-instruction-taskwarrior": "task export ର ଆଉଟପୁଟ୍ ପେଷ୍ଟ କରନ୍ତୁ: ଏକ JSON ଆରେ କିମ୍ବା ପ୍ରତି ଧାଡ଼ିରେ ଗୋଟିଏ କାର୍ଯ୍ୟ। ସମ୍ପୂର୍ଣ୍ଣ ହୋଇଥିବା କାର୍ଯ୍ୟଗୁଡ଼ିକ Done କୁ ଯାଏ, project ଏବଂ priority ଲେବଲ୍ ହୁଏ, annotations ମନ୍ତବ୍ୟ ହୁଏ ଏବଂ depends ବାଧା ଦେଉଥିବା କାର୍ଯ୍ୟଗୁଡ଼ିକ ଉପରେ ନିର୍ଭରତାରେ ପରିଣତ ହୁଏ।",
+  "import-board-instruction-todotxt": "ଏକ todo.txt ଫାଇଲ୍ ପେଷ୍ଟ କରନ୍ତୁ: todo.txt ଆପ୍ ଏବଂ ଏହା ସହ ସୁସଙ୍ଗତ ଆପ୍‌ଗୁଡ଼ିକ ଲେଖିବା ପରି ପ୍ରତି ଧାଡ଼ିରେ ଗୋଟିଏ କାମ। ସମାପ୍ତ କାମଗୁଡ଼ିକ (\"x\") Done କୁ ଯାଏ, +project ଏବଂ @context ଲେବଲ୍ ହୁଏ, (A) ଏକ ପ୍ରାଥମିକତା ଲେବଲ୍ ହୁଏ, ଏବଂ due: ଓ t: ଯଥାକ୍ରମେ ଶେଷ ତାରିଖ ଏବଂ ଆରମ୍ଭ ତାରିଖ ହୁଏ।",
   "import-board-instruction-zenkit": "ଏକ ZenKit ତାଲିକା ରପ୍ତାନି JSON ପେଷ୍ଟ କରନ୍ତୁ ({ \"title\", \"stages\":[...], \"items\":[...] })। Stages ତାଲିକା ହୁଅନ୍ତି ଏବଂ items କାର୍ଡ ହୁଅନ୍ତି।",
   "import-file-label": "ରପ୍ତାନି ଫାଇଲ୍ ବାଛନ୍ତୁ, କିମ୍ବା ଏହାର ଟେକ୍ସଟ୍ ତଳେ ପେଷ୍ଟ କରନ୍ତୁ:",
   "initials": "ପ୍ରାରମ୍ଭିକ",

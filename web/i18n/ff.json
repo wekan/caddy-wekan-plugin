@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Ɗakku JSON yaltinaaɗo e Kanboard: geɗel jogiingel \"columns\" (walla golle jogiiɗe column_name) e doggol \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Columns maa ngonta doggi, tee tasks maa ngonta karte.",
   "import-board-instruction-markdown": "Habbir happirde golle markdown (aada nde kaɓirɗe markdown-kanban wano Obsidian Kanban huutortoo): tiitooje \"## Innde lislub\", e kuutorɗe \"- [ ]\"/\"- [x]\" e ley. Tiitooje ɗen wonata lislub, kuutorɗe ɗen wonata kaarte; lislub e tolli ngu alaa checkbox kadi naatirta, wano kaarte uddaaɗe.",
   "import-board-instruction-openproject": "Ɗakku JSON renndo work-packages OpenProject (GET /api/v3/work_packages). Statuses maa ngonta doggi, tee work packages maa ngonta karte.",
+  "import-board-instruction-taskwarrior": "Ɗakku njaltudi task export: doggol JSON, walla golle gootel e kala gorol. Golle timmuɗe njaha to Done, project e priority ngonta maandeeji, annotations wontata yowe, tee depends wontata jokkondire e golle ɗe ngaddata faddoore.",
+  "import-board-instruction-todotxt": "Ɗakku fiilde todo.txt: golle goote e kala gorol, no jaaɓnirgal todo.txt e jaaɓnirɗe jahduɗe mbinndirta ɗum. Golle timmuɗe (\"x\") njaha to Gasii, +project e @context mbaylitoo maantore, (A) waylitoo maantore arande, due: e t: mbaylitoo ñalɗi duttal e fuɗɗoode.",
   "import-board-instruction-zenkit": "Ɗakku JSON yaltinal doggol ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages maa ngonta doggi, tee items maa ngonta karte.",
   "import-file-label": "Suɓo fiilde yaltingol, walla ɓortu binndi mum les:",
   "initials": "Alkule arane",

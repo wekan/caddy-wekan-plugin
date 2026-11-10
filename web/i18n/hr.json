@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Zalijepite Kanboard izvoz u JSON formatu: objekt s \"columns\" (ili zadaci koji nose column_name) i polje \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Stupci postaju liste, a zadaci postaju kartice.",
   "import-board-instruction-markdown": "Zalijepite markdown popis zadataka (konvencija koju koriste markdown-kanban alati poput Obsidian Kanban): naslove \"## Naziv popisa\", s stavkama \"- [ ]\"/\"- [x]\" ispod. Naslovi postaju popisi, a stavke postaju kartice; obični popis s grafičkim oznakama bez potvrdnih okvira također se uvozi, kao otvorene kartice.",
   "import-board-instruction-openproject": "Zalijepite JSON kolekcije radnih paketa iz OpenProject (GET /api/v3/work_packages). Statusi postaju liste, a radni paketi postaju kartice.",
+  "import-board-instruction-taskwarrior": "Zalijepite izlaz naredbe task export: JSON polje ili jedan zadatak po retku. Dovršeni zadaci idu u Done, project i priority postaju oznake, annotations se pretvara u komentare, a depends u ovisnosti o zadacima koji ih blokiraju.",
+  "import-board-instruction-todotxt": "Zalijepite datoteku todo.txt: jedan zadatak po retku, kako je zapisuju aplikacija todo.txt i kompatibilne aplikacije. Dovršeni zadaci (\"x\") premještaju se u Dovršeno, +project i @context postaju oznake, (A) postaje oznaka prioriteta, a due: i t: postaju rok i datum početka.",
   "import-board-instruction-zenkit": "Zalijepite JSON izvoz ZenKit liste ({ \"title\", \"stages\":[...], \"items\":[...] }). Faze postaju liste, a stavke postaju kartice.",
   "import-file-label": "Odaberite izvoznu datoteku ili zalijepite njezin tekst ispod:",
   "initials": "Inicijali",

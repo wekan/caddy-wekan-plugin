@@ -1045,6 +1045,8 @@
   "import-board-instruction-kanboard": "Fa Kanboard JSON a wɔayi no bata ha: ade a ɛwɔ \"columns\" (anaa adwuma a ɛwɔ column_name) ne \"tasks\" din a wɔahyehyɛ (title, description, column_name, swimlane_name, date_due, owner, tags). Columns no bɛyɛ din a wɔahyehyɛ, na tasks no bɛyɛ kaad.",
   "import-board-instruction-markdown": "Fa markdown adwuma nhyehyɛe krataa (kwan a markdown-kanban nnwinnade te sɛ Obsidian Kanban de di dwuma): \"## List din\" ntitire, ne \"- [ ]\"/\"- [x]\" nneɛma wɔ ase. Ntitire bɛyɛ nkrataa na nneɛma bɛyɛ kaad; bullet list a checkbox nni mu nso betumi akɔ mu, sɛ kaad a ɛda hɔ.",
   "import-board-instruction-openproject": "Fa OpenProject work-packages kuw JSON (GET /api/v3/work_packages) bɔ ha. Tebea ahorow no bɛyɛ din a wɔahyehyɛ, na adwuma akuw no bɛyɛ kaad.",
+  "import-board-instruction-taskwarrior": "Fa nea efi task export mu ba no bata ha: JSON nhyehyɛe anaa adwuma baako wɔ nkyerɛwde fã biara mu. Nnwuma a wɔawie kɔ Done, project ne priority dan nsɛnkyerɛnne, annotations dan nsɛm a wɔka, na depends dan ahotoso wɔ nnwuma a esiw wɔn kwan so.",
+  "import-board-instruction-todotxt": "Fa todo.txt fael bi bata ha: adwuma baako wɔ nkyekyɛmu biara mu, sɛnea todo.txt dwumadi ne dwumadi a ɛne no hyia kyerɛw no. Nnwuma a wɔawie (\"x\") kɔ Awie, +project ne @context yɛ nsɛnkyerɛnne, (A) yɛ ade a ɛdi kan ho nsɛnkyerɛnne, na due: ne t: yɛ da a ɛsɛ sɛ wɔwie ne da a wɔfi ase.",
   "import-board-instruction-zenkit": "Fa ZenKit din a wɔahyehyɛ JSON a wɔayi no bata ha ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages no bɛyɛ din a wɔahyehyɛ, na items no bɛyɛ kaad.",
   "import-file-label": "Paw fael a wɔayi adi no, anaa fa ne nkyerɛwee hyɛ mu wɔ ase ha:",
   "initials": "Din mfiase nkyerɛwde",
