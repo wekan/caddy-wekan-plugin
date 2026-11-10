@@ -1,6 +1,7 @@
 package web
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"io"
@@ -80,6 +81,7 @@ type generalImport struct {
 	order   []string // list names in order
 	lanes   map[string]string
 	laneIDs []string
+	auth    *importAttachmentAuth // the sign-in for the files
 }
 
 func importTasks(doc any) []any {
@@ -143,7 +145,7 @@ func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source str
 	if err := s.mayCreateBoard(ctx, u, "board", "import:"+source); err != nil {
 		return nil, err
 	}
-	g := &generalImport{s: s, ctx: ctx, u: u, source: source, now: time.Now().UTC(), lists: map[string]string{}, lanes: map[string]string{}}
+	g := &generalImport{s: s, ctx: ctx, u: u, source: source, now: time.Now().UTC(), lists: map[string]string{}, lanes: map[string]string{}, auth: people.Auth}
 	tasks := importTasks(doc)
 	// "me": every person of the file is the person importing; otherwise each
 	// becomes a placeholder user (import_placeholders.go).
@@ -283,14 +285,6 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 			g.losses = append(g.losses, importUnsupportedObj("/tasks/"+strconv.Itoa(n)+"/watchers",
 				strconv.Itoa(plan.UnwatchedCount)+" watcher(s) are not members of this board and do not watch the card"))
 		}
-		// The attachments a parser found: WeKan downloads them, Weddy does
-		// not yet, and says so rather than leaving them out silently.
-		if atts, _ := jsGet(task, "attachments").([]any); len(atts) > 0 {
-			for _, a := range atts {
-				name := jsOr(jsStr(jsOr(jsGet(a, "name"), "")), "attachment").(string)
-				g.losses = append(g.losses, importUnsupportedObj("/tasks/"+strconv.Itoa(n)+"/attachments", name+": not downloaded - Weddy does not fetch an import's attachment files yet"))
-			}
-		}
 		card := bson.M{"_id": randomID(), "boardId": b.ID, "dateLastActivity": g.now, "sort": float64(n), "userId": g.u.ID, // inserted, not a filter
 			"labelIds": bson.A{}, "type": "cardType-card"}
 		for _, kv := range plan.Card {
@@ -345,6 +339,12 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 		}
 		cardID := card["_id"].(string)
 		cardIDs[n] = cardID
+		// The attachments a parser found, downloaded as WeKan's
+		// createAttachments does: through the guard, with the import's
+		// sign-in; one that cannot be fetched is a loss, never fatal.
+		if atts, _ := jsGet(task, "attachments").([]any); len(atts) > 0 {
+			g.storeAttachments(b, cardID, n, atts, g.auth)
+		}
 		// Subtasks of many sources arrive as checklists.
 		for _, cl := range plan.Checklists {
 			clID := randomID()
@@ -433,12 +433,12 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 		parsed, err := s.importParse(r, u, source, input)
 		if err == nil {
 			if people := importPeople(importTasks(parsed)); len(people) > 0 {
-				s.importMappingStep(w, r, u, source, raw, people, split)
+				s.importMappingStep(w, r, u, source, raw, people, split, importAuthOf(r))
 				return
 			}
 		}
 	}
-	s.importFromPage(w, r, u, source, input, importPeopleOptions{Mode: mode, Split: split}, fail)
+	s.importFromPage(w, r, u, source, input, importPeopleOptions{Mode: mode, Split: split, Auth: importAuthOf(r)}, fail)
 }
 
 // importFromPage writes the page's document and opens the new board - or,
@@ -473,3 +473,29 @@ func (s *Server) importFromPage(w http.ResponseWriter, r *http.Request, u *User,
 var importParsedFirst = map[string]bool{"leo": true, "opml": true, "vikunja": true, "notion": true, "plane": true,
 	// A workbook's cells are text only once it is opened.
 	"planner": true, "monday": true, "wrike": true, "teamwork": true, "businessmap": true, "excel": true}
+
+// storeAttachments is kanboardCreator.js createAttachments.
+func (g *generalImport) storeAttachments(b *Board, cardID string, n int, atts []any, auth *importAttachmentAuth) {
+	r, _ := http.NewRequestWithContext(g.ctx, http.MethodPost, "/import", nil)
+	var c Card
+	if g.s.db.Collection("cards").FindOne(g.ctx, bson.M{"_id": eq(cardID)}).Decode(&c) != nil {
+		return
+	}
+	for _, a := range atts {
+		name := jsOr(jsStr(jsOr(jsGet(a, "name"), "")), "attachment").(string)
+		lost := func(reason string) {
+			g.losses = append(g.losses, importUnsupportedObj("/tasks/"+strconv.Itoa(n)+"/attachments", name+": "+reason))
+		}
+		data, typ, why := g.s.downloadImportAttachment(g.ctx, g.source, a, auth)
+		if why != "" {
+			lost(why)
+			continue
+		}
+		if typ == "" {
+			typ = "application/octet-stream"
+		}
+		if _, err := g.s.StoreAttachment(r, b, &c, g.u, name, typ, bytes.NewReader(data)); err != nil {
+			lost("download failed (" + err.Error() + ")")
+		}
+	}
+}

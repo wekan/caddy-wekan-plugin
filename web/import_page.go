@@ -78,8 +78,14 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 				"notion": ".zip,application/zip,.csv,text/csv", "plane": ".zip,application/zip,.json,application/json,.csv,text/csv,.xlsx"}[source]
 		}
 	}
-	return map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source, "Accept": accept, "Paste": paste, "General": general,
+	data := map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source, "Accept": accept, "Paste": paste, "General": general,
 		"Instruction": importInstruction(lang, source), "MembersModes": importMembersModes}
+	// The sign-in a service's attachment files need (importAttachmentAuth.js
+	// attachmentAuthFields): its address, its user name, its token.
+	if spec, ok := importAttachmentSources[source]; ok && general {
+		data["AttachmentAuth"] = map[string]bool{"URL": spec.url, "Username": spec.username}
+	}
+	return data
 }
 
 func (s *Server) importPage(w http.ResponseWriter, r *http.Request, u *User) {
@@ -93,6 +99,15 @@ func (s *Server) importPage(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	s.render(w, r, "import", http.StatusOK, s.importData(r, u, source))
+}
+
+// importAuthOf is the import page's sign-in for attachment files.
+func importAuthOf(r *http.Request) *importAttachmentAuth {
+	a := &importAttachmentAuth{URL: r.FormValue("attachmentUrl"), Username: r.FormValue("attachmentUsername"), Token: r.FormValue("attachmentToken")}
+	if len(a.URL) > 2048 || len(a.Username) > 2048 || len(a.Token) > 2048 || a.Token == "" {
+		return nil
+	}
+	return a
 }
 
 // importRows are the boards of the first step's file or text: a CSV/TSV

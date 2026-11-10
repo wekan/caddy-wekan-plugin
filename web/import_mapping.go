@@ -38,14 +38,16 @@ type importMappingPerson struct {
 	Key, Name string
 }
 
-func (s *Server) importMappingStep(w http.ResponseWriter, r *http.Request, u *User, source string, raw []byte, people []importPerson, split bool) {
+func (s *Server) importMappingStep(w http.ResponseWriter, r *http.Request, u *User, source string, raw []byte, people []importPerson, split bool, auth *importAttachmentAuth) {
 	data := s.importData(r, u, source)
 	var list []importMappingPerson
 	for i, p := range people {
 		list = append(list, importMappingPerson{Index: i, Key: p.key, Name: p.name})
 	}
 	data["MapMembers"] = map[string]any{"People": list, "Payload": base64.StdEncoding.EncodeToString(raw),
-		"Action": "/import/" + source + "/members", "Split": split}
+		"Action": "/import/" + source + "/members", "Split": split, "Auth": auth}
+	// The sign-in goes on in the step's form: the page is never kept.
+	w.Header().Set("Cache-Control", "no-store")
 	s.render(w, r, "import", http.StatusOK, data)
 }
 
@@ -91,7 +93,7 @@ func (s *Server) importMembersPage(w http.ResponseWriter, r *http.Request, u *Us
 		fail(err.Error())
 		return
 	}
-	people := importPeopleOptions{Mode: "map", Mapping: map[string]string{}, Split: r.FormValue("splitBy") == "swimlane"}
+	people := importPeopleOptions{Mode: "map", Mapping: map[string]string{}, Split: r.FormValue("splitBy") == "swimlane", Auth: importAuthOf(r)}
 	if r.FormValue("skipMapping") != "" {
 		people.Mode = "placeholder"
 	} else {

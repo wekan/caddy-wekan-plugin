@@ -22,6 +22,10 @@
         input(type="hidden", name="payload", value="{{.MapMembers.Payload}}")
         if .MapMembers.Split
           input(type="hidden", name="splitBy", value="swimlane")
+        if .MapMembers.Auth
+          input(type="hidden", name="attachmentUrl", value="{{.MapMembers.Auth.URL}}")
+          input(type="hidden", name="attachmentUsername", value="{{.MapMembers.Auth.Username}}")
+          input(type="hidden", name="attachmentToken", value="{{.MapMembers.Auth.Token}}")
         .mapping-list
           each p in .MapMembers.People
             .mapping-item.js-select-member
@@ -93,6 +97,21 @@
             a.flex.js-import-members-mode(data-mode="{{.Mode}}", href="#")
               .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
               span {{t $.L .Label}}
+      //- The sign-in for the attachment files a Jira, Deck, OpenProject,
+        Asana or GitLab export names (import.jade): for this import only, and
+        sent only to the address typed here.
+      if .AttachmentAuth
+        fieldset.import-attachment-auth
+          legend {{t $.L "import-attachment-auth"}}
+          p.quiet {{t $.L "import-attachment-auth-hint"}}
+          if .AttachmentAuth.URL
+            label(for="import-attachment-url") {{t $.L "import-attachment-auth-url"}}
+            input.js-import-attachment-url(id="import-attachment-url", name="attachmentUrl", type="url", autocomplete="off", maxlength="2048", placeholder="https://")
+          if .AttachmentAuth.Username
+            label(for="import-attachment-username") {{t $.L "username"}} / {{t $.L "email"}}
+            input.js-import-attachment-username(id="import-attachment-username", name="attachmentUsername", type="text", autocomplete="off", maxlength="2048")
+          label(for="import-attachment-token") {{t $.L "import-attachment-auth-token"}}
+          input.js-import-attachment-token(id="import-attachment-token", name="attachmentToken", type="password", autocomplete="new-password", maxlength="2048")
       //- "One board per project" (import_split.go): each swimlane the import
         would make becomes its own board.
       if .General

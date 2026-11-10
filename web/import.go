@@ -520,6 +520,15 @@ func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any
 		} else if opts.Files != nil {
 			body = opts.Files(a)
 		}
+		// An old export's `url`: downloaded through the guard, every hop
+		// validated (wekanCreator.js, FollowBleed); refused or failed, skipped.
+		if body == nil && str(a, "url") != "" {
+			data, _, err := fetchImportedAttachment(ctx, str(a, "url"), nil)
+			s.recordAttachmentBlocked(ctx, "wekan", err)
+			if err == nil && len(data) > 0 {
+				body = io.NopCloser(bytes.NewReader(data))
+			}
+		}
 		if body == nil {
 			continue
 		}

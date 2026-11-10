@@ -82,6 +82,9 @@ type importPeopleOptions struct {
 	Mode    string
 	Mapping map[string]string
 	Split   bool
+	// Auth is data.attachmentAuth: the sign-in for the files of a Jira,
+	// Deck, OpenProject, Asana or GitLab import.
+	Auth *importAttachmentAuth
 }
 
 // importInput writes one document - the text of a text source, the decoded
@@ -240,6 +243,7 @@ func (s *Server) methodImportBoard(r *http.Request, u *User, args []json.RawMess
 		MembersMapping map[string]any `json:"membersMapping"`
 		PreviewPeople  bool           `json:"previewPeople"`
 		SplitBy        any            `json:"splitBy"`
+		AttachmentAuth any            `json:"attachmentAuth"`
 	}
 	if len(args) > 1 {
 		_ = json.Unmarshal(args[1], &data)
@@ -270,7 +274,13 @@ func (s *Server) methodImportBoard(r *http.Request, u *User, args []json.RawMess
 			mapping[k] = id
 		}
 	}
-	b, err := s.importInput(r, u, source, board, importPeopleOptions{Mode: data.MembersMode, Mapping: mapping, Split: data.SplitBy == "swimlane"})
+	// check(data.attachmentAuth, isAttachmentAuthShape): three optional
+	// strings, nothing else.
+	auth, ok := importAttachmentAuthOf(data.AttachmentAuth)
+	if !ok {
+		return nil, &methodError{"Match.Error", "Match failed"}
+	}
+	b, err := s.importInput(r, u, source, board, importPeopleOptions{Mode: data.MembersMode, Mapping: mapping, Split: data.SplitBy == "swimlane", Auth: auth})
 	var me *methodError
 	switch {
 	case err == nil:

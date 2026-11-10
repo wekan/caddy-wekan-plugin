@@ -554,6 +554,13 @@ func (si *scopedImporter) importAttachments(ctx context.Context) {
 		if body == nil {
 			if data, err := base64.StdEncoding.DecodeString(rowStr(a, "file")); err == nil && len(data) > 0 {
 				body = io.NopCloser(bytes.NewReader(data))
+			} else if u := rowStr(a, "url"); u != "" {
+				// FollowBleed: the URL and every redirect validated.
+				data, _, err := fetchImportedAttachment(ctx, u, nil)
+				si.s.recordAttachmentBlocked(ctx, "scoped", err)
+				if err == nil && len(data) > 0 {
+					body = io.NopCloser(bytes.NewReader(data))
+				}
 			}
 		}
 		if body == nil {
