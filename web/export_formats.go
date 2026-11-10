@@ -610,6 +610,36 @@ func (s *Server) exportFormatRoutes(m *http.ServeMux) {
 	}
 }
 
+// exportTool is one of the other tools' exports in the board's Export
+// pop-over, as WeKan's exportScope.js lists it.
+type exportTool struct{ Key, Label, Icon string }
+
+// exportTools are WeKan's, in its order with its labels and icons: the ones
+// Weddy writes (TestExportMenuOffersEveryFormat keeps the two in step).
+var exportTools = func() []exportTool {
+	all := []exportTool{{"kanboard", "Kanboard", "fa-upload"}, {"markdown", "Markdown", "fa-file-text-o"}, {"leo", "Leo", "fa-sitemap"},
+		{"opml", "OPML", "fa-indent"}, {"orgmode", "Org mode", "fa-list-alt"}, {"todotxt", "todo.txt", "fa-list-ul"},
+		{"taskwarrior", "Taskwarrior", "fa-terminal"}, {"focalboard", "Focalboard", "fa-th-large"}, {"todoist", "Todoist", "fa-check-square-o"},
+		{"planner", "Microsoft Planner", "fa-th-list"}, {"meistertask", "MeisterTask", "fa-tasks"}, {"obsidian", "Obsidian Kanban", "fa-diamond"},
+		{"linear", "Linear", "fa-bars"}, {"ticktick", "TickTick", "fa-check-circle-o"}, {"clickup", "ClickUp", "fa-check-square"},
+		{"nullboard", "Nullboard", "fa-sticky-note-o"}, {"kanri", "Kanri", "fa-columns"}, {"pivotal", "Pivotal Tracker", "fa-flag"},
+		{"redmine", "Redmine", "fa-bug"}, {"tasksorg", "Tasks.org", "fa-check-circle-o"}, {"monday", "monday.com", "fa-table"},
+		{"superproductivity", "Super Productivity", "fa-check-circle-o"}, {"vikunja", "Vikunja", "fa-file-archive-o"},
+		{"wrike", "Wrike", "fa-table"}, {"wrikeworkflow", "Wrike workflow", "fa-sitemap"}, {"teamwork", "Teamwork.com", "fa-table"},
+		{"businessmap", "Businessmap (Kanbanize)", "fa-table"}, {"quire", "Quire", "fa-sitemap"}, {"notion", "Notion", "fa-table"},
+		{"trello", "Trello", "fa-upload"}, {"jira", "Jira", "fa-upload"}, {"deck", "NextCloud Deck", "fa-upload"},
+		{"openproject", "OpenProject", "fa-upload"}, {"github", "GitHub", "fa-upload"}, {"gitlab", "GitLab", "fa-upload"},
+		{"gitea", "Gitea", "fa-upload"}, {"forgejo", "Forgejo", "fa-upload"}, {"asana", "Asana", "fa-upload"},
+		{"zenkit", "Zenkit", "fa-upload"}, {"taiga", "Taiga", "fa-upload"}}
+	var out []exportTool
+	for _, t := range all {
+		if _, ok := externalFormats[t.Key]; ok {
+			out = append(out, t)
+		}
+	}
+	return out
+}()
+
 // exportContentType is a format's type: text with its charset, a workbook as it is.
 func exportContentType(ext [2]string) string {
 	if ext[0] == "xlsx" || ext[0] == "zip" {

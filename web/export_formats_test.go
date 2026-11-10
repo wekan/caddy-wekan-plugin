@@ -280,3 +280,33 @@ func TestVikunjaArchive(t *testing.T) {
 		}
 	}
 }
+
+// The board's Export pop-over offers every other-tool format Weddy writes,
+// and nothing it does not.
+func TestExportMenuOffersEveryFormat(t *testing.T) {
+	offered := map[string]bool{}
+	for _, x := range exportTools {
+		if _, ok := externalFormats[x.Key]; !ok {
+			t.Errorf("negative: the menu offers %s, which Weddy does not write", x.Key)
+		}
+		offered[x.Key] = true
+	}
+	for f := range externalFormats {
+		if !offered[f] {
+			t.Errorf("%s is written but not in the Export pop-over", f)
+		}
+	}
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	b := newRESTBoard(t, w, login(t, w, "ann"), "Menu")
+	var bd Board
+	_ = w.db.Collection("boards").FindOne(context.Background(), bson.M{"_id": b.ID}).Decode(&bd)
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	page := getBody(t, c, w.srv.URL+"/b/"+b.ID+"/"+bd.Slug)
+	for f := range externalFormats {
+		if !strings.Contains(page, `href="/api/boards/`+b.ID+`/export/`+f+`"`) {
+			t.Errorf("the page links %s", f)
+		}
+	}
+}

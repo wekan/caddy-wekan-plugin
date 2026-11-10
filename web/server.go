@@ -793,6 +793,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	m := b.member(u.ID)
 	data["MenuOn"] = m != nil && !m.IsCommentOnly && !m.IsWorker
 	data["CanExport"] = (m != nil && !m.AssignedOnly()) || (m == nil && b.Permission == "public")
+	data["ExportTools"] = exportTools
 	lang := languageOf(r, u).Tag
 	data["WatchLevel"] = s.watchLevel(r.Context(), b.ID, u.ID)
 	data["SidebarMembers"] = s.sidebarMembers(r, b, u)
