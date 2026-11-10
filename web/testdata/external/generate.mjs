@@ -24,6 +24,8 @@ const { formatSuperProductivity } = await import(pathToFileURL(path.join(wekan, 
 fs.writeFileSync(path.join(here, 'superproductivity.golden'), formatSuperProductivity(structuredClone(collected), { now: ticktickNow.getTime() }));
 const { formatPlannerRows } = await import(pathToFileURL(path.join(wekan, 'models/lib/plannerFormat.js')).href);
 fs.writeFileSync(path.join(here, 'planner.golden'), JSON.stringify(formatPlannerRows(structuredClone(collected), ticktickNow)));
+const vikunja = await import(pathToFileURL(path.join(wekan, 'models/lib/vikunjaFormat.js')).href);
+fs.writeFileSync(path.join(here, 'vikunja.golden'), vikunja.vikunjaArchiveFiles(vikunja.formatVikunja(structuredClone(collected), ticktickNow))['data.json']);
 for (const format of ['markdown', 'opml', 'todotxt', 'taskwarrior', 'zenkit', 'nullboard', 'obsidian', 'orgmode', 'kanri',
   'deck', 'kanboard', 'openproject', 'github', 'gitea', 'forgejo', 'gitlab', 'trello', 'asana',
   'leo', 'meistertask', 'todoist', 'linear', 'clickup', 'pivotal', 'quire', 'redmine', 'notion', 'wrikeworkflow', 'wrike', 'teamwork', 'monday', 'businessmap']) {

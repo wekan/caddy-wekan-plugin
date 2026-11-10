@@ -51,6 +51,7 @@ func TestExternalFormatsAreWeKans(t *testing.T) {
 	formats["teamwork"] = string(jsJSON(formatTeamworkSheet(d), ""))
 	formats["monday"] = string(jsJSON(formatMondaySheets(d), ""))
 	formats["businessmap"] = string(jsJSON(formatBusinessmapSheets(d), ""))
+	formats["vikunja"] = formatVikunja(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC))
 	formats["planner"] = string(jsJSON(formatPlannerRows(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC)), ""))
 	formats["superproductivity"] = formatSuperProductivity(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC).UnixMilli())
 	formats["tasksorg"] = string(jsJSON(formatTasksOrgBackup(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC)), ""))
@@ -268,4 +269,14 @@ func mustUnzip(t *testing.T, data []byte, name string) []byte {
 	}
 	t.Fatalf("no %s", name)
 	return nil
+}
+
+// Vikunja's export zip: data.json, filters.json and VERSION without a newline.
+func TestVikunjaArchive(t *testing.T) {
+	data := vikunjaArchive(`[{"id":1}]`)
+	for name, want := range map[string]string{"data.json": `[{"id":1}]`, "filters.json": "[]", "VERSION": "v1.0.0"} {
+		if got := string(mustUnzip(t, data, name)); got != want {
+			t.Errorf("%s: %q, not %q", name, got, want)
+		}
+	}
 }

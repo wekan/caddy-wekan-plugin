@@ -59,6 +59,7 @@ var externalFormats = map[string][2]string{
 	"monday":            {"xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
 	"businessmap":       {"xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
 	"planner":           {"xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
+	"vikunja":           {"zip", "application/zip"},
 }
 
 type extChecklistItem struct {
@@ -586,6 +587,8 @@ func (s *Server) externalExport(ctx context.Context, b *Board, format string) []
 	case "planner":
 		out, _ := plannerWorkbook(formatPlannerRows(d, time.Now()))
 		return out
+	case "vikunja":
+		return vikunjaArchive(formatVikunja(d, time.Now()))
 	case "wrikeworkflow":
 		return jsJSON(formatWrikeWorkflow(d, s.boardRuleParts(ctx, b.ID)), "")
 	case "superproductivity":
@@ -609,7 +612,7 @@ func (s *Server) exportFormatRoutes(m *http.ServeMux) {
 
 // exportContentType is a format's type: text with its charset, a workbook as it is.
 func exportContentType(ext [2]string) string {
-	if ext[0] == "xlsx" {
+	if ext[0] == "xlsx" || ext[0] == "zip" {
 		return ext[1]
 	}
 	return ext[1] + "; charset=utf-8"
