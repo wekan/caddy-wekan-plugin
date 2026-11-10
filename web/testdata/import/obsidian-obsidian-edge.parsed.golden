@@ -1,0 +1,193 @@
+{
+  "board": {
+    "name": "Imported Obsidian Kanban board"
+  },
+  "columns": [
+    {
+      "title": "Untitled"
+    },
+    {
+      "title": "Doing",
+      "wip_limit": 3
+    },
+    {
+      "title": "Review (x)"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Before any lane",
+      "description": "",
+      "tags": [
+        "early"
+      ],
+      "column_name": "Untitled",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Title key:: value",
+      "description": "more body",
+      "tags": [
+        "tag",
+        "two"
+      ],
+      "date_due": "2026-10-15T14:30:00.000Z",
+      "custom_fields": {
+        "Priority": "High",
+        "Owner": "Ann"
+      },
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "step one",
+              "done": false
+            },
+            {
+              "title": "step two",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "column_name": "Doing",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Done card",
+      "description": "",
+      "tags": [
+        "done"
+      ],
+      "date_due": "2026-10-20T00:00:00.000Z",
+      "date_started": "2026-10-01T00:00:00.000Z",
+      "date_creation": "2026-09-01T00:00:00.000Z",
+      "date_end": "2026-10-21T00:00:00.000Z",
+      "ref": "abc",
+      "dependencies": [
+        {
+          "ref": "x1",
+          "type": "is-blocked-by"
+        },
+        {
+          "ref": "y2",
+          "type": "is-blocked-by"
+        }
+      ],
+      "column_name": "Doing",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Scheduled",
+      "description": "",
+      "tags": [],
+      "date_started": "2026-11-01T00:00:00.000Z",
+      "custom_fields": {
+        "Priority": "Low"
+      },
+      "column_name": "Doing",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Bad date first",
+      "description": "second line\nthird",
+      "tags": [],
+      "column_name": "Doing",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "tags#not #b spaced out",
+      "description": "still body",
+      "tags": [
+        "a"
+      ],
+      "column_name": "Doing",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Same lane again",
+      "description": "",
+      "tags": [],
+      "column_name": "Doing",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Completed by lane",
+      "description": "",
+      "tags": [
+        "done"
+      ],
+      "column_name": "Review (x)",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "wikilink date",
+      "description": "",
+      "tags": [
+        "done"
+      ],
+      "date_due": "2027-01-01T00:00:00.000Z",
+      "column_name": "Review (x)",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Under an empty title",
+      "description": "",
+      "tags": [],
+      "column_name": "Untitled",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Old card",
+      "description": "",
+      "tags": [
+        "old",
+        "done"
+      ],
+      "column_name": "Untitled",
+      "swimlane_name": "Default",
+      "archived": true
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/frontmatter/42",
+      "reason": "frontmatter \"42\" has no WeKan place"
+    },
+    {
+      "path": "/frontmatter/cssclass",
+      "reason": "frontmatter \"cssclass\" has no WeKan place"
+    },
+    {
+      "path": "/line/10",
+      "reason": "line is not a lane, a card or a card's body"
+    },
+    {
+      "path": "/line/21",
+      "reason": "a cancelled date (❌) has no WeKan place"
+    },
+    {
+      "path": "/line/21",
+      "reason": "recurrence \"🔁 every week    ^blockid\" is imported once"
+    },
+    {
+      "path": "/line/23",
+      "reason": "line is not a lane, a card or a card's body"
+    },
+    {
+      "path": "/line/22",
+      "reason": "date \"31.02.2026\" does not match the board's date format DD.MM.YYYY"
+    },
+    {
+      "path": "/line/25",
+      "reason": "line is not a lane, a card or a card's body"
+    }
+  ]
+}

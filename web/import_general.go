@@ -402,4 +402,3 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 // importParsedFirst are the sources WeKan's importBoard parses before the
 // boundary, because cleaning their raw text as markup would break it.
 var importParsedFirst = map[string]bool{"leo": true, "opml": true, "vikunja": true, "notion": true, "plane": true}
-

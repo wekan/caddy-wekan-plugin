@@ -1,0 +1,39 @@
+#+TITLE:  Plant 
+#+TODO: TODO NEXT(n) | DONE(d) CANCELLED
+#+STARTUP: overview
+Loose text before headings
+* To Do
+text under list
+** TODO [#A] Order valves                                :shop:urgent:
+   SCHEDULED: <2026-10-01 Thu> DEADLINE: <2026-10-10 Sat 14:30 +1w>
+   :PROPERTIES:
+   :CREATED:  [2026-09-01 Tue 12:00]
+   :END:
+
+   Two of them.
+      indented more
+   - [X] Measure
+   - [ ] Call the vendor
+   1. [-] Half
+
+*** Fitting
+**** DONE Seal
+***** NEXT Deeper
+*** CANCELLED Loose item
+** NEXT Planning late
+   Text first
+   CLOSED: [2026-10-05 Mon]
+** DONE Closed one :a:b:
+   CLOSED: [2026-02-30 Mon] DEADLINE: <2026-13-01> SCHEDULED: <2026-03-01 Sun 25:00>
+   :LOGBOOK:
+   - State "DONE" from "TODO"
+   :END:
+   :END:
+   swallowed by an END drawer
+** [#B]
+* 
+** TODO
+* DONE Done list :x:
+** Card two :notag : bad:
+* To Do
+** Same list again

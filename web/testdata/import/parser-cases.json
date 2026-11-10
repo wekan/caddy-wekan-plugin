@@ -69,5 +69,13 @@
   "leo": [
     "leo-edge.leo",
     "../external/leo.golden"
+  ],
+  "obsidian": [
+    "obsidian-edge.md",
+    "../external/obsidian.golden"
+  ],
+  "orgmode": [
+    "orgmode-edge.org",
+    "../external/orgmode.golden"
   ]
 }

@@ -1,0 +1,145 @@
+{
+  "board": {
+    "name": "Plant"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Imported"
+    },
+    {
+      "title": "Done list"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Two of them.\n   indented more",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:A",
+        "shop",
+        "urgent"
+      ],
+      "date_due": "2026-10-10T14:30:00.000Z",
+      "date_started": "2026-10-01T00:00:00.000Z",
+      "date_creation": "2026-09-01T12:00:00.000Z",
+      "checklists": [
+        {
+          "title": "Order valves",
+          "items": [
+            {
+              "title": "Measure",
+              "done": true
+            },
+            {
+              "title": "Call the vendor",
+              "done": false
+            },
+            {
+              "title": "Half",
+              "done": false
+            },
+            {
+              "title": "Loose item",
+              "done": true
+            }
+          ]
+        },
+        {
+          "title": "Fitting",
+          "items": [
+            {
+              "title": "Seal",
+              "done": true
+            },
+            {
+              "title": "Deeper",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Planning late",
+      "description": "Text first\nCLOSED: [2026-10-05 Mon]",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Closed one",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "a",
+        "b",
+        "done"
+      ],
+      "date_started": "2026-03-02T01:00:00.000Z"
+    },
+    {
+      "title": "Imported heading",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B"
+      ]
+    },
+    {
+      "title": "Imported heading",
+      "description": "",
+      "column_name": "Imported",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Card two :notag : bad:",
+      "description": "",
+      "column_name": "Done list",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Same list again",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/line/4",
+      "reason": "text before the first heading has no WeKan field"
+    },
+    {
+      "path": "/line/5",
+      "reason": "text under a list heading has no WeKan field"
+    },
+    {
+      "path": "/line/7/DEADLINE",
+      "reason": "Org repeater or delay +1w is not kept"
+    },
+    {
+      "path": "/line/26/CLOSED",
+      "reason": "Org CLOSED is not a date"
+    },
+    {
+      "path": "/line/26/DEADLINE",
+      "reason": "Org DEADLINE is not a date"
+    }
+  ]
+}

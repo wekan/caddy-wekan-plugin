@@ -50,7 +50,8 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 		if _, text := importTextParsers[source]; text {
 			accept = map[string]string{"markdown": ".md,text/markdown,text/plain", "todotxt": ".txt,text/plain",
 				"taskwarrior": ".json,application/json,.ndjson,text/plain", "nullboard": ".nbx,.json,application/json",
-				"opml": ".opml,.xml,text/x-opml,text/xml", "leo": ".leo,.xml,application/xml"}[source]
+				"opml": ".opml,.xml,text/x-opml,text/xml", "leo": ".leo,.xml,application/xml",
+				"obsidian": ".md,text/markdown,text/plain", "orgmode": ".org,text/plain"}[source]
 		}
 	}
 	return map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source, "Accept": accept, "Paste": paste, "General": general,
@@ -253,7 +254,8 @@ func importInstruction(lang, source string) string {
 		"openproject": msg("import-board-instruction-openproject"), "markdown": msg("import-board-instruction-markdown"),
 		"todotxt": msg("import-board-instruction-todotxt"), "taskwarrior": msg("import-board-instruction-taskwarrior"),
 		"nullboard": msg("import-board-instruction-nullboard"), "kanri": msg("import-board-instruction-kanri"),
-		"opml": msg("import-board-instruction-opml"), "leo": msg("import-board-instruction-leo")}[source]
+		"opml": msg("import-board-instruction-opml"), "leo": msg("import-board-instruction-leo"),
+		"obsidian": msg("import-board-instruction-obsidian"), "orgmode": msg("import-board-instruction-orgmode")}[source]
 	return tr(lang, key)
 }
 

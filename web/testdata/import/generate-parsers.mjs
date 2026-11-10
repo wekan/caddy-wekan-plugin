@@ -10,7 +10,7 @@ const wekan = process.argv[2];
 if (!wekan) throw new Error('usage: generate-parsers.mjs /path/to/wekan');
 const here = path.dirname(new URL(import.meta.url).pathname);
 const { EXTERNAL_PARSERS: SHARED } = await import(pathToFileURL(path.join(wekan, 'models/lib/externalParsers.js')).href);
-const TEXT_SOURCES = ['markdown', 'todotxt', 'taskwarrior', 'nullboard', 'opml', 'leo'];
+const TEXT_SOURCES = ['markdown', 'todotxt', 'taskwarrior', 'nullboard', 'opml', 'leo', 'obsidian', 'orgmode'];
 const EXTERNAL_PARSERS = { ...SHARED };
 // The server-only parsers, not in EXTERNAL_PARSERS: their XML parser stays
 // out of the client bundle.

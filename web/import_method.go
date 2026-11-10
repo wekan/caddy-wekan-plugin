@@ -41,7 +41,7 @@ func validImportShape(source string, v any) bool {
 		return isArr || arrayAt(v, "items") || (arrayAt(v, "elements") && (arrayAt(v, "entries") || arrayAt(v, "listEntries")))
 	case "kanri":
 		return arrayAt(v, "columns") || arrayAt(v, "boards")
-	case "markdown", "todotxt", "taskwarrior", "nullboard":
+	case "markdown", "todotxt", "taskwarrior", "nullboard", "obsidian", "orgmode":
 		return isText && strings.TrimSpace(text) != ""
 	case "leo":
 		return isText && leoShape.MatchString(text)
