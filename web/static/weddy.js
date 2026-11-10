@@ -16,11 +16,16 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   var stale = false;  // the board changed during a drag: reload when the last ends
 
   var staleUnderPopOver = false; // the board changed while a pop-over was open
+  var staleUnderForm = false;    // ... or while an inlined form was open
   function reloadBoard() {
     if (dragging > 0) { stale = true; return; }
     // An open pop-over is not swept away by somebody else's change: the board
     // catches up when it closes.
     if (document.querySelector('.js-pop-over')) { staleUnderPopOver = true; return; }
+    // Nor is an inlined form opened in the card details (WeKan's inlinedForm
+    // stays as its page changes around it): the board catches up when it
+    // closes. The add-list form is always there, so it is not one of these.
+    if (document.querySelector('.board-wrapper .js-card-details .js-inlined-form:not(.is-hidden)')) { staleUnderForm = true; return; }
     // A change of this page's own - a form still on its way - is announced
     // before its answer arrives: reload after it, or the older page wins.
     if (up.network.isBusy()) { setTimeout(reloadBoard, 150); return; }
@@ -28,6 +33,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (document.querySelector('.board-wrapper')) up.reload('.board-wrapper');
   }
 
+  // A form sent is answered with the whole board: what was waiting is in it.
+  up.on('up:form:submit', function () { staleUnderForm = false; });
   // Other users' changes arrive as "board-changed".
   up.compiler('.board-wrapper[data-live]', function (el) {
     if (typeof EventSource === 'undefined') return;
@@ -184,14 +191,32 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // checklist's for an item, the section's for a checklist.
   up.on('click', '.js-checklists-section .js-open-inlined-form', function (event, el) {
     event.preventDefault();
-    var box = el.getAttribute('data-opens') === 'add-checklist-item' ? el.closest('.js-checklist') : el.closest('.js-checklists-section');
-    var form = box && box.querySelector(el.getAttribute('data-opens') === 'add-checklist-item' ? 'form.js-add-checklist-item' : 'form.js-add-checklist');
+    var opens = el.getAttribute('data-opens');
+    var where = {
+      'add-checklist': ['.js-checklists-section', 'form.js-add-checklist'],
+      'add-checklist-item': ['.js-checklist', 'form.js-add-checklist-item'],
+      'edit-checklist-title': ['.js-checklist', 'form.js-edit-checklist-title'],
+      'edit-checklist-item': ['.js-checklist-item', 'form.js-edit-checklist-item'],
+    }[opens];
+    if (!where) return;
+    var box = el.closest(where[0]);
+    var form = box && box.querySelector(where[1]);
     if (!form) return;
+    // One inlined form at a time, as WeKan's.
+    el.closest('.js-checklists-section').querySelectorAll('.js-inlined-form').forEach(function (f) { if (f !== form) f.classList.add('is-hidden'); });
     form.classList.remove('is-hidden');
     form.querySelector('textarea').focus();
   });
   // Enter saves, as WeKan's addChecklistItemForm; Shift+Enter is a new line.
-  up.on('keydown', '.js-checklists-section textarea.js-add-checklist-item', function (event, el) {
+  // checklistItemDeletePopup: the confirmation, for that item.
+  up.on('click', '.js-delete-checklist-item', function (event, el) {
+    event.preventDefault();
+    var url = el.getAttribute('data-url');
+    openPopOver('checklist-item-delete');
+    var f = document.querySelector('.js-pop-over .js-checklist-item-delete-form');
+    if (f) f.setAttribute('action', url);
+  });
+  up.on('keydown', '.js-checklists-section textarea.js-add-checklist-item, .js-checklists-section textarea.js-edit-checklist-item', function (event, el) {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       up.submit(el.form);
@@ -924,6 +949,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var form = el.closest('.js-inlined-form');
     if (form.classList.contains('js-card-composer')) form.remove();
     else form.classList.add('is-hidden');
+    if (staleUnderForm) { staleUnderForm = false; setTimeout(reloadBoard, 0); }
   });
   // Enter adds the card, as in WeKan; Shift+Enter is a new line.
   up.on('keydown', '.js-card-composer textarea', function (event, el) {

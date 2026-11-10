@@ -24,6 +24,9 @@ func (s *Server) registerChecklistWrites(m *http.ServeMux) {
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items", s.page(s.addChecklistItemPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/toggle", s.page(s.toggleChecklistItemPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/delete", s.page(s.deleteChecklistPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/title", s.page(s.renameChecklistPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/title", s.page(s.checklistItemTitlePage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/delete", s.page(s.deleteChecklistItemPage))
 }
 
 // canCheckChecklistItem is Utils.canCheckChecklistItem: canModifyCard, or a
@@ -148,12 +151,11 @@ func (s *Server) toggleChecklistItemPage(w http.ResponseWriter, r *http.Request,
 		return
 	}
 	clID := docString(cl, "_id")
-	itemID := r.PathValue("item")
-	var it bson.M
-	if !validID(itemID) || s.db.Collection("checklistItems").FindOne(r.Context(), bson.M{"_id": eq(itemID), "checklistId": eq(clID), "cardId": eq(c.ID)}).Decode(&it) != nil {
-		http.Error(w, "not found", http.StatusNotFound)
+	it, ok := s.checklistItemOf(w, r, c, cl)
+	if !ok {
 		return
 	}
+	itemID := docString(it, "_id")
 	finished, _ := it["isFinished"].(bool)
 	place := bson.M{"cardId": c.ID, "boardId": b.ID, "checklistId": clID, "listId": c.ListID, "swimlaneId": c.SwimlaneID}
 	with := func(extra bson.M) bson.M {
@@ -204,5 +206,88 @@ func (s *Server) deleteChecklistPage(w http.ResponseWriter, r *http.Request, u *
 		return
 	}
 	_, _ = s.db.Collection("checklistItems").DeleteMany(r.Context(), bson.M{"checklistId": eq(clID)})
+	s.backToCard(w, r, b, c)
+}
+
+// renameChecklistPage is editChecklistForm's checklist.setTitle.
+func (s *Server) renameChecklistPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, c, cl, ok := s.checklistTarget(w, r, u, true)
+	if !ok {
+		return
+	}
+	if !b.WritableIn(r.Context(), s, u, "write", c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	title, ok := checklistTitleOf(w, r)
+	if !ok {
+		return
+	}
+	if _, err := s.db.Collection("checklists").UpdateOne(r.Context(), bson.M{"_id": eq(docString(cl, "_id")), "cardId": eq(c.ID)},
+		bson.M{"$set": bson.M{"title": title, "modifiedAt": time.Now().UTC()}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.backToCard(w, r, b, c)
+}
+
+// checklistItemOf is the path's item, of the path's checklist and card.
+func (s *Server) checklistItemOf(w http.ResponseWriter, r *http.Request, c *Card, cl bson.M) (bson.M, bool) {
+	id := r.PathValue("item")
+	var it bson.M
+	if !validID(id) || s.db.Collection("checklistItems").FindOne(r.Context(), bson.M{"_id": eq(id), "checklistId": eq(docString(cl, "_id")), "cardId": eq(c.ID)}).Decode(&it) != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return nil, false
+	}
+	return it, true
+}
+
+// checklistItemTitlePage is editChecklistItemForm's item.setTitle. WeKan's
+// after.update hook writes a checkedItem/uncheckedItem activity on every
+// update, a title edit too; an edit is not a check, so none is written.
+func (s *Server) checklistItemTitlePage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, c, cl, ok := s.checklistTarget(w, r, u, true)
+	if !ok {
+		return
+	}
+	if !b.WritableIn(r.Context(), s, u, "write", c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	it, ok := s.checklistItemOf(w, r, c, cl)
+	if !ok {
+		return
+	}
+	title, ok := checklistTitleOf(w, r)
+	if !ok {
+		return
+	}
+	if _, err := s.db.Collection("checklistItems").UpdateOne(r.Context(), bson.M{"_id": eq(docString(it, "_id"))},
+		bson.M{"$set": bson.M{"title": title, "modifiedAt": time.Now().UTC()}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.backToCard(w, r, b, c)
+}
+
+// deleteChecklistItemPage is checklistItemDeletePopup's ChecklistItems.remove:
+// no activity (itemRemover, #1598 keeps the item's checked trail).
+func (s *Server) deleteChecklistItemPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, c, cl, ok := s.checklistTarget(w, r, u, true)
+	if !ok {
+		return
+	}
+	if !b.WritableIn(r.Context(), s, u, "write", c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	it, ok := s.checklistItemOf(w, r, c, cl)
+	if !ok {
+		return
+	}
+	if _, err := s.db.Collection("checklistItems").DeleteOne(r.Context(), bson.M{"_id": eq(docString(it, "_id"))}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	s.backToCard(w, r, b, c)
 }

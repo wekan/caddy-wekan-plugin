@@ -259,6 +259,12 @@
               a.js-delete-checklist.delete-checklist(href="#")
                 i.fa.fa-trash
                 |  {{t $.L "delete"}} ...
+      //- WeKan's checklistItemDeletePopup.
+      template.js-pop-over-template(data-pop="checklist-item-delete", data-title="{{t $.L `delete`}}")
+        .content
+          p {{t $.L "confirm-checklist-item-delete-popup"}}
+          form.js-checklist-item-delete-form(method="post", action="#", up-submit, up-target=".board-wrapper")
+            button.js-confirm.negate.full(type="submit") {{t $.L "delete"}}
       //- WeKan's checklistDeletePopup.
       template.js-pop-over-template(data-pop="checklist-delete", data-title="{{t $.L `checklistActionsPopup-title`}}", data-card-url="/b/{{.Board.ID}}/cards/{{.Card.ID}}/checklists/")
         .content
@@ -730,8 +736,18 @@
                 .checklist-title
                   if $.CanModifyCard
                     a.fa.fa-navicon.checklist-details-menu.js-open-checklist-details-menu(href="#", data-checklist="{{.ID}}", title="{{t $.L `checklistActionsPopup-title`}}", aria-label="{{t $.L `checklistActionsPopup-title`}}")
-                  h4.title
-                    .viewer {{viewer .Title $.TextPolicy}}
+                  if $.CanModifyCard
+                    h4.title.js-open-inlined-form.is-editable(data-opens="edit-checklist-title")
+                      .viewer {{viewer .Title $.TextPolicy}}
+                  else
+                    h4.title
+                      .viewer {{viewer .Title $.TextPolicy}}
+                if $.CanModifyCard
+                  form.js-edit-checklist-title.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/title", up-submit, up-target=".board-wrapper")
+                    textarea.js-edit-checklist-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `checklist`}}", required) {{.Title}}
+                    .edit-controls.clearfix
+                      button.primary.confirm.js-submit-edit-checklist-item-form(type="submit") {{t $.L "save"}}
+                      a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
                 if .Percent
                   .checklist-progress-bar-container
                     .checklist-progress-text {{.Percent}}%
@@ -746,8 +762,18 @@
                       else
                         .check-box-container
                           .check-box.materialCheckBox(class="{{if .Finished}}is-checked{{end}}")
-                      .item-title
-                        .viewer {{viewer .Title $.TextPolicy}}
+                      if $.CanModifyCard
+                        .item-title.js-open-inlined-form.is-editable(data-opens="edit-checklist-item", class="{{if .Finished}}is-checked{{end}}")
+                          .viewer {{viewer .Title $.TextPolicy}}
+                        form.js-edit-checklist-item.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/title", up-submit, up-target=".board-wrapper")
+                          textarea.js-edit-checklist-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `add-checklist-item`}}", required) {{.Title}}
+                          .edit-controls.clearfix
+                            button.primary.confirm.js-submit-edit-checklist-item-form(type="submit") {{t $.L "save"}}
+                            a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+                            a.js-delete-checklist-item(href="#", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/delete") {{t $.L "delete"}}...
+                      else
+                        .item-title(class="{{if .Finished}}is-checked{{end}}")
+                          .viewer {{viewer .Title $.TextPolicy}}
                 if $.CanModifyCard
                   a.add-checklist-item.js-open-inlined-form(href="#", data-opens="add-checklist-item", title="{{t $.L `add-checklist-item`}}", aria-label="{{t $.L `add-checklist-item`}}")
                     i.fa.fa-plus

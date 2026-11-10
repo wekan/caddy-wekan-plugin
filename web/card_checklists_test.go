@@ -203,3 +203,74 @@ func TestCardDetailsChecklistWrites(t *testing.T) {
 		t.Error("negative: a read-only member gets neither")
 	}
 }
+
+// A checklist renamed, an item edited and deleted - by whoever may change
+// the card only, and only that checklist's own item.
+func TestCardDetailsChecklistEdits(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	wk := w.seedUser(t, "wes", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Edits")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": wk.ID, "isActive": true, "isWorker": true}}})
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "C")
+	_, _ = w.db.Collection("checklists").InsertMany(ctx, []any{
+		bson.M{"_id": "clA", "cardId": c.ID, "title": "Old name", "sort": 0},
+		bson.M{"_id": "clB", "cardId": c.ID, "title": "Other", "sort": 1}})
+	_, _ = w.db.Collection("checklistItems").InsertMany(ctx, []any{
+		bson.M{"_id": "itA", "checklistId": "clA", "cardId": c.ID, "title": "Old item", "sort": 0},
+		bson.M{"_id": "itB", "checklistId": "clB", "cardId": c.ID, "title": "B's item", "sort": 0}})
+	base := w.srv.URL + "/b/" + b.ID + "/cards/" + c.ID + "/checklists/"
+	post := func(cl *http.Client, u string, v url.Values) int {
+		r, err := cl.PostForm(u, v)
+		if err != nil {
+			t.Fatal(err)
+		}
+		r.Body.Close()
+		return r.StatusCode
+	}
+	title := func(coll, id string) string {
+		var d bson.M
+		_ = w.db.Collection(coll).FindOne(ctx, bson.M{"_id": id}).Decode(&d)
+		return docString(d, "title")
+	}
+	wes := w.client(t)
+	body(t, w.signIn(t, wes, "wes", "pw"))
+	for _, p := range []string{"clA/title", "clA/items/itA/title", "clA/items/itA/delete"} {
+		if code := post(wes, base+p, url.Values{"title": {"Worker's"}}); code != http.StatusForbidden {
+			t.Errorf("negative: a Worker edits nothing: %s %d", p, code)
+		}
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if code := post(ann, base+"clA/title", url.Values{"title": {"  New name "}}); code != http.StatusSeeOther || title("checklists", "clA") != "New name" {
+		t.Errorf("renamed: %d %q", code, title("checklists", "clA"))
+	}
+	if code := post(ann, base+"clA/title", url.Values{"title": {"  "}}); code != http.StatusBadRequest || title("checklists", "clA") != "New name" {
+		t.Errorf("negative: an empty title is refused: %d", code)
+	}
+	if code := post(ann, base+"clA/items/itA/title", url.Values{"title": {"New item"}}); code != http.StatusSeeOther || title("checklistItems", "itA") != "New item" {
+		t.Errorf("item edited: %d", code)
+	}
+	// Negative: B's item is not reached through checklist A.
+	if code := post(ann, base+"clA/items/itB/delete", nil); code != http.StatusNotFound || title("checklistItems", "itB") != "B's item" {
+		t.Errorf("negative: another checklist's item: %d", code)
+	}
+	if n, _ := w.db.Collection("activities").CountDocuments(ctx, bson.M{"cardId": c.ID, "activityType": bson.M{"$in": bson.A{"checkedItem", "uncheckedItem"}}}); n != 0 {
+		t.Errorf("an edit is not a check: %d", n)
+	}
+	if code := post(ann, base+"clA/items/itA/delete", nil); code != http.StatusSeeOther || title("checklistItems", "itA") != "" {
+		t.Errorf("item deleted: %d", code)
+	}
+	_, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID)
+	if !strings.Contains(html, "js-edit-checklist-title") || !strings.Contains(html, "js-edit-checklist-item") {
+		t.Error("the editor's edit forms")
+	}
+	_, html = get(t, wes, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID)
+	if strings.Contains(html, "js-edit-checklist-title") || strings.Contains(html, "js-delete-checklist-item") {
+		t.Error("negative: no edit forms for a Worker")
+	}
+}
