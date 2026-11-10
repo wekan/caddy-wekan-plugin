@@ -470,6 +470,24 @@
       "name": "Dave"
     }
   ],
+  "taiga-taiga": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "bob, jr",
+      "name": "bob, jr"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ],
   "vikunja-vikunja-edge": [
     {
       "key": "ann",

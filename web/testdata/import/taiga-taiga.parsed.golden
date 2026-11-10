@@ -1,0 +1,228 @@
+{
+  "board": {
+    "name": "Plan & <Go> \"q\" 🚀"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Empty"
+    },
+    {
+      "title": "Won't fix"
+    },
+    {
+      "title": "To Do (2)"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    },
+    {
+      "name": "Ops"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x , y"
+      ],
+      "ref": "us-1",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "comments": [
+        {
+          "text": "Looks <i>good</i>",
+          "author": "bob",
+          "authorName": "bob",
+          "date": "2026-11-02T09:30:00.000Z"
+        },
+        {
+          "text": "no author",
+          "author": "",
+          "authorName": "",
+          "date": "2026-11-10T12:00:00.000Z"
+        }
+      ],
+      "custom_fields": {},
+      "owner_username": "alice",
+      "assignees": [
+        "bob",
+        "bob, jr"
+      ],
+      "requested_by": "carol"
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Ops",
+      "tags": [],
+      "ref": "us-2",
+      "date_creation": "2026-11-10T12:00:00.000Z",
+      "date_due": "2026-12-24T18:30:00.000Z",
+      "comments": [
+        {
+          "text": "orphan",
+          "author": "",
+          "authorName": "",
+          "date": "2026-11-04T00:00:00.000Z"
+        }
+      ],
+      "custom_fields": {},
+      "owner_username": "dave"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "us-3",
+      "date_creation": "2026-11-10T12:00:00.000Z",
+      "comments": [],
+      "custom_fields": {}
+    },
+    {
+      "title": "-minus first",
+      "description": "first\r\nsecond  \n\n\n\n### Checklist\n- [ ]   one  \n- [x]    ",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "ref": "task-4",
+      "parent_ref": "us-1",
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "date_end": "2026-11-05T00:00:00.000Z",
+      "comments": [],
+      "custom_fields": {
+        "Task status": "Closed"
+      }
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Ops",
+      "tags": [],
+      "ref": "task-6",
+      "parent_ref": "us-2",
+      "date_creation": "2026-11-10T12:00:00.000Z",
+      "comments": [],
+      "custom_fields": {
+        "Task status": "New"
+      }
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "p1"
+      ],
+      "ref": "task-5",
+      "parent_ref": "us-1",
+      "date_creation": "2026-11-10T12:00:00.000Z",
+      "date_due": "2026-11-12T00:00:00.000Z",
+      "comments": [],
+      "custom_fields": {
+        "Task status": "New"
+      },
+      "requested_by": "Eve"
+    },
+    {
+      "title": "a & b",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "task-7",
+      "parent_ref": "us-1",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "date_end": "2026-11-10T12:00:00.000Z",
+      "comments": [],
+      "custom_fields": {
+        "Task status": "Closed"
+      }
+    },
+    {
+      "title": "c",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "task-8",
+      "parent_ref": "us-1",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "comments": [],
+      "custom_fields": {
+        "Task status": "New"
+      }
+    }
+  ],
+  "label_colors": {
+    "@home": "navy",
+    "big deal": "yellow",
+    "raw": "black",
+    "done": "lime"
+  },
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/us_statuses",
+      "reason": "the WIP limits of 1 status(es) are not imported; set them on the lists"
+    }
+  ],
+  "scrumTransfer": {
+    "format": "wekan-scrum-2",
+    "settings": {},
+    "sprints": [],
+    "releases": [],
+    "events": [],
+    "cards": [
+      {
+        "_id": "task-0",
+        "scrum": {
+          "backlogRank": 1
+        }
+      },
+      {
+        "_id": "task-1",
+        "scrum": {
+          "backlogRank": 2
+        }
+      },
+      {
+        "_id": "task-2",
+        "scrum": {
+          "backlogRank": 3
+        }
+      }
+    ],
+    "lists": [],
+    "swimlanes": []
+  }
+}

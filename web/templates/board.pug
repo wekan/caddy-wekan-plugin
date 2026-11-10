@@ -352,10 +352,12 @@
                 a(href="/api/boards/{{.Board.ID}}/export?attachments=false", download) JSON - {{t $.L "export-board-without-attachments"}}
               li
                 a(href="/api/boards/{{.Board.ID}}/exportZip", download) .zip - {{t $.L "attachments"}}
-              //- The other tools' exports, as WeKan's exportScope.js lists them.
+              //- The other tools' exports, as WeKan's exportScope.js lists them,
+                with its link's fields query: what these exports carry (no custom
+                fields, no Scrum).
               each x in .ExportTools
                 li
-                  a.js-export-tool(href="/api/boards/{{$.Board.ID}}/export/{{.Key}}", data-format="{{.Key}}", download)
+                  a.js-export-tool(href="/api/boards/{{$.Board.ID}}/export/{{.Key}}?fields=labels,people,dates,description,checklists,subtasks,comments,dependencies", data-format="{{.Key}}", download)
                     i.fa(class="{{.Icon}}")
                     |  {{.Label}}
             hr

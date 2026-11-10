@@ -1,0 +1,341 @@
+{
+  "board": {
+    "_id": "board1",
+    "title": "Plan & <Go> \"q\" 🚀",
+    "createdAt": "2026-10-01T12:00:00.000Z",
+    "modifiedAt": "2026-11-03T07:45:00.000Z",
+    "labels": [
+      {
+        "_id": "a",
+        "name": "priority:H",
+        "color": "red"
+      },
+      {
+        "_id": "b",
+        "name": "web  dev",
+        "color": "#ABC"
+      },
+      {
+        "_id": "c",
+        "name": "project:Plant.Pumps",
+        "color": "teal"
+      },
+      {
+        "_id": "d",
+        "name": "@home",
+        "color": "navy"
+      },
+      {
+        "_id": "f",
+        "name": "big deal",
+        "color": "yellow"
+      },
+      {
+        "_id": "e",
+        "name": "priority:B",
+        "color": "#0d9488"
+      },
+      {
+        "_id": "g",
+        "name": "   ",
+        "color": "red"
+      },
+      {
+        "_id": "h",
+        "name": "raw",
+        "color": "black"
+      },
+      {
+        "_id": "i",
+        "name": "done",
+        "color": "lime"
+      }
+    ],
+    "description": "The plan"
+  },
+  "lists": [
+    {
+      "_id": "L1",
+      "title": "To Do",
+      "wipLimit": {
+        "enabled": true,
+        "value": 3
+      },
+      "color": "sky"
+    },
+    {
+      "_id": "L2",
+      "title": "Done",
+      "wipLimit": {
+        "enabled": false,
+        "value": 5
+      },
+      "color": "#123456"
+    },
+    {
+      "_id": "L3",
+      "title": "Empty"
+    },
+    {
+      "_id": "L4",
+      "title": "Won't fix"
+    },
+    {
+      "_id": "L5",
+      "title": "  To Do  "
+    }
+  ],
+  "swimlanes": [
+    {
+      "_id": "S1",
+      "title": "Default"
+    },
+    {
+      "_id": "S2",
+      "title": "Ops"
+    }
+  ],
+  "items": [
+    {
+      "cardId": "cardA1",
+      "listId": "L1",
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "listTitle": "To Do",
+      "swimlaneTitle": "Default",
+      "dueAt": "2026-11-20T10:00:00.000Z",
+      "labelIds": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "f"
+      ],
+      "labels": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x , y"
+      ],
+      "startAt": "2026-11-10T00:00:00.000Z",
+      "createdAt": "2026-11-01T08:00:00.000Z",
+      "owner": "alice",
+      "assignees": [
+        "bob",
+        "alice",
+        "bob, jr"
+      ],
+      "creator": "carol",
+      "comments": [
+        {
+          "text": "Looks <i>good</i>",
+          "author": "bob",
+          "date": "2026-11-02T09:30:00.000Z"
+        },
+        {
+          "text": "   ",
+          "author": "bob",
+          "date": "2026-11-02T09:31:00.000Z"
+        },
+        {
+          "text": "no author"
+        }
+      ],
+      "checklists": [
+        {
+          "title": "Steps",
+          "items": [
+            {
+              "title": "a & b",
+              "done": true
+            },
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "color": "pink",
+      "dueComplete": true,
+      "spentTime": 1.125,
+      "timetracking": {
+        "timeSpentSeconds": 4050
+      }
+    },
+    {
+      "cardId": "cardB😀2",
+      "listId": "L2",
+      "title": "-minus first",
+      "description": "first\r\nsecond  \n\n",
+      "listTitle": "Done",
+      "swimlaneTitle": "Default",
+      "labelIds": [
+        "e",
+        "h",
+        "i",
+        "g"
+      ],
+      "labels": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "endAt": "2026-11-05T00:00:00.000Z",
+      "createdAt": "2026-11-02T00:00:00.000Z",
+      "parentCardId": "cardA1",
+      "color": "#0D9488",
+      "checklists": [
+        {
+          "title": "",
+          "items": [
+            {
+              "title": "  one  ",
+              "done": false
+            },
+            {
+              "title": "   ",
+              "done": true
+            }
+          ]
+        },
+        {
+          "title": "Nothing",
+          "items": []
+        }
+      ],
+      "dependencies": [
+        {
+          "cardId": "cardA1",
+          "type": "blocks"
+        },
+        {
+          "cardId": "nope",
+          "type": "blocks"
+        },
+        {
+          "cardId": "cardC3"
+        }
+      ],
+      "spentTime": 2.5
+    },
+    {
+      "cardId": "cardC3",
+      "listId": "Lgone",
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "listTitle": "Archived list",
+      "swimlaneTitle": "Ops",
+      "labelIds": [],
+      "labels": [],
+      "color": "plum",
+      "dueAt": "2026-12-24T18:30:00.000Z",
+      "dependencies": [
+        {
+          "cardId": "cardB😀2",
+          "type": "is-blocked-by"
+        },
+        {
+          "cardId": "cardA1",
+          "type": "duplicates"
+        }
+      ],
+      "assignees": [
+        "dave"
+      ],
+      "comments": [
+        {
+          "text": "orphan",
+          "date": "2026-11-04T00:00:00.000Z"
+        }
+      ],
+      "timetracking": {
+        "timeSpentSeconds": 0
+      }
+    },
+    {
+      "cardId": "cardD4",
+      "listId": "L1",
+      "title": "No list item",
+      "description": "",
+      "listTitle": "Started",
+      "swimlaneTitle": "Default",
+      "labelIds": [],
+      "labels": [
+        "p1"
+      ],
+      "startAt": "2026-11-11T00:00:00.000Z",
+      "dueAt": "2026-11-12T00:00:00.000Z",
+      "requestedBy": "Eve",
+      "parentCardId": "cardB😀2"
+    },
+    {
+      "cardId": "cardE5",
+      "listId": "Lx",
+      "title": "Orphan of an archived list",
+      "description": "",
+      "listTitle": "",
+      "swimlaneTitle": "Default",
+      "labelIds": [],
+      "labels": [],
+      "spentTime": 0.5,
+      "endAt": "2026-11-06T00:00:00.000Z"
+    },
+    {
+      "cardId": "cardF6",
+      "listId": "L1",
+      "title": "Backlogged",
+      "description": "",
+      "listTitle": "Backlog",
+      "swimlaneTitle": "Ops",
+      "labelIds": [],
+      "labels": [],
+      "parentCardId": "cardC3"
+    }
+  ],
+  "workflowRules": [
+    {
+      "trigger": {
+        "activityType": "moveCard",
+        "listName": "Done"
+      },
+      "action": {
+        "actionType": "markCardComplete"
+      }
+    },
+    {
+      "trigger": {
+        "activityType": "moveCard",
+        "listName": "Empty"
+      },
+      "action": {
+        "actionType": "markCardComplete"
+      }
+    },
+    {
+      "trigger": {
+        "activityType": "moveCard",
+        "listName": "Empty"
+      },
+      "action": {
+        "actionType": "markCardIncomplete"
+      }
+    },
+    {
+      "trigger": {
+        "activityType": "createCard",
+        "listName": "To Do"
+      },
+      "action": {
+        "actionType": "markCardComplete"
+      }
+    }
+  ]
+}

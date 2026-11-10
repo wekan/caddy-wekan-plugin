@@ -59,6 +59,18 @@ func TestExternalFormatsAreWeKans(t *testing.T) {
 	for f, format := range apiFormatters {
 		formats[f] = string(jsJSON(format(d), ""))
 	}
+	// The Jira export reads what collect() gives it alone: the time spent as
+	// its time tracking (testdata/external/collected-jira.json).
+	jiraRaw, err := os.ReadFile("testdata/external/collected-jira.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var jd extBoard
+	if err := json.Unmarshal(jiraRaw, &jd); err != nil {
+		t.Fatal(err)
+	}
+	formats["jira"] = string(jsJSON(formatJira(jd), ""))
+	formats["taiga"] = string(jsJSON(formatTaiga(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC)), ""))
 	for format, got := range formats {
 		want, err := os.ReadFile("testdata/external/" + format + ".golden")
 		if err != nil {
@@ -305,7 +317,8 @@ func TestExportMenuOffersEveryFormat(t *testing.T) {
 	body(t, w.signIn(t, c, "ann", "pw"))
 	page := getBody(t, c, w.srv.URL+"/b/"+b.ID+"/"+bd.Slug)
 	for f := range externalFormats {
-		if !strings.Contains(page, `href="/api/boards/`+b.ID+`/export/`+f+`"`) {
+		// With WeKan's link's fields query (exportScope.js exportUrl).
+		if !strings.Contains(page, `href="/api/boards/`+b.ID+`/export/`+f+`?fields=`) {
 			t.Errorf("the page links %s", f)
 		}
 	}

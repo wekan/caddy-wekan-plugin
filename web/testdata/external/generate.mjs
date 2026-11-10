@@ -26,6 +26,11 @@ const { formatPlannerRows } = await import(pathToFileURL(path.join(wekan, 'model
 fs.writeFileSync(path.join(here, 'planner.golden'), JSON.stringify(formatPlannerRows(structuredClone(collected), ticktickNow)));
 const vikunja = await import(pathToFileURL(path.join(wekan, 'models/lib/vikunjaFormat.js')).href);
 fs.writeFileSync(path.join(here, 'vikunja.golden'), vikunja.vikunjaArchiveFiles(vikunja.formatVikunja(structuredClone(collected), ticktickNow))['data.json']);
+const { formatTaiga } = await import(pathToFileURL(path.join(wekan, 'models/lib/taigaFormat.js')).href);
+fs.writeFileSync(path.join(here, 'taiga.golden'), JSON.stringify(formatTaiga(structuredClone(collected), ticktickNow)));
+// The Jira export: what collect() gives it, the time spent as its time
+// tracking (collected-jira.json).
+fs.writeFileSync(path.join(here, 'jira.golden'), JSON.stringify(formatters.jira(JSON.parse(fs.readFileSync(path.join(here, 'collected-jira.json'), 'utf8')))));
 for (const format of ['markdown', 'opml', 'todotxt', 'taskwarrior', 'zenkit', 'nullboard', 'obsidian', 'orgmode', 'kanri',
   'deck', 'kanboard', 'openproject', 'github', 'gitea', 'forgejo', 'gitlab', 'trello', 'asana',
   'leo', 'meistertask', 'todoist', 'linear', 'clickup', 'pivotal', 'quire', 'redmine', 'notion', 'wrikeworkflow', 'wrike', 'teamwork', 'monday', 'businessmap']) {

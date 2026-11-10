@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"math"
 	"net/http"
 	"regexp"
 	"strings"
@@ -40,6 +41,8 @@ var externalFormats = map[string][2]string{
 	"gitlab":            {"json", "application/json"},
 	"trello":            {"json", "application/json"},
 	"asana":             {"json", "application/json"},
+	"jira":              {"json", "application/json"},
+	"taiga":             {"json", "application/json"},
 	"leo":               {"leo", "application/xml"},
 	"meistertask":       {"csv", "text/csv"},
 	"todoist":           {"csv", "text/csv"},
@@ -113,6 +116,9 @@ type extItem struct {
 	SpentTime     float64         `json:"spentTime,omitempty"`
 	Comments      []extComment    `json:"comments,omitempty"`
 	Checklists    []extChecklist  `json:"checklists,omitempty"`
+	// Timetracking is what WeKan's collect() gives the Jira export: the time
+	// spent in seconds (models/lib/jiraTimeTracking.js).
+	Timetracking jsObject `json:"timetracking,omitempty"`
 }
 
 type extWipLimit struct {
@@ -190,7 +196,7 @@ func parseISO(s string) time.Time {
 // cards in their order, each card's labels by name, its people by username,
 // its comments and its checklists - Admin Panel's Anonymize export users
 // applied to all of it.
-func (s *Server) collectExternal(ctx context.Context, b *Board) extBoard {
+func (s *Server) collectExternal(ctx context.Context, b *Board, format string) extBoard {
 	var out extBoard
 	out.Board.ID, out.Board.Title, out.Board.Labels = b.ID, b.Title, b.Labels
 	var bdoc bson.M
@@ -307,6 +313,16 @@ func (s *Server) collectExternal(ctx context.Context, b *Board) extBoard {
 		it.DueComplete = it.DueAt != "" && c["dueComplete"] == true
 		if n, ok := plain(c["spentTime"]).(float64); ok && n > 0 {
 			it.SpentTime = n
+		}
+		// The Jira export's time tracking: the time spent, in whole seconds,
+		// 0 too (models/lib/jiraTimeTracking.js jiraTimeTrackingExport).
+		if format == "jira" {
+			if n, ok := plain(c["spentTime"]).(float64); ok && !math.IsInf(n, 0) && !math.IsNaN(n) && n >= 0 {
+				if sec := jsRound(n * 3600); sec <= 9007199254740991 {
+					it.Timetracking = jsObject{}
+					it.Timetracking.set("timeSpentSeconds", sec)
+				}
+			}
 		}
 		// Card dependencies, for the formats with relations of their own.
 		if deps, ok := c["cardDependencies"].(bson.A); ok {
@@ -532,7 +548,7 @@ func formatTodoTxt(d extBoard) string {
 
 // externalExport is a board in one of the formats.
 func (s *Server) externalExport(ctx context.Context, b *Board, format string) []byte {
-	d := s.collectExternal(ctx, b)
+	d := s.collectExternal(ctx, b, format)
 	switch format {
 	case "markdown":
 		return []byte(formatMarkdownKanban(d))
@@ -597,6 +613,8 @@ func (s *Server) externalExport(ctx context.Context, b *Board, format string) []
 		return jsJSON(formatTasksOrgBackup(d, time.Now()), "")
 	case "focalboard":
 		return []byte(formatFocalboard(d, time.Now().UnixMilli()))
+	case "taiga":
+		return jsJSON(formatTaiga(d, time.Now()), "")
 	}
 	if f := apiFormatters[format]; f != nil {
 		return jsJSON(f(d), "")

@@ -125,7 +125,8 @@
   ],
   "taiga": [
     "taiga-edge.json",
-    "wekan-taiga.json"
+    "wekan-taiga.json",
+    "../external/taiga.golden"
   ],
   "vikunja": [
     "vikunja-edge.json",

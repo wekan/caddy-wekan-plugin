@@ -2,6 +2,7 @@ package web
 
 import (
 	"bytes"
+	"errors"
 	"strconv"
 	"strings"
 	"unicode/utf16"
@@ -29,6 +30,20 @@ func (o *jsObject) set(k string, v any) {
 		Key   string
 		Value any
 	}{k, v})
+}
+
+// UnmarshalJSON reads an object in its own key order, as decodeJS does.
+func (o *jsObject) UnmarshalJSON(data []byte) error {
+	v, err := decodeJS(data)
+	if err != nil {
+		return err
+	}
+	obj, ok := v.(jsObject)
+	if !ok {
+		return errors.New("not a JSON object")
+	}
+	*o = obj
+	return nil
 }
 
 func (o jsObject) MarshalJSON() ([]byte, error) {
