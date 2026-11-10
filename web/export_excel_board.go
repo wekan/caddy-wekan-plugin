@@ -183,7 +183,11 @@ func utf16Encode(s string) []rune { return u16(s) }
 var excelEmbeddable = map[string]string{"image/jpeg": "jpeg", "image/jpg": "jpeg", "image/png": "png", "image/gif": "gif", "image/bmp": "bmp"}
 
 // excelBoardWorkbook is ExporterExcelBoard's workbook for a board.
-func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOptions) ([]byte, error) {
+//
+// With only, it is ExporterExcelCard's workbook of that one card instead:
+// the card in its layout from row 1, on a sheet named for it, with no board
+// header and no headings.
+func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOptions, only *Card) ([]byte, error) {
 	find := func(coll string, filter bson.M, sort bson.D) []any {
 		opts := options.Find()
 		if sort != nil {
@@ -205,9 +209,16 @@ func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOp
 		return nil, os.ErrNotExist
 	}
 	board := plain(raw)
-	lists := find("lists", bson.M{"boardId": b.ID, "archived": false}, bySort)
-	swimlanes := find("swimlanes", bson.M{"boardId": b.ID, "archived": false}, bySort)
-	cards := find("cards", bson.M{"boardId": b.ID, "archived": false, "linkedId": bson.M{"$in": bson.A{"", nil}}}, bySort)
+	listFilter, cardFilter := bson.M{"boardId": b.ID, "archived": false}, bson.M{"boardId": b.ID, "archived": false, "linkedId": bson.M{"$in": bson.A{"", nil}}}
+	if only != nil {
+		// A card's export: that card, archived or not, and its list and
+		// swimlane whatever they are (ReactiveCache.getList).
+		listFilter = bson.M{"boardId": b.ID}
+		cardFilter = bson.M{"_id": eq(only.ID), "boardId": b.ID, "listId": eq(only.ListID)}
+	}
+	lists := find("lists", listFilter, bySort)
+	swimlanes := find("swimlanes", listFilter, bySort)
+	cards := find("cards", cardFilter, bySort)
 	ids := bson.A{}
 	for _, c := range cards {
 		ids = append(ids, cdString(cdGet(c, "_id")))
@@ -323,6 +334,9 @@ func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOp
 	font := t("excel-font")
 
 	ws := newXSheet(excelSheetNameOf(cdOr(cdGet(board, "title"))))
+	if only != nil && len(cards) > 0 {
+		ws.Name = excelCardSheetName(cdOr(cdGet(cards[0], "title")))
+	}
 	ws.Widths = []float64{18, 30, 18, 30, 18, 30}
 	row := 1
 	var breaks []int
@@ -366,8 +380,10 @@ func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOp
 		ws.Heights[row] = 20
 		row++
 	}
-	mergedRow(cdOr(cdGet(board, "title")), xObj("name", font, "size", 16, "bold", true), nil, 40)
-	if o.has("board-header") {
+	if only == nil {
+		mergedRow(cdOr(cdGet(board, "title")), xObj("name", font, "size", 16, "bold", true), nil, 40)
+	}
+	if only == nil && o.has("board-header") {
 		var names []string
 		for _, m := range b.Members {
 			if n := userName(m.UserID); n != "" {
@@ -382,7 +398,7 @@ func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOp
 		}
 		row++
 	}
-	if o.has("card-details") {
+	if o.has("card-details") || only != nil {
 		listByID, laneByID := map[string]any{}, map[string]any{}
 		for _, l := range lists {
 			listByID[cdString(cdGet(l, "_id"))] = l
@@ -419,6 +435,68 @@ func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOp
 		attachmentsOf := group(attachments, func(x any) string { return cdOr(cdGet(cdGet(x, "meta"), "cardId")) })
 		accent := strings.ToUpper(strings.ReplaceAll(xThemeAccents[cdOr(cdGet(board, "color"))], "#", ""))
 		heads := []string{"#", t("name"), t("size"), t("type"), t("export-card-attachment-uploaded-at"), t("export-card-attachment-uploaded-by")}
+		drawCard := func(c, l0, lane0 any) {
+			if row > 2 {
+				breaks = append(breaks, row-1)
+			}
+			id := cdString(cdGet(c, "_id"))
+			var images []cdImage
+			for _, a := range attachmentsOf[id] {
+				ext := excelEmbeddable[strings.ToLower(cdOr(cdGet(a, "type")))]
+				if ext == "" || cdGet(a, "size") == int64(0) || cdGet(a, "size") == int32(0) || cdGet(a, "size") == 0.0 {
+					continue
+				}
+				var att Attachment
+				if s.db.Collection("attachments").FindOne(ctx, bson.M{"_id": eq(cdString(cdGet(a, "_id")))}).Decode(&att) != nil {
+					continue
+				}
+				path, err := s.attachmentFile(&att)
+				if err != nil {
+					continue
+				}
+				data, err := os.ReadFile(path)
+				if err != nil || len(data) == 0 {
+					continue
+				}
+				name := cdOr(cdGet(a, "name"))
+				if name == "" {
+					name = cdOr(cdGet(cdGet(a, "meta"), "name"))
+				}
+				if name == "" {
+					name = id
+				}
+				images = append(images, cdImage{Name: name, Size: formatExportFileSize(cdGet(a, "size")), Ext: ext, Data: data})
+			}
+			list := listByID[cdString(cdGet(c, "listId"))]
+			if list == nil {
+				list = l0
+			}
+			lane := laneByID[cdString(cdGet(c, "swimlaneId"))]
+			if lane == nil {
+				lane = lane0
+			}
+			doc := buildExportCardDocument(cardExportInput{Board: board, List: list, Card: c, Swimlane: lane,
+				Checklists: checklistsOf[id], ChecklistItems: items, Subtasks: subtasksOf[id], Comments: commentsOf[id],
+				Attachments: attachmentsOf[id], Images: images, CustomFieldsByID: defs},
+				cardExportOptions{Fields: cardFields, UserName: userName, FormatDate: o.fmtDate,
+					CustomValue: o.customFieldValueText,
+					Translate: func(key, fallback string) string {
+						if v := tr(o.Lang, key); v != "" {
+							return v
+						}
+						return fallback
+					}})
+			next, br := renderCardDocumentExcel(ws, row, doc, cardExcelOptions{FontName: font, ProgressColor: accent, AttachmentHeadings: heads})
+			row = next + 1
+			breaks = append(breaks, br...)
+		}
+		if only != nil {
+			for _, c := range cards {
+				drawCard(c, nil, nil)
+			}
+			ws.Breaks = breaks
+			return xlsxStyledBook([]*xSheet{ws})
+		}
 		type laneGroup struct {
 			lane  any
 			title string
@@ -452,59 +530,7 @@ func (s *Server) excelBoardWorkbook(ctx context.Context, b *Board, o excelCardOp
 				}
 				mergedRow(t("list")+": "+title+" ("+strconv.Itoa(len(listCards))+")", xObj("name", font, "size", 11, "bold", true), xGray(), 20)
 				for _, c := range listCards {
-					if row > 2 {
-						breaks = append(breaks, row-1)
-					}
-					id := cdString(cdGet(c, "_id"))
-					var images []cdImage
-					for _, a := range attachmentsOf[id] {
-						ext := excelEmbeddable[strings.ToLower(cdOr(cdGet(a, "type")))]
-						if ext == "" || cdGet(a, "size") == int64(0) || cdGet(a, "size") == int32(0) || cdGet(a, "size") == 0.0 {
-							continue
-						}
-						var att Attachment
-						if s.db.Collection("attachments").FindOne(ctx, bson.M{"_id": eq(cdString(cdGet(a, "_id")))}).Decode(&att) != nil {
-							continue
-						}
-						path, err := s.attachmentFile(&att)
-						if err != nil {
-							continue
-						}
-						data, err := os.ReadFile(path)
-						if err != nil || len(data) == 0 {
-							continue
-						}
-						name := cdOr(cdGet(a, "name"))
-						if name == "" {
-							name = cdOr(cdGet(cdGet(a, "meta"), "name"))
-						}
-						if name == "" {
-							name = id
-						}
-						images = append(images, cdImage{Name: name, Size: formatExportFileSize(cdGet(a, "size")), Ext: ext, Data: data})
-					}
-					list := listByID[cdString(cdGet(c, "listId"))]
-					if list == nil {
-						list = l
-					}
-					lane := laneByID[cdString(cdGet(c, "swimlaneId"))]
-					if lane == nil {
-						lane = g.lane
-					}
-					doc := buildExportCardDocument(cardExportInput{Board: board, List: list, Card: c, Swimlane: lane,
-						Checklists: checklistsOf[id], ChecklistItems: items, Subtasks: subtasksOf[id], Comments: commentsOf[id],
-						Attachments: attachmentsOf[id], Images: images, CustomFieldsByID: defs},
-						cardExportOptions{Fields: cardFields, UserName: userName, FormatDate: o.fmtDate,
-							CustomValue: o.customFieldValueText,
-							Translate: func(key, fallback string) string {
-								if v := tr(o.Lang, key); v != "" {
-									return v
-								}
-								return fallback
-							}})
-					next, br := renderCardDocumentExcel(ws, row, doc, cardExcelOptions{FontName: font, ProgressColor: accent, AttachmentHeadings: heads})
-					row = next + 1
-					breaks = append(breaks, br...)
+					drawCard(c, l, g.lane)
 				}
 			}
 		}
@@ -525,4 +551,18 @@ var excelFieldKeys = func(lang string) []string {
 // admins only (adminOnlyCustomFields.js).
 func (s *Server) boardHasAdminOnlyFields(ctx context.Context, b *Board) bool {
 	return s.db.Collection("customFields").FindOne(ctx, bson.M{"boardIds": b.ID, "adminOnly": true}).Err() == nil
+}
+
+// excelCardSheetName is ExporterExcelCard's sanitizeSheetName.
+func excelCardSheetName(v string) string {
+	if v == "" {
+		v = "Card"
+	}
+	v = strings.Map(func(r rune) rune {
+		if strings.ContainsRune(`\\/*?:[]`, r) {
+			return '-'
+		}
+		return r
+	}, v)
+	return jsSlice16(v, 31)
 }

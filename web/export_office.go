@@ -83,16 +83,19 @@ func (s *Server) apiExportOffice(format string, oneCard bool) http.HandlerFunc {
 			return
 		}
 		ctx := r.Context()
-		rows, name := s.boardRows(ctx, b), "export-board-"+b.ID
+		name := "export-board-" + b.ID
 		if c != nil {
-			rows, name = s.boardRows(ctx, b, c.ID), "export-card-"+c.ID
+			name = "export-card-" + c.ID
 		}
 		w.Header().Set("Cache-Control", "no-store")
 		if format == "xlsx" {
-			out, err := xlsxOf(b.Title, rows)
-			// A board's workbook is WeKan's table exporter's, its headers in
-			// the user's language, else ?lang=, else English (exportExcel.js).
-			if c == nil {
+			var out []byte
+			var err error
+			// WeKan's workbooks, their words in the user's language, else
+			// ?lang=, else English (exportExcel.js): a card's in the card
+			// layout (ExporterExcelCard); a board's in the table layout with
+			// Card details unticked, else in the card layout.
+			{
 				q := r.URL.Query()
 				u, _ := s.exportUser(r)
 				lang := "en"
@@ -108,7 +111,7 @@ func (s *Server) apiExportOffice(format string, oneCard bool) http.HandlerFunc {
 					return
 				}
 				want := exportWanted(q.Get("fields"))
-				if want != nil && !want["card-details"] {
+				if c == nil && want != nil && !want["card-details"] {
 					out, err = s.excelTableWorkbook(ctx, b, lang)
 				} else {
 					o := excelCardOptions{Lang: lang, DateFormat: "YYYY-MM-DD"}
@@ -128,7 +131,7 @@ func (s *Server) apiExportOffice(format string, oneCard bool) http.HandlerFunc {
 							}
 						}
 					}
-					out, err = s.excelBoardWorkbook(ctx, b, o)
+					out, err = s.excelBoardWorkbook(ctx, b, o, c)
 				}
 			}
 			if err != nil {

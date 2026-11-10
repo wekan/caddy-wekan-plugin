@@ -115,3 +115,57 @@ func TestExcelExportCardDetails(t *testing.T) {
 		t.Errorf("the board's admin: %d", code)
 	}
 }
+
+// A card's own Excel export, as ExporterExcelCard writes it: the card in
+// its layout from row 1, on a sheet named for it ("/" and the rest as
+// "-"), no board header and no headings; an archived card exports too; a
+// board with admin-only custom fields, its admins only.
+func TestExcelExportCard(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	a, bt := login(t, w, "ann"), login(t, w, "bob")
+	b := newRESTBoard(t, w, a, "Kanban")
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card}, bson.M{"$set": bson.M{"title": "Plan a/b: c?", "description": "The *plan*", "archived": true}})
+	get := func(token string) (int, []byte) {
+		req, _ := http.NewRequest("GET", w.srv.URL+"/api/boards/"+b.ID+"/lists/"+b.List+"/cards/"+b.Card+"/exportExcel", nil)
+		req.Header.Set("Authorization", "Bearer "+token)
+		res, err := testClient.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		data, _ := io.ReadAll(res.Body)
+		return res.StatusCode, data
+	}
+	code, data := get(a)
+	sheets, err := readXlsxValues(data)
+	if code != 200 || err != nil || len(sheets) != 1 {
+		t.Fatalf("the card's workbook: %d %v", code, err)
+	}
+	if sheets[0].Name != "Plan a-b- c-" {
+		t.Errorf("the sheet is named for the card: %q", sheets[0].Name)
+	}
+	if got := sheetCellString(sheetCellValue(sheets[0].Rows[0][0])); got != "Plan a/b: c?" {
+		t.Errorf("the card's title in A1: %q", got)
+	}
+	var all []string
+	for _, row := range sheets[0].Rows {
+		for _, c := range row {
+			all = append(all, sheetCellString(sheetCellValue(c)))
+		}
+	}
+	text := strings.Join(all, "\n")
+	if !strings.Contains(text, "Description") || !strings.Contains(text, "The plan") || strings.Contains(text, "Swimlane: Default") || strings.Contains(text, "Members:\nann\nCreated at:") {
+		t.Errorf("the card in its layout, no board header or headings:\n%s", text)
+	}
+	_, _ = w.db.Collection("customFields").InsertOne(ctx, bson.M{"_id": "fieldSecret0001", "boardIds": bson.A{b.ID}, "name": "Salary", "type": "text", "adminOnly": true}) // inserted, not a filter
+	if code, _ := get(bt); code != 403 {
+		t.Errorf("negative: not an admin: %d", code)
+	}
+	if code, _ := get(a); code != 200 {
+		t.Errorf("the admin: %d", code)
+	}
+}
