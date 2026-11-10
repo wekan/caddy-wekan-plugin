@@ -1,0 +1,145 @@
+{
+  "board": {
+    "name": "Edge plan"
+  },
+  "columns": [
+    {
+      "title": "To do"
+    },
+    {
+      "title": "No bucket"
+    },
+    {
+      "title": "Bucket"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Two of them",
+      "column_name": "To do",
+      "swimlane_name": "Default",
+      "tags": [
+        "shop",
+        "urgent"
+      ],
+      "ref": "t1",
+      "owner_username": "Ann",
+      "assignees": [
+        "Bob"
+      ],
+      "requested_by": "Carl",
+      "date_due": "2026-10-20T00:00:00.000Z",
+      "date_creation": "2026-09-01T12:00:00.000Z",
+      "custom_fields": {
+        "Progress": "In progress",
+        "Priority": "Urgent"
+      },
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "Measure",
+              "done": false
+            },
+            {
+              "title": "Call",
+              "done": false
+            },
+            {
+              "title": "Pay",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Linked",
+      "description": "",
+      "column_name": "No bucket",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "t2",
+      "date_due": "2026-10-01T00:00:00.000Z",
+      "date_started": "2026-10-13T00:00:00.000Z",
+      "date_end": "2026-10-05T10:00:00.000Z",
+      "custom_fields": {
+        "Completed By": "Dee"
+      }
+    },
+    {
+      "title": "42",
+      "description": "",
+      "column_name": "Bucket",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "t4",
+      "owner_username": "Eve",
+      "custom_fields": {
+        "Progress": "Completed",
+        "Priority": "Low"
+      },
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "a",
+              "done": false
+            },
+            {
+              "title": "b",
+              "done": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/dates",
+      "reason": "Planner dates mix day/month and month/day order; read as month/day"
+    },
+    {
+      "path": "/row/5/Completed Checklist Items",
+      "reason": "Planner exports how many checklist items are done (1/3), not which; all are imported as not done"
+    },
+    {
+      "path": "/row/5/Is Recurring",
+      "reason": "a recurring Planner task is imported once; its repeat has no place in the export"
+    },
+    {
+      "path": "/row/5/Start Date",
+      "reason": "Planner date \"13.10.2026\" is not a calendar date"
+    },
+    {
+      "path": "/row/6/Progress",
+      "reason": "Planner progress \"Done?\" is not one of Not started, In progress, Completed"
+    },
+    {
+      "path": "/row/6/Priority",
+      "reason": "Planner priority \"Whatever\" is not one of Urgent, Important, Medium, Low"
+    },
+    {
+      "path": "/row/6/Created Date",
+      "reason": "Planner date \"2/30/2026\" is not a calendar date"
+    },
+    {
+      "path": "/row/8",
+      "reason": "a Planner row without a task name is not imported"
+    },
+    {
+      "path": "/row/9/Due Date",
+      "reason": "Planner date \"13/13/2026\" is not a calendar date"
+    }
+  ]
+}

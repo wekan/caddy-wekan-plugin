@@ -1,0 +1,123 @@
+{
+  "board": {
+    "name": "Plan & <Go> \"q\" 🚀"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "Tasks"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x   y"
+      ],
+      "ref": "teamwork/row/2",
+      "owner_username": "alice",
+      "assignees": [
+        "bob",
+        "alice",
+        "bob",
+        "jr"
+      ],
+      "date_started": "2026-11-10T00:00:00.000Z",
+      "date_due": "2026-11-20T00:00:00.000Z",
+      "due_complete": true,
+      "custom_fields": {
+        "Complete": true
+      }
+    },
+    {
+      "title": "minus first",
+      "description": "first\nsecond",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "ref": "teamwork/row/3",
+      "custom_fields": {
+        "Complete": true
+      }
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "teamwork/row/4",
+      "owner_username": "dave",
+      "date_due": "2026-12-24T00:00:00.000Z"
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "tags": [
+        "p1"
+      ],
+      "ref": "teamwork/row/5",
+      "date_started": "2026-11-11T00:00:00.000Z",
+      "date_due": "2026-11-12T00:00:00.000Z"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "Tasks",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "teamwork/row/6",
+      "custom_fields": {
+        "Complete": true
+      }
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "teamwork/row/7"
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

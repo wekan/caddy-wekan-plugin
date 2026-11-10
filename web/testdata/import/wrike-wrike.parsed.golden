@@ -1,0 +1,89 @@
+{
+  "board": {
+    "name": "Plan & <Go> \"q\" 🚀"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    },
+    {
+      "name": "Ops"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "ref": "1",
+      "swimlane_name": "Default",
+      "column_name": "To Do",
+      "tags": [],
+      "owner_username": "alice",
+      "assignees": [
+        "bob",
+        "alice",
+        "bob",
+        "jr"
+      ],
+      "date_started": "2026-11-10T00:00:00.000Z",
+      "date_due": "2026-11-20T00:00:00.000Z"
+    },
+    {
+      "title": "-minus first",
+      "description": "first\nsecond",
+      "ref": "2",
+      "swimlane_name": "Default",
+      "column_name": "Done",
+      "tags": [],
+      "parent_ref": "1"
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "ref": "3",
+      "swimlane_name": "Default",
+      "column_name": "To Do",
+      "tags": [],
+      "parent_ref": "2",
+      "date_started": "2026-11-11T00:00:00.000Z",
+      "date_due": "2026-11-12T00:00:00.000Z"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "ref": "4",
+      "swimlane_name": "Default",
+      "column_name": "To Do",
+      "tags": []
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "ref": "6",
+      "swimlane_name": "Ops",
+      "column_name": "To Do",
+      "tags": [],
+      "owner_username": "dave",
+      "date_due": "2026-12-24T00:00:00.000Z"
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "ref": "7",
+      "swimlane_name": "Ops",
+      "column_name": "To Do",
+      "tags": [],
+      "parent_ref": "6"
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

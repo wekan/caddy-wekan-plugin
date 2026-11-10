@@ -14,6 +14,9 @@ import (
 // checked (models/lib/importSourceShape.js), what it carries cleaned at the
 // import boundary, its source's parser, and WeKan's creator.
 
+// importWorkbookSources are the sources whose file is an .xlsx workbook.
+var importWorkbookSources = map[string]bool{"planner": true, "monday": true, "wrike": true, "teamwork": true, "businessmap": true}
+
 var (
 	errImportShape    = errors.New("invalid-import-format")
 	errImportTooLarge = errors.New("import-too-large")
@@ -42,6 +45,10 @@ func validImportShape(source string, v any) bool {
 		return isArr || arrayAt(v, "items") || (arrayAt(v, "elements") && (arrayAt(v, "entries") || arrayAt(v, "listEntries")))
 	case "taiga":
 		return arrayAt(v, "user_stories")
+	case "planner", "monday", "wrike", "teamwork", "businessmap":
+		// The workbook as { excelBase64 }, or its bytes from the import page.
+		x, _ := jsGet(v, "excelBase64").(string)
+		return x != "" || isText && text != ""
 	case "vikunja":
 		// The export .zip as { zipBase64 }, or the text of its data.json.
 		zip, _ := jsGet(v, "zipBase64").(string)
@@ -72,6 +79,17 @@ func (s *Server) importInput(r *http.Request, u *User, source string, input any,
 			return nil, errImportTooLarge
 		}
 		return clean, nil
+	}
+	// A workbook comes to importBoard as { excelBase64 }: its bytes.
+	if z, ok := jsGet(input, "excelBase64").(string); ok && importWorkbookSources[source] {
+		if len(z) > (MaxImportBytes+2)/3*4 {
+			return nil, errImportTooLarge
+		}
+		raw, err := base64.StdEncoding.DecodeString(z)
+		if err != nil {
+			return nil, errImportShape
+		}
+		input = string(raw)
 	}
 	// A Vikunja .zip comes to importBoard as { zipBase64 }: its bytes, at
 	// most WeKan's 64 MB.

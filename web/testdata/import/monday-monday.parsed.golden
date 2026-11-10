@@ -1,0 +1,116 @@
+{
+  "board": {
+    "name": "plan & <go> \"q\" 🚀"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "No status"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    },
+    {
+      "name": "Ops"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x   y"
+      ],
+      "swimlane_name": "Default",
+      "owner_username": "alice",
+      "assignees": [
+        "bob",
+        "alice",
+        "bob",
+        "jr"
+      ],
+      "date_due": "2026-11-20T00:00:00.000Z",
+      "date_started": "2026-11-10T00:00:00.000Z",
+      "ref": "cardA1",
+      "column_name": "To Do"
+    },
+    {
+      "title": "-minus first",
+      "description": "first\nsecond",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "swimlane_name": "Default",
+      "ref": "cardB😀2",
+      "column_name": "Done"
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "tags": [],
+      "swimlane_name": "Ops",
+      "owner_username": "dave",
+      "date_due": "2026-12-24T00:00:00.000Z",
+      "ref": "cardC3",
+      "column_name": "Archived list"
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "tags": [
+        "p1"
+      ],
+      "swimlane_name": "Default",
+      "date_due": "2026-11-12T00:00:00.000Z",
+      "date_started": "2026-11-11T00:00:00.000Z",
+      "ref": "cardD4",
+      "column_name": "Started"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "tags": [],
+      "swimlane_name": "Default",
+      "ref": "cardE5",
+      "column_name": "No status"
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "tags": [],
+      "swimlane_name": "Ops",
+      "ref": "cardF6",
+      "column_name": "Backlog"
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

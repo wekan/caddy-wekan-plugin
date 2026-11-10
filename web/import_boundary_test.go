@@ -291,13 +291,15 @@ func TestImportBoardMethod(t *testing.T) {
 // are WeKan's importedPeople, key and name, in its order, for every parsed
 // fixture (testdata/import/people.golden, written by generate-parsers.mjs).
 func TestImportPeopleAreWeKans(t *testing.T) {
-	raw, err := os.ReadFile("testdata/import/people.golden")
-	if err != nil {
-		t.Fatal(err)
-	}
-	var want map[string][]struct{ Key, Name string }
-	if err := json.Unmarshal(raw, &want); err != nil {
-		t.Fatal(err)
+	want := map[string][]struct{ Key, Name string }{}
+	for _, file := range []string{"people.golden", "workbook-people.golden"} {
+		raw, err := os.ReadFile("testdata/import/" + file)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(raw, &want); err != nil {
+			t.Fatal(err)
+		}
 	}
 	for name, people := range want {
 		gold, err := os.ReadFile("testdata/import/" + name + ".parsed.golden")

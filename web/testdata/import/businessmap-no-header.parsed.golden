@@ -1,0 +1,3 @@
+{
+  "error": "Businessmap workbook has no header row with Title or Card ID. Headers are read by their English names; a file exported from an account in another language needs its headers renamed to the English ones (Title, Column, Lane, Owner, Deadline ...)"
+}

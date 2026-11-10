@@ -1,0 +1,119 @@
+[
+  {
+    "name": "Values",
+    "rows": [
+      [
+        "text",
+        "  padded  ",
+        42,
+        -0.5,
+        1e+21,
+        true,
+        false
+      ],
+      [
+        {
+          "date": "2026-10-10T00:00:00.000Z"
+        },
+        {
+          "date": "2026-10-10T14:30:15.250Z"
+        },
+        {
+          "date": "2023-03-15T12:00:00.000Z"
+        },
+        {
+          "date": "1899-12-30T18:00:00.000Z"
+        },
+        3.5,
+        1234.5678
+      ],
+      [
+        {
+          "richText": [
+            {
+              "text": "Rich "
+            },
+            {
+              "text": "text"
+            }
+          ]
+        },
+        {
+          "text": "A link",
+          "hyperlink": "https://x.test/a?b=1"
+        },
+        {
+          "formula": "C1*2",
+          "result": 84,
+          "ref": "A3:C7",
+          "shareType": "shared"
+        },
+        {
+          "formula": "A1&\"!\"",
+          "result": "text!"
+        },
+        {
+          "formula": "A2+1",
+          "result": {
+            "date": "2026-10-11T00:00:00.000Z"
+          }
+        },
+        {
+          "error": "#N/A"
+        },
+        {
+          "formula": "NOW()"
+        }
+      ],
+      [],
+      [
+        {
+          "hole": true
+        },
+        "second",
+        {
+          "hole": true
+        },
+        {
+          "hole": true
+        },
+        "fifth"
+      ],
+      [],
+      [
+        {
+          "result": 11,
+          "sharedFormula": "C3"
+        }
+      ],
+      [
+        ""
+      ],
+      [
+        {
+          "hole": true
+        },
+        {
+          "hole": true
+        },
+        {
+          "hole": true
+        },
+        "only D9"
+      ]
+    ]
+  },
+  {
+    "name": "Tasks",
+    "rows": [
+      [
+        "Task Name",
+        "Bucket Name"
+      ],
+      [
+        "One",
+        "To do"
+      ]
+    ]
+  }
+]

@@ -1,0 +1,222 @@
+{
+  "board": {
+    "name": "Garden"
+  },
+  "columns": [
+    {
+      "title": "Doing"
+    },
+    {
+      "title": "No column"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Lane A"
+    },
+    {
+      "name": "Flow2"
+    },
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Two of them",
+      "tags": [
+        "shop",
+        "urgent"
+      ],
+      "ref": "101",
+      "owner_username": "ann",
+      "assignees": [
+        "bob",
+        "cy"
+      ],
+      "color": "#067db7",
+      "date_due": "2026-10-10T15:00:00.000Z",
+      "parent_ref": "103",
+      "date_creation": "2026-10-01T00:00:00.000Z",
+      "date_started": "2026-10-01T00:00:00.000Z",
+      "column_name": "Doing",
+      "swimlane_name": "Lane A",
+      "comments": [
+        {
+          "text": "Looks good"
+        },
+        {
+          "text": "Second"
+        }
+      ],
+      "custom_fields": {
+        "7": "seven",
+        "Card ID": 101,
+        "Custom Card ID": "C-1",
+        "Priority": "high",
+        "Size": 3,
+        "Type": "Task",
+        "Workflow name": "Flow",
+        "Planned Start": "Q4",
+        "Track": "T1",
+        "Budget": 1200
+      },
+      "dependencies": [
+        {
+          "ref": "104",
+          "type": "is-blocked-by"
+        },
+        {
+          "ref": "102",
+          "type": "related-to"
+        }
+      ]
+    },
+    {
+      "title": "Child",
+      "description": "",
+      "tags": [
+        "a",
+        "b"
+      ],
+      "ref": "102",
+      "assignees": [
+        "dee",
+        "eve"
+      ],
+      "date_creation": "2026-01-02T00:00:00.000Z",
+      "archived": true,
+      "column_name": "No column",
+      "swimlane_name": "Flow2",
+      "custom_fields": {
+        "Card ID": 102,
+        "Priority": "urgent",
+        "Workflow name": "Flow2"
+      },
+      "parent_ref": "101",
+      "dependencies": [
+        {
+          "ref": "101",
+          "type": "is-blocked-by"
+        }
+      ]
+    },
+    {
+      "title": "Card 103",
+      "description": "",
+      "tags": [],
+      "ref": "103",
+      "date_due": "2037-12-31T00:00:00.000Z",
+      "column_name": "No column",
+      "swimlane_name": "Default",
+      "custom_fields": {
+        "Card ID": 103
+      }
+    },
+    {
+      "title": "Custom only",
+      "description": "",
+      "tags": [],
+      "ref": "C-4",
+      "column_name": "No column",
+      "swimlane_name": "Default",
+      "custom_fields": {
+        "Custom Card ID": "C-4"
+      }
+    },
+    {
+      "title": "Last",
+      "description": "",
+      "tags": [],
+      "ref": "105",
+      "column_name": "No column",
+      "swimlane_name": "Default",
+      "custom_fields": {
+        "Card ID": 105
+      },
+      "dependencies": [
+        {
+          "ref": "101",
+          "type": "is-blocked-by"
+        }
+      ],
+      "parent_ref": "101"
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/sheet/Notes",
+      "reason": "the \"Notes\" sheet is not imported; Links and Parent columns of the card sheet are"
+    },
+    {
+      "path": "/row/1",
+      "reason": "1 row(s) above the header are not imported"
+    },
+    {
+      "path": "/Board ID",
+      "reason": "Board ID names a Businessmap board; the cards are imported into one new board"
+    },
+    {
+      "path": "/row/3/Template",
+      "reason": "the Businessmap card template \"Std\" is not imported"
+    },
+    {
+      "path": "/row/3/End Date",
+      "reason": "Businessmap date \"2026-02-30\" is not MM/DD/YYYY, DD-MM-YYYY or YYYY-MM-DD"
+    },
+    {
+      "path": "/row/4/Priority",
+      "reason": "Businessmap priority \"urgent\" is not low, average, high or critical; kept as written"
+    },
+    {
+      "path": "/row/4/Color",
+      "reason": "Businessmap color \"blue\" is not a hex color like #067DB7"
+    },
+    {
+      "path": "/row/4/Size",
+      "reason": "Businessmap size \"-1\" is not a number"
+    },
+    {
+      "path": "/row/4/Deadline",
+      "reason": "Businessmap deadline \"1/1/1969\" is not MM/DD/YYYY, DD-MM-YYYY or YYYY-MM-DD between 1970 and 2037"
+    },
+    {
+      "path": "/row/4/Archived At",
+      "reason": "the card is archived; its Businessmap archive date is not kept"
+    },
+    {
+      "path": "/row/5",
+      "reason": "a blank Title (it keeps the existing title in Businessmap); named \"Card 103\""
+    },
+    {
+      "path": "/row/6/Size",
+      "reason": "Businessmap size \"x\" is not a number"
+    },
+    {
+      "path": "/row/6/Deadline",
+      "reason": "Businessmap deadline \"1/1/38\" is not MM/DD/YYYY, DD-MM-YYYY or YYYY-MM-DD between 1970 and 2037"
+    },
+    {
+      "path": "/row/8",
+      "reason": "a Businessmap row without a Title or Card ID is not imported"
+    },
+    {
+      "path": "/row/3/Links",
+      "reason": "Businessmap link \"siblings: 1\" is not Parents, Children, Relatives, Predecessors or Successors"
+    },
+    {
+      "path": "/row/3/Links",
+      "reason": "child card 999 is not part of this import"
+    },
+    {
+      "path": "/row/6/Links",
+      "reason": "child card 102 already has another parent"
+    },
+    {
+      "path": "/row/9/Links",
+      "reason": "a further parent 103; a WeKan card has one parent"
+    }
+  ]
+}

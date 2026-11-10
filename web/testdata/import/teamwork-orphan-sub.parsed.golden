@@ -1,0 +1,40 @@
+{
+  "board": {
+    "name": "Imported Teamwork.com tasks"
+  },
+  "columns": [
+    {
+      "title": "L"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Orphan",
+      "description": "",
+      "column_name": "L",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "teamwork/row/2"
+    },
+    {
+      "title": "Top",
+      "description": "",
+      "column_name": "L",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "teamwork/row/3"
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/row/2/Task",
+      "reason": "a subtask without a task above it is imported as a task"
+    }
+  ]
+}

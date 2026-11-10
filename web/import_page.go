@@ -55,7 +55,9 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 				"todoist": ".csv,text/csv", "meistertask": ".csv,text/csv", "linear": ".csv,text/csv",
 				"ticktick": ".csv,text/csv", "clickup": ".csv,text/csv", "pivotal": ".csv,text/csv",
 				"redmine": ".csv,text/csv", "quire": ".csv,text/csv", "focalboard": ".jsonl,.json,application/json",
-				"superproductivity": ".json,application/json", "vikunja": ".zip,application/zip,.json,application/json"}[source]
+				"superproductivity": ".json,application/json", "vikunja": ".zip,application/zip,.json,application/json",
+				"planner": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "monday": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "wrike": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+				"teamwork": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "businessmap": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}[source]
 		}
 	}
 	return map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source, "Accept": accept, "Paste": paste, "General": general,
@@ -266,7 +268,9 @@ func importInstruction(lang, source string) string {
 		"redmine": msg("import-board-instruction-redmine"), "quire": msg("import-board-instruction-quire"),
 		"focalboard": msg("import-board-instruction-focalboard"), "tasksorg": msg("import-board-instruction-tasksorg"),
 		"superproductivity": msg("import-board-instruction-superproductivity"), "taiga": msg("import-board-instruction-taiga"),
-		"vikunja": msg("import-board-instruction-vikunja")}[source]
+		"vikunja": msg("import-board-instruction-vikunja"), "planner": msg("import-board-instruction-planner"),
+		"monday": msg("import-board-instruction-monday"), "wrike": msg("import-board-instruction-wrike"),
+		"teamwork": msg("import-board-instruction-teamwork"), "businessmap": msg("import-board-instruction-businessmap")}[source]
 	return tr(lang, key)
 }
 

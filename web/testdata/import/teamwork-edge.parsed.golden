@@ -1,0 +1,133 @@
+{
+  "board": {
+    "name": "Garden tasks"
+  },
+  "columns": [
+    {
+      "title": "Spring"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Two of them",
+      "column_name": "Spring",
+      "swimlane_name": "Default",
+      "tags": [
+        "shop",
+        "urgent"
+      ],
+      "ref": "teamwork/row/3",
+      "owner_username": "Ann",
+      "assignees": [
+        "Bob"
+      ],
+      "date_started": "2026-10-01T00:00:00.000Z",
+      "date_due": "2026-10-13T00:00:00.000Z",
+      "due_complete": true,
+      "custom_fields": {
+        "Priority": "High",
+        "Estimated time (hours)": 1.5,
+        "Complete": true
+      }
+    },
+    {
+      "title": "Measure",
+      "description": "",
+      "column_name": "Spring",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "teamwork/row/4",
+      "parent_ref": "teamwork/row/3",
+      "custom_fields": {
+        "Priority": "Low",
+        "Estimated time (hours)": 0.43
+      }
+    },
+    {
+      "title": "Deep",
+      "description": "",
+      "column_name": "Spring",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "teamwork/row/5",
+      "parent_ref": "teamwork/row/4",
+      "custom_fields": {
+        "Estimated time (hours)": 1.25
+      }
+    },
+    {
+      "title": "Too deep",
+      "description": "",
+      "column_name": "Spring",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "teamwork/row/6",
+      "parent_ref": "teamwork/row/5",
+      "custom_fields": {
+        "Estimated time (hours)": 2
+      }
+    },
+    {
+      "title": "Fit",
+      "description": "",
+      "column_name": "Spring",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "teamwork/row/7",
+      "date_started": "2026-03-02T00:00:00.000Z"
+    },
+    {
+      "title": "Water",
+      "description": "",
+      "column_name": "Spring",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "teamwork/row/9",
+      "date_due": "2026-02-01T00:00:00.000Z",
+      "custom_fields": {
+        "Estimated time (hours)": 1.75
+      }
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/row/2",
+      "reason": "columns that are not in Teamwork.com's import template are not imported: Extra col"
+    },
+    {
+      "path": "/row/5/Tasklist",
+      "reason": "a subtask stays in its parent's task list \"Spring\", not \"Other\""
+    },
+    {
+      "path": "/row/6/Task",
+      "reason": "a subtask 4 levels deep under a task 2 levels deep is imported one level below it"
+    },
+    {
+      "path": "/row/7/Priority",
+      "reason": "Teamwork.com priority \"urgent\" is not low, medium or high"
+    },
+    {
+      "path": "/row/7/Estimated time",
+      "reason": "Teamwork.com estimated time \"soon\" is not 25, 01:30, 1h 15m, 1h or 2 hours"
+    },
+    {
+      "path": "/row/7/Status",
+      "reason": "Teamwork.com status \"Paused\" is not Active or Complete"
+    },
+    {
+      "path": "/row/8",
+      "reason": "a Teamwork.com row without a task name is not imported"
+    },
+    {
+      "path": "/row/11",
+      "reason": "a Teamwork.com row without a task name is not imported"
+    }
+  ]
+}

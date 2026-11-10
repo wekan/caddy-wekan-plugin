@@ -1,0 +1,134 @@
+{
+  "board": {
+    "name": "Garden board"
+  },
+  "columns": [
+    {
+      "title": "Working on it"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "No status"
+    },
+    {
+      "title": "Stuck"
+    },
+    {
+      "title": "x"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Spring"
+    },
+    {
+      "name": "Lane X"
+    },
+    {
+      "name": "Summer"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Two of them",
+      "tags": [
+        "shop",
+        "urgent"
+      ],
+      "swimlane_name": "Spring",
+      "owner_username": "Ann",
+      "assignees": [
+        "Bob"
+      ],
+      "date_due": "2026-10-10T00:00:00.000Z",
+      "date_started": "2026-10-01T00:00:00.000Z",
+      "ref": "101",
+      "custom_fields": {
+        "Budget": 1200,
+        "Ratio": -0.5,
+        "Link": "site"
+      },
+      "column_name": "Working on it",
+      "comments": [
+        {
+          "text": "Ordered",
+          "author": "Dee",
+          "date": "2025-05-27T15:26:42.000Z"
+        }
+      ]
+    },
+    {
+      "title": "Measure",
+      "description": "",
+      "tags": [],
+      "swimlane_name": "Spring",
+      "owner_username": "Cy",
+      "ref": "monday/row/7",
+      "parent_ref": "101",
+      "column_name": "Done"
+    },
+    {
+      "title": "Call",
+      "description": "",
+      "tags": [],
+      "swimlane_name": "Spring",
+      "date_due": "2026-05-10T15:26:42.000Z",
+      "ref": "monday/row/8",
+      "parent_ref": "101",
+      "column_name": "No status"
+    },
+    {
+      "title": "Fit",
+      "description": "",
+      "tags": [],
+      "swimlane_name": "Spring",
+      "ref": "102",
+      "column_name": "Stuck"
+    },
+    {
+      "title": "Water",
+      "description": "",
+      "tags": [],
+      "swimlane_name": "Lane X",
+      "date_due": "2026-07-01T00:00:00.000Z",
+      "ref": "monday/row/14",
+      "column_name": "No status",
+      "comments": [
+        {
+          "text": "Watered"
+        }
+      ]
+    },
+    {
+      "title": "Orphan",
+      "description": "",
+      "tags": [],
+      "swimlane_name": "Summer",
+      "ref": "monday/row/16",
+      "parent_ref": "monday/row/14",
+      "column_name": "x"
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/row/7/Date",
+      "reason": "monday.com date \"2026-02-30\" is not YYYY-MM-DD"
+    },
+    {
+      "path": "/row/10/Date",
+      "reason": "monday.com date \"tomorrow\" is not YYYY-MM-DD"
+    },
+    {
+      "path": "/row/10/Timeline",
+      "reason": "monday.com timeline \"2026-10-01 to 2026-10-02\" is not \"YYYY-MM-DD - YYYY-MM-DD\""
+    },
+    {
+      "path": "/updates/row/4",
+      "reason": "an update for an item that is not in the board sheet"
+    }
+  ]
+}

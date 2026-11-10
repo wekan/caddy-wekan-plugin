@@ -1,0 +1,189 @@
+{
+  "planner-planner": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "bob, jr",
+      "name": "bob, jr"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ],
+  "planner-real": [
+    {
+      "key": "Other Person 2",
+      "name": "Other Person 2"
+    },
+    {
+      "key": "Justin Singh-Mohudpur",
+      "name": "Justin Singh-Mohudpur"
+    },
+    {
+      "key": "Other Person",
+      "name": "Other Person"
+    },
+    {
+      "key": "Other person 3",
+      "name": "Other person 3"
+    }
+  ],
+  "planner-edge": [
+    {
+      "key": "Ann",
+      "name": "Ann"
+    },
+    {
+      "key": "Bob",
+      "name": "Bob"
+    },
+    {
+      "key": "Eve",
+      "name": "Eve"
+    }
+  ],
+  "monday-monday": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "jr",
+      "name": "jr"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ],
+  "monday-edge": [
+    {
+      "key": "Ann",
+      "name": "Ann"
+    },
+    {
+      "key": "Bob",
+      "name": "Bob"
+    },
+    {
+      "key": "Dee",
+      "name": "Dee"
+    },
+    {
+      "key": "Cy",
+      "name": "Cy"
+    }
+  ],
+  "wrike-wrike": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "jr",
+      "name": "jr"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ],
+  "wrike-edge": [
+    {
+      "key": "Ann Lee",
+      "name": "Ann Lee"
+    },
+    {
+      "key": "bob@x.test",
+      "name": "bob@x.test"
+    },
+    {
+      "key": "Cy",
+      "name": "Cy"
+    }
+  ],
+  "teamwork-teamwork": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "jr",
+      "name": "jr"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ],
+  "teamwork-edge": [
+    {
+      "key": "Ann",
+      "name": "Ann"
+    },
+    {
+      "key": "Bob",
+      "name": "Bob"
+    }
+  ],
+  "teamwork-orphan-sub": [],
+  "businessmap-businessmap": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "jr",
+      "name": "jr"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ],
+  "businessmap-edge": [
+    {
+      "key": "ann",
+      "name": "ann"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "cy",
+      "name": "cy"
+    },
+    {
+      "key": "dee",
+      "name": "dee"
+    },
+    {
+      "key": "eve",
+      "name": "eve"
+    }
+  ]
+}

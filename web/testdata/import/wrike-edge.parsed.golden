@@ -1,0 +1,153 @@
+{
+  "board": {
+    "name": "Imported Wrike board"
+  },
+  "columns": [
+    {
+      "title": "In review"
+    },
+    {
+      "title": "Waiting"
+    },
+    {
+      "title": "Active"
+    },
+    {
+      "title": "Cancelled"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Garden/Beds"
+    },
+    {
+      "name": "Late folder"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Two of them",
+      "ref": "2",
+      "swimlane_name": "Garden/Beds",
+      "column_name": "In review",
+      "tags": [],
+      "owner_username": "Ann Lee",
+      "assignees": [
+        "bob@x.test",
+        "Cy"
+      ],
+      "date_started": "2026-10-10T00:00:00.000Z",
+      "date_due": "2026-10-20T00:00:00.000Z",
+      "dependencies": [
+        {
+          "ref": "3",
+          "type": "is-blocked-by"
+        },
+        {
+          "ref": "4",
+          "type": "is-blocked-by"
+        }
+      ],
+      "custom_fields": {
+        "Priority": "High",
+        "Duration": "3d",
+        "Budget": 1200,
+        "Ratio": -0.25
+      }
+    },
+    {
+      "title": "Fit",
+      "description": "",
+      "ref": "3",
+      "swimlane_name": "Garden/Beds",
+      "column_name": "Waiting",
+      "tags": [],
+      "parent_ref": "2",
+      "date_started": "2026-10-03T00:00:00.000Z"
+    },
+    {
+      "title": "No key",
+      "description": "",
+      "ref": "wrike/row/7",
+      "swimlane_name": "Garden/Beds",
+      "column_name": "Active",
+      "tags": []
+    },
+    {
+      "title": "Bad key",
+      "description": "",
+      "ref": "abc",
+      "swimlane_name": "Garden/Beds",
+      "column_name": "Active",
+      "tags": []
+    },
+    {
+      "title": "In late folder",
+      "description": "",
+      "ref": "7",
+      "swimlane_name": "Late folder",
+      "column_name": "Cancelled",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/row/1",
+      "reason": "a row above the header row is not imported"
+    },
+    {
+      "path": "/row/3",
+      "reason": "a Wrike folder or project's own Status, Assigned To, Description is not imported"
+    },
+    {
+      "path": "/row/4/Status",
+      "reason": "the Completed status group of \"In review\" is not kept by the list: import the Wrike workflow in Rules to add the rule that does what it does"
+    },
+    {
+      "path": "/row/4/Start Date Constraint",
+      "reason": "a Wrike start date constraint (2026-10-01) is not imported"
+    },
+    {
+      "path": "/row/4/Depends On",
+      "reason": "the SS kind of Wrike dependency \"4 ss\" is kept as is-blocked-by"
+    },
+    {
+      "path": "/row/4/Depends On",
+      "reason": "a dependency on the folder with Key 1 is not imported"
+    },
+    {
+      "path": "/row/4/Depends On",
+      "reason": "Wrike dependency \"x9\" is not <Key><FS|SS|FF|SF>"
+    },
+    {
+      "path": "/row/4/Default task workflow",
+      "reason": "the Wrike Default task workflow \"Default\" of a task is not imported"
+    },
+    {
+      "path": "/row/5/End Date",
+      "reason": "Wrike date \"2026-02-30\" is not a date"
+    },
+    {
+      "path": "/row/6",
+      "reason": "a repeated row of the task with Key 3 (a task in several folders) is imported once"
+    },
+    {
+      "path": "/row/7",
+      "reason": "a Wrike task without a Key cannot be a parent or a dependency"
+    },
+    {
+      "path": "/row/7/Start Date",
+      "reason": "Wrike date \"9999999\" is not a date"
+    },
+    {
+      "path": "/row/8/Key",
+      "reason": "Wrike Key \"abc\" is not an integer between 1 and 999999"
+    },
+    {
+      "path": "/row/10",
+      "reason": "a Wrike row without a Title is not imported"
+    }
+  ]
+}
