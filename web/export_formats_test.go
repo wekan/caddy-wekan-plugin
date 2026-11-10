@@ -341,8 +341,10 @@ func TestExportMenuOffersEveryFormat(t *testing.T) {
 			t.Errorf("the pop-over has the %s checkbox, on", k)
 		}
 	}
-	if n := strings.Count(page, "js-export-field-toggle"); n != len(exportFieldKeys)-1 {
-		t.Errorf("negative: %d section checkboxes, not %d", n, len(exportFieldKeys)-1)
+	// Three pop-overs carry the selection: the board's Export, and a
+	// swimlane's, list's or card's Export and Import.
+	if n := strings.Count(page, "js-export-field-toggle"); n != 3*(len(exportFieldKeys)-1) {
+		t.Errorf("negative: %d section checkboxes, not %d", n, 3*(len(exportFieldKeys)-1))
 	}
 	for _, row := range exportFieldRows("en") {
 		if row.Label == "" || !slices.Contains(exportFieldKeys, row.Field) {

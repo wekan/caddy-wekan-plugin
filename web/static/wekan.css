@@ -97,6 +97,7 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
    no icon font to load. */
 .fa { display: inline-block; font-style: normal; min-width: 1em; text-align: center; }
 .fa-plus::before { content: "+"; }
+.fa-bars::before { content: "\2630"; }
 .fa-pencil-square-o::before { content: "\270E"; }
 .fa-user-plus::before { content: "\1F464"; }
 .fa-shopping-cart::before { content: "\1F6D2"; }

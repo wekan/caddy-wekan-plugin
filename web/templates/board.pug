@@ -256,6 +256,17 @@
             a.js-copy-card(href="#")
               i.fa.fa-copy
               |  {{t $.L "copyCardPopup-title"}}
+          //- #1173: the card's Export and Import (cardDetails.jade).
+          if $.CanExport
+            li
+              a.js-export-card(href="#", data-card="{{.Card.ID}}", data-list="{{.Card.ListID}}")
+                i.fa.fa-upload
+                |  {{t $.L "export"}}
+          if $.CanEdit
+            li
+              a.js-import-card(href="#", data-card="{{.Card.ID}}", data-list="{{.Card.ListID}}")
+                i.fa.fa-download
+                |  {{t $.L "import"}}
           li
             a.js-archive(href="#")
               i.fa.fa-archive
@@ -305,6 +316,16 @@
           a.js-select-cards(href="#") {{t $.L "list-select-cards"}}
         li
           a.js-toggle-watch-list(href="#", data-watch="{{t $.L `watch`}}", data-unwatch="{{t $.L `unwatch`}}") {{t $.L "watch"}}
+        //- #1173: the list's Export and Import (listHeader.jade).
+        if .CanExport
+          li
+            a.js-export-list(href="#")
+              i.fa.fa-upload
+              |  {{t $.L "export"}}
+        li
+          a.js-import-list(href="#")
+            i.fa.fa-download
+            |  {{t $.L "import"}}
         if .Board.AdminOf .User.ID
           li
             a.js-list-permissions(href="#", data-base="/b/{{.Board.ID}}/{{.Board.Slug}}")
@@ -336,6 +357,88 @@
             li
               form(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/members/{{.ID}}", up-submit, up-target=".board-wrapper")
                 button.js-select-member(type="submit", class="{{if .Selected}}is-active{{end}}", data-user="{{.ID}}") {{.Username}}{{if .Fullname}} ({{.Fullname}}){{end}}{{if .Selected}} ✓{{end}}
+  if .CanExport
+    //- #1173: a swimlane's Export and Import (swimlaneHeader.jade).
+    template.js-pop-over-template(data-pop="swimlane-menu", data-title="{{t $.L `swimlaneActionPopup-title`}}")
+      ul.pop-over-list
+        li
+          a.js-export-swimlane(href="#")
+            i.fa.fa-upload
+            |  {{t $.L "export"}}
+        if .CanEdit
+          li
+            a.js-import-swimlane(href="#")
+              i.fa.fa-download
+              |  {{t $.L "import"}}
+    //- The Export pop-over of a swimlane, a list or a card (exportScopeBody):
+      what to include, and its files - PDF, Excel, JSON and the .zip - for
+      that scope; static/weddy.js fills in the scope and the title.
+    template.js-pop-over-template(data-pop="export-scope", data-board="{{.Board.ID}}", data-title-swimlane="{{t $.L `exportSwimlanePopup-title`}}",
+      data-title-list="{{t $.L `exportListPopup-title`}}", data-title-card="{{t $.L `exportCardPopup-title`}}")
+      .header
+        span.header-title.js-scope-title {{t $.L "export"}}
+        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+      .content
+        .export-board-panes
+          .export-board-pane.export-board-pane-select
+            p.quiet {{t $.L "export-select-what-to-include"}}
+            ul.pop-over-list.export-scope-select
+              li
+                a.flex.js-export-card-details-toggle(href="#", role="checkbox", aria-checked="true")
+                  .materialCheckBox.is-checked
+                  span {{t $.L "export-card-details"}}
+              each f in .ExportFields
+                li
+                  a.flex.js-export-field-toggle(href="#", data-field="{{.Field}}", role="checkbox", aria-checked="true")
+                    .materialCheckBox.is-checked
+                    span {{.Label}}
+          .export-board-pane.export-board-pane-formats
+            ul.pop-over-list
+              li
+                a.js-export-fields.js-scope-link(href="#", data-path="exportPDF", download)
+                  i.fa.fa-file-pdf-o
+                  |  PDF
+              li
+                a.js-export-fields.js-scope-link(href="#", data-path="exportExcel", download)
+                  i.fa.fa-file-excel-o
+                  |  Excel
+            hr
+            h4.pop-over-list-subheading JSON
+            ul.pop-over-list
+              li
+                a.js-export-fields.js-scope-link(href="#", data-path="export", download) JSON
+              li
+                a.js-export-fields.js-scope-link(href="#", data-path="export", data-query="attachments=false", download) JSON - {{t $.L "export-board-without-attachments"}}
+              li
+                a.js-export-fields.js-scope-link(href="#", data-path="exportZip", download) .zip - {{t $.L "attachments"}}
+  if .CanEdit
+    //- The Import pop-over of a swimlane, a list or a card: the same
+      selection, and a WeKan export (.json or .zip) to bring in beside it.
+    template.js-pop-over-template(data-pop="import-scope", data-board="{{.Board.ID}}", data-title-swimlane="{{t $.L `importSwimlanePopup-title`}}",
+      data-title-list="{{t $.L `importListPopup-title`}}", data-title-card="{{t $.L `importCardPopup-title`}}",
+      data-importing="{{t $.L `importing`}}", data-done="{{t $.L `import-done`}}", data-failed="{{t $.L `import-scoped-failed`}}", data-not-wekan="{{t $.L `import-not-wekan-export`}}")
+      .header
+        span.header-title.js-scope-title {{t $.L "import"}}
+        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+      .content
+        .export-board-panes
+          .export-board-pane.export-board-pane-select
+            p.quiet {{t $.L "export-select-what-to-include"}}
+            ul.pop-over-list.export-scope-select
+              each f in .ExportFields
+                li
+                  a.flex.js-export-field-toggle(href="#", data-field="{{.Field}}", role="checkbox", aria-checked="true")
+                    .materialCheckBox.is-checked
+                    span {{.Label}}
+          .export-board-pane.export-board-pane-formats
+            p.quiet {{t $.L "import-here-instruction"}}
+            ul.pop-over-list
+              li
+                label.js-import-file-label
+                  i.fa.fa-download
+                  |  {{t $.L "import"}} / JSON, .zip
+                  input.js-scope-import-file(type="file", accept=".json,application/json,.zip,application/zip", hidden)
+            p.quiet.js-scope-import-status
   if .CanExport
     template.js-pop-over-template(data-pop="export", data-title="{{t $.L `export`}}")
       .header
@@ -406,6 +509,9 @@
       .swimlane.js-swimlane(id="swimlane-{{.ID}}", data-swimlane="{{.ID}}")
         .swimlane-header.js-swimlane-header
           span.swimlane-header-name.title {{.Title}}
+          if $.CanExport
+            a.js-open-swimlane-menu.swimlane-header-menu-icon(href="#", data-swimlane="{{.ID}}", title="{{t $.L `swimlaneActionPopup-title`}}", aria-label="{{t $.L `swimlaneActionPopup-title`}}")
+              i.fa.fa-bars
           if $.CanEdit
             a.js-open-add-swimlane-menu.swimlane-header-plus-icon(href="#", data-swimlane="{{.ID}}", title="{{t $.L `add-swimlane`}}", aria-label="{{t $.L `add-swimlane`}}")
               i.fa.fa-plus

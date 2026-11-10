@@ -115,6 +115,100 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     openPopOver('export');
     applyExportSelection(document.querySelector('.js-pop-over'));
   });
+  // #1173: a swimlane's, a list's or a card's Export and Import pop-overs
+  // (exportScopeBody): the same selection, the scope's files, or a WeKan
+  // export brought in beside it.
+  var scope = null;
+  var menuLane = null;
+  function openScope(mode, kind, target) {
+    scope = { kind: kind, target: target };
+    openPopOver(mode + '-scope');
+    var p = document.querySelector('.js-pop-over');
+    var t = document.querySelector('template.js-pop-over-template[data-pop="' + mode + '-scope"]');
+    if (!p || !t) return;
+    var title = t.getAttribute('data-title-' + kind) || '';
+    p.querySelector('.js-scope-title').textContent = title;
+    p.setAttribute('aria-label', title);
+    var board = t.getAttribute('data-board');
+    p.querySelectorAll('a.js-scope-link').forEach(function (a) {
+      var path = a.getAttribute('data-path');
+      var url = '/api/boards/' + encodeURIComponent(board) + '/' + path;
+      var q = new URLSearchParams(a.getAttribute('data-query') || '');
+      // A card's PDF and Excel are the card's own (exportScope.js routeFor).
+      if (kind === 'card' && (path === 'exportPDF' || path === 'exportExcel')) {
+        url = '/api/boards/' + encodeURIComponent(board) + '/lists/' + encodeURIComponent(target.listId) + '/cards/' + encodeURIComponent(target.cardId) + '/' + path;
+      } else {
+        Object.keys(target).forEach(function (k) { if (target[k]) q.set(k, target[k]); });
+      }
+      q.set('fields', '');
+      a.setAttribute('href', url + '?' + q.toString());
+    });
+    applyExportSelection(p);
+  }
+  up.on('click', '.js-open-swimlane-menu', function (event, el) {
+    event.preventDefault();
+    menuLane = el.getAttribute('data-swimlane');
+    openPopOver('swimlane-menu');
+  });
+  up.on('click', '.js-pop-over .js-export-swimlane, .js-pop-over .js-import-swimlane', function (event, el) {
+    event.preventDefault();
+    openScope(el.classList.contains('js-export-swimlane') ? 'export' : 'import', 'swimlane', { swimlaneId: menuLane });
+  });
+  up.on('click', '.js-pop-over .js-export-list, .js-pop-over .js-import-list', function (event, el) {
+    event.preventDefault();
+    if (!menuList) return;
+    openScope(el.classList.contains('js-export-list') ? 'export' : 'import', 'list', { listId: menuList.dataset.list });
+  });
+  up.on('click', '.js-pop-over .js-export-card, .js-pop-over .js-import-card', function (event, el) {
+    event.preventDefault();
+    openScope(el.classList.contains('js-export-card') ? 'export' : 'import', 'card', { cardId: el.dataset.card, listId: el.dataset.list });
+  });
+  up.on('change', '.js-pop-over .js-scope-import-file', function (event, el) {
+    var file = el.files && el.files[0];
+    if (!file || !scope) return;
+    var p = el.closest('.js-pop-over');
+    var t = document.querySelector('template.js-pop-over-template[data-pop="import-scope"]');
+    var status = p.querySelector('.js-scope-import-status');
+    var board = t.getAttribute('data-board');
+    var fields = [];
+    p.querySelectorAll('.js-export-field-toggle').forEach(function (a) {
+      if (!exportOff[a.dataset.field]) fields.push(a.dataset.field);
+    });
+    var target = { boardId: board };
+    Object.keys(scope.target).forEach(function (k) {
+      // A card's import goes below the card: the card is its place.
+      if (scope.kind === 'card' && k === 'listId') return;
+      target[k] = scope.target[k];
+    });
+    status.textContent = t.getAttribute('data-importing');
+    var done = function (counts) {
+      var parts = [];
+      Object.keys(counts || {}).forEach(function (k) { if (counts[k] > 0) parts.push(counts[k] + ' ' + k); });
+      status.textContent = t.getAttribute('data-done') + ' ' + (parts.join(', ') || '0');
+      up.reload('.board-wrapper');
+    };
+    var failed = function (notWekan) {
+      status.textContent = t.getAttribute(notWekan ? 'data-not-wekan' : 'data-failed');
+    };
+    if (/\.zip$/i.test(file.name)) {
+      var q = new URLSearchParams(target);
+      q.set('fields', fields.join(','));
+      fetch('/api/import/zip?' + q.toString(), { method: 'POST', headers: { 'Content-Type': 'application/zip' }, body: file, credentials: 'same-origin' })
+        .then(function (r) { return r.json().then(function (a) { return { ok: r.ok, a: a }; }); })
+        .then(function (x) { if (x.ok && x.a.ok) done(x.a.counts); else failed(x.a.error === 'import-not-wekan-export'); })
+        .catch(function () { failed(false); });
+    } else {
+      file.text().then(function (text) {
+        var doc;
+        try { doc = JSON.parse(text); } catch (e) { failed(true); return; }
+        return fetch('/_methods/importScoped', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin',
+          body: JSON.stringify([target, doc, fields]) })
+          .then(function (r) { return r.json(); })
+          .then(function (a) { if (a && a.result) done(a.result); else failed(false); });
+      }).catch(function () { failed(false); });
+    }
+    el.value = '';
+  });
   up.on('click', '.js-export-card-details-toggle, .js-export-field-toggle', function (event, el) {
     // The pop-over stays open: choosing five sections is not five reopens.
     event.preventDefault();
