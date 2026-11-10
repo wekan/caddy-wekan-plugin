@@ -48,6 +48,9 @@ var externalFormats = map[string][2]string{
 	"clickup":     {"csv", "text/csv"},
 	"pivotal":     {"csv", "text/csv"},
 	"quire":       {"csv", "text/csv"},
+	"redmine":     {"csv", "text/csv"},
+	"notion":      {"csv", "text/csv"},
+	"focalboard":  {"boardarchive", "application/x-ndjson"},
 }
 
 type extChecklistItem struct {
@@ -98,6 +101,7 @@ type extItem struct {
 	RequestedBy   string          `json:"requestedBy,omitempty"`
 	ParentCardID  string          `json:"parentCardId,omitempty"`
 	Dependencies  []extDependency `json:"dependencies,omitempty"`
+	SpentTime     float64         `json:"spentTime,omitempty"`
 	Comments      []extComment    `json:"comments,omitempty"`
 	Checklists    []extChecklist  `json:"checklists,omitempty"`
 }
@@ -115,11 +119,12 @@ type extNamed struct {
 
 type extBoard struct {
 	Board struct {
-		ID         string  `json:"_id"`
-		Title      string  `json:"title"`
-		Labels     []Label `json:"labels"`
-		CreatedAt  string  `json:"createdAt,omitempty"`
-		ModifiedAt string  `json:"modifiedAt,omitempty"`
+		ID          string  `json:"_id"`
+		Title       string  `json:"title"`
+		Description string  `json:"description,omitempty"`
+		Labels      []Label `json:"labels"`
+		CreatedAt   string  `json:"createdAt,omitempty"`
+		ModifiedAt  string  `json:"modifiedAt,omitempty"`
 	} `json:"board"`
 	Lists     []extNamed `json:"lists"`
 	Swimlanes []extNamed `json:"swimlanes"`
@@ -171,6 +176,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board) extBoard {
 	var bdoc bson.M
 	if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(b.ID)}).Decode(&bdoc) == nil {
 		out.Board.CreatedAt, out.Board.ModifiedAt = isoDate(bdoc["createdAt"]), isoDate(bdoc["modifiedAt"])
+		out.Board.Description = strOf(bdoc["description"])
 	}
 	out.Lists, out.Swimlanes = []extNamed{}, []extNamed{}
 	sorted := options.Find().SetSort(bson.D{{Key: "sort", Value: 1}})
@@ -279,6 +285,9 @@ func (s *Server) collectExternal(ctx context.Context, b *Board) extBoard {
 			it.SwimlaneTitle = "Default"
 		}
 		it.DueComplete = it.DueAt != "" && c["dueComplete"] == true
+		if n, ok := plain(c["spentTime"]).(float64); ok && n > 0 {
+			it.SpentTime = n
+		}
 		// Card dependencies, for the formats with relations of their own.
 		if deps, ok := c["cardDependencies"].(bson.A); ok {
 			for _, dv := range deps {
@@ -539,6 +548,12 @@ func (s *Server) externalExport(ctx context.Context, b *Board, format string) []
 		return []byte(formatPivotalCsv(d))
 	case "quire":
 		return []byte(formatQuireCsv(d))
+	case "redmine":
+		return []byte(formatRedmineCsv(d))
+	case "notion":
+		return []byte(formatNotionCsv(d))
+	case "focalboard":
+		return []byte(formatFocalboard(d, time.Now().UnixMilli()))
 	}
 	if f := apiFormatters[format]; f != nil {
 		return jsJSON(f(d), "")

@@ -1,6 +1,7 @@
 package web
 
 import (
+	"math/big"
 	"strconv"
 	"strings"
 	"time"
@@ -729,4 +730,164 @@ func formatQuireCsv(d extBoard) string {
 		return csvField(v)
 	}
 	return writeCSVRows(rows, quire, "\r\n")
+}
+
+// --- Redmine
+
+var redmineRelations = []string{"Related to", "Blocks", "Blocked by", "Is duplicate of", "Has duplicate"}
+
+var redmineRelationFor = map[string]string{"related-to": "Related to", "blocks": "Blocks", "is-blocked-by": "Blocked by",
+	"duplicates": "Is duplicate of", "is-duplicated-by": "Has duplicate", "fixes": "Related to", "is-fixed-by": "Related to"}
+
+var redmineColumns = append([]string{"Unique ID", "Project", "Tracker", "Status", "Priority", "Subject", "Description",
+	"Author", "Assignee", "Category", "Target version", "Start date", "Due date", "Estimated time", "% Done", "Spent time",
+	"Created", "Closed", "Parent task"}, redmineRelations...)
+
+// jsToFixed2 is Number.prototype.toFixed(2): the nearest, a tie to the
+// larger - not Go's ties to even.
+func jsToFixed2(v float64) string {
+	r := new(big.Rat).SetFloat64(v)
+	if r == nil {
+		return ""
+	}
+	r.Mul(r, big.NewRat(100, 1))
+	n := new(big.Int).Div(r.Num(), r.Denom()) // floor for v >= 0
+	if r.Sign() < 0 && new(big.Rat).SetInt(n).Cmp(r) != 0 {
+		n.Sub(n, big.NewInt(1))
+	}
+	frac := new(big.Rat).Sub(r, new(big.Rat).SetInt(n))
+	if frac.Cmp(big.NewRat(1, 2)) >= 0 {
+		n.Add(n, big.NewInt(1))
+	}
+	neg := n.Sign() < 0
+	digits := new(big.Int).Abs(n).String()
+	for len(digits) < 3 {
+		digits = "0" + digits
+	}
+	out := digits[:len(digits)-2] + "." + digits[len(digits)-2:]
+	if neg {
+		out = "-" + out
+	}
+	return out
+}
+
+func formatRedmineCsv(d extBoard) string {
+	ids := map[string]bool{}
+	for _, i := range d.Items {
+		if i.CardID != "" {
+			ids[i.CardID] = true
+		}
+	}
+	rows := [][]string{redmineColumns}
+	for _, i := range d.Items {
+		relations := map[string][]string{}
+		for _, dep := range i.Dependencies {
+			if !ids[dep.CardID] {
+				continue
+			}
+			name := redmineRelationFor[dep.Type]
+			if name == "" {
+				name = "Related to"
+			}
+			relations[name] = append(relations[name], dep.CardID)
+		}
+		project := ""
+		if i.SwimlaneTitle != "" && i.SwimlaneTitle != "Default" {
+			project = i.SwimlaneTitle
+		}
+		tracker := ""
+		if len(i.Labels) > 0 {
+			tracker = i.Labels[0]
+		}
+		status := i.ListTitle
+		if status == "" {
+			status = "New"
+		}
+		subject := jsTrim(i.Title)
+		if subject == "" {
+			subject = "Untitled"
+		}
+		author := i.RequestedBy
+		if author == "" {
+			author = i.Creator
+		}
+		minute := func(iso string) string {
+			if t := parseISO(iso); !t.IsZero() {
+				return t.Format("2006-01-02 15:04")
+			}
+			return ""
+		}
+		spent := ""
+		if i.SpentTime > 0 {
+			spent = jsToFixed2(i.SpentTime)
+		}
+		parent := ""
+		if i.ParentCardID != "" && ids[i.ParentCardID] {
+			parent = i.ParentCardID
+		}
+		v := map[string]string{"Unique ID": i.CardID, "Project": project, "Tracker": tracker, "Status": status, "Subject": subject,
+			"Description": i.Description, "Author": author, "Assignee": i.Owner, "Start date": obsidianDay(i.StartAt),
+			"Due date": obsidianDay(i.DueAt), "Spent time": spent, "Created": minute(i.CreatedAt), "Closed": minute(i.EndAt),
+			"Parent task": parent}
+		for _, name := range redmineRelations {
+			v[name] = strings.Join(relations[name], ", ")
+		}
+		cells := make([]string, len(redmineColumns))
+		for k, c := range redmineColumns {
+			cells[k] = v[c]
+		}
+		rows = append(rows, cells)
+	}
+	return "\ufeff" + writeCSVRows(rows, csvField, "\r\n")
+}
+
+// --- Notion
+
+func formatNotionCsv(d extBoard) string {
+	lanes := map[string]bool{}
+	lane := func(i extItem) string {
+		if i.SwimlaneTitle == "" {
+			return "Default"
+		}
+		return i.SwimlaneTitle
+	}
+	for _, i := range d.Items {
+		lanes[lane(i)] = true
+	}
+	columns := []string{"Name", "Status", "Assignee", "Tags", "Start", "Due", "Description"}
+	if len(lanes) > 1 {
+		columns = append(columns, "Swimlane")
+	}
+	usDate := func(iso string) string {
+		if t := parseISO(iso); !t.IsZero() {
+			return t.Format("01/02/2006")
+		}
+		return ""
+	}
+	clean := func(v string) string { return jsTrim(strings.ReplaceAll(v, ",", " ")) }
+	rows := [][]string{columns}
+	for _, i := range d.Items {
+		var who, tags []string
+		for _, p := range append([]string{i.Owner}, i.Assignees...) {
+			who = append(who, clean(p))
+		}
+		for _, l := range i.Labels {
+			if t := clean(l); t != "" {
+				tags = append(tags, t)
+			}
+		}
+		name := jsTrim(i.Title)
+		if name == "" {
+			name = "Untitled"
+		}
+		v := map[string]string{"Name": name, "Status": i.ListTitle, "Assignee": strings.Join(uniqueNonEmpty(who), ", "),
+			"Tags": strings.Join(tags, ", "), "Start": usDate(i.StartAt), "Due": usDate(i.DueAt), "Description": i.Description,
+			"Swimlane": lane(i)}
+		cells := make([]string, len(columns))
+		for k, c := range columns {
+			cells[k] = v[c]
+		}
+		rows = append(rows, cells)
+	}
+	return writeCSVRows(rows, csvField, "\r\n")
 }

@@ -1,0 +1,11 @@
+﻿Unique ID,Project,Tracker,Status,Priority,Subject,Description,Author,Assignee,Category,Target version,Start date,Due date,Estimated time,% Done,Spent time,Created,Closed,Parent task,Related to,Blocks,Blocked by,Is duplicate of,Has duplicate
+cardA1,,priority:H,To Do,,Write   spec now,"line one
+
+line ""two"" <b>",carol,alice,,,2026-11-10,2026-11-20,,,1.13,2026-11-01 08:00,,,,,,,
+cardB😀2,,priority:B,Done,,-minus first,"first
+second  
+
+",,,,,,,,,2.50,2026-11-02 00:00,2026-11-05 00:00,cardA1,cardC3,cardA1,,,
+cardC3,Ops,,Archived list,,"multi
+  line	title",,,,,,,2026-12-24,,,,,,,,,cardB😀2,cardA1,
+cardD4,,p1,Started,,No list item,,Eve,,,,2026-11-11,2026-11-12,,,,,,cardB😀2,,,,,

@@ -50,7 +50,8 @@
         "name": "done",
         "color": "lime"
       }
-    ]
+    ],
+    "description": "The plan"
   },
   "lists": [
     {
@@ -151,7 +152,8 @@
         }
       ],
       "color": "pink",
-      "dueComplete": true
+      "dueComplete": true,
+      "spentTime": 1.125
     },
     {
       "cardId": "cardB😀2",
@@ -208,7 +210,8 @@
         {
           "cardId": "cardC3"
         }
-      ]
+      ],
+      "spentTime": 2.5
     },
     {
       "cardId": "cardC3",

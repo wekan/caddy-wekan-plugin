@@ -32,6 +32,8 @@ func TestExternalFormatsAreWeKans(t *testing.T) {
 	formats["leo"], formats["meistertask"], formats["todoist"] = formatLeo(d), formatMeisterTaskCsv(d), formatTodoistCsv(d)
 	formats["linear"], formats["clickup"], formats["pivotal"], formats["quire"] = formatLinearCsv(d), formatClickUpCsv(d), formatPivotalCsv(d), formatQuireCsv(d)
 	formats["ticktick"] = formatTickTickCsv(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC))
+	formats["redmine"], formats["notion"] = formatRedmineCsv(d), formatNotionCsv(d)
+	formats["focalboard"] = formatFocalboard(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC).UnixMilli())
 	for f, format := range apiFormatters {
 		formats[f] = string(jsJSON(format(d), ""))
 	}

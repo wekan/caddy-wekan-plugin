@@ -16,9 +16,11 @@ const { formatters } = await import(pathToFileURL(path.join(wekan, 'models/lib/e
 const ticktickNow = new Date('2026-11-10T12:00:00.000Z');
 const { formatTickTickCsv } = await import(pathToFileURL(path.join(wekan, 'models/lib/ticktickCsvFormat.js')).href);
 fs.writeFileSync(path.join(here, 'ticktick.golden'), formatTickTickCsv(structuredClone(collected), ticktickNow));
+const { formatFocalboard } = await import(pathToFileURL(path.join(wekan, 'models/lib/focalboardFormat.js')).href);
+fs.writeFileSync(path.join(here, 'focalboard.golden'), formatFocalboard(structuredClone(collected), { now: ticktickNow.getTime() }));
 for (const format of ['markdown', 'opml', 'todotxt', 'taskwarrior', 'zenkit', 'nullboard', 'obsidian', 'orgmode', 'kanri',
   'deck', 'kanboard', 'openproject', 'github', 'gitea', 'forgejo', 'gitlab', 'trello', 'asana',
-  'leo', 'meistertask', 'todoist', 'linear', 'clickup', 'pivotal', 'quire']) {
+  'leo', 'meistertask', 'todoist', 'linear', 'clickup', 'pivotal', 'quire', 'redmine', 'notion']) {
   const out = formatters[format](structuredClone(collected));
   fs.writeFileSync(path.join(here, `${format}.golden`), typeof out === 'string' ? out : JSON.stringify(out));
 }
