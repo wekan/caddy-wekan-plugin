@@ -52,6 +52,29 @@ type mdBlock struct {
 	hasRuns  bool
 }
 
+// MarshalJSON writes a block's own keys, as WeKan's: a list item's runs even
+// when it has none.
+func (b mdBlock) MarshalJSON() ([]byte, error) {
+	o := jsObject{}
+	o.set("type", b.Type)
+	o.set("level", b.Level)
+	switch b.Type {
+	case "code":
+		o.set("text", *b.Text)
+		o.set("language", *b.Language)
+	case "rule":
+	default:
+		o.set("runs", orEmpty(b.Runs))
+		if b.Quote != nil {
+			o.set("quote", *b.Quote)
+		}
+		if b.Index != nil {
+			o.set("index", *b.Index)
+		}
+	}
+	return o.MarshalJSON()
+}
+
 // mdTok is a markdown-it token.
 type mdTok struct {
 	typ, tag, content, href, info string

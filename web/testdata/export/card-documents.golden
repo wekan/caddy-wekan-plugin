@@ -1,0 +1,891 @@
+{
+  "full": [
+    {
+      "type": "title",
+      "runs": [
+        {
+          "text": "The card",
+          "bold": false,
+          "italic": false,
+          "code": false,
+          "strike": false,
+          "link": ""
+        }
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Board",
+          "Board A"
+        ],
+        [
+          "List",
+          "Doing"
+        ],
+        [
+          "Swimlane",
+          "Default"
+        ]
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Card number",
+          "7"
+        ],
+        [
+          "Creator",
+          "ann"
+        ],
+        [
+          "Members",
+          "ann, bob, gone"
+        ]
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Assignees",
+          "bob"
+        ],
+        [
+          "Requested By",
+          "cy, Bea"
+        ],
+        [
+          "Created at",
+          "2026-01-02T03:04:05.000Z UTC",
+          "2026-01-02T03:04:05.000Z"
+        ]
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Received",
+          "2026-01-03T00:00:00.000Z UTC",
+          "2026-01-03T00:00:00.000Z"
+        ],
+        [
+          "Due",
+          "2026-10-10T08:30:00.000Z UTC",
+          "2026-10-10T08:30:00.000Z"
+        ],
+        [
+          "Last activity",
+          "2026-02-03T04:05:06.000Z UTC",
+          "2026-02-01T00:00:00.000Z"
+        ]
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Spent Time",
+          "1.5"
+        ],
+        [
+          "Overtime",
+          "Yes"
+        ],
+        [
+          "Labels",
+          "bug, blue, l3"
+        ]
+      ],
+      "labelTitle": "Labels",
+      "labelDetails": [
+        {
+          "_id": "l1",
+          "name": "bug",
+          "color": "red"
+        },
+        {
+          "_id": "l2",
+          "name": "",
+          "color": "blue"
+        },
+        {
+          "_id": "l3",
+          "color": ""
+        }
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Sort",
+          "2.5"
+        ]
+      ]
+    },
+    {
+      "type": "section",
+      "key": "stickers",
+      "title": "Stickers"
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "runs": [
+            {
+              "text": "Star - fa-star - gold",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "marker": "-",
+          "level": 0
+        },
+        {
+          "runs": [
+            {
+              "text": "yes",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "marker": "-",
+          "level": 0
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "key": "locations",
+      "title": "Location"
+    },
+    {
+      "type": "note",
+      "runs": [
+        {
+          "text": "Location 1",
+          "bold": false,
+          "italic": false,
+          "code": false,
+          "strike": false,
+          "link": ""
+        }
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Location name",
+          "Office"
+        ],
+        [
+          "Address",
+          "Main st 1"
+        ],
+        [
+          "Latitude",
+          60.17
+        ]
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Longitude",
+          24.94
+        ]
+      ]
+    },
+    {
+      "type": "note",
+      "runs": [
+        {
+          "text": "Location 2",
+          "bold": false,
+          "italic": false,
+          "code": false,
+          "strike": false,
+          "link": ""
+        }
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Latitude",
+          0
+        ]
+      ]
+    },
+    {
+      "type": "section",
+      "key": "dependencies",
+      "title": "Dependencies"
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "runs": [
+            {
+              "text": "c9",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "marker": "-",
+          "level": 0
+        },
+        {
+          "runs": [
+            {
+              "text": "c8 - blocks - red",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "marker": "-",
+          "level": 0
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "key": "description",
+      "title": "Description"
+    },
+    {
+      "type": "text",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "level": 0,
+          "runs": [
+            {
+              "text": "Plan",
+              "bold": true,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            },
+            {
+              "text": " with a ",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            },
+            {
+              "text": "link",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": "https://x.test"
+            }
+          ],
+          "quote": 0
+        },
+        {
+          "type": "bullet",
+          "level": 0,
+          "runs": [
+            {
+              "text": "one",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "quote": 0
+        },
+        {
+          "type": "bullet",
+          "level": 0,
+          "runs": [
+            {
+              "text": "two “quoted”",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "quote": 0
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "key": "custom-fields",
+      "title": "Custom Fields"
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Priority",
+          "High"
+        ],
+        [
+          "Zero",
+          0
+        ]
+      ]
+    },
+    {
+      "type": "section",
+      "key": "checklists",
+      "title": "Checklists"
+    },
+    {
+      "type": "note",
+      "runs": [
+        {
+          "text": "Release",
+          "bold": true,
+          "italic": false,
+          "code": false,
+          "strike": false,
+          "link": ""
+        }
+      ],
+      "progress": {
+        "done": 1,
+        "total": 2
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "runs": [
+            {
+              "text": "Call ",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            },
+            {
+              "text": "vendor",
+              "bold": true,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "done": true,
+          "marker": "[x]",
+          "level": 0
+        },
+        {
+          "runs": [
+            {
+              "text": "Pay",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "done": false,
+          "marker": "[ ]",
+          "level": 0
+        }
+      ]
+    },
+    {
+      "type": "note",
+      "runs": [
+        {
+          "text": "",
+          "bold": true,
+          "italic": false,
+          "code": false,
+          "strike": false,
+          "link": ""
+        }
+      ],
+      "progress": {
+        "done": 0,
+        "total": 0
+      }
+    },
+    {
+      "type": "list",
+      "items": []
+    },
+    {
+      "type": "section",
+      "key": "subtasks",
+      "title": "Subtasks"
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "runs": [
+            {
+              "text": "Sub one",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "done": true,
+          "marker": "[x]",
+          "level": 0
+        },
+        {
+          "runs": [
+            {
+              "text": "Sub two",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "done": false,
+          "marker": "[ ]",
+          "level": 0
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "key": "comments",
+      "title": "Comments"
+    },
+    {
+      "type": "rows",
+      "header": [
+        "Date",
+        "Comment"
+      ],
+      "rows": [
+        [
+          [
+            {
+              "text": "2026-03-01T10:00:00.000Z UTC",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          [
+            {
+              "text": "bob: ",
+              "bold": true,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            },
+            {
+              "text": "Looks ",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            },
+            {
+              "text": "good",
+              "bold": false,
+              "italic": true,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ]
+        ],
+        [
+          [],
+          [
+            {
+              "text": "anon",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ]
+        ],
+        [
+          [],
+          []
+        ]
+      ]
+    },
+    {
+      "type": "section",
+      "key": "attachments",
+      "title": "Attachments"
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "runs": [
+            {
+              "text": "plan.pdf (2.0 KB)",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "done": false,
+          "marker": "-",
+          "level": 0,
+          "attachment": {
+            "name": "plan.pdf",
+            "size": "2.0 KB",
+            "type": "application/pdf",
+            "uploaded": "2026-03-02T00:00:00.000Z UTC",
+            "uploader": "ann"
+          }
+        },
+        {
+          "runs": [
+            {
+              "text": "pic.png (10 B)",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "done": false,
+          "marker": "-",
+          "level": 0,
+          "attachment": {
+            "name": "pic.png",
+            "size": "10 B",
+            "type": "image/png",
+            "uploaded": "",
+            "uploader": "bob"
+          }
+        },
+        {
+          "runs": [
+            {
+              "text": "a3 (1.5 MB)",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "done": false,
+          "marker": "-",
+          "level": 0,
+          "attachment": {
+            "name": "a3",
+            "size": "1.5 MB",
+            "type": "",
+            "uploaded": "",
+            "uploader": ""
+          }
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "key": "voting",
+      "title": "Voting"
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Voting question",
+          "Ship it?"
+        ],
+        [
+          "for it",
+          "2"
+        ],
+        [
+          "against",
+          "1"
+        ]
+      ]
+    },
+    {
+      "type": "section",
+      "key": "poker",
+      "title": "Planning Poker"
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Planning Poker",
+          "Yes"
+        ],
+        [
+          "Estimation",
+          "5"
+        ]
+      ]
+    }
+  ],
+  "minimal": [
+    {
+      "type": "title",
+      "runs": [
+        {
+          "text": "Only a title",
+          "bold": false,
+          "italic": false,
+          "code": false,
+          "strike": false,
+          "link": ""
+        }
+      ]
+    }
+  ],
+  "selection": [
+    {
+      "type": "title",
+      "runs": [
+        {
+          "text": "Sel",
+          "bold": false,
+          "italic": false,
+          "code": false,
+          "strike": false,
+          "link": ""
+        }
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Board",
+          "B"
+        ],
+        [
+          "Swimlane",
+          "Lane"
+        ],
+        [
+          "Labels",
+          "ui"
+        ]
+      ],
+      "labelTitle": "Labels",
+      "labelDetails": [
+        {
+          "_id": "l1",
+          "name": "ui",
+          "color": "green"
+        }
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Sort",
+          "0"
+        ]
+      ]
+    },
+    {
+      "type": "section",
+      "key": "locations",
+      "title": "Location"
+    },
+    {
+      "type": "note",
+      "runs": [
+        {
+          "text": "Location 1",
+          "bold": false,
+          "italic": false,
+          "code": false,
+          "strike": false,
+          "link": ""
+        }
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Location name",
+          "Legacy place"
+        ],
+        [
+          "Latitude",
+          1.5
+        ]
+      ]
+    },
+    {
+      "type": "section",
+      "key": "checklists",
+      "title": "Checklists"
+    },
+    {
+      "type": "note",
+      "runs": [
+        {
+          "text": "Empty list",
+          "bold": true,
+          "italic": false,
+          "code": false,
+          "strike": false,
+          "link": ""
+        }
+      ],
+      "progress": {
+        "done": 0,
+        "total": 0
+      }
+    },
+    {
+      "type": "list",
+      "items": []
+    },
+    {
+      "type": "section",
+      "key": "poker",
+      "title": "Planning Poker"
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Planning Poker",
+          ""
+        ],
+        [
+          "Estimation",
+          "0"
+        ]
+      ]
+    }
+  ],
+  "people-and-dates": [
+    {
+      "type": "title",
+      "runs": [
+        {
+          "text": "PD",
+          "bold": false,
+          "italic": false,
+          "code": false,
+          "strike": false,
+          "link": ""
+        }
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Creator",
+          "u9"
+        ],
+        [
+          "Assigned By",
+          "ann, bob, Boss"
+        ],
+        [
+          "End",
+          "2026-05-05T05:05:05.000Z UTC",
+          "2026-05-05T05:05:05.000Z"
+        ]
+      ]
+    },
+    {
+      "type": "meta",
+      "pairs": [
+        [
+          "Spent Time",
+          "2"
+        ],
+        [
+          "Overtime",
+          "No"
+        ]
+      ]
+    },
+    {
+      "type": "section",
+      "key": "attachments",
+      "title": "Attachments"
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "runs": [
+            {
+              "text": "x (12 B)",
+              "bold": false,
+              "italic": false,
+              "code": false,
+              "strike": false,
+              "link": ""
+            }
+          ],
+          "done": false,
+          "marker": "-",
+          "level": 0,
+          "attachment": {
+            "name": "x",
+            "size": "12 B",
+            "type": "",
+            "uploaded": "",
+            "uploader": ""
+          }
+        }
+      ]
+    }
+  ]
+}

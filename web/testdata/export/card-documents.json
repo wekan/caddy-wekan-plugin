@@ -1,0 +1,63 @@
+[
+  {
+    "name": "full",
+    "fields": [],
+    "users": {"u1": "ann", "u2": "bob", "u3": "cy"},
+    "data": {
+      "board": {"title": "Board A", "labels": [{"_id": "l1", "name": "bug", "color": "red"}, {"_id": "l2", "name": "", "color": "blue"}, {"_id": "l3", "color": ""}]},
+      "list": {"title": "Doing"},
+      "swimlane": {"title": "Default"},
+      "card": {
+        "_id": "c1", "title": "The card", "cardNumber": 7, "userId": "u1", "members": ["u1", "u2", "gone"], "assignees": ["u2"],
+        "requesters": ["u3"], "requestedBy": "Bea", "assigners": [], "assignedBy": "",
+        "labelIds": ["l1", "l2", "l3", "nolabel"], "sort": 2.5,
+        "createdAt": {"$date": "2026-01-02T03:04:05.000Z"}, "dateLastActivity": {"$date": "2026-02-03T04:05:06.000Z"},
+        "modifiedAt": {"$date": "2026-02-01T00:00:00.000Z"}, "receivedAt": {"$date": "2026-01-03T00:00:00.000Z"},
+        "dueAt": {"$date": "2026-10-10T08:30:00.000Z"}, "spentTime": 1.5, "isOvertime": true,
+        "description": "**Plan** with a [link](https://x.test)\n\n- one\n- two \"quoted\"",
+        "stickers": [{"name": "Star", "icon": "fa-star", "color": "gold"}, {"highlight": "yes"}],
+        "locations": [{"name": "Office", "address": "Main st 1", "latitude": 60.17, "longitude": 24.94}, {"name": "", "latitude": 0}],
+        "cardDependencies": ["c9", {"cardId": "c8", "type": "blocks", "color": "red"}],
+        "customFields": [{"_id": "f1", "value": "High"}, {"_id": "f2", "value": ""}, {"_id": "deleted", "value": "x"}, {"_id": "f3", "value": 0}],
+        "vote": {"question": "Ship it?", "positive": ["u1", "u2"], "negative": ["u3"]},
+        "poker": {"question": true, "estimation": 5}
+      },
+      "checklists": [{"_id": "k1", "title": "Release"}, {"_id": "k2", "title": ""}],
+      "checklistItems": [{"checklistId": "k1", "title": "Call **vendor**", "isFinished": true}, {"checklistId": "k1", "title": "Pay", "isFinished": false}, {"checklistId": "k3", "title": "other"}],
+      "subtasks": [{"title": "Sub one", "archived": true}, {"title": "Sub two"}],
+      "comments": [{"createdAt": {"$date": "2026-03-01T10:00:00.000Z"}, "userId": "u2", "text": "Looks *good*"}, {"userId": "", "text": "anon"}, {"text": "   "}],
+      "attachments": [{"_id": "a1", "name": "plan.pdf", "size": 2048, "type": "application/pdf", "userId": "u1", "uploadedAt": {"$date": "2026-03-02T00:00:00.000Z"}},
+        {"_id": "a2", "meta": {"name": "pic.png", "userId": "u2"}, "size": 10, "type": "image/png"}, {"_id": "a3", "size": 1572864}],
+      "customFieldsById": {"f1": {"name": "Priority"}, "f2": {"name": "Empty"}, "f3": {"name": "Zero"}}
+    }
+  },
+  {
+    "name": "minimal",
+    "fields": ["description", "comments"],
+    "users": {},
+    "data": {"board": {"title": "B"}, "list": {"title": "L"}, "card": {"title": "Only a title", "description": "  "}}
+  },
+  {
+    "name": "selection",
+    "fields": ["board-info", "labels", "checklists", "poker", "sort", "locations"],
+    "users": {"u1": "ann"},
+    "data": {
+      "board": {"title": "B", "labels": [{"_id": "l1", "name": "ui", "color": "green"}]},
+      "list": {}, "swimlane": {"title": "Lane"},
+      "card": {"title": "Sel", "labelIds": ["l1"], "sort": 0, "spentTime": 0, "locationName": "Legacy place", "locationLatitude": 1.5,
+        "poker": {"estimation": 0}, "userId": "u1", "dueAt": {"$date": "2026-01-01T00:00:00.000Z"}},
+      "checklists": [{"_id": "k1", "title": "Empty list"}]
+    }
+  },
+  {
+    "name": "people-and-dates",
+    "fields": ["people", "dates", "voting", "attachments", "subtasks"],
+    "users": {"u1": "ann", "u2": "bob"},
+    "data": {
+      "board": {"title": "B"},
+      "card": {"title": "PD", "userId": "u9", "assigners": ["u1", "u2"], "assignedBy": "Boss", "endAt": {"$date": "2026-05-05T05:05:05.000Z"},
+        "spentTime": 2, "vote": {"question": "", "positive": []}},
+      "attachments": [{"_id": "a1", "name": "x", "size": "12"}]
+    }
+  }
+]
