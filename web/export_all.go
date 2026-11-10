@@ -133,7 +133,7 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 			delim := map[string]string{"csv": ",", "scsv": ";", "tsv": "\t"}[format]
 			_, _ = f.Write(s.boardCSV(ctx, b, delim))
 		default:
-			_, _ = f.Write(s.externalExport(ctx, b, format))
+			_, _ = f.Write(s.externalExport(ctx, b, format, exportWanted(r.URL.Query().Get("fields"))))
 		}
 	}
 	if len(skipped) > 0 {

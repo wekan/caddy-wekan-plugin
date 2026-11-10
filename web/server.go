@@ -795,6 +795,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["CanExport"] = (m != nil && !m.AssignedOnly()) || (m == nil && b.Permission == "public")
 	data["ExportTools"] = exportTools
 	lang := languageOf(r, u).Tag
+	// What to include: every section, as WeKan's selection starts.
+	data["ExportFields"], data["ExportFieldsAll"] = exportFieldRows(lang), strings.Join(exportFieldKeys, ",")
 	data["WatchLevel"] = s.watchLevel(r.Context(), b.ID, u.ID)
 	data["SidebarMembers"] = s.sidebarMembers(r, b, u)
 	data["Archived"] = s.archivedItems(r, b)

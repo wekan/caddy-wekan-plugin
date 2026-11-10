@@ -5,6 +5,7 @@ import (
 	"math"
 	"net/http"
 	"regexp"
+	"slices"
 	"strings"
 	"time"
 
@@ -196,7 +197,10 @@ func parseISO(s string) time.Time {
 // cards in their order, each card's labels by name, its people by username,
 // its comments and its checklists - Admin Panel's Anonymize export users
 // applied to all of it.
-func (s *Server) collectExternal(ctx context.Context, b *Board, format string) extBoard {
+//
+// want is the export's ?fields= selection (exportWanted): a section left out
+// is not read, and gateItem's description, labels and due date are emptied.
+func (s *Server) collectExternal(ctx context.Context, b *Board, format string, want exportWant) extBoard {
 	var out extBoard
 	out.Board.ID, out.Board.Title, out.Board.Labels = b.ID, b.Title, b.Labels
 	var bdoc bson.M
@@ -247,11 +251,15 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, format string) e
 	}
 	var comments, checklists, items []bson.M
 	if len(ids) > 0 {
-		if cur, err := s.db.Collection("card_comments").Find(ctx, bson.M{"cardId": dbIn(ids)}, options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}})); err == nil {
-			_ = cur.All(ctx, &comments)
+		if want.has("comments") {
+			if cur, err := s.db.Collection("card_comments").Find(ctx, bson.M{"cardId": dbIn(ids)}, options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}})); err == nil {
+				_ = cur.All(ctx, &comments)
+			}
 		}
-		if cur, err := s.db.Collection("checklists").Find(ctx, bson.M{"cardId": dbIn(ids)}, sorted); err == nil {
-			_ = cur.All(ctx, &checklists)
+		if want.has("checklists") {
+			if cur, err := s.db.Collection("checklists").Find(ctx, bson.M{"cardId": dbIn(ids)}, sorted); err == nil {
+				_ = cur.All(ctx, &checklists)
+			}
 		}
 		clIDs := bson.A{}
 		for _, cl := range checklists {
@@ -273,6 +281,9 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, format string) e
 		}
 	}
 	for _, c := range cards {
+		if !want.has("people") {
+			break
+		}
 		addUser(c["userId"])
 		for _, f := range []string{"assignees", "members"} {
 			list, _ := c[f].(bson.A)
@@ -370,9 +381,72 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, format string) e
 			}
 			it.Checklists = append(it.Checklists, x)
 		}
+		// What the selection leaves out: collect()'s want() and gateItem().
+		// dueComplete stays, as WeKan's does - it is read from the card's
+		// due date before gateItem drops that.
+		if !want.has("dates") {
+			// Jira's time spent is a date section too (jiraTimeTrackingExport).
+			it.StartAt, it.EndAt, it.CreatedAt, it.SpentTime, it.DueAt, it.Timetracking = "", "", "", 0, "", nil
+		}
+		if !want.has("people") {
+			it.Owner, it.Assignees, it.Creator, it.RequestedBy = "", nil, "", ""
+		}
+		if !want.has("subtasks") {
+			it.ParentCardID = ""
+		}
+		if !want.has("dependencies") {
+			it.Dependencies = nil
+		}
+		if !want.has("description") {
+			it.Description = ""
+		}
+		if !want.has("labels") {
+			it.LabelIDs, it.Labels = []string{}, []string{}
+		}
 		out.Items = append(out.Items, it)
 	}
 	return out
+}
+
+// exportFieldKeys is WeKan's BOARD_EXPORT_FIELD_KEYS (models/lib/exportFields.js):
+// what ?fields= may name, in the Export pop-over's order.
+var exportFieldKeys = []string{"card-details", "board-header", "activities", "labels", "people", "board-info", "dates",
+	"description", "custom-fields", "checklists", "subtasks", "comments", "attachments", "voting", "poker", "stickers",
+	"locations", "dependencies", "sort", "scrum"}
+
+// exportFieldRow is a checkbox of the Export pop-over's "what to include":
+// models/lib/exportFields.js BOARD_EXPORT_FIELDS, field and label.
+type exportFieldRow struct{ Field, Label string }
+
+func exportFieldRows(lang string) []exportFieldRow {
+	return []exportFieldRow{{"board-header", tr(lang, "board")}, {"activities", tr(lang, "activities")},
+		{"labels", tr(lang, "labels")}, {"people", tr(lang, "export-card-field-people")},
+		{"board-info", tr(lang, "export-card-field-board-info")}, {"dates", tr(lang, "export-card-field-dates")},
+		{"description", tr(lang, "description")}, {"custom-fields", tr(lang, "custom-fields")},
+		{"checklists", tr(lang, "checklists")}, {"subtasks", tr(lang, "export-card-subtasks")},
+		{"comments", tr(lang, "comments")}, {"attachments", tr(lang, "attachments")}, {"voting", tr(lang, "voting")},
+		{"poker", tr(lang, "poker-question")}, {"stickers", tr(lang, "stickers")}, {"locations", tr(lang, "location")},
+		{"dependencies", tr(lang, "card-dependencies")}, {"sort", tr(lang, "sort")}, {"scrum", tr(lang, "scrum-settings")}}
+}
+
+// exportWant is an export's selection; nil is everything.
+type exportWant map[string]bool
+
+func (w exportWant) has(k string) bool { return w == nil || w[k] }
+
+// exportWanted is parseExportFields: the named sections WeKan knows, or
+// everything when the query names none of them.
+func exportWanted(v string) exportWant {
+	var w exportWant
+	for _, e := range strings.Split(v, ",") {
+		if e = strings.TrimSpace(e); slices.Contains(exportFieldKeys, e) {
+			if w == nil {
+				w = exportWant{}
+			}
+			w[e] = true
+		}
+	}
+	return w
 }
 
 // isClosedList is WeKan's terminal-list heuristic.
@@ -547,8 +621,8 @@ func formatTodoTxt(d extBoard) string {
 }
 
 // externalExport is a board in one of the formats.
-func (s *Server) externalExport(ctx context.Context, b *Board, format string) []byte {
-	d := s.collectExternal(ctx, b, format)
+func (s *Server) externalExport(ctx context.Context, b *Board, format string, want exportWant) []byte {
+	d := s.collectExternal(ctx, b, format, want)
 	switch format {
 	case "markdown":
 		return []byte(formatMarkdownKanban(d))
@@ -676,6 +750,6 @@ func (s *Server) apiExportFormat(format string) http.HandlerFunc {
 		w.Header().Set("Content-Type", exportContentType(ext))
 		w.Header().Set("Content-Disposition", `attachment; filename="export-board-`+b.ID+`.`+ext[0]+`"`)
 		w.Header().Set("Cache-Control", "no-store")
-		_, _ = w.Write(s.externalExport(r.Context(), b, format))
+		_, _ = w.Write(s.externalExport(r.Context(), b, format, exportWanted(r.URL.Query().Get("fields"))))
 	}
 }

@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"testing"
@@ -317,9 +318,71 @@ func TestExportMenuOffersEveryFormat(t *testing.T) {
 	body(t, w.signIn(t, c, "ann", "pw"))
 	page := getBody(t, c, w.srv.URL+"/b/"+b.ID+"/"+bd.Slug)
 	for f := range externalFormats {
-		// With WeKan's link's fields query (exportScope.js exportUrl).
-		if !strings.Contains(page, `href="/api/boards/`+b.ID+`/export/`+f+`?fields=`) {
-			t.Errorf("the page links %s", f)
+		// With WeKan's link's fields query (exportScope.js exportUrl), its
+		// commas escaped as html/template writes a query.
+		if !strings.Contains(page, `href="/api/boards/`+b.ID+`/export/`+f+`?fields=`+strings.Join(exportFieldKeys, "%2c")+`"`) {
+			t.Errorf("the page links %s with every section selected", f)
 		}
+	}
+	// WeKan's "what to include": card details and a checkbox per section,
+	// each on, labelled - and none that ?fields= would not take.
+	if !strings.Contains(page, `js-export-card-details-toggle`) {
+		t.Error("the pop-over has the card details checkbox")
+	}
+	for _, k := range exportFieldKeys[1:] {
+		if !strings.Contains(page, `data-field="`+k+`" role="checkbox" aria-checked="true"`) {
+			t.Errorf("the pop-over has the %s checkbox, on", k)
+		}
+	}
+	if n := strings.Count(page, "js-export-field-toggle"); n != len(exportFieldKeys)-1 {
+		t.Errorf("negative: %d section checkboxes, not %d", n, len(exportFieldKeys)-1)
+	}
+	for _, row := range exportFieldRows("en") {
+		if row.Label == "" || !slices.Contains(exportFieldKeys, row.Field) {
+			t.Errorf("negative: %+v is a section ?fields= takes, with a label", row)
+		}
+	}
+}
+
+// The Export pop-over's selection, as WeKan's collect() reads ?fields=: a
+// section left out is not in the export, and a query naming no section WeKan
+// knows is everything (parseExportFields).
+func TestExportFieldsSelection(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	ann := w.seedUser(t, "ann", "pw")
+	a := login(t, w, "ann")
+	b := newRESTBoard(t, w, a, "Fields")
+	due := time.Date(2026, 3, 4, 5, 6, 7, 0, time.UTC)
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card}, bson.M{"$set": bson.M{"members": bson.A{ann.ID},
+		"description": "Said once", "dueAt": due, "startAt": due, "parentId": "parentCard1"}})
+	call(t, "POST", w.srv.URL+"/api/boards/"+b.ID+"/cards/"+b.Card+"/comments", a, `{"comment":"A remark"}`, nil)
+	zenkit := func(fields string) zkItem {
+		req, _ := http.NewRequest("GET", w.srv.URL+"/api/boards/"+b.ID+"/export/zenkit?fields="+fields, nil)
+		req.Header.Set("Authorization", "Bearer "+a)
+		res, err := testClient.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var zk zkBoard
+		if err := json.NewDecoder(res.Body).Decode(&zk); err != nil || len(zk.Items) != 1 {
+			t.Fatalf("fields=%s: one item: %v", fields, err)
+		}
+		return zk.Items[0]
+	}
+	all := "card-details,board-header,activities,labels,people,board-info,dates,description,custom-fields,checklists,subtasks,comments,attachments,voting,poker,stickers,locations,dependencies,sort,scrum"
+	for _, q := range []string{all, "", "nothing-wekan-knows"} {
+		if it := zenkit(q); it.Description != "Said once" || it.Due == "" || it.Start == "" || it.ParentID != "parentCard1" ||
+			len(it.Assignees) != 1 || len(it.Comments) != 1 {
+			t.Errorf("fields=%q is everything: %+v", q, it)
+		}
+	}
+	if it := zenkit("labels"); it.Description != "" || it.Due != "" || it.Start != "" || it.CreatedAt != "" || it.ParentID != "" ||
+		len(it.Assignees) != 0 || len(it.Comments) != 0 || it.Title == "" {
+		t.Errorf("negative: fields=labels leaves out the description, dates, subtask parent, people and comments: %+v", it)
+	}
+	if it := zenkit("comments,people"); len(it.Comments) != 1 || it.Comments[0].Author != "ann" || len(it.Assignees) != 1 || it.Description != "" {
+		t.Errorf("fields=comments,people: just those: %+v", it)
 	}
 }
