@@ -1056,6 +1056,7 @@
   "import-board-instruction-todotxt": "todo.txt teywI' yIrar: tlhegh HochDaq wa' Qu' yIlan, todo.txt ghunwI' patmey rur patvam. 'pItlh' tetlhDaq Qu'mey rIn (\"x\") vIHmoHlu'; +project @context je moj per; potlh per moj (A); Qu' poH Dorbogh jaj 'oS due:, 'ej taghbogh jaj 'oS t:.",
   "import-board-instruction-zenkit": "ZenKit list ngeH JSON lan ({ \"title\", \"stages\":[...], \"items\":[...] }). tetlhmey moj stages, 'ej navmey moj items.",
   "import-file-label": "ngeH De'wI' teywI' yIwIv, pagh bIngDaq ghItlhDaj yIlan:",
+  "import-too-large": "tIn law' De'wI' ghItlh, vaj wa'logh nItebHa'moHlaHbe'. ghItlhmey mach DaSIjnIS, ngoQ pagh jaj DaghojmoHmeH, 'ej Hoch wa' nItebHa'moH.",
   "initials": "pong pIqaD wa'DIchmey",
   "instance": "'elpu'bogh lo'wI'pu'",
   "instance-desc": "'echletvam leghlaH WeKanvam 'elpu'bogh Hoch lo'wI'. 'elpu'be'bogh ghotpu'vaD not 'echletvam cha'lu'. 'echletvam luchoHlaH 'echletvamvaD ghotpu' chellu'pu'bogh neH.",

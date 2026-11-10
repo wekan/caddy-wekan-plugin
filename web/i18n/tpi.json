@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Putim kopi bilong fail todo.txt: wanpela wok long wanwan lain, olsem app todo.txt na ol app i wok wantaim em i save raitim. Ol wok i pinis (\"x\") i go long hap bilong ol wok i pinis, +project na @context i kamap ol lebol, (A) i kamap lebol bilong wok i mas kam pas, na due: na t: i kamap de bilong pinisim na de bilong statim wok.",
   "import-board-instruction-zenkit": "Putim kopi bilong JSON bilong lis ZenKit ol i salim i go aut ({ \"title\", \"stages\":[...], \"items\":[...] }). Ol stage i kamap ol lis na ol item i kamap ol kat.",
   "import-file-label": "Makim fail export, o pestim tok bilong en long hap daun:",
+  "import-too-large": "Fail i bikpela tumas long kisim i kam insait long wanpela taim. Brukim long ol liklik fail, olsem long wanwan projek o long wanwan de, na kisim wanwan i kam insait.",
   "initials": "Ol fes leta bilong nem",
   "instance": "Ol yusa i go insait pinis",
   "instance-desc": "Olgeta yusa i bin sain in long dispela WeKan inap lukim dispela bot. Ol manmeri i no sain in bai i no inap lukim dispela bot. Ol manmeri ol i bin putim long bot tasol inap senisim em.",

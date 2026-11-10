@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Klistra in en todo.txt-fil: en uppgift per rad, som den skrivs av todo.txt-appen och kompatibla appar. Slutförda uppgifter (\"x\") hamnar i Klart, +project och @context blir etiketter, (A) blir en prioritetsetikett och due: och t: blir förfallo- och startdatum.",
   "import-board-instruction-zenkit": "Klistra in en ZenKit-listexport som JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages blir listor och items blir kort.",
   "import-file-label": "Välj exportfilen, eller klistra in dess text nedan:",
+  "import-too-large": "Filen är för stor för att importeras på en gång. Dela upp den i mindre filer, till exempel per projekt eller per datum, och importera var och en.",
   "initials": "Initialer",
   "instance": "Inloggade användare",
   "instance-desc": "Alla som är inloggade i denna WeKan kan visa den här tavlan. Den visas aldrig för personer som inte är inloggade. Endast personer som lagts till på tavlan kan redigera den.",

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Tempel fail todo.txt: saboh tugaih bak saboh baréh, lagèe nyang geutuléh lé aplikasi todo.txt ngön aplikasi nyang sisuai. Tugaih nyang ka seuleusoe (\"x\") jak u Seuleusoe, +project ngön @context jeuet keu label, (A) jeuet keu label prioritas, due: ngön t: jeuet keu tanggai tempo ngön tanggai phôn.",
   "import-board-instruction-zenkit": "Tempel JSON ekspor list ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stage jadi dapeuta ngön item jadi kad.",
   "import-file-label": "Pileh file ekspor, atawa tempel teks jih di bawah:",
+  "import-too-large": "Fail nyan rayeuk that keu geupeutamong sigo. Neubagi jeut keu fail-fail ubit, contoh meunurot proyek atawa meunurot tanggai, laju neupeutamong saboh-saboh.",
   "initials": "Inisial",
   "instance": "Ureuëng ngui nyang ka tamong",
   "instance-desc": "Mandum ureueng ngui nyang ka tamong u WeKan nyoe jeuet kalön papan nyoe. Papan nyoe hana tom geupeuleumah keu ureueng nyang goh lom tamong. Ureueng nyang ka geutamah u papan mantong nyang jeuet ubah.",

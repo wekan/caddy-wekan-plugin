@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Pega un ficheiro todo.txt: unha tarefa por liña, tal como o escriben a aplicación todo.txt e as aplicacións compatibles. As tarefas completadas (\"x\") pasan a Feito, +project e @context convértense en etiquetas, (A) convértese nunha etiqueta de prioridade e due: e t: convértense nas datas de vencemento e de inicio.",
   "import-board-instruction-zenkit": "Pega un JSON de exportación de lista de ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). As stages convértense en listas e os items en tarxetas.",
   "import-file-label": "Escolla o ficheiro exportado ou pegue o seu texto embaixo:",
+  "import-too-large": "O ficheiro é grande de máis para importalo dunha soa vez. Divídeo en ficheiros máis pequenos, por exemplo por proxecto ou por data, e importa cada un.",
   "initials": "Iniciais",
   "instance": "Usuarios coa sesión iniciada",
   "instance-desc": "Todos os usuarios que iniciaron sesión neste WeKan poden ver este taboleiro. Nunca se mostra a persoas que non iniciaron sesión. Só poden editalo as persoas engadidas ao taboleiro.",

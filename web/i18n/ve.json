@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Nambatedzani faela ya todo.txt: mushumo muthihi kha mutaladzi muṅwe na muṅwe, sa zwine app ya todo.txt na app dzi tshimbilelanaho nayo zwa ṅwalisa zwone. Mishumo yo fhelaho (\"x\") i ya kha Yo fhela, +project na @context zwi vha dzilebulu, (A) i vha lebulu ya zwine zwa tea u thoma, ngeno due: na t: zwi tshi vha maḓuvha a u fhedza na a u thoma.",
   "import-board-instruction-zenkit": "Nambatedza ZenKit list export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages dzi vha mitevhe nahone items dzi vha makhaḓi.",
   "import-file-label": "Nangani faela ya u bvisela nnḓa, kana ni nambatedze maṅwalwa ayo fhasi:",
+  "import-too-large": "Faela ndi khulwane vhukuma u nga dzheniswa nga tshifhinga tshithihi. I khethekanyeni i vhe dzifaela ṱhukhu, sa tsumbo nga phurodzhekiṱe kana nga ḓuvha, ni dzhenise iṅwe na iṅwe.",
   "initials": "Maledere a u thoma",
   "instance": "Vhashumisi vho dzhenaho",
   "instance-desc": "Mushumisi muṅwe na muṅwe o dzhenaho kha WeKan iyi a nga vhona bodo iyi. A i sumbedzwi vhathu vha songo dzhenaho na luthihi. Ndi vhathu vho engedzwaho kha bodo fhedzi vhane vha nga i lulamisa.",

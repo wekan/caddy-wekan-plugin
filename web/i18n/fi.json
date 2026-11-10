@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Liitä todo.txt-tiedosto: yksi tehtävä rivillä, kuten todo.txt-sovellus ja yhteensopivat sovellukset sen kirjoittavat. Valmiit tehtävät (\"x\") siirtyvät Valmis-luokkaan, +project ja @context muuttuvat tunnisteiksi, (A) prioriteettitunnisteeksi sekä due: ja t: eräpäiväksi ja aloituspäiväksi.",
   "import-board-instruction-zenkit": "Liitä ZenKit-listan vienti-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Vaiheista tulee listoja ja kohteista kortteja.",
   "import-file-label": "Valitse vientitiedosto tai liitä sen teksti alle:",
+  "import-too-large": "Tiedosto on liian suuri tuotavaksi kerralla. Jaa se pienempiin tiedostoihin, esimerkiksi projektin tai päivämäärän mukaan, ja tuo jokainen erikseen.",
   "initials": "Nimikirjaimet",
   "instance": "Kirjautuneet käyttäjät",
   "instance-desc": "Jokainen tähän WeKaniin kirjautunut käyttäjä voi katsella tätä taulua. Sitä ei koskaan näytetä kirjautumattomille. Vain tauluun lisätyt henkilöt voivat muokata sitä.",

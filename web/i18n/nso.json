@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Kgomaretša faele ya todo.txt: mošomo o tee mothalading o mongwe le o mongwe, bjalo ka ge tirišo ya todo.txt le ditirišo tše di sepelelanago le yona di ngwala. Mešomo ye e phethilwego (\"x\") e ya karolong ye e phethilwego, +project le @context di fetoga dileibole, (A) e fetoga leibole ya bohlokwa, gomme due: le t: di fetoga matšatši a mafelelo le a go thoma.",
   "import-board-instruction-zenkit": "Kgomaretša JSON ya ntšho ya lenaneo la ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Magato a ba mananeo gomme dilo tša ba dikarata.",
   "import-file-label": "Kgetha faele ya go romela, goba kgomaretša sengwalwa sa yona ka tlase:",
+  "import-too-large": "Faele e kgolo kudu go ka tlišwa ka nako e tee. E arole ka difaele tše nnyane, mohlala ka projeke goba ka letšatšikgwedi, gomme o tliše e nngwe le e nngwe.",
   "initials": "Ditlhaka tša mathomo",
   "instance": "Badiriši bao ba tsenego",
   "instance-desc": "Modiriši yo mongwe le yo mongwe yo a tsenego go WeKan ye a ka bona poto ye. Ga e bontšhwe batho bao ba sa tsenago le ka mohla. Ke batho bao ba tsentšwego potong feela bao ba ka e lokišago.",

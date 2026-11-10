@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Omekamwo dosiye todo.txt: igikorwa kimwe ku murongo, nk'uko porogarama todo.txt n'izindi porogarama bihuye ziyandika. Ibikorwa vyarangiye (\"x\") bija muri Vyarangiye, +project na @context biba uturango, (A) iba akarango k'ivyihutirwa, due: na t: na vyo biba amatariki ntarengwa n'amatariki yo gutangura.",
   "import-board-instruction-zenkit": "Shiraho JSON yasohowe y'urutonde rwa ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages ziba intonde, items zikaba amakarata.",
   "import-file-label": "Hitamwo idosiye yasohowe, canke ushiremwo inyandiko yayo hepfo:",
+  "import-too-large": "Dosiye ni nini cane ku buryo itokwinjizwa rimwe. Yigabure mu dosiye ntoya, nk'akarorero ukurikije umugambi canke itariki, maze winjize imwe imwe.",
   "initials": "Inyuguti zitangura amazina",
   "instance": "Abakoresha binjiye",
   "instance-desc": "Umukoresha wese yinjiye muri iyi WeKan arashobora kubona iki capa. Nticigera cerekanwa abantu batinjiye. Abantu bongewe ku capa ni bo bonyene bashobora kugihindura.",

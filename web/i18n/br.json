@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Pegit ur restr todo.txt: un trevell dre linenn, evel ma vez skrivet gant an arload todo.txt hag an arloadoù kenglotus. An trevelloù echuet (\"x\") a ya da Echu, +project hag @context a zeu da vezañ tikedennoù, (A) a zeu da vezañ un dikedenn tevet, ha due: ha t: a zeu da vezañ deiziadoù termen ha deroù.",
   "import-board-instruction-zenkit": "Pegit un ezporzhiañ roll ZenKit JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Ar pazennoù a zeu da vezañ rolloù hag an elfennoù da vezañ kartennoù.",
   "import-file-label": "Dibabit ar restr ezporzhiañ, pe pegit he zestenn amañ dindan:",
+  "import-too-large": "Re vras eo ar restr evit he enporzhiañ en un taol. Rannit anezhi e restroù bihanoc'h, da skouer dre raktres pe dre zeiziad, hag enporzhiit pep hini anezho.",
   "initials": "Initialen",
   "instance": "Implijerien kevreet",
   "instance-desc": "Pep implijer kevreet eus ar WeKan-mañ a c'hall gwelet an daolenn-mañ. Ne vez diskouezet morse d'an dud n'int ket kevreet. An dud ouzhpennet d'an daolenn hepken a c'hall kemmañ.",

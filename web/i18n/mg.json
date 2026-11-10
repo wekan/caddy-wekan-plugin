@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Apetaho ny rakitra todo.txt: asa iray isaky ny andalana, araka ny fanoratan'ny rindranasa todo.txt sy ireo rindranasa mifanaraka aminy. Ny asa vita (\"x\") dia mankany amin'ny Done, ny +project sy @context dia lasa marika, ny (A) lasa marika laharam-pahamehana, ary ny due: sy t: dia lasa daty farany sy daty fanombohana.",
   "import-board-instruction-zenkit": "Apetaho ny JSON fanondranana lisitra ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Lasa lisitra ny dingana ary lasa karatra ny singa.",
   "import-file-label": "Fidio ny rakitra fanondranana, na apetaho eto ambany ny lahatsoratra ao aminy:",
+  "import-too-large": "Lehibe loatra ilay rakitra ka tsy azo afarana indray mandeha. Zarazarao ho rakitra kely kokoa izy, ohatra araka ny tetikasa na araka ny daty, ary afaro tsirairay.",
   "initials": "Litera voalohany",
   "instance": "Mpampiasa niditra",
   "instance-desc": "Afaka mijery ity solaitra ity ny mpampiasa rehetra niditra amin'ity WeKan ity. Tsy aseho amin'ny olona tsy niditra mihitsy izany. Ny olona nampidirina ao amin'ny solaitra ihany no afaka manova.",

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Zalijepite datoteku todo.txt: jedan zadatak po retku, kako je zapisuju aplikacija todo.txt i kompatibilne aplikacije. Dovršeni zadaci (\"x\") premještaju se u Dovršeno, +project i @context postaju oznake, (A) postaje oznaka prioriteta, a due: i t: postaju rok i datum početka.",
   "import-board-instruction-zenkit": "Zalijepite JSON izvoz ZenKit liste ({ \"title\", \"stages\":[...], \"items\":[...] }). Faze postaju liste, a stavke postaju kartice.",
   "import-file-label": "Odaberite izvoznu datoteku ili zalijepite njezin tekst ispod:",
+  "import-too-large": "Datoteka je prevelika za uvoz odjednom. Podijelite je na manje datoteke, primjerice po projektu ili po datumu, i uvezite svaku zasebno.",
   "initials": "Inicijali",
   "instance": "Prijavljeni korisnici",
   "instance-desc": "Svaki prijavljeni korisnik ovog WeKana može vidjeti ovu ploču. Nikada se ne prikazuje osobama koje nisu prijavljene. Uređivati je mogu samo osobe dodane na ploču.",

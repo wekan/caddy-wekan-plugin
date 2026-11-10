@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Tempel berkas todo.txt: siji tugas saben larik, kaya sing ditulis aplikasi todo.txt lan aplikasi sing cocog. Tugas sing wis rampung (\"x\") mlebu ing Done, +project lan @context dadi label, (A) dadi label prioritas, lan due: lan t: dadi tanggal tenggat lan tanggal wiwitan.",
   "import-board-instruction-zenkit": "Tempel JSON ekspor dhaptar ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Tataran dadi dhaptar lan item dadi kertu.",
   "import-file-label": "Pilih berkas ekspor, utawa tempelake tekse ing ngisor:",
+  "import-too-large": "Berkas iki gedhe banget kanggo diimpor sepisan. Pérang dadi berkas-berkas sing luwih cilik, contoné miturut proyèk utawa miturut tanggal, banjur impor siji-siji.",
   "initials": "Inisial",
   "instance": "Pangguna sing wis mlebu",
   "instance-desc": "Saben pangguna sing wis mlebu ing WeKan iki bisa ndeleng papan iki. Papan iki ora tau dituduhake marang wong sing durung mlebu. Mung wong sing ditambahake menyang papan sing bisa nyunting.",

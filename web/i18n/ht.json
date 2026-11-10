@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Kole yon fichye todo.txt: yon travay sou chak liy, jan aplikasyon todo.txt ak aplikasyon konpatib yo ekri li. Travay ki fini yo (\"x\") ale nan Done, +project ak @context vin etikèt, (A) vin yon etikèt priyorite, epi due: ak t: vin dat limit ak dat kòmansman.",
   "import-board-instruction-zenkit": "Kole yon JSON ekspòtasyon lis ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Etap yo vin lis epi eleman yo vin kat.",
   "import-file-label": "Chwazi fichye ekspòtasyon an, oswa kole tèks li anba a:",
+  "import-too-large": "Fichye a twò gwo pou enpòte li yon sèl kou. Divize li an fichye ki pi piti, pa egzanp pa pwojè oswa pa dat, epi enpòte chak youn.",
   "initials": "Inisyal",
   "instance": "Itilizatè ki konekte yo",
   "instance-desc": "Chak itilizatè ki konekte nan WeKan sa a ka wè tablo sa a. Yo pa janm montre li bay moun ki pa konekte. Se sèlman moun yo ajoute nan tablo a ki ka modifye li.",

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Ɗakku fiilde todo.txt: golle goote e kala gorol, no jaaɓnirgal todo.txt e jaaɓnirɗe jahduɗe mbinndirta ɗum. Golle timmuɗe (\"x\") njaha to Gasii, +project e @context mbaylitoo maantore, (A) waylitoo maantore arande, due: e t: mbaylitoo ñalɗi duttal e fuɗɗoode.",
   "import-board-instruction-zenkit": "Ɗakku JSON yaltinal doggol ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages maa ngonta doggi, tee items maa ngonta karte.",
   "import-file-label": "Suɓo fiilde yaltingol, walla ɓortu binndi mum les:",
+  "import-too-large": "Fiilde ndee ɓurii mawnude ngam naatnude nde laawol gootol. Senndu nde e fiilde ɗe ɓuri famɗude, wayno e golle walla e ñalawma, naatnu kala gooto.",
   "initials": "Alkule arane",
   "instance": "Huutorɓe seŋiiɓe",
   "instance-desc": "Kuutoro kala seŋiiɗo e oo WeKan ena waawi yiide ngal alluwal. Ngal hollirtaake hay sahaa e yimɓe ɓe seŋaaki. Ko yimɓe ɓeydaaɓe e alluwal ngal tan mbaawi taƴtude ngal.",

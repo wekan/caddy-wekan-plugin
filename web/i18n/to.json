@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Fakapipiki ha faile todo.txt: ngāue ʻe taha ʻi he laine takitaha, ʻo hangē ko hono tohi ʻe he polokalama todo.txt mo e ngaahi polokalama ʻoku fehoanakí. ʻOku ʻalu ʻa e ngaahi ngāue kuo ʻosi (\"x\") ki he ʻOsi, hoko ʻa e +project mo e @context ko e ngaahi fakaʻilonga, hoko ʻa e (A) ko ha fakaʻilonga mahuʻinga, pea hoko ʻa e due: mo e t: ko e ʻaho fakaʻosi mo e ʻaho kamata.",
   "import-board-instruction-zenkit": "Pēsiti ha JSON hū atu ʻo ha lisi ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). ʻE hoko ʻa e ngaahi tuʻunga ko e ngaahi lisi pea ko e ngaahi meʻa ko e ngaahi kaati.",
   "import-file-label": "Fili ʻa e faile ʻave ki tuʻa, pe pēsiti hono tohi ʻi lalo:",
+  "import-too-large": "ʻOku lahi fau ʻa e faile ke hū mai he taimi pē taha. Vahevahe ia ki ha ngaahi faile siʻisiʻi ange, hangē ko e fakatatau ki he poloseki pe ko e ʻaho, pea fakahū mai taki taha.",
   "initials": "Ngaahi mataʻitohi ʻuluaki",
   "instance": "Kau ngāueʻaki kuo hū",
   "instance-desc": "ʻE lava ke sio ki he papa ko ʻení ʻa e tokotaha ngāueʻaki kotoa pē kuo hū ki he WeKan ko ʻení. ʻE ʻikai ʻaupito fakaʻaliʻali ia ki he kakai kuo teʻeki hū. Ko e kakai pē kuo tānaki ki he papá ʻe lava ke nau fakatonutonu ia.",

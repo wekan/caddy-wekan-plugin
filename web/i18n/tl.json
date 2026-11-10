@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Mag-paste ng todo.txt file: isang gawain bawat linya, gaya ng isinusulat ng todo.txt app at mga katugmang app. Ang mga tapos nang gawain (\"x\") ay mapupunta sa Tapos, ang +project at @context ay magiging mga label, ang (A) ay magiging label ng prayoridad, at ang due: at t: ay magiging takdang petsa at petsa ng pagsisimula.",
   "import-board-instruction-zenkit": "I-paste a ZenKit listahan i-export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages become listahans at items become kards.",
   "import-file-label": "Piliin ang export file, o i-paste ang teksto nito sa ibaba:",
+  "import-too-large": "Masyadong malaki ang file para i-import nang sabay-sabay. Hatiin ito sa mas maliliit na file, halimbawa ayon sa proyekto o ayon sa petsa, at i-import ang bawat isa.",
   "initials": "Mga inisyal",
   "instance": "Mga naka-sign in na gumagamit",
   "instance-desc": "Makikita ng bawat naka-sign in na gumagamit ng WeKan na ito ang pisarang ito. Hindi ito kailanman ipinapakita sa mga hindi naka-sign in. Ang mga idinagdag lamang sa pisara ang maaaring mag-edit.",

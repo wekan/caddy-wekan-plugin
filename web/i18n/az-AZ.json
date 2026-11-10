@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "todo.txt faylını yapışdırın: todo.txt tətbiqinin və uyğun tətbiqlərin yazdığı kimi, hər sətirdə bir tapşırıq. Tamamlanmış tapşırıqlar (\"x\") Tamamlanmış siyahısına keçir, +project və @context etiketlərə, (A) prioritet etiketinə, due: və t: isə son və başlanğıc tarixlərinə çevrilir.",
   "import-board-instruction-zenkit": "Bir ZenKit siyahı ixrac JSON-u yapışdırın ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages siyahılara, items kartlara çevrilir.",
   "import-file-label": "İxrac faylını seçin və ya mətnini aşağıya yapışdırın:",
+  "import-too-large": "Fayl bir dəfəyə idxal etmək üçün çox böyükdür. Onu daha kiçik fayllara bölün, məsələn, layihə və ya tarix üzrə, və hər birini ayrıca idxal edin.",
   "initials": "Baş hərflər",
   "instance": "Daxil olmuş istifadəçilər",
   "instance-desc": "Bu WeKan-a daxil olmuş hər bir istifadəçi bu lövhəyə baxa bilər. Lövhə daxil olmamış şəxslərə heç vaxt göstərilmir. Yalnız lövhəyə əlavə edilmiş şəxslər redaktə edə bilər.",

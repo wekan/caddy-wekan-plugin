@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Indsæt en todo.txt-fil: én opgave pr. linje, som todo.txt-appen og kompatible apps skriver den. Afsluttede opgaver (\"x\") flyttes til Færdig, +project og @context bliver etiketter, (A) bliver en prioritetsetiket, og due: og t: bliver forfalds- og startdatoer.",
   "import-board-instruction-zenkit": "Indsæt en JSON-eksport fra en ZenKit-liste ({ \"title\", \"stages\":[...], \"items\":[...] }). Stadier bliver til lister, og elementer bliver til kort.",
   "import-file-label": "Vælg eksportfilen, eller indsæt dens tekst nedenfor:",
+  "import-too-large": "Filen er for stor til at blive importeret på én gang. Opdel den i mindre filer, for eksempel efter projekt eller dato, og importér hver enkelt.",
   "initials": "Initialer",
   "instance": "Brugere, der er logget ind",
   "instance-desc": "Alle brugere, der er logget ind på denne WeKan, kan se denne tavle. Den vises aldrig til personer, der ikke er logget ind. Kun personer, der er føjet til tavlen, kan redigere den.",

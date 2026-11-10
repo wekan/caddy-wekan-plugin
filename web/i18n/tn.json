@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Kgomaretsa faele ya todo.txt: tiro e le nngwe mo moleng mongwe le mongwe, jaaka tiriso ya todo.txt le ditiriso tse di tsamaelanang le yone di kwala. Ditiro tse di weditsweng (\"x\") di ya kwa karolong e e weditsweng, +project le @context di nna dileibole, (A) e nna leibole ya botlhokwa, mme due: le t: di nna matlha a bofelo le a tshimologo.",
   "import-board-instruction-zenkit": "Manega JSON ya thomelo ya lenaane la ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Dikgato di nna manane, dintlha di nna dikarata.",
   "import-file-label": "Tlhopha faele e e ntshitsweng, kgotsa kgomaretsa mokwalo wa yona fa tlase:",
+  "import-too-large": "Faele e kgolo thata go ka tlisiwa ka nako e le nngwe. E kgaoganye go nna difaele tse dinnye, sekao ka porojeke kgotsa ka letlha, mme o tlise nngwe le nngwe.",
   "initials": "Tshedimosetso: Initials",
   "instance": "Badirisi ba ba tseneng",
   "instance-desc": "Modirisi mongwe le mongwe yo o tseneng mo WeKan eno a ka bona boto eno. Ga e ke e bontshiwa batho ba ba sa tsenang. Ke batho ba ba tsentsweng mo botong fela ba ba ka e baakanyang.",

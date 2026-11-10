@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Bir todo.txt dosyası yapıştırın: todo.txt uygulamasının ve uyumlu uygulamaların yazdığı biçimde, her satırda bir görev. Tamamlanan görevler (\"x\") Tamamlandı bölümüne gider, +project ve @context etiketlere, (A) öncelik etiketine, due: ve t: ise son tarih ve başlangıç tarihine dönüşür.",
   "import-board-instruction-zenkit": "Bir ZenKit liste dışa aktarma JSON'u yapıştırın ({ \"title\", \"stages\":[...], \"items\":[...] }). Aşamalar listelere, öğeler kartlara dönüşür.",
   "import-file-label": "Dışa aktarılmış dosyayı seçin veya metnini aşağıya yapıştırın:",
+  "import-too-large": "Dosya bir kerede içe aktarılamayacak kadar büyük. Dosyayı daha küçük dosyalara bölün, örneğin projeye veya tarihe göre, ve her birini ayrı ayrı içe aktarın.",
   "initials": "İlk Harfleri",
   "instance": "Oturum açmış kullanıcılar",
   "instance-desc": "Bu WeKan'da oturum açmış her kullanıcı bu panoyu görüntüleyebilir. Pano, oturum açmamış kişilere hiçbir zaman gösterilmez. Yalnızca panoya eklenen kişiler düzenleme yapabilir.",

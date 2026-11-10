@@ -57,6 +57,11 @@ var securityCategories = map[string]securityCategory{
 	// #6798: the same refusal reaches a read-only member working from a stale
 	// screen, so it is recorded but never disables the account.
 	"authz.linked-write": {Category: "authz", Bleed: "LinkedWriteBleed", Severity: "high", CWE: "CWE-863", NeverBlocks: true},
+	// server/lib/secureTransfer.js and models/lib/transferFailure.cjs: markup
+	// an import carried was removed, or the file was over a limit. A real
+	// board reaches both, so neither costs the account.
+	"transfer.sanitized": {Category: "Import/export validation", Bleed: "ImportExportSanitization", Severity: "warning", NeverBlocks: true},
+	"transfer.limit":     {Category: "Import/export validation", Bleed: "ImportExportValidation", Severity: "medium", NeverBlocks: true},
 }
 
 // identityFields make two events the same problem; the actor is not one of them.

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Liibme todo.txt-fiilla: okta bargu juohke linnjás, nu go todo.txt-prográmma ja heivvolaš prográmmat čállet dan. Gárvvistuvvon barggut (\"x\") mannet Gárvvis-listui, +project ja @context šaddet merkošan, (A) šaddá vuoruhusmerkošan, ja due: ja t: šaddet áigemearre- ja álgindáhton.",
   "import-board-instruction-zenkit": "Liibme ZenKit-listtu olggosfievrrideami JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages šaddet listun ja items šaddet goartan.",
   "import-file-label": "Vállje olggosfievrridanfiilla, dahje liibme dan teavstta vuollái:",
+  "import-too-large": "Fiila lea menddo stuoris sisafievrridit oktanaga. Juohke dan unnit fiillaide, ovdamearkka dihte prošeavtta dahje beaivemearri mielde, ja sisafievrrit juohke ovtta.",
   "initials": "Álgobustávat",
   "instance": "Geavaheaddjit geat leat loggen sisa",
   "instance-desc": "Juohke geavaheaddji gii lea loggen sisa dán WeKan:ii sáhttá oaidnit dán távvala. Dat ii goassege čájehuvvo olbmuide geat eai leat loggen sisa. Dušše olbmot geat leat lasihuvvon távvalii sáhttet dan rievdadit.",

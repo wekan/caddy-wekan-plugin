@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Lim inn en todo.txt-fil: én oppgave per linje, slik todo.txt-appen og kompatible apper skriver den. Fullførte oppgaver (\"x\") flyttes til Ferdig, +project og @context blir etiketter, (A) blir en prioritetsetikett, og due: og t: blir forfalls- og startdatoer.",
   "import-board-instruction-zenkit": "Lim inn en ZenKit-listeeksport-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages blir lister og items blir kort.",
   "import-file-label": "Velg eksportfilen, eller lim inn teksten fra den nedenfor:",
+  "import-too-large": "Filen er for stor til å importeres på én gang. Del den opp i mindre filer, for eksempel etter prosjekt eller dato, og importer hver av dem.",
   "initials": "Initialer",
   "instance": "Innloggede brukere",
   "instance-desc": "Alle brukere som er logget inn på denne WeKan-instansen, kan se denne tavlen. Den vises aldri til personer som ikke er logget inn. Bare personer som er lagt til på tavlen, kan redigere den.",

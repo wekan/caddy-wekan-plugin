@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Algluu dosieron todo.txt: unu tasko en ĉiu linio, kiel ĝin verkas la aplikaĵo todo.txt kaj kongruaj aplikaĵoj. Finitaj taskoj (\"x\") iras al Farite, +project kaj @context fariĝas etikedoj, (A) fariĝas prioritata etikedo, kaj due: kaj t: fariĝas limdato kaj komencdato.",
   "import-board-instruction-zenkit": "Algluu ZenKit-listan eksportan JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stadioj iĝas listoj kaj eroj iĝas kartoj.",
   "import-file-label": "Elektu la eksportan dosieron, aŭ algluu ĝian tekston sube:",
+  "import-too-large": "La dosiero estas tro granda por importi ĝin samtempe. Dividu ĝin en pli malgrandajn dosierojn, ekzemple laŭ projekto aŭ laŭ dato, kaj importu ĉiun.",
   "initials": "Inicialoj",
   "instance": "Ensalutintaj uzantoj",
   "instance-desc": "Ĉiu ensalutinta uzanto de ĉi tiu WeKan povas vidi ĉi tiun tabulon. Ĝi neniam estas montrata al homoj, kiuj ne ensalutis. Nur homoj aldonitaj al la tabulo povas redakti.",

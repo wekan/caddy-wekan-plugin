@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Xicpepecho ce todo.txt amatlahcuilolli: ce tequitl ipan ce tlaxotlalli, iuhquih quihcuiloa in todo.txt tepoztequitl ihuan occequintin tlen ihuan huel tequitih. Tequitl tlen otlan (\"x\") yauh \"Otlan\", +project ihuan @context mocuepah machiyotl, (A) mocuepa machiyotl tlen achto monequi, ihuan due: ihuan t: mocuepah tonalli tlen tlamiz ihuan pehuaz.",
   "import-board-instruction-zenkit": "Xicpepecho ce ZenKit tocatlahtolli tlaquixtilli JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages mocuepah tocatlahtoltin ihuan items mocuepah amatlapaltin.",
   "import-file-label": "Xicpehpena iquixtiliz tlanamactli, noso xictlali itlahtol itzintlan:",
+  "import-too-large": "Amatlacuilolli cenca hueyi inic cen calaquiz. Xiquixelo ipan amatlacuilolli tepitzin, quemeh ica tequitl noso ica tonalli, ihuan xiccalaqui cecentetl.",
   "initials": "Tocayotl achto tlahtoltin",
   "instance": "Tequitinimeh tlen ocalacqueh",
   "instance-desc": "Nochi tequitini tlen ocalac ipan inin WeKan huel quitta inin huapalli. In tlacameh tlen ahmo ocalacqueh ayic huel quittah. Zan in tlacameh tlen otlaliloqueh ipan huapalli huel quipatlah.",

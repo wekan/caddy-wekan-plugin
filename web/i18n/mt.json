@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Waħħal fajl todo.txt: kompitu wieħed għal kull linja, kif jinkiteb mill-applikazzjoni todo.txt u applikazzjonijiet kompatibbli. Il-kompiti lesti (\"x\") imorru f’Lest, +project u @context isiru tikketti, (A) issir tikketta ta’ prijorità, u due: u t: isiru dati ta’ skadenza u ta’ bidu.",
   "import-board-instruction-zenkit": "Paste a ZenKit lista export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages become listi u items become kards.",
   "import-file-label": "Agħżel il-fajl tal-esportazzjoni, jew waħħal it-test tiegħu hawn taħt:",
+  "import-too-large": "Il-fajl huwa kbir wisq biex jiġi importat f'daqqa. Aqsmu f'fajls iżgħar, pereżempju skont il-proġett jew skont id-data, u importa kull wieħed.",
   "initials": "Inizjali",
   "instance": "Utenti li daħlu fis-sistema",
   "instance-desc": "Kull utent li daħal f’dan il-WeKan jista’ jara dan il-bord. Qatt ma jintwera lil nies li ma daħlux fis-sistema. Jistgħu jeditjaw biss in-nies miżjuda mal-bord.",

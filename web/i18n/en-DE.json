@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Paste a todo.txt file: one task per line, as the todo.txt app and compatible apps write it. Completed tasks (\"x\") go to Done, +project and @context become labels, (A) becomes a priority label, and due: and t: become due and start dates.",
   "import-board-instruction-zenkit": "Paste a ZenKit list export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages become lists and items become cards.",
   "import-file-label": "Choose the export file, or paste its text below:",
+  "import-too-large": "The file is too large to import at once. Split it into smaller files, for example by project or by date, and import each one.",
   "initials": "Initials",
   "instance": "Signed-in users",
   "instance-desc": "Every signed-in user of this WeKan can view this board. It is never shown to people who are not signed in. Only people added to the board can edit.",

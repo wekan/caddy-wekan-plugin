@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Huk todo.txt willañiqita k'askachiy: sapa wachupi huk llamk'ana, todo.txt programawan paywan tinkuq programakuna qillqasqankuman hina. Tukusqa llamk'anakuna (\"x\") Tukusqaman rinku, +project hinaspa @context sutichanakunaman tukunku, (A) ñawpaqman churana sutichanaman tukun, due: hinaspa t: tukuynin p'unchawman hinaspa qallariynin p'unchawman tukunku.",
   "import-board-instruction-zenkit": "ZenKit sutisuyu hurqusqa JSONta ch'aqchuy ({ \"title\", \"stages\":[...], \"items\":[...] }). Patakuna sutisuyukunaman tikrakun, kaqkunataq kartakunaman.",
   "import-file-label": "Hurqusqa willañiqita akllay, utaq qillqanta uraypi k'askachiy:",
+  "import-too-large": "Willakuy p'anqaqa ancha hatunmi huk kutillapi apamunapaq. Huch'uy p'anqakunaman rakiy, ahinataq ruraykunaman utaq p'unchawkunaman hina, chaymanta sapankata apamuy.",
   "initials": "Qallariq sanampakuna",
   "instance": "Yaykusqa llamkʼachiqkuna",
   "instance-desc": "Kay WeKan-man yaykusqa sapa llamkʼachiqmi kay pirqata qhawayta atin. Mana yaykusqa runakunamanqa manapuni rikuchikunqachu. Pirqaman yapasqa runakunallam allichayta atinku.",

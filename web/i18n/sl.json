@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Prilepite datoteko todo.txt: po eno opravilo v vsaki vrstici, kot jo zapisujejo aplikacija todo.txt in združljive aplikacije. Dokončana opravila (\"x\") se premaknejo v Dokončano, +project in @context postaneta oznaki, (A) postane oznaka prednosti, due: in t: pa postaneta rok in začetni datum.",
   "import-board-instruction-zenkit": "Prilepite JSON izvoza seznama ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Faze postanejo seznami, elementi pa kartice.",
   "import-file-label": "Izberite izvozno datoteko ali spodaj prilepite njeno besedilo:",
+  "import-too-large": "Datoteka je prevelika za uvoz naenkrat. Razdelite jo na manjše datoteke, na primer po projektih ali po datumih, in uvozite vsako posebej.",
   "initials": "Inicialke",
   "instance": "Prijavljeni uporabniki",
   "instance-desc": "Vsak prijavljeni uporabnik tega WeKan si lahko ogleda to tablo. Osebam, ki niso prijavljene, ni nikoli prikazana. Urejajo jo lahko le osebe, dodane na tablo.",

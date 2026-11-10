@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Aclapez on fitchî todo.txt : ene bouye pa roye, come l' aplicåcion todo.txt et les aplicåcions compatibes li scrijhèt. Les bouyes fini (\"x\") vont dins Fini, +project et @context divnèt des etiketes, (A) divint ene etikete di prumiristé, et due: et t: divnèt les dates di termene et di cmince.",
   "import-board-instruction-zenkit": "Aclapez on JSON d' eberwetaedje di djîveye ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Les stages divnèt des djîveyes eyet les items divnèt des cåtes.",
   "import-file-label": "Tchoezixhoz li fitchî d' ebagaedje, ou aclapez s' tecse pa dzo:",
+  "import-too-large": "Li fitchî est trop grand po l' abaguer tot d' on côp. Partixhoz-l' e fitchîs pus ptits, metans pa prodjet ou pa date, et abaguez-les onk après l' ôte.",
   "initials": "Prumires letes",
   "instance": "Uzeus elodjîs",
   "instance-desc": "Tchake uzeu elodjî dins ç’ WeKan ci pout vey ç’ tåvlea ci. I n’ est måy mostré ås djins ki n’ sont nén elodjîs. Seulmint les djins radjoutés å tåvlea polèt l’ candjî.",

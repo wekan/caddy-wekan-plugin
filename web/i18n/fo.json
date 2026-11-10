@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Set eina todo.txt-fílu inn: ein uppgáva á hvørjari reglu, soleiðis sum todo.txt-forritið og samsvarandi forrit skriva hana. Lidnar uppgávur (\"x\") fara til Liðugt, +project og @context verða merki, (A) verður eitt raðfestingarmerki, og due: og t: verða freistir og byrjanardagfestingar.",
   "import-board-instruction-zenkit": "Líma eitt ZenKit-listaútflutnings-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stig verða listar, og lutir verða kort.",
   "import-file-label": "Vel útflutningsfíluna, ella set tekstin inn niðanfyri:",
+  "import-too-large": "Fílan er ov stór at flyta inn í einum. Být hana sundur í smærri fílur, til dømis eftir verkætlan ella eftir dagfesting, og flyt hvørja inn sær.",
   "initials": "Forstavar",
   "instance": "Innritaðir brúkarar",
   "instance-desc": "Allir innritaðir brúkarar á hesum WeKan kunnu síggja hesa talvuna. Hon verður ongantíð víst fólki, sum ikki eru innritað. Bert fólk, sum eru løgd afturat talvuni, kunnu broyta hana.",

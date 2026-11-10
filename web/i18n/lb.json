@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Füügt eng todo.txt-Datei an: eng Aufgab pro Zeil, esou wéi d’todo.txt-App a kompatibel Apps se schreiwen. Ofgeschloss Aufgaben (\"x\") ginn op Fäerdeg, +project an @context gi Labelen, (A) gëtt e Prioritéitslabel, an due: an t: gi Fällegkeets- an Ufanksdatumer.",
   "import-board-instruction-zenkit": "Einfügen eines ZenKit Lëschten Export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Aus Stapeln ginn Lëschten un aus Items ginn Kaarten.",
   "import-file-label": "Wielt den Exportfichier, oder füügt säin Text hei ënnen an:",
+  "import-too-large": "De Fichier ass ze grouss fir en op eemol z'importéieren. Deelt en an méi kleng Fichieren op, zum Beispill no Projet oder no Datum, an importéiert all eenzel.",
   "initials": "Initialen",
   "instance": "Ugemellt Benotzer",
   "instance-desc": "All ugemellte Benotzer vun dësem WeKan kann dës Tafel gesinn. Si gëtt ni Leit gewisen, déi net ugemellt sinn. Nëmme Leit, déi op d’Tafel bäigesat goufen, kënnen se änneren.",

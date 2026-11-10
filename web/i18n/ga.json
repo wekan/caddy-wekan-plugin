@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Greamaigh comhad todo.txt: tasc amháin ar gach líne, mar a scríobhann an aip todo.txt agus aipeanna comhoiriúnacha é. Téann tascanna críochnaithe (\"x\") chuig Déanta, déantar lipéid de +project agus @context, déantar lipéad tosaíochta de (A), agus déantar dátaí dlite agus tosaithe de due: agus t:.",
   "import-board-instruction-zenkit": "Greamaigh JSON easpórtála liosta ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Déantar liostaí de stages agus cártaí de items.",
   "import-file-label": "Roghnaigh an comhad easpórtála, nó greamaigh a théacs thíos:",
+  "import-too-large": "Tá an comhad rómhór le hiompórtáil d'aon iarraidh amháin. Roinn é i gcomhaid níos lú, mar shampla de réir tionscadail nó de réir dáta, agus iompórtáil gach ceann acu.",
   "initials": "Túslitreacha",
   "instance": "Úsáideoirí sínithe isteach",
   "instance-desc": "Is féidir le gach úsáideoir atá sínithe isteach sa WeKan seo an clár seo a fheiceáil. Ní thaispeántar riamh é do dhaoine nach bhfuil sínithe isteach. Ní féidir ach le daoine atá curtha leis an gclár eagarthóireacht a dhéanamh.",

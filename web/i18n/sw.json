@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Bandika faili la todo.txt: kazi moja kwa kila mstari, kama linavyoandikwa na programu ya todo.txt na programu zinazooana nayo. Kazi zilizokamilika (\"x\") huenda kwenye Zilizokamilika, +project na @context huwa lebo, (A) huwa lebo ya kipaumbele, na due: na t: huwa tarehe za mwisho na za kuanza.",
   "import-board-instruction-zenkit": "Bandika JSON ya kuhamisha orodha ya ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages huwa orodha na items huwa kadi.",
   "import-file-label": "Chagua faili iliyohamishwa, au bandika maandishi yake hapa chini:",
+  "import-too-large": "Faili ni kubwa mno kuingizwa kwa mara moja. Igawanye katika faili ndogo zaidi, kwa mfano kwa mradi au kwa tarehe, na uingize kila moja.",
   "initials": "Awali",
   "instance": "Watumiaji walioingia",
   "instance-desc": "Kila mtumiaji aliyeingia katika WeKan hii anaweza kuona bodi hii. Haionyeshwi kamwe kwa watu ambao hawajaingia. Watu walioongezwa kwenye bodi pekee ndio wanaoweza kuhariri.",

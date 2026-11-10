@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Vložte soubor todo.txt: jeden úkol na řádek, jak jej zapisuje aplikace todo.txt a kompatibilní aplikace. Dokončené úkoly (\"x\") se přesunou do Hotovo, +project a @context se změní na štítky, (A) na štítek priority a due: a t: na termín a datum zahájení.",
   "import-board-instruction-zenkit": "Vložte JSON exportu seznamu ze ZenKitu ({ \"title\", \"stages\":[...], \"items\":[...] }). Fáze se stanou seznamy a položky kartami.",
   "import-file-label": "Vyberte exportní soubor nebo vložte jeho text níže:",
+  "import-too-large": "Soubor je příliš velký na to, aby se dal importovat najednou. Rozdělte ho na menší soubory, například podle projektu nebo podle data, a importujte každý zvlášť.",
   "initials": "Iniciály",
   "instance": "Přihlášení uživatelé",
   "instance-desc": "Toto tablo si může prohlížet každý přihlášený uživatel této instance WeKanu. Nepřihlášeným se nikdy nezobrazuje. Upravovat je mohou pouze lidé přidaní k tablu.",

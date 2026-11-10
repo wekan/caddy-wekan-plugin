@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "todo.txt 파일을 붙여넣으세요. todo.txt 앱 및 호환 앱이 작성하는 형식으로, 한 줄에 작업 하나를 기록합니다. 완료된 작업(\"x\")은 완료로 이동하고, +project와 @context는 라벨로, (A)는 우선순위 라벨로, due:와 t:는 마감일과 시작일로 변환됩니다.",
   "import-board-instruction-zenkit": "ZenKit 목록 내보내기 JSON({ \"title\", \"stages\":[...], \"items\":[...] })을 붙여넣으세요. 스테이지는 목록이 되고 항목은 카드가 됩니다.",
   "import-file-label": "내보낸 파일을 선택하거나 그 내용을 아래에 붙여넣으세요:",
+  "import-too-large": "파일이 너무 커서 한 번에 가져올 수 없습니다. 프로젝트별 또는 날짜별 등으로 더 작은 파일로 나눈 뒤 각각 가져오세요.",
   "initials": "이니셜",
   "instance": "로그인한 사용자",
   "instance-desc": "이 WeKan에 로그인한 모든 사용자가 이 보드를 볼 수 있습니다. 로그인하지 않은 사람에게는 절대 표시되지 않습니다. 보드에 추가된 사람만 편집할 수 있습니다.",

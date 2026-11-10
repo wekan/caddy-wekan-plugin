@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "todo.txt fayliyaa shiisha: issi xiqiyan issi oosuwaa, todo.txt appiine aara gaitti oottiya appeti xaafiyoogaadan. Polettida oosoti (\"x\") \"Polettiis\" baggaa boosona, +project nna @context malaata gidoosona, (A) kase oottiyoogaa malaata gidees, due: nna t: wurssiyo gallassaanne doommiya gallassaa gidoosona.",
   "import-board-instruction-zenkit": "ZenKit mazgabaa kessido JSON qaachi wotta ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages mazgabata gidoosona qassi items kaardiyata gidoosona.",
   "import-file-label": "Kessuwaa fayliyaa doora, woykko a xaafaa garssan wotta:",
+  "import-too-large": "Faayilee issi toho gelissanawu keehi gita. A guuxa faayileta giidi shaaka, leemisuwawu oosuwaaninne gallasaan, qassi ubbaa dumma dumma gelissa.",
   "initials": "Sunttaa koyro birshshettata",
   "instance": "Gelida go'ettiya asata",
   "instance-desc": "Ha WeKan gelida go'ettiya asati wuri ha bookkiya be'ana danddayoosona. Gelibeenna asati ha bookkiya muleka be'okkona. Bookkiyako gujettida asati xalla laammana danddayoosona.",

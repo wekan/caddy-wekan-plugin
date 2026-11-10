@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Incolla un'archìviu todo.txt: unu còmpitu pro lìnia, comente lu iscrient s'aplicatzione todo.txt e is aplicatziones cumpatìbiles. Is còmpitos cumpletados (\"x\") andant a Fatu, +project e @context diventant etichetas, (A) diventat un'eticheta de prioridade, e due: e t: diventant is datas de iscadèntzia e de cumintzu.",
   "import-board-instruction-zenkit": "Incolla unu JSON de esportatzione de una lista de ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Sas fases diventant listas e sos elementos diventant cartas.",
   "import-file-label": "Sèbera su file de esportatzione, o incolla su testu suo inoghe in suta:",
+  "import-too-large": "Su file est tropu mannu pro dd'importare totu in una borta. Partzi·ddu in file prus minores, pro esempru pro progetu o pro data, e importa cada unu.",
   "initials": "Initziales",
   "instance": "Utentes cunnessos",
   "instance-desc": "Cada utente cunnessu a custu WeKan podet bìdere custa tàula. Non est ammustrada mai a is persones chi non sunt cunnessas. Isceti is persones agiuntas a sa tàula la podent modificare.",

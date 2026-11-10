@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Ku dheji faylka todo.txt: hal hawl sadar kasta, sida ay u qoraan abka todo.txt iyo ababka la jaanqaada. Hawlaha dhammaaday (\"x\") waxay galaan Done, +project iyo @context waxay noqdaan summado, (A) wuxuu noqdaa summad mudnaan, due: iyo t: na waxay kala noqdaan taariikhda kama dambaysta ah iyo taariikhda bilowga.",
   "import-board-instruction-zenkit": "Ku dheji dhoofinta liiska ZenKit ee JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages waxay noqdaan liisas, items-na waxay noqdaan kaarar.",
   "import-file-label": "Dooro faylka soo saarista, ama hoos ku dhaji qoraalkiisa:",
+  "import-too-large": "Faylku aad buu u weyn yahay in hal mar la soo dejiyo. U kala qaybi faylal yaryar, tusaale ahaan mashruuc ama taariikh ahaan, oo mid walba gooni u soo deji.",
   "initials": "Xarfaha Hore",
   "instance": "Isticmaalayaasha soo galay",
   "instance-desc": "Isticmaale kasta oo soo galay WeKan-kan wuu arki karaa sabuuraddan. Marna lama tuso dadka aan soo gelin. Kaliya dadka lagu daray sabuuradda ayaa wax ka beddeli kara.",

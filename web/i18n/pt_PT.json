@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Cole um ficheiro todo.txt: uma tarefa por linha, tal como o escrevem a aplicação todo.txt e as aplicações compatíveis. As tarefas concluídas (\"x\") passam para Concluído, +project e @context tornam-se etiquetas, (A) torna-se uma etiqueta de prioridade e due: e t: tornam-se as datas de vencimento e de início.",
   "import-board-instruction-zenkit": "Cole um JSON de exportação de lista do ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). As stages tornam-se listas e os items tornam-se cartões.",
   "import-file-label": "Escolha o ficheiro exportado, ou cole o seu texto abaixo:",
+  "import-too-large": "O ficheiro é demasiado grande para ser importado de uma só vez. Divida-o em ficheiros mais pequenos, por exemplo por projeto ou por data, e importe cada um.",
   "initials": "Iniciais",
   "instance": "Utilizadores com sessão iniciada",
   "instance-desc": "Todos os utilizadores com sessão iniciada neste WeKan podem ver este quadro. Nunca é mostrado a pessoas sem sessão iniciada. Apenas as pessoas adicionadas ao quadro podem editá-lo.",

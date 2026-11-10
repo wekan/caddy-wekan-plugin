@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Todo.txt dosiye dɔ nɔrɔ yan: baara kelen sinsan kelen kelen bɛɛ la, i n'a fɔ todo.txt porogaramu ni porogaramu minnu bɛ bɛn a ma b'a sɛbɛn cogo min na. Baara bannenw (\"x\") bɛ taa Banna la, +project ni @context bɛ kɛ taamasiyɛnw ye, (A) bɛ kɛ baara fɔlɔ taamasiyɛn ye, due: ni t: bɛ kɛ laban don ni daminɛ don ye.",
   "import-board-instruction-zenkit": "ZenKit lisiti labɔli JSON nɔrɔ yan ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages bɛ kɛ lisitiw ye, items bɛ kɛ karataw ye.",
   "import-file-label": "Labɔli fisiye sugandi, walima a sɛbɛnni don duguma:",
+  "import-too-large": "Gafe in ka bon kojugu ka a ladon siñɛ kelen. A tila ka kɛ gafe fitininw ye, misali la ka kɛɲɛ ni baarabolo walima don ye, ka u kelen kelen bɛɛ ladon.",
   "initials": "Tɔgɔ daminɛw",
   "instance": "Baarakɛlaw minnu donna",
   "instance-desc": "Baarakɛla bɛɛ min donna WeKan nin kɔnɔ, o bɛ se ka walan nin ye. A tɛ jira mɔgɔw la abada minnu ma don. Mɔgɔw minnu farala walan kan, olu dɔrɔn bɛ se k’a yɛlɛma.",

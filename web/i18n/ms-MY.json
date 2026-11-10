@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Tampalkan fail todo.txt: satu tugas setiap baris, seperti yang ditulis oleh aplikasi todo.txt dan aplikasi yang serasi. Tugas yang selesai (\"x\") dimasukkan ke Selesai, +project dan @context menjadi label, (A) menjadi label keutamaan, manakala due: dan t: menjadi tarikh akhir dan tarikh mula.",
   "import-board-instruction-zenkit": "Tampal JSON eksport senarai ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages menjadi senarai dan items menjadi kad.",
   "import-file-label": "Pilih fail eksport, atau tampal teksnya di bawah:",
+  "import-too-large": "Fail ini terlalu besar untuk diimport sekali gus. Pecahkan kepada fail yang lebih kecil, contohnya mengikut projek atau mengikut tarikh, dan import setiap satu.",
   "initials": "Singkatan/Gelaran",
   "instance": "Pengguna yang telah log masuk",
   "instance-desc": "Setiap pengguna yang log masuk ke WeKan ini boleh melihat papan ini. Ia tidak pernah ditunjukkan kepada orang yang belum log masuk. Hanya orang yang ditambahkan pada papan boleh menyunting.",

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Itsatsi todo.txt fitxategi bat: zeregin bat lerro bakoitzeko, todo.txt aplikazioak eta aplikazio bateragarriek idazten duten bezala. Osatutako zereginak (\"x\") Eginda atalera doaz; +project eta @context etiketa bihurtzen dira, (A) lehentasun-etiketa bihurtzen da, eta due: eta t: epemuga- eta hasiera-data bihurtzen dira.",
   "import-board-instruction-zenkit": "Itsatsi ZenKit zerrenda-esportazio JSON bat ({ \"title\", \"stages\":[...], \"items\":[...] }). Faseak zerrenda bihurtzen dira eta elementuak txartel.",
   "import-file-label": "Hautatu esportazio-fitxategia, edo itsatsi haren testua behean:",
+  "import-too-large": "Fitxategia handiegia da aldi berean inportatzeko. Zatitu fitxategi txikiagotan, adibidez proiektuka edo dataka, eta inportatu bakoitza.",
   "initials": "Inizialak",
   "instance": "Saioa hasi duten erabiltzaileak",
   "instance-desc": "WeKan honetan saioa hasi duen edozein erabiltzailek ikus dezake arbel hau. Ez zaie inoiz erakusten saioa hasi ez dutenei. Arbelean gehitutako pertsonek soilik edita dezakete.",

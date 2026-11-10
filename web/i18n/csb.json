@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Wklejë lopk todo.txt: jedno zadanié na rézã, tak jak zapisëje je aplikacëjô todo.txt i zgódné z nią aplikacëje. Skùńczoné zadania (\"x\") jidą do Skùńczoné, +project i @context stôwają sã etichetama, (A) stôwô sã etichetą priòritetu, a due: i t: stôwają sã datama terminu i zaczãcô.",
   "import-board-instruction-zenkit": "Wklej eksport JSON lëstë ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Etapy stają się listami, a elementy kartami.",
   "import-file-label": "Wëbierzë lopk ekspòrtu abò wklejë jegò tekst niżi:",
+  "import-too-large": "Lopk je za wiôldżi, żebë gò naraz impòrtowac. Pòdzelëta gò na mniészé lopczi, na przëkłôd wedle projektu abò wedle datumù, ë impòrtujta kòżdi òsobno.",
   "initials": "Pierszé lëterë miona i nôzwëskù",
   "instance": "Zalogòwóny brëkòwnicë",
   "instance-desc": "Kòżdi zalogòwóny brëkòwnik tegò WeKan mòże widzec nã tôflã. Nigdë nie je pòkôzëwónô òsobóm, chtërné nie są zalogòwóné. Blós òsobë dodóné do tôflë mògą jã edytowac.",

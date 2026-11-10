@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Apega un ficheru todo.txt: una xera per llinia, como lu escriben l'aplicación todo.txt y les aplicaciones compatibles. Les xeres acabaes (\"x\") van a Fecho, +project y @context conviértense n'etiquetes, (A) conviértese nuna etiqueta de prioridá, y due: y t: conviértense en feches de vencimientu y d'entamu.",
   "import-board-instruction-zenkit": "Apega un JSON d'esportación de llista de ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Les etapes conviértense en llistes y los elementos en tarxetes.",
   "import-file-label": "Escueyi'l ficheru d'esportación, o apega'l so testu embaxo:",
+  "import-too-large": "El ficheru ye enforma grande pa importalu d'una vegada. Dixebralu en ficheros más pequeños, por exemplu por proyeutu o por data, y importa caún.",
   "initials": "Iniciales",
   "instance": "Usuarios cola sesión aniciada",
   "instance-desc": "Cada usuariu cola sesión aniciada nesti WeKan pue ver esti tableru. Nunca s'amuesa a quien nun anició sesión. Namás les persones amestaes al tableru puen editar.",

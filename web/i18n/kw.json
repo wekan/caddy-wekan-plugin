@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Glusowgh restren todo.txt: unn ober dre linenn, kepar dell wra an app todo.txt hag appys kesplegadow y skrifa. Oberow kowlwrys (\"x\") a ya dhe Gwrys, +project hag @context a dheu ha bos labelyow, (A) a dheu ha bos label ragwir, ha due: ha t: a dheu ha bos dedhyow termen ha dalleth.",
   "import-board-instruction-zenkit": "Gorra omma JSON esperth rol ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Gradhow a wra bos rolyow ha taklennow a wra bos kartennow.",
   "import-file-label": "Dewisewgh an restren esperth, po glusewgh hy thekst a-woles:",
+  "import-too-large": "An restren yw re vras dhe enporth yn unn prys. Ranna hi yn restrennow le, rag ensampel herwydh ragdres po herwydh dydhyas, hag enporth pubonan.",
   "initials": "Lytherennow kynsa",
   "instance": "Devnydhyoryon omgelmys",
   "instance-desc": "Pub devnydhyer omgelmys a'n WeKan ma a yll gweles an estyllen ma. Hi ny vydh byth diskwedhys dhe dus nad yns omgelmys. Tus keworrys dhe'n estyllen hepken a yll golegi.",

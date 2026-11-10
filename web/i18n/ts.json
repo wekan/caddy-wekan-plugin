@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Namarheta fayili ya todo.txt: ntirho wun'we eka layini yin'wana ni yin'wana, hi ndlela leyi xitirhisiwa xa todo.txt ni switirhisiwa leswi fambelanaka na xona swi tsalaka ha yona. Mintirho leyi hetiweke (\"x\") yi ya eka leyi hetiweke, +project na @context swi hundzuka malebulu, (A) yi hundzuka lebulu ya ku rhangisa, kasi due: na t: swi hundzuka masiku ya makumu ni ya ku sungula.",
   "import-board-instruction-zenkit": "Namarheta JSON ya ku humesa ka nxaxamelo wa ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Ti-stage ti hundzuka minxaxamelo naswona ti-item ti hundzuka tikhadi.",
   "import-file-label": "Hlawula fayili yo humesa, kumbe u namarhela tsalwa ra yona laha hansi:",
+  "import-too-large": "Fayili yi kulu ngopfu leswaku yi nghenisiwa hi nkarhi wun'we. Yi avanyise yi va tifayili titsongo, xikombiso hi phurojeke kumbe hi siku, kutani u nghenisa yin'wana na yin'wana.",
   "initials": "Masungulo ya mavito",
   "instance": "Vatirhisi lava ngheneke",
   "instance-desc": "Mutirhisi un’wana ni un’wana loyi a ngheneke eka WeKan leyi a nga vona bodo leyi. A yi kombisiwi vanhu lava nga nghenangiki nikatsongo. I vanhu lava engeteriweke eka bodo ntsena lava nga yi lulamisaka.",

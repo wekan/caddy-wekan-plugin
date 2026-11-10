@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "贴入一只 todo.txt 文件：一行一桩任务，格式同 todo.txt 应用程序搭兼容程序写出来个一样。完成个任务（\"x\"）会移到「已完成」，+project 搭 @context 会变成标签，(A) 会变成优先级标签，due: 搭 t: 会变成到期日期搭开始日期。",
   "import-board-instruction-zenkit": "贴进 ZenKit 列表导出 JSON（{ \"title\", \"stages\":[...], \"items\":[...] }）。stages 变成列表，items 变成卡片。",
   "import-file-label": "选导出文件，或者拿伊个文本贴勒下头：",
+  "import-too-large": "文件忒大，一趟导入弗了。请拿伊拆成小一点个文件，比方讲按项目或者按日脚拆，再一个一个导入。",
   "initials": "缩写",
   "instance": "登录过个用户",
   "instance-desc": "搿个 WeKan 里每个登录过个用户侪好看搿个看板。呒没登录个人绝勿会看到伊。只有加到看板里个人才好修改。",

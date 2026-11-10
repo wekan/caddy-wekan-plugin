@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Teeka fayiro ya todo.txt: omulimu gumu ku buli lunyiriri, nga pulogulaamu ya todo.txt ne pulogulaamu ezikwatagana bwe zigiwandiika. Emirimu egyaggwa (\"x\") gigenda mu Giwedde, +project ne @context bifuuka obubonero, (A) efuuka akabonero k'obukulu, era due: ne t: bifuuka ennaku ez'okusibako n'ez'okutandika.",
   "import-board-instruction-zenkit": "Teekamu ZenKit lukalala fulumya JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages become nkalala ne items become kaadi.",
   "import-file-label": "Londa fayiro y'okufulumya, oba teekamu ebigambo byayo wansi:",
+  "import-too-large": "Fayiro nnene nnyo okugireeta omulundi gumu. Gigabanyemu fayiro entono, okugeza okusinziira ku pulojekiti oba ku nnaku z'omwezi, oleete buli emu.",
   "initials": "Ennukuta ezisooka",
   "instance": "Abakozesa abayingidde",
   "instance-desc": "Buli mukozesa ayingidde mu WeKan eno asobola okulaba olubaawo luno. Terulaga bantu batayingidde n’akatono. Abantu abongereddwa ku lubaawo bokka be basobola okulukyusa.",

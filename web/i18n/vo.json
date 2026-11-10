@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Nüpladolös ragivi todo.txt: vobot bal in ked alik, äsä program: todo.txt e programs balädik penons onis. Vobots pefinüköl (\"x\") mogolons lü «Färmükön», +project e @context vedons malüls, (A) vedon malül büoranga, e due: e t: vedons däts finüpa e primüpa.",
   "import-board-instruction-zenkit": "Letälolöd ZenKit list-ekspori JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages vedons liseds e items vedons kads.",
   "import-file-label": "Välolös ragivi seveiga, u pladolös vödemi onik dono:",
+  "import-too-large": "Ragiv binon tu gretik ad pinküpön balna. Dilolös oni ad ragivs smalikum, a sam ma proyeg u ma dät, e inküpolös alik.",
   "initials": "Primatonats",
   "instance": "Gebans enunädöl oki",
   "instance-desc": "Geban alik, kel enunädon oki in WeKan at, kanon logön tabi at. Tab at neai pajonon menes, kels no enunädons oki. Te mens pelüüköl tabe kanons redakön oni.",

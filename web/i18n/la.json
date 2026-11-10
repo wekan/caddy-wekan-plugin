@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Fasciculum todo.txt insere: unum opus in quaque linea, sicut applicatio todo.txt et applicationes congruentes scribunt. Opera perfecta (\"x\") ad Perfecta transferuntur, +project et @context fiunt pittacia, (A) fit pittacium prioritatis, et due: et t: fiunt dies debiti et initii.",
   "import-board-instruction-zenkit": "Insere JSON indicis ex ZenKit exportatum ({ \"title\", \"stages\":[...], \"items\":[...] }). Gradus fiunt indices et res fiunt chartae.",
   "import-file-label": "Elige fasciculum exportatum, aut textum eius infra insere:",
+  "import-too-large": "Fasciculus nimis magnus est quam ut simul importetur. Divide eum in fasciculos minores, exempli gratia per inceptum aut per diem, et singulos importa.",
   "initials": "Litterae initiales",
   "instance": "Utentes ingressi",
   "instance-desc": "Omnis utens in hoc WeKan ingressus hanc tabulam videre potest. Numquam ostenditur iis qui ingressi non sunt. Solum ii qui tabulae additi sunt eam mutare possunt.",

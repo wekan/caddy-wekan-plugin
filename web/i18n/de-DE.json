@@ -1058,6 +1058,7 @@
   "import-board-instruction-todotxt": "Fügen Sie eine todo.txt-Datei ein: eine Aufgabe pro Zeile, wie sie die todo.txt-App und kompatible Apps schreiben. Abgeschlossene Aufgaben (\"x\") kommen nach Erledigt, +project und @context werden zu Labels, (A) wird zu einem Prioritätslabel und due: und t: werden zu Fälligkeits- und Startdatum.",
   "import-board-instruction-zenkit": "Einfügen eines ZenKit Listen Export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Aus Stapeln werden Listen und aus Items werden Karten.",
   "import-file-label": "Wähle die Exportdatei oder füge ihren Text unten ein:",
+  "import-too-large": "Die Datei ist zu groß, um sie auf einmal zu importieren. Bitte in kleinere Dateien aufteilen, zum Beispiel nach Projekt oder nach Datum, und jede einzeln importieren.",
   "initials": "Initialen",
   "instance": "Angemeldete Benutzer",
   "instance-desc": "Jeder an dieser WeKan-Instanz angemeldete Benutzer kann dieses Board ansehen. Personen, die nicht angemeldet sind, wird es nie angezeigt. Nur Personen, die dem Board hinzugefügt wurden, können es bearbeiten.",

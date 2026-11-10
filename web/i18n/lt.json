@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Įklijuokite todo.txt failą: po vieną užduotį eilutėje, kaip jį įrašo todo.txt ir suderinamos programos. Atliktos užduotys (\"x\") perkeliamos į atliktų užduočių sąrašą, +project ir @context tampa žymomis, (A) tampa prioriteto žyma, o due: ir t: tampa termino ir pradžios datomis.",
   "import-board-instruction-zenkit": "Įklijuokite ZenKit sąrašo eksporto JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Etapai (stages) tampa sąrašais, o elementai — kortelėmis.",
   "import-file-label": "Pasirinkite eksporto failą arba įklijuokite jo tekstą žemiau:",
+  "import-too-large": "Failas per didelis, kad būtų importuotas iš karto. Padalykite jį į mažesnius failus, pavyzdžiui, pagal projektą ar datą, ir importuokite kiekvieną atskirai.",
   "initials": "Inicialai",
   "instance": "Prisijungę naudotojai",
   "instance-desc": "Kiekvienas prisijungęs šios WeKan sistemos naudotojas gali peržiūrėti šią lentą. Ji niekada nerodoma neprisijungusiems žmonėms. Redaguoti gali tik į lentą įtraukti žmonės.",

@@ -3,6 +3,7 @@ package web
 import (
 	"errors"
 	"math"
+	"net/http"
 	"regexp"
 	"strconv"
 	"strings"
@@ -85,14 +86,33 @@ var errTransfer = errors.New("import/export limit exceeded")
 // sanitizeTransfer walks a board export or import: documents become plain
 // maps, dates times, markup in text is removed, prototype keys and - leaving
 // WeKan - secret-looking keys are dropped, and the size is bounded.
-func sanitizeTransfer(v any, export bool) (any, error) { return transfer(v, export, true) }
+func sanitizeTransfer(v any, export bool) (any, error) {
+	out, _, err := transfer(v, export, true)
+	return out, err
+}
 
 // plainDocs is documents as plain values, unchanged otherwise: a board copied
 // within this WeKan keeps what it had.
-func plainDocs(v any) (any, error) { return transfer(v, false, false) }
+func plainDocs(v any) (any, error) {
+	out, _, err := transfer(v, false, false)
+	return out, err
+}
 
-func transfer(v any, export, sanitize bool) (any, error) {
+// transferWarning is one value the boundary changed, as WeKan's
+// sanitizeTransferValue reports it: the JSON-pointer path and why.
+type transferWarning struct{ Path, Reason string }
+
+// transferPathKey is a key as a JSON-pointer segment, ~ and / escaped.
+func transferPathKey(k string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(k, "~", "~0"), "/", "~1")
+}
+
+var transferBase64 = regexp.MustCompile(`^[A-Za-z0-9+/]+={0,2}$`)
+
+func transfer(v any, export, sanitize bool) (any, []transferWarning, error) {
 	nodes := 0
+	var warnings []transferWarning
+	warn := func(path, reason string) { warnings = append(warnings, transferWarning{path, reason}) }
 	var walk func(v any, path string, depth int) (any, error)
 	walk = func(v any, path string, depth int) (any, error) {
 		nodes++
@@ -104,19 +124,25 @@ func transfer(v any, export, sanitize bool) (any, error) {
 			return x, nil
 		case float64:
 			if math.IsNaN(x) || math.IsInf(x, 0) {
+				warn(path, "non-finite number removed")
 				return nil, nil
 			}
 			return x, nil
 		case string:
 			limit := transferMaxString
-			if len(x) > limit && (strings.HasSuffix(path, "/file") || strings.HasSuffix(path, "/avatarFile")) {
+			if len(x) > limit && (strings.HasSuffix(path, "/file") || strings.HasSuffix(path, "/avatarFile") || strings.HasSuffix(path, "/excelBase64")) &&
+				len(x)%4 == 0 && transferBase64.MatchString(x) {
 				limit = transferMaxBinary
 			}
 			if len(x) > limit {
 				return nil, errTransfer
 			}
 			if sanitize && transferLooksActive.MatchString(x) {
-				return sanitizeInput(x), nil
+				clean := sanitizeInput(x)
+				if clean != x {
+					warn(path, "unsafe markup sanitized")
+				}
+				return clean, nil
 			}
 			return x, nil
 		case time.Time:
@@ -133,13 +159,43 @@ func transfer(v any, export, sanitize bool) (any, error) {
 			return walk(m, path, depth)
 		case bson.M:
 			return walk(map[string]any(x), path, depth)
+		case jsObject:
+			// Another tool's document, in its own key order: the import
+			// parsers read it in that order, as WeKan's do.
+			out := jsObject{}
+			for _, kv := range x {
+				child := path + "/" + transferPathKey(kv.Key)
+				if transferBlockedKeys[kv.Key] {
+					warn(child, "prototype key removed")
+					continue
+				}
+				if export && sanitize && transferSecretKey.MatchString(kv.Key) {
+					warn(child, "secret field removed")
+					continue
+				}
+				w, err := walk(kv.Value, child, depth+1)
+				if err != nil {
+					return nil, err
+				}
+				out = append(out, struct {
+					Key   string
+					Value any
+				}{kv.Key, w})
+			}
+			return out, nil
 		case map[string]any:
 			out := make(map[string]any, len(x))
 			for k, val := range x {
-				if transferBlockedKeys[k] || (export && sanitize && transferSecretKey.MatchString(k)) {
+				child := path + "/" + transferPathKey(k)
+				if transferBlockedKeys[k] {
+					warn(child, "prototype key removed")
 					continue
 				}
-				w, err := walk(val, path+"/"+k, depth+1)
+				if export && sanitize && transferSecretKey.MatchString(k) {
+					warn(child, "secret field removed")
+					continue
+				}
+				w, err := walk(val, child, depth+1)
 				if err != nil {
 					return nil, err
 				}
@@ -184,5 +240,33 @@ func transfer(v any, export, sanitize bool) (any, error) {
 		}
 		return nil, nil // anything else is not part of a board
 	}
-	return walk(v, "", 0)
+	out, err := walk(v, "", 0)
+	return out, warnings, err
+}
+
+// secureImport is server/lib/secureTransfer.js for an import: the boundary,
+// with what it removed recorded in Admin Panel -> Problems, and a file over a
+// limit refused and recorded.
+func (s *Server) secureImport(r *http.Request, u *User, source string, v any) (any, error) {
+	out, warnings, err := transfer(v, false, true)
+	uid := ""
+	if u != nil {
+		uid = u.ID
+	}
+	if err != nil {
+		s.recordSecurity(r, securityEvent{Key: "transfer.limit", Action: "blocked", Source: "import:" + source, UserID: uid, Detail: err.Error()})
+		return nil, err
+	}
+	if len(warnings) > 0 {
+		var parts []string
+		for i, w := range warnings {
+			if i == 5 {
+				break
+			}
+			parts = append(parts, w.Path+" "+w.Reason)
+		}
+		s.recordSecurity(r, securityEvent{Key: "transfer.sanitized", Action: "sanitized", Source: "import:" + source, UserID: uid,
+			Detail: strconv.Itoa(len(warnings)) + " unsafe value(s): " + strings.Join(parts, "; ")})
+	}
+	return out, nil
 }

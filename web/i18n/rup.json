@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Bagã un fishier todo.txt: unã huzmeti pi cathi linii, cum u scrie aplicatsia todo.txt shi aplicatsiili tsi s-uidisescu. Huzmetsli bitisiti (\"x\") s-duc la Done, +project shi @context s-fac eticheti, (A) s-fatsi etichetã di prioritati, shi due: shi t: s-fac data limitã shi data di ahurhiri.",
   "import-board-instruction-zenkit": "Bagã un export JSON di listã ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Etapili s-fac listi shi elementili s-fac cãrtsã.",
   "import-file-label": "Alãdzi fisierlu di export, i lipea textul a lui ma nghios:",
+  "import-too-large": "Fishierlu easti multu mari ti s-lu importu di nãoarã. Imparti-lu tu fishieri ma ñits, bunãoarã dupã proiectu i dupã datã, shi importã-lu cathi unu.",
   "initials": "Initsiali",
   "instance": "Folositori intrats",
   "instance-desc": "Cathi folositor intrat tu aestu WeKan poati sã veadã aestã tabelã. Nu s’ aratã vãrnãoarã la oaminjlji tsi nu suntu intrats. Ma oaminjlji adãvgats la tabelã pot sã u alãxeascã.",

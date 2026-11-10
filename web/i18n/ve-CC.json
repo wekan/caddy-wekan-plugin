@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Incola un file todo.txt: un laoro par riga, come che lo scrive l'aplicasion todo.txt e le aplicasion compatibili. I laori finii (\"x\") i va in Finio, +project e @context i deventa etichete, (A) el deventa na eticheta de priorità, e due: e t: i deventa date de scadensa e de inisio.",
   "import-board-instruction-zenkit": "Incoła un JSON de esport lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Le stage deventa liste e i item deventa schede.",
   "import-file-label": "Sielgi el file de esportasion, o incoła el so testo cuà soto:",
+  "import-too-large": "El file el xe massa grando par inportarlo tuto inte na volta. Dividilo in file pì picołi, par esempio par projeto o par data, e inporta ognuno.",
   "initials": "Iniziałi",
   "instance": "Utenti che ga fato l’aceso",
   "instance-desc": "Ogni utente che ga fato l’aceso a sto WeKan el pol védar sta bacheca. No la vien mai mostrà a chi no ga fato l’aceso. Solo le persone zontà a la bacheca le pol modificarla.",

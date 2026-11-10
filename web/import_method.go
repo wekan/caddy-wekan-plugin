@@ -1,0 +1,138 @@
+package web
+
+import (
+	"encoding/json"
+	"errors"
+	"net/http"
+	"regexp"
+	"strings"
+)
+
+// The one way another tool's document becomes a board, for the import page
+// and for WeKan's importBoard method alike (models/import.js): its shape
+// checked (models/lib/importSourceShape.js), what it carries cleaned at the
+// import boundary, its source's parser, and WeKan's creator.
+
+var (
+	errImportShape    = errors.New("invalid-import-format")
+	errImportTooLarge = errors.New("import-too-large")
+	leoShape          = regexp.MustCompile(`<leo_file[\s>]`)
+	opmlShape         = regexp.MustCompile(`<opml[\s>]`)
+)
+
+// validImportShape is WeKan's validateImportSourceShape, for the sources
+// Weddy parses.
+func validImportShape(source string, v any) bool {
+	arrayAt := func(o any, k string) bool { _, ok := jsGet(o, k).([]any); return ok }
+	_, isArr := v.([]any)
+	text, isText := v.(string)
+	switch source {
+	case "kanboard":
+		return arrayAt(v, "tasks")
+	case "github", "gitlab", "gitea", "forgejo":
+		return isArr || arrayAt(v, "issues")
+	case "deck":
+		return arrayAt(v, "stacks") || arrayAt(jsGet(v, "board"), "stacks")
+	case "openproject":
+		return isArr || arrayAt(v, "elements") || arrayAt(jsGet(v, "_embedded"), "elements")
+	case "asana":
+		return isArr || arrayAt(v, "data")
+	case "zenkit":
+		return isArr || arrayAt(v, "items") || (arrayAt(v, "elements") && (arrayAt(v, "entries") || arrayAt(v, "listEntries")))
+	case "kanri":
+		return arrayAt(v, "columns") || arrayAt(v, "boards")
+	case "markdown", "todotxt", "taskwarrior", "nullboard":
+		return isText && strings.TrimSpace(text) != ""
+	case "leo":
+		return isText && leoShape.MatchString(text)
+	case "opml":
+		return isText && opmlShape.MatchString(text)
+	}
+	return false
+}
+
+// importInput writes one document - the text of a text source, the decoded
+// JSON of any other - as a new board.
+func (s *Server) importInput(r *http.Request, u *User, source string, input any) (*Board, error) {
+	if !validImportShape(source, input) {
+		return nil, errImportShape
+	}
+	secure := func(v any) (any, error) {
+		clean, err := s.secureImport(r, u, source, v)
+		if err != nil {
+			return nil, errImportTooLarge
+		}
+		return clean, nil
+	}
+	var parsed jsObject
+	var err error
+	if parse, ok := importTextParsers[source]; ok {
+		// An outline is XML: its tags would go as markup, so it is parsed
+		// first and the parsed board cleaned.
+		text, _ := input.(string)
+		if !importParsedFirst[source] {
+			clean, err := secure(text)
+			if err != nil {
+				return nil, err
+			}
+			text, _ = clean.(string)
+		}
+		if parsed, err = parse(text); err != nil {
+			return nil, errImportShape
+		}
+		if importParsedFirst[source] {
+			clean, err := secure(parsed)
+			if err != nil {
+				return nil, err
+			}
+			parsed, _ = clean.(jsObject)
+		}
+	} else {
+		doc, err := secure(input)
+		if err != nil {
+			return nil, err
+		}
+		if parsed, err = importParsers[source](doc); err != nil {
+			return nil, errImportShape
+		}
+	}
+	return s.importGeneral(r.Context(), u, parsed, source)
+}
+
+// methodImportBoard is WeKan's importBoard(board, data, importSource,
+// currentBoard) for the sources Weddy parses: the new board's id, or
+// invalid-import-format, import-too-large or import-disabled as WeKan's.
+func (s *Server) methodImportBoard(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	if len(args) < 3 {
+		return nil, &methodError{"Match.Error", "Match failed"}
+	}
+	var source string
+	if json.Unmarshal(args[2], &source) != nil {
+		return nil, &methodError{"Match.Error", "Expected string"}
+	}
+	board, err := decodeJS(args[0])
+	if err != nil {
+		return nil, &methodError{"Match.Error", "Match failed"}
+	}
+	if s.importDisabled(r.Context()) {
+		return nil, &methodError{"import-disabled", "Import is disabled by the administrator."}
+	}
+	_, json := importParsers[source]
+	_, text := importTextParsers[source]
+	if !json && !text {
+		return nil, &methodError{"not-implemented", "Weddy does not import " + source + " through importBoard yet"}
+	}
+	b, err := s.importInput(r, u, source, board)
+	var me *methodError
+	switch {
+	case err == nil:
+		return b.ID, nil
+	case errors.As(err, &me):
+		return nil, me
+	case errors.Is(err, errImportTooLarge):
+		return nil, &methodError{"import-too-large", "Import/export limit exceeded"}
+	case errors.Is(err, errBoardCreation):
+		return nil, &methodError{"not-authorized", err.Error()}
+	}
+	return nil, &methodError{"invalid-import-format", "Invalid " + source + " import document shape"}
+}

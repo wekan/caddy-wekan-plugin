@@ -1054,6 +1054,7 @@
   "import-board-instruction-todotxt": "Collez un fichier todo.txt : une tâche par ligne, tel que l'écrivent l'application todo.txt et les applications compatibles. Les tâches terminées (\"x\") vont dans Terminé, +project et @context deviennent des étiquettes, (A) devient une étiquette de priorité, et due: et t: deviennent les dates d'échéance et de début.",
   "import-board-instruction-zenkit": "Collez un export JSON de liste ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Les étapes deviennent des listes et les éléments deviennent des cartes.",
   "import-file-label": "Choisissez le fichier exporté, ou collez son texte ci-dessous :",
+  "import-too-large": "Le fichier est trop volumineux pour être importé en une seule fois. Divisez-le en fichiers plus petits, par exemple par projet ou par date, et importez-les un par un.",
   "initials": "Initiales",
   "instance": "Utilisateurs connectés",
   "instance-desc": "Tous les utilisateurs connectés à cette instance de WeKan peuvent consulter ce tableau. Il n’est jamais affiché aux personnes non connectées. Seules les personnes ajoutées au tableau peuvent le modifier.",

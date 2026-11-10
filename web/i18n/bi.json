@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Putum kopi blong fael todo.txt: wan wok long wanwan laen, olsem app todo.txt mo ol app we oli wok wetem hem oli raetem. Ol wok we oli finis (\"x\") oli go long haf blong ol wok we oli finis, +project mo @context oli kam ol lebel, (A) i kam lebel blong wok we i mas kam fastaem, mo due: mo t: oli kam ol det blong finisim mo statem wok.",
   "import-board-instruction-zenkit": "Putum kopi blong JSON eksport blong wan lis blong ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Ol step oli kam ol lis mo ol samting oli kam ol kad.",
   "import-file-label": "Jusum fael blong eksport, o pestem teks blong hem daon long hia:",
+  "import-too-large": "Fael i bigfala tumas blong karem i kam wantaem nomo. Seraotem long ol smosmol fael, olsem folem projek o folem det, mo karem i kam wanwan.",
   "initials": "Ol fas leta blong nem",
   "instance": "Ol man we oli saen in",
   "instance-desc": "Evri man we i saen in long WeKan ia i save luk bod ia. Ol man we oli no saen in oli no save luk hem nating. Ol man we oli bin ademap olgeta long bod nomo oli save jenisim hem.",

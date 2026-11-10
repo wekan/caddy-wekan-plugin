@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Wklej plik todo.txt: jedno zadanie we kożdyj linijce, tak jak zapisuje aplikacyjo todo.txt i zgodne z niōm aplikacyje. Skończōne zadania (\"x\") przechodzōm do Skończōnych, +project i @context stajōm sie etyketami, (A) staje sie etyketōm priorytetu, a due: i t: stajōm sie datami terminu i zaczōntku.",
   "import-board-instruction-zenkit": "Wklej eksport JSON listy ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Etapy stają sie listami, a elementy kartami.",
   "import-file-label": "Wybier zbiōr eksportu abo wklej jego tekst niżyj:",
+  "import-too-large": "Plik je za srogi, coby go naroz zaimportować. Podziel go na myńsze pliki, na przikłod podle projektu abo podle daty, i zaimportuj kożdy z osobna.",
   "initials": "Inicjały",
   "instance": "Zalogowani używŏcze",
   "instance-desc": "Kożdy zalogowany używŏcz tego WeKan może widzieć ta tabula. Nigdy niy je pokŏzowanŏ niyzalogowanym ôsobōm. Ino ôsoby dodane do tabule mogōm edytować.",

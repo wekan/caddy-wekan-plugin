@@ -66,6 +66,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"/cards/update":                   s.methodCardsUpdate,
 		"watch":                           s.methodWatch,
 		"createBoardWithInitialSwimlanes": s.methodCreateBoardWithInitialSwimlanes,
+		"importBoard":                     s.methodImportBoard,
 	}
 	for k, v := range s.customFieldMethods() {
 		m[k] = v

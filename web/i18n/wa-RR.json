@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Idikit an file nga todo.txt: usa nga buruhaton kada linya, sugad han iginsusurat han aplikasyon nga todo.txt ngan han mga katugbang nga aplikasyon. An natapos nga mga buruhaton (\"x\") makadto ha Natapos, an +project ngan @context magigin mga etiketa, an (A) magigin etiketa han prayoridad, ngan an due: ngan t: magigin mga petsa han kataposan nga takna ngan han pagtikang.",
   "import-board-instruction-zenkit": "I-paste an ZenKit list export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). An mga stage magigin lista ngan an mga item magigin card.",
   "import-file-label": "Pilia an export nga file, o idikit an teksto hini ha ubos:",
+  "import-too-large": "Dako hinduro an file para i-import ha usa la nga higayon. Bahina ini ha mas gudti nga mga file, pananglitan sumala ha proyekto o sumala ha petsa, ngan i-import an kada usa.",
   "initials": "Mga Inisyal",
   "instance": "Mga gumaramit nga naka-log in",
   "instance-desc": "An tagsa nga gumaramit nga naka-log in hini nga WeKan makakakita hini nga pisara. Diri gud ini iginpapakita ha mga tawo nga waray mag-log in. An mga tawo la nga igindugang ha pisara an puydi mag-edit.",

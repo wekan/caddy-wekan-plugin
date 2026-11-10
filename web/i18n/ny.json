@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Matani fayilo ya todo.txt: ntchito imodzi pamzere uliwonse, monga pulogalamu ya todo.txt ndi mapulogalamu ogwirizana nayo zimalembera. Ntchito zomalizidwa (\"x\") zimapita ku Zomalizidwa, +project ndi @context zimakhala zilembo, (A) imakhala chizindikiro cha kufunika, ndipo due: ndi t: zimakhala masiku omalizira ndi oyambira.",
   "import-board-instruction-zenkit": "Matani JSON yotumizidwa ya mndandanda wa ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages zimakhala mindandanda ndipo items zimakhala makhadi.",
   "import-file-label": "Sankhani fayilo yotulutsidwa, kapena matani mawu ake pansipa:",
+  "import-too-large": "Fayiloyi ndi yayikulu kwambiri kuti ilowetsedwe nthawi imodzi. Igaweni m'mafayilo ang'onoang'ono, mwachitsanzo malinga ndi pulojekiti kapena tsiku, ndipo lowetsani iliyonse.",
   "initials": "Zilembo zoyambira",
   "instance": "Ogwiritsa ntchito omwe alowa",
   "instance-desc": "Aliyense wogwiritsa ntchito amene walowa mu WeKan iyi akhoza kuona bolodi ili. Silionetsedwa konse kwa anthu omwe sanalowe. Ndi anthu okhawo omwe awonjezedwa pa bolodi amene angalisinthe.",

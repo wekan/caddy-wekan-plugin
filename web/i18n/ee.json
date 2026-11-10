@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Kle todo.txt ƒe faɛl aɖe ɖe afi sia: dɔ ɖeka le fli ɖesiaɖe me, abe ale si todo.txt dɔwɔnu kple dɔwɔnu siwo sɔ kplii ŋlɔe ene. Dɔ siwo wu enu (\"x\") yina Dɔwuɖeɖi me, +project kple @context trɔna zu dzesiwo, (A) trɔna zu nukpɔsusu gbãtɔ ƒe dzesi, eye due: kple t: trɔna zu nuwuwu ŋkeke kple gɔmedzedze ŋkeke.",
   "import-board-instruction-zenkit": "Tsɔ ZenKit ƒe xexlẽdzesi JSON si wotsɔ ɖe go de afisia ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages atrɔ̃ azu xexlẽdzesiwo eye items atrɔ̃ azu kaɖiwo.",
   "import-file-label": "Tia ɖeɖe faɛl la, alo tsɔ eƒe nuŋɔŋlɔ de eme le ete:",
+  "import-too-large": "Faɛl la lolo akpa be woatsɔe ade eme zi ɖeka. Mã eme wòanye faɛl suesuewo, abe dɔwɔwɔ alo ŋkeke nu ene, eye nàtsɔ wo dometɔ ɖesiaɖe ade eme.",
   "initials": "Ŋkɔwo ƒe dzesi gbãtɔwo",
   "instance": "Zãlawo siwo ge ɖe eme",
   "instance-desc": "Zãla ɖe sia ɖe si ge ɖe WeKan sia me ate ŋu akpɔ ŋɔŋlɔkpe sia. Womafia ame siwo mege ɖe eme o la o gbeɖe. Ame siwo wotsɔ kpe ɖe ŋɔŋlɔkpea ŋu ko ate ŋu atrɔ asi le eŋu.",

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "todo.txt-fiili ikkunniaruk: titarneq ataaseq suliassamut ataatsimut, todo.txt-appip appillu naleqquttut allattarnerattut. Suliassat naammassimasut (\"x\") \"Naammassivoq\"-mut nuunneqassapput, +project aamma @context ilisarnaatinngussapput, (A) pingaassutsimut ilisarnaatinngussaaq, due: aamma t: piffissaliussap aallartiffissallu ulluinut allanngortinneqassapput.",
   "import-board-instruction-zenkit": "ZenKit-ip allattorsimaffianit annissutigineqartoq JSON ikkuguk ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages allattorsimaffinngussapput items-ilu kortsinngorlutik.",
   "import-file-label": "Nuussinermi fiili toqqaruk, imaluunniit allagaa ataani ikkuguk:",
+  "import-too-large": "Paasissutissiaq angivallaarpoq ataatsikkut eqqunneqarsinnaanani. Paasissutissianut mikinerusunut avikkit, assersuutigalugu suliniut imaluunniit ulloq malillugu, ataasiakkaarlugillu eqqukkit.",
   "initials": "Aqqit naalisakkat",
   "instance": "Atuisutut isersimasut",
   "instance-desc": "WeKan-imut uunga atuisutut isersimasut tamarmik allattarfik una takusinnaavaat. Atuisutut isersimanngitsunut takutinneqanngisaannarpoq. Allattarfimmut ilanngunneqarsimasut kisimik allanngortissinnaavaat.",

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Incollà un schedariu todo.txt: un compitu per linea, cum'è u scrivenu l'applicazione todo.txt è l'applicazioni cumpatibili. I compiti compii (\"x\") vanu in Fattu, +project è @context diventanu etichette, (A) diventa un'etichetta di priurità, è due: è t: diventanu e date di scadenza è d'iniziu.",
   "import-board-instruction-zenkit": "Incollate un JSON d’espurtazione d’una lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). E tappe diventanu liste è l’elementi diventanu carte.",
   "import-file-label": "Sceglite u schedariu d'espurtazione, o incullate u so testu quì sottu:",
+  "import-too-large": "U schedariu hè troppu grande per esse impurtatu in una volta. Spartitelu in schedarii più chjuchi, per esempiu per prughjettu o per data, è impurtate ognunu.",
   "initials": "Iniziali",
   "instance": "Utilizatori cunnessi",
   "instance-desc": "Ogni utilizatore cunnessu à stu WeKan pò vede sta tavula. Ùn hè mai mustrata à e persone micca cunnesse. Solu e persone aghjunte à a tavula ponu mudificalla.",

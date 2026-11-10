@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "todo.txt ፈይል ለጥፍ፦ ዎሮት ሽቅል ዲብ ዎሮት ሴር፣ ከም todo.txt በርናምጅ ወክምሰሉ ለሻቃ በራምጅ ለከትቡዎ። ለተመመ ሽቅል (\"x\") ዲብ \"ተወዲኡ\" ለአቱ፣ +project ወ@context ዕላማት ለገብኡ፣ (A) ዕላመት ቀዳምየት ለገብእ፣ due: ወt: ዕለት መክለሲ ወመአንበቲ ለገብኡ።",
   "import-board-instruction-zenkit": "ምልኣኽ ዝርዝር ZenKit JSON ({ \"title\", \"stages\":[...], \"items\":[...] }) ለጥፍ። Stages ዝርዝራት ይኾኑ፣ items ድማ ወረቀት ካርዳት ይኾኑ።",
   "import-file-label": "ፈይል export ምረጽ፣ ወይ ክቱቡ ኣብ ታሕቲ ለጥፍ፦",
+  "import-too-large": "ፈይል ብሕድ ግዜ ለእተ ኣዝዩ ዓቢ ተ። ለምሳሌ ብፕሮጀክት ወይ ብዕለት ናብ ንኡሳን ፋይላት ፍለዩ፣ ወኩሉ ሐቴ ሐቴ እትዉ።",
   "initials": "ፊደላት መጀመርታ",
   "instance": "ለአተው መስተዕምሊን",
   "instance-desc": "እት እሊ WeKan ለአተ ኩል ነፈር እሊ ምዱድ እግል ልርአ ልትከል። ለኢአተው አበደን ኢልርአዎ። እት ምዱድ ለትወሰኮ ነፈር ሌጣ እግል ለአስኑ ልትከሎ።",

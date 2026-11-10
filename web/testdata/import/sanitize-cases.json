@@ -1,0 +1,30 @@
+{
+  "strings": [
+    "<b>Meteor 3 roadmap</b><script>alert(1)</script>",
+    "<a href=\"javascript:alert(1)\">x</a> & y",
+    "<style>body{}</style>plain",
+    "a url(http://x) b",
+    "Body line 1 &amp; a &lt; b <i>x</i>",
+    "<img src=x onerror=alert(1)>after",
+    "<textarea>gone</textarea>kept<option>gone</option>",
+    "  <p>para</p>\n<p>two</p>  ",
+    "javascript:alert(1)",
+    "VBScript:msgbox data:text/html,x",
+    "<div style=\"color:red\">styled</div>",
+    "@import url(evil.css); text",
+    "width: expression(alert(1))",
+    "a &lt;b&gt; c <br/> d",
+    "&quot;quoted&quot; &#39;single&#39; &nbsp;nbsp",
+    "<!-- comment -->visible",
+    "<scr<script>ipt>alert(1)</script>",
+    "x < y and y > z <u>u</u>",
+    "Ünïcödé <em>ok</em> 🎉"
+  ],
+  "transfer": {
+    "title": "<b>Board</b>",
+    "constructor": "removed",
+    "lists": [{"title": "Todo", "__proto__x": 1, "cards": [{"title": "a <script>x</script>b", "description": "plain"}]}],
+    "a/b~c": {"prototype": {"deep": true}, "value": "javascript:x"},
+    "n": 3.5
+  }
+}

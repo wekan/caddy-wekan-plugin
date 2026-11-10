@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Mä todo.txt imata lip'iyam: sapa siqina mä luraña, todo.txt wakichäwi ukhamarak ukampi chikachasiñ atiri wakichäwinakax qillqapki ukhama. Tukuyata lurañanakax (\"x\") Tukuyata ukar sarapxi, +project ukat @context ukanakax chimpunakaruw tukupxi, (A) ukax nayrankañ chimpuw tuku, due: ukat t: ukanakax tukuyañ uru ukat qalltañ ururuw tukupxi.",
   "import-board-instruction-zenkit": "Paste a ZenKit lista anqäxar apayaña JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages become listanaka ukat items become tarjetanaka.",
   "import-file-label": "Mistuyat qillqat ajlliña, jan ukax qillqap aka manqhan qillqaqaña:",
+  "import-too-large": "Archivox wali jach'awa mä kutiru apaniñataki. Jisk'a archivonakaru jaljam, sañäni proyectorjama jan ukax urunakarjama, ukat sapa mayni apanim.",
   "initials": "Aymar aruna: Initials",
   "instance": "Mantata apnaqirinaka",
   "instance-desc": "Aka WeKan ukaru mantata taqi apnaqirinakaw aka pirqa uñjapxaspa. Jan mantata jaqinakarux janipuniw uñachtʼayaskiti. Pirqaru yapxatata jaqinakakiw askichapxaspa.",

@@ -107,7 +107,7 @@ func (s *Server) apiImportBoard(w http.ResponseWriter, r *http.Request, u *User)
 		return
 	}
 	numbersToFloat(req.Board)
-	clean, err := sanitizeTransfer(req.Board, false)
+	clean, err := s.secureImport(r, u, "wekan", req.Board)
 	if err != nil {
 		apiError(w, http.StatusBadRequest, err.Error())
 		return

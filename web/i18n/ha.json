@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Manna fayil ɗin todo.txt: aiki ɗaya a kowane layi, kamar yadda manhajar todo.txt da manhajojin da suka dace da ita suke rubutawa. Ayyukan da aka kammala (\"x\") suna zuwa Done, +project da @context suna zama alamomi, (A) yana zama alamar fifiko, sannan due: da t: suna zama ranar ƙarshe da ranar farawa.",
   "import-board-instruction-zenkit": "Liƙa JSON na fitarwar jerin ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages su zama jerin, items su zama katuna.",
   "import-file-label": "Zaɓi fayil ɗin fitarwa, ko liƙa rubutunsa a ƙasa:",
+  "import-too-large": "Fayil ɗin ya yi girma sosai don a shigo da shi lokaci guda. Raba shi zuwa ƙananan fayiloli, misali ta aiki ko ta kwanan wata, sannan ka shigo da kowanne.",
   "initials": "Haruffan farko",
   "instance": "Masu amfani da suka shiga",
   "instance-desc": "Kowane mai amfani da ya shiga wannan WeKan zai iya ganin wannan allon. Ba a taɓa nuna shi ga waɗanda ba su shiga ba. Mutanen da aka ƙara a allon ne kawai za su iya gyarawa.",

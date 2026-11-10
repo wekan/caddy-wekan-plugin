@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Cuir ann faidhle todo.txt: aon ghnìomh anns gach loidhne, mar a sgrìobhas an aplacaid todo.txt agus aplacaidean co-chòrdail e. Thèid gnìomhan crìochnaichte (\"x\") gu Deiseil, bidh +project agus @context nan leubailean, bidh (A) na leubail prìomhachais, agus bidh due: agus t: nan cinn-latha airson a' chinn-ama agus an tòiseachaidh.",
   "import-board-instruction-zenkit": "Cuir a-steach JSON às-phortadh liosta ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Bidh ìrean nan liostaichean agus nithean nan cairtean.",
   "import-file-label": "Tagh am faidhle às-phortaidh, no cuir a-steach an teacsa aige gu h-ìosal:",
+  "import-too-large": "Tha am faidhle ro mhòr airson a thoirt a-steach aig an aon àm. Roinn e na fhaidhlichean nas lugha, mar eisimpleir a rèir pròiseict no a rèir cinn-latha, agus thoir a-steach gach fear dhiubh.",
   "initials": "Litrichean-tòiseachaidh",
   "instance": "Luchd-cleachdaidh a tha air clàradh a-steach",
   "instance-desc": "Chì gach cleachdaiche a tha air clàradh a-steach dhan WeKan seo am bòrd seo. Cha tèid a shealltainn gu bràth do dhaoine nach eil air clàradh a-steach. Chan urrainn ach daoine a chaidh a chur ris a' bhòrd a dheasachadh.",

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Faapipii se faila todo.txt: tasi le galuega i laina ta'itasi, e pei ona tusia e le polokalame todo.txt ma isi polokalame e fetaui i ai. O galuega ua mae'a (\"x\") e alu i le vaega Ua mae'a, o +project ma @context e avea ma faailoga, o (A) e avea ma faailoga o le faamuamua, ae o due: ma t: e avea ma aso e tatau ona mae'a ai ma aso e amata ai.",
   "import-board-instruction-zenkit": "Faapipii se JSON auina atu o le lisi ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). E avea stages ma lisi ma items ma pepa.",
   "import-file-label": "Filifili le faila auina atu, pe faapipii ona tusitusiga i lalo:",
+  "import-too-large": "Ua telē tele le faila e faauluina i le taimi e tasi. Vaevae i ni faila laiti, mo se faataitaiga e tusa ma le galuega po o le aso, ona faaulu lea o faila taitasi.",
   "initials": "Mataitusi amata",
   "instance": "Tagata faaaogā ua ulufale",
   "instance-desc": "E mafai e tagata faaaogā uma ua ulufale i lenei WeKan ona vaai i lenei laupapa. E lē faaalia lava i tagata e leʻi ulufale. E na o tagata ua faaopoopo i le laupapa e mafai ona suia.",

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Incolla nu file todo.txt: nu còmpito pe riga, comme 'o scrivono l'applicazzione todo.txt e ll'applicazzione cumpatibbile. 'E còmpite fernute (\"x\") vanno a Fatto, +project e @context addeventano etichette, (A) addeventa n'etichetta 'e priurità, e due: e t: addeventano 'e date 'e scadenza e d'inizio.",
   "import-board-instruction-zenkit": "Incolla un JSON di esportazione di una lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Gli stage diventano liste e gli item diventano carte.",
   "import-file-label": "Scigli 'o file 'e esportazione, o ncolla 'o testo suojo ccà abbascio:",
+  "import-too-large": "'O file è troppo gruosso pe ll'importà tutto 'nzieme. Spartitelo int'a file cchiù piccerille, pe esempio pe pruggetto o pe data, e importate ognuno.",
   "initials": "Iniziali",
   "instance": "Utiente ca hanno trasuto",
   "instance-desc": "Ogne utente ca ha trasuto dint'a stu WeKan pò vedé sta tavula. Nun vene mustrata maje a chi nun ha trasuto. Sulo 'e perzone agghiunte â tavula ponno cagnà.",

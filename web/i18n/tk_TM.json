@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "todo.txt faýlyny goýuň: todo.txt programmasynyň we oňa gabat gelýän programmalaryň ýazyşy ýaly, her setirde bir ýumuş. Tamamlanan ýumuşlar (\"x\") Done bölümine geçýär, +project we @context belliklere, (A) ileri tutulma belligine, due: we t: bolsa degişlilikde möhlete we başlangyç senesine öwrülýär.",
   "import-board-instruction-zenkit": "ZenKit list eksport JSON goýuň ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages sanawlara we items kartoçkalara öwrülýär.",
   "import-file-label": "Eksport faýlyny saýlaň ýa-da onuň tekstini aşakda goýuň:",
+  "import-too-large": "Faýl bir gezekde import etmek üçin gaty uly. Ony has kiçi faýllara bölüň, meselem, taslama ýa-da sene boýunça, we her birini aýratyn import ediň.",
   "initials": "Baş harplar",
   "instance": "Hasabyna giren ulanyjylar",
   "instance-desc": "Bu WeKan-da hasabyna giren her ulanyjy bu tagtany görüp biler. Hasabyna girmedik adamlara ol hiç wagt görkezilmeýär. Diňe tagta goşulan adamlar ony redaktirläp bilerler.",

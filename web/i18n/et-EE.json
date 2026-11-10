@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Kleebi todo.txt fail: üks ülesanne rea kohta, nagu selle kirjutavad todo.txt ja ühilduvad rakendused. Lõpetatud ülesanded (\"x\") lähevad tehtud tööde hulka, +project ja @context muutuvad siltideks, (A) muutub prioriteedisildiks ning due: ja t: muutuvad tähtajaks ja alguskuupäevaks.",
   "import-board-instruction-zenkit": "Kleebi ZenKit loendi ekspordi JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Etappidest (stages) saavad nimekirjad ja objektidest kaardid.",
   "import-file-label": "Vali ekspordifail või kleebi selle tekst allpool:",
+  "import-too-large": "Fail on korraga importimiseks liiga suur. Jaga see väiksemateks failideks, näiteks projekti või kuupäeva järgi, ja impordi igaüks eraldi.",
   "initials": "Initsiaalid",
   "instance": "Sisselogitud kasutajad",
   "instance-desc": "Kõik sellesse WeKani sisse loginud kasutajad saavad seda tahvlit vaadata. Sisse logimata inimestele seda kunagi ei näidata. Muuta saavad ainult tahvlile lisatud inimesed.",

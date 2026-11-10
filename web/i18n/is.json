@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Límdu inn todo.txt-skrá: eitt verkefni í hverri línu, eins og todo.txt og samhæf forrit skrifa hana. Lokin verkefni (\"x\") fara í listann yfir lokin verkefni, +project og @context verða að merkjum, (A) verður að forgangsmerki og due: og t: verða að skiladagsetningu og upphafsdagsetningu.",
   "import-board-instruction-zenkit": "Límdu inn JSON úr ZenKit-listaútflutningi ({ \"title\", \"stages\":[...], \"items\":[...] }). Stig verða að listum og atriði að spjöldum.",
   "import-file-label": "Veldu útflutningsskrána eða límdu texta hennar inn hér að neðan:",
+  "import-too-large": "Skráin er of stór til að flytja hana inn í einu lagi. Skiptu henni í minni skrár, til dæmis eftir verkefni eða dagsetningu, og fluttu hverja inn fyrir sig.",
   "initials": "Upphafsstafir",
   "instance": "Innskráðir notendur",
   "instance-desc": "Allir innskráðir notendur þessa WeKan geta skoðað þessa töflu. Hún er aldrei sýnd fólki sem er ekki innskráð. Aðeins fólk sem hefur verið bætt við töfluna getur breytt henni.",

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "粘贴 todo.txt 文件：每行一个任务，采用 todo.txt 应用及兼容应用写出的格式。已完成的任务（\"x\"）归入已完成，+project 和 @context 转为标签，(A) 转为优先级标签，due: 和 t: 转为截止日期和开始日期。",
   "import-board-instruction-zenkit": "粘贴 ZenKit 列表导出 JSON（{ \"title\", \"stages\":[...], \"items\":[...] }）。Stages 成为列表，items 成为卡片。",
   "import-file-label": "选择导出文件，或在下方粘贴其文本：",
+  "import-too-large": "文件过大，无法一次导入。请将其拆分为较小的文件，例如按项目或按日期拆分，然后逐个导入。",
   "initials": "缩写",
   "instance": "已登录的用户",
   "instance-desc": "所有登录此 WeKan 的用户都能查看此看板。未登录的人永远无法看到此看板。只有已加入看板的人才能编辑。",

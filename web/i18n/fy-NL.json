@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Plak in todo.txt-bestân: ien taak per rigel, sa’t de todo.txt-app en kompatibele apps it skriuwe. Foltôge taken (\"x\") geane nei Foltôge, +project en @context wurde labels, (A) wurdt in prioriteitslabel, en due: en t: wurde ferfal- en begjindatums.",
   "import-board-instruction-zenkit": "Plak in ZenKit list-eksport-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages wurde listen en items wurde kaarten.",
   "import-file-label": "Kies it eksportbestân, of plak de tekst hjirûnder:",
+  "import-too-large": "It bestân is te grut om yn ien kear te ymportearjen. Diel it op yn lytsere bestannen, bygelyks per projekt of per datum, en ymportearje elk apart.",
   "initials": "Inisjalen",
   "instance": "Oanmelde brûkers",
   "instance-desc": "Elke oanmelde brûker fan dizze WeKan kin dit boerd besjen. It wurdt nea toand oan minsken dy’t net oanmeld binne. Allinnich minsken dy’t oan it boerd tafoege binne, kinne it bewurkje.",

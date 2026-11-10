@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Beha faele ea todo.txt: mosebetsi o le mong moleng ka mong, joalokaha sesebelisoa sa todo.txt le lisebelisoa tse lumellanang le sona li ngola. Mesebetsi e phethiloeng (\"x\") e ea karolong e phethiloeng, +project le @context li fetoha lileibole, (A) e fetoha leibole ea bohlokoa, 'me due: le t: li fetoha matsatsi a ho qetela le a ho qala.",
   "import-board-instruction-zenkit": "Kgomaretsa JSON e ntshitsweng ya lenane la ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Mekgahlelo e fetoha manane mme dintho di fetoha dikarete.",
   "import-file-label": "Kgetha faele e ntshitsweng, kapa manamisa mongolo wa yona ka tlase:",
+  "import-too-large": "Faele e kgolo haholo hore e ka kenngwa ka nako e le nngwe. E arole ka difaele tse nyane, mohlala ka projeke kapa ka letsatsi, mme o kenye e nngwe le e nngwe.",
   "initials": "Ditlhaku tsa mabitso",
   "instance": "Basebelisi ba keneng",
   "instance-desc": "Mosebelisi e mong le e mong ea keneng ho WeKan ena a ka bona boto ena. Ha ho mohla e bontšoang batho ba sa kenang. Ke batho ba kentsoeng botong feela ba ka e fetolang.",

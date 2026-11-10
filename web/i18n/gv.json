@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Jean pastal coadan todo.txt: un obbyr er dagh linney, myr ta'n claare todo.txt as claaryn coardailagh screeu eh. Ta obbraghyn jeant (\"x\") goll dys Jeant, ta +project as @context çheet dy ve lipaidyn, ta (A) çheet dy ve lipaid tosheeaght, as ta due: as t: çheet dy ve dateyn jerrey as toshiaght.",
   "import-board-instruction-zenkit": "Cur stiagh JSON cur magh rolley ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Hig keimyn dy ve rolleyghyn as nheeghyn dy ve kaartyn.",
   "import-file-label": "Reih y coadan cur magh, ny greimee y teks echey fo:",
+  "import-too-large": "Ta'n coadan ro vooar dy chur stiagh ec yn un traa. Rheynn eh ayns coadanyn ny s'beg, myr sampleyr rere obbyr ny rere date, as cur stiagh dagh fer.",
   "initials": "Kied lettyraghyn",
   "instance": "Ymmydeyryn ta er loggal stiagh",
   "instance-desc": "Foddee dy chooilley ymmydeyr ta er loggal stiagh ayns y WeKan shoh fakin y boayrd shoh. Cha bee eh rieau er ny hoilshaghey da sleih nagh vel er loggal stiagh. Cha nod agh yn sleih ta er nyn goyrt er y voayrd eh y chaghlaa.",

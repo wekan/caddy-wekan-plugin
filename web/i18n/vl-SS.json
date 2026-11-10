@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Plak een todo.txt-bestand: één taak per regel, zoals de todo.txt-app en compatibele apps het schrijven. Voltooide taken (\"x\") gaan naar Klaar, +project en @context worden labels, (A) wordt een prioriteitslabel en due: en t: worden de verval- en startdatum.",
   "import-board-instruction-zenkit": "Plak een ZenKit-lijstexport-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages worden lijsten en items worden kaarten.",
   "import-file-label": "Kies het exportbestand, of plak de tekst ervan hieronder:",
+  "import-too-large": "Het bestand is te groot om in één keer te importeren. Splits het op in kleinere bestanden, bijvoorbeeld per project of per datum, en importeer elk bestand afzonderlijk.",
   "initials": "Initialen",
   "instance": "Aangemelde gebruikers",
   "instance-desc": "Iedere gebruiker die bij deze WeKan is aangemeld, kan dit bord bekijken. Het wordt nooit getoond aan mensen die niet zijn aangemeld. Alleen mensen die aan het bord zijn toegevoegd, kunnen het bewerken.",

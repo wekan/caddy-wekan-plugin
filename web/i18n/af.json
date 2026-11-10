@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Plak 'n todo.txt-lêer: een taak per reël, soos die todo.txt-toepassing en versoenbare toepassings dit skryf. Voltooide take (\"x\") gaan na die lys vir voltooide take, +project en @context word etikette, (A) word 'n prioriteitsetiket, en due: en t: word sperdatums en begindatums.",
   "import-board-instruction-zenkit": "Plak 'n ZenKit lys-uitvoer-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stadiums word lyste en items word kaarte.",
   "import-file-label": "Kies die uitvoerlêer, of plak die teks daarvan hieronder:",
+  "import-too-large": "Die lêer is te groot om in een keer in te voer. Verdeel dit in kleiner lêers, byvoorbeeld per projek of per datum, en voer elkeen in.",
   "initials": "Voorletters",
   "instance": "Aangemelde gebruikers",
   "instance-desc": "Elke aangemelde gebruiker van hierdie WeKan kan hierdie bord bekyk. Dit word nooit aan mense gewys wat nie aangemeld is nie. Slegs mense wat by die bord gevoeg is, kan dit wysig.",

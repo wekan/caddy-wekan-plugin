@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Zasadźće dataju todo.txt: jedyn nadawk na linku, kaž ju nałoženje todo.txt a kompatibelne nałoženja pisaja. Dokónčene nadawki (\"x\") přińdu do Dokónčene, +project a @context so etikety stanu, (A) so etiketa priority stanje, a due: a t: so termin dospěća a spočatny datum stanjetej.",
   "import-board-instruction-zenkit": "Zasadźće JSON eksporta lisćiny ze ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Fazy so lisćiny a zapiski so karty stanu.",
   "import-file-label": "Wubjerće eksportowu dataju abo zasadźće jeje tekst deleka:",
+  "import-too-large": "Dataja je přewulka, zo by so naraz importowała. Rozdźělće ju na mjeńše dataje, na přikład po projekće abo po datumje, a importujće kóždu jednotliwje.",
   "initials": "Iniciale",
   "instance": "Přizjewjeni wužiwarjo",
   "instance-desc": "Kóždy přizjewjeny wužiwar tutoho WeKan móže tutu taflu widźeć. Njepřizjewjenym wosobam so ženje njepokazuje. Jenož wosoby, kotrež su tafli přidate, móža ju wobdźěłać.",

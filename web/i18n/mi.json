@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Whakapirihia he kōnae todo.txt: kotahi te mahi ki ia rārangi, pēnei i te tuhi a te taupānga todo.txt me ngā taupānga hototahi. Ka haere ngā mahi kua oti (\"x\") ki te wāhanga Kua oti, ka huri a +project me @context hei tapanga, ka huri a (A) hei tapanga whakaarotau, ā, ka huri a due: me t: hei rā kati, hei rā tīmata hoki.",
   "import-board-instruction-zenkit": "Whakapiri i tētahi JSON kaweake rārangi ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Ka noho ngā stages hei rārangi, ā, ngā items hei kāri.",
   "import-file-label": "Kōwhiria te kōnae kaweatu, whakapiri rānei i tōna kuputuhi ki raro:",
+  "import-too-large": "He nui rawa te kōnae kia kawemaihia i te wā kotahi. Wehea kia iti iho ngā kōnae, hei tauira mā te kaupapa, mā te rā rānei, kātahi ka kawemai i ia kōnae.",
   "initials": "Ngā pū tuatahi",
   "instance": "Ngā kaiwhakamahi kua takiuru",
   "instance-desc": "Ka taea e ia kaiwhakamahi kua takiuru ki tēnei WeKan te tiro i tēnei papa. Kāore rawa e whakaaturia ki ngā tāngata kāore anō kia takiuru. Ko ngā tāngata kua tāpirihia ki te papa anake ka āhei ki te whakatika.",

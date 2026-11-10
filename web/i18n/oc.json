@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Pegatz un fichièr todo.txt : un prètzfach per linha, tal coma l'escrivon l'aplicacion todo.txt e las aplicacions compatiblas. Los prètzfaches acabats (\"x\") van dins Acabat, +project e @context venon d'etiquetas, (A) ven una etiqueta de prioritat, e due: e t: venon de datas d'escasença e de començament.",
   "import-board-instruction-zenkit": "Empegatz un JSON d'export de lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Los estatges venon de tièras e los elements venon de cartas.",
   "import-file-label": "Causissètz lo fichièr d'exportacion, o pegatz son tèxte çai-jos :",
+  "import-too-large": "Lo fichièr es tròp grand per l'importar d'un còp. Desseparatz-lo en fichièrs mai pichons, per exemple per projècte o per data, e importatz-los un per un.",
   "initials": "Iniciala",
   "instance": "Utilizaires connectats",
   "instance-desc": "Cada utilizaire connectat a aqueste WeKan pòt veire aqueste tablèu. Es pas jamai afichat a las personas pas connectadas. Sonque las personas ajustadas al tablèu pòdon modificar.",

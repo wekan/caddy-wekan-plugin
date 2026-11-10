@@ -148,7 +148,7 @@ func (s *Server) apiImportZip(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	numbersToFloat(parsed)
-	clean, err := sanitizeTransfer(parsed, false)
+	clean, err := s.secureImport(r, u, "wekan-zip", parsed)
 	if err != nil {
 		answer(http.StatusBadRequest, map[string]string{"error": "import-failed"})
 		return

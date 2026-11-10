@@ -349,7 +349,7 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 }
 
 // The import's refusals, named so cmd/sync-i18n copies them.
-var _ = []string{msg("error-json-malformed"), msg("error-json-schema"), msg("import-board-instruction-kanboard")}
+var _ = []string{msg("error-json-malformed"), msg("error-json-schema"), msg("import-too-large"), msg("import-board-instruction-kanboard")}
 
 // importGeneralPage is the import page's one step for another tool's JSON:
 // its file or pasted text, parsed by the source's parser and written; the
@@ -374,49 +374,32 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 	if len(strings.TrimSpace(string(raw))) == 0 {
 		raw = []byte(r.FormValue("text"))
 	}
-	var parsed jsObject
-	if parse, ok := importTextParsers[source]; ok {
-		// WeKan's check(board, String): the text as it is.
-		var err error
-		if parsed, err = parse(string(raw)); err != nil {
-			fail("error-json-schema")
+	var input any = string(raw)
+	if _, text := importTextParsers[source]; !text {
+		doc, err := decodeJS(raw)
+		if err != nil {
+			fail("error-json-malformed")
 			return
 		}
-		s.importParsed(w, r, u, source, parsed, fail)
-		return
+		input = doc
 	}
-	doc, err := decodeJS(raw)
-	if err != nil {
-		fail("error-json-malformed")
-		return
-	}
-	// WeKan's check(board, Object): an object, or an array of tasks; never a
-	// string or a number.
-	_, isObj := doc.(jsObject)
-	_, isArr := doc.([]any)
-	if !isObj && !isArr {
-		fail("error-json-schema")
-		return
-	}
-	parsed, err = importParsers[source](doc)
-	if err != nil {
-		fail("error-json-schema")
-		return
-	}
-	s.importParsed(w, r, u, source, parsed, fail)
-}
-
-// importParsed writes a parsed document and opens the new board.
-func (s *Server) importParsed(w http.ResponseWriter, r *http.Request, u *User, source string, parsed jsObject, fail func(string)) {
-	b, err := s.importGeneral(r.Context(), u, parsed, source)
+	b, err := s.importInput(r, u, source, input)
 	if err != nil {
 		var me *methodError
-		if errors.As(err, &me) {
+		switch {
+		case errors.Is(err, errImportTooLarge):
+			fail("import-too-large")
+		case errors.As(err, &me):
 			fail(me.Code)
-			return
+		default:
+			fail("error-json-schema")
 		}
-		fail("error-json-schema")
 		return
 	}
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
+
+// importParsedFirst are the sources WeKan's importBoard parses before the
+// boundary, because cleaning their raw text as markup would break it.
+var importParsedFirst = map[string]bool{"leo": true, "opml": true, "vikunja": true, "notion": true, "plane": true}
+

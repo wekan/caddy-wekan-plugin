@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Hoʻopili i kahi waihona todo.txt: hoʻokahi hana ma kēlā me kēia lālani, e like me ka mea i kākau ʻia e ka polokalamu todo.txt a me nā polokalamu kūlike. Hele nā hana i pau (\"x\") i Pau, lilo ʻo +project a me @context i mau lepili, lilo ʻo (A) i lepili makakoho, a lilo ʻo due: a me t: i lā palena pau a me lā hoʻomaka.",
   "import-board-instruction-zenkit": "kāpili he kenakika papa inoa hoʻokuʻu aku JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). kakakeka pekome nā papa inoa a nā mea pekome nā kāleka.",
   "import-file-label": "Koho i ka faila hoʻopuka, a i ʻole e hoʻopili i kona kikokikona ma lalo:",
+  "import-too-large": "Nui loa ka faila e hoʻokomo ai i ka manawa hoʻokahi. E māhele iā ia i nā faila liʻiliʻi, e laʻa ma ka papahana a i ʻole ma ka lā, a e hoʻokomo i kēlā me kēia.",
   "initials": "inikialaka",
   "instance": "Nā mea hoʻohana i ʻeʻe mai",
   "instance-desc": "Hiki i kēlā me kēia mea hoʻohana i ʻeʻe mai i kēia WeKan ke ʻike i kēia papa. ʻAʻole loa e hōʻike ʻia i nā kānaka i ʻeʻe ʻole mai. ʻO nā kānaka wale nō i hoʻohui ʻia i ka papa ke hiki ke hoʻoponopono.",

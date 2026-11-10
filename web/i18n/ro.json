@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Lipiți un fișier todo.txt: o sarcină pe rând, așa cum îl scriu aplicația todo.txt și aplicațiile compatibile. Sarcinile finalizate (\"x\") ajung la Finalizat, +project și @context devin etichete, (A) devine o etichetă de prioritate, iar due: și t: devin data scadentă și data de început.",
   "import-board-instruction-zenkit": "Lipește un export JSON de listă ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Etapele devin liste, iar elementele devin carduri.",
   "import-file-label": "Alegeți fișierul exportat sau lipiți textul său mai jos:",
+  "import-too-large": "Fișierul este prea mare pentru a fi importat dintr-o dată. Împărțiți-l în fișiere mai mici, de exemplu pe proiecte sau pe date, și importați-le pe rând.",
   "initials": "Inițiale",
   "instance": "Utilizatori autentificați",
   "instance-desc": "Orice utilizator autentificat în această instanță WeKan poate vedea acest panou. Acesta nu este afișat niciodată persoanelor neautentificate. Numai persoanele adăugate la panou îl pot edita.",

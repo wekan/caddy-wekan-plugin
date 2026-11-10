@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Faayila todo.txt maxxansi: sarara tokko irratti hojii tokko, akkuma appiin todo.txt fi appoonni walsiman barreessan. Hojiileen xumuraman (\"x\") gara Xumurame deemu, +project fi @context asxaalee ta'u, (A) asxaa dursa kennamuu ta'a, due: fi t: immoo guyyaa daangaa fi guyyaa jalqabaa ta'u.",
   "import-board-instruction-zenkit": "JSON ergaa tarree ZenKit maxxansi ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages tarreewwan ta'u; items kaardiiwwan ta'u.",
   "import-file-label": "Faayilii baasuu filadhu, ykn barreeffama isaa gadi itti maxxansi:",
+  "import-too-large": "Faayilichi yeroo tokkotti galchuuf baay'ee guddaa dha. Faayilota xixiqqoo irratti qoodi, fakkeenyaaf pirojektii ykn guyyaa irratti hundaa'uun, tokkoon tokkoon isaanii galchi.",
   "initials": "Qubee jalqabaa",
   "instance": "Fayyadamtoota seenan",
   "instance-desc": "Fayyadamaan WeKan kana seene hundi gabatee kana ilaaluu danda’a. Namoota hin seeninitti gonkumaa hin agarsiifamu. Namoota gabatichatti dabalaman qofatu gulaaluu danda’a.",

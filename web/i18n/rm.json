@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Incollar ina datoteca todo.txt: in’incumbensa per lingia, sco quai che l’applicaziun todo.txt ed applicaziuns cumpatiblas la scrivan. Incumbensas terminadas (\"x\") van en la glista da las incumbensas terminadas, +project ed @context daventan etichettas, (A) daventa in’etichetta da prioritad, e due: e t: daventan datas da scadenza e da cumenzament.",
   "import-board-instruction-zenkit": "Incollar in export JSON d’ina glista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Las fasas daventan glistas ed ils elements daventan cartas.",
   "import-file-label": "Tschernai la datoteca d'export, u encollai ses text sutvart:",
+  "import-too-large": "La datoteca è memia gronda per l'importar en ina giada. La partai en datotecas pli pitschnas, per exempel tenor project u tenor data, ed importai mintgina.",
   "initials": "Inizialas",
   "instance": "Utilisaders annunziads",
   "instance-desc": "Mintga utilisader annunzià en questa installaziun da WeKan po vesair questa tabella. Ella na vegn mai mussada a persunas che n’èn betg annunziadas. Mo persunas agiuntadas a la tabella pon la modifitgar.",

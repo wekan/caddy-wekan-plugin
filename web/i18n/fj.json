@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Vakabira e dua na faile todo.txt: dua na cakacaka ena veiyatu, me vaka e vola na porokaramu todo.txt kei na porokaramu e salavata kaya. Na cakacaka sa oti (\"x\") e lako ki na iwasewase Sa oti, +project kei @context e yaco me ivakatakilakila, (A) e yaco me ivakatakilakila ni ka me liu, kei na due: kei t: e yaco me tikinisiga ni kena vakacavari kei na kena tekivu.",
   "import-board-instruction-zenkit": "Vakabira e dua na JSON vakau ni lisi ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Na iwase ena yaco me lisi kei na ka me kadi.",
   "import-file-label": "Digitaka na faile ni vakauta yani, se biuta na kena vosa e ra:",
+  "import-too-large": "Sa rui levu na faile me vakacurumi vakadua. Wasea me so na faile lalai, me vaka ena cakacaka se ena tikinisiga, ka vakacuruma yadua.",
   "initials": "Matai ni matanivola",
   "instance": "O ira na sa curu",
   "instance-desc": "O ira kece na vakayagataka na WeKan oqo ka ra sa curu e rawa ni ra raica na vola oqo. Ena sega vakadua ni vakaraitaki vei ira era se bera ni curu. O ira ga era sa vakuri ena vola e rawa ni ra veisautaka.",

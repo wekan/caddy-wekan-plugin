@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Gludwch ffeil todo.txt: un dasg fesul llinell, fel y mae ap todo.txt ac apiau cydnaws yn ei hysgrifennu. Mae tasgau gorffenedig (\"x\") yn mynd i Wedi gorffen, mae +project a @context yn troi'n labeli, mae (A) yn troi'n label blaenoriaeth, ac mae due: a t: yn troi'n ddyddiadau cau a dechrau.",
   "import-board-instruction-zenkit": "Gludwch JSON allforio rhestr ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Daw'r camau'n rhestrau a'r eitemau'n gardiau.",
   "import-file-label": "Dewiswch y ffeil allforio, neu gludwch ei thestun isod:",
+  "import-too-large": "Mae'r ffeil yn rhy fawr i'w mewnforio ar unwaith. Rhannwch hi'n ffeiliau llai, er enghraifft fesul prosiect neu fesul dyddiad, a mewnforiwch bob un.",
   "initials": "Llythrennau blaen",
   "instance": "Defnyddwyr sydd wedi mewngofnodi",
   "instance-desc": "Gall pob defnyddiwr sydd wedi mewngofnodi i'r WeKan hwn weld y bwrdd hwn. Ni chaiff byth ei ddangos i bobl nad ydynt wedi mewngofnodi. Dim ond pobl sydd wedi'u hychwanegu at y bwrdd all olygu.",

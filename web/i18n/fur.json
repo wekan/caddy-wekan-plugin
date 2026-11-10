@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Incole un file todo.txt: une ativitât par rie, come che lu scrivin la aplicazion todo.txt e lis aplicazions compatibilis. Lis ativitâts completadis (\"x\") a van in Completât, +project e @context a deventin etichetis, (A) e devente une etichete di prioritât, e due: e t: a deventin lis datis di scjadence e di inizi.",
   "import-board-instruction-zenkit": "Incolla un JSON di espuartezione di una lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Gli stage diventano liste e gli item diventano cjartis.",
   "import-file-label": "Sielç il file di esportazion, o tache il so test chi sot:",
+  "import-too-large": "Il file al è masse grant par impuartâlu dut intune volte. Dividilu in files plui piçui, par esempli par progjet o par date, e impuarte ognidun.",
   "initials": "Iniziâls",
   "instance": "Utents che a àn fat l'acès",
   "instance-desc": "Ogni utent che al à fat l'acès a chest WeKan al pues viodi cheste taule. No ven mai mostrade a cui che nol à fat l'acès. Dome lis personis zontadis ae taule a puedin modificâle.",

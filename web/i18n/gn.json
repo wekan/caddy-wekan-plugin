@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Emboja peteĩ marandurenda todo.txt: peteĩ tembiapo peteĩteĩ tysýipe, todo.txt rembiporu ha umi hendive ojokupytýva ohaícha. Tembiapo ojejapopaitéva (\"x\") oho Ojejapopáma-pe, +project ha @context oiko techaukaha ramo, (A) oiko tenonderã techaukaha ramo, ha due: ha t: oiko ára paha ha ára ñepyrũ ramo.",
   "import-board-instruction-zenkit": "Emboja ZenKit ysaja jegueraha JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stage-kuéra oikóta ysaja ha mba'ekuéra kuatia'i.",
   "import-file-label": "Eiporavo mosẽ marandurenda, térã emboja imoñe'ẽrã iguýpe:",
+  "import-too-large": "Marandurenda tuichaiterei ojegueru hag̃ua peteĩ jeýpe. Emboja'o marandurenda michĩvévape, techapyrãramo tembiapo térã ára rupi, ha egueru peteĩteĩ.",
   "initials": "Tai ñepyrũ",
   "instance": "Puruhára oike vaʼekue",
   "instance-desc": "Opa puruhára oike vaʼekue ko WeKan-pe ikatu ohecha ko tembiapo renda. Arakaʼeve ndojehechaukái umi tapicha oikeʼỹvape. Umi tapicha oñemoĩ vaʼekue tembiapo rendápe añoite ikatu omoambue.",

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Fa todo.txt fael bi bata ha: adwuma baako wɔ nkyekyɛmu biara mu, sɛnea todo.txt dwumadi ne dwumadi a ɛne no hyia kyerɛw no. Nnwuma a wɔawie (\"x\") kɔ Awie, +project ne @context yɛ nsɛnkyerɛnne, (A) yɛ ade a ɛdi kan ho nsɛnkyerɛnne, na due: ne t: yɛ da a ɛsɛ sɛ wɔwie ne da a wɔfi ase.",
   "import-board-instruction-zenkit": "Fa ZenKit din a wɔahyehyɛ JSON a wɔayi no bata ha ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages no bɛyɛ din a wɔahyehyɛ, na items no bɛyɛ kaad.",
   "import-file-label": "Paw fael a wɔayi adi no, anaa fa ne nkyerɛwee hyɛ mu wɔ ase ha:",
+  "import-too-large": "Fael no sõ dodo a wontumi mfa mmra mu prɛko. Kyɛ mu ma ɛnyɛ fael nketewa, sɛ nhwɛso no, ɛfa adwuma anaa da ho, na fa emu biara ba mu.",
   "initials": "Din mfiase nkyerɛwde",
   "instance": "Wɔn a wɔahyɛn mu",
   "instance-desc": "Obiara a ɔde WeKan yi di dwuma na wahyɛn mu no betumi ahwɛ bɔɔd yi. Wɔrenkyerɛ wɔn a wɔnhyɛn mu no da. Wɔn a wɔde wɔn aka bɔɔd no ho nkutoo na wobetumi asesa no.",

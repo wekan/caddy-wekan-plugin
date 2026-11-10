@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Apega un fichero todo.txt: un quefer por linia, tal como lo escriben l'aplicación todo.txt y as aplicacions compatibles. Os quefers remataus (\"x\") van ta Feito, +project y @context se tornan etiquetas, (A) se torna una etiqueta de prioridat, y due: y t: se tornan datas de vencimiento y d'inicio.",
   "import-board-instruction-zenkit": "Apega un JSON d'exportación de lista de ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). As etapas se tornan listas y os elementos se tornan tarchetas.",
   "import-file-label": "Tría o fichero d'exportación, u apega o suyo texto debaixo:",
+  "import-too-large": "O fichero ye masiau gran ta importar-lo de vez. Divide-lo en fichers mas chicotz, per eixemplo per prochecto u per calendata, y importa cadaguno.",
   "initials": "Iniciales",
   "instance": "Usuarios con sesión encetada",
   "instance-desc": "Cada usuario con sesión encetada en iste WeKan puede veyer iste tablero. Nunca no s'amuestra a qui no ha encetau sesión. Nomás as personas adhibidas a lo tablero pueden editar.",

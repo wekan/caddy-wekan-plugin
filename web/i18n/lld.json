@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Nculé ite n file todo.txt: n lëur per riga, coche l scrij la app todo.txt y la apps cumpatibles. I lëures fenii (\"x\") va te Done, +project y @context devënta etichetes, (A) devënta na eticheta de priorità, y due: y t: devënta data de scadënza y de scumenciamënt.",
   "import-board-instruction-zenkit": "Nculé ite n JSON de esport de na lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). I stages devënta listes y i items devënta ciartes.",
   "import-file-label": "Tlü fora le documënt de esportaziun, o incolé so test chiló sot:",
+  "import-too-large": "L file ie massa grant per l importé dut a na outa. Dividel su te file plu pitli, per ejempl per proiet o per data, y importa vignun.",
   "initials": "Inizieles",
   "instance": "Utënc cun azes",
   "instance-desc": "Vigni utënt cun azes a chësc WeKan possa udëi chësta tofl. La ne vën mai mustreda a persones zënza azes. Mé les persones ajuntedes ala tofl possa la mudé.",

@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Ielīmējiet todo.txt failu: pa vienam uzdevumam rindā, kā to saglabā todo.txt un saderīgas lietotnes. Pabeigtie uzdevumi (\"x\") nonāk pabeigto uzdevumu sarakstā, +project un @context kļūst par etiķetēm, (A) kļūst par prioritātes etiķeti, bet due: un t: kļūst par termiņa un sākuma datumiem.",
   "import-board-instruction-zenkit": "Ielīmējiet ZenKit saraksta eksporta JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Posmi kļūst par sarakstiem un vienumi kļūst par kartiņām.",
   "import-file-label": "Izvēlieties eksporta failu vai ielīmējiet tā tekstu zemāk:",
+  "import-too-large": "Fails ir pārāk liels, lai to importētu uzreiz. Sadaliet to mazākos failos, piemēram, pēc projekta vai datuma, un importējiet katru atsevišķi.",
   "initials": "Iniciāļi",
   "instance": "Lietotāji, kas ir pierakstījušies",
   "instance-desc": "Ikviens lietotājs, kas ir pierakstījies šajā WeKan, var skatīt šo dēli. Tas nekad netiek rādīts cilvēkiem, kas nav pierakstījušies. Rediģēt var tikai dēlim pievienotie cilvēki.",

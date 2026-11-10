@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Namira faira retodo.txt: basa rimwe pamutsetse, sezvinonyorwa neapp yetodo.txt nemaapp anoenderana nayo. Mabasa apera (\"x\") anoenda kuDone, +project na@context zvinova zvinyorwa, (A) inova chinyorwa chekutanga kukosha, uye due: na t: zvinova zuva rekupedzisira nezuva rekutanga zvichitevedzana.",
   "import-board-instruction-zenkit": "Paste a ZenKit rondedzero tumira kunze JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages become rondedzero uye items become makadhi.",
   "import-file-label": "Sarudza faira rekubudisa, kana isa mavara aro pasi apa:",
+  "import-too-large": "Faira yakakura zvakanyanya kuti ipinzwe kamwe chete. Iparadzanise kuita mafaira madiki, semuenzaniso nepurojekiti kana nezuva, wobva wapinza rimwe nerimwe.",
   "initials": "Mavara ekutanga emazita",
   "instance": "Vashandisi vakapinda",
   "instance-desc": "Mushandisi wese akapinda muWeKan ino anogona kuona bhodhi iri. Harimboratidzwi kuvanhu vasina kupinda. Vanhu vakawedzerwa kubhodhi chete ndivo vanogona kurigadzirisa.",

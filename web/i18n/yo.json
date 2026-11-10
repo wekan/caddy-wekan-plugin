@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Lẹ fáìlì todo.txt mọ́ ibi: iṣẹ́ kan ní ìlà kọ̀ọ̀kan, bí ohun èlò todo.txt àti àwọn ohun èlò tó bá a mu ṣe ń kọ ọ́. Àwọn iṣẹ́ tí ó parí (\"x\") lọ sí Done, +project àti @context di àmì, (A) di àmì ìṣáájú, due: àti t: sì di ọjọ́ ìparí àti ọjọ́ ìbẹ̀rẹ̀ lẹ́sẹẹsẹ.",
   "import-board-instruction-zenkit": "Lẹẹmọ ZenKit list export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Awọn ipele di awọn atokọ ati awọn nkan di awọn kaadi.",
   "import-file-label": "Yan faili gbigbe jade, tabi lẹ ọrọ rẹ si isalẹ:",
+  "import-too-large": "Fáìlì náà tóbi jù láti kó wọlé lẹ́ẹ̀kan ṣoṣo. Pín in sí àwọn fáìlì kéékèèké, fún àpẹẹrẹ gẹ́gẹ́ bí iṣẹ́ àkànṣe tàbí ọjọ́, kí o sì kó ọ̀kọ̀ọ̀kan wọlé.",
   "initials": "Awọn ibẹrẹ",
   "instance": "Àwọn olùlò tí wọ́n wọlé",
   "instance-desc": "Gbogbo olùlò tí ó wọlé sínú WeKan yìí lè wo pátákó yìí. A kì í fi hàn sí àwọn tí kò wọlé láé. Àwọn tí a fi kún pátákó nìkan ni ó lè ṣàtúnṣe.",

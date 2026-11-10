@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Tapawa faịlụ todo.txt: otu ọrụ n'ahịrị ọ bụla, dịka ngwa todo.txt na ngwa ndị dabara na ya si ede ya. Ọrụ ndị agwụchara (\"x\") na-aga na Done, +project na @context na-aghọ akara, (A) na-aghọ akara mkpa, due: na t: na-aghọ ụbọchị ikpeazụ na ụbọchị mmalite n'otu usoro ahụ.",
   "import-board-instruction-zenkit": "Mado JSON mbupụ ndepụta ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages na-aghọ ndepụta, items na-aghọ kaadị.",
   "import-file-label": "Họrọ faịlụ mbupụ, ma ọ bụ tapawa ederede ya n’okpuru:",
+  "import-too-large": "Faịlụ ahụ buru oke ibu ibubata n'otu oge. Kewaa ya n'ime obere faịlụ, dịka site na ọrụ ma ọ bụ site na ụbọchị, ma bubata nke ọ bụla.",
   "initials": "Mmalite",
   "instance": "Ndị ọrụ banyere akaụntụ",
   "instance-desc": "Onye ọrụ ọ bụla banyere akaụntụ na WeKan a nwere ike ịhụ bọọdụ a. A naghị egosi ya ndị na-abanyeghị akaụntụ. Naanị ndị agbakwunyere na bọọdụ nwere ike idezi ya.",

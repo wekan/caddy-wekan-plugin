@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Namathisela ifayela le-todo.txt: umsebenzi owodwa emzileni ngamunye, ngendlela uhlelo lwe-todo.txt lezinhlelo ezihambelanayo ezibhala ngayo. Imisebenzi ephelileyo (\"x\") iya kweseziphelile, +project lo-@context kuba ngamalebula, (A) iba yilebula yokuqakatheka, kuthi due: lo-t: kube zinsuku zokucina lezokuqala.",
   "import-board-instruction-zenkit": "Namathisela i-JSON ekhishwe kuluhlu lwe-ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Izigaba ziba yizinhlu, izinto zibe ngamakhadi.",
   "import-file-label": "Khetha ifayili yokuthumela, loba unamathisele umbhalo wayo ngaphansi:",
+  "import-too-large": "Ifayela likhulu kakhulu ukuthi lingeniswe kanye kanye. Lehlukanise libe ngamafayela amancane, ngokwesibonelo ngephrojekthi kumbe ngosuku, ubusungenisa ngalinye.",
   "initials": "Izinhlamvu zokuqala",
   "instance": "Abasebenzisi abangenileyo",
   "instance-desc": "Wonke umsebenzisi ongenileyo kule WeKan angalibona leli bhodi. Alitshengiswa loba nini ebantwini abangangeni. Ngabantu abengezwe ebhodini kuphela abangalihlela.",

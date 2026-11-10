@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Komeka dosiye ya todo.txt: umurimo umwe kuri buri murongo, nk'uko porogaramu ya todo.txt n'izindi zijyanye na yo zibyandika. Imirimo yarangiye (\"x\") ijya mu Yarangiye, +project na @context bihinduka ibirango, (A) ihinduka ikirango cy'ibyihutirwa, naho due: na t: bigahinduka amatariki ntarengwa n'ayo gutangira.",
   "import-board-instruction-zenkit": "Nimanika JSON yasohowe y'urutonde rwa ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages ziba intonde, items zikaba amakarita.",
   "import-file-label": "Hitamo dosiye yasohowe, cyangwa ushyiremo umwandiko wayo hasi:",
+  "import-too-large": "Dosiye ni nini cyane ku buryo itakwinjizwa icyarimwe. Yigabanyemo dosiye nto, urugero ukurikije umushinga cyangwa itariki, hanyuma winjize buri imwe.",
   "initials": "Inyuguti z'intangiriro",
   "instance": "Abakoresha binjiye",
   "instance-desc": "Buri mukoresha winjiye muri iyi WeKan ashobora kureba iki kibaho. Nticyigera cyerekanwa abantu batinjiye. Abantu bongewe ku kibaho ni bo bonyine bashobora kugihindura.",

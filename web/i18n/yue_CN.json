@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "貼上 todo.txt 檔案：每行一項任務，格式同 todo.txt 應用程式及相容程式寫出嚟嘅一樣。已完成嘅任務（\"x\"）會放入「已完成」，+project 同 @context 會變成標籤，(A) 會變成優先次序標籤，而 due: 同 t: 會變成到期日同開始日期。",
   "import-board-instruction-zenkit": "粘贴 ZenKit 列表导出 JSON（{ \"title\", \"stages\":[...], \"items\":[...] }）。Stages 成为列表，items 成为卡片。",
   "import-file-label": "揀匯出檔，或者喺下面貼上佢嘅文字：",
+  "import-too-large": "個檔案太大，冇辦法一次過匯入。請將佢拆成細啲嘅檔案，例如按項目或者按日期拆，然後逐個匯入。",
   "initials": "縮寫",
   "instance": "已登入嘅用戶",
   "instance-desc": "呢個 WeKan 嘅所有已登入用戶都可以睇到呢個看板。未登入嘅人永遠睇唔到。只有已加入看板嘅人先可以編輯。",

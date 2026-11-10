@@ -1,0 +1,66 @@
+{
+  "strings": [
+    "Meteor 3 roadmap",
+    "x &amp; y",
+    "plain",
+    "a  b",
+    "Body line 1 &amp; a &lt; b x",
+    "after",
+    "kept",
+    "para\ntwo",
+    "alert(1)",
+    "msgbox text/html,x",
+    "styled",
+    "text",
+    "width: alert(1))",
+    "a &lt;b&gt; c  d",
+    "&quot;quoted&quot; &#39;single&#39; &nbsp;nbsp",
+    "<!-- comment -->visible",
+    "ipt&gt;alert(1)",
+    "x &lt; y and y &gt; z u",
+    "Ünïcödé ok 🎉"
+  ],
+  "transfer": {
+    "value": {
+      "title": "Board",
+      "lists": [
+        {
+          "title": "Todo",
+          "__proto__x": 1,
+          "cards": [
+            {
+              "title": "a b",
+              "description": "plain"
+            }
+          ]
+        }
+      ],
+      "a/b~c": {
+        "value": "x"
+      },
+      "n": 3.5
+    },
+    "warnings": [
+      {
+        "path": "/title",
+        "reason": "unsafe markup sanitized"
+      },
+      {
+        "path": "/constructor",
+        "reason": "prototype key removed"
+      },
+      {
+        "path": "/lists/0/cards/0/title",
+        "reason": "unsafe markup sanitized"
+      },
+      {
+        "path": "/a~1b~0c/prototype",
+        "reason": "prototype key removed"
+      },
+      {
+        "path": "/a~1b~0c/value",
+        "reason": "unsafe markup sanitized"
+      }
+    ]
+  }
+}

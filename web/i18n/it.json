@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Incolla un file todo.txt: un'attività per riga, come lo scrivono l'app todo.txt e le app compatibili. Le attività completate (\"x\") passano a Fatto, +project e @context diventano etichette, (A) diventa un'etichetta di priorità e due: e t: diventano le date di scadenza e di inizio.",
   "import-board-instruction-zenkit": "Incolla un JSON di esportazione di una lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Gli stage diventano liste e gli item diventano schede.",
   "import-file-label": "Scegli il file esportato, oppure incolla il suo testo qui sotto:",
+  "import-too-large": "Il file è troppo grande per essere importato in una sola volta. Dividilo in file più piccoli, ad esempio per progetto o per data, e importali uno alla volta.",
   "initials": "Iniziali",
   "instance": "Utenti che hanno effettuato l’accesso",
   "instance-desc": "Ogni utente che ha effettuato l’accesso a questa istanza di WeKan può visualizzare questa bacheca. Non viene mai mostrata a chi non ha effettuato l’accesso. Solo le persone aggiunte alla bacheca possono modificarla.",

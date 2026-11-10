@@ -1053,6 +1053,7 @@
   "import-board-instruction-todotxt": "Ngjit një skedar todo.txt: një detyrë për rresht, siç e shkruajnë aplikacioni todo.txt dhe aplikacionet e përputhshme. Detyrat e përfunduara (\"x\") kalojnë te Të përfunduara, +project dhe @context bëhen etiketa, (A) bëhet etiketë përparësie, dhe due: e t: bëhen data afati dhe fillimi.",
   "import-board-instruction-zenkit": "Ngjit një eksport JSON të listës ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Fazat bëhen lista dhe elementet bëhen karta.",
   "import-file-label": "Zgjidhni skedarin e eksportit, ose ngjitni tekstin e tij më poshtë:",
+  "import-too-large": "Skedari është shumë i madh për t'u importuar njëherësh. Ndajeni në skedarë më të vegjël, për shembull sipas projektit ose sipas datës, dhe importoni secilin.",
   "initials": "Inicialet",
   "instance": "Përdorues të identifikuar",
   "instance-desc": "Çdo përdorues i identifikuar në këtë WeKan mund ta shohë këtë tabelë. Ajo nuk u shfaqet kurrë personave që nuk janë identifikuar. Vetëm personat e shtuar në tabelë mund të redaktojnë.",
