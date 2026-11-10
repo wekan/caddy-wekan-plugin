@@ -253,6 +253,18 @@
               a.js-export-checklist(href="#")
                 i.fa.fa-exchange
                 |  {{t $.L "export"}} / {{t $.L "import"}} ...
+          hr
+          ul.pop-over-list
+            li
+              a.js-delete-checklist.delete-checklist(href="#")
+                i.fa.fa-trash
+                |  {{t $.L "delete"}} ...
+      //- WeKan's checklistDeletePopup.
+      template.js-pop-over-template(data-pop="checklist-delete", data-title="{{t $.L `checklistActionsPopup-title`}}", data-card-url="/b/{{.Board.ID}}/cards/{{.Card.ID}}/checklists/")
+        .content
+          p {{t $.L "confirm-checklist-delete-popup"}}
+          form.js-checklist-delete-form(method="post", action="#", up-submit, up-target=".board-wrapper")
+            button.js-confirm.negate.full(type="submit") {{t $.L "delete"}}
       //- WeKan's cardDetailsActionsPopup, and its cardArchivePopup.
       template.js-pop-over-template(data-pop="card-actions", data-title="{{t $.L `cardDetailsActionsPopup-title`}}")
         ul.pop-over-list
@@ -698,18 +710,25 @@
       h3 {{t $.L "description"}}
       .card-description.js-card-description {{.Card.Description}}
       //- WeKan's checklists (checklists.jade): each checklist's title, its
-        progress and its items; the menu - for whoever may change the card -
-        is checklistActionsPopup, whose Export is the checklist's own.
-      if .Checklists
-        .card-checklist-attachmentGallery.card-checklists
-          h3.card-details-item-title
-            i.fa.fa-check
-            |  {{t $.L "checklists"}}
+        progress and its items, an item ticked by whoever may check it (a
+        Worker too, #3307); for whoever may change the card, a checklist
+        added - the title line's "+" before there is one, the bottom one
+        after - an item added under its checklist, and the checklist's menu,
+        checklistActionsPopup, with its Export and Delete.
+      if or .Checklists .CanModifyCard
+        .card-checklist-attachmentGallery.card-checklists.js-checklists-section
+          .checklists-title
+            h3.card-details-item-title
+              i.fa.fa-check
+              |  {{t $.L "checklists"}}
+              if and $.CanModifyCard (not .Checklists)
+                a.add-checklist-top.js-open-inlined-form(href="#", data-opens="add-checklist", title="{{t $.L `add-checklist`}}", aria-label="{{t $.L `add-checklist`}}")
+                  i.fa.fa-plus
           .card-checklist-items
             each cl in .Checklists
               .js-checklist.checklist(data-checklist="{{.ID}}")
                 .checklist-title
-                  if $.CanEdit
+                  if $.CanModifyCard
                     a.fa.fa-navicon.checklist-details-menu.js-open-checklist-details-menu(href="#", data-checklist="{{.ID}}", title="{{t $.L `checklistActionsPopup-title`}}", aria-label="{{t $.L `checklistActionsPopup-title`}}")
                   h4.title
                     .viewer {{viewer .Title $.TextPolicy}}
@@ -720,11 +739,33 @@
                       .checklist-progress(style="width:{{.Percent}}%")
                 .checklist-items
                   each it in .Items
-                    .js-checklist-item.checklist-item(class="{{if .Finished}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Finished}}true{{else}}false{{end}}", aria-readonly="true", tabindex="-1")
-                      .check-box-container
-                        .check-box.materialCheckBox(class="{{if .Finished}}is-checked{{end}}")
+                    .js-checklist-item.checklist-item(class="{{if .Finished}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Finished}}true{{else}}false{{end}}", aria-readonly="{{if $.CanCheckItems}}false{{else}}true{{end}}", tabindex="{{if $.CanCheckItems}}0{{else}}-1{{end}}")
+                      if $.CanCheckItems
+                        form.check-box-container.js-toggle-checklist-item(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/toggle", up-submit, up-target=".board-wrapper")
+                          button.check-box.materialCheckBox(type="submit", class="{{if .Finished}}is-checked{{end}}", aria-label="{{.Title}}")
+                      else
+                        .check-box-container
+                          .check-box.materialCheckBox(class="{{if .Finished}}is-checked{{end}}")
                       .item-title
                         .viewer {{viewer .Title $.TextPolicy}}
+                if $.CanModifyCard
+                  a.add-checklist-item.js-open-inlined-form(href="#", data-opens="add-checklist-item", title="{{t $.L `add-checklist-item`}}", aria-label="{{t $.L `add-checklist-item`}}")
+                    i.fa.fa-plus
+                  form.js-add-checklist-item.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items", up-submit, up-target=".board-wrapper")
+                    textarea.js-add-checklist-item(name="title", rows="1", aria-label="{{t $.L `add-checklist-item`}}", required)
+                    .edit-controls.clearfix
+                      button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
+                      a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+          if .CanModifyCard
+            .checklists-bottom-actions
+              if .Checklists
+                a.add-checklist.js-open-inlined-form(href="#", data-opens="add-checklist", title="{{t $.L `add-checklist`}}", aria-label="{{t $.L `add-checklist`}}")
+                  i.fa.fa-plus
+              form.js-add-checklist.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/checklists", up-submit, up-target=".board-wrapper")
+                textarea.js-add-checklist-item(name="title", rows="1", aria-label="{{t $.L `add-checklist`}}", required)
+                .edit-controls.clearfix
+                  button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
+                  a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
       h3 {{t $.L "attachments"}}
       ul.attachments.js-attachments
         each a in .Attachments

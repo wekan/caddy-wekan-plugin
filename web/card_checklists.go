@@ -15,8 +15,8 @@ import (
 // checklist's Export, scoped to it as exportChecklistPopup is.
 
 type cardChecklistItem struct {
-	ID, Title string
-	Finished  bool
+	ID, ChecklistID, Title string
+	Finished               bool
 }
 
 type cardChecklist struct {
@@ -48,7 +48,7 @@ func (s *Server) cardChecklists(ctx context.Context, cardID string) []cardCheckl
 					if f {
 						done++
 					}
-					c.Items = append(c.Items, cardChecklistItem{ID: docString(it, "_id"), Title: docString(it, "title"), Finished: f})
+					c.Items = append(c.Items, cardChecklistItem{ID: docString(it, "_id"), ChecklistID: c.ID, Title: docString(it, "title"), Finished: f})
 				}
 				c.Percent = checklistPercent(done, len(items))
 			}

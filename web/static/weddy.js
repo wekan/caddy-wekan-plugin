@@ -171,6 +171,32 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     menuChecklist = el.getAttribute('data-checklist');
     openPopOver('checklist-actions');
   });
+  // checklistDeletePopup: the confirmation, for that checklist.
+  up.on('click', '.js-pop-over .js-delete-checklist', function (event) {
+    event.preventDefault();
+    if (!menuChecklist) return;
+    var t = document.querySelector('template.js-pop-over-template[data-pop="checklist-delete"]');
+    openPopOver('checklist-delete');
+    var f = document.querySelector('.js-pop-over .js-checklist-delete-form');
+    if (f && t) f.setAttribute('action', t.getAttribute('data-card-url') + encodeURIComponent(menuChecklist) + '/delete');
+  });
+  // The checklists' inlined forms: a "+" opens its own form - the
+  // checklist's for an item, the section's for a checklist.
+  up.on('click', '.js-checklists-section .js-open-inlined-form', function (event, el) {
+    event.preventDefault();
+    var box = el.getAttribute('data-opens') === 'add-checklist-item' ? el.closest('.js-checklist') : el.closest('.js-checklists-section');
+    var form = box && box.querySelector(el.getAttribute('data-opens') === 'add-checklist-item' ? 'form.js-add-checklist-item' : 'form.js-add-checklist');
+    if (!form) return;
+    form.classList.remove('is-hidden');
+    form.querySelector('textarea').focus();
+  });
+  // Enter saves, as WeKan's addChecklistItemForm; Shift+Enter is a new line.
+  up.on('keydown', '.js-checklists-section textarea.js-add-checklist-item', function (event, el) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      up.submit(el.form);
+    }
+  });
   up.on('click', '.js-pop-over .js-export-checklist', function (event) {
     event.preventDefault();
     if (menuChecklist) openScope('export', 'checklist', { checklistId: menuChecklist });

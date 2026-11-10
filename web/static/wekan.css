@@ -430,3 +430,9 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 .checklist-progress { height: 100%; background: #3cb500; }
 .checklist-item { display: flex; align-items: center; gap: .5em; padding: .15em 0; }
 .checklist-item.is-checked .item-title { text-decoration: line-through; color: #888; }
+.fa-trash::before { content: "\1F5D1"; }
+.checklist-item form.check-box-container { margin: 0; display: inline-flex; }
+.checklist-item button.check-box { border: 1px solid #888; background: #fff; width: 1em; height: 1em; padding: 0; cursor: pointer; border-radius: 2px; }
+.checklist-item button.check-box.is-checked { background: #3cb500; border-color: #3cb500; }
+.checklists-bottom-actions { margin: .3em 0; }
+.add-checklist-item, .add-checklist, .add-checklist-top { cursor: pointer; text-decoration: none; margin-left: .3em; }
