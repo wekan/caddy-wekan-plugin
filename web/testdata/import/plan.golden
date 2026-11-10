@@ -1,0 +1,288 @@
+{
+  "tasks": [
+    {
+      "card": {
+        "title": "Full",
+        "description": "Desc",
+        "archived": true,
+        "requestedBy": "42",
+        "assignedBy": "boss",
+        "dueAt": "2026-11-01T08:00:00.000Z",
+        "startAt": "2026-11-01T00:00:00.000Z",
+        "endAt": "2026-11-02T08:00:00.000Z",
+        "createdAt": "2026-10-01T08:30:00.000Z",
+        "color": "red",
+        "dueComplete": true,
+        "spentTime": 2.5
+      },
+      "memberIds": [
+        "uA",
+        "uB",
+        "u7"
+      ],
+      "watcherIds": [
+        "uA",
+        "u7"
+      ],
+      "unwatchedCount": 2,
+      "checklists": [
+        {
+          "title": "Checklist",
+          "sort": 0,
+          "items": [
+            {
+              "title": "one",
+              "isFinished": true,
+              "sort": 0
+            },
+            {
+              "title": "two",
+              "isFinished": false,
+              "sort": 1
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "text": "mapped",
+          "userId": "uB",
+          "createdAt": "2026-11-02T10:00:00.000Z"
+        },
+        {
+          "text": "Una: unmapped",
+          "userId": null,
+          "createdAt": "2026-11-02T06:13:20.000Z"
+        },
+        {
+          "text": "anon",
+          "userId": null
+        },
+        {
+          "text": "5",
+          "userId": "uD"
+        }
+      ]
+    },
+    {
+      "card": {
+        "title": "12",
+        "description": "",
+        "archived": false,
+        "color": "#0082c9"
+      },
+      "memberIds": [
+        "u7"
+      ],
+      "watcherIds": [],
+      "unwatchedCount": 0,
+      "checklists": [],
+      "comments": []
+    },
+    {
+      "card": {
+        "title": "Imported task",
+        "description": "",
+        "archived": false,
+        "color": "#abcdef"
+      },
+      "memberIds": [
+        "uC"
+      ],
+      "watcherIds": [],
+      "unwatchedCount": 0,
+      "checklists": [],
+      "comments": []
+    },
+    {
+      "card": {
+        "title": "Cycle",
+        "description": "",
+        "archived": false
+      },
+      "memberIds": [],
+      "watcherIds": [],
+      "unwatchedCount": 1,
+      "checklists": [],
+      "comments": []
+    },
+    {
+      "card": {
+        "title": "Dup",
+        "description": "",
+        "archived": false
+      },
+      "memberIds": [],
+      "watcherIds": [],
+      "unwatchedCount": 0,
+      "checklists": [],
+      "comments": []
+    },
+    {
+      "card": {
+        "title": "Self",
+        "description": "",
+        "archived": false,
+        "dueAt": "2026-12-24T16:30:00.000Z",
+        "dueComplete": true
+      },
+      "memberIds": [],
+      "watcherIds": [],
+      "unwatchedCount": 0,
+      "checklists": [],
+      "comments": []
+    }
+  ],
+  "labels": [
+    {
+      "name": "urgent",
+      "color": "black"
+    },
+    {
+      "name": "ops",
+      "color": "blue"
+    },
+    {
+      "name": "fresh",
+      "color": "black"
+    }
+  ],
+  "customFields": {
+    "fields": [
+      {
+        "name": "1",
+        "type": "text"
+      },
+      {
+        "name": "2",
+        "type": "text"
+      },
+      {
+        "name": "Points",
+        "type": "text"
+      },
+      {
+        "name": "Flag",
+        "type": "text"
+      },
+      {
+        "name": "List",
+        "type": "text"
+      },
+      {
+        "name": "Obj",
+        "type": "text"
+      }
+    ],
+    "unsupported": []
+  },
+  "customFieldValues": [
+    [
+      {
+        "name": "1",
+        "value": "first"
+      },
+      {
+        "name": "2",
+        "value": "second"
+      },
+      {
+        "name": "Points",
+        "value": "3"
+      },
+      {
+        "name": "Flag",
+        "value": "true"
+      },
+      {
+        "name": "List",
+        "value": "a, 1, false"
+      },
+      {
+        "name": "Obj",
+        "value": "named"
+      }
+    ],
+    [
+      {
+        "name": "Points",
+        "value": "5"
+      },
+      {
+        "name": "Flag",
+        "value": "yes"
+      }
+    ],
+    [
+      {
+        "name": "Points",
+        "value": "seven"
+      },
+      {
+        "name": "Flag",
+        "value": "false"
+      }
+    ],
+    [],
+    [],
+    []
+  ],
+  "links": {
+    "parents": [
+      {
+        "index": 1,
+        "parent": 0
+      }
+    ],
+    "dependencies": [
+      {
+        "index": 1,
+        "deps": [
+          {
+            "target": 0,
+            "type": "blocks"
+          },
+          {
+            "target": 2,
+            "type": "related-to"
+          }
+        ]
+      },
+      {
+        "index": 4,
+        "deps": [
+          {
+            "target": 1,
+            "type": "related-to"
+          }
+        ]
+      }
+    ],
+    "unsupported": [
+      {
+        "path": "/tasks/4/ref",
+        "reason": "duplicate source id; links resolve to the first item"
+      },
+      {
+        "path": "/tasks/1/dependencies",
+        "reason": "linked item is not part of this import"
+      },
+      {
+        "path": "/tasks/2/parent_ref",
+        "reason": "parent link would form a cycle"
+      },
+      {
+        "path": "/tasks/3/parent_ref",
+        "reason": "parent link would form a cycle"
+      },
+      {
+        "path": "/tasks/4/parent_ref",
+        "reason": "parent is not part of this import"
+      },
+      {
+        "path": "/tasks/5/parent_ref",
+        "reason": "parent link would form a cycle"
+      }
+    ]
+  }
+}

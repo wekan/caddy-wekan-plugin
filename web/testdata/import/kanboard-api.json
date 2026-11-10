@@ -1,0 +1,23 @@
+{
+  "board": { "name": "Plant" },
+  "columns": [{ "id": 1, "title": "Backlog", "task_limit": "3" }, { "id": 2, "name": "Done", "task_limit": 0 }, { "id": 3 }],
+  "swimlanes": [{ "id": 10, "name": "Default" }, { "id": 11, "title": "Ops" }],
+  "categories": [{ "id": 5, "name": "Hardware" }],
+  "tasks": [
+    { "id": 100, "title": "Order valves", "description": "Two of them", "column_id": 1, "swimlane_id": 11, "category_id": 5,
+      "priority": "2", "tags": { "7": "shop", "3": "urgent" }, "color_id": "deep_orange", "is_active": "1",
+      "date_due": "1793520000", "date_started": 0, "date_completed": null, "date_creation": 1790000000,
+      "time_spent": 1.5, "time_estimated": "3", "owner_id": 4, "assignee_username": "ann", "owner_name": "",
+      "creator_name": "Carl", "url": "https://kb.example/task/100",
+      "subtasks": [{ "title": "Find vendor", "status": 2 }, { "title": "Pay", "status": "0" }, null],
+      "comments": [{ "comment": "Call them", "username": "ann", "date_creation": "1793530000" }, { "comment": "x", "name": "Bob" }, null],
+      "files": [{ "name": "a.pdf" }], "external_links": [],
+      "links": [{ "task_id": 101, "label": "blocks" }, { "task_id": 102, "link_id": 6 }, { "task_id": 999, "label": "relates to" },
+                { "task_id": 101, "label": "targets milestone" }] },
+    { "id": 101, "title": "", "column_name": "Done", "is_active": 0, "color_id": "grey", "tags": ["urgent", { "name": "x" }, null, ""],
+      "links": { "is blocked by": [{ "task_id": 100 }], "weird": [{ "task_id": 100 }], "relates to": ["notarow"] } },
+    { "id": 102, "title": "Child", "column_title": "Backlog", "swimlane_name": "Default", "is_active": false,
+      "links": [{ "opposite_task_id": 100, "link_id": "6" }, { "task_id": 101, "link_id": 7 }] },
+    { "title": "No id", "links": [{ "task_id": 100, "label": "is a parent of" }, { "task_id": 100, "label": "duplicates" }] }
+  ]
+}

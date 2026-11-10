@@ -43,4 +43,8 @@
         input.js-import-file(id="import-file", type="file", name="file", accept="{{.Accept}}")
       if .Paste
         textarea.js-import-json(id="import-textarea", name="text", rows="10")
-      input.primary.wide(type="submit", value="{{t $.L `import`}}")
+      //- WeKan's "Import" without the members-mapping step, for another tool's JSON.
+      if .General
+        input.primary.wide.js-import-without-mapping(type="submit", value="{{t $.L `import`}}")
+      else
+        input.primary.wide(type="submit", value="{{t $.L `import`}}")

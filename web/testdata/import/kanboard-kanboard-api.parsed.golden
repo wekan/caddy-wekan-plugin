@@ -1,0 +1,161 @@
+{
+  "board": {
+    "name": "Plant"
+  },
+  "columns": [
+    {
+      "title": "Backlog",
+      "task_limit": 3
+    },
+    {
+      "title": "Done"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    },
+    {
+      "name": "Ops"
+    }
+  ],
+  "tasks": [
+    {
+      "ref": "100",
+      "parent_ref": "102",
+      "dependencies": [
+        {
+          "ref": "101",
+          "type": "blocks"
+        }
+      ],
+      "title": "Order valves",
+      "description": "Two of them\n\nSource: https://kb.example/task/100",
+      "column_name": "Backlog",
+      "swimlane_name": "Ops",
+      "date_due": "1793520000",
+      "date_started": 0,
+      "date_end": null,
+      "date_creation": 1790000000,
+      "archived": false,
+      "color": "crimson",
+      "spent_hours": 1.5,
+      "owner_id": 4,
+      "owner_username": "ann",
+      "requested_by": "Carl",
+      "tags": [
+        "urgent",
+        "shop",
+        "Hardware",
+        "priority:2"
+      ],
+      "checklists": [
+        {
+          "title": "Subtasks",
+          "items": [
+            {
+              "title": "Find vendor",
+              "done": true
+            },
+            {
+              "title": "Pay",
+              "done": false
+            },
+            {
+              "title": null,
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "text": "Call them",
+          "author": "ann",
+          "date": "1793530000"
+        },
+        {
+          "text": "x",
+          "author": "Bob"
+        },
+        {
+          "text": null,
+          "author": null,
+          "date": null
+        }
+      ]
+    },
+    {
+      "ref": "101",
+      "parent_ref": "102",
+      "title": "Imported task",
+      "description": "",
+      "column_name": "Done",
+      "archived": true,
+      "color": "gray",
+      "tags": [
+        "urgent",
+        "x"
+      ],
+      "checklists": [],
+      "comments": []
+    },
+    {
+      "ref": "102",
+      "parent_ref": "100",
+      "title": "Child",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Default",
+      "archived": true,
+      "tags": [],
+      "checklists": [],
+      "comments": []
+    },
+    {
+      "dependencies": [
+        {
+          "ref": "100",
+          "type": "duplicates"
+        }
+      ],
+      "title": "No id",
+      "description": "",
+      "archived": false,
+      "tags": [],
+      "checklists": [],
+      "comments": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/tasks/0/links/2",
+      "reason": "linked task #999 is not part of this import"
+    },
+    {
+      "path": "/tasks/0/links/3",
+      "reason": "only one link between the same two tasks is kept"
+    },
+    {
+      "path": "/tasks/1/links/weird/0",
+      "reason": "link type \"weird\" has no WeKan equivalent; not imported"
+    },
+    {
+      "path": "/tasks/1/links/relates to/0",
+      "reason": "not a task link"
+    },
+    {
+      "path": "/tasks/3/links/0",
+      "reason": "the task has no id, so its child cannot point at it"
+    },
+    {
+      "path": "/tasks/0/time_estimated",
+      "reason": "WeKan cards have no estimate field; map it to a custom field by hand"
+    },
+    {
+      "path": "/tasks/0/files",
+      "reason": "1 file(s): the API export carries metadata, not file contents"
+    }
+  ]
+}

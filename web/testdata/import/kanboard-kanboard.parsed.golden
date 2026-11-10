@@ -1,0 +1,199 @@
+{
+  "board": {
+    "name": "Plan & <Go> \"q\" 🚀"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Empty"
+    },
+    {
+      "title": "Won't fix"
+    },
+    {
+      "title": "  To Do  "
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    },
+    {
+      "name": "Ops"
+    }
+  ],
+  "tasks": [
+    {
+      "ref": "1",
+      "dependencies": [
+        {
+          "ref": "2",
+          "type": "is-blocked-by"
+        },
+        {
+          "ref": "3",
+          "type": "is-duplicated-by"
+        }
+      ],
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "date_started": "2026-11-10T00:00:00.000Z",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "archived": false,
+      "owner_username": "alice",
+      "requested_by": "carol",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x , y"
+      ],
+      "checklists": [
+        {
+          "title": "Subtasks",
+          "items": [
+            {
+              "title": "a & b",
+              "done": true
+            },
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "text": "Looks <i>good</i>",
+          "author": "bob",
+          "date": "2026-11-02T09:30:00.000Z"
+        },
+        {
+          "text": "   ",
+          "author": "bob",
+          "date": "2026-11-02T09:31:00.000Z"
+        },
+        {
+          "text": "no author"
+        }
+      ]
+    },
+    {
+      "ref": "2",
+      "parent_ref": "1",
+      "dependencies": [
+        {
+          "ref": "3",
+          "type": "related-to"
+        }
+      ],
+      "title": "-minus first",
+      "description": "first\r\nsecond  \n\n",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "date_end": "2026-11-05T00:00:00.000Z",
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "archived": false,
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "checklists": [
+        {
+          "title": "Subtasks",
+          "items": [
+            {
+              "title": "  one  ",
+              "done": false
+            },
+            {
+              "title": "   ",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "comments": []
+    },
+    {
+      "ref": "3",
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Ops",
+      "date_due": "2026-12-24T18:30:00.000Z",
+      "archived": false,
+      "tags": [],
+      "checklists": [],
+      "comments": [
+        {
+          "text": "orphan",
+          "date": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "ref": "4",
+      "parent_ref": "2",
+      "title": "No list item",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-12T00:00:00.000Z",
+      "date_started": "2026-11-11T00:00:00.000Z",
+      "archived": false,
+      "tags": [
+        "p1"
+      ],
+      "checklists": [],
+      "comments": []
+    },
+    {
+      "ref": "5",
+      "title": "Orphan of an archived list",
+      "description": "",
+      "swimlane_name": "Default",
+      "date_end": "2026-11-06T00:00:00.000Z",
+      "archived": false,
+      "tags": [],
+      "checklists": [],
+      "comments": []
+    },
+    {
+      "ref": "6",
+      "parent_ref": "3",
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Ops",
+      "archived": false,
+      "tags": [],
+      "checklists": [],
+      "comments": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/tasks/1/links/3",
+      "reason": "only one link between the same two tasks is kept"
+    }
+  ]
+}

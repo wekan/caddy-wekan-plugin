@@ -40,14 +40,20 @@ type mappingField struct {
 
 func (s *Server) importData(r *http.Request, u *User, source string) map[string]any {
 	lang := languageOf(r, u).Tag
-	return map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source,
-		"Accept": tableSources[source], "Paste": source == "csv",
-		"Instruction": tr(lang, map[string]string{"csv": msg("import-board-instruction-csv"), "excel": msg("import-board-instruction-excel")}[source])}
+	accept, paste := tableSources[source], source == "csv"
+	_, general := importParsers[source]
+	if general {
+		accept, paste = ".json,application/json", true
+	}
+	return map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source, "Accept": accept, "Paste": paste, "General": general,
+		"Instruction": tr(lang, map[string]string{"csv": msg("import-board-instruction-csv"), "excel": msg("import-board-instruction-excel"),
+			"kanboard": msg("import-board-instruction-kanboard")}[source])}
 }
 
 func (s *Server) importPage(w http.ResponseWriter, r *http.Request, u *User) {
 	source := r.PathValue("source")
-	if _, ok := tableSources[source]; !ok {
+	_, general := importParsers[source]
+	if _, ok := tableSources[source]; !ok && !general {
 		http.Error(w, "This import is not in Weddy yet.", http.StatusNotFound)
 		return
 	}
@@ -93,6 +99,10 @@ func importRows(r *http.Request, source string) (string, [][]string, error) {
 // chosen as the column names say.
 func (s *Server) importMappingPage(w http.ResponseWriter, r *http.Request, u *User) {
 	source := r.PathValue("source")
+	if _, ok := importParsers[source]; ok {
+		s.importGeneralPage(w, r, u, source)
+		return
+	}
 	if _, ok := tableSources[source]; !ok {
 		http.Error(w, "This import is not in Weddy yet.", http.StatusNotFound)
 		return

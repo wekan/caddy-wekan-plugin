@@ -1,0 +1,26 @@
+{
+  "members": { "alice": "uA", "bob": "uB", "7": "u7", "carol": "uC", "dave": "uD" },
+  "boardMemberIds": ["uA", "uB", "u7"],
+  "allowedColors": ["white", "green", "red", "blue", "navy"],
+  "tasks": [
+    { "title": "Full", "description": "Desc", "archived": true, "requested_by": 42, "assigned_by": "boss",
+      "date_due": "1793520000", "date_started": "2026-11-01", "date_end": 1793606400000, "date_creation": "2026-10-01T08:30:00Z",
+      "color": "RED", "due_complete": true, "spent_hours": "2.5", "owner_username": "alice", "assignees": ["bob", 7, "", "zed", "alice"],
+      "watchers": ["alice", "carol", "nobody", 7], "tags": ["urgent", { "name": "ops", "color": "BLUE" }, { "name": "urgent", "color": "green" }],
+      "checklists": [{ "title": "  ", "items": [{ "title": " one ", "done": 1 }, { "title": "" }, { "title": "two", "done": false }] },
+                     { "title": "Empty", "items": [{ "title": "   " }] }],
+      "comments": [{ "text": " mapped ", "author": "bob", "date": "2026-11-02T10:00:00.000Z" },
+                   { "text": "unmapped", "author": "u-99", "authorName": "Una", "date": "1793600000" },
+                   { "text": "anon" }, { "text": "  " }, { "text": 5, "author": "dave" }],
+      "ref": "r1", "custom_fields": { "Points": 3, "2": "second", "1": "first", "Flag": true, "List": ["a", 1, null, false], "Obj": { "name": "named" }, "Blank": "" } },
+    { "title": 12, "color": "0082C9", "due_complete": true, "spent_hours": 0, "owner_id": 7, "date_due": "0",
+      "date_started": "not a date", "date_end": false, "ref": "r2", "parent_ref": "r1",
+      "tags": [{ "name": "ops" }, { "color": "red" }, "fresh"], "custom_fields": { "Points": 5, "Flag": "yes", "List": [] },
+      "dependencies": [{ "ref": "r1", "type": "blocks" }, { "ref": "r1", "type": "duplicates" }, { "ref": "nope" }, { "ref": "r3", "type": "weird" }] },
+    { "title": "", "color": "#ABCDEF", "spent_hours": "abc", "owner_name": "carol", "ref": "r3", "parent_ref": "r4",
+      "custom_fields": { "Points": "seven", "Flag": false } },
+    { "title": "Cycle", "ref": "r4", "parent_ref": "r3", "color": "purple", "watchers": ["dave"] },
+    { "title": "Dup", "ref": "r1", "parent_ref": "missing", "dependencies": [{ "ref": "r2" }, { "ref": "r2" }] },
+    { "title": "Self", "ref": "r6", "parent_ref": "r6", "date_due": "2026-12-24T18:30:00+02:00", "due_complete": true }
+  ]
+}
