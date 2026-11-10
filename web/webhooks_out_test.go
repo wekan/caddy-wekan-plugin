@@ -123,9 +123,17 @@ func TestOutgoingWebhooks(t *testing.T) {
 		t.Error("a global webhook gets every board's activity")
 	}
 	time.Sleep(200 * time.Millisecond) // anything that was going to arrive has
-	for _, path := range []string{"/off", "/bot", "/comments", "/other"} {
+	for _, path := range []string{"/off", "/bot", "/comments"} {
 		if n := len(sink.bodies(path)); n != 0 {
 			t.Errorf("negative: %s got %d", path, n)
+		}
+	}
+	// Another board's webhook gets nothing of this board. It may get its own
+	// board's activity - creating that board makes some, delivered after its
+	// hook is in - which is why it is checked by board, not counted.
+	for _, body := range sink.bodies("/other") {
+		if body["boardId"] != other.ID {
+			t.Errorf("negative: another board's webhook got this board's activity: %v", body)
 		}
 	}
 }
