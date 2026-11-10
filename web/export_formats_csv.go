@@ -407,3 +407,326 @@ func formatTickTickCsv(d extBoard, now time.Time) string {
 	}
 	return strings.Join(lines, "\n") + "\n"
 }
+
+// repeatCells is repeat(value, count).
+func repeatCells(v string, n int) []string {
+	out := []string{}
+	for k := 0; k < n; k++ {
+		out = append(out, v)
+	}
+	return out
+}
+
+// monthDayYear is "Jun 2, 2026", read at UTC, as Pivotal and Quire write a date.
+func monthDayYear(iso string) string {
+	t := parseISO(iso)
+	if t.IsZero() {
+		return ""
+	}
+	return t.Format("Jan") + " " + strconv.Itoa(t.Day()) + ", " + strconv.Itoa(t.Year())
+}
+
+// uniqueNonEmpty is [...new Set(values.filter(Boolean))].
+func uniqueNonEmpty(values []string) []string {
+	out := []string{}
+	for _, v := range values {
+		if v != "" && !contains(out, v) {
+			out = append(out, v)
+		}
+	}
+	return out
+}
+
+// --- ClickUp
+
+var clickupColumns = []string{"Task ID", "Task Link", "Task Type", "Task Custom ID", "Task Name", "Task Content", "Status",
+	"Date created", "Date created Text", "Due date", "Due date Text", "Start date", "Start date Text", "Parent ID", "Subtask IDs",
+	"Attachments", "Assignees", "Tags", "Priority", "List Name", "Folder Name/Path", "Space Name", "Time Estimated",
+	"Time Estimated Text", "Checklists", "Comments", "Assigned Comments", "Time Spent", "Time Spent Text", "Rolled Up Time",
+	"Rolled Up Time Text", "Checklist"}
+
+// clickupBracket is bracket(): "[A,B]", each without , [ or ].
+func clickupBracket(values []string) string {
+	if len(values) == 0 {
+		return ""
+	}
+	clean := strings.NewReplacer(",", " ", "[", " ", "]", " ")
+	out := make([]string, len(values))
+	for k, v := range values {
+		out[k] = jsTrim(clean.Replace(v))
+	}
+	return "[" + strings.Join(out, ",") + "]"
+}
+
+func clickupMillis(iso string) string {
+	if t := parseISO(iso); !t.IsZero() {
+		return strconv.FormatInt(t.UnixMilli(), 10)
+	}
+	return ""
+}
+
+func formatClickUpCsv(d extBoard) string {
+	ids := map[string]bool{}
+	for _, i := range d.Items {
+		ids[i.CardID] = true
+	}
+	children := map[string][]string{}
+	for _, i := range d.Items {
+		if i.ParentCardID != "" && ids[i.ParentCardID] {
+			children[i.ParentCardID] = append(children[i.ParentCardID], i.CardID)
+		}
+	}
+	rows := [][]string{clickupColumns}
+	for _, i := range d.Items {
+		name := jsTrim(i.Title)
+		if name == "" {
+			name = "Untitled"
+		}
+		status := i.ListTitle
+		if status == "" {
+			status = "No status"
+		}
+		parent := ""
+		if i.ParentCardID != "" && ids[i.ParentCardID] {
+			parent = i.ParentCardID
+		}
+		list := ""
+		if i.SwimlaneTitle != "" && i.SwimlaneTitle != "Default" {
+			list = i.SwimlaneTitle
+		}
+		var checklist []string
+		for _, x := range checklistEntries(i) {
+			checklist = append(checklist, strings.ReplaceAll(x.Title, ",", " "))
+		}
+		v := map[string]string{"Task ID": i.CardID, "Task Type": "Task", "Task Name": name, "Task Content": i.Description, "Status": status,
+			"Date created": clickupMillis(i.CreatedAt), "Date created Text": isoDate(parseISO(i.CreatedAt)),
+			"Due date": clickupMillis(i.DueAt), "Due date Text": isoDate(parseISO(i.DueAt)),
+			"Start date": clickupMillis(i.StartAt), "Start date Text": isoDate(parseISO(i.StartAt)),
+			"Parent ID": parent, "Subtask IDs": clickupBracket(children[i.CardID]), "Attachments": "[]",
+			"Assignees": clickupBracket(people(i)), "Tags": clickupBracket(i.Labels), "List Name": list,
+			"Space Name": d.Board.Title, "Checklist": strings.Join(checklist, ",")}
+		cells := make([]string, len(clickupColumns))
+		for k, c := range clickupColumns {
+			cells[k] = v[c]
+		}
+		rows = append(rows, cells)
+	}
+	return writeCSVRows(rows, csvField, "\r\n")
+}
+
+// --- Pivotal Tracker
+
+var (
+	pivotalStates  = []string{"unscheduled", "unstarted", "planned", "started", "finished", "delivered", "accepted", "rejected"}
+	pivotalTypes   = []string{"feature", "bug", "chore", "epic", "release"}
+	pivotalColumns = []string{"Title", "Labels", "Type", "Estimate", "Priority", "Current State",
+		"Created at", "Accepted at", "Deadline", "Requested By", "Description"}
+)
+
+// spaceAroundCommas is s.replace(/\s*,\s*/g, ' ').
+func spaceAroundCommas(s string) string {
+	rs := []rune(s)
+	var b strings.Builder
+	for i := 0; i < len(rs); {
+		j := i
+		for j < len(rs) && jsSpace(rs[j]) {
+			j++
+		}
+		if j < len(rs) && rs[j] == ',' {
+			j++
+			for j < len(rs) && jsSpace(rs[j]) {
+				j++
+			}
+			b.WriteString(" ")
+			i = j
+			continue
+		}
+		if j > i {
+			b.WriteString(string(rs[i:j]))
+			i = j
+			continue
+		}
+		b.WriteRune(rs[i])
+		i++
+	}
+	return b.String()
+}
+
+func formatPivotalCsv(d extBoard) string {
+	owners := func(i extItem) []string {
+		p := uniqueNonEmpty(append([]string{i.Owner}, i.Assignees...))
+		if len(p) > 5 {
+			p = p[:5]
+		}
+		return p
+	}
+	tasks := func(i extItem) []extChecklistItem {
+		var out []extChecklistItem
+		for _, x := range checklistEntries(i) {
+			if jsTrim(x.Title) != "" {
+				out = append(out, x)
+			}
+		}
+		return out
+	}
+	comments := func(i extItem) []extComment {
+		var out []extComment
+		for _, c := range i.Comments {
+			if jsTrim(c.Text) != "" {
+				out = append(out, c)
+			}
+		}
+		return out
+	}
+	nOwners, nComments, nTasks := 1, 0, 0
+	for _, i := range d.Items {
+		nOwners, nComments, nTasks = max(nOwners, len(owners(i))), max(nComments, len(comments(i))), max(nTasks, len(tasks(i)))
+	}
+	header := append(append(append([]string{}, pivotalColumns...), repeatCells("Owned By", nOwners)...), repeatCells("Comment", nComments)...)
+	for k := 0; k < nTasks; k++ {
+		header = append(header, "Task", "Task Status")
+	}
+	rows := [][]string{header}
+	guard := func(v string) string {
+		if strings.HasPrefix(v, "=") {
+			return "'" + v
+		}
+		return v
+	}
+	for _, i := range d.Items {
+		var labels []string
+		for _, l := range i.Labels {
+			if t := jsTrim(l); t != "" {
+				labels = append(labels, t)
+			}
+		}
+		typeLabel := ""
+		for _, l := range labels {
+			if contains(pivotalTypes, strings.ToLower(l)) {
+				typeLabel = l
+				break
+			}
+		}
+		typ := "feature"
+		if typeLabel != "" {
+			typ = strings.ToLower(typeLabel)
+		}
+		var rest []string
+		for _, l := range labels {
+			if l != typeLabel {
+				rest = append(rest, spaceAroundCommas(l))
+			}
+		}
+		state := strings.ToLower(jsTrim(i.ListTitle))
+		if !contains(pivotalStates, state) {
+			state = "unstarted"
+			if i.EndAt != "" {
+				state = "accepted"
+			}
+		}
+		title := jsTrim(i.Title)
+		if title == "" {
+			title = "Untitled"
+		}
+		accepted, deadline := "", ""
+		if state == "accepted" {
+			accepted = monthDayYear(i.EndAt)
+		}
+		if typ == "release" {
+			deadline = monthDayYear(i.DueAt)
+		}
+		requested := i.RequestedBy
+		if requested == "" {
+			requested = i.Creator
+		}
+		row := []string{title, strings.Join(rest, ", "), typ, "", "", state, monthDayYear(i.CreatedAt), accepted, deadline, requested, i.Description}
+		owned := owners(i)
+		row = append(append(row, owned...), repeatCells("", nOwners-len(owned))...)
+		said := comments(i)
+		for _, c := range said {
+			if when := monthDayYear(c.Date); c.Author != "" && when != "" {
+				row = append(row, c.Text+" ("+c.Author+" - "+when+")")
+			} else {
+				row = append(row, c.Text)
+			}
+		}
+		row = append(row, repeatCells("", nComments-len(said))...)
+		done := tasks(i)
+		for _, x := range done {
+			st := "not completed"
+			if x.Done {
+				st = "completed"
+			}
+			row = append(row, jsTrim(x.Title), st)
+		}
+		row = append(row, repeatCells("", (nTasks-len(done))*2)...)
+		for k := range row {
+			row[k] = guard(row[k])
+		}
+		rows = append(rows, row)
+	}
+	return writeCSVRows(rows, csvField, "\r\n")
+}
+
+// --- Quire
+
+func formatQuireCsv(d extBoard) string {
+	numbers := map[string]string{}
+	for k, i := range d.Items {
+		numbers[i.CardID] = "#" + strconv.Itoa(k+1) // a Map's set: the last card of an id wins
+	}
+	clean := func(v string) string { return jsTrim(strings.ReplaceAll(v, ",", " ")) }
+	who := func(i extItem) []string {
+		var out []string
+		for _, p := range append([]string{i.Owner}, i.Assignees...) {
+			out = append(out, clean(p))
+		}
+		return uniqueNonEmpty(out)
+	}
+	tags := func(i extItem) []string {
+		var out []string
+		for _, l := range i.Labels {
+			out = append(out, clean(l))
+		}
+		return uniqueNonEmpty(out)
+	}
+	nWho, nTags := 1, 1
+	for _, i := range d.Items {
+		nWho, nTags = max(nWho, len(who(i))), max(nTags, len(tags(i)))
+	}
+	header := append(append([]string{"ID", "Parent", "Name", "Status", "Completed", "Priority", "Start", "Due"},
+		repeatCells("Assignee", nWho)...), repeatCells("Tag", nTags)...)
+	header = append(header, "Created", "Created by", "Description")
+	rows := [][]string{header}
+	for k, i := range d.Items {
+		name := jsTrim(i.Title)
+		if name == "" {
+			name = "Untitled"
+		}
+		status := jsTrim(i.ListTitle)
+		if status == "" {
+			status = "To-Do"
+		}
+		parent := ""
+		if i.ParentCardID != "" {
+			parent = numbers[i.ParentCardID]
+		}
+		row := []string{"#" + strconv.Itoa(k+1), parent, name, status, monthDayYear(i.EndAt), "Medium", monthDayYear(i.StartAt), monthDayYear(i.DueAt)}
+		w, t := who(i), tags(i)
+		row = append(append(row, w...), repeatCells("", nWho-len(w))...)
+		row = append(append(row, t...), repeatCells("", nTags-len(t))...)
+		by := i.RequestedBy
+		if by == "" {
+			by = i.Creator
+		}
+		row = append(row, monthDayYear(i.CreatedAt), by, i.Description)
+		rows = append(rows, row)
+	}
+	quire := func(v string) string {
+		if strings.HasPrefix(v, "+") || strings.HasPrefix(v, "-") || strings.HasPrefix(v, "=") || strings.HasPrefix(v, "@") {
+			v = "'" + v
+		}
+		return csvField(v)
+	}
+	return writeCSVRows(rows, quire, "\r\n")
+}

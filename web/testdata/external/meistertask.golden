@@ -1,11 +1,11 @@
 project,section,name,notes,due_date,status,tags
 "Plan & <Go> ""q"" 🚀",To Do,Write   spec now,"line one
 
-line ""two"" <b>",2026-11-20T10:00:00+00:00,1,"priority:H; web  dev; project:Plant.Pumps; @home; big deal; p2; a,b"
+line ""two"" <b>",2026-11-20T10:00:00+00:00,1,"priority:H; web  dev; project:Plant.Pumps; @home; big deal; p2; a,b; Bug; x , y"
 "Plan & <Go> ""q"" 🚀",Done,-minus first,"first
 second  
 
 ",,2,priority:B; raw; done; won't do; =SUM(1)
 "Plan & <Go> ""q"" 🚀",Archived list,"multi
   line	title",,2026-12-24T18:30:00+00:00,1,
-"Plan & <Go> ""q"" 🚀",No section,No list item,,2026-11-12T00:00:00+00:00,1,p1
+"Plan & <Go> ""q"" 🚀",Started,No list item,,2026-11-12T00:00:00+00:00,1,p1

@@ -6,7 +6,7 @@ kanban-plugin: board
 
 ## To Do (3)
 
-- [ ] Write spec now #priority:H #web-dev #project:Plant.Pumps #@home #big-deal #p2 #a;b @{2026-11-20} @@{10:00} 🛫 2026-11-10
+- [ ] Write spec now #priority:H #web-dev #project:Plant.Pumps #@home #big-deal #p2 #a;b #Bug #x-,-y @{2026-11-20} @@{10:00} 🛫 2026-11-10
     line one
     
     line "two" <b>
@@ -34,6 +34,12 @@ kanban-plugin: board
 ## Archived list
 
 - [ ] multi line title @{2026-12-24} @@{18:30}
+
+
+
+## Started
+
+- [ ] No list item #p1 @{2026-11-12} 🛫 2026-11-11
 
 
 

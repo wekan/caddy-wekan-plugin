@@ -45,6 +45,9 @@ var externalFormats = map[string][2]string{
 	"todoist":     {"csv", "text/csv"},
 	"linear":      {"csv", "text/csv"},
 	"ticktick":    {"csv", "text/csv"},
+	"clickup":     {"csv", "text/csv"},
+	"pivotal":     {"csv", "text/csv"},
+	"quire":       {"csv", "text/csv"},
 }
 
 type extChecklistItem struct {
@@ -530,6 +533,12 @@ func (s *Server) externalExport(ctx context.Context, b *Board, format string) []
 		return []byte(formatLinearCsv(d))
 	case "ticktick":
 		return []byte(formatTickTickCsv(d, time.Now()))
+	case "clickup":
+		return []byte(formatClickUpCsv(d))
+	case "pivotal":
+		return []byte(formatPivotalCsv(d))
+	case "quire":
+		return []byte(formatQuireCsv(d))
 	}
 	if f := apiFormatters[format]; f != nil {
 		return jsJSON(f(d), "")

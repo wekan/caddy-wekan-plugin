@@ -1,0 +1,11 @@
+Task ID,Task Link,Task Type,Task Custom ID,Task Name,Task Content,Status,Date created,Date created Text,Due date,Due date Text,Start date,Start date Text,Parent ID,Subtask IDs,Attachments,Assignees,Tags,Priority,List Name,Folder Name/Path,Space Name,Time Estimated,Time Estimated Text,Checklists,Comments,Assigned Comments,Time Spent,Time Spent Text,Rolled Up Time,Rolled Up Time Text,Checklist
+cardA1,,Task,,Write   spec now,"line one
+
+line ""two"" <b>",To Do,1793520000000,2026-11-01T08:00:00.000Z,1795168800000,2026-11-20T10:00:00.000Z,1794268800000,2026-11-10T00:00:00.000Z,,[cardB😀2],[],"[alice,bob,alice,bob  jr]","[priority:H,web  dev,project:Plant.Pumps,@home,big deal,p2,a;b,Bug,x   y]",,,,"Plan & <Go> ""q"" 🚀",,,,,,,,,,"a & b,c"
+cardB😀2,,Task,,-minus first,"first
+second  
+
+",Done,1793577600000,2026-11-02T00:00:00.000Z,,,,,cardA1,[cardD4],[],,"[priority:B,raw,done,won't do,=SUM(1)]",,,,"Plan & <Go> ""q"" 🚀",,,,,,,,,,"  one  ,   "
+cardC3,,Task,,"multi
+  line	title",,Archived list,,,1798137000000,2026-12-24T18:30:00.000Z,,,,,[],[dave],,,Ops,,"Plan & <Go> ""q"" 🚀",,,,,,,,,,
+cardD4,,Task,,No list item,,Started,,,1794441600000,2026-11-12T00:00:00.000Z,1794355200000,2026-11-11T00:00:00.000Z,cardB😀2,,[],,[p1],,,,"Plan & <Go> ""q"" 🚀",,,,,,,,,,

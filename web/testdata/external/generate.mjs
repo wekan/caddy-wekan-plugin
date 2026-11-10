@@ -18,7 +18,7 @@ const { formatTickTickCsv } = await import(pathToFileURL(path.join(wekan, 'model
 fs.writeFileSync(path.join(here, 'ticktick.golden'), formatTickTickCsv(structuredClone(collected), ticktickNow));
 for (const format of ['markdown', 'opml', 'todotxt', 'taskwarrior', 'zenkit', 'nullboard', 'obsidian', 'orgmode', 'kanri',
   'deck', 'kanboard', 'openproject', 'github', 'gitea', 'forgejo', 'gitlab', 'trello', 'asana',
-  'leo', 'meistertask', 'todoist', 'linear']) {
+  'leo', 'meistertask', 'todoist', 'linear', 'clickup', 'pivotal', 'quire']) {
   const out = formatters[format](structuredClone(collected));
   fs.writeFileSync(path.join(here, `${format}.golden`), typeof out === 'string' ? out : JSON.stringify(out));
 }

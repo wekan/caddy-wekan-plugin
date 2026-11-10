@@ -107,13 +107,17 @@
         "@home",
         "big deal",
         "p2",
-        "a;b"
+        "a;b",
+        "Bug",
+        "x , y"
       ],
       "startAt": "2026-11-10T00:00:00.000Z",
       "createdAt": "2026-11-01T08:00:00.000Z",
       "owner": "alice",
       "assignees": [
-        "bob"
+        "bob",
+        "alice",
+        "bob, jr"
       ],
       "creator": "carol",
       "comments": [
@@ -242,7 +246,7 @@
       "listId": "L1",
       "title": "No list item",
       "description": "",
-      "listTitle": "",
+      "listTitle": "Started",
       "swimlaneTitle": "Default",
       "labelIds": [],
       "labels": [

@@ -13,7 +13,9 @@
       "@home",
       "big_deal",
       "p2",
-      "a;b"
+      "a;b",
+      "Bug",
+      "x_,_y"
     ],
     "annotations": [
       {
@@ -64,6 +66,7 @@
     "scheduled": "20261111T000000Z",
     "tags": [
       "p1"
-    ]
+    ],
+    "wekanlist": "Started"
   }
 ]
