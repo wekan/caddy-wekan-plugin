@@ -2,15 +2,18 @@ package web
 
 import (
 	"net/http"
+	"sort"
 	"strings"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // A board's domains, and Admin Panel's global settings, as Node.js WeKan
 // (server/models/boards.js, server/models/settings.js).
 func (s *Server) apiSettingsRoutes(m *http.ServeMux) {
+	m.HandleFunc("GET /api/admin/domains", s.api(s.apiAdminDomains))
 	m.HandleFunc("GET /api/boards/{board}/domains", s.api(s.apiBoardDomains))
 	m.HandleFunc("POST /api/boards/{board}/domains", s.api(s.apiAddBoardDomain))
 	m.HandleFunc("DELETE /api/boards/{board}/domains/{domain}", s.api(s.apiDeleteBoardDomain))
@@ -212,4 +215,50 @@ func (s *Server) apiSetSettings(w http.ResponseWriter, r *http.Request, u *User)
 	doc = bson.M{}
 	_ = s.db.Collection("settings").FindOne(ctx, bson.M{}).Decode(&doc)
 	writeJSON(w, http.StatusOK, pickSettings(doc))
+}
+
+// apiAdminDomains is WeKan's GET /api/admin/domains (#Admin Panel / People's
+// domain grouping): every user counted by the domain of their primary
+// address, most first, then by name; for a site administrator only.
+func (s *Server) apiAdminDomains(w http.ResponseWriter, r *http.Request, u *User) {
+	if !u.IsAdmin {
+		apiError(w, http.StatusForbidden, "Admin access required")
+		return
+	}
+	cur, err := s.db.Collection("users").Find(r.Context(), bson.M{}, options.Find().SetProjection(bson.M{"emails": 1}))
+	if err != nil {
+		apiError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	var users []User
+	_ = cur.All(r.Context(), &users)
+	counts := map[string]int{}
+	for _, x := range users {
+		if len(x.Emails) == 0 {
+			continue
+		}
+		addr := x.Emails[0].Address
+		at := strings.LastIndex(addr, "@")
+		if at < 0 {
+			continue
+		}
+		if d := strings.ToLower(strings.TrimSpace(addr[at+1:])); d != "" {
+			counts[d]++
+		}
+	}
+	type row struct {
+		Domain string `json:"domain"`
+		Count  int    `json:"count"`
+	}
+	out := make([]row, 0, len(counts))
+	for d, n := range counts {
+		out = append(out, row{d, n})
+	}
+	sort.Slice(out, func(i, j int) bool {
+		if out[i].Count != out[j].Count {
+			return out[i].Count > out[j].Count
+		}
+		return out[i].Domain < out[j].Domain
+	})
+	writeJSON(w, http.StatusOK, out)
 }

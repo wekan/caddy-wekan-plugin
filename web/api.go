@@ -49,6 +49,7 @@ func (s *Server) apiRoutes(m *http.ServeMux) {
 	s.apiFieldRoutes(m)
 	s.apiIntegrationRoutes(m)
 	s.botRoutes(m)
+	s.adminAttachmentSettingsRoutes(m)
 	s.apiUserRoutes(m)
 	s.apiSettingsRoutes(m)
 	s.apiAdminRoutes(m)
