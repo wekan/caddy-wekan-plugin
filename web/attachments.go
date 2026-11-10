@@ -191,18 +191,8 @@ var inline = map[string]bool{"image/png": true, "image/jpeg": true, "image/gif":
 // serveAttachment answers /cdn/storage/attachments/<id>[/original/<name>] to a
 // reader of the attachment's board.
 func (s *Server) serveAttachment(w http.ResponseWriter, r *http.Request) {
-	u := s.currentUser(r)
-	if u == nil {
-		http.Error(w, "sign in first", http.StatusUnauthorized)
-		return
-	}
-	a, err := s.attachment(r, r.PathValue("id"))
-	if err != nil {
-		http.Error(w, "Attachment not found", http.StatusNotFound)
-		return
-	}
-	if _, err := s.boardFor(r.Context(), a.Meta.BoardID, u); err != nil {
-		http.Error(w, "Attachment not found", http.StatusNotFound)
+	a := s.downloadableAttachment(w, r)
+	if a == nil {
 		return
 	}
 	f, err := s.openAttachment(r.Context(), a)
@@ -325,6 +315,7 @@ func (s *Server) restoreAttachment(r *http.Request, a *Attachment, u *User) erro
 func (s *Server) attachmentRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /cdn/storage/attachments/{id}", s.serveAttachment)
 	m.HandleFunc("GET /cdn/storage/attachments/{id}/original/{name}", s.serveAttachment)
+	m.HandleFunc("GET /cdn/storage/attachments/{id}/thumbnail", s.serveAttachmentThumbnail)
 	m.HandleFunc("POST /b/{board}/cards/{card}/attachments", s.page(s.uploadAttachment))
 	m.HandleFunc("POST /attachments/{id}/delete", s.page(s.deleteAttachmentPage))
 	m.HandleFunc("POST /api/attachment/upload", s.api(s.apiUploadAttachment))
@@ -591,4 +582,34 @@ func (s *Server) readAttachmentBytes(ctx context.Context, a *Attachment) ([]byte
 	}
 	defer f.Close()
 	return io.ReadAll(f)
+}
+
+// downloadableAttachment is every check of the attachment route - signed in,
+// a reader of its board - shared by the original and its thumbnail, so a
+// thumbnail is readable exactly when the original is; nil once answered.
+func (s *Server) downloadableAttachment(w http.ResponseWriter, r *http.Request) *Attachment {
+	// CacheBleed (GHSA-w3qg-pf27-g68r): whatever the answer, it depends on who
+	// asks, and no shared cache may give it to somebody else.
+	w.Header().Set("Vary", "Cookie, Authorization, X-Auth-Token")
+	a, err := s.attachment(r, r.PathValue("id"))
+	if err != nil {
+		http.Error(w, "Attachment not found", http.StatusNotFound)
+		return nil
+	}
+	u := s.currentUser(r)
+	if u == nil {
+		// As WeKan's universal file server: a public board's attachment is
+		// read by anybody; any other refuses a caller who is not signed in.
+		var b Board
+		if s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(a.Meta.BoardID)}).Decode(&b) == nil && b.Permission == "public" {
+			return a
+		}
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return nil
+	}
+	if _, err := s.boardFor(r.Context(), a.Meta.BoardID, u); err != nil {
+		http.Error(w, "Attachment not found", http.StatusNotFound)
+		return nil
+	}
+	return a
 }

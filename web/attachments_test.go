@@ -122,7 +122,9 @@ func TestAttachments(t *testing.T) {
 	if res, _ := oc.Get(api + "/cdn/storage/attachments/" + nodeID); res.StatusCode != 404 {
 		t.Fatalf("negative: another user's attachment: %d", res.StatusCode)
 	}
-	if res, _ := testClient.Get(api + "/cdn/storage/attachments/" + nodeID); res.StatusCode != 401 {
+	// 403, as WeKan's universal file server (its CacheBleed spec): signed out,
+	// a private board's attachment is refused.
+	if res, _ := testClient.Get(api + "/cdn/storage/attachments/" + nodeID); res.StatusCode != 403 {
 		t.Fatalf("negative: signed out: %d", res.StatusCode)
 	}
 	if code := call(t, "GET", api+"/api/attachment/download/"+nodeID, o.Token, "", nil); code != 403 {
