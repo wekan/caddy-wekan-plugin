@@ -18,3 +18,6 @@ task,multi line title,,4,1,,,2026-12-24 18:30,en,UTC,,,,
 note,orphan,,,,,,,,,,,,
 section,Started,,,,,,,,,,,,
 task,No list item,,1,1,,,2026-11-11,en,UTC,,,2026-11-12,en
+task,Orphan of an archived list,,4,1,,,,,,,,,
+section,Backlog,,,,,,,,,,,,
+task,Backlogged,,4,1,,,,,,,,,

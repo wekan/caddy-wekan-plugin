@@ -18,6 +18,10 @@ const { formatTickTickCsv } = await import(pathToFileURL(path.join(wekan, 'model
 fs.writeFileSync(path.join(here, 'ticktick.golden'), formatTickTickCsv(structuredClone(collected), ticktickNow));
 const { formatFocalboard } = await import(pathToFileURL(path.join(wekan, 'models/lib/focalboardFormat.js')).href);
 fs.writeFileSync(path.join(here, 'focalboard.golden'), formatFocalboard(structuredClone(collected), { now: ticktickNow.getTime() }));
+const { formatTasksOrgBackup } = await import(pathToFileURL(path.join(wekan, 'models/lib/tasksorgFormat.js')).href);
+fs.writeFileSync(path.join(here, 'tasksorg.golden'), JSON.stringify(formatTasksOrgBackup(structuredClone(collected), ticktickNow)));
+const { formatSuperProductivity } = await import(pathToFileURL(path.join(wekan, 'models/lib/superProductivityFormat.js')).href);
+fs.writeFileSync(path.join(here, 'superproductivity.golden'), formatSuperProductivity(structuredClone(collected), { now: ticktickNow.getTime() }));
 for (const format of ['markdown', 'opml', 'todotxt', 'taskwarrior', 'zenkit', 'nullboard', 'obsidian', 'orgmode', 'kanri',
   'deck', 'kanboard', 'openproject', 'github', 'gitea', 'forgejo', 'gitlab', 'trello', 'asana',
   'leo', 'meistertask', 'todoist', 'linear', 'clickup', 'pivotal', 'quire', 'redmine', 'notion']) {

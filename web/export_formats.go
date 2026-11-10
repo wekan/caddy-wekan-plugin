@@ -22,35 +22,37 @@ import (
 // Each is checked byte for byte against WeKan's own formatter
 // (TestExternalFormatsAreWeKans, testdata/external).
 var externalFormats = map[string][2]string{
-	"markdown":    {"md", "text/markdown"},
-	"opml":        {"opml", "text/x-opml"},
-	"todotxt":     {"txt", "text/plain"},
-	"taskwarrior": {"json", "application/json"},
-	"zenkit":      {"json", "application/json"},
-	"nullboard":   {"nbx", "application/json"},
-	"obsidian":    {"md", "text/markdown"},
-	"orgmode":     {"org", "text/x-org"},
-	"kanri":       {"json", "application/json"},
-	"deck":        {"json", "application/json"},
-	"kanboard":    {"json", "application/json"},
-	"openproject": {"json", "application/json"},
-	"github":      {"json", "application/json"},
-	"gitea":       {"json", "application/json"},
-	"forgejo":     {"json", "application/json"},
-	"gitlab":      {"json", "application/json"},
-	"trello":      {"json", "application/json"},
-	"asana":       {"json", "application/json"},
-	"leo":         {"leo", "application/xml"},
-	"meistertask": {"csv", "text/csv"},
-	"todoist":     {"csv", "text/csv"},
-	"linear":      {"csv", "text/csv"},
-	"ticktick":    {"csv", "text/csv"},
-	"clickup":     {"csv", "text/csv"},
-	"pivotal":     {"csv", "text/csv"},
-	"quire":       {"csv", "text/csv"},
-	"redmine":     {"csv", "text/csv"},
-	"notion":      {"csv", "text/csv"},
-	"focalboard":  {"boardarchive", "application/x-ndjson"},
+	"markdown":          {"md", "text/markdown"},
+	"opml":              {"opml", "text/x-opml"},
+	"todotxt":           {"txt", "text/plain"},
+	"taskwarrior":       {"json", "application/json"},
+	"zenkit":            {"json", "application/json"},
+	"nullboard":         {"nbx", "application/json"},
+	"obsidian":          {"md", "text/markdown"},
+	"orgmode":           {"org", "text/x-org"},
+	"kanri":             {"json", "application/json"},
+	"deck":              {"json", "application/json"},
+	"kanboard":          {"json", "application/json"},
+	"openproject":       {"json", "application/json"},
+	"github":            {"json", "application/json"},
+	"gitea":             {"json", "application/json"},
+	"forgejo":           {"json", "application/json"},
+	"gitlab":            {"json", "application/json"},
+	"trello":            {"json", "application/json"},
+	"asana":             {"json", "application/json"},
+	"leo":               {"leo", "application/xml"},
+	"meistertask":       {"csv", "text/csv"},
+	"todoist":           {"csv", "text/csv"},
+	"linear":            {"csv", "text/csv"},
+	"ticktick":          {"csv", "text/csv"},
+	"clickup":           {"csv", "text/csv"},
+	"pivotal":           {"csv", "text/csv"},
+	"quire":             {"csv", "text/csv"},
+	"redmine":           {"csv", "text/csv"},
+	"notion":            {"csv", "text/csv"},
+	"focalboard":        {"boardarchive", "application/x-ndjson"},
+	"tasksorg":          {"json", "application/json"},
+	"superproductivity": {"json", "application/json"},
 }
 
 type extChecklistItem struct {
@@ -552,6 +554,10 @@ func (s *Server) externalExport(ctx context.Context, b *Board, format string) []
 		return []byte(formatRedmineCsv(d))
 	case "notion":
 		return []byte(formatNotionCsv(d))
+	case "superproductivity":
+		return []byte(formatSuperProductivity(d, time.Now().UnixMilli()))
+	case "tasksorg":
+		return jsJSON(formatTasksOrgBackup(d, time.Now()), "")
 	case "focalboard":
 		return []byte(formatFocalboard(d, time.Now().UnixMilli()))
 	}

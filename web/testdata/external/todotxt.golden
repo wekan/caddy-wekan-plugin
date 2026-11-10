@@ -2,3 +2,5 @@
 x 2026-11-05 2026-11-02 -minus first +raw +done +won't_do +=SUM(1) pri:B list:Done
 x multi line title due:2026-12-24 list:Archived_list
 No list item +p1 due:2026-11-12 t:2026-11-11 list:Started
+Orphan of an archived list
+Backlogged list:Backlog

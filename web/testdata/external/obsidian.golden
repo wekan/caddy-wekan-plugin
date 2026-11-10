@@ -43,6 +43,12 @@ kanban-plugin: board
 
 
 
+## Backlog
+
+- [ ] Backlogged
+
+
+
 %% kanban:settings
 ```
 {"kanban-plugin":"board"}

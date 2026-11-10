@@ -259,6 +259,29 @@
       "dueAt": "2026-11-12T00:00:00.000Z",
       "requestedBy": "Eve",
       "parentCardId": "cardB😀2"
+    },
+    {
+      "cardId": "cardE5",
+      "listId": "Lx",
+      "title": "Orphan of an archived list",
+      "description": "",
+      "listTitle": "",
+      "swimlaneTitle": "Default",
+      "labelIds": [],
+      "labels": [],
+      "spentTime": 0.5,
+      "endAt": "2026-11-06T00:00:00.000Z"
+    },
+    {
+      "cardId": "cardF6",
+      "listId": "L1",
+      "title": "Backlogged",
+      "description": "",
+      "listTitle": "Backlog",
+      "swimlaneTitle": "Ops",
+      "labelIds": [],
+      "labels": [],
+      "parentCardId": "cardC3"
     }
   ]
 }
