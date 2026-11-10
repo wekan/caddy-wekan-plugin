@@ -10,3 +10,9 @@
   if .Error
     p.at-error.js-delivery-error {{t $.L "notification-delivery-invalid"}}
   | {{template "_delivery" .}}
+  //- Each webhook's own delivery, WeKan's outgoingWebhooksPopup: it wins
+    over the board's above.
+  each h in .Hooks
+    .board-notifications-hook(data-hook="{{.ID}}")
+      h2 {{t $.L "outgoing-webhooks"}}: {{.Title}}
+      | {{template "_delivery" .}}

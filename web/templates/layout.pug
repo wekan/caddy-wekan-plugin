@@ -31,6 +31,7 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
               span.header-page-title(role="heading", aria-level="1", title="{{.Board.Title}}") {{.Board.Title}}
         if .User.IsAdmin
           a.js-admin-people(href="/admin/people") {{t $.L "admin-panel"}} / {{t $.L "people"}}
+          a.js-admin-notifications(href="/admin/notifications") {{t $.L "admin-panel"}} / {{t $.L "notifications"}}
         if .CloudMenu
           a.js-cloud-settings(href="/admin/people/cloud") {{t $.L "admin-panel"}} / {{t $.L "people"}} / {{t $.L "cloud"}}
         if .PanelMenu

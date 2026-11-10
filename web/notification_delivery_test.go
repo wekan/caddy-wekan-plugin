@@ -352,6 +352,83 @@ func TestBoardDeliveryPage(t *testing.T) {
 	}
 }
 
+// Admin Panel / Notifications: the instance's defaults, for site admins only;
+// and each webhook's own form on its board's page, for that board's admins and
+// that board's webhooks only.
+func TestAdminAndHookDeliveryPages(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	site := w.seedUser(t, "site", "pw")
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": site.ID}, bson.M{"$set": bson.M{"isAdmin": true}})
+	w.seedUser(t, "ann", "pw")
+	if n, _ := w.db.Collection("settings").CountDocuments(ctx, bson.M{}); n == 0 {
+		_, _ = w.db.Collection("settings").InsertOne(ctx, bson.M{"_id": randomID()}) // inserted, not a filter
+	}
+	sc, ac := w.client(t), w.client(t)
+	body(t, w.signIn(t, sc, "site", "pw"))
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	settings := func(keys ...string) any {
+		var doc bson.M
+		_ = w.db.Collection("settings").FindOne(ctx, bson.M{}).Decode(&doc)
+		return plain(nestedField(doc, keys...))
+	}
+	page := getBody(t, sc, w.srv.URL+"/admin/notifications")
+	for _, want := range []string{`js-admin-delivery`, `data-channel="email"`, `data-channel="tray"`, `data-channel="webhook"`} {
+		if !strings.Contains(page, want) {
+			t.Errorf("Admin Panel's page has %s", want)
+		}
+	}
+	if !strings.Contains(getBody(t, sc, w.srv.URL+"/admin/people"), `href="/admin/notifications"`) {
+		t.Error("Admin Panel's tabs link it")
+	}
+	res, _ := sc.PostForm(w.srv.URL+"/admin/notifications", url.Values{"channel": {"tray"}, "grouping": {"board"}, "partsDefault": {"true"}})
+	if res == nil || settings("notificationDelivery", "tray", "grouping") != "board" {
+		t.Error("a site admin sets the instance's tray")
+	}
+	// Negative: a board admin is not a site admin.
+	if res, _ := get(t, ac, w.srv.URL+"/admin/notifications"); res.StatusCode != http.StatusNotFound {
+		t.Errorf("negative: the page is a site admin's: %d", res.StatusCode)
+	}
+	res, _ = ac.PostForm(w.srv.URL+"/admin/notifications", url.Values{"channel": {"tray"}, "grouping": {"none"}, "partsDefault": {"true"}})
+	if res.StatusCode != http.StatusForbidden || settings("notificationDelivery", "tray", "grouping") != "board" {
+		t.Errorf("negative: a board admin's post is 403 and changes nothing: %d", res.StatusCode)
+	}
+	if strings.Contains(getBody(t, ac, w.srv.URL+"/"), "js-admin-notifications") {
+		t.Error("negative: nor the menu's link")
+	}
+
+	// Each webhook's own form.
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Hooks")
+	other := newRESTBoard(t, w, login(t, w, "site"), "Other")
+	var b Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&b)
+	hookID, foreignID := randomID(), randomID()
+	_, _ = w.db.Collection("integrations").InsertOne(ctx, bson.M{"_id": hookID, "boardId": rb.ID, "title": "Chat", "url": "https://hooks.example/a"})         // inserted, not a filter
+	_, _ = w.db.Collection("integrations").InsertOne(ctx, bson.M{"_id": foreignID, "boardId": other.ID, "title": "Theirs", "url": "https://hooks.example/b"}) // inserted, not a filter
+	page = getBody(t, ac, w.srv.URL+"/b/"+rb.ID+"/"+b.Slug+"/notifications")
+	if !strings.Contains(page, `data-hook="`+hookID+`"`) || !strings.Contains(page, `/integrations/`+hookID+`/notifications`) || strings.Contains(page, foreignID) {
+		t.Error("the board's page has a form for each of its own webhooks, and no other board's")
+	}
+	hook := func(id string, keys ...string) any {
+		var doc bson.M
+		_ = w.db.Collection("integrations").FindOne(ctx, bson.M{"_id": id}).Decode(&doc)
+		return plain(nestedField(doc, keys...))
+	}
+	res, _ = ac.PostForm(w.srv.URL+"/b/"+rb.ID+"/integrations/"+hookID+"/notifications", url.Values{"channel": {"webhook"}, "grouping": {"all"}, "fieldsDefault": {"true"}})
+	if hook(hookID, "notificationDelivery", "webhook", "grouping") != "all" {
+		t.Errorf("the board's admin sets their webhook's own: %v", res.Header.Get("Location"))
+	}
+	// Negative: another board's webhook through this board, and a channel a webhook has not.
+	res, _ = ac.PostForm(w.srv.URL+"/b/"+rb.ID+"/integrations/"+foreignID+"/notifications", url.Values{"channel": {"webhook"}, "grouping": {"all"}, "fieldsDefault": {"true"}})
+	if res.StatusCode != http.StatusNotFound || hook(foreignID, "notificationDelivery") != nil {
+		t.Errorf("negative: another board's webhook is not this board's to set: %d", res.StatusCode)
+	}
+	res, _ = ac.PostForm(w.srv.URL+"/b/"+rb.ID+"/integrations/"+hookID+"/notifications", url.Values{"channel": {"email"}, "grouping": {"card"}, "partsDefault": {"true"}})
+	if !strings.Contains(res.Header.Get("Location"), "error=notification-delivery-invalid") || hook(hookID, "notificationDelivery", "email") != nil {
+		t.Errorf("negative: a webhook's form is its webhook channel: %s", res.Header.Get("Location"))
+	}
+}
+
 func getBody(t *testing.T, c *http.Client, u string) string {
 	t.Helper()
 	res, err := c.Get(u)

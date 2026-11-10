@@ -581,7 +581,7 @@ func (s *Server) boardNotificationsPage(w http.ResponseWriter, r *http.Request, 
 		return nestedField(board, "notificationDelivery", ch)
 	}, deliveryChannels, lang)}
 	s.render(w, r, "boardnotifications", http.StatusOK, map[string]any{"Title": tr(lang, "notifications"), "User": u, "Board": b,
-		"Delivery": form, "Saved": r.URL.Query().Get("saved"), "Error": r.URL.Query().Get("error")})
+		"Delivery": form, "Hooks": s.boardHookForms(r.Context(), b.ID, lang), "Saved": r.URL.Query().Get("saved"), "Error": r.URL.Query().Get("error")})
 }
 
 func (s *Server) saveBoardDelivery(w http.ResponseWriter, r *http.Request, u *User) {
@@ -590,7 +590,29 @@ func (s *Server) saveBoardDelivery(w http.ResponseWriter, r *http.Request, u *Us
 		http.NotFound(w, r)
 		return
 	}
-	back := "/b/" + b.ID + "/" + b.Slug + "/notifications"
+	s.saveLevelDelivery(w, r, u, "board", b.ID, "/b/"+b.ID+"/"+b.Slug+"/notifications")
+}
+
+// adminNotificationsPage is WeKan's Admin Panel / Notifications, its delivery
+// part: the instance's defaults for e-mail, tray and webhooks, for site
+// admins. A board's, a webhook's and a member's own win over them.
+func (s *Server) adminNotificationsPage(w http.ResponseWriter, r *http.Request, u *User) {
+	lang := languageOf(r, u).Tag
+	if !u.IsAdmin {
+		s.render(w, r, "notfound", http.StatusNotFound, map[string]any{"Title": tr(lang, "error-notAuthorized"), "User": u})
+		return
+	}
+	var set bson.M
+	_ = s.db.Collection("settings").FindOne(r.Context(), bson.M{}).Decode(&set)
+	form := deliveryForm{Scope: "admin", Action: "/admin/notifications", Views: deliveryViews(func(ch string) any {
+		return nestedField(set, "notificationDelivery", ch)
+	}, deliveryChannels, lang)}
+	s.render(w, r, "adminnotifications", http.StatusOK, map[string]any{"Title": tr(lang, "notifications"), "User": u,
+		"Delivery": form, "Saved": r.URL.Query().Get("saved"), "Error": r.URL.Query().Get("error")})
+}
+
+// saveLevelDelivery saves one channel's form at a level, back to the page.
+func (s *Server) saveLevelDelivery(w http.ResponseWriter, r *http.Request, u *User, scope, targetID, back string) {
 	if err := r.ParseForm(); err != nil {
 		http.Redirect(w, r, back+"?error=notification-delivery-invalid", http.StatusSeeOther)
 		return
@@ -601,7 +623,7 @@ func (s *Server) saveBoardDelivery(w http.ResponseWriter, r *http.Request, u *Us
 		http.Redirect(w, r, back+"?error=notification-delivery-invalid", http.StatusSeeOther)
 		return
 	}
-	if _, err := s.setNotificationDelivery(r.Context(), u, "board", b.ID, channel, change, false); err != nil {
+	if _, err := s.setNotificationDelivery(r.Context(), u, scope, targetID, channel, change, false); err != nil {
 		var me *methodError
 		switch {
 		case errors.As(err, &me) && me.Code == "not-authorized":
@@ -614,4 +636,50 @@ func (s *Server) saveBoardDelivery(w http.ResponseWriter, r *http.Request, u *Us
 		return
 	}
 	http.Redirect(w, r, back+"?saved=notifications", http.StatusSeeOther)
+}
+
+func (s *Server) saveAdminDelivery(w http.ResponseWriter, r *http.Request, u *User) {
+	s.saveLevelDelivery(w, r, u, "admin", "", "/admin/notifications")
+}
+
+// saveHookDelivery is one webhook's own form, WeKan's outgoingWebhooksPopup
+// delivery part, on its board's Notifications page.
+func (s *Server) saveHookDelivery(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+	hookID := r.PathValue("hook")
+	if n, _ := s.db.Collection("integrations").CountDocuments(r.Context(), bson.M{"_id": eq(hookID), "boardId": b.ID}); !validID(hookID) || n == 0 {
+		http.NotFound(w, r) // a webhook of this board only
+		return
+	}
+	if err := r.ParseForm(); err == nil && r.FormValue("channel") != "webhook" {
+		http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/notifications?error=notification-delivery-invalid", http.StatusSeeOther)
+		return
+	}
+	s.saveLevelDelivery(w, r, u, "integration", hookID, "/b/"+b.ID+"/"+b.Slug+"/notifications")
+}
+
+// boardHookForms are the forms of a board's own webhooks, each its own level.
+func (s *Server) boardHookForms(ctx context.Context, boardID, lang string) []map[string]any {
+	out := []map[string]any{}
+	cur, err := s.db.Collection("integrations").Find(ctx, bson.M{"boardId": eq(boardID), "bot": bson.M{"$ne": true}})
+	if err != nil {
+		return out
+	}
+	var hooks []bson.M
+	_ = cur.All(ctx, &hooks)
+	for _, h := range hooks {
+		title := docString(h, "title")
+		if title == "" {
+			title = botHost(docString(h, "url"))
+		}
+		// The partial reads its words as $.L: each webhook's form has its own.
+		out = append(out, map[string]any{"L": lang, "ID": docString(h, "_id"), "Title": title, "Delivery": deliveryForm{Scope: "integration",
+			Action: "/b/" + boardID + "/integrations/" + docString(h, "_id") + "/notifications",
+			Views:  deliveryViews(func(string) any { return nestedField(h, "notificationDelivery", "webhook") }, []string{"webhook"}, lang)}})
+	}
+	return out
 }

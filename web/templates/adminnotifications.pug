@@ -1,0 +1,13 @@
+//- WeKan's Admin Panel / Notifications, its delivery part (#3695 / #5171):
+  the instance's defaults for e-mail, tray and webhooks, for site admins.
+  A board's, a webhook's and a member's own setting win over these.
+.setting-content.admin-notifications
+  .admin-panel-tabs
+    a.people(href="/admin/people") {{t $.L "people"}}
+    a.notifications.is-active(href="/admin/notifications") {{t $.L "notifications"}}
+  h1 {{t $.L "admin-panel"}} / {{t $.L "notifications"}}
+  if .Saved
+    p.cloud-saved.js-delivery-saved {{t $.L "cloud-saved"}}
+  if .Error
+    p.at-error.js-delivery-error {{t $.L "notification-delivery-invalid"}}
+  | {{template "_delivery" .}}
