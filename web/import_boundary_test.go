@@ -215,7 +215,9 @@ func TestEveryImportPassesTheBoundary(t *testing.T) {
 						switch fun.Sel.Name {
 						case "ImportBoard", "importBoardWith", "importGeneral":
 							needs = "calls " + fun.Sel.Name
-						case "secureImport":
+						// importParse is the boundary and the parser, checked
+						// itself as one of these functions.
+						case "secureImport", "importParse":
 							secured = true
 						}
 					}
@@ -366,8 +368,32 @@ func TestImportPeopleChooser(t *testing.T) {
 		}
 		return out
 	}
-	// The default: a placeholder.
-	if res, err := c.PostForm(w.srv.URL+"/import/clickup", url.Values{"text": {csv("placeholder-1")}, "membersMode": {"map"}}); err != nil || res.StatusCode != http.StatusSeeOther {
+	// "map": the map-members step lists the file's people first.
+	step := body(t, mustPost(t, c, w.srv.URL+"/import/clickup", url.Values{"text": {csv("mapped-1")}, "membersMode": {"map"}}))
+	if !strings.Contains(step, "map-members") || !strings.Contains(step, "(mapped-1)") || !strings.Contains(step, `name="payload"`) {
+		t.Fatalf("the map-members step: %s", step)
+	}
+	payload := regexp.MustCompile(`name="payload" value="([^"]*)"`).FindStringSubmatch(step)[1]
+	// ann is chosen for the file's person: the card is hers, and no
+	// placeholder is made.
+	if res, err := c.PostForm(w.srv.URL+"/import/clickup/members", url.Values{"payload": {payload}, "key-0": {"mapped-1"}, "map-0": {"ann"}}); err != nil || res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("the mapped import: %v %d", err, res.StatusCode)
+	}
+	if cd := card("Imported ClickUp tasks"); !contains(people(cd), ann.ID) {
+		t.Errorf("the mapped person is the chosen user: %v", people(cd))
+	}
+	if n, _ := w.db.Collection("users").CountDocuments(ctx, bson.M{"importUsernames": "mapped-1"}); n != 0 {
+		t.Errorf("negative: a mapped person is no placeholder: %d", n)
+	}
+	// Negative: an unknown username leaves the person unmapped - a placeholder.
+	if res, err := c.PostForm(w.srv.URL+"/import/clickup/members", url.Values{"payload": {payload}, "key-0": {"mapped-1"}, "map-0": {"nobody"}}); err != nil || res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("the import: %v %d", err, res.StatusCode)
+	}
+	if n, _ := w.db.Collection("users").CountDocuments(ctx, bson.M{"importUsernames": "mapped-1"}); n != 1 {
+		t.Errorf("an unmapped person is a placeholder: %d", n)
+	}
+	// "Import without mapping members": a placeholder, no step.
+	if res, err := c.PostForm(w.srv.URL+"/import/clickup", url.Values{"text": {csv("placeholder-1")}, "membersMode": {"map"}, "skipMapping": {"1"}}); err != nil || res.StatusCode != http.StatusSeeOther {
 		t.Fatalf("the import: %v %d", err, res.StatusCode)
 	}
 	var placeholder bson.M
@@ -546,4 +572,61 @@ func mapToJS(v any) jsObject {
 		o.set(k, x)
 	}
 	return o
+}
+
+func mustPost(t *testing.T, c *http.Client, u string, v url.Values) *http.Response {
+	t.Helper()
+	res, err := c.PostForm(u, v)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return res
+}
+
+// TestImportBoardPeoplePreviewAndMapping: importBoard's previewPeople gives
+// the file's people and creates nothing; its membersMapping maps them to
+// existing users, an unknown id left a placeholder.
+func TestImportBoardPeoplePreviewAndMapping(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	ann := w.seedUser(t, "ann", "pw")
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	call := func(args any) map[string]any {
+		raw, _ := json.Marshal(args)
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/importBoard", bytes.NewReader(raw))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := c.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return out
+	}
+	csv := "Task Name,Status,Assignees\nCard,to do,\"[Bea, Cy]\"\n"
+	out := call([]any{csv, map[string]any{"previewPeople": true}, "clickup"})
+	people, _ := out["result"].([]any)
+	if len(people) != 2 || fmt.Sprint(people[0]) != "map[key:Bea name:Bea]" {
+		t.Errorf("the file's people: %v", out)
+	}
+	if n, _ := w.db.Collection("boards").CountDocuments(ctx, bson.M{}); n != 0 {
+		t.Errorf("negative: a preview creates a board: %d", n)
+	}
+	out = call([]any{csv, map[string]any{"membersMode": "map", "membersMapping": map[string]any{"Bea": ann.ID, "Cy": "nosuchuser00000"}}, "clickup"})
+	id, _ := out["result"].(string)
+	var cd bson.M
+	if err := w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": id}).Decode(&cd); err != nil {
+		t.Fatalf("the board: %v %v", out, err)
+	}
+	if fmt.Sprint(cd["members"]) == "" || !strings.Contains(fmt.Sprint(cd["members"], cd["assignees"]), ann.ID) {
+		t.Errorf("Bea is ann: %v %v", cd["members"], cd["assignees"])
+	}
+	if n, _ := w.db.Collection("users").CountDocuments(ctx, bson.M{"importUsernames": "Cy"}); n != 1 {
+		t.Errorf("an id that is no user leaves Cy a placeholder: %d", n)
+	}
+	if n, _ := w.db.Collection("users").CountDocuments(ctx, bson.M{"importUsernames": "Bea"}); n != 0 {
+		t.Errorf("negative: mapped Bea is no placeholder: %d", n)
+	}
 }

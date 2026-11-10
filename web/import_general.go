@@ -134,7 +134,7 @@ func columnLimit(doc any, name string) int {
 }
 
 // importGeneral is KanboardCreator.create for one parsed document.
-func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source, mode string) (*Board, error) {
+func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source string, people importPeopleOptions) (*Board, error) {
 	if _, ok := doc.(jsObject); !ok {
 		if _, isArr := doc.([]any); !isArr {
 			return nil, errors.New("error-json-schema")
@@ -149,11 +149,16 @@ func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source, mo
 	// becomes a placeholder user (import_placeholders.go).
 	g.members = map[string]string{}
 	var placeholders []string
-	if importMembersMode(mode) == "me" {
+	if importMembersMode(people.Mode) == "me" {
 		for _, p := range importedPeople(tasks) {
 			g.members[p] = u.ID
 		}
 	} else {
+		// "map": the people the page mapped to existing users; the rest, and
+		// everyone with "placeholder", become placeholder users.
+		for key, id := range s.validImportMapping(ctx, people.Mapping) {
+			g.members[key] = id
+		}
 		placeholders = s.importPlaceholders(ctx, importPeople(tasks), g.members, source)
 	}
 	title, _ := jsOr(jsGet(jsGet(doc, "board"), "name"), jsGet(jsGet(doc, "board"), "title")).(string)
@@ -410,16 +415,34 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 	if len(strings.TrimSpace(string(raw))) == 0 {
 		raw = []byte(r.FormValue("text"))
 	}
-	var input any = string(raw)
-	if _, text := importTextParsers[source]; !text {
-		doc, err := decodeJS(raw)
-		if err != nil {
-			fail("error-json-malformed")
-			return
-		}
-		input = doc
+	input, err := importInputFromRaw(source, raw)
+	if err != nil {
+		fail(err.Error())
+		return
 	}
-	b, err := s.importInput(r, u, source, input, r.FormValue("membersMode"))
+	mode := importMembersMode(r.FormValue("membersMode"))
+	// WeKan's "Import" with "Choose an existing user for each of them": the
+	// file's people first, to map; "Import without mapping members" skips it.
+	if r.FormValue("skipMapping") != "" {
+		if mode != "me" {
+			mode = "placeholder"
+		}
+	} else if mode == "map" {
+		parsed, err := s.importParse(r, u, source, input)
+		if err == nil {
+			if people := importPeople(importTasks(parsed)); len(people) > 0 {
+				s.importMappingStep(w, r, u, source, raw, people)
+				return
+			}
+		}
+	}
+	s.importFromPage(w, r, u, source, input, importPeopleOptions{Mode: mode}, fail)
+}
+
+// importFromPage writes the page's document and opens the new board - or,
+// when it left something out, its loss report.
+func (s *Server) importFromPage(w http.ResponseWriter, r *http.Request, u *User, source string, input any, people importPeopleOptions, fail func(string)) {
+	b, err := s.importInput(r, u, source, input, people)
 	if err != nil {
 		var me *methodError
 		switch {

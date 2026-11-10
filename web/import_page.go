@@ -26,6 +26,7 @@ func (s *Server) importPageRoutes(m *http.ServeMux) {
 	m.HandleFunc("POST /import/{source}", s.importable(s.page(s.importMappingPage)))
 	m.HandleFunc("POST /import/{source}/board", s.importable(s.page(s.importBoardPage)))
 	m.HandleFunc("GET /import/{source}/report", s.importable(s.page(s.importReportPage)))
+	m.HandleFunc("POST /import/{source}/members", s.importable(s.page(s.importMembersPage)))
 }
 
 type mappingOption struct {

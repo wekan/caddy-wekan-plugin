@@ -73,7 +73,26 @@ func validImportShape(source string, v any) bool {
 
 // importInput writes one document - the text of a text source, the decoded
 // JSON of any other - as a new board.
-func (s *Server) importInput(r *http.Request, u *User, source string, input any, mode string) (*Board, error) {
+// importPeopleOptions are the import's people: WeKan's membersMode, and the
+// file's people mapped to existing users ("map").
+type importPeopleOptions struct {
+	Mode    string
+	Mapping map[string]string
+}
+
+// importInput writes one document - the text of a text source, the decoded
+// JSON of any other - as a new board.
+func (s *Server) importInput(r *http.Request, u *User, source string, input any, people importPeopleOptions) (*Board, error) {
+	parsed, err := s.importParse(r, u, source, input)
+	if err != nil {
+		return nil, err
+	}
+	return s.importGeneral(r.Context(), u, parsed, source, people)
+}
+
+// importParse is the document as WeKan's importBoard reads it before its
+// creator: the shape checked, what it carries cleaned, the source's parser.
+func (s *Server) importParse(r *http.Request, u *User, source string, input any) (jsObject, error) {
 	if !validImportShape(source, input) {
 		return nil, errImportShape
 	}
@@ -161,7 +180,7 @@ func (s *Server) importInput(r *http.Request, u *User, source string, input any,
 			return nil, &methodError{"invalid-import-format", err.Error()}
 		}
 	}
-	return s.importGeneral(r.Context(), u, parsed, source, mode)
+	return parsed, nil
 }
 
 // methodImportBoard is WeKan's importBoard(board, data, importSource,
@@ -188,12 +207,40 @@ func (s *Server) methodImportBoard(r *http.Request, u *User, args []json.RawMess
 		return nil, &methodError{"not-implemented", "Weddy does not import " + source + " through importBoard yet"}
 	}
 	var data struct {
-		MembersMode string `json:"membersMode"`
+		MembersMode    string         `json:"membersMode"`
+		MembersMapping map[string]any `json:"membersMapping"`
+		PreviewPeople  bool           `json:"previewPeople"`
 	}
 	if len(args) > 1 {
 		_ = json.Unmarshal(args[1], &data)
 	}
-	b, err := s.importInput(r, u, source, board, data.MembersMode)
+	// previewPeople: the file's people for the page's map-members step, read
+	// by the same parser - nothing is created (WeKan's importedPeople).
+	if data.PreviewPeople {
+		parsed, err := s.importParse(r, u, source, board)
+		if err != nil {
+			var me *methodError
+			if errors.As(err, &me) {
+				return nil, me
+			}
+			return nil, &methodError{"invalid-import-format", "Invalid " + source + " import document shape"}
+		}
+		out := []any{}
+		for _, p := range importPeople(importTasks(parsed)) {
+			o := jsObject{}
+			o.set("key", p.key)
+			o.set("name", p.name)
+			out = append(out, o)
+		}
+		return out, nil
+	}
+	mapping := map[string]string{}
+	for k, v := range data.MembersMapping {
+		if id, ok := v.(string); ok && id != "" {
+			mapping[k] = id
+		}
+	}
+	b, err := s.importInput(r, u, source, board, importPeopleOptions{Mode: data.MembersMode, Mapping: mapping})
 	var me *methodError
 	switch {
 	case err == nil:

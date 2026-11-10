@@ -11,6 +11,26 @@
         each d in .Report.Rows
           li.import-report-row {{.}}
       a.primary.button.js-open-imported-board(href="{{.Report.BoardURL}}") {{t $.L "import-report-open-board"}}
+  //- WeKan's map-members step: the file's people, each to be mapped to an
+    existing user by username; who is left unmapped becomes a placeholder.
+  else if .MapMembers
+    h2 {{t $.L "import-map-members"}}
+    .map-members
+      p {{t $.L "import-members-map"}}
+      p.import-members-map-note {{t $.L "import-members-map-note"}}
+      form(method="post", action="{{.MapMembers.Action}}")
+        input(type="hidden", name="payload", value="{{.MapMembers.Payload}}")
+        .mapping-list
+          each p in .MapMembers.People
+            .mapping-item.js-select-member
+              .profile-source
+                .full-name {{.Name}}
+                .username ({{.Key}})
+              .wekan
+                input(type="hidden", name="key-{{.Index}}", value="{{.Key}}")
+                input.js-map-member-username(type="text", name="map-{{.Index}}", placeholder="{{t $.L `username`}}", aria-label="{{t $.L `username`}}")
+        input.primary.wide(type="submit", value="{{t $.L `done`}}")
+        button.primary.wide.js-import-skip-mapping(type="submit", name="skipMapping", value="1") {{t $.L "import-without-mapping-members"}}
   else if .Mapping
     form.import-csv-mapping.js-csv-mapping(method="post", action="/import/{{.Source}}/board")
       h2 {{t $.L "csv-mapping-title"}}
@@ -65,8 +85,10 @@
             a.flex.js-import-members-mode(data-mode="{{.Mode}}", href="#")
               .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
               span {{t $.L .Label}}
-      //- WeKan's "Import" without the members-mapping step, for another tool's JSON.
+      //- WeKan's "Import" - with "map", the members-mapping step first - and
+        its "Import without mapping members".
       if .General
-        input.primary.wide.js-import-without-mapping(type="submit", value="{{t $.L `import`}}")
+        input.primary.wide(type="submit", value="{{t $.L `import`}}")
+        button.primary.wide.js-import-without-mapping(type="submit", name="skipMapping", value="1") {{t $.L "import-without-mapping-members"}}
       else
         input.primary.wide(type="submit", value="{{t $.L `import`}}")
