@@ -1,0 +1,294 @@
+{
+  "board": {
+    "name": "Website relaunch"
+  },
+  "columns": [
+    {
+      "title": "New"
+    },
+    {
+      "title": "Ready"
+    },
+    {
+      "title": "In progress"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Archived"
+    },
+    {
+      "title": "Needs Info"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    },
+    {
+      "name": "Epics"
+    },
+    {
+      "name": "Issues"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Design hero",
+      "description": "",
+      "column_name": "New",
+      "swimlane_name": "Default",
+      "tags": [
+        "design"
+      ],
+      "ref": "us-2",
+      "date_creation": "2024-03-01T10:22:00.000Z",
+      "comments": [],
+      "custom_fields": {
+        "Client requirement": true
+      },
+      "requested_by": "ann@example.com"
+    },
+    {
+      "title": "Write copy",
+      "description": "Draft the **intro**",
+      "column_name": "In progress",
+      "swimlane_name": "Default",
+      "tags": [
+        "copy",
+        "seo"
+      ],
+      "ref": "us-1",
+      "parent_ref": "epic-7",
+      "dependencies": [
+        {
+          "ref": "issue-6",
+          "type": "related-to"
+        }
+      ],
+      "date_creation": "2024-03-01T10:20:00.000Z",
+      "date_due": "2024-03-15T00:00:00.000Z",
+      "comments": [
+        {
+          "text": "Looks good",
+          "author": "ann@example.com",
+          "authorName": "Ann",
+          "date": "2024-03-01T11:00:00.000Z"
+        }
+      ],
+      "custom_fields": {
+        "Audience": "Customers",
+        "Words": 800,
+        "Blocked": "Waiting for the brand guide",
+        "Due date reason": "Launch",
+        "Story points": 5
+      },
+      "owner_username": "ann@example.com",
+      "assignees": [
+        "bob@example.com"
+      ],
+      "requested_by": "carol@example.com",
+      "watchers": [
+        "bob@example.com"
+      ]
+    },
+    {
+      "title": "Old landing page",
+      "description": "",
+      "column_name": "Archived",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "us-3",
+      "archived": true,
+      "date_creation": "2024-02-01T10:00:00.000Z",
+      "date_end": "2024-02-10T10:00:00.000Z",
+      "comments": [],
+      "custom_fields": {},
+      "requested_by": "ann@example.com"
+    },
+    {
+      "title": "Intro paragraph",
+      "description": "About us, in three lines",
+      "column_name": "In progress",
+      "swimlane_name": "Default",
+      "tags": [
+        "copy"
+      ],
+      "ref": "task-4",
+      "parent_ref": "us-1",
+      "date_creation": "2024-03-01T10:40:00.000Z",
+      "date_due": "2024-03-10T00:00:00.000Z",
+      "comments": [
+        {
+          "text": "First draft is in",
+          "author": "dave@example.com",
+          "authorName": "Dave",
+          "date": "2024-03-02T09:00:00.000Z"
+        }
+      ],
+      "custom_fields": {
+        "Task status": "In progress",
+        "Iocaine": true
+      },
+      "owner_username": "dave@example.com",
+      "requested_by": "ann@example.com"
+    },
+    {
+      "title": "Outro paragraph",
+      "description": "",
+      "column_name": "In progress",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "task-5",
+      "parent_ref": "us-1",
+      "date_creation": "2024-03-01T10:41:00.000Z",
+      "date_end": "2024-03-03T10:40:00.000Z",
+      "comments": [],
+      "custom_fields": {
+        "Task status": "Closed"
+      },
+      "owner_username": "dave@example.com",
+      "requested_by": "ann@example.com"
+    },
+    {
+      "title": "Content",
+      "description": "All the words on the site",
+      "column_name": "In progress",
+      "swimlane_name": "Epics",
+      "tags": [
+        "copy"
+      ],
+      "ref": "epic-7",
+      "color": "#E44057",
+      "date_creation": "2024-03-01T10:18:00.000Z",
+      "comments": [],
+      "custom_fields": {
+        "Team requirement": true
+      },
+      "owner_username": "ann@example.com",
+      "requested_by": "ann@example.com"
+    },
+    {
+      "title": "Broken footer link",
+      "description": "The imprint link 404s",
+      "column_name": "Needs Info",
+      "swimlane_name": "Issues",
+      "tags": [
+        "type:Bug",
+        "priority:High",
+        "severity:Critical"
+      ],
+      "ref": "issue-6",
+      "date_creation": "2024-03-01T10:50:00.000Z",
+      "comments": [],
+      "custom_fields": {},
+      "owner_username": "ann@example.com",
+      "requested_by": "bob@example.com"
+    }
+  ],
+  "label_colors": {
+    "design": "slateblue",
+    "copy": "red"
+  },
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/us_statuses",
+      "reason": "the WIP limits of 1 status(es) are not imported; set them on the lists"
+    },
+    {
+      "path": "/epics/0/related_user_stories",
+      "reason": "a story of project \"other-project\" is not part of this import"
+    },
+    {
+      "path": "/attachments",
+      "reason": "1 attachment(s) are not imported: download them from Taiga and attach them to the cards"
+    },
+    {
+      "path": "/wiki_pages",
+      "reason": "1 wiki page(s) are not imported: a WeKan board has no wiki"
+    },
+    {
+      "path": "/wiki_links",
+      "reason": "1 wiki link(s) are not imported"
+    },
+    {
+      "path": "/timeline",
+      "reason": "the project timeline (2 event(s)) is not imported; comments are"
+    },
+    {
+      "path": "/issues/votes",
+      "reason": "1 issue vote(s) are not imported"
+    },
+    {
+      "path": "/memberships",
+      "reason": "2 project member(s) are not added to the board; Taiga names people by email, and an item keeps them only where a WeKan user is mapped"
+    }
+  ],
+  "scrumTransfer": {
+    "format": "wekan-scrum-2",
+    "settings": {
+      "enabled": true,
+      "estimateSource": "customField",
+      "estimateCustomFieldId": "Story points",
+      "estimateUnit": "points"
+    },
+    "sprints": [
+      {
+        "_id": "taiga-sprint-sprint-1",
+        "name": "Sprint 1",
+        "state": "planned",
+        "plannedStart": "2024-03-01T00:00:00.000Z",
+        "plannedEnd": "2024-03-14T00:00:00.000Z",
+        "provenance": {
+          "system": "taiga",
+          "recordId": "sprint-1"
+        }
+      }
+    ],
+    "releases": [],
+    "events": [],
+    "cards": [
+      {
+        "_id": "task-0",
+        "scrum": {
+          "backlogRank": 1
+        }
+      },
+      {
+        "_id": "task-1",
+        "scrum": {
+          "sprintId": "taiga-sprint-sprint-1",
+          "backlogRank": 2
+        }
+      },
+      {
+        "_id": "task-2",
+        "scrum": {
+          "backlogRank": 3
+        }
+      },
+      {
+        "_id": "task-3",
+        "scrum": {
+          "sprintId": "taiga-sprint-sprint-1"
+        }
+      },
+      {
+        "_id": "task-4",
+        "scrum": {
+          "sprintId": "taiga-sprint-sprint-1"
+        }
+      }
+    ],
+    "lists": [],
+    "swimlanes": []
+  },
+  "scrumLosses": [
+    {
+      "path": "/milestones/0",
+      "reason": "closed sprint \"Sprint 0\" is not imported: the export has no commitment or close snapshot; its items stay in the backlog"
+    }
+  ]
+}

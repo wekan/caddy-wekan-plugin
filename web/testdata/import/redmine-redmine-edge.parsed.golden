@@ -1,0 +1,160 @@
+{
+  "board": {
+    "name": "Imported Redmine issues"
+  },
+  "columns": [
+    {
+      "title": "New"
+    },
+    {
+      "title": "In progress"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Garden"
+    },
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Two of them",
+      "column_name": "New",
+      "swimlane_name": "Garden",
+      "tags": [
+        "Bug"
+      ],
+      "ref": "41",
+      "owner_username": "Bob",
+      "requested_by": "Ann",
+      "watchers": [
+        "Cy",
+        "Dee"
+      ],
+      "date_creation": "2026-10-01T07:00:00.000Z",
+      "date_started": "2026-12-25T00:00:00.000Z",
+      "date_due": "2026-12-31T14:30:00.000Z",
+      "comments": [
+        {
+          "text": "Called them"
+        }
+      ],
+      "custom_fields": {
+        "2026": "yes",
+        "Priority": "High",
+        "Category": "Pipes",
+        "Target version": "v1",
+        "Estimated time": 1.5,
+        "% Done": 50,
+        "Sprint": "S1"
+      },
+      "dependencies": [
+        {
+          "ref": "42",
+          "type": "blocks"
+        },
+        {
+          "ref": "43",
+          "type": "related-to"
+        },
+        {
+          "ref": "99",
+          "type": "related-to"
+        }
+      ]
+    },
+    {
+      "title": "Second",
+      "description": "",
+      "column_name": "In progress",
+      "swimlane_name": "Garden",
+      "tags": [
+        "Feature"
+      ],
+      "ref": "42",
+      "date_creation": "2026-10-13T23:59:59.000Z",
+      "date_started": "2026-02-01T00:00:00.000Z",
+      "date_due": "2026-01-13T00:00:00.000Z",
+      "dependencies": [
+        {
+          "ref": "41",
+          "type": "related-to"
+        }
+      ]
+    },
+    {
+      "title": "Third",
+      "description": "",
+      "column_name": "New",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "43",
+      "date_started": "2026-01-05T00:00:00.000Z",
+      "spent_hours": 2.25,
+      "dependencies": [
+        {
+          "ref": "41",
+          "type": "is-duplicated-by"
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/columns/Updated",
+      "reason": "Redmine column \"Updated\" has no WeKan place and is not imported"
+    },
+    {
+      "path": "/columns/Parent task subject",
+      "reason": "Redmine column \"Parent task subject\" names a parent without its id and is not imported"
+    },
+    {
+      "path": "/row/2/Related issues",
+      "reason": "Redmine relation \"Weird #9\" is not one of Redmine's English relation names"
+    },
+    {
+      "path": "/row/3/Estimated time",
+      "reason": "Redmine Estimated time \"abc\" is not a number"
+    },
+    {
+      "path": "/row/3/% Done",
+      "reason": "Redmine % Done \"x\" is not a number"
+    },
+    {
+      "path": "/row/3/Closed",
+      "reason": "Redmine date \"2026-02-30\" is not in a numeric date format"
+    },
+    {
+      "path": "/row/4/Closed",
+      "reason": "Redmine date \"05-01-2026 10:00:61\" is not in a numeric date format"
+    },
+    {
+      "path": "/row/4/Created",
+      "reason": "Redmine date \"1.1.2026 13:00 pm\" is not in a numeric date format"
+    },
+    {
+      "path": "/row/4/Due date",
+      "reason": "Redmine date \"2026-01-05T10:00:00z\" is not in a numeric date format"
+    },
+    {
+      "path": "/row/2/Related issues",
+      "reason": "Redmine relation \"Precedes\" has no WeKan type and is imported as related-to"
+    },
+    {
+      "path": "/row/2/Related issues",
+      "reason": "the delay of Redmine relation \"Precedes\" (3 days) is not imported"
+    },
+    {
+      "path": "/row/3/Related issues",
+      "reason": "Redmine relation \"Copied from\" has no WeKan type and is imported as related-to"
+    },
+    {
+      "path": "/row/4/Related issues",
+      "reason": "Redmine relation \"Follows\" has no WeKan type and is imported as related-to"
+    }
+  ]
+}

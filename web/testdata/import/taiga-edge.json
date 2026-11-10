@@ -1,0 +1,19 @@
+{"name":"  Garden  ","default_us_status":"","us_statuses":[{"name":"Doing","order":2,"wip_limit":3},{"name":" New ","order":1,"is_archived":false},{"name":"Archived","order":3,"is_archived":true},{"name":""},"x",{"name":"Doing","order":5,"wip_limit":0}],
+ "swimlanes":[{"name":"Lane B","order":2},{"name":"Lane A","order":1}],
+ "points":[{"name":"3","value":3},{"name":"5","value":5},{"name":"?","value":null}],
+ "roles":[{"name":"UX","computable":true},{"name":"Back","computable":false},{"name":"Front"}],
+ "tags_colors":[["shop","#ff0000"],["urgent","#0f0"],["bad","nothex"],[1,"#000"]],
+ "epics":[{"ref":9,"subject":"Big epic","epics_order":2,"status":"","color":"#abcdef","related_user_stories":[{"user_story":1},{"user_story":"2","source_project_slug":"other"}],"client_requirement":true},
+          {"ref":"8","subject":"","epics_order":1,"related_user_stories":[{"user_story":1}],"tags":[["old","#eb4646"]],"attachments":[{}]}],
+ "epic_statuses":[{"name":"Ready","order":2},{"name":"Fresh","order":1}],
+ "user_stories":[
+  {"ref":1,"subject":" Order valves ","status":"Doing","kanban_order":2,"swimlane":"Lane A","tags":["shop"," urgent ","shop",""],"role_points":[{"role":"UX","points":"3"},{"role":"Back","points":"5"},{"role":"Front","points":"5"},{"role":"Zz","points":"3"}],"created_date":"2024-03-01T10:15:00+0000","finish_date":"2024-02-31","due_date":"2024-03-15","assigned_to":" ann ","assigned_users":["bob","ann",""],"owner":"carl","watchers":["dee","dee"],"history":[{"comment":"Looks good","user":["ann@x","Ann"],"created_at":"2024-03-02T09:00:00Z"},{"comment":"gone","delete_comment_date":"2024"},{"comment":"  "},{"comment":"bad date","user":[null,"Bob"],"created_at":"nope"}],"custom_attributes_values":{"Size":"L","Empty":"","Zero":0,"Null":null,"7":"seven"},"is_blocked":true,"blocked_note":" ","due_date_reason":" vendor ","client_requirement":true,"team_requirement":false,"generated_from_issue":4,"milestone":1},
+  {"ref":"2","subject":"","status":"Archived","kanban_order":1,"swimlane":"Nowhere","attachments":[{},{}]},
+  {"subject":"No ref","kanban_order":1,"created_date":5},
+  "skip"
+ ],
+ "tasks":[{"ref":11,"subject":"Fit","user_story":1,"us_order":1,"status":" In progress ","is_iocaine":true,"finished_date":"2024-03-10T08:00"},{"ref":12,"subject":"","user_story":99,"due_date":"2024-03-11T25:00"},{"subject":"Loose"}],
+ "issues":[{"ref":4,"subject":"Leak","type":"Bug","priority":" High ","severity":"","status":"","votes":[1,2],"tags":["shop"],"history":[{"comment":"Confirmed","user":["carl"]}]},5],
+ "default_issue_status":"Open",
+ "wiki_pages":[{}],"wiki_links":[{},{}],"timeline":[{}],"memberships":[{},"x"],"logo":{"name":"logo.png"},
+ "milestones":[{"name":"Sprint 1","id":1}]}

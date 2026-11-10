@@ -1,0 +1,171 @@
+{
+  "board": {
+    "name": "Super Productivity"
+  },
+  "columns": [
+    {
+      "title": "Backlog"
+    },
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "In Progress"
+    },
+    {
+      "title": "Done"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Garden"
+    },
+    {
+      "name": "Garden (2)"
+    },
+    {
+      "name": "Untitled project"
+    },
+    {
+      "name": "No project"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Two of them\n\n- [Spec \\[v2\\]](https://x.test/a%20b)",
+      "column_name": "In Progress",
+      "swimlane_name": "Garden",
+      "tags": [
+        "shop"
+      ],
+      "ref": "t1",
+      "date_due": "2023-10-01T12:00:00.000Z",
+      "date_started": "2026-10-01T00:00:00.000Z",
+      "date_creation": "2023-09-29T15:06:40.000Z",
+      "spent_hours": 0.5,
+      "custom_fields": {
+        "Time estimate (hours)": 1.5,
+        "Priority": "High"
+      }
+    },
+    {
+      "title": "Untitled",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Garden",
+      "tags": [],
+      "ref": "t2",
+      "parent_ref": "t3",
+      "date_due": "2023-10-01T11:33:20.000Z",
+      "date_end": "2023-10-02T12:33:20.000Z",
+      "custom_fields": {}
+    },
+    {
+      "title": "Backlog parent",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Garden",
+      "tags": [],
+      "ref": "t3"
+    },
+    {
+      "title": "Second Garden",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Garden (2)",
+      "tags": [],
+      "ref": "t4",
+      "parent_ref": "missing",
+      "custom_fields": {
+        "Priority": "Medium"
+      }
+    },
+    {
+      "title": "Numeric id",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Untitled project",
+      "tags": [],
+      "ref": "5"
+    },
+    {
+      "title": "No project",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "No project",
+      "tags": [],
+      "ref": "t6"
+    },
+    {
+      "title": "Not in ids",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Garden (2)",
+      "tags": [],
+      "ref": "t7",
+      "date_due": "1950-01-01T00:00:00.000Z"
+    },
+    {
+      "title": "Archived",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Garden (2)",
+      "tags": [],
+      "ref": "a1",
+      "archived": true
+    },
+    {
+      "title": "Old",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "No project",
+      "tags": [],
+      "ref": "a2",
+      "archived": true
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/data/task/t1/tagIds",
+      "reason": "tag \"nope\" is not in the backup's tag model"
+    },
+    {
+      "path": "/data/task/t1/attachments/1",
+      "reason": "a FILE attachment is a path on the user's device, not a web link, and is not imported"
+    },
+    {
+      "path": "/data/task/t1/attachments/2",
+      "reason": "a local attachment is a path on the user's device, not a web link, and is not imported"
+    },
+    {
+      "path": "/data/task/t1/remindAt",
+      "reason": "Super Productivity reminders are not imported"
+    },
+    {
+      "path": "/data/task/t1/issueId",
+      "reason": "the link to GITHUB issue 42 is not imported"
+    },
+    {
+      "path": "/data/task/t3/repeatCfgId",
+      "reason": "Super Productivity repeat configurations are not imported; the task imports once"
+    },
+    {
+      "path": "/data/task/t6/issueId",
+      "reason": "the link to JIRA issue  is not imported"
+    },
+    {
+      "path": "/data/task/timeSpentOnDay",
+      "reason": "the per-day breakdown of tracked time is not imported; each card keeps the total as spent hours"
+    },
+    {
+      "path": "/data/note",
+      "reason": "1 Super Productivity note(s) belong to projects, not tasks, and are not imported"
+    },
+    {
+      "path": "/data/boards",
+      "reason": "Super Productivity boards are saved filters, not containers; lists come from each task's done state, in-progress tag and backlog instead"
+    }
+  ]
+}

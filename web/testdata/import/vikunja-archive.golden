@@ -1,0 +1,1008 @@
+{
+  "v0.24.1": {
+    "board": {
+      "name": "Imported Vikunja"
+    },
+    "columns": [
+      {
+        "title": "To Do"
+      },
+      {
+        "title": "Done"
+      },
+      {
+        "title": "Untitled"
+      },
+      {
+        "title": "Older"
+      },
+      {
+        "title": "Old"
+      },
+      {
+        "title": "To-Do"
+      }
+    ],
+    "swimlanes": [
+      {
+        "name": "Beds (2)"
+      },
+      {
+        "name": "Beds (3)"
+      },
+      {
+        "name": "Elsewhere"
+      }
+    ],
+    "tasks": [
+      {
+        "title": "No id",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "custom_fields": {
+          "Done": true
+        }
+      },
+      {
+        "title": "Second",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "ref": "102",
+        "date_end": "2026-10-05T12:00:00.000Z",
+        "custom_fields": {
+          "Percent Done": 100,
+          "Done": true
+        },
+        "parent_ref": "101",
+        "dependencies": [
+          {
+            "ref": "101",
+            "type": "is-blocked-by"
+          },
+          {
+            "ref": "101",
+            "type": "related-to"
+          }
+        ]
+      },
+      {
+        "title": "Child one",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "ref": "103",
+        "parent_ref": "101"
+      },
+      {
+        "title": "Order valves",
+        "description": "Two & **three**",
+        "column_name": "Untitled",
+        "swimlane_name": "Beds (2)",
+        "tags": [
+          "shop"
+        ],
+        "ref": "101",
+        "owner_username": "ann",
+        "assignees": [
+          "Bob"
+        ],
+        "requested_by": "carl",
+        "date_due": "2026-10-10T08:00:00.000Z",
+        "date_creation": "2026-09-01T08:00:00.000Z",
+        "color": "1973ff",
+        "custom_fields": {
+          "Priority": "High",
+          "Percent Done": 46
+        },
+        "checklists": [
+          {
+            "title": "Steps",
+            "items": [
+              {
+                "title": "Measure",
+                "done": true
+              },
+              {
+                "title": "Call",
+                "done": false
+              }
+            ]
+          }
+        ],
+        "comments": [
+          {
+            "text": "Looks _good_\n\n- [x] done item",
+            "author": "dee",
+            "date": "2026-09-02T09:00:00.000Z"
+          },
+          {
+            "text": "plain md",
+            "author": ""
+          }
+        ]
+      },
+      {
+        "title": "Archived task",
+        "description": "",
+        "column_name": "Old",
+        "swimlane_name": "Beds (3)",
+        "tags": [],
+        "ref": "201",
+        "archived": true,
+        "custom_fields": {
+          "Done": true
+        }
+      },
+      {
+        "title": "Open task",
+        "description": "",
+        "column_name": "Older",
+        "swimlane_name": "Beds (3)",
+        "tags": [],
+        "ref": "202",
+        "archived": true
+      },
+      {
+        "title": "Not imported",
+        "description": "",
+        "column_name": "To-Do",
+        "swimlane_name": "Elsewhere",
+        "tags": [],
+        "ref": "301"
+      }
+    ],
+    "warnings": [],
+    "unsupported": [
+      {
+        "path": "/projects/1",
+        "reason": "project \"Garden\" has no tasks and is not imported"
+      },
+      {
+        "path": "/projects/5",
+        "reason": "project \"Empty\" has no tasks and is not imported"
+      },
+      {
+        "path": "/projects/2/views",
+        "reason": "only the first kanban view's buckets (\"Board\") become lists; 1 other kanban view(s) are not imported"
+      },
+      {
+        "path": "/projects/2/buckets/20/limit",
+        "reason": "bucket \"To Do\" has a limit of 5 tasks; WIP limits are not imported"
+      },
+      {
+        "path": "/projects/2/hex_color",
+        "reason": "the project color is not imported"
+      },
+      {
+        "path": "/projects/2/description",
+        "reason": "the project description is not imported"
+      },
+      {
+        "path": "/projects/2/background_information",
+        "reason": "the project background image is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/102/priority",
+        "reason": "Vikunja priority 7 is not one of 0-5"
+      },
+      {
+        "path": "/projects/2/tasks/102/related_tasks/parenttask",
+        "reason": "a card has one parent; 1 further parent task(s) are not linked"
+      },
+      {
+        "path": "/projects/2/tasks/102/repeat_after",
+        "reason": "a repeating Vikunja task is imported once; its repeat is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/104",
+        "reason": "a Vikunja task without a title is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/related_tasks/precedes",
+        "reason": "Vikunja \"precedes\" relations have no WeKan dependency type and are not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/7",
+        "reason": "attachment \"plan.pdf\" is not imported; its bytes are files/8 in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/9",
+        "reason": "attachment \"file \" is not imported; its bytes are files/ in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/",
+        "reason": "attachment \"file 10\" is not imported; its bytes are files/10 in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/reminders",
+        "reason": "2 reminder(s) are not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/repeat_after",
+        "reason": "a repeating Vikunja task is imported once; its repeat is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/reactions",
+        "reason": "reactions are not imported"
+      },
+      {
+        "path": "/projects/3/background_information",
+        "reason": "the project background image is not imported"
+      },
+      {
+        "path": "/projects/3/is_archived",
+        "reason": "the project is archived; its tasks are imported as archived cards"
+      },
+      {
+        "path": "/labels",
+        "reason": "Vikunja label colors are not imported; labels get WeKan's default color"
+      },
+      {
+        "path": "/filters.json",
+        "reason": "3 saved filter(s) are not imported"
+      }
+    ]
+  },
+  "dev": {
+    "board": {
+      "name": "Imported Vikunja"
+    },
+    "columns": [
+      {
+        "title": "To Do"
+      },
+      {
+        "title": "Done"
+      },
+      {
+        "title": "Untitled"
+      },
+      {
+        "title": "Older"
+      },
+      {
+        "title": "Old"
+      },
+      {
+        "title": "To-Do"
+      }
+    ],
+    "swimlanes": [
+      {
+        "name": "Beds (2)"
+      },
+      {
+        "name": "Beds (3)"
+      },
+      {
+        "name": "Elsewhere"
+      }
+    ],
+    "tasks": [
+      {
+        "title": "No id",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "custom_fields": {
+          "Done": true
+        }
+      },
+      {
+        "title": "Second",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "ref": "102",
+        "date_end": "2026-10-05T12:00:00.000Z",
+        "custom_fields": {
+          "Percent Done": 100,
+          "Done": true
+        },
+        "parent_ref": "101",
+        "dependencies": [
+          {
+            "ref": "101",
+            "type": "is-blocked-by"
+          },
+          {
+            "ref": "101",
+            "type": "related-to"
+          }
+        ]
+      },
+      {
+        "title": "Child one",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "ref": "103",
+        "parent_ref": "101"
+      },
+      {
+        "title": "Order valves",
+        "description": "Two & **three**",
+        "column_name": "Untitled",
+        "swimlane_name": "Beds (2)",
+        "tags": [
+          "shop"
+        ],
+        "ref": "101",
+        "owner_username": "ann",
+        "assignees": [
+          "Bob"
+        ],
+        "requested_by": "carl",
+        "date_due": "2026-10-10T08:00:00.000Z",
+        "date_creation": "2026-09-01T08:00:00.000Z",
+        "color": "1973ff",
+        "custom_fields": {
+          "Priority": "High",
+          "Percent Done": 46
+        },
+        "checklists": [
+          {
+            "title": "Steps",
+            "items": [
+              {
+                "title": "Measure",
+                "done": true
+              },
+              {
+                "title": "Call",
+                "done": false
+              }
+            ]
+          }
+        ],
+        "comments": [
+          {
+            "text": "Looks _good_\n\n- [x] done item",
+            "author": "dee",
+            "date": "2026-09-02T09:00:00.000Z"
+          },
+          {
+            "text": "plain md",
+            "author": ""
+          }
+        ]
+      },
+      {
+        "title": "Archived task",
+        "description": "",
+        "column_name": "Old",
+        "swimlane_name": "Beds (3)",
+        "tags": [],
+        "ref": "201",
+        "archived": true,
+        "custom_fields": {
+          "Done": true
+        }
+      },
+      {
+        "title": "Open task",
+        "description": "",
+        "column_name": "Older",
+        "swimlane_name": "Beds (3)",
+        "tags": [],
+        "ref": "202",
+        "archived": true
+      },
+      {
+        "title": "Not imported",
+        "description": "",
+        "column_name": "To-Do",
+        "swimlane_name": "Elsewhere",
+        "tags": [],
+        "ref": "301"
+      }
+    ],
+    "warnings": [],
+    "unsupported": [
+      {
+        "path": "/VERSION",
+        "reason": "a Vikunja development build wrote this export; it is read as the current layout"
+      },
+      {
+        "path": "/projects/1",
+        "reason": "project \"Garden\" has no tasks and is not imported"
+      },
+      {
+        "path": "/projects/5",
+        "reason": "project \"Empty\" has no tasks and is not imported"
+      },
+      {
+        "path": "/projects/2/views",
+        "reason": "only the first kanban view's buckets (\"Board\") become lists; 1 other kanban view(s) are not imported"
+      },
+      {
+        "path": "/projects/2/buckets/20/limit",
+        "reason": "bucket \"To Do\" has a limit of 5 tasks; WIP limits are not imported"
+      },
+      {
+        "path": "/projects/2/hex_color",
+        "reason": "the project color is not imported"
+      },
+      {
+        "path": "/projects/2/description",
+        "reason": "the project description is not imported"
+      },
+      {
+        "path": "/projects/2/background_information",
+        "reason": "the project background image is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/102/priority",
+        "reason": "Vikunja priority 7 is not one of 0-5"
+      },
+      {
+        "path": "/projects/2/tasks/102/related_tasks/parenttask",
+        "reason": "a card has one parent; 1 further parent task(s) are not linked"
+      },
+      {
+        "path": "/projects/2/tasks/102/repeat_after",
+        "reason": "a repeating Vikunja task is imported once; its repeat is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/104",
+        "reason": "a Vikunja task without a title is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/related_tasks/precedes",
+        "reason": "Vikunja \"precedes\" relations have no WeKan dependency type and are not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/7",
+        "reason": "attachment \"plan.pdf\" is not imported; its bytes are files/8 in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/9",
+        "reason": "attachment \"file \" is not imported; its bytes are files/ in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/",
+        "reason": "attachment \"file 10\" is not imported; its bytes are files/10 in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/reminders",
+        "reason": "2 reminder(s) are not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/repeat_after",
+        "reason": "a repeating Vikunja task is imported once; its repeat is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/reactions",
+        "reason": "reactions are not imported"
+      },
+      {
+        "path": "/projects/3/background_information",
+        "reason": "the project background image is not imported"
+      },
+      {
+        "path": "/projects/3/is_archived",
+        "reason": "the project is archived; its tasks are imported as archived cards"
+      },
+      {
+        "path": "/labels",
+        "reason": "Vikunja label colors are not imported; labels get WeKan's default color"
+      },
+      {
+        "path": "/filters.json",
+        "reason": "3 saved filter(s) are not imported"
+      }
+    ]
+  },
+  "0.20.1": {
+    "board": {
+      "name": "Imported Vikunja"
+    },
+    "columns": [
+      {
+        "title": "To Do"
+      },
+      {
+        "title": "Done"
+      },
+      {
+        "title": "Untitled"
+      },
+      {
+        "title": "Older"
+      },
+      {
+        "title": "Old"
+      },
+      {
+        "title": "To-Do"
+      }
+    ],
+    "swimlanes": [
+      {
+        "name": "Beds (2)"
+      },
+      {
+        "name": "Beds (3)"
+      },
+      {
+        "name": "Elsewhere"
+      }
+    ],
+    "tasks": [
+      {
+        "title": "No id",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "custom_fields": {
+          "Done": true
+        }
+      },
+      {
+        "title": "Second",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "ref": "102",
+        "date_end": "2026-10-05T12:00:00.000Z",
+        "custom_fields": {
+          "Percent Done": 100,
+          "Done": true
+        },
+        "parent_ref": "101",
+        "dependencies": [
+          {
+            "ref": "101",
+            "type": "is-blocked-by"
+          },
+          {
+            "ref": "101",
+            "type": "related-to"
+          }
+        ]
+      },
+      {
+        "title": "Child one",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "ref": "103",
+        "parent_ref": "101"
+      },
+      {
+        "title": "Order valves",
+        "description": "Two & **three**",
+        "column_name": "Untitled",
+        "swimlane_name": "Beds (2)",
+        "tags": [
+          "shop"
+        ],
+        "ref": "101",
+        "owner_username": "ann",
+        "assignees": [
+          "Bob"
+        ],
+        "requested_by": "carl",
+        "date_due": "2026-10-10T08:00:00.000Z",
+        "date_creation": "2026-09-01T08:00:00.000Z",
+        "color": "1973ff",
+        "custom_fields": {
+          "Priority": "High",
+          "Percent Done": 46
+        },
+        "checklists": [
+          {
+            "title": "Steps",
+            "items": [
+              {
+                "title": "Measure",
+                "done": true
+              },
+              {
+                "title": "Call",
+                "done": false
+              }
+            ]
+          }
+        ],
+        "comments": [
+          {
+            "text": "Looks _good_\n\n- [x] done item",
+            "author": "dee",
+            "date": "2026-09-02T09:00:00.000Z"
+          },
+          {
+            "text": "plain md",
+            "author": ""
+          }
+        ]
+      },
+      {
+        "title": "Archived task",
+        "description": "",
+        "column_name": "Old",
+        "swimlane_name": "Beds (3)",
+        "tags": [],
+        "ref": "201",
+        "archived": true,
+        "custom_fields": {
+          "Done": true
+        }
+      },
+      {
+        "title": "Open task",
+        "description": "",
+        "column_name": "Older",
+        "swimlane_name": "Beds (3)",
+        "tags": [],
+        "ref": "202",
+        "archived": true
+      },
+      {
+        "title": "Not imported",
+        "description": "",
+        "column_name": "To-Do",
+        "swimlane_name": "Elsewhere",
+        "tags": [],
+        "ref": "301"
+      }
+    ],
+    "warnings": [],
+    "unsupported": [
+      {
+        "path": "/projects/1",
+        "reason": "project \"Garden\" has no tasks and is not imported"
+      },
+      {
+        "path": "/projects/5",
+        "reason": "project \"Empty\" has no tasks and is not imported"
+      },
+      {
+        "path": "/projects/2/views",
+        "reason": "only the first kanban view's buckets (\"Board\") become lists; 1 other kanban view(s) are not imported"
+      },
+      {
+        "path": "/projects/2/buckets/20/limit",
+        "reason": "bucket \"To Do\" has a limit of 5 tasks; WIP limits are not imported"
+      },
+      {
+        "path": "/projects/2/hex_color",
+        "reason": "the project color is not imported"
+      },
+      {
+        "path": "/projects/2/description",
+        "reason": "the project description is not imported"
+      },
+      {
+        "path": "/projects/2/background_information",
+        "reason": "the project background image is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/102/priority",
+        "reason": "Vikunja priority 7 is not one of 0-5"
+      },
+      {
+        "path": "/projects/2/tasks/102/related_tasks/parenttask",
+        "reason": "a card has one parent; 1 further parent task(s) are not linked"
+      },
+      {
+        "path": "/projects/2/tasks/102/repeat_after",
+        "reason": "a repeating Vikunja task is imported once; its repeat is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/104",
+        "reason": "a Vikunja task without a title is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/related_tasks/precedes",
+        "reason": "Vikunja \"precedes\" relations have no WeKan dependency type and are not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/7",
+        "reason": "attachment \"plan.pdf\" is not imported; its bytes are files/8 in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/9",
+        "reason": "attachment \"file \" is not imported; its bytes are files/ in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/",
+        "reason": "attachment \"file 10\" is not imported; its bytes are files/10 in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/reminders",
+        "reason": "2 reminder(s) are not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/repeat_after",
+        "reason": "a repeating Vikunja task is imported once; its repeat is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/reactions",
+        "reason": "reactions are not imported"
+      },
+      {
+        "path": "/projects/3/background_information",
+        "reason": "the project background image is not imported"
+      },
+      {
+        "path": "/projects/3/is_archived",
+        "reason": "the project is archived; its tasks are imported as archived cards"
+      },
+      {
+        "path": "/labels",
+        "reason": "Vikunja label colors are not imported; labels get WeKan's default color"
+      },
+      {
+        "path": "/filters.json",
+        "reason": "3 saved filter(s) are not imported"
+      }
+    ]
+  },
+  "0.20.0": {
+    "error": "Vikunja export version 0.20.0 is older than 0.20.1, which Vikunja's own import refuses too"
+  },
+  "v1.0.0-rc1": {
+    "board": {
+      "name": "Imported Vikunja"
+    },
+    "columns": [
+      {
+        "title": "To Do"
+      },
+      {
+        "title": "Done"
+      },
+      {
+        "title": "Untitled"
+      },
+      {
+        "title": "Older"
+      },
+      {
+        "title": "Old"
+      },
+      {
+        "title": "To-Do"
+      }
+    ],
+    "swimlanes": [
+      {
+        "name": "Beds (2)"
+      },
+      {
+        "name": "Beds (3)"
+      },
+      {
+        "name": "Elsewhere"
+      }
+    ],
+    "tasks": [
+      {
+        "title": "No id",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "custom_fields": {
+          "Done": true
+        }
+      },
+      {
+        "title": "Second",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "ref": "102",
+        "date_end": "2026-10-05T12:00:00.000Z",
+        "custom_fields": {
+          "Percent Done": 100,
+          "Done": true
+        },
+        "parent_ref": "101",
+        "dependencies": [
+          {
+            "ref": "101",
+            "type": "is-blocked-by"
+          },
+          {
+            "ref": "101",
+            "type": "related-to"
+          }
+        ]
+      },
+      {
+        "title": "Child one",
+        "description": "",
+        "column_name": "Done",
+        "swimlane_name": "Beds (2)",
+        "tags": [],
+        "ref": "103",
+        "parent_ref": "101"
+      },
+      {
+        "title": "Order valves",
+        "description": "Two & **three**",
+        "column_name": "Untitled",
+        "swimlane_name": "Beds (2)",
+        "tags": [
+          "shop"
+        ],
+        "ref": "101",
+        "owner_username": "ann",
+        "assignees": [
+          "Bob"
+        ],
+        "requested_by": "carl",
+        "date_due": "2026-10-10T08:00:00.000Z",
+        "date_creation": "2026-09-01T08:00:00.000Z",
+        "color": "1973ff",
+        "custom_fields": {
+          "Priority": "High",
+          "Percent Done": 46
+        },
+        "checklists": [
+          {
+            "title": "Steps",
+            "items": [
+              {
+                "title": "Measure",
+                "done": true
+              },
+              {
+                "title": "Call",
+                "done": false
+              }
+            ]
+          }
+        ],
+        "comments": [
+          {
+            "text": "Looks _good_\n\n- [x] done item",
+            "author": "dee",
+            "date": "2026-09-02T09:00:00.000Z"
+          },
+          {
+            "text": "plain md",
+            "author": ""
+          }
+        ]
+      },
+      {
+        "title": "Archived task",
+        "description": "",
+        "column_name": "Old",
+        "swimlane_name": "Beds (3)",
+        "tags": [],
+        "ref": "201",
+        "archived": true,
+        "custom_fields": {
+          "Done": true
+        }
+      },
+      {
+        "title": "Open task",
+        "description": "",
+        "column_name": "Older",
+        "swimlane_name": "Beds (3)",
+        "tags": [],
+        "ref": "202",
+        "archived": true
+      },
+      {
+        "title": "Not imported",
+        "description": "",
+        "column_name": "To-Do",
+        "swimlane_name": "Elsewhere",
+        "tags": [],
+        "ref": "301"
+      }
+    ],
+    "warnings": [],
+    "unsupported": [
+      {
+        "path": "/projects/1",
+        "reason": "project \"Garden\" has no tasks and is not imported"
+      },
+      {
+        "path": "/projects/5",
+        "reason": "project \"Empty\" has no tasks and is not imported"
+      },
+      {
+        "path": "/projects/2/views",
+        "reason": "only the first kanban view's buckets (\"Board\") become lists; 1 other kanban view(s) are not imported"
+      },
+      {
+        "path": "/projects/2/buckets/20/limit",
+        "reason": "bucket \"To Do\" has a limit of 5 tasks; WIP limits are not imported"
+      },
+      {
+        "path": "/projects/2/hex_color",
+        "reason": "the project color is not imported"
+      },
+      {
+        "path": "/projects/2/description",
+        "reason": "the project description is not imported"
+      },
+      {
+        "path": "/projects/2/background_information",
+        "reason": "the project background image is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/102/priority",
+        "reason": "Vikunja priority 7 is not one of 0-5"
+      },
+      {
+        "path": "/projects/2/tasks/102/related_tasks/parenttask",
+        "reason": "a card has one parent; 1 further parent task(s) are not linked"
+      },
+      {
+        "path": "/projects/2/tasks/102/repeat_after",
+        "reason": "a repeating Vikunja task is imported once; its repeat is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/104",
+        "reason": "a Vikunja task without a title is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/related_tasks/precedes",
+        "reason": "Vikunja \"precedes\" relations have no WeKan dependency type and are not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/7",
+        "reason": "attachment \"plan.pdf\" is not imported; its bytes are files/8 in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/9",
+        "reason": "attachment \"file \" is not imported; its bytes are files/ in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/attachments/",
+        "reason": "attachment \"file 10\" is not imported; its bytes are files/10 in the export"
+      },
+      {
+        "path": "/projects/2/tasks/101/reminders",
+        "reason": "2 reminder(s) are not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/repeat_after",
+        "reason": "a repeating Vikunja task is imported once; its repeat is not imported"
+      },
+      {
+        "path": "/projects/2/tasks/101/reactions",
+        "reason": "reactions are not imported"
+      },
+      {
+        "path": "/projects/3/background_information",
+        "reason": "the project background image is not imported"
+      },
+      {
+        "path": "/projects/3/is_archived",
+        "reason": "the project is archived; its tasks are imported as archived cards"
+      },
+      {
+        "path": "/labels",
+        "reason": "Vikunja label colors are not imported; labels get WeKan's default color"
+      },
+      {
+        "path": "/filters.json",
+        "reason": "3 saved filter(s) are not imported"
+      }
+    ]
+  },
+  "junk": {
+    "error": "Vikunja export VERSION \"junk\" is not a Vikunja version"
+  }
+}

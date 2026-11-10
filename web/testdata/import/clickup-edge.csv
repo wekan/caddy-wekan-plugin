@@ -1,0 +1,6 @@
+Task ID,Task Type,Task Custom ID,Task Name,Task Content,Status,Date created,Due date,Start date,Parent ID,Subtask IDs,Attachments,Assignees,Tags,Priority,List Name,Folder Name/Path,Space Name,Time Estimated,Checklists,Comments,Time Spent,Checklist
+a1,Milestone,CU-1,Parent task,Body,to do,1696156800000,2026-10-10,,,"[a2, a3]","[{""title"":""Spec [v2]"",""url"":""https://x.test/a b(1)<c>""},{""url"":""ftp://no""},""str"",{""title"":"""",""url"":""http://y.test/""}]","[Ann, Bob,Cy]","[shop, urgent]",URGENT,Sprint 1,Proj/Sub,Space One,5400000,[],0,1800000,"[step one, step two]"
+a2,task,,Child,,in progress,2026-02-30,2026-10-10T25:00Z,2026-10-01T10:00:00+0300,,,not json,,,2,Sprint 1,,,abc,x,"[{""c"":1}]",-5,
+a3,Task,,Second child,"",,1234567890,99999999999999,yesterday,a9,,{},Solo,,9,,,Other space,1e3,,,0x10,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,No ID,,done,,,,,,"[]",,,,,,,,,,,

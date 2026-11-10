@@ -344,6 +344,39 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
 
   // Member Settings' notification delivery: a schedule is read in the
   // clock of the browser that saves it (WeKan's browserTimezone).
+  // The import page's "People in the file": one choice checked, and the
+  // form says which. Session.set('importMembersMode', mode) chooses it too,
+  // as WeKan's page reads it from its Session.
+  function chooseMembersMode(box, mode) {
+    var link = box.querySelector('.js-import-members-mode[data-mode="' + mode + '"]');
+    if (!link) return;
+    box.querySelectorAll('.js-import-members-mode .materialCheckBox').forEach(function (c) {
+      c.classList.toggle('is-checked', c.parentNode === link);
+    });
+    box.querySelector('.js-import-members-mode-value').value = mode;
+  }
+  up.compiler('.import-members-mode', function (box) {
+    box.addEventListener('click', function (event) {
+      var link = event.target.closest('.js-import-members-mode');
+      if (!link) return;
+      event.preventDefault();
+      chooseMembersMode(box, link.getAttribute('data-mode'));
+    });
+  });
+  // Meteor's Session, for the page state WeKan keeps there.
+  if (!window.Session) {
+    var session = {};
+    window.Session = {
+      get: function (key) { return session[key]; },
+      set: function (key, value) {
+        session[key] = value;
+        if (key === 'importMembersMode') {
+          document.querySelectorAll('.import-members-mode').forEach(function (box) { chooseMembersMode(box, value); });
+        }
+      },
+    };
+  }
+
   up.compiler('input.js-browser-timezone', function (el) {
     try { el.value = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { el.value = ''; }
   });

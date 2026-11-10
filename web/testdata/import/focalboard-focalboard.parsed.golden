@@ -1,0 +1,167 @@
+{
+  "board": {
+    "name": "Plan & <Go> \"q\" 🚀",
+    "description": "The plan"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Empty"
+    },
+    {
+      "title": "Won't fix"
+    },
+    {
+      "title": "  To Do  "
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "Backlog"
+    },
+    {
+      "title": "No Status"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "ref": "c13wsq4x0c8hamo0prt4g31wjey",
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x , y"
+      ],
+      "date_started": "2026-11-10T00:00:00.000Z",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "a & b",
+              "done": true
+            },
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "text": "no author",
+          "date": "2026-11-01T08:00:00.000Z"
+        },
+        {
+          "text": "bob: Looks <i>good</i>",
+          "date": "2026-11-02T09:30:00.000Z"
+        }
+      ]
+    },
+    {
+      "ref": "c0d3eklw00a4euf1ryumii0ja15",
+      "title": "-minus first",
+      "description": "first\r\nsecond  \n\n",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "  one  ",
+              "done": false
+            },
+            {
+              "title": "   ",
+              "done": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ref": "c114qe791gqmraw1s2gl670s19h",
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_due": "2026-12-24T18:30:00.000Z",
+      "date_creation": "2026-11-10T12:00:00.000Z",
+      "comments": [
+        {
+          "text": "orphan",
+          "date": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "ref": "c0zqp88f0imhm2y1w8k32p0q2nz",
+      "title": "No list item",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "tags": [
+        "p1"
+      ],
+      "date_started": "2026-11-11T00:00:00.000Z",
+      "date_due": "2026-11-12T00:00:00.000Z",
+      "date_creation": "2026-11-10T12:00:00.000Z"
+    },
+    {
+      "ref": "c05hte4h1hb73ag1uuix3v0rgp5",
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "No Status",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_creation": "2026-11-10T12:00:00.000Z"
+    },
+    {
+      "ref": "c057qmxj0dmigli0rqemeh0qmth",
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_creation": "2026-11-10T12:00:00.000Z"
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

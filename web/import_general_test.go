@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // A Kanboard project imported from the import page, as WeKan's
@@ -113,12 +114,59 @@ func TestImportKanboard(t *testing.T) {
 	if len(checklists) != 1 || docString(checklists[0], "title") != "Subtasks" || len(items) != 2 {
 		t.Errorf("the subtasks as a checklist of two: %d %d", len(checklists), len(items))
 	}
+	// WeKan's default people choice: each comment author is a placeholder
+	// user keeping the name, unable to log in, an inactive member with no
+	// rights - and "ann", taken by the person importing, is never the real
+	// account: the task's owner (Kanboard user 4, named ann) is a person of
+	// its own, keyed "4", and is ann-1, so the comment author "ann" is ann-2,
+	// as in WeKan.
 	comments := find("card_comments", bson.M{"cardId": docString(valves, "_id")})
-	if len(comments) != 2 || docString(comments[0], "userId") != ann.ID {
-		t.Errorf("the comments, by the person importing: %v", comments)
+	if len(comments) != 2 {
+		t.Fatalf("the two comments: %v", comments)
+	}
+	for n, want := range []struct{ fullname, username string }{{"ann", "ann-2"}, {"Bob", "Bob"}} {
+		var author bson.M
+		if err := w.db.Collection("users").FindOne(ctx, bson.M{"_id": docString(comments[n], "userId")}).Decode(&author); err != nil {
+			t.Fatalf("comment %d's author: %v", n, err)
+		}
+		if author["_id"] == ann.ID || author["loginDisabled"] != true || docString(author, "username") != want.username ||
+			nestedField(author, "profile", "fullname") != want.fullname || docString(author, "authenticationMethod") != "imported" {
+			t.Errorf("comment %d is by a placeholder %s: %v", n, want.username, author)
+		}
+		if _, stored := author["isActive"]; stored {
+			t.Errorf("negative: isActive is not in WeKan's users schema and is not stored: %v", author)
+		}
+		var member *Member
+		for i := range b.Members {
+			if b.Members[i].UserID == docString(author, "_id") {
+				member = &b.Members[i]
+			}
+		}
+		if member == nil || member.IsActive || member.IsAdmin {
+			t.Errorf("the placeholder is an inactive member with no rights: %+v", member)
+		}
 	}
 	if n := len(find("activities", bson.M{"boardId": b.ID, "activityType": "addComment"})); n != 2 {
 		t.Errorf("each comment's activity: %d", n)
+	}
+	// "me": every person of the file is the person importing, and no
+	// placeholder is made.
+	users, _ := w.db.Collection("users").CountDocuments(ctx, bson.M{})
+	if res, err := c.PostForm(w.srv.URL+"/import/kanboard", url.Values{"text": {string(raw)}, "membersMode": {"me"}}); err != nil || res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("the import as me: %v %d", err, res.StatusCode)
+	}
+	if after, _ := w.db.Collection("users").CountDocuments(ctx, bson.M{}); after != users {
+		t.Errorf("negative: me makes no placeholder users: %d -> %d", users, after)
+	}
+	var mine Board
+	opts := options.FindOne().SetSort(bson.D{{Key: "createdAt", Value: -1}})
+	if err := w.db.Collection("boards").FindOne(ctx, bson.M{"title": "Plant"}, opts).Decode(&mine); err != nil || mine.ID == b.ID {
+		t.Fatalf("the second board: %v", err)
+	}
+	for _, cm := range find("card_comments", bson.M{"boardId": mine.ID}) {
+		if docString(cm, "userId") != ann.ID {
+			t.Errorf("with me, the comments are by the person importing: %v", cm)
+		}
 	}
 	// Negative: what is not the source's JSON makes no board.
 	before, _ := w.db.Collection("boards").CountDocuments(ctx, bson.M{})

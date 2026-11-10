@@ -1,0 +1,285 @@
+[
+  {
+    "html": "",
+    "with": {
+      "text": "",
+      "checklists": []
+    },
+    "without": {
+      "text": "",
+      "checklists": []
+    }
+  },
+  {
+    "html": "   ",
+    "with": {
+      "text": "",
+      "checklists": []
+    },
+    "without": {
+      "text": "",
+      "checklists": []
+    }
+  },
+  {
+    "html": "plain *markdown* text",
+    "with": {
+      "text": "plain *markdown* text",
+      "checklists": []
+    },
+    "without": {
+      "text": "plain *markdown* text",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<p>Two &amp; a <b>bold</b> &lt;tag&gt;</p><p>Second&nbsp;para</p>",
+    "with": {
+      "text": "Two & a **bold** <tag>\n\nSecond para",
+      "checklists": []
+    },
+    "without": {
+      "text": "Two & a **bold** <tag>\n\nSecond para",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<h2>Steps</h2><ul data-type=\"taskList\"><li data-checked=\"true\"><p>Measure</p></li><li data-checked=\"false\"><p>Call   the\nvendor</p></li></ul><p>after</p>",
+    "with": {
+      "text": "after",
+      "checklists": [
+        {
+          "title": "Steps",
+          "items": [
+            {
+              "title": "Measure",
+              "done": true
+            },
+            {
+              "title": "Call the vendor",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    "without": {
+      "text": "## Steps\n\n- [x] Measure\n- [ ] Call the vendor\n\nafter",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<h3>Named</h3><p>but text after</p><ul data-type=\"taskList\"><li data-checked=\"false\">x</li></ul>",
+    "with": {
+      "text": "### Named\n\nbut text after",
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "x",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    "without": {
+      "text": "### Named\n\nbut text after\n\n- [ ] x",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<ul data-type=\"taskList\"><li data-checked=\"true\">a<ul data-type=\"taskList\"><li data-checked=\"false\">nested</li></ul></li><li>b</li></ul>",
+    "with": {
+      "text": "",
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "a",
+              "done": true
+            },
+            {
+              "title": "nested",
+              "done": false
+            },
+            {
+              "title": "b",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    "without": {
+      "text": "- [x] a\n  - [ ] nested\n- [ ] b",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<ol><li>one</li><li>two<ul><li>inner</li></ul></li></ol><ul><li><p>para in li</p></li></ul>",
+    "with": {
+      "text": "1. one\n2. two\n  - inner\n\n- para in li",
+      "checklists": []
+    },
+    "without": {
+      "text": "1. one\n2. two\n  - inner\n\n- para in li",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<pre><code>line 1\n  line 2</code></pre><p>x</p><hr><p>y<br>z</p>",
+    "with": {
+      "text": "```\nline 1\n  line 2\n```\n\nx\n\n---\n\ny\nz",
+      "checklists": []
+    },
+    "without": {
+      "text": "```\nline 1\n  line 2\n```\n\nx\n\n---\n\ny\nz",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<p><a href=\"https://x.test/a b(1)\">link [text]</a> <a href=\"javascript:alert(1)\">bad</a> <img src=\"https://i.test/p.png\" alt=\"a [b]\"><img src=\"data:x\"></p>",
+    "with": {
+      "text": "[link [text]](https://x.test/a%20b%281%29) bad ![a \\[b\\]](https://i.test/p.png)",
+      "checklists": []
+    },
+    "without": {
+      "text": "[link [text]](https://x.test/a%20b%281%29) bad ![a \\[b\\]](https://i.test/p.png)",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<!-- comment --><p>after comment</p><!-- unclosed",
+    "with": {
+      "text": "after comment",
+      "checklists": []
+    },
+    "without": {
+      "text": "after comment",
+      "checklists": []
+    }
+  },
+  {
+    "html": "a < b and <x",
+    "with": {
+      "text": "a < b and <x",
+      "checklists": []
+    },
+    "without": {
+      "text": "a < b and <x",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<p>&#169; &#x1F600; &bogus; &#0; &#39;</p>",
+    "with": {
+      "text": "© 😀 &bogus; &#0; '",
+      "checklists": []
+    },
+    "without": {
+      "text": "© 😀 &bogus; &#0; '",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<blockquote><p>quoted</p></blockquote><h1>Title</h1><table><tr><td>cell</td></tr></table>",
+    "with": {
+      "text": "quoted\n\n# Title\n\ncell",
+      "checklists": []
+    },
+    "without": {
+      "text": "quoted\n\n# Title\n\ncell",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<p><em>em</em> <i>i</i> <s>s</s> <del>d</del> <strike>st</strike> <code>c</code> <strong>s</strong></p>",
+    "with": {
+      "text": "_em_ _i_ ~~s~~ ~~d~~ ~~st~~ `c` **s**",
+      "checklists": []
+    },
+    "without": {
+      "text": "_em_ _i_ ~~s~~ ~~d~~ ~~st~~ `c` **s**",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<div><span>span text</span><label><input type=\"checkbox\">label</label></div>",
+    "with": {
+      "text": "span textlabel",
+      "checklists": []
+    },
+    "without": {
+      "text": "span textlabel",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<ul data-type='taskList'><li data-checked=true>single quoted</li></ul>",
+    "with": {
+      "text": "",
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "single quoted",
+              "done": true
+            }
+          ]
+        }
+      ]
+    },
+    "without": {
+      "text": "- [x] single quoted",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<h2>Only heading</h2>",
+    "with": {
+      "text": "## Only heading",
+      "checklists": []
+    },
+    "without": {
+      "text": "## Only heading",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<p>   </p><p>\t</p>",
+    "with": {
+      "text": "",
+      "checklists": []
+    },
+    "without": {
+      "text": "",
+      "checklists": []
+    }
+  },
+  {
+    "html": "<li>orphan li</li>",
+    "with": {
+      "text": "- orphan li",
+      "checklists": []
+    },
+    "without": {
+      "text": "- orphan li",
+      "checklists": []
+    }
+  },
+  {
+    "html": "</ul></ol></li>text",
+    "with": {
+      "text": "text",
+      "checklists": []
+    },
+    "without": {
+      "text": "text",
+      "checklists": []
+    }
+  }
+]

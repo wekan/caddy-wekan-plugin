@@ -1,0 +1,148 @@
+{
+  "board": {
+    "name": "Garden",
+    "description": "The plan"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Unused"
+    },
+    {},
+    {
+      "title": "No Status"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "ref": "c1",
+      "title": "Order valves",
+      "description": "## Heading\n\nFirst text\n\nFirst text\n\n---",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "Priority:High",
+        "shop",
+        "urgent"
+      ],
+      "date_started": "2023-10-01T10:40:00.000Z",
+      "date_due": "2023-10-02T10:40:00.000Z",
+      "date_creation": "2023-10-01T10:40:00.000Z",
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "Call",
+              "done": false
+            },
+            {
+              "title": "Measure",
+              "done": true
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "text": "Looks good",
+          "date": "2023-10-01T11:33:20.000Z"
+        },
+        {
+          "text": "No date"
+        }
+      ],
+      "custom_fields": {
+        "Also": "2023-10-03T10:40:00.000Z",
+        "Notes": "note",
+        "Count": "42",
+        "Ok": "true"
+      }
+    },
+    {
+      "ref": "c2",
+      "title": "Imported card",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [],
+      "custom_fields": {
+        "Count": "0"
+      }
+    },
+    {
+      "ref": "c4",
+      "title": "No status",
+      "description": "",
+      "column_name": "No Status",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_creation": "1970-01-01T00:00:00.001Z"
+    },
+    {
+      "ref": "c5",
+      "title": "Odd option",
+      "description": "",
+      "column_name": "No Status",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/line/3",
+      "reason": "a second board in one file is not imported"
+    },
+    {
+      "path": "/line/6",
+      "reason": "archive line type category has no WeKan field"
+    },
+    {
+      "path": "/boardMember",
+      "reason": "2 Focalboard member(s): Focalboard accounts are not WeKan's"
+    },
+    {
+      "path": "/card/c1/properties/Who",
+      "reason": "Focalboard person property Who has no WeKan field"
+    },
+    {
+      "path": "/card/c1/properties/pX",
+      "reason": "a value of a property the board does not define"
+    },
+    {
+      "path": "/card/c1/t10",
+      "reason": "Focalboard video block has no WeKan field"
+    },
+    {
+      "path": "/card/c1/t9",
+      "reason": "a Focalboard attachment: the file is in the archive, not in board.jsonl"
+    },
+    {
+      "path": "/card/c1/t8",
+      "reason": "a Focalboard image: the file is in the archive, not in board.jsonl"
+    },
+    {
+      "path": "/card/c2/properties/p4",
+      "reason": "When is not a Focalboard date"
+    },
+    {
+      "path": "/card/c3",
+      "reason": "a card template is not imported"
+    },
+    {
+      "path": "/card/c4/properties/0",
+      "reason": "a value of a property the board does not define"
+    }
+  ]
+}

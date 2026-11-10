@@ -1,0 +1,17 @@
+{"crossModelVersion":4.5,"timestamp":1,"data":{
+ "project":{"ids":["p1","p2",3],"entities":{"p1":{"id":"p1","title":"Garden","backlogTaskIds":["t3"]},"p2":{"id":"p2","title":"Garden"},"3":{"id":3,"title":""},"p9":{"id":"p9","title":"Unused"}}},
+ "tag":{"ids":["g1"],"entities":{"g1":{"id":"g1","title":" shop "},"g2":{"id":"g2","title":""}}},
+ "task":{"ids":["t1","t2","t3","t4",5,"t6","t1"],"entities":{
+  "t1":{"id":"t1","title":" Order valves ","notes":"Two of them","projectId":"p1","tagIds":["g1","g1","TODAY","KANBAN_IN_PROGRESS","nope"],"attachments":[{"path":"https://x.test/a b","title":"Spec [v2]"},{"path":"/home/me/f.pdf","type":"FILE"},null],"deadlineWithTime":1696161600000,"dueDay":"2026-10-01","timeEstimate":"5400000","priority":"HIGH","timeSpent":1800000,"timeSpentOnDay":{"2026-10-01":1},"created":1696000000000,"issueType":"GITHUB","issueId":"42","remindAt":5},
+  "t2":{"id":"t2","title":"","parentId":"t3","isDone":true,"doneOn":1696250000000,"dueWithTime":1696160000000,"priority":"constructor"},
+  "t3":{"id":"t3","title":"Backlog parent","projectId":"p1","repeatCfgId":"r1","deadlineDay":"2026-02-30","timeEstimate":0},
+  "t4":{"id":"t4","title":"Second Garden","projectId":"p2","priority":2,"parentId":"missing"},
+  "5":{"id":5,"title":"Numeric id","projectId":3},
+  "t6":{"id":"t6","title":"No project","projectId":"zzz","issueType":"JIRA"},
+  "t7":{"id":"t7","title":"Not in ids","projectId":"p2","dueDay":"0050-01-01"}
+ }},
+ "archiveYoung":{"task":{"ids":["a1","t1"],"entities":{"a1":{"id":"a1","title":"Archived","projectId":"p2","created":9e15},"t1":{"id":"t1","title":"dup"}}}},
+ "archiveOld":{"task":{"ids":["a2"],"entities":{"a2":{"id":"a2","title":"Old","isDone":false}}}},
+ "note":{"ids":["n1"],"entities":{"n1":{"id":"n1"}}},
+ "boards":{"boardCfgs":[{}]}
+}}

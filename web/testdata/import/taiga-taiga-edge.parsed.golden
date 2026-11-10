@@ -1,0 +1,276 @@
+{
+  "board": {
+    "name": "Garden"
+  },
+  "columns": [
+    {
+      "title": "New"
+    },
+    {
+      "title": "Doing"
+    },
+    {
+      "title": "Archived"
+    },
+    {
+      "title": "Fresh"
+    },
+    {
+      "title": "Open"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Lane A"
+    },
+    {
+      "name": "Lane B"
+    },
+    {
+      "name": "Unclassified"
+    },
+    {
+      "name": "Epics"
+    },
+    {
+      "name": "Issues"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "#2",
+      "description": "",
+      "column_name": "Archived",
+      "swimlane_name": "Unclassified",
+      "tags": [],
+      "ref": "us-2",
+      "archived": true,
+      "comments": [],
+      "custom_fields": {}
+    },
+    {
+      "title": "No ref",
+      "description": "",
+      "column_name": "New",
+      "swimlane_name": "Unclassified",
+      "tags": [],
+      "comments": [],
+      "custom_fields": {}
+    },
+    {
+      "title": "Order valves",
+      "description": "",
+      "column_name": "Doing",
+      "swimlane_name": "Lane A",
+      "tags": [
+        "shop",
+        "urgent"
+      ],
+      "ref": "us-1",
+      "parent_ref": "epic-8",
+      "dependencies": [
+        {
+          "ref": "epic-9",
+          "type": "related-to"
+        },
+        {
+          "ref": "issue-4",
+          "type": "related-to"
+        }
+      ],
+      "date_creation": "2024-03-01T10:15:00.000Z",
+      "date_due": "2024-03-15T00:00:00.000Z",
+      "comments": [
+        {
+          "text": "Looks good",
+          "author": "ann@x",
+          "authorName": "Ann",
+          "date": "2024-03-02T09:00:00.000Z"
+        },
+        {
+          "text": "bad date",
+          "author": "Bob",
+          "authorName": "Bob"
+        }
+      ],
+      "custom_fields": {
+        "7": "seven",
+        "Size": "L",
+        "Zero": 0,
+        "Blocked": "Blocked",
+        "Due date reason": "vendor",
+        "Story points": 8,
+        "Client requirement": true
+      },
+      "owner_username": "ann",
+      "assignees": [
+        "bob"
+      ],
+      "requested_by": "carl",
+      "watchers": [
+        "dee"
+      ]
+    },
+    {
+      "title": "#12",
+      "description": "",
+      "column_name": "New",
+      "swimlane_name": "Lane A",
+      "tags": [],
+      "ref": "task-12",
+      "parent_ref": "us-99",
+      "comments": [],
+      "custom_fields": {}
+    },
+    {
+      "title": "Loose",
+      "description": "",
+      "column_name": "New",
+      "swimlane_name": "Lane A",
+      "tags": [],
+      "comments": [],
+      "custom_fields": {}
+    },
+    {
+      "title": "Fit",
+      "description": "",
+      "column_name": "Doing",
+      "swimlane_name": "Lane A",
+      "tags": [],
+      "ref": "task-11",
+      "parent_ref": "us-1",
+      "date_end": "2024-03-10T08:00:00.000Z",
+      "comments": [],
+      "custom_fields": {
+        "Task status": "In progress",
+        "Iocaine": true
+      }
+    },
+    {
+      "title": "#8",
+      "description": "",
+      "column_name": "Fresh",
+      "swimlane_name": "Epics",
+      "tags": [
+        "old"
+      ],
+      "ref": "epic-8",
+      "comments": [],
+      "custom_fields": {}
+    },
+    {
+      "title": "Big epic",
+      "description": "",
+      "column_name": "Fresh",
+      "swimlane_name": "Epics",
+      "tags": [],
+      "ref": "epic-9",
+      "color": "#abcdef",
+      "comments": [],
+      "custom_fields": {
+        "Client requirement": true
+      }
+    },
+    {
+      "title": "Leak",
+      "description": "",
+      "column_name": "Open",
+      "swimlane_name": "Issues",
+      "tags": [
+        "shop",
+        "type:Bug",
+        "priority:High"
+      ],
+      "ref": "issue-4",
+      "comments": [
+        {
+          "text": "Confirmed",
+          "author": "carl",
+          "authorName": ""
+        }
+      ],
+      "custom_fields": {}
+    }
+  ],
+  "label_colors": {
+    "shop": "crimson",
+    "urgent": "green",
+    "old": "red"
+  },
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/epics/0/related_user_stories",
+      "reason": "a story of project \"other\" is not part of this import"
+    },
+    {
+      "path": "/user_stories/2/created_date",
+      "reason": "a date that is not a date is left out"
+    },
+    {
+      "path": "/user_stories/0/finish_date",
+      "reason": "a date that is not a date is left out"
+    },
+    {
+      "path": "/user_stories/0/history",
+      "reason": "a date that is not a date is left out"
+    },
+    {
+      "path": "/tasks/1/due_date",
+      "reason": "a date that is not a date is left out"
+    },
+    {
+      "path": "/attachments",
+      "reason": "3 attachment(s) are not imported: download them from Taiga and attach them to the cards"
+    },
+    {
+      "path": "/logo",
+      "reason": "the project logo is not imported"
+    },
+    {
+      "path": "/wiki_pages",
+      "reason": "1 wiki page(s) are not imported: a WeKan board has no wiki"
+    },
+    {
+      "path": "/wiki_links",
+      "reason": "2 wiki link(s) are not imported"
+    },
+    {
+      "path": "/timeline",
+      "reason": "the project timeline (1 event(s)) is not imported; comments are"
+    },
+    {
+      "path": "/issues/votes",
+      "reason": "2 issue vote(s) are not imported"
+    },
+    {
+      "path": "/memberships",
+      "reason": "1 project member(s) are not added to the board; Taiga names people by email, and an item keeps them only where a WeKan user is mapped"
+    }
+  ],
+  "scrumTransfer": {
+    "format": "wekan-scrum-2",
+    "settings": {
+      "enabled": true,
+      "estimateSource": "customField",
+      "estimateCustomFieldId": "Story points",
+      "estimateUnit": "points"
+    },
+    "sprints": [
+      {
+        "_id": "taiga-sprint-Sprint 1",
+        "name": "Sprint 1",
+        "state": "planned",
+        "provenance": {
+          "system": "taiga",
+          "recordId": "Sprint 1"
+        }
+      }
+    ],
+    "releases": [],
+    "events": [],
+    "cards": [],
+    "lists": [],
+    "swimlanes": []
+  }
+}

@@ -51,11 +51,15 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 			accept = map[string]string{"markdown": ".md,text/markdown,text/plain", "todotxt": ".txt,text/plain",
 				"taskwarrior": ".json,application/json,.ndjson,text/plain", "nullboard": ".nbx,.json,application/json",
 				"opml": ".opml,.xml,text/x-opml,text/xml", "leo": ".leo,.xml,application/xml",
-				"obsidian": ".md,text/markdown,text/plain", "orgmode": ".org,text/plain"}[source]
+				"obsidian": ".md,text/markdown,text/plain", "orgmode": ".org,text/plain",
+				"todoist": ".csv,text/csv", "meistertask": ".csv,text/csv", "linear": ".csv,text/csv",
+				"ticktick": ".csv,text/csv", "clickup": ".csv,text/csv", "pivotal": ".csv,text/csv",
+				"redmine": ".csv,text/csv", "quire": ".csv,text/csv", "focalboard": ".jsonl,.json,application/json",
+				"superproductivity": ".json,application/json", "vikunja": ".zip,application/zip,.json,application/json"}[source]
 		}
 	}
 	return map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source, "Accept": accept, "Paste": paste, "General": general,
-		"Instruction": importInstruction(lang, source)}
+		"Instruction": importInstruction(lang, source), "MembersModes": importMembersModes}
 }
 
 func (s *Server) importPage(w http.ResponseWriter, r *http.Request, u *User) {
@@ -255,8 +259,28 @@ func importInstruction(lang, source string) string {
 		"todotxt": msg("import-board-instruction-todotxt"), "taskwarrior": msg("import-board-instruction-taskwarrior"),
 		"nullboard": msg("import-board-instruction-nullboard"), "kanri": msg("import-board-instruction-kanri"),
 		"opml": msg("import-board-instruction-opml"), "leo": msg("import-board-instruction-leo"),
-		"obsidian": msg("import-board-instruction-obsidian"), "orgmode": msg("import-board-instruction-orgmode")}[source]
+		"obsidian": msg("import-board-instruction-obsidian"), "orgmode": msg("import-board-instruction-orgmode"),
+		"todoist": msg("import-board-instruction-todoist"), "meistertask": msg("import-board-instruction-meistertask"),
+		"linear": msg("import-board-instruction-linear"), "ticktick": msg("import-board-instruction-ticktick"),
+		"clickup": msg("import-board-instruction-clickup"), "pivotal": msg("import-board-instruction-pivotal"),
+		"redmine": msg("import-board-instruction-redmine"), "quire": msg("import-board-instruction-quire"),
+		"focalboard": msg("import-board-instruction-focalboard"), "tasksorg": msg("import-board-instruction-tasksorg"),
+		"superproductivity": msg("import-board-instruction-superproductivity"), "taiga": msg("import-board-instruction-taiga"),
+		"vikunja": msg("import-board-instruction-vikunja")}[source]
 	return tr(lang, key)
 }
 
 var _ = msg("import-board-instruction-issues")
+
+// importMembersModes are WeKan's people choices, "map" first and chosen, as
+// its import page shows them.
+var importMembersModes = []struct {
+	Mode, Label string
+	Checked     bool
+}{
+	{"map", msg("import-members-mode-map"), true},
+	{"placeholder", msg("import-members-mode-placeholder"), false},
+	{"me", msg("import-members-mode-me"), false},
+}
+
+var _ = msg("import-members-mode-heading")

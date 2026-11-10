@@ -1,0 +1,133 @@
+{
+  "board": {
+    "name": "Imported Todoist"
+  },
+  "columns": [
+    {
+      "title": "No section"
+    },
+    {
+      "title": "To Do"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Before section",
+      "description": "",
+      "column_name": "No section",
+      "swimlane_name": "Default",
+      "tags": [
+        "p2",
+        "early"
+      ]
+    },
+    {
+      "title": "Order valves now",
+      "description": "Two \"of\" them\nsecond line",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "p1",
+        "shop",
+        "urgent,"
+      ],
+      "owner_username": "Bob",
+      "date_due": "2026-10-20T09:30:00.000Z",
+      "date_started": "2026-10-10T00:00:00.000Z",
+      "comments": [
+        {
+          "text": "Call the vendor",
+          "author": "Alice"
+        }
+      ],
+      "checklists": [
+        {
+          "title": "Sub-tasks",
+          "items": [
+            {
+              "title": "Check the flange",
+              "done": false
+            },
+            {
+              "title": "Deeper sub",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Imported task",
+      "description": "",
+      "column_name": "No section",
+      "swimlane_name": "Default",
+      "tags": [
+        "onlylabel"
+      ]
+    },
+    {
+      "title": "Timed",
+      "description": "",
+      "column_name": "No section",
+      "swimlane_name": "Default",
+      "tags": [
+        "p3"
+      ],
+      "owner_username": "Carol"
+    },
+    {
+      "title": "UTC timed",
+      "description": "",
+      "column_name": "No section",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_due": "2026-10-10T08:15:00.000Z"
+    },
+    {
+      "title": "a\"b\"c",
+      "description": "x\"y",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Quotedtail",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/row/2",
+      "reason": "a note with no task above it is not imported"
+    },
+    {
+      "path": "/row/12/DATE",
+      "reason": "Todoist date \"every monday\" is not a calendar date"
+    },
+    {
+      "path": "/row/12/DEADLINE",
+      "reason": "Todoist deadline \"2026-02-30\" is not a calendar date"
+    },
+    {
+      "path": "/row/12/DURATION",
+      "reason": "Todoist duration has no WeKan field"
+    },
+    {
+      "path": "/row/13/DATE",
+      "reason": "Todoist date \"2026-10-10 14:30\" is not a calendar date"
+    },
+    {
+      "path": "/row/15",
+      "reason": "Todoist row type subtask is not imported"
+    }
+  ]
+}

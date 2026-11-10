@@ -34,10 +34,16 @@ func (o *jsObject) set(k string, v any) {
 func (o jsObject) MarshalJSON() ([]byte, error) {
 	var b bytes.Buffer
 	b.WriteByte('{')
-	for n, kv := range o {
+	n := 0
+	for _, kv := range o {
+		// JSON.stringify leaves out a key whose value is undefined.
+		if _, undef := kv.Value.(undefinedValue); undef {
+			continue
+		}
 		if n > 0 {
 			b.WriteByte(',')
 		}
+		n++
 		b.Write(jsJSON(kv.Key, ""))
 		b.WriteByte(':')
 		b.Write(jsJSON(kv.Value, ""))

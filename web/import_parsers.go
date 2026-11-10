@@ -489,6 +489,10 @@ func parseKanboard(data any) (jsObject, error) {
 // matters: String(undefined) is "undefined".
 type undefinedValue struct{}
 
+// MarshalJSON is JSON.stringify's undefined in an array: null. In an object
+// the key is left out (jsObject.MarshalJSON).
+func (undefinedValue) MarshalJSON() ([]byte, error) { return []byte("null"), nil }
+
 // jsGetOrUndef is o[k], undefined when o has no k.
 func jsGetOrUndef(o any, k string) any {
 	if v, ok := jsLookup(o, k); ok {

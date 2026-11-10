@@ -1,0 +1,157 @@
+{
+  "board": {
+    "name": "My CalDAV"
+  },
+  "columns": [
+    {
+      "title": "First"
+    },
+    {
+      "title": "Second"
+    },
+    {
+      "title": "Untitled list"
+    },
+    {
+      "title": "Neg"
+    },
+    {
+      "title": "No list"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Two of them",
+      "column_name": "First",
+      "swimlane_name": "Default",
+      "tags": [
+        "shop"
+      ],
+      "ref": "r1",
+      "parent_ref": "r0",
+      "date_due": "2023-10-01T12:00:00.000Z",
+      "date_started": "2023-09-30T12:01:00.000Z",
+      "date_end": "2023-10-02T12:33:20.123Z",
+      "date_creation": "2023-09-29T15:06:40.000Z",
+      "spent_hours": 0.28,
+      "comments": [
+        {
+          "text": "Looks good",
+          "date": "2023-10-01T11:33:20.000Z"
+        },
+        {
+          "text": "No date"
+        },
+        {
+          "text": "Pic"
+        }
+      ],
+      "custom_fields": {
+        "Priority": "High",
+        "Estimate (hours)": 1.5
+      }
+    },
+    {
+      "title": "",
+      "description": "",
+      "column_name": "No list",
+      "swimlane_name": "Default",
+      "tags": [],
+      "custom_fields": {
+        "Priority": "Medium"
+      }
+    },
+    {
+      "title": "Prio 3 string",
+      "description": "",
+      "column_name": "Second",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Prio length",
+      "description": "",
+      "column_name": "Untitled list",
+      "swimlane_name": "Default",
+      "tags": [],
+      "custom_fields": {
+        "Priority": 3
+      }
+    },
+    {
+      "title": "Prio obj",
+      "description": "",
+      "column_name": "No list",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Prio 2.0",
+      "description": "",
+      "column_name": "No list",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_due": "2023-10-01T12:00:00.000Z",
+      "custom_fields": {
+        "Priority": "Low"
+      }
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/data/tasks/0/alarms",
+      "reason": "2 Tasks.org reminder(s) of \"Order valves\" are not imported"
+    },
+    {
+      "path": "/data/tasks/0/geofences",
+      "reason": "1 Tasks.org location reminder(s) of \"Order valves\" are not imported"
+    },
+    {
+      "path": "/data/tasks/0/attachments",
+      "reason": "1 Tasks.org attachment(s) of \"Order valves\": the backup has no file contents"
+    },
+    {
+      "path": "/data/tasks/0/comments/3/picture",
+      "reason": "a Tasks.org comment picture is not in the backup"
+    },
+    {
+      "path": "/data/tasks/1/task/deletionDate",
+      "reason": "Tasks.org task \"Deleted\" is deleted and is not imported"
+    },
+    {
+      "path": "/data/tasks/2/caldavTasks/0/calendar",
+      "reason": "Tasks.org list \"missing\" is not in the backup's caldavCalendars; the task is put in No list"
+    },
+    {
+      "path": "/data/tasks/2/task/recurrence",
+      "reason": "Tasks.org repeat rule \"RRULE:FREQ=DAILY\" has no WeKan equivalent"
+    },
+    {
+      "path": "/data/tasks/2/task/timerStart",
+      "reason": "the running Tasks.org timer of an untitled task is not imported"
+    },
+    {
+      "path": "/data/tasks/3/task/priority",
+      "reason": "Tasks.org priority \"3\" is not 0, 1, 2 or 3"
+    },
+    {
+      "path": "/data/tasks/5/task/priority",
+      "reason": "Tasks.org priority {\"a\":1} is not 0, 1, 2 or 3"
+    },
+    {
+      "path": "/data/tasks/7",
+      "reason": "a Tasks.org backup entry without a task is not imported"
+    },
+    {
+      "path": "/data/tasks/8",
+      "reason": "a Tasks.org backup entry without a task is not imported"
+    }
+  ]
+}

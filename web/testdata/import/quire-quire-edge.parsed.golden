@@ -1,0 +1,144 @@
+{
+  "board": {
+    "name": "Imported Quire project"
+  },
+  "columns": [
+    {
+      "title": "Doing"
+    },
+    {
+      "title": "To-Do"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Root task",
+      "description": "Body",
+      "column_name": "Doing",
+      "swimlane_name": "Default",
+      "tags": [
+        "a",
+        "b"
+      ],
+      "ref": "#12",
+      "owner_username": "Ann",
+      "assignees": [
+        "Bob",
+        "Cy"
+      ],
+      "requested_by": "Ann",
+      "date_creation": "2026-10-01T07:00:00.000Z",
+      "date_started": "2026-10-05T00:00:00.000Z",
+      "date_due": "2026-10-10T00:00:00.000Z",
+      "custom_fields": {
+        "Priority": "Urgent"
+      }
+    },
+    {
+      "title": "Child by depth",
+      "description": "",
+      "column_name": "To-Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "#13",
+      "parent_ref": "#12",
+      "date_started": "2026-09-01T00:00:00.000Z",
+      "custom_fields": {
+        "Priority": "Low"
+      }
+    },
+    {
+      "title": "Grandchild",
+      "description": "",
+      "column_name": "To-Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "#14",
+      "parent_ref": "#13",
+      "date_end": "2026-12-31T00:00:00.000Z"
+    },
+    {
+      "title": "Path child",
+      "description": "",
+      "column_name": "To-Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "#15",
+      "parent_ref": "#12",
+      "custom_fields": {
+        "Priority": "High"
+      }
+    },
+    {
+      "title": "After path",
+      "description": "",
+      "column_name": "To-Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "#16",
+      "parent_ref": "#99"
+    },
+    {
+      "title": "=Formula",
+      "description": "",
+      "column_name": "To-Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "@tag"
+      ],
+      "ref": "=17",
+      "parent_ref": "+18",
+      "custom_fields": {
+        "Priority": "High"
+      }
+    },
+    {
+      "title": "Self parent",
+      "description": "",
+      "column_name": "To-Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "#19"
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/columns/Extra",
+      "reason": "Quire column \"Extra\" has no WeKan place and is not imported"
+    },
+    {
+      "path": "/columns/Estimate",
+      "reason": "Quire column \"Estimate\" has no WeKan place and is not imported"
+    },
+    {
+      "path": "/row/2/Started",
+      "reason": "Quire's Started date is not kept beside its Start date"
+    },
+    {
+      "path": "/row/3/Due",
+      "reason": "Quire date \"2026-02-30\" could not be read"
+    },
+    {
+      "path": "/row/4/Due",
+      "reason": "Quire date \"0050-01-01\" could not be read"
+    },
+    {
+      "path": "/row/5/Created",
+      "reason": "Quire date \"2026-10-01T25:00Z\" could not be read"
+    },
+    {
+      "path": "/row/8/Priority",
+      "reason": "Quire priority \"9\" is not one of Low, Medium, High, Urgent"
+    },
+    {
+      "path": "/row/8/Start",
+      "reason": "Quire date \"Smarch 3 2026\" could not be read"
+    }
+  ]
+}

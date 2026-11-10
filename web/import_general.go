@@ -20,8 +20,8 @@ import (
 // its checklists and comments, the board's custom fields, and then the
 // parent and dependency links between the import's own cards.
 //
-// The file's people are the person importing (WeKan's "me" mode): Weddy has
-// no placeholder users or members-mapping step yet. Activities are written
+// The file's people are placeholder users, or with "me" the person
+// importing; Weddy has no members-mapping step yet. Activities are written
 // as WeKan's .direct inserts, without rules or notifications for an import.
 
 // jsLookup is o[k] and whether o has the key - JavaScript's undefined is a
@@ -129,7 +129,7 @@ func columnLimit(doc any, name string) int {
 }
 
 // importGeneral is KanboardCreator.create for one parsed document.
-func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source string) (*Board, error) {
+func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source, mode string) (*Board, error) {
 	if _, ok := doc.(jsObject); !ok {
 		if _, isArr := doc.([]any); !isArr {
 			return nil, errors.New("error-json-schema")
@@ -140,10 +140,16 @@ func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source str
 	}
 	g := &generalImport{s: s, ctx: ctx, u: u, source: source, now: time.Now().UTC(), lists: map[string]string{}, lanes: map[string]string{}}
 	tasks := importTasks(doc)
-	// "me": every person of the file is the person importing.
+	// "me": every person of the file is the person importing; otherwise each
+	// becomes a placeholder user (import_placeholders.go).
 	g.members = map[string]string{}
-	for _, p := range importedPeople(tasks) {
-		g.members[p] = u.ID
+	var placeholders []string
+	if importMembersMode(mode) == "me" {
+		for _, p := range importedPeople(tasks) {
+			g.members[p] = u.ID
+		}
+	} else {
+		placeholders = s.importPlaceholders(ctx, importPeople(tasks), g.members, source)
 	}
 	title, _ := jsOr(jsGet(jsGet(doc, "board"), "name"), jsGet(jsGet(doc, "board"), "title")).(string)
 	if title == "" {
@@ -151,6 +157,9 @@ func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source str
 	}
 	b, err := s.insertBoard(ctx, u, title, "board", s.boardPermission(ctx, "private", "import:"+source))
 	if err != nil {
+		return nil, err
+	}
+	if err := s.addPlaceholderMembers(ctx, b.ID, placeholders); err != nil {
 		return nil, err
 	}
 	// The tasks' tags as the board's labels, black unless the source gives
@@ -383,12 +392,14 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 		}
 		input = doc
 	}
-	b, err := s.importInput(r, u, source, input)
+	b, err := s.importInput(r, u, source, input, r.FormValue("membersMode"))
 	if err != nil {
 		var me *methodError
 		switch {
 		case errors.Is(err, errImportTooLarge):
 			fail("import-too-large")
+		case errors.As(err, &me) && me.Code == "invalid-import-format":
+			fail("error-json-schema") // a parser's refusal, as the page has always shown it
 		case errors.As(err, &me):
 			fail(me.Code)
 		default:

@@ -1,0 +1,132 @@
+{
+  "board": {
+    "name": "Plant"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "No section"
+    },
+    {
+      "title": "Done"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Two, of them",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "shop",
+        "urgent"
+      ],
+      "ref": "42",
+      "owner_username": "Ann",
+      "date_due": "2026-10-10T00:00:00.000Z",
+      "date_creation": "2021-04-26T07:35:13.000Z"
+    },
+    {
+      "title": "No section card",
+      "description": "",
+      "column_name": "No section",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_creation": "2021-04-26T07:35:00.000Z",
+      "date_end": "2021-04-27T08:00:00.000Z"
+    },
+    {
+      "title": "Completed late",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_due": "2000-01-01T04:59:59.000Z",
+      "date_creation": "1950-01-01T00:00:00.000Z",
+      "date_end": "2021-04-28T00:00:00.000Z"
+    },
+    {
+      "title": "Binned",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [],
+      "archived": true
+    },
+    {
+      "title": "Archived",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [],
+      "archived": true
+    },
+    {
+      "title": "Weird status",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Proto status",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Zero status",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Time 24",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_due": "2026-10-11T00:00:00.000Z"
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/columns/checklists",
+      "reason": "MeisterTask column \"checklists\" has no documented format and is not imported"
+    },
+    {
+      "path": "/row/3/due_date",
+      "reason": "MeisterTask date \"2026-02-30\" is not an ISO 8601 date"
+    },
+    {
+      "path": "/row/4/completed_at",
+      "reason": "MeisterTask date \"bad\" is not an ISO 8601 date"
+    },
+    {
+      "path": "/row/7/status",
+      "reason": "MeisterTask status \"3\" is not 1, 2, 8 or 16; imported as open"
+    },
+    {
+      "path": "/row/9/status",
+      "reason": "MeisterTask status \"01\" is not 1, 2, 8 or 16; imported as open"
+    },
+    {
+      "path": "/row/10",
+      "reason": "a MeisterTask row without a name is not imported"
+    },
+    {
+      "path": "/row/11/created_at",
+      "reason": "MeisterTask date \"2026-10-10T10:61\" is not an ISO 8601 date"
+    }
+  ]
+}

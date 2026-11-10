@@ -1,0 +1,156 @@
+{
+  "board": {
+    "name": "Imported Linear issues"
+  },
+  "columns": [
+    {
+      "title": "Todo"
+    },
+    {
+      "title": "No status"
+    },
+    {
+      "title": "Done"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Eng"
+    },
+    {
+      "name": "Default"
+    },
+    {
+      "name": "Ops"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "=SUM(A1)",
+      "description": "'plain",
+      "column_name": "Todo",
+      "swimlane_name": "Eng",
+      "tags": [
+        "a",
+        "b"
+      ],
+      "ref": "ENG-1",
+      "owner_username": "Bob",
+      "requested_by": "Ann",
+      "date_creation": "2026-10-01T10:00:00.000Z",
+      "date_started": "2026-10-02T00:00:00.000Z",
+      "date_due": "2026-10-10T00:00:00.000Z",
+      "custom_fields": {
+        "Priority": "Urgent",
+        "Estimate": 16,
+        "Project": "Garden",
+        "Cycle": "Cycle 3"
+      }
+    },
+    {
+      "title": "Second",
+      "description": "",
+      "column_name": "No status",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "ENG-2",
+      "parent_ref": "ENG-1",
+      "date_end": "2026-10-05T00:00:00.000Z",
+      "archived": true,
+      "custom_fields": {
+        "Estimate": 1000,
+        "Cycle": "Sprint 9",
+        "Canceled": true
+      }
+    },
+    {
+      "title": "Third",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Ops",
+      "tags": [],
+      "ref": "ENG-3",
+      "date_end": "2026-10-07T07:00:00.000Z",
+      "custom_fields": {
+        "Canceled": true
+      }
+    },
+    {
+      "title": "Fourth",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Ops",
+      "tags": [],
+      "ref": "ENG-4",
+      "date_creation": "2026-10-01T00:00:00.000Z",
+      "archived": true,
+      "custom_fields": {
+        "Priority": "Low",
+        "Cycle": "Cycle 7"
+      }
+    },
+    {
+      "title": "'Not formula",
+      "description": "",
+      "column_name": "Todo",
+      "swimlane_name": "Eng",
+      "tags": [],
+      "ref": "ENG-5",
+      "custom_fields": {
+        "Priority": "Medium",
+        "Estimate": 12
+      }
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/columns/SLA Status",
+      "reason": "Linear column \"SLA Status\" has no WeKan place and is not imported"
+    },
+    {
+      "path": "/columns/Extra",
+      "reason": "Linear column \"Extra\" has no WeKan place and is not imported"
+    },
+    {
+      "path": "/row/3/Archived",
+      "reason": "Linear date \"yes\" is not an ISO 8601 date"
+    },
+    {
+      "path": "/row/3/Created",
+      "reason": "Linear date \"2026-02-30\" is not an ISO 8601 date"
+    },
+    {
+      "path": "/row/3/Started",
+      "reason": "Linear date \"2026-10-02T25:00Z\" is not an ISO 8601 date"
+    },
+    {
+      "path": "/row/3/Due Date",
+      "reason": "Linear date \"2026-13-01\" is not an ISO 8601 date"
+    },
+    {
+      "path": "/row/4/Priority",
+      "reason": "Linear priority \"Higher\" is not one of Urgent, High, Medium, Low"
+    },
+    {
+      "path": "/row/4/Estimate",
+      "reason": "Linear estimate \"abc\" is not a number"
+    },
+    {
+      "path": "/row/4/Created",
+      "reason": "Linear date \"bad\" is not an ISO 8601 date"
+    },
+    {
+      "path": "/row/5/Estimate",
+      "reason": "Linear estimate \"Infinity\" is not a number"
+    },
+    {
+      "path": "/row/5/Archived",
+      "reason": "Linear date \"2026-10-08junk\" is not an ISO 8601 date"
+    },
+    {
+      "path": "/row/6",
+      "reason": "a Linear row without a title is not imported"
+    }
+  ]
+}

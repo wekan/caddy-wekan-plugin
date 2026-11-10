@@ -1,0 +1,27 @@
+{"version":1,"date":1700000000000}
+{"type":"board","data":{"id":"b1","title":"  Garden  ","description":"The plan","cardProperties":[{"id":"p1","name":"Status","type":"select","options":[{"id":"o1","value":"To Do"},{"id":"o2","value":"Done"},{"id":"o3","value":"Unused"},{"id":"o4"}]},{"id":"p2","name":"Priority","type":"select","options":[{"id":"h","value":"High"}]},{"id":"p3","name":" labels ","type":"multiSelect","options":[{"id":"l1","value":"shop"},{"id":"l2","value":"urgent"}]},{"id":"p4","name":"When","type":"date"},{"id":"p5","name":"Also","type":"date"},{"id":"p6","name":"Notes","type":"text"},{"id":"p7","name":"Count","type":"number"},{"id":"p8","name":"Ok","type":"checkbox"},{"id":"p9","name":"Made","type":"createdTime"},{"id":"p10","name":"Who","type":"person"},{"id":5,"name":"bad"},{"id":"p11","name":"Tags","type":"multiSelect","options":[{"id":1,"value":"num-id"}]}]}}
+{"type":"board","data":{"id":"b2","title":"Second"}}
+{"type":"boardMember","data":{"userId":"u1"}}
+{"type":"boardMember","data":{"userId":"u2"}}
+{"type":"category","data":{"x":1}}
+
+{"type":"block","data":{"id":"v1","type":"view","fields":{"viewType":"table","groupById":"p2"}}}
+{"type":"block","data":{"id":"v2","type":"view","fields":{"viewType":"board","groupById":"p1"}}}
+{"type":"block","data":{"id":"c1","type":"card","title":" Order valves ","createAt":1696156800000,"fields":{"contentOrder":["t2",["t1","x9"],"t1"],"properties":{"p1":"o1","p2":"h","p3":["l1","l2","zz"],"p4":"{\"from\":1696156800000,\"to\":1696243200000}","p5":{"from":1696329600000},"p6":"note","p7":42,"p8":true,"p9":"x","p10":"u1","pX":"?","p11":"1"}}}}
+{"type":"block","data":{"id":"t1","type":"text","parentId":"c1","title":"First text","createAt":5}}
+{"type":"block","data":{"id":"t2","type":"h2","parentId":"c1","title":"Heading","createAt":4}}
+{"type":"block","data":{"id":"t3","type":"divider","parentId":"c1","createAt":3}}
+{"type":"block","data":{"id":"t4","type":"checkbox","parentId":"c1","title":"Measure","fields":{"value":true},"createAt":2}}
+{"type":"block","data":{"id":"t5","type":"checkbox","parentId":"c1","title":"Call","createAt":1}}
+{"type":"block","data":{"id":"t6","type":"comment","parentId":"c1","title":"Looks good","createAt":1696160000000}}
+{"type":"block","data":{"id":"t7","type":"comment","parentId":"c1","title":"No date"}}
+{"type":"block","data":{"id":"t8","type":"image","parentId":"c1"}}
+{"type":"block","data":{"id":"t9","type":"attachment","parentId":"c1","createAt":"7"}}
+{"type":"block","data":{"id":"t10","type":"video","parentId":"c1","createAt":6}}
+{"type":"block","data":{"id":"t11","type":"text","parentId":"c1","title":"Deleted","deleteAt":5}}
+{"type":"block","data":{"id":"c2","type":"card","title":"   ","fields":{"properties":{"p1":"o2","p4":"not json","p6":"","p7":0}}}}
+{"type":"block","data":{"id":"c3","type":"card","title":"Template","fields":{"isTemplate":true}}}
+{"type":"block","data":{"id":"c4","type":"card","title":"No status","createAt":"1.9","fields":{"properties":["ignored"]}}}
+{"type":"block","data":{"id":"c5","type":"card","title":"Odd option","fields":{"properties":{"p1":"o4"}}}}
+{"type":"block","data":{"id":"b3","type":"board","title":"Board as block"}}
+{"type":"block","data":{"type":"card","title":"no id"}}

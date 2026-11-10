@@ -1,0 +1,7 @@
+Id,Team,Title,Description,Status,Estimate,Priority,Project,Creator,Assignee,Labels,Cycle Number,Cycle Name,Created,Started,Completed,Canceled,Archived,Due Date,Parent issue,SLA Status,Extra
+ENG-1,Eng,'=SUM(A1),'plain,Todo,0x10,Urgent,Garden,Ann,Bob,"a, b ,",3,,2026-10-01T10:00:00.000Z,2026-10-02,,,,2026-10-10,,x,y
+ENG-2,,Second,,,1e3,No priority,,,,,,Sprint 9,2026-02-30,2026-10-02T25:00Z,2026-10-05,2026-10-06,yes,2026-13-01,ENG-1,,
+ENG-3,Ops,Third,,Done,abc,Higher,,,,,,,bad,,,2026-10-07T10:00:00+03:00,,,,,
+ENG-4,Ops,Fourth,,Done,Infinity,Low,,,,,7,,2026-10-01,,,,2026-10-08junk,,,,
+,Eng,,,Todo,,,,,,,,,,,,,,,,,
+ENG-5,Eng,'Not formula,,Todo, 12 ,Medium,,,,,,,,,,,,,,,

@@ -1,0 +1,13 @@
+["", "   ", "plain *markdown* text", "<p>Two &amp; a <b>bold</b> &lt;tag&gt;</p><p>Second&nbsp;para</p>",
+ "<h2>Steps</h2><ul data-type=\"taskList\"><li data-checked=\"true\"><p>Measure</p></li><li data-checked=\"false\"><p>Call   the\nvendor</p></li></ul><p>after</p>",
+ "<h3>Named</h3><p>but text after</p><ul data-type=\"taskList\"><li data-checked=\"false\">x</li></ul>",
+ "<ul data-type=\"taskList\"><li data-checked=\"true\">a<ul data-type=\"taskList\"><li data-checked=\"false\">nested</li></ul></li><li>b</li></ul>",
+ "<ol><li>one</li><li>two<ul><li>inner</li></ul></li></ol><ul><li><p>para in li</p></li></ul>",
+ "<pre><code>line 1\n  line 2</code></pre><p>x</p><hr><p>y<br>z</p>",
+ "<p><a href=\"https://x.test/a b(1)\">link [text]</a> <a href=\"javascript:alert(1)\">bad</a> <img src=\"https://i.test/p.png\" alt=\"a [b]\"><img src=\"data:x\"></p>",
+ "<!-- comment --><p>after comment</p><!-- unclosed", "a < b and <x", "<p>&#169; &#x1F600; &bogus; &#0; &#39;</p>",
+ "<blockquote><p>quoted</p></blockquote><h1>Title</h1><table><tr><td>cell</td></tr></table>",
+ "<p><em>em</em> <i>i</i> <s>s</s> <del>d</del> <strike>st</strike> <code>c</code> <strong>s</strong></p>",
+ "<div><span>span text</span><label><input type=\"checkbox\">label</label></div>",
+ "<ul data-type='taskList'><li data-checked=true>single quoted</li></ul>",
+ "<h2>Only heading</h2>", "<p>   </p><p>\t</p>", "<li>orphan li</li>", "</ul></ol></li>text"]

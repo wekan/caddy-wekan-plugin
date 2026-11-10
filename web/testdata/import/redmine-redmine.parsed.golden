@@ -1,0 +1,129 @@
+{
+  "board": {
+    "name": "Imported Redmine issues"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "New"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    },
+    {
+      "name": "Ops"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:H"
+      ],
+      "ref": "cardA1",
+      "owner_username": "alice",
+      "requested_by": "carol",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "date_started": "2026-11-10T00:00:00.000Z",
+      "date_due": "2026-11-20T00:00:00.000Z",
+      "spent_hours": 1.13
+    },
+    {
+      "title": "-minus first",
+      "description": "first\r\nsecond",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B"
+      ],
+      "ref": "cardB😀2",
+      "parent_ref": "cardA1",
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "date_end": "2026-11-05T00:00:00.000Z",
+      "spent_hours": 2.5,
+      "dependencies": [
+        {
+          "ref": "cardC3",
+          "type": "related-to"
+        },
+        {
+          "ref": "cardA1",
+          "type": "blocks"
+        }
+      ]
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Ops",
+      "tags": [],
+      "ref": "cardC3",
+      "date_due": "2026-12-24T00:00:00.000Z",
+      "dependencies": [
+        {
+          "ref": "cardB😀2",
+          "type": "is-blocked-by"
+        },
+        {
+          "ref": "cardA1",
+          "type": "duplicates"
+        }
+      ]
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "tags": [
+        "p1"
+      ],
+      "ref": "cardD4",
+      "parent_ref": "cardB😀2",
+      "requested_by": "Eve",
+      "date_started": "2026-11-11T00:00:00.000Z",
+      "date_due": "2026-11-12T00:00:00.000Z"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "New",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "cardE5",
+      "date_end": "2026-11-06T00:00:00.000Z",
+      "spent_hours": 0.5
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Ops",
+      "tags": [],
+      "ref": "cardF6",
+      "parent_ref": "cardC3"
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

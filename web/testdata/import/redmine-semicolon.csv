@@ -1,0 +1,4 @@
+unique_id;subject;status;tracker;relation_blocks;relation_follows;parent_issue_id;estimated_hours;done_ratio;Priority;Files
+A1;First;Done;Task;A2, #3 2d;A2 -1d;;2,5;100;Low;x
+A2;Second;Done;;;;#A1;;;;
+3;Third;;;;;;;;;

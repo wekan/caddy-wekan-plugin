@@ -1,0 +1,18 @@
+{"version":151300,"timestamp":1,"data":{
+ "caldavAccounts":[{"uuid":"acc1","name":"  My CalDAV  "},{"uuid":"acc2","name":"Other"}],
+ "caldavCalendars":[{"uuid":"cal2","name":"Second","order":2,"account":"acc1"},{"uuid":"cal1","name":" First ","order":0,"account":"acc1"},{"uuid":"cal3","name":"","account":"acc1"},{"uuid":"cal1","name":"Dup","order":1},{"name":"No uuid"},{"uuid":"cal4","name":"Neg","order":-1}],
+ "tasks":[
+  {"task":{"title":" Order valves ","notes":"Two of them","priority":0,"dueDate":1696161600000,"hideUntil":1696075261000,"completionDate":1696250000123.7,"creationDate":1696000000000,"estimatedSeconds":5400,"elapsedSeconds":1000,"remoteId":"task-remote"},
+   "caldavTasks":[{"calendar":"cal1","deleted":5},{"calendar":"cal1","remoteId":"r1","remoteParent":"r0"}],
+   "tags":[{"name":"shop"},{"name":" shop "},{"name":""},"x"],
+   "comments":[{"message":"Looks good","created":1696160000000},{"message":"  "},{"message":"No date"},{"message":"Pic","picture":"p.jpg","created":9e15},5],
+   "alarms":[{},{}],"geofences":[{}],"attachments":[{}]},
+  {"task":{"title":"Deleted","deletionDate":5}},
+  {"task":{"title":"","priority":"1","recurrence":"RRULE:FREQ=DAILY","timerStart":7},"caldavTasks":[{"calendar":"missing"}]},
+  {"task":{"title":"Prio 3 string","priority":"3"},"caldavTasks":[{"calendar":"cal2"}]},
+  {"task":{"title":"Prio length","priority":"length"},"caldavTasks":[{"calendar":"cal3"}]},
+  {"task":{"title":"Prio obj","priority":{"a":1},"dueDate":-5,"hideUntil":"1696161600000"}},
+  {"task":{"title":"Prio 2.0","priority":2.0,"dueDate":1696118400000}},
+  "not an object",
+  {"nottask":1}
+ ]}}

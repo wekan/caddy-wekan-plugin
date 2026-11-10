@@ -1,0 +1,141 @@
+{
+  "board": {
+    "name": "Imported TickTick backup"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "Tasks"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Plan & <Go> \"q\" 🚀"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Plan & <Go> \"q\" 🚀",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x   y"
+      ],
+      "ref": "1",
+      "date_started": "2026-11-10T00:00:00.000Z",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "a & b",
+              "done": true
+            },
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "-minus first",
+      "description": "first\nsecond",
+      "column_name": "Done",
+      "swimlane_name": "Plan & <Go> \"q\" 🚀",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "=SUM(1)",
+        "won't do"
+      ],
+      "ref": "2",
+      "parent_ref": "1",
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "one",
+              "done": false
+            },
+            {
+              "title": "",
+              "done": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Plan & <Go> \"q\" 🚀",
+      "tags": [],
+      "ref": "3",
+      "date_due": "2026-12-24T18:30:00.000Z"
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Plan & <Go> \"q\" 🚀",
+      "tags": [
+        "p1"
+      ],
+      "ref": "4",
+      "parent_ref": "2",
+      "date_started": "2026-11-11T00:00:00.000Z",
+      "date_due": "2026-11-12T00:00:00.000Z"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "Tasks",
+      "swimlane_name": "Plan & <Go> \"q\" 🚀",
+      "tags": [],
+      "ref": "5",
+      "date_end": "2026-11-06T00:00:00.000Z"
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Plan & <Go> \"q\" 🚀",
+      "tags": [],
+      "ref": "6",
+      "parent_ref": "3"
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

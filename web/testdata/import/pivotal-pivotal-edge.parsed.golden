@@ -1,0 +1,220 @@
+{
+  "board": {
+    "name": "Imported Pivotal Tracker"
+  },
+  "columns": [
+    {
+      "title": "Unscheduled"
+    },
+    {
+      "title": "Unstarted"
+    },
+    {
+      "title": "Finished"
+    },
+    {
+      "title": "Accepted"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Two of them",
+      "column_name": "Accepted",
+      "swimlane_name": "Default",
+      "tags": [
+        "bug",
+        "shop"
+      ],
+      "ref": "101",
+      "owner_username": "Bob",
+      "assignees": [
+        "Cy"
+      ],
+      "requested_by": "Ann",
+      "date_creation": "2026-09-01T00:00:00.000Z",
+      "date_end": "2026-10-12T00:00:00.000Z",
+      "custom_fields": {
+        "Story points": 3,
+        "Priority": "p1 - High"
+      },
+      "checklists": [
+        {
+          "title": "Tasks",
+          "items": [
+            {
+              "title": "Measure",
+              "done": true
+            },
+            {
+              "title": "Call",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "text": "Looks good",
+          "author": "Ann Lee",
+          "date": "2026-10-03T00:00:00.000Z"
+        },
+        {
+          "text": "Plain comment"
+        }
+      ],
+      "dependencies": [
+        {
+          "ref": "102",
+          "type": "is-blocked-by"
+        }
+      ]
+    },
+    {
+      "title": "=SUM(1)",
+      "description": "",
+      "column_name": "Unstarted",
+      "swimlane_name": "Default",
+      "tags": [
+        "epic"
+      ],
+      "ref": "102",
+      "date_due": "1950-10-09T00:00:00.000Z",
+      "custom_fields": {
+        "Story points": 0
+      },
+      "checklists": [
+        {
+          "title": "Tasks",
+          "items": [
+            {
+              "title": "Lone task",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "text": "",
+          "author": "Nobody",
+          "date": "2026-10-03T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "title": "Third",
+      "description": "",
+      "column_name": "Unscheduled",
+      "swimlane_name": "Default",
+      "tags": [
+        "feature"
+      ],
+      "ref": "103"
+    },
+    {
+      "title": "Release it",
+      "description": "",
+      "column_name": "Finished",
+      "swimlane_name": "Default",
+      "tags": [
+        "release"
+      ],
+      "ref": "104",
+      "date_due": "2027-01-01T00:00:00.000Z",
+      "date_creation": "2026-01-15T00:00:00.000Z",
+      "custom_fields": {
+        "Priority": "p0 - Now"
+      },
+      "comments": [
+        {
+          "text": "Note (Dee - Jan 32, 2026)"
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/columns/mystery",
+      "reason": "Pivotal Tracker does not write a \"mystery\" column; it is not imported"
+    },
+    {
+      "path": "/row/2/Comment/2",
+      "reason": "a Pivotal Tracker comment without \"(Author - Mon D, YYYY)\" is imported without its author and date"
+    },
+    {
+      "path": "/row/2/Blocker/2",
+      "reason": "a Pivotal Tracker blocker that names no single story (#id) is not imported"
+    },
+    {
+      "path": "/row/2/pull request",
+      "reason": "1 Pivotal Tracker pull request(s) of this story are not imported"
+    },
+    {
+      "path": "/row/2/git branch",
+      "reason": "1 Pivotal Tracker git branch(s) of this story are not imported"
+    },
+    {
+      "path": "/row/2/deadline",
+      "reason": "Pivotal Tracker date \"Feb 30, 2026\" is not \"Mon D, YYYY\" or \"MM/DD/YYYY\""
+    },
+    {
+      "path": "/row/3/Current State",
+      "reason": "Pivotal Tracker state \"weird\" is not one of unscheduled, unstarted, planned, started, finished, delivered, accepted, rejected; imported as unstarted"
+    },
+    {
+      "path": "/row/3/Blocker/1",
+      "reason": "a resolved Pivotal Tracker blocker is not imported"
+    },
+    {
+      "path": "/row/3/created at",
+      "reason": "Pivotal Tracker date \"13/45/2026\" is not \"Mon D, YYYY\" or \"MM/DD/YYYY\""
+    },
+    {
+      "path": "/row/3/accepted at",
+      "reason": "Pivotal Tracker date \"Smarch 1 2026\" is not \"Mon D, YYYY\" or \"MM/DD/YYYY\""
+    },
+    {
+      "path": "/row/4/Type",
+      "reason": "Pivotal Tracker type \"story\" is not one of feature, bug, chore, epic, release; imported as feature"
+    },
+    {
+      "path": "/row/4/Estimate",
+      "reason": "Pivotal Tracker estimate \"abc\" is not a number of points"
+    },
+    {
+      "path": "/row/4/Priority",
+      "reason": "Pivotal Tracker priority \"P9 - Bad\" is not p0 to p3"
+    },
+    {
+      "path": "/row/5/Comment/1",
+      "reason": "a Pivotal Tracker comment without \"(Author - Mon D, YYYY)\" is imported without its author and date"
+    }
+  ],
+  "scrumTransfer": {
+    "format": "wekan-scrum-2",
+    "settings": {
+      "estimateSource": "customField",
+      "estimateCustomFieldId": "Story points",
+      "estimateUnit": "points"
+    },
+    "sprints": [],
+    "releases": [],
+    "events": [],
+    "cards": [],
+    "lists": [],
+    "swimlanes": []
+  },
+  "scrumLosses": [
+    {
+      "path": "/iterations/3",
+      "reason": "iteration \"3\" holds only accepted stories, so it is finished; it is not imported: the export has no commitment or close snapshot"
+    }
+  ]
+}

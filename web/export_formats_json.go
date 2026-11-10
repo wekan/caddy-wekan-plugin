@@ -42,6 +42,7 @@ func jsCollapse(s, rep string) string {
 
 // jsJSON is JSON.stringify(v, null, indent): no HTML escaping, as JavaScript.
 func jsJSON(v any, indent string) []byte {
+	v = jsPositiveZero(v)
 	var buf bytes.Buffer
 	enc := json.NewEncoder(&buf)
 	enc.SetEscapeHTML(false)
@@ -220,4 +221,25 @@ func formatZenkit(d extBoard) []byte {
 		out.Items = append(out.Items, it)
 	}
 	return jsJSON(out, "")
+}
+
+// jsPositiveZero is JSON.stringify's -0, which it writes as 0 where Go's
+// encoder writes -0: in v, and in the arrays and maps in it (a jsObject's
+// values come back through jsJSON on their own).
+func jsPositiveZero(v any) any {
+	switch x := v.(type) {
+	case float64:
+		if x == 0 {
+			return 0.0
+		}
+	case []any:
+		for i, e := range x {
+			x[i] = jsPositiveZero(e)
+		}
+	case map[string]any:
+		for k, e := range x {
+			x[k] = jsPositiveZero(e)
+		}
+	}
+	return v
 }

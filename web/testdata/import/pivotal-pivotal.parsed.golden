@@ -1,0 +1,155 @@
+{
+  "board": {
+    "name": "Imported Pivotal Tracker"
+  },
+  "columns": [
+    {
+      "title": "Unstarted"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "Accepted"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "Unstarted",
+      "swimlane_name": "Default",
+      "tags": [
+        "bug",
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "x y"
+      ],
+      "owner_username": "alice",
+      "assignees": [
+        "bob",
+        "bob, jr"
+      ],
+      "requested_by": "carol",
+      "date_creation": "2026-11-01T00:00:00.000Z",
+      "checklists": [
+        {
+          "title": "Tasks",
+          "items": [
+            {
+              "title": "a & b",
+              "done": true
+            },
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "text": "Looks <i>good</i>",
+          "author": "bob",
+          "date": "2026-11-02T00:00:00.000Z"
+        },
+        {
+          "text": "no author"
+        }
+      ]
+    },
+    {
+      "title": "-minus first",
+      "description": "first\r\nsecond",
+      "column_name": "Accepted",
+      "swimlane_name": "Default",
+      "tags": [
+        "feature",
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "date_end": "2026-11-05T00:00:00.000Z",
+      "checklists": [
+        {
+          "title": "Tasks",
+          "items": [
+            {
+              "title": "one",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Unstarted",
+      "swimlane_name": "Default",
+      "tags": [
+        "feature"
+      ],
+      "owner_username": "dave",
+      "comments": [
+        {
+          "text": "orphan"
+        }
+      ]
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "tags": [
+        "feature",
+        "p1"
+      ],
+      "requested_by": "Eve"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "Accepted",
+      "swimlane_name": "Default",
+      "tags": [
+        "feature"
+      ],
+      "date_end": "2026-11-06T00:00:00.000Z"
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Unstarted",
+      "swimlane_name": "Default",
+      "tags": [
+        "feature"
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/row/2/Comment/2",
+      "reason": "a Pivotal Tracker comment without \"(Author - Mon D, YYYY)\" is imported without its author and date"
+    },
+    {
+      "path": "/row/4/Comment/1",
+      "reason": "a Pivotal Tracker comment without \"(Author - Mon D, YYYY)\" is imported without its author and date"
+    }
+  ]
+}

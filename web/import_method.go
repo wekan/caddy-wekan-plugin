@@ -1,6 +1,7 @@
 package web
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"net/http"
@@ -39,9 +40,17 @@ func validImportShape(source string, v any) bool {
 		return isArr || arrayAt(v, "data")
 	case "zenkit":
 		return isArr || arrayAt(v, "items") || (arrayAt(v, "elements") && (arrayAt(v, "entries") || arrayAt(v, "listEntries")))
+	case "taiga":
+		return arrayAt(v, "user_stories")
+	case "vikunja":
+		// The export .zip as { zipBase64 }, or the text of its data.json.
+		zip, _ := jsGet(v, "zipBase64").(string)
+		return zip != "" || isText && strings.TrimSpace(text) != ""
+	case "tasksorg":
+		return arrayAt(jsGet(v, "data"), "tasks")
 	case "kanri":
 		return arrayAt(v, "columns") || arrayAt(v, "boards")
-	case "markdown", "todotxt", "taskwarrior", "nullboard", "obsidian", "orgmode":
+	case "markdown", "todotxt", "taskwarrior", "nullboard", "obsidian", "orgmode", "todoist", "meistertask", "linear", "ticktick", "clickup", "pivotal", "redmine", "quire", "focalboard", "superproductivity":
 		return isText && strings.TrimSpace(text) != ""
 	case "leo":
 		return isText && leoShape.MatchString(text)
@@ -53,7 +62,7 @@ func validImportShape(source string, v any) bool {
 
 // importInput writes one document - the text of a text source, the decoded
 // JSON of any other - as a new board.
-func (s *Server) importInput(r *http.Request, u *User, source string, input any) (*Board, error) {
+func (s *Server) importInput(r *http.Request, u *User, source string, input any, mode string) (*Board, error) {
 	if !validImportShape(source, input) {
 		return nil, errImportShape
 	}
@@ -63,6 +72,18 @@ func (s *Server) importInput(r *http.Request, u *User, source string, input any)
 			return nil, errImportTooLarge
 		}
 		return clean, nil
+	}
+	// A Vikunja .zip comes to importBoard as { zipBase64 }: its bytes, at
+	// most WeKan's 64 MB.
+	if z, ok := jsGet(input, "zipBase64").(string); ok && source == "vikunja" {
+		if len(z) > (maxVikunjaZipBytes+2)/3*4+4 {
+			return nil, errImportTooLarge
+		}
+		raw, err := base64.StdEncoding.DecodeString(z)
+		if err != nil {
+			return nil, errImportShape
+		}
+		input = string(raw)
 	}
 	var parsed jsObject
 	var err error
@@ -78,7 +99,7 @@ func (s *Server) importInput(r *http.Request, u *User, source string, input any)
 			text, _ = clean.(string)
 		}
 		if parsed, err = parse(text); err != nil {
-			return nil, errImportShape
+			return nil, &methodError{"invalid-import-format", err.Error()}
 		}
 		if importParsedFirst[source] {
 			clean, err := secure(parsed)
@@ -93,10 +114,10 @@ func (s *Server) importInput(r *http.Request, u *User, source string, input any)
 			return nil, err
 		}
 		if parsed, err = importParsers[source](doc); err != nil {
-			return nil, errImportShape
+			return nil, &methodError{"invalid-import-format", err.Error()}
 		}
 	}
-	return s.importGeneral(r.Context(), u, parsed, source)
+	return s.importGeneral(r.Context(), u, parsed, source, mode)
 }
 
 // methodImportBoard is WeKan's importBoard(board, data, importSource,
@@ -117,12 +138,18 @@ func (s *Server) methodImportBoard(r *http.Request, u *User, args []json.RawMess
 	if s.importDisabled(r.Context()) {
 		return nil, &methodError{"import-disabled", "Import is disabled by the administrator."}
 	}
-	_, json := importParsers[source]
+	_, jsonSource := importParsers[source]
 	_, text := importTextParsers[source]
-	if !json && !text {
+	if !jsonSource && !text {
 		return nil, &methodError{"not-implemented", "Weddy does not import " + source + " through importBoard yet"}
 	}
-	b, err := s.importInput(r, u, source, board)
+	var data struct {
+		MembersMode string `json:"membersMode"`
+	}
+	if len(args) > 1 {
+		_ = json.Unmarshal(args[1], &data)
+	}
+	b, err := s.importInput(r, u, source, board, data.MembersMode)
 	var me *methodError
 	switch {
 	case err == nil:

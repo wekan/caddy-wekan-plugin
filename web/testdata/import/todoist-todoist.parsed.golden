@@ -1,0 +1,132 @@
+{
+  "board": {
+    "name": "Imported Todoist"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write spec now @@home",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "p2",
+        "priority:H",
+        "web_dev",
+        "project:Plant.Pumps",
+        "big_deal",
+        "a;b",
+        "Bug",
+        "x_,_y"
+      ],
+      "owner_username": "alice",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "date_started": "2026-11-10T00:00:00.000Z",
+      "comments": [
+        {
+          "text": "Looks <i>good</i>",
+          "author": "bob"
+        },
+        {
+          "text": "no author"
+        }
+      ],
+      "checklists": [
+        {
+          "title": "Sub-tasks",
+          "items": [
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "-minus first",
+      "description": "first\r\nsecond",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't_do",
+        "=SUM(1)"
+      ],
+      "checklists": [
+        {
+          "title": "Sub-tasks",
+          "items": [
+            {
+              "title": "one",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "multi line title",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Default",
+      "tags": [],
+      "date_due": "2026-12-24T18:30:00.000Z",
+      "comments": [
+        {
+          "text": "orphan"
+        }
+      ]
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "tags": [
+        "p1"
+      ],
+      "date_due": "2026-11-12T00:00:00.000Z",
+      "date_started": "2026-11-11T00:00:00.000Z"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

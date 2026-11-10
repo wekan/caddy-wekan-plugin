@@ -43,6 +43,18 @@
         input.js-import-file(id="import-file", type="file", name="file", accept="{{.Accept}}")
       if .Paste
         textarea.js-import-json(id="import-textarea", name="text", rows="10")
+      //- WeKan's "People in the file": placeholder users keeping the names
+        (and "map" too, while Weddy has no members-mapping step - nobody
+        mapped is a placeholder), or the person importing.
+      if .General
+        .import-members-mode
+          p
+            strong {{t $.L "import-members-mode-heading"}}
+          input.js-import-members-mode-value(type="hidden", name="membersMode", value="map")
+          each m in .MembersModes
+            a.flex.js-import-members-mode(data-mode="{{.Mode}}", href="#")
+              .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
+              span {{t $.L .Label}}
       //- WeKan's "Import" without the members-mapping step, for another tool's JSON.
       if .General
         input.primary.wide.js-import-without-mapping(type="submit", value="{{t $.L `import`}}")

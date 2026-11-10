@@ -1,8 +1,12 @@
 package web
 
 import (
+	"archive/zip"
+	"bytes"
 	"context"
+	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -16,6 +20,7 @@ import (
 	"testing"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // TestImportBoundaryIsWeKans: Weddy's import boundary gives what Node.js
@@ -279,5 +284,166 @@ func TestImportBoardMethod(t *testing.T) {
 	}
 	if out := callImport(`["x", {}, "trello"]`); out["error"] != "not-implemented" {
 		t.Errorf("a source Weddy does not parse here: %v", out)
+	}
+}
+
+// TestImportPeopleAreWeKans: the people Weddy makes placeholder users of
+// are WeKan's importedPeople, key and name, in its order, for every parsed
+// fixture (testdata/import/people.golden, written by generate-parsers.mjs).
+func TestImportPeopleAreWeKans(t *testing.T) {
+	raw, err := os.ReadFile("testdata/import/people.golden")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var want map[string][]struct{ Key, Name string }
+	if err := json.Unmarshal(raw, &want); err != nil {
+		t.Fatal(err)
+	}
+	for name, people := range want {
+		gold, err := os.ReadFile("testdata/import/" + name + ".parsed.golden")
+		if err != nil {
+			t.Fatal(err)
+		}
+		doc, err := decodeJS(gold)
+		if err != nil {
+			t.Fatal(err)
+		}
+		got := importPeople(importTasks(doc))
+		if len(got) != len(people) {
+			t.Errorf("%s: Weddy %v, WeKan %v", name, got, people)
+			continue
+		}
+		for i, p := range people {
+			if got[i].key != p.Key || got[i].name != p.Name {
+				t.Errorf("%s person %d: Weddy %+v, WeKan %+v", name, i, got[i], p)
+			}
+		}
+	}
+}
+
+// TestImportPeopleChooser: the import page offers WeKan's three people
+// choices, "map" checked; the default makes the file's person a placeholder
+// user - unable to log in, an inactive board member with no rights, the
+// card's person - and "me" makes it the person importing, with no new user.
+func TestImportPeopleChooser(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	ann := w.seedUser(t, "ann", "pw")
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	page := getBody(t, c, w.srv.URL+"/import/clickup")
+	for _, mode := range []string{"map", "placeholder", "me"} {
+		if !strings.Contains(page, `data-mode="`+mode+`"`) {
+			t.Errorf("the page offers %s", mode)
+		}
+	}
+	if !strings.Contains(page, `name="membersMode" value="map"`) || strings.Count(page, "is-checked") != 1 {
+		t.Error("map is the one chosen, as on WeKan's page")
+	}
+	csv := func(person string) string { return "Task Name,Status,Assignees\nPeople card,to do,[" + person + "]\n" }
+	card := func(boardTitle string) bson.M {
+		var b Board
+		opts := options.FindOne().SetSort(bson.D{{Key: "createdAt", Value: -1}})
+		if err := w.db.Collection("boards").FindOne(ctx, bson.M{"title": boardTitle}, opts).Decode(&b); err != nil {
+			t.Fatal(err)
+		}
+		var cd bson.M
+		if err := w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&cd); err != nil {
+			t.Fatal(err)
+		}
+		cd["board"] = b
+		return cd
+	}
+	people := func(cd bson.M) []string {
+		var out []string
+		for _, f := range []string{"members", "assignees"} {
+			list, _ := cd[f].(bson.A)
+			for _, v := range list {
+				out = append(out, v.(string))
+			}
+		}
+		return out
+	}
+	// The default: a placeholder.
+	if res, err := c.PostForm(w.srv.URL+"/import/clickup", url.Values{"text": {csv("placeholder-1")}, "membersMode": {"map"}}); err != nil || res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("the import: %v %d", err, res.StatusCode)
+	}
+	var placeholder bson.M
+	if err := w.db.Collection("users").FindOne(ctx, bson.M{"importUsernames": "placeholder-1"}).Decode(&placeholder); err != nil {
+		t.Fatal("the placeholder user:", err)
+	}
+	if placeholder["loginDisabled"] != true || docString(placeholder, "username") != "placeholder-1" {
+		t.Errorf("unable to log in, keeping the name: %v", placeholder)
+	}
+	cd := card("Imported ClickUp tasks")
+	if !contains(people(cd), docString(placeholder, "_id")) {
+		t.Errorf("the card's person is the placeholder: %v", people(cd))
+	}
+	b := cd["board"].(Board)
+	found := false
+	for _, m := range b.Members {
+		if m.UserID == docString(placeholder, "_id") {
+			found = !m.IsActive && !m.IsAdmin
+		}
+	}
+	if !found {
+		t.Errorf("an inactive member with no rights: %+v", b.Members)
+	}
+	// Negative: the placeholder cannot sign in.
+	if res := w.signIn(t, w.client(t), "placeholder-1", ""); res.StatusCode == http.StatusSeeOther && strings.HasPrefix(res.Header.Get("Location"), "/b") {
+		t.Error("negative: a placeholder signs in")
+	}
+	// "me": the person importing, and no user made.
+	if res, err := c.PostForm(w.srv.URL+"/import/clickup", url.Values{"text": {csv("me-1")}, "membersMode": {"me"}}); err != nil || res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("the import as me: %v %d", err, res.StatusCode)
+	}
+	if n, _ := w.db.Collection("users").CountDocuments(ctx, bson.M{"importUsernames": "me-1"}); n != 0 {
+		t.Errorf("negative: me makes no placeholder: %d", n)
+	}
+	if cd := card("Imported ClickUp tasks"); !contains(people(cd), ann.ID) {
+		t.Errorf("with me, the card's person is the person importing: %v", people(cd))
+	}
+}
+
+// TestImportParsersRefuseAsWeKans is the negative side of the parsers'
+// golden test: a file WeKan's own parser throws on is refused by Weddy's too
+// - a Focalboard select whose options hold a null, which WeKan reads as
+// "Cannot read properties of null (reading 'value')".
+func TestImportParsersRefuseAsWeKans(t *testing.T) {
+	for source, file := range map[string]string{"focalboard": "focalboard-throw.jsonl"} {
+		text, err := os.ReadFile("testdata/import/" + file)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if _, err := importTextParsers[source](string(text)); err == nil {
+			t.Errorf("%s %s: WeKan refuses it, Weddy parses it", source, file)
+		}
+	}
+}
+
+// TestImportBoardMethodReasons: importBoard refuses with the parser's own
+// reason, as WeKan's Meteor.Error('invalid-import-format', error.message) -
+// a Vikunja .zip without data.json says so.
+func TestImportBoardMethodReasons(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	var buf bytes.Buffer
+	zw := zip.NewWriter(&buf)
+	f, _ := zw.Create("readme.txt")
+	_, _ = f.Write([]byte("hi"))
+	_ = zw.Close()
+	args, _ := json.Marshal([]any{map[string]any{"zipBase64": base64.StdEncoding.EncodeToString(buf.Bytes())}, map[string]any{}, "vikunja"})
+	req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/importBoard", bytes.NewReader(args))
+	req.Header.Set("Content-Type", "application/json")
+	res, err := c.Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var out map[string]any
+	_ = json.NewDecoder(res.Body).Decode(&out)
+	if out["error"] != "invalid-import-format" || !strings.Contains(fmt.Sprint(out["reason"]), "no data.json") {
+		t.Errorf("the refusal and its reason: %v", out)
 	}
 }

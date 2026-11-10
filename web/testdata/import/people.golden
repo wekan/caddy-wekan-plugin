@@ -1,0 +1,505 @@
+{
+  "kanboard-kanboard-api": [
+    {
+      "key": "4",
+      "name": "ann"
+    },
+    {
+      "key": "ann",
+      "name": "ann"
+    },
+    {
+      "key": "Bob",
+      "name": "Bob"
+    }
+  ],
+  "kanboard-kanboard": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    }
+  ],
+  "deck-wekan-deck": [
+    {
+      "key": "deck-a",
+      "name": "deck-a"
+    },
+    {
+      "key": "deck-b",
+      "name": "deck-b"
+    },
+    {
+      "key": "deck-user",
+      "name": "deck-user"
+    }
+  ],
+  "deck-deck-edge": [
+    {
+      "key": "zed",
+      "name": "zed"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "carl",
+      "name": "carl"
+    },
+    {
+      "key": "dee",
+      "name": "dee"
+    },
+    {
+      "key": "ann",
+      "name": "ann"
+    },
+    {
+      "key": "Bob",
+      "name": "Bob"
+    }
+  ],
+  "deck-deck": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "bob, jr",
+      "name": "bob, jr"
+    }
+  ],
+  "github-wekan-github": [],
+  "github-github-edge": [
+    {
+      "key": "ann",
+      "name": "ann"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "eve",
+      "name": "eve"
+    },
+    {
+      "key": "Gus",
+      "name": "Gus"
+    }
+  ],
+  "github-github": [],
+  "gitea-wekan-gitea": [],
+  "gitea-github-edge": [
+    {
+      "key": "ann",
+      "name": "ann"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "eve",
+      "name": "eve"
+    },
+    {
+      "key": "Gus",
+      "name": "Gus"
+    }
+  ],
+  "gitea-gitea": [],
+  "forgejo-wekan-forgejo": [],
+  "forgejo-forgejo": [],
+  "gitlab-wekan-gitlab": [
+    {
+      "key": "dummy",
+      "name": "Dummy"
+    }
+  ],
+  "gitlab-wekan-gitlab-scrum": [],
+  "gitlab-gitlab": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "bob, jr",
+      "name": "bob, jr"
+    }
+  ],
+  "asana-wekan-asana": [
+    {
+      "key": "asana-a@example.com",
+      "name": "asana-a@example.com"
+    },
+    {
+      "key": "Asana Assignee",
+      "name": "Asana Assignee"
+    },
+    {
+      "key": "asana-user",
+      "name": "asana-user"
+    }
+  ],
+  "asana-asana": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    }
+  ],
+  "zenkit-wekan-zenkit-adapter": [
+    {
+      "key": "zen-a",
+      "name": "zen-a"
+    },
+    {
+      "key": "zen-b",
+      "name": "zen-b"
+    },
+    {
+      "key": "zen-user",
+      "name": "zen-user"
+    }
+  ],
+  "zenkit-wekan-zenkit-api": [
+    {
+      "key": "zen-a",
+      "name": "zen-a"
+    },
+    {
+      "key": "zen-b",
+      "name": "zen-b"
+    }
+  ],
+  "zenkit-zenkit": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "bob, jr",
+      "name": "bob, jr"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ],
+  "openproject-wekan-openproject": [
+    {
+      "key": "op-assignee",
+      "name": "op-assignee"
+    },
+    {
+      "key": "op-responsible",
+      "name": "op-responsible"
+    },
+    {
+      "key": "op-user",
+      "name": "op-user"
+    }
+  ],
+  "openproject-openproject": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ],
+  "markdown-wekan-markdown": [],
+  "markdown-markdown-edge": [],
+  "markdown-markdown": [],
+  "markdown-obsidian": [],
+  "todotxt-todotxt-edge": [],
+  "todotxt-todotxt": [],
+  "taskwarrior-taskwarrior-edge": [],
+  "taskwarrior-taskwarrior": [],
+  "nullboard-nullboard-edge": [],
+  "nullboard-nullboard": [],
+  "kanri-kanri-edge": [],
+  "kanri-kanri": [],
+  "opml-opml-edge": [],
+  "opml-opml": [],
+  "leo-leo-edge": [],
+  "leo-leo": [],
+  "obsidian-obsidian-edge": [],
+  "obsidian-obsidian": [],
+  "orgmode-orgmode-edge": [],
+  "orgmode-orgmode": [],
+  "todoist-todoist-edge": [
+    {
+      "key": "Bob",
+      "name": "Bob"
+    },
+    {
+      "key": "Alice",
+      "name": "Alice"
+    },
+    {
+      "key": "Carol",
+      "name": "Carol"
+    }
+  ],
+  "todoist-todoist": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    }
+  ],
+  "meistertask-meistertask-edge": [
+    {
+      "key": "Ann",
+      "name": "Ann"
+    }
+  ],
+  "meistertask-meistertask": [],
+  "linear-linear-edge": [
+    {
+      "key": "Bob",
+      "name": "Bob"
+    }
+  ],
+  "linear-linear": [
+    {
+      "key": "alice",
+      "name": "alice"
+    }
+  ],
+  "ticktick-ticktick-edge": [],
+  "ticktick-ticktick": [],
+  "clickup-clickup-edge": [
+    {
+      "key": "Ann",
+      "name": "Ann"
+    },
+    {
+      "key": "Bob",
+      "name": "Bob"
+    },
+    {
+      "key": "Cy",
+      "name": "Cy"
+    },
+    {
+      "key": "Solo",
+      "name": "Solo"
+    }
+  ],
+  "clickup-clickup": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "bob  jr",
+      "name": "bob  jr"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ],
+  "pivotal-pivotal-edge": [
+    {
+      "key": "Bob",
+      "name": "Bob"
+    },
+    {
+      "key": "Cy",
+      "name": "Cy"
+    },
+    {
+      "key": "Ann Lee",
+      "name": "Ann Lee"
+    },
+    {
+      "key": "Nobody",
+      "name": "Nobody"
+    }
+  ],
+  "pivotal-pivotal": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "bob, jr",
+      "name": "bob, jr"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ],
+  "redmine-redmine-edge": [
+    {
+      "key": "Bob",
+      "name": "Bob"
+    },
+    {
+      "key": "Cy",
+      "name": "Cy"
+    },
+    {
+      "key": "Dee",
+      "name": "Dee"
+    }
+  ],
+  "redmine-redmine-semicolon": [],
+  "redmine-redmine": [
+    {
+      "key": "alice",
+      "name": "alice"
+    }
+  ],
+  "quire-quire-edge": [
+    {
+      "key": "Ann",
+      "name": "Ann"
+    },
+    {
+      "key": "Bob",
+      "name": "Bob"
+    },
+    {
+      "key": "Cy",
+      "name": "Cy"
+    }
+  ],
+  "quire-quire": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "bob  jr",
+      "name": "bob  jr"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ],
+  "focalboard-focalboard-edge": [],
+  "focalboard-focalboard": [],
+  "tasksorg-tasksorg-edge": [],
+  "tasksorg-tasksorg": [],
+  "superproductivity-superproductivity-edge": [],
+  "superproductivity-superproductivity": [],
+  "taiga-taiga-edge": [
+    {
+      "key": "ann",
+      "name": "ann"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "dee",
+      "name": "dee"
+    },
+    {
+      "key": "ann@x",
+      "name": "Ann"
+    },
+    {
+      "key": "Bob",
+      "name": "Bob"
+    },
+    {
+      "key": "carl",
+      "name": "carl"
+    }
+  ],
+  "taiga-wekan-taiga": [
+    {
+      "key": "ann@example.com",
+      "name": "Ann"
+    },
+    {
+      "key": "bob@example.com",
+      "name": "bob@example.com"
+    },
+    {
+      "key": "dave@example.com",
+      "name": "Dave"
+    }
+  ],
+  "vikunja-vikunja-edge": [
+    {
+      "key": "ann",
+      "name": "ann"
+    },
+    {
+      "key": "Bob",
+      "name": "Bob"
+    },
+    {
+      "key": "dee",
+      "name": "dee"
+    }
+  ],
+  "vikunja-vikunja": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    },
+    {
+      "key": "bob, jr",
+      "name": "bob, jr"
+    },
+    {
+      "key": "dave",
+      "name": "dave"
+    }
+  ]
+}

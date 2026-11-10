@@ -1,0 +1,163 @@
+{
+  "board": {
+    "name": "Plan & <Go> \"q\" 🚀"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Empty"
+    },
+    {
+      "title": "Won't fix"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "No list"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x , y"
+      ],
+      "ref": "wekan-card-cardA1",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "date_started": "2026-11-10T12:00:00.000Z",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "spent_hours": 1.13,
+      "comments": [
+        {
+          "text": "Looks <i>good</i>",
+          "date": "2026-11-02T09:30:00.000Z"
+        },
+        {
+          "text": "no author",
+          "date": "2026-11-10T12:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "title": "a & b",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "wekan-item-cardA1-0-0",
+      "parent_ref": "wekan-card-cardA1",
+      "date_end": "2026-11-10T12:00:00.000Z",
+      "date_creation": "2026-11-01T08:00:00.000Z"
+    },
+    {
+      "title": "c",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "wekan-item-cardA1-0-1",
+      "parent_ref": "wekan-card-cardA1",
+      "date_creation": "2026-11-01T08:00:00.000Z"
+    },
+    {
+      "title": "-minus first",
+      "description": "first\r\nsecond  \n\n",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "ref": "wekan-card-cardB__2",
+      "date_end": "2026-11-05T00:00:00.000Z",
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "spent_hours": 2.5
+    },
+    {
+      "title": "one",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "wekan-item-cardB__2-0-0",
+      "parent_ref": "wekan-card-cardB__2",
+      "date_creation": "2026-11-02T00:00:00.000Z"
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "wekan-card-cardC3",
+      "date_due": "2026-12-24T18:30:00.000Z",
+      "date_creation": "2026-11-10T12:00:00.000Z",
+      "comments": [
+        {
+          "text": "orphan",
+          "date": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "p1"
+      ],
+      "ref": "wekan-card-cardD4",
+      "date_due": "2026-11-12T12:00:00.000Z",
+      "date_started": "2026-11-11T12:00:00.000Z",
+      "date_creation": "2026-11-10T12:00:00.000Z"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "No list",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "wekan-card-cardE5",
+      "date_end": "2026-11-06T00:00:00.000Z",
+      "date_creation": "2026-11-10T12:00:00.000Z",
+      "spent_hours": 0.5
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "wekan-card-cardF6",
+      "date_creation": "2026-11-10T12:00:00.000Z"
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

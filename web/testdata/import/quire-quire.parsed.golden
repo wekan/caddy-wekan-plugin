@@ -1,0 +1,120 @@
+{
+  "board": {
+    "name": "Imported Quire project"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "To-Do"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x   y"
+      ],
+      "ref": "#1",
+      "owner_username": "alice",
+      "assignees": [
+        "bob",
+        "bob  jr"
+      ],
+      "requested_by": "carol",
+      "date_creation": "2026-11-01T00:00:00.000Z",
+      "date_started": "2026-11-10T00:00:00.000Z",
+      "date_due": "2026-11-20T00:00:00.000Z"
+    },
+    {
+      "title": "-minus first",
+      "description": "first\r\nsecond",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "ref": "#2",
+      "parent_ref": "#1",
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "date_end": "2026-11-05T00:00:00.000Z"
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "#3",
+      "owner_username": "dave",
+      "date_due": "2026-12-24T00:00:00.000Z"
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "tags": [
+        "p1"
+      ],
+      "ref": "#4",
+      "parent_ref": "#2",
+      "requested_by": "Eve",
+      "date_started": "2026-11-11T00:00:00.000Z",
+      "date_due": "2026-11-12T00:00:00.000Z"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "To-Do",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "#5",
+      "date_end": "2026-11-06T00:00:00.000Z"
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "#6",
+      "parent_ref": "#3"
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

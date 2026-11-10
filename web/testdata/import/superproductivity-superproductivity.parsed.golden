@@ -1,0 +1,122 @@
+{
+  "board": {
+    "name": "Super Productivity"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    },
+    {
+      "name": "Ops"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>\n\n### Steps\n- [x] a & b\n- [ ] c",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x , y"
+      ],
+      "ref": "cardA1",
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "spent_hours": 1.13
+    },
+    {
+      "title": "-minus first",
+      "description": "first\r\nsecond\n\n### Checklist\n- [ ] one\n- [x] ",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "ref": "cardB😀2",
+      "parent_ref": "cardA1",
+      "date_end": "2026-11-05T00:00:00.000Z",
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "spent_hours": 2.5
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Ops",
+      "tags": [
+        "Archived list"
+      ],
+      "ref": "cardC3",
+      "date_due": "2026-12-24T18:30:00.000Z",
+      "date_creation": "2026-11-10T12:00:00.000Z"
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "p1",
+        "Started"
+      ],
+      "ref": "cardD4",
+      "parent_ref": "cardA1",
+      "date_due": "2026-11-12T00:00:00.000Z",
+      "date_creation": "2026-11-10T12:00:00.000Z"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "Untitled"
+      ],
+      "ref": "cardE5",
+      "date_end": "2026-11-06T00:00:00.000Z",
+      "date_creation": "2026-11-10T12:00:00.000Z",
+      "spent_hours": 0.5
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Ops",
+      "tags": [],
+      "ref": "cardF6",
+      "parent_ref": "cardC3",
+      "date_creation": "2026-11-10T12:00:00.000Z"
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/data/task/timeSpentOnDay",
+      "reason": "the per-day breakdown of tracked time is not imported; each card keeps the total as spent hours"
+    },
+    {
+      "path": "/data/boards",
+      "reason": "Super Productivity boards are saved filters, not containers; lists come from each task's done state, in-progress tag and backlog instead"
+    }
+  ]
+}

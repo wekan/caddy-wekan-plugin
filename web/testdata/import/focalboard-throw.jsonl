@@ -1,0 +1,2 @@
+{"type":"board","data":{"id":"b1","title":"T","cardProperties":[{"id":"p1","name":"Status","type":"select","options":[null,{"id":"o1","value":"A"}]}]}}
+{"type":"block","data":{"id":"c1","type":"card","title":"x","fields":{"properties":{"p1":"o1"}}}}

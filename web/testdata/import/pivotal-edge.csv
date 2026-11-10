@@ -1,0 +1,6 @@
+Id,Title,Labels,Iteration,Iteration Start,Iteration End,Type,Estimate,Priority,Current State,Created at,Accepted at,Deadline,Requested By,Description,URL,Owned By,Owned By,Owned By,Blocker,Blocker Status,Blocker,Blocker Status,Comment,Comment,Task,Task Status,Task,Task Status,Pull Request,Git Branch,Mystery,Mystery
+101,Order valves,"shop, bug, shop",3,"Oct 5, 2026","Oct 11, 2026",Bug,3,p1 - High,Accepted,"Sept. 1, 2026","10/12/2026","Feb 30, 2026",Ann,Two of them,https://x,Bob,Cy,Bob,"blocked by #102",unresolved,#1 and #2,,"Looks good (Ann Lee - Oct 3, 2026)",Plain comment,Measure,completed,Call,not completed,https://pr/1,feature/x,m,n
+102,'=SUM(1),,,,,epic,-0,none,Weird,13/45/2026,Smarch 1 2026,"oct 9, 0050",,,,,,,#103,resolved,,,"(Nobody - Oct 3, 2026)",,,,Lone task,,,,,
+103,Third,,,,,story,abc,P9 - Bad,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+104,Release it,,,,,release,-1,p0 - Now,finished,"Jan. 15, 2026",,"1/1/2027",,,,,,,,,,,"Note (Dee - Jan 32, 2026)",,,,,,,,,

@@ -1,0 +1,141 @@
+{
+  "board": {
+    "name": "Space One"
+  },
+  "columns": [
+    {
+      "title": "to do"
+    },
+    {
+      "title": "in progress"
+    },
+    {
+      "title": "No status"
+    },
+    {
+      "title": "done"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Sprint 1"
+    },
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Parent task",
+      "description": "Body\n\n[Spec \\[v2\\]](https://x.test/a%20b%281%29%3Cc%3E)\n[http://y.test/](http://y.test/)",
+      "column_name": "to do",
+      "swimlane_name": "Sprint 1",
+      "tags": [
+        "shop",
+        "urgent"
+      ],
+      "ref": "a1",
+      "owner_username": "Ann",
+      "assignees": [
+        "Bob",
+        "Cy"
+      ],
+      "date_creation": "2023-10-01T10:40:00.000Z",
+      "date_due": "2026-10-10T00:00:00.000Z",
+      "spent_hours": 0.5,
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "step one",
+              "done": false
+            },
+            {
+              "title": "step two",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "custom_fields": {
+        "Priority": "Urgent",
+        "Task Type": "Milestone",
+        "Custom ID": "CU-1",
+        "Folder": "Proj/Sub",
+        "Time Estimate (hours)": 1.5
+      }
+    },
+    {
+      "title": "Child",
+      "description": "",
+      "column_name": "in progress",
+      "swimlane_name": "Sprint 1",
+      "tags": [],
+      "ref": "a2",
+      "date_started": "2026-10-01T07:00:00.000Z",
+      "custom_fields": {
+        "Priority": "High"
+      },
+      "parent_ref": "a1"
+    },
+    {
+      "title": "Second child",
+      "description": "",
+      "column_name": "No status",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "a3",
+      "parent_ref": "a9",
+      "owner_username": "Solo",
+      "date_creation": "1970-01-15T06:56:07.890Z",
+      "date_due": "5138-11-16T09:46:39.999Z",
+      "spent_hours": 0,
+      "custom_fields": {
+        "Time Estimate (hours)": 0
+      }
+    },
+    {
+      "title": "No ID",
+      "description": "",
+      "column_name": "done",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/row/3/Attachments",
+      "reason": "ClickUp attachments are not the documented JSON list"
+    },
+    {
+      "path": "/row/3/Checklists",
+      "reason": "ClickUp Checklists cells have no documented format and are not imported"
+    },
+    {
+      "path": "/row/3/Comments",
+      "reason": "ClickUp Comments cells have no documented format and are not imported"
+    },
+    {
+      "path": "/row/3/Date created",
+      "reason": "ClickUp date \"2026-02-30\" is neither milliseconds nor ISO 8601"
+    },
+    {
+      "path": "/row/3/Due date",
+      "reason": "ClickUp date \"2026-10-10T25:00Z\" is neither milliseconds nor ISO 8601"
+    },
+    {
+      "path": "/row/4/Priority",
+      "reason": "ClickUp priority \"9\" is not urgent, high, normal, low or 1-4"
+    },
+    {
+      "path": "/row/4/Attachments",
+      "reason": "ClickUp attachments are not the documented JSON list"
+    },
+    {
+      "path": "/row/4/Start date",
+      "reason": "ClickUp date \"yesterday\" is neither milliseconds nor ISO 8601"
+    }
+  ]
+}

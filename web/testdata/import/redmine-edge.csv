@@ -1,0 +1,7 @@
+#,Project,Tracker,Parent task subject,Status,Priority,Subject,Author,Assignee,Watchers,Updated,Category,Target version,Start date,Due date,Estimated time,% Done,Spent time,Created,Closed,Related issues,Description,Last notes,Sprint,2026,
+41,Garden,Bug,Root,New,High,Order valves,Ann,Bob,"Cy
+ Dee
+",x,Pipes,v1,25/12/2026,31/12/2026 2:30 PM,"1,5",50,0,2026-10-01T10:00:00+0300,,"Blocks #42, Precedes (3 days) #43, Weird #9, Related to #99",Two of them,Called them,S1,yes,
+42,Garden,Feature,,In progress,,Second,,,,,,,1/2/2026,13/1/2026 12:00 AM,abc,x,-0,13.10.2026 23:59:59,2026-02-30,"Blocked by #41, Copied from #41",,,,,
+43,,,,,,Third,,,,,,,2026/1/5,2026-01-05T10:00:00z,,,2.25,1.1.2026 13:00 pm,05-01-2026 10:00:61,"Follows #41,Has duplicate #41",,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,

@@ -77,5 +77,58 @@
   "orgmode": [
     "orgmode-edge.org",
     "../external/orgmode.golden"
+  ],
+  "todoist": [
+    "todoist-edge.csv",
+    "../external/todoist.golden"
+  ],
+  "meistertask": [
+    "meistertask-edge.csv",
+    "../external/meistertask.golden"
+  ],
+  "linear": [
+    "linear-edge.csv",
+    "../external/linear.golden"
+  ],
+  "ticktick": [
+    "ticktick-edge.csv",
+    "../external/ticktick.golden"
+  ],
+  "clickup": [
+    "clickup-edge.csv",
+    "../external/clickup.golden"
+  ],
+  "pivotal": [
+    "pivotal-edge.csv",
+    "../external/pivotal.golden"
+  ],
+  "redmine": [
+    "redmine-edge.csv",
+    "redmine-semicolon.csv",
+    "../external/redmine.golden"
+  ],
+  "quire": [
+    "quire-edge.csv",
+    "../external/quire.golden"
+  ],
+  "focalboard": [
+    "focalboard-edge.jsonl",
+    "../external/focalboard.golden"
+  ],
+  "tasksorg": [
+    "tasksorg-edge.json",
+    "../external/tasksorg.golden"
+  ],
+  "superproductivity": [
+    "superproductivity-edge.json",
+    "../external/superproductivity.golden"
+  ],
+  "taiga": [
+    "taiga-edge.json",
+    "wekan-taiga.json"
+  ],
+  "vikunja": [
+    "vikunja-edge.json",
+    "../external/vikunja.golden"
   ]
 }

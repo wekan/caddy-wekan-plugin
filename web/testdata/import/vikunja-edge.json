@@ -1,0 +1,23 @@
+[{"id":-1,"title":"Favorites","tasks":[{"id":99,"title":"fav"}]},
+ {"id":1,"title":"Garden","parent_project_id":0,"tasks":[]},
+ {"id":2,"title":"Beds","parent_project_id":1,"hex_color":"ff0000","description":"proj desc","background_file_id":3,
+  "views":[{"id":10,"title":"List","view_kind":"list","position":1},{"id":11,"title":"Board","view_kind":"kanban","position":2,"done_bucket_id":21,"default_bucket_id":20},{"id":12,"title":"Second","view_kind":3,"position":3}],
+  "buckets":[{"id":21,"title":"Done","project_view_id":11,"position":2},{"id":20,"title":" To Do ","project_view_id":11,"position":1,"limit":5},{"id":22,"title":"","project_view_id":11,"position":3},{"id":30,"title":"Other view","project_view_id":12}],
+  "task_buckets":[{"task_id":101,"bucket_id":22,"project_view_id":11},{"task_id":101,"bucket_id":20,"project_view_id":11},{"task_id":102,"bucket_id":30,"project_view_id":12}],
+  "positions":[{"task_id":101,"project_view_id":11,"position":5},{"task_id":102,"project_view_id":11,"position":"1"}],
+  "tasks":[
+   {"id":101,"title":" Order valves ","description":"<p>Two &amp; <b>three</b></p><h3>Steps</h3><ul data-type=\"taskList\"><li data-checked=\"true\"><p>Measure</p></li><li data-checked=\"false\"><p>Call</p></li></ul>","done":false,
+    "assignees":[{"username":"ann"},{"name":"Bob"},{"username":""},"x"],"created_by":{"username":" carl "},"due_date":"2026-10-10T10:00:00+02:00","start_date":"0001-01-01T00:00:00Z","end_date":"","created":"2026-09-01 08:00:00",
+    "priority":3,"percent_done":0.456,"hex_color":"#1973ff","labels":[{"title":"shop","hex_color":"e8e8e8"},{"title":" shop "},{"title":""}],
+    "comments":[{"comment":"<p>Looks <i>good</i></p><ul data-type=\"taskList\"><li data-checked=\"true\">done item</li></ul>","author":{"username":"dee"},"created":"2026-09-02T09:00:00Z"},{"comment":"<p></p>"},{"comment":"plain md","author":null}],
+    "related_tasks":{"subtask":[{"id":103},{"id":104}],"blocking":[{"id":102}],"related":[{"id":102}],"precedes":[{"id":102}],"copiedfrom":[]},
+    "attachments":[{"id":7,"file":{"id":8,"name":"plan.pdf"}},{"id":9},{"file":{"id":10}}],"reminders":[{}],"reminder_dates":["x"],"repeat_after":86400,"reactions":{"👍":[{}]}},
+   {"id":102,"title":"Second","done":true,"done_at":"2026-10-05T12:00:00Z","priority":7,"percent_done":2,"related_tasks":{"blocked":[{"id":101}],"related":[{"id":101}],"parenttask":[{"id":101},{"id":100}]},"reactions":[],"repeat_mode":1},
+   {"id":103,"title":"Child one","bucket_id":21,"kanban_position":3},
+   {"id":104,"title":"","bucket_id":20},
+   {"title":"No id","done":true,"position":"0"}
+  ]},
+ {"id":3,"title":"Beds","parent_project_id":1,"is_archived":true,"views":[],"buckets":[{"id":40,"title":"Old","position":1,"is_done_bucket":true},{"id":41,"title":"Older","position":0}],
+  "tasks":[{"id":201,"title":"Archived task","done":true},{"id":202,"title":"Open task","bucket_id":999}],"background_information":{"id":5}},
+ {"id":4,"title":"Elsewhere","parent_project_id":9,"tasks":[{"id":301,"title":"Not imported"}]},
+ {"id":5,"title":"Empty","parent_project_id":1}]

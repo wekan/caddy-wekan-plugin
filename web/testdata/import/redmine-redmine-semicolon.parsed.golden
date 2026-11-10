@@ -1,0 +1,85 @@
+{
+  "board": {
+    "name": "Imported Redmine issues"
+  },
+  "columns": [
+    {
+      "title": "Done"
+    },
+    {
+      "title": "New"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "First",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "Task"
+      ],
+      "ref": "A1",
+      "custom_fields": {
+        "Priority": "Low",
+        "Estimated time": 2.5,
+        "% Done": 100
+      },
+      "dependencies": [
+        {
+          "ref": "A2",
+          "type": "blocks"
+        },
+        {
+          "ref": "3",
+          "type": "blocks"
+        },
+        {
+          "ref": "A2",
+          "type": "related-to"
+        }
+      ]
+    },
+    {
+      "title": "Second",
+      "description": "",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "A2",
+      "parent_ref": "A1"
+    },
+    {
+      "title": "Third",
+      "description": "",
+      "column_name": "New",
+      "swimlane_name": "Default",
+      "tags": [],
+      "ref": "3"
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/columns/Files",
+      "reason": "Redmine column \"Files\" has no WeKan place and is not imported"
+    },
+    {
+      "path": "/row/2/relation_blocks",
+      "reason": "the delay of Redmine relation \"Blocks\" (2) is not imported"
+    },
+    {
+      "path": "/row/2/relation_follows",
+      "reason": "Redmine relation \"Follows\" has no WeKan type and is imported as related-to"
+    },
+    {
+      "path": "/row/2/relation_follows",
+      "reason": "the delay of Redmine relation \"Follows\" (-1) is not imported"
+    }
+  ]
+}

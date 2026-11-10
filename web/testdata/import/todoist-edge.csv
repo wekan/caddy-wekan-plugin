@@ -1,0 +1,21 @@
+﻿TYPE,CONTENT,DESCRIPTION,PRIORITY,INDENT,AUTHOR,RESPONSIBLE,DATE,DATE_LANG,TIMEZONE,DURATION,DURATION_UNIT,DEADLINE,DEADLINE_LANG
+note,Orphan note,,,,,,,,,,,,
+meta,view_style=board,,,,,,,,,,,,
+task,Before section @early,,2,,,,,,,,,,
+ , , ,
+section,To Do,,,,,,,,,,,,
+task,"Order valves @shop @urgent, now","Two ""of"" them
+second line",1,1,Alice (123),Bob (456),2026-10-10,en,UTC,,,2026-10-20 09:30,en
+task,Check the flange,,4,2,,,,,,,,,
+task,  Deeper  sub ,,4,3abc,,,,,,,,,
+note,Call the vendor,,,,Alice (123),,,,,,,,
+note,,,,,Nobody,,,,,,,,
+section,,,,,,,,,,,,,
+task,@onlylabel,,9,-1,,(77),every monday,en,Europe/Helsinki,30,minute,2026-02-30,en
+task,Timed,,3,0,,Carol,2026-10-10 14:30,en,Europe/Helsinki,,,,
+task,UTC timed,,x,,,,2026-10-10T08:15,en,etc/utc,,,,
+subtask,Weird,,,,,,,,,,,,
+,,,,,,,,,,,,,
+section,To Do
+task,a"b"c,"x""y",,,
+task,"Quoted"tail,,,,
