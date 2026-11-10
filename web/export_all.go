@@ -131,7 +131,7 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 			_ = json.NewEncoder(f).Encode(doc)
 		case "csv", "scsv", "tsv":
 			delim := map[string]string{"csv": ",", "scsv": ";", "tsv": "\t"}[format]
-			_, _ = f.Write(s.boardCSV(ctx, b, delim))
+			_, _ = f.Write(s.boardCSV(ctx, b, delim, exportWanted(r.URL.Query().Get("fields"))))
 		default:
 			_, _ = f.Write(s.externalExport(ctx, b, format, exportWanted(r.URL.Query().Get("fields"))))
 		}

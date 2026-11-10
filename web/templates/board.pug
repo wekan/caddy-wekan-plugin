@@ -345,7 +345,8 @@
         .export-board-panes
           //- WeKan's exportScopeSelect: what an export includes. Each row is a
             checkbox, all on to start; a click rewrites the ?fields= of the
-            tool links below (static/weddy.js), as exportScope.js's exportUrl.
+            tool and CSV links below (static/weddy.js), as exportScope.js's
+            exportUrl.
           .export-board-pane.export-board-pane-select
             p.quiet {{t $.L "export-select-what-to-include"}}
             ul.pop-over-list.export-scope-select
@@ -371,18 +372,18 @@
                 with its link's fields query: the selection above.
               each x in .ExportTools
                 li
-                  a.js-export-tool(href="/api/boards/{{$.Board.ID}}/export/{{.Key}}?fields={{$.ExportFieldsAll}}", data-format="{{.Key}}", download)
+                  a.js-export-tool.js-export-fields(href="/api/boards/{{$.Board.ID}}/export/{{.Key}}?fields={{$.ExportFieldsAll}}", data-format="{{.Key}}", download)
                     i.fa(class="{{.Icon}}")
                     |  {{.Label}}
             hr
             h4.pop-over-list-subheading CSV
             ul.pop-over-list
               li
-                a(href="/api/boards/{{.Board.ID}}/export/csv?delimiter=%2C", download) (,)
+                a.js-export-fields(href="/api/boards/{{.Board.ID}}/export/csv?delimiter=%2C&fields={{$.ExportFieldsAll}}", download) (,)
               li
-                a(href="/api/boards/{{.Board.ID}}/export/csv?delimiter=%3B", download) (;)
+                a.js-export-fields(href="/api/boards/{{.Board.ID}}/export/csv?delimiter=%3B&fields={{$.ExportFieldsAll}}", download) (;)
               li
-                a(href="/api/boards/{{.Board.ID}}/export/csv?delimiter=%09", download) TSV
+                a.js-export-fields(href="/api/boards/{{.Board.ID}}/export/csv?delimiter=%09&fields={{$.ExportFieldsAll}}", download) TSV
             hr
             h4.pop-over-list-subheading iCalendar
             ul.pop-over-list

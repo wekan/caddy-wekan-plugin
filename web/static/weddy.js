@@ -104,7 +104,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       if (box) box.classList.toggle('is-checked', on);
       if (on) fields.push(field);
     });
-    p.querySelectorAll('a.js-export-tool').forEach(function (a) {
+    p.querySelectorAll('a.js-export-fields').forEach(function (a) {
       var url = new URL(a.getAttribute('href'), location.href);
       url.searchParams.set('fields', fields.join(','));
       a.setAttribute('href', url.pathname + url.search);

@@ -235,16 +235,52 @@ func (s *Server) apiExportCSV(w http.ResponseWriter, r *http.Request) {
 	if delim != "\t" {
 		_, _ = w.Write([]byte{0xEF, 0xBB, 0xBF}) // a BOM, so a spreadsheet reads UTF-8
 	}
-	_, _ = w.Write(s.boardCSV(r.Context(), &b, delim))
+	_, _ = w.Write(s.boardCSV(r.Context(), &b, delim, exportWanted(r.URL.Query().Get("fields"))))
 }
 
-// boardCSV is the board's rows - the header, then a card a row - with delim.
-func (s *Server) boardCSV(ctx context.Context, b *Board, delim string) []byte {
+// csvColumnKeys are the untranslated keys of the CSV header, in its order.
+var csvColumnKeys = []string{"title", "description", "list", "swimlane", "owner", "requested-by", "assigned-by",
+	"members", "assignee", "labels", "card-start", "card-due", "card-end", "overtime-hours", "spent-time-hours",
+	"createdAt", "last-modified-at", "last-activity", "voting", "archived"}
+
+// csvColumnParts is CSV_COLUMN_PARTS (models/lib/exportFields.js): the
+// section of the Export pop-over each column belongs to. A column not named
+// - the title, archived - is what a row is, and always exported.
+var csvColumnParts = map[string]string{"description": "description", "list": "board-info", "swimlane": "board-info",
+	"owner": "people", "requested-by": "people", "assigned-by": "people", "members": "people", "assignee": "people",
+	"labels": "labels", "card-start": "dates", "card-due": "dates", "card-end": "dates", "overtime-hours": "dates",
+	"spent-time-hours": "dates", "createdAt": "dates", "last-modified-at": "dates", "last-activity": "dates",
+	"voting": "voting"}
+
+// csvColumnMask is csvColumnMask: the columns that stay, the custom fields'
+// after the fixed ones.
+func csvColumnMask(columns int, want exportWant) []bool {
+	mask := make([]bool, columns)
+	for i := range mask {
+		if i < len(csvColumnKeys) {
+			part, named := csvColumnParts[csvColumnKeys[i]]
+			mask[i] = !named || want.has(part)
+		} else {
+			mask[i] = want.has("custom-fields")
+		}
+	}
+	return mask
+}
+
+// boardCSV is the board's rows - the header, then a card a row - with
+// delim, the columns of the sections want leaves out dropped.
+func (s *Server) boardCSV(ctx context.Context, b *Board, delim string, want exportWant) []byte {
 	var out strings.Builder
-	for _, cells := range s.boardRows(ctx, b) {
-		row := make([]string, len(cells))
+	var mask []bool
+	for n, cells := range s.boardRows(ctx, b) {
+		if n == 0 {
+			mask = csvColumnMask(len(cells), want)
+		}
+		row := []string{}
 		for i, c := range cells {
-			row[i] = csvCell(c)
+			if i >= len(mask) || mask[i] {
+				row = append(row, csvCell(c))
+			}
 		}
 		out.WriteString(strings.Join(row, delim) + "\r\n")
 	}

@@ -81,6 +81,25 @@ func TestExportCSV(t *testing.T) {
 	if code != 200 || typ != "text/tsv" || strings.HasPrefix(body, "\uFEFF") || !strings.Contains(body, "\"Title\"\t\"Description\"") {
 		t.Fatalf("tsv: %d %s %q", code, typ, body[:min(len(body), 40)])
 	}
+	// The Export pop-over's selection, as WeKan's csvColumnMask: the
+	// sections left out drop their columns, the title and archived stay,
+	// and the custom fields go with their own section.
+	for q, want := range map[string]string{
+		"description":               `"Title","Description","Archived"`,
+		"labels,custom-fields":      `"Title","Labels","Archived","CustomField-Size-dropdown-S/M"`,
+		"people":                    `"Title","Owner","Requested By","Assigned By","Members","Assignee","Archived"`,
+		"nothing-wekan-knows":       lines[0],
+		"card-details,board-header": `"Title","Archived"`,
+	} {
+		_, _, body := get(url+"?fields="+q, a)
+		got := strings.Split(strings.TrimPrefix(body, "\uFEFF"), "\r\n")
+		if got[0] != want {
+			t.Errorf("fields=%s: %s, not %s", q, got[0], want)
+		}
+		if len(got) < 2 || strings.Count(got[1], `","`) != strings.Count(got[0], `","`) {
+			t.Errorf("fields=%s: the row has the header's columns: %q", q, got)
+		}
+	}
 	if code, _, _ = get(url+"?delimiter=%22", a); code != 200 {
 		t.Fatal("a quote as the delimiter falls back to a comma")
 	}
