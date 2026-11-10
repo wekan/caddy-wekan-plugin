@@ -60,7 +60,8 @@
       "wipLimit": {
         "enabled": true,
         "value": 3
-      }
+      },
+      "color": "sky"
     },
     {
       "_id": "L2",
@@ -68,11 +69,20 @@
       "wipLimit": {
         "enabled": false,
         "value": 5
-      }
+      },
+      "color": "#123456"
     },
     {
       "_id": "L3",
       "title": "Empty"
+    },
+    {
+      "_id": "L4",
+      "title": "Won't fix"
+    },
+    {
+      "_id": "L5",
+      "title": "  To Do  "
     }
   ],
   "swimlanes": [
@@ -282,6 +292,44 @@
       "labelIds": [],
       "labels": [],
       "parentCardId": "cardC3"
+    }
+  ],
+  "workflowRules": [
+    {
+      "trigger": {
+        "activityType": "moveCard",
+        "listName": "Done"
+      },
+      "action": {
+        "actionType": "markCardComplete"
+      }
+    },
+    {
+      "trigger": {
+        "activityType": "moveCard",
+        "listName": "Empty"
+      },
+      "action": {
+        "actionType": "markCardComplete"
+      }
+    },
+    {
+      "trigger": {
+        "activityType": "moveCard",
+        "listName": "Empty"
+      },
+      "action": {
+        "actionType": "markCardIncomplete"
+      }
+    },
+    {
+      "trigger": {
+        "activityType": "createCard",
+        "listName": "To Do"
+      },
+      "action": {
+        "actionType": "markCardComplete"
+      }
     }
   ]
 }

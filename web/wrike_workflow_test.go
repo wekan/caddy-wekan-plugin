@@ -86,8 +86,8 @@ func TestWrikeWorkflow(t *testing.T) {
 	// Export: the board as a workflow, its groups from the rules.
 	wf := wrikeWorkflowFromBoard(b.Title, w.s.boardLists(ctx, b.ID), w.s.boardRuleParts(ctx, b.ID))
 	raw, _ := json.Marshal(wf)
-	for _, want := range []string{`"kind":"workflows"`, `"name":"Delivery board"`, `{"color":"Green","group":"Completed","hidden":false,"name":"Shipped"`,
-		`"group":"Cancelled","hidden":false,"name":"Dropped"`, `{"color":"Orange","group":"Active","hidden":false,"name":"Building"`} {
+	for _, want := range []string{`{"kind":"workflows","data":[{"name":"Delivery board"`, `{"name":"Shipped","standardName":false,"color":"Green","standard":false,"group":"Completed","hidden":false}`,
+		`"group":"Cancelled","hidden":false}`, `{"name":"Building","standardName":false,"color":"Orange","standard":false,"group":"Active","hidden":false}`} {
 		if !strings.Contains(string(raw), want) {
 			t.Errorf("export has %s: %s", want, raw)
 		}

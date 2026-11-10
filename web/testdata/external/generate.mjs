@@ -24,7 +24,7 @@ const { formatSuperProductivity } = await import(pathToFileURL(path.join(wekan, 
 fs.writeFileSync(path.join(here, 'superproductivity.golden'), formatSuperProductivity(structuredClone(collected), { now: ticktickNow.getTime() }));
 for (const format of ['markdown', 'opml', 'todotxt', 'taskwarrior', 'zenkit', 'nullboard', 'obsidian', 'orgmode', 'kanri',
   'deck', 'kanboard', 'openproject', 'github', 'gitea', 'forgejo', 'gitlab', 'trello', 'asana',
-  'leo', 'meistertask', 'todoist', 'linear', 'clickup', 'pivotal', 'quire', 'redmine', 'notion']) {
+  'leo', 'meistertask', 'todoist', 'linear', 'clickup', 'pivotal', 'quire', 'redmine', 'notion', 'wrikeworkflow']) {
   const out = formatters[format](structuredClone(collected));
   fs.writeFileSync(path.join(here, `${format}.golden`), typeof out === 'string' ? out : JSON.stringify(out));
 }

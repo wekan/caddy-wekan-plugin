@@ -53,6 +53,7 @@ var externalFormats = map[string][2]string{
 	"focalboard":        {"boardarchive", "application/x-ndjson"},
 	"tasksorg":          {"json", "application/json"},
 	"superproductivity": {"json", "application/json"},
+	"wrikeworkflow":     {"json", "application/json"},
 }
 
 type extChecklistItem struct {
@@ -117,6 +118,7 @@ type extNamed struct {
 	ID       string       `json:"_id"`
 	Title    string       `json:"title"`
 	WipLimit *extWipLimit `json:"wipLimit,omitempty"`
+	Color    string       `json:"color,omitempty"`
 }
 
 type extBoard struct {
@@ -131,6 +133,16 @@ type extBoard struct {
 	Lists     []extNamed `json:"lists"`
 	Swimlanes []extNamed `json:"swimlanes"`
 	Items     []extItem  `json:"items"`
+}
+
+// formatWrikeWorkflow is WeKan's: the collected lists, and the board's rules
+// a Wrike status group is read from, as a Wrike workflow.
+func formatWrikeWorkflow(d extBoard, rules []bson.M) jsObject {
+	lists := make([]bson.M, len(d.Lists))
+	for k, l := range d.Lists {
+		lists[k] = bson.M{"title": l.Title, "color": l.Color}
+	}
+	return wrikeWorkflowFromBoard(d.Board.Title, lists, rules)
 }
 
 // listTitles are the board's list titles, in order.
@@ -188,7 +200,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board) extBoard {
 			var docs []bson.M
 			_ = cur.All(ctx, &docs)
 			for _, d := range docs {
-				x := extNamed{ID: strOf(d["_id"]), Title: strOf(d["title"])}
+				x := extNamed{ID: strOf(d["_id"]), Title: strOf(d["title"]), Color: strOf(d["color"])}
 				if w, ok := d["wipLimit"].(bson.M); ok {
 					v, _ := plain(w["value"]).(float64)
 					if n, ok := plain(w["value"]).(int32); ok {
@@ -554,6 +566,8 @@ func (s *Server) externalExport(ctx context.Context, b *Board, format string) []
 		return []byte(formatRedmineCsv(d))
 	case "notion":
 		return []byte(formatNotionCsv(d))
+	case "wrikeworkflow":
+		return jsJSON(formatWrikeWorkflow(d, s.boardRuleParts(ctx, b.ID)), "")
 	case "superproductivity":
 		return []byte(formatSuperProductivity(d, time.Now().UnixMilli()))
 	case "tasksorg":

@@ -69,10 +69,22 @@ func wrikeGroupForName(name string) string {
 	return "Active"
 }
 
-func wrikeName(name string) string {
-	s := strings.TrimSpace(name)
-	if utf8.RuneCountInString(s) > maxWrikeName {
-		s = string([]rune(s)[:maxWrikeName])
+// wrikeName is WeKan's: trim() and slice(0, 128), which counts UTF-16
+// units (a pair cut in two is left out whole).
+func wrikeName(name string) string { return jsSlice16(jsTrim(name), maxWrikeName) }
+
+// jsSlice16 is s.slice(0, n): the first n UTF-16 units.
+func jsSlice16(s string, n int) string {
+	units := 0
+	for i, r := range s {
+		w := 1
+		if r > 0xFFFF {
+			w = 2
+		}
+		if units+w > n {
+			return s[:i]
+		}
+		units += w
 	}
 	return s
 }
@@ -116,44 +128,63 @@ func wrikeGroupForList(title string, completion map[string]string) string {
 }
 
 // wrikeWorkflowFromBoard is WeKan's: the board's lists as statuses, with an
-// Active and a Completed one added when no list is one, as Wrike requires.
-func wrikeWorkflowFromBoard(title string, lists []bson.M, rules []bson.M) map[string]any {
+// Active and a Completed one added when no list is one, as Wrike requires -
+// keys in WeKan's order, so the Rules page's download and the board export
+// are WeKan's byte for byte.
+func wrikeWorkflowFromBoard(title string, lists []bson.M, rules []bson.M) jsObject {
 	completion := wrikeCompletion(rules)
-	var statuses []map[string]any
+	var statuses []jsObject
 	seen := map[string]bool{}
 	taken := func(name string) bool {
-		for _, s := range statuses {
-			if s["name"] == name {
+		for _, st := range statuses {
+			if st[0].Value == name {
 				return true
 			}
 		}
 		return false
 	}
+	status := func(name, color, group string) jsObject {
+		o := jsObject{}
+		for _, kv := range []struct {
+			k string
+			v any
+		}{{"name", name}, {"standardName", false}, {"color", color}, {"standard", false}, {"group", group}, {"hidden", false}} {
+			o.set(kv.k, kv.v)
+		}
+		return o
+	}
+	groupOf := func(st jsObject) any {
+		for _, kv := range st {
+			if kv.Key == "group" {
+				return kv.Value
+			}
+		}
+		return nil
+	}
 	for _, l := range lists {
-		t := strings.TrimSpace(docString(l, "title"))
+		t := jsTrim(docString(l, "title"))
 		if t == "" || seen[t] {
 			continue
 		}
 		seen[t] = true
 		name := wrikeName(t)
 		for n := 2; taken(name); n++ {
-			base := []rune(wrikeName(t))
-			if len(base) > maxWrikeName-4 {
-				base = base[:maxWrikeName-4]
-			}
-			name = fmt.Sprintf("%s (%d)", string(base), n)
+			name = fmt.Sprintf("%s (%d)", jsSlice16(wrikeName(t), maxWrikeName-4), n)
 		}
 		group := wrikeGroupForList(t, completion)
 		color := wekanToWrike[strings.ToLower(docString(l, "color"))]
 		if color == "" {
 			color = wrikeGroupColor[group]
 		}
-		statuses = append(statuses, map[string]any{"name": name, "standardName": false, "color": color, "standard": false, "group": group, "hidden": false})
+		if color == "" {
+			color = "Gray"
+		}
+		statuses = append(statuses, status(name, color, group))
 	}
 	for _, group := range []string{"Active", "Completed"} {
 		has := false
-		for _, s := range statuses {
-			has = has || s["group"] == group
+		for _, st := range statuses {
+			has = has || groupOf(st) == group
 		}
 		if has {
 			continue
@@ -162,9 +193,9 @@ func wrikeWorkflowFromBoard(title string, lists []bson.M, rules []bson.M) map[st
 		for n := 2; taken(name); n++ {
 			name = fmt.Sprintf("%s (%d)", group, n)
 		}
-		added := map[string]any{"name": name, "standardName": false, "color": wrikeGroupColor[group], "standard": false, "group": group, "hidden": false}
+		added := status(name, wrikeGroupColor[group], group)
 		if group == "Active" {
-			statuses = append([]map[string]any{added}, statuses...)
+			statuses = append([]jsObject{added}, statuses...)
 		} else {
 			statuses = append(statuses, added)
 		}
@@ -173,7 +204,17 @@ func wrikeWorkflowFromBoard(title string, lists []bson.M, rules []bson.M) map[st
 	if name == "" {
 		name = "WeKan board"
 	}
-	return map[string]any{"kind": "workflows", "data": []any{map[string]any{"name": name, "standard": false, "hidden": false, "customStatuses": statuses}}}
+	wf := jsObject{}
+	for _, kv := range []struct {
+		k string
+		v any
+	}{{"name", name}, {"standard", false}, {"hidden", false}, {"customStatuses", statuses}} {
+		wf.set(kv.k, kv.v)
+	}
+	out := jsObject{}
+	out.set("kind", "workflows")
+	out.set("data", []any{wf})
+	return out
 }
 
 type wrikeStatus struct{ Name, Group, Color string }

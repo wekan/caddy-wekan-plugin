@@ -1339,8 +1339,8 @@ func (s *Server) rulesExport(w http.ResponseWriter, r *http.Request, u *User) {
 	if r.URL.Query().Get("format") == "wrike" {
 		w.Header().Set("Content-Type", "application/json")
 		w.Header().Set("Content-Disposition", `attachment; filename="wrike-workflow.json"`)
-		out, _ := json.MarshalIndent(wrikeWorkflowFromBoard(b.Title, s.boardLists(ctx, b.ID), s.boardRuleParts(ctx, b.ID)), "", "  ")
-		_, _ = w.Write(out)
+		// WeKan's JSON.stringify(workflow, null, 2).
+		_, _ = w.Write(jsJSON(wrikeWorkflowFromBoard(b.Title, s.boardLists(ctx, b.ID), s.boardRuleParts(ctx, b.ID)), "  "))
 		return
 	}
 	if r.URL.Query().Get("format") == "csv" {

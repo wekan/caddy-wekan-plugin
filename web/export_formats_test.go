@@ -33,6 +33,17 @@ func TestExternalFormatsAreWeKans(t *testing.T) {
 	formats["linear"], formats["clickup"], formats["pivotal"], formats["quire"] = formatLinearCsv(d), formatClickUpCsv(d), formatPivotalCsv(d), formatQuireCsv(d)
 	formats["ticktick"] = formatTickTickCsv(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC))
 	formats["redmine"], formats["notion"] = formatRedmineCsv(d), formatNotionCsv(d)
+	var withRules struct {
+		WorkflowRules []struct {
+			Trigger, Action map[string]any
+		} `json:"workflowRules"`
+	}
+	_ = json.Unmarshal(raw, &withRules)
+	var rules []bson.M
+	for _, r := range withRules.WorkflowRules {
+		rules = append(rules, bson.M{"trigger": bson.M(r.Trigger), "action": bson.M(r.Action)})
+	}
+	formats["wrikeworkflow"] = string(jsJSON(formatWrikeWorkflow(d, rules), ""))
 	formats["superproductivity"] = formatSuperProductivity(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC).UnixMilli())
 	formats["tasksorg"] = string(jsJSON(formatTasksOrgBackup(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC)), ""))
 	formats["focalboard"] = formatFocalboard(d, time.Date(2026, 11, 10, 12, 0, 0, 0, time.UTC).UnixMilli())
