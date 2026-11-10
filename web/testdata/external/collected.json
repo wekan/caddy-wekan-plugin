@@ -78,6 +78,10 @@
     {
       "_id": "S1",
       "title": "Default"
+    },
+    {
+      "_id": "S2",
+      "title": "Ops"
     }
   ],
   "items": [
@@ -183,6 +187,19 @@
           "title": "Nothing",
           "items": []
         }
+      ],
+      "dependencies": [
+        {
+          "cardId": "cardA1",
+          "type": "blocks"
+        },
+        {
+          "cardId": "nope",
+          "type": "blocks"
+        },
+        {
+          "cardId": "cardC3"
+        }
       ]
     },
     {
@@ -191,11 +208,30 @@
       "title": "multi\n  line\ttitle",
       "description": "",
       "listTitle": "Archived list",
-      "swimlaneTitle": "Default",
+      "swimlaneTitle": "Ops",
       "labelIds": [],
       "labels": [],
       "color": "plum",
-      "dueAt": "2026-12-24T18:30:00.000Z"
+      "dueAt": "2026-12-24T18:30:00.000Z",
+      "dependencies": [
+        {
+          "cardId": "cardB😀2",
+          "type": "is-blocked-by"
+        },
+        {
+          "cardId": "cardA1",
+          "type": "duplicates"
+        }
+      ],
+      "assignees": [
+        "dave"
+      ],
+      "comments": [
+        {
+          "text": "orphan",
+          "date": "2026-11-04T00:00:00.000Z"
+        }
+      ]
     }
   ]
 }

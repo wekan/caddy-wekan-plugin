@@ -12,7 +12,8 @@ if (!wekan) throw new Error('usage: generate.mjs /path/to/wekan');
 const here = path.dirname(new URL(import.meta.url).pathname);
 const collected = JSON.parse(fs.readFileSync(path.join(here, 'collected.json'), 'utf8'));
 const { formatters } = await import(pathToFileURL(path.join(wekan, 'models/lib/externalExportFormatters.js')).href);
-for (const format of ['markdown', 'opml', 'todotxt', 'taskwarrior', 'zenkit', 'nullboard', 'obsidian', 'orgmode', 'kanri']) {
+for (const format of ['markdown', 'opml', 'todotxt', 'taskwarrior', 'zenkit', 'nullboard', 'obsidian', 'orgmode', 'kanri',
+  'deck', 'kanboard', 'openproject', 'github', 'gitea', 'forgejo', 'gitlab', 'trello', 'asana']) {
   const out = formatters[format](structuredClone(collected));
   fs.writeFileSync(path.join(here, `${format}.golden`), typeof out === 'string' ? out : JSON.stringify(out));
 }

@@ -26,9 +26,13 @@ func TestExternalFormatsAreWeKans(t *testing.T) {
 	if err := json.Unmarshal(raw, &d); err != nil {
 		t.Fatal(err)
 	}
-	for format, got := range map[string]string{"markdown": formatMarkdownKanban(d), "opml": formatOpml(d), "todotxt": formatTodoTxt(d),
+	formats := map[string]string{"markdown": formatMarkdownKanban(d), "opml": formatOpml(d), "todotxt": formatTodoTxt(d),
 		"taskwarrior": formatTaskwarrior(d), "zenkit": string(formatZenkit(d)), "nullboard": formatNullboard(d, time.Now()),
-		"obsidian": formatObsidianKanban(d), "orgmode": formatOrgMode(d), "kanri": string(formatKanri(d, time.Now()))} {
+		"obsidian": formatObsidianKanban(d), "orgmode": formatOrgMode(d), "kanri": string(formatKanri(d, time.Now()))}
+	for f, format := range apiFormatters {
+		formats[f] = string(jsJSON(format(d), ""))
+	}
+	for format, got := range formats {
 		want, err := os.ReadFile("testdata/external/" + format + ".golden")
 		if err != nil {
 			t.Fatal(err)

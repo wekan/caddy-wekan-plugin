@@ -44,6 +44,12 @@
     "status": "completed",
     "description": "multi line title",
     "due": "20261224T183000Z",
+    "annotations": [
+      {
+        "entry": "20261104T000000Z",
+        "description": "orphan"
+      }
+    ],
     "wekanlist": "Archived list"
   }
 ]

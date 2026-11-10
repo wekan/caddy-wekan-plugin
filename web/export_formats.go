@@ -31,6 +31,15 @@ var externalFormats = map[string][2]string{
 	"obsidian":    {"md", "text/markdown"},
 	"orgmode":     {"org", "text/x-org"},
 	"kanri":       {"json", "application/json"},
+	"deck":        {"json", "application/json"},
+	"kanboard":    {"json", "application/json"},
+	"openproject": {"json", "application/json"},
+	"github":      {"json", "application/json"},
+	"gitea":       {"json", "application/json"},
+	"forgejo":     {"json", "application/json"},
+	"gitlab":      {"json", "application/json"},
+	"trello":      {"json", "application/json"},
+	"asana":       {"json", "application/json"},
 }
 
 type extChecklistItem struct {
@@ -41,6 +50,11 @@ type extChecklistItem struct {
 type extChecklist struct {
 	Title string             `json:"title"`
 	Items []extChecklistItem `json:"items"`
+}
+
+type extDependency struct {
+	CardID string `json:"cardId"`
+	Type   string `json:"type,omitempty"`
 }
 
 type extComment struct {
@@ -56,27 +70,28 @@ type extComment struct {
 // includes is here, but custom fields (WeKan lets them out only after its
 // admin-only check) and Scrum fields (Weddy has no sprints yet).
 type extItem struct {
-	CardID        string         `json:"cardId"`
-	ListID        string         `json:"listId"`
-	Title         string         `json:"title"`
-	Description   string         `json:"description"`
-	ListTitle     string         `json:"listTitle"`
-	SwimlaneTitle string         `json:"swimlaneTitle"`
-	DueAt         string         `json:"dueAt,omitempty"`
-	DueComplete   bool           `json:"dueComplete,omitempty"`
-	Color         string         `json:"color,omitempty"`
-	LabelIDs      []string       `json:"labelIds"`
-	Labels        []string       `json:"labels"`
-	StartAt       string         `json:"startAt,omitempty"`
-	EndAt         string         `json:"endAt,omitempty"`
-	CreatedAt     string         `json:"createdAt,omitempty"`
-	Owner         string         `json:"owner,omitempty"`
-	Assignees     []string       `json:"assignees,omitempty"`
-	Creator       string         `json:"creator,omitempty"`
-	RequestedBy   string         `json:"requestedBy,omitempty"`
-	ParentCardID  string         `json:"parentCardId,omitempty"`
-	Comments      []extComment   `json:"comments,omitempty"`
-	Checklists    []extChecklist `json:"checklists,omitempty"`
+	CardID        string          `json:"cardId"`
+	ListID        string          `json:"listId"`
+	Title         string          `json:"title"`
+	Description   string          `json:"description"`
+	ListTitle     string          `json:"listTitle"`
+	SwimlaneTitle string          `json:"swimlaneTitle"`
+	DueAt         string          `json:"dueAt,omitempty"`
+	DueComplete   bool            `json:"dueComplete,omitempty"`
+	Color         string          `json:"color,omitempty"`
+	LabelIDs      []string        `json:"labelIds"`
+	Labels        []string        `json:"labels"`
+	StartAt       string          `json:"startAt,omitempty"`
+	EndAt         string          `json:"endAt,omitempty"`
+	CreatedAt     string          `json:"createdAt,omitempty"`
+	Owner         string          `json:"owner,omitempty"`
+	Assignees     []string        `json:"assignees,omitempty"`
+	Creator       string          `json:"creator,omitempty"`
+	RequestedBy   string          `json:"requestedBy,omitempty"`
+	ParentCardID  string          `json:"parentCardId,omitempty"`
+	Dependencies  []extDependency `json:"dependencies,omitempty"`
+	Comments      []extComment    `json:"comments,omitempty"`
+	Checklists    []extChecklist  `json:"checklists,omitempty"`
 }
 
 type extWipLimit struct {
@@ -256,6 +271,14 @@ func (s *Server) collectExternal(ctx context.Context, b *Board) extBoard {
 			it.SwimlaneTitle = "Default"
 		}
 		it.DueComplete = it.DueAt != "" && c["dueComplete"] == true
+		// Card dependencies, for the formats with relations of their own.
+		if deps, ok := c["cardDependencies"].(bson.A); ok {
+			for _, dv := range deps {
+				if dm, ok := dv.(bson.M); ok && strOf(dm["cardId"]) != "" {
+					it.Dependencies = append(it.Dependencies, extDependency{CardID: strOf(dm["cardId"]), Type: strOf(dm["type"])})
+				}
+			}
+		}
 		if list, ok := c["labelIds"].(bson.A); ok {
 			for _, lid := range list {
 				it.LabelIDs = append(it.LabelIDs, strOf(lid))
@@ -492,6 +515,9 @@ func (s *Server) externalExport(ctx context.Context, b *Board, format string) []
 		return []byte(formatOrgMode(d))
 	case "kanri":
 		return formatKanri(d, time.Now())
+	}
+	if f := apiFormatters[format]; f != nil {
+		return jsJSON(f(d), "")
 	}
 	return nil
 }
