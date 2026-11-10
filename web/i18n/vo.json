@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Välolöd WeKan-fomik .xlsx spreadsheeti (ot spals as Excel-ekspor: Title, Description, Status/List, Members, Labels, dats, felds pösodik). Bür lin binon kapal.",
   "import-board-instruction-issues": "Letälolöd __sourceName__ issues JSON-listi (__endpoint__). Issues vedons kads pegrupöl in liseds Open / Closed.",
   "import-board-instruction-kanboard": "Letälolöd Kanboard-ekspori JSON: subat ko \"columns\" (u tasks laböl column_name) e list \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Columns vedons liseds e tasks vedons kads.",
+  "import-board-instruction-markdown": "Pladön kartöduli labotamalik markdona (fasit vödemamikam-kartöduli-kanban äsemik olös Obsidian Kanban): topits \"## Nem lasa\", ko begs \"- [ ]\"/\"- [x]\" ün bevünanöd. Topits bevögo lasis e begs bevögo kartis.",
+  "import-board-instruction-openproject": "Letälolöd OpenProject work-packages kolekti JSON (GET /api/v3/work_packages). Statuses vedons liseds e work packages vedons kads.",
   "import-board-instruction-zenkit": "Letälolöd ZenKit list-ekspori JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages vedons liseds e items vedons kads.",
   "import-file-label": "Välolös ragivi seveiga, u pladolös vödemi onik dono:",
   "initials": "Primatonats",

@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Khetha isipredishithi se-.xlsx esifana ne-WeKan (amakholomu afanayo nokukhishwa kwe-Excel: Title, Description, Status/List, Members, Labels, izinsuku, izinkambu zezifiso). Umugqa wokuqala uyisihloko.",
   "import-board-instruction-issues": "Namathisela i-array ye-JSON yezinkinga ze-__sourceName__ (__endpoint__). Izinkinga ziba amakhadi ahlanganiswe ngezinhlu ze-Open / Closed.",
   "import-board-instruction-kanboard": "Namathisela i-JSON yokukhishwa kwe-Kanboard: into ene-\"columns\" (noma imisebenzi ephethe column_name) kanye ne-array \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Amakholomu aba izinhlu futhi imisebenzi iba amakhadi.",
+  "import-board-instruction-markdown": "Namathisela uhlu lwemisebenzi lwe-markdown (indlela amathuluzi e-markdown-kanban afana ne-Obsidian Kanban asebenzisayo): izihloko ze- \"## Igama loluhlu\", nezinto ze- \"- [ ]\"/\"- [x]\" ngaphansi. Izihloko ziba izinhlu futhi izinto zibe amakhadi; uhlu olulula lwamachashaza ngaphandle kwamabhokisi wokuhlola nalo liyangeniswa, njengamakhadi avulekile.",
+  "import-board-instruction-openproject": "Namathisela i-JSON yeqoqo le-work-packages le-OpenProject (GET /api/v3/work_packages). Izimo ziba izinhlu futhi ama-work package aba amakhadi.",
   "import-board-instruction-zenkit": "Namathisela i-JSON yokukhishwa kohlu lwe-ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Izigaba ziba izinhlu futhi izinto ziba amakhadi.",
   "import-file-label": "Khetha ifayela elithunyelwe ngaphandle, noma unamathisele umbhalo walo ngezansi:",
   "initials": "Ezokuqala",

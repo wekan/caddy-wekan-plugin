@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan tarzı bir .xlsx elektronik tablosu seçin (Excel dışa aktarımıyla aynı sütunlar: Başlık, Açıklama, Durum/Liste, Üyeler, Etiketler, tarihler, özel alanlar). İlk satır başlıktır.",
   "import-board-instruction-issues": "Bir __sourceName__ issue JSON dizisi yapıştırın (__endpoint__). Issue'lar Açık / Kapalı listelerinde gruplanan kartlara dönüşür.",
   "import-board-instruction-kanboard": "Bir Kanboard dışa aktarma JSON'u yapıştırın: \"columns\" (veya column_name taşıyan görevler) içeren bir nesne ve bir \"tasks\" dizisi (title, description, column_name, swimlane_name, date_due, owner, tags). Sütunlar listelere, görevler kartlara dönüşür.",
+  "import-board-instruction-markdown": "Bir markdown görev listesi yapıştırın (Obsidian Kanban gibi markdown-kanban araçlarının kullandığı kural): altında \"- [ ]\"/\"- [x]\" öğeleri bulunan \"## Liste adı\" başlıkları. Başlıklar listelere, öğeler ise kartlara dönüşür; onay kutusu olmayan düz madde işaretli bir liste de açık kartlar olarak içe aktarılır.",
+  "import-board-instruction-openproject": "Bir OpenProject iş paketleri koleksiyonu JSON'u yapıştırın (GET /api/v3/work_packages). Durumlar listelere, iş paketleri kartlara dönüşür.",
   "import-board-instruction-zenkit": "Bir ZenKit liste dışa aktarma JSON'u yapıştırın ({ \"title\", \"stages\":[...], \"items\":[...] }). Aşamalar listelere, öğeler kartlara dönüşür.",
   "import-file-label": "Dışa aktarılmış dosyayı seçin veya metnini aşağıya yapıştırın:",
   "initials": "İlk Harfleri",

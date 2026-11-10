@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Họrọ uju .xlsx ụdị WeKan (otu column dị ka mbupụ Excel: Title, Description, Status/List, Members, Labels, ụbọchị, ubi omenka). Ahịrị mbụ bụ isi.",
   "import-board-instruction-issues": "Mado uju JSON okwu __sourceName__ (__endpoint__). Okwu na-aghọ kaadị ekewara n'ime ndepụta Open / Closed.",
   "import-board-instruction-kanboard": "Mado JSON mbupụ Kanboard: ihe nwere \"columns\" (ma ọ bụ tasks bu column_name) na uju \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Columns na-aghọ ndepụta, tasks na-aghọ kaadị.",
+  "import-board-instruction-markdown": "Pịnye ndepụta ọrụ markdown (ụkpụrụ ngwaọrụ markdown-kanban dịka Obsidian Kanban na-eji arụ ọrụ): isiokwu \"## Aha ndepụta\", nwere ihe \"- [ ]\"/\"- [x]\" n'okpuru ya. Isiokwu na-aghọ ndepụta, ihe ndị ọzọ na-aghọkwa kaadị; ndepụta ntụpọ dị mfe na-enweghị igbe nlele ka a na-ebubata, dị ka kaadị mepere emepe.",
+  "import-board-instruction-openproject": "Mado JSON nchịkọta work-packages OpenProject (GET /api/v3/work_packages). Statuses na-aghọ ndepụta, work packages na-aghọ kaadị.",
   "import-board-instruction-zenkit": "Mado JSON mbupụ ndepụta ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages na-aghọ ndepụta, items na-aghọ kaadị.",
   "import-file-label": "Họrọ faịlụ mbupụ, ma ọ bụ tapawa ederede ya n’okpuru:",
   "initials": "Mmalite",

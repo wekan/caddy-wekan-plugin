@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan طرزُک .xlsx سپریڈ شیٹ ژٲریو (Excel برآمد ہندۍ ہمان کالم: عنوان، تفصیل، حالت/فہرست، ممبر، لیبل، تٲریخہٕ، مخصوص خانہٕ)۔ گوڈنِچ قطار چھِ سرخی۔",
   "import-board-instruction-issues": "__sourceName__ مسئلہٕ JSON ایرے (__endpoint__) چسپاں کریو۔ مسئلہٕ گژھن کھولمُت / بند فہرستن منٛز گروپ کرنہٕ آمٕتۍ کارڈ۔",
   "import-board-instruction-kanboard": "Kanboard برآمد JSON چسپاں کریو: اکھ آبجیکٹ یَتھ منٛز \"columns\" (یا column_name تھاونۍ کام) تہٕ \"tasks\" ایرے (title، description، column_name، swimlane_name، date_due، owner، tags) آسِہ۔ کالم گژھن فہرستہٕ تہٕ کام گژھن کارڈ۔",
+  "import-board-instruction-markdown": "مارک ڈاؤن ٹاسک لِسٹ پیسٹ کریو (Obsidian Kanban ہندہ طرح مارک ڈاؤن-کانبان اوزار استعمال کران وول قاعدہ): \"## لِسٹ ناو\" عنوان، ہیٹھ \"- [ ]\"/\"- [x]\" آئٹمن ہمرا۔",
+  "import-board-instruction-openproject": "OpenProject کام پیکیج مجموعہٕ JSON چسپاں کریو (GET /api/v3/work_packages)۔ حالتہٕ گژھن فہرستہٕ تہٕ کام پیکیج گژھن کارڈ۔",
   "import-board-instruction-zenkit": "ZenKit فہرست برآمد JSON ({ \"title\", \"stages\":[...], \"items\":[...] }) چسپاں کریو۔ مرحلہٕ گژھن فہرستہٕ تہٕ شے گژھن کارڈ۔",
   "import-file-label": "برآمد فائل ژارِو، یا تمُک متن بُنہٕ پیسٹ کریو:",
   "initials": "ابتدٲیی حرف",

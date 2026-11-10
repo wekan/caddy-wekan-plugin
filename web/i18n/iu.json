@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan-ᑎᑐᑦ .xlsx ᓈᓴᐅᓯᕆᔾᔪᑎ ᓂᕈᐊᕐᓗᒍ (Excel-ᒥᑦ ᐊᓂᑎᑕᐅᔫᑉ ᑎᑎᖅᑲᓕᐊᖏᑦ: Title, Description, Status/List, Members, Labels, dates, custom fields). ᓯᕗᓪᓕᖅ ᓴᓂᒧᑦ ᑎᑎᖅᑲᓕᐊᖅ ᑕᐃᒎᓯᐅᕗᖅ.",
   "import-board-instruction-issues": "__sourceName__-ᒥ issues JSON ᑎᑎᖅᑲᓕᐊᖓ (__endpoint__) ᐃᓕᓗᒍ. Issues ᐊᓪᓚᖅᓯᒪᔪᙳᖅᑐᑦ, ᒪᑐᐃᖓᔪᑦ / ᒪᑐᓯᒪᔪᑦ ᑎᑎᖅᑲᓕᐊᓄᑦ ᐊᒡᒍᖅᑕᐅᓗᑎᒃ.",
   "import-board-instruction-kanboard": "Kanboard-ᒥᑦ ᐊᓂᑎᑕᐅᓯᒪᔪᖅ JSON ᐃᓕᓗᒍ: \"columns\"-ᓕᒃ (ᐅᕝᕙᓘᓐᓃᑦ column_name-ᓕᓐᓂᒃ ᐱᓕᕆᐊᓕᒃ) ᐊᒻᒪ \"tasks\"-ᓂᒃ ᑎᑎᖅᑲᓕᐊᓕᒃ (title, description, column_name, swimlane_name, date_due, owner, tags). Columns ᑎᑎᖅᑲᓕᐊᙳᖅᑐᑦ ᐊᒻᒪ tasks ᐊᓪᓚᖅᓯᒪᔪᙳᖅᑐᑦ.",
+  "import-board-instruction-markdown": "ᒪᐊᒃᑖᐅᓐ ᐱᓕᕆᐊᒃᓴᓕᐅᖅᑎᐅᑉ ᑎᑎᖅᑲᖏᑦ ᒪᓕᒐᖅ (Obsidian Kanban ᐊᑐᖅᑕᖓᑦ): ᖁᓕᐊᖓ \"## ᑎᑎᖅᑲᐃᑦ ᐊᑎᖓ\" ᖃᓄᐃᖏᓐᓇᖅ, \"- [ ]\"/\"- [x]\" ᐊᐃᑦᑐᑦ ᐊᑖᒍᑦ.",
+  "import-board-instruction-openproject": "OpenProject-ᒥᑦ work-packages-ᓂᒃ ᑲᑎᖅᓱᐃᓯᒪᔪᖅ JSON ᐃᓕᓗᒍ (GET /api/v3/work_packages). Statuses ᑎᑎᖅᑲᓕᐊᙳᖅᑐᑦ ᐊᒻᒪ work packages ᐊᓪᓚᖅᓯᒪᔪᙳᖅᑐᑦ.",
   "import-board-instruction-zenkit": "ZenKit-ᒥᑦ ᑎᑎᖅᑲᓕᐊᐅᑉ JSON-ᖓ ({ \"title\", \"stages\":[...], \"items\":[...] }) ᐃᓕᓗᒍ. Stages ᑎᑎᖅᑲᓕᐊᙳᖅᑐᑦ ᐊᒻᒪ items ᐊᓪᓚᖅᓯᒪᔪᙳᖅᑐᑦ.",
   "import-file-label": "ᐊᓂᑎᑦᓯᓂᕐᒧᑦ ᑎᑎᖅᑲᖅ ᓂᕈᐊᕐᓗᒍ, ᐅᕝᕙᓘᓐᓃᑦ ᑎᑎᕋᖅᓯᒪᓂᖓ ᐊᑖᓂ ᐃᓕᓪᓗᒍ:",
   "initials": "ᐊᑎᐅᑉ ᐱᒋᐊᕐᓂᖏᑦ",

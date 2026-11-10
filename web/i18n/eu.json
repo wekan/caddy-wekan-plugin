@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Aukeratu WeKan estiloko .xlsx kalkulu-orri bat (Excel esportazioaren zutabe berak: Izenburua, Deskribapena, Egoera/Zerrenda, Kideak, Etiketak, datak, eremu pertsonalizatuak). Lehen errenkada goiburua da.",
   "import-board-instruction-issues": "Itsatsi __sourceName__ arazoen JSON array bat (__endpoint__). Arazoak Irekita / Itxita zerrendetan taldekatutako txartel bihurtzen dira.",
   "import-board-instruction-kanboard": "Itsatsi Kanboard esportazioaren JSONa: \"columns\" (edo column_name daramaten atazak) eta \"tasks\" array bat dituen objektua (title, description, column_name, swimlane_name, date_due, owner, tags). Zutabeak zerrenda bihurtzen dira eta atazak txartel.",
+  "import-board-instruction-markdown": "Itsatsi markdown zeregin-zerrenda bat (Obsidian Kanban bezalako markdown-kanban tresnek erabiltzen duten hitzarmena): \"## Zerrendaren izena\" izenburuak, azpian \"- [ ]\"/\"- [x]\" elementuekin. Izenburuak zerrenda bihurtzen dira eta elementuak txartel; kontrol-laukirik gabeko buletdun zerrenda soila ere inportatzen da, txartel ireki gisa.",
+  "import-board-instruction-openproject": "Itsatsi OpenProject lan-paketeen bilduma-JSON bat (GET /api/v3/work_packages). Egoerak zerrenda bihurtzen dira eta lan-paketeak txartel.",
   "import-board-instruction-zenkit": "Itsatsi ZenKit zerrenda-esportazio JSON bat ({ \"title\", \"stages\":[...], \"items\":[...] }). Faseak zerrenda bihurtzen dira eta elementuak txartel.",
   "import-file-label": "Hautatu esportazio-fitxategia, edo itsatsi haren testua behean:",
   "initials": "Inizialak",

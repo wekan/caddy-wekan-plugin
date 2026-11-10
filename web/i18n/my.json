@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan ပုံစံ .xlsx စာရင်းဇယားကို ရွေးပါ (Excel ထုတ်ယူမှုနှင့် တူသော ကော်လံများ: Title, Description, Status/List, Members, Labels, dates, custom fields)။ ပထမတန်းသည် ခေါင်းစီးဖြစ်သည်။",
   "import-board-instruction-issues": "__sourceName__ issues JSON အခင်း (__endpoint__) ကို ကူးထည့်ပါ။ Issues များကို Open / Closed စာရင်းများအဖြစ် အုပ်စုဖွဲ့ထားသော ကတ်များဖြစ်လာမည်။",
   "import-board-instruction-kanboard": "Kanboard ထုတ်ယူမှု JSON ကို ကူးထည့်ပါ: \"columns\" ပါသော အရာဝတ္ထု (သို့မဟုတ် column_name ပါသော လုပ်ငန်းများ) နှင့် \"tasks\" အခင်း (title, description, column_name, swimlane_name, date_due, owner, tags)။ ကော်လံများသည် စာရင်းများဖြစ်လာပြီး လုပ်ငန်းများသည် ကတ်များဖြစ်လာမည်။",
+  "import-board-instruction-markdown": "markdown လုပ်ငန်းစာရင်းကို ကူးထည့်ပါ (Obsidian Kanban ကဲ့သို့ markdown-kanban ကိရိယာများ အသုံးပြုသော ကွန်ဗင်းရှင်း)။ \"## စာရင်းအမည်\" ခေါင်းစီးများနှင့် အောက်တွင် \"- [ ]\"/\"- [x]\" အချက်များ။ ခေါင်းစီးများသည် စာရင်းများဖြစ်လာပြီး အချက်များသည် ကတ်များဖြစ်လာသည်။",
+  "import-board-instruction-openproject": "OpenProject work-packages စုစည်းမှု JSON (GET /api/v3/work_packages) ကို ကူးထည့်ပါ။ အခြေအနေများသည် စာရင်းများဖြစ်လာပြီး work packages များသည် ကတ်များဖြစ်လာမည်။",
   "import-board-instruction-zenkit": "ZenKit စာရင်းထုတ်ယူမှု JSON ({ \"title\", \"stages\":[...], \"items\":[...] }) ကို ကူးထည့်ပါ။ Stages များသည် စာရင်းများဖြစ်လာပြီး items များသည် ကတ်များဖြစ်လာမည်။",
   "import-file-label": "ထုတ်ယူထားသော ဖိုင်ကို ရွေးပါ၊ သို့မဟုတ် ၎င်း၏ စာသားကို အောက်တွင် ကူးထည့်ပါ-",
   "initials": "အမည်အတိုကောက်",

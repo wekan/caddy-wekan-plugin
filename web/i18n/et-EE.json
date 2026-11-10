@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Vali WeKani-stiilis .xlsx tabel (samad veerud nagu Exceli ekspordis: Title, Description, Status/List, Members, Labels, kuupäevad, kohandatud väljad). Esimene rida on päis.",
   "import-board-instruction-issues": "Kleebi __sourceName__ probleemide JSON-massiiv (__endpoint__). Probleemidest saavad kaardid, mis on rühmitatud nimekirjadesse Avatud / Suletud.",
   "import-board-instruction-kanboard": "Kleebi Kanboardi ekspordi JSON: objekt, milles on \"columns\" (või ülesanded väljaga column_name) ja massiiv \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Veergudest saavad nimekirjad ja ülesannetest kaardid.",
+  "import-board-instruction-markdown": "Kleepige markdown-vormingus ülesannete loend (tava, mida kasutavad markdown-kanban tööriistad, näiteks Obsidian Kanban): pealkirjad \"## Loendi nimi\", nende all üksustega \"- [ ]\"/\"- [x]\". Pealkirjadest saavad loendid ja üksustest kaardid; ka lihtne täpploend ilma märkeruutudeta imporditakse, avatud kaartidena.",
+  "import-board-instruction-openproject": "Kleebi OpenProjecti work-packages kogumi JSON (GET /api/v3/work_packages). Staatustest saavad nimekirjad ja tööpakettidest kaardid.",
   "import-board-instruction-zenkit": "Kleebi ZenKit loendi ekspordi JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Etappidest (stages) saavad nimekirjad ja objektidest kaardid.",
   "import-file-label": "Vali ekspordifail või kleebi selle tekst allpool:",
   "initials": "Initsiaalid",

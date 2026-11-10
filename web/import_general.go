@@ -374,6 +374,17 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 	if len(strings.TrimSpace(string(raw))) == 0 {
 		raw = []byte(r.FormValue("text"))
 	}
+	var parsed jsObject
+	if parse, ok := importTextParsers[source]; ok {
+		// WeKan's check(board, String): the text as it is.
+		var err error
+		if parsed, err = parse(string(raw)); err != nil {
+			fail("error-json-schema")
+			return
+		}
+		s.importParsed(w, r, u, source, parsed, fail)
+		return
+	}
 	doc, err := decodeJS(raw)
 	if err != nil {
 		fail("error-json-malformed")
@@ -387,11 +398,16 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 		fail("error-json-schema")
 		return
 	}
-	parsed, err := importParsers[source](doc)
+	parsed, err = importParsers[source](doc)
 	if err != nil {
 		fail("error-json-schema")
 		return
 	}
+	s.importParsed(w, r, u, source, parsed, fail)
+}
+
+// importParsed writes a parsed document and opens the new board.
+func (s *Server) importParsed(w http.ResponseWriter, r *http.Request, u *User, source string, parsed jsObject, fail func(string)) {
 	b, err := s.importGeneral(r.Context(), u, parsed, source)
 	if err != nil {
 		var me *methodError

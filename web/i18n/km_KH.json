@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "ជ្រើសរើសសៀវភៅបញ្ជីរចនាបថ WeKan .xlsx (columns ដូចគ្នានឹង Excel export៖ Title, Description, Status/List, Members, Labels, dates, custom fields)។ ជួរដេកទីមួយគឺជាបឋមកថា។",
   "import-board-instruction-issues": "បិទភ្ជាប់ __sourceName__ issues JSON array (__endpoint__)។ Issues ក្លាយជាកាតដែលដាក់ជាក្រុមក្នុងបញ្ជី Open / Closed។",
   "import-board-instruction-kanboard": "បិទភ្ជាប់ Kanboard export JSON៖ វត្ថុមួយដែលមាន \"columns\" (ឬ tasks ដែលមាន column_name) និង \"tasks\" array (title, description, column_name, swimlane_name, date_due, owner, tags)។ Columns ក្លាយជាបញ្ជី ហើយ tasks ក្លាយជាកាត។",
+  "import-board-instruction-markdown": "បិទភ្ជាប់បញ្ជីកិច្ចការ markdown (ទំនៀមទម្លាប់ដែលឧបករណ៍ markdown-kanban ដូចជា Obsidian Kanban ប្រើ): ចំណងជើង \"## ឈ្មោះបញ្ជី\" ជាមួយធាតុ \"- [ ]\"/\"- [x]\" ខាងក្រោម។ ចំណងជើងក្លាយជាបញ្ជី ហើយធាតុក្លាយជាកាត; បញ្ជីចំណុចធម្មតាដោយគ្មានប្រអប់ធីកក៏នាំចូលដែរ ជាកាតបើកចំហ។",
+  "import-board-instruction-openproject": "បិទភ្ជាប់ OpenProject work-packages collection JSON (GET /api/v3/work_packages)។ Statuses ក្លាយជាបញ្ជី ហើយ work packages ក្លាយជាកាត។",
   "import-board-instruction-zenkit": "បិទភ្ជាប់ ZenKit list export JSON ({ \"title\", \"stages\":[...], \"items\":[...] })។ Stages ក្លាយជាបញ្ជី ហើយ items ក្លាយជាកាត។",
   "import-file-label": "ជ្រើសរើសឯកសារនាំចេញ ឬបិទភ្ជាប់អត្ថបទរបស់វាខាងក្រោម៖",
   "initials": "បឋម",

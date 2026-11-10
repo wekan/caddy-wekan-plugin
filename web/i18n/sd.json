@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan نموني جي .xlsx اسپريڊ شيٽ چونڊيو (Excel برآمد وارا ساڳيا ڪالم: Title, Description, Status/List, Members, Labels, dates, custom fields). پهرين قطار سرخي آهي.",
   "import-board-instruction-issues": "__sourceName__ مسئلن جو JSON ارَي (__endpoint__) پيسٽ ڪريو. مسئلا Open / Closed فهرستن ۾ ورهايل ڪارڊ بڻبا.",
   "import-board-instruction-kanboard": "Kanboard برآمد JSON پيسٽ ڪريو: \"columns\" وارو آبجڪٽ (يا column_name رکندڙ ڪم) ۽ \"tasks\" ارَي (title, description, column_name, swimlane_name, date_due, owner, tags). ڪالم فهرستون ۽ ڪم ڪارڊ بڻبا.",
+  "import-board-instruction-markdown": "مارڪ ڊائون ٽاسڪ لسٽ پيسٽ ڪريو (اهو ريتِ رواج جيڪو مارڪ ڊائون-ڪانبان اوزار جهڙوڪ Obsidian Kanban استعمال ڪن ٿا): \"## لسٽ جو نالو\" هيڊنگ، هيٺ \"- [ ]\"/\"- [x]\" شين سان. هيڊنگ لسٽون بڻجي وڃن ٿيون ۽ شيون ڪارڊ بڻجي وڃن ٿيون.",
+  "import-board-instruction-openproject": "OpenProject work-packages مجموعي جو JSON پيسٽ ڪريو (GET /api/v3/work_packages). حالتون فهرستون ۽ ڪم جا پيڪيج ڪارڊ بڻبا.",
   "import-board-instruction-zenkit": "ZenKit فهرست برآمد JSON ({ \"title\", \"stages\":[...], \"items\":[...] }) پيسٽ ڪريو. مرحلا فهرستون ۽ شيون ڪارڊ بڻبا.",
   "import-file-label": "برآمد فائل چونڊيو، يا ان جو متن هيٺ پيسٽ ڪريو:",
   "initials": "شروعاتي اکر",

@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Wubjerće zešiwk .xlsx: tabela z jednej kartu na rynk (stołpiki kaž Title, Description, Status/List, Members, Labels, datumy a swójske pola), abo zešiwk, kotryž je WeKan eksportował, tež tajki, w kotrymž je kóžda tafla na swójskim łopjenje. Přichodny krok pokaza, kotry stołpik je kotre polo. Kóžde łopjeno z hłowowym rynkom so tafla stanje.",
   "import-board-instruction-issues": "Zasadźće JSON-polo issues z __sourceName__ (__endpoint__). Issues so karty, zeskupjene do lisćin Wočinjene / Začinjene.",
   "import-board-instruction-kanboard": "Zasadźće JSON eksporta z Kanboard: objekt z \"columns\" (abo nadawkami z column_name) a polom \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Stołpiki so lisćiny a nadawki so karty stanu.",
+  "import-board-instruction-markdown": "Zasadźće markdown lisćinu nadawkow (konwencija, kotruž markdown-kanban nastroje kaž Obsidian Kanban wužiwaja): nadpisma \"## Mjeno lisćiny\" ze zapiskami \"- [ ]\"/\"- [x]\" pod nimi. Nadpisma so lisćiny a zapiski so karty stanu; jednora lisćina z dypkami bjez kontrolnych kašćikow so tež importuje, jako wočinjene karty.",
+  "import-board-instruction-openproject": "Zasadźće JSON zběrki work-packages z OpenProject (GET /api/v3/work_packages). Statusy so lisćiny a dźěłowe pakćiki so karty stanu.",
   "import-board-instruction-zenkit": "Zasadźće JSON eksporta lisćiny ze ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Fazy so lisćiny a zapiski so karty stanu.",
   "import-file-label": "Wubjerće eksportowu dataju abo zasadźće jeje tekst deleka:",
   "initials": "Iniciale",

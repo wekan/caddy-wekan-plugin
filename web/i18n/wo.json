@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Tànn benn xët .xlsx bu melni WeKan (benn xeeti kolom ak génne Excel bi: Title, Description, Status/List, Members, Labels, date yi, custom fields). Rëdd bu njëkk mooy bopp bi.",
   "import-board-instruction-issues": "Kollee benn aaray JSON bu issues bu __sourceName__ (__endpoint__). Issues dañuy nekk kart yu ñu boole ci liis Open / Closed.",
   "import-board-instruction-kanboard": "Kollee benn JSON bu génne bu Kanboard: benn objet bu am \"columns\" (walla tasks yu am column_name) ak benn aaray \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Columns dañuy nekk liis te tasks dañuy nekk kart.",
+  "import-board-instruction-markdown": "Delloosi lëkkalekaay yi ci yëngu-yëngu markdown (aada gi jumtukaay markdown-kanban yi ni Obsidian Kanban di jëfandikoo): tëriindi \"## Tur lëkkalekaay\", ak yëf \"- [ ]\"/\"- [x]\" ci suuf. Tëriindi yi dañuy soppiku lëkkalekaay te yëf yi dañuy soppiku kart.",
+  "import-board-instruction-openproject": "Kollee benn JSON bu ranngoo work-packages bu OpenProject (GET /api/v3/work_packages). Statuses dañuy nekk liis te work packages dañuy nekk kart.",
   "import-board-instruction-zenkit": "Kollee benn JSON bu génne list bu ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages dañuy nekk liis te items dañuy nekk kart.",
   "import-file-label": "Tànnal fiise export bi, walla taf mbindam ci suuf:",
   "initials": "Araf yu njëkk",

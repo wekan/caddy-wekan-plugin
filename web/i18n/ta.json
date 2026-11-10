@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan-பாணி .xlsx விரிதாளைத் தேர்வுசெய்க (Excel ஏற்றுமதியின் அதே நெடுவரிசைகள்: Title, Description, Status/List, Members, Labels, தேதிகள், தனிப்பயன் புலங்கள்). முதல் வரிசை தலைப்பாகும்.",
   "import-board-instruction-issues": "__sourceName__ issues JSON வரிசையை ஒட்டவும் (__endpoint__). Issues திறந்த / மூடிய பட்டியல்களாகக் குழுவாக்கப்பட்ட அட்டைகளாக மாறும்.",
   "import-board-instruction-kanboard": "Kanboard ஏற்றுமதி JSON ஐ ஒட்டவும்: \"columns\" (அல்லது column_name கொண்ட tasks) மற்றும் \"tasks\" வரிசை (title, description, column_name, swimlane_name, date_due, owner, tags) கொண்ட ஒரு பொருள். நெடுவரிசைகள் பட்டியல்களாகவும் பணிகள் அட்டைகளாகவும் மாறும்.",
+  "import-board-instruction-markdown": "markdown பணிப் பட்டியலை ஒட்டவும் (Obsidian Kanban போன்ற markdown-kanban கருவிகள் பயன்படுத்தும் மரபு): \"## பட்டியல் பெயர்\" தலைப்புகள், கீழே \"- [ ]\"/\"- [x]\" உருப்படிகளுடன். தலைப்புகள் பட்டியல்களாகவும் உருப்படிகள் அட்டைகளாகவும் மாறும்; செக்பாக்ஸ் இல்லாத எளிய புள்ளியிடல் பட்டியலும் திறந்த அட்டைகளாக இறக்குமதி செய்யப்படும்.",
+  "import-board-instruction-openproject": "OpenProject work-packages தொகுப்பு JSON ஐ ஒட்டவும் (GET /api/v3/work_packages). நிலைகள் பட்டியல்களாகவும் work packages அட்டைகளாகவும் மாறும்.",
   "import-board-instruction-zenkit": "ZenKit பட்டியல் ஏற்றுமதி JSON ஐ ஒட்டவும் ({ \"title\", \"stages\":[...], \"items\":[...] }). நிலைகள் பட்டியல்களாகவும் உருப்படிகள் அட்டைகளாகவும் மாறும்.",
   "import-file-label": "ஏற்றுமதிக் கோப்பைத் தேர்ந்தெடுக்கவும், அல்லது அதன் உரையை கீழே ஒட்டவும்:",
   "initials": "முதலெழுத்துகள்",

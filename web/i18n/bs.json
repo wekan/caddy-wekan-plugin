@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Odaberite .xlsx proračunsku tablicu u WeKan stilu (isti stupci kao izvoz u Excel: Naslov, Opis, Status/Lista, Članovi, Oznake, datumi, prilagođena polja). Prvi redak je zaglavlje.",
   "import-board-instruction-issues": "Zalijepite JSON polje s prijavama iz __sourceName__ (__endpoint__). Prijave postaju kartice grupirane u liste Otvoreno / Zatvoreno.",
   "import-board-instruction-kanboard": "Zalijepite Kanboard izvoz u JSON formatu: objekt s \"columns\" (ili zadaci koji nose column_name) i polje \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Stupci postaju liste, a zadaci postaju kartice.",
+  "import-board-instruction-markdown": "Zalijepite markdown listu zadataka (konvencija koju koriste markdown-kanban alati poput Obsidian Kanban): naslove \"## Naziv liste\", sa stavkama \"- [ ]\"/\"- [x]\" ispod. Naslovi postaju liste, a stavke postaju kartice; obična lista s tačkama bez checkboxova također se uvozi, kao otvorene kartice.",
+  "import-board-instruction-openproject": "Zalijepite JSON kolekcije radnih paketa iz OpenProject (GET /api/v3/work_packages). Statusi postaju liste, a radni paketi postaju kartice.",
   "import-board-instruction-zenkit": "Zalijepite JSON izvoz ZenKit liste ({ \"title\", \"stages\":[...], \"items\":[...] }). Faze postaju liste, a stavke postaju kartice.",
   "import-file-label": "Odaberite izvoznu datoteku ili zalijepite njen tekst ispod:",
   "initials": "Inicijali",

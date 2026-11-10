@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Pili-a an WeKan-style nga .xlsx spreadsheet (an pareho nga mga column han Excel export: Title, Description, Status/List, Members, Labels, mga petsa, mga custom field). An syahan nga row amo an header.",
   "import-board-instruction-issues": "I-paste an __sourceName__ issues JSON array (__endpoint__). An mga issue magigin card nga gin-grupo ngadto ha Open / Closed nga lista.",
   "import-board-instruction-kanboard": "I-paste an Kanboard export JSON: usa nga object nga may \"columns\" (o mga task nga may column_name) ngan usa nga array nga \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). An mga column magigin lista ngan an mga task magigin card.",
+  "import-board-instruction-markdown": "Ibutang an lista han buruhaton ha markdown (an pamaagi nga ginagamit han mga markdown-kanban nga garamiton sugad han Obsidian Kanban): mga ulohan nga \"## Ngaran han lista\", nga may mga butang nga \"- [ ]\"/\"- [x]\" ha ilarom. An mga ulohan nagigin mga lista ngan an mga butang nagigin mga kard; mahimo liwat igsulod an simple nga lista nga may mga tuldok ngan waray mga checkbox, sugad nga mga abrido nga kard.",
+  "import-board-instruction-openproject": "I-paste an OpenProject work-packages collection JSON (GET /api/v3/work_packages). An mga status magigin lista ngan an mga work package magigin card.",
   "import-board-instruction-zenkit": "I-paste an ZenKit list export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). An mga stage magigin lista ngan an mga item magigin card.",
   "import-file-label": "Pilia an export nga file, o idikit an teksto hini ha ubos:",
   "initials": "Mga Inisyal",

@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "选择一个 WeKan 风格的 .xlsx 电子表格（列与 Excel 导出相同：Title、Description、Status/List、Members、Labels、日期、自定义字段）。第一行为表头。",
   "import-board-instruction-issues": "粘贴 __sourceName__ 的 issues JSON 数组（__endpoint__）。Issues 成为卡片，按 Open / Closed 列表分组。",
   "import-board-instruction-kanboard": "粘贴 Kanboard 导出的 JSON：一个包含 \"columns\"（或带有 column_name 的任务）和 \"tasks\" 数组（title、description、column_name、swimlane_name、date_due、owner、tags）的对象。列成为列表，任务成为卡片。",
+  "import-board-instruction-markdown": "貼上一個 markdown 任務清單（好似 Obsidian Kanban 咁嘅 markdown-kanban 工具用嘅慣例）：「## 清單名」標題，下面有「- [ ]」/「- [x]」項目。標題會變成清單，項目會變成卡片；冇checkbox嘅普通項目符號清單都可以匯入，變成開放卡片。",
+  "import-board-instruction-openproject": "粘贴 OpenProject 工作包集合 JSON（GET /api/v3/work_packages）。状态成为列表，工作包成为卡片。",
   "import-board-instruction-zenkit": "粘贴 ZenKit 列表导出 JSON（{ \"title\", \"stages\":[...], \"items\":[...] }）。Stages 成为列表，items 成为卡片。",
   "import-file-label": "揀匯出檔，或者喺下面貼上佢嘅文字：",
   "initials": "縮寫",

@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Digitaka e dua na pepa cakacaka .xlsx vaka-WeKan (na kolomu vata kei na vakau Excel: Title, Description, Status/List, Members, Labels, dates, custom fields). Na imatai ni iyatu e ulutaga.",
   "import-board-instruction-issues": "Vakabira e dua na iyatu JSON ni leqa __sourceName__ (__endpoint__). Na leqa ena yaco me kadi e wasei ki na lisi Dola / Sogo.",
   "import-board-instruction-kanboard": "Vakabira e dua na JSON vakau mai Kanboard: e dua na ka e tiko kina na \"columns\" (se na cakacaka e tiko kina na column_name) kei na iyatu \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Na kolomu ena yaco me lisi kei na cakacaka me kadi.",
+  "import-board-instruction-markdown": "Biuta e dua na markdown task list (na ivakarau e vakayagataki na markdown-kanban iyaya me vaka na Obsidian Kanban): ulutaga \"## Yaca ni list\", kei na iyaya \"- [ ]\"/\"- [x]\" e ra. Na ulutaga era na vakaisau me list ka na iyaya era na vakaisau me kad.",
+  "import-board-instruction-openproject": "Vakabira e dua na ikumuni JSON ni cakacaka OpenProject (GET /api/v3/work_packages). Na ituvaki ena yaco me lisi kei na pakete ni cakacaka me kadi.",
   "import-board-instruction-zenkit": "Vakabira e dua na JSON vakau ni lisi ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Na iwase ena yaco me lisi kei na ka me kadi.",
   "import-file-label": "Digitaka na faile ni vakauta yani, se biuta na kena vosa e ra:",
   "initials": "Matai ni matanivola",

@@ -137,3 +137,34 @@ func TestImportKanboard(t *testing.T) {
 		t.Errorf("negative: a signed-out post imports nothing: %d", res.StatusCode)
 	}
 }
+
+// A text source - Markdown - through the import page: the text itself, as
+// WeKan's check(board, String), not JSON.
+func TestImportMarkdown(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	if page := getBody(t, c, w.srv.URL+"/import/markdown"); !strings.Contains(page, `name="text"`) || !strings.Contains(page, "js-import-without-mapping") {
+		t.Fatal("the Markdown import page asks for its text")
+	}
+	res, err := c.PostForm(w.srv.URL+"/import/markdown", url.Values{"text": {"# Garden\n## To Do\n- [ ] Plant\n    in spring\n## Done\n- [x] Dig\n"}})
+	if err != nil || res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("the import opens the new board: %v %d", err, res.StatusCode)
+	}
+	var b Board
+	if err := w.db.Collection("boards").FindOne(ctx, bson.M{"title": "Garden"}).Decode(&b); err != nil {
+		t.Fatal(err)
+	}
+	var plant bson.M
+	if err := w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": b.ID, "title": "Plant"}).Decode(&plant); err != nil || docString(plant, "description") != "in spring" {
+		t.Errorf("the card with its description: %v %v", err, plant)
+	}
+	if n, _ := w.db.Collection("lists").CountDocuments(ctx, bson.M{"boardId": b.ID}); n != 2 {
+		t.Errorf("two lists: %d", n)
+	}
+	if len(b.Labels) != 1 || b.Labels[0].Name != "done" {
+		t.Errorf("the done card's label: %v", b.Labels)
+	}
+}

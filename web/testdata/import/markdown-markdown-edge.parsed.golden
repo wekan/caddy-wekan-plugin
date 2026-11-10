@@ -1,0 +1,59 @@
+{
+  "board": {
+    "name": "Board one"
+  },
+  "columns": [
+    {
+      "title": "To do"
+    },
+    {
+      "title": "Spaced"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "First",
+      "description": "more text\ntabbed",
+      "column_name": "To do",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Done one",
+      "description": "",
+      "column_name": "To do",
+      "swimlane_name": "Default",
+      "tags": [
+        "done"
+      ]
+    },
+    {
+      "title": "plain",
+      "description": "",
+      "column_name": "To do",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "upper",
+      "description": "stray",
+      "column_name": "Spaced",
+      "swimlane_name": "Default",
+      "tags": [
+        "done"
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/11",
+      "reason": "line matched no known markdown-kanban construct"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "board": {
+    "name": "Plan & <Go> \"q\" 🚀"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "description": "line one\nline \"two\" <b>",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "-minus first",
+      "description": "first\nsecond",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "done"
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

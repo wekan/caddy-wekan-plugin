@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Scegli un foglio di calcolo .xlsx in stile WeKan (le stesse colonne dell'espuartezione Excel: Titul, Descrizion, Stato/Lista, Membris, Etichetis, date, campi personalizzati). La prima riga è l'intestazione.",
   "import-board-instruction-issues": "Incolla un array JSON di issue di __sourceName__ (__endpoint__). Le issue diventano cjartis raggruppate nelle liste Aperte / Chiuse.",
   "import-board-instruction-kanboard": "Incolla un JSON di espuartezione Kanboard: un oggetto cun \"columns\" (o task che riportano column_name) e un array \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Le colonne diventano liste e i task diventano cjartis.",
+  "import-board-instruction-markdown": "Tache dentri une liste di ativitâts in markdown (la convenzion che i imprescj markdown-kanban tant che Obsidian Kanban a doprin): titui \"## Non de liste\", cun elements \"- [ ]\"/\"- [x]\" disot. I titui a deventin listis e i elements a deventin schedis; ancje une liste semplice a pontui cence casele a ven impuartade, tant che schedis viertis.",
+  "import-board-instruction-openproject": "Incolla un JSON di una raccolta di work package OpenProject (GET /api/v3/work_packages). Gli stati diventano liste e i work package diventano cjartis.",
   "import-board-instruction-zenkit": "Incolla un JSON di espuartezione di una lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Gli stage diventano liste e gli item diventano cjartis.",
   "import-file-label": "Sielç il file di esportazion, o tache il so test chi sot:",
   "initials": "Iniziâls",

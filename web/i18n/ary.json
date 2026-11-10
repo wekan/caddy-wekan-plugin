@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "اختر جدول بيانات .xlsx بنمط WeKan (نفس أعمدة تصدير Excel: Title, Description, Status/List, Members, Labels, والتواريخ والحقول المخصصة). الصف الأول هو الترويسة.",
   "import-board-instruction-issues": "الصق مصفوفة JSON لمشكلات __sourceName__ (__endpoint__). تصبح المشكلات بطاقات مجمّعة في قوائم مفتوحة / مغلقة.",
   "import-board-instruction-kanboard": "الصق ملف JSON مُصدَّر من Kanboard: كائن يحتوي على \"columns\" (أو مهام تحمل column_name) ومصفوفة \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). تصبح الأعمدة قوائم وتصبح المهام بطاقات.",
+  "import-board-instruction-markdown": "لصق ليستة ديال المهام بـ markdown (بحال الطريقة اللي كتستعملها أدوات markdown-kanban بحال Obsidian Kanban): عناوين \"## List name\"، وتحت منها عناصر \"- [ ]\"/\"- [x]\". العناوين كيولّيو ليستات والعناصر كيولّيو كارتات؛ حتى ليستة بالنقط بلا خانات التأشير كتدخل، ككارتات مفتوحة.",
+  "import-board-instruction-openproject": "الصق ملف JSON لمجموعة حزم العمل من OpenProject (GET /api/v3/work_packages). تصبح الحالات قوائم وتصبح حزم العمل بطاقات.",
   "import-board-instruction-zenkit": "الصق ملف JSON لتصدير قائمة ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). تصبح المراحل قوائم وتصبح العناصر بطاقات.",
   "import-file-label": "ختار ملف التصدير، ولا لصق النص ديالو لتحت:",
   "initials": "أولية",

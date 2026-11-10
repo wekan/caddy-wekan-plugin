@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Chọn một bảng tính .xlsx theo kiểu WeKan (cùng các cột như bản xuất Excel: Tiêu đề, Mô tả, Trạng thái/Danh sách, Thành viên, Nhãn, ngày, trường tùy chỉnh). Hàng đầu tiên là tiêu đề cột.",
   "import-board-instruction-issues": "Dán một mảng JSON các vấn đề của __sourceName__ (__endpoint__). Các vấn đề trở thành thẻ được nhóm vào danh sách Mở / Đã đóng.",
   "import-board-instruction-kanboard": "Dán một JSON xuất từ Kanboard: một đối tượng có \"columns\" (hoặc các nhiệm vụ mang column_name) và một mảng \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Các cột trở thành danh sách và các nhiệm vụ trở thành thẻ.",
+  "import-board-instruction-markdown": "Dán một danh sách công việc markdown (quy ước mà các công cụ markdown-kanban như Obsidian Kanban sử dụng): tiêu đề \"## Tên danh sách\", với các mục \"- [ ]\"/\"- [x]\" bên dưới. Tiêu đề trở thành danh sách và các mục trở thành thẻ; một danh sách gạch đầu dòng đơn giản không có ô chọn cũng được nhập, dưới dạng thẻ mở.",
+  "import-board-instruction-openproject": "Dán một JSON tập hợp gói công việc OpenProject (GET /api/v3/work_packages). Các trạng thái trở thành danh sách và các gói công việc trở thành thẻ.",
   "import-board-instruction-zenkit": "Dán một JSON xuất danh sách ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Các stage trở thành danh sách và các item trở thành thẻ.",
   "import-file-label": "Chọn tệp xuất, hoặc dán nội dung văn bản bên dưới:",
   "initials": "Tên viết tắt",

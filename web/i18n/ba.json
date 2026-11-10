@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan стилендәге .xlsx электрон таблицаһын һайлағыҙ (Excel экспортындағы шул уҡ бағаналар: Title, Description, Status/List, Members, Labels, даталар, махсус яландар). Беренсе юл — башлыҡ.",
   "import-board-instruction-issues": "__sourceName__ мәсьәләләренең JSON массивын ҡуйығыҙ (__endpoint__). Мәсьәләләр Асыҡ / Ябыҡ исемлектәренә төркөмләнгән карточкаларға әйләнә.",
   "import-board-instruction-kanboard": "Kanboard экспорт JSON-ын ҡуйығыҙ: \"columns\" булған объект (йәки column_name йөрөткән бурыстар) һәм \"tasks\" массивы (title, description, column_name, swimlane_name, date_due, owner, tags). Бағаналар исемлектәргә, бурыстар карточкаларға әйләнә.",
+  "import-board-instruction-markdown": "Markdown бурыс исемлеген ябыштырығыҙ (Obsidian Kanban кеүек markdown-kanban ҡоралдары ҡулланған ҡағиҙә): аҫтарында \"- [ ]\"/\"- [x]\" элементтары менән \"## Исемлек исеме\" исемдәре. Исемдәр исемлектәргә, элементтар картаға әйләнә; чекбокссыҙ ябай нөктәле исемлек тә асыҡ карталар булараҡ импортлана.",
+  "import-board-instruction-openproject": "OpenProject эш пакеттары коллекцияһының JSON-ын ҡуйығыҙ (GET /api/v3/work_packages). Статустар исемлектәргә, эш пакеттары карточкаларға әйләнә.",
   "import-board-instruction-zenkit": "ZenKit исемлек экспортының JSON-ын ҡуйығыҙ ({ \"title\", \"stages\":[...], \"items\":[...] }). Этаптар исемлектәргә, пункттар карточкаларға әйләнә.",
   "import-file-label": "Экспорт файлын һайлағыҙ, йәки уның тексын аҫта ҡуйығыҙ:",
   "initials": "Инициалдар",

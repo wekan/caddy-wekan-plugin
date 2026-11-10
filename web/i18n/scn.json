@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Sceli nu foglio di calcolu .xlsx in stili WeKan (li stesse colonne dell'esportazzzioni Excel: Tìtulu, Discrizzzioni, Stato/Lista, Membri, Etichette, date, campi personalizzati). La prima riga è l'intestazzzioni.",
   "import-board-instruction-issues": "Incolla nu array JSON di issue di __sourceName__ (__endpoint__). Li issue diventano schede raggruppate nelli liste Aperte / Chiuse.",
   "import-board-instruction-kanboard": "Incolla nu JSON di esportazzzioni Kanboard: nu oggetto cu \"columns\" (o task che riportano column_name) e nu array \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Li colonne diventano liste e i task diventano schede.",
+  "import-board-instruction-markdown": "Attacca na lista di travagghi markdown (a cunvenzioni ca usanu attrizzi markdown-kanban comu Obsidian Kanban): tituli \"## Nomu di la lista\", cu elementi \"- [ ]\"/\"- [x]\" sutta. I tituli addivèntanu listi e l'elementi addivèntanu carti.",
+  "import-board-instruction-openproject": "Incolla nu JSON di na raccolta di work package OpenProject (GET /api/v3/work_packages). Li stati diventano liste e i work package diventano schede.",
   "import-board-instruction-zenkit": "Incolla nu JSON di esportazzzioni di na lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Li stage diventano liste e li item diventano schede.",
   "import-file-label": "Scegghi lu file d'esportazzioni, o ncodda lu so testu ccà sutta:",
   "initials": "Iniziali",

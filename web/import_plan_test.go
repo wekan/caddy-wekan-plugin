@@ -81,7 +81,8 @@ func TestImportParsersAreWeKans(t *testing.T) {
 	}
 	for _, kv := range cases.(jsObject) {
 		parse, ok := importParsers[kv.Key]
-		if !ok {
+		textParse, isText := importTextParsers[kv.Key]
+		if !ok && !isText {
 			t.Errorf("%s: Weddy has no parser", kv.Key)
 			continue
 		}
@@ -91,11 +92,16 @@ func TestImportParsersAreWeKans(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			doc, err := decodeJS(text)
-			if err != nil {
-				t.Fatal(err)
+			var got jsObject
+			if isText {
+				got, err = textParse(string(text))
+			} else {
+				doc, derr := decodeJS(text)
+				if derr != nil {
+					t.Fatal(derr)
+				}
+				got, err = parse(doc)
 			}
-			got, err := parse(doc)
 			if err != nil {
 				t.Fatalf("%s %s: %v", kv.Key, name, err)
 			}

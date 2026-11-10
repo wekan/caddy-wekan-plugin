@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Zgjidh një fletëllogaritëse .xlsx në stilin WeKan (të njëjtat kolona si eksporti Excel: Titulli, Përshkrimi, Statusi/Lista, Anëtarët, Etiketat, datat dhe fushat e personalizuara). Rreshti i parë është kreu.",
   "import-board-instruction-issues": "Ngjit një varg JSON të çështjeve nga __sourceName__ (__endpoint__). Çështjet bëhen karta të grupuara në listat Hapur / Mbyllur.",
   "import-board-instruction-kanboard": "Ngjit një eksport JSON të Kanboard: objekt me \"columns\" (ose detyra me column_name) dhe një varg \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Kolonat bëhen lista dhe detyrat bëhen karta.",
+  "import-board-instruction-markdown": "Ngjitni një listë detyrash markdown (konventa që përdorin mjetet markdown-kanban si Obsidian Kanban): titujt \"## Emri i listës\", me elementet \"- [ ]\"/\"- [x]\" poshtë. Titujt bëhen lista dhe elementet bëhen karta; një listë e thjeshtë me pika pa kutiza zgjedhjeje gjithashtu importohet, si karta të hapura.",
+  "import-board-instruction-openproject": "Ngjit një koleksion JSON të paketave të punës OpenProject (GET /api/v3/work_packages). Statuset bëhen lista dhe paketat e punës bëhen karta.",
   "import-board-instruction-zenkit": "Ngjit një eksport JSON të listës ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Fazat bëhen lista dhe elementet bëhen karta.",
   "import-file-label": "Zgjidhni skedarin e eksportit, ose ngjitni tekstin e tij më poshtë:",
   "initials": "Inicialet",

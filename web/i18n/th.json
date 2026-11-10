@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "เลือกสเปรดชีต .xlsx แบบ WeKan (คอลัมน์เดียวกับการส่งออก Excel: Title, Description, Status/List, Members, Labels, วันที่, ฟิลด์ที่กำหนดเอง) แถวแรกคือส่วนหัว",
   "import-board-instruction-issues": "วางอาร์เรย์ JSON ของ issues __sourceName__ (__endpoint__) Issues จะกลายเป็นการ์ดที่จัดกลุ่มเป็นรายการ Open / Closed",
   "import-board-instruction-kanboard": "วาง JSON การส่งออก Kanboard: อ็อบเจกต์ที่มี \"columns\" (หรือ tasks ที่มี column_name) และอาร์เรย์ \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags) คอลัมน์จะกลายเป็นรายการและ tasks จะกลายเป็นการ์ด",
+  "import-board-instruction-markdown": "วางรายการงาน markdown (ธรรมเนียมที่เครื่องมือ markdown-kanban เช่น Obsidian Kanban ใช้): หัวข้อ \"## ชื่อรายการ\" พร้อมรายการ \"- [ ]\"/\"- [x]\" ด้านล่าง หัวข้อจะกลายเป็นรายการ และรายการย่อยจะกลายเป็นการ์ด รายการสัญลักษณ์แสดงหัวข้อย่อยธรรมดาที่ไม่มีช่องทำเครื่องหมายก็จะถูกนำเข้าเช่นกัน ในรูปแบบการ์ดที่เปิดอยู่",
+  "import-board-instruction-openproject": "วาง JSON คอลเลกชัน work-packages ของ OpenProject (GET /api/v3/work_packages) สถานะจะกลายเป็นรายการและ work packages จะกลายเป็นการ์ด",
   "import-board-instruction-zenkit": "วาง JSON การส่งออก list ของ ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }) Stages จะกลายเป็นรายการและ items จะกลายเป็นการ์ด",
   "import-file-label": "เลือกไฟล์ส่งออก หรือวางข้อความจากไฟล์ด้านล่าง:",
   "initials": "ชื่อย่อ",

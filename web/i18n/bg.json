@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Изберете електронна таблица .xlsx в стил WeKan (същите колони като при експорта към Excel: Title, Description, Status/List, Members, Labels, дати, персонализирани полета). Първият ред е заглавен.",
   "import-board-instruction-issues": "Поставете JSON масив с проблеми от __sourceName__ (__endpoint__). Проблемите стават карти, групирани в списъци Отворени / Затворени.",
   "import-board-instruction-kanboard": "Поставете JSON от експорт на Kanboard: обект с \"columns\" (или задачи, носещи column_name) и масив \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Колоните стават списъци, а задачите стават карти.",
+  "import-board-instruction-markdown": "Поставете списък със задачи в markdown (конвенцията, използвана от markdown-kanban инструменти като Obsidian Kanban): заглавия \"## Име на списък\", с елементи \"- [ ]\"/\"- [x]\" отдолу. Заглавията стават списъци, а елементите — карти; обикновен списък с точки без квадратчета също се импортира, като отворени карти.",
+  "import-board-instruction-openproject": "Поставете JSON колекция от work-packages на OpenProject (GET /api/v3/work_packages). Статусите стават списъци, а работните пакети стават карти.",
   "import-board-instruction-zenkit": "Поставете JSON от експорт на списък от ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Етапите стават списъци, а елементите стават карти.",
   "import-file-label": "Изберете изнесения файл или поставете текста му по-долу:",
   "initials": "Инициали",

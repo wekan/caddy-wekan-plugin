@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Huk .xlsx qillqa mayt'uta akllay: sapa siqipi huk kartayuq tawla (Suti, Willakuy, Kay/Sutisuyu, Ayllumasikuna, Unanchakuna, p'unchawkuna, kikin ruwasqa chaqrakuna hina columnakuna), utaq WeKan hurqusqan qillqa mayt'u, sapa pirqa kikin p'anqanpi kaqpas. Qatiq ruraypi rikuchikun mayqin columnachus mayqin chaqra kasqanta. Uma siqiyuq sapa p'anqa pirqaman tikrakun.",
   "import-board-instruction-issues": "__sourceName__ sasachakuykuna JSON huñuta ch'aqchuy (__endpoint__). Sasachakuykuna kartakunaman tikrakun, Kichasqa / Wichqasqa sutisuyukunapi huñusqa.",
   "import-board-instruction-kanboard": "Kanboard hurqusqa JSONta ch'aqchuy: \"columns\" nisqayuq (utaq column_name apaq tasks) hinallataq \"tasks\" huñuyuq (title, description, column_name, swimlane_name, date_due, owner, tags) objeto. Columnakuna sutisuyukunaman tikrakun, llamkaykunataq kartakunaman.",
+  "import-board-instruction-markdown": "Markdown ruray listata churay (Obsidian Kanban jina markdown-kanban herramientakuna usan convención): \"## Lista sutin\" umalliqkuna, uranpi \"- [ ]\"/\"- [x]\" imakunawan. Umalliqkuna listakunaman tikrakun, imakunataq tarjetakunaman tikrakun.",
+  "import-board-instruction-openproject": "OpenProject llamkay-q'ipikuna huñu JSONta ch'aqchuy (GET /api/v3/work_packages). Kayninkuna sutisuyukunaman tikrakun, llamkay-q'ipikunataq kartakunaman.",
   "import-board-instruction-zenkit": "ZenKit sutisuyu hurqusqa JSONta ch'aqchuy ({ \"title\", \"stages\":[...], \"items\":[...] }). Patakuna sutisuyukunaman tikrakun, kaqkunataq kartakunaman.",
   "import-file-label": "Hurqusqa willañiqita akllay, utaq qillqanta uraypi k'askachiy:",
   "initials": "Qallariq sanampakuna",

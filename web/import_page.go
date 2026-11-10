@@ -42,8 +42,14 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 	lang := languageOf(r, u).Tag
 	accept, paste := tableSources[source], source == "csv"
 	_, general := importParsers[source]
+	if _, text := importTextParsers[source]; text {
+		general = true
+	}
 	if general {
 		accept, paste = ".json,application/json", true
+		if _, text := importTextParsers[source]; text {
+			accept = map[string]string{"markdown": ".md,text/markdown,text/plain"}[source]
+		}
 	}
 	return map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source, "Accept": accept, "Paste": paste, "General": general,
 		"Instruction": importInstruction(lang, source)}
@@ -52,6 +58,9 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 func (s *Server) importPage(w http.ResponseWriter, r *http.Request, u *User) {
 	source := r.PathValue("source")
 	_, general := importParsers[source]
+	if _, text := importTextParsers[source]; text {
+		general = true
+	}
 	if _, ok := tableSources[source]; !ok && !general {
 		http.Error(w, "This import is not in Weddy yet.", http.StatusNotFound)
 		return
@@ -98,7 +107,9 @@ func importRows(r *http.Request, source string) (string, [][]string, error) {
 // chosen as the column names say.
 func (s *Server) importMappingPage(w http.ResponseWriter, r *http.Request, u *User) {
 	source := r.PathValue("source")
-	if _, ok := importParsers[source]; ok {
+	_, jsonSource := importParsers[source]
+	_, textSource := importTextParsers[source]
+	if jsonSource || textSource {
 		s.importGeneralPage(w, r, u, source)
 		return
 	}
@@ -236,7 +247,8 @@ func importInstruction(lang, source string) string {
 	}
 	key := map[string]string{"csv": msg("import-board-instruction-csv"), "excel": msg("import-board-instruction-excel"),
 		"kanboard": msg("import-board-instruction-kanboard"), "deck": msg("import-board-instruction-deck"),
-		"asana": msg("import-board-instruction-asana"), "zenkit": msg("import-board-instruction-zenkit")}[source]
+		"asana": msg("import-board-instruction-asana"), "zenkit": msg("import-board-instruction-zenkit"),
+		"openproject": msg("import-board-instruction-openproject"), "markdown": msg("import-board-instruction-markdown")}[source]
 	return tr(lang, key)
 }
 

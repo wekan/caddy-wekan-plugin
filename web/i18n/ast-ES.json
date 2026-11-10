@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Escueyi una fueya de cálculu .xlsx al estilu de WeKan (les mesmes columnes que la esportación a Excel: Title, Description, Status/List, Members, Labels, feches, campos personalizaos). La primer filera ye la testera.",
   "import-board-instruction-issues": "Apega una matriz JSON d'incidencies de __sourceName__ (__endpoint__). Les incidencies conviértense en tarxetes agrupaes en llistes Abiertes / Zarraes.",
   "import-board-instruction-kanboard": "Apega un JSON d'esportación de Kanboard: un oxetu con \"columns\" (o xeres con column_name) y una matriz \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Les columnes conviértense en llistes y les xeres en tarxetes.",
+  "import-board-instruction-markdown": "Apega una llista de xeres en markdown (el convenu que usen ferramientes markdown-kanban como Obsidian Kanban): testeres \"## Nome de la llista\", con elementos \"- [ ]\"/\"- [x]\" debaxo. Les testeres vuélvense llistes y los elementos vuélvense tarxetes; una llista de vares senciella ensin caxelles tamién s'importa, como tarxetes abiertes.",
+  "import-board-instruction-openproject": "Apega un JSON de coleición de paquetes de trabayu d'OpenProject (GET /api/v3/work_packages). Los estaos conviértense en llistes y los paquetes de trabayu en tarxetes.",
   "import-board-instruction-zenkit": "Apega un JSON d'esportación de llista de ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Les etapes conviértense en llistes y los elementos en tarxetes.",
   "import-file-label": "Escueyi'l ficheru d'esportación, o apega'l so testu embaxo:",
   "initials": "Iniciales",

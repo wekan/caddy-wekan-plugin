@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Tlhopha letlhare la .xlsx la mokgwa wa WeKan (dikholomo tse di tshwanang le thomelo ya Excel: Title, Description, Status/List, Members, Labels, dates, custom fields). Mola wa ntlha ke setlhogo.",
   "import-board-instruction-issues": "Manega lenaane la JSON la dikgang tsa __sourceName__ (__endpoint__). Dikgang di nna dikarata tse di kgaogantsweng ka manane a Bulegile / Tswetswe.",
   "import-board-instruction-kanboard": "Manega JSON ya thomelo ya Kanboard: sedirwa se se nang le \"columns\" (kgotsa ditiro tse di nang le column_name) le lenaane la \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Dikholomo di nna manane, ditiro di nna dikarata.",
+  "import-board-instruction-markdown": "Kgomaretsa lenaane la ditiro tsa markdown (mokgwa o o dirisiwang ke didiriswa tsa markdown-kanban tse di jaaka Obsidian Kanban): ditlhogo tsa \"## Leina la lenaane\", ka dilo tsa \"- [ ]\"/\"- [x]\" ka fa tlase. Ditlhogo di nna manane mme dilo di nna dikarata.",
+  "import-board-instruction-openproject": "Manega JSON ya pokello ya diphuthelwana tsa tiro ya OpenProject (GET /api/v3/work_packages). Maemo a nna manane, diphuthelwana tsa tiro di nna dikarata.",
   "import-board-instruction-zenkit": "Manega JSON ya thomelo ya lenaane la ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Dikgato di nna manane, dintlha di nna dikarata.",
   "import-file-label": "Tlhopha faele e e ntshitsweng, kgotsa kgomaretsa mokwalo wa yona fa tlase:",
   "initials": "Tshedimosetso: Initials",

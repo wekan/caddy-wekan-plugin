@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Veldu .xlsx-töflureikni á WeKan-sniði (sömu dálkar og í Excel-útflutningi: Title, Description, Status/List, Members, Labels, dagsetningar, sérsniðnir reitir). Fyrsta röðin er fyrirsögn.",
   "import-board-instruction-issues": "Límdu inn JSON-fylki __sourceName__-mála (__endpoint__). Mál verða að spjöldum sem flokkast í Opna/Lokaða lista.",
   "import-board-instruction-kanboard": "Límdu inn Kanboard-útflutnings-JSON: hlut með „columns“ (eða verkum sem innihalda column_name) og fylkinu „tasks“ (title, description, column_name, swimlane_name, date_due, owner, tags). Dálkar verða að listum og verk að spjöldum.",
+  "import-board-instruction-markdown": "Límdu inn markdown verkefnalista (venjan sem markdown-kanban tól eins og Obsidian Kanban nota): \"## Listaheiti\" fyrirsagnir, með \"- [ ]\"/\"- [x]\" atriðum fyrir neðan. Fyrirsagnir verða að listum og atriði verða að spjöldum; einfaldur punktalisti án hakreita er einnig fluttur inn, sem opin spjöld.",
+  "import-board-instruction-openproject": "Límdu inn JSON-safn OpenProject-verkpakka (GET /api/v3/work_packages). Stöður verða að listum og verkpakkar að spjöldum.",
   "import-board-instruction-zenkit": "Límdu inn JSON úr ZenKit-listaútflutningi ({ \"title\", \"stages\":[...], \"items\":[...] }). Stig verða að listum og atriði að spjöldum.",
   "import-file-label": "Veldu útflutningsskrána eða límdu texta hennar inn hér að neðan:",
   "initials": "Upphafsstafir",

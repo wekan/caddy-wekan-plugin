@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Elige un hoha di cálculo .xlsx ku formato WeKan (e mismas columnas ku e eksportashon di Exsel: Título, Deskripshon, Estado/Lista, Miembronan, Etikètnan, fechas, kamindanan personalisá). E primera fila ta e encabezado.",
   "import-board-instruction-issues": "Pega un array HSON di issues di __sourceName__ (__endpoint__). E issues se conbierten den karchinan agrupadas den listas Abiertos / serrados.",
   "import-board-instruction-kanboard": "Pega un HSON di eksportashon di Kanboard: un obheto ku \"columns\" (òf tareas ku column_name) i un array \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). E columnas se conbierten den listas i e tareas den karchinan.",
+  "import-board-instruction-markdown": "Pega un lista di tarea markdown (e konvenshon ku hermentnan markdown-kanban manera Obsidian Kanban ta usa): titulo \"## Nòmber di lista\", ku elementonan \"- [ ]\"/\"- [x]\" bou di dje. Titulonan ta bira lista i elementonan ta bira karchi.",
+  "import-board-instruction-openproject": "Pega un HSON di colecshon di work-packages di OpenProhect (GET /api/v3/work_packages). E estados se conbierten den listas i e work packages den karchinan.",
   "import-board-instruction-zenkit": "Pega un HSON di eksportashon di lista di ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). E stages se conbierten den listas i e items den karchinan.",
   "import-file-label": "Skohe e fail eksportá, òf pega su teksto abou:",
   "initials": "Inisiales",

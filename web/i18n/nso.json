@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Kgetha sepreadšiti sa .xlsx sa mokgwa wa WeKan (dikholomo tše di swanago le ntšho ya Excel: Title, Description, Status/List, Members, Labels, matšatšikgwedi, mafelo a tlwaelo). Mothaladi wa pele ke hlogo.",
   "import-board-instruction-issues": "Kgomaretša lenaneo la JSON la ditaba tša __sourceName__ (__endpoint__). Ditaba di ba dikarata tše di hlophilwego ka mananeo a Open / Closed.",
   "import-board-instruction-kanboard": "Kgomaretša JSON ya ntšho ya Kanboard: sedirišwa se se nago le \"columns\" (goba mešomo ye e rwelego column_name) le lenaneo la \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Dikholomo di ba mananeo gomme mešomo ya ba dikarata.",
+  "import-board-instruction-markdown": "Kgomaretša lelokelelo la mešomo ya markdown (mokgwa woo dithulusi tša markdown-kanban tša go swana le Obsidian Kanban di o šomišago): dihlogo tša \"## Leina la lelokelelo\", le dilo tša \"- [ ]\"/\"- [x]\" ka tlase. Dihlogo di fetoga malokelelo gomme dilo di fetoga dikarata.",
+  "import-board-instruction-openproject": "Kgomaretša JSON ya kgoboketšo ya diphuthelwana tša mošomo tša OpenProject (GET /api/v3/work_packages). Maemo a ba mananeo gomme diphuthelwana tša mošomo tša ba dikarata.",
   "import-board-instruction-zenkit": "Kgomaretša JSON ya ntšho ya lenaneo la ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Magato a ba mananeo gomme dilo tša ba dikarata.",
   "import-file-label": "Kgetha faele ya go romela, goba kgomaretša sengwalwa sa yona ka tlase:",
   "initials": "Ditlhaka tša mathomo",

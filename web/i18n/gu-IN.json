@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan-શૈલીની .xlsx સ્પ્રેડશીટ પસંદ કરો (Excel નિકાસ જેવા જ કૉલમ: Title, Description, Status/List, Members, Labels, તારીખો, કસ્ટમ ફીલ્ડ). પ્રથમ પંક્તિ હેડર છે.",
   "import-board-instruction-issues": "__sourceName__ issues JSON એરે પેસ્ટ કરો (__endpoint__). Issues કાર્ડ બને છે અને Open / Closed યાદીઓમાં જૂથબદ્ધ થાય છે.",
   "import-board-instruction-kanboard": "Kanboard નિકાસ JSON પેસ્ટ કરો: \"columns\" (અથવા column_name ધરાવતા tasks) અને \"tasks\" એરે (title, description, column_name, swimlane_name, date_due, owner, tags) ધરાવતું ઑબ્જેક્ટ. Columns યાદીઓ બને છે અને tasks કાર્ડ બને છે.",
+  "import-board-instruction-markdown": "માર્કડાઉન કાર્ય સૂચિ પેસ્ટ કરો (Obsidian Kanban જેવા markdown-kanban સાધનો ઉપયોગ કરે છે તે સંમેલન): \"## સૂચિનું નામ\" મથાળાં, નીચે \"- [ ]\"/\"- [x]\" આઇટમ સાથે. મથાળાં સૂચિ બની જાય છે અને આઇટમ કાર્ડ બની જાય છે; ચેકબોક્સ વગરની સાદી બુલેટ સૂચિ પણ ખુલ્લા કાર્ડ તરીકે આયાત થાય છે.",
+  "import-board-instruction-openproject": "OpenProject work-packages સંગ્રહ JSON પેસ્ટ કરો (GET /api/v3/work_packages). Statuses યાદીઓ બને છે અને work packages કાર્ડ બને છે.",
   "import-board-instruction-zenkit": "ZenKit list નિકાસ JSON પેસ્ટ કરો ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages યાદીઓ બને છે અને items કાર્ડ બને છે.",
   "import-file-label": "નિકાસ ફાઇલ પસંદ કરો, અથવા તેનું લખાણ નીચે પેસ્ટ કરો:",
   "initials": "આદ્યાક્ષરો",

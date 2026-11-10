@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "sarudza a WeKan-style .xlsx spreadsheet (the zvimwe chete columns as the Excel tumira kunze: musoro, tsananguro, mamiriro/rondedzero, nhengo, zviratidzo, dates, custom ndima). The yekutanga row iri the header.",
   "import-board-instruction-issues": "Paste a __sourceName__ issues JSON array (__endpoint__). Issues become makadhi grouped into vhura / Closed rondedzero.",
   "import-board-instruction-kanboard": "Paste a Kanboard tumira kunze JSON: an object ne \"columns\" (kana tasks carrying column_name) uye a \"tasks\" array (title, description, column_name, swimlane_name, date_due, owner, tags). Columns become rondedzero uye tasks become makadhi.",
+  "import-board-instruction-markdown": "Namira runyorwa rwemabasa emarkdown (tsika inoshandiswa nemidziyo yemarkdown-kanban seObsidian Kanban): misoro ye\"## Zita rerunyorwa\", ine zvinhu \"- [ ]\"/\"- [x]\" pasi payo. Misoro inova runyorwa uye zvinhu zvinova makadhi.",
+  "import-board-instruction-openproject": "Paste an OpenProject work-packages collection JSON (GET /api/v3/work_packages). Statuses become rondedzero uye work packages become makadhi.",
   "import-board-instruction-zenkit": "Paste a ZenKit rondedzero tumira kunze JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages become rondedzero uye items become makadhi.",
   "import-file-label": "Sarudza faira rekubudisa, kana isa mavara aro pasi apa:",
   "initials": "Mavara ekutanga emazita",

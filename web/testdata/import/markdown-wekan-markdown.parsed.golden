@@ -1,0 +1,26 @@
+{
+  "board": {
+    "name": "Audit Markdown"
+  },
+  "columns": [
+    {
+      "title": "Audit list"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Audit task – Å 中文",
+      "description": "First line: café, comma, and \"quotes\".\nSecond line: 日本語.",
+      "column_name": "Audit list",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

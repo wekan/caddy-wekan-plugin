@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Eiporavo WeKan-reko .xlsx kuatiamohendaha (umi columna Excel jeguerahaicha: Title, Description, Status/List, Members, Labels, dates, custom fields). Tysýi peteĩha ha'e akã.",
   "import-board-instruction-issues": "Emboja __sourceName__ apañuãi JSON ysaja (__endpoint__). Apañuãikuéra oikóta kuatia'i oñemboja'óva ysaja Open / Closed-pe.",
   "import-board-instruction-kanboard": "Emboja Kanboard jegueraha JSON: peteĩ mba'e orekóva \"columns\" (térã tembiapo ogueraháva column_name) ha peteĩ \"tasks\" ysaja (title, description, column_name, swimlane_name, date_due, owner, tags). Column-kuéra oikóta ysaja ha tembiapokuéra kuatia'i.",
+  "import-board-instruction-markdown": "Emoĩ peteĩ markdown tembiapo rysýi (Obsidian Kanban ojoguáva markdown-kanban tembiporu oiporúva convención): \"## Rysýi réra\" ryapu, \"- [ ]\"/\"- [x]\" mba'ekuéra iguýpe. Ryapu kuéra ohóta rysýirã ha mba'ekuéra ohóta kuatiarã; rysýi mbojoja hasyʼỹva checkbox'ỹre avei ojehepyme'ẽ, kuatia ijurupe.",
+  "import-board-instruction-openproject": "Emboja peteĩ OpenProject work-packages aty JSON (GET /api/v3/work_packages). Tekokuéra oikóta ysaja ha tembiapo aty kuatia'i.",
   "import-board-instruction-zenkit": "Emboja ZenKit ysaja jegueraha JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stage-kuéra oikóta ysaja ha mba'ekuéra kuatia'i.",
   "import-file-label": "Eiporavo mosẽ marandurenda, térã emboja imoñe'ẽrã iguýpe:",
   "initials": "Tai ñepyrũ",

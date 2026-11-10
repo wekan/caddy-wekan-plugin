@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan ಶೈಲಿಯ .xlsx ಸ್ಪ್ರೆಡ್‌ಶೀಟ್ ಆಯ್ಕೆಮಾಡಿ (Excel ರಫ್ತಿನ ಅದೇ ಕಾಲಮ್‌ಗಳು: ಶೀರ್ಷಿಕೆ, ವಿವರಣೆ, ಸ್ಥಿತಿ/ಪಟ್ಟಿ, ಸದಸ್ಯರು, ಲೇಬಲ್‌ಗಳು, ದಿನಾಂಕಗಳು, ಕಸ್ಟಮ್ ಕ್ಷೇತ್ರಗಳು). ಮೊದಲ ಸಾಲು ಶೀರ್ಷಿಕೆಯಾಗಿದೆ.",
   "import-board-instruction-issues": "__sourceName__ ಸಮಸ್ಯೆಗಳ JSON ಸರಣಿ (__endpoint__) ಅಂಟಿಸಿ. ಸಮಸ್ಯೆಗಳು ತೆರೆಯಲಾದ / ಮುಚ್ಚಿದ ಪಟ್ಟಿಗಳಲ್ಲಿ ಗುಂಪುಮಾಡಿದ ಕಾರ್ಡ್‌ಗಳಾಗುತ್ತವೆ.",
   "import-board-instruction-kanboard": "Kanboard ರಫ್ತು JSON ಅಂಟಿಸಿ: \"columns\" ಇರುವ ವಸ್ತು (ಅಥವಾ column_name ಹೊಂದಿರುವ ಕಾರ್ಯಗಳು) ಮತ್ತು \"tasks\" ಸರಣಿ (title, description, column_name, swimlane_name, date_due, owner, tags). ಕಾಲಮ್‌ಗಳು ಪಟ್ಟಿಗಳಾಗುತ್ತವೆ ಮತ್ತು ಕಾರ್ಯಗಳು ಕಾರ್ಡ್‌ಗಳಾಗುತ್ತವೆ.",
+  "import-board-instruction-markdown": "markdown ಕಾರ್ಯ ಪಟ್ಟಿಯನ್ನು ಅಂಟಿಸಿ (Obsidian Kanban ನಂತಹ markdown-kanban ಪರಿಕರಗಳು ಬಳಸುವ ಸಂಪ್ರದಾಯ): \"## ಪಟ್ಟಿಯ ಹೆಸರು\" ಶೀರ್ಷಿಕೆಗಳು, ಕೆಳಗೆ \"- [ ]\"/\"- [x]\" ಐಟಂಗಳೊಂದಿಗೆ. ಶೀರ್ಷಿಕೆಗಳು ಪಟ್ಟಿಗಳಾಗುತ್ತವೆ ಮತ್ತು ಐಟಂಗಳು ಕಾರ್ಡ್‌ಗಳಾಗುತ್ತವೆ; ಚೆಕ್‌ಬಾಕ್ಸ್ ಇಲ್ಲದ ಸರಳ ಬುಲೆಟ್ ಪಟ್ಟಿಯೂ ತೆರೆದ ಕಾರ್ಡ್‌ಗಳಾಗಿ ಆಮದಾಗುತ್ತದೆ.",
+  "import-board-instruction-openproject": "OpenProject ಕಾರ್ಯ-ಪ್ಯಾಕೇಜುಗಳ ಸಂಗ್ರಹ JSON (GET /api/v3/work_packages) ಅಂಟಿಸಿ. ಸ್ಥಿತಿಗಳು ಪಟ್ಟಿಗಳಾಗುತ್ತವೆ ಮತ್ತು ಕಾರ್ಯ ಪ್ಯಾಕೇಜುಗಳು ಕಾರ್ಡ್‌ಗಳಾಗುತ್ತವೆ.",
   "import-board-instruction-zenkit": "ZenKit ಪಟ್ಟಿ ರಫ್ತು JSON ({ \"title\", \"stages\":[...], \"items\":[...] }) ಅಂಟಿಸಿ. ಹಂತಗಳು ಪಟ್ಟಿಗಳಾಗುತ್ತವೆ ಮತ್ತು ಅಂಶಗಳು ಕಾರ್ಡ್‌ಗಳಾಗುತ್ತವೆ.",
   "import-file-label": "ರಫ್ತು ಕಡತವನ್ನು ಆಯ್ಕೆಮಾಡಿ, ಅಥವಾ ಅದರ ಪಠ್ಯವನ್ನು ಕೆಳಗೆ ಅಂಟಿಸಿ:",
   "initials": "ಮೊದಲಕ್ಷರಗಳು",

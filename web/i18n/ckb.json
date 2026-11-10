@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "خشتەیەکی .xlsx بە شێوازی WeKan هەڵبژێرە (هەمان ستوونەکانی هەناردەی Excel: Title, Description, Status/List, Members, Labels, dates, custom fields). ڕیزی یەکەم سەرپەڕەیە.",
   "import-board-instruction-issues": "ڕیزبەندی JSONی کێشەکانی __sourceName__ دابنێ (__endpoint__). کێشەکان دەبنە کارت و لە لیستەکانی کراوە / داخراو کۆدەکرێنەوە.",
   "import-board-instruction-kanboard": "JSONی هەناردەکراوی Kanboard دابنێ: ئۆبجێکتێک بە \"columns\" (یان ئەرکەکان بە column_name) و ڕیزبەندی \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). ستوونەکان دەبنە لیست و ئەرکەکان دەبنە کارت.",
+  "import-board-instruction-markdown": "لیستێکی ئەرکی مارکدائون بلکێنە (ڕێککەوتنی ئامرازە مارکدائون-کانبانەکان وەک Obsidian Kanban بەکاریدەهێنن): سەرنووسی \"## ناوی لیست\"، لەگەڵ بڕگەکانی \"- [ ]\"/\"- [x]\" لەژێریدا. سەرنووسەکان دەبنە لیست و بڕگەکان دەبنە کارت؛ لیستێکی خاڵی ساکاریش بەبێ چوارگۆشەی هەڵبژاردن هاورده دەکرێت، وەک کارتی کراوە.",
+  "import-board-instruction-openproject": "JSONی کۆمەڵەی work-packagesی OpenProject دابنێ (GET /api/v3/work_packages). دۆخەکان دەبنە لیست و work packageەکان دەبنە کارت.",
   "import-board-instruction-zenkit": "JSONی هەناردەی لیستی ZenKit دابنێ ({ \"title\", \"stages\":[...], \"items\":[...] }). قۆناغەکان دەبنە لیست و بڕگەکان دەبنە کارت.",
   "import-file-label": "فایلی هەناردە هەڵبژێرە، یان دەقەکەی لە خوارەوە بلکێنە:",
   "initials": "پیتە سەرەتاییەکان",

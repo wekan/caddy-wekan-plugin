@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Filifili se spreadsheet .xlsx i le faiga WeKan (koluma lava e tasi ma le auina atu Excel: Title, Description, Status/List, Members, Labels, dates, custom fields). O le laina muamua o le ulutala.",
   "import-board-instruction-issues": "Faapipii se faasologa JSON o issues a __sourceName__ (__endpoint__). E avea issues ma pepa ua faavasega i lisi Open / Closed.",
   "import-board-instruction-kanboard": "Faapipii se JSON auina atu a Kanboard: se mea faitino e iai \"columns\" (po o galuega o loo iai column_name) ma se faasologa \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). E avea columns ma lisi ma tasks ma pepa.",
+  "import-board-instruction-markdown": "Pipii se lisi galuega markdown (masani lea o loʻo faʻaaogaina e meafaigaluega markdown-kanban e pei o le Obsidian Kanban): ulutala \"## Igoa o le lisi\", faatasi ai ma mea \"- [ ]\"/\"- [x]\" i lalo. E avea ulutala ma lisi ma avea mea ma kata.",
+  "import-board-instruction-openproject": "Faapipii se JSON o le aoina o work-packages a OpenProject (GET /api/v3/work_packages). E avea statuses ma lisi ma work packages ma pepa.",
   "import-board-instruction-zenkit": "Faapipii se JSON auina atu o le lisi ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). E avea stages ma lisi ma items ma pepa.",
   "import-file-label": "Filifili le faila auina atu, pe faapipii ona tusitusiga i lalo:",
   "initials": "Mataitusi amata",

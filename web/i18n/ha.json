@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Zaɓi takardar .xlsx irin ta WeKan (ginshiƙai iri ɗaya da fitarwar Excel: Take, Bayani, Matsayi/Jeri, Mambobi, Lakabai, kwanakin wata, filaye na musamman). Layi na farko shi ne take.",
   "import-board-instruction-issues": "Liƙa jerin JSON na batutuwan __sourceName__ (__endpoint__). Batutuwa su zama katuna da aka haɗa cikin jerin Buɗe / Rufe.",
   "import-board-instruction-kanboard": "Liƙa JSON na fitarwar Kanboard: abu mai \"columns\" (ko ayyuka masu column_name) da jerin \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Ginshiƙai su zama jerin, ayyuka su zama katuna.",
+  "import-board-instruction-markdown": "Manna jerin ayyuka na markdown (al'adar da kayan aikin markdown-kanban kamar Obsidian Kanban ke amfani da ita): taken \"## Sunan jeri\", tare da abubuwa \"- [ ]\"/\"- [x]\" a ƙasa. Taken suna zama jerin sunayen kuma abubuwa suna zama katunan; jeri mai sauƙi na maki ba tare da akwatin duba ba shima ana shigar da shi, a matsayin katunan buɗe.",
+  "import-board-instruction-openproject": "Liƙa JSON na tarin fakitin-aiki na OpenProject (GET /api/v3/work_packages). Matsayi su zama jerin, fakitin aiki su zama katuna.",
   "import-board-instruction-zenkit": "Liƙa JSON na fitarwar jerin ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages su zama jerin, items su zama katuna.",
   "import-file-label": "Zaɓi fayil ɗin fitarwa, ko liƙa rubutunsa a ƙasa:",
   "initials": "Haruffan farko",

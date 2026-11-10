@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan үлгісіндегі .xlsx кестесін таңдаңыз (Excel экспортындағы бағандармен бірдей: Title, Description, Status/List, Members, Labels, күндер, пайдаланушы өрістері). Бірінші жол — тақырып.",
   "import-board-instruction-issues": "__sourceName__ мәселелерінің JSON массивін қойыңыз (__endpoint__). Мәселелер Ашық / Жабық тізімдеріне топтастырылған карточкаларға айналады.",
   "import-board-instruction-kanboard": "Kanboard экспорт JSON-ын қойыңыз: \"columns\" бар нысан (немесе column_name бар тапсырмалар) және \"tasks\" массиві (title, description, column_name, swimlane_name, date_due, owner, tags). Бағандар тізімдерге, ал тапсырмалар карточкаларға айналады.",
+  "import-board-instruction-markdown": "Markdown тапсырмалар тізімін қойыңыз (Obsidian Kanban сияқты markdown-kanban құралдары қолданатын конвенция): астында \"- [ ]\"/\"- [x]\" элементтері бар \"## Тізім атауы\" тақырыптары. Тақырыптар тізімдерге, элементтер карталарға айналады; құсбелгісіз қарапайым тізім де ашық карталар ретінде импортталады.",
+  "import-board-instruction-openproject": "OpenProject жұмыс пакеттері жинағының JSON-ын қойыңыз (GET /api/v3/work_packages). Күйлер тізімдерге, жұмыс пакеттері карточкаларға айналады.",
   "import-board-instruction-zenkit": "ZenKit тізімі экспортының JSON-ын қойыңыз ({ \"title\", \"stages\":[...], \"items\":[...] }). Кезеңдер тізімдерге, ал элементтер карточкаларға айналады.",
   "import-file-label": "Экспорт файлын таңдаңыз немесе оның мәтінін төменге қойыңыз:",
   "initials": "Бас әріптер",

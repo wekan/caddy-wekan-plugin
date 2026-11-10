@@ -1046,6 +1046,8 @@
   "import-board-instruction-excel": "WeKan-rur .xlsx spreadsheet wIv (Excel ngeH rur column: Title, Description, Status/List, Members, Labels, dates, custom fields). tlhoy' wa'DIch 'oH header'e'.",
   "import-board-instruction-issues": "__sourceName__ issues JSON tetlh lan (__endpoint__). navmey moj Issues, Open / Closed tetlhmeyDaq boSlu'.",
   "import-board-instruction-kanboard": "Kanboard ngeH JSON lan: Doch, \"columns\" ngaSbogh (pagh column_name ghajbogh tasks) 'ej \"tasks\" tetlh (title, description, column_name, swimlane_name, date_due, owner, tags). tetlhmey moj columns, 'ej navmey moj tasks.",
+  "import-board-instruction-markdown": "markdown task tetlh yIlan (Obsidian Kanban rur markdown-kanban nuHmey lo'lu'bogh Hoch): bIng \"- [ ]\"/\"- [x]\" Doch je \"## tetlh pong\" nach mu'mey. nach mu'mey tetlh moj 'ej Doch qorDu' moj.",
+  "import-board-instruction-openproject": "OpenProject work-packages collection JSON lan (GET /api/v3/work_packages). tetlhmey moj Statuses, 'ej navmey moj work packages.",
   "import-board-instruction-zenkit": "ZenKit list ngeH JSON lan ({ \"title\", \"stages\":[...], \"items\":[...] }). tetlhmey moj stages, 'ej navmey moj items.",
   "import-file-label": "ngeH De'wI' teywI' yIwIv, pagh bIngDaq ghItlhDaj yIlan:",
   "initials": "pong pIqaD wa'DIchmey",

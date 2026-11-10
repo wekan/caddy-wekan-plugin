@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Ընտրեք WeKan-ոճի .xlsx աղյուսակ (նույն սյունակները, ինչ Excel արտահանման մեջ՝ Title, Description, Status/List, Members, Labels, dates, custom fields): Առաջին տողը վերնագիրն է:",
   "import-board-instruction-issues": "Տեղադրեք __sourceName__ issues JSON զանգված (__endpoint__): Issue-ները դառնում են քարտեր՝ խմբավորված Open / Closed ցուցակների մեջ:",
   "import-board-instruction-kanboard": "Տեղադրեք Kanboard-ի արտահանման JSON՝ օբյեկտ \"columns\"-ով (կամ column_name կրող առաջադրանքներ) և \"tasks\" զանգված (title, description, column_name, swimlane_name, date_due, owner, tags): Սյունակները դառնում են ցուցակներ, իսկ առաջադրանքները՝ քարտեր:",
+  "import-board-instruction-markdown": "Տեղադրեք markdown առաջադրանքների ցանկ (կոնվենցիա, որն օգտագործում են markdown-kanban գործիքները, օրինակ՝ Obsidian Kanban-ը)՝ \"## Ցանկի անուն\" վերնագրեր, ներքևում \"- [ ]\"/\"- [x]\" տարրերով։ Վերնագրերը դառնում են ցանկեր, իսկ տարրերը՝ քարտեր. վանդակների չունեցող պարզ կետավոր ցանկը նույնպես ներմուծվում է՝ որպես բաց քարտեր։",
+  "import-board-instruction-openproject": "Տեղադրեք OpenProject work-packages հավաքածուի JSON (GET /api/v3/work_packages): Կարգավիճակները դառնում են ցուցակներ, իսկ work package-ները՝ քարտեր:",
   "import-board-instruction-zenkit": "Տեղադրեք ZenKit ցուցակի արտահանման JSON ({ \"title\", \"stages\":[...], \"items\":[...] }): Stage-երը դառնում են ցուցակներ, իսկ item-ները՝ քարտեր:",
   "import-file-label": "Ընտրեք արտահանման ֆայլը կամ տեղադրեք դրա տեքստը ստորև՝",
   "initials": "սկզբնատառեր",

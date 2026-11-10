@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Cërn n file .xlsx: na tabela cun una ciarta per riga (colones coche Title, Description, Status/List, Members, Labels, dates y ciamps persunalisei), o n file esportà da WeKan, nce un cun uni tofl sun si sfuei. L pas do mustra telaca colona ie tel ciamp. Uni sfuei cun na riga de testa devënta na tofl.",
   "import-board-instruction-issues": "Nculé ite na rì JSON de issues de __sourceName__ (__endpoint__). La issues devënta ciartes abinedes tla listes Daurides / Stlutes.",
   "import-board-instruction-kanboard": "Nculé ite n JSON de esport de Kanboard: n ogët cun \"columns\" (o lëures cun column_name) y na rì \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). La colones devënta listes y i lëures devënta ciartes.",
+  "import-board-instruction-markdown": "Nculé ite na lista de lëures markdown (la cunvenzion che adurvea i strumënc markdown-kanban coche Obsidian Kanban): tituli \"## Inom dla lista\", cun elemënc \"- [ ]\"/\"- [x]\" dessot. I tituli devënta listes y i elemënc devënta ciartes; nce na lista sempla cun ponc zënza ciaselins vën importeda, coche ciartes daurides.",
+  "import-board-instruction-openproject": "Nculé ite n JSON de na cuedlada de work-packages de OpenProject (GET /api/v3/work_packages). I stac devënta listes y i work packages devënta ciartes.",
   "import-board-instruction-zenkit": "Nculé ite n JSON de esport de na lista ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). I stages devënta listes y i items devënta ciartes.",
   "import-file-label": "Tlü fora le documënt de esportaziun, o incolé so test chiló sot:",
   "initials": "Inizieles",

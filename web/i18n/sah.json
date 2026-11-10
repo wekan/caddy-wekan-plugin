@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan быһыылаах .xlsx таблицаны тал (Excel таһаарыытыгар курдук колонкалар: Title, Description, Status/List, Members, Labels, dates, custom fields). Бастакы устуруока — баһа.",
   "import-board-instruction-issues": "__sourceName__ issues JSON эрээйин ук (__endpoint__). Issues Open / Closed испииһэктэргэ бөлөхтөнөн карточка буолаллар.",
   "import-board-instruction-kanboard": "Kanboard таһаарыытын JSON-ын ук: \"columns\" диэннээх обьуос (эбэтэр column_name диэннээх сорудахтар) уонна \"tasks\" эрээйдээх (title, description, column_name, swimlane_name, date_due, owner, tags). Колонкалар испииһэк, сорудахтар карточка буолаллар.",
+  "import-board-instruction-markdown": "Markdown соруктар испииһэгин чапчаппыт (Obsidian Kanban курдук markdown-kanban айахтара туттар түбэлтэ): аллара \"- [ ]\"/\"- [x]\" тэрилтэлэрдээх \"## Испиис аата\" caha caalыгар.",
+  "import-board-instruction-openproject": "OpenProject work-packages хомуурунньугун JSON-ын ук (GET /api/v3/work_packages). Туруктар испииһэк, үлэ паакеттара карточка буолаллар.",
   "import-board-instruction-zenkit": "ZenKit испииһэгин таһаарыытын JSON-ын ук ({ \"title\", \"stages\":[...], \"items\":[...] }). Түһүмэхтэр испииһэк, пууннар карточка буолаллар.",
   "import-file-label": "Таһаарыы билэтин тал, эбэтэр тиэкиһин аллара киллэр:",
   "initials": "Аат бастакы буукубалара",

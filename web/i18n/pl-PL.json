@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Wybierz arkusz .xlsx w formacie WeKan (te same kolumny co w eksporcie Excel: Title, Description, Status/List, Members, Labels, daty, pola niestandardowe). Pierwszy wiersz to nagłówek.",
   "import-board-instruction-issues": "Wklej tablicę JSON zgłoszeń __sourceName__ (__endpoint__). Zgłoszenia stają się kartami pogrupowanymi w listy Otwarte / Zamknięte.",
   "import-board-instruction-kanboard": "Wklej eksport JSON z Kanboard: obiekt z \"columns\" (lub zadaniami zawierającymi column_name) oraz tablicą \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Kolumny stają się listami, a zadania kartami.",
+  "import-board-instruction-markdown": "Wklej listę zadań w markdown (konwencja używana przez narzędzia markdown-kanban, takie jak Obsidian Kanban): nagłówki \"## Nazwa listy\", z elementami \"- [ ]\"/\"- [x]\" poniżej. Nagłówki stają się listami, a elementy kartami; zwykła lista punktowana bez pól wyboru również jest importowana, jako otwarte karty.",
+  "import-board-instruction-openproject": "Wklej JSON kolekcji pakietów roboczych OpenProject (GET /api/v3/work_packages). Statusy stają się listami, a pakiety robocze kartami.",
   "import-board-instruction-zenkit": "Wklej eksport JSON listy ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Etapy stają się listami, a elementy kartami.",
   "import-file-label": "Wybierz wyeksportowany plik lub wklej poniżej jego tekst:",
   "initials": "Inicjały",

@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "ናይ WeKan ቅርጺ .xlsx ሰደቓ ምረጽ (ምስ ምውጻእ Excel ሓደ ዓምድታት፦ Title, Description, Status/List, Members, Labels, dates, custom fields)። ቀዳማይ መስመር ርእሲ እዩ።",
   "import-board-instruction-issues": "ዝርዝር ጉዳያት __sourceName__ JSON (__endpoint__) ለጥፍ። ጉዳያት ኣብ ዝርዝራት ክፉት / ዕጹው ዝተመደቡ ወረቀት ካርዳት ይኾኑ።",
   "import-board-instruction-kanboard": "ምልኣኽ Kanboard JSON ለጥፍ፦ \"columns\" ዘለዎ ነገር (ወይ column_name ዝሓዙ ዕዮታት)ን \"tasks\" ዝርዝርን (title, description, column_name, swimlane_name, date_due, owner, tags)። ዓምድታት ዝርዝራት ይኾኑ፣ ዕዮታት ድማ ወረቀት ካርዳት ይኾኑ።",
+  "import-board-instruction-markdown": "ናይ markdown ዕዮ ዝርዝር ለጥፍ (ከም Obsidian Kanban ዝበሉ markdown-kanban መሳርሕታት ዝጥቀምዎ ልምዲ): \"## ስሜት ዝርዝር\" ርእሲ፣ ትሕቲ \"- [ ]\"/\"- [x]\" ነገራት። ርእሲታት ናብ ዝርዝር ይቕየሩ።",
+  "import-board-instruction-openproject": "ስብስብ ዕዮ OpenProject JSON ለጥፍ (GET /api/v3/work_packages)። ሓላት ዝርዝራት ይኾኑ፣ ዕዮታት ድማ ወረቀት ካርዳት ይኾኑ።",
   "import-board-instruction-zenkit": "ምልኣኽ ዝርዝር ZenKit JSON ({ \"title\", \"stages\":[...], \"items\":[...] }) ለጥፍ። Stages ዝርዝራት ይኾኑ፣ items ድማ ወረቀት ካርዳት ይኾኑ።",
   "import-file-label": "ፈይል export ምረጽ፣ ወይ ክቱቡ ኣብ ታሕቲ ለጥፍ፦",
   "initials": "ፊደላት መጀመርታ",

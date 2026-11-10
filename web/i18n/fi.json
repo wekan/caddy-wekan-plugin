@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Valitse WeKan-tyylinen .xlsx-taulukko (samat sarakkeet kuin Excel-viennissä: Title, Description, Status/List, Members, Labels, dates, custom fields). Ensimmäinen rivi on otsikkorivi.",
   "import-board-instruction-issues": "Liitä __sourceName__-ongelmien JSON-taulukko (__endpoint__). Ongelmista tulee kortteja, jotka ryhmitellään Open / Closed -listoihin.",
   "import-board-instruction-kanboard": "Liitä Kanboard-viennin JSON: objekti, jossa on \"columns\" (tai tehtäviä, joissa on column_name) ja \"tasks\"-taulukko (title, description, column_name, swimlane_name, date_due, owner, tags). Sarakkeista tulee listoja ja tehtävistä kortteja.",
+  "import-board-instruction-markdown": "Liitä markdown-tehtävälista (käytäntö, jota markdown-kanban-työkalut kuten Obsidian Kanban käyttävät): \"## Listan nimi\" -otsikot, joiden alla \"- [ ]\"/\"- [x]\" -kohdat. Otsikoista tulee listoja ja kohdista kortteja; myös tavallinen luettelomerkillinen lista ilman valintaruutuja tuodaan, avoimina kortteina.",
+  "import-board-instruction-openproject": "Liitä OpenProjectin work-packages-kokoelman JSON (GET /api/v3/work_packages). Tiloista tulee listoja ja work packageista kortteja.",
   "import-board-instruction-zenkit": "Liitä ZenKit-listan vienti-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Vaiheista tulee listoja ja kohteista kortteja.",
   "import-file-label": "Valitse vientitiedosto tai liitä sen teksti alle:",
   "initials": "Nimikirjaimet",

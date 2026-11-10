@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Sankhani spreadsheet ya .xlsx ya kalembedwe ka WeKan (mizati yofanana ndi potumiza ku Excel: Title, Description, Status/List, Members, Labels, dates, custom fields). Mzere woyamba ndi mutu.",
   "import-board-instruction-issues": "Matani mndandanda wa JSON wa ma issue a __sourceName__ (__endpoint__). Ma issue amakhala makhadi ogawidwa m'mindandanda ya Open / Closed.",
   "import-board-instruction-kanboard": "Matani JSON yotumizidwa kuchokera ku Kanboard: chinthu chokhala ndi \"columns\" (kapena ntchito zokhala ndi column_name) ndi mndandanda wa \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Mizati imakhala mindandanda ndipo ntchito zimakhala makhadi.",
+  "import-board-instruction-markdown": "Kumbirani mndandanda wa ntchito wa markdown (msinkhu umene zida za markdown-kanban monga Obsidian Kanban zimagwiritsa ntchito): mitu ya \"## Dzina la mndandanda\", ndi zinthu za \"- [ ]\"/\"- [x]\" pansi pake. Mitu imasanduka mindandanda ndipo zinthu zimasanduka makhadi.",
+  "import-board-instruction-openproject": "Matani JSON ya gulu la work-packages la OpenProject (GET /api/v3/work_packages). Ma status amakhala mindandanda ndipo work packages zimakhala makhadi.",
   "import-board-instruction-zenkit": "Matani JSON yotumizidwa ya mndandanda wa ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages zimakhala mindandanda ndipo items zimakhala makhadi.",
   "import-file-label": "Sankhani fayilo yotulutsidwa, kapena matani mawu ake pansipa:",
   "initials": "Zilembo zoyambira",

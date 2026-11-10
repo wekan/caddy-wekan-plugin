@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Vælg et WeKan-lignende .xlsx-regneark (med de samme kolonner som Excel-eksporten: Title, Description, Status/List, Members, Labels, dates, custom fields). Første række er overskriftsrækken.",
   "import-board-instruction-issues": "Indsæt et JSON-array med issues fra __sourceName__ (__endpoint__). Issues bliver til kort grupperet i listerne Åbne / Lukkede.",
   "import-board-instruction-kanboard": "Indsæt en JSON-eksport fra Kanboard: et objekt med \"columns\" (eller opgaver, der indeholder column_name) og et \"tasks\"-array (title, description, column_name, swimlane_name, date_due, owner, tags). Kolonner bliver til lister, og opgaver bliver til kort.",
+  "import-board-instruction-markdown": "Indsæt en markdown-opgaveliste (den konvention, som markdown-kanban-værktøjer som Obsidian Kanban bruger): overskrifter \"## Listenavn\", med elementer \"- [ ]\"/\"- [x]\" nedenunder. Overskrifter bliver til lister, og elementer bliver til kort; en almindelig punktopstilling uden afkrydsningsfelter importeres også, som åbne kort.",
+  "import-board-instruction-openproject": "Indsæt en JSON-samling med work packages fra OpenProject (GET /api/v3/work_packages). Statusser bliver til lister, og work packages bliver til kort.",
   "import-board-instruction-zenkit": "Indsæt en JSON-eksport fra en ZenKit-liste ({ \"title\", \"stages\":[...], \"items\":[...] }). Stadier bliver til lister, og elementer bliver til kort.",
   "import-file-label": "Vælg eksportfilen, eller indsæt dens tekst nedenfor:",
   "initials": "Initialer",

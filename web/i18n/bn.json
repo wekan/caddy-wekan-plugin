@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan-ধাঁচের .xlsx স্প্রেডশিট বেছে নিন (Excel রপ্তানির একই কলাম: Title, Description, Status/List, Members, Labels, dates, custom fields)। প্রথম সারিটি শিরোনাম।",
   "import-board-instruction-issues": "__sourceName__ সমস্যার JSON অ্যারে (__endpoint__) পেস্ট করুন। সমস্যাগুলো Open / Closed তালিকায় ভাগ করা কার্ড হবে।",
   "import-board-instruction-kanboard": "একটি Kanboard রপ্তানি JSON পেস্ট করুন: \"columns\"-সহ একটি অবজেক্ট (অথবা column_name-সহ কাজ) এবং একটি \"tasks\" অ্যারে (title, description, column_name, swimlane_name, date_due, owner, tags)। কলাম তালিকা এবং কাজ কার্ড হবে।",
+  "import-board-instruction-markdown": "একটি markdown টাস্ক তালিকা পেস্ট করুন (Obsidian Kanban-এর মতো markdown-kanban টুলগুলো যে প্রথা ব্যবহার করে): \"## তালিকার নাম\" শিরোনাম, নিচে \"- [ ]\"/\"- [x]\" আইটেম সহ। শিরোনাম তালিকায় পরিণত হয় এবং আইটেমগুলো কার্ডে পরিণত হয়; চেকবক্স ছাড়া একটি সাধারণ বুলেট তালিকাও খোলা কার্ড হিসেবে আমদানি হয়।",
+  "import-board-instruction-openproject": "একটি OpenProject কাজ-প্যাকেজ সংগ্রহের JSON পেস্ট করুন (GET /api/v3/work_packages)। অবস্থা তালিকা এবং কাজ-প্যাকেজ কার্ড হবে।",
   "import-board-instruction-zenkit": "ZenKit তালিকার রপ্তানি JSON পেস্ট করুন ({ \"title\", \"stages\":[...], \"items\":[...] })। ধাপ তালিকা এবং আইটেম কার্ড হবে।",
   "import-file-label": "রপ্তানি ফাইল বেছে নিন, অথবা তার লেখা নিচে পেস্ট করুন:",
   "initials": "আদ্যক্ষর",

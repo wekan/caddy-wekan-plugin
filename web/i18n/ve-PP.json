@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Vali WeKan-tipan .xlsx-tablic (nenäd kolonkad, kut Excel-irdalevendas: Title, Description, Status/List, Members, Labels, päivälukud, ičemäižed pöudod). Ezmäine riv om päkirjutez.",
   "import-board-instruction-issues": "Ličta __sourceName__ issues-JSON-massiv (__endpoint__). Issue-t tegesoiš kartoiks, kudambad grupiruidas Avoin / Saubatud -listoihe.",
   "import-board-instruction-kanboard": "Ličta Kanboard-irdalevendan JSON: objekt \"columns\" (vai tehtabad, kudambil om column_name) i \"tasks\"-massiv (title, description, column_name, swimlane_name, date_due, owner, tags). Kolonkad tegesoiš listoiks i tehtabad kartoiks.",
+  "import-board-instruction-markdown": "Namatedza mutevhe wa mishumo ya markdown (nzila ine zwishumiswa zwa markdown-kanban zwo nga Obsidian Kanban zwi shumisaho): thoho dza \"## Dzina ḽa mutevhe\", na zwithu zwa \"- [ ]\"/\"- [x]\" fhasi. Thoho dzi vha mitevhe nahone zwithu zwi vha makhadi.",
+  "import-board-instruction-openproject": "Ličta OpenProject work-packages -kollekcijan JSON (GET /api/v3/work_packages). Statusad tegesoiš listoiks i work package-t kartoiks.",
   "import-board-instruction-zenkit": "Ličta ZenKit list -irdalevendan JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stadiad tegesoiš listoiks i elementad kartoiks.",
   "import-file-label": "Valiče eksportfail, vai pane sen tekst alemba:",
   "initials": "Algkirjamed",

@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Izvēlieties WeKan stila .xlsx izklājlapu (tās pašas kolonnas, kas Excel eksportā: Title, Description, Status/List, Members, Labels, datumi, pielāgotie lauki). Pirmā rinda ir galvene.",
   "import-board-instruction-issues": "Ielīmējiet __sourceName__ problēmu JSON masīvu (__endpoint__). Problēmas kļūst par kartiņām, kas sagrupētas sarakstos Atvērtās / Slēgtās.",
   "import-board-instruction-kanboard": "Ielīmējiet Kanboard eksporta JSON: objektu ar \"columns\" (vai uzdevumiem, kas satur column_name) un masīvu \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Kolonnas kļūst par sarakstiem un uzdevumi kļūst par kartiņām.",
+  "import-board-instruction-markdown": "Ielīmējiet markdown uzdevumu sarakstu (konvencija, ko izmanto markdown-kanban rīki, piemēram, Obsidian Kanban): virsraksti \"## Saraksta nosaukums\" ar vienumiem \"- [ ]\"/\"- [x]\" zem tiem. Virsraksti kļūst par sarakstiem, bet vienumi — par kartītēm; vienkāršs aizzīmju saraksts bez izvēles rūtiņām arī tiek importēts, kā atvērtas kartītes.",
+  "import-board-instruction-openproject": "Ielīmējiet OpenProject work-packages kolekcijas JSON (GET /api/v3/work_packages). Statusi kļūst par sarakstiem un darba paketes kļūst par kartiņām.",
   "import-board-instruction-zenkit": "Ielīmējiet ZenKit saraksta eksporta JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Posmi kļūst par sarakstiem un vienumi kļūst par kartiņām.",
   "import-file-label": "Izvēlieties eksporta failu vai ielīmējiet tā tekstu zemāk:",
   "initials": "Iniciāļi",

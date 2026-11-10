@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Trieu un full de càlcul .xlsx a l'estil de WeKan (les mateixes columnes que l'exportació d'Excel: Títol, Descripció, Estat/Llista, Membres, Etiquetes, dates, camps personalitzats). La primera fila és la capçalera.",
   "import-board-instruction-issues": "Enganxeu una matriu JSON d'issues de __sourceName__ (__endpoint__). Els issues esdevenen fitxes agrupades en llistes Obertes / Tancades.",
   "import-board-instruction-kanboard": "Enganxeu un JSON d'exportació de Kanboard: un objecte amb \"columns\" (o tasques que portin column_name) i una matriu \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Les columnes esdevenen llistes i les tasques esdevenen fitxes.",
+  "import-board-instruction-markdown": "Enganxa una llista de tasques en markdown (la convenció que fan servir eines markdown-kanban com Obsidian Kanban): capçaleres \"## Nom de la llista\", amb elements \"- [ ]\"/\"- [x]\" a sota. Les capçaleres esdevenen llistes i els elements esdevenen targetes; una llista de pics senzilla sense caselles també s'importa, com a targetes obertes.",
+  "import-board-instruction-openproject": "Enganxeu un JSON de col·lecció de work-packages d'OpenProject (GET /api/v3/work_packages). Els estats esdevenen llistes i els work packages esdevenen fitxes.",
   "import-board-instruction-zenkit": "Enganxeu un JSON d'exportació de llista de ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Les stages esdevenen llistes i els items esdevenen fitxes.",
   "import-file-label": "Trieu el fitxer exportat o enganxeu-ne el text a sota:",
   "initials": "Inicials",

@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Reih duillag-recknee .xlsx ayns aght WeKan (ny columnyn cheddin as cur magh Excel: Ennym, Coontey, Stayd/Rolley, Olteynyn, Cowraghyn, datyn, magheryn reih't). Ta'n chied row ny kione.",
   "import-board-instruction-issues": "Cur stiagh rolley JSON jeh cooishyn __sourceName__ (__endpoint__). Hig cooishyn dy ve kaartyn ayns rolleyghyn Foshlit / Dooint.",
   "import-board-instruction-kanboard": "Cur stiagh JSON cur magh Kanboard: nhee lesh \"columns\" (ny obbraghyn lesh column_name) as rolley \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Hig columnyn dy ve rolleyghyn as obbraghyn dy ve kaartyn.",
+  "import-board-instruction-markdown": "Cur lhiastey obbraghyn markdown ayn (yn cliaghtey ta greienyn markdown-kanban myr Obsidian Kanban jannoo ymmyd jeh): kione-lhieyn \"## Ennym y rolley\", lesh reddyn \"- [ ]\"/\"- [x]\" fo. Ta kione-lhieyn cheet dy ve nyn rolleyn as reddyn cheet dy ve nyn gairtyn.",
+  "import-board-instruction-openproject": "Cur stiagh JSON çhaglym work-packages OpenProject (GET /api/v3/work_packages). Hig staydyn dy ve rolleyghyn as pakidyn obbee dy ve kaartyn.",
   "import-board-instruction-zenkit": "Cur stiagh JSON cur magh rolley ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Hig keimyn dy ve rolleyghyn as nheeghyn dy ve kaartyn.",
   "import-file-label": "Reih y coadan cur magh, ny greimee y teks echey fo:",
   "initials": "Kied lettyraghyn",

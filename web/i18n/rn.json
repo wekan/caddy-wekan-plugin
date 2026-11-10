@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Hitamwo urupapuro rwa .xlsx rumeze nka WeKan (columns zimwe n'izisohorwa na Excel: Title, Description, Status/List, Members, Labels, dates, custom fields). Umurongo wa mbere ni umutwe.",
   "import-board-instruction-issues": "Shiraho urutonde rwa JSON rw'ibibazo vya __sourceName__ (__endpoint__). Ibibazo biba amakarata ashizwe mu ntonde Open / Closed.",
   "import-board-instruction-kanboard": "Shiraho JSON yasohowe na Kanboard: ikintu gifise \"columns\" (canke tasks zifise column_name) n'urutonde rwa \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Columns ziba intonde, tasks zikaba amakarata.",
+  "import-board-instruction-markdown": "Numukiriza urutonde rw'imirimo rwa markdown (uburyo ibikoresho vya markdown-kanban nka Obsidian Kanban bikoresha): imitwe \"## Izina ry'urutonde\", n'ibintu \"- [ ]\"/\"- [x]\" munsi yayo. Imitwe iba ivyandikwa naho ibintu bikaba amakarita.",
+  "import-board-instruction-openproject": "Shiraho JSON y'ikusanyirizo rya work-packages rya OpenProject (GET /api/v3/work_packages). Statuses ziba intonde, work packages zikaba amakarata.",
   "import-board-instruction-zenkit": "Shiraho JSON yasohowe y'urutonde rwa ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages ziba intonde, items zikaba amakarata.",
   "import-file-label": "Hitamwo idosiye yasohowe, canke ushiremwo inyandiko yayo hepfo:",
   "initials": "Inyuguti zitangura amazina",

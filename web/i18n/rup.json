@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Aleadzi un fishier .xlsx: unã tabelã cu unã cartã pi cathi rãndu (coloni ca Title, Description, Status/List, Members, Labels, dati shi cãmpuri personalizati), i un fishier exportat di WeKan, shi unu cu cathi tabelã pi foaia a ljei. Pasul tsi yini aspuni cari colonã easti cari cãmpu. Cathi foai cu rãndu di capu s-fatsi unã tabelã.",
   "import-board-instruction-issues": "Bagã unã sirã JSON di probleme __sourceName__ (__endpoint__). Problemili s-fac cãrtsã adunati tu listili Dishcljisi / Ncljisi.",
   "import-board-instruction-kanboard": "Bagã un export JSON di Kanboard: un obiect cu \"columns\" (i huzmets cu column_name) shi unã sirã \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Colonili s-fac listi shi huzmetsli s-fac cãrtsã.",
+  "import-board-instruction-markdown": "Bagã unã listã di huzmets markdown (cum u fac hãrgiili markdown-kanban ca Obsidian Kanban): tituli \"## Numa a listãljei\", cu elementi \"- [ ]\"/\"- [x]\" ma nghios. Titlurli s-fac listi shi elementili s-fac cãrtsã; unã listã simplã fãrã cãsutsi di bifari s-importã shi ea, ca cãrtsã dishcljisi.",
+  "import-board-instruction-openproject": "Bagã un JSON di adunari di pachets di lucru OpenProject (GET /api/v3/work_packages). Stãrli s-fac listi shi pachetsli di lucru s-fac cãrtsã.",
   "import-board-instruction-zenkit": "Bagã un export JSON di listã ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Etapili s-fac listi shi elementili s-fac cãrtsã.",
   "import-file-label": "Alãdzi fisierlu di export, i lipea textul a lui ma nghios:",
   "initials": "Initsiali",

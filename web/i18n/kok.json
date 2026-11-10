@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan पद्दतीची .xlsx स्प्रेडशीट निवडात (Excel निर्याती सारके स्तंभ: माथाळें, वर्णन, स्थिती/वळेरी, वांगडी, लेबलां, तारखो, सानुकूल क्षेत्रां). पयली वळ शीर्षक आसा.",
   "import-board-instruction-issues": "__sourceName__ समस्या JSON वळेरी (__endpoint__) चिकटयात. समस्या उगडीं / बंद वळेरींनीं गट केल्लीं कार्डां जातात.",
   "import-board-instruction-kanboard": "Kanboard निर्यात JSON चिकटयात: \"columns\" आशिल्ली वस्तू (वा column_name आशिल्लीं कामां) आनी \"tasks\" वळेरी (title, description, column_name, swimlane_name, date_due, owner, tags). स्तंभ वळेरी जातात आनी कामां कार्डां जातात.",
+  "import-board-instruction-markdown": "markdown कार्य वळेरी चिकटयात (Obsidian Kanban सारक्या markdown-kanban साधनांनी वापरपी संकेत): \"## वळेरेचें नांव\" शीर्षकां, सकयल \"- [ ]\"/\"- [x]\" घटकांसयत. शीर्षकां वळेरी जातात आनी घटक कार्ड जातात.",
+  "import-board-instruction-openproject": "OpenProject work-packages संग्रह JSON चिकटयात (GET /api/v3/work_packages). स्थिती वळेरी जातात आनी काम पॅकेजां कार्डां जातात.",
   "import-board-instruction-zenkit": "ZenKit वळेरी निर्यात JSON चिकटयात ({ \"title\", \"stages\":[...], \"items\":[...] }). पांवडे वळेरी जातात आनी घटक कार्डां जातात.",
   "import-file-label": "निर्यात फायल वेंचात, वा तिचो मजकूर सकयल पेस्ट करात:",
   "initials": "आद्याक्षरां",

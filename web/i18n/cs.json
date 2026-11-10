@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Vyberte tabulku .xlsx ve stylu WeKan (stejné sloupce jako export do Excelu: Title, Description, Status/List, Members, Labels, data, vlastní pole). První řádek je záhlaví.",
   "import-board-instruction-issues": "Vložte JSON pole issues z __sourceName__ (__endpoint__). Issues se stanou kartami seskupenými do seznamů Otevřené / Uzavřené.",
   "import-board-instruction-kanboard": "Vložte JSON exportu z Kanboardu: objekt s „columns“ (nebo úkoly nesoucí column_name) a polem „tasks“ (title, description, column_name, swimlane_name, date_due, owner, tags). Sloupce se stanou seznamy a úkoly kartami.",
+  "import-board-instruction-markdown": "Vložte seznam úkolů v markdownu (konvence, kterou používají markdown-kanban nástroje, jako je Obsidian Kanban): nadpisy \"## Název seznamu\" s položkami \"- [ ]\"/\"- [x]\" pod nimi. Z nadpisů se stanou seznamy a z položek karty; obyčejný odrážkový seznam bez zaškrtávacích políček se také importuje, jako otevřené karty.",
+  "import-board-instruction-openproject": "Vložte JSON kolekce work-packages z OpenProject (GET /api/v3/work_packages). Stavy se stanou seznamy a pracovní balíčky kartami.",
   "import-board-instruction-zenkit": "Vložte JSON exportu seznamu ze ZenKitu ({ \"title\", \"stages\":[...], \"items\":[...] }). Fáze se stanou seznamy a položky kartami.",
   "import-file-label": "Vyberte exportní soubor nebo vložte jeho text níže:",
   "initials": "Iniciály",

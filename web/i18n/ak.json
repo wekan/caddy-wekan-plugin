@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Paw .xlsx akontaabu kratafa a ɛte sɛ WeKan de (ɛwɔ afã koro a Excel nsɛm a woyi no wɔ: Title, Description, Status/List, Members, Labels, nna ne afã a woahyɛ da ayɛ). Nkyerɛw a edi kan no yɛ asɛmti.",
   "import-board-instruction-issues": "Paste a __sourceName__ issues JSON array (__endpoint__). Issues become kaads grouped kɔ Bue / To mud nhyehyɛes.",
   "import-board-instruction-kanboard": "Fa Kanboard JSON a wɔayi no bata ha: ade a ɛwɔ \"columns\" (anaa adwuma a ɛwɔ column_name) ne \"tasks\" din a wɔahyehyɛ (title, description, column_name, swimlane_name, date_due, owner, tags). Columns no bɛyɛ din a wɔahyehyɛ, na tasks no bɛyɛ kaad.",
+  "import-board-instruction-markdown": "Fa markdown adwuma nhyehyɛe krataa (kwan a markdown-kanban nnwinnade te sɛ Obsidian Kanban de di dwuma): \"## List din\" ntitire, ne \"- [ ]\"/\"- [x]\" nneɛma wɔ ase. Ntitire bɛyɛ nkrataa na nneɛma bɛyɛ kaad; bullet list a checkbox nni mu nso betumi akɔ mu, sɛ kaad a ɛda hɔ.",
+  "import-board-instruction-openproject": "Fa OpenProject work-packages kuw JSON (GET /api/v3/work_packages) bɔ ha. Tebea ahorow no bɛyɛ din a wɔahyehyɛ, na adwuma akuw no bɛyɛ kaad.",
   "import-board-instruction-zenkit": "Fa ZenKit din a wɔahyehyɛ JSON a wɔayi no bata ha ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages no bɛyɛ din a wɔahyehyɛ, na items no bɛyɛ kaad.",
   "import-file-label": "Paw fael a wɔayi adi no, anaa fa ne nkyerɛwee hyɛ mu wɔ ase ha:",
   "initials": "Din mfiase nkyerɛwde",

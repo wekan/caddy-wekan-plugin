@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Vel eitt WeKan-líkt .xlsx-rokniark (somu teigar sum Excel-útflutningurin: Title, Description, Status/List, Members, Labels, dates, custom fields). Fyrsta rað er yvirskriftin.",
   "import-board-instruction-issues": "Líma eitt JSON-fylki av __sourceName__-málum (__endpoint__). Mál verða kort, bólkað í Opnar / Afturlatnar listar.",
   "import-board-instruction-kanboard": "Líma eitt Kanboard-útflutnings-JSON: ein lut við \"columns\" (ella uppgávum við column_name) og einum \"tasks\"-fylki (title, description, column_name, swimlane_name, date_due, owner, tags). Teigar verða listar, og uppgávur verða kort.",
+  "import-board-instruction-markdown": "Set inn ein markdown-uppgávulista (siðvenjan sum markdown-kanban amboð sum Obsidian Kanban nýta): \"## Listanavn\"-fyrisagnir, við \"- [ ]\"/\"- [x]\"-lutum niðanundir. Fyrisagnir gerast listar og lutir gerast kort; ein einfaldur punktalisti uttan avmerkingarbox verður eisini innfluttur, sum opin kort.",
+  "import-board-instruction-openproject": "Líma eitt OpenProject-arbeiðspakka-JSON-savn (GET /api/v3/work_packages). Støður verða listar, og arbeiðspakkar verða kort.",
   "import-board-instruction-zenkit": "Líma eitt ZenKit-listaútflutnings-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stig verða listar, og lutir verða kort.",
   "import-file-label": "Vel útflutningsfíluna, ella set tekstin inn niðanfyri:",
   "initials": "Forstavar",

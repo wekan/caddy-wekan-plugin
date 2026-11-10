@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Khetsa liphepha le-.xlsx lesitayela se-WeKan (emakholomu lafananako nekutfunyelwa kwe-Excel: Title, Description, Status/List, Members, Labels, dates, custom fields). Umugca wekucala uyinhloko.",
   "import-board-instruction-issues": "Namatsisela luhlu lwe-JSON lwetinkinga te-__sourceName__ (__endpoint__). Tinkinga tiba emakhadi lahlelwe etinhleni Letivulekile / Letivaliwe.",
   "import-board-instruction-kanboard": "Namatsisela i-JSON letfunyelwe yi-Kanboard: intfo lena-\"columns\" (noma imisebenti lena-column_name) kanye neluhlu lwe-\"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Emakholomu aba tinhlu nemisebenti iba emakhadi.",
+  "import-board-instruction-markdown": "Namathisela luhlu lwemisebenti lwe-markdown (indlela lesetjentiswa ngemathulusi ye-markdown-kanban afana ne-Obsidian Kanban): tinhloko \"## Ligama lwelluhlu\", netintfo \"- [ ]\"/\"- [x]\" ngentasi. Tinhloko tiba luhlu naletintfo tibe emakhadi.",
+  "import-board-instruction-openproject": "Namatsisela i-JSON yelicembu lemaphakheji emsebenti we-OpenProject (GET /api/v3/work_packages). Timo tiba tinhlu nemaphakheji emsebenti aba emakhadi.",
   "import-board-instruction-zenkit": "Namatsisela i-JSON yekutfunyelwa kweluhlu lwe-ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Tigaba tiba tinhlu netintfo tiba emakhadi.",
   "import-file-label": "Khetsa lifayela lekutfumela, noma unamatsisele umbhalo walo ngentansi:",
   "initials": "Tinhlavu Tekucala",

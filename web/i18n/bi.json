@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Jusum wan .xlsx spredsit long fasin blong WeKan (ol sem kolom olsem eksport blong Excel: Title, Description, Status/List, Members, Labels, ol det, ol kastom fil). Fas laen i hed blong tebol.",
   "import-board-instruction-issues": "Putum kopi blong JSON array blong ol isu blong __sourceName__ (__endpoint__). Ol isu oli kam ol kad we oli grupum long ol lis blong ol wok we oli open / we oli satem.",
   "import-board-instruction-kanboard": "Putum kopi blong JSON eksport blong Kanboard: wan objek wetem \"columns\" (o ol wok we oli gat column_name) mo wan array blong \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Ol kolom oli kam ol lis mo ol wok oli kam ol kad.",
+  "import-board-instruction-markdown": "Putum kopi blong wan lis blong wok long markdown (fasin we ol tul blong markdown-kanban olsem Obsidian Kanban oli yusum): ol hed tok \"## List name\", wetem ol samting \"- [ ]\"/\"- [x]\" aninit. Ol hed tok oli kam ol lis mo ol samting oli kam ol kad; wan simpol lis wetem ol mak mo no gat ol bokis blong tikim i save kam insaed tu, olsem ol kad we oli open.",
+  "import-board-instruction-openproject": "Putum kopi blong JSON koleksen blong work-packages blong OpenProject (GET /api/v3/work_packages). Ol stet oli kam ol lis mo ol pakej blong wok oli kam ol kad.",
   "import-board-instruction-zenkit": "Putum kopi blong JSON eksport blong wan lis blong ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Ol step oli kam ol lis mo ol samting oli kam ol kad.",
   "import-file-label": "Jusum fael blong eksport, o pestem teks blong hem daon long hia:",
   "initials": "Ol fas leta blong nem",

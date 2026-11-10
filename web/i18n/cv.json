@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan стилӗнчи .xlsx таблицине суйлӑр (Excel экспортӗнчи пекех колонкӑсем: Ят, Ӑнлантару, Статус/Список, Хутшӑнакансем, Паллӑсем, кунсем, уйрӑм уйсем). Пӗрремӗш йӗрке — пуҫламӑш.",
   "import-board-instruction-issues": "__sourceName__ ыйтусен JSON массивне вырнаҫтарӑр (__endpoint__). Ыйтусем Уҫӑ / Хупӑ списоксене ушкӑнланнӑ карточка пулаҫҫӗ.",
   "import-board-instruction-kanboard": "Kanboard экспорт JSONне вырнаҫтарӑр: \"columns\" пур объект (е column_name илсе пыракан ӗҫсем) тата \"tasks\" массивӗ (title, description, column_name, swimlane_name, date_due, owner, tags). Колонкӑсем список, ӗҫсем карточка пулаҫҫӗ.",
+  "import-board-instruction-markdown": "Markdown ĕҫ спискине ҫыпӑҫтарӑр (Obsidian Kanban пек markdown-kanban хатӗрсем усӑ куракан йӗрке): аяларах \"- [ ]\"/\"- [x]\" пункчӗсемпе \"## Спис ячӗ\" заголовокӗсем. Заголовоксем спискана, пункчӗсем карточкӑна куҫаҫҫӗ.",
+  "import-board-instruction-openproject": "OpenProject ӗҫ пакетӗсен коллекци JSONне вырнаҫтарӑр (GET /api/v3/work_packages). Статуссем список, ӗҫ пакетӗсем карточка пулаҫҫӗ.",
   "import-board-instruction-zenkit": "ZenKit списокӗн экспорт JSONне вырнаҫтарӑр ({ \"title\", \"stages\":[...], \"items\":[...] }). Шайсем список, пунктсем карточка пулаҫҫӗ.",
   "import-file-label": "Экспорт файлне суйлӑр, е унӑн текстне аялта лартӑр:",
   "initials": "Ятӑн пӗрремӗш саспаллисем",

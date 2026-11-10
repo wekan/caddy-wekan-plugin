@@ -35,5 +35,15 @@
     "wekan-zenkit-adapter.json",
     "wekan-zenkit-api.json",
     "../external/zenkit.golden"
+  ],
+  "openproject": [
+    "wekan-openproject.json",
+    "../external/openproject.golden"
+  ],
+  "markdown": [
+    "wekan-markdown.md",
+    "markdown-edge.md",
+    "../external/markdown.golden",
+    "../external/obsidian.golden"
   ]
 }

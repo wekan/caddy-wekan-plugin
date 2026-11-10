@@ -1,0 +1,62 @@
+{
+  "board": {
+    "name": "Audit project"
+  },
+  "columns": [
+    {
+      "title": "Audit list"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "attachments": [
+        {
+          "name": "audit.txt",
+          "path": "/api/v3/attachments/1/content"
+        }
+      ],
+      "ref": "1",
+      "dependencies": [],
+      "title": "Audit task – Å 中文",
+      "description": "First line: café, comma, and \"quotes\".\nSecond line: 日本語.",
+      "column_name": "Audit list",
+      "swimlane_name": "Default",
+      "date_due": "2026-09-30",
+      "date_started": "2026-09-01",
+      "date_creation": "2026-08-01T10:00:00Z",
+      "spent_hours": 1.5,
+      "owner_username": "op-assignee",
+      "assignees": [
+        "op-responsible"
+      ],
+      "requested_by": "op-author",
+      "tags": [
+        "Task",
+        "priority:High"
+      ],
+      "custom_fields": {
+        "Audit text field": "Audit value",
+        "Audit list field": "Option B",
+        "Estimated time (hours)": 3,
+        "Progress (%)": 40
+      },
+      "watchers": [
+        "op-assignee"
+      ],
+      "comments": [
+        {
+          "text": "Audit comment",
+          "author": "op-user",
+          "date": "2026-09-30T12:34:56Z"
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}

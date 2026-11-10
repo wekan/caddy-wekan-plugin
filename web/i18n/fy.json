@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Kies in WeKan-styl .xlsx-spreadsheet (deselde kolommen as de Excel-eksport: Title, Description, Status/List, Members, Labels, datums, oanpaste fjilden). De earste rige is de kop.",
   "import-board-instruction-issues": "Plak in __sourceName__ issues-JSON-array (__endpoint__). Issues wurde kaarten gruppearre yn Open / Sletten listen.",
   "import-board-instruction-kanboard": "Plak in Kanboard-eksport-JSON: in objekt mei \"columns\" (of taken mei column_name) en in \"tasks\"-array (title, description, column_name, swimlane_name, date_due, owner, tags). Kolommen wurde listen en taken wurde kaarten.",
+  "import-board-instruction-markdown": "Plak in markdown-taaklist (de konvinsje dy't markdown-kanban-ark lykas Obsidian Kanban brûkt): \"## Listnamme\"-koppen, mei \"- [ ]\"/\"- [x]\"-items derûnder. Koppen wurde listen en items wurde kaarten; in gewoane opsomlist sûnder karrekjes wurdt ek ymportearre, as iepen kaarten.",
+  "import-board-instruction-openproject": "Plak in OpenProject work-packages collection-JSON (GET /api/v3/work_packages). Statussen wurde listen en work packages wurde kaarten.",
   "import-board-instruction-zenkit": "Plak in ZenKit list-eksport-JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages wurde listen en items wurde kaarten.",
   "import-file-label": "Kies it eksportbestân, of plak de tekst hjirûnder:",
   "initials": "Inisjalen",

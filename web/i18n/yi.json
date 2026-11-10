@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "קלייַבט אַ WeKan־סטיל .xlsx בלאַט (די זעלבע קאָלומנעס ווי דער Excel אַרויספיר: Title, Description, Status/List, Members, Labels, טעגן, אייגענע פֿעלדער). די ערשטע רייַע איז דער קעפּל.",
   "import-board-instruction-issues": "פּײַסט אַ __sourceName__ ישוז JSON מאַסיוו (__endpoint__). ישוז ווערן קאַרדס גרופּירט אין אָפֿענע / פֿאַרמאַכטע רשימות.",
   "import-board-instruction-kanboard": "פּײַסט אַ Kanboard אַרויספיר JSON: אַן אָביעקט מיט \"columns\" (אָדער טאַסקס וואָס טראָגן column_name) און אַ \"tasks\" מאַסיוו (title, description, column_name, swimlane_name, date_due, owner, tags). קאָלומנעס ווערן רשימות און טאַסקס ווערן קאַרדס.",
+  "import-board-instruction-markdown": "לייגט אריין אַ מארקדאון אויפֿגאבע רשימה (די קאנווענץ וואָס markdown-kanban געצייג ווי Obsidian Kanban ניצן): \"## רשימה נאָמען\" קעפּלעך, מיט \"- [ ]\"/\"- [x]\" זאכן אונטן. קעפּלעך ווערן רשימות און זאכן ווערן קארטן.",
+  "import-board-instruction-openproject": "פּײַסט אַן OpenProject work-packages זאַמלונג JSON (GET /api/v3/work_packages). סטאַטוסן ווערן רשימות און אַרבעט־פּעקלעך ווערן קאַרדס.",
   "import-board-instruction-zenkit": "פּײַסט אַ ZenKit רשימה־אַרויספיר JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). סטעדזשעס ווערן רשימות און אײַטעמס ווערן קאַרדס.",
   "import-file-label": "קלײַבט אויס די עקספּאָרט־טעקע, אָדער קלעפּט אַרײַן איר טעקסט אונטן:",
   "initials": "איניציאלן",

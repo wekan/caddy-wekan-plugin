@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Pumili a WeKan-style .xlsx spreadsheet (the pareho columns bilang the Excel i-export: Pamagat, Paglalarawan, Katayuan/listahan, miyembros, etiketas, dates, pasadyang patlangs). The una row ay the header.",
   "import-board-instruction-issues": "I-paste a __sourceName__ issues JSON array (__endpoint__). Issues become kards grouped papunta sa Buksan / Sarado listahans.",
   "import-board-instruction-kanboard": "I-paste a Kanpisara i-export JSON: an object kasama ang \"columns\" (o tasks carrying column_name) at a \"tasks\" array (title, description, column_name, swimlane_name, date_due, owner, tags). Columns become listahans at tasks become kards.",
+  "import-board-instruction-markdown": "I-paste ang isang markdown task list (ang kombensiyon na ginagamit ng mga markdown-kanban tool tulad ng Obsidian Kanban): mga heading na \"## Pangalan ng listahan\", na may mga item na \"- [ ]\"/\"- [x]\" sa ilalim. Ang mga heading ay nagiging listahan at ang mga item ay nagiging cards; ang isang simpleng bulleted list na walang checkbox ay ie-import din, bilang open cards.",
+  "import-board-instruction-openproject": "I-paste an OpenProject work-packages collection JSON (GET /api/v3/work_packages). Statuses become listahans at work packages become kards.",
   "import-board-instruction-zenkit": "I-paste a ZenKit listahan i-export JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages become listahans at items become kards.",
   "import-file-label": "Piliin ang export file, o i-paste ang teksto nito sa ibaba:",
   "initials": "Mga inisyal",

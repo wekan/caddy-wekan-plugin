@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan ආකාරයේ .xlsx පැතුරුම්පතක් තෝරන්න (Excel නිර්යාතයේ තීරුම: Title, Description, Status/List, Members, Labels, dates, custom fields). පළමු පේළිය ශීර්ෂයයි.",
   "import-board-instruction-issues": "__sourceName__ issues JSON අරාවක් (__endpoint__) අලවන්න. Issues, Open / Closed ලැයිස්තුවලට සමූහගත කළ කාඩ්පත් බවට පත්වේ.",
   "import-board-instruction-kanboard": "Kanboard නිර්යාත JSON එකක් අලවන්න: \"columns\" සහිත වස්තුවක් (හෝ column_name සහිත කාර්ය) සහ \"tasks\" අරාවක් (title, description, column_name, swimlane_name, date_due, owner, tags). තීරු ලැයිස්තු බවටත් කාර්ය කාඩ්පත් බවටත් පත්වේ.",
+  "import-board-instruction-markdown": "markdown කාර්ය ලැයිස්තුවක් අලවන්න (Obsidian Kanban වැනි markdown-kanban මෙවලම් භාවිතා කරන සම්මුතිය): \"## ලැයිස්තුවේ නම\" ශීර්ෂ, පහළ \"- [ ]\"/\"- [x]\" අයිතම සමඟ. ශීර්ෂ ලැයිස්තු බවට පත් වන අතර අයිතම කාඩ්පත් බවට පත් වේ; චෙක්බොක්ස් රහිත සරල බුලට් ලැයිස්තුවක් ද විවෘත කාඩ්පත් ලෙස ආනයනය වේ.",
+  "import-board-instruction-openproject": "OpenProject work-packages එකතුවක JSON අලවන්න (GET /api/v3/work_packages). Statuses ලැයිස්තු බවටත් work packages කාඩ්පත් බවටත් පත්වේ.",
   "import-board-instruction-zenkit": "ZenKit ලැයිස්තු නිර්යාත JSON එකක් ({ \"title\", \"stages\":[...], \"items\":[...] }) අලවන්න. Stages ලැයිස්තු බවටත් items කාඩ්පත් බවටත් පත්වේ.",
   "import-file-label": "නිර්යාත ගොනුව තෝරන්න, නැතහොත් එහි පෙළ පහතින් අලවන්න:",
   "initials": "මුලකුරු",

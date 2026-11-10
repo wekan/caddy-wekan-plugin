@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Välj ett kalkylark i WeKan-format (.xlsx) (samma kolumner som Excel-exporten: Title, Description, Status/List, Members, Labels, datum, anpassade fält). Den första raden är rubriken.",
   "import-board-instruction-issues": "Klistra in en __sourceName__ issues-JSON-array (__endpoint__). Ärenden blir kort grupperade i listorna Öppna / Stängda.",
   "import-board-instruction-kanboard": "Klistra in en Kanboard-export som JSON: ett objekt med \"columns\" (eller tasks som bär column_name) och en \"tasks\"-array (title, description, column_name, swimlane_name, date_due, owner, tags). Kolumner blir listor och uppgifter blir kort.",
+  "import-board-instruction-markdown": "Klistra in en markdown-uppgiftslista (konventionen som markdown-kanban-verktyg som Obsidian Kanban använder): \"## Listnamn\"-rubriker, med \"- [ ]\"/\"- [x]\"-punkter under. Rubriker blir listor och punkter blir kort; en vanlig punktlista utan kryssrutor importeras också, som öppna kort.",
+  "import-board-instruction-openproject": "Klistra in en OpenProject work-packages-samling som JSON (GET /api/v3/work_packages). Statusar blir listor och work packages blir kort.",
   "import-board-instruction-zenkit": "Klistra in en ZenKit-listexport som JSON ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages blir listor och items blir kort.",
   "import-file-label": "Välj exportfilen, eller klistra in dess text nedan:",
   "initials": "Initialer",

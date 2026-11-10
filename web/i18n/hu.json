@@ -1048,6 +1048,8 @@
   "import-board-instruction-excel": "Válassz egy WeKan-stílusú .xlsx táblázatot (ugyanazok az oszlopok, mint az Excel exportnál: Title, Description, Status/List, Members, Labels, dátumok, egyéni mezők). Az első sor a fejléc.",
   "import-board-instruction-issues": "Illessz be egy __sourceName__ issues JSON tömböt (__endpoint__). A hibajegyekből kártyák lesznek, Open / Closed listákba csoportosítva.",
   "import-board-instruction-kanboard": "Illessz be egy Kanboard export JSON-t: egy objektum \"columns\" mezővel (vagy column_name-et hordozó feladatokkal) és egy \"tasks\" tömbbel (title, description, column_name, swimlane_name, date_due, owner, tags). Az oszlopokból listák, a feladatokból kártyák lesznek.",
+  "import-board-instruction-markdown": "Illesszen be egy markdown feladatlistát (az egyezmény, amelyet a markdown-kanban eszközök, például az Obsidian Kanban használnak): \"## Lista neve\" fejlécek, alattuk \"- [ ]\"/\"- [x]\" elemekkel. A fejlécekből listák, az elemekből kártyák lesznek; a jelölőnégyzet nélküli egyszerű felsorolás is importálódik, nyitott kártyákként.",
+  "import-board-instruction-openproject": "Illessz be egy OpenProject work-packages gyűjtemény JSON-t (GET /api/v3/work_packages). Az állapotokból listák, a munkacsomagokból kártyák lesznek.",
   "import-board-instruction-zenkit": "Illessz be egy ZenKit lista export JSON-t ({ \"title\", \"stages\":[...], \"items\":[...] }). A stage-ekből listák, az elemekből kártyák lesznek.",
   "import-file-label": "Válassza ki az exportált fájlt, vagy illessze be a szövegét alább:",
   "initials": "Kezdőbetűk",

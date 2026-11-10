@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Triga una fuella de calculo .xlsx con formato WeKan (as mesmas columnas que l'exportación d'Excel: Titol, Descripción, Estau/Lista, Miembros, Etiquetas, datas, campos personalizaus). A primera ringlera ye a cabecera.",
   "import-board-instruction-issues": "Apega una matriz JSON d'incidencias de __sourceName__ (__endpoint__). As incidencias se tornan tarchetas agrupadas en listas Ubiertas / Zarradas.",
   "import-board-instruction-kanboard": "Apega un JSON d'exportación de Kanboard: un obchecto con \"columns\" (u quefers con column_name) y una matriz \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). As columnas se tornan listas y os quefers se tornan tarchetas.",
+  "import-board-instruction-markdown": "Apega una lista de quefers markdown (a convención que emplegan ferramientas markdown-kanban como Obsidian Kanban): capiters \"## Nombre de lista\", con elementos \"- [ ]\"/\"- [x]\" debaixo. Os capiters se tornan listas y os elementos se tornan tarchetas; una lista simpla con pinchos sin caixetas de selección tamién s'importa, como tarchetas ubiertas.",
+  "import-board-instruction-openproject": "Apega un JSON de colección de paquetes de treballo d'OpenProject (GET /api/v3/work_packages). Os estaus se tornan listas y os paquetes de treballo se tornan tarchetas.",
   "import-board-instruction-zenkit": "Apega un JSON d'exportación de lista de ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). As etapas se tornan listas y os elementos se tornan tarchetas.",
   "import-file-label": "Tría o fichero d'exportación, u apega o suyo texto debaixo:",
   "initials": "Iniciales",

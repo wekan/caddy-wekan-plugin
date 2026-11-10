@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "Επιλέξτε ένα υπολογιστικό φύλλο .xlsx τύπου WeKan (τις ίδιες στήλες με την εξαγωγή Excel: Title, Description, Status/List, Members, Labels, ημερομηνίες, προσαρμοσμένα πεδία). Η πρώτη γραμμή είναι η κεφαλίδα.",
   "import-board-instruction-issues": "Επικολλήστε έναν πίνακα JSON issues από __sourceName__ (__endpoint__). Τα issues γίνονται κάρτες ομαδοποιημένες σε λίστες Open / Closed.",
   "import-board-instruction-kanboard": "Επικολλήστε ένα JSON εξαγωγής Kanboard: ένα αντικείμενο με \"columns\" (ή εργασίες που φέρουν column_name) και έναν πίνακα \"tasks\" (title, description, column_name, swimlane_name, date_due, owner, tags). Οι στήλες γίνονται λίστες και οι εργασίες γίνονται κάρτες.",
+  "import-board-instruction-markdown": "Επικολλήστε μια λίστα εργασιών markdown (η σύμβαση που χρησιμοποιούν εργαλεία markdown-kanban όπως το Obsidian Kanban): επικεφαλίδες \"## Όνομα λίστας\", με στοιχεία \"- [ ]\"/\"- [x]\" από κάτω. Οι επικεφαλίδες γίνονται λίστες και τα στοιχεία γίνονται κάρτες· μια απλή λίστα με κουκκίδες χωρίς πλαίσια ελέγχου εισάγεται επίσης, ως ανοιχτές κάρτες.",
+  "import-board-instruction-openproject": "Επικολλήστε ένα JSON συλλογής work-packages του OpenProject (GET /api/v3/work_packages). Οι καταστάσεις γίνονται λίστες και τα work packages γίνονται κάρτες.",
   "import-board-instruction-zenkit": "Επικολλήστε ένα JSON εξαγωγής λίστας ZenKit ({ \"title\", \"stages\":[...], \"items\":[...] }). Τα stages γίνονται λίστες και τα items γίνονται κάρτες.",
   "import-file-label": "Επιλέξτε το αρχείο εξαγωγής ή επικολλήστε το κείμενό του παρακάτω:",
   "initials": "Αρχικά",

@@ -1043,6 +1043,8 @@
   "import-board-instruction-excel": "WeKan uslubidagi .xlsx elektron jadvalini tanlang (Excel eksporti bilan bir xil ustunlar: Title, Description, Status/List, Members, Labels, sanalar, maxsus maydonlar). Birinchi qator sarlavha hisoblanadi.",
   "import-board-instruction-issues": "__sourceName__ issues JSON massivini joylashtiring (__endpoint__). Issues Open / Closed roʻyxatlariga guruhlangan kartalarga aylanadi.",
   "import-board-instruction-kanboard": "Kanboard eksport JSON faylini joylashtiring: \"columns\" (yoki column_name ega boʻlgan tasks) va \"tasks\" massivi (title, description, column_name, swimlane_name, date_due, owner, tags) boʻlgan obyekt. Columns roʻyxatlarga va tasks kartalarga aylanadi.",
+  "import-board-instruction-markdown": "Markdown vazifalar ro'yxatini joylashtiring (Obsidian Kanban kabi markdown-kanban vositalari foydalanadigan konventsiya): ostida \"- [ ]\"/\"- [x]\" elementlari bo'lgan \"## Ro'yxat nomi\" sarlavhalari. Sarlavhalar ro'yxatlarga, elementlar esa kartochkalarga aylanadi.",
+  "import-board-instruction-openproject": "OpenProject work-packages toʻplami JSON faylini joylashtiring (GET /api/v3/work_packages). Statuses roʻyxatlarga va work packages kartalarga aylanadi.",
   "import-board-instruction-zenkit": "ZenKit roʻyxat eksport JSON faylini joylashtiring ({ \"title\", \"stages\":[...], \"items\":[...] }). Stages roʻyxatlarga va items kartalarga aylanadi.",
   "import-file-label": "Eksport faylini tanlang yoki uning matnini pastga joylashtiring:",
   "initials": "Bosh harflar",

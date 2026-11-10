@@ -1,0 +1,110 @@
+{
+  "board": {
+    "name": "Imported Markdown board"
+  },
+  "columns": [
+    {
+      "title": "Imported"
+    },
+    {
+      "title": "To Do (3)"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "--",
+      "description": "",
+      "column_name": "Imported",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "--",
+      "description": "",
+      "column_name": "Imported",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Write spec now #priority:H #web-dev #project:Plant.Pumps #@home #big-deal #p2 #a;b #Bug #x-,-y @{2026-11-20} @@{10:00} 🛫 2026-11-10",
+      "description": "line one\nline \"two\" <b>\n- [x] a & b\n- [ ] c",
+      "column_name": "To Do (3)",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "-minus first #priority:B #raw #won't-do #=SUM(1) ✅ 2026-11-05",
+      "description": "first\nsecond\n- [ ]   one\n- [x]",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "done"
+      ]
+    },
+    {
+      "title": "multi line title @{2026-12-24} @@{18:30}",
+      "description": "",
+      "column_name": "Archived list",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "No list item #p1 @{2026-11-12} 🛫 2026-11-11",
+      "description": "",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Default",
+      "tags": []
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/2",
+      "reason": "line matched no known markdown-kanban construct"
+    },
+    {
+      "path": "/61",
+      "reason": "line matched no known markdown-kanban construct"
+    },
+    {
+      "path": "/62",
+      "reason": "line matched no known markdown-kanban construct"
+    },
+    {
+      "path": "/63",
+      "reason": "line matched no known markdown-kanban construct"
+    },
+    {
+      "path": "/64",
+      "reason": "line matched no known markdown-kanban construct"
+    },
+    {
+      "path": "/65",
+      "reason": "line matched no known markdown-kanban construct"
+    }
+  ]
+}
