@@ -90,6 +90,17 @@ func (s *Server) apiExportOffice(format string, oneCard bool) http.HandlerFunc {
 		w.Header().Set("Cache-Control", "no-store")
 		if format == "xlsx" {
 			out, err := xlsxOf(b.Title, rows)
+			// A board's workbook is WeKan's table exporter's, its headers in
+			// the user's language, else ?lang=, else English (exportExcel.js).
+			if c == nil {
+				lang := "en"
+				if u, _ := s.exportUser(r); u != nil && u.Profile.Language != "" {
+					lang = u.Profile.Language
+				} else if q := r.URL.Query().Get("lang"); q != "" && len(q) <= 32 {
+					lang = q
+				}
+				out, err = s.excelTableWorkbook(ctx, b, lang)
+			}
 			if err != nil {
 				apiError(w, http.StatusInternalServerError, "Export failed")
 				return

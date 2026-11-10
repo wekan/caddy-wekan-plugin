@@ -6,6 +6,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"math"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -29,6 +30,12 @@ type xlsxSpec struct {
 	Rows     [][]any
 	BoldRow  int   // 1-based; 0 for none
 	DateCols []int // 0-based columns whose yyyy-mm-dd text is a date cell
+	// BoldRows are more bold rows (1-based), Merges the merged ranges
+	// ("A1:H1"), and DateTime writes every date cell as yyyy/mm/dd hh:mm:ss,
+	// as WeKan's ExporterExcel columns do.
+	BoldRows []int
+	Merges   []string
+	DateTime bool
 }
 
 // xlsxSheetName is WeKan's: no \ / ? * [ ] :, at most 31 characters.
@@ -82,7 +89,7 @@ func xlsxBook(sheets []xlsxSpec) ([]byte, error) {
 			for j, cell := range row {
 				ref := xlsxColumn(j) + strconv.Itoa(i+1)
 				style := ""
-				if sp.BoldRow == i+1 {
+				if sp.BoldRow == i+1 || slices.Contains(sp.BoldRows, i+1) {
 					style = ` s="1"`
 				}
 				dateCol := false
@@ -96,7 +103,11 @@ func xlsxBook(sheets []xlsxSpec) ([]byte, error) {
 				case nil:
 					continue
 				case jsDate:
-					fmt.Fprintf(&b, `<c r="%s" s="2"><v>%s</v></c>`, ref, strconv.FormatFloat(excelSerial(time.Time(v)), 'f', -1, 64))
+					ds := "2"
+					if sp.DateTime {
+						ds = "3"
+					}
+					fmt.Fprintf(&b, `<c r="%s" s="%s"><v>%s</v></c>`, ref, ds, strconv.FormatFloat(excelSerial(time.Time(v)), 'f', -1, 64))
 				case bool:
 					n := "0"
 					if v {
@@ -122,7 +133,15 @@ func xlsxBook(sheets []xlsxSpec) ([]byte, error) {
 			}
 			b.WriteString(`</row>`)
 		}
-		b.WriteString(`</sheetData></worksheet>`)
+		b.WriteString(`</sheetData>`)
+		if len(sp.Merges) > 0 {
+			fmt.Fprintf(&b, `<mergeCells count="%d">`, len(sp.Merges))
+			for _, m := range sp.Merges {
+				b.WriteString(`<mergeCell ref="` + m + `"/>`)
+			}
+			b.WriteString(`</mergeCells>`)
+		}
+		b.WriteString(`</worksheet>`)
 		return b.String()
 	}
 	var overrides, sheetEntries, rels strings.Builder
@@ -149,14 +168,15 @@ func xlsxBook(sheets []xlsxSpec) ([]byte, error) {
 		`xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>` + sheetEntries.String() + `</sheets></workbook>`
 	files["xl/_rels/workbook.xml.rels"] = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">` + rels.String() + `</Relationships>`
 	files["xl/styles.xml"] = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">` +
-		`<numFmts count="1"><numFmt numFmtId="164" formatCode="yyyy-mm-dd"/></numFmts>` +
+		`<numFmts count="2"><numFmt numFmtId="164" formatCode="yyyy-mm-dd"/><numFmt numFmtId="165" formatCode="yyyy/mm/dd hh:mm:ss"/></numFmts>` +
 		`<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts>` +
 		`<fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills>` +
 		`<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>` +
 		`<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>` +
-		`<cellXfs count="3"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>` +
+		`<cellXfs count="4"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>` +
 		`<xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/>` +
-		`<xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs></styleSheet>`
+		`<xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>` +
+		`<xf numFmtId="165" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs></styleSheet>`
 	var buf bytes.Buffer
 	z := zip.NewWriter(&buf)
 	for _, name := range append([]string{"[Content_Types].xml", "_rels/.rels", "xl/workbook.xml", "xl/_rels/workbook.xml.rels", "xl/styles.xml"}, order...) {
