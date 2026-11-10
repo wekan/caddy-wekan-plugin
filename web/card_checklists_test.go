@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strings"
 	"testing"
 
@@ -58,7 +59,7 @@ func TestCardDetailsChecklists(t *testing.T) {
 	if !strings.Contains(html, `aria-valuenow="33"`) || !strings.Contains(html, ">33%<") {
 		t.Error("one of three finished is 33%")
 	}
-	if !strings.Contains(html, `checklist-item is-checked" role="checkbox" aria-checked="true"`) {
+	if !regexp.MustCompile(`data-item="i1"[^>]*is-checked[^>]*aria-checked="true"|is-checked[^>]*data-item="i1"[^>]*aria-checked="true"`).MatchString(html) {
 		t.Error("a finished item is checked")
 	}
 	if !strings.Contains(html, `js-open-checklist-details-menu" href="#" data-checklist="clA"`) || !strings.Contains(html, "js-export-checklist") {
@@ -417,5 +418,67 @@ func TestChecklistItemAssignee(t *testing.T) {
 	}
 	if code := post(ann, ""); code != http.StatusSeeOther || assignee() != nil {
 		t.Errorf("nobody: %d %v", code, assignee())
+	}
+}
+
+// checklistSortableItems' drop: the items in the order given - exactly
+// that checklist's items, by whoever may change the card.
+func TestChecklistItemsSort(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	wk := w.seedUser(t, "wes", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Sort")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": wk.ID, "isActive": true, "isWorker": true}}})
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "C")
+	_, _ = w.db.Collection("checklists").InsertMany(ctx, []any{bson.M{"_id": "cl", "cardId": c.ID, "title": "L"}, bson.M{"_id": "cl2", "cardId": c.ID, "title": "Other"}})
+	for i, id := range []string{"a", "b", "c"} {
+		_, _ = w.db.Collection("checklistItems").InsertOne(ctx, bson.M{"_id": id, "checklistId": "cl", "cardId": c.ID, "title": id, "sort": i})
+	}
+	_, _ = w.db.Collection("checklistItems").InsertOne(ctx, bson.M{"_id": "x", "checklistId": "cl2", "cardId": c.ID, "title": "x", "sort": 0})
+	order := func() string {
+		cur, _ := w.db.Collection("checklistItems").Find(ctx, bson.M{"checklistId": "cl"}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
+		var items []bson.M
+		_ = cur.All(ctx, &items)
+		out := ""
+		for _, it := range items {
+			out += docString(it, "_id")
+		}
+		return out
+	}
+	path := w.srv.URL + "/b/" + b.ID + "/cards/" + c.ID + "/checklists/cl/items/sort"
+	post := func(cl *http.Client, ids ...string) int {
+		r, err := cl.PostForm(path, url.Values{"item": ids})
+		if err != nil {
+			t.Fatal(err)
+		}
+		r.Body.Close()
+		return r.StatusCode
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	if code := post(ann, "c", "a", "b"); code != http.StatusNoContent || order() != "cab" {
+		t.Fatalf("sorted: %d %s", code, order())
+	}
+	for _, bad := range [][]string{{"a", "b"}, {"a", "b", "c", "x"}, {"a", "a", "b"}, {"a", "b", "x"}} {
+		if code := post(ann, bad...); code != http.StatusBadRequest || order() != "cab" {
+			t.Errorf("negative: %v is not exactly this checklist's items: %d", bad, code)
+		}
+	}
+	wes := w.client(t)
+	body(t, w.signIn(t, wes, "wes", "pw"))
+	if code := post(wes, "a", "b", "c"); code != http.StatusForbidden || order() != "cab" {
+		t.Errorf("negative: a Worker reorders nothing: %d", code)
+	}
+	// The page: sortable for the editor, with handles when they show them.
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": u.ID}, bson.M{"$set": bson.M{"profile.showDesktopDragHandles": true}})
+	if _, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID); !strings.Contains(html, `data-sort-url="/b/`+b.ID) || !strings.Contains(html, "checklistitem-handle") {
+		t.Error("the editor's sortable items, with handles")
+	}
+	if _, html := get(t, wes, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID); strings.Contains(html, `data-sort-url="/b/`) {
+		t.Error("negative: not sortable for a Worker")
 	}
 }

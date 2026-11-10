@@ -13,6 +13,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   'use strict';
 
   var dragging = 0;   // drags in progress, over all pointers
+  var itemDrag = null, itemDragJustEnded = false; // a checklist item pressed or dragged
   var stale = false;  // the board changed during a drag: reload when the last ends
 
   var staleUnderPopOver = false; // the board changed while a pop-over was open
@@ -26,7 +27,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     });
   }
   function reloadBoard() {
-    if (dragging > 0) { stale = true; return; }
+    // A drag in progress - or a press on a checklist item that may become
+    // one - is not swept away: the board catches up after it.
+    if (dragging > 0 || itemDrag) { stale = true; return; }
     // An open pop-over is not swept away by somebody else's change: the board
     // catches up when it closes.
     if (document.querySelector('.js-pop-over')) { staleUnderPopOver = true; return; }
@@ -237,6 +240,75 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var f = document.querySelector('.js-pop-over .js-checklist-delete-form');
     if (f && t) f.setAttribute('action', t.getAttribute('data-card-url') + encodeURIComponent(menuChecklist) + '/delete');
   });
+  // checklistSortableItems: an item dragged - by its handle when the member
+  // shows drag handles, else by the item - among its checklist's items, a
+  // placeholder where it will land, and the order saved on the drop.
+  document.addEventListener('pointerdown', function (event) {
+    if (event.button !== 0 || !event.target.closest) return;
+    var item = event.target.closest('.js-checklist-items .js-checklist-item');
+    var box = item && item.closest('.js-checklist-items');
+    if (!box || !box.getAttribute('data-sort-url')) return;
+    var onHandle = !!event.target.closest('.checklistitem-handle');
+    if (box.getAttribute('data-handles') === 'true' ? !onHandle : event.target.closest('button, a, textarea, input, form, .check-box-container')) return;
+    itemDrag = { item: item, box: box, x: event.clientX, y: event.clientY, started: false };
+    // A refresh already on its way would replace the item under the pointer:
+    // it is called off, and the board catches up after the drop.
+    if (up.network.isBusy()) { up.fragment.abort('.board-wrapper'); stale = true; }
+  });
+  document.addEventListener('pointermove', function (event) {
+    var d = itemDrag;
+    if (!d) return;
+    if (!d.started) {
+      if (Math.abs(event.clientX - d.x) + Math.abs(event.clientY - d.y) < 5) return;
+      var rect = d.item.getBoundingClientRect();
+      d.started = true;
+      d.offset = d.y - rect.top;
+      d.placeholder = document.createElement('div');
+      d.placeholder.className = 'placeholder checklist-item-placeholder';
+      d.placeholder.style.height = rect.height + 'px';
+      d.box.insertBefore(d.placeholder, d.item);
+      d.item.classList.add('ui-sortable-helper');
+      document.body.classList.add('is-dragging-checklist-item');
+      if (window.getSelection) window.getSelection().removeAllRanges();
+      d.item.style.cssText += ';position:fixed;left:' + rect.left + 'px;width:' + rect.width + 'px;top:' + rect.top + 'px;z-index:1000;pointer-events:none;';
+      dragging++;
+    }
+    event.preventDefault();
+    d.item.style.top = (event.clientY - d.offset) + 'px';
+    var before = null;
+    Array.prototype.some.call(d.box.querySelectorAll(':scope > .js-checklist-item'), function (el) {
+      if (el === d.item) return false;
+      var r = el.getBoundingClientRect();
+      if (event.clientY < r.top + r.height / 2) { before = el; return true; }
+      return false;
+    });
+    if (before) d.box.insertBefore(d.placeholder, before);
+    else d.box.appendChild(d.placeholder);
+  });
+  document.addEventListener('pointerup', function () {
+    var d = itemDrag;
+    itemDrag = null;
+    if (d && !d.started && stale && dragging === 0) setTimeout(reloadBoard, 0);
+    if (!d || !d.started) return;
+    d.box.insertBefore(d.item, d.placeholder);
+    d.placeholder.remove();
+    d.item.classList.remove('ui-sortable-helper');
+    document.body.classList.remove('is-dragging-checklist-item');
+    ['position', 'left', 'width', 'top', 'z-index', 'pointer-events'].forEach(function (k) { d.item.style.removeProperty(k); });
+    itemDragJustEnded = true;
+    setTimeout(function () { itemDragJustEnded = false; }, 0);
+    var body = new URLSearchParams();
+    d.box.querySelectorAll(':scope > .js-checklist-item').forEach(function (el) { body.append('item', el.getAttribute('data-item')); });
+    fetch(d.box.getAttribute('data-sort-url'), { method: 'POST', credentials: 'same-origin', body: body })
+      .finally(function () {
+        dragging = Math.max(0, dragging - 1);
+        if (dragging === 0 && stale) reloadBoard();
+      });
+  });
+  // The click that ends a drag does not open the item's editor.
+  document.addEventListener('click', function (event) {
+    if (itemDragJustEnded) { event.preventDefault(); event.stopPropagation(); }
+  }, true);
   // copyAndMoveChecklist: the chosen board's swimlanes, lists and the cards
   // of that swimlane and list, the checklist's own card chosen first.
   function fillChecklistTarget(form, boardId, first) {
@@ -429,7 +501,12 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     closePopOvers();
   });
   up.on('keydown', function (event) {
-    if (event.key === 'Escape') closePopOvers();
+    if (event.key === 'Escape') {
+      // WeKan's EscapeActions: a pop-over first, else an inlined form of the card.
+      if (document.querySelector('.js-pop-over')) closePopOvers();
+      else document.querySelectorAll('.js-card-details .js-checklists-section .js-inlined-form:not(.is-hidden)').forEach(function (f) { closeInlinedForm(f); });
+      if (staleUnderForm && !document.querySelector('.board-wrapper .js-card-details .js-inlined-form:not(.is-hidden)')) { staleUnderForm = false; setTimeout(reloadBoard, 0); }
+    }
   });
 
   // A section heading with a caret (WeKan's client/lib/sectionCaret.js): it

@@ -441,3 +441,16 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 .checklist-item-assignee .member { font-size: .8em; padding: 0 .4em; border-radius: 3px; background: #dfe1e6; }
 .js-checklist-item-assignee-form button { background: none; border: 0; width: 100%; text-align: left; padding: .3em .6em; cursor: pointer; }
 .js-checklist-item-assignee-form button.is-active { font-weight: bold; }
+.fa-arrows::before { content: "\2725"; }
+.checklistitem-handle { cursor: grab; margin-right: .2em; }
+.js-checklist-items[data-sort-url]:not([data-sort-url=""]) .js-checklist-item { touch-action: none; }
+.checklist-item-placeholder { border: 1px dashed #aaa; background: #f4f5f7; border-radius: 3px; }
+.checklist-item.ui-sortable-helper { background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.25); user-select: none; }
+
+/* WeKan's cardDetails.css: the card's items side by side, wrapping. */
+.card-details .card-details-items { display: flex; flex-wrap: wrap; margin: 15px 0; gap: 0.5em; }
+.card-details .card-details-items .card-details-item { margin-inline-end: 0.5em; flex-grow: 1; }
+.card-details .card-details-items .card-details-item:last-child { margin-inline-end: 0; }
+.card-details .card-details-items .card-details-item.card-details-item-labels { display: block; word-wrap: break-word; max-width: 95%; }
+.card-details .card-details-item-title { margin: 0 0 .2em; }
+body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; }

@@ -28,6 +28,7 @@ func (s *Server) registerChecklistWrites(m *http.ServeMux) {
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/title", s.page(s.checklistItemTitlePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/delete", s.page(s.deleteChecklistItemPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/assignee", s.page(s.checklistItemAssigneePage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/sort", s.page(s.sortChecklistItemsPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/move-to", s.page(s.moveChecklistPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/copy-to", s.page(s.copyChecklistPage))
 }
@@ -424,4 +425,53 @@ func (s *Server) checklistItemAssigneePage(w http.ResponseWriter, r *http.Reques
 		return
 	}
 	s.backToCard(w, r, b, c)
+}
+
+// sortChecklistItemsPage is checklistSortableItems' drop: the checklist's
+// items in the order given, which must be exactly its items.
+func (s *Server) sortChecklistItemsPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, c, cl, ok := s.checklistTarget(w, r, u, true)
+	if !ok {
+		return
+	}
+	if !b.WritableIn(r.Context(), s, u, "write", c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	clID := docString(cl, "_id")
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "bad form", http.StatusBadRequest)
+		return
+	}
+	order := r.PostForm["item"]
+	cur, err := s.db.Collection("checklistItems").Find(r.Context(), bson.M{"checklistId": eq(clID), "cardId": eq(c.ID)})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var items []bson.M
+	_ = cur.All(r.Context(), &items)
+	have := map[string]bool{}
+	for _, it := range items {
+		have[docString(it, "_id")] = true
+	}
+	seen := map[string]bool{}
+	for _, id := range order {
+		if !have[id] || seen[id] {
+			http.Error(w, "not this checklist's items", http.StatusBadRequest)
+			return
+		}
+		seen[id] = true
+	}
+	if len(seen) != len(have) {
+		http.Error(w, "not this checklist's items", http.StatusBadRequest)
+		return
+	}
+	now := time.Now().UTC()
+	for i, id := range order {
+		_, _ = s.db.Collection("checklistItems").UpdateOne(r.Context(), bson.M{"_id": eq(id), "checklistId": eq(clID)},
+			bson.M{"$set": bson.M{"sort": float64(i), "modifiedAt": now}})
+	}
+	s.hub.publish(b.ID, "board-changed")
+	w.WriteHeader(http.StatusNoContent)
 }

@@ -91,6 +91,9 @@ type User struct {
 		// SubmitOnEnter: Enter saves an editor and Shift+Enter is a new line
 		// (WeKan's profile.submitOnEnter); off, Ctrl/Cmd+Enter saves.
 		SubmitOnEnter bool `bson:"submitOnEnter,omitempty" json:"submitOnEnter,omitempty"`
+		// ShowDesktopDragHandles: drag by a handle, not the whole item
+		// (WeKan's profile.showDesktopDragHandles).
+		ShowDesktopDragHandles bool `bson:"showDesktopDragHandles,omitempty" json:"showDesktopDragHandles,omitempty"`
 	} `bson:"profile,omitempty" json:"profile,omitempty"`
 	Services struct {
 		Password struct {

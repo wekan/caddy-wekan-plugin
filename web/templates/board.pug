@@ -804,9 +804,9 @@
                     .checklist-progress-text {{.Percent}}%
                     .checklist-progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="{{.Percent}}", aria-label="{{.Title}}")
                       .checklist-progress(style="width:{{.Percent}}%")
-                .checklist-items
+                .checklist-items.js-checklist-items(data-sort-url="{{if $.CanModifyCard}}/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items/sort{{end}}", data-handles="{{if $.User.Profile.ShowDesktopDragHandles}}true{{end}}")
                   each it in .Items
-                    .js-checklist-item.checklist-item(class="{{if .Finished}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Finished}}true{{else}}false{{end}}", aria-readonly="{{if $.CanCheckItems}}false{{else}}true{{end}}", tabindex="{{if $.CanCheckItems}}0{{else}}-1{{end}}")
+                    .js-checklist-item.checklist-item(data-item="{{.ID}}", class="{{if .Finished}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Finished}}true{{else}}false{{end}}", aria-readonly="{{if $.CanCheckItems}}false{{else}}true{{end}}", tabindex="{{if $.CanCheckItems}}0{{else}}-1{{end}}")
                       if $.CanCheckItems
                         form.check-box-container.js-toggle-checklist-item(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/toggle", up-submit, up-target=".board-wrapper")
                           button.check-box.materialCheckBox(type="submit", class="{{if .Finished}}is-checked{{end}}", aria-label="{{.Title}}")
@@ -814,6 +814,8 @@
                         .check-box-container
                           .check-box.materialCheckBox(class="{{if .Finished}}is-checked{{end}}")
                       if $.CanModifyCard
+                        if $.User.Profile.ShowDesktopDragHandles
+                          span.fa.fa-arrows.checklistitem-handle(title="{{t $.L `move-scope`}}")
                         .item-title.js-open-inlined-form.is-editable(data-opens="edit-checklist-item", class="{{if .Finished}}is-checked{{end}}")
                           .viewer {{viewer .Title $.TextPolicy}}
                         form.js-edit-checklist-item.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/title", up-submit, up-target=".board-wrapper")
