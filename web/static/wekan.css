@@ -489,7 +489,13 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .fa-list-alt::before, .fa-list::before { content: "\2261"; }
 .fa-copy::before { content: "\2398"; }
 .fa-times-thin::before { content: "\00D7"; }
-.card-details-group-custom-fields .custom-fields-grid { display: flex; flex-wrap: wrap; gap: .5em 1em; }
+.card-details-group-custom-fields .custom-fields-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .5em 1em; }
+.card-details-group-custom-fields .custom-fields-one-per-row { display: block; }
+.card-details-group-custom-fields .custom-fields-one-per-row .card-details-item-customfield { margin-bottom: .5em; }
+.fa-th-large::before { content: "\25A6"; }
+#toggleCustomFieldsGridButton { background: none; border: 0; cursor: pointer; padding: 0 .3em; }
+.custom-field-multi-select-item { display: block; }
+.js-card-customfield-stringtemplate-item { display: block; width: 100%; margin-bottom: .2em; }
 .card-details-item-customfield { min-width: 8em; }
 .card-details-item-customfield .is-editable { cursor: pointer; }
 .card-details-section-menu { margin-left: .4em; text-decoration: none; }

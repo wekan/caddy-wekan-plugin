@@ -830,12 +830,17 @@
         while it is open.
       if .CardFieldsShown
         .card-details-group.card-details-group-custom-fields
-          h3.card-details-item-title
+          //- cardSectionHeader: its caret folds the section; the hamburger and,
+            while open, the layout toggle (one per row, or a grid) beside it.
+          h3.card-details-item-title.js-toggle-card-section(data-section="customFields", role="button", tabindex="0")
+            i.fa.fa-caret-down
             i.fa.fa-list-alt
             |  {{t $.L "custom-fields"}}
             a.card-details-section-menu.js-open-custom-fields-settings(href="#", title="{{t $.L `custom-fields`}}", aria-label="{{t $.L `custom-fields`}}")
               i.fa.fa-navicon
-          .card-details-group-body.custom-fields-grid
+            button.custom-fields-layout-toggle#toggleCustomFieldsGridButton.js-section-open-only(type="button", title="{{t $.L `change`}} {{t $.L `custom-fields`}} {{t $.L `layout`}}", aria-label="{{t $.L `change`}} {{t $.L `custom-fields`}} {{t $.L `layout`}}")
+              i.fa.fa-th-large
+          .card-details-group-body(class="{{if .User.Profile.CustomFieldsGrid}}custom-fields-one-per-row{{else}}custom-fields-grid{{end}}")
             each cf in .CardFields
               .card-details-item.card-details-item-customfield(data-field="{{.ID}}", data-type="{{.Type}}")
                 h3.card-details-item-title(class="{{if .Editable}}js-edit-card-custom-field-value is-editable{{end}}", role="{{if .Editable}}button{{end}}", tabindex="{{if .Editable}}0{{else}}-1{{end}}", title="{{if .Editable}}{{t $.L `edit`}}{{end}}")
@@ -884,6 +889,22 @@
                         a.fa.fa-copy.js-copy-custom-field(href="#", title="{{t $.L `copy-text-to-clipboard`}}", data-value="{{.Text}}")
                       if eq .Type "text"
                         textarea.editor(name="value", dir="auto", aria-label="{{.Name}}") {{.Edit}}
+                      else if eq .Type "dropdownMultiSelect"
+                        //- cardCustomField-dropdownMultiSelect: the items, any number ticked.
+                        .js-card-customfield-dropdown-multi-select-items
+                          input(type="hidden", name="value", value="")
+                          each it in .Items
+                            label.custom-field-multi-select-item
+                              if .Selected
+                                input(type="checkbox", name="value", value="{{.ID}}", checked)
+                              else
+                                input(type="checkbox", name="value", value="{{.ID}}")
+                              |  {{.Name}}
+                      else if eq .Type "stringtemplate"
+                        //- cardCustomField-stringtemplate: its items, and one more.
+                        each sv in .Strings
+                          input.js-card-customfield-stringtemplate-item(type="text", name="value", value="{{.}}", autocomplete="off")
+                        input.js-card-customfield-stringtemplate-item.last(type="text", name="value", value="", placeholder="{{t $.L `custom-field-stringtemplate-item-placeholder`}}", autocomplete="off")
                       else if eq .Type "dropdown"
                         select.inline(name="value", aria-label="{{.Name}}")
                           option(value="") –

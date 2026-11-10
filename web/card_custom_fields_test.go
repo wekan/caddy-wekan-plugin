@@ -196,3 +196,81 @@ func TestCreateCustomFieldFromCard(t *testing.T) {
 		t.Errorf("negative: a read-only member: %d", code)
 	}
 }
+
+// A multi-select's items and a string template's items, as WeKan's editors
+// save them, a string template shown through its format; and the member's
+// own layout of the fields (toggleCustomFieldsGrid).
+func TestCardCustomFieldsMultiAndTemplate(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	w.seedUser(t, "bob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "More")
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	c, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Card one")
+	_, _ = w.db.Collection("customFields").InsertMany(ctx, []any{
+		bson.M{"_id": "fmulti", "boardIds": bson.A{b.ID}, "name": "Tags", "type": "dropdownMultiSelect",
+			"settings": bson.M{"dropdownItems": bson.A{bson.M{"_id": "red", "name": "Red"}, bson.M{"_id": "blue", "name": "Blue"}}}},
+		bson.M{"_id": "ftpl", "boardIds": bson.A{b.ID}, "name": "Links", "type": "stringtemplate",
+			"settings": bson.M{"stringtemplateFormat": "[%{value}]", "stringtemplateSeparator": " + "}},
+	})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"customFields": bson.A{
+		bson.M{"_id": "fmulti", "value": nil}, bson.M{"_id": "ftpl", "value": nil}}}})
+	base := w.srv.URL + "/b/" + b.ID + "/cards/" + c.ID + "/custom-fields/"
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	post := func(p string, v url.Values) int {
+		r, err := ann.PostForm(base+p, v)
+		if err != nil {
+			t.Fatal(err)
+		}
+		r.Body.Close()
+		return r.StatusCode
+	}
+	value := func(id string) any {
+		var d bson.M
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&d)
+		for _, f := range d["customFields"].(bson.A) {
+			if nestedField(f, "_id") == id {
+				return nestedField(f, "value")
+			}
+		}
+		return "absent"
+	}
+	if code := post("fmulti", url.Values{"value": {"", "blue", "red", "blue"}}); code != http.StatusSeeOther {
+		t.Fatalf("multi: %d", code)
+	}
+	if got, ok := value("fmulti").(bson.A); !ok || len(got) != 2 || got[0] != "blue" || got[1] != "red" {
+		t.Errorf("the items ticked, once each: %v", value("fmulti"))
+	}
+	if code := post("ftpl", url.Values{"value": {"one", "  ", "two", ""}}); code != http.StatusSeeOther {
+		t.Fatalf("template: %d", code)
+	}
+	if got, ok := value("ftpl").(bson.A); !ok || len(got) != 2 || got[1] != "two" {
+		t.Errorf("the items written, blanks dropped: %v", value("ftpl"))
+	}
+	_, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID)
+	for _, want := range []string{"Blue, Red", "[one] &#43; [two]", "custom-fields-grid", "toggleCustomFieldsGridButton"} {
+		if !strings.Contains(html, want) {
+			t.Errorf("shown: %s", want)
+		}
+	}
+	// Negatives: an item the field does not have; nothing ticked clears it.
+	if code := post("fmulti", url.Values{"value": {"green"}}); code != http.StatusBadRequest {
+		t.Errorf("negative: not one of the items: %d", code)
+	}
+	if code := post("fmulti", url.Values{"value": {""}}); code != http.StatusSeeOther || value("fmulti") != nil {
+		t.Errorf("nothing ticked: %v", value("fmulti"))
+	}
+	// The layout: one per row after the toggle, for this member only.
+	req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/toggleCustomFieldsGrid", strings.NewReader(`[]`))
+	req.Header.Set("Content-Type", "application/json")
+	if res, err := ann.Do(req); err != nil || res.StatusCode != 200 {
+		t.Fatal("toggleCustomFieldsGrid")
+	}
+	if _, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID); !strings.Contains(html, "custom-fields-one-per-row") {
+		t.Error("one per row after the toggle")
+	}
+}

@@ -34,6 +34,7 @@ type cardFieldRow struct {
 	Checked               bool
 	Date                  dueDate
 	Items                 []cardFieldItem
+	Strings               []string // a string template's items
 	Editable              bool
 	OnCard                bool
 }
@@ -175,18 +176,35 @@ func (s *Server) cardCustomFields(ctx context.Context, b *Board, u *User, raw bs
 				}
 			}
 		case "dropdownMultiSelect":
-			items := dropdownItemsOf(d)
+			row.Items = dropdownItemsOf(d)
 			var names []string
 			if ids, ok := v.(bson.A); ok {
 				for _, id := range ids {
-					for _, it := range items {
-						if it.ID == id {
-							names = append(names, it.Name)
+					for i := range row.Items {
+						if row.Items[i].ID == id {
+							row.Items[i].Selected = true
+							names = append(names, row.Items[i].Name)
 						}
 					}
 				}
 			}
 			row.Text = strings.Join(names, ", ")
+			row.Set = len(names) > 0
+		case "stringtemplate":
+			var list []any
+			if a, ok := v.(bson.A); ok {
+				for _, x := range a {
+					if str, ok := x.(string); ok {
+						row.Strings = append(row.Strings, str)
+						list = append(list, str)
+					}
+				}
+			}
+			settings := asM(d["settings"])
+			row.Text = formatStringTemplate(list, docString(settings, "stringtemplateFormat"), docString(settings, "stringtemplateSeparator"),
+				map[string]string{"card.title": docString(raw, "title"), "board.title": b.Title,
+					"list.title": s.titleOfID(ctx, "lists", docString(raw, "listId")), "swimlane.title": s.titleOfID(ctx, "swimlanes", docString(raw, "swimlaneId"))})
+			row.Set = len(row.Strings) > 0
 		default:
 			if str, ok := v.(string); ok {
 				row.Text, row.Edit = str, str
@@ -196,7 +214,7 @@ func (s *Server) cardCustomFields(ctx context.Context, b *Board, u *User, raw bs
 		}
 		// The types the card details edit; the others are shown.
 		switch typ {
-		case "text", "number", "checkbox", "currency", "date", "dropdown":
+		case "text", "number", "checkbox", "currency", "date", "dropdown", "dropdownMultiSelect", "stringtemplate":
 			row.Editable = true
 		}
 		row.Title = name
@@ -337,6 +355,45 @@ func parseFieldValue(r *http.Request, def bson.M) (any, error) {
 			}
 		}
 		return nil, bad
+	case "dropdownMultiSelect":
+		// The items ticked, each one of the field's, once.
+		known := map[string]bool{}
+		for _, it := range dropdownItemsOf(def) {
+			known[it.ID] = true
+		}
+		out, seen := bson.A{}, map[string]bool{}
+		for _, id := range r.PostForm["value"] {
+			if id == "" {
+				continue
+			}
+			if !known[id] {
+				return nil, bad
+			}
+			if !seen[id] {
+				seen[id] = true
+				out = append(out, id)
+			}
+		}
+		if len(out) == 0 {
+			return nil, nil
+		}
+		return out, nil
+	case "stringtemplate":
+		// The items written, the blank ones dropped (cardCustomField-stringtemplate).
+		out := bson.A{}
+		for _, item := range r.PostForm["value"] {
+			if strings.TrimSpace(item) == "" {
+				continue
+			}
+			if len(item) > 10000 || len(out) >= 200 {
+				return nil, bad
+			}
+			out = append(out, item)
+		}
+		if len(out) == 0 {
+			return nil, nil
+		}
+		return out, nil
 	}
 	return nil, &methodError{"not-authorized", "not editable here"}
 }

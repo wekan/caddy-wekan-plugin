@@ -94,6 +94,9 @@ type User struct {
 		// ShowDesktopDragHandles: drag by a handle, not the whole item
 		// (WeKan's profile.showDesktopDragHandles).
 		ShowDesktopDragHandles bool `bson:"showDesktopDragHandles,omitempty" json:"showDesktopDragHandles,omitempty"`
+		// CustomFieldsGrid: the card's custom fields one per row (WeKan's
+		// profile.customFieldsGrid; its class says custom-fields-one-per-row).
+		CustomFieldsGrid bool `bson:"customFieldsGrid,omitempty" json:"customFieldsGrid,omitempty"`
 	} `bson:"profile,omitempty" json:"profile,omitempty"`
 	Services struct {
 		Password struct {

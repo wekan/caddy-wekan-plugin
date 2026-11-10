@@ -63,6 +63,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"rules.setEnabled":                s.methodSetRuleEnabled,
 		"toggleCardMaximized":             s.methodToggleCardMaximized,
 		"toggleSubmitOnEnter":             s.methodToggleSubmitOnEnter,
+		"toggleCustomFieldsGrid":          s.methodToggleCustomFieldsGrid,
 		"archiveSelectedCards":            s.methodArchiveSelectedCards,
 		"/cards/update":                   s.methodCardsUpdate,
 		"watch":                           s.methodWatch,
@@ -579,6 +580,14 @@ func (s *Server) methodSetEmail(r *http.Request, u *User, args []json.RawMessage
 func (s *Server) methodToggleCardMaximized(r *http.Request, u *User, args []json.RawMessage) (any, error) {
 	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
 		bson.M{"$set": bson.M{"profile.cardMaximized": !u.Profile.CardMaximized}})
+	return nil, err
+}
+
+// methodToggleCustomFieldsGrid is WeKan's toggleCustomFieldsGrid: the
+// member's own profile.customFieldsGrid, flipped.
+func (s *Server) methodToggleCustomFieldsGrid(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
+		bson.M{"$set": bson.M{"profile.customFieldsGrid": !u.Profile.CustomFieldsGrid}})
 	return nil, err
 }
 

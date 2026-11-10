@@ -384,6 +384,28 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var name = document.querySelector('.js-pop-over .js-field-name');
     if (name) name.focus();
   });
+  // The custom fields' layout: one per row or a grid, the member's own
+  // (toggleCustomFieldsGrid), at once on this page.
+  up.on('click', '#toggleCustomFieldsGridButton', function (event, el) {
+    event.preventDefault();
+    var body = el.closest('.card-details-group-custom-fields').querySelector('.card-details-group-body');
+    callAsync('toggleCustomFieldsGrid').then(function () {
+      if (!body) return;
+      var rows = body.classList.contains('custom-fields-one-per-row');
+      body.classList.toggle('custom-fields-one-per-row', !rows);
+      body.classList.toggle('custom-fields-grid', rows);
+    });
+  });
+  // A string template's last input, written in and Enter: one more input.
+  up.on('keydown', '.js-card-customfield-stringtemplate-item.last', function (event, el) {
+    if (event.key !== 'Enter' || !el.value.trim() || event.ctrlKey || event.metaKey) return;
+    event.preventDefault();
+    var next = el.cloneNode();
+    next.value = '';
+    el.classList.remove('last');
+    el.parentNode.insertBefore(next, el.nextSibling);
+    next.focus();
+  });
   // cardCustomField-*: the field's title, its value or its pencil opens its
   // editor; a checkbox's square alone saves the other value at once.
   up.on('click', '.card-details-item-customfield .js-edit-card-custom-field-value', function (event, el) {
@@ -699,10 +721,22 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // A section heading with a caret (WeKan's client/lib/sectionCaret.js): it
   // shows or hides the section after it, and the caret says which.
   up.on('click', '.js-toggle-card-section, .js-toggle-show-activities', function (event, el) {
+    // A link or button in the heading does its own thing, not the fold.
+    var control = event.target.closest && event.target.closest('a, button');
+    if (control && control !== el && el.contains(control)) return;
     event.preventDefault();
     var section = el.nextElementSibling;
     if (!section) return;
     var open = section.classList.toggle('is-hidden') === false;
+    // What the heading shows only while its section is open (the layout
+    // toggle) leaves with the fold and comes back with it.
+    if (!open) {
+      el._openOnly = Array.prototype.slice.call(el.querySelectorAll('.js-section-open-only'));
+      el._openOnly.forEach(function (n) { n.remove(); });
+    } else if (el._openOnly) {
+      el._openOnly.forEach(function (n) { el.appendChild(n); });
+      el._openOnly = null;
+    }
     if (el.classList.contains('js-toggle-show-activities')) sidebarState('activities', open);
     // What is shown on demand is put on the page the first time it opens.
     var stamp = open && section.querySelector(':scope > template.js-stamp-on-open');
