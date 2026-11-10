@@ -670,9 +670,16 @@
                     input(type="hidden", name="listId", value="{{.ID}}")
                     input(type="hidden", name="swimlaneId", value="{{.Lane}}")
                     input.js-card-position(type="hidden", name="position", value="bottom")
-                    textarea.js-card-title(name="title", aria-label="{{t $.L `title`}}", required)
-                    button.primary(type="submit") {{t $.L "add-card"}}
-                    a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+                    //- WeKan's addCardForm: the composer drawn as a minicard.
+                    .minicard.minicard-composer.js-composer
+                      textarea.minicard-composer-textarea.js-card-title(name="title", dir="auto", aria-label="{{t $.L `title`}}", required)
+                    .add-controls.clearfix
+                      button.primary.confirm(type="submit") {{t $.L "add-card"}}
+                      a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+                //- listBody.jade: the closed bottom composer, "+ Add card".
+                a.open-minicard-composer.js-card-composer.js-open-inlined-form(href="#", title="{{t $.L `add-card-to-bottom-of-list`}}")
+                  i.fa.fa-plus
+                  |  {{t $.L "add-card"}}
           if $.CanEdit
             .list.js-list-composer
               form.js-inlined-form.js-list-form(method="post", action="/b/{{$.Board.ID}}/lists", up-submit, up-target=".board-wrapper")

@@ -1175,7 +1175,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   var menuList = null; // the list whose menu is open
   function openComposer(list, position) {
     if (!list) return;
-    list.querySelectorAll('.js-card-composer').forEach(function (f) { f.remove(); });
+    list.querySelectorAll('form.js-card-composer').forEach(function (f) { f.remove(); });
     var t = list.querySelector('template.js-card-composer-template');
     var body = list.querySelector('.js-minicards');
     if (!t || !body) return;
@@ -1250,6 +1250,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     openPopOver('list-menu');
     var w = document.querySelector('.js-pop-over .js-toggle-watch-list');
     if (w) w.textContent = menuList.dataset.watching ? w.dataset.unwatch : w.dataset.watch;
+  });
+  // listBody.jade's "+ Add card" under the list: the composer at the bottom.
+  up.on('click', '.js-list a.open-minicard-composer', function (event, el) {
+    event.preventDefault();
+    openComposer(el.closest('.js-list'), 'bottom');
   });
   up.on('click', '.js-add-card', function (event, el) {
     event.preventDefault();

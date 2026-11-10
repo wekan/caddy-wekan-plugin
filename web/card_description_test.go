@@ -78,3 +78,29 @@ func TestCardDescription(t *testing.T) {
 		t.Errorf("negative: the board hides descriptions: %d", code)
 	}
 }
+
+// listBody.jade's closed bottom composer: "+ Add card" under each list the
+// member may add to, the composer drawn as WeKan's minicard - and none for
+// a read-only member.
+func TestListBottomComposer(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	ro := w.seedUser(t, "rob", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Compose")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": ro.ID, "isActive": true, "isReadOnly": true}}})
+	_, _ = w.s.AddList(ctx, b, "L")
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	_, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug)
+	for _, want := range []string{"open-minicard-composer js-card-composer js-open-inlined-form", "minicard-composer-textarea js-card-title", "add-controls", "primary confirm"} {
+		if !strings.Contains(html, want) {
+			t.Errorf("the editor's composer: %s", want)
+		}
+	}
+	rob := w.client(t)
+	body(t, w.signIn(t, rob, "rob", "pw"))
+	if _, html := get(t, rob, w.srv.URL+"/b/"+b.ID+"/"+b.Slug); strings.Contains(html, "open-minicard-composer") {
+		t.Error("negative: no composer for a read-only member")
+	}
+}

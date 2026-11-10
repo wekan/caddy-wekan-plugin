@@ -477,3 +477,10 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .fa-file-text-o::before { content: "\1F4C4"; }
 .card-details-group-description .card-description-view { display: block; color: inherit; text-decoration: none; min-height: 1.5em; }
 .card-details-group-description textarea.js-new-description-input { width: 100%; min-height: 8em; }
+
+/* listBody.jade's closed bottom composer, hidden while the composer is open. */
+.open-minicard-composer { display: block; padding: .3em .5em; color: #5e6c84; text-decoration: none; }
+.open-minicard-composer:hover { background: rgba(9,30,66,.08); color: #172b4d; }
+.js-list:has(form.js-card-composer) .open-minicard-composer { display: none; }
+.minicard-composer textarea { width: 100%; border: 0; resize: both; min-height: 3em; }
+.add-controls { display: flex; align-items: center; gap: .5em; margin-top: .3em; }
