@@ -70,6 +70,14 @@ func (s *Server) exportReader(w http.ResponseWriter, r *http.Request, oneCard bo
 
 func (s *Server) apiExportOffice(format string, oneCard bool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		// models/exportExcel.js and exportPDF.js: a board that is not there
+		// is plain text, and no file.
+		if id := r.PathValue("board"); !validID(id) || s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(id)}).Err() != nil {
+			w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+			w.WriteHeader(http.StatusNotFound)
+			_, _ = w.Write([]byte("Board not found"))
+			return
+		}
 		b, c, ok := s.exportReader(w, r, oneCard)
 		if !ok {
 			return

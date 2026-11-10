@@ -82,6 +82,24 @@ func TestExportExcelAndPDF(t *testing.T) {
 			t.Errorf("negative: a non-member, %s: %d", url, code)
 		}
 	}
+	// WeKan's missing board: plain text, with a token or without, and no file.
+	for _, path := range []string{"/exportExcel", "/exportPDF", "/lists/" + b.List + "/cards/" + b.Card + "/exportPDF"} {
+		for _, token := range []string{a, ""} {
+			req, _ := http.NewRequest("GET", w.srv.URL+"/api/boards/nosuchboard00001"+path, nil)
+			if token != "" {
+				req.Header.Set("Authorization", "Bearer "+token)
+			}
+			res, err := testClient.Do(req)
+			if err != nil {
+				t.Fatal(err)
+			}
+			data, _ := io.ReadAll(res.Body)
+			res.Body.Close()
+			if res.StatusCode != 404 || res.Header.Get("Content-Type") != "text/plain; charset=utf-8" || string(data) != "Board not found" || res.Header.Get("Content-Disposition") != "" {
+				t.Errorf("negative: a missing board's %s: %d %q %q", path, res.StatusCode, res.Header.Get("Content-Type"), data)
+			}
+		}
+	}
 	if code, _, _ = get(boardURL+"/lists/"+b.List+"/cards/nosuchcard000001/exportPDF", a); code != 404 {
 		t.Errorf("negative: a card not on the board: %d", code)
 	}

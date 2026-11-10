@@ -360,6 +360,18 @@
                     .materialCheckBox.is-checked
                     span {{.Label}}
           .export-board-pane.export-board-pane-formats
+            //- exportScope.js's first group: the files - PDF and Excel - with
+              the selection's ?fields=.
+            ul.pop-over-list
+              li
+                a.js-export-fields(href="/api/boards/{{.Board.ID}}/exportPDF?fields={{$.ExportFieldsAll}}", download)
+                  i.fa.fa-file-pdf-o
+                  |  PDF
+              li
+                a.js-export-fields(href="/api/boards/{{.Board.ID}}/exportExcel?fields={{$.ExportFieldsAll}}", download)
+                  i.fa.fa-file-excel-o
+                  |  Excel
+            hr
             h4.pop-over-list-subheading JSON
             ul.pop-over-list
               li
