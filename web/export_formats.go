@@ -27,6 +27,10 @@ var externalFormats = map[string][2]string{
 	"todotxt":     {"txt", "text/plain"},
 	"taskwarrior": {"json", "application/json"},
 	"zenkit":      {"json", "application/json"},
+	"nullboard":   {"nbx", "application/json"},
+	"obsidian":    {"md", "text/markdown"},
+	"orgmode":     {"org", "text/x-org"},
+	"kanri":       {"json", "application/json"},
 }
 
 type extChecklistItem struct {
@@ -75,14 +79,24 @@ type extItem struct {
 	Checklists    []extChecklist `json:"checklists,omitempty"`
 }
 
+type extWipLimit struct {
+	Enabled bool    `json:"enabled"`
+	Value   float64 `json:"value"`
+}
+
 type extNamed struct {
-	ID    string `json:"_id"`
-	Title string `json:"title"`
+	ID       string       `json:"_id"`
+	Title    string       `json:"title"`
+	WipLimit *extWipLimit `json:"wipLimit,omitempty"`
 }
 
 type extBoard struct {
 	Board struct {
-		Title string `json:"title"`
+		ID         string  `json:"_id"`
+		Title      string  `json:"title"`
+		Labels     []Label `json:"labels"`
+		CreatedAt  string  `json:"createdAt,omitempty"`
+		ModifiedAt string  `json:"modifiedAt,omitempty"`
 	} `json:"board"`
 	Lists     []extNamed `json:"lists"`
 	Swimlanes []extNamed `json:"swimlanes"`
@@ -130,7 +144,11 @@ func parseISO(s string) time.Time {
 // applied to all of it.
 func (s *Server) collectExternal(ctx context.Context, b *Board) extBoard {
 	var out extBoard
-	out.Board.Title = b.Title
+	out.Board.ID, out.Board.Title, out.Board.Labels = b.ID, b.Title, b.Labels
+	var bdoc bson.M
+	if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(b.ID)}).Decode(&bdoc) == nil {
+		out.Board.CreatedAt, out.Board.ModifiedAt = isoDate(bdoc["createdAt"]), isoDate(bdoc["modifiedAt"])
+	}
 	out.Lists, out.Swimlanes = []extNamed{}, []extNamed{}
 	sorted := options.Find().SetSort(bson.D{{Key: "sort", Value: 1}})
 	listTitle, laneTitle := map[string]string{}, map[string]string{}
@@ -139,7 +157,18 @@ func (s *Server) collectExternal(ctx context.Context, b *Board) extBoard {
 			var docs []bson.M
 			_ = cur.All(ctx, &docs)
 			for _, d := range docs {
-				*dst = append(*dst, extNamed{ID: strOf(d["_id"]), Title: strOf(d["title"])})
+				x := extNamed{ID: strOf(d["_id"]), Title: strOf(d["title"])}
+				if w, ok := d["wipLimit"].(bson.M); ok {
+					v, _ := plain(w["value"]).(float64)
+					if n, ok := plain(w["value"]).(int32); ok {
+						v = float64(n)
+					}
+					if n, ok := plain(w["value"]).(int64); ok {
+						v = float64(n)
+					}
+					x.WipLimit = &extWipLimit{Enabled: w["enabled"] == true, Value: v}
+				}
+				*dst = append(*dst, x)
 			}
 		}
 	}
@@ -455,6 +484,14 @@ func (s *Server) externalExport(ctx context.Context, b *Board, format string) []
 		return []byte(formatTaskwarrior(d))
 	case "zenkit":
 		return formatZenkit(d)
+	case "nullboard":
+		return []byte(formatNullboard(d, time.Now()))
+	case "obsidian":
+		return []byte(formatObsidianKanban(d))
+	case "orgmode":
+		return []byte(formatOrgMode(d))
+	case "kanri":
+		return formatKanri(d, time.Now())
 	}
 	return nil
 }

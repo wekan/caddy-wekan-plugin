@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -26,7 +27,8 @@ func TestExternalFormatsAreWeKans(t *testing.T) {
 		t.Fatal(err)
 	}
 	for format, got := range map[string]string{"markdown": formatMarkdownKanban(d), "opml": formatOpml(d), "todotxt": formatTodoTxt(d),
-		"taskwarrior": formatTaskwarrior(d), "zenkit": string(formatZenkit(d))} {
+		"taskwarrior": formatTaskwarrior(d), "zenkit": string(formatZenkit(d)), "nullboard": formatNullboard(d, time.Now()),
+		"obsidian": formatObsidianKanban(d), "orgmode": formatOrgMode(d), "kanri": string(formatKanri(d, time.Now()))} {
 		want, err := os.ReadFile("testdata/external/" + format + ".golden")
 		if err != nil {
 			t.Fatal(err)
@@ -83,6 +85,15 @@ func TestExportFormatRoutes(t *testing.T) {
 	}
 	if code, _, body := get("/api/boards/"+b.ID+"/export/todotxt", a); code != 200 || !strings.Contains(body, "C list:L") {
 		t.Errorf("todo.txt: %d %q", code, body)
+	}
+	// Every format Weddy offers answers as its file, and refuses a stranger.
+	for f, ext := range externalFormats {
+		if code, typ, body := get("/api/boards/"+b.ID+"/export/"+f, a); code != 200 || typ != ext[1]+"; charset=utf-8" || !strings.Contains(body, "C") {
+			t.Errorf("%s: %d %s %q", f, code, typ, body)
+		}
+		if code, _, _ := get("/api/boards/"+b.ID+"/export/"+f, bt); code != 403 {
+			t.Errorf("negative: %s to a non-member: %d", f, code)
+		}
 	}
 	if code, _, _ := get("/api/boards/"+b.ID+"/export/markdown", ""); code != 401 {
 		t.Errorf("negative: no token: %d", code)

@@ -1,21 +1,201 @@
 {
-  "board": { "title": "Plan & <Go> \"q\" 🚀" },
-  "lists": [{ "_id": "L1", "title": "To Do" }, { "_id": "L2", "title": "Done" }, { "_id": "L3", "title": "Empty" }],
-  "swimlanes": [{ "_id": "S1", "title": "Default" }],
+  "board": {
+    "_id": "board1",
+    "title": "Plan & <Go> \"q\" 🚀",
+    "createdAt": "2026-10-01T12:00:00.000Z",
+    "modifiedAt": "2026-11-03T07:45:00.000Z",
+    "labels": [
+      {
+        "_id": "a",
+        "name": "priority:H",
+        "color": "red"
+      },
+      {
+        "_id": "b",
+        "name": "web  dev",
+        "color": "#ABC"
+      },
+      {
+        "_id": "c",
+        "name": "project:Plant.Pumps",
+        "color": "teal"
+      },
+      {
+        "_id": "d",
+        "name": "@home",
+        "color": "navy"
+      },
+      {
+        "_id": "f",
+        "name": "big deal",
+        "color": "yellow"
+      },
+      {
+        "_id": "e",
+        "name": "priority:B",
+        "color": "#0d9488"
+      },
+      {
+        "_id": "g",
+        "name": "   ",
+        "color": "red"
+      },
+      {
+        "_id": "h",
+        "name": "raw",
+        "color": "black"
+      },
+      {
+        "_id": "i",
+        "name": "done",
+        "color": "lime"
+      }
+    ]
+  },
+  "lists": [
+    {
+      "_id": "L1",
+      "title": "To Do",
+      "wipLimit": {
+        "enabled": true,
+        "value": 3
+      }
+    },
+    {
+      "_id": "L2",
+      "title": "Done",
+      "wipLimit": {
+        "enabled": false,
+        "value": 5
+      }
+    },
+    {
+      "_id": "L3",
+      "title": "Empty"
+    }
+  ],
+  "swimlanes": [
+    {
+      "_id": "S1",
+      "title": "Default"
+    }
+  ],
   "items": [
-    { "cardId": "cardA1", "listId": "L1", "title": "Write   spec now", "description": "line one\n\nline \"two\" <b>",
-      "listTitle": "To Do", "swimlaneTitle": "Default", "dueAt": "2026-11-20T10:00:00.000Z",
-      "labelIds": ["a", "b", "c", "d", "f"], "labels": ["priority:H", "web  dev", "project:Plant.Pumps", "@home", "big\u00a0deal"],
-      "startAt": "2026-11-10T00:00:00.000Z", "createdAt": "2026-11-01T08:00:00.000Z",
-      "owner": "alice", "assignees": ["bob"], "creator": "carol",
-      "comments": [{ "text": "Looks <i>good</i>", "author": "bob", "date": "2026-11-02T09:30:00.000Z" },
-                   { "text": "   ", "author": "bob", "date": "2026-11-02T09:31:00.000Z" },
-                   { "text": "no author" }],
-      "checklists": [{ "title": "Steps", "items": [{ "title": "a & b", "done": true }, { "title": "c", "done": false }] }] },
-    { "cardId": "cardB😀2", "listId": "L2", "title": "Ship", "description": "", "listTitle": "Done", "swimlaneTitle": "Default",
-      "labelIds": ["e"], "labels": ["priority:B"], "endAt": "2026-11-05T00:00:00.000Z", "createdAt": "2026-11-02T00:00:00.000Z",
-      "parentCardId": "cardA1" },
-    { "cardId": "cardC3", "listId": "L1", "title": "   ", "description": "", "listTitle": "To Do", "swimlaneTitle": "Default",
-      "labelIds": [], "labels": [] }
+    {
+      "cardId": "cardA1",
+      "listId": "L1",
+      "title": "Write   spec now",
+      "description": "line one\n\nline \"two\" <b>",
+      "listTitle": "To Do",
+      "swimlaneTitle": "Default",
+      "dueAt": "2026-11-20T10:00:00.000Z",
+      "labelIds": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "f"
+      ],
+      "labels": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal"
+      ],
+      "startAt": "2026-11-10T00:00:00.000Z",
+      "createdAt": "2026-11-01T08:00:00.000Z",
+      "owner": "alice",
+      "assignees": [
+        "bob"
+      ],
+      "creator": "carol",
+      "comments": [
+        {
+          "text": "Looks <i>good</i>",
+          "author": "bob",
+          "date": "2026-11-02T09:30:00.000Z"
+        },
+        {
+          "text": "   ",
+          "author": "bob",
+          "date": "2026-11-02T09:31:00.000Z"
+        },
+        {
+          "text": "no author"
+        }
+      ],
+      "checklists": [
+        {
+          "title": "Steps",
+          "items": [
+            {
+              "title": "a & b",
+              "done": true
+            },
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
+      ],
+      "color": "pink",
+      "dueComplete": true
+    },
+    {
+      "cardId": "cardB😀2",
+      "listId": "L2",
+      "title": "Ship",
+      "description": "first\r\nsecond  \n\n",
+      "listTitle": "Done",
+      "swimlaneTitle": "Default",
+      "labelIds": [
+        "e",
+        "h",
+        "i",
+        "g"
+      ],
+      "labels": [
+        "priority:B",
+        "raw",
+        "done"
+      ],
+      "endAt": "2026-11-05T00:00:00.000Z",
+      "createdAt": "2026-11-02T00:00:00.000Z",
+      "parentCardId": "cardA1",
+      "color": "#0D9488",
+      "checklists": [
+        {
+          "title": "",
+          "items": [
+            {
+              "title": "  one  ",
+              "done": false
+            },
+            {
+              "title": "   ",
+              "done": true
+            }
+          ]
+        },
+        {
+          "title": "Nothing",
+          "items": []
+        }
+      ]
+    },
+    {
+      "cardId": "cardC3",
+      "listId": "Lgone",
+      "title": "multi\n  line\ttitle",
+      "description": "",
+      "listTitle": "Archived list",
+      "swimlaneTitle": "Default",
+      "labelIds": [],
+      "labels": [],
+      "color": "plum",
+      "dueAt": "2026-12-24T18:30:00.000Z"
+    }
   ]
 }

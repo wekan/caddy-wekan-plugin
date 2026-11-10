@@ -11,11 +11,19 @@
           <outline text="c"/>
         </outline>
       </outline>
-      <outline text="   "/>
     </outline>
     <outline text="Done">
-      <outline text="Ship" _complete="true"/>
+      <outline text="Ship" _note="first&#10;second  &#10;&#10;" _complete="true">
+        <outline text="">
+          <outline text="  one  "/>
+          <outline text="   " _complete="true"/>
+        </outline>
+        <outline text="Nothing"/>
+      </outline>
     </outline>
     <outline text="Empty"/>
+    <outline text="Archived list">
+      <outline text="multi&#10;  line&#9;title" _complete="true"/>
+    </outline>
   </body>
 </opml>

@@ -1,0 +1,32 @@
+#+TITLE: Plan & <Go> "q" 🚀
+#+TODO: TODO | DONE
+
+* To Do
+** TODO [#H] Write spec now :web_dev:project_Plant_Pumps:@home:big_deal:
+   SCHEDULED: <2026-11-10 Tue> DEADLINE: <2026-11-20 Fri 10:00>
+   :PROPERTIES:
+   :CREATED:  [2026-11-01 Sun 08:00]
+   :END:
+   line one
+
+   line "two" <b>
+*** Steps
+**** DONE a & b
+**** TODO c
+* Done
+** DONE [#B] Ship :raw:
+   CLOSED: [2026-11-05 Thu]
+   :PROPERTIES:
+   :CREATED:  [2026-11-02 Mon]
+   :END:
+   first
+   second  
+
+
+*** Checklist
+**** TODO one
+**** DONE Item
+* Empty
+* Archived list
+** DONE multi line title
+   DEADLINE: <2026-12-24 Thu 18:30>

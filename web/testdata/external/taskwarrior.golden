@@ -32,14 +32,18 @@
     "entry": "20261102T000000Z",
     "end": "20261105T000000Z",
     "tags": [
-      "priority:B"
+      "priority:B",
+      "raw",
+      "done"
     ],
-    "wekanlist": "Done"
+    "wekanlist": "Done",
+    "wekandescription": "first\r\nsecond  \n\n"
   },
   {
     "uuid": "85d30265-be13-4db8-a6e8-112f650a5112",
-    "status": "pending",
-    "description": "Untitled",
-    "wekanlist": "To Do"
+    "status": "completed",
+    "description": "multi line title",
+    "due": "20261224T183000Z",
+    "wekanlist": "Archived list"
   }
 ]

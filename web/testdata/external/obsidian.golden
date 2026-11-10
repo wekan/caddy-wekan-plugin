@@ -1,0 +1,44 @@
+---
+
+kanban-plugin: board
+
+---
+
+## To Do (3)
+
+- [ ] Write spec now #priority:H #web-dev #project:Plant.Pumps #@home #big-deal @{2026-11-20} @@{10:00} 🛫 2026-11-10
+    line one
+    
+    line "two" <b>
+    - [x] a & b
+    - [ ] c
+
+
+
+## Done
+
+- [x] Ship #priority:B #raw ✅ 2026-11-05
+    first
+    second  
+    
+    - [ ]   one  
+    - [x]    
+
+
+
+## Empty
+
+
+
+
+## Archived list
+
+- [ ] multi line title @{2026-12-24} @@{18:30}
+
+
+
+%% kanban:settings
+```
+{"kanban-plugin":"board"}
+```
+%%
