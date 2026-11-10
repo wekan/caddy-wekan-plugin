@@ -1,0 +1,4533 @@
+[
+  {
+    "source": "",
+    "blocks": [],
+    "runs": [],
+    "plain": ""
+  },
+  {
+    "source": "   ",
+    "blocks": [],
+    "runs": [],
+    "plain": ""
+  },
+  {
+    "source": "Plain text",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Plain text",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Plain text",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Plain text"
+  },
+  {
+    "source": "**bold** and *italic* and ***both*** and ~~struck~~",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "bold",
+            "bold": true,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": " and ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "italic",
+            "bold": false,
+            "italic": true,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": " and ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "both",
+            "bold": true,
+            "italic": true,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": " and ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "struck",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": true,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "bold",
+        "bold": true,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": " and ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "italic",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": " and ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "both",
+        "bold": true,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": " and ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "struck",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": true,
+        "link": ""
+      }
+    ],
+    "plain": "bold and italic and both and struck"
+  },
+  {
+    "source": "Line one\nline two",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Line one\nline two",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Line one\nline two",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Line one\nline two"
+  },
+  {
+    "source": "Para one\n\nPara two",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Para one",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Para two",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Para one\nPara two",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Para one\nPara two"
+  },
+  {
+    "source": "# Heading 1\n## Heading **two**\n###### Six",
+    "blocks": [
+      {
+        "type": "heading",
+        "level": 1,
+        "runs": [
+          {
+            "text": "Heading 1",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "runs": [
+          {
+            "text": "Heading ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "two",
+            "bold": true,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 6,
+        "runs": [
+          {
+            "text": "Six",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ]
+      }
+    ],
+    "runs": [
+      {
+        "text": "Heading 1",
+        "bold": true,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "\n",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "Heading two",
+        "bold": true,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "\n",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "Six",
+        "bold": true,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Heading 1\nHeading two\nSix"
+  },
+  {
+    "source": "- one\n- two\n  - nested\n- three",
+    "blocks": [
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "one",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "two",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "bullet",
+        "level": 1,
+        "runs": [
+          {
+            "text": "nested",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "three",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "• one\n• two\n    • nested\n• three",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "• one\n• two\n    • nested\n• three"
+  },
+  {
+    "source": "1. first\n2. second\n\n3. loose",
+    "blocks": [
+      {
+        "type": "ordered",
+        "level": 0,
+        "runs": [
+          {
+            "text": "first",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0,
+        "index": 1
+      },
+      {
+        "type": "ordered",
+        "level": 0,
+        "runs": [
+          {
+            "text": "second",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0,
+        "index": 2
+      },
+      {
+        "type": "ordered",
+        "level": 0,
+        "runs": [
+          {
+            "text": "loose",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0,
+        "index": 3
+      }
+    ],
+    "runs": [
+      {
+        "text": "1. first\n2. second\n3. loose",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "1. first\n2. second\n3. loose"
+  },
+  {
+    "source": "5. five\n6. six",
+    "blocks": [
+      {
+        "type": "ordered",
+        "level": 0,
+        "runs": [
+          {
+            "text": "five",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0,
+        "index": 5
+      },
+      {
+        "type": "ordered",
+        "level": 0,
+        "runs": [
+          {
+            "text": "six",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0,
+        "index": 6
+      }
+    ],
+    "runs": [
+      {
+        "text": "5. five\n6. six",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "5. five\n6. six"
+  },
+  {
+    "source": "- item\n\n  second paragraph\n- next",
+    "blocks": [
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "item",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "second paragraph",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "next",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "• item\nsecond paragraph\n• next",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "• item\nsecond paragraph\n• next"
+  },
+  {
+    "source": "> quoted *text*\n> > deeper",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "quoted ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "text",
+            "bold": false,
+            "italic": true,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 1
+      },
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "deeper",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 2
+      }
+    ],
+    "runs": [
+      {
+        "text": "> ",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "quoted ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "text",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "\n",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "> > ",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "deeper",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "> quoted text\n> > deeper"
+  },
+  {
+    "source": "```js\nconst a = 1;\n```",
+    "blocks": [
+      {
+        "type": "code",
+        "level": 0,
+        "text": "const a = 1;",
+        "language": "js"
+      }
+    ],
+    "runs": [
+      {
+        "text": "const a = 1;",
+        "bold": false,
+        "italic": false,
+        "code": true,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "const a = 1;"
+  },
+  {
+    "source": "    indented code\n    more",
+    "blocks": [
+      {
+        "type": "code",
+        "level": 0,
+        "text": "indented code\nmore",
+        "language": ""
+      }
+    ],
+    "runs": [
+      {
+        "text": "indented code\nmore",
+        "bold": false,
+        "italic": false,
+        "code": true,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "indented code\nmore"
+  },
+  {
+    "source": "Use `code` here",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Use ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "code",
+            "bold": false,
+            "italic": false,
+            "code": true,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": " here",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Use ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "code",
+        "bold": false,
+        "italic": false,
+        "code": true,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": " here",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Use code here"
+  },
+  {
+    "source": "A [link](https://example.com) and [**bold link**](https://x.test/a?b=1)",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "A ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "link",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://example.com"
+          },
+          {
+            "text": " and ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "bold link",
+            "bold": true,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.test/a?b=1"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "A ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "link",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://example.com"
+      },
+      {
+        "text": " and ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "bold link",
+        "bold": true,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.test/a?b=1"
+      }
+    ],
+    "plain": "A link and bold link"
+  },
+  {
+    "source": "Visit https://wekan.fi now",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Visit ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "https://wekan.fi",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://wekan.fi"
+          },
+          {
+            "text": " now",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Visit ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "https://wekan.fi",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://wekan.fi"
+      },
+      {
+        "text": " now",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Visit https://wekan.fi now"
+  },
+  {
+    "source": "Email me at someone@example.com",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Email me at ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "someone@example.com",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "mailto:someone@example.com"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Email me at ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "someone@example.com",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "mailto:someone@example.com"
+      }
+    ],
+    "plain": "Email me at someone@example.com"
+  },
+  {
+    "source": "www.example.com is fuzzy",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "www.example.com is fuzzy",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "www.example.com is fuzzy",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "www.example.com is fuzzy"
+  },
+  {
+    "source": "Inline <b>html</b> stays",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Inline <b>html</b> stays",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Inline <b>html</b> stays",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Inline <b>html</b> stays"
+  },
+  {
+    "source": "<div>\nblock html\n</div>",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "<div>\nblock html\n</div>",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "<div>\nblock html\n</div>",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "<div>\nblock html\n</div>"
+  },
+  {
+    "source": "![alt text](https://x.test/i.png) and ![](https://x.test/j.png)",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "[alt text] and [image]",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "[alt text] and [image]",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "[alt text] and [image]"
+  },
+  {
+    "source": "---",
+    "blocks": [
+      {
+        "type": "rule",
+        "level": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "———",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "———"
+  },
+  {
+    "source": "Text\n***\nmore",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Text",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "rule",
+        "level": 0
+      },
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "more",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Text\n———\nmore",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Text\n———\nmore"
+  },
+  {
+    "source": "Quotes \"double\" and 'single' -- dash --- em... (c) (tm) (r) +-",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Quotes “double” and ‘single’ – dash — em… © ™ ® ±",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Quotes “double” and ‘single’ – dash — em… © ™ ® ±",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Quotes “double” and ‘single’ – dash — em… © ™ ® ±"
+  },
+  {
+    "source": "Escaped \\*not bold\\* and &amp; entity &copy;",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Escaped *not bold* and & entity ©",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Escaped *not bold* and & entity ©",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Escaped *not bold* and & entity ©"
+  },
+  {
+    "source": "Trailing two spaces  \nhard break",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Trailing two spaces\nhard break",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Trailing two spaces\nhard break",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Trailing two spaces\nhard break"
+  },
+  {
+    "source": "- [ ] task\n- [x] done",
+    "blocks": [
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "[ ] task",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "[x] done",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "• [ ] task\n• [x] done",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "• [ ] task\n• [x] done"
+  },
+  {
+    "source": "* star list\n+ plus list",
+    "blocks": [
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "star list",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "plus list",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "• star list\n• plus list",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "• star list\n• plus list"
+  },
+  {
+    "source": "1) paren\n2) list",
+    "blocks": [
+      {
+        "type": "ordered",
+        "level": 0,
+        "runs": [
+          {
+            "text": "paren",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0,
+        "index": 1
+      },
+      {
+        "type": "ordered",
+        "level": 0,
+        "runs": [
+          {
+            "text": "list",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0,
+        "index": 2
+      }
+    ],
+    "runs": [
+      {
+        "text": "1. paren\n2. list",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "1. paren\n2. list"
+  },
+  {
+    "source": "Tab\tinside",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Tab\tinside",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Tab\tinside",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Tab\tinside"
+  },
+  {
+    "source": "Unicode äö 日本 😀",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Unicode äö 日本 😀",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Unicode äö 日本 😀",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Unicode äö 日本 😀"
+  },
+  {
+    "source": "**unclosed bold",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "**unclosed bold",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "**unclosed bold",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "**unclosed bold"
+  },
+  {
+    "source": "_under_ __double under__",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "under",
+            "bold": false,
+            "italic": true,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": " ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "double under",
+            "bold": true,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "under",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": " ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "double under",
+        "bold": true,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "under double under"
+  },
+  {
+    "source": "a ~single~ tilde",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "a ~single~ tilde",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "a ~single~ tilde",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "a ~single~ tilde"
+  },
+  {
+    "source": "Setext\n=====\n\nSub\n---",
+    "blocks": [
+      {
+        "type": "heading",
+        "level": 1,
+        "runs": [
+          {
+            "text": "Setext",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "runs": [
+          {
+            "text": "Sub",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ]
+      }
+    ],
+    "runs": [
+      {
+        "text": "Setext",
+        "bold": true,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "\n",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "Sub",
+        "bold": true,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Setext\nSub"
+  },
+  {
+    "source": "- a\n```\ncode in list\n```",
+    "blocks": [
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "a",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "code",
+        "level": 0,
+        "text": "code in list",
+        "language": ""
+      }
+    ],
+    "runs": [
+      {
+        "text": "• a\n",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "code in list",
+        "bold": false,
+        "italic": false,
+        "code": true,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "• a\ncode in list"
+  },
+  {
+    "source": "1. one\n   - inner bullet\n2. two",
+    "blocks": [
+      {
+        "type": "ordered",
+        "level": 0,
+        "runs": [
+          {
+            "text": "one",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0,
+        "index": 1
+      },
+      {
+        "type": "bullet",
+        "level": 1,
+        "runs": [
+          {
+            "text": "inner bullet",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "ordered",
+        "level": 0,
+        "runs": [
+          {
+            "text": "two",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0,
+        "index": 2
+      }
+    ],
+    "runs": [
+      {
+        "text": "1. one\n    • inner bullet\n2. two",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "1. one\n    • inner bullet\n2. two"
+  },
+  {
+    "source": "don't won't it's 'quoted' \"nested 'inner' quote\"",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "don’t won’t it’s ‘quoted’ “nested ‘inner’ quote”",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "don’t won’t it’s ‘quoted’ “nested ‘inner’ quote”",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "don’t won’t it’s ‘quoted’ “nested ‘inner’ quote”"
+  },
+  {
+    "source": "\"**bold quote**\" and *'em'*",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "“",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "bold quote",
+            "bold": true,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "” and ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "‘em’",
+            "bold": false,
+            "italic": true,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "“",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "bold quote",
+        "bold": true,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "” and ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "‘em’",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "“bold quote” and ‘em’"
+  },
+  {
+    "source": "He said 5\" tall and \"a\"b",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "He said 5\" tall and \"a\"b",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "He said 5\" tall and \"a\"b",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "He said 5\" tall and \"a\"b"
+  },
+  {
+    "source": "Wait?.... Wow!!!!! Yes,,, no",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Wait?.. Wow!!! Yes, no",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Wait?.. Wow!!! Yes, no",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Wait?.. Wow!!! Yes, no"
+  },
+  {
+    "source": "a---b c--d e -- f g----h",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "a—b c–d e – f g----h",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "a—b c–d e – f g----h",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "a—b c–d e – f g----h"
+  },
+  {
+    "source": "Numeric &#169; &#x1F600; bad &foo; &",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Numeric © 😀 bad &foo; &",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Numeric © 😀 bad &foo; &",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Numeric © 😀 bad &foo; &"
+  },
+  {
+    "source": "Hard\\\nbreak",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Hard\nbreak",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Hard\nbreak",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Hard\nbreak"
+  },
+  {
+    "source": "<https://wekan.fi/a b> and <me@example.com>",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "<",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "https://wekan.fi/a",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://wekan.fi/a"
+          },
+          {
+            "text": " b> and ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "me@example.com",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "mailto:me@example.com"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "<",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "https://wekan.fi/a",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://wekan.fi/a"
+      },
+      {
+        "text": " b> and ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "me@example.com",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "mailto:me@example.com"
+      }
+    ],
+    "plain": "<https://wekan.fi/a b> and me@example.com"
+  },
+  {
+    "source": "[bad](javascript:alert(1)) and [ok](http://x.test/ä ö)",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "[bad](javascript:alert(1)) and [ok](",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "http://x.test/ä",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "http://x.test/%C3%A4"
+          },
+          {
+            "text": " ö)",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "[bad](javascript:alert(1)) and [ok](",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "http://x.test/ä",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "http://x.test/%C3%A4"
+      },
+      {
+        "text": " ö)",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "[bad](javascript:alert(1)) and [ok](http://x.test/ä ö)"
+  },
+  {
+    "source": "[ref][1]\n\n[1]: https://x.test/ref",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "ref",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.test/ref"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "ref",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.test/ref"
+      }
+    ],
+    "plain": "ref"
+  },
+  {
+    "source": "[titled](https://x.test \"Title\") ![pic](p.png \"T\")",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "titled",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.test"
+          },
+          {
+            "text": " [pic]",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "titled",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.test"
+      },
+      {
+        "text": " [pic]",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "titled [pic]"
+  },
+  {
+    "source": "<!-- comment -->\ntext",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "<!-- comment -->",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "text",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "<!-- comment -->\ntext",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "<!-- comment -->\ntext"
+  },
+  {
+    "source": "| a | b |\n|---|---|\n| 1 | 2 |",
+    "blocks": [],
+    "runs": [],
+    "plain": ""
+  },
+  {
+    "source": "> - quoted list\n> - two",
+    "blocks": [
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "quoted list",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 1
+      },
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "two",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 1
+      }
+    ],
+    "runs": [
+      {
+        "text": "• ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "> ",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "quoted list\n• ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "> ",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "two",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "• > quoted list\n• > two"
+  },
+  {
+    "source": "- one\n\n- two\n\n  more\n\n  - deep\n\n    deeper para",
+    "blocks": [
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "one",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "bullet",
+        "level": 0,
+        "runs": [
+          {
+            "text": "two",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "more",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "bullet",
+        "level": 1,
+        "runs": [
+          {
+            "text": "deep",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      },
+      {
+        "type": "paragraph",
+        "level": 1,
+        "runs": [
+          {
+            "text": "deeper para",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "• one\n• two\nmore\n    • deep\ndeeper para",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "• one\n• two\nmore\n    • deep\ndeeper para"
+  },
+  {
+    "source": "Link https://x.test/path?q=1. End",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Link ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "https://x.test/path?q=1",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.test/path?q=1"
+          },
+          {
+            "text": ". End",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Link ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "https://x.test/path?q=1",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.test/path?q=1"
+      },
+      {
+        "text": ". End",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Link https://x.test/path?q=1. End"
+  },
+  {
+    "source": "(C) (TM) (R) inside `code (c)` and [link (c)](https://x.test) https://x.test/(c)",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "© ™ ® inside ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "code (c)",
+            "bold": false,
+            "italic": false,
+            "code": true,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": " and ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "link ©",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.test"
+          },
+          {
+            "text": " ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "https://x.test/(c)",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.test/(c)"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "© ™ ® inside ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "code (c)",
+        "bold": false,
+        "italic": false,
+        "code": true,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": " and ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "link ©",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.test"
+      },
+      {
+        "text": " ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "https://x.test/(c)",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.test/(c)"
+      }
+    ],
+    "plain": "© ™ ® inside code (c) and link © https://x.test/(c)"
+  },
+  {
+    "source": "\"Start\n\"second line\"",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "\"Start\n“second line”",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "\"Start\n“second line”",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "\"Start\n“second line”"
+  },
+  {
+    "source": "Escaped \\\"quote\\\" and \\--",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Escaped \"quote\" and --",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Escaped \"quote\" and --",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "Escaped \"quote\" and --"
+  },
+  {
+    "source": "*a **b** c*",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "a ",
+            "bold": false,
+            "italic": true,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "b",
+            "bold": true,
+            "italic": true,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": " c",
+            "bold": false,
+            "italic": true,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "a ",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "b",
+        "bold": true,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": " c",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "a b c"
+  },
+  {
+    "source": "x*y*z and snake_case_word",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "x",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "y",
+            "bold": false,
+            "italic": true,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "z and snake_case_word",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "x",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "y",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "z and snake_case_word",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "xyz and snake_case_word"
+  },
+  {
+    "source": "example.com",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "example.com",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "example.com",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "example.com"
+  },
+  {
+    "source": "see www.x.org",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "see www.x.org",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "see www.x.org",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "see www.x.org"
+  },
+  {
+    "source": "http://a.b",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "http://a.b",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "http://a.b"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "http://a.b",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "http://a.b"
+      }
+    ],
+    "plain": "http://a.b"
+  },
+  {
+    "source": "ftp://x.y/z",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "ftp://x.y/z",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "ftp://x.y/z"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "ftp://x.y/z",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "ftp://x.y/z"
+      }
+    ],
+    "plain": "ftp://x.y/z"
+  },
+  {
+    "source": "//x.y",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "//x.y",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "//x.y"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "//x.y",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "//x.y"
+      }
+    ],
+    "plain": "//x.y"
+  },
+  {
+    "source": "user@x.y",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "user@x.y",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "mailto:user@x.y"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "user@x.y",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "mailto:user@x.y"
+      }
+    ],
+    "plain": "user@x.y"
+  },
+  {
+    "source": "x(https://a.b/c)y",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "x(",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "https://a.b/c",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://a.b/c"
+          },
+          {
+            "text": ")y",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "x(",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "https://a.b/c",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://a.b/c"
+      },
+      {
+        "text": ")y",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "x(https://a.b/c)y"
+  },
+  {
+    "source": "https://a.b/c.",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://a.b/c",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://a.b/c"
+          },
+          {
+            "text": ".",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://a.b/c",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://a.b/c"
+      },
+      {
+        "text": ".",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "https://a.b/c."
+  },
+  {
+    "source": "https://a.b/c)",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://a.b/c",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://a.b/c"
+          },
+          {
+            "text": ")",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://a.b/c",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://a.b/c"
+      },
+      {
+        "text": ")",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "https://a.b/c)"
+  },
+  {
+    "source": "Mailto:A@b.co",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "Mailto:A@b.co",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "Mailto:A@b.co"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "Mailto:A@b.co",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "Mailto:A@b.co"
+      }
+    ],
+    "plain": "Mailto:A@b.co"
+  },
+  {
+    "source": "HTTPS://X.Y",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "HTTPS://X.Y",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "HTTPS://X.Y"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "HTTPS://X.Y",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "HTTPS://X.Y"
+      }
+    ],
+    "plain": "HTTPS://X.Y"
+  },
+  {
+    "source": "https://x.y/ä?q=ö#ü",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://x.y/ä?q=ö#ü",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.y/%C3%A4?q=%C3%B6#%C3%BC"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://x.y/ä?q=ö#ü",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.y/%C3%A4?q=%C3%B6#%C3%BC"
+      }
+    ],
+    "plain": "https://x.y/ä?q=ö#ü"
+  },
+  {
+    "source": "a.https://b.c",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "a.",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "https://b.c",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://b.c"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "a.",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "https://b.c",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://b.c"
+      }
+    ],
+    "plain": "a.https://b.c"
+  },
+  {
+    "source": "(https://a.b/(c))",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "(",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "https://a.b/(c)",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://a.b/(c)"
+          },
+          {
+            "text": ")",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "(",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "https://a.b/(c)",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://a.b/(c)"
+      },
+      {
+        "text": ")",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "(https://a.b/(c))"
+  },
+  {
+    "source": "https://a.b/c,d",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://a.b/c,d",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://a.b/c,d"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://a.b/c,d",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://a.b/c,d"
+      }
+    ],
+    "plain": "https://a.b/c,d"
+  },
+  {
+    "source": "a@b.c",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "a@b.c",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "mailto:a@b.c"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "a@b.c",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "mailto:a@b.c"
+      }
+    ],
+    "plain": "a@b.c"
+  },
+  {
+    "source": "a@b.cc",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "a@b.cc",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "mailto:a@b.cc"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "a@b.cc",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "mailto:a@b.cc"
+      }
+    ],
+    "plain": "a@b.cc"
+  },
+  {
+    "source": "a@localhost",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "a@localhost",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "a@localhost",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "a@localhost"
+  },
+  {
+    "source": "a@b",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "a@b",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "a@b",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "a@b"
+  },
+  {
+    "source": "x.y+z@w.com",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "x.y+z@w.com",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "mailto:x.y+z@w.com"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "x.y+z@w.com",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "mailto:x.y+z@w.com"
+      }
+    ],
+    "plain": "x.y+z@w.com"
+  },
+  {
+    "source": "(a@b.com)",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "(",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "a@b.com",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "mailto:a@b.com"
+          },
+          {
+            "text": ")",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "(",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "a@b.com",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "mailto:a@b.com"
+      },
+      {
+        "text": ")",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "(a@b.com)"
+  },
+  {
+    "source": "_a@b.com",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "_a@b.com",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "mailto:_a@b.com"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "_a@b.com",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "mailto:_a@b.com"
+      }
+    ],
+    "plain": "_a@b.com"
+  },
+  {
+    "source": "http://localhost:3000/x",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "http://localhost:3000/x",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "http://localhost:3000/x"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "http://localhost:3000/x",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "http://localhost:3000/x"
+      }
+    ],
+    "plain": "http://localhost:3000/x"
+  },
+  {
+    "source": "https://user:pw@h.com/p",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://user",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://user"
+          },
+          {
+            "text": ":pw@h.com/p",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://user",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://user"
+      },
+      {
+        "text": ":pw@h.com/p",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "https://user:pw@h.com/p"
+  },
+  {
+    "source": "https://h.com:99999",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://h.com:99999",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://h.com:99999",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "https://h.com:99999"
+  },
+  {
+    "source": "http://a",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "http://a",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "http://a"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "http://a",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "http://a"
+      }
+    ],
+    "plain": "http://a"
+  },
+  {
+    "source": "http://a-.b",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "http://a-.b",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "http://a-.b",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "http://a-.b"
+  },
+  {
+    "source": "https://ä.fi/x",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://ä.fi/x",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://xn--4ca.fi/x"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://ä.fi/x",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://xn--4ca.fi/x"
+      }
+    ],
+    "plain": "https://ä.fi/x"
+  },
+  {
+    "source": "http://1.2.3.4/x",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "http://1.2.3.4/x",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "http://1.2.3.4/x"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "http://1.2.3.4/x",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "http://1.2.3.4/x"
+      }
+    ],
+    "plain": "http://1.2.3.4/x"
+  },
+  {
+    "source": "https://x.y/?a=b!",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://x.y/?a=b",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.y/?a=b"
+          },
+          {
+            "text": "!",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://x.y/?a=b",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.y/?a=b"
+      },
+      {
+        "text": "!",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "https://x.y/?a=b!"
+  },
+  {
+    "source": "https://x.y/a--b",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://x.y/a--b",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.y/a--b"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://x.y/a--b",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.y/a--b"
+      }
+    ],
+    "plain": "https://x.y/a--b"
+  },
+  {
+    "source": "https://x.y/a's",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://x.y/a’s",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.y/a's"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://x.y/a’s",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.y/a's"
+      }
+    ],
+    "plain": "https://x.y/a’s"
+  },
+  {
+    "source": "https://x.y/[a]",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://x.y/[a]",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.y/%5Ba%5D"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://x.y/[a]",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.y/%5Ba%5D"
+      }
+    ],
+    "plain": "https://x.y/[a]"
+  },
+  {
+    "source": "https://x.y/{a}",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://x.y/{a}",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.y/%7Ba%7D"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://x.y/{a}",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.y/%7Ba%7D"
+      }
+    ],
+    "plain": "https://x.y/{a}"
+  },
+  {
+    "source": "https://x.y/\"q\"",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://x.y/“q”",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.y/%22q%22"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://x.y/“q”",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.y/%22q%22"
+      }
+    ],
+    "plain": "https://x.y/“q”"
+  },
+  {
+    "source": "//",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "//",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "//",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "//"
+  },
+  {
+    "source": "http://",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "http://",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "http://",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "http://"
+  },
+  {
+    "source": "mailto:a@b.co?x",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "mailto:a@b.co",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "mailto:a@b.co"
+          },
+          {
+            "text": "?x",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "mailto:a@b.co",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "mailto:a@b.co"
+      },
+      {
+        "text": "?x",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "mailto:a@b.co?x"
+  },
+  {
+    "source": "x//y.z",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "x//y.z",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "x//y.z",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "x//y.z"
+  },
+  {
+    "source": "https://x.y#frag;more",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://x.y#frag;more",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.y#frag;more"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://x.y#frag;more",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.y#frag;more"
+      }
+    ],
+    "plain": "https://x.y#frag;more"
+  },
+  {
+    "source": "**https://x.y/a**",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://x.y/a",
+            "bold": true,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.y/a"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://x.y/a",
+        "bold": true,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.y/a"
+      }
+    ],
+    "plain": "https://x.y/a"
+  },
+  {
+    "source": "https://x.y/a_b_c and _em_",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://x.y/a_b_c",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.y/a_b_c"
+          },
+          {
+            "text": " and ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "em",
+            "bold": false,
+            "italic": true,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://x.y/a_b_c",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.y/a_b_c"
+      },
+      {
+        "text": " and ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "em",
+        "bold": false,
+        "italic": true,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "https://x.y/a_b_c and em"
+  },
+  {
+    "source": "[https://inner](https://outer)",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://inner",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://outer"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://inner",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://outer"
+      }
+    ],
+    "plain": "https://inner"
+  },
+  {
+    "source": "<a href=\"x\">https://in.html</a> https://out",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "<a href=\"x\">https://in.html</a> ",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          },
+          {
+            "text": "https://out",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://out"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "<a href=\"x\">https://in.html</a> ",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      },
+      {
+        "text": "https://out",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://out"
+      }
+    ],
+    "plain": "<a href=\"x\">https://in.html</a> https://out"
+  },
+  {
+    "source": "https://x.y/%C3%A4%20b",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://x.y/ä b",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://x.y/%C3%A4%20b"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://x.y/ä b",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://x.y/%C3%A4%20b"
+      }
+    ],
+    "plain": "https://x.y/ä b"
+  },
+  {
+    "source": "https://[::1]:8080/p",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "https://[::1]:8080/p",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": "https://[::1]:8080/p"
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "https://[::1]:8080/p",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": "https://[::1]:8080/p"
+      }
+    ],
+    "plain": "https://[::1]:8080/p"
+  },
+  {
+    "source": "see\\https://x.y",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "level": 0,
+        "runs": [
+          {
+            "text": "see\\https://x.y",
+            "bold": false,
+            "italic": false,
+            "code": false,
+            "strike": false,
+            "link": ""
+          }
+        ],
+        "quote": 0
+      }
+    ],
+    "runs": [
+      {
+        "text": "see\\https://x.y",
+        "bold": false,
+        "italic": false,
+        "code": false,
+        "strike": false,
+        "link": ""
+      }
+    ],
+    "plain": "see\\https://x.y"
+  }
+]
