@@ -25,9 +25,11 @@ func TestPdfDocumentIsWeKans(t *testing.T) {
 			Lines json.RawMessage `json:"lines"`
 			PDF   string          `json:"pdf"`
 		} `json:"documents"`
-		Encode  map[string]string   `json:"encode"`
-		Flatten map[string]string   `json:"flatten"`
-		Wrap    map[string][]string `json:"wrap"`
+		Encode  map[string]string          `json:"encode"`
+		Flatten map[string]string          `json:"flatten"`
+		Wrap    map[string][]string        `json:"wrap"`
+		Inline  map[string][]pdfRun        `json:"inline"`
+		Rich    map[string]json.RawMessage `json:"rich"`
 		PNG     struct {
 			File          string `json:"file"`
 			Width, Height int
@@ -93,6 +95,24 @@ func TestPdfDocumentIsWeKans(t *testing.T) {
 		i := bytes.IndexByte([]byte(k), '|')
 		if got := wrapTextBlock(k[i+1:], k[:i]); !reflect.DeepEqual(got, want) && !(len(got) == 0 && len(want) == 0) {
 			t.Errorf("wrapTextBlock(%q, %q) = %q, not %q", k[i+1:], k[:i], got, want)
+		}
+	}
+	if len(golden.Inline) == 0 || len(golden.Rich) == 0 {
+		t.Fatal("the inline and rich cases")
+	}
+	for s, want := range golden.Inline {
+		if got := inlineRuns(s); !reflect.DeepEqual(got, want) {
+			t.Errorf("inlineRuns(%q) = %v, not %v", s, got, want)
+		}
+	}
+	for k, want := range golden.Rich {
+		i := bytes.IndexByte([]byte(k), '|')
+		g, _ := json.Marshal(wrapRichTextBlock(k[i+1:], k[:i]))
+		var a, b any
+		_ = json.Unmarshal(g, &a)
+		_ = json.Unmarshal(want, &b)
+		if !reflect.DeepEqual(a, b) {
+			t.Errorf("wrapRichTextBlock(%q, %q):\n%s\nnot\n%s", k[i+1:], k[:i], g, want)
 		}
 	}
 	file, _ := base64.StdEncoding.DecodeString(golden.PNG.File)

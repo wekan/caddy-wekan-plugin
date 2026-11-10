@@ -41,6 +41,14 @@ const long = 'word '.repeat(30) + 'x'.repeat(120) + ' end';
 for (const [s, indent] of [[long, ''], [long, '    '], ['Grüße 😀 '.repeat(20), '  '], ['', ''], ['a\n\nb', '']]) {
   golden.wrap[`${indent}|${s}`] = pdf.wrapTextBlock(s, indent);
 }
+golden.inline = {};
+golden.rich = {};
+for (const s of ['**bold with *italic* inside** and ***both***', 'snake_case _it_ __b__ x__y__z', '** spaced ** and `code` ~~s~~', '*a*b* unclosed *', '😀 *é*']) {
+  golden.inline[s] = pdf.inlineRuns(s);
+}
+for (const [s, indent] of [['A **bold** word and ' + 'long '.repeat(25) + '*it* end', ''], ['# Head\n- item **b**\n' + 'y'.repeat(100), '  '], ['', '']]) {
+  golden.rich[`${indent}|${s}`] = pdf.wrapRichTextBlock(s, indent);
+}
 // A PNG of 2 x 2 RGBA with every filter, its pixels as the PDF has them.
 const raw = Buffer.from([1, 255, 0, 0, 255, 0, 255, 0, 128, 3, 0, 0, 255, 64, 255, 255, 255, 0]);
 const ihdr = Buffer.from([0, 0, 0, 2, 0, 0, 0, 2, 8, 6, 0, 0, 0]);

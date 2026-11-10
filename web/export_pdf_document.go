@@ -1006,3 +1006,189 @@ func leftPad10(n int) string {
 	s := strconv.Itoa(n)
 	return strings.Repeat("0", max(0, 10-len(s))) + s
 }
+
+// pdfInlineMarkers are INLINE_MARKERS, longest first.
+var pdfInlineMarkers = []struct {
+	mark         string
+	bold, italic bool
+	word         bool
+}{{"***", true, true, false}, {"___", true, true, true}, {"**", true, false, false}, {"__", true, false, true},
+	{"~~", false, false, false}, {"*", false, true, false}, {"_", false, true, true}, {"`", false, false, false}}
+
+func isOpensWord(c uint16) bool { return mdIsWhiteSpace(c) || strings.ContainsRune(`([{"'`, rune(c)) }
+func isClosesWord(c uint16) bool {
+	return mdIsWhiteSpace(c) || strings.ContainsRune(`)]}"'.,!?:;`, rune(c))
+}
+
+func u16Index(u u16s, sub u16s, from int) int {
+	for i := from; i+len(sub) <= len(u); i++ {
+		if equalU16(u[i:i+len(sub)], sub) {
+			return i
+		}
+	}
+	return -1
+}
+
+func equalU16(a, b u16s) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// inlineRuns is inlineRuns: one line's emphasis as runs.
+func inlineRuns(value string) []pdfRun {
+	text := toU16(value)
+	var runs []pdfRun
+	push := func(chunk string, bold, italic bool) {
+		if chunk == "" {
+			return
+		}
+		if n := len(runs); n > 0 && runs[n-1].Bold == bold && runs[n-1].Italic == italic {
+			runs[n-1].Text += chunk
+			return
+		}
+		runs = append(runs, pdfRun{chunk, bold, italic})
+	}
+	var plain u16s
+	for i := 0; i < len(text); {
+		matched := false
+		for _, m := range pdfInlineMarkers {
+			mk := toU16(m.mark)
+			if i+len(mk) > len(text) || !equalU16(text[i:i+len(mk)], mk) {
+				continue
+			}
+			from := i + len(mk)
+			close := u16Index(text, mk, from)
+			if close == -1 || close == from {
+				continue
+			}
+			content := text[from:close]
+			if mdIsWhiteSpace(content[0]) || mdIsWhiteSpace(content[len(content)-1]) {
+				continue
+			}
+			if m.word {
+				if i > 0 && !isOpensWord(text[i-1]) {
+					continue
+				}
+				if after := close + len(mk); after < len(text) && !isClosesWord(text[after]) {
+					continue
+				}
+			}
+			push(plain.str(), false, false)
+			plain = nil
+			for _, r := range inlineRuns(content.str()) {
+				push(r.Text, r.Bold || m.bold, r.Italic || m.italic)
+			}
+			i = close + len(mk)
+			matched = true
+			break
+		}
+		if !matched {
+			plain = append(plain, text[i])
+			i++
+		}
+	}
+	push(plain.str(), false, false)
+	if len(runs) == 0 {
+		return []pdfRun{{}}
+	}
+	return runs
+}
+
+// wrapRichTextBlock is wrapRichTextBlock: the text wrapped to the page with
+// its emphasis kept as runs.
+func wrapRichTextBlock(text, indent string) []pdfLine {
+	width := pdfTextWidth - len16(indent)
+	source := flattenMarkdownBlocks(jsReplace(text, pdfHTMLRules))
+	var out []pdfLine
+	for _, raw := range strings.Split(source, "\n") {
+		type word struct {
+			text         string
+			bold, italic bool
+			space        bool
+		}
+		var words []word
+		for _, r := range inlineRuns(raw) {
+			for _, part := range jsSplitSpaceKeep(r.Text) {
+				if part == "" {
+					continue
+				}
+				if jsAllSpace(part) {
+					words = append(words, word{space: true})
+				} else {
+					words = append(words, word{text: part, bold: r.Bold, italic: r.Italic})
+				}
+			}
+		}
+		var cur []pdfRun
+		length := 0
+		flush := func() {
+			out = append(out, pdfRuns(append([]pdfRun{{Text: indent}}, cur...)))
+			cur, length = nil, 0
+		}
+		add := func(w pdfRun) {
+			if n := len(cur); n > 0 && cur[n-1].Bold == w.Bold && cur[n-1].Italic == w.Italic {
+				cur[n-1].Text += w.Text
+			} else {
+				cur = append(cur, w)
+			}
+			length += len16(w.Text)
+		}
+		for _, w := range words {
+			if w.space {
+				if length > 0 && length < width {
+					add(pdfRun{Text: " "})
+				}
+				continue
+			}
+			rest := pdfRun{w.text, w.bold, w.italic}
+			for len16(rest.Text) > width {
+				if length > 0 {
+					flush()
+				}
+				add(pdfRun{slice16(rest.Text, 0, width), rest.Bold, rest.Italic})
+				rest.Text = slice16(rest.Text, width, len16(rest.Text))
+				flush()
+			}
+			if rest.Text == "" {
+				continue
+			}
+			if length+len16(rest.Text) > width {
+				if n := len(cur); n > 0 && strings.HasSuffix(cur[n-1].Text, " ") {
+					cur[n-1].Text = strings.TrimRight(cur[n-1].Text, " ")
+				}
+				flush()
+			}
+			add(rest)
+		}
+		flush()
+	}
+	return out
+}
+
+// jsSplitSpaceKeep is split(/(\s+)/): the parts and the spaces between.
+func jsSplitSpaceKeep(s string) []string {
+	var out []string
+	last := 0
+	for m, _ := jsWhite.FindStringMatch(s); m != nil; m, _ = jsWhite.FindNextMatch(m) {
+		i, n := m.ByteRange()
+		out = append(out, s[last:i], s[i:i+n])
+		last = i + n
+	}
+	return append(out, s[last:])
+}
+
+func jsAllSpace(s string) bool {
+	m, _ := jsWhite.FindStringMatch(s)
+	if m == nil {
+		return false
+	}
+	i, n := m.ByteRange()
+	return i == 0 && n == len(s)
+}

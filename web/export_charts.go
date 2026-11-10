@@ -70,6 +70,11 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 			}
 		}
 		ctx := r.Context()
+		// ExporterChartExcel/PDF: assertFieldExport, as every export.
+		if !s.fieldExportAllowed(ctx, &b, u) {
+			http.Error(w, errFieldExport, http.StatusForbidden)
+			return
+		}
 		lang := exportLang(ctx)
 		headers, rows, ok := s.chartRows(ctx, &b, key, lang)
 		if slices.Contains(flowCharts, key) {

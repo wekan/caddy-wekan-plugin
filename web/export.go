@@ -55,6 +55,10 @@ func (s *Server) apiExport(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	if !s.fieldExportAllowed(r.Context(), &b, u) {
+		apiError(w, http.StatusForbidden, errFieldExport)
+		return
+	}
 	q := r.URL.Query()
 	out, err := s.exportBoardWith(r.Context(), &b, exportDocOptions{WithoutFiles: q.Get("attachments") == "false",
 		Want: exportWanted(q.Get("fields")), Scope: exportScopeOf(q), r: r})

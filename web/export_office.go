@@ -3,7 +3,6 @@ package web
 import (
 	"archive/zip"
 	"bytes"
-	"context"
 	"encoding/xml"
 	"fmt"
 	"net/http"
@@ -12,7 +11,6 @@ import (
 	"strings"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
-	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // A board, or one card, as Excel (.xlsx) and as PDF, as Node.js WeKan's
@@ -55,6 +53,12 @@ func (s *Server) exportReader(w http.ResponseWriter, r *http.Request, oneCard bo
 		c = &card
 	}
 	if b.Permission == "public" {
+		// adminOnlyCustomFields.js assertFieldExport holds for a public
+		// board too, whoever reads it.
+		if !s.fieldExportAllowed(r.Context(), &b, u) {
+			apiError(w, http.StatusForbidden, errFieldExport)
+			return nil, nil, false
+		}
 		return &b, c, true
 	}
 	if u == nil {
@@ -63,6 +67,10 @@ func (s *Server) exportReader(w http.ResponseWriter, r *http.Request, oneCard bo
 	}
 	if m := b.member(u.ID); m == nil || (m.AssignedOnly() && (c == nil || !slices.Contains(c.Assignees, u.ID))) {
 		apiError(w, http.StatusForbidden, "Forbidden")
+		return nil, nil, false
+	}
+	if !s.fieldExportAllowed(r.Context(), &b, u) {
+		apiError(w, http.StatusForbidden, errFieldExport)
 		return nil, nil, false
 	}
 	return &b, c, true
@@ -88,51 +96,45 @@ func (s *Server) apiExportOffice(format string, oneCard bool) http.HandlerFunc {
 			name = "export-card-" + c.ID
 		}
 		w.Header().Set("Cache-Control", "no-store")
+		// The words in the user's language, else ?lang=, else English
+		// (exportExcel.js, exportPDF.js), the dates in ?dateFormat= and
+		// ?tz=, the selection and the scope.
+		q := r.URL.Query()
+		u, _ := s.exportUser(r)
+		lang := "en"
+		if u != nil && u.Profile.Language != "" {
+			lang = u.Profile.Language
+		} else if l := q.Get("lang"); l != "" && len(l) <= 32 {
+			lang = l
+		}
+		want := exportWanted(q.Get("fields"))
+		o := excelCardOptions{Lang: lang, DateFormat: "YYYY-MM-DD", Scope: exportScopeOf(q)}
+		if u != nil && u.Profile.DateFormat != "" {
+			o.DateFormat = u.Profile.DateFormat
+		}
+		if f := q.Get("dateFormat"); slices.Contains(excelDateFormats, f) {
+			o.DateFormat = f
+		}
+		if tz := q.Get("tz"); len(tz) <= 64 {
+			o.Zone = tz
+		}
+		if want != nil {
+			for _, k := range exportFieldKeys {
+				if want[k] {
+					o.Fields = append(o.Fields, k)
+				}
+			}
+		}
 		if format == "xlsx" {
+			// A card's workbook in the card layout (ExporterExcelCard); a
+			// board's in the table layout with Card details unticked, else in
+			// the card layout.
 			var out []byte
 			var err error
-			// WeKan's workbooks, their words in the user's language, else
-			// ?lang=, else English (exportExcel.js): a card's in the card
-			// layout (ExporterExcelCard); a board's in the table layout with
-			// Card details unticked, else in the card layout.
-			{
-				q := r.URL.Query()
-				u, _ := s.exportUser(r)
-				lang := "en"
-				if u != nil && u.Profile.Language != "" {
-					lang = u.Profile.Language
-				} else if l := q.Get("lang"); l != "" && len(l) <= 32 {
-					lang = l
-				}
-				// adminOnlyCustomFields.js assertFieldExport: a board with
-				// admin-only custom fields is exported by its admins only.
-				if s.boardHasAdminOnlyFields(ctx, b) && (u == nil || !b.AdminOf(u.ID)) {
-					apiError(w, http.StatusForbidden, "This export requires board administrator access")
-					return
-				}
-				want := exportWanted(q.Get("fields"))
-				if c == nil && want != nil && !want["card-details"] {
-					out, err = s.excelTableWorkbook(ctx, b, lang, exportScopeOf(q))
-				} else {
-					o := excelCardOptions{Lang: lang, DateFormat: "YYYY-MM-DD", Scope: exportScopeOf(q)}
-					if u != nil && u.Profile.DateFormat != "" {
-						o.DateFormat = u.Profile.DateFormat
-					}
-					if f := q.Get("dateFormat"); slices.Contains(excelDateFormats, f) {
-						o.DateFormat = f
-					}
-					if tz := q.Get("tz"); len(tz) <= 64 {
-						o.Zone = tz
-					}
-					if want != nil {
-						for _, k := range exportFieldKeys {
-							if want[k] {
-								o.Fields = append(o.Fields, k)
-							}
-						}
-					}
-					out, err = s.excelBoardWorkbook(ctx, b, o, c)
-				}
+			if c == nil && want != nil && !want["card-details"] {
+				out, err = s.excelTableWorkbook(ctx, b, lang, o.Scope)
+			} else {
+				out, err = s.excelBoardWorkbook(ctx, b, o, c)
 			}
 			if err != nil {
 				apiError(w, http.StatusInternalServerError, "Export failed")
@@ -143,9 +145,10 @@ func (s *Server) apiExportOffice(format string, oneCard bool) http.HandlerFunc {
 			_, _ = w.Write(out)
 			return
 		}
+		// ExporterBoardPDF and ExporterCardPDF, with the base-font writer.
 		w.Header().Set("Content-Type", "application/pdf")
 		w.Header().Set("Content-Disposition", `attachment; filename="`+name+`.pdf"`)
-		_, _ = w.Write(pdfOf(s.pdfLines(ctx, b, c)))
+		_, _ = w.Write(s.pdfExport(ctx, b, o, c))
 	}
 }
 
@@ -227,38 +230,6 @@ func xlsxOf(title string, rows [][]any) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-// pdfLines are what the PDF says: the board, then each list with its cards -
-// or the one card with its list and description.
-func (s *Server) pdfLines(ctx context.Context, b *Board, c *Card) []string {
-	// Admin Panel -> Anonymize export users: the @mentions of what it prints.
-	a := s.exportAnonymizer(ctx, b, nil)
-	lines := []string{b.Title, ""}
-	if c != nil {
-		lines = append(lines, a.text(c.Title), s.titleOfID(ctx, "lists", c.ListID), "")
-		lines = append(lines, strings.Split(a.text(c.Description), "\n")...)
-		return append(lines, s.cardPDFDetails(ctx, b, c, a)...)
-	}
-	cur, err := s.db.Collection("lists").Find(ctx, bson.M{"boardId": b.ID, "archived": false}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
-	if err != nil {
-		return lines
-	}
-	var lists []List
-	_ = cur.All(ctx, &lists)
-	for _, l := range lists {
-		lines = append(lines, l.Title)
-		cc, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID, "listId": l.ID, "archived": false}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
-		if err == nil {
-			var cards []Card
-			_ = cc.All(ctx, &cards)
-			for _, x := range cards {
-				lines = append(lines, "    - "+a.text(x.Title))
-			}
-		}
-		lines = append(lines, "")
-	}
-	return lines
-}
-
 // pdfText is a line in a PDF string: Latin-1, the rest as "?", and ( ) \ escaped.
 func pdfText(s string) string {
 	var b strings.Builder
@@ -321,74 +292,4 @@ func pdfOf(lines []string) []byte {
 	}
 	fmt.Fprintf(&b, "trailer\n<< /Size %d /Root 1 0 R >>\nstartxref\n%d\n%%%%EOF\n", len(objs)+1, xref)
 	return b.Bytes()
-}
-
-// cardPDFDetails are a card's checklists, each item ticked or not, and its
-// comments with their authors - as WeKan's ExporterCardPDF prints them, the
-// names anonymized when Admin Panel says so.
-func (s *Server) cardPDFDetails(ctx context.Context, b *Board, c *Card, a *anonMap) []string {
-	lang := exportLang(ctx)
-	var lines []string
-	cur, err := s.db.Collection("checklists").Find(ctx, bson.M{"cardId": c.ID}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
-	if err == nil {
-		var lists []bson.M
-		_ = cur.All(ctx, &lists)
-		if len(lists) > 0 {
-			lines = append(lines, "", tr(lang, "checklists"))
-		}
-		for _, cl := range lists {
-			lines = append(lines, a.text(strOf(cl["title"])))
-			ic, err := s.db.Collection("checklistItems").Find(ctx, bson.M{"checklistId": eq(strOf(cl["_id"]))}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
-			if err != nil {
-				continue
-			}
-			var items []bson.M
-			_ = ic.All(ctx, &items)
-			for _, it := range items {
-				box := "[ ]"
-				if it["isFinished"] == true {
-					box = "[x]"
-				}
-				lines = append(lines, "    "+box+" "+a.text(strOf(it["title"])))
-			}
-		}
-	}
-	cc, err := s.db.Collection("card_comments").Find(ctx, bson.M{"cardId": c.ID, "boardId": b.ID}, options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}}))
-	if err != nil {
-		return lines
-	}
-	var comments []bson.M
-	_ = cc.All(ctx, &comments)
-	if len(comments) == 0 {
-		return lines
-	}
-	ids := bson.A{}
-	for _, cm := range comments {
-		ids = append(ids, cm["userId"])
-	}
-	users := []bson.M{}
-	if uc, err := s.db.Collection("users").Find(ctx, bson.M{"_id": dbIn(ids)}, options.Find().SetProjection(bson.M{"username": 1})); err == nil {
-		_ = uc.All(ctx, &users)
-	}
-	// The commenters too, members or not.
-	if x := s.exportAnonymizer(ctx, b, users); x != nil {
-		a = x
-	}
-	names := map[string]string{}
-	for _, u := range users {
-		a.user(u)
-		names[strOf(u["_id"])] = strOf(u["username"])
-	}
-	lines = append(lines, "", tr(lang, "comments"))
-	for _, cm := range comments {
-		for i, l := range strings.Split(a.text(strOf(cm["text"])), "\n") {
-			if i == 0 {
-				l = names[strOf(cm["userId"])] + ": " + l
-			} else {
-				l = "    " + l
-			}
-			lines = append(lines, l)
-		}
-	}
-	return lines
 }

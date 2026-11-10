@@ -99,6 +99,11 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 			skipped = append(skipped, b.Title+" ("+b.ID+"): not exportable by this user")
 			continue
 		}
+		// assertFieldExport: left out and named in skipped.txt (exportAllBoards.js).
+		if !s.fieldExportAllowed(ctx, &b, u) {
+			skipped = append(skipped, b.Title+" ("+b.ID+"): "+errFieldExport)
+			continue
+		}
 		ok2 = append(ok2, b)
 	}
 	if len(ok2) == 0 {

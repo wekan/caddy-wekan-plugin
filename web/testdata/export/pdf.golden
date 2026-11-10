@@ -1501,6 +1501,219 @@
    "b"
   ]
  },
+ "inline": {
+  "**bold with *italic* inside** and ***both***": [
+   {
+    "text": "bold with ",
+    "bold": true,
+    "italic": false
+   },
+   {
+    "text": "italic",
+    "bold": true,
+    "italic": true
+   },
+   {
+    "text": " inside",
+    "bold": true,
+    "italic": false
+   },
+   {
+    "text": " and ",
+    "bold": false,
+    "italic": false
+   },
+   {
+    "text": "both",
+    "bold": true,
+    "italic": true
+   }
+  ],
+  "snake_case _it_ __b__ x__y__z": [
+   {
+    "text": "snake_case ",
+    "bold": false,
+    "italic": false
+   },
+   {
+    "text": "it",
+    "bold": false,
+    "italic": true
+   },
+   {
+    "text": " ",
+    "bold": false,
+    "italic": false
+   },
+   {
+    "text": "b",
+    "bold": true,
+    "italic": false
+   },
+   {
+    "text": " x__y__z",
+    "bold": false,
+    "italic": false
+   }
+  ],
+  "** spaced ** and `code` ~~s~~": [
+   {
+    "text": "** spaced ** and code s",
+    "bold": false,
+    "italic": false
+   }
+  ],
+  "*a*b* unclosed *": [
+   {
+    "text": "a",
+    "bold": false,
+    "italic": true
+   },
+   {
+    "text": "b* unclosed *",
+    "bold": false,
+    "italic": false
+   }
+  ],
+  "😀 *é*": [
+   {
+    "text": "😀 ",
+    "bold": false,
+    "italic": false
+   },
+   {
+    "text": "é",
+    "bold": false,
+    "italic": true
+   }
+  ]
+ },
+ "rich": {
+  "|A **bold** word and long long long long long long long long long long long long long long long long long long long long long long long long long *it* end": [
+   {
+    "runs": [
+     {
+      "text": "",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "A ",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "bold",
+      "bold": true,
+      "italic": false
+     },
+     {
+      "text": " word and long long long long long long long long long long long long long long long",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   },
+   {
+    "runs": [
+     {
+      "text": "",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "long long long long long long long long long long ",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "it",
+      "bold": false,
+      "italic": true
+     },
+     {
+      "text": " end",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   }
+  ],
+  "  |# Head\n- item **b**\nyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy": [
+   {
+    "runs": [
+     {
+      "text": "  ",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "Head",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   },
+   {
+    "runs": [
+     {
+      "text": "  ",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "- item ",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "b",
+      "bold": true,
+      "italic": false
+     }
+    ]
+   },
+   {
+    "runs": [
+     {
+      "text": "  ",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   },
+   {
+    "runs": [
+     {
+      "text": "  ",
+      "bold": false,
+      "italic": false
+     },
+     {
+      "text": "yyyyyyyyyyyy",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   }
+  ],
+  "|": [
+   {
+    "runs": [
+     {
+      "text": "",
+      "bold": false,
+      "italic": false
+     }
+    ]
+   }
+  ]
+ },
  "png": {
   "file": "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAG0lEQVR4nGP8z8Dwn+E/QwMzA8N/h////zMAAEBFB779PLH7AAAAAElFTkSuQmCC",
   "width": 2,

@@ -220,6 +220,10 @@ func (s *Server) apiExportCSV(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	if !s.fieldExportAllowed(r.Context(), &b, u) {
+		http.Error(w, errFieldExport, http.StatusForbidden)
+		return
+	}
 	// Papa Parse's delimiter: one character, never a quote or a line break.
 	delim := r.URL.Query().Get("delimiter")
 	if utf8.RuneCountInString(delim) != 1 || strings.ContainsAny(delim, "\r\n\"\uFEFF") {

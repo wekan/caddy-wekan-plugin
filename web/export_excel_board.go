@@ -587,11 +587,35 @@ var excelFieldKeys = func(lang string) []string {
 		tr(lang, "swimlane"), tr(lang, "list"), tr(lang, "members"), tr(lang, "createdAt"), tr(lang, "description")}
 }
 
-// boardHasAdminOnlyFields is whether a custom field of the board is for its
-// admins only (adminOnlyCustomFields.js).
-func (s *Server) boardHasAdminOnlyFields(ctx context.Context, b *Board) bool {
-	return s.db.Collection("customFields").FindOne(ctx, bson.M{"boardIds": b.ID, "adminOnly": true}).Err() == nil
+// fieldExportAllowed is adminOnlyCustomFields.js assertFieldExport: an export
+// may carry every custom-field value on the board. A board with admin-only
+// fields is its admins' to export; and any card holding a value of a field
+// the reader may not read - another board's, a deleted one's, an admin-only
+// one's - refuses it too.
+func (s *Server) fieldExportAllowed(ctx context.Context, b *Board, u *User) bool {
+	admin := u != nil && b.AdminOf(u.ID)
+	if !admin && s.db.Collection("customFields").FindOne(ctx, bson.M{"boardIds": b.ID, "adminOnly": true}).Err() == nil {
+		return false
+	}
+	readable := bson.M{"boardIds": b.ID}
+	if !admin {
+		readable["adminOnly"] = bson.M{"$ne": true}
+	}
+	ids := bson.A{}
+	if cur, err := s.db.Collection("customFields").Find(ctx, readable, options.Find().SetProjection(bson.M{"_id": 1})); err == nil {
+		var defs []bson.M
+		_ = cur.All(ctx, &defs)
+		for _, d := range defs {
+			ids = append(ids, d["_id"])
+		}
+	}
+	in := bson.M{"$nin": dbIn(ids)["$in"]} // ids read from the database, only ids
+	unknown := bson.M{"boardId": b.ID, "customFields": bson.M{"$elemMatch": bson.M{"_id": in, "value": bson.M{"$ne": nil}}}}
+	return s.db.Collection("cards").FindOne(ctx, unknown).Err() != nil
 }
+
+// errFieldExport is fieldExportAllowed's refusal, as WeKan's.
+const errFieldExport = "This export requires board administrator access"
 
 // excelCardSheetName is ExporterExcelCard's sanitizeSheetName.
 func excelCardSheetName(v string) string {

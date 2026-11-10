@@ -67,10 +67,12 @@ func TestExportExcelAndPDF(t *testing.T) {
 		t.Fatalf("WeKan's header and the card: %d %s", code, s)
 	}
 	code, typ, data = get(boardURL+"/exportPDF", a)
-	if code != 200 || typ != "application/pdf" || !bytes.HasPrefix(data, []byte("%PDF-1.4")) || !bytes.HasSuffix(data, []byte("%%EOF\n")) || len(data) < 200 {
+	if code != 200 || typ != "application/pdf" || !bytes.HasPrefix(data, []byte("%PDF-1.4")) || !bytes.HasSuffix(data, []byte("%%EOF")) || len(data) < 200 {
 		t.Fatalf("pdf: %d %s %q", code, typ, data[:min(len(data), 20)])
 	}
-	if !bytes.Contains(data, []byte(`(Office \(x\)) Tj`)) || !bytes.Contains(data, []byte("(    - C) Tj")) {
+	// WeKan's ExporterBoardPDF: the board's title, escaped, the list's
+	// heading, and the card's own title in bold.
+	if !bytes.Contains(data, []byte(`(Office \(x\)) Tj`)) || !bytes.Contains(data, []byte("(List: L \\(1\\)) Tj")) || !bytes.Contains(data, []byte("/F2 10 Tf\n(C) Tj")) {
 		t.Fatalf("the board title, escaped, and its card: %s", data)
 	}
 	if code, typ, _ = get(cardURL+"/exportExcel", a); code != 200 || typ != xlsxType {
@@ -159,13 +161,16 @@ func TestCardPDFDetails(t *testing.T) {
 		return string(data)
 	}
 	got := pdf()
-	for _, want := range []string{"(Steps) Tj", "(    [x] Done one) Tj", "(    [ ] Open one) Tj", "(annreal: Looks good) Tj"} {
+	// WeKan's card document: the checklist with its progress, each item
+	// its marker and its words, the comment its author in bold - by full
+	// name first, as formatUser has it - and its text.
+	for _, want := range []string{"(Steps) Tj", "(1/2) Tj", "([x] ) Tj\n(Done one) Tj", "([ ] ) Tj\n(Open one) Tj", "(ANNREAL: ) Tj\n/F1 10 Tf\n(Looks good) Tj"} {
 		if !strings.Contains(got, want) {
 			t.Errorf("the card's PDF has %q", want)
 		}
 	}
 	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"anonymizeExportUsers": true}})
-	if got := pdf(); strings.Contains(got, "annreal") {
+	if got := pdf(); strings.Contains(strings.ToLower(got), "annreal") {
 		t.Error("negative: anonymized, the commenter is not named")
 	}
 }

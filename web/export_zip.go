@@ -56,6 +56,10 @@ func (s *Server) apiExportZip(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	if !s.fieldExportAllowed(r.Context(), &b, u) {
+		apiError(w, http.StatusForbidden, errFieldExport)
+		return
+	}
 	// The same scope and selection as the JSON export (models/importZip.js).
 	q := r.URL.Query()
 	doc, err := s.exportBoardWith(r.Context(), &b, exportDocOptions{WithoutFiles: true, Want: exportWanted(q.Get("fields")), Scope: exportScopeOf(q), r: r})
