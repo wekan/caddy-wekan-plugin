@@ -1,0 +1,50 @@
+{
+  "board": {
+    "name": "Imported Notion database"
+  },
+  "columns": [
+    {
+      "title": "Plan"
+    },
+    {
+      "title": "Build"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "One",
+      "column_name": "Plan",
+      "swimlane_name": "Default",
+      "owner_username": "Ann",
+      "assignees": [
+        "Bob"
+      ],
+      "custom_fields": {
+        "Members 2": "Cy"
+      }
+    },
+    {
+      "title": "Two",
+      "column_name": "Plan",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Three",
+      "column_name": "Build",
+      "swimlane_name": "Default",
+      "owner_username": "Eve"
+    }
+  ],
+  "warnings": [
+    {
+      "path": "/databases/0/columns/Phase",
+      "reason": "Notion database the CSV has no Status column; \"Phase\" looks like a select and its values became the lists"
+    }
+  ],
+  "unsupported": []
+}

@@ -1,0 +1,64 @@
+{
+  "board": {
+    "name": "Beds"
+  },
+  "columns": [
+    {
+      "title": "Todo"
+    },
+    {
+      "title": "No state"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "=SUM(1)",
+      "description": "Links:\n- [https://y.test](https://y.test)",
+      "column_name": "Todo",
+      "tags": [],
+      "owner_username": "Ann",
+      "custom_fields": {
+        "Priority": "Urgent"
+      },
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Water",
+      "description": "",
+      "column_name": "No state",
+      "tags": [
+        "a",
+        "b"
+      ],
+      "date_due": "2026-10-11T00:00:00.000Z",
+      "custom_fields": {
+        "Priority": "Medium"
+      },
+      "swimlane_name": "Default"
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/csv/row/2/labels",
+      "reason": "Plane labels \"[broken\" is not a JSON list"
+    },
+    {
+      "path": "/description",
+      "reason": "Plane's export does not include issue descriptions; cards are imported without them"
+    },
+    {
+      "path": "/row/2/target_date",
+      "reason": "Plane date \"10/10/2026\" is not an ISO 8601 date"
+    },
+    {
+      "path": "/fields/=formula_col",
+      "reason": "Plane field \"=formula_col\" has no WeKan place and is not imported"
+    }
+  ]
+}

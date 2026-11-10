@@ -1,0 +1,55 @@
+{
+  "board": {
+    "name": "Lawn"
+  },
+  "columns": [
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Mow",
+      "description": "",
+      "column_name": "Backlog",
+      "tags": [
+        "green,"
+      ],
+      "owner_username": "Ann",
+      "assignees": [
+        "Bob"
+      ],
+      "date_started": "2026-10-01T00:00:00.000Z",
+      "custom_fields": {
+        "Estimate": 2
+      },
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Rake leaves",
+      "description": "",
+      "column_name": "Backlog",
+      "tags": [],
+      "custom_fields": {
+        "Estimate": 2
+      },
+      "swimlane_name": "Default"
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/workbook.xlsx/row/2/relations",
+      "reason": "Plane's XLSX export writes relations as Python text, not JSON; it is not imported (use the JSON or CSV export)"
+    },
+    {
+      "path": "/description",
+      "reason": "Plane's export does not include issue descriptions; cards are imported without them"
+    }
+  ]
+}

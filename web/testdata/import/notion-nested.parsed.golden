@@ -1,0 +1,42 @@
+{
+  "board": {
+    "name": "DB"
+  },
+  "columns": [
+    {
+      "title": "A"
+    },
+    {
+      "title": "B"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "One",
+      "column_name": "A",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Two",
+      "column_name": "B",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Three",
+      "column_name": "A",
+      "swimlane_name": "Default"
+    }
+  ],
+  "warnings": [
+    {
+      "path": "/databases/0/columns/Kind",
+      "reason": "Notion database \"DB\" has no Status column; \"Kind\" looks like a select and its values became the lists"
+    }
+  ],
+  "unsupported": []
+}

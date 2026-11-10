@@ -57,7 +57,8 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 				"redmine": ".csv,text/csv", "quire": ".csv,text/csv", "focalboard": ".jsonl,.json,application/json",
 				"superproductivity": ".json,application/json", "vikunja": ".zip,application/zip,.json,application/json",
 				"planner": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "monday": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "wrike": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-				"teamwork": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "businessmap": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}[source]
+				"teamwork": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "businessmap": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+				"notion": ".zip,application/zip,.csv,text/csv", "plane": ".zip,application/zip,.json,application/json,.csv,text/csv,.xlsx"}[source]
 		}
 	}
 	return map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source, "Accept": accept, "Paste": paste, "General": general,
@@ -270,7 +271,8 @@ func importInstruction(lang, source string) string {
 		"superproductivity": msg("import-board-instruction-superproductivity"), "taiga": msg("import-board-instruction-taiga"),
 		"vikunja": msg("import-board-instruction-vikunja"), "planner": msg("import-board-instruction-planner"),
 		"monday": msg("import-board-instruction-monday"), "wrike": msg("import-board-instruction-wrike"),
-		"teamwork": msg("import-board-instruction-teamwork"), "businessmap": msg("import-board-instruction-businessmap")}[source]
+		"teamwork": msg("import-board-instruction-teamwork"), "businessmap": msg("import-board-instruction-businessmap"),
+		"notion": msg("import-board-instruction-notion"), "plane": msg("import-board-instruction-plane")}[source]
 	return tr(lang, key)
 }
 

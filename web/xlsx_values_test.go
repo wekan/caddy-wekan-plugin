@@ -104,3 +104,59 @@ func TestImportWorkbooksAreWeKans(t *testing.T) {
 		}
 	}
 }
+
+// TestImportPlaneIsWeKans: each Plane export in testdata/import/plane - its
+// JSON, CSV and workbook files, the export .zip - imports as WeKan's reader
+// and parser read it (generate-plane.mjs), people included; what WeKan
+// refuses Weddy refuses.
+func TestImportPlaneIsWeKans(t *testing.T) { testImportFiles(t, "plane") }
+
+// TestImportNotionIsWeKans: each Notion export in testdata/import/notion -
+// export .zips, a zip of zips, single database CSVs - imports as WeKan's
+// archive reader and parser read it (generate-notion.mjs), people included,
+// and what WeKan refuses Weddy refuses.
+func TestImportNotionIsWeKans(t *testing.T) { testImportFiles(t, "notion") }
+
+// testImportFiles compares each testdata/import/<source>/ file's import with
+// <source>-<name>.parsed.golden and its people with <source>-people.golden.
+func testImportFiles(t *testing.T, source string) {
+	files, _ := filepath.Glob("testdata/import/" + source + "/*")
+	if len(files) == 0 {
+		t.Fatal("no " + source + " files")
+	}
+	peopleRaw, _ := os.ReadFile("testdata/import/" + source + "-people.golden")
+	var people map[string][]struct{ Key, Name string }
+	_ = json.Unmarshal(peopleRaw, &people)
+	for _, file := range files {
+		name := source + "-" + strings.TrimSuffix(filepath.Base(file), filepath.Ext(file))
+		data, _ := os.ReadFile(file)
+		want, err := os.ReadFile("testdata/import/" + name + ".parsed.golden")
+		if err != nil {
+			t.Fatal(err)
+		}
+		w, _ := decodeJS(want)
+		got, err := importTextParsers[source](string(data))
+		if e, ok := jsGet(w, "error").(string); ok {
+			if err == nil || err.Error() != e {
+				t.Errorf("%s: WeKan refuses it (%s), Weddy: %v", name, e, err)
+			}
+			continue
+		}
+		if err != nil {
+			t.Errorf("%s: %v", name, err)
+			continue
+		}
+		if g, x := string(jsJSON(got, "  ")), string(jsJSON(w, "  ")); g != x {
+			t.Errorf("%s:\nWeddy %s\nWeKan %s", name, g, x)
+		}
+		ps := importPeople(importTasks(got))
+		if len(ps) != len(people[name]) {
+			t.Errorf("%s people: %v, WeKan %v", name, ps, people[name])
+		}
+		for i, p := range people[name] {
+			if i < len(ps) && (ps[i].key != p.Key || ps[i].name != p.Name) {
+				t.Errorf("%s person %d: %+v, WeKan %+v", name, i, ps[i], p)
+			}
+		}
+	}
+}

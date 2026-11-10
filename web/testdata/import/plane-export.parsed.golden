@@ -1,0 +1,196 @@
+{
+  "board": {
+    "name": "Imported Plane issues"
+  },
+  "columns": [
+    {
+      "title": "In Progress"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Todo"
+    },
+    {
+      "title": "No state"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Garden"
+    },
+    {
+      "name": "Beds"
+    },
+    {
+      "name": "Lawn"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "description": "Links:\n- [Spec \\[v2\\]](https://x.test/a%20b)\n- [mailto:a@x.test](mailto:a@x.test)",
+      "column_name": "In Progress",
+      "tags": [
+        "shop",
+        "urgent"
+      ],
+      "ref": "GAR-1",
+      "owner_username": "Ann",
+      "assignees": [
+        "Bob"
+      ],
+      "watchers": [
+        "Cy"
+      ],
+      "requested_by": "Carl",
+      "date_creation": "2026-09-01T08:00:00.123Z",
+      "date_started": "2026-10-01T00:00:00.000Z",
+      "date_due": "2026-10-10T11:30:00.000Z",
+      "custom_fields": {
+        "Priority": "High",
+        "Estimate": 3,
+        "Cycle": "Sprint 1",
+        "Module": "Pipes, Pumps"
+      },
+      "comments": [
+        {
+          "text": "Looks good",
+          "author": "Ann",
+          "date": "2026-09-02T09:00:00.000Z"
+        }
+      ],
+      "dependencies": [
+        {
+          "ref": "GAR-2",
+          "type": "is-blocked-by"
+        },
+        {
+          "ref": "GAR-2",
+          "type": "related-to"
+        }
+      ],
+      "swimlane_name": "Garden"
+    },
+    {
+      "title": "Second",
+      "description": "",
+      "column_name": "Done",
+      "tags": [],
+      "ref": "GAR-2",
+      "parent_ref": "GAR-1",
+      "archived": true,
+      "custom_fields": {
+        "Estimate": "big"
+      },
+      "swimlane_name": "Garden"
+    },
+    {
+      "title": "=SUM(1)",
+      "description": "Links:\n- [https://y.test](https://y.test)",
+      "column_name": "Todo",
+      "tags": [],
+      "owner_username": "Ann",
+      "custom_fields": {
+        "Priority": "Urgent"
+      },
+      "swimlane_name": "Beds"
+    },
+    {
+      "title": "Water",
+      "description": "",
+      "column_name": "No state",
+      "tags": [
+        "a",
+        "b"
+      ],
+      "date_due": "2026-10-11T00:00:00.000Z",
+      "custom_fields": {
+        "Priority": "Medium"
+      },
+      "swimlane_name": "Beds"
+    },
+    {
+      "title": "Mow",
+      "description": "",
+      "column_name": "Backlog",
+      "tags": [
+        "green,"
+      ],
+      "owner_username": "Ann",
+      "assignees": [
+        "Bob"
+      ],
+      "date_started": "2026-10-01T00:00:00.000Z",
+      "custom_fields": {
+        "Estimate": 2
+      },
+      "swimlane_name": "Lawn"
+    },
+    {
+      "title": "Rake leaves",
+      "description": "",
+      "column_name": "Backlog",
+      "tags": [],
+      "custom_fields": {
+        "Estimate": 2
+      },
+      "swimlane_name": "Lawn"
+    }
+  ],
+  "warnings": [],
+  "unsupported": [
+    {
+      "path": "/issues.csv/row/2/labels",
+      "reason": "Plane labels \"[broken\" is not a JSON list"
+    },
+    {
+      "path": "/issues.xlsx/row/2/relations",
+      "reason": "Plane's XLSX export writes relations as Python text, not JSON; it is not imported (use the JSON or CSV export)"
+    },
+    {
+      "path": "/description",
+      "reason": "Plane's export does not include issue descriptions; cards are imported without them"
+    },
+    {
+      "path": "/issues/0/is_draft",
+      "reason": "a Plane draft issue is imported as an ordinary card"
+    },
+    {
+      "path": "/issues/0/attachment_count",
+      "reason": "2 attachment(s) are not in Plane's export and are not imported"
+    },
+    {
+      "path": "/issues/0/links/1",
+      "reason": "Plane link \"ftp://no\" is not an http(s) or mailto link and is not imported"
+    },
+    {
+      "path": "/issues/0/relations",
+      "reason": "Plane \"start_before\" relations have no WeKan dependency type and are not imported"
+    },
+    {
+      "path": "/issues/1/archived_at",
+      "reason": "Plane date \"2026-02-30\" is not an ISO 8601 date"
+    },
+    {
+      "path": "/row/2/target_date",
+      "reason": "Plane date \"10/10/2026\" is not an ISO 8601 date"
+    },
+    {
+      "path": "/updated_at",
+      "reason": "Plane's updated_at has no WeKan place and is not imported"
+    },
+    {
+      "path": "/fields/=formula_col",
+      "reason": "Plane field \"=formula_col\" has no WeKan place and is not imported"
+    },
+    {
+      "path": "/fields/custom_thing",
+      "reason": "Plane field \"custom_thing\" has no WeKan place and is not imported"
+    }
+  ]
+}

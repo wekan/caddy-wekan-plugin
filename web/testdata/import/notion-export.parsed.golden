@@ -1,0 +1,149 @@
+{
+  "board": {
+    "name": "Imported Notion database"
+  },
+  "columns": [
+    {
+      "title": "In progress"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "No Status"
+    },
+    {
+      "title": "New"
+    },
+    {
+      "title": "Old"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Tasks"
+    },
+    {
+      "name": "Ideas"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Order valves",
+      "column_name": "In progress",
+      "swimlane_name": "Tasks",
+      "tags": [
+        "shop",
+        "urgent"
+      ],
+      "owner_username": "Ann",
+      "assignees": [
+        "Bob"
+      ],
+      "date_started": "2026-10-01T00:00:00.000Z",
+      "date_due": "2026-10-08T17:00:00.000Z",
+      "date_creation": "2026-09-01T00:00:00.000Z",
+      "description": "Two of them\n\nThe body [file](Order%20valves/a.png) and [web](https://x.test).",
+      "custom_fields": {
+        "Done": true,
+        "Points": "3",
+        "Priority": "High",
+        "Owner": "Carl"
+      }
+    },
+    {
+      "title": "A very long title that Notion shortened in its file name",
+      "column_name": "Done",
+      "swimlane_name": "Tasks",
+      "date_due": "2026-10-12T21:00:00.000Z",
+      "description": "Notes only, no heading\nline two",
+      "custom_fields": {
+        "Done": false,
+        "Points": "4.5",
+        "Priority": "Low"
+      }
+    },
+    {
+      "title": "Third",
+      "column_name": "No Status",
+      "swimlane_name": "Tasks",
+      "owner_username": "Dee",
+      "date_started": "2026-10-09T00:00:00.000Z",
+      "date_due": "2026-10-12T00:00:00.000Z",
+      "custom_fields": {
+        "Done": false,
+        "Points": "x",
+        "Priority": "Mid"
+      }
+    },
+    {
+      "title": "Idea one",
+      "column_name": "New",
+      "swimlane_name": "Ideas",
+      "custom_fields": {
+        "When": "2026-11-01"
+      }
+    },
+    {
+      "title": "Idea two",
+      "column_name": "Old",
+      "swimlane_name": "Ideas",
+      "custom_fields": {
+        "When": "bad"
+      }
+    },
+    {
+      "title": "Idea three",
+      "column_name": "New",
+      "swimlane_name": "Ideas"
+    }
+  ],
+  "warnings": [
+    {
+      "path": "/databases/1/columns/Stage",
+      "reason": "Notion database \"Ideas\" has no Status column; \"Stage\" looks like a select and its values became the lists"
+    }
+  ],
+  "unsupported": [
+    {
+      "path": "/databases/0/columns/Last edited time",
+      "reason": "Notion column \"Last edited time\" (last edited time) has no WeKan place and is not imported"
+    },
+    {
+      "path": "/databases/0/columns/Related",
+      "reason": "Notion relation column \"Related\" links to other pages; relations are not imported"
+    },
+    {
+      "path": "/databases/0/columns/14",
+      "reason": "Notion column \"constructor\" is not imported: the name is reserved"
+    },
+    {
+      "path": "/databases/0/row/2/page",
+      "reason": "the page of \"Order valves\" links to files or pages inside the export; they are not imported and the links are kept as text"
+    },
+    {
+      "path": "/databases/0/row/4",
+      "reason": "a Notion row without a title is not imported"
+    },
+    {
+      "path": "/databases/0/pages",
+      "reason": "1 page file(s) of Notion database \"Tasks\" match no row and are not imported"
+    },
+    {
+      "path": "/databases/1/pages",
+      "reason": "1 page file(s) of Notion database \"Ideas\" match no row and are not imported"
+    },
+    {
+      "path": "/files",
+      "reason": "1 image(s) or other file(s) in the Notion export are not imported"
+    },
+    {
+      "path": "/subpages",
+      "reason": "1 nested subpage file(s) in the Notion export are not imported"
+    },
+    {
+      "path": "/views",
+      "reason": "1 view CSV(s) were left out for the _all.csv of the same database, which has every row"
+    }
+  ]
+}

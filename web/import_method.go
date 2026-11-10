@@ -49,7 +49,11 @@ func validImportShape(source string, v any) bool {
 		// The workbook as { excelBase64 }, or its bytes from the import page.
 		x, _ := jsGet(v, "excelBase64").(string)
 		return x != "" || isText && text != ""
-	case "vikunja":
+	case "plane":
+		zip, _ := jsGet(v, "zipBase64").(string)
+		xlsx, _ := jsGet(v, "xlsxBase64").(string)
+		return zip != "" || xlsx != "" || isText && strings.TrimSpace(text) != ""
+	case "vikunja", "notion":
 		// The export .zip as { zipBase64 }, or the text of its data.json.
 		zip, _ := jsGet(v, "zipBase64").(string)
 		return zip != "" || isText && strings.TrimSpace(text) != ""
@@ -91,9 +95,31 @@ func (s *Server) importInput(r *http.Request, u *User, source string, input any,
 		}
 		input = string(raw)
 	}
-	// A Vikunja .zip comes to importBoard as { zipBase64 }: its bytes, at
-	// most WeKan's 64 MB.
-	if z, ok := jsGet(input, "zipBase64").(string); ok && source == "vikunja" {
+	// Plane's export .zip comes as { zipBase64 } - a workbook sent so is
+	// refused, as WeKan's readPlaneArchive does - and a workbook from it as
+	// { xlsxBase64 }.
+	if source == "plane" {
+		zipB64, _ := jsGet(input, "zipBase64").(string)
+		xlsxB64, _ := jsGet(input, "xlsxBase64").(string)
+		if b64 := jsOr(zipB64, xlsxB64).(string); b64 != "" {
+			if len(b64) > (maxPlaneZipBytes+2)/3*4+4 {
+				return nil, errImportTooLarge
+			}
+			raw, err := base64.StdEncoding.DecodeString(b64)
+			if err != nil {
+				return nil, errImportShape
+			}
+			if zipB64 != "" {
+				if _, err := readPlaneArchive(raw); err != nil {
+					return nil, &methodError{"invalid-import-format", err.Error()}
+				}
+			}
+			input = string(raw)
+		}
+	}
+	// A Vikunja or Notion .zip comes to importBoard as { zipBase64 }: its
+	// bytes, at most WeKan's 64 MB.
+	if z, ok := jsGet(input, "zipBase64").(string); ok && (source == "vikunja" || source == "notion") {
 		if len(z) > (maxVikunjaZipBytes+2)/3*4+4 {
 			return nil, errImportTooLarge
 		}

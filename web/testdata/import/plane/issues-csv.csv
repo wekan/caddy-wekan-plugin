@@ -1,0 +1,4 @@
+Project Name,Project Identifier,Name,State Name,Priority,Assignees,Labels,Links,Target Date,'=Formula Col
+Beds,BED,'=SUM(1),Todo,urgent,"[""Ann""]",[broken,"[{""url"": ""https://y.test""}]",10/10/2026,x
+Beds,BED,Water,,Medium,,"[""a"",""b""]",,2026-10-11,
+,,,,,,,,,

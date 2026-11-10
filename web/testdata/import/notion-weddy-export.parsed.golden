@@ -1,0 +1,101 @@
+{
+  "board": {
+    "name": "Imported Notion database"
+  },
+  "columns": [
+    {
+      "title": "To Do"
+    },
+    {
+      "title": "Done"
+    },
+    {
+      "title": "Archived list"
+    },
+    {
+      "title": "Started"
+    },
+    {
+      "title": "No Status"
+    },
+    {
+      "title": "Backlog"
+    }
+  ],
+  "swimlanes": [
+    {
+      "name": "Default"
+    },
+    {
+      "name": "Ops"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Write   spec now",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x   y"
+      ],
+      "owner_username": "alice",
+      "assignees": [
+        "bob",
+        "bob  jr"
+      ],
+      "date_started": "2026-11-10T00:00:00.000Z",
+      "date_due": "2026-11-20T00:00:00.000Z",
+      "description": "line one\n\nline \"two\" <b>"
+    },
+    {
+      "title": "-minus first",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "priority:B",
+        "raw",
+        "done",
+        "won't do",
+        "=SUM(1)"
+      ],
+      "description": "first\r\nsecond"
+    },
+    {
+      "title": "multi\n  line\ttitle",
+      "column_name": "Archived list",
+      "swimlane_name": "Ops",
+      "owner_username": "dave",
+      "date_due": "2026-12-24T00:00:00.000Z"
+    },
+    {
+      "title": "No list item",
+      "column_name": "Started",
+      "swimlane_name": "Default",
+      "tags": [
+        "p1"
+      ],
+      "date_started": "2026-11-11T00:00:00.000Z",
+      "date_due": "2026-11-12T00:00:00.000Z"
+    },
+    {
+      "title": "Orphan of an archived list",
+      "column_name": "No Status",
+      "swimlane_name": "Default"
+    },
+    {
+      "title": "Backlogged",
+      "column_name": "Backlog",
+      "swimlane_name": "Ops"
+    }
+  ],
+  "warnings": [],
+  "unsupported": []
+}
