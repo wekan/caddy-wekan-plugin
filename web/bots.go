@@ -431,7 +431,7 @@ func (s *Server) apiBotRunReport(w http.ResponseWriter, r *http.Request, u *User
 	if to != "" {
 		status = to
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": runID, "status": status})
 }
 
@@ -481,7 +481,7 @@ func (s *Server) methodInsertIntegration(r *http.Request, u *User, args []json.R
 	if _, err := s.db.Collection("integrations").InsertOne(ctx, doc); err != nil {
 		return nil, err
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return doc["_id"], nil
 }
 
@@ -506,6 +506,6 @@ func (s *Server) methodRemoveIntegration(r *http.Request, u *User, args []json.R
 	if err != nil {
 		return nil, err
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return res.DeletedCount, nil
 }

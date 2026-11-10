@@ -210,7 +210,7 @@ func (s *Server) methodAcceptInvite(r *http.Request, u *User, args []json.RawMes
 	if i := slices.IndexFunc(members, func(m Member) bool { return m.UserID == u.ID }); i >= 0 {
 		members[i].IsActive = true
 		_, _ = s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"members": members, "modifiedAt": time.Now().UTC()}})
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	return true, nil
 }
@@ -248,7 +248,7 @@ func (s *Server) methodQuitBoard(r *http.Request, u *User, args []json.RawMessag
 			members := slices.Clone(b.Members)
 			members[i].IsActive = false
 			_, _ = s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"members": members, "modifiedAt": time.Now().UTC()}})
-			s.hub.publish(b.ID, "board-changed")
+			s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 		}
 	}
 	return true, nil

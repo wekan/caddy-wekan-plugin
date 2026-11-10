@@ -102,7 +102,7 @@ func (s *Server) apiBulkDeleteCards(w http.ResponseWriter, r *http.Request, u *U
 		}
 		deleted = append(deleted, cards[i].ID)
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]any{"deleted": deleted})
 }
 
@@ -166,7 +166,7 @@ func (s *Server) apiCopyCard(w http.ResponseWriter, r *http.Request, u *User) {
 	s.copyChecklists(r.Context(), c.ID, n.ID)
 	s.copyCardAttachments(r, u, b, c, to, n)
 	s.copySubtasksAndComments(r, u, c, n, to)
-	s.hub.publish(to.ID, "board-changed")
+	s.hub.publishFrom(to.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": n.ID})
 }
 
@@ -305,7 +305,7 @@ func (s *Server) apiSetCardSettings(w http.ResponseWriter, r *http.Request, u *U
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, cardSettingKeys(set))
 }
 

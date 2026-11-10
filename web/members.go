@@ -121,7 +121,7 @@ func (s *Server) addBoardMember(w http.ResponseWriter, r *http.Request, u *User)
 	}
 	_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": x.ID}, bson.M{"$addToSet": bson.M{"profile.invitedBoards": b.ID}})
 	s.activity(ctx, u.ID, "addBoardMember", bson.M{"boardId": b.ID, "memberId": x.ID})
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
 
@@ -159,6 +159,6 @@ func (s *Server) removeBoardMember(w http.ResponseWriter, r *http.Request, u *Us
 	}
 	_, _ = s.db.Collection("cards").UpdateMany(ctx, bson.M{"boardId": b.ID}, bson.M{"$pull": bson.M{"members": id, "assignees": id}})
 	s.activity(ctx, u.ID, "removeBoardMember", bson.M{"boardId": b.ID, "memberId": id})
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }

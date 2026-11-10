@@ -602,7 +602,7 @@ func (s *Server) apiDeleteBoard(w http.ResponseWriter, r *http.Request, u *User)
 		return
 	}
 	s.deleteBoardData(r.Context(), b.ID)
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": b.ID})
 }
 

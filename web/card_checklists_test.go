@@ -546,3 +546,20 @@ func TestChecklistDueDates(t *testing.T) {
 		t.Error("negative: no due date controls on that board")
 	}
 }
+
+// A change a page made itself is announced naming that page, so it can skip
+// the echo; a page name that is not an id is dropped, never passed on.
+func TestPublishFromNamesThePage(t *testing.T) {
+	h := newHub()
+	ch := h.subscribe("b1")
+	h.publishFrom("b1", "board-changed", "pageabc123xyz")
+	if ev := <-ch; ev != "board-changed\x00pageabc123xyz" {
+		t.Errorf("named: %q", ev)
+	}
+	for _, bad := range []string{"", "a b", "x\ny", "<script>"} {
+		h.publishFrom("b1", "board-changed", bad)
+		if ev := <-ch; ev != "board-changed" {
+			t.Errorf("negative: %q passed on as %q", bad, ev)
+		}
+	}
+}

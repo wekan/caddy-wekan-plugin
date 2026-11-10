@@ -212,6 +212,6 @@ func (s *Server) apiImportZip(w http.ResponseWriter, r *http.Request) {
 		answer(http.StatusOK, map[string]any{"ok": true, "boardId": id})
 		return
 	}
-	s.hub.publish(into.ID, "board-changed")
+	s.hub.publishFrom(into.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	answer(http.StatusOK, map[string]any{"ok": true, "counts": counts})
 }

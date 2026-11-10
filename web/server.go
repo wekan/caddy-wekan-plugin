@@ -674,7 +674,7 @@ func (s *Server) visibilityPage(w http.ResponseWriter, r *http.Request, u *User)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
 
@@ -905,7 +905,7 @@ func (s *Server) toggleCardMemberPage(w http.ResponseWriter, r *http.Request, u 
 		return
 	}
 	s.activity(r.Context(), u.ID, kind, bson.M{"boardId": b.ID, "cardId": c.ID, "memberId": who, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
@@ -972,7 +972,7 @@ func (s *Server) votePage(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
@@ -1159,7 +1159,7 @@ func (s *Server) pokerPage(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
@@ -1235,7 +1235,7 @@ func (s *Server) addList(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	s.activity(r.Context(), u.ID, "createList", bson.M{"boardId": b.ID, "listId": l.ID, "title": l.Title})
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
 
@@ -1307,7 +1307,7 @@ func (s *Server) addCard(w http.ResponseWriter, r *http.Request, u *User) {
 	if r.FormValue("position") == "top" {
 		_, _ = s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"sort": top}})
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
 
@@ -1391,7 +1391,7 @@ func (s *Server) moveCards(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	w.WriteHeader(http.StatusNoContent)
 }
 
@@ -1425,7 +1425,14 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 			if !open {
 				return
 			}
-			fmt.Fprintf(w, "event: %s\ndata: %s\n\n", ev, b.ID)
+			// An event a page caused itself names that page (publishFrom), so
+			// it can skip the echo of a change it already shows.
+			name, from, _ := strings.Cut(ev, "\x00")
+			data := b.ID
+			if from != "" {
+				data += " " + from
+			}
+			fmt.Fprintf(w, "event: %s\ndata: %s\n\n", name, data)
 			rc.Flush()
 		case <-ping.C:
 			fmt.Fprint(w, ": ping\n\n")
@@ -1460,6 +1467,16 @@ func (h *hub) unsubscribe(board string, ch chan string) {
 		delete(h.subs[board], ch)
 		close(ch)
 	}
+}
+
+// publishFrom is publish, naming the page (its X-Weddy-Page header) whose
+// own change it is: that page already shows it and skips the refresh.
+func (h *hub) publishFrom(board, ev, page string) {
+	if !validID(page) {
+		h.publish(board, ev)
+		return
+	}
+	h.publish(board, ev+"\x00"+page)
 }
 
 func (h *hub) publish(board, ev string) {
@@ -1550,7 +1567,7 @@ func (s *Server) cardPeoplePage(w http.ResponseWriter, r *http.Request, u *User)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
@@ -1596,7 +1613,7 @@ func (s *Server) addSwimlanePage(w http.ResponseWriter, r *http.Request, u *User
 		return
 	}
 	s.activity(ctx, u.ID, "createSwimlane", bson.M{"boardId": b.ID, "swimlaneId": sw["_id"]})
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
 
@@ -1625,7 +1642,7 @@ func (s *Server) archiveCardPage(w http.ResponseWriter, r *http.Request, u *User
 			return
 		}
 		s.activity(r.Context(), u.ID, "archivedCard", bson.M{"boardId": b.ID, "cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID, "cardTitle": c.Title})
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
@@ -1649,7 +1666,7 @@ func (s *Server) renameBoardPage(w http.ResponseWriter, r *http.Request, u *User
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+slug, http.StatusSeeOther)
 }
 
@@ -1695,7 +1712,7 @@ func (s *Server) restoreArchivedPage(w http.ResponseWriter, r *http.Request, u *
 	if res.ModifiedCount > 0 && kind == "cards" {
 		s.activity(r.Context(), u.ID, "restoredCard", bson.M{"boardId": b.ID, "cardId": id})
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
 }
 
@@ -1727,7 +1744,7 @@ func (s *Server) cardTitlePage(w http.ResponseWriter, r *http.Request, u *User) 
 			return
 		}
 		s.cardTextActivities(r.Context(), u, &c, bson.M{"title": title})
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
@@ -1756,7 +1773,7 @@ func (s *Server) cardCompletePage(w http.ResponseWriter, r *http.Request, u *Use
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	w.WriteHeader(http.StatusNoContent)
 }

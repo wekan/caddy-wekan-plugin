@@ -135,7 +135,7 @@ func (s *Server) StoreAttachment(r *http.Request, b *Board, c *Card, u *User, na
 	}
 	s.activity(r.Context(), u.ID, "addAttachment", bson.M{"attachmentId": id, "attachmentName": name, "boardId": b.ID,
 		"cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return s.attachment(r, id)
 }
 
@@ -269,7 +269,7 @@ func (s *Server) deleteAttachmentPage(w http.ResponseWriter, r *http.Request, u 
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
@@ -434,7 +434,7 @@ func (s *Server) apiDeleteAttachment(w http.ResponseWriter, r *http.Request, u *
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]any{"success": true, "attachmentId": a.ID, "message": "Attachment deleted successfully"})
 }
 

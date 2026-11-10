@@ -72,7 +72,7 @@ func (s *Server) checklistTarget(w http.ResponseWriter, r *http.Request, u *User
 }
 
 func (s *Server) backToCard(w http.ResponseWriter, r *http.Request, b *Board, c *Card) {
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
@@ -347,7 +347,7 @@ func (s *Server) moveChecklistPage(w http.ResponseWriter, r *http.Request, u *Us
 		return
 	}
 	if tb.ID != b.ID {
-		s.hub.publish(tb.ID, "board-changed")
+		s.hub.publishFrom(tb.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	s.backToCard(w, r, b, c)
 }
@@ -391,7 +391,7 @@ func (s *Server) copyChecklistPage(w http.ResponseWriter, r *http.Request, u *Us
 		_, _ = s.db.Collection("checklistItems").InsertOne(r.Context(), it)
 	}
 	if tb.ID != b.ID {
-		s.hub.publish(tb.ID, "board-changed")
+		s.hub.publishFrom(tb.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	s.backToCard(w, r, b, c)
 }
@@ -475,7 +475,9 @@ func (s *Server) sortChecklistItemsPage(w http.ResponseWriter, r *http.Request, 
 		_, _ = s.db.Collection("checklistItems").UpdateOne(r.Context(), bson.M{"_id": eq(id), "checklistId": eq(clID)},
 			bson.M{"$set": bson.M{"sort": float64(i), "modifiedAt": now}})
 	}
-	s.hub.publish(b.ID, "board-changed")
+	// The page that dropped the item shows the order already: other pages
+	// refresh, it does not - a refresh mid-interaction replaced the items.
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	w.WriteHeader(http.StatusNoContent)
 }
 

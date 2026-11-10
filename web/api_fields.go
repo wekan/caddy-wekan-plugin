@@ -80,7 +80,7 @@ func (s *Server) apiEditCustomField(w http.ResponseWriter, r *http.Request, u *U
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	writeJSON(w, http.StatusOK, map[string]any{"_id": f["_id"]})
 }
@@ -118,7 +118,7 @@ func (s *Server) apiAddDropdownItems(w http.ResponseWriter, r *http.Request, u *
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	writeJSON(w, http.StatusOK, map[string]any{"_id": f["_id"]})
 }
@@ -160,7 +160,7 @@ func (s *Server) apiEditDropdownItem(w http.ResponseWriter, r *http.Request, u *
 				apiError(w, http.StatusInternalServerError, err.Error())
 				return
 			}
-			s.hub.publish(b.ID, "board-changed")
+			s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 		}
 	}
 	writeJSON(w, http.StatusOK, map[string]any{"_id": item})
@@ -181,7 +181,7 @@ func (s *Server) apiDeleteDropdownItem(w http.ResponseWriter, r *http.Request, u
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	writeJSON(w, http.StatusOK, map[string]any{"_id": f["_id"]})
 }

@@ -108,7 +108,7 @@ func (s *Server) apiSoftDeleteAttachment(w http.ResponseWriter, r *http.Request,
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(a.Meta.BoardID, "board-changed")
+	s.hub.publishFrom(a.Meta.BoardID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]any{"deleted": true, "batchId": batch})
 }
 
@@ -129,7 +129,7 @@ func (s *Server) apiRestoreAttachment(w http.ResponseWriter, r *http.Request, u 
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(a.Meta.BoardID, "board-changed")
+	s.hub.publishFrom(a.Meta.BoardID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]any{"restored": true})
 }
 

@@ -269,7 +269,7 @@ func (s *Server) apiArchiveList(archive bool) apiHandler {
 			kind = "restoredList"
 		}
 		s.activity(r.Context(), u.ID, kind, bson.M{"boardId": b.ID, "listId": l.ID})
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 		writeJSON(w, http.StatusOK, map[string]any{"_id": l.ID, "archived": archive})
 	}
 }
@@ -378,7 +378,7 @@ func (s *Server) apiCopyList(w http.ResponseWriter, r *http.Request, u *User) {
 		}
 	}
 	s.reposition(ctx, "lists", listID, to.ID, req.Position)
-	s.hub.publish(to.ID, "board-changed")
+	s.hub.publishFrom(to.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": listID})
 }
 
@@ -546,7 +546,7 @@ func (s *Server) apiCopySwimlane(w http.ResponseWriter, r *http.Request, u *User
 		}
 	}
 	s.reposition(ctx, "swimlanes", id, to.ID, req.Position)
-	s.hub.publish(to.ID, "board-changed")
+	s.hub.publishFrom(to.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": id})
 }
 
@@ -600,7 +600,7 @@ func (s *Server) apiMoveSwimlane(w http.ResponseWriter, r *http.Request, u *User
 		}
 	}
 	s.reposition(ctx, "swimlanes", id, to.ID, req.Position)
-	s.hub.publish(b.ID, "board-changed")
-	s.hub.publish(to.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	s.hub.publishFrom(to.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": id})
 }

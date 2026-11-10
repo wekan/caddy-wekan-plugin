@@ -617,7 +617,7 @@ func (s *Server) importScopedInto(r *http.Request, u *User, b *Board, t scopedTa
 		counts: map[string]int{"swimlanes": 0, "lists": 0, "cards": 0, "checklists": 0, "comments": 0, "attachments": 0}}
 	counts, err := si.run(r.Context())
 	if err == nil {
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	return counts, err
 }

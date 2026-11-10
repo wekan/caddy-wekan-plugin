@@ -385,7 +385,7 @@ func (s *Server) apiAddList(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	s.activity(r.Context(), u.ID, "createList", bson.M{"boardId": b.ID, "listId": l.ID, "title": l.Title})
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": l.ID})
 }
 
@@ -506,7 +506,7 @@ func (s *Server) apiAddCard(w http.ResponseWriter, r *http.Request, u *User) {
 			return
 		}
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": id})
 }
 
@@ -631,9 +631,9 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
-		s.hub.publish(moveTo.ID, "board-changed")
+		s.hub.publishFrom(moveTo.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": c.ID})
 }
 
@@ -655,6 +655,6 @@ func (s *Server) apiDeleteCard(w http.ResponseWriter, r *http.Request, u *User) 
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": c.ID})
 }

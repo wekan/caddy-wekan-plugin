@@ -155,8 +155,8 @@ func (s *Server) moveCardToPage(w http.ResponseWriter, r *http.Request, u *User)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
-	s.hub.publish(to.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	s.hub.publishFrom(to.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+to.ID+"/"+to.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
@@ -184,6 +184,6 @@ func (s *Server) copyCardToPage(w http.ResponseWriter, r *http.Request, u *User)
 	if t := strings.TrimSpace(r.FormValue("title")); t != "" && len(t) <= 10000 {
 		_, _ = s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": eq(id)}, bson.M{"$set": bson.M{"title": t}})
 	}
-	s.hub.publish(to.ID, "board-changed")
+	s.hub.publishFrom(to.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }

@@ -287,7 +287,7 @@ func (s *Server) methodRemoveChecklist(r *http.Request, u *User, args []json.Raw
 	if err != nil {
 		return nil, err
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return res.DeletedCount, nil
 }
 
@@ -389,7 +389,7 @@ func (s *Server) methodUpdateListSort(r *http.Request, u *User, args []json.RawM
 	if _, err := s.db.Collection("lists").UpdateOne(r.Context(), bson.M{"_id": l.ID}, bson.M{"$set": set}); err != nil {
 		return nil, err
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return nil, nil
 }
 
@@ -434,7 +434,7 @@ func (s *Server) methodUpdateList(r *http.Request, u *User, args []json.RawMessa
 	if _, err := s.db.Collection("lists").UpdateOne(r.Context(), bson.M{"_id": l.ID}, bson.M{"$set": set}); err != nil {
 		return nil, err
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return 1, nil
 }
 
@@ -640,7 +640,7 @@ func (s *Server) methodArchiveSelectedCards(r *http.Request, u *User, args []jso
 		}
 		s.activity(ctx, u.ID, "archivedCard", bson.M{"boardId": b.ID, "cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID, "cardTitle": c.Title})
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return map[string]int{"archived": len(cards)}, nil
 }
 
@@ -681,6 +681,6 @@ func (s *Server) methodWatch(r *http.Request, u *User, args []json.RawMessage) (
 	if _, err := s.db.Collection(coll).UpdateOne(ctx, bson.M{"_id": eq(id)}, update); err != nil {
 		return nil, err
 	}
-	s.hub.publish(doc.BoardID, "board-changed")
+	s.hub.publishFrom(doc.BoardID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return true, nil
 }

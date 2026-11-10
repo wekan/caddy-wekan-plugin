@@ -16,6 +16,18 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   var itemDrag = null, itemDragJustEnded = false; // a checklist item pressed or dragged
   var stale = false;  // the board changed during a drag: reload when the last ends
 
+  // This page, as the server names it in an event it caused (X-Weddy-Page).
+  var pageId = Array.prototype.map.call((window.crypto && crypto.getRandomValues) ? crypto.getRandomValues(new Uint8Array(12)) : [], function (n) {
+    return 'abcdefghijklmnopqrstuvwxyz0123456789'[n % 36];
+  }).join('') || String(Date.now());
+  // A form sent for the board is answered with the board, so this page names
+  // itself in it and skips the server's echo of the same change - a second
+  // refresh replaced what the member was already pointing at. A script's own
+  // call (callAsync) does not name the page: it relies on the refresh.
+  up.on('up:request:load', function (event) {
+    var req = event.request;
+    if (req && req.method !== 'GET' && /\.board-wrapper/.test(String(req.target || ''))) req.headers['X-Weddy-Page'] = pageId;
+  });
   var staleUnderPopOver = false; // the board changed while a pop-over was open
   var staleUnderForm = false;    // ... or while an inlined form was open
   // An inlined form closed: hidden, and a templated one's fields taken away.
@@ -92,7 +104,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.compiler('.board-wrapper[data-live]', function (el) {
     if (typeof EventSource === 'undefined') return;
     var es = new EventSource(el.getAttribute('data-live'));
-    es.addEventListener('board-changed', reloadBoard);
+    es.addEventListener('board-changed', function (e) {
+      // This page's own change (publishFrom) is on it already.
+      if (String(e.data || '').split(' ')[1] === pageId) return;
+      reloadBoard();
+    });
     return function () { es.close(); };
   });
 
@@ -299,7 +315,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     setTimeout(function () { itemDragJustEnded = false; }, 0);
     var body = new URLSearchParams();
     d.box.querySelectorAll(':scope > .js-checklist-item').forEach(function (el) { body.append('item', el.getAttribute('data-item')); });
-    fetch(d.box.getAttribute('data-sort-url'), { method: 'POST', credentials: 'same-origin', body: body })
+    fetch(d.box.getAttribute('data-sort-url'), { method: 'POST', credentials: 'same-origin', body: body, headers: { 'X-Weddy-Page': pageId } })
       .finally(function () {
         dragging = Math.max(0, dragging - 1);
         if (dragging === 0 && stale) reloadBoard();

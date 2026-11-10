@@ -418,7 +418,7 @@ func (s *Server) methodImportWrikeWorkflow(r *http.Request, u *User, args []json
 		governed[st.Name] = true
 		rulesCreated++
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return map[string]any{"name": name, "statuses": len(statuses), "listsCreated": listsCreated, "rulesCreated": rulesCreated, "notRead": notRead}, nil
 }
 

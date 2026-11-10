@@ -323,7 +323,7 @@ func (s *Server) apiBulkAddCards(w http.ResponseWriter, r *http.Request, u *User
 		}
 		ids = append(ids, map[string]any{"index": i, "_id": id})
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, ids) // WeKan's shape: {index, _id} or {index, error} per card
 }
 
@@ -368,7 +368,7 @@ func (s *Server) apiAddLabel(w http.ResponseWriter, r *http.Request, u *User) {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, l.ID)
 }
 
@@ -436,7 +436,7 @@ func (s *Server) apiBulkLabels(w http.ResponseWriter, r *http.Request, u *User) 
 			return
 		}
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]any{"cardIds": req.CardIDs})
 }
 
@@ -532,7 +532,7 @@ func (s *Server) apiMemberPermission(w http.ResponseWriter, r *http.Request, u *
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, 1) // WeKan answers the number of boards changed
 }
 
@@ -594,7 +594,7 @@ func (s *Server) apiBoardMember(w http.ResponseWriter, r *http.Request, u *User)
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": b.ID})
 }
 
@@ -631,7 +631,7 @@ func (s *Server) apiCardMember(field string, add bool) apiHandler {
 		}
 		var now Card
 		_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": c.ID}).Decode(&now)
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 		writeJSON(w, http.StatusOK, map[string]any{"_id": c.ID, "members": nonNil(now.Members), "assignees": nonNil(now.Assignees)})
 	}
 }
@@ -683,7 +683,7 @@ func (s *Server) toggleCardLabelPage(w http.ResponseWriter, r *http.Request, u *
 		return
 	}
 	s.activity(r.Context(), u.ID, kind, bson.M{"boardId": b.ID, "cardId": c.ID, "labelId": label, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
@@ -709,7 +709,7 @@ func (s *Server) createLabelPage(w http.ResponseWriter, r *http.Request, u *User
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	back := "/b/" + b.ID + "/" + b.Slug
 	if card := r.FormValue("card"); validID(card) {

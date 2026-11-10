@@ -167,7 +167,7 @@ func (s *Server) methodCreateCardWithDueDate(r *http.Request, u *User, args []js
 	if err != nil {
 		return nil, &methodError{"400", err.Error()}
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return c.ID, nil
 }
 
@@ -268,7 +268,7 @@ func (s *Server) methodUpdateRule(r *http.Request, u *User, args []json.RawMessa
 	if _, err := s.db.Collection("rules").UpdateOne(ctx, bson.M{"_id": eq(ruleID)}, update); err != nil {
 		return nil, err
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	out := bson.M{"triggerId": triggerID, "actionId": actionID}
 	out["_id"] = ruleID // the method's answer, not a filter
 	return out, nil

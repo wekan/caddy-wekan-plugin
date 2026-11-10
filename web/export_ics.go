@@ -327,6 +327,6 @@ func (s *Server) apiImportICS(w http.ResponseWriter, r *http.Request, u *User) {
 		_, _ = s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": set})
 		ids = append(ids, c.ID)
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]any{"created": len(ids), "cardIds": ids})
 }

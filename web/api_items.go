@@ -136,7 +136,7 @@ func (s *Server) apiEditChecklistItem(w http.ResponseWriter, r *http.Request, u 
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	}
 	writeJSON(w, http.StatusOK, map[string]any{"_id": it["_id"]})
 }
@@ -158,7 +158,7 @@ func (s *Server) apiDeleteChecklistItem(w http.ResponseWriter, r *http.Request, 
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]any{"_id": it["_id"]})
 }
 
@@ -230,7 +230,7 @@ func (s *Server) apiEditComment(w http.ResponseWriter, r *http.Request, u *User)
 	_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(idString(cm["cardId"]))}).Decode(&c)
 	s.activity(r.Context(), u.ID, "editComment", bson.M{"boardId": b.ID, "cardId": c.ID, "commentId": cm["_id"],
 		"commentText": text, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]any{"_id": cm["_id"]})
 }
 
@@ -247,7 +247,7 @@ func (s *Server) apiDeleteComment(w http.ResponseWriter, r *http.Request, u *Use
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]any{"_id": r.PathValue("card")}) // WeKan answers the card's id
 }
 
@@ -279,7 +279,7 @@ func (s *Server) apiArchiveCard(archive bool) apiHandler {
 			return
 		}
 		s.activity(r.Context(), u.ID, kind, bson.M{"boardId": b.ID, "cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
-		s.hub.publish(b.ID, "board-changed")
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 		writeJSON(w, http.StatusOK, answer)
 	}
 }
@@ -322,7 +322,7 @@ func (s *Server) apiSetCardField(w http.ResponseWriter, r *http.Request, u *User
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]any{"_id": raw["_id"], "customFields": fields})
 }
 

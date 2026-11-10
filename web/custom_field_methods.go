@@ -135,7 +135,7 @@ func (s *Server) customFieldMethod(kind string) methodFunc {
 				act["value"], typ = after, "setCustomField"
 			}
 			s.activity(ctx, u.ID, typ, act)
-			s.hub.publish(b.ID, "board-changed")
+			s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 		}
 		return value, nil
 	}

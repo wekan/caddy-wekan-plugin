@@ -127,6 +127,6 @@ func (s *Server) methodCardsUpdate(r *http.Request, u *User, args []json.RawMess
 			s.activity(ctx, u.ID, "restoredCard", bson.M{"boardId": b.ID, "cardId": card.ID, "listId": card.ListID, "swimlaneId": card.SwimlaneID, "cardTitle": card.Title})
 		}
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return res.MatchedCount, nil // Meteor answers the number it matched
 }

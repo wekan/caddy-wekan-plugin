@@ -256,7 +256,7 @@ func (s *Server) apiAddDependency(w http.ResponseWriter, r *http.Request, u *Use
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	e := d.normalized()
 	writeJSON(w, http.StatusOK, map[string]any{"_id": c.ID, "cardId": e.CardID, "type": e.Type, "color": e.Color, "icon": e.Icon})
 }
@@ -305,7 +305,7 @@ func (s *Server) apiEditDependency(w http.ResponseWriter, r *http.Request, u *Us
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": c.ID})
 }
 
@@ -329,6 +329,6 @@ func (s *Server) apiDeleteDependency(w http.ResponseWriter, r *http.Request, u *
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	s.hub.publish(b.ID, "board-changed")
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	writeJSON(w, http.StatusOK, map[string]string{"_id": c.ID})
 }
