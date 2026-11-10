@@ -53,12 +53,18 @@ func TestExportExcelAndPDF(t *testing.T) {
 	boardURL := w.srv.URL + "/api/boards/" + b.ID
 	cardURL := boardURL + "/lists/" + b.List + "/cards/" + b.Card
 
+	// With Card details - WeKan's default - the card in the card layout;
+	// without it, WeKan's table with its header.
 	code, typ, data := get(boardURL+"/exportExcel", a)
 	if code != 200 || typ != xlsxType {
 		t.Fatalf("excel: %d %s", code, typ)
 	}
-	if s := sheet(data); !strings.Contains(s, `<t xml:space="preserve">Title</t>`) || !strings.Contains(s, `<t xml:space="preserve">C</t>`) {
-		t.Fatalf("WeKan's header and the card: %s", s)
+	if s := sheet(data); !strings.Contains(s, `<t xml:space="preserve">Swimlane: Default</t>`) || !strings.Contains(s, `<t xml:space="preserve">C</t>`) {
+		t.Fatalf("the card layout and the card: %s", s)
+	}
+	code, _, data = get(boardURL+"/exportExcel?fields=description", a)
+	if s := sheet(data); code != 200 || !strings.Contains(s, `<t xml:space="preserve">Title</t>`) || !strings.Contains(s, `<t xml:space="preserve">C</t>`) {
+		t.Fatalf("WeKan's header and the card: %d %s", code, s)
 	}
 	code, typ, data = get(boardURL+"/exportPDF", a)
 	if code != 200 || typ != "application/pdf" || !bytes.HasPrefix(data, []byte("%PDF-1.4")) || !bytes.HasSuffix(data, []byte("%%EOF\n")) || len(data) < 200 {

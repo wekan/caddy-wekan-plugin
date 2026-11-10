@@ -93,13 +93,43 @@ func (s *Server) apiExportOffice(format string, oneCard bool) http.HandlerFunc {
 			// A board's workbook is WeKan's table exporter's, its headers in
 			// the user's language, else ?lang=, else English (exportExcel.js).
 			if c == nil {
+				q := r.URL.Query()
+				u, _ := s.exportUser(r)
 				lang := "en"
-				if u, _ := s.exportUser(r); u != nil && u.Profile.Language != "" {
+				if u != nil && u.Profile.Language != "" {
 					lang = u.Profile.Language
-				} else if q := r.URL.Query().Get("lang"); q != "" && len(q) <= 32 {
-					lang = q
+				} else if l := q.Get("lang"); l != "" && len(l) <= 32 {
+					lang = l
 				}
-				out, err = s.excelTableWorkbook(ctx, b, lang)
+				// adminOnlyCustomFields.js assertFieldExport: a board with
+				// admin-only custom fields is exported by its admins only.
+				if s.boardHasAdminOnlyFields(ctx, b) && (u == nil || !b.AdminOf(u.ID)) {
+					apiError(w, http.StatusForbidden, "This export requires board administrator access")
+					return
+				}
+				want := exportWanted(q.Get("fields"))
+				if want != nil && !want["card-details"] {
+					out, err = s.excelTableWorkbook(ctx, b, lang)
+				} else {
+					o := excelCardOptions{Lang: lang, DateFormat: "YYYY-MM-DD"}
+					if u != nil && u.Profile.DateFormat != "" {
+						o.DateFormat = u.Profile.DateFormat
+					}
+					if f := q.Get("dateFormat"); slices.Contains(excelDateFormats, f) {
+						o.DateFormat = f
+					}
+					if tz := q.Get("tz"); len(tz) <= 64 {
+						o.Zone = tz
+					}
+					if want != nil {
+						for _, k := range exportFieldKeys {
+							if want[k] {
+								o.Fields = append(o.Fields, k)
+							}
+						}
+					}
+					out, err = s.excelBoardWorkbook(ctx, b, o)
+				}
 			}
 			if err != nil {
 				apiError(w, http.StatusInternalServerError, "Export failed")

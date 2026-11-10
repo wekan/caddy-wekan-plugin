@@ -28,7 +28,8 @@ func TestExcelExportIsWeKansTable(t *testing.T) {
 	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card}, bson.M{"$set": bson.M{"title": "Kortti", "description": "Kuvaus",
 		"dueAt": due, "members": bson.A{ann.ID, "ghostuser000001"}, "spentTime": 2.5, "requestedBy": "Bea"}})
 	call(t, "POST", w.srv.URL+"/api/boards/"+b.ID+"/cards/"+b.Card+"/comments", a, `{"comment":"Valmis"}`, nil)
-	req, _ := http.NewRequest("GET", w.srv.URL+"/api/boards/"+b.ID+"/exportExcel", nil)
+	// The table: Card details unticked (exportExcel.js boardExcelExporter).
+	req, _ := http.NewRequest("GET", w.srv.URL+"/api/boards/"+b.ID+"/exportExcel?fields=board-header,people,dates", nil)
 	req.Header.Set("Authorization", "Bearer "+a)
 	res, err := testClient.Do(req)
 	if err != nil {
