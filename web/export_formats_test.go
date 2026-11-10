@@ -132,7 +132,14 @@ func TestExportFormatRoutes(t *testing.T) {
 	}
 	// Every format Weddy offers answers as its file, and refuses a stranger.
 	for f, ext := range externalFormats {
-		if code, typ, body := get("/api/boards/"+b.ID+"/export/"+f, a); code != 200 || typ != exportContentType(ext) || (ext[0] != "xlsx" && !strings.Contains(body, "C")) {
+		code, typ, body := get("/api/boards/"+b.ID+"/export/"+f, a)
+		// A .zip is compressed: its card is in its data.json, not in its
+		// bytes - which held a "C" only now and then.
+		text := body
+		if ext[0] == "zip" && code == 200 {
+			text = string(mustUnzip(t, []byte(body), "data.json"))
+		}
+		if code != 200 || typ != exportContentType(ext) || (ext[0] != "xlsx" && !strings.Contains(text, "C")) {
 			t.Errorf("%s: %d %s %q", f, code, typ, body)
 		}
 		if code, _, _ := get("/api/boards/"+b.ID+"/export/"+f, bt); code != 403 {
