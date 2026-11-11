@@ -38,6 +38,20 @@
         i.fa.fa-filter
         span.board-header-btn-label {{t $.L "filter"}}
     a.board-header-btn.js-toggle-page-sidebar(href="#", title="{{t $.L `sidebar-open`}}", aria-label="{{t $.L `sidebar-open`}}") ☰
+  //- WeKan's historyRecoveryNotice: a stopped Scrum History operation, and
+    for a board admin its rollback or discard.
+  if .HistoryCheckpoint
+    .history-recovery-notice.history-checkpoint-notice.js-history-checkpoint-notice(role="status", aria-live="polite", data-board="{{.Board.ID}}", data-key="{{.HistoryCheckpoint.key}}", data-confirm="{{t $.L `scrum-history-checkpoint-discard-confirm`}}")
+      p {{t $.L "scrum-history-checkpoint-stuck"}}
+      if .HistoryCheckpoint.canResolve
+        p.quiet.js-history-checkpoint-counts {{.HistoryCheckpoint.Counts}}
+        p.quiet {{t $.L "scrum-history-checkpoint-hint"}}
+        if .HistoryCheckpoint.canRollback
+          button.primary.js-history-checkpoint-rollback(type="button") {{t $.L "scrum-history-checkpoint-rollback"}}
+        button.js-history-checkpoint-discard(type="button") {{t $.L "scrum-history-checkpoint-discard"}}
+      else
+        p.quiet {{t $.L "scrum-history-checkpoint-ask-admin"}}
+      p.warning.js-history-checkpoint-error(role="alert", hidden)
   .board-sidebar.sidebar
     a.sidebar-xmark.js-close-sidebar(href="#", aria-label="{{t $.L `close`}}") ✕
     .sidebar-content.js-board-sidebar-content

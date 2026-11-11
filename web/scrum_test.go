@@ -978,3 +978,90 @@ func TestScrumHistoryJournal(t *testing.T) {
 		t.Errorf("History at the Scrum changes: scrum %v, title %v", scrumRow != nil, titleRow != nil)
 	}
 }
+
+// A stopped Scrum History undo, as WeKan's recovery: it blocks Scrum writes;
+// its board admin rolls it back - the record as it was, a Recovery row -
+// where nobody changed it since, and only discards it where somebody did
+// (negative); an ordinary member sees it blocks and cannot resolve it
+// (negative); the board shows the notice.
+func TestScrumHistoryCheckpointRecovery(t *testing.T) {
+	old := checkpointSettleFor
+	checkpointSettleFor = func() time.Duration { return 0 }
+	defer func() { checkpointSettleFor = old }()
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Recovery")
+	setMember(t, w, rb.ID, Member{UserID: bob.ID, IsActive: true})
+	ann, bobCall := scrumCaller(t, w, "ann"), scrumCaller(t, w, "bob")
+	stopped := func(state string) (string, map[string]any, any) {
+		_, _ = w.db.Collection("changeHistory").DeleteMany(ctx, bson.M{"boardId": rb.ID})
+		_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": rb.Card}, bson.M{"$unset": bson.M{"scrum": "", "scrumRevision": ""}})
+		resultOf(t, ann("scrum.updateCard", rb.ID, rb.Card, map[string]any{"issueType": "Story"}, 0))
+		row := w.s.findDoc(ctx, "changeHistory", bson.M{"boardId": rb.ID, "entityType": "scrum"})
+		var c bson.M
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": rb.Card}).Decode(&c)
+		rev := c["scrumRevision"]
+		switch state {
+		case "applied":
+			_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": rb.Card}, bson.M{"$set": bson.M{"scrum": bson.M{}, "scrumRevision": numberOf(rev) + 1}})
+		case "conflict":
+			_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": rb.Card}, bson.M{"$set": bson.M{"scrum": bson.M{"issueType": "Bug"}, "scrumRevision": numberOf(rev) + 5}})
+		}
+		key := "op-" + randomID()
+		_, _ = w.db.Collection("scrumHistoryPending").InsertOne(ctx, bson.M{"_id": rb.ID, "rowId": row["_id"], "direction": "undo", "userId": row["userId"],
+			"operationId": key, "content": row["previousContent"], "before": row["newContent"], "revisions": bson.A{rev}, "worker": "gone",
+			"lastFailure": bson.M{"error": "scrum-conflict", "at": time.Now()}})
+		return key, row, rev
+	}
+	key, row, rev := stopped("applied")
+	if out := ann("scrum.configure", rb.ID, map[string]any{"productGoal": "Must wait"}); out["error"] != "scrum-history-pending" {
+		t.Errorf("negative: a Scrum write past a stopped operation: %v", out)
+	}
+	if insp := resultOf(t, bobCall("scrum.inspectHistoryCheckpoint", rb.ID)); insp["canResolve"] != false || insp["targets"] != nil || insp["stuck"] != true {
+		t.Errorf("an ordinary member's report: %v", insp)
+	}
+	for _, a := range []string{"rollback", "discard"} {
+		if out := bobCall("scrum.resolveHistoryCheckpoint", rb.ID, key, a); out["error"] != "not-authorized" {
+			t.Errorf("negative: an ordinary member's %s: %v", a, out)
+		}
+	}
+	annC := w.client(t)
+	body(t, w.signIn(t, annC, "ann", "pw"))
+	var bd Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&bd)
+	if _, html := get(t, annC, w.srv.URL+"/b/"+rb.ID+"/"+bd.Slug); !strings.Contains(html, "js-history-checkpoint-notice") || !strings.Contains(html, "1 of 1 changes were written") ||
+		!strings.Contains(html, "js-history-checkpoint-rollback") {
+		t.Error("the board's notice offers its admin the rollback")
+	}
+	if out := resultOf(t, ann("scrum.resolveHistoryCheckpoint", rb.ID, key, "rollback")); out["changed"] != true || out["reverted"] != 1.0 {
+		t.Fatalf("the rollback: %v", out)
+	}
+	var c bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": rb.Card}).Decode(&c)
+	want := row["newContent"].(map[string]any)["records"].([]any)[0].(map[string]any)["document"].(map[string]any)["scrum"]
+	if canonical(plain(c["scrum"])) != canonical(want) || c["scrumRevision"] != rev {
+		t.Errorf("rolled back: %v %v", plain(c["scrum"]), c["scrumRevision"])
+	}
+	if ev := w.s.findDoc(ctx, "recoveryEvents", bson.M{"type": "scrum-history-checkpoint-resolved", "boardIds": rb.ID}); ev == nil || ev["done"] != true ||
+		!strings.Contains(docString(ev, "detail"), "rolled back 1 of 1 records") {
+		t.Errorf("the Recovery row: %v", ev)
+	}
+	resultOf(t, ann("scrum.configure", rb.ID, map[string]any{"productGoal": "Works again"}))
+	if again := resultOf(t, ann("scrum.resolveHistoryCheckpoint", rb.ID, key, "rollback")); again["changed"] != false {
+		t.Errorf("a repeat is nothing: %v", again)
+	}
+
+	key, _, _ = stopped("conflict")
+	if out := ann("scrum.resolveHistoryCheckpoint", rb.ID, key, "rollback"); out["error"] != "scrum-history-recovery" {
+		t.Errorf("negative: a rollback over somebody else's change: %v", out)
+	}
+	if out := resultOf(t, ann("scrum.resolveHistoryCheckpoint", rb.ID, key, "discard")); out["changed"] != true {
+		t.Errorf("the discard: %v", out)
+	}
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": rb.Card}).Decode(&c)
+	if canonical(plain(c["scrum"])) != canonical(map[string]any{"issueType": "Bug"}) || w.s.scrumJournal(ctx, rb.ID) != nil {
+		t.Errorf("kept as it is: %v", plain(c["scrum"]))
+	}
+}

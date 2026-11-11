@@ -383,6 +383,8 @@ func numberOf(v any) float64 {
 		return float64(x)
 	case int64:
 		return float64(x)
+	case int:
+		return float64(x)
 	}
 	return math.NaN()
 }

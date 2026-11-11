@@ -840,6 +840,15 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["CanInvite"] = canInviteToBoard(u, b, s.inviteRoles(r))
 	data["IsBoardAdmin"] = b.AdminOf(u.ID)
 	data["Views"] = s.boardViewEntries(b, lang, "")
+	// A stopped Scrum History operation blocks the board's Scrum writes
+	// (historyRecoveryNotice.jade): who may resolve it, and how.
+	if cp, err := s.inspectCheckpointFor(r.Context(), u, b.ID); err == nil && cp != nil && cp["stuck"] == true {
+		if cp["canResolve"] == true {
+			cp["Counts"] = strings.NewReplacer("__applied__", scrumNum(cp["applied"]), "__total__", scrumNum(cp["total"]),
+				"__pending__", scrumNum(cp["pending"]), "__conflicted__", scrumNum(cp["conflicted"])).Replace(tr(lang, msg("scrum-history-checkpoint-counts")))
+		}
+		data["HistoryCheckpoint"] = cp
+	}
 	data["PrivateOnly"] = s.tableSetting(r.Context(), "tableVisibilityMode-allowPrivateOnly")
 	if b.Writable(u, "write", nil) || (m != nil && b.Can(u.ID, "write")) {
 		data["BoardButtons"] = s.buttonRules(r.Context(), b.ID, "board")

@@ -2823,4 +2823,23 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       up.hello(p);
     });
   });
+
+  // The stopped Scrum History operation's notice: its board admin rolls it
+  // back or, confirmed, discards it (scrum.resolveHistoryCheckpoint).
+  up.on('click', '.js-history-checkpoint-rollback, .js-history-checkpoint-discard', function (event, el) {
+    event.preventDefault();
+    var notice = el.closest('.js-history-checkpoint-notice');
+    var action = el.classList.contains('js-history-checkpoint-rollback') ? 'rollback' : 'discard';
+    if (action === 'discard' && !confirm(notice.dataset.confirm)) return;
+    el.disabled = true;
+    callAsync('scrum.resolveHistoryCheckpoint', notice.dataset.board, notice.dataset.key, action).then(function () {
+      notice.remove();
+      reloadBoard();
+    }, function (e) {
+      el.disabled = false;
+      var p = notice.querySelector('.js-history-checkpoint-error');
+      p.textContent = e.reason || e.message;
+      p.hidden = false;
+    });
+  });
 })();
