@@ -122,6 +122,9 @@ func TestRESTItemsCommentsCards(t *testing.T) {
 	if len(res["assignees"].([]any)) != 0 {
 		t.Fatalf("unassigned: %v", res)
 	}
+	// A field defined on the board: an undefined one is unreadable (WeKan's
+	// mayReadField), and searching by it is 403.
+	_, _ = w.db.Collection("customFields").InsertOne(ctx, bson.M{"_id": "field0000000001", "boardIds": bson.A{b.ID}, "name": "Color", "type": "text"})
 	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card}, bson.M{"$set": bson.M{"customFields": bson.A{bson.M{"_id": "field0000000001", "value": nil}}}})
 	if code := call(t, "POST", card+"/customFields/field0000000001", a, `{"value":"red"}`, nil); code != 200 {
 		t.Fatalf("a custom field value: %d", code)

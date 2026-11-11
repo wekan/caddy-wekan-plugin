@@ -535,7 +535,7 @@ func (s *Server) apiCard(w http.ResponseWriter, r *http.Request, u *User) {
 		if c := s.cardOf(w, r, b); c != nil {
 			var raw bson.M
 			_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": c.ID}).Decode(&raw)
-			writeJSON(w, http.StatusOK, s.cardWithChecklists(r, raw))
+			writeJSON(w, http.StatusOK, s.cardWithChecklists(r, b, u, raw))
 		}
 	}
 }

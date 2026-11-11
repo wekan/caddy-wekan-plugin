@@ -351,8 +351,19 @@ func (s *Server) apiCardsByField(w http.ResponseWriter, r *http.Request, u *User
 		writeJSON(w, http.StatusOK, []bson.M{})
 		return
 	}
+	// AdminFieldBleed: a field whose value the caller may not read - an
+	// admin-only one, or one not defined on this board - is 403, as in WeKan:
+	// which cards hold a value would tell them the value.
+	fr := s.fieldReaderFor(r.Context(), b, u)
+	if !fr.mayRead(field) {
+		apiError(w, http.StatusForbidden, "Forbidden")
+		return
+	}
 	if cards := s.findCards(w, r, bson.M{"boardId": b.ID, "archived": false,
 		"customFields": bson.M{"$elemMatch": bson.M{"_id": eq(field), "value": eq(r.PathValue("value"))}}}); cards != nil {
+		for _, c := range cards {
+			fr.redactCard(c)
+		}
 		writeJSON(w, http.StatusOK, cards)
 	}
 }
@@ -382,7 +393,9 @@ func (s *Server) apiSwimlaneCards(w http.ResponseWriter, r *http.Request, u *Use
 }
 
 // cardWithChecklists is WeKan's: the card, and its checklists with their items.
-func (s *Server) cardWithChecklists(r *http.Request, card bson.M) bson.M {
+func (s *Server) cardWithChecklists(r *http.Request, b *Board, u *User, card bson.M) bson.M {
+	// AdminFieldBleed: an admin-only field's value only for its board's admins.
+	s.fieldReaderFor(r.Context(), b, u).redactCard(card)
 	cur, err := s.db.Collection("checklists").Find(r.Context(), bson.M{"cardId": card["_id"]}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
 	lists := []bson.M{}
 	if err == nil {
@@ -421,6 +434,6 @@ func (s *Server) apiCardByID(w http.ResponseWriter, r *http.Request, u *User) {
 	boardID, _ := card["boardId"].(string)
 	r.SetPathValue("board", boardID)
 	if b := s.apiBoardFor(w, r, u, false); b != nil {
-		writeJSON(w, http.StatusOK, s.cardWithChecklists(r, card))
+		writeJSON(w, http.StatusOK, s.cardWithChecklists(r, b, u, card))
 	}
 }
