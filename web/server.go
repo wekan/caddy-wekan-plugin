@@ -15,6 +15,7 @@ import (
 	"regexp"
 	"slices"
 	"sort"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -306,6 +307,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/cards/{card}/labels/{label}", s.page(s.toggleCardLabelPage))
 	m.HandleFunc("POST /b/{board}/labels", s.page(s.createLabelPage))
 	m.HandleFunc("POST /b/{board}/archive/restore", s.page(s.restoreArchivedPage))
+	m.HandleFunc("POST /b/{board}/archive/restore-all-cards", s.page(s.restoreAllArchivedCardsPage))
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
 	m.HandleFunc("POST /b/{board}/swimlanes", s.page(s.addSwimlanePage))
 	m.HandleFunc("POST /b/{board}/cards", s.page(s.addCard))
@@ -810,7 +812,15 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["ExportFields"], data["ExportFieldsAll"] = exportFieldRows(lang), strings.Join(exportFieldKeys, ",")
 	data["WatchLevel"] = s.watchLevel(r.Context(), b.ID, u.ID)
 	data["SidebarMembers"] = s.sidebarMembers(r, b, u)
-	data["Archived"] = s.archivedItems(r, b)
+	data["Archived"] = s.archivedItems(r, b, lang)
+	// A restore its list refused: that card's popup, opened on load.
+	if id := r.URL.Query().Get("restoreBlocked"); validID(id) {
+		data["RestoreBlocked"] = id
+	}
+	// Restore all left cards out: WeKan's restoreAllSkippedPopup, opened on load.
+	if n, err := strconv.Atoi(r.URL.Query().Get("restoreSkipped")); err == nil && n > 0 {
+		data["RestoreSkipped"] = strings.ReplaceAll(tr(lang, "restore-all-skipped-wip-limit"), "__count__", strconv.Itoa(n))
+	}
 	data["CanInvite"] = canInviteToBoard(u, b, s.inviteRoles(r))
 	data["IsBoardAdmin"] = b.AdminOf(u.ID)
 	data["PrivateOnly"] = s.tableSetting(r.Context(), "tableVisibilityMode-allowPrivateOnly")
@@ -1696,21 +1706,38 @@ func (s *Server) renameBoardPage(w http.ResponseWriter, r *http.Request, u *User
 }
 
 // archivedItem is one thing in the board's Archive.
-type archivedItem struct{ Kind, ID, Title string }
+type archivedItem struct {
+	Kind, ID, Title string
+	// Blocked: a card whose list is gone, or full at a hard WIP limit, is
+	// restored into a list chosen from these (wip_limits.go).
+	Blocked *restoreBlocked
+}
 
 // archivedItems are the board's archived cards, lists and swimlanes.
-func (s *Server) archivedItems(r *http.Request, b *Board) []archivedItem {
+func (s *Server) archivedItems(r *http.Request, b *Board, lang string) []archivedItem {
 	var out []archivedItem
+	var targets []wipList
+	targetsOnce := false
+	lazyTargets := func() []wipList {
+		if !targetsOnce {
+			targets, targetsOnce = s.listsWithRoom(r.Context(), b.ID), true
+		}
+		return targets
+	}
 	for _, kind := range []string{"cards", "lists", "swimlanes"} {
 		cur, err := s.db.Collection(kind).Find(r.Context(), bson.M{"boardId": b.ID, "archived": true},
-			options.Find().SetProjection(bson.M{"title": 1}).SetLimit(200))
+			options.Find().SetProjection(bson.M{"title": 1, "listId": 1}).SetLimit(200))
 		if err != nil {
 			continue
 		}
 		var docs []bson.M
 		_ = cur.All(r.Context(), &docs)
 		for _, d := range docs {
-			out = append(out, archivedItem{Kind: kind, ID: docString(d, "_id"), Title: docString(d, "title")})
+			it := archivedItem{Kind: kind, ID: docString(d, "_id"), Title: docString(d, "title")}
+			if kind == "cards" {
+				it.Blocked = s.restoreBlockFor(r.Context(), b.ID, docString(d, "listId"), lang, lazyTargets)
+			}
+			out = append(out, it)
 		}
 	}
 	return out
@@ -1728,8 +1755,50 @@ func (s *Server) restoreArchivedPage(w http.ResponseWriter, r *http.Request, u *
 		http.Error(w, "nothing to restore", http.StatusBadRequest)
 		return
 	}
+	set := bson.M{"archived": false, "modifiedAt": time.Now().UTC()}
+	if kind == "cards" {
+		// #6772: a card goes back to its own list only when it has room;
+		// else to the open list with room it was given.
+		var c struct {
+			ListID     string `bson:"listId"`
+			SwimlaneID string `bson:"swimlaneId"`
+		}
+		if s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID, "archived": true}).Decode(&c) != nil {
+			http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+			return
+		}
+		listID := c.ListID
+		if to := r.FormValue("toList"); to != "" {
+			listID = to
+		}
+		l, room := s.listHasRoom(r.Context(), b.ID, listID)
+		if !room && r.FormValue("toList") == "" {
+			// Its own list filled up since the page was drawn: the board
+			// again, opening the card's "restore it to another list".
+			http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"?restoreBlocked="+url.QueryEscape(id), http.StatusSeeOther)
+			return
+		}
+		if !room {
+			http.Error(w, "that list has reached its WIP limit", http.StatusConflict)
+			return
+		}
+		if listID != c.ListID {
+			set["listId"] = l.ID
+			if l.Swimlane != "" {
+				set["swimlaneId"] = l.Swimlane
+			} else if s.db.Collection("swimlanes").FindOne(r.Context(), bson.M{"_id": eq(c.SwimlaneID), "boardId": b.ID, "archived": false}).Err() != nil {
+				var sw struct {
+					ID string `bson:"_id"`
+				}
+				if s.db.Collection("swimlanes").FindOne(r.Context(), bson.M{"boardId": b.ID, "archived": false},
+					options.FindOne().SetSort(bson.D{{Key: "sort", Value: 1}})).Decode(&sw) == nil {
+					set["swimlaneId"] = sw.ID
+				}
+			}
+		}
+	}
 	res, err := s.db.Collection(kind).UpdateOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID, "archived": true},
-		bson.M{"$set": bson.M{"archived": false, "modifiedAt": time.Now().UTC()}})
+		bson.M{"$set": set})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -1739,6 +1808,47 @@ func (s *Server) restoreArchivedPage(w http.ResponseWriter, r *http.Request, u *
 	}
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+}
+
+// restoreAllArchivedCardsPage is the Archive's Restore all: every archived
+// card that has room goes back to its list - counted as it goes, a restored
+// card filling the list for the next - and the board says how many were left
+// out (#6772).
+func (s *Server) restoreAllArchivedCardsPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b := s.editableBoard(w, r, u)
+	if b == nil {
+		return
+	}
+	ctx := r.Context()
+	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID, "archived": true},
+		options.Find().SetProjection(bson.M{"listId": 1}).SetSort(bson.D{{Key: "sort", Value: 1}}))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var cards []struct {
+		ID     string `bson:"_id"`
+		ListID string `bson:"listId"`
+	}
+	_ = cur.All(ctx, &cards)
+	skipped := 0
+	for _, c := range cards {
+		if _, room := s.listHasRoom(ctx, b.ID, c.ListID); !room {
+			skipped++
+			continue
+		}
+		res, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(c.ID), "boardId": b.ID, "archived": true},
+			bson.M{"$set": bson.M{"archived": false, "modifiedAt": time.Now().UTC()}})
+		if err == nil && res.ModifiedCount > 0 {
+			s.activity(ctx, u.ID, "restoredCard", bson.M{"boardId": b.ID, "cardId": c.ID})
+		}
+	}
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	to := "/b/" + b.ID + "/" + b.Slug
+	if skipped > 0 {
+		to += "?restoreSkipped=" + strconv.Itoa(skipped)
+	}
+	http.Redirect(w, r, to, http.StatusSeeOther)
 }
 
 // cardTitlePage saves the card's title, for whoever may change the card.

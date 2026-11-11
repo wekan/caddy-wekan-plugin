@@ -93,6 +93,9 @@ func (s *Server) methods() map[string]methodFunc {
 	for k, v := range s.emailRecoveryMethods() {
 		m[k] = v
 	}
+	for k, v := range s.wipMethods() {
+		m[k] = v
+	}
 	return m
 }
 

@@ -65,22 +65,52 @@
       .archives-sidebar.js-archives-view.is-hidden
         h3 {{t $.L "archives"}}
         if .Archived
+          if $.CanEdit
+            form.js-restore-all-form(method="post", action="/b/{{$.Board.ID}}/archive/restore-all-cards", up-submit, up-target=".board-wrapper")
+              a.js-restore-all-cards(href="#") {{t $.L "restore-all"}}
           each it in .Archived
             if eq .Kind "cards"
-              .minicard-wrapper.archived-item(data-kind="{{.Kind}}", data-id="{{.ID}}")
+              .minicard-wrapper.archived-item.archived-card-item(data-kind="{{.Kind}}", data-id="{{.ID}}")
                 .minicard
                   .minicard-title {{.Title}}
+                if $.CanEdit
+                  form.js-restore-form(method="post", action="/b/{{$.Board.ID}}/archive/restore", up-submit, up-target=".board-wrapper")
+                    input(type="hidden", name="kind", value="{{.Kind}}")
+                    input(type="hidden", name="id", value="{{.ID}}")
+                    if .Blocked
+                      a.js-restore-card(href="#", data-pop="restore-card-{{.ID}}") {{t $.L "restore"}}
+                    else
+                      a.js-restore-card(href="#") {{t $.L "restore"}}
+                  //- WeKan's restoreArchivedCardToListPopup (#6772): its list is
+                  //- gone, or full at a hard WIP limit - choose one with room.
+                  if .Blocked
+                    if eq $.RestoreBlocked .ID
+                      span.js-open-pop-on-load(data-pop="restore-card-{{.ID}}", hidden)
+                    template.js-pop-over-template(data-pop="restore-card-{{.ID}}", data-title="{{t $.L `restore`}}")
+                      .header
+                        span.header-title {{t $.L "restore"}}
+                        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+                      .content
+                        p.js-restore-wip-reached {{.Blocked.Reason}}
+                        if .Blocked.Targets
+                          form(method="post", action="/b/{{$.Board.ID}}/archive/restore", up-submit, up-target=".board-wrapper")
+                            input(type="hidden", name="kind", value="cards")
+                            input(type="hidden", name="id", value="{{.ID}}")
+                            select.js-select-restore-target-list(name="toList", autofocus)
+                              each l in .Blocked.Targets
+                                option(value="{{.ID}}") {{.Title}}
+                            .edit-controls.clearfix
+                              button.primary.confirm.js-restore-card-to-list(type="submit") {{t $.L "restore"}}
+                        else
+                          p.js-restore-no-list-with-room {{.Blocked.NoRoom}}
             else
               .archived-item(data-kind="{{.Kind}}", data-id="{{.ID}}")
                 span.archived-item-title {{.Title}}
-            if $.CanEdit
-              form.js-restore-form(method="post", action="/b/{{$.Board.ID}}/archive/restore", up-submit, up-target=".board-wrapper")
-                input(type="hidden", name="kind", value="{{.Kind}}")
-                input(type="hidden", name="id", value="{{.ID}}")
-                if eq .Kind "cards"
-                  a.js-restore-card(href="#") {{t $.L "restore"}}
-                else
-                  a.js-restore(href="#") {{t $.L "restore"}}
+                if $.CanEdit
+                  form.js-restore-form(method="post", action="/b/{{$.Board.ID}}/archive/restore", up-submit, up-target=".board-wrapper")
+                    input(type="hidden", name="kind", value="{{.Kind}}")
+                    input(type="hidden", name="id", value="{{.ID}}")
+                    a.js-restore(href="#") {{t $.L "restore"}}
         else
           p.no-items-message {{t $.L "no-archived-cards"}}
       //- WeKan's membersWidget: the active members, and adding one.
@@ -114,6 +144,15 @@
                   span.activity-member {{.User}}
                   |  {{.Text}}
                 time.activity-time(datetime="{{.ISO}}") {{.Display}}
+  if .RestoreSkipped
+    //- WeKan's restoreAllSkippedPopup: Restore all left these out (#6772).
+    span.js-open-pop-on-load(data-pop="restore-all-skipped", hidden)
+    template.js-pop-over-template(data-pop="restore-all-skipped", data-title="{{t $.L `restore-all`}}")
+      .header
+        span.header-title {{t $.L "restore-all"}}
+        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+      .content
+        p.js-restore-all-skipped {{.RestoreSkipped}}
   template.js-pop-over-template(data-pop="board-menu", data-title="{{t $.L `boardMenuPopup-title`}}")
     .header
       span.header-title {{t $.L "boardMenuPopup-title"}}

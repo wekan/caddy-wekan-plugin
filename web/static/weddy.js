@@ -1207,7 +1207,18 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   });
   up.on('click', '.js-restore-card, .js-restore', function (event, el) {
     event.preventDefault();
+    // A card whose list is gone or full asks for another list first (#6772).
+    if (el.dataset.pop) { openPopOver(el.dataset.pop); return; }
     up.submit(el.closest('form'));
+  });
+  up.on('click', '.js-restore-all-cards', function (event, el) {
+    event.preventDefault();
+    up.submit(el.closest('form'));
+  });
+  // A pop-over the server asked to show at once: Restore all's left-out count.
+  // and the card a restore was refused for, its list being full.
+  up.compiler('.js-open-pop-on-load', function (el) {
+    setTimeout(function () { openPopOver(el.getAttribute('data-pop')); }, 0);
   });
 
   // A card full-screen, or not: the user's own choice (toggleCardMaximized).
