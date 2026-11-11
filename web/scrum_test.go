@@ -283,7 +283,7 @@ func TestScrumCollectionsWrittenOnlyByScrum(t *testing.T) {
 	}
 	files, _ := filepath.Glob("*.go")
 	for _, f := range files {
-		if strings.HasSuffix(f, "_test.go") || f == "scrum.go" || f == "scrum_history.go" || f == "scrum_daily.go" || f == "scrum_transfer.go" || f == "scrum_merge.go" {
+		if strings.HasSuffix(f, "_test.go") || f == "scrum.go" || f == "scrum_history.go" || f == "scrum_daily.go" || f == "scrum_transfer.go" || f == "scrum_merge.go" || f == "scrum_import_recovery.go" {
 			continue
 		}
 		src, _ := os.ReadFile(f)
@@ -1063,5 +1063,76 @@ func TestScrumHistoryCheckpointRecovery(t *testing.T) {
 	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": rb.Card}).Decode(&c)
 	if canonical(plain(c["scrum"])) != canonical(map[string]any{"issueType": "Bug"}) || w.s.scrumJournal(ctx, rb.ID) != nil {
 		t.Errorf("kept as it is: %v", plain(c["scrum"]))
+	}
+}
+
+// An interrupted Scrum import, as WeKan's: it blocks every Scrum write, the
+// undo and the reports (409) while the board says so (negatives); its board
+// admin finishes it from the plan - the rest applied, the marks cleared, the
+// plan gone - and a member who is not an admin cannot (negative). A close
+// stopped with a plan of the older shape finishes as WeKan's does.
+func TestScrumImportRecovery(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	tok := login(t, w, "ann")
+	rb := newRESTBoard(t, w, tok, "Recover import")
+	setMember(t, w, rb.ID, Member{UserID: bob.ID, IsActive: true})
+	ann, bobCall := scrumCaller(t, w, "ann"), scrumCaller(t, w, "bob")
+	sprintID := "imported" + randomID()[:10]
+	steps := []bson.M{
+		{"kind": "insert", "collection": "sprints", "after": bson.M{"_id": sprintID, "boardId": rb.ID, "name": "Recovered", "state": "planned", "revision": 1, "scrumImportPending": true}},
+		{"kind": "update", "collection": "cards", "boardId": rb.ID, "id": rb.Card, "before": bson.M{}, "after": bson.M{"scrum": bson.M{"sprintId": sprintID}, "scrumRevision": 1}},
+		{"kind": "update", "collection": "boards", "boardId": rb.ID, "id": rb.ID, "before": bson.M{}, "after": bson.M{"scrum": bson.M{"enabled": true}, "scrumRevision": 1, "scrumImportLosses": bson.A{}}},
+	}
+	_, _ = w.db.Collection("scrumSprints").InsertOne(ctx, steps[0]["after"])
+	_, _ = w.db.Collection("scrumImportPending").InsertOne(ctx, bson.M{"_id": rb.ID, "operationId": "op", "owner": "gone", "leaseUntil": time.Unix(0, 0), "state": "applying", "total": 3, "next": 1})
+	for i, st := range steps {
+		_, _ = w.db.Collection("scrumImportSteps").InsertOne(ctx, bson.M{"_id": "op:" + strconv.Itoa(i), "boardId": rb.ID, "operationId": "op", "index": i, "step": st})
+	}
+	for _, c := range [][]any{{"scrum.configure", rb.ID, map[string]any{"productGoal": "x"}, nil}, {"scrum.saveSprint", rb.ID, nil, map[string]any{"name": "Extra"}, nil},
+		{"scrum.updateCard", rb.ID, rb.Card, map[string]any{"issueType": "x"}, nil}} {
+		if out := ann(c[0].(string), c[1:]...); out["error"] != "scrum-import-pending" {
+			t.Errorf("negative: %s during an unfinished import: %v", c[0], out)
+		}
+	}
+	res, _ := get(t, testClient, w.srv.URL+"/api/boards/"+rb.ID+"/charts/scrumVelocity/exportExcel?authToken="+tok)
+	if res.StatusCode != http.StatusConflict {
+		t.Errorf("negative: a report during an unfinished import: %d", res.StatusCode)
+	}
+	if data := resultOf(t, ann("scrum.getBoardData", rb.ID)); data["importPending"] != true || data["canAdmin"] != false || data["canRecoverImport"] != true {
+		t.Errorf("the board data says so: %v %v", data["importPending"], data["canRecoverImport"])
+	}
+	if out := bobCall("scrum.resumeImport", rb.ID); out["error"] != "not-authorized" {
+		t.Errorf("negative: a member who is not an admin resumes: %v", out)
+	}
+	if out := resultOf(t, ann("scrum.resumeImport", rb.ID)); out["state"] != "completed" {
+		t.Fatalf("the resume: %v", out)
+	}
+	var c, sp bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": rb.Card}).Decode(&c)
+	_ = w.db.Collection("scrumSprints").FindOne(ctx, bson.M{"_id": sprintID}).Decode(&sp)
+	if canonical(plain(c["scrum"])) != canonical(map[string]any{"sprintId": sprintID}) || sp["scrumImportPending"] != nil || w.s.findDoc(ctx, "scrumImportPending", bson.M{"_id": rb.ID}) != nil {
+		t.Errorf("finished: %v %v", plain(c["scrum"]), sp["scrumImportPending"])
+	}
+
+	// A close stopped with a rollover plan kept in the sprint (before 2026-10-03).
+	next := resultOf(t, ann("scrum.saveSprint", rb.ID, nil, map[string]any{"name": "Next"}, nil))
+	_, _ = w.db.Collection("scrumSprints").UpdateOne(ctx, bson.M{"_id": sprintID}, bson.M{"$set": bson.M{"plannedStart": time.Date(2026, 9, 1, 0, 0, 0, 0, time.UTC), "plannedEnd": time.Date(2026, 9, 30, 0, 0, 0, 0, time.UTC)}})
+	active := resultOf(t, ann("scrum.startSprint", rb.ID, sprintID, 1))
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": rb.Card}).Decode(&c)
+	before := plain(c["scrum"]).(map[string]any)
+	after := map[string]any{"sprintId": next["_id"], "pastSprintIds": []any{sprintID}}
+	_, _ = w.db.Collection("scrumSprints").UpdateOne(ctx, bson.M{"_id": sprintID}, bson.M{"$set": bson.M{"state": "closed", "revision": active["revision"].(float64) + 1,
+		"closedFromRevision": active["revision"], "rolloverSprintId": next["_id"], "completedAt": time.Now().UTC(),
+		"rolloverPending": bson.A{bson.M{"cardId": rb.Card, "revision": c["scrumRevision"], "before": before, "after": after}}}})
+	if out := resultOf(t, ann("scrum.closeSprint", rb.ID, sprintID, active["revision"], next["_id"])); out["state"] != "closed" {
+		t.Fatalf("the resumed close: %v", out)
+	}
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": rb.Card}).Decode(&c)
+	_ = w.db.Collection("scrumSprints").FindOne(ctx, bson.M{"_id": sprintID}).Decode(&sp)
+	if plain(c["scrum"]).(map[string]any)["sprintId"] != next["_id"] || canonical(plain(sp["rolloverPending"])) != canonical([]any{}) {
+		t.Errorf("rolled over, the plan left empty: %v %v", plain(c["scrum"]), sp["rolloverPending"])
 	}
 }

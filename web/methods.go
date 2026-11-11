@@ -103,6 +103,9 @@ func (s *Server) methods() map[string]methodFunc {
 	for k, v := range s.wipMethods() {
 		m[k] = v
 	}
+	for k, v := range s.importRecoveryMethods() {
+		m[k] = v
+	}
 	for k, v := range s.checkpointMethods() {
 		m[k] = v
 	}

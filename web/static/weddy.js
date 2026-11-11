@@ -2842,4 +2842,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       p.hidden = false;
     });
   });
+
+  // An interrupted Scrum import, finished or discarded by a board admin
+  // (scrum.resumeImport, scrum.discardImport).
+  up.on('click', '.js-scrum-resume-import, .js-scrum-discard-import', function (event, el) {
+    event.preventDefault();
+    scrumMutate(el.classList.contains('js-scrum-resume-import') ? 'scrum.resumeImport' : 'scrum.discardImport');
+  });
 })();

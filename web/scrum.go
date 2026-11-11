@@ -1100,6 +1100,8 @@ func (s *Server) runScrumRollover(op *scrumOp, sprint map[string]any) (map[strin
 			}
 			_, _ = s.db.Collection("scrumSprints").UpdateOne(ctx, bson.M{"_id": eq(sprintID)}, bson.M{"$pull": bson.M{"rolloverPending": bson.M{"cardId": row["cardId"]}}})
 		}
+		// Finished as it was: the emptied plan stays, as WeKan's does.
+		return s.findDoc(ctx, "scrumSprints", bson.M{"_id": eq(sprintID)}), nil
 	} else {
 		for {
 			chunk := s.findDoc(ctx, "scrumRolloverRows", bson.M{"sprintId": eq(sprintID)})

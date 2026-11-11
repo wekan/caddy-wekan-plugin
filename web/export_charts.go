@@ -82,14 +82,14 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 		if key == "scrumDaily" {
 			var err error
 			if headers, rows, notices, err = s.scrumDailyChartRows(ctx, u, &b, lang, r.URL.Query().Get("sprintId")); err != nil {
-				http.Error(w, err.Error(), http.StatusBadRequest)
+				scrumExportError(w, err)
 				return
 			}
 		}
 		if key == "scrumVelocity" || key == "scrumSprint" {
 			var err error
 			if title, headers, rows, err = s.scrumChartRows(ctx, u, &b, key, lang, r.URL.Query().Get("sprintId"), title); err != nil {
-				http.Error(w, err.Error(), http.StatusBadRequest)
+				scrumExportError(w, err)
 				return
 			}
 		}
@@ -925,4 +925,18 @@ func chartXlsx(boardTitle, title string, headers []any, rows [][]any, notices []
 		sheets = append(sheets, notes)
 	}
 	return xlsxStyledBook(sheets)
+}
+
+// scrumExportError answers a Scrum chart export that cannot be made: an
+// unfinished Scrum import is a conflict, 409, as WeKan's; anything else 400.
+func scrumExportError(w http.ResponseWriter, err error) {
+	if me, ok := err.(*methodError); ok {
+		code := http.StatusBadRequest
+		if me.Code == "scrum-import-pending" {
+			code = http.StatusConflict
+		}
+		http.Error(w, me.Reason, code)
+		return
+	}
+	http.Error(w, err.Error(), http.StatusBadRequest)
 }

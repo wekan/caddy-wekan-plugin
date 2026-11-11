@@ -24,6 +24,10 @@
       if .Data
         if .Data.importPending
           p.warning.scrum-import-pending(role="alert") {{t $.L "scrum-import-pending"}}
+          if .Data.canRecoverImport
+            p {{t $.L "scrum-import-recovery-hint"}}
+            button.js-scrum-resume-import(type="button") {{t $.L "scrum-import-resume"}}
+            button.js-scrum-discard-import(type="button") {{t $.L "scrum-import-discard"}}
         if .ImportLosses
           details.scrum-import-report
             summary {{t $.L "import"}}
