@@ -21,6 +21,7 @@ package web
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -169,7 +170,11 @@ func (s *Server) currentHistoryContent(ctx context.Context, row map[string]any) 
 // false when it cannot be applied.
 func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direction string) bool {
 	content, _ := row["newContent"].(map[string]any)
-	if direction == "undo" {
+	switch {
+	case direction == "undo":
+		content, _ = row["previousContent"].(map[string]any)
+	case direction == "restore" && content == nil:
+		// A removal: restoring it puts back what it removed.
 		content, _ = row["previousContent"].(map[string]any)
 	}
 	// A card's position: moved back, across boards too (Card.move).
@@ -249,6 +254,9 @@ func (s *Server) reverseLast(r *http.Request, u *User, boardID, direction string
 	if err := s.requireHistoryIntegrity(r, u, row); err != nil {
 		return nil, err
 	}
+	if err := s.requireHistoryRowAccess(ctx, u, row); err != nil {
+		return nil, err
+	}
 	before := s.currentHistoryContent(ctx, row)
 	// Claimed first: of two that picked the same row, one applies it.
 	at := time.Now().UTC().Truncate(time.Millisecond)
@@ -293,6 +301,7 @@ func (s *Server) historyMethods() map[string]methodFunc {
 		"changeHistory.undoLast": reverse("undo"),
 		"changeHistory.redoLast": reverse("redo"),
 		"changeHistory.page":     s.methodHistoryPage,
+		"changeHistory.restore":  s.methodHistoryRestore,
 	}
 }
 
@@ -337,4 +346,114 @@ func (s *Server) applyCardPosition(ctx context.Context, row, content map[string]
 	}
 	s.hub.publish(boardID, "board-changed")
 	return true
+}
+
+// requireHistoryRowAccess is WeKan's: a row the caller may read
+// (historyReadScope), its card one they may edit where it is NOW, and the
+// board on the row one they may write. A row's board is the one it was
+// recorded on; a card moved since to a board the caller cannot reach is not
+// written through History.
+func (s *Server) requireHistoryRowAccess(ctx context.Context, u *User, row map[string]any) error {
+	denied := &methodError{"not-authorized", "This history entry is outside your current access."}
+	hr := &historyReader{s: s, ctx: ctx, u: u, boards: map[string]*historyBoardScope{}}
+	if !hr.readable(row) {
+		return denied
+	}
+	cardID := docString(row, "cardId")
+	if cardID == "" && docString(row, "entityType") == "card" {
+		cardID = docString(row, "entityId")
+	}
+	if cardID != "" {
+		var c Card
+		if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID)}).Decode(&c) != nil {
+			return denied
+		}
+		b, err := s.boardFor(ctx, c.BoardID, u)
+		if err != nil || !b.Writable(u, "write", &c) {
+			return &methodError{"not-authorized", "You cannot edit this card through History."}
+		}
+	}
+	return nil
+}
+
+// methodHistoryRestore is changeHistory.restore(selected): the rows applied
+// oldest first, each as the value its row shows, and each recorded twice -
+// for whoever made the change and whoever restored it - in one batch.
+func (s *Server) methodHistoryRestore(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	if len(args) < 1 {
+		return nil, &methodError{"Match.Error", "Match failed"}
+	}
+	var ids []string
+	var one string
+	var set map[string]bool
+	switch {
+	case json.Unmarshal(args[0], &ids) == nil:
+	case json.Unmarshal(args[0], &one) == nil:
+		ids = []string{one}
+	case json.Unmarshal(args[0], &set) == nil:
+		for id, on := range set {
+			if on {
+				ids = append(ids, id)
+			}
+		}
+	default:
+		return nil, &methodError{"Match.Error", "Match failed"}
+	}
+	seen := map[string]bool{}
+	clean := ids[:0]
+	for _, id := range ids {
+		if validID(id) && !seen[id] {
+			seen[id] = true
+			clean = append(clean, id)
+		}
+	}
+	if len(clean) == 0 {
+		return map[string]any{"restored": 0, "skipped": 0}, nil
+	}
+	ctx := r.Context()
+	ids2 := bson.A{}
+	for _, id := range clean {
+		ids2 = append(ids2, id)
+	}
+	cur, err := s.db.Collection("changeHistory").Find(ctx, bson.M{"_id": dbIn(ids2)}, options.Find().SetSort(bson.D{{Key: "createdAt", Value: 1}}))
+	if err != nil {
+		return nil, err
+	}
+	var raws []bson.M
+	_ = cur.All(ctx, &raws)
+	batch := fmt.Sprintf("restore-%d-%s", time.Now().UnixMilli(), u.ID)
+	restored, skipped := 0, 0
+	for _, raw := range raws {
+		row := plain(raw).(map[string]any)
+		if _, err := s.historyBoardWrite(ctx, u, docString(row, "boardId")); err != nil {
+			return nil, err
+		}
+		if err := s.requireHistoryIntegrity(r, u, row); err != nil {
+			return nil, err
+		}
+		if err := s.requireHistoryRowAccess(ctx, u, row); err != nil {
+			return nil, err
+		}
+		displaced := s.currentHistoryContent(ctx, row)
+		if !s.applyHistoryRow(ctx, row, "restore") {
+			skipped++
+			continue
+		}
+		restored++
+		content := row["newContent"]
+		if content == nil {
+			content = row["previousContent"]
+		}
+		common := historyChange{BoardID: docString(row, "boardId"), SwimlaneID: row["swimlaneId"], ListID: row["listId"], CardID: row["cardId"],
+			EntityType: docString(row, "entityType"), EntityID: docString(row, "entityId"), Group: docString(row, "group"), ChangeType: "restored",
+			PreviousContent: displaced, NewContent: content, BatchID: batch, RestoredFromID: docString(row, "_id"), RestoredByUserID: u.ID}
+		author := common
+		author.UserID = docString(row, "userId")
+		s.recordHistory(ctx, author)
+		if author.UserID != u.ID {
+			common.UserID = u.ID
+			s.recordHistory(ctx, common)
+		}
+	}
+	return map[string]any{"restored": restored, "skipped": skipped}, nil
 }
