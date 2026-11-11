@@ -1,6 +1,7 @@
 package web
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"io"
@@ -62,6 +63,10 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 	if _, text := importTextParsers[source]; text {
 		general = true
 	}
+	// A WeKan board export, pasted or chosen (WeKan's import page for it).
+	if source == "wekan" {
+		general = true
+	}
 	if general {
 		accept, paste = ".json,application/json", true
 		if _, text := importTextParsers[source]; text {
@@ -91,7 +96,7 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 func (s *Server) importPage(w http.ResponseWriter, r *http.Request, u *User) {
 	source := r.PathValue("source")
 	_, general := importParsers[source]
-	if _, text := importTextParsers[source]; text {
+	if _, text := importTextParsers[source]; text || source == "wekan" {
 		general = true
 	}
 	if _, ok := tableSources[source]; !ok && !general {
@@ -150,6 +155,10 @@ func (s *Server) importMappingPage(w http.ResponseWriter, r *http.Request, u *Us
 	source := r.PathValue("source")
 	_, jsonSource := importParsers[source]
 	_, textSource := importTextParsers[source]
+	if source == "wekan" {
+		s.importWekanPage(w, r, u)
+		return
+	}
 	if jsonSource || textSource {
 		s.importGeneralPage(w, r, u, source)
 		return
@@ -360,3 +369,58 @@ var importMembersModes = []struct {
 }
 
 var _ = msg("import-members-mode-heading")
+
+// importWekanPage is the import page's WeKan export: pasted or chosen,
+// checked at the import boundary of POST /api/import, and imported as a new
+// board of the person importing - its Scrum transfer with it - who then sees
+// the board.
+func (s *Server) importWekanPage(w http.ResponseWriter, r *http.Request, u *User) {
+	r.Body = http.MaxBytesReader(w, r.Body, MaxImportBytes+1<<20)
+	data := s.importData(r, u, "wekan")
+	fail := func(code string) {
+		data["Error"] = code
+		s.render(w, r, "import", http.StatusBadRequest, data)
+	}
+	var raw []byte
+	if f, _, err := r.FormFile("file"); err == nil {
+		defer f.Close()
+		raw, _ = io.ReadAll(io.LimitReader(f, MaxImportBytes+1))
+	}
+	if len(strings.TrimSpace(string(raw))) == 0 {
+		raw = []byte(r.FormValue("text"))
+	}
+	var board map[string]any
+	dec := json.NewDecoder(bytes.NewReader(raw))
+	dec.UseNumber()
+	if len(raw) > MaxImportBytes || dec.Decode(&board) != nil || board == nil {
+		fail("error-json-malformed")
+		return
+	}
+	numbersToFloat(board)
+	clean, err := s.secureImport(r, u, "wekan", board)
+	if err != nil {
+		fail("error-json-schema")
+		return
+	}
+	export, _ := clean.(map[string]any)
+	if export["_format"] != "wekan-board-1.0.0" {
+		fail("error-json-schema")
+		return
+	}
+	id, err := s.ImportBoard(r, u, export, nil)
+	if err != nil {
+		var me *methodError
+		if errors.As(err, &me) {
+			fail(me.Code)
+		} else {
+			fail("error-json-schema")
+		}
+		return
+	}
+	b, err := s.boardFor(r.Context(), id, u)
+	if err != nil {
+		fail("error-json-schema")
+		return
+	}
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+}

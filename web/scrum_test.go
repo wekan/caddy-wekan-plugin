@@ -580,6 +580,25 @@ func TestScrumTransferImport(t *testing.T) {
 			t.Error("an imported list has a List Sync credential lifetime of its own")
 		}
 	}
+	// The import page takes a pasted WeKan export, Scrum and all.
+	pageC := w.client(t)
+	body(t, w.signIn(t, pageC, "ann", "pw"))
+	if _, html := get(t, pageC, w.srv.URL+"/import/wekan"); !strings.Contains(html, `id="import-textarea"`) || !strings.Contains(html, "js-import-without-mapping") {
+		t.Error("the import page has the WeKan export's paste box")
+	}
+	raw, _ := json.Marshal(exported)
+	var pasted map[string]any
+	_ = json.Unmarshal(raw, &pasted)
+	pasted["title"] = "Pasted scrum"
+	raw, _ = json.Marshal(pasted)
+	if res, _ := post(t, pageC, w.srv.URL+"/import/wekan", url.Values{"text": {string(raw)}, "skipMapping": {"1"}}); res.StatusCode != http.StatusSeeOther || !strings.HasPrefix(res.Header.Get("Location"), "/b/") {
+		t.Errorf("the pasted import: %d", res.StatusCode)
+	}
+	var pb bson.M
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"title": "Pasted scrum"}).Decode(&pb)
+	if n, _ := w.db.Collection("scrumSprints").CountDocuments(ctx, bson.M{"boardId": pb["_id"]}); pb == nil || n != 1 {
+		t.Errorf("the pasted export's board and sprint: %v %d", pb != nil, n)
+	}
 	for name, change := range map[string]func(map[string]any){
 		"foreign sprint": func(x map[string]any) {
 			x["cards"].([]any)[0].(map[string]any)["scrum"].(map[string]any)["sprintId"] = "foreign-sprint"
