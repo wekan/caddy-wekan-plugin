@@ -77,6 +77,8 @@ func (s *Server) methods() map[string]methodFunc {
 		"outgoingWebhooks":                s.methodOutgoingWebhooks,
 		"copyBoard":                       s.methodCopyBoard,
 		"copyCard":                        s.methodCopyCard,
+		"inviteUserToBoard":               s.methodInviteUserToBoard,
+		"searchUsers":                     s.methodSearchUsers,
 	}
 	for k, v := range s.customFieldMethods() {
 		m[k] = v

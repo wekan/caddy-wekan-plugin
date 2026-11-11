@@ -50,7 +50,7 @@ func TestEveryQueryValueIsEqOrAnID(t *testing.T) {
 				// eq(...), or an id of a document read from the database: x.ID,
 				// doc["_id"], or dbIn(...) - ids read from documents, only the
 				// ones that are ids.
-				if strings.HasPrefix(v, "eq(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || strings.HasPrefix(v, "storedHash(") || constantsOnly(v) || numberConstant.MatchString(v) || strings.HasPrefix(v, "hashToken(") ||
+				if strings.HasPrefix(v, "eq(") || strings.HasPrefix(v, "exactFold(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || strings.HasPrefix(v, "storedHash(") || constantsOnly(v) || numberConstant.MatchString(v) || strings.HasPrefix(v, "hashToken(") ||
 					v == `"*"` {
 					continue
 				}
@@ -224,5 +224,31 @@ func TestNoFastHashOfPasswords(t *testing.T) {
 	}
 	if !fast.MatchString(`sum := sha256.Sum256([]byte(password))`) {
 		t.Fatal("the scan misses the old shape")
+	}
+}
+
+// exactFold is accepted above as eq() is: the text matched as text.
+func TestExactFold(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	for _, a := range []string{"Jan.Jansen@Example.com", "janXjansen@example.com", "a+b@x.io", "ab@x.io"} {
+		_, _ = w.db.Collection("users").InsertOne(ctx, bson.M{"_id": randomID(), "emails": bson.A{bson.M{"address": a}}})
+	}
+	count := func(v string) int64 {
+		n, _ := w.db.Collection("users").CountDocuments(ctx, bson.M{"emails.address": exactFold(v)})
+		return n
+	}
+	if count("jan.jansen@example.com") != 1 || count("JAN.JANSEN@EXAMPLE.COM") != 1 {
+		t.Error("any letter case finds the address")
+	}
+	// Negative: a pattern character is itself - "." no wildcard, "+" no repeat,
+	// ".*" no match-all - and a part of an address is no match.
+	for _, v := range []string{"jan.jansen@example.co", "an.jansen@example.com", ".*", "a+b@x.io$|.*", "ab@x.io.*"} {
+		if v != "a+b@x.io$|.*" && count(v) != 0 {
+			t.Errorf("negative: %q matched %d", v, count(v))
+		}
+	}
+	if count("a+b@x.io") != 1 || count("a+b@x.io$|.*") != 0 {
+		t.Error("negative: a pattern in the text is quoted")
 	}
 }

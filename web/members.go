@@ -1,9 +1,12 @@
 package web
 
 import (
+	"context"
+	"encoding/json"
 	"net/http"
 	"regexp"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 
@@ -85,7 +88,7 @@ func (s *Server) searchMembers(w http.ResponseWriter, r *http.Request, u *User) 
 		var users []User
 		_ = cur.All(r.Context(), &users)
 		for _, x := range users {
-			if b.MemberOf(x.ID) || len(out) >= 10 {
+			if b.MemberOf(x.ID) || len(out) >= 10 || !s.mayAddToBoard(r.Context(), u, b, x.ID) {
 				continue
 			}
 			out = append(out, map[string]string{"_id": x.ID, "username": x.Username, "fullname": x.Profile.Fullname})
@@ -108,21 +111,186 @@ func (s *Server) addBoardMember(w http.ResponseWriter, r *http.Request, u *User)
 		http.Error(w, "no such user", http.StatusBadRequest)
 		return
 	}
-	members := slices.Clone(b.Members)
-	if i := slices.IndexFunc(members, func(m Member) bool { return m.UserID == x.ID }); i >= 0 {
-		members[i].IsActive = true
-	} else {
-		members = append(members, Member{UserID: x.ID, IsActive: true})
+	if !s.mayAddToBoard(r.Context(), u, b, x.ID) {
+		http.Error(w, tr(languageOf(r, u).Tag, "error-user-notSameOrgOrTeam"), http.StatusForbidden)
+		return
 	}
-	ctx := r.Context()
-	if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"members": members, "modifiedAt": time.Now().UTC()}}); err != nil {
+	if _, err := s.addMemberToBoard(r, u, b, x.ID, true); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": x.ID}, bson.M{"$addToSet": bson.M{"profile.invitedBoards": b.ID}})
-	s.activity(ctx, u.ID, "addBoardMember", bson.M{"boardId": b.ID, "memberId": x.ID})
-	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+}
+
+// addMemberToBoard makes userID an active member - an earlier membership made
+// active again - with an invitation to accept in the sidebar, and records the
+// addBoardMember activity, which puts it in their bell (#3136). Somebody
+// already an active member is left as they are: no second activity.
+//
+// An existing account is told in its bell directly, whatever it watches
+// (server/lib/boardInviteTray.js), when its tray settings let it; a new
+// account (tray false) has nothing to sign in to yet, and is mailed.
+func (s *Server) addMemberToBoard(r *http.Request, u *User, b *Board, userID string, tray bool) (bool, error) {
+	members := slices.Clone(b.Members)
+	if i := slices.IndexFunc(members, func(m Member) bool { return m.UserID == userID }); i >= 0 {
+		if members[i].IsActive {
+			return false, nil
+		}
+		members[i].IsActive = true
+	} else {
+		members = append(members, Member{UserID: userID, IsActive: true})
+	}
+	ctx := r.Context()
+	if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"members": members, "modifiedAt": time.Now().UTC()}}); err != nil {
+		return false, err
+	}
+	b.Members = members
+	_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(userID)}, bson.M{"$addToSet": bson.M{"profile.invitedBoards": b.ID}})
+	since := time.Now().UTC().Add(-time.Second)
+	s.activity(ctx, u.ID, "addBoardMember", bson.M{"boardId": b.ID, "memberId": userID, "type": "member"})
+	if tray && s.notificationsOn(ctx, "Tray", userID, b.ID) {
+		var a struct {
+			ID string `bson:"_id"`
+		}
+		if s.db.Collection("activities").FindOne(ctx, bson.M{"activityType": "addBoardMember", "boardId": b.ID, "memberId": eq(userID), "createdAt": bson.M{"$gte": since}},
+			options.FindOne().SetSort(bson.D{{Key: "createdAt", Value: -1}})).Decode(&a) == nil {
+			_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(userID), "profile.notifications.activity": bson.M{"$ne": a.ID}},
+				bson.M{"$push": bson.M{"profile.notifications": bson.M{"activity": a.ID, "read": nil}}})
+		}
+	}
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	return true, nil
+}
+
+// mailBoardInvite is WeKan's invitation mail: in the invitee's language, or
+// the inviter's for a new account (#5664). Best effort: the membership
+// stands whether or not the mail goes.
+func (s *Server) mailBoardInvite(r *http.Request, inviter *User, x *User, b *Board, isNew bool) {
+	ctx := r.Context()
+	var doc struct {
+		Emails []struct {
+			Address string `bson:"address"`
+		} `bson:"emails"`
+	}
+	if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(x.ID)}).Decode(&doc) != nil || len(doc.Emails) == 0 {
+		return
+	}
+	lang := languageOf(r, inviter).Tag
+	if !isNew {
+		var full User
+		if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(x.ID)}).Decode(&full) == nil {
+			lang = languageOf(r, &full).Tag
+		}
+	}
+	scheme := "https://"
+	if r.TLS == nil {
+		scheme = "http://"
+	}
+	name := func(full, user string) string {
+		if full != "" {
+			return full + " (" + user + " )"
+		}
+		return user
+	}
+	params := map[string]string{"user": name(x.Profile.Fullname, x.Username), "inviter": name(inviter.Profile.Fullname, inviter.Username),
+		"board": b.Title, "url": scheme + r.Host + "/b/" + b.ID + "/" + b.Slug}
+	if err := s.sendMail(ctx, r.Host, mailMessage{To: []string{doc.Emails[0].Address},
+		Subject: fillParams(tr(lang, "email-invite-subject"), params), Text: fillParams(tr(lang, "email-invite-text"), params)}); err != nil {
+		s.log.Warn("board invitation mail", "error", err)
+	}
+}
+
+// methodInviteUserToBoard is WeKan's inviteUserToBoard(username, boardId):
+// whoever may invite to the board (Admin Panel / People / Roles) adds a user
+// by username or by e-mail address - in any letter case, as a directory
+// stores it (#6788) - or, for an address with no account and registration
+// open, a new account (#6831), which is sent the link to set its password.
+func (s *Server) methodInviteUserToBoard(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	name, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	boardID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	name = strings.TrimSpace(name)
+	if strings.Contains(name, "/") || strings.Contains(boardID, "/") || name == "" || len(name) > 254 {
+		return false, nil
+	}
+	ctx := r.Context()
+	var b Board
+	if !validID(boardID) || s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) != nil {
+		return nil, &methodError{"error-board-doesNotExist", "error-board-doesNotExist"}
+	}
+	if !u.IsAdmin && !b.MemberOf(u.ID) { // not a write: the roles rule below decides, as WeKan's
+		return nil, &methodError{"error-board-notAMember", "error-board-notAMember"}
+	}
+	if !canInviteToBoard(u, &b, s.inviteRoles(r)) {
+		return nil, &methodError{"error-notAllowed", "error-notAllowed"}
+	}
+	var x User
+	found := false
+	if strings.Contains(name, "@") {
+		found = s.db.Collection("users").FindOne(ctx, bson.M{"emails.address": exactFold(name)}).Decode(&x) == nil
+	} else {
+		found = s.db.Collection("users").FindOne(ctx, bson.M{"$or": bson.A{bson.M{"_id": eq(name)}, bson.M{"username": eq(name)}}}).Decode(&x) == nil
+	}
+	isNew := !found
+	if !found {
+		if !strings.Contains(name, "@") || !email_.MatchString(name) {
+			return nil, &methodError{"error-user-doesNotExist", "error-user-doesNotExist"}
+		}
+		if open, _ := s.registrationOpen(ctx); !open {
+			return nil, &methodError{"error-user-notCreated", "error-user-notCreated"}
+		}
+		// A new account has no Organization or Team: under the restriction it
+		// could not be added, so it is not made.
+		if rs := s.boardMemberRestriction(ctx); !u.IsAdmin && (rs.Org || rs.Team) {
+			return nil, &methodError{"error-user-notSameOrgOrTeam", "error-user-notSameOrgOrTeam"}
+		}
+		created, err := s.createInvitedUser(ctx, strings.ToLower(name))
+		if err != nil {
+			return nil, err
+		}
+		x = *created
+		s.sendReset(r, strings.ToLower(name), languageOf(r, u).Tag)
+	}
+	if !s.mayAddToBoard(ctx, u, &b, x.ID) {
+		return nil, &methodError{"error-user-notSameOrgOrTeam", "error-user-notSameOrgOrTeam"}
+	}
+	added, err := s.addMemberToBoard(r, u, &b, x.ID, !isNew)
+	if err != nil {
+		return nil, err
+	}
+	if added && !isNew {
+		s.mailBoardInvite(r, u, &x, &b, false)
+	}
+	return x.ID, nil
+}
+
+// createInvitedUser is an account for an invited address: its name from the
+// address, made unique, and no password until the link sets one.
+func (s *Server) createInvitedUser(ctx context.Context, email string) (*User, error) {
+	local, _, _ := strings.Cut(email, "@")
+	base := strings.Trim(regexp.MustCompile(`[^A-Za-z0-9._-]+`).ReplaceAllString(local, ""), ".")
+	if len(base) < 2 {
+		base = "user"
+	}
+	if len(base) > 60 {
+		base = base[:60]
+	}
+	username := base
+	for i := 2; s.db.Collection("users").FindOne(ctx, bson.M{"username": eq(username)}).Err() == nil; i++ {
+		username = base + strconv.Itoa(i)
+	}
+	doc := bson.M{"_id": randomID(), "username": username, "createdAt": time.Now().UTC(), "isAdmin": false, // inserted, not a filter
+		"emails":  []bson.M{{"address": email, "verified": false}},
+		"profile": bson.M{"fullname": username, "boardView": "board-view-swimlanes"}, "authenticationMethod": "password"}
+	if _, err := s.db.Collection("users").InsertOne(ctx, doc); err != nil {
+		return nil, err
+	}
+	return &User{ID: doc["_id"].(string), Username: username}, nil
 }
 
 // removeBoardMember is WeKan's removeMember (#5122, #6479): a board admin
@@ -161,4 +329,56 @@ func (s *Server) removeBoardMember(w http.ResponseWriter, r *http.Request, u *Us
 	s.activity(ctx, u.ID, "removeBoardMember", bson.M{"boardId": b.ID, "memberId": id})
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+}
+
+// methodSearchUsers is WeKan's searchUsers(query, boardId), the Members
+// dialog's typeahead: for an active member (or a site admin), up to five users
+// whose username, name or address contains the text in any letter case -
+// never a disabled account (#1894), never one the org/team restriction would
+// refuse (#6116) - read from fifty, so five that do not qualify cannot hide one
+// that does (#6788).
+func (s *Server) methodSearchUsers(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	query, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	boardID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	ctx := r.Context()
+	var b Board
+	if !validID(boardID) || s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) != nil {
+		return nil, &methodError{"not-authorized", "User is not a member of this board"}
+	}
+	if !u.IsAdmin && !b.MemberOf(u.ID) { // not a write: the members' own search, as WeKan's
+		return nil, &methodError{"not-authorized", "User is not a member of this board"}
+	}
+	out := []map[string]any{}
+	if len([]rune(query)) < 2 || len(query) > 100 {
+		return out, nil
+	}
+	// The text is quoted, so it is matched as text and never as a pattern.
+	rx := bson.M{"$regex": regexp.QuoteMeta(query), "$options": "i"}
+	or := bson.A{}
+	for _, f := range []string{"username", "profile.fullname", "emails.address"} {
+		or = append(or, bson.M{f: rx})
+	}
+	cur, err := s.db.Collection("users").Find(ctx, bson.M{"$or": or, "loginDisabled": bson.M{"$ne": true}},
+		options.Find().SetLimit(50).SetProjection(bson.M{"username": 1, "profile.fullname": 1, "profile.initials": 1}))
+	if err != nil {
+		return out, nil
+	}
+	var users []User
+	_ = cur.All(ctx, &users)
+	for _, x := range users {
+		if len(out) >= 5 {
+			break
+		}
+		if !s.mayAddToBoard(ctx, u, &b, x.ID) {
+			continue
+		}
+		out = append(out, map[string]any{"_id": x.ID, "username": x.Username, "profile": map[string]any{"fullname": x.Profile.Fullname}})
+	}
+	return out, nil
 }

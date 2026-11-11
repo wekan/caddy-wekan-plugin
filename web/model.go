@@ -38,6 +38,13 @@ func validID(id string) bool { return idPattern.MatchString(id) }
 // put in a filter where the database could read it as anything but a value.
 func eq(v string) bson.M { return bson.M{"$eq": v} }
 
+// exactFold matches exactly v in any letter case: every character of v is
+// quoted, so v is matched as text, never as a pattern - an e-mail address
+// as a directory spells it (#6788).
+func exactFold(v string) bson.M {
+	return bson.M{"$regex": "^" + regexp.QuoteMeta(v) + "$", "$options": "i"}
+}
+
 // inIDs matches any of ids from a request, each of which must be an id; ok is
 // false otherwise, and nothing is to be queried.
 func inIDs(ids []string) (bson.M, bool) {
