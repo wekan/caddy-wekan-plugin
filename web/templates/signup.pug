@@ -2,7 +2,7 @@
   .auth-dialog.at-form
     h1.at-title {{t $.L "register"}}
     if .Error
-      .at-error.js-signup-error {{t $.L .Error}}
+      .at-error.js-signup-error {{if .ErrorText}}{{.ErrorText}}{{else}}{{t $.L .Error}}{{end}}
     form#at-signup-form(method="post", action="/sign-up")
       label(for="at-field-username") {{t $.L "username"}}
       input#at-field-username(type="text", name="username", value="{{.Username}}", autocomplete="username", required)

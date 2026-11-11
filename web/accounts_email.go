@@ -198,7 +198,8 @@ func (s *Server) resetPassword(w http.ResponseWriter, r *http.Request) {
 		problem = msg("password-again")
 	}
 	if problem != "" {
-		s.render(w, r, "reset", http.StatusBadRequest, map[string]any{"Title": tr(lang, "change-password"), "Token": token, "Error": problem})
+		s.render(w, r, "reset", http.StatusBadRequest, map[string]any{"Title": tr(lang, "change-password"), "Token": token, "Error": problem,
+			"ErrorText": s.problemText(r.Context(), lang, problem)})
 		return
 	}
 	hash, err := HashPassword(password)

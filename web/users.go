@@ -85,10 +85,10 @@ func (p passwordPolicy) passwordTooShort(password string) bool {
 // password, or "".
 func (p passwordPolicy) problem(password, username, email string) string {
 	if p.Enforce && p.passwordTooShort(password) {
-		return "password-too-short"
+		return msg("password-too-short")
 	}
 	if utf8.RuneCountInString(password) > PasswordMaxLength {
-		return "password-too-long"
+		return "password-too-long" // no WeKan string: problemText's English, as WeKan's server says it
 	}
 	if !p.Enforce {
 		return ""
@@ -96,15 +96,33 @@ func (p passwordPolicy) problem(password, username, email string) string {
 	local, _, _ := strings.Cut(email, "@")
 	for _, name := range []string{username, email, local} {
 		if utf8.RuneCountInString(name) >= 3 && strings.EqualFold(password, name) {
-			return "password-same-as-username"
+			return msg("password-same-as-username")
 		}
 	}
 	return ""
 }
 
-// passwordProblem is the policy in force's problem with a new password.
+// passwordProblem is the policy in force's problem with a new password -
+// and, with PASSWORD_CHECK_PWNED, one that appears in a known breach.
 func (s *Server) passwordProblem(ctx context.Context, password, username, email string) string {
-	return s.passwordPolicy(ctx).problem(password, username, email)
+	p := s.passwordPolicy(ctx)
+	if problem := p.problem(password, username, email); problem != "" {
+		return problem
+	}
+	if p.CheckPwned && pwned(ctx, password) {
+		return msg("password-pwned")
+	}
+	return ""
+}
+
+// problemText is a refusal's text, with the policy's minimum and maximum.
+func (s *Server) problemText(ctx context.Context, lang, key string) string {
+	text := tr(lang, key)
+	if key == "password-too-long" && text == key {
+		text = "The password must be at most __max__ characters long." // server/lib/passwordPolicy.js REASONS
+	}
+	return fillParams(text, map[string]string{"min": strconv.Itoa(s.passwordPolicy(ctx).MinLength),
+		"max": strconv.Itoa(PasswordMaxLength), "size": "72 kB"})
 }
 
 // registrationOpen: WeKan's Admin Panel setting - and always for the very first
@@ -157,7 +175,7 @@ func (s *Server) signUp(w http.ResponseWriter, r *http.Request) {
 	email := strings.TrimSpace(r.FormValue("email"))
 	password := r.FormValue("password")
 	fail := func(key string) {
-		s.render(w, r, "signup", http.StatusBadRequest, map[string]any{"Title": tr(lang, "register"), "Error": key,
+		s.render(w, r, "signup", http.StatusBadRequest, map[string]any{"Title": tr(lang, "register"), "Error": key, "ErrorText": s.problemText(r.Context(), lang, key),
 			"Username": username, "Email": email, "Invite": !open})
 	}
 	// Registration closed: only with a valid invitation code for this very
@@ -226,7 +244,7 @@ func (s *Server) profilePage(w http.ResponseWriter, r *http.Request, u *User) {
 	key := r.URL.Query().Get("error")
 	text := ""
 	if key != "" {
-		text = fillParams(tr(lang, key), map[string]string{"size": "72 kB"})
+		text = s.problemText(r.Context(), lang, key)
 	}
 	// The change the enforced minimum requires, before anything else.
 	required := ""

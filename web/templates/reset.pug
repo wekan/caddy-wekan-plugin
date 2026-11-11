@@ -7,7 +7,7 @@
         a(href="/forgot-password") {{t $.L "forgot-password"}}
     else
       if .Error
-        .at-error.js-reset-error {{t $.L .Error}}
+        .at-error.js-reset-error {{if .ErrorText}}{{.ErrorText}}{{else}}{{t $.L .Error}}{{end}}
       form#at-pwd-form(method="post", action="/reset-password/{{.Token}}")
         label(for="at-field-password") {{t $.L "password"}}
         input#at-field-password(type="password", name="password", autocomplete="new-password", minlength="{{$.PasswordMin}}", required)

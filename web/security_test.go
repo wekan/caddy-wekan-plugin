@@ -213,7 +213,16 @@ func TestNoFastHashOfPasswords(t *testing.T) {
 		if f != "meteor_prehash.go" && strings.Contains(text, "crypto.SHA256") {
 			offenders = append(offenders, f+": crypto.SHA256 outside meteor_prehash.go")
 		}
+		// The one other: PASSWORD_CHECK_PWNED's range lookup, whose API is
+		// keyed by SHA-1 - never stored, never logged, five digits sent
+		// (pwned_passwords.go). Only there, and only for that lookup.
+		if f != "pwned_passwords.go" && (strings.Contains(text, `"crypto/sha1"`) || strings.Contains(text, "breachLookupDigest(")) {
+			offenders = append(offenders, f+": SHA-1 or the breach digest outside pwned_passwords.go")
+		}
 		for i, line := range strings.Split(text, "\n") {
+			if f == "pwned_passwords.go" && strings.Contains(line, "sum := sha1.Sum([]byte(password))") {
+				continue
+			}
 			if fast.MatchString(line) && pass.MatchString(line) {
 				offenders = append(offenders, fmt.Sprintf("%s:%d %s", f, i+1, strings.TrimSpace(line)))
 			}
