@@ -2416,5 +2416,19 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     return function () { clearTimeout(again); search.removeEventListener('keydown', onSearchKey); panel.removeEventListener('click', onClick); };
   });
 
+  // Ctrl+Z and Ctrl+Shift+Z (Cmd on a Mac) on a board: undo and redo one's
+  // own last change (changeHistory.undoLast / redoLast), as WeKan's
+  // keyboard shortcuts - never while typing in a field.
+  document.addEventListener('keydown', function (e) {
+    if (!(e.ctrlKey || e.metaKey) || e.altKey || (e.key || '').toLowerCase() !== 'z') return;
+    var t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    var wrapper = document.querySelector('.board-wrapper[data-board]');
+    if (!wrapper) return;
+    e.preventDefault();
+    callAsync(e.shiftKey ? 'changeHistory.redoLast' : 'changeHistory.undoLast', wrapper.getAttribute('data-board'))
+      .then(function () { up.reload('.board-wrapper'); }, function () {});
+  });
+
   window.weddyMultiDrag = { sorts: sorts }; // for the tests
 })();

@@ -163,6 +163,10 @@
           a.js-open-archives(href="#")
             i.fa.fa-archive
             |  {{t $.L "archived-items"}}
+        li
+          a.js-open-history(href="/b/{{.Board.ID}}/history")
+            i.fa.fa-history
+            |  {{t $.L "history"}}
         if .CanExport
           li
             a.js-export-board(href="#") {{t $.L "export"}}
@@ -454,6 +458,10 @@
             a.js-copy-card(href="#")
               i.fa.fa-copy
               |  {{t $.L "copyCardPopup-title"}}
+          li
+            a.js-open-card-history(href="/b/{{.Board.ID}}/history?card={{.Card.ID}}")
+              i.fa.fa-history
+              |  {{t $.L "history"}}
           //- #1173: the card's Export and Import (cardDetails.jade).
           if $.CanExport
             li

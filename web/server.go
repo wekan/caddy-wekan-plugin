@@ -330,6 +330,7 @@ func (s *Server) routes() {
 	s.notificationRoutes(m)
 	s.methodRoutes(m)
 	s.problemsRoutes(m)
+	s.historyViewRoutes(m)
 	m.HandleFunc("POST /language", s.page(s.setLanguage))
 	s.apiRoutes(m)
 	s.cloudRoutes(m)

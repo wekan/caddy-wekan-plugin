@@ -1,0 +1,57 @@
+//- WeKan's historyTable (client/components/history/historyTable.jade): THE
+  History view, a board's or a card's - changeHistory.page with a scope -
+  searched, a page at a time, filtered by a contributor; the ticked rows
+  restored at once (changeHistory.restore). Only what the viewer may read.
+.history-table
+  .history-header
+    a.js-history-back(href="{{.Back}}") &larr; {{.BackTitle}}
+    h2 {{t $.L "history"}}
+  if .Contributors
+    .history-nav
+      a.history-nav-item.js-history-all(href="{{.AllLink}}", class="{{if not .ActiveUser}}is-active{{end}}")
+        i.fa.fa-history
+        span {{t $.L "history"}}
+      each c in .Contributors
+        a.history-nav-item.js-history-contributor(href="{{.Link}}", data-user-id="{{.UserID}}", class="{{if .Active}}is-active{{end}}")
+          span.history-nav-name {{.Name}}
+          span.history-nav-count {{.Count}}
+  .history-main
+    form.history-controls(method="get", action="{{.Action}}")
+      if .CardID
+        input(type="hidden", name="card", value="{{.CardID}}")
+      if .ActiveUser
+        input(type="hidden", name="user", value="{{.ActiveUser}}")
+      input.js-history-search(type="search", name="q", value="{{.Search}}", placeholder="{{t $.L `search`}}", aria-label="{{t $.L `search`}}")
+      .history-pagination
+        if .Prev
+          a.js-history-prev(href="{{.Prev}}", title="{{t $.L `previous`}}") &lt;
+        span.history-page {{.Page}} / {{.Pages}}
+        if .Next
+          a.js-history-next(href="{{.Next}}", title="{{t $.L `next`}}") &gt;
+    if .Rows
+      form.js-history-restore-form(method="post", action="{{.RestoreAction}}")
+        input(type="hidden", name="back", value="{{.Self}}")
+        .history-scroll
+          table.history-rows
+            thead
+              tr
+                th.history-select
+                th {{t $.L "action"}}
+                th {{t $.L "details"}}
+                th {{t $.L "date"}}
+            tbody
+              each row in .Rows
+                tr.js-history-row(data-id="{{.ID}}")
+                  td.history-select
+                    input.js-history-select(type="checkbox", name="id", value="{{.ID}}", aria-label="{{.Type}}")
+                  td.history-change
+                    span.history-change-type {{.Type}}
+                    if .Group
+                      span.quiet.history-group  {{.Group}}
+                  td.history-content {{.Summary}}
+                  td.history-when {{.When}}
+        button.js-history-restore.primary(type="submit")
+          i.fa.fa-undo
+          |  {{t $.L "restore"}}
+    else
+      p.quiet.js-history-empty {{t $.L "no-results"}}
