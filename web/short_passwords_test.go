@@ -141,3 +141,67 @@ func TestShortPasswordSignIns(t *testing.T) {
 		t.Errorf("negative: not a site admin: %v", out)
 	}
 }
+
+// Admin Panel / Problems / Password length: the settings, saved over the
+// environment, and the table - a site admin's page, nobody else's.
+func TestPasswordLengthPage(t *testing.T) {
+	t.Setenv("PASSWORD_MIN_LENGTH_ENFORCE", "")
+	t.Setenv("PASSWORD_MIN_LENGTH", "")
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "boss", "boss-password-1")
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"username": "boss"}, bson.M{"$set": bson.M{"isAdmin": true}})
+	w.seedUser(t, "ann", "short7x")
+	body(t, w.signIn(t, w.client(t), "ann", "short7x"))
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "boss", "boss-password-1"))
+	page := w.srv.URL + "/admin/problems/password-length"
+	if _, html := get(t, bc, page); !strings.Contains(html, "js-password-length-row") || !strings.Contains(html, ">ann<") ||
+		!strings.Contains(html, `value="8"`) || strings.Contains(html, "js-password-min-length-enforce\" type=\"checkbox\" name=\"enforce\" value=\"true\" checked") {
+		t.Fatalf("the page: the row, the default minimum, not enforced")
+	}
+	if _, html := get(t, bc, w.srv.URL+"/admin/problems/recovery"); !strings.Contains(html, `href="/admin/problems/password-length"`) {
+		t.Error("Problems' menu leads to it")
+	}
+	if _, html := get(t, bc, page+"?filter=fixed"); strings.Contains(html, "js-password-length-row") {
+		t.Error("negative: nothing fixed yet")
+	}
+	if _, html := get(t, bc, page+"?filter=all&q=nobody"); strings.Contains(html, "js-password-length-row") {
+		t.Error("negative: a search for nobody")
+	}
+	// Save: the minimum and enforcing, as Admin Panel's login settings.
+	res, _ := post(t, bc, page, url.Values{"minLength": {"10"}, "enforce": {"true"}})
+	if !strings.HasSuffix(res.Header.Get("Location"), "?saved=1") {
+		t.Fatalf("saved: %s", res.Header.Get("Location"))
+	}
+	if p := w.s.passwordPolicy(ctx); p.MinLength != 10 || !p.Enforce {
+		t.Errorf("the policy in force: %+v", p)
+	}
+	for _, bad := range []string{"0", "257", "ten"} {
+		res, _ := post(t, bc, page, url.Values{"minLength": {bad}})
+		if !strings.Contains(res.Header.Get("Location"), "error=") {
+			t.Errorf("negative: %q saved", bad)
+		}
+	}
+	if p := w.s.passwordPolicy(ctx); p.MinLength != 10 {
+		t.Errorf("negative: a refused value changed it: %+v", p)
+	}
+	// Empty takes the environment's back.
+	t.Setenv("PASSWORD_MIN_LENGTH", "9")
+	post(t, bc, page, url.Values{"minLength": {""}})
+	if p := w.s.passwordPolicy(ctx); p.MinLength != 9 || p.Enforce {
+		t.Errorf("back to the environment, unenforced: %+v", p)
+	}
+	if _, html := get(t, bc, page); !strings.Contains(html, "set in the server") {
+		t.Error("the page says the environment is in effect")
+	}
+	// Negative: not a site admin.
+	ac := w.client(t)
+	body(t, w.signIn(t, ac, "ann", "short7x"))
+	if res, _ := get(t, ac, page); res.StatusCode != http.StatusNotFound {
+		t.Errorf("negative: not a site admin reads it: %d", res.StatusCode)
+	}
+	if res, _ := post(t, ac, page, url.Values{"minLength": {"1"}}); res.StatusCode != http.StatusNotFound {
+		t.Errorf("negative: not a site admin saves it: %d", res.StatusCode)
+	}
+}

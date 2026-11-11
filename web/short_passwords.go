@@ -24,6 +24,9 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"net/url"
+	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -170,4 +173,109 @@ func (s *Server) methodShortPasswordLoginsPage(r *http.Request, u *User, args []
 		return nil, &methodError{"Match.Error", "Match failed"}
 	}
 	return s.shortPasswordLoginsPage(r.Context(), u, o.Filter, o.Search, o.Limit, o.Skip)
+}
+
+type passwordLengthRow struct {
+	Username, First, Last, Fixed, IPv4, IPv6 string
+	Count                                    int64
+}
+
+// passwordLengthPage is Admin Panel / Problems / Password length.
+func (s *Server) passwordLengthPage(w http.ResponseWriter, r *http.Request, u *User) {
+	lang := languageOf(r, u).Tag
+	if !u.IsAdmin {
+		s.render(w, r, "notfound", http.StatusNotFound, map[string]any{"Title": tr(lang, "error-notAuthorized"), "User": u})
+		return
+	}
+	ctx := r.Context()
+	q := r.URL.Query()
+	filter := q.Get("filter")
+	if filter != "fixed" && filter != "all" {
+		filter = "short"
+	}
+	page, _ := strconv.ParseInt(q.Get("page"), 10, 64)
+	if page < 1 {
+		page = 1
+	}
+	const per = 10
+	res, err := s.shortPasswordLoginsPage(ctx, u, filter, q.Get("q"), per, (page-1)*per)
+	if err != nil {
+		s.render(w, r, "notfound", http.StatusNotFound, map[string]any{"Title": tr(lang, "error-notAuthorized"), "User": u})
+		return
+	}
+	date := func(v any) string {
+		if t, ok := v.(bson.DateTime); ok {
+			return t.Time().UTC().Format("2006-01-02 15:04")
+		}
+		return ""
+	}
+	var rows []passwordLengthRow
+	for _, d := range res["rows"].([]bson.M) {
+		n, _ := safeInt(d["count"])
+		rows = append(rows, passwordLengthRow{Username: orDefault(docString(d, "username"), docString(d, "userId")), First: date(d["firstAt"]),
+			Last: date(d["at"]), Fixed: date(d["fixedAt"]), Count: n, IPv4: docString(d, "ipv4"), IPv6: docString(d, "ipv6")})
+	}
+	total := res["total"].(int64)
+	pages := (total + per - 1) / per
+	if pages < 1 {
+		pages = 1
+	}
+	link := func(p int64) string {
+		v := url.Values{"filter": {filter}, "page": {strconv.FormatInt(p, 10)}}
+		if s := q.Get("q"); s != "" {
+			v.Set("q", s)
+		}
+		return "/admin/problems/password-length?" + v.Encode()
+	}
+	policy := s.passwordPolicy(ctx)
+	var set struct {
+		LoginOptions map[string]any `bson:"loginOptions"`
+	}
+	_ = s.db.Collection("settings").FindOne(ctx, bson.M{}).Decode(&set)
+	_, storedMin := set.LoginOptions["passwordMinLength"]
+	_, storedEnforce := set.LoginOptions["passwordMinLengthEnforce"]
+	data := map[string]any{"Title": tr(lang, "password-length-report-title"), "User": u,
+		"MinLength": policy.MinLength, "Enforce": policy.Enforce, "Saved": q.Get("saved") != "",
+		"FromEnvironment": (!storedMin && os.Getenv("PASSWORD_MIN_LENGTH") != "") || (!storedEnforce && os.Getenv("PASSWORD_MIN_LENGTH_ENFORCE") != ""),
+		"Filter":          filter, "Search": q.Get("q"), "Rows": rows, "Total": total, "Page": page, "Pages": pages,
+		"Filters": []map[string]string{{"Value": "short", "Label": tr(lang, "password-length-filter-short")},
+			{"Value": "fixed", "Label": tr(lang, "password-length-filter-fixed")}, {"Value": "all", "Label": tr(lang, "password-length-filter-all")}}}
+	if page > 1 {
+		data["Prev"] = link(page - 1)
+	}
+	if page < pages {
+		data["Next"] = link(page + 1)
+	}
+	if e := q.Get("error"); e != "" {
+		data["SaveError"] = tr(lang, "password-min-length") + ": 1 - " + strconv.Itoa(passwordMaxMinLength)
+	}
+	s.render(w, r, "passwordlength", http.StatusOK, data)
+}
+
+// savePasswordLength is the page's Save: the minimum (1 to 256; empty takes
+// the environment's back) and enforcing it, as Admin Panel's login settings.
+func (s *Server) savePasswordLength(w http.ResponseWriter, r *http.Request, u *User) {
+	if !u.IsAdmin {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	set, unset := bson.M{}, bson.M{}
+	if v := strings.TrimSpace(r.FormValue("minLength")); v == "" {
+		unset["loginOptions.passwordMinLength"] = ""
+	} else if n, err := strconv.Atoi(v); err == nil && n >= 1 && n <= passwordMaxMinLength {
+		set["loginOptions.passwordMinLength"] = n
+	} else {
+		http.Redirect(w, r, "/admin/problems/password-length?error=minLength", http.StatusSeeOther)
+		return
+	}
+	set["loginOptions.passwordMinLengthEnforce"] = r.FormValue("enforce") == "true"
+	update := bson.M{"$set": set}
+	if len(unset) > 0 {
+		update["$unset"] = unset
+	}
+	if _, err := s.db.Collection("settings").UpdateOne(r.Context(), bson.M{}, update); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w, r, "/admin/problems/password-length?saved=1", http.StatusSeeOther)
 }

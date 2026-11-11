@@ -730,4 +730,6 @@ func (s *Server) recoveryPage(w http.ResponseWriter, r *http.Request, u *User) {
 
 func (s *Server) problemsRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /admin/problems/recovery", s.page(s.recoveryPage))
+	m.HandleFunc("GET /admin/problems/password-length", s.page(s.passwordLengthPage))
+	m.HandleFunc("POST /admin/problems/password-length", s.page(s.savePasswordLength))
 }

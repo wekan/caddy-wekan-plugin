@@ -10,6 +10,10 @@
       ul
         li.active
           a.js-left-menu-item(href="/admin/problems/recovery", data-id="report-recovery") {{t $.L "recoveryReportTitle"}}
+        li
+          a.js-left-menu-item(href="/admin/problems/password-length", data-id="report-password-length")
+            i.fa.fa-key
+            |  {{t $.L "password-length-report-title"}}
     .main-body
       h2.pane-title {{t $.L "recoveryReportTitle"}}
       //- WeKan's recovery events (report-recovery): what imports left out,
