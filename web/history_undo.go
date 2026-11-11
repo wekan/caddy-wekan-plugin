@@ -177,6 +177,30 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 		// A removal: restoring it puts back what it removed.
 		content, _ = row["previousContent"].(map[string]any)
 	}
+	// An attachment's lifecycle: deleted or restored again (applyAttachmentContent).
+	if docString(row, "entityType") == "attachment" && docString(row, "group") == "lifecycle" && content != nil {
+		deleted, ok := content["deleted"].(bool)
+		if !ok {
+			return false
+		}
+		var a Attachment
+		if s.db.Collection("attachments").FindOne(ctx, bson.M{"_id": eq(docString(row, "entityId"))}).Decode(&a) != nil {
+			return false
+		}
+		r, _ := http.NewRequestWithContext(ctx, http.MethodPost, "/", nil)
+		by := &User{ID: docString(row, "userId")}
+		if id := docString(row, "restoredByUserId"); id != "" && !deleted {
+			by.ID = id
+		}
+		var err error
+		if deleted {
+			_, err = s.softDeleteAttachmentAs(r, &a, by, false)
+		} else {
+			err = s.restoreAttachmentAs(r, &a, by, false)
+		}
+		s.hub.publish(a.Meta.BoardID, "board-changed")
+		return err == nil
+	}
 	// A card's position: moved back, across boards too (Card.move).
 	if docString(row, "entityType") == "card" && docString(row, "group") == "position" && content != nil {
 		return s.applyCardPosition(ctx, row, content)

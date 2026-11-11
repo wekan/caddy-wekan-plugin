@@ -147,27 +147,27 @@ func TestCardEditUndo(t *testing.T) {
 // history, or it is one of these, each with why. A new direct write fails
 // until it goes through cardsUpdateOne or is listed here with its reason.
 var unrecordedCardWrites = map[string]string{
-	"api_cards.go:apiCopyCard":                 "the copy's own fields, set on a card just made",
-	"api.go:apiAddCard":                        "the new card's fields, set as it is made",
-	"api_members.go:addCardFrom":               "the new card's fields, set as it is made",
-	"cardmove.go:copyCardToPage":               "the copy's own fields, set on a card just made",
-	"server.go:addCard":                        "the new card's fields, set as it is made",
-	"server.go:AddCardWith":                    "the new card's fields, set as it is made",
-	"rules_engine.go:ruleSortList":             "sort only, never recorded (NEVER_RECORD)",
-	"api_more.go:apiDeleteCustomField":         "the field's values leave with its definition, which is the change",
-	"attachments.go:attachmentCoverPage":       "coverId, not a recorded field",
-	"attachments.go:copyCardAttachments":       "a copy's attachments, on a card just made",
-	"attachments.go:softDeleteAttachmentBatch": "the attachment's own soft delete, its lifecycle row a later step",
-	"attachments.go:uploadAttachment":          "the attachment's own added row, a later step",
-	"export_ics.go:apiImportICS":               "an import, whose author WeKan's hooks do not have either",
-	"import_general.go:cards":                  "an import, whose author WeKan's hooks do not have either",
-	"history_undo.go:applyHistoryRow":          "undo and redo themselves, recorded as their restored row",
-	"history_undo.go:applyCardPosition":        "undo and redo of a move, recorded as their restored row",
-	"history_undo.go:softRemoveList":           "a list's soft delete, recorded as its lifecycle row",
-	"members.go:removeBoardMember":             "the board's people, recorded as the board's own change",
-	"server.go:restoreAllArchivedCardsPage":    "Restore all - lifecycle rows a later step",
-	"server.go:setPoker":                       "planning poker votes, recorded with the poker group - a later step",
-	"server.go:watchCardPage":                  "watchers, not a recorded field",
+	"api_cards.go:apiCopyCard":              "the copy's own fields, set on a card just made",
+	"api.go:apiAddCard":                     "the new card's fields, set as it is made",
+	"api_members.go:addCardFrom":            "the new card's fields, set as it is made",
+	"cardmove.go:copyCardToPage":            "the copy's own fields, set on a card just made",
+	"server.go:addCard":                     "the new card's fields, set as it is made",
+	"server.go:AddCardWith":                 "the new card's fields, set as it is made",
+	"rules_engine.go:ruleSortList":          "sort only, never recorded (NEVER_RECORD)",
+	"api_more.go:apiDeleteCustomField":      "the field's values leave with its definition, which is the change",
+	"attachments.go:attachmentCoverPage":    "coverId, not a recorded field",
+	"attachments.go:copyCardAttachments":    "a copy's attachments, on a card just made",
+	"attachments.go:softDeleteAttachmentAs": "the card's cover, unset with its attachment; the delete is the attachment's lifecycle row",
+	"attachments.go:uploadAttachment":       "the attachment's own added row, a later step",
+	"export_ics.go:apiImportICS":            "an import, whose author WeKan's hooks do not have either",
+	"import_general.go:cards":               "an import, whose author WeKan's hooks do not have either",
+	"history_undo.go:applyHistoryRow":       "undo and redo themselves, recorded as their restored row",
+	"history_undo.go:applyCardPosition":     "undo and redo of a move, recorded as their restored row",
+	"history_undo.go:softRemoveList":        "a list's soft delete, recorded as its lifecycle row",
+	"members.go:removeBoardMember":          "the board's people, recorded as the board's own change",
+	"server.go:restoreAllArchivedCardsPage": "Restore all - lifecycle rows a later step",
+	"server.go:setPoker":                    "planning poker votes, recorded with the poker group - a later step",
+	"server.go:watchCardPage":               "watchers, not a recorded field",
 }
 
 func TestEveryCardWriteIsRecorded(t *testing.T) {
@@ -362,5 +362,83 @@ func TestChecklistLifecycleRecorded(t *testing.T) {
 	}
 	if f := verifyWithWeKan(t, historyRows(t, w, rb.ID)); len(f) != 0 {
 		t.Errorf("WeKan's audit: %v", f)
+	}
+}
+
+// An attachment uploaded, deleted and restored is in its card's History,
+// named by its file; Restore on the removal brings it back, and undo of a
+// delete too. An import's attachment is no row (negative).
+func TestAttachmentHistory(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.s.FilesDir = t.TempDir()
+	w.seedUser(t, "ann", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Files")
+	var ann User
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"username": "ann"}).Decode(&ann)
+	var b Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&b)
+	var c Card
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": rb.Card}).Decode(&c)
+	r, _ := http.NewRequestWithContext(ctx, http.MethodPost, "/", nil)
+	a, err := w.s.StoreAttachment(r, &b, &c, &ann, "report.pdf", "application/pdf", strings.NewReader("%PDF-1.4 x"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	rows := func(change string) []map[string]any {
+		var out []map[string]any
+		for _, row := range historyRows(t, w, rb.ID) {
+			if row["entityType"] == "attachment" && row["changeType"] == change {
+				out = append(out, row)
+			}
+		}
+		return out
+	}
+	if len(rows("added")) != 1 {
+		t.Fatalf("the upload is a row")
+	}
+	deleted := func() bool {
+		var d bson.M
+		_ = w.db.Collection("attachments").FindOne(ctx, bson.M{"_id": a.ID}).Decode(&d)
+		return d["deletedAt"] != nil
+	}
+	if _, err := w.s.softDeleteAttachmentBatch(r, a, &ann); err != nil || !deleted() {
+		t.Fatal("deleted")
+	}
+	removed := rows("removed")
+	if len(removed) != 1 || removed[0]["previousContent"].(map[string]any)["name"] != "report.pdf" || removed[0]["newContent"] != nil {
+		t.Fatalf("the delete, named by its file: %v", removed)
+	}
+	cl := w.client(t)
+	body(t, w.signIn(t, cl, "ann", "pw"))
+	call := func(method, args string) map[string]any {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/"+url.PathEscape(method), strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := cl.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return out
+	}
+	if out := call("changeHistory.restore", `[["`+docString(removed[0], "_id")+`"]]`); canonical(out["result"]) != `{"restored":1,"skipped":0}` || deleted() {
+		t.Fatalf("Restore on the removal brings it back: %v", out)
+	}
+	// Deleted again, then undone.
+	_, _ = w.s.softDeleteAttachmentBatch(r, a, &ann)
+	call("changeHistory.undoLast", `["`+rb.ID+`"]`)
+	if deleted() {
+		t.Error("undo of the delete brings it back")
+	}
+	if f := verifyWithWeKan(t, historyRows(t, w, rb.ID)); len(f) != 0 {
+		t.Errorf("WeKan's audit: %v", f)
+	}
+	// Negative: an imported attachment is no row.
+	n := len(rows("added"))
+	_, _ = w.db.Collection("attachments").InsertOne(ctx, bson.M{"_id": "imported01", "name": "old.txt", "meta": bson.M{"boardId": rb.ID, "cardId": rb.Card, "source": "import"}})
+	if len(rows("added")) != n {
+		t.Error("negative: an import recorded")
 	}
 }

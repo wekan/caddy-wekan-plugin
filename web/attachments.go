@@ -136,6 +136,11 @@ func (s *Server) StoreAttachment(r *http.Request, b *Board, c *Card, u *User, na
 		_ = os.Remove(path)
 		return nil, err
 	}
+	// The upload's history row (History.md §12.2) - never an import's, as
+	// WeKan's hook skips meta.source "import".
+	if m, _ := plain(doc).(map[string]any)["meta"].(map[string]any); m["source"] != "import" {
+		s.recordLifecycle(r.Context(), u.ID, "attachment", plain(doc).(map[string]any), "added")
+	}
 	s.activity(r.Context(), u.ID, "addAttachment", bson.M{"attachmentId": id, "attachmentName": name, "boardId": b.ID,
 		"cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
@@ -303,7 +308,28 @@ func (s *Server) softDeleteAttachment(r *http.Request, a *Attachment, u *User) e
 }
 
 func (s *Server) softDeleteAttachmentBatch(r *http.Request, a *Attachment, u *User) (string, error) {
-	now := time.Now().UTC()
+	return s.softDeleteAttachmentAs(r, a, u, true)
+}
+
+// attachmentHistoryRow is WeKan's: the attachment's lifecycle, its name in
+// the content so the History says which file.
+func (a *Attachment) historyRow(userID, changeType string, previous, next any, batch any) historyChange {
+	return historyChange{BoardID: a.Meta.BoardID, SwimlaneID: orNilString(a.Meta.SwimlaneID), ListID: orNilString(a.Meta.ListID), CardID: a.Meta.CardID,
+		EntityType: "attachment", EntityID: a.ID, Group: "lifecycle", ChangeType: changeType, PreviousContent: previous, NewContent: next,
+		UserID: userID, BatchID: batch}
+}
+
+func orNilString(v string) any {
+	if v == "" {
+		return nil
+	}
+	return v
+}
+
+// softDeleteAttachmentAs is the soft delete; record false when History
+// applies it, which writes its own row.
+func (s *Server) softDeleteAttachmentAs(r *http.Request, a *Attachment, u *User, record bool) (string, error) {
+	now := time.Now().UTC().Truncate(time.Millisecond)
 	batch := "attachment-" + a.ID + "-" + strconv.FormatInt(now.UnixMilli(), 10)
 	ctx := r.Context()
 	if _, err := s.db.Collection("attachments").UpdateOne(ctx, bson.M{"_id": a.ID},
@@ -315,12 +341,25 @@ func (s *Server) softDeleteAttachmentBatch(r *http.Request, a *Attachment, u *Us
 		s.activity(ctx, u.ID, "deleteAttachment", bson.M{"type": "card", "attachmentId": a.ID, "attachmentName": a.Name,
 			"boardId": a.Meta.BoardID, "cardId": a.Meta.CardID, "listId": a.Meta.ListID, "swimlaneId": a.Meta.SwimlaneID})
 	}
+	// A removal with no new content: Restore on it brings the file back.
+	if record {
+		s.recordHistory(ctx, a.historyRow(u.ID, "removed", map[string]any{"deleted": false, "name": a.Name}, nil, batch))
+	}
 	return batch, nil
 }
 
 // restoreAttachment is WeKan's attachments.restore: the deletion marks go.
 func (s *Server) restoreAttachment(r *http.Request, a *Attachment, u *User) error {
+	return s.restoreAttachmentAs(r, a, u, true)
+}
+
+func (s *Server) restoreAttachmentAs(r *http.Request, a *Attachment, u *User, record bool) error {
 	ctx := r.Context()
+	var was struct {
+		DeletedAt any    `bson:"deletedAt"`
+		Batch     string `bson:"deleteBatchId"`
+	}
+	_ = s.db.Collection("attachments").FindOne(ctx, bson.M{"_id": eq(a.ID)}).Decode(&was)
 	if _, err := s.db.Collection("attachments").UpdateOne(ctx, bson.M{"_id": a.ID},
 		bson.M{"$unset": bson.M{"deletedAt": "", "deletedBy": "", "deleteBatchId": ""}}); err != nil {
 		return err
@@ -328,6 +367,14 @@ func (s *Server) restoreAttachment(r *http.Request, a *Attachment, u *User) erro
 	if a.Meta.CardID != "" {
 		s.activity(ctx, u.ID, "addAttachment", bson.M{"type": "card", "attachmentId": a.ID, "attachmentName": a.Name,
 			"boardId": a.Meta.BoardID, "cardId": a.Meta.CardID, "listId": a.Meta.ListID, "swimlaneId": a.Meta.SwimlaneID})
+	}
+	if record && was.DeletedAt != nil {
+		var batch any
+		if was.Batch != "" {
+			batch = was.Batch
+		}
+		s.recordHistory(ctx, a.historyRow(u.ID, "added", map[string]any{"deleted": true, "deletedAt": plain(was.DeletedAt)},
+			map[string]any{"deleted": false, "name": a.Name}, batch))
 	}
 	return nil
 }
