@@ -231,6 +231,31 @@ func TestActivityNotificationRecoveryControls(t *testing.T) {
 	if out := asBoss("cancelActivityNotificationsOlderThan", `[{"days":2}]`); canonical(out["result"]) != `{"cancelled":1,"remaining":0}` {
 		t.Errorf("cancel older: %v", out)
 	}
+
+	// Automatic recovery holding the lease for a moment: the administrator's
+	// pause waits for it, rather than answering "busy" at once...
+	leased := seed("leasedmoment0001", now, mail("leasedmoment0001"))
+	hold := func(d time.Duration) {
+		_, _ = w.db.Collection("activityNotificationLeases").DeleteOne(ctx, bson.M{"_id": leased})
+		_, _ = w.db.Collection("activityNotificationLeases").InsertOne(ctx, bson.M{"_id": leased, "owner": "automatic-recovery", "expiresAt": time.Now().UTC().Add(d)})
+	}
+	hold(400 * time.Millisecond)
+	started := time.Now()
+	out := asBoss("controlActivityNotificationRecovery", `[{"intentId":"`+leased+`","paused":true,"expectedRevision":0,"requestId":"`+strings.Repeat("w", 32)+`"}]`)
+	if out["error"] != nil || time.Since(started) < 300*time.Millisecond {
+		t.Errorf("a moment's lease is waited for: %v after %v", out, time.Since(started))
+	}
+	// ...and a stale request then answers the conflict it is, not "busy".
+	hold(400 * time.Millisecond)
+	if out := asBoss("controlActivityNotificationRecovery", `[{"intentId":"`+leased+`","paused":true,"expectedRevision":0,"requestId":"`+strings.Repeat("x", 32)+`"}]`); out["error"] != "activity-recovery-control-conflict" {
+		t.Errorf("a stale request behind a lease: %v", out)
+	}
+	// Negative: a lease held for longer is still "busy", after the wait.
+	hold(5 * time.Second)
+	started = time.Now()
+	if out := asBoss("controlActivityNotificationRecovery", `[{"intentId":"`+leased+`","paused":false,"expectedRevision":1,"requestId":"`+strings.Repeat("y", 32)+`"}]`); out["error"] != "activity-recovery-busy" || time.Since(started) > 4*time.Second {
+		t.Errorf("a long lease: %v after %v", out, time.Since(started))
+	}
 }
 
 // The page: a site admin's, nobody else's, with the strings in the language.

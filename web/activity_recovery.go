@@ -522,6 +522,29 @@ func exactObject(args []json.RawMessage, i int, want map[string]string) (map[str
 	return m, nil
 }
 
+// leaseWait is how long an administrator's action waits for automatic
+// recovery to release a notification's lease. Its pass holds one for a
+// moment, every second, while a notification it cannot deliver is still in
+// its grace; a click landing in that moment was answered "busy" at once.
+const leaseWait = 1500 * time.Millisecond
+
+// waitingForLease runs op again while the lease is busy, for at most
+// leaseWait, and answers what it last answered.
+func waitingForLease[T any](ctx context.Context, op func() (T, error)) (T, error) {
+	deadline := time.Now().Add(leaseWait)
+	for {
+		out, err := op()
+		if !errors.Is(err, errLeaseBusy) || time.Now().After(deadline) {
+			return out, err
+		}
+		select {
+		case <-ctx.Done():
+			return out, err
+		case <-time.After(50 * time.Millisecond):
+		}
+	}
+}
+
 // recoveryError is how WeKan's methods name a failure to the page.
 func recoveryError(err error, control bool) error {
 	var me *methodError
@@ -585,7 +608,7 @@ func (s *Server) activityRecoveryMethods() map[string]methodFunc {
 			if !hashPattern.MatchString(id) {
 				return nil, &methodError{"activity-recovery-invalid-request", "activity-recovery-invalid-request"}
 			}
-			status, err := s.deliverIntentStatus(r.Context(), id)
+			status, err := waitingForLease(r.Context(), func() (string, error) { return s.deliverIntentStatus(r.Context(), id) })
 			if err != nil {
 				return nil, recoveryError(err, false)
 			}
@@ -603,7 +626,9 @@ func (s *Server) activityRecoveryMethods() map[string]methodFunc {
 			if !ok {
 				return nil, recoveryError(errControlInvalid, true)
 			}
-			out, err := s.mutateActivityControl(r.Context(), q["intentId"].(string), q["paused"].(bool), false, rev, q["requestId"].(string), u.ID, admin(r, u))
+			out, err := waitingForLease(r.Context(), func() (map[string]any, error) {
+				return s.mutateActivityControl(r.Context(), q["intentId"].(string), q["paused"].(bool), false, rev, q["requestId"].(string), u.ID, admin(r, u))
+			})
 			if err != nil {
 				return nil, recoveryError(err, true)
 			}
@@ -622,7 +647,9 @@ func (s *Server) activityRecoveryMethods() map[string]methodFunc {
 				return nil, recoveryError(errControlInvalid, true)
 			}
 			id := q["intentId"].(string)
-			out, err := s.mutateActivityControl(r.Context(), id, true, true, rev, q["requestId"].(string), u.ID, admin(r, u))
+			out, err := waitingForLease(r.Context(), func() (map[string]any, error) {
+				return s.mutateActivityControl(r.Context(), id, true, true, rev, q["requestId"].(string), u.ID, admin(r, u))
+			})
 			if err != nil {
 				return nil, recoveryError(err, true)
 			}
