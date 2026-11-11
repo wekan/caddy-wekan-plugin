@@ -725,13 +725,13 @@ func (s *Server) boardData(ctx context.Context, b *Board) ([]lane, []List, error
 	var swimlanes []Swimlane
 	var lists []List
 	var cards []Card
-	if err := find("swimlanes", bson.M{"boardId": b.ID, "archived": false}, &swimlanes); err != nil {
+	if err := find("swimlanes", bson.M{"boardId": b.ID, "archived": false, "deletedAt": nil}, &swimlanes); err != nil {
 		return nil, nil, err
 	}
-	if err := find("lists", bson.M{"boardId": b.ID, "archived": false}, &lists); err != nil {
+	if err := find("lists", bson.M{"boardId": b.ID, "archived": false, "deletedAt": nil}, &lists); err != nil {
 		return nil, nil, err
 	}
-	if err := find("cards", bson.M{"boardId": b.ID, "archived": false}, &cards); err != nil {
+	if err := find("cards", bson.M{"boardId": b.ID, "archived": false, "deletedAt": nil}, &cards); err != nil {
 		return nil, nil, err
 	}
 	out := make([]lane, 0, len(swimlanes))
