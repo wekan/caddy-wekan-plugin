@@ -360,7 +360,12 @@ type Card struct {
 	// CoverID is WeKan's coverId: the image attachment shown on the minicard.
 	CoverID string `bson:"coverId,omitempty" json:"coverId,omitempty"`
 	// What the board's minicard shows of it, drawn only (minicard_badges.go).
-	MinicardAssignees    []minicardPerson `bson:"-" json:"-"`
-	MinicardComments     []string         `bson:"-" json:"-"`
-	MinicardMoreComments bool             `bson:"-" json:"-"`
+	MinicardAssignees []minicardPerson `bson:"-" json:"-"`
+	// Scrum is WeKan's Scrum metadata of the card (scrum.go), and
+	// MinicardScrum its minicard's shown fields (scrum_fields.go).
+	Scrum                bson.M          `bson:"scrum,omitempty" json:"-"`
+	ScrumRevision        float64         `bson:"scrumRevision,omitempty" json:"-"`
+	MinicardScrum        []scrumFieldRow `bson:"-" json:"-"`
+	MinicardComments     []string        `bson:"-" json:"-"`
+	MinicardMoreComments bool            `bson:"-" json:"-"`
 }

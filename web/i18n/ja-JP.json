@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "観測された範囲",
   "scrum-partial-report": "部分レポート: 現在自分に割り当てられているカードのみを含みます。",
   "scrum-partial-snapshot": "このスプリントには元のスナップショットの一部だけが含まれています。",
+  "scrum-past-sprints": "過去のスプリント",
   "scrum-policy-doneLists": "カードが完了カテゴリーのリストにある",
   "scrum-policy-dueComplete": "カードが完了としてマークされている",
   "scrum-product-backlog": "プロダクトバックログ",

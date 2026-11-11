@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Fushëveprimi i vëzhguar",
   "scrum-partial-report": "Raport i pjesshëm: përfshihen vetëm kartat që të janë caktuar aktualisht.",
   "scrum-partial-snapshot": "Ky sprint përmban vetëm një pjesë të pamjes origjinale të ruajtur.",
+  "scrum-past-sprints": "Sprintet e kaluara",
   "scrum-policy-doneLists": "Karta në një listë të kategorisë Të përfunduara",
   "scrum-policy-dueComplete": "Karta e shënuar si e përfunduar",
   "scrum-product-backlog": "Lista e punëve të produktit",

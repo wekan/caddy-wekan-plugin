@@ -2743,4 +2743,21 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   });
   up.on('click', '.js-scrum-transfer-preview', function (event, el) { event.preventDefault(); runTransfer(el.closest('.scrum-transfer-import'), true); });
   up.on('click', '.js-scrum-transfer-apply', function (event, el) { event.preventDefault(); runTransfer(el.closest('.scrum-transfer-import'), false); });
+
+  // WeKan's scrumMetadata form: the card's Scrum fields through
+  // scrum.updateCard - every chosen release, none when cleared.
+  up.on('click', '.minicard .scrum-metadata', function (event) { event.stopPropagation(); });
+  up.on('submit', '.js-scrum-metadata', function (event, form) {
+    event.preventDefault();
+    var fd = new FormData(form), meta = {};
+    fd.forEach(function (v, k) { if (!(k in meta)) meta[k] = v; });
+    ['sprintId', 'releaseId'].forEach(function (k) { if (k in meta) meta[k] = meta[k] || null; });
+    if (form.querySelector('select[name="releaseIds"]')) meta.releaseIds = fd.getAll('releaseIds').filter(Boolean);
+    if ('backlogRank' in meta) meta.backlogRank = meta.backlogRank === '' ? null : Number(meta.backlogRank);
+    callAsync('scrum.updateCard', form.dataset.board, form.dataset.card, meta, Number(form.dataset.revision || 0))
+      .then(function () { reloadBoard(); }, function (e) {
+        var p = form.querySelector('.warning') || form.insertBefore(document.createElement('p'), form.firstChild);
+        p.className = 'warning'; p.setAttribute('role', 'alert'); p.textContent = e.reason || e.message;
+      });
+  });
 })();

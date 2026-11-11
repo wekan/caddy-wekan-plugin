@@ -804,3 +804,38 @@ func TestScrumCopies(t *testing.T) {
 		t.Errorf("negative: the moved swimlane keeps another board's sprint: %v", plain(ml["scrum"]))
 	}
 }
+
+// The Scrum fields Card Settings shows: on the minicard as names, in the card
+// details with a form - several releases in a multiple select - for whoever
+// may change the card, and none for a read-only member (negative); nothing
+// shown while no field is (negative).
+func TestScrumCardFields(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Fields")
+	setMember(t, w, rb.ID, Member{UserID: bob.ID, IsActive: true, IsReadOnly: true})
+	ann := scrumCaller(t, w, "ann")
+	a := resultOf(t, ann("scrum.saveRelease", rb.ID, nil, map[string]any{"name": "Alpha"}, nil))
+	b := resultOf(t, ann("scrum.saveRelease", rb.ID, nil, map[string]any{"name": "Beta"}, nil))
+	resultOf(t, ann("scrum.updateCard", rb.ID, rb.Card, map[string]any{"releaseIds": []any{a["_id"], b["_id"]}}, 0))
+	var bd Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&bd)
+	annC, bobC := w.client(t), w.client(t)
+	body(t, w.signIn(t, annC, "ann", "pw"))
+	body(t, w.signIn(t, bobC, "bob", "pw"))
+	cardURL := w.srv.URL + "/b/" + rb.ID + "/" + bd.Slug + "/" + rb.Card
+	if _, html := get(t, annC, cardURL); strings.Contains(html, "scrum-metadata") {
+		t.Error("negative: Scrum fields shown while Card Settings shows none")
+	}
+	resultOf(t, ann("scrum.configure", rb.ID, map[string]any{"enabled": true, "visibility": map[string]any{"cardRelease": true, "minicardRelease": true}}, 0))
+	_, html := get(t, annC, cardURL)
+	if strings.Count(html, "Alpha, Beta") != 2 || !strings.Contains(html, `select name="releaseIds" multiple="multiple"`) ||
+		!strings.Contains(html, `<option value="`+b["_id"].(string)+`" selected="selected">Beta</option>`) || !strings.Contains(html, `form class="js-scrum-metadata"`) {
+		t.Errorf("the minicard and the card details show the releases, and the form edits them")
+	}
+	if _, html := get(t, bobC, cardURL); !strings.Contains(html, "Alpha, Beta") || strings.Contains(html, "js-scrum-metadata") {
+		t.Error("negative: a read-only member gets the Scrum form")
+	}
+}

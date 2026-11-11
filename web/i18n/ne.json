@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "अवलोकन गरिएको कार्य दायरा",
   "scrum-partial-report": "आंशिक प्रतिवेदन: हाल तपाईंलाई तोकिएका कार्डहरू मात्र समावेश छन्।",
   "scrum-partial-snapshot": "यस स्प्रिन्टमा मूल अवस्थाचित्रको केही भाग मात्र छ।",
+  "scrum-past-sprints": "विगतका स्प्रिन्टहरू",
   "scrum-policy-doneLists": "सम्पन्न वर्गको सूचीमा रहेको कार्ड",
   "scrum-policy-dueComplete": "कार्ड सम्पन्न भनी चिन्ह लगाइएको",
   "scrum-product-backlog": "उत्पादनका बाँकी कामहरू",

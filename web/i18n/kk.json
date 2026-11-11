@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Бақыланған жұмыс көлемі",
   "scrum-partial-report": "Ішінара есеп: тек қазір сізге тағайындалған карточкалар қамтылған.",
   "scrum-partial-snapshot": "Бұл спринтте бастапқы сақталған күйдің бір бөлігі ғана бар.",
+  "scrum-past-sprints": "Өткен спринттер",
   "scrum-policy-doneLists": "Карточка «Дайын» санатындағы тізімде",
   "scrum-policy-dueComplete": "Карточка аяқталған деп белгіленген",
   "scrum-product-backlog": "Өнімнің тапсырмалар тізімі",

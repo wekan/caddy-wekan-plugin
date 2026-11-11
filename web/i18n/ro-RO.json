@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Volum de lucru observat",
   "scrum-partial-report": "Raport parțial: sunt incluse doar cardurile atribuite în prezent dvs.",
   "scrum-partial-snapshot": "Acest sprint conține doar o parte din instantaneul original.",
+  "scrum-past-sprints": "Sprinturi anterioare",
   "scrum-policy-doneLists": "Card într-o listă din categoria Finalizat",
   "scrum-policy-dueComplete": "Card marcat ca finalizat",
   "scrum-product-backlog": "Lista de lucru a produsului",

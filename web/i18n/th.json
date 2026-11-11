@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "ขอบเขตงานที่สังเกตได้",
   "scrum-partial-report": "รายงานบางส่วน: รวมเฉพาะการ์ดที่มอบหมายให้คุณในขณะนี้",
   "scrum-partial-snapshot": "สปรินต์นี้มีเพียงบางส่วนของภาพบันทึกสถานะต้นฉบับ",
+  "scrum-past-sprints": "สปรินต์ที่ผ่านมา",
   "scrum-policy-doneLists": "การ์ดอยู่ในรายการประเภทเสร็จแล้ว",
   "scrum-policy-dueComplete": "การ์ดถูกทำเครื่องหมายว่าเสร็จแล้ว",
   "scrum-product-backlog": "งานค้างของผลิตภัณฑ์",

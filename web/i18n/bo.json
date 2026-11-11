@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "ལྟ་ཞིབ་བྱས་པའི་ཁྱབ་ཁོངས།",
   "scrum-partial-report": "ཆ་ཤས་ཀྱི་སྙན་ཐོ། ད་ལྟ་ཁྱེད་ལ་བགོས་པའི་བྱང་བུ་ཁོ་ན་ཚུད་ཡོད།",
   "scrum-partial-snapshot": "Sprint འདིའི་ནང་ཐོག་མའི་པར་རིས་ཀྱི་ཆ་ཤས་ཁོ་ན་ཡོད།",
+  "scrum-past-sprints": "འདས་པའི་ sprint",
   "scrum-policy-doneLists": "ལེགས་གྲུབ་སྡེ་ཚན་གྱི་ཐོ་གཞུང་ནང་གི་བྱང་བུ།",
   "scrum-policy-dueComplete": "ལེགས་གྲུབ་ཏུ་རྟགས་བཀོད་པའི་བྱང་བུ།",
   "scrum-product-backlog": "ཐོན་རྫས་ཀྱི་སྒུག་ཐོ།",

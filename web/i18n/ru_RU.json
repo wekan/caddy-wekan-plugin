@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Наблюдаемый объём",
   "scrum-partial-report": "Частичный отчёт: включены только карточки, назначенные вам в данный момент.",
   "scrum-partial-snapshot": "Этот спринт содержит только часть исходного снимка.",
+  "scrum-past-sprints": "Прошлые спринты",
   "scrum-policy-doneLists": "Карточка в списке категории Готово",
   "scrum-policy-dueComplete": "Карточка отмечена как завершённая",
   "scrum-product-backlog": "Бэклог продукта",

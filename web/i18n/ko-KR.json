@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "관측된 범위",
   "scrum-partial-report": "부분 보고서: 현재 본인에게 배정된 카드만 포함됩니다.",
   "scrum-partial-snapshot": "이 스프린트에는 원본 스냅샷의 일부만 포함되어 있습니다.",
+  "scrum-past-sprints": "이전 스프린트",
   "scrum-policy-doneLists": "카드가 완료 범주의 목록에 있음",
   "scrum-policy-dueComplete": "카드가 완료로 표시됨",
   "scrum-product-backlog": "제품 백로그",

@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Күзәтелгән эш күләме",
   "scrum-partial-report": "Өлешчә хисап: хәзер сезгә билгеләнгән карточкалар гына кертелгән.",
   "scrum-partial-snapshot": "Бу спринтта башлангыч сакланган торышның бер өлеше генә бар.",
+  "scrum-past-sprints": "Үткән спринтлар",
   "scrum-policy-doneLists": "Карточка «Әзер» төркемендәге исемлектә",
   "scrum-policy-dueComplete": "Карточка тәмамланган дип билгеләнгән",
   "scrum-product-backlog": "Продукт бэклогы",

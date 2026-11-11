@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Havaittu työmäärä",
   "scrum-partial-report": "Osittainen raportti: mukana ovat vain sinulle tällä hetkellä osoitetut kortit.",
   "scrum-partial-snapshot": "Tämä sprintti sisältää vain osan alkuperäisestä tilannekuvasta.",
+  "scrum-past-sprints": "Aiemmat sprintit",
   "scrum-policy-doneLists": "Kortti on Valmis-luokan listassa",
   "scrum-policy-dueComplete": "Kortti on merkitty valmiiksi",
   "scrum-product-backlog": "Tuotteen kehitysjono",

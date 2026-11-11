@@ -1612,6 +1612,7 @@
   "scrum-observed-scope": "Beobachteter Umfang",
   "scrum-partial-report": "Teilbericht: Enthält nur die dir derzeit zugewiesenen Karten.",
   "scrum-partial-snapshot": "Dieser Sprint enthält nur einen Teil der ursprünglichen Momentaufnahme.",
+  "scrum-past-sprints": "Vergangene Sprints",
   "scrum-policy-doneLists": "Karte in einer Liste der Kategorie Erledigt",
   "scrum-policy-dueComplete": "Karte als erledigt markiert",
   "scrum-product-backlog": "Produkt-Backlog",

@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Observed scope",
   "scrum-partial-report": "Partial report: only cards currently assigned to you are included.",
   "scrum-partial-snapshot": "This sprint contains only part of the original snapshot.",
+  "scrum-past-sprints": "Past sprints",
   "scrum-policy-doneLists": "Card in a Done-category list",
   "scrum-policy-dueComplete": "Card marked complete",
   "scrum-product-backlog": "Product Backlog",

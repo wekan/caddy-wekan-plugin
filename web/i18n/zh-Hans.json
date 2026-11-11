@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "观测到的范围",
   "scrum-partial-report": "部分报告：仅包含当前分配给您的卡片。",
   "scrum-partial-snapshot": "此冲刺仅包含原始快照的一部分。",
+  "scrum-past-sprints": "以往冲刺",
   "scrum-policy-doneLists": "卡片位于已完成类别的列表",
   "scrum-policy-dueComplete": "卡片已标记为完成",
   "scrum-product-backlog": "产品待办列表",

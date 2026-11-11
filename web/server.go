@@ -800,6 +800,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		}
 	}
 	s.annotateMinicards(r.Context(), b, lanes)
+	s.annotateScrumMinicards(r.Context(), b, languageOf(r, u).Tag, lanes)
 	starred := slices.Contains(u.Profile.StarredBoards, b.ID)
 	invited := slices.Contains(u.Profile.InvitedBoards, b.ID)
 	folded := s.collapsedLists(r.Context(), u.ID, b.ID)
@@ -852,6 +853,14 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		var c Card
 		if err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c); err == nil {
 			data["Card"] = c
+			// The card's Scrum fields, and their editor for whoever may change it.
+			if n := s.scrumNamesOf(r.Context(), b.ID); len(n.visibility) > 0 {
+				lang := languageOf(r, u).Tag
+				data["CardScrum"] = n.rows(lang, "card", plainScrum(c.Scrum), false)
+				if b.Writable(u, "write", &c) && !s.listRefuses(r.Context(), b, c.ListID, u.ID, "write") {
+					data["CardScrumEditors"] = n.rows(lang, "card", plainScrum(c.Scrum), true)
+				}
+			}
 			data["Attachments"] = s.cardAttachments(r, b, c.ID)
 			data["CanAddAttachment"] = b.WritableIn(r.Context(), s, u, "write", &c)
 			data["Comments"] = s.cardComments(r.Context(), b, c.ID)

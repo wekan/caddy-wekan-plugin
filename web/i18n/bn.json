@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "পর্যবেক্ষিত কাজের পরিধি",
   "scrum-partial-report": "আংশিক প্রতিবেদন: কেবল বর্তমানে আপনাকে বরাদ্দ করা কার্ডগুলো অন্তর্ভুক্ত।",
   "scrum-partial-snapshot": "এই স্প্রিন্টে মূল সংরক্ষিত অবস্থার কেবল একটি অংশ রয়েছে।",
+  "scrum-past-sprints": "আগের স্প্রিন্টসমূহ",
   "scrum-policy-doneLists": "কার্ড সম্পন্ন শ্রেণির তালিকায় আছে",
   "scrum-policy-dueComplete": "কার্ড সম্পন্ন হিসেবে চিহ্নিত",
   "scrum-product-backlog": "পণ্যের অপেক্ষমাণ কাজ",

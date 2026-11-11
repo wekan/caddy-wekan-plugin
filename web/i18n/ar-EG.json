@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "نطاق العمل المرصود",
   "scrum-partial-report": "تقرير جزئي: يتضمن فقط البطاقات المسندة إليك حاليًا.",
   "scrum-partial-snapshot": "يحتوي هذا السبرنت على جزء فقط من اللقطة الأصلية.",
+  "scrum-past-sprints": "دورات السبرنت السابقة",
   "scrum-policy-doneLists": "البطاقة في قائمة من فئة المنجَز",
   "scrum-policy-dueComplete": "وُضعت علامة الإكمال على البطاقة",
   "scrum-product-backlog": "قائمة أعمال المنتج",

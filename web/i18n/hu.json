@@ -1612,6 +1612,7 @@
   "scrum-observed-scope": "Megfigyelt feladatmennyiség",
   "scrum-partial-report": "Részleges jelentés: csak a jelenleg Önhöz rendelt kártyákat tartalmazza.",
   "scrum-partial-snapshot": "Ez a sprint az eredeti pillanatképnek csak egy részét tartalmazza.",
+  "scrum-past-sprints": "Korábbi sprintek",
   "scrum-policy-doneLists": "Kártya egy Kész kategóriájú listában",
   "scrum-policy-dueComplete": "Befejezettnek jelölt kártya",
   "scrum-product-backlog": "Termékfeladatlista",

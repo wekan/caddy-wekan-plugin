@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Ажигласан ажлын хүрээ",
   "scrum-partial-report": "Хэсэгчилсэн тайлан: зөвхөн одоогоор танд оноосон картуудыг оруулсан.",
   "scrum-partial-snapshot": "Энэ спринтэд анхны хадгалсан төлөвийн зөвхөн нэг хэсэг байна.",
+  "scrum-past-sprints": "Өнгөрсөн спринтүүд",
   "scrum-policy-doneLists": "Дууссан ангиллын жагсаалт дахь карт",
   "scrum-policy-dueComplete": "Дууссан гэж тэмдэглэсэн карт",
   "scrum-product-backlog": "Бүтээгдэхүүний ажлын жагсаалт",

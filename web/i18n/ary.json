@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "نطاق الخدمة الملاحظ",
   "scrum-partial-report": "تقرير جزئي: فيه غير البطاقات المعيّنة ليك دابا.",
   "scrum-partial-snapshot": "هاد السبرينت فيه غير جزء من اللقطة الأصلية المحفوظة.",
+  "scrum-past-sprints": "السبرينتات اللي فاتو",
   "scrum-policy-doneLists": "البطاقة فقائمة من فئة «مكمّل»",
   "scrum-policy-dueComplete": "البطاقة معلّمة مكمّلة",
   "scrum-product-backlog": "لائحة الأشغال المنتظرة ديال المنتوج",

@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "পৰ্যবেক্ষিত কামৰ পৰিসৰ",
   "scrum-partial-report": "আংশিক প্ৰতিবেদন: বৰ্তমান আপোনাক নিযুক্ত কৰা কাৰ্ডবোৰহে অন্তৰ্ভুক্ত কৰা হৈছে।",
   "scrum-partial-snapshot": "এই স্প্ৰিণ্টত মূল স্নেপশ্বটৰ এটা অংশহে আছে।",
+  "scrum-past-sprints": "পূৰ্বৰ স্প্ৰিণ্টসমূহ",
   "scrum-policy-doneLists": "সম্পূৰ্ণ শ্ৰেণীৰ তালিকাত থকা কাৰ্ড",
   "scrum-policy-dueComplete": "সম্পূৰ্ণ বুলি চিহ্নিত কাৰ্ড",
   "scrum-product-backlog": "পণ্যৰ বাকী কামৰ তালিকা",

@@ -1608,6 +1608,7 @@
   "scrum-observed-scope": "Périmètre observé",
   "scrum-partial-report": "Rapport partiel : seules les cartes qui vous sont actuellement affectées sont incluses.",
   "scrum-partial-snapshot": "Ce sprint ne contient qu’une partie de l’instantané d’origine.",
+  "scrum-past-sprints": "Sprints précédents",
   "scrum-policy-doneLists": "Carte dans une liste de la catégorie Terminées",
   "scrum-policy-dueComplete": "Carte marquée comme terminée",
   "scrum-product-backlog": "Liste de travail du produit",

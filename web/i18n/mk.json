@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Набљудуван опсег",
   "scrum-partial-report": "Делумен извештај: вклучени се само картичките што моментално ви се доделени.",
   "scrum-partial-snapshot": "Овој спринт содржи само дел од изворната снимка.",
+  "scrum-past-sprints": "Претходни спринтови",
   "scrum-policy-doneLists": "Картичка во листа од категоријата Завршено",
   "scrum-policy-dueComplete": "Картичка означена како завршена",
   "scrum-product-backlog": "Листа на барања за производот",

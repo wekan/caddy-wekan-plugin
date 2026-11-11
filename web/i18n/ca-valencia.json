@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Abast observat",
   "scrum-partial-report": "Informe parcial: només inclou les fitxes que teniu assignades actualment.",
   "scrum-partial-snapshot": "Aquesta iteració només conté una part de la instantània original.",
+  "scrum-past-sprints": "Iteracions anteriors",
   "scrum-policy-doneLists": "Fitxa en una llista de la categoria Completat",
   "scrum-policy-dueComplete": "Fitxa marcada com a completada",
   "scrum-product-backlog": "Tasques pendents del producte",

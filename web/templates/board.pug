@@ -759,6 +759,14 @@
                             a.minicard-complete-toggle.js-toggle-card-complete(href="#", data-card="{{.ID}}", data-complete="{{if .DueComplete}}false{{else}}true{{end}}", title="{{if .DueComplete}}{{t $.L `card-mark-incomplete`}}{{else}}{{t $.L `card-mark-complete`}}{{end}}")
                               .materialCheckBox(class="{{if .DueComplete}}is-checked{{end}}")
                         span.minicard-title-text {{viewer .Title $.TextPolicy}}
+                      //- WeKan's scrumMetadata, compact: the Scrum fields Card
+                        Settings shows on the minicard.
+                      if .MinicardScrum
+                        .scrum-metadata
+                          each f in .MinicardScrum
+                            div
+                              strong {{.Label}}:
+                              span {{.Value}}
                       //- WeKan's minicard assignees: an avatar each.
                       if .MinicardAssignees
                         .minicard-assignees.js-minicard-assignees
@@ -821,6 +829,33 @@
           a.card-details-menu.js-open-card-details-menu(href="#", title="{{t $.L `cardDetailsActionsPopup-title`}}", aria-label="{{t $.L `cardDetailsActionsPopup-title`}}") ☰
         a.js-close-card-details(href="/b/{{.Board.ID}}/{{.Board.Slug}}", aria-label="{{t $.L `close`}}", up-follow, up-target=".board-wrapper") ×
       a.js-toggle-watch-card(href="/b/{{.Board.ID}}/cards/{{.Card.ID}}/watch", up-method="post", up-target=".board-wrapper", class="{{if .WatchingCard}}is-checked{{end}}") {{if .WatchingCard}}{{t $.L "watching"}} ✓{{else}}{{t $.L "watch"}}{{end}}
+      //- WeKan's scrumMetadata: the card's shown Scrum fields, and their
+        editor for whoever may change the card (scrum.updateCard).
+      if .CardScrum
+        .scrum-metadata
+          each f in .CardScrum
+            div
+              strong {{.Label}}:
+              span {{.Value}}
+          if .CardScrumEditors
+            details
+              summary {{t $.L "edit"}}
+              form.js-scrum-metadata(data-board="{{.Board.ID}}", data-card="{{.Card.ID}}", data-revision="{{.Card.ScrumRevision}}")
+                each e in .CardScrumEditors
+                  label {{.Label}}
+                    if .Options
+                      if .Multiple
+                        select(name="{{.Field}}", multiple)
+                          | {{template "_scrumopts" .Options}}
+                        small.scrum-multiple-help {{t $.L "scrum-releases-select-help"}}
+                      else
+                        select(name="{{.Field}}")
+                          | {{template "_scrumopts" .Options}}
+                    else if .Number
+                      input(type="number", name="{{.Field}}", value="{{.Value}}", min="0", step="any")
+                    else
+                      textarea(name="{{.Field}}") {{.Value}}
+                button.primary(type="submit") {{t $.L "save"}}
       .card-details-items
         .card-details-item.card-details-item-members
           h3.card-details-item-title {{t $.L "members"}}

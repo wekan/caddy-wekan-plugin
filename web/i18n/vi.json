@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Phạm vi được ghi nhận",
   "scrum-partial-report": "Báo cáo một phần: chỉ bao gồm các thẻ hiện được giao cho bạn.",
   "scrum-partial-snapshot": "Đợt phát triển này chỉ chứa một phần của bản chụp gốc.",
+  "scrum-past-sprints": "Các đợt phát triển trước",
   "scrum-policy-doneLists": "Thẻ trong danh sách thuộc nhóm Đã xong",
   "scrum-policy-dueComplete": "Thẻ được đánh dấu hoàn thành",
   "scrum-product-backlog": "Danh sách công việc sản phẩm",

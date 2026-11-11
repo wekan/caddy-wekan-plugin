@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Vaadeldud töömaht",
   "scrum-partial-report": "Osaline aruanne: kaasatud on ainult praegu sulle määratud kaardid.",
   "scrum-partial-snapshot": "See sprint sisaldab ainult osa algsest hetktõmmisest.",
+  "scrum-past-sprints": "Varasemad sprindid",
   "scrum-policy-doneLists": "Kaart on tehtud tööde kategooria loendis",
   "scrum-policy-dueComplete": "Kaart on märgitud lõpetatuks",
   "scrum-product-backlog": "Toote tööde loend",

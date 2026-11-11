@@ -1607,6 +1607,7 @@
   "scrum-observed-scope": "Alcance observado",
   "scrum-partial-report": "Informe parcial: solo incluye las tarjetas que tienes asignadas actualmente.",
   "scrum-partial-snapshot": "Esta iteración solo contiene parte de la instantánea original.",
+  "scrum-past-sprints": "Iteraciones anteriores",
   "scrum-policy-doneLists": "Tarjeta en una lista de la categoría Terminadas",
   "scrum-policy-dueComplete": "Tarjeta marcada como completada",
   "scrum-product-backlog": "Lista de trabajo del producto",
