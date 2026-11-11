@@ -282,7 +282,7 @@ func TestScrumCollectionsWrittenOnlyByScrum(t *testing.T) {
 	}
 	files, _ := filepath.Glob("*.go")
 	for _, f := range files {
-		if strings.HasSuffix(f, "_test.go") || f == "scrum.go" || f == "scrum_history.go" || f == "scrum_daily.go" || f == "scrum_transfer.go" {
+		if strings.HasSuffix(f, "_test.go") || f == "scrum.go" || f == "scrum_history.go" || f == "scrum_daily.go" || f == "scrum_transfer.go" || f == "scrum_merge.go" {
 			continue
 		}
 		src, _ := os.ReadFile(f)
@@ -602,5 +602,73 @@ func TestScrumTransferImport(t *testing.T) {
 		if n, _ := w.db.Collection("boards").CountDocuments(ctx, bson.M{"title": title}); n != 0 {
 			t.Errorf("negative: %s created a board", name)
 		}
+	}
+}
+
+// A board export's Scrum imported INTO another board, as WeKan's
+// scrum.importIntoBoard: refused to a member who is not an admin (negative),
+// a preview that writes nothing, cards matched by card number and title and
+// the unmatched one reported, the sprint and release created once - the same
+// file again changes nothing - and the import one History row that undo
+// reverses.
+func TestScrumImportIntoBoard(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	tok := login(t, w, "ann")
+	src := newRESTBoard(t, w, tok, "Source")
+	dst := newRESTBoard(t, w, tok, "Destination")
+	setMember(t, w, dst.ID, Member{UserID: bob.ID, IsActive: true})
+	gamma := "card" + randomID()[:12]
+	_, _ = w.db.Collection("cards").InsertOne(ctx, bson.M{"_id": gamma, "boardId": src.ID, "listId": src.List, "swimlaneId": src.Swimlane,
+		"title": "Gamma", "archived": false, "sort": 2, "cardNumber": 2})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": src.Card}, bson.M{"$set": bson.M{"title": "Alpha", "cardNumber": 1}})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": dst.Card}, bson.M{"$set": bson.M{"title": "Alpha", "cardNumber": 1}})
+	ann, bobCall := scrumCaller(t, w, "ann"), scrumCaller(t, w, "bob")
+	sp := resultOf(t, ann("scrum.saveSprint", src.ID, nil, map[string]any{"name": "Imported sprint", "plannedStart": "2026-10-01", "plannedEnd": "2026-10-14"}, nil))
+	rel := resultOf(t, ann("scrum.saveRelease", src.ID, nil, map[string]any{"name": "Imported release"}, nil))
+	resultOf(t, ann("scrum.updateCard", src.ID, src.Card, map[string]any{"sprintId": sp["_id"], "releaseId": rel["_id"], "acceptanceCriteria": "Imported criterion"}, 0))
+	resultOf(t, ann("scrum.updateCard", src.ID, gamma, map[string]any{"sprintId": sp["_id"]}, 0))
+	var exported map[string]any
+	call(t, "GET", w.srv.URL+"/api/boards/"+src.ID+"/export", tok, "", &exported)
+	sprints := func() int64 {
+		n, _ := w.db.Collection("scrumSprints").CountDocuments(ctx, bson.M{"boardId": dst.ID})
+		return n
+	}
+	if out := bobCall("scrum.importIntoBoard", dst.ID, exported, map[string]any{}); out["error"] != "not-authorized" || sprints() != 0 {
+		t.Errorf("negative: a member who is not an admin imports: %v", out)
+	}
+	pre := resultOf(t, ann("scrum.importIntoBoard", dst.ID, exported, map[string]any{"dryRun": true}))
+	if len(pre["sprints"].(map[string]any)["created"].([]any)) != 1 || pre["cards"].(map[string]any)["updated"] != 1.0 ||
+		pre["cards"].(map[string]any)["unmatched"] != 1.0 || pre["changed"] != false || sprints() != 0 {
+		t.Fatalf("the preview: %v", pre)
+	}
+	if !strings.Contains(canonical(pre["losses"]), gamma) {
+		t.Errorf("the unmatched card is reported: %v", pre["losses"])
+	}
+	done := resultOf(t, ann("scrum.importIntoBoard", dst.ID, exported, map[string]any{}))
+	if done["changed"] != true || sprints() != 1 {
+		t.Fatalf("the import: %v", done)
+	}
+	var made bson.M
+	_ = w.db.Collection("scrumSprints").FindOne(ctx, bson.M{"boardId": dst.ID}).Decode(&made)
+	if p := plain(made["provenance"]).(map[string]any); p["recordId"] != sp["_id"] || p["projectId"] != src.ID || made["scrumImportPending"] != nil {
+		t.Errorf("the created sprint: %v", made)
+	}
+	var alpha bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": dst.Card}).Decode(&alpha)
+	if sc := plain(alpha["scrum"]).(map[string]any); sc["sprintId"] != made["_id"] || sc["acceptanceCriteria"] != "Imported criterion" {
+		t.Errorf("the matched card: %v", sc)
+	}
+	if again := resultOf(t, ann("scrum.importIntoBoard", dst.ID, exported, map[string]any{"dryRun": true})); len(again["sprints"].(map[string]any)["created"].([]any)) != 0 ||
+		again["cards"].(map[string]any)["updated"] != 0.0 {
+		t.Errorf("the same file again changes nothing: %v", again)
+	}
+	if n, _ := w.db.Collection("scrumSprints").CountDocuments(ctx, bson.M{"boardId": src.ID}); n != 1 {
+		t.Error("negative: the source board changed")
+	}
+	if out := resultOf(t, ann("changeHistory.undoLast", dst.ID)); out["undone"] != true || sprints() != 0 {
+		t.Errorf("the import undone as one change: %v %d", out, sprints())
 	}
 }

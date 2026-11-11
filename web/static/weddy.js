@@ -2684,4 +2684,63 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     });
     return function () { gone = true; };
   });
+
+  // WeKan's import-into-board panel (scrumView.js importTransfer): the file
+  // reduced to what the import reads (scrumTransferFileFields), a dry run,
+  // then the import - the panel stays as it is, showing what happened.
+  function transferFields(file) {
+    if (!file || typeof file !== 'object' || Array.isArray(file)) throw new Error('Invalid Scrum transfer: expected a JSON object');
+    if (typeof file.format === 'string') return { scrumTransfer: file, scrumTransferLosses: [], cards: [], lists: [], customFields: [] };
+    if (!file.scrumTransfer || typeof file.scrumTransfer !== 'object') throw new Error('Invalid Scrum transfer: this file has no Scrum planning');
+    var rows = function (list, pick) {
+      return (Array.isArray(list) ? list : []).filter(function (r) { return r && typeof r._id === 'string' && r._id && r._id.length <= 200; }).map(pick);
+    };
+    var out = { scrumTransfer: file.scrumTransfer, scrumTransferLosses: Array.isArray(file.scrumTransferLosses) ? file.scrumTransferLosses : [],
+      cards: rows(file.cards, function (r) { var o = { _id: r._id }; if (typeof r.title === 'string') o.title = r.title.slice(0, 10000); if (Number.isSafeInteger(r.cardNumber)) o.cardNumber = r.cardNumber; return o; }),
+      lists: rows(file.lists, function (r) { var o = { _id: r._id }; if (typeof r.title === 'string') o.title = r.title.slice(0, 10000); return o; }),
+      customFields: rows(file.customFields, function (r) { var o = { _id: r._id }; if (typeof r.name === 'string') o.name = r.name.slice(0, 10000); if (typeof r.type === 'string') o.type = r.type.slice(0, 100); return o; }) };
+    if (typeof file._id === 'string' && file._id.length <= 500) out._id = file._id;
+    return out;
+  }
+  function transferChanges(p) {
+    return !!(p.sprints.created.length || p.releases.created.length || p.events.created || p.cards.updated || p.dailyObservations);
+  }
+  function drawTransfer(panel, p) {
+    var d = panel.dataset, fill = function (text, values) {
+      Object.keys(values).forEach(function (k) { text = text.split('__' + k + '__').join(values[k]); });
+      return text;
+    };
+    var html = '<div class="scrum-transfer-preview" role="status">';
+    if (p.changed) html += '<p class="js-scrum-transfer-done">' + esc(d.done) + '</p>';
+    ['sprints', 'releases'].forEach(function (k) {
+      html += '<p>' + esc(fill(d[k], { created: p[k].created.length, matched: p[k].matched.length, skipped: p[k].skipped.length })) + '</p>';
+    });
+    html += '<p>' + esc(fill(d.cards, { updated: p.cards.updated, unchanged: p.cards.unchanged, unmatched: p.cards.unmatched })) + '</p>';
+    if (p.dryRun && !transferChanges(p)) html += '<p class="js-scrum-transfer-nothing">' + esc(d.nothing) + '</p>';
+    (p.losses || []).forEach(function (l) {
+      var key = 'loss' + String(l.reason || '').replace(/(^|-)([a-z])/g, function (m, a, c) { return c.toUpperCase(); });
+      html += '<p class="scrum-transfer-loss">' + esc(fill(d[key] || d.lossOmitted, { reference: l.sourceId })) + '</p>';
+    });
+    if (p.dryRun && transferChanges(p)) html += '<button class="primary js-scrum-transfer-apply" type="button">' + esc(d.import) + '</button>';
+    panel.querySelector('.js-scrum-transfer-result').innerHTML = html + '</div>';
+  }
+  function runTransfer(panel, dryRun) {
+    if (!panel.weddyFile) { scrumError(panel.dataset.choose); return; }
+    scrumError('');
+    window.Meteor.callAsync('scrum.importIntoBoard', panel.dataset.board, panel.weddyFile, { dryRun: dryRun })
+      .then(function (p) { drawTransfer(panel, p); }, function (e) { scrumError(e.reason || e.message); });
+  }
+  up.on('change', '.js-scrum-transfer-file', function (event, el) {
+    var panel = el.closest('.scrum-transfer-import'), file = el.files && el.files[0];
+    panel.weddyFile = null;
+    panel.querySelector('.js-scrum-transfer-result').innerHTML = '';
+    scrumError('');
+    if (!file) return;
+    file.text().then(function (text) {
+      try { panel.weddyFile = transferFields(JSON.parse(text)); }
+      catch (e) { scrumError(e instanceof SyntaxError ? panel.dataset.invalid : e.message); }
+    });
+  });
+  up.on('click', '.js-scrum-transfer-preview', function (event, el) { event.preventDefault(); runTransfer(el.closest('.scrum-transfer-import'), true); });
+  up.on('click', '.js-scrum-transfer-apply', function (event, el) { event.preventDefault(); runTransfer(el.closest('.scrum-transfer-import'), false); });
 })();

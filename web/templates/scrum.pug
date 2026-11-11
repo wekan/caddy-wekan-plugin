@@ -70,6 +70,14 @@
                 select(name="completionPolicy")
                   | {{template "_scrumopts" .CompletionPolicies}}
               button.primary(type="submit") {{t $.L "save"}}
+          //- WeKan's import-into-board panel: a board export's Scrum planning
+            matched onto this board, previewed first (scrum.importIntoBoard).
+          details.scrum-transfer-import(data-board="{{.Board.ID}}", data-choose="{{t $.L `scrum-import-choose-file`}}", data-invalid="{{t $.L `scrum-import-invalid-file`}}", data-sprints="{{t $.L `scrum-import-preview-sprints`}}", data-releases="{{t $.L `scrum-import-preview-releases`}}", data-cards="{{t $.L `scrum-import-preview-cards`}}", data-nothing="{{t $.L `scrum-import-preview-nothing`}}", data-done="{{t $.L `scrum-import-into-board-done`}}", data-import="{{t $.L `import`}}", data-loss-omitted="{{t $.L `scrum-import-reference-omitted`}}", data-loss-card-not-matched="{{t $.L `scrum-import-card-not-matched`}}", data-loss-card-ambiguous="{{t $.L `scrum-import-card-ambiguous`}}", data-loss-card-on-another-board="{{t $.L `scrum-import-card-on-another-board`}}", data-loss-record-ambiguous="{{t $.L `scrum-import-record-ambiguous`}}", data-loss-record-not-imported="{{t $.L `scrum-import-record-not-imported`}}", data-loss-sprint-finished="{{t $.L `scrum-import-sprint-finished`}}")
+            summary {{t $.L "scrum-import-into-board"}}
+            p {{t $.L "scrum-import-into-board-hint"}}
+            input.js-scrum-transfer-file(type="file", accept=".json,application/json")
+            button.js-scrum-transfer-preview(type="button") {{t $.L "scrum-import-preview"}}
+            .js-scrum-transfer-result
         if eq .View "velocity"
           | {{template "_scrumreport" .Report}}
         else
