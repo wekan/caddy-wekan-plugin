@@ -27,10 +27,10 @@ import (
 // scrumViews are the Board View menu's Scrum entries
 // (models/lib/boardViewSettings.js): the address's view, its label, its icon.
 var scrumViews = []struct{ Slug, Key, Icon string }{
-	{"product-backlog", "board-view-product-backlog", "fa-list-ol"},
-	{"sprints", "board-view-sprints", "fa-repeat"},
-	{"sprint-report", "board-view-sprint-report", "fa-bar-chart"},
-	{"velocity", "board-view-velocity", "fa-line-chart"},
+	{"product-backlog", msg("board-view-product-backlog"), "fa-list-ol"},
+	{"sprints", msg("board-view-sprints"), "fa-repeat"},
+	{"sprint-report", msg("board-view-sprint-report"), "fa-bar-chart"},
+	{"velocity", msg("board-view-velocity"), "fa-line-chart"},
 }
 
 // scrumLabels are the labels the views name at run time: a state, a policy,
