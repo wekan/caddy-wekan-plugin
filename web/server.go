@@ -55,6 +55,8 @@ type Server struct {
 	cloudF    *cloudFiles
 	// stopMail ends the notification e-mail outbox's pass (mail_outbox.go).
 	stopMail chan struct{}
+	// framing: FrameBleed's headers, on every response (frame_policy.go).
+	framing map[string]string
 }
 
 // Open starts the WeKan of the domain whose files are in dir: its database is
@@ -81,7 +83,7 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 	if log == nil {
 		log = slog.New(slog.DiscardHandler)
 	}
-	s := &Server{db: db, pages: map[string]*template.Template{}, hub: newHub(), log: log}
+	s := &Server{db: db, pages: map[string]*template.Template{}, hub: newHub(), log: log, framing: framingHeadersFromEnv()}
 	if err := s.compileTemplates(); err != nil {
 		return nil, err
 	}
@@ -265,7 +267,10 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 }
 
 // ServeHTTP answers a request of this domain.
-func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) { s.mux.ServeHTTP(w, r) }
+func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	setFramingHeaders(w, s.framing)
+	s.mux.ServeHTTP(w, r)
+}
 
 func (s *Server) routes() {
 	m := http.NewServeMux()
