@@ -768,14 +768,14 @@ func (s *Server) performAction(ctx context.Context, a bson.M, act bson.M) error 
 	case "addChecklist", "addChecklistWithItems":
 		id := randomID()
 		title := substituteVars(docString(act, "checklistName"), vars)
-		if _, err := s.db.Collection("checklists").InsertOne(ctx, bson.M{"_id": id, "title": title, "cardId": c.ID, "boardId": c.BoardID, // inserted, not a filter
+		if _, err := s.insertRecorded(ctx, docString(a, "userId"), "checklist", bson.M{"_id": id, "title": title, "cardId": c.ID, "boardId": c.BoardID, // inserted, not a filter
 			"sort": 0, "createdAt": now}); err != nil { // inserted, not a filter
 			return err
 		}
 		cardActivity("addChecklist", bson.M{"checklistId": id, "checklistName": title})
 		if kind == "addChecklistWithItems" {
 			for i, t := range strings.Split(substituteVars(docString(act, "checklistItems"), vars), ",") {
-				if _, err := s.db.Collection("checklistItems").InsertOne(ctx, bson.M{"_id": randomID(), "title": t, "checklistId": id, // inserted, not a filter
+				if _, err := s.insertRecorded(ctx, docString(a, "userId"), "checklistItem", bson.M{"_id": randomID(), "title": t, "checklistId": id, // inserted, not a filter
 					"cardId": c.ID, "boardId": c.BoardID, "sort": i, "isFinished": false}); err != nil { // inserted, not a filter
 					return err
 				}
@@ -788,7 +788,7 @@ func (s *Server) performAction(ctx context.Context, a bson.M, act bson.M) error 
 		}
 		if s.db.Collection("checklists").FindOne(ctx, bson.M{"cardId": c.ID, "title": eq(docString(act, "checklistName"))}).Decode(&cl) == nil {
 			_, _ = s.db.Collection("checklistItems").DeleteMany(ctx, bson.M{"checklistId": cl.ID})
-			_, _ = s.db.Collection("checklists").DeleteOne(ctx, bson.M{"_id": cl.ID})
+			_, _ = s.deleteOneRecorded(ctx, docString(a, "userId"), "checklist", bson.M{"_id": cl.ID})
 			s.hub.publish(c.BoardID, "board-changed")
 		}
 	case "addSwimlane":
@@ -804,7 +804,7 @@ func (s *Server) performAction(ctx context.Context, a bson.M, act bson.M) error 
 			return nil
 		}
 		id := randomID()
-		if _, err := s.db.Collection("card_comments").InsertOne(ctx, bson.M{"_id": id, "boardId": c.BoardID, "cardId": c.ID, // inserted, not a filter
+		if _, err := s.insertRecorded(ctx, docString(a, "userId"), "comment", bson.M{"_id": id, "boardId": c.BoardID, "cardId": c.ID, // inserted, not a filter
 			"text": text, "userId": userID, "createdAt": now, "modifiedAt": now}); err != nil { // inserted, not a filter
 			return err
 		}

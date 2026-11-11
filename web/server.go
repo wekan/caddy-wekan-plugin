@@ -1183,7 +1183,7 @@ func (s *Server) setPoker(ctx context.Context, cardID, userID, state string) err
 	if slices.ContainsFunc(pokerFields, func(f [3]string) bool { return f[0] == state }) {
 		update["$addToSet"] = bson.M{"poker." + state: userID}
 	}
-	_, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(cardID)}, update)
+	_, err := s.cardsUpdateOne(ctx, userID, bson.M{"_id": eq(cardID)}, update)
 	return err
 }
 
@@ -1850,7 +1850,7 @@ func (s *Server) restoreAllArchivedCardsPage(w http.ResponseWriter, r *http.Requ
 			skipped++
 			continue
 		}
-		res, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(c.ID), "boardId": b.ID, "archived": true},
+		res, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": eq(c.ID), "boardId": b.ID, "archived": true},
 			bson.M{"$set": bson.M{"archived": false, "modifiedAt": time.Now().UTC()}})
 		if err == nil && res.ModifiedCount > 0 {
 			s.activity(ctx, u.ID, "restoredCard", bson.M{"boardId": b.ID, "cardId": c.ID})
