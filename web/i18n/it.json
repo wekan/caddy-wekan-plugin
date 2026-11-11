@@ -1264,6 +1264,8 @@
   "parent-card": "Scheda genitore",
   "password": "Parola d'accesso",
   "password-again": "Password (di nuovo)",
+  "password-change-required-text": "Questo sito ora richiede parole d'accesso di almeno __min__ caratteri, e la tua è più corta. Scegline una più lunga per continuare. Tutte le sessioni del tuo account verranno quindi disconnesse, e accederai di nuovo con la nuova parola d'accesso.",
+  "password-change-required-title": "Cambia la tua parola d'accesso",
   "people": "Persone",
   "people-number": "Il numero di persone è:",
   "poker-eight": "8",

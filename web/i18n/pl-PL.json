@@ -1264,6 +1264,8 @@
   "parent-card": "Karta rodzica",
   "password": "Hasło",
   "password-again": "Hasło (ponownie)",
+  "password-change-required-text": "Ta witryna wymaga teraz haseł o długości co najmniej __min__ znaków, a Twoje jest krótsze. Wybierz dłuższe, aby kontynuować. Następnie wszystkie sesje Twojego konta zostaną wylogowane, a Ty zalogujesz się ponownie nowym hasłem.",
+  "password-change-required-title": "Zmień swoje hasło",
   "people": "Osoby",
   "people-number": "Liczba użytkowników to:",
   "poker-eight": "8",

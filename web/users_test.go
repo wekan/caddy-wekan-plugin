@@ -109,11 +109,13 @@ func TestUsers(t *testing.T) {
 		t.Fatal("negative: changing the password without the current one")
 	}
 	res, _ = ac.PostForm(w.srv.URL+"/profile/password", url.Values{"oldPassword": {"first-password"}, "newPassword": {"new-password-1"}, "newPassword2": {"new-password-1"}})
-	if res.Header.Get("Location") != "/profile?saved=password" {
+	// As WeKan: EVERY session ends, this one too - the next sign-in is with
+	// the new password (short_passwords.go).
+	if res.Header.Get("Location") != "/sign-in" {
 		t.Fatalf("changing the password: %s", res.Header.Get("Location"))
 	}
-	if res, _ := get(t, ac, w.srv.URL+"/"); res.StatusCode != 200 {
-		t.Fatal("this session stays signed in")
+	if res, _ := get(t, ac, w.srv.URL+"/"); res.StatusCode != http.StatusSeeOther {
+		t.Fatal("this session ends too")
 	}
 	if res, _ := get(t, other, w.srv.URL+"/"); res.StatusCode != http.StatusSeeOther {
 		t.Fatal("the other sessions end when the password changes")

@@ -1264,6 +1264,8 @@
   "parent-card": "Scheda mare",
   "password": "Password (paroła segreta)",
   "password-again": "Password (da novo)",
+  "password-change-required-text": "Sto sito desso el richiede password de almanco __min__ caràteri, e ła tua ła xe pì curta. Sielzi una pì longa par continuar. Dopo tute łe sesion del to account łe vien serade, e te fa de novo l'aceso co ła password nova.",
+  "password-change-required-title": "Canbia ła to password",
   "people": "Parsone",
   "people-number": "El nùmaro de parsone el xe:",
   "poker-eight": "8",

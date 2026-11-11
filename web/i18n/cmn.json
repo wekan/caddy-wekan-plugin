@@ -1264,6 +1264,8 @@
   "parent-card": "家长卡",
   "password": "密码",
   "password-again": "密码（再次）",
+  "password-change-required-text": "本站现在要求密码至少为 __min__ 个字符，而您的密码较短。请选择更长的密码以继续。之后您账户的所有会话都会被注销，您需要使用新密码重新登录。",
+  "password-change-required-title": "更改您的密码",
   "people": "人们",
   "people-number": "人数为：",
   "poker-eight": "8",

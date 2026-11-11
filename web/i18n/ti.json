@@ -1264,6 +1264,8 @@
   "parent-card": "ወላዲ ካርድ",
   "password": "መሕለፊ ቃል",
   "password-again": "መሕለፊ ቃል (ዳግም)",
+  "password-change-required-text": "እዚ መርበብ ሕጂ እንተወሓደ __min__ ፊደላት ዘለዎ መሕለፊ ቃላት ይሓትት፣ ናትካ ድማ ሓጺር እዩ። ንምቕጻል ዝነውሐ ምረጽ። ድሕሪኡ ኩሉ ክፍለ-ግዜታት ሕሳብካ ይወጹ፣ ብሓድሽ መሕለፊ ቃል ድማ እንደገና ትኣቱ።",
+  "password-change-required-title": "መሕለፊ ቃልካ ቀይር",
   "people": "ሰባት",
   "people-number": "ብዝሒ ሰባት፦ ",
   "poker-eight": "8",

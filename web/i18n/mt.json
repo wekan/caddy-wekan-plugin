@@ -1264,6 +1264,8 @@
   "parent-card": "Parent kard",
   "password": "Kelma ta’ għassa",
   "password-again": "Kelma ta’ għassa (mill-ġdid)",
+  "password-change-required-text": "Dan is-sit issa jeħtieġ kliem ta’ għassa ta’ mill-inqas __min__ karattri, u tiegħek huwa iqsar. Agħżel waħda itwal biex tkompli. Imbagħad kull sessjoni tal-kont tiegħek toħroġ, u terġa’ tidħol bil-kelma ta’ għassa l-ġdida.",
+  "password-change-required-title": "Ibdel il-kelma ta’ għassa tiegħek",
   "people": "Nies",
   "people-number": "The number ta’ people huwa: ",
   "poker-eight": "8",

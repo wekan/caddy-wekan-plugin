@@ -1264,6 +1264,8 @@
   "parent-card": "Ota-ona kartasi",
   "password": "Parol",
   "password-again": "Parol (yana)",
+  "password-change-required-text": "Bu sayt endi kamida __min__ ta belgidan iborat parollarni talab qiladi, sizniki esa qisqaroq. Davom etish uchun uzunroq parol tanlang. Shundan so'ng hisobingizning barcha seanslari yopiladi va siz yangi parol bilan qayta kirasiz.",
+  "password-change-required-title": "Parolingizni o'zgartiring",
   "people": "Odamlar",
   "people-number": "Odamlar soni:",
   "poker-eight": "8",

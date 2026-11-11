@@ -1264,6 +1264,8 @@
   "parent-card": "Nadređena kartica",
   "password": "Lozinka",
   "password-again": "Lozinka (ponovno)",
+  "password-change-required-text": "Ova stranica sada zahtijeva lozinke od najmanje __min__ znakova, a vaša je kraća. Odaberite dužu za nastavak. Nakon toga se odjavljuju sve sesije vašeg računa i ponovno se prijavljujete novom lozinkom.",
+  "password-change-required-title": "Promijenite svoju lozinku",
   "people": "Osobe",
   "people-number": "Broj osoba je: ",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Bangeba karata",
   "password": "Gundo daɲɛ",
   "password-again": "Tɔgɔgundo (kokura)",
+  "password-change-required-text": "Nin siti in bɛ gundo daɲɛ ɲini sisan minnu sɛbɛnni bɛ __min__ bɔ ka taa a fɛ, ka i ta surun. Ka taa a fɛ, gundo daɲɛ jan sugandi. O kɔ, i ka jatebɔ ka sesiyɔn bɛɛ bɛ bɔ, ka i don tugun ni gundo daɲɛ kura ye.",
+  "password-change-required-title": "I ka gundo daɲɛ yɛlɛma",
   "people": "Mɔgɔw",
   "people-number": "Mɔgɔ hakɛ ye: ",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Tetah amatlapalli",
   "password": "Ichtaca tlahtolli",
   "password-again": "Tlatzaculmachiyotl (occepa)",
+  "password-change-required-text": "Inin tlatlaliliztli axcan quinequi ichtaca tlahtolli ica achi __min__ tlahcuilolmachiotl, ihuan moyuh achi tepiton. Xicpepena ce achi huehca ic tictocaz. Satepan mochi in tlatequipanoliztli in mocuenta quizaz, ihuan occeppa ticalaquiz ica in yancuic ichtaca tlahtolli.",
+  "password-change-required-title": "Xicpatla moichtaca tlahtol",
   "people": "Tlacah",
   "people-number": "Tlacah intlapoual cah: ",
   "poker-eight": "8",

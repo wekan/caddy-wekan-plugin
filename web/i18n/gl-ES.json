@@ -1264,6 +1264,8 @@
   "parent-card": "Tarxeta pai",
   "password": "Contrasinal",
   "password-again": "Contrasinal (de novo)",
+  "password-change-required-text": "Este sitio agora require contrasinais de polo menos __min__ caracteres, e o teu é máis curto. Escolle un máis longo para continuar. Despois péchanse todas as sesións da túa conta e volves iniciar sesión co novo contrasinal.",
+  "password-change-required-title": "Cambia o teu contrasinal",
   "people": "Persoas",
   "people-number": "O número de persoas é: ",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Karatra ray aman-dreny",
   "password": "Teny miafina",
   "password-again": "Tenimiafina (indray)",
+  "password-change-required-text": "Mitaky teny miafina misy litera __min__ farafahakeliny izao ity tranonkala ity, ary fohy kokoa ny anao. Misafidiana teny miafina lava kokoa vao afaka manohy. Avy eo dia hivoaka ny fivoriana rehetran'ny kaontinao, ary hiditra indray amin'ny teny miafina vaovao ianao.",
+  "password-change-required-title": "Ovay ny teny miafinao",
   "people": "Olona",
   "people-number": "Ny isan'ny olona dia: ",
   "poker-eight": "8",

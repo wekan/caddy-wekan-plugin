@@ -1264,6 +1264,8 @@
   "parent-card": "Parent kadhi",
   "password": "pasiwedhi",
   "password-again": "pasiwedhi (zvakare)",
+  "password-change-required-text": "Saiti iyi zvino inoda mapasiwedhi ane mavara __min__ kana kupfuura, uye yako ipfupi. Sarudza refu kuti uenderere. Ipapo zvikamu zvose zveakaundi yako zvinobudiswa, uye unopinda zvakare nepasiwedhi itsva.",
+  "password-change-required-title": "Chinja pasiwedhi yako",
   "people": "Vanhu",
   "people-number": "The number ye people iri: ",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Karchi padre",
   "password": "Kontraseña",
   "password-again": "Kontraseña (repetir)",
+  "password-change-required-text": "E sitio aki awor ta eksigí kontraseñanan di por lo ménos __min__ karakter, i esun di bo ta mas kòrtiku. Skohe un mas largu pa sigui. Despues tur sesion di bo kuenta ta wòrdu sakí, i bo ta drenta atrobe ku e kontraseña nobo.",
+  "password-change-required-title": "Kambia bo kontraseña",
   "people": "Hendenan",
   "people-number": "E número di personas ta:",
   "poker-eight": "8",

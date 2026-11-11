@@ -2,6 +2,10 @@
   h1 {{t $.L "edit-profile"}}
   if .Saved
     p.cloud-saved.js-profile-saved {{t $.L "cloud-saved"}}
+  if .PasswordRequired
+    .js-password-change-required
+      h2 {{t $.L "password-change-required-title"}}
+      p {{.PasswordRequired}}
   if .Error
     p.at-error.js-profile-error {{.ErrorText}}
   form.js-profile-form(method="post", action="/profile")

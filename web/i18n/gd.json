@@ -1264,6 +1264,8 @@
   "parent-card": "Cairt phàrant",
   "password": "Facal-faire",
   "password-again": "Facal-faire (a-rithist)",
+  "password-change-required-text": "Tha an làrach seo a-nis ag iarraidh faclan-faire de __min__ caractaran air a char as lugha, agus tha am fear agadsa nas giorra. Tagh fear nas fhaide airson leantainn air adhart. An uair sin thèid gach seisean dhen chunntas agad a chlàradh a-mach, agus clàraichidh tu a-steach a-rithist leis an fhacal-fhaire ùr.",
+  "password-change-required-title": "Atharraich am facal-faire agad",
   "people": "Daoine",
   "people-number": "Seo àireamh nan daoine: ",
   "poker-eight": "8",

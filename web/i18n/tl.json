@@ -1264,6 +1264,8 @@
   "parent-card": "Parent kard",
   "password": "password",
   "password-again": "password (again)",
+  "password-change-required-text": "Nangangailangan na ngayon ang site na ito ng mga password na hindi bababa sa __min__ na karakter, at mas maikli ang sa iyo. Pumili ng mas mahaba upang magpatuloy. Pagkatapos ay mala-log out ang bawat session ng iyong account, at muli kang mag-login gamit ang bagong password.",
+  "password-change-required-title": "Palitan ang iyong password",
   "people": "Mga tao",
   "people-number": "The bilang of people ay: ",
   "poker-eight": "8",

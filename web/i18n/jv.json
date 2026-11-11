@@ -1264,6 +1264,8 @@
   "parent-card": "Kertu induk",
   "password": "Tembung sandi",
   "password-again": "Tembung sandhi (maneh)",
+  "password-change-required-text": "Situs iki saiki mbutuhake tembung sandi paling ora __min__ karakter, lan tembung sandimu luwih cendhak. Pilih sing luwih dawa kanggo nerusake. Sabanjure kabeh sesi akunmu bakal metu, lan kowe mlebu maneh nganggo tembung sandi anyar.",
+  "password-change-required-title": "Ganti tembung sandimu",
   "people": "Wong",
   "people-number": "Cacah wong yaiku: ",
   "poker-eight": "8",

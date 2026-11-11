@@ -45,6 +45,12 @@ func exactFold(v string) bson.M {
 	return bson.M{"$regex": "^" + regexp.QuoteMeta(v) + "$", "$options": "i"}
 }
 
+// containsFold matches text that contains v, in any letter case: v quoted,
+// as exactFold's, so it is matched as text, never as a pattern.
+func containsFold(v string) bson.M {
+	return bson.M{"$regex": regexp.QuoteMeta(v), "$options": "i"}
+}
+
 // inIDs matches any of ids from a request, each of which must be an id; ok is
 // false otherwise, and nothing is to be queried.
 func inIDs(ids []string) (bson.M, bool) {

@@ -1264,6 +1264,8 @@
   "parent-card": "ወላጅ ካርድ",
   "password": "የይለፍ ቃል",
   "password-again": "የይለፍ ቃል (እንደገና)",
+  "password-change-required-text": "ይህ ጣቢያ አሁን ቢያንስ __min__ ቁምፊዎች ያላቸውን የይለፍ ቃሎች ይፈልጋል፣ የእርስዎም አጭር ነው። ለመቀጠል ረዘም ያለ ይምረጡ። ከዚያ የመለያዎ ሁሉም ክፍለ ጊዜዎች ይወጣሉ፣ እና በአዲሱ የይለፍ ቃል እንደገና ይገባሉ።",
+  "password-change-required-title": "የይለፍ ቃልዎን ይቀይሩ",
   "people": "ሰዎች",
   "people-number": "የሰዎች ብዛት፦ ",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Bronkaart",
   "password": "Wachtwoord",
   "password-again": "Wachtwoord (nogmaals)",
+  "password-change-required-text": "Deze site vereist nu wachtwoorden van minstens __min__ tekens, en het uwe is korter. Kies een langer om verder te gaan. Daarna wordt elke sessie van uw account afgemeld, en meldt u zich opnieuw aan met het nieuwe wachtwoord.",
+  "password-change-required-title": "Wijzig uw wachtwoord",
   "people": "Gebruikers",
   "people-number": "Het aantal gebruikers is:",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Kilde kort",
   "password": "Passord",
   "password-again": "Passord (igjen)",
+  "password-change-required-text": "Dette nettstedet krever nå passord på minst __min__ tegn, og ditt er kortere. Velg et lengre for å fortsette. Deretter logges alle øktene til kontoen din ut, og du logger inn igjen med det nye passordet.",
+  "password-change-required-title": "Endre passordet ditt",
   "people": "Medlemmer",
   "people-number": "Antall personer er: ",
   "poker-eight": "8",

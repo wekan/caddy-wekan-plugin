@@ -1264,6 +1264,8 @@
   "parent-card": "Kuatia'i túva",
   "password": "Ñe'ẽñemi",
   "password-again": "Ñe'ẽñemi (jey)",
+  "password-change-required-text": "Ko tenda oikotevẽ ko'ágã ñe'ẽñemi oguerekóva __min__ tai michĩvéramo, ha nde mba'e mbykyve. Eiporavo peteĩ ipukuvéva eho haguã tenonde. Upéi oñemboty opaite ne mba'ete jeike, ha eike jey ñe'ẽñemi pyahu reheve.",
+  "password-change-required-title": "Emoambue ne ñe'ẽñemi",
   "people": "Tapichakuéra",
   "people-number": "Yvypóra papapy ha'e: ",
   "poker-eight": "8",

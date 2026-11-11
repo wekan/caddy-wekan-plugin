@@ -1264,6 +1264,8 @@
   "parent-card": "Parent kaad",
   "password": "Ahintasɛm",
   "password-again": "Asɛmfua a wode kɔ mu (san hyɛ bio)",
+  "password-change-required-text": "Saa site yi hwehwɛ seesei sɛ ahintasɛm nkyerɛwde dodow yɛ __min__ anaa ɛboro saa, na wo dea yɛ tiaa. Paw nea ɛware kakra na toa so. Afei wobeyi wo akontaa nhyiamu biara afi mu, na wode ahintasɛm foforo no bɛsan akɔ mu.",
+  "password-change-required-title": "Sesa wo ahintasɛm",
   "people": "Nnipa",
   "people-number": "Nnipa dodow ne: ",
   "poker-eight": "8",

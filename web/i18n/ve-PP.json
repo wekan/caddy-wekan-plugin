@@ -1264,6 +1264,8 @@
   "parent-card": "Vanhemb kart",
   "password": "Peitsana",
   "password-again": "Peitsana (völ kerdan)",
+  "password-change-required-text": "Nece sait pakičeb nügüd peitsanoid, kudambiš om vähemba __min__ znamad, a sinun om lühüdemb. Valiče pidemb, miše jatkta. Sid'ä kaik sinun akkauntan sessijad lopetadas, i sinä tuled udes uden peitsananke.",
+  "password-change-required-title": "Vajehta ičeze peitsana",
   "people": "Rahvaz",
   "people-number": "Ristituden lugumär om:",
   "poker-eight": "8",

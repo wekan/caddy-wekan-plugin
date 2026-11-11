@@ -1264,6 +1264,8 @@
   "parent-card": "Pieder kartiņai",
   "password": "Parole",
   "password-again": "Parole (atkārtoti)",
+  "password-change-required-text": "Šī vietne tagad pieprasa vismaz __min__ rakstzīmes garas paroles, un jūsējā ir īsāka. Izvēlieties garāku, lai turpinātu. Pēc tam visas jūsu konta sesijas tiek izrakstītas, un jūs atkal pierakstāties ar jauno paroli.",
+  "password-change-required-title": "Nomainiet savu paroli",
   "people": "Dalībnieki",
   "people-number": "Cilvēku skaits: ",
   "poker-eight": "8",

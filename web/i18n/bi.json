@@ -1264,6 +1264,8 @@
   "parent-card": "Stamba kad",
   "password": "Paswod",
   "password-again": "Sikret wod (bakegen)",
+  "password-change-required-text": "Saet ia naoia i nidim ol paswod we i gat __min__ leta o moa, mo paswod blong yu i sot moa. Jusum wan we i long moa blong gohed. Afta, evri sesen blong akaon blong yu i aot, mo yu saen-in bakegen wetem niu paswod.",
+  "password-change-required-title": "Jenisim paswod blong yu",
   "people": "Ol man",
   "people-number": "Namba blong ol man i:",
   "poker-eight": "8",

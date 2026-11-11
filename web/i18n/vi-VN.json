@@ -1264,6 +1264,8 @@
   "parent-card": "Thẻ cha",
   "password": "Mật khẩu",
   "password-again": "Katalaluan(sekali lagi)",
+  "password-change-required-text": "Trang này hiện yêu cầu mật khẩu có ít nhất __min__ ký tự, và mật khẩu của bạn ngắn hơn. Hãy chọn một mật khẩu dài hơn để tiếp tục. Sau đó mọi phiên của tài khoản bạn sẽ bị đăng xuất, và bạn đăng nhập lại bằng mật khẩu mới.",
+  "password-change-required-title": "Đổi mật khẩu của bạn",
   "people": "Mọi người",
   "people-number": "Số người là:",
   "poker-eight": "8",

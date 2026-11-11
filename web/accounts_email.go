@@ -222,7 +222,10 @@ func (s *Server) resetPassword(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	s.signInAs(w, r, id)
+	// As WeKan: a reset is a change of one's own password, so no session is
+	// kept - the next sign-in is with the new one.
+	s.endPasswordChangeRequirement(ctx, id)
+	http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
 }
 
 // sendVerification is accounts-password's sendVerificationEmail at sign-up

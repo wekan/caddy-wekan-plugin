@@ -1264,6 +1264,8 @@
   "parent-card": "家長卡",
   "password": "密碼",
   "password-again": "密碼（再次）",
+  "password-change-required-text": "呢個網站而家要求密碼最少有 __min__ 個字元，而你嘅比較短。揀個長啲嘅先可以繼續。之後你帳戶嘅所有工作階段都會登出，你要用新密碼再登入。",
+  "password-change-required-title": "更改你嘅密碼",
   "people": "人們",
   "people-number": "人數為：",
   "poker-eight": "8",

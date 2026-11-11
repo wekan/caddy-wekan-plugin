@@ -1269,6 +1269,8 @@
   "parent-card": "Übergeordnete Karte",
   "password": "Passwort",
   "password-again": "Passwort (wiederholen)",
+  "password-change-required-text": "Diese Seite verlangt jetzt Passwörter mit mindestens __min__ Zeichen, und Ihres ist kürzer. Wählen Sie ein längeres, um fortzufahren. Danach werden alle Sitzungen Ihres Kontos abgemeldet, und Sie melden sich mit dem neuen Passwort erneut an.",
+  "password-change-required-title": "Ändern Sie Ihr Passwort",
   "people": "Nutzer",
   "people-number": "Die Anzahl der Personen ist:",
   "poker-eight": "8",

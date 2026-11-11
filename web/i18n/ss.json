@@ -1264,6 +1264,8 @@
   "parent-card": "Likhadi lelingumtali",
   "password": "Liphasiwedi",
   "password-again": "Libitophawu (futsi)",
+  "password-change-required-text": "Lesayithi nyalo idzinga emaphasiwedi lanetinhlamvu letingu __min__ noma ngetulu, futsi lakho lifisha. Khetsa lelidze kute uchubeke. Bese onkhe emaseshini e-akhawunti yakho ayaphuma, futsi ungena futsi ngeliphasiwedi lelisha.",
+  "password-change-required-title": "Shintja liphasiwedi lakho",
   "people": "Bantfu",
   "people-number": "Inombolo yebantfu ngu: ",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Motsadi karata",
   "password": "Lefoko la sephiri",
   "password-again": "Lefokopheti (gape)",
+  "password-change-required-text": "Saete eno jaanong e tlhoka mafoko a sephiri a nang le bonnye ditlhaka di le __min__, mme la gago le khutshwane. Tlhopha le leleele go tswelela. Morago ga moo disešene tsotlhe tsa akhaonto ya gago di a tswa, mme o tsena gape ka lefoko la sephiri le lesha.",
+  "password-change-required-title": "Fetola lefoko la gago la sephiri",
   "people": "Batho",
   "people-number": "palo ya batho ke:",
   "poker-eight": "8",

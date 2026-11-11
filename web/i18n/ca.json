@@ -1264,6 +1264,8 @@
   "parent-card": "Fitxa pare",
   "password": "Contrasenya",
   "password-again": "Repeteix la contrasenya",
+  "password-change-required-text": "Aquest lloc ara requereix contrasenyes d'almenys __min__ caràcters, i la vostra és més curta. Trieu-ne una de més llarga per continuar. Després es tancaran totes les sessions del vostre compte, i tornareu a iniciar la sessió amb la contrasenya nova.",
+  "password-change-required-title": "Canvieu la contrasenya",
   "people": "Persones",
   "people-number": "El nombre d'usuaris és:",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Ene kartasy",
   "password": "Parol",
   "password-again": "Parol (ýene)",
+  "password-change-required-text": "Bu sahypa indi azyndan __min__ simwolly parollary talap edýär, siziňki bolsa gysga. Dowam etmek üçin has uzynyny saýlaň. Soňra hasabyňyzyň ähli sessiýalary çykarylýar we siz täze parol bilen ýene girýärsiňiz.",
+  "password-change-required-title": "Parolyňyzy üýtgediň",
   "people": "Adamlar",
   "people-number": "Adamlaryň sany:",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Kaarka waalidka",
   "password": "Furaha sirta",
   "password-again": "Furaha sirta (mar kale)",
+  "password-change-required-text": "Boggani hadda wuxuu u baahan yahay furayaal sir ah oo ugu yaraan __min__ xaraf ah, kaaguna waa ka gaaban yahay. Dooro mid ka dheer si aad u sii wadato. Kadib dhammaan fadhiyada xisaabtaada waa laga saarayaa, waxaadna mar kale ku galaysaa furaha sirta cusub.",
+  "password-change-required-title": "Beddel furaha sirtaada",
   "people": "Dadka",
   "people-number": "Tirada dadku waa: ",
   "poker-eight": "8",

@@ -228,10 +228,15 @@ func (s *Server) profilePage(w http.ResponseWriter, r *http.Request, u *User) {
 	if key != "" {
 		text = fillParams(tr(lang, key), map[string]string{"size": "72 kB"})
 	}
+	// The change the enforced minimum requires, before anything else.
+	required := ""
+	if required0, _ := s.passwordAccount(r.Context(), u.ID); required0 && s.passwordPolicy(r.Context()).Enforce {
+		required = fillParams(tr(lang, "password-change-required-text"), map[string]string{"min": strconv.Itoa(s.passwordPolicy(r.Context()).MinLength)})
+	}
 	var me bson.M
 	_ = s.db.Collection("users").FindOne(r.Context(), bson.M{"_id": eq(u.ID)}).Decode(&me)
 	s.render(w, r, "profile", http.StatusOK, map[string]any{"Title": tr(lang, "edit-profile"), "User": u,
-		"Saved": r.URL.Query().Get("saved"), "Error": key, "ErrorText": text,
+		"Saved": r.URL.Query().Get("saved"), "Error": key, "ErrorText": text, "PasswordRequired": required,
 		"Delivery": memberDeliveryForm(me, lang), "HideIdentity": nestedField(me, "profile", "webhookHideIdentity") == true})
 }
 
@@ -266,8 +271,8 @@ func (s *Server) saveProfile(w http.ResponseWriter, r *http.Request, u *User) {
 	http.Redirect(w, r, "/profile?saved=profile", http.StatusSeeOther)
 }
 
-// changePassword needs the current password; the other sessions end, this one
-// stays (a new token).
+// changePassword needs the current password; then every session ends, this
+// one too, as WeKan's (server/passwordChangeRequired.js).
 func (s *Server) changePassword(w http.ResponseWriter, r *http.Request, u *User) {
 	if CheckPassword(u, r.FormValue("oldPassword")) != nil {
 		http.Redirect(w, r, "/profile?error=error-ldap-login", http.StatusSeeOther)
@@ -297,13 +302,11 @@ func (s *Server) changePassword(w http.ResponseWriter, r *http.Request, u *User)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	token, expires, err := s.newLoginToken(r.Context(), u.ID)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	setSessionCookie(w, token, expires)
-	http.Redirect(w, r, "/profile?saved=password", http.StatusSeeOther)
+	// As WeKan: every session of the account ends, this one too, and the next
+	// sign-in is with the new password (short_passwords.go).
+	s.endPasswordChangeRequirement(r.Context(), u.ID)
+	http.SetCookie(w, &http.Cookie{Name: sessionCookie, Value: "", Path: "/", MaxAge: -1, HttpOnly: true, Secure: true, SameSite: http.SameSiteLaxMode})
+	http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
 }
 
 // Admin Panel / People: the site admins see every user and set admin and

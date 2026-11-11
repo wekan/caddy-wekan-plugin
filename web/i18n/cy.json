@@ -1264,6 +1264,8 @@
   "parent-card": "Cerdyn rhiant",
   "password": "Cyfrinair",
   "password-again": "Cyfrinair (eto)",
+  "password-change-required-text": "Mae'r wefan hon bellach yn gofyn am gyfrineiriau o leiaf __min__ nod, ac mae eich un chi yn fyrrach. Dewiswch un hirach i barhau. Yna caiff pob sesiwn o'ch cyfrif ei hallgofnodi, ac rydych yn mewngofnodi eto gyda'r cyfrinair newydd.",
+  "password-change-required-title": "Newidiwch eich cyfrinair",
   "people": "Pobl",
   "people-number": "Nifer y bobl yw:",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Kartal jinnuɗo",
   "password": "Finnde suuraande",
   "password-again": "Finnde (kadi)",
+  "password-change-required-text": "Lowre ndee jooni ina naamnii finndeeji suuraaɗi alkule __min__ ko famɗi fof, maa ndee ko ɓuuftunde. Suɓo njuutunde ngam jokkude. Caggal ɗum kala naatgol konte maa yaltinte, a naatoto kadi e finnde suuraande hesere ndee.",
+  "password-change-required-title": "Waylu finnde suuraande maa",
   "people": "Yimɓe",
   "people-number": "Limooje yimɓe ko: ",
   "poker-eight": "8",

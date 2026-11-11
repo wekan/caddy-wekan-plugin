@@ -1264,6 +1264,8 @@
   "parent-card": "Khadi kholo",
   "password": "Mawu achinsinsi",
   "password-again": "Mawu achinsinsi (kachiwiri)",
+  "password-change-required-text": "Tsambali tsopano limafuna mawu achinsinsi okhala ndi zilembo zosachepera __min__, ndipo anu ndi achidule. Sankhani atali kuti mupitirize. Kenako magawo onse a akaunti yanu amatulutsidwa, ndipo mumalowanso ndi mawu achinsinsi atsopano.",
+  "password-change-required-title": "Sinthani mawu anu achinsinsi",
   "people": "Anthu",
   "people-number": "Chiwerengero cha anthu ndi: ",
   "poker-eight": "8",

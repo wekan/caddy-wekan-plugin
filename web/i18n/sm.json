@@ -1264,6 +1264,8 @@
   "parent-card": "Pepa matua",
   "password": "Upu faataga",
   "password-again": "Upu faataga (toe tusi)",
+  "password-change-required-text": "O lenei upega tafaʻilagi ua manaomia nei upu faataga e le itiiti ifo i le __min__ mataitusi, ae o lau e puupuu. Filifili se mea e umi atu e faaauau ai. Ona alu ese lea o vaitaimi uma o lau akaunti, ma e te toe ulufale i le upu faataga fou.",
+  "password-change-required-title": "Sui lau upu faataga",
   "people": "Tagata",
   "people-number": "O le numera o tagata o le: ",
   "poker-eight": "8",

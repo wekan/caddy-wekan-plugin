@@ -1264,6 +1264,8 @@
   "parent-card": "Kartenn avel",
   "password": "Ger-tremen",
   "password-again": "Ger-tremen (adarre)",
+  "password-change-required-text": "Al lec'hienn-mañ a c'houlenn bremañ gerioù-tremen gant __min__ arouezenn da nebeutañ, ha berroc'h eo hini ho kont. Dibabit unan hiroc'h evit kenderc'hel. Neuze e vo digevreet holl zalc'hoù ho kont, hag e kevreoc'h en-dro gant ar ger-tremen nevez.",
+  "password-change-required-title": "Kemmañ ho ker-tremen",
   "people": "Tud",
   "people-number": "Niver an dud zo :",
   "poker-eight": "8",

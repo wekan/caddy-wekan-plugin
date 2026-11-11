@@ -1264,6 +1264,8 @@
   "parent-card": "Kaadi obi",
   "password": "Ọrọigbaniwọle",
   "password-again": "Ọrọigbaniwọle (lẹẹkansi)",
+  "password-change-required-text": "Ojú-òpó yìí ń béèrè báyìí fún ọ̀rọ̀ìgbaniwọlé tí ó ní ó kéré tán __min__ àmì, tìrẹ sì kúrú jù. Yan èyí tí ó gùn jù láti tẹ̀síwájú. Lẹ́yìn náà gbogbo ìgbà ìwọlé àkántì rẹ yóò jáde, ìwọ yóò sì tún wọlé pẹ̀lú ọ̀rọ̀ìgbaniwọlé tuntun.",
+  "password-change-required-title": "Yí ọ̀rọ̀ìgbaniwọlé rẹ padà",
   "people": "Eniyan",
   "people-number": "Nọmba awọn eniyan ni:",
   "poker-eight": "8",

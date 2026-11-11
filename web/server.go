@@ -359,6 +359,10 @@ func (s *Server) page(h pageHandler) http.HandlerFunc {
 			http.Error(w, "sign in first", http.StatusUnauthorized)
 			return
 		}
+		// A short password while the minimum is enforced: the change first.
+		if s.passwordChangeGate(w, r, u) {
+			return
+		}
 		h(w, r, u)
 	}
 }
@@ -436,6 +440,7 @@ func (s *Server) signIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	s.throttle.succeeded(key)
+	s.noteSignInPassword(r, u, password)
 	token, expires, err := s.newLoginToken(r.Context(), u.ID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

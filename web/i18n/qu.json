@@ -1264,6 +1264,8 @@
   "parent-card": "Tayta karta",
   "password": "Pakasqa rimay",
   "password-again": "Pakasqa rimay (huk kutitawan)",
+  "password-change-required-text": "Kay sitioqa kunan aswan pisillaqa __min__ sananchayuq pakasqa rimaykunata mañan, qampataq aswan taksa. Aswan sunita akllay qatipanaykipaq. Chaymantataq cuentaykiq llapan sesionninkuna lluqsinqa, musuq pakasqa rimaywantaq huk kutitawan yaykunki.",
+  "password-change-required-title": "Pakasqa rimayniykita tikray",
   "people": "Runakuna",
   "people-number": "Runakunap yupayninqa: ",
   "poker-eight": "8",

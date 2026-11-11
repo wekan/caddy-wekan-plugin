@@ -1264,6 +1264,8 @@
   "parent-card": "Kôrta rodzica",
   "password": "Parola",
   "password-again": "Parola (ponownié)",
+  "password-change-required-text": "Na starnie je terô wëmôgónô parola z nômni __min__ znaków, a twòja je krótszô. Wëbierzë dłëgszą, żebë dalëj robic. Pòtemù wszëtczé sesje twòjegò kònta są wëlogòwóné, a të zalogùjesz sã znowa z nową parolą.",
+  "password-change-required-title": "Zmieni swòjã parolã",
   "people": "Lëdze",
   "people-number": "Liczba brëkòwnikòw to:",
   "poker-eight": "8",

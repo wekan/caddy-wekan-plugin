@@ -1264,6 +1264,8 @@
   "parent-card": "Carta genitore",
   "password": "Palora d'ordini",
   "password-again": "Palora sicreta (di novu)",
+  "password-change-required-text": "Stu situ ora voli palori d'ordini di armenu __min__ caratteri, e la tò è cchiù curta. Scegghi una cchiù longa pi cuntinuari. Doppu ogni sissioni dû to cuntu nesci, e trasi n'àutra vota cu la nova palora d'ordini.",
+  "password-change-required-title": "Cancia la to palora d'ordini",
   "people": "Pirsuni",
   "people-number": "Lu numero di persone è:",
   "poker-eight": "8",

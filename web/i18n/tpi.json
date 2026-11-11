@@ -1264,6 +1264,8 @@
   "parent-card": "Parent kat",
   "password": "Paswot",
   "password-again": "Paswot (gen)",
+  "password-change-required-text": "Dispela sait nau i laikim paswot i gat __min__ leta o moa, na bilong yu i sotpela. Makim wanpela longpela moa bilong go het. Bihain olgeta sesen bilong akaun bilong yu bai i go aut, na yu go insait gen wantaim nupela paswot.",
+  "password-change-required-title": "Senisim paswot bilong yu",
   "people": "Ol manmeri",
   "people-number": "Hamas manmeri i stap:",
   "poker-eight": "8",

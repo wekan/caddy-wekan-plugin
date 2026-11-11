@@ -1264,6 +1264,8 @@
   "parent-card": "Karata ya motswadi",
   "password": "Lentšu la sephiri",
   "password-again": "Phasewete (gape)",
+  "password-change-required-text": "Saete ye bjale e nyaka mantšu a sephiri a nago le bonnyane bja dihlaka tše __min__, gomme la gago le lekopana. Kgetha le letelele gore o tšwele pele. Ke moka mananeo ka moka a akhaonte ya gago a a tšwa, gomme o tsena gape ka lentšu la sephiri le lefsa.",
+  "password-change-required-title": "Fetoša lentšu la gago la sephiri",
   "people": "Batho",
   "people-number": "Palo ya batho ke: ",
   "poker-eight": "8",

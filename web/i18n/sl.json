@@ -1264,6 +1264,8 @@
   "parent-card": "Starševska kartica",
   "password": "Geslo",
   "password-again": "Geslo (ponovno)",
+  "password-change-required-text": "Ta stran zdaj zahteva gesla z vsaj __min__ znaki, vaše pa je krajše. Za nadaljevanje izberite daljše. Nato se vse seje vašega računa odjavijo in se znova prijavite z novim geslom.",
+  "password-change-required-title": "Spremenite geslo",
   "people": "Ljudje",
   "people-number": "Število oseb je:",
   "poker-eight": "8",

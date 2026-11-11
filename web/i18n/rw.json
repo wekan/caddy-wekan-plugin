@@ -1264,6 +1264,8 @@
   "parent-card": "Ikarita mubyeyi",
   "password": "Ijambobanga",
   "password-again": "Ijambobanga (ongera)",
+  "password-change-required-text": "Uru rubuga ubu rusaba amagambobanga afite nibura inyuguti __min__, kandi iryawe ni rigufi kurushaho. Hitamo irirerire kugira ngo ukomeze. Hanyuma konti yawe isohorwa ahantu hose yinjiye, kandi ukongera kwinjira ukoresheje ijambobanga rishya.",
+  "password-change-required-title": "Hindura ijambobanga ryawe",
   "people": "Abantu",
   "people-number": "Umubare w'abantu ni: ",
   "poker-eight": "8",

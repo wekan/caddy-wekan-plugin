@@ -1264,6 +1264,8 @@
   "parent-card": "Kaart ayr",
   "password": "Fockle-arrey",
   "password-again": "Fockle follit (reesht)",
+  "password-change-required-text": "Ta'n ynnyd shoh nish shirrey fockleyn-arrey jeh __min__ cowraghyn er y chooid sloo, as ta dty fer ny s'giare. Reih fer ny s'liauyr dy hannaghtyn. Eisht ta dagh seshoon jeh dty choontys er ny chur magh, as t'ou çheet stiagh reesht lesh y fockle-arrey noa.",
+  "password-change-required-title": "Caghlaa dty fockle-arrey",
   "people": "Sleih",
   "people-number": "She earroo ny deiney: ",
   "poker-eight": "8",

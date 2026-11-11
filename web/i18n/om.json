@@ -1264,6 +1264,8 @@
   "parent-card": "Kaardii abbaa",
   "password": "Jecha darbii",
   "password-again": "Jecha darbii (ammas)",
+  "password-change-required-text": "Marsariitiin kun amma jechoota darbii yoo xiqqaate qubee __min__ qaban barbaada, kan kee immoo gabaabaa dha. Itti fufuuf kan dheeraa filadhu. Achiis yeroon hojii akkaawuntii keetii hundi ni ba'a, ati immoo jecha darbii haaraadhaan irra deebitee seenta.",
+  "password-change-required-title": "Jecha darbii kee jijjiiri",
   "people": "Namoota",
   "people-number": "Lakkoofsi namootaa: ",
   "poker-eight": "8",

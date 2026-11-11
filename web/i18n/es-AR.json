@@ -1264,6 +1264,8 @@
   "parent-card": "Tarjeta padre",
   "password": "Contraseña",
   "password-again": "Contraseña (repetir)",
+  "password-change-required-text": "Este sitio ahora requiere contraseñas de al menos __min__ caracteres, y la tuya es más corta. Elegí una más larga para continuar. Después se cierran todas las sesiones de tu cuenta y volvés a iniciar sesión con la nueva contraseña.",
+  "password-change-required-title": "Cambiá tu contraseña",
   "people": "Gente",
   "people-number": "El número de personas es:",
   "poker-eight": "8",

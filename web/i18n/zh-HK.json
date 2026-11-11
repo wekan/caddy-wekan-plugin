@@ -1264,6 +1264,8 @@
   "parent-card": "父層卡片",
   "password": "密碼",
   "password-again": "再次輸入密碼",
+  "password-change-required-text": "本網站現在要求密碼至少須為 __min__ 個字元，而您的密碼較短。請選擇更長的密碼以繼續。之後您帳戶的所有工作階段都將登出，您需要以新密碼重新登入。",
+  "password-change-required-title": "變更您的密碼",
   "people": "成員",
   "people-number": "人數為：",
   "poker-eight": "8",

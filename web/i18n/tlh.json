@@ -1267,6 +1267,8 @@
   "parent-card": "qup 'echletHom",
   "password": "pegh mu'",
   "password-again": "pegh mu' (yIghItlhqa')",
+  "password-change-required-text": "DaH __min__ ngutlh qoj latlh ghajbogh pegh mu'mey poQ Daqvam, 'ej ngaj law' pegh mu'lIj. yItaHmeH pegh mu' tIq law' yIwIv. vaj Hoch lo'wI' Daqlij ghom mejmoHlu', 'ej pegh mu' chu' lo'taHvIS bI'elqa'.",
+  "password-change-required-title": "pegh mu'lIj yIchoH",
   "people": "ghotpu'",
   "people-number": "lo'wI'pu' mI': ",
   "poker-eight": "8",

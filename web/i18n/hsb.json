@@ -1264,6 +1264,8 @@
   "parent-card": "Nadrjadowana karta",
   "password": "Hesło",
   "password-again": "Hesło (hišće raz)",
+  "password-change-required-text": "Tute sydło nětko hesła ze znajmjeńša __min__ znamješkami žada, a waše je krótše. Wubjerće dlěše, zo byšće pokročował. Potom so wšě posedźenja wašeho konta wotzjewja a přizjewiće so znowa z nowym hesłom.",
+  "password-change-required-title": "Změńće swoje hesło",
   "people": "Ludźo",
   "people-number": "Ličba ludźi je:  ",
   "poker-eight": "8",

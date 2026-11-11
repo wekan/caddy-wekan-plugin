@@ -1264,6 +1264,8 @@
   "parent-card": "Ouerkaart",
   "password": "Wagwoord",
   "password-again": "Wagwoord (weer)",
+  "password-change-required-text": "Hierdie werf vereis nou wagwoorde van ten minste __min__ karakters, en joune is korter. Kies 'n langer een om voort te gaan. Elke sessie van jou rekening word dan uitgeteken, en jy meld weer aan met die nuwe wagwoord.",
+  "password-change-required-title": "Verander jou wagwoord",
   "people": "Mense",
   "people-number": "Die aantal mense is:",
   "poker-eight": "8",

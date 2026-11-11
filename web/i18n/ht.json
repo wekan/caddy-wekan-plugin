@@ -1264,6 +1264,8 @@
   "parent-card": "Kat paran",
   "password": "Modpas",
   "password-again": "Modpas (ankò)",
+  "password-change-required-text": "Sit sa a kounye a mande modpas ki gen omwen __min__ karaktè, epi pa w la pi kout. Chwazi yon modpas ki pi long pou kontinye. Apre sa, tout sesyon kont ou yo dekonekte, epi ou konekte ankò ak nouvo modpas la.",
+  "password-change-required-title": "Chanje modpas ou",
   "people": "Moun",
   "people-number": "Kantite moun se: ",
   "poker-eight": "8",

@@ -80,6 +80,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"inviteUserToBoard":               s.methodInviteUserToBoard,
 		"searchUsers":                     s.methodSearchUsers,
 		"moveBoardObjects":                s.methodMoveBoardObjects,
+		"shortPasswordLoginsPage":         s.methodShortPasswordLoginsPage,
 	}
 	for k, v := range s.customFieldMethods() {
 		m[k] = v

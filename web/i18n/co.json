@@ -1264,6 +1264,8 @@
   "parent-card": "Carta parente",
   "password": "Parolla d'intrata",
   "password-again": "Parolla d’intrata (di novu)",
+  "password-change-required-text": "Stu situ richiede avà parolle d'intrata di almenu __min__ caratteri, è a vostra hè più corta. Sceglite ne una più longa per cuntinuà. Dopu ogni sessione di u vostru contu hè scunnessa, è vi cunnettite torna cù a nova parolla d'intrata.",
+  "password-change-required-title": "Cambiate a vostra parolla d'intrata",
   "people": "Persone",
   "people-number": "U numeru di persone hè:",
   "poker-eight": "8",

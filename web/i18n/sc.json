@@ -1264,6 +1264,8 @@
   "parent-card": "Carta mama",
   "password": "Crae",
   "password-again": "Crae (torra)",
+  "password-change-required-text": "Custu situ como rechedet craes de a su mancu __min__ caràteres, e sa tua est prus curtza. Sèbera una prus longa pro sighire. Tando totu sas sessiones de su contu tuo si serrant, e torras a fàghere s'atzessu cun sa crae noa.",
+  "password-change-required-title": "Càmbia sa crae tua",
   "people": "Persones",
   "people-number": "Su nùmeru de persones est: ",
   "poker-eight": "8",

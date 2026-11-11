@@ -1264,6 +1264,8 @@
   "parent-card": "Carta genitore",
   "password": "Parola d'ordine",
   "password-again": "Parola segreta (di nuovo)",
+  "password-change-required-text": "Stu sito mo vo' parole d'ordine 'e almeno __min__ caratteri, e 'a toja è cchiù corta. Sciglie una cchiù longa pe ghì nnanze. Doppo ogne sessione d''o cunto tujo jesce, e trase n'ata vota cu 'a parola d'ordine nova.",
+  "password-change-required-title": "Cagna 'a parola d'ordine toja",
   "people": "Perzone",
   "people-number": "Il numero di persone è:",
   "poker-eight": "8",

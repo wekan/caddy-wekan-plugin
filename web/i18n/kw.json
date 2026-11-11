@@ -1264,6 +1264,8 @@
   "parent-card": "Karten gerens",
   "password": "Ger-tremena",
   "password-again": "Ger-tremena (arta)",
+  "password-change-required-text": "An wiasva ma a res lemmyn geryow-tremena a __min__ lytherenn dhe'n lyha, ha dha honan yw berra. Dewis onan hirra rag pesya. Ena pub sesyon a'th akont a vydh omdennys, ha ty a omgelm arta gans an ger-tremena nowydh.",
+  "password-change-required-title": "Chanj dha ger-tremena",
   "people": "Tus",
   "people-number": "Niver an dus yw: ",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Cård père",
   "password": "Sicret",
   "password-again": "Môtte passe (encore)",
+  "password-change-required-text": "Ci site ci dimande asteure des sicrets d' å moens __min__ caracteres, et l' vosse est pus court. Tchoezixhoz-ent onk pus long po continuwer. Adon totes les sessions di vosse conte sont dislodjeyes, et vos v' relodjîz avou l' novea sicret.",
+  "password-change-required-title": "Candjîz vosse sicret",
   "people": "Përsonnes",
   "people-number": "Li nombe di djins est: ",
   "poker-eight": "8",

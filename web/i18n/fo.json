@@ -1264,6 +1264,8 @@
   "parent-card": "Foreldrakort",
   "password": "Loyniorð",
   "password-again": "Loyniorð (aftur)",
+  "password-change-required-text": "Hesin vevstaðurin krevur nú loyniorð á minst __min__ tekn, og títt er styttri. Vel eitt longri fyri at halda fram. Síðan verða allar setur á tíni kontu ritaðar út, og tú ritar inn aftur við nýggja loyniorðinum.",
+  "password-change-required-title": "Broyt títt loyniorð",
   "people": "Fólk",
   "people-number": "Talið av fólki er: ",
   "poker-eight": "8",

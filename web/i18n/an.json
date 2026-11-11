@@ -1264,6 +1264,8 @@
   "parent-card": "Tarcheta padre",
   "password": "Clau de paso",
   "password-again": "Clau (repetir)",
+  "password-change-required-text": "Iste puesto requiere agora claus de paso de a lo menos __min__ caracters, y a tuya ye más curta. Tría-ne una más larga pa continar. Dimpués se zarran totas as sesions d'a tuya cuenta, y tornas a dentrar con a nueva clau de paso.",
+  "password-change-required-title": "Cambia a tuya clau de paso",
   "people": "Personas",
   "people-number": "O numero de personas ye: ",
   "poker-eight": "8",

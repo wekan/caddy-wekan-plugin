@@ -1264,6 +1264,8 @@
   "parent-card": "Carta superiura",
   "password": "Pled-clav",
   "password-again": "Pled-clav (anc ina giada)",
+  "password-change-required-text": "Questa pagina pretenda ussa pleds-clav dad almain __min__ caracters, e tes è pli curt. Tscherna in pli lung per cuntinuar. Lura vegnan tut las sessiuns da tes conto deconnectadas, e ti t'annunzias puspè cun il nov pled-clav.",
+  "password-change-required-title": "Mida tes pled-clav",
   "people": "Persunas",
   "people-number": "Il dumber da persunas è: ",
   "poker-eight": "8",

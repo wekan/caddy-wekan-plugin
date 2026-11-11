@@ -1264,6 +1264,8 @@
   "parent-card": "Pai do cartão",
   "password": "Senha",
   "password-again": "Senha (novamente)",
+  "password-change-required-text": "Este site exige agora senhas com pelo menos __min__ caracteres, e a sua é mais curta. Escolha uma mais longa para continuar. Depois, todas as sessões da sua conta são terminadas, e volta a iniciar sessão com a nova senha.",
+  "password-change-required-title": "Altere a sua senha",
   "people": "Pessoas",
   "people-number": "O número de pessoas é:",
   "poker-eight": "8",

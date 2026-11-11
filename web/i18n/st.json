@@ -1264,6 +1264,8 @@
   "parent-card": "Karete ya motswadi",
   "password": "Phasewete",
   "password-again": "Phasewete (hape)",
+  "password-change-required-text": "Sebaka sena joale se hloka diphasewete tsa bonyane ditlhaku tse __min__, mme ya hao e kgutshwane. Kgetha e telele ho tswela pele. Ka mor'a moo diseshene tsohle tsa akhaonte ya hao di a tswa, mme o kena hape ka phasewete e ntjha.",
+  "password-change-required-title": "Fetola phasewete ya hao",
   "people": "Batho",
   "people-number": "Palo ya batho ke: ",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Übergeordnete Kaart",
   "password": "Passwuert",
   "password-again": "Passwuert (wiederholen)",
+  "password-change-required-text": "Dëse Site verlaangt elo Passwierder vu mindestens __min__ Zeechen, an Ärt ass méi kuerz. Wielt e méi laangt, fir weiderzemaachen. Duerno ginn all Sessioune vun Ärem Kont ofgemellt, an Dir mellt Iech mat dem neie Passwuert nees un.",
+  "password-change-required-title": "Ännert Äert Passwuert",
   "people": "Leit",
   "people-number": "Die Anzahl den Personen ass:",
   "poker-eight": "Optioun: 8",

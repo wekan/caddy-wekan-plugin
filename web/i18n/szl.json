@@ -1264,6 +1264,8 @@
   "parent-card": "Karta rodzica",
   "password": "Hasło",
   "password-again": "Hasło (zaś)",
+  "password-change-required-text": "Ta strōna terŏz wymŏgŏ haseł ze niy mynij jak __min__ znakōw, a twoje je krōtsze. Wybier dłuższe, coby kōntynuować. Potym kożdo sesyjo twojigo kōnta je wylogowano, a ty wlogujesz sie zaś z nowym hasłym.",
+  "password-change-required-title": "Zmiyń swoje hasło",
   "people": "Ludzie",
   "people-number": "Liczba używŏczōw to:",
   "poker-eight": "8",

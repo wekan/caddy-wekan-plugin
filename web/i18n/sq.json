@@ -1264,6 +1264,8 @@
   "parent-card": "Karta prind",
   "password": "Fjalëkalimi",
   "password-again": "Fjalëkalimi (përsëri)",
+  "password-change-required-text": "Kjo faqe tani kërkon fjalëkalime me të paktën __min__ karaktere, dhe i juaji është më i shkurtër. Zgjidhni një më të gjatë për të vazhduar. Më pas çdo seancë e llogarisë suaj nxirret jashtë dhe ju hyni sërish me fjalëkalimin e ri.",
+  "password-change-required-title": "Ndryshoni fjalëkalimin",
   "people": "Njerëz",
   "people-number": "Numri i njerëzve është: ",
   "poker-eight": "8",

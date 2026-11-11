@@ -1264,6 +1264,8 @@
   "parent-card": "Tarjeta padre",
   "password": "Contraseña",
   "password-again": "Contraseña (repetir)",
+  "password-change-required-text": "Esti sitiu agora rique contraseñes de polo menos __min__ caráuteres, y la to ye más curtia. Escueyi una más llarga pa siguir. Dempués zárrense toles sesiones de la to cuenta, y anicies sesión otra vegada cola contraseña nueva.",
+  "password-change-required-title": "Camuda la to contraseña",
   "people": "Personas",
   "people-number": "El númberu de persones ye: ",
   "poker-eight": "8",

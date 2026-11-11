@@ -1264,6 +1264,8 @@
   "parent-card": "âlder card",
   "password": "Wachtwurd",
   "password-again": "Wachtwurd (wer)",
+  "password-change-required-text": "Dizze side fereasket no wachtwurden fan op syn minst __min__ tekens, en dines is koarter. Kies in langer om troch te gean. Dan wurde alle sesjes fan dyn akkount ôfmeld, en do meldst wer oan mei it nije wachtwurd.",
+  "password-change-required-title": "Feroarje dyn wachtwurd",
   "people": "Folk",
   "people-number": "It oantal minsken is:",
   "poker-eight": "8",

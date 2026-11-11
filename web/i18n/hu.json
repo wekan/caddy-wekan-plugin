@@ -1269,6 +1269,8 @@
   "parent-card": "Szülő Kártya",
   "password": "Jelszó",
   "password-again": "Jelszó (újra)",
+  "password-change-required-text": "Ez az oldal mostantól legalább __min__ karakteres jelszavakat követel meg, és az Öné rövidebb. A folytatáshoz válasszon hosszabbat. Ezután a fiókja összes munkamenete kijelentkezik, és az új jelszóval jelentkezik be újra.",
+  "password-change-required-title": "Változtassa meg a jelszavát",
   "people": "Emberek",
   "people-number": "Az emberek száma: ",
   "poker-eight": "8",

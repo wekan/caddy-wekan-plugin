@@ -1264,6 +1264,8 @@
   "parent-card": "Valideyn kartı",
   "password": "parol",
   "password-again": "Parol (yenidən)",
+  "password-change-required-text": "Bu sayt indi ən azı __min__ simvoldan ibarət parollar tələb edir, sizinki isə daha qısadır. Davam etmək üçün daha uzun birini seçin. Sonra hesabınızın bütün sessiyalarından çıxış edilir və yeni parolla yenidən daxil olursunuz.",
+  "password-change-required-title": "Parolunuzu dəyişin",
   "people": "İnsanlar",
   "people-number": "İnsanların sayı:",
   "poker-eight": "8",

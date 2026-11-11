@@ -1264,6 +1264,8 @@
   "parent-card": "Kaati tupuʻanga",
   "password": "Lea fufū",
   "password-again": "Lea fufū (toe tuʻo taha)",
+  "password-change-required-text": "ʻOku fiemaʻu ʻe he uepisaiti ni ʻi he taimi ni ha ngaahi lea fufū ʻoku ʻi ai ha mataʻitohi ʻe __min__ pe lahi ange, pea ʻoku nounou ange hoʻo meʻa. Fili ha meʻa ʻoku lōloa ange ke hoko atu. Hili ia ʻe mavahe ʻa e ngaahi seseni kotoa ʻo hoʻo ʻakauni, pea te ke toe hū ki loto ʻaki ʻa e lea fufū foʻou.",
+  "password-change-required-title": "Liliu hoʻo lea fufū",
   "people": "Kakai",
   "people-number": "Ko e fika ʻo e kakai ko e: ",
   "poker-eight": "8",

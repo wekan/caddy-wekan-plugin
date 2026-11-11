@@ -1264,6 +1264,8 @@
   "parent-card": "Ginikanan nga card",
   "password": "Sekreto nga pulong",
   "password-again": "Password (utro)",
+  "password-change-required-text": "Ini nga site yana nagkikinahanglan hin sekreto nga pulong nga diri mubo ha __min__ nga karakter, ngan an imo mas mubo. Pumili hin mas halaba para magpadayon. Katapos, an ngatanan nga session han imo account igpapagawas, ngan sumulod ka liwat gamit an bag-o nga sekreto nga pulong.",
+  "password-change-required-title": "Igliwat an imo sekreto nga pulong",
   "people": "Mga Tawo",
   "people-number": "An ihap han mga tawo amo: ",
   "poker-eight": "8",

@@ -358,8 +358,9 @@ func TestForgotAndResetPassword(t *testing.T) {
 	if res, _ := nc.PostForm(resetURL, url.Values{"password": {"a-new-password-1"}, "password2": {"a-new-password-1"}}); res.StatusCode != http.StatusSeeOther {
 		t.Fatalf("reset: %d", res.StatusCode)
 	}
-	if res, _ := get(t, nc, w.srv.URL+"/"); res.StatusCode != 200 {
-		t.Fatal("signed in with the new password")
+	// As WeKan: a reset keeps no session; the new password signs in.
+	if res, _ := get(t, nc, w.srv.URL+"/"); res.StatusCode != http.StatusSeeOther {
+		t.Fatal("negative: the reset signed in")
 	}
 	if res, _ := get(t, old, w.srv.URL+"/"); res.StatusCode != http.StatusSeeOther {
 		t.Fatal("negative: the other sessions are signed out")

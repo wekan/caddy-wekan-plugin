@@ -1264,6 +1264,8 @@
   "parent-card": "Kadi ya mzazi",
   "password": "Nenosiri",
   "password-again": "Nenosiri (tena)",
+  "password-change-required-text": "Tovuti hii sasa inahitaji manenosiri ya angalau herufi __min__, na lako ni fupi zaidi. Chagua refu zaidi ili kuendelea. Kisha kila kipindi cha akaunti yako kinatolewa, na unaingia tena kwa nenosiri jipya.",
+  "password-change-required-title": "Badilisha nenosiri lako",
   "people": "Watu",
   "people-number": "Idadi ya watu ni:",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Parent kaadi",
   "password": "Ekigambo ekyekusifu",
   "password-again": "Kigambo-kyama (again)",
+  "password-change-required-text": "Omukutu guno kati gwetaaga ebigambo ebyekusifu eby'ennukuta ezitakka wansi wa __min__, ate ekikyo kimpi. Londa ekiwanvu okusobola okugenda mu maaso. Oluvannyuma buli kutuula kwa akawunti yo kufulumizibwa, n'oddamu okuyingira n'ekigambo ekyekusifu ekipya.",
+  "password-change-required-title": "Kyusa ekigambo kyo ekyekusifu",
   "people": "Abantu",
   "people-number": "namba lya abantu kiri:",
   "poker-eight": "8",

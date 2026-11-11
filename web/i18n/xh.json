@@ -1264,6 +1264,8 @@
   "parent-card": "Ikhadi lomzali",
   "password": "Inombolo yokuvula",
   "password-again": "Igama lokugqithisa (kwakhona)",
+  "password-change-required-text": "Le sayithi ngoku ifuna iiphasiwedi ezinoonobumba abangama-__min__ ubuncinane, kwaye eyakho imfutshane. Khetha ende ukuze uqhubeke. Emva koko zonke iiseshoni ze-akhawunti yakho ziyaphuma, kwaye ungena kwakhona ngephasiwedi entsha.",
+  "password-change-required-title": "Tshintsha iphasiwedi yakho",
   "people": "Abantu",
   "people-number": "Inani labantu:",
   "poker-eight": "8",

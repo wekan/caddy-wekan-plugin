@@ -1264,6 +1264,8 @@
   "parent-card": "Ana kart",
   "password": "Parola",
   "password-again": "Parola (tekrar)",
+  "password-change-required-text": "Bu site artık en az __min__ karakterlik parolalar gerektiriyor ve sizinki daha kısa. Devam etmek için daha uzun bir parola seçin. Ardından hesabınızın tüm oturumları kapatılır ve yeni parolayla yeniden oturum açarsınız.",
+  "password-change-required-title": "Parolanızı değiştirin",
   "people": "Kullanıcılar",
   "people-number": "Kişi sayısı: ",
   "poker-eight": "8",

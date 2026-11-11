@@ -1264,6 +1264,8 @@
   "parent-card": "Kartu induk",
   "password": "Kata Sandi",
   "password-again": "Kata sandi (lagi)",
+  "password-change-required-text": "Situs ini sekarang mewajibkan kata sandi minimal __min__ karakter, dan kata sandi Anda lebih pendek. Pilih yang lebih panjang untuk melanjutkan. Setelah itu semua sesi akun Anda dikeluarkan, dan Anda masuk lagi dengan kata sandi baru.",
+  "password-change-required-title": "Ubah kata sandi Anda",
   "people": "Orang-orang",
   "people-number": "Banyak orang adalah",
   "poker-eight": "8",

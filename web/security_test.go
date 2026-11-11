@@ -50,7 +50,7 @@ func TestEveryQueryValueIsEqOrAnID(t *testing.T) {
 				// eq(...), or an id of a document read from the database: x.ID,
 				// doc["_id"], or dbIn(...) - ids read from documents, only the
 				// ones that are ids.
-				if strings.HasPrefix(v, "eq(") || strings.HasPrefix(v, "exactFold(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || strings.HasPrefix(v, "storedHash(") || constantsOnly(v) || numberConstant.MatchString(v) || strings.HasPrefix(v, "hashToken(") ||
+				if strings.HasPrefix(v, "eq(") || strings.HasPrefix(v, "exactFold(") || strings.HasPrefix(v, "containsFold(") || (strings.Contains(v, ".") && strings.HasSuffix(v, "ID")) || strings.HasSuffix(v, `["_id"]`) || v == "randomID()" || v == "in" || strings.HasPrefix(v, "dbIn(") || strings.HasPrefix(v, "storedHash(") || constantsOnly(v) || numberConstant.MatchString(v) || strings.HasPrefix(v, "hashToken(") ||
 					v == `"*"` {
 					continue
 				}
@@ -250,5 +250,15 @@ func TestExactFold(t *testing.T) {
 	}
 	if count("a+b@x.io") != 1 || count("a+b@x.io$|.*") != 0 {
 		t.Error("negative: a pattern in the text is quoted")
+	}
+	contains := func(v string) int64 {
+		n, _ := w.db.Collection("users").CountDocuments(ctx, bson.M{"emails.address": containsFold(v)})
+		return n
+	}
+	if contains("JANSEN@") != 2 || contains("jan.jansen") != 1 || contains("x.io") != 2 {
+		t.Error("containsFold finds a part, in any letter case")
+	}
+	if contains(".*") != 0 || contains("a+b") != 1 || contains("|") != 0 {
+		t.Error("negative: containsFold quotes a pattern")
 	}
 }

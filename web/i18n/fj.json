@@ -1264,6 +1264,8 @@
   "parent-card": "Kadi itubutubu",
   "password": "Vosa ni curu",
   "password-again": "Vosanicuru (tale)",
+  "password-change-required-text": "E gadreva oqo na vanua oqo na vosa ni curu e vakalevu ena __min__ na matanivola, ia na nomu e lekaleka cake. Digitaka e dua e balavu cake mo tomana. Oti oqo era na curu yani na veisoqoni kece ni nomu akaunite, ka o na curu tale ena vosa ni curu vou.",
+  "password-change-required-title": "Veisautaka na nomu vosa ni curu",
   "people": "Na tamata",
   "people-number": "Na iwiliwili ni tamata: ",
   "poker-eight": "8",

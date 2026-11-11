@@ -1264,6 +1264,8 @@
   "parent-card": "Ikhadi elingumzali",
   "password": "Iphasiwedi",
   "password-again": "Iphasiwedi (futhi)",
+  "password-change-required-text": "Lesi sizinda manje sidinga amaphasiwedi okungenani ezinhlamvu ezingu-__min__, kanti eyakho imfitshane. Khetha ende ukuze uqhubeke. Ngemva kwalokho wonke amaseshini e-akhawunti yakho ayakhutshwa, njalo ungena futhi ngephasiwedi entsha.",
+  "password-change-required-title": "Guqula iphasiwedi yakho",
   "people": "Abantu",
   "people-number": "Inani labantu yileli: ",
   "poker-eight": "8",

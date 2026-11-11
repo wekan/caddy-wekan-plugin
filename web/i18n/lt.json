@@ -1264,6 +1264,8 @@
   "parent-card": "Tėvų kortelė",
   "password": "Slaptažodis",
   "password-again": "Slaptažodis (vėl)",
+  "password-change-required-text": "Ši svetainė dabar reikalauja bent __min__ simbolių slaptažodžių, o jūsų yra trumpesnis. Norėdami tęsti, pasirinkite ilgesnį. Tada visos jūsų paskyros sesijos atjungiamos, ir jūs vėl prisijungiate su nauju slaptažodžiu.",
+  "password-change-required-title": "Pakeiskite slaptažodį",
   "people": "Žmonės",
   "people-number": "Žmonių skaičius yra:",
   "poker-eight": "8",

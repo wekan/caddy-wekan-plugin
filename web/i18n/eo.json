@@ -1264,6 +1264,8 @@
   "parent-card": "Patra karto",
   "password": "Pasvorto",
   "password-again": "Pasvorto (denove)",
+  "password-change-required-text": "Ĉi tiu retejo nun postulas pasvortojn de almenaŭ __min__ signoj, kaj la via estas pli mallonga. Elektu pli longan por daŭrigi. Poste ĉiuj seancoj de via konto estas elsalutigitaj, kaj vi denove ensalutas per la nova pasvorto.",
+  "password-change-required-title": "Ŝanĝu vian pasvorton",
   "people": "Homoj",
   "people-number": "La nombro de personoj estas:  ",
   "poker-eight": "8",

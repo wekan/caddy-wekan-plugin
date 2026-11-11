@@ -1264,6 +1264,8 @@
   "parent-card": "mhaka khadi",
   "password": "Xiletelo xa xihundla",
   "password-again": "Xiletelo xa xihundla (nakambe)",
+  "password-change-required-text": "Sayiti leyi sweswi yi lava swiletelo swa xihundla swa maletere ya __min__ hi ku tsongo, naswona xa wena xi komile. Hlawula lexi leheke ku ya emahlweni. Endzhaku tisesheni hinkwato ta akhawunti ya wena ti humesiwa, kutani u nghena nakambe hi xiletelo xa xihundla lexintshwa.",
+  "password-change-required-title": "Cinca xiletelo xa wena xa xihundla",
   "people": "Vanhu",
   "people-number": "Nhlayo ya vanhu i: ",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Kad Induk",
   "password": "Kata Sandi",
   "password-again": "Sandi (sigo treuk)",
+  "password-change-required-text": "Situs nyoe jinoe jilakee kata sandi paleng kureung __min__ karakter, ngön kata sandi droeneuh leubeh paneuk. Pileh nyang leubeh panyang mangat jeuet lanjut. Mandum sesi akun droeneuh laju geuteubiet, ngön droeneuh tamong lom ngön kata sandi barô.",
+  "password-change-required-title": "Ubah kata sandi droeneuh",
   "people": "Ureueng",
   "people-number": "Bilangan ureueng nakeuh: ",
   "poker-eight": "8",

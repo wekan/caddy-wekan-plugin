@@ -1264,6 +1264,8 @@
   "parent-card": "Overordnede kort",
   "password": "Kodeord",
   "password-again": "Kodeord (igen)",
+  "password-change-required-text": "Dette websted kræver nu kodeord på mindst __min__ tegn, og dit er kortere. Vælg et længere for at fortsætte. Derefter logges alle din kontos sessioner ud, og du logger ind igen med det nye kodeord.",
+  "password-change-required-title": "Skift dit kodeord",
   "people": "Personer",
   "people-number": "Antallet af personer er: ",
   "poker-eight": "8",

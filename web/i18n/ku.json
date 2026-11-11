@@ -1264,6 +1264,8 @@
   "parent-card": "Karta dêûbav",
   "password": "Şîfre",
   "password-again": "Şîfre (dîsa)",
+  "password-change-required-text": "Ev malper niha şîfreyên herî kêm __min__ tîpî dixwaze, û ya te kurttir e. Ji bo berdewamkirinê yeke dirêjtir hilbijêre. Paşê hemû rûniştinên hesabê te derdikevin, û tu bi şîfreya nû dîsa têkevî.",
+  "password-change-required-title": "Şîfreya xwe biguherîne",
   "people": "Mirov",
   "people-number": "Hejmara mirovan ev e: ",
   "poker-eight": "8",

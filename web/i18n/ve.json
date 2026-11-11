@@ -1264,6 +1264,8 @@
   "parent-card": "Khadi ḽa mubebi",
   "password": "Phasiwede",
   "password-again": "Phasiwede (hafhu)",
+  "password-change-required-text": "Iyi saithi zwino i ṱoḓa phasiwede dza zwiṅwalwa __min__ kana u fhira, nahone yaṋu yo pfufhi. Nangani yo lapfaho uri ni bvele phanḓa. Nga murahu sesheni dzoṱhe dza akhaunthi yaṋu dzi a bviswa, nahone ni dzhena hafhu nga phasiwede ntswa.",
+  "password-change-required-title": "Shandulani phasiwede yaṋu",
   "people": "Vhathu",
   "people-number": "Tshivhalo tsha vhathu ndi: ",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "Katin asali",
   "password": "Kalmar sirri",
   "password-again": "Kalmar sirri (sake)",
+  "password-change-required-text": "Wannan shafin yanzu yana buƙatar kalmomin sirri na aƙalla haruffa __min__, kuma naka ya fi gajarta. Zaɓi mafi tsawo don ci gaba. Daga nan za a fitar da kowane zama na asusunka, kuma za ka sake shiga da sabuwar kalmar sirri.",
+  "password-change-required-title": "Sauya kalmar sirrinka",
   "people": "Mutane",
   "people-number": "Yawan mutane shi ne: ",
   "poker-eight": "8",

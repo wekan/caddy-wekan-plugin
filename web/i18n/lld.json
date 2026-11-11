@@ -1264,6 +1264,8 @@
   "parent-card": "Ciarta paronda",
   "password": "Parola secreta",
   "password-again": "Parola secreta (mo n iede)",
+  "password-change-required-text": "Chësc sit damana śen paroles secretes de almanco __min__ carateres, y la tua ie plu curta. Chierì una plu lungia per jì inant. Pona vegn duta la sescions de tie account serededes, y te fejes indò l'azes cun la parola secreta nueva.",
+  "password-change-required-title": "Muda tua parola secreta",
   "people": "Jënt",
   "people-number": "L numer de persones ie: ",
   "poker-eight": "8",

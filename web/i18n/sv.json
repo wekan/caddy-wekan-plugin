@@ -1264,6 +1264,8 @@
   "parent-card": "Ovankort",
   "password": "Lösenord",
   "password-again": "Lösenord (igen)",
+  "password-change-required-text": "Den här webbplatsen kräver nu lösenord på minst __min__ tecken, och ditt är kortare. Välj ett längre för att fortsätta. Därefter loggas varje session för ditt konto ut, och du loggar in igen med det nya lösenordet.",
+  "password-change-required-title": "Ändra ditt lösenord",
   "people": "Personer",
   "people-number": "Antalet personer är:",
   "poker-eight": "8",

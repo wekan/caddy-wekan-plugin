@@ -1264,6 +1264,8 @@
   "parent-card": "Dzila kaɖi",
   "password": "Ɣaɣlanya",
   "password-again": "Ŋuɖoɖogbe (ake)",
+  "password-change-required-text": "Nyatakakadzraɖoƒe sia bia ɣaɣlanya siwo nye dzesi __min__ ya teti fifia, eye tɔwò le kpuie wu. Tia esi didi wu be nàyi edzi. Emegbe woaɖe wò akɔnta ƒe ɖeɖe ɣeyiɣiwo katã ɖa, eye nàgade eme kple ɣaɣlanya yeye la.",
+  "password-change-required-title": "Trɔ wò ɣaɣlanya",
   "people": "Amewo",
   "people-number": "Amewo ƒe xexlẽme nye: ",
   "poker-eight": "8",

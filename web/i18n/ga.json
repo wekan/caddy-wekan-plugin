@@ -1264,6 +1264,8 @@
   "parent-card": "Cárta tuismitheora",
   "password": "Pasfhocal",
   "password-again": "Focal faire (arís)",
+  "password-change-required-text": "Éilíonn an suíomh seo anois pasfhocail de __min__ carachtar ar a laghad, agus tá do cheann níos giorra. Roghnaigh ceann níos faide chun leanúint ar aghaidh. Ansin logáiltear gach seisiún de do chuntas amach, agus logálann tú isteach arís leis an bpasfhocal nua.",
+  "password-change-required-title": "Athraigh do phasfhocal",
   "people": "Daoine",
   "people-number": "Is é líon na ndaoine: ",
   "poker-eight": "8",

@@ -216,6 +216,7 @@ func (s *Server) apiLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	s.throttle.succeeded(key)
+	s.noteSignInPassword(r, u, req.Password)
 	token, expires, err := s.newLoginToken(r.Context(), u.ID)
 	if err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())

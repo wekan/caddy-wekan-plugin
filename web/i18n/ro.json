@@ -1264,6 +1264,8 @@
   "parent-card": "Card părinte",
   "password": "Parolă",
   "password-again": "Parola (din nou)",
+  "password-change-required-text": "Acest site necesită acum parole de cel puțin __min__ caractere, iar a ta este mai scurtă. Alege una mai lungă pentru a continua. Apoi fiecare sesiune a contului tău este deconectată și te autentifici din nou cu noua parolă.",
+  "password-change-required-title": "Schimbă-ți parola",
   "people": "Persoane",
   "people-number": "Numărul de persoane este:",
   "poker-eight": "8",

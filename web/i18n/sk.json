@@ -1264,6 +1264,8 @@
   "parent-card": "Rodičovská karta",
   "password": "Heslo",
   "password-again": "Heslo (znova)",
+  "password-change-required-text": "Táto stránka teraz vyžaduje heslá s aspoň __min__ znakmi a vaše je kratšie. Ak chcete pokračovať, zvoľte dlhšie. Potom sa všetky relácie vášho účtu odhlásia a prihlásite sa znova s novým heslom.",
+  "password-change-required-title": "Zmeňte si heslo",
   "people": "Ľudia",
   "people-number": "Počet osôb je:",
   "poker-eight": "8",

@@ -1264,6 +1264,8 @@
   "parent-card": "palenaka kāleka",
   "password": "ʻŌlelo huna",
   "password-again": "ʻōlelo huna (hou)",
+  "password-change-required-text": "Koi kēia pūnaewele i kēia manawa i nā ʻōlelo huna ma ka liʻiliʻi he __min__ hua palapala, a ua pōkole kāu. E koho i kahi lōʻihi aʻe no ka hoʻomau ʻana. A laila, puka aku nā kau a pau o kāu moʻokāki, a e ʻeʻe hou ʻoe me ka ʻōlelo huna hou.",
+  "password-change-required-title": "Hoʻololi i kāu ʻōlelo huna",
   "people": "Nā kānaka",
   "people-number": "ka numapela o peopale he: ",
   "poker-eight": "Ma ka ʻōlelo Hawaiʻi: 8",

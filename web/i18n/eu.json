@@ -1264,6 +1264,8 @@
   "parent-card": "Guraso-txartela",
   "password": "Pasahitza",
   "password-again": "Pasahitza (berriro)",
+  "password-change-required-text": "Gune honek orain gutxienez __min__ karaktereko pasahitzak eskatzen ditu, eta zurea laburragoa da. Aukeratu luzeago bat jarraitzeko. Ondoren zure kontuaren saio guztiak itxiko dira, eta pasahitz berriarekin hasiko duzu saioa berriro.",
+  "password-change-required-title": "Aldatu zure pasahitza",
   "people": "Jendea",
   "people-number": "Jendearen kopurua hau da:",
   "poker-eight": "8",

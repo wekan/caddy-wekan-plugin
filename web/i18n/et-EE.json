@@ -1264,6 +1264,8 @@
   "parent-card": "Vanemkaart",
   "password": "Parool",
   "password-again": "Parool (uuesti)",
+  "password-change-required-text": "See sait nõuab nüüd vähemalt __min__ tähemärgi pikkusi paroole ja sinu oma on lühem. Jätkamiseks vali pikem. Seejärel logitakse kõik sinu konto seansid välja ja sa logid uue parooliga uuesti sisse.",
+  "password-change-required-title": "Muuda oma parooli",
   "people": "Inimesed",
   "people-number": "Inimeste arv on: ",
   "poker-eight": "8",

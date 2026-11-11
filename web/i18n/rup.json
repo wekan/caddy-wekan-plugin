@@ -1264,6 +1264,8 @@
   "parent-card": "Cartã pãrinti",
   "password": "Zbor di intrari",
   "password-again": "Zbor di intrari (iarã)",
+  "password-change-required-text": "Aestu site va tora zboarã di intrari di tsi cama putsãn __min__ semni, shi a tãu easti ma shcurtu. Alidzi unu ma lungu ta s-continuã. Dupã atsea tuti sesiunjli a contului a tãu suntu scoasi, shi tini intri nãpoi cu zborlu nou di intrari.",
+  "password-change-required-title": "Alãxea zborlu a tãu di intrari",
   "people": "Oaminj",
   "people-number": "Numirlu a oaminjilor easti: ",
   "poker-eight": "8",

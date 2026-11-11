@@ -1264,6 +1264,8 @@
   "parent-card": "Kad Induk",
   "password": "Kata Laluan",
   "password-again": "Katalaluan(sekali lagi)",
+  "password-change-required-text": "Laman ini kini memerlukan kata laluan sekurang-kurangnya __min__ aksara, dan kata laluan anda lebih pendek. Pilih yang lebih panjang untuk meneruskan. Setiap sesi akaun anda kemudian dilog keluar, dan anda log masuk semula dengan kata laluan baharu.",
+  "password-change-required-title": "Tukar kata laluan anda",
   "people": "Orang",
   "people-number": "Jumlah individu ialah:",
   "poker-eight": "6",

@@ -1264,6 +1264,8 @@
   "parent-card": "Karta bu mag bi",
   "password": "Baatu jall",
   "password-again": "Talata (kale)",
+  "password-change-required-text": "Sit bii léegi dafay laaj baatu jall yu am lumu néewee __min__ araf, te sa bos gàtt na ci. Tànnal bu gëna gudd ngir wéy. Ginnaaw loolu sesyoŋ yépp yu sa compte dinañu leen génne, te nga dugg ab yoon ak baatu jall bu bees bi.",
+  "password-change-required-title": "Soppil sa baatu jall",
   "people": "Nit ñi",
   "people-number": "Limu nit ñi mooy:",
   "poker-eight": "8",

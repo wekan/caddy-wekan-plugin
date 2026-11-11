@@ -1264,6 +1264,8 @@
   "parent-card": "Parent tarjeta",
   "password": "Imantata aru",
   "password-again": "jamasaru (again)",
+  "password-change-required-text": "Aka sitioxa jichhax __min__ qillqanakat juk'ampi imantata arunak mayi, jumanxa jisk'awa. Sarantañatakix juk'amp jach'a ajllim. Ukatxa jakhuwiman taqpach sesionanakapax mistuyatawa, ukat machaq imantata arumpiw mayamp mantäta.",
+  "password-change-required-title": "Imantata arum mayjt'ayam",
   "people": "Jaqinaka",
   "people-number": "The jakhu -na people awa: ",
   "poker-eight": "8",

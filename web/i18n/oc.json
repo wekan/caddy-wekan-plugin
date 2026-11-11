@@ -1264,6 +1264,8 @@
   "parent-card": "Carta parenta",
   "password": "Senhal",
   "password-again": "Senhal (de nou)",
+  "password-change-required-text": "Aqueste site exigís ara de senhals d'almens __min__ caractèrs, e lo vòstre es mai cort. Causissètz-ne un mai long per contunhar. Puèi totas las sessions de vòstre compte son desconnectadas, e vos tornatz connectar amb lo senhal novèl.",
+  "password-change-required-title": "Cambiatz vòstre senhal",
   "people": "Personas",
   "people-number": "Lo nombre de personas es :",
   "poker-eight": "8",
