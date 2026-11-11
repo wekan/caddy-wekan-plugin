@@ -653,29 +653,7 @@ func (s *Server) apiCopyBoard(w http.ResponseWriter, r *http.Request, u *User) {
 		Title string `json:"title"`
 	}
 	_ = decodeJSON(r, &req)
-	ctx := r.Context()
-	raw, err := s.boardDocs(ctx, b, exportDocOptions{})
-	if err != nil {
-		apiError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	plain, err := plainDocs(raw)
-	if err != nil {
-		apiError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	doc, _ := plain.(map[string]any)
-	doc["title"] = strings.TrimSpace(req.Title)
-	if doc["title"] == "" {
-		doc["title"] = s.uniqueTitle(ctx, b.Title)
-	}
-	same := map[string]string{} // the board's people stay themselves
-	for _, m := range b.Members {
-		if m.IsActive {
-			same[m.UserID] = m.UserID
-		}
-	}
-	id, err := s.ImportBoard(r, u, doc, same)
+	id, err := s.copyBoardAs(r, u, b, boardCopyProps{Title: req.Title})
 	if errors.Is(err, errBoardCreation) {
 		apiError(w, http.StatusForbidden, err.Error())
 		return
@@ -683,15 +661,6 @@ func (s *Server) apiCopyBoard(w http.ResponseWriter, r *http.Request, u *User) {
 	if err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
-	}
-	cur, err := s.db.Collection("integrations").Find(ctx, bson.M{"boardId": b.ID})
-	if err == nil {
-		var hooks []bson.M
-		_ = cur.All(ctx, &hooks)
-		for _, h := range hooks {
-			h["_id"], h["boardId"] = randomID(), id
-			_, _ = s.db.Collection("integrations").InsertOne(ctx, h)
-		}
 	}
 	writeJSON(w, http.StatusOK, id)
 }

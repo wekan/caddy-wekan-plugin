@@ -75,6 +75,8 @@ func (s *Server) methods() map[string]methodFunc {
 		"importScoped":                    s.methodImportScoped,
 		"importReportForBoard":            s.methodImportReportForBoard,
 		"outgoingWebhooks":                s.methodOutgoingWebhooks,
+		"copyBoard":                       s.methodCopyBoard,
+		"copyCard":                        s.methodCopyCard,
 	}
 	for k, v := range s.customFieldMethods() {
 		m[k] = v

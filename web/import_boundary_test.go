@@ -224,7 +224,10 @@ func TestEveryImportPassesTheBoundary(t *testing.T) {
 				}
 				return true
 			})
-			if needs != "" && !secured && !(copies && fn.Name.Name == "apiCopyBoard") {
+			// The one exception: a board copy re-imports the board's OWN
+			// exported documents (plainDocs), not a file from outside - the
+			// REST copy and the copyBoard method share it as copyBoardAs.
+			if needs != "" && !secured && !(copies && fn.Name.Name == "copyBoardAs") {
 				t.Errorf("%s: %s %s without secureImport", name, fn.Name.Name, needs)
 			}
 		}

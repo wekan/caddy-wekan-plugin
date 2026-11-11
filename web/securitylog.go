@@ -76,8 +76,11 @@ var securityCategories = map[string]securityCategory{
 	"injection.prototype": {Category: "injection", Bleed: "PrototypeBleed", Severity: "high", CWE: "CWE-1321"},
 	"ssrf.webhook-forge":  {Category: "ssrf", Bleed: "HookBleed", Severity: "high", CWE: "CWE-345"},
 	"authz.background":    {Category: "authz", Bleed: "BackgroundBleed", Severity: "high", CWE: "CWE-639"},
-	"transfer.sanitized":  {Category: "Import/export validation", Bleed: "ImportExportSanitization", Severity: "warning", NeverBlocks: true},
-	"transfer.limit":      {Category: "Import/export validation", Bleed: "ImportExportValidation", Severity: "medium", NeverBlocks: true},
+	// CopyIdentityBleed: a copy given another board's or card's identity.
+	"authz.board-copy-overrides": {Category: "authz", Bleed: "CopyIdentityBleed", Severity: "high", CWE: "CWE-915"},
+	"authz.card-copy-overrides":  {Category: "authz", Bleed: "CopyIdentityBleed", Severity: "high", CWE: "CWE-915"},
+	"transfer.sanitized":         {Category: "Import/export validation", Bleed: "ImportExportSanitization", Severity: "warning", NeverBlocks: true},
+	"transfer.limit":             {Category: "Import/export validation", Bleed: "ImportExportValidation", Severity: "medium", NeverBlocks: true},
 }
 
 // identityFields make two events the same problem; the actor is not one of them.
