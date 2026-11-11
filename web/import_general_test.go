@@ -138,10 +138,22 @@ func TestImportKanboard(t *testing.T) {
 	if len(comments) != 2 {
 		t.Fatalf("the two comments: %v", comments)
 	}
-	for n, want := range []struct{ fullname, username string }{{"ann", "ann-2"}, {"Bob", "Bob"}} {
-		var author bson.M
-		if err := w.db.Collection("users").FindOne(ctx, bson.M{"_id": docString(comments[n], "userId")}).Decode(&author); err != nil {
+	// Which comment is which by its author, not by the order a scan returns
+	// them in: an index on the comments (WeKan's, created at startup) changes
+	// that order, and the order is not what the import promises.
+	authors := map[string]bson.M{}
+	for n := range comments {
+		var a bson.M
+		if err := w.db.Collection("users").FindOne(ctx, bson.M{"_id": docString(comments[n], "userId")}).Decode(&a); err != nil {
 			t.Fatalf("comment %d's author: %v", n, err)
+		}
+		fullname, _ := nestedField(a, "profile", "fullname").(string)
+		authors[fullname] = a
+	}
+	for n, want := range []struct{ fullname, username string }{{"ann", "ann-2"}, {"Bob", "Bob"}} {
+		author := authors[want.fullname]
+		if author == nil {
+			t.Fatalf("a comment is by %s: %v", want.fullname, authors)
 		}
 		if author["_id"] == ann.ID || author["loginDisabled"] != true || docString(author, "username") != want.username ||
 			nestedField(author, "profile", "fullname") != want.fullname || docString(author, "authenticationMethod") != "imported" {

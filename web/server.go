@@ -93,6 +93,13 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 	}
 	s.routes()
 	s.emailIndexes(context.Background())
+	// WeKan's indexes, for a database Weddy alone runs (#6892) - before the
+	// first request, as WeKan does at startup: on SQLite a query that meets a
+	// CREATE INDEX fails with "database schema has changed". Each is created
+	// once; on later starts it already exists and the call returns at once.
+	if n := s.ensureWekanIndexes(context.Background()); n > 0 {
+		s.log.Debug("wekan indexes: some were not created", "count", n)
+	}
 	s.stopMail = make(chan struct{})
 	go s.runEmailOutbox(s.stopMail)
 	go s.runActivityRecovery(s.stopMail)
