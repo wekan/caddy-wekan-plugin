@@ -159,6 +159,7 @@ var unrecordedCardWrites = map[string]string{
 	"attachments.go:copyCardAttachments":    "a copy's attachments, on a card just made",
 	"attachments.go:softDeleteAttachmentAs": "the card's cover, unset with its attachment; the delete is the attachment's lifecycle row",
 	"attachments.go:uploadAttachment":       "the attachment's own added row, a later step",
+	"scrum.go:applyScrumRolloverRow":        "the card's Scrum metadata, recorded in the close's Scrum History row (op.record)",
 	"export_ics.go:apiImportICS":            "an import, whose author WeKan's hooks do not have either",
 	"import_general.go:cards":               "an import, whose author WeKan's hooks do not have either",
 	"history_undo.go:applyHistoryRow":       "undo and redo themselves, recorded as their restored row",

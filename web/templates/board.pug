@@ -21,6 +21,10 @@
     //- WeKan's Multi-Selection: select cards, then act on all of them.
     if .CanEdit
       a.board-header-btn.js-multiselection-activate(href="#", title="{{t $.L `multi-selection`}}", aria-label="{{t $.L `multi-selection`}}") ☑
+    //- WeKan's Board View button: the swimlanes, or a Scrum view.
+    a.board-header-btn.js-toggle-board-view(href="#", title="{{t $.L `swimlanes`}}")
+      i.fa.fa-th-large
+      span.board-header-btn-label {{t $.L "swimlanes"}}
     a.board-header-btn.js-watch-board(href="#", title="{{t $.L .WatchLevel}}")
       span.board-header-btn-label {{t $.L .WatchLevel}}
     //- WeKan's boardHeader: the Filter, on while a filter is.
@@ -153,6 +157,7 @@
         a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
       .content
         p.js-restore-all-skipped {{.RestoreSkipped}}
+  | {{template "_boardviews" .}}
   template.js-pop-over-template(data-pop="board-menu", data-title="{{t $.L `boardMenuPopup-title`}}")
     .header
       span.header-title {{t $.L "boardMenuPopup-title"}}

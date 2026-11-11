@@ -1,0 +1,239 @@
+//- WeKan's scrumView (client/components/boards/scrum/scrumView.jade): the
+  Sprints, Product Backlog, Velocity and Sprint Report views of a board, drawn
+  from scrum.getBoardData (scrum_view.go). The page's script makes the
+  view's method calls and draws it again (weddy.js).
+.wrapper
+  .scrum-page(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}", data-slug="{{.Board.Slug}}")
+    .board-header
+      h1.header-board-name {{.Board.Title}}
+      a.board-header-btn.js-toggle-board-view(href="#", title="{{t $.L .ViewKey}}")
+        i.fa.fa-th-large
+        span.board-header-btn-label {{t $.L .ViewKey}}
+    | {{template "_boardviews" .}}
+    .scrum-view(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}", data-view="{{.View}}", data-link="{{.Link}}", data-sprint="{{.SprintID}}", data-settings-revision="{{.SettingsRevision}}", data-confirm-close="{{t $.L `scrum-confirm-close`}}", data-confirm-cancel="{{t $.L `scrum-confirm-cancel`}}")
+      header.scrum-toolbar
+        h2 {{t $.L .ViewKey}}
+        button.js-scrum-refresh(type="button") {{t $.L "refresh"}}
+        a.button.js-scrum-history(href="/b/{{.Board.ID}}/history") {{t $.L "history"}}
+        if .IsReport
+          a.button.js-export-chart(href="/api/boards/{{.Board.ID}}/charts/{{.ChartKey}}/exportExcel?sprintId={{.SprintID}}", data-chart-key="{{.ChartKey}}") {{t $.L "export"}}
+      if .Error
+        p.warning.js-scrum-error(role="alert") {{.Error}}
+      else
+        p.warning.js-scrum-error(role="alert", hidden)
+      if .Data
+        if .Data.importPending
+          p.warning.scrum-import-pending(role="alert") {{t $.L "scrum-import-pending"}}
+        if .Data.partial
+          p.scrum-partial-report(role="status") {{t $.L "scrum-partial-report"}}
+        if .CanAdmin
+          details.scrum-settings
+            summary {{t $.L "scrum-settings"}}
+            form.js-scrum-settings
+              label
+                if .Settings.enabled
+                  input(type="checkbox", name="enabled", checked)
+                else
+                  input(type="checkbox", name="enabled")
+                | {{t $.L "scrum-enabled"}}
+              label {{t $.L "scrum-product-goal"}}
+                textarea(name="productGoal") {{.Settings.productGoal}}
+              label {{t $.L "scrum-definition-of-done"}}
+                textarea(name="definitionOfDone") {{.Settings.definitionOfDone}}
+              each a in .Accountabilities
+                label {{.Label}}
+                  if .Multiple
+                    select(name="{{.Field}}", multiple)
+                      | {{template "_scrumopts" .Options}}
+                  else
+                    select(name="{{.Field}}")
+                      option(value="") —
+                      | {{template "_scrumopts" .Options}}
+              label {{t $.L "scrum-working-days"}}
+                select(name="workingDays", multiple, required)
+                  | {{template "_scrumopts" .WorkingDays}}
+              label {{t $.L "scrum-estimate-source"}}
+                select(name="estimateSource")
+                  | {{template "_scrumopts" .EstimateSources}}
+              label {{t $.L "custom-fields"}}
+                select(name="estimateCustomFieldId")
+                  option(value="") —
+                  | {{template "_scrumopts" .EstimateFields}}
+              label {{t $.L "scrum-estimate-unit"}}
+                textarea(name="estimateUnit", rows="1", maxlength="80") {{.Settings.estimateUnit}}
+              label {{t $.L "scrum-completion-policy"}}
+                select(name="completionPolicy")
+                  | {{template "_scrumopts" .CompletionPolicies}}
+              button.primary(type="submit") {{t $.L "save"}}
+        if eq .View "velocity"
+          | {{template "_scrumreport" .Report}}
+        else
+          if eq .View "sprints"
+            .scrum-planning
+              section
+                h3 {{t $.L "scrum-sprints"}}
+                label {{t $.L "scrum-sprint"}}
+                  select.js-scrum-sprint
+                    option(value="") —
+                    | {{template "_scrumopts" .SprintOptions}}
+                if .SprintID
+                  p {{.Sprint.Goal}}
+                  p {{.Sprint.State}}
+                  if .CanAdmin
+                    .scrum-toolbar
+                      if .Sprint.Planned
+                        button.primary.js-scrum-start(type="button", data-revision="{{.Sprint.Revision}}") {{t $.L "scrum-start-sprint"}}
+                      if .Sprint.NeedsRecovery
+                        if .Sprint.RolloverError
+                          p.warning.js-scrum-rollover-error {{.Sprint.RolloverError}}
+                        button.primary.js-scrum-resume-close(type="button", data-revision="{{.Sprint.ClosedFromRevision}}", data-rollover="{{.Sprint.RolloverSprintID}}") {{t $.L "scrum-resume-close"}}
+                      if .Sprint.Active
+                        label {{t $.L "scrum-rollover-sprint"}}
+                          select.js-scrum-rollover
+                            option(value="") {{t $.L "scrum-product-backlog"}}
+                            | {{template "_scrumopts" .RolloverOptions}}
+                        button.primary.js-scrum-close(type="button", data-revision="{{.Sprint.Revision}}") {{t $.L "scrum-close-sprint"}}
+                      if .Sprint.Open
+                        label {{t $.L "scrum-cancel-reason"}}
+                          textarea.js-scrum-cancel-reason(rows="1")
+                        button.js-scrum-cancel(type="button", data-revision="{{.Sprint.Revision}}") {{t $.L "scrum-cancel-sprint"}}
+                if .CanAdmin
+                  details
+                    summary {{t $.L "scrum-edit-sprint"}}
+                    form.js-scrum-sprint-form(data-sprint="{{.SprintID}}", data-revision="{{.Sprint.Revision}}")
+                      label {{t $.L "name"}}
+                        textarea(name="name", required, maxlength="200", rows="1") {{.Sprint.Name}}
+                      label {{t $.L "scrum-sprint-goal"}}
+                        textarea(name="goal") {{.Sprint.Goal}}
+                      label {{t $.L "start"}}
+                        input(type="date", name="plannedStart", value="{{.Sprint.Start}}")
+                      label {{t $.L "card-end"}}
+                        input(type="date", name="plannedEnd", value="{{.Sprint.End}}")
+                      label {{t $.L "scrum-capacity"}}
+                        input(type="number", name="capacity", min="0", step="any", value="{{.Sprint.Capacity}}")
+                      label {{t $.L "scrum-estimate-unit"}}
+                        textarea(name="capacityUnit", rows="1") {{.Sprint.CapacityUnit}}
+                      button.primary(type="submit") {{t $.L "save"}}
+                      button.js-scrum-new(type="button") {{t $.L "scrum-new-sprint"}}
+              section
+                h3 {{t $.L "scrum-releases"}}
+                each rel in .Releases
+                  article
+                    h4 {{.Name}} — {{.State}}
+                    p.scrum-release-scope(data-release-id="{{.ID}}") {{t $.L "scrum-release-scope"}}: {{.Scope}}
+                    p.scrum-release-done(data-release-id="{{.ID}}") {{t $.L "scrum-completed"}}: {{.Done}}
+                    p {{.Goal}}
+                    p {{.Start}} — {{.End}}
+                    if .Released
+                      p {{t $.L "scrum-released-at"}}: {{.Released}}
+                    pre {{.Notes}}
+                if .CanAdmin
+                  label {{t $.L "scrum-release"}}
+                    select.js-scrum-release-select
+                      option(value="") {{t $.L "add"}}
+                      | {{template "_scrumopts" .ReleaseOptions}}
+                  form.js-scrum-release(data-release="{{.Release.ID}}", data-revision="{{.Release.Revision}}")
+                    label {{t $.L "name"}}
+                      textarea(name="name", required, maxlength="200", rows="1") {{.Release.Name}}
+                    label {{t $.L "scrum-product-goal"}}
+                      textarea(name="goal") {{.Release.Goal}}
+                    label {{t $.L "start"}}
+                      input(type="date", name="plannedStart", value="{{.Release.Start}}")
+                    label {{t $.L "card-end"}}
+                      input(type="date", name="plannedEnd", value="{{.Release.End}}")
+                    label {{t $.L "status"}}
+                      select(name="state")
+                        | {{template "_scrumopts" .ReleaseStates}}
+                    label {{t $.L "scrum-released-at"}}
+                      input.js-scrum-local-time(type="datetime-local", name="releasedAt", step="any", data-iso="{{.Release.ReleasedAt}}")
+                    label {{t $.L "scrum-notes"}}
+                      textarea(name="notes") {{.Release.Notes}}
+                    button.primary(type="submit") {{t $.L "save"}}
+          if eq .View "sprint-report"
+            label {{t $.L "scrum-sprint"}}
+              select.js-scrum-sprint
+                option(value="") —
+                | {{template "_scrumopts" .SprintOptions}}
+            if .SprintID
+              | {{template "_scrumreport" .Report}}
+            else
+              p {{t $.L "scrum-select-sprint"}}
+          else
+            h3 {{t $.L "scrum-backlog"}}
+            p {{t $.L "scrum-backlog-help"}}
+            .scrum-table-scroll
+              table.scrum-table
+                thead
+                  tr
+                    th {{t $.L "card"}}
+                    th {{t $.L "scrum-estimate"}}
+                    th {{t $.L "scrum-sprint"}}
+                    th {{t $.L "scrum-backlog-rank"}}
+                    th {{t $.L "scrum-release"}}
+                    th {{t $.L "actions"}}
+                tbody
+                  if .Cards
+                    each c in .Cards
+                      tr(data-card-id="{{.ID}}")
+                        td
+                          a(href="{{.URL}}") {{.Title}}
+                        td {{.Estimate}}
+                        td {{.Sprint}}
+                        td {{.Rank}}
+                        td.scrum-card-release {{.Release}}
+                        td
+                          if .CanWrite
+                            form.js-scrum-card(data-card-id="{{.ID}}", data-revision="{{.Revision}}")
+                              label {{t $.L "scrum-sprint"}}
+                                select(name="sprintId")
+                                  option(value="") {{t $.L "scrum-product-backlog"}}
+                                  | {{template "_scrumopts" .Sprints}}
+                              label {{t $.L "scrum-backlog-rank"}}
+                                input(type="number", name="backlogRank", min="0", step="any", value="{{.RankValue}}")
+                              label {{t $.L "scrum-release"}}
+                                select(name="releaseIds", multiple)
+                                  | {{template "_scrumopts" .Releases}}
+                                small.scrum-multiple-help {{t $.L "scrum-releases-select-help"}}
+                              label {{t $.L "scrum-issue-type"}}
+                                textarea(name="issueType", rows="1") {{.IssueType}}
+                              label {{t $.L "scrum-acceptance-criteria"}}
+                                textarea(name="acceptanceCriteria") {{.Criteria}}
+                              button.primary(type="submit") {{t $.L "save"}}
+                  else
+                    tr
+                      td(colspan="6") {{t $.L "no-cards-found"}}
+            if .ShowMore
+              a.button.js-scrum-show-more(href="{{.ShowMoreLink}}") {{.ShowMore}}
+            if eq .View "sprints"
+              if .SprintID
+                h3 {{t $.L "scrum-events"}}
+                each e in .Events
+                  article
+                    h4 {{.Name}}
+                    p {{.Kind}} — {{.Date}}
+                    p {{t $.L "scrum-timebox"}}: {{.Timebox}}
+                    pre {{.Notes}}
+                    each f in .FollowUps
+                      p
+                        a(href="{{.Value}}") {{.Label}}
+                if .CanAdmin
+                  label {{t $.L "scrum-events"}}
+                    select.js-scrum-event-select
+                      option(value="") {{t $.L "add"}}
+                      | {{template "_scrumopts" .EventOptions}}
+                  form.js-scrum-event(data-event="{{.Event.ID}}", data-revision="{{.Event.Revision}}")
+                    label {{t $.L "scrum-event-kind"}}
+                      select(name="kind")
+                        | {{template "_scrumopts" .EventKinds}}
+                    label {{t $.L "name"}}
+                      textarea(name="name", required, maxlength="200", rows="1") {{.Event.Name}}
+                    label {{t $.L "date"}}
+                      input.js-scrum-local-time(type="datetime-local", name="startsAt", step="any", required, data-iso="{{.Event.StartsAt}}")
+                    label {{t $.L "scrum-timebox"}}
+                      input(type="number", name="timeboxMinutes", min="0", max="10080", value="{{.Event.Timebox}}")
+                    label {{t $.L "scrum-notes"}}
+                      textarea(name="notes") {{.Event.Notes}}
+                    label {{t $.L "scrum-follow-up-cards"}}
+                      select(name="followUpCardIds", multiple)
+                        | {{template "_scrumopts" .FollowUpCards}}
+                    button.primary(type="submit") {{t $.L "save"}}

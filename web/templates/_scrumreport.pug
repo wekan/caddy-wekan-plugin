@@ -1,0 +1,54 @@
+//- WeKan's scrumReportTable: the reports charted - by cards or by estimate,
+  each group of comparable sprints on its own scale - and tabled.
+if .Rows
+  label
+    | {{t .L "cards"}} / {{t .L "scrum-estimate"}}
+    select.js-scrum-chart-metric
+      option(value="count") {{t .L "cards"}}
+      option(value="estimate") {{t .L "scrum-estimate"}}
+  each g in .Groups
+    section.scrum-chart
+      p {{.Unit}} — {{.SourceLabel}} — {{.PolicyLabel}}
+      each row in .Rows
+        figure.scrum-chart-row
+          figcaption
+            strong {{.Name}}
+            if .Partial
+              p {{t $.L "scrum-partial-snapshot"}}
+          each sr in .Series
+            .scrum-chart-series(data-count="{{.Count}}", data-estimate="{{.Estimate}}", data-width-count="{{.WidthCount}}", data-width-estimate="{{.WidthEstimate}}")
+              span.scrum-chart-label(data-label="{{.Label}}") {{.Label}}: {{.Count}}
+              .scrum-chart-track(aria-hidden="true")
+                .scrum-chart-bar(class="{{.Key}}", style="width: {{.WidthCount}}%")
+              small {{.Total}}
+.scrum-table-scroll
+  table.scrum-table
+    thead
+      tr
+        th {{t .L "scrum-sprint"}}
+        th {{t .L "scrum-estimate-unit"}}
+        th {{t .L "scrum-committed"}}
+        th {{t .L "scrum-completed"}}
+        th {{t .L "scrum-added"}}
+        th {{t .L "scrum-removed"}}
+        th {{t .L "scrum-incomplete"}}
+        th {{t .L "scrum-working-days"}}
+    tbody
+      if .Rows
+        each row in .Rows
+          tr
+            td
+              | {{.Name}}
+              if .Partial
+                p {{t $.L "scrum-partial-snapshot"}}
+            td {{.Unit}}
+            td {{.Committed}}
+            td {{.Completed}}
+            td {{.Added}}
+            td {{.Removed}}
+            td {{.Incomplete}}
+            td.scrum-working-days {{.WorkingDays}}
+      else
+        tr
+          td(colspan="8") {{t .L "scrum-no-closed-sprints"}}
+p {{t .L "scrum-report-help"}}

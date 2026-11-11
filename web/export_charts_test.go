@@ -71,11 +71,14 @@ func TestExportCharts(t *testing.T) {
 	}
 	// Four days: one card remaining for two, then done; ideal 1 -> 0.
 	s := sheet(data)
-	if strings.Count(s, "<row ") != 5 || !strings.Contains(s, ">Ideal<") || !strings.Contains(s, ">"+dayOf(created)+"<") {
+	// ExporterChartExcel's layout (deliberately WeKan's since 2026-11-11):
+	// "<board> - <chart>" in row 1, the headers in row 2, a row a day from 3.
+	if strings.Count(s, "<row ") != 6 || !strings.Contains(s, ">Charts - Burndown<") || !strings.Contains(s, `<mergeCell ref="A1:C1"/>`) ||
+		!strings.Contains(s, ">Ideal<") || !strings.Contains(s, ">"+dayOf(created)+"<") {
 		t.Fatalf("burndown rows: %s", s)
 	}
 	for chart, want := range map[string]string{"burnup": ">Total<", "leadTime": ">C<", "cycleTime": ">C<", "controlChart": ">StdDev<",
-		"throughputHistogram": ">1<", "gantt": ">C<", "pulse": ">" + dayOf(time.Now()) + "<", "dashboard": ">BOB<", "scrumVelocity": "<row r=\"1\">"} {
+		"throughputHistogram": ">1<", "gantt": ">C<", "pulse": ">" + dayOf(time.Now()) + "<", "dashboard": ">BOB<", "scrumVelocity": "<row r=\"2\">"} {
 		code, _, data := get(base+chart+"/exportExcel", a)
 		if code != 200 || !strings.Contains(sheet(data), want) {
 			t.Errorf("%s: %d, wants %s: %s", chart, code, want, sheet(data))
@@ -156,10 +159,11 @@ func TestExportFlowCharts(t *testing.T) {
 		data, _ := io.ReadAll(res.Body)
 		res.Body.Close()
 		sheets, err := readXlsx(data)
-		if err != nil {
-			t.Fatal(err)
+		if err != nil || len(sheets[0].Rows) == 0 || !strings.HasPrefix(sheets[0].Rows[0][0], "Flow - ") {
+			t.Fatalf("%s: the title row: %v", chart, err)
 		}
-		return sheets[0].Rows
+		// Row 1 is the title (WeKan's layout); the table starts at row 2.
+		return sheets[0].Rows[1:]
 	}
 	cfd := rows("cumulativeFlow")
 	if strings.Join(cfd[0], ",") != "Date,L,Doing,Done" || len(cfd) != 5 {

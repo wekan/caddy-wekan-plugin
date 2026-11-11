@@ -118,9 +118,18 @@ func onBoard(b *Board, v any) bson.A {
 	return out
 }
 
+// stringsOf is a stored list's strings: decoded (bson.A) or plain ([]any).
 func stringsOf(v any) []string {
 	out := []string{}
-	arr, _ := v.(bson.A)
+	arr, ok := v.(bson.A)
+	if !ok {
+		switch x := v.(type) {
+		case []any:
+			arr = x
+		case []string:
+			return append(out, x...)
+		}
+	}
 	for _, e := range arr {
 		if s, ok := e.(string); ok {
 			out = append(out, s)

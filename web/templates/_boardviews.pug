@@ -1,0 +1,15 @@
+//- WeKan's boardChangeViewPopup: the views this board offers - its swimlanes
+  and the Scrum views - each with its per-view class.
+template.js-pop-over-template(data-pop="board-view", data-title="{{t $.L `board-view`}}")
+  .header
+    span.header-title {{t $.L "board-view"}}
+    a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+  .content
+    ul.pop-over-list
+      each v in .Views
+        li
+          a.js-board-view-entry(class="{{.Class}}", href="{{.URL}}")
+            i.fa(class="{{.Icon}}")
+            | {{.Label}}
+            if .Current
+              i.fa.fa-check

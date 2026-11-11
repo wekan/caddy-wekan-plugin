@@ -128,6 +128,9 @@ func (s *Server) currentHistoryContent(ctx context.Context, row map[string]any) 
 	if docString(row, "entityType") == "rule" {
 		return s.ruleSnapshot(ctx, docString(row, "entityId"))
 	}
+	if docString(row, "entityType") == "scrum" {
+		return s.scrumHistorySnapshot(ctx, row)
+	}
 	for _, side := range []string{"newContent", "previousContent"} {
 		if c, ok := row[side].(map[string]any); ok {
 			if field, ok := c["field"].(string); ok {
@@ -298,8 +301,12 @@ func (s *Server) reverseLast(r *http.Request, u *User, boardID, direction string
 		return map[string]any{key: false, "reason": "conflict"}, nil
 	}
 	applied := false
-	if docString(row, "entityType") == "rule" {
-		ok, rerr := s.applyRuleHistory(ctx, u, row, direction)
+	if t := docString(row, "entityType"); t == "rule" || t == "scrum" {
+		apply := s.applyRuleHistory
+		if t == "scrum" {
+			apply = s.applyScrumHistory
+		}
+		ok, rerr := apply(ctx, u, row, direction)
 		if rerr != nil {
 			back := bson.M{"_id": eq(docString(row, "_id"))}
 			for k, v := range taken {
@@ -478,8 +485,12 @@ func (s *Server) methodHistoryRestore(r *http.Request, u *User, args []json.RawM
 		}
 		displaced := s.currentHistoryContent(ctx, row)
 		applied := false
-		if docString(row, "entityType") == "rule" {
-			ok, rerr := s.applyRuleHistory(ctx, u, row, "restore")
+		if t := docString(row, "entityType"); t == "rule" || t == "scrum" {
+			apply := s.applyRuleHistory
+			if t == "scrum" {
+				apply = s.applyScrumHistory
+			}
+			ok, rerr := apply(ctx, u, row, "restore")
 			if rerr != nil {
 				return nil, rerr
 			}

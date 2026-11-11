@@ -100,6 +100,9 @@ func (s *Server) methods() map[string]methodFunc {
 	for k, v := range s.wipMethods() {
 		m[k] = v
 	}
+	for k, v := range s.scrumMethods() {
+		m[k] = v
+	}
 	for k, v := range s.historyMethods() {
 		m[k] = v
 	}

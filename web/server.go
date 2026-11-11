@@ -293,6 +293,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}", s.page(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/{card}", s.page(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/rules", s.page(s.rulesPage))
+	m.HandleFunc("GET /b/{board}/{slug}/scrum", s.page(s.scrumPage))
 	m.HandleFunc("GET /b/{board}/{slug}/notifications", s.page(s.boardNotificationsPage))
 	m.HandleFunc("POST /b/{board}/notifications", s.page(s.saveBoardDelivery))
 	m.HandleFunc("GET /b/{board}/{slug}/lists/{list}/permissions", s.page(s.listPermissionsPage))
@@ -836,6 +837,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	data["CanInvite"] = canInviteToBoard(u, b, s.inviteRoles(r))
 	data["IsBoardAdmin"] = b.AdminOf(u.ID)
+	data["Views"] = s.boardViewEntries(b, lang, "")
 	data["PrivateOnly"] = s.tableSetting(r.Context(), "tableVisibilityMode-allowPrivateOnly")
 	if b.Writable(u, "write", nil) || (m != nil && b.Can(u.ID, "write")) {
 		data["BoardButtons"] = s.buttonRules(r.Context(), b.ID, "board")

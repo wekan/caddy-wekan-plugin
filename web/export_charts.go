@@ -77,6 +77,14 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 		}
 		lang := exportLang(ctx)
 		headers, rows, ok := s.chartRows(ctx, &b, key, lang)
+		title := tr(lang, chartTitles[key])
+		if key == "scrumVelocity" || key == "scrumSprint" {
+			var err error
+			if title, headers, rows, err = s.scrumChartRows(ctx, u, &b, key, lang, r.URL.Query().Get("sprintId"), title); err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+		}
 		if slices.Contains(flowCharts, key) {
 			var err error
 			if headers, rows, err = s.flowAnalyticsRows(ctx, &b, key, r.URL.Query(), time.Now().UTC(), lang); err != nil {
@@ -89,11 +97,10 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 			http.Error(w, "This chart's export is not in Weddy yet.", http.StatusNotImplemented)
 			return
 		}
-		title := tr(lang, chartTitles[key])
 		name := "export-chart-" + key + "-" + b.ID
 		w.Header().Set("Cache-Control", "no-store")
 		if format == "xlsx" {
-			out, err := xlsxOf(title, append([][]any{headers}, rows...))
+			out, err := chartXlsx(b.Title, title, headers, rows)
 			if err != nil {
 				http.Error(w, "Export failed", http.StatusInternalServerError)
 				return
@@ -160,8 +167,8 @@ func sinceDays(a, b time.Time) float64 { return math.Max(0, b.Sub(a).Hours()/24)
 // chartRows are a chart's table; ok false for one Weddy cannot compute yet.
 func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]any, [][]any, bool) {
 	if slices.Contains(scrumCharts, key) {
-		// Weddy keeps no Scrum sprints yet, so there is no closed sprint
-		// to report: WeKan's table, without rows.
+		// The daily observations are not in Weddy yet: WeKan's table,
+		// without rows.
 		if key == "scrumDaily" {
 			return []any{tr(lang, "scrum-sprint"), tr(lang, "date"), "UTC", tr(lang, "scrum-estimate-unit")}, [][]any{}, true
 		}
@@ -759,4 +766,145 @@ func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now 
 		}
 	}
 	return rows
+}
+
+// scrumChartRows is chartExportRows' scrumVelocity and scrumSprint: each
+// closed sprint's report (scrum.getBoardData's, the reader's cards only) as
+// one row - its totals as cards, estimate and unknown, its working days, its
+// estimate settings and the completed commitment.
+func (s *Server) scrumChartRows(ctx context.Context, u *User, b *Board, key, lang, sprintID, title string) (string, []any, [][]any, error) {
+	if u == nil {
+		u = &User{}
+	}
+	res, err := s.scrumBoardData(ctx, u, b.ID)
+	if err != nil {
+		return "", nil, nil, err
+	}
+	data := res.(map[string]any)
+	if data["importPending"] == true {
+		return "", nil, nil, &methodError{"scrum-import-pending", "The Scrum import is incomplete. Report exports are unavailable."}
+	}
+	var reports []map[string]any
+	sprints := asDocs(data["sprints"])
+	if key == "scrumVelocity" {
+		var closed []map[string]any
+		for _, sp := range sprints {
+			if docString(sp, "state") == "closed" && sp["closeSnapshot"] != nil && sp["report"] != nil {
+				closed = append(closed, sp)
+			}
+		}
+		sort.SliceStable(closed, func(i, j int) bool {
+			a, _ := plain(closed[i]["closeSnapshot"].(map[string]any)["at"]).(time.Time)
+			c, _ := plain(closed[j]["closeSnapshot"].(map[string]any)["at"]).(time.Time)
+			return a.Before(c)
+		})
+		for _, sp := range closed {
+			reports = append(reports, sp["report"].(map[string]any))
+		}
+	} else {
+		if len(sprintID) > 200 {
+			return "", nil, nil, &methodError{"invalid-sprint", "invalid-sprint"}
+		}
+		var sprint map[string]any
+		for _, sp := range sprints {
+			if docString(sp, "_id") == sprintID {
+				sprint = sp
+			}
+		}
+		if sprint == nil {
+			return "", nil, nil, &methodError{"not-found", "Sprint not found on this board"}
+		}
+		if sprint["closeSnapshot"] != nil && sprint["report"] != nil {
+			reports = append(reports, sprint["report"].(map[string]any))
+		}
+	}
+	totals := []string{"committed", "completed", "added", "removed", "incomplete"}
+	headers := []any{tr(lang, "scrum-sprint"), tr(lang, "scrum-estimate-unit")}
+	for _, k := range totals {
+		label := scrumLabel(lang, "scrum-"+k)
+		headers = append(headers, label+": "+tr(lang, "cards"), label+": "+tr(lang, "scrum-estimate"), label+": "+tr(lang, "scrum-unknown-estimate"))
+	}
+	// "custom-field" is not one of WeKan's keys: its translate() falls back to
+	// "Custom field" in every language, and so does this.
+	headers = append(headers, tr(lang, "scrum-working-days"), tr(lang, "scrum-estimate-source"), "Custom field", tr(lang, "scrum-completion-policy"))
+	commitment := tr(lang, "scrum-completed") + " / " + tr(lang, "scrum-committed")
+	headers = append(headers, commitment+": "+tr(lang, "cards"), commitment+": "+tr(lang, "scrum-estimate"), commitment+": "+tr(lang, "scrum-unknown-estimate"))
+	num := func(v any) any {
+		if f := numberOf(v); f == f {
+			return f
+		}
+		return ""
+	}
+	rows := [][]any{}
+	for _, rep := range reports {
+		name := docString(rep, "name")
+		if rep["partial"] == true {
+			name += " — " + tr(lang, "scrum-partial-snapshot")
+		}
+		row := []any{name, docString(rep, "unit")}
+		for _, k := range totals {
+			t, _ := rep[k].(map[string]any)
+			row = append(row, num(t["count"]), num(t["estimate"]), num(t["unknown"]))
+		}
+		cc, _ := rep["completedCommitment"].(map[string]any)
+		row = append(row, num(rep["plannedWorkingDays"]), docString(rep, "estimateSource"), docString(rep, "estimateCustomFieldId"), docString(rep, "completionPolicy"),
+			num(cc["count"]), num(cc["estimate"]), num(cc["unknown"]))
+		rows = append(rows, row)
+	}
+	if data["partial"] == true {
+		title += " — " + tr(lang, "scrum-partial-report")
+	}
+	return title, headers, rows, nil
+}
+
+// xColumn is a column's letters: 0 is A, 26 is AA.
+func xColumn(i int) string {
+	name := ""
+	for i++; i > 0; i = (i - 1) / 26 {
+		name = string(rune('A'+(i-1)%26)) + name
+	}
+	return name
+}
+
+// chartXlsx is ExporterChartExcel's sheet: "<board> - <chart>" merged
+// across row 1 in 16pt bold, the headers in row 2 bold on gray with thin
+// borders, the rows from row 3 - numbers as numbers and times as dates -
+// and every column 20 wide.
+func chartXlsx(boardTitle, title string, headers []any, rows [][]any) ([]byte, error) {
+	name := strings.Map(func(r rune) rune {
+		if strings.ContainsRune(`[]:*?/\`, r) {
+			return ' '
+		}
+		return r
+	}, title)
+	if len([]rune(name)) > 31 {
+		name = string([]rune(name)[:31])
+	}
+	ws := newXSheet(name)
+	n := max(len(headers), 1)
+	for i := 0; i < n; i++ {
+		ws.Widths = append(ws.Widths, 20)
+	}
+	ws.merge("A1:" + xColumn(n-1) + "1")
+	head := ws.cell("A1")
+	head.Value, head.Font = boardTitle+" - "+title, xObj("size", 16, "bold", true)
+	ws.Heights[1] = 30
+	for i, h := range headers {
+		c := ws.cell(xColumn(i) + "2")
+		c.Value, c.Font, c.Fill, c.Border = h, xObj("bold", true), xGray(), xBorder("thin")
+	}
+	for r, row := range rows {
+		for i, v := range row {
+			c := ws.cell(xColumn(i) + strconv.Itoa(3+r))
+			switch x := v.(type) {
+			case time.Time:
+				c.Value, c.NumFmt = jsDate(x), "yyyy-mm-dd hh:mm"
+			case string, float64, int, int32, int64, bool, nil:
+				c.Value = x
+			default:
+				c.Value = cellText(x)
+			}
+		}
+	}
+	return xlsxStyledBook([]*xSheet{ws})
 }

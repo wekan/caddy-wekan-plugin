@@ -1,0 +1,6 @@
+//- The options of a Scrum select: value, label, and whether it is chosen.
+each o in .
+  if .Selected
+    option(value="{{.Value}}", selected) {{.Label}}
+  else
+    option(value="{{.Value}}") {{.Label}}

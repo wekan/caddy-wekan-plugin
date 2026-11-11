@@ -2431,4 +2431,138 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   });
 
   window.weddyMultiDrag = { sorts: sorts }; // for the tests
+
+  // WeKan's Board View button (boardChangeViewPopup): the views this board has.
+  up.on('click', '.js-toggle-board-view', function (event) {
+    event.preventDefault();
+    openPopOver('board-view');
+  });
+
+  // WeKan's Scrum views (scrumView.js), drawn by the server (scrum_view.go):
+  // what the view has chosen is in its address, and every change is the
+  // method WeKan's view calls, then the view drawn again - or the error.
+  function scrumView() { return document.querySelector('.scrum-view'); }
+  function scrumLink(changes) {
+    var url = new URL(scrumView().dataset.link, location.href);
+    Object.keys(changes).forEach(function (k) {
+      if (changes[k]) url.searchParams.set(k, changes[k]); else url.searchParams.delete(k);
+    });
+    return url.pathname + url.search;
+  }
+  function scrumGo(url) { return up.navigate({ url: url, target: '.scrum-view', history: true, cache: false }); }
+  function scrumError(message) {
+    var p = document.querySelector('.scrum-view .js-scrum-error');
+    if (!p) return;
+    p.textContent = message || '';
+    p.hidden = !message;
+  }
+  var scrumBusy = false;
+  function scrumMutate(method) {
+    if (scrumBusy) return Promise.resolve(false);
+    var v = scrumView();
+    var args = [method, v.dataset.board].concat(Array.prototype.slice.call(arguments, 1));
+    scrumBusy = true;
+    scrumError('');
+    return callAsync.apply(null, args).then(function (result) {
+      scrumBusy = false;
+      return up.reload('.scrum-view', { cache: false }).then(function () { return result || true; });
+    }, function (e) {
+      scrumBusy = false;
+      scrumError(e.reason || e.message);
+      return false;
+    });
+  }
+  function scrumFields(form) {
+    var out = {};
+    new FormData(form).forEach(function (v, k) { if (!(k in out)) out[k] = v; });
+    return out;
+  }
+  function nullable(v) { return v ? v : null; }
+  function scrumRevision(el) { return el.dataset.revision === '' || el.dataset.revision === undefined ? null : Number(el.dataset.revision); }
+  // A date and time as the field shows it, in the browser's time zone - and
+  // back, the stored instant kept when the field was not changed.
+  function localDateTime(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 23).replace(/:00\.000$/, '').replace(/\.000$/, '');
+  }
+  function scrumTimestamp(value, original) {
+    if (!value) return null;
+    return value === localDateTime(original) ? original : new Date(value).toISOString();
+  }
+  up.compiler('.js-scrum-local-time', function (el) { el.value = localDateTime(el.dataset.iso); });
+  up.on('click', '.js-scrum-refresh', function (event) { event.preventDefault(); up.reload('.scrum-view', { cache: false }); });
+  up.on('change', '.js-scrum-sprint', function (event, el) { scrumGo(scrumLink({ sprint: el.value, event: '', limit: '' })); });
+  up.on('change', '.js-scrum-release-select', function (event, el) { scrumGo(scrumLink({ release: el.value })); });
+  up.on('change', '.js-scrum-event-select', function (event, el) { scrumGo(scrumLink({ event: el.value })); });
+  up.on('click', '.js-scrum-new', function (event) { event.preventDefault(); scrumGo(scrumLink({ sprint: '', event: '' })); });
+  up.on('change', '.js-scrum-chart-metric', function (event, el) {
+    var metric = el.value === 'estimate' ? 'estimate' : 'count';
+    var root = el.closest('.scrum-view') || document;
+    root.querySelectorAll('.scrum-chart-series').forEach(function (sr) {
+      var label = sr.querySelector('.scrum-chart-label');
+      if (label) label.textContent = label.dataset.label + ': ' + sr.dataset[metric];
+      var bar = sr.querySelector('.scrum-chart-bar');
+      if (bar) bar.style.width = sr.dataset[metric === 'estimate' ? 'widthEstimate' : 'widthCount'] + '%';
+    });
+  });
+  up.on('submit', '.js-scrum-settings', function (event, form) {
+    event.preventDefault();
+    var v = scrumFields(form), fd = new FormData(form);
+    scrumMutate('scrum.configure', { enabled: v.enabled === 'on', productGoal: v.productGoal, definitionOfDone: v.definitionOfDone,
+      estimateSource: v.estimateSource, estimateCustomFieldId: nullable(v.estimateCustomFieldId), estimateUnit: v.estimateUnit,
+      completionPolicy: v.completionPolicy, productOwnerId: nullable(v.productOwnerId), scrumMasterId: nullable(v.scrumMasterId),
+      developerIds: fd.getAll('developerIds'), workingDays: fd.getAll('workingDays').map(Number) },
+    Number(scrumView().dataset.settingsRevision));
+  });
+  up.on('submit', '.js-scrum-sprint-form', function (event, form) {
+    event.preventDefault();
+    var v = scrumFields(form);
+    scrumMutate('scrum.saveSprint', nullable(form.dataset.sprint), { name: v.name, goal: v.goal, plannedStart: nullable(v.plannedStart),
+      plannedEnd: nullable(v.plannedEnd), capacity: v.capacity === '' ? null : Number(v.capacity), capacityUnit: v.capacityUnit }, scrumRevision(form))
+      .then(function (saved) { if (saved && saved._id && !form.dataset.sprint) scrumGo(scrumLink({ sprint: saved._id })); });
+  });
+  up.on('click', '.js-scrum-start', function (event, el) {
+    event.preventDefault();
+    scrumMutate('scrum.startSprint', scrumView().dataset.sprint, Number(el.dataset.revision));
+  });
+  up.on('click', '.js-scrum-close', function (event, el) {
+    event.preventDefault();
+    if (!confirm(scrumView().dataset.confirmClose)) return;
+    var rollover = document.querySelector('.scrum-view .js-scrum-rollover');
+    scrumMutate('scrum.closeSprint', scrumView().dataset.sprint, Number(el.dataset.revision), nullable(rollover && rollover.value));
+  });
+  up.on('click', '.js-scrum-resume-close', function (event, el) {
+    event.preventDefault();
+    scrumMutate('scrum.closeSprint', scrumView().dataset.sprint, Number(el.dataset.revision), nullable(el.dataset.rollover));
+  });
+  up.on('click', '.js-scrum-cancel', function (event, el) {
+    event.preventDefault();
+    if (!confirm(scrumView().dataset.confirmCancel)) return;
+    var reason = document.querySelector('.scrum-view .js-scrum-cancel-reason');
+    scrumMutate('scrum.cancelSprint', scrumView().dataset.sprint, Number(el.dataset.revision), reason ? reason.value : '');
+  });
+  up.on('submit', '.js-scrum-card', function (event, form) {
+    event.preventDefault();
+    var v = scrumFields(form);
+    scrumMutate('scrum.updateCard', form.dataset.cardId, { sprintId: nullable(v.sprintId),
+      releaseIds: new FormData(form).getAll('releaseIds').filter(Boolean),
+      backlogRank: v.backlogRank === '' ? null : Number(v.backlogRank), issueType: v.issueType, acceptanceCriteria: v.acceptanceCriteria },
+    Number(form.dataset.revision || 0));
+  });
+  up.on('submit', '.js-scrum-release', function (event, form) {
+    event.preventDefault();
+    var v = scrumFields(form);
+    var at = form.querySelector('[name="releasedAt"]');
+    scrumMutate('scrum.saveRelease', nullable(form.dataset.release), { name: v.name, goal: v.goal, plannedStart: nullable(v.plannedStart),
+      plannedEnd: nullable(v.plannedEnd), state: v.state, notes: v.notes, releasedAt: scrumTimestamp(v.releasedAt, at && at.dataset.iso) }, scrumRevision(form));
+  });
+  up.on('submit', '.js-scrum-event', function (event, form) {
+    event.preventDefault();
+    var v = scrumFields(form);
+    var at = form.querySelector('[name="startsAt"]');
+    scrumMutate('scrum.saveEvent', nullable(form.dataset.event), { name: v.name, kind: v.kind, startsAt: scrumTimestamp(v.startsAt, at && at.dataset.iso),
+      timeboxMinutes: Number(v.timeboxMinutes), notes: v.notes, sprintId: scrumView().dataset.sprint,
+      followUpCardIds: new FormData(form).getAll('followUpCardIds') }, scrumRevision(form));
+  });
 })();
