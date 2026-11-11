@@ -308,3 +308,35 @@ func TestNoUnguardedMapKeyPath(t *testing.T) {
 		t.Error("the denied collection writes are no longer looked at for RepointBleed and BackgroundBleed")
 	}
 }
+
+// ImportBleed: a logged-out importBoard is refused with WeKan's own error,
+// before anything is created; a method WeKan names no other way keeps
+// not-authorized (negative).
+func TestLoggedOutMethodErrors(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	call := func(method, args string) (int, map[string]any) {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/"+url.PathEscape(method), strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := w.client(t).Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return res.StatusCode, out
+	}
+	code, out := call("importBoard", `[{"title":"ImportBleed","lists":[],"cards":[]},{},"wekan",null]`)
+	if code != 401 || out["error"] != "error-notAuthorized" {
+		t.Errorf("importBoard logged out: %d %v", code, out)
+	}
+	if n, _ := w.db.Collection("boards").CountDocuments(ctx, bson.M{"title": "ImportBleed"}); n != 0 {
+		t.Error("a logged-out import created a board")
+	}
+	for method, want := range map[string]string{"setListCollapsedState": "not-logged-in", "cards.pokerVote": "not-authorized", "no-such-method": "not-authorized"} {
+		if _, out := call(method, `[]`); out["error"] != want {
+			t.Errorf("%s logged out: %v, want %s", method, out["error"], want)
+		}
+	}
+}

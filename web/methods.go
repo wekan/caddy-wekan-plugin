@@ -94,11 +94,25 @@ func (s *Server) methods() map[string]methodFunc {
 	return m
 }
 
+// loggedOutError is the error a WeKan method throws when nobody is logged
+// in, where it is not "not-authorized" - a caller tells the two apart
+// (ImportBleed's spec does): models/import.js, server/models/users.js.
+var loggedOutError = map[string]string{
+	"importBoard":           "error-notAuthorized",
+	"importScoped":          "error-notAuthorized",
+	"setListCollapsedState": "not-logged-in",
+	"toggleBoardStar":       "not-logged-in",
+}
+
 func (s *Server) methodRoutes(m *http.ServeMux) {
 	m.HandleFunc("POST /_methods/{name}", func(w http.ResponseWriter, r *http.Request) {
 		u := s.currentUser(r)
 		if u == nil {
-			writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "not-authorized", "reason": "You must be logged in."})
+			code := loggedOutError[r.PathValue("name")]
+			if code == "" {
+				code = "not-authorized"
+			}
+			writeJSON(w, http.StatusUnauthorized, map[string]string{"error": code, "reason": "You must be logged in."})
 			return
 		}
 		// JSON only: a form on another site cannot send it without a CORS
