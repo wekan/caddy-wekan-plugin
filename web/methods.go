@@ -77,6 +77,8 @@ func (s *Server) methods() map[string]methodFunc {
 		"outgoingWebhooks":                s.methodOutgoingWebhooks,
 		"copyBoard":                       s.methodCopyBoard,
 		"copyCard":                        s.methodCopyCard,
+		"copyList":                        s.methodCopyList,
+		"copySwimlane":                    s.methodCopySwimlane,
 		"inviteUserToBoard":               s.methodInviteUserToBoard,
 		"searchUsers":                     s.methodSearchUsers,
 		"moveBoardObjects":                s.methodMoveBoardObjects,

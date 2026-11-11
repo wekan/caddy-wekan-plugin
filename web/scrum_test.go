@@ -733,6 +733,33 @@ func TestScrumCopies(t *testing.T) {
 		t.Error("negative: the source subtask changed")
 	}
 
+	// copyList and copySwimlane: the list's category always, the swimlane's
+	// sprint and release only on its own board, each copy at revision 1.
+	laneScrum := bson.M{"sprintId": sp["_id"], "releaseId": rel["_id"], "purpose": "Team purpose"}
+	_, _ = w.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": src.List}, bson.M{"$set": bson.M{"scrum": bson.M{"category": "doing"}, "scrumRevision": 8}})
+	_, _ = w.db.Collection("swimlanes").UpdateOne(ctx, bson.M{"_id": src.Swimlane}, bson.M{"$set": bson.M{"scrum": laneScrum, "scrumRevision": 7}})
+	for _, target := range []restBoard{dst, src} {
+		listID := ann("copyList", src.List, target.ID, target.Swimlane, "Copied category", nil, "right")["result"].(string)
+		var l bson.M
+		_ = w.db.Collection("lists").FindOne(ctx, bson.M{"_id": listID}).Decode(&l)
+		if canonical(plain(l["scrum"])) != canonical(map[string]any{"category": "doing"}) || l["scrumRevision"] != int32(1) || l["boardId"] != target.ID {
+			t.Errorf("the copied list on %s: %v", target.ID, l)
+		}
+		title := "Copied team " + target.ID
+		if out := ann("copySwimlane", src.Swimlane, target.ID, nil, "below", title); out["result"] != true {
+			t.Fatalf("copySwimlane: %v", out)
+		}
+		var lane bson.M
+		_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": target.ID, "title": title}).Decode(&lane)
+		want := canonical(plain(laneScrum))
+		if target.ID != src.ID {
+			want = canonical(map[string]any{"purpose": "Team purpose"})
+		}
+		if canonical(plain(lane["scrum"])) != want || lane["scrumRevision"] != int32(1) {
+			t.Errorf("the copied swimlane on %s: %v", target.ID, plain(lane["scrum"]))
+		}
+	}
+
 	// The board copy.
 	resultOf(t, ann("scrum.updateCard", src.ID, src.Card, map[string]any{"sprintId": sp["_id"]}, nil))
 	copyID := ann("copyBoard", src.ID, map[string]any{})["result"].(string)
