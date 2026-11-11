@@ -784,4 +784,23 @@ func TestScrumCopies(t *testing.T) {
 	if n, _ := w.db.Collection("scrumSprints").CountDocuments(ctx, bson.M{"boardId": omitted}); n != 0 || ob["scrum"] != nil {
 		t.Errorf("negative: a copy without Scrum has its sprints: %d", n)
 	}
+	// moveList and moveSwimlane to another board: a new list keeps the moved
+	// one's category, a list of the same title there keeps its own.
+	mover := "list" + randomID()[:12]
+	_, _ = w.db.Collection("lists").InsertOne(ctx, bson.M{"_id": mover, "boardId": src.ID, "title": "Mover", "sort": 9, "archived": false,
+		"scrum": bson.M{"category": "doing"}, "scrumRevision": 8})
+	ann("moveList", mover, dst.ID, dst.Swimlane, nil, "right", "Mover")
+	var moved bson.M
+	_ = w.db.Collection("lists").FindOne(ctx, bson.M{"boardId": dst.ID, "title": "Mover"}).Decode(&moved)
+	if canonical(plain(moved["scrum"])) != canonical(map[string]any{"category": "doing"}) || moved["scrumRevision"] != int32(1) {
+		t.Errorf("the moved list's category: %v", moved)
+	}
+	if out := ann("moveSwimlane", src.Swimlane, dst.ID, nil, "below", "Moved team"); out["result"] != true {
+		t.Fatalf("moveSwimlane: %v", out)
+	}
+	var ml bson.M
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"_id": src.Swimlane}).Decode(&ml)
+	if ml["boardId"] != dst.ID || canonical(plain(ml["scrum"])) != canonical(map[string]any{"purpose": "Team purpose"}) {
+		t.Errorf("negative: the moved swimlane keeps another board's sprint: %v", plain(ml["scrum"]))
+	}
 }

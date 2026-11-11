@@ -202,3 +202,32 @@ func (s *Server) methodCopySwimlane(r *http.Request, u *User, args []json.RawMes
 	s.hub.publishFrom(to.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return true, nil
 }
+
+// methodMoveSwimlane is moveSwimlane(swimlaneId, toBoardId, targetSwimlaneId,
+// position, title): a member of the swimlane's board who may change both.
+func (s *Server) methodMoveSwimlane(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	laneID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	toBoard, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	title, err := optionalString(args, 4)
+	if err != nil {
+		return nil, err
+	}
+	var lane bson.M
+	if !validID(laneID) || s.db.Collection("swimlanes").FindOne(r.Context(), bson.M{"_id": eq(laneID)}).Decode(&lane) != nil {
+		return nil, &methodError{"not-found", "not-found"}
+	}
+	from, to, err := s.laneCopyBoards(r, u, docString(lane, "boardId"), toBoard, true)
+	if err != nil {
+		return nil, err
+	}
+	if lerr := s.moveSwimlaneTo(r, u, from, to, lane, &laneRequest{ToBoardID: to.ID, Title: title}); lerr != nil {
+		return nil, &methodError{"move-failed", lerr.msg}
+	}
+	return true, nil
+}

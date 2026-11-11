@@ -193,6 +193,11 @@ func (s *Server) moveCardTo(ctx context.Context, u *User, card bson.M, from, to 
 	}
 	set["boardId"], set["swimlaneId"], set["listId"] = to.ID, swimlaneID, listID
 	set["sort"], set["modifiedAt"] = s.topSort(ctx, to.ID, listID), time.Now().UTC()
+	// Its sprint and releases linked by name there, the rest of the board's
+	// own dropped (movedScrumMetadata), never pointing at the board left.
+	for k, v := range movedScrum(plain(card).(map[string]any), to.ID, s.scrumPlanningPair(ctx, from.ID, to.ID)) {
+		set[k] = v
+	}
 	id, _ := card["_id"].(string)
 	if _, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": eq(id), "boardId": from.ID}, bson.M{"$set": set}); err != nil {
 		return err
@@ -463,8 +468,14 @@ func (s *Server) moveListTo(ctx context.Context, u *User, b, to *Board, l bson.M
 			return &laneError{http.StatusBadRequest, "This list has no title, so it cannot be moved to another board. Give it a title first."}
 		}
 		listID = randomID()
-		if _, err := s.db.Collection("lists").InsertOne(ctx, bson.M{"_id": listID, "title": title, "boardId": to.ID, "type": l["type"], // inserted, not a filter
-			"archived": false, "wipLimit": l["wipLimit"], "swimlaneId": req.ToSwimlaneID, "sort": l["sort"], "createdAt": time.Now().UTC()}); err != nil { // inserted, not a filter
+		nl := bson.M{"_id": listID, "title": title, "boardId": to.ID, "type": l["type"], // inserted, not a filter
+			"archived": false, "wipLimit": l["wipLimit"], "swimlaneId": req.ToSwimlaneID, "sort": l["sort"], "createdAt": time.Now().UTC()} // inserted, not a filter
+		// The list's Scrum category goes with it; a list of the same title
+		// there keeps its own (scrumCopy.js).
+		for k, v := range copiedScrum(plain(l).(map[string]any), to.ID, nil) {
+			nl[k] = v
+		}
+		if _, err := s.db.Collection("lists").InsertOne(ctx, nl); err != nil {
 			return &laneError{http.StatusInternalServerError, err.Error()}
 		}
 	}
@@ -577,6 +588,19 @@ func (s *Server) apiMoveSwimlane(w http.ResponseWriter, r *http.Request, u *User
 	if sw == nil {
 		return
 	}
+	if err := s.moveSwimlaneTo(r, u, b, to, sw, req); err != nil {
+		apiError(w, err.status, err.msg)
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]string{"_id": docString(sw, "_id")})
+}
+
+// moveSwimlaneTo is Swimlane.move for the REST route and the moveSwimlane
+// method: on another board each list goes to the list of the same title
+// there - which keeps its own Scrum category - or a new one with the moved
+// list's, and the swimlane's sprint and release are linked by name
+// (movedScrumMetadata).
+func (s *Server) moveSwimlaneTo(r *http.Request, u *User, b, to *Board, sw bson.M, req *laneRequest) *laneError {
 	ctx := r.Context()
 	id, _ := sw["_id"].(string)
 	set := bson.M{}
@@ -592,30 +616,34 @@ func (s *Server) apiMoveSwimlane(w http.ResponseWriter, r *http.Request, u *User
 				listID = existing.ID
 			} else {
 				listID = randomID()
-				if _, err := s.db.Collection("lists").InsertOne(ctx, bson.M{"_id": listID, "title": title, "boardId": to.ID, "type": l["type"],
-					"archived": false, "wipLimit": l["wipLimit"], "swimlaneId": id, "sort": l["sort"], "createdAt": time.Now().UTC()}); err != nil {
-					apiError(w, http.StatusInternalServerError, err.Error())
-					return
+				nl := bson.M{"_id": listID, "title": title, "boardId": to.ID, "type": l["type"], // inserted, not a filter
+					"archived": false, "wipLimit": l["wipLimit"], "swimlaneId": id, "sort": l["sort"], "createdAt": time.Now().UTC()}
+				for k, v := range copiedScrum(plain(l).(map[string]any), to.ID, nil) {
+					nl[k] = v
+				}
+				if _, err := s.db.Collection("lists").InsertOne(ctx, nl); err != nil {
+					return &laneError{http.StatusInternalServerError, err.Error()}
 				}
 			}
 			for _, c := range s.laneCards(ctx, bson.M{"listId": l["_id"], "swimlaneId": eq(id)}) {
 				if err := s.moveCardTo(ctx, u, c, b, to, id, listID); err != nil {
-					apiError(w, http.StatusInternalServerError, err.Error())
-					return
+					return &laneError{http.StatusInternalServerError, err.Error()}
 				}
 			}
 		}
 		n, _ := s.db.Collection("swimlanes").CountDocuments(ctx, bson.M{"boardId": to.ID, "archived": false})
 		set["boardId"], set["sort"] = to.ID, float64(n)
+		for k, v := range movedScrum(plain(sw).(map[string]any), to.ID, s.scrumPlanningPair(ctx, b.ID, to.ID)) {
+			set[k] = v
+		}
 	}
 	if len(set) > 0 {
 		if _, err := s.entityUpdateOne(ctx, u.ID, "swimlane", bson.M{"_id": eq(id), "boardId": b.ID}, bson.M{"$set": set}); err != nil {
-			apiError(w, http.StatusInternalServerError, err.Error())
-			return
+			return &laneError{http.StatusInternalServerError, err.Error()}
 		}
 	}
 	s.reposition(ctx, "swimlanes", id, to.ID, req.Position)
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	s.hub.publishFrom(to.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
-	writeJSON(w, http.StatusOK, map[string]string{"_id": id})
+	return nil
 }

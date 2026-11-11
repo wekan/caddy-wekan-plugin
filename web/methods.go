@@ -79,6 +79,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"copyCard":                        s.methodCopyCard,
 		"copyList":                        s.methodCopyList,
 		"copySwimlane":                    s.methodCopySwimlane,
+		"moveSwimlane":                    s.methodMoveSwimlane,
 		"inviteUserToBoard":               s.methodInviteUserToBoard,
 		"searchUsers":                     s.methodSearchUsers,
 		"moveBoardObjects":                s.methodMoveBoardObjects,

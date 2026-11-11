@@ -94,3 +94,21 @@ func copiedScrum(doc map[string]any, toBoard string, p *scrumPlanning) bson.M {
 	}
 	return bson.M{"scrum": sc, "scrumRevision": int32(1)}
 }
+
+// movedScrum is movedScrumMetadata: a card or swimlane moved to another
+// board follows a copy's rule there; nothing to change, nothing written,
+// else the revision moves on.
+func movedScrum(doc map[string]any, toBoard string, p *scrumPlanning) bson.M {
+	sc, _ := plain(doc["scrum"]).(map[string]any)
+	if sc == nil || docString(doc, "boardId") == toBoard {
+		return nil
+	}
+	scoped := false
+	for _, k := range boardScopedScrum {
+		scoped = scoped || has(sc, k)
+	}
+	if !scoped {
+		return nil
+	}
+	return bson.M{"scrum": boardScrum(sc, p), "scrumRevision": int32(revisionOf(doc["scrumRevision"]) + 1)}
+}
