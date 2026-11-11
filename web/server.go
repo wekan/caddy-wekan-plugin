@@ -777,6 +777,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			}
 		}
 	}
+	s.annotateMinicards(r.Context(), b, lanes)
 	starred := slices.Contains(u.Profile.StarredBoards, b.ID)
 	invited := slices.Contains(u.Profile.InvitedBoards, b.ID)
 	folded := s.collapsedLists(r.Context(), u.ID, b.ID)

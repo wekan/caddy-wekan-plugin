@@ -534,3 +534,13 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 #viewer-content object { width: 100%; height: 100%; background: #fff; }
 .minicard-cover img { display: block; max-width: 100%; max-height: 120px; margin-top: .3em; border-radius: 2px; }
 .js-pop-over form button.js-add-cover, .js-pop-over form button.js-remove-cover, .js-pop-over form button.js-add-background-image, .js-pop-over form button.js-remove-background-image { background: none; border: 0; width: 100%; text-align: left; cursor: pointer; padding: .3em .5em; }
+
+/* WeKan's minicard assignees and comments (minicard.css): the avatars float
+   at the end; the comments clear them and wrap, never covered by them. */
+.minicard-assignees { float: inline-end; display: flex; flex-wrap: wrap; gap: 2px; justify-content: flex-end; max-width: 100%; margin-top: .2em; }
+.minicard-assignees .member { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: #dfe1e6; color: #172b4d; font-size: 10px; font-weight: bold; }
+.minicard-comments { clear: both; margin-top: .3em; }
+.minicard-comment { display: flex; gap: .3em; font-size: .85em; color: #5e6c84; }
+.minicard-comment-text { white-space: normal; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+.fa-comment-o::before { content: "\1F4AC"; }
+.minicard::after { content: ""; display: block; clear: both; }

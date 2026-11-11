@@ -707,6 +707,20 @@
                             a.minicard-complete-toggle.js-toggle-card-complete(href="#", data-card="{{.ID}}", data-complete="{{if .DueComplete}}false{{else}}true{{end}}", title="{{if .DueComplete}}{{t $.L `card-mark-incomplete`}}{{else}}{{t $.L `card-mark-complete`}}{{end}}")
                               .materialCheckBox(class="{{if .DueComplete}}is-checked{{end}}")
                         span.minicard-title-text {{viewer .Title $.TextPolicy}}
+                      //- WeKan's minicard assignees: an avatar each.
+                      if .MinicardAssignees
+                        .minicard-assignees.js-minicard-assignees
+                          each p in .MinicardAssignees
+                            span.member(title="{{.Name}}") {{.Initials}}
+                      //- Its newest comments, each on a line of its own below
+                        the avatars, wrapping (minicard.css, the 2026-10-08 report).
+                      if .MinicardComments
+                        .minicard-comments
+                          each cm in .MinicardComments
+                            .minicard-comment
+                              span.minicard-comment-icon
+                                i.fa.fa-comment-o
+                              span.minicard-comment-text {{.}}
                       //- WeKan's minicard cover: the card's cover image.
                       if .CoverID
                         .minicard-cover
