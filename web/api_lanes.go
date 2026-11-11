@@ -217,8 +217,14 @@ func (s *Server) copyCardTo(r *http.Request, u *User, card bson.M, from, to *Boa
 	for k, v := range card {
 		doc[k] = v
 	}
-	for _, k := range []string{"_id", "scrum", "scrumRevision", "linkedId"} {
+	for _, k := range []string{"_id", "scrum", "scrumRevision", "linkedId", "syncExternalId", "syncSourceType", "syncSourceKey", "syncLastSource", "syncClosedByWeKan"} {
 		delete(doc, k)
+	}
+	// The card's Scrum, kept on its board, linked by name on another
+	// (scrumCopy.js).
+	planning := s.scrumPlanningPair(ctx, from.ID, to.ID)
+	for k, v := range copiedScrum(card, to.ID, planning) {
+		doc[k] = v
 	}
 	if from.ID != to.ID {
 		set, err := s.crossBoardFields(ctx, u, card, from, to)

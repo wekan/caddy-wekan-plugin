@@ -691,3 +691,70 @@ func TestScrumImportIntoBoard(t *testing.T) {
 		t.Errorf("the import undone as one change: %v %d", out, sprints())
 	}
 }
+
+// Copies, as WeKan's scrumCopy and board.copy: a card and its subtask keep
+// their Scrum on their own board and only the board-free part on another
+// (negative: no sprint of another board named), the source unchanged; a board
+// copy brings its sprints on new ids with its cards' planning remapped and
+// none of the source's List Sync bindings, and none of it with scrum: false.
+func TestScrumCopies(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	tok := login(t, w, "ann")
+	src := newRESTBoard(t, w, tok, "Copy source")
+	dst := newRESTBoard(t, w, tok, "Copy destination")
+	ann := scrumCaller(t, w, "ann")
+	sp := resultOf(t, ann("scrum.saveSprint", src.ID, nil, map[string]any{"name": "Source sprint"}, nil))
+	rel := resultOf(t, ann("scrum.saveRelease", src.ID, nil, map[string]any{"name": "Source release"}, nil))
+	scrum := bson.M{"sprintId": sp["_id"], "releaseId": rel["_id"], "pastSprintIds": bson.A{}, "backlogRank": 8, "issueType": "Story", "acceptanceCriteria": "Copy criteria"}
+	child := "card" + randomID()[:12]
+	_, _ = w.db.Collection("cards").InsertOne(ctx, bson.M{"_id": child, "boardId": src.ID, "listId": src.List, "swimlaneId": src.Swimlane,
+		"title": "Child", "archived": false, "sort": 2, "parentId": src.Card, "scrum": scrum, "scrumRevision": 9})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": src.Card}, bson.M{"$set": bson.M{"scrum": scrum, "scrumRevision": 9,
+		"syncExternalId": "COPY-1", "syncSourceType": "jira"}})
+	for _, target := range []restBoard{src, dst} {
+		id := ann("copyCard", src.Card, target.ID, target.Swimlane, target.List, false, map[string]any{})["result"].(string)
+		want := canonical(plain(scrum))
+		if target.ID != src.ID {
+			want = canonical(map[string]any{"issueType": "Story", "acceptanceCriteria": "Copy criteria"})
+		}
+		for _, f := range []bson.M{{"_id": id}, {"parentId": id}} {
+			var c bson.M
+			_ = w.db.Collection("cards").FindOne(ctx, f).Decode(&c)
+			if canonical(plain(c["scrum"])) != want || c["scrumRevision"] != int32(1) || c["syncExternalId"] != nil {
+				t.Errorf("the copy on %s: %v %v %v", target.ID, plain(c["scrum"]), c["scrumRevision"], c["syncExternalId"])
+			}
+		}
+	}
+	var orig bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": child}).Decode(&orig)
+	if orig["scrumRevision"] != int32(9) {
+		t.Error("negative: the source subtask changed")
+	}
+
+	// The board copy.
+	resultOf(t, ann("scrum.updateCard", src.ID, src.Card, map[string]any{"sprintId": sp["_id"]}, nil))
+	copyID := ann("copyBoard", src.ID, map[string]any{})["result"].(string)
+	var cs bson.M
+	_ = w.db.Collection("scrumSprints").FindOne(ctx, bson.M{"boardId": copyID}).Decode(&cs)
+	var cc bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": copyID, "title": "Child"}).Decode(&cc)
+	if cs == nil || cs["_id"] == sp["_id"] || plain(cc["scrum"]).(map[string]any)["sprintId"] != cs["_id"] {
+		t.Errorf("the board copy's sprint and planning: %v %v", cs, plain(cc["scrum"]))
+	}
+	var cp bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": copyID, "syncExternalId": "COPY-1"}).Decode(&cp)
+	if cp != nil {
+		t.Error("negative: a board copy carries the source's List Sync binding")
+	}
+	if n, _ := w.db.Collection("changeHistory").CountDocuments(ctx, bson.M{"boardId": copyID, "entityType": "scrum"}); n != 0 {
+		t.Errorf("a copy is no Scrum change: %d rows", n)
+	}
+	omitted := ann("copyBoard", src.ID, map[string]any{"copyOptions": map[string]any{"scrum": false}})["result"].(string)
+	var ob bson.M
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": omitted}).Decode(&ob)
+	if n, _ := w.db.Collection("scrumSprints").CountDocuments(ctx, bson.M{"boardId": omitted}); n != 0 || ob["scrum"] != nil {
+		t.Errorf("negative: a copy without Scrum has its sprints: %d", n)
+	}
+}

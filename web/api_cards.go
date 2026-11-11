@@ -220,9 +220,13 @@ func (s *Server) copySubtasksAndComments(r *http.Request, u *User, from, to *Car
 			if sb, err := s.boardFor(ctx, bid, u); err != nil || (sb.member(u.ID) != nil && !sb.member(u.ID).ReadsWholeBoard()) {
 				continue // a subtask the copier could not read is not copied
 			}
+			scrum := copiedScrum(sub, toBoard.ID, s.scrumPlanningPair(ctx, bid, toBoard.ID))
 			for _, k := range []string{"syncExternalId", "syncSourceType", "syncLastSource", "syncSourceKey", "syncLabelIds",
 				"syncIssueState", "scrum", "scrumRevision"} {
 				delete(sub, k)
+			}
+			for k, v := range scrum {
+				sub[k] = v
 			}
 			id := randomID()
 			sub["_id"], sub["parentId"], sub["boardId"], sub["swimlaneId"], sub["listId"] = id, to.ID, toBoard.ID, to.SwimlaneID, to.ListID

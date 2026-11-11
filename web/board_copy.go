@@ -34,7 +34,7 @@ var boardCopyFields = []struct{ key, parent string }{
 var boardCopySections = map[string][]string{
 	"swimlanes": {"swimlanes"}, "lists": {"lists"}, "labels": {"labels"}, "customFields": {"customFields"},
 	"rules": {"rules", "triggers", "actions"}, "cards": {"cards"}, "checklists": {"checklists", "checklistItems"},
-	"comments": {"comments"}, "attachments": {"attachments"},
+	"comments": {"comments"}, "attachments": {"attachments"}, "scrum": {"scrumTransfer", "scrumTransferLosses"},
 }
 
 var errCopyProperties = errors.New("invalid-copy-properties")

@@ -381,6 +381,11 @@ func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any
 		c["_id"], c["boardId"], c["listId"] = cards[str(c, "_id")], boardID, listID
 		delete(c, "scrum")
 		delete(c, "scrumRevision")
+		// The source's List Sync binding stays the source's: two cards never
+		// claim one external issue (Card.copy's document).
+		for _, k := range []string{"syncExternalId", "syncSourceType", "syncSourceKey", "syncLastSource", "syncClosedByWeKan"} {
+			delete(c, k)
+		}
 		if sw, ok := swimlanes[str(c, "swimlaneId")]; ok {
 			c["swimlaneId"] = sw
 		} else {
