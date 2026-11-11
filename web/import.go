@@ -190,6 +190,13 @@ func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any
 		return out
 	}
 
+	// The native Scrum transfer is checked before anything is written
+	// (validateScrumImport); into an existing board it is not taken.
+	if opts.Into == nil {
+		if err := validateScrumImport(export); err != nil {
+			return "", err
+		}
+	}
 	title := strings.TrimSpace(str(export, "title"))
 	if title == "" {
 		title = "Imported board"
@@ -313,6 +320,9 @@ func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any
 	firstSwimlane := ""
 	for _, sw := range docsOf(export, "swimlanes") {
 		sw["_id"], sw["boardId"] = swimlanes.fresh(str(sw, "_id")), boardID
+		// Scrum comes from the transfer alone: a row's own names the source.
+		delete(sw, "scrum")
+		delete(sw, "scrumRevision")
 		if firstSwimlane == "" {
 			firstSwimlane = sw["_id"].(string)
 		}
@@ -339,6 +349,10 @@ func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any
 	out = nil
 	for _, l := range docsOf(export, "lists") {
 		l["_id"], l["boardId"] = lists.fresh(str(l, "_id")), boardID
+		delete(l, "scrum")
+		delete(l, "scrumRevision")
+		// A new list's own List Sync credential lifetime, never the source's.
+		l["syncCredentialIncarnation"] = randomID()
 		if sw := str(l, "swimlaneId"); sw != "" {
 			if n, ok := swimlanes[sw]; ok {
 				l["swimlaneId"] = n
@@ -365,6 +379,8 @@ func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any
 			continue
 		}
 		c["_id"], c["boardId"], c["listId"] = cards[str(c, "_id")], boardID, listID
+		delete(c, "scrum")
+		delete(c, "scrumRevision")
 		if sw, ok := swimlanes[str(c, "swimlaneId")]; ok {
 			c["swimlaneId"] = sw
 		} else {
@@ -547,6 +563,12 @@ func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any
 			opts.Counts["attachments"]++
 		}
 	}
+	if opts.Into == nil {
+		maps := map[string]map[string]string{"cards": cards, "lists": lists, "swimlanes": swimlanes, "customFields": fields, "users": users}
+		if err := s.importScrumTransfer(ctx, export, boardID, maps); err != nil {
+			return fail(err)
+		}
+	}
 	s.activity(ctx, u.ID, "importBoard", bson.M{"type": "board", "activityTypeId": boardID, "boardId": boardID}) // inserted, not a filter
 	return boardID, nil
 }
@@ -587,7 +609,9 @@ func (s *Server) deleteBoardData(ctx context.Context, boardID string) {
 	for coll, filter := range map[string]bson.M{"checklists": byCard, "checklistItems": byCard, "card_comments": byCard,
 		"cards": {"boardId": eq(boardID)}, "lists": {"boardId": eq(boardID)}, "swimlanes": {"boardId": eq(boardID)},
 		"rules": {"boardId": eq(boardID)}, "triggers": {"boardId": eq(boardID)}, "actions": {"boardId": eq(boardID)},
-		"customFields": {"boardIds": eq(boardID)}} {
+		"customFields": {"boardIds": eq(boardID)}, "scrumSprints": {"boardId": eq(boardID)}, "scrumReleases": {"boardId": eq(boardID)},
+		"scrumEvents": {"boardId": eq(boardID)}, "scrumDailySnapshots": {"boardId": eq(boardID)}, "scrumSnapshotRows": {"boardId": eq(boardID)},
+		"scrumRolloverRows": {"boardId": eq(boardID)}} {
 		_, _ = s.db.Collection(coll).DeleteMany(ctx, filter)
 	}
 	_, _ = s.db.Collection("attachments").UpdateMany(ctx, bson.M{"meta.boardId": eq(boardID), "deletedAt": nil},

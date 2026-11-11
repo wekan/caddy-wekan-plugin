@@ -24,6 +24,9 @@ import (
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
+// referencePlaceholder is the loss texts' placeholder, copied from en as is.
+const referencePlaceholder = "__" + "reference" + "__"
+
 // scrumViews are the Board View menu's Scrum entries
 // (models/lib/boardViewSettings.js): the address's view, its label, its icon.
 var scrumViews = []struct{ Slug, Key, Icon string }{
@@ -313,6 +316,22 @@ func (s *Server) fillScrumPage(ctx context.Context, page, data map[string]any, b
 	canAdmin := data["canAdmin"] == true
 	page["Data"], page["CanAdmin"], page["Settings"] = data, canAdmin, settings
 	page["SettingsRevision"] = scrumNum(data["settingsRevision"])
+	// What an import could not place, in words (scrumView.js LOSS_KEYS) - a
+	// board admin's (scrum.getBoardData's importLosses).
+	lossKeys := map[string]string{"card-not-matched": msg("scrum-import-card-not-matched"), "card-ambiguous": msg("scrum-import-card-ambiguous"),
+		"card-on-another-board": msg("scrum-import-card-on-another-board"), "record-ambiguous": msg("scrum-import-record-ambiguous"),
+		"record-not-imported": msg("scrum-import-record-not-imported"), "sprint-finished": msg("scrum-import-sprint-finished")}
+	var lossText []string
+	for _, l := range asDocs(plain(data["importLosses"])) {
+		key, ok := lossKeys[docString(l, "reason")]
+		if !ok {
+			key = msg("scrum-import-reference-omitted")
+		}
+		ref := docString(l, "sourceId")
+		text := tr(lang, key)
+		lossText = append(lossText, strings.ReplaceAll(text, referencePlaceholder, ref))
+	}
+	page["ImportLosses"] = lossText
 	state := func(st string) string { return scrumLabel(lang, "scrum-state-"+st) }
 	find := func(list []map[string]any, id string) map[string]any {
 		for _, d := range list {

@@ -1,6 +1,7 @@
 package web
 
 import (
+	"bytes"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
@@ -233,6 +234,10 @@ func (s *Server) methodImportBoard(r *http.Request, u *User, args []json.RawMess
 	if s.importDisabled(r.Context()) {
 		return nil, &methodError{"import-disabled", "Import is disabled by the administrator."}
 	}
+	// A WeKan board export, through the same boundary as POST /api/import.
+	if source == "wekan" {
+		return s.methodImportWekan(r, u, args)
+	}
 	_, jsonSource := importParsers[source]
 	_, text := importTextParsers[source]
 	if !jsonSource && !text {
@@ -293,4 +298,43 @@ func (s *Server) methodImportBoard(r *http.Request, u *User, args []json.RawMess
 		return nil, &methodError{"not-authorized", err.Error()}
 	}
 	return nil, &methodError{"invalid-import-format", "Invalid " + source + " import document shape"}
+}
+
+// methodImportWekan is importBoard(board, data, "wekan"): the export
+// checked at the import boundary, then imported with its members mapped.
+func (s *Server) methodImportWekan(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	var board map[string]any
+	dec := json.NewDecoder(bytes.NewReader(args[0]))
+	dec.UseNumber()
+	if dec.Decode(&board) != nil || board == nil {
+		return nil, &methodError{"invalid-import-format", "Invalid wekan import document shape"}
+	}
+	numbersToFloat(board)
+	var data struct {
+		MembersMapping map[string]any `json:"membersMapping"`
+	}
+	_ = json.Unmarshal(args[1], &data)
+	mapping := map[string]string{}
+	for k, v := range data.MembersMapping {
+		if id, ok := v.(string); ok && id != "" {
+			mapping[k] = id
+		}
+	}
+	clean, err := s.secureImport(r, u, "wekan", board)
+	if err != nil {
+		return nil, &methodError{"invalid-import-format", err.Error()}
+	}
+	export, _ := clean.(map[string]any)
+	if export["_format"] != "wekan-board-1.0.0" {
+		return nil, &methodError{"invalid-import-format", "Invalid wekan import document shape"}
+	}
+	id, err := s.ImportBoard(r, u, export, mapping)
+	if err != nil {
+		var me *methodError
+		if errors.As(err, &me) {
+			return nil, me
+		}
+		return nil, &methodError{"invalid-import-format", err.Error()}
+	}
+	return id, nil
 }

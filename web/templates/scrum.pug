@@ -24,6 +24,11 @@
       if .Data
         if .Data.importPending
           p.warning.scrum-import-pending(role="alert") {{t $.L "scrum-import-pending"}}
+        if .ImportLosses
+          details.scrum-import-report
+            summary {{t $.L "import"}}
+            each l in .ImportLosses
+              p {{.}}
         if .Data.partial
           p.scrum-partial-report(role="status") {{t $.L "scrum-partial-report"}}
         if .CanAdmin

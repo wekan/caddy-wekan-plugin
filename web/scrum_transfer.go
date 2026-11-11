@@ -618,3 +618,341 @@ func stringsA(ids []string) bson.A {
 	}
 	return a
 }
+
+// remapScrumTransfer is WeKan's: the transfer's records on the destination's
+// ids. maps are the importer's own, never the file's; a missing structural
+// reference is an error, an omitted card or actor a loss.
+func remapScrumTransfer(v map[string]any, maps map[string]map[string]string) (map[string]any, []any) {
+	t := normalizeScrumTransfer(jsonValue(v))
+	losses := []any{}
+	ref := func(kind string, src any, path string, optional bool) any {
+		s, ok := src.(string)
+		if src == nil || !ok {
+			return nil
+		}
+		m, ok := maps[kind]
+		if !ok {
+			tfail("missing " + kind + " ID map")
+		}
+		if target, ok := m[s]; ok {
+			return tID(target)
+		}
+		if !optional {
+			tfail("unmapped " + path + ": " + s)
+		}
+		losses = append(losses, map[string]any{"path": path, "sourceId": s, "reason": "not-transferred"})
+		return nil
+	}
+	metadata := func(meta map[string]any, path string) {
+		for _, f := range [][2]string{{"sprintId", "sprints"}, {"releaseId", "releases"}} {
+			if has(meta, f[0]) {
+				meta[f[0]] = ref(f[1], meta[f[0]], lossPath(path, f[0]), false)
+			}
+		}
+		for _, f := range [][2]string{{"releaseIds", "releases"}, {"pastSprintIds", "sprints"}} {
+			if list, ok := meta[f[0]].([]any); ok {
+				out := []any{}
+				for _, x := range list {
+					out = append(out, ref(f[1], x, lossPath(path, f[0]), false))
+				}
+				meta[f[0]] = out
+			}
+		}
+	}
+	remapSnap := func(snap map[string]any, path string) {
+		before := len(snapshotCards(snap))
+		snap["estimateCustomFieldId"] = ref("customFields", snap["estimateCustomFieldId"], lossPath(path, "estimateCustomFieldId"), false)
+		kept := []any{}
+		missing, total := 0.0, 0.0
+		for _, c := range snapshotCards(snap) {
+			id := ref("cards", c["cardId"], lossPath(path, "cards"), true)
+			if id == nil {
+				continue
+			}
+			row := map[string]any{}
+			for k, x := range c {
+				row[k] = x
+			}
+			row["cardId"], row["listId"] = id, ref("lists", c["listId"], lossPath(path, "listId"), false)
+			if row["estimate"] == nil {
+				missing++
+			} else {
+				total += numberOf(row["estimate"])
+			}
+			kept = append(kept, row)
+		}
+		if len(kept) != before {
+			snap["partial"] = true
+		}
+		snap["cards"], snap["missingEstimates"], snap["totalEstimate"] = kept, storedNum(missing), storedNum(total)
+	}
+	settings := t["settings"].(map[string]any)
+	for _, k := range []string{"productOwnerId", "scrumMasterId"} {
+		if has(settings, k) {
+			settings[k] = ref("users", settings[k], lossPath("settings", k), true)
+		}
+	}
+	if list, ok := settings["developerIds"].([]any); ok {
+		out, seen := []any{}, map[string]bool{}
+		for _, x := range list {
+			if id, ok := ref("users", x, "settings.developerIds", true).(string); ok && !seen[id] {
+				seen[id] = true
+				out = append(out, id)
+			}
+		}
+		settings["developerIds"] = out
+	}
+	if has(settings, "estimateCustomFieldId") {
+		settings["estimateCustomFieldId"] = ref("customFields", settings["estimateCustomFieldId"], "settings.estimateCustomFieldId", false)
+	}
+	for _, plural := range []string{"sprints", "releases", "events"} {
+		for _, row := range t[plural].([]map[string]any) {
+			path := lossPath(plural, docString(row, "_id"))
+			row["_id"] = ref(plural, row["_id"], lossPath(path, "_id"), false)
+			for _, k := range []string{"createdBy", "updatedBy"} {
+				if has(row, k) {
+					if actor := ref("users", row[k], lossPath(path, k), true); actor != nil {
+						row[k] = actor
+					} else {
+						delete(row, k)
+					}
+				}
+			}
+			metadata(row, path)
+			if has(row, "rolloverSprintId") {
+				row["rolloverSprintId"] = ref("sprints", row["rolloverSprintId"], lossPath(path, "rolloverSprintId"), false)
+			}
+			if list, ok := row["followUpCardIds"].([]any); ok {
+				out, seen := []any{}, map[string]bool{}
+				for _, x := range list {
+					if id, ok := ref("cards", x, lossPath(path, "followUpCardIds"), true).(string); ok && !seen[id] {
+						seen[id] = true
+						out = append(out, id)
+					}
+				}
+				row["followUpCardIds"] = out
+			}
+			for _, k := range []string{"startSnapshot", "closeSnapshot"} {
+				if snap, _ := row[k].(map[string]any); snap != nil {
+					remapSnap(snap, lossPath(path, k))
+				}
+			}
+		}
+	}
+	for _, o := range t["dailyObservations"].([]map[string]any) {
+		path := lossPath("dailyObservations", docString(o, "sprintId"), docString(o, "day"))
+		o["sprintId"] = ref("sprints", o["sprintId"], lossPath(path, "sprintId"), false)
+		remapSnap(o["snapshot"].(map[string]any), lossPath(path, "snapshot"))
+	}
+	for _, plural := range []string{"cards", "lists", "swimlanes"} {
+		out := []map[string]any{}
+		for _, row := range t[plural].([]map[string]any) {
+			target := ref(plural, row["_id"], lossPath(plural, docString(row, "_id")), true)
+			if target == nil {
+				continue
+			}
+			metadata(row["scrum"].(map[string]any), lossPath(plural, docString(row, "_id"), "scrum"))
+			out = append(out, map[string]any{"_id": target, "scrum": row["scrum"]})
+		}
+		t[plural] = out
+	}
+	// Checked again: the importer's maps may collide even where the file's
+	// ids did not.
+	return normalizeScrumTransfer(jsonValue(t)), losses
+}
+
+var scrumLossReasons = []string{"not-transferred", "card-or-list-not-exported", "card-not-exported", "estimate-field-not-exported",
+	"card-not-matched", "card-ambiguous", "card-on-another-board", "record-ambiguous", "record-not-imported", "sprint-finished"}
+
+// normalizeScrumTransferLosses is WeKan's.
+func normalizeScrumTransferLosses(v any) []any {
+	if v == nil {
+		return []any{}
+	}
+	out := []any{}
+	for _, x := range tRows(v, 10000) {
+		r := tObject(x, "path", "sourceId", "reason")
+		path, _ := r["path"].(string)
+		if path == "" || len(path) > 1000 {
+			tfail("invalid loss path")
+		}
+		reason, _ := r["reason"].(string)
+		if !containsString(scrumLossReasons, reason) {
+			tfail("invalid loss reason")
+		}
+		out = append(out, map[string]any{"path": path, "sourceId": tID(r["sourceId"]), "reason": reason})
+	}
+	return out
+}
+
+func sourceIDs(export map[string]any, key string) map[string]string {
+	out := map[string]string{}
+	list, _ := jsonValue(export[key]).([]any)
+	for _, x := range list {
+		m, _ := x.(map[string]any)
+		id := docString(m, "_id")
+		if id == "" {
+			id = docString(m, "id")
+		}
+		if id != "" {
+			out[id] = id
+		}
+	}
+	return out
+}
+
+// validateScrumImport is WeKan's: before the import writes anything, the
+// file's transfer must hold together with the file itself - every record
+// it names in the file, every estimate field a numeric custom field of it.
+func validateScrumImport(export map[string]any) error {
+	raw, ok := export["scrumTransfer"]
+	if !ok || raw == nil {
+		return nil
+	}
+	err := scrumValidate(func() {
+		t := normalizeScrumTransfer(jsonValue(raw))
+		normalizeScrumTransferLosses(jsonValue(export["scrumTransferLosses"]))
+		maps := map[string]map[string]string{}
+		for _, k := range []string{"sprints", "releases", "events"} {
+			maps[k] = map[string]string{}
+			for _, r := range t[k].([]map[string]any) {
+				maps[k][docString(r, "_id")] = docString(r, "_id")
+			}
+		}
+		for _, k := range []string{"cards", "lists", "swimlanes", "customFields", "users"} {
+			maps[k] = sourceIDs(export, k)
+		}
+		remapScrumTransfer(t, maps)
+		numeric := map[string]bool{}
+		fields, _ := jsonValue(export["customFields"]).([]any)
+		for _, x := range fields {
+			if m, _ := x.(map[string]any); m != nil && m["type"] == "number" {
+				numeric[docString(m, "_id")] = true
+			}
+		}
+		refs := []string{docString(t["settings"].(map[string]any), "estimateCustomFieldId")}
+		for _, sp := range t["sprints"].([]map[string]any) {
+			for _, k := range []string{"startSnapshot", "closeSnapshot"} {
+				if snap, _ := sp[k].(map[string]any); snap != nil {
+					refs = append(refs, docString(snap, "estimateCustomFieldId"))
+				}
+			}
+		}
+		for _, o := range t["dailyObservations"].([]map[string]any) {
+			refs = append(refs, docString(o["snapshot"].(map[string]any), "estimateCustomFieldId"))
+		}
+		for _, id := range refs {
+			if id != "" && !numeric[id] {
+				sfail("Scrum estimates require a numeric custom field in the imported file")
+			}
+		}
+	})
+	if err != nil {
+		return &methodError{"invalid-scrum-transfer", err.(*methodError).Reason}
+	}
+	return nil
+}
+
+// importScrumTransfer is WeKan's: the file's Scrum on the new board - new
+// ids for its records, provenance naming the source, snapshot and
+// observation rows in their chunks, the cards', lists' and swimlanes'
+// metadata, the settings and the losses - its sprints marked as an
+// unfinished import until the last write.
+func (s *Server) importScrumTransfer(ctx context.Context, export map[string]any, boardID string, maps map[string]map[string]string) error {
+	raw, ok := export["scrumTransfer"]
+	if !ok || raw == nil {
+		return nil
+	}
+	var t map[string]any
+	var losses []any
+	err := scrumValidate(func() {
+		norm := normalizeScrumTransfer(jsonValue(raw))
+		for _, k := range []string{"sprints", "releases", "events"} {
+			maps[k] = map[string]string{}
+			for _, r := range norm[k].([]map[string]any) {
+				maps[k][docString(r, "_id")] = randomID()
+			}
+		}
+		t, losses = remapScrumTransfer(norm, maps)
+		losses = append(normalizeScrumTransferLosses(jsonValue(export["scrumTransferLosses"])), losses...)
+	})
+	if err != nil {
+		return &methodError{"invalid-scrum-transfer", err.(*methodError).Reason}
+	}
+	sourceBoard, _ := export["_id"].(string)
+	var sprintIDs bson.A
+	for _, k := range []string{"sprints", "releases", "events"} {
+		source := map[string]string{}
+		for from, to := range maps[k] {
+			source[to] = from
+		}
+		coll := map[string]string{"sprints": "scrumSprints", "releases": "scrumReleases", "events": "scrumEvents"}[k]
+		for _, rec := range t[k].([]map[string]any) {
+			id := docString(rec, "_id")
+			doc := bson.M{}
+			for f, v := range rec {
+				doc[f] = v
+			}
+			if doc["provenance"] == nil {
+				p := bson.M{"system": "wekan", "recordId": source[id]}
+				if sourceBoard != "" && len(sourceBoard) <= 500 {
+					p["projectId"] = sourceBoard
+				}
+				doc["provenance"] = p
+			}
+			if k == "sprints" {
+				for _, f := range [][2]string{{"startSnapshot", "start"}, {"closeSnapshot", "close"}} {
+					if snap, _ := rec[f[0]].(map[string]any); snap != nil {
+						header, err := s.storeScrumSnapshot(ctx, boardID, id, f[1], snap)
+						if err != nil {
+							return err
+						}
+						doc[f[0]] = header
+					}
+				}
+				if rec["startSnapshot"] != nil || rec["closeSnapshot"] != nil {
+					doc["reportTotals"] = scrumReportTotals(snapshotCards(rec["startSnapshot"]), snapshotCards(rec["closeSnapshot"]))
+				}
+				doc["scrumImportPending"] = true
+				sprintIDs = append(sprintIDs, id)
+			}
+			doc["boardId"], doc["revision"], doc["incarnation"] = boardID, int32(1), randomID()
+			if _, err := s.db.Collection(coll).InsertOne(ctx, doc); err != nil {
+				return err
+			}
+		}
+	}
+	for _, p := range [][2]string{{"cards", "cards"}, {"lists", "lists"}, {"swimlanes", "swimlanes"}} {
+		for _, rec := range t[p[0]].([]map[string]any) {
+			res, err := s.db.Collection(p[1]).UpdateOne(ctx, bson.M{"_id": eq(docString(rec, "_id")), "boardId": eq(boardID)},
+				bson.M{"$set": bson.M{"scrum": rec["scrum"], "scrumRevision": int32(1)}})
+			if err != nil {
+				return err
+			}
+			if res.MatchedCount == 0 {
+				return &methodError{"invalid-scrum-transfer", "An imported item no longer belongs to the destination board"}
+			}
+		}
+	}
+	for _, o := range t["dailyObservations"].([]map[string]any) {
+		sid := docString(o, "sprintId")
+		snap := o["snapshot"].(map[string]any)
+		header, err := s.storeScrumSnapshot(ctx, boardID, sid, "daily", snap)
+		if err != nil {
+			return err
+		}
+		startedAt := o["startedAt"].(time.Time)
+		if _, err := s.db.Collection("scrumDailySnapshots").InsertOne(ctx, bson.M{"_id": dailyObservationID(sid, startedAt, docString(o, "day")), // inserted, not a filter
+			"boardId": boardID, "sprintId": sid, "startedAt": startedAt, "day": o["day"], "capturedAt": o["capturedAt"], "snapshot": header,
+			"consistency": "observed"}); err != nil {
+			return err
+		}
+	}
+	if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": eq(boardID)}, bson.M{"$set": bson.M{"scrum": t["settings"],
+		"scrumRevision": int32(1), "scrumImportLosses": losses}}); err != nil {
+		return err
+	}
+	// The import is whole: its sprints are ordinary sprints from here.
+	_, err = s.db.Collection("scrumSprints").UpdateMany(ctx, bson.M{"boardId": eq(boardID), "_id": dbIn(sprintIDs)}, bson.M{"$unset": bson.M{"scrumImportPending": ""}})
+	return err
+}

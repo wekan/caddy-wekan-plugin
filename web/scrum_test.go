@@ -272,7 +272,7 @@ func TestScrumMethods(t *testing.T) {
 }
 
 // Every write to Scrum's own collections is scrum.go's, scrum_history.go's or
-// scrum_daily.go's,
+// scrum_daily.go's (or the transfer's, scrum_transfer.go),
 // so each one is compare-and-set and in a History row (negative: the scan
 // sees the shape it guards).
 func TestScrumCollectionsWrittenOnlyByScrum(t *testing.T) {
@@ -282,7 +282,7 @@ func TestScrumCollectionsWrittenOnlyByScrum(t *testing.T) {
 	}
 	files, _ := filepath.Glob("*.go")
 	for _, f := range files {
-		if strings.HasSuffix(f, "_test.go") || f == "scrum.go" || f == "scrum_history.go" || f == "scrum_daily.go" {
+		if strings.HasSuffix(f, "_test.go") || f == "scrum.go" || f == "scrum_history.go" || f == "scrum_daily.go" || f == "scrum_transfer.go" {
 			continue
 		}
 		src, _ := os.ReadFile(f)
@@ -486,5 +486,121 @@ func TestScrumTransferExport(t *testing.T) {
 	}
 	if !found {
 		t.Errorf("the estimate field left out is a loss: %v", losses)
+	}
+}
+
+// A board exported with its Scrum imports with new ids and the same
+// outcomes, as WeKan's native import: sprints closed with their snapshots on
+// the new cards, observations, events and metadata mapped, the file's losses
+// reported; a file whose transfer does not hold together creates no board
+// (negatives: a foreign sprint, a missing estimate field, mixed snapshots,
+// an inconsistent lifecycle).
+func TestScrumTransferImport(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	tok := login(t, w, "ann")
+	rb := newRESTBoard(t, w, tok, "Source")
+	ann := scrumCaller(t, w, "ann")
+	field := "field" + randomID()[:12]
+	_, _ = w.db.Collection("customFields").InsertOne(ctx, bson.M{"_id": field, "boardIds": bson.A{rb.ID}, "name": "Estimate", "type": "number", "settings": bson.M{}})
+	resultOf(t, ann("scrum.configure", rb.ID, map[string]any{"estimateSource": "customField", "estimateCustomFieldId": field}, 0))
+	sp := resultOf(t, ann("scrum.saveSprint", rb.ID, nil, map[string]any{"name": "Round trip", "plannedStart": "2026-09-01", "plannedEnd": "2026-09-30"}, nil))
+	rel := resultOf(t, ann("scrum.saveRelease", rb.ID, nil, map[string]any{"name": "R"}, nil))
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": rb.Card}, bson.M{"$set": bson.M{"customFields": bson.A{bson.M{"_id": field, "value": 0}}}})
+	id := sp["_id"].(string)
+	resultOf(t, ann("scrum.updateCard", rb.ID, rb.Card, map[string]any{"sprintId": id, "releaseId": rel["_id"], "acceptanceCriteria": "Verified"}, 0))
+	active := resultOf(t, ann("scrum.startSprint", rb.ID, id, 1))
+	resultOf(t, ann("scrum.getDailyHistory", rb.ID, id))
+	resultOf(t, ann("scrum.closeSprint", rb.ID, id, active["revision"], nil))
+	resultOf(t, ann("scrum.saveEvent", rb.ID, nil, map[string]any{"sprintId": id, "kind": "review", "startsAt": "2026-09-30T09:00:12.123Z", "followUpCardIds": []string{rb.Card}}, nil))
+	var exported map[string]any
+	call(t, "GET", w.srv.URL+"/api/boards/"+rb.ID+"/export", tok, "", &exported)
+	importAs := func(title string, change func(map[string]any)) map[string]any {
+		var x map[string]any
+		raw, _ := json.Marshal(exported)
+		_ = json.Unmarshal(raw, &x)
+		x["title"] = title
+		x["scrumTransferLosses"] = []any{map[string]any{"path": "events.followUpCardIds", "sourceId": "omitted-source-card", "reason": "card-not-exported"}}
+		if change != nil {
+			change(x["scrumTransfer"].(map[string]any))
+		}
+		return ann("importBoard", x, map[string]any{"membersMapping": map[string]any{}}, "wekan", nil)
+	}
+	out := importAs("Imported scrum", nil)
+	if out["error"] != nil {
+		t.Fatalf("the import: %v", out)
+	}
+	var nb bson.M
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"title": "Imported scrum"}).Decode(&nb)
+	nid, _ := nb["_id"].(string)
+	var s2 bson.M
+	_ = w.db.Collection("scrumSprints").FindOne(ctx, bson.M{"boardId": nid}).Decode(&s2)
+	if s2 == nil || s2["_id"] == id || s2["state"] != "closed" || s2["scrumImportPending"] != nil || nb["scrumRevision"] != int32(1) {
+		t.Fatalf("the imported sprint: %v %v", s2, nb["scrumRevision"])
+	}
+	if p, _ := plain(s2["provenance"]).(map[string]any); p["recordId"] != id || p["projectId"] != rb.ID {
+		t.Errorf("provenance names the source: %v", s2["provenance"])
+	}
+	var card, nf bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": nid}).Decode(&card)
+	_ = w.db.Collection("customFields").FindOne(ctx, bson.M{"boardIds": nid}).Decode(&nf)
+	sc := plain(card["scrum"]).(map[string]any)
+	if sc["acceptanceCriteria"] != "Verified" || stringsOf(sc["pastSprintIds"])[0] != s2["_id"] || nf["_id"] == field {
+		t.Errorf("the card's metadata on the new ids: %v", sc)
+	}
+	rows, err := w.s.scrumSnapshotRows(ctx, plain(s2).(map[string]any), "closeSnapshot")
+	if err != nil || len(rows) != 1 || rows[0]["cardId"] != card["_id"] || rows[0]["listId"] != card["listId"] || numberOf(rows[0]["estimate"]) != 0 {
+		t.Errorf("the close snapshot's rows on the new card: %v %v", rows, err)
+	}
+	if plain(s2["closeSnapshot"]).(map[string]any)["estimateCustomFieldId"] != nf["_id"] || plain(nb["scrum"]).(map[string]any)["estimateCustomFieldId"] != nf["_id"] {
+		t.Error("the estimate field is the new board's")
+	}
+	var ev, ob bson.M
+	_ = w.db.Collection("scrumEvents").FindOne(ctx, bson.M{"boardId": nid}).Decode(&ev)
+	_ = w.db.Collection("scrumDailySnapshots").FindOne(ctx, bson.M{"boardId": nid}).Decode(&ob)
+	if ev["sprintId"] != s2["_id"] || stringsOf(ev["followUpCardIds"])[0] != card["_id"] || ob["sprintId"] != s2["_id"] {
+		t.Errorf("the event and observation: %v %v", ev, ob)
+	}
+	if !strings.Contains(canonical(plain(nb["scrumImportLosses"])), "omitted-source-card") {
+		t.Errorf("the file's losses reported: %v", nb["scrumImportLosses"])
+	}
+	// The Sprints view reports it to a board admin.
+	annC := w.client(t)
+	body(t, w.signIn(t, annC, "ann", "pw"))
+	if _, html := get(t, annC, w.srv.URL+"/b/"+nid+"/"+str(nb, "slug")+"/scrum?view=sprints"); !strings.Contains(html, "scrum-import-report") ||
+		!strings.Contains(html, "A source reference could not be restored: omitted-source-card") {
+		t.Error("the import report lists what the import left out")
+	}
+	var lists []bson.M
+	cur, _ := w.db.Collection("lists").Find(ctx, bson.M{"boardId": nid})
+	_ = cur.All(ctx, &lists)
+	for _, l := range lists {
+		if l["syncCredentialIncarnation"] == nil {
+			t.Error("an imported list has a List Sync credential lifetime of its own")
+		}
+	}
+	for name, change := range map[string]func(map[string]any){
+		"foreign sprint": func(x map[string]any) {
+			x["cards"].([]any)[0].(map[string]any)["scrum"].(map[string]any)["sprintId"] = "foreign-sprint"
+		},
+		"foreign daily": func(x map[string]any) {
+			x["dailyObservations"].([]any)[0].(map[string]any)["sprintId"] = "foreign-sprint"
+		},
+		"missing field": func(x map[string]any) {
+			x["settings"] = map[string]any{"estimateSource": "customField", "estimateCustomFieldId": "foreign-field"}
+		},
+		"mixed snapshots": func(x map[string]any) {
+			x["sprints"].([]any)[0].(map[string]any)["closeSnapshot"].(map[string]any)["unit"] = "hours"
+		},
+		"lifecycle": func(x map[string]any) { x["sprints"].([]any)[0].(map[string]any)["state"] = "planned" },
+	} {
+		title := "Invalid " + name
+		if out := importAs(title, change); out["error"] != "invalid-scrum-transfer" {
+			t.Errorf("negative: %s: %v", name, out)
+		}
+		if n, _ := w.db.Collection("boards").CountDocuments(ctx, bson.M{"title": title}); n != 0 {
+			t.Errorf("negative: %s created a board", name)
+		}
 	}
 }
