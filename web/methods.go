@@ -55,6 +55,8 @@ func (s *Server) methods() map[string]methodFunc {
 		"botStop":                         s.methodBotStop,
 		"/integrations/insert":            s.methodInsertIntegration,
 		"/integrations/remove":            s.methodRemoveIntegration,
+		"/integrations/update":            s.methodUpdateIntegration,
+		"/customFields/update":            s.methodUpdateCustomField,
 		"rules.createRule":                s.methodCreateRule,
 		"rules.deleteRule":                s.methodDeleteRule,
 		"rules.updateRule":                s.methodUpdateRule,
