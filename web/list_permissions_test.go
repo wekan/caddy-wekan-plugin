@@ -49,7 +49,10 @@ func TestEveryCardWriteAsksTheList(t *testing.T) {
 	// "POST "+card+"/archive" is a card write as much as a literal one.
 	route := regexp.MustCompile(`HandleFunc\("(POST|PUT|DELETE|PATCH) ((?:[^"]|"\+\w+\+")*)"(?:\+(\w+)(?:\+"([^"]*)")?)?, s\.(?:api|page)\(s\.(\w+)(?:\([^)]*\))?\)\)`)
 	prefixDef := regexp.MustCompile(`(\w+) := "(/[^"]*)"`)
-	cardWrite := regexp.MustCompile(`\{card\}|/cards$|/cards/bulk$|/cards/labels$|^/attachments/|\{list\}/ics$`)
+	// The attachment API names its card in the body or by the file's id, not
+	// in the path: WeKan's ListLockAttachBleed was a scan like this one that
+	// matched only paths with the card in them.
+	cardWrite := regexp.MustCompile(`\{card\}|/cards$|/cards/bulk$|/cards/labels$|^/attachments/|^/api/attachment/(upload|delete|copy|move)|\{list\}/ics$`)
 	asks := regexp.MustCompile(`WritableIn\(|CommentableIn\(|refuseInList\(|\.AddComment\(|\.MoveCards\(`)
 	body := func(name string) string {
 		code := all.String()
@@ -186,6 +189,31 @@ func TestListLock(t *testing.T) {
 	nComments, _ = w.db.Collection("card_comments").CountDocuments(ctx, bson.M{"cardId": lc.ID})
 	if c.Title != "Guarded" || nComments != 0 {
 		t.Errorf("negative: the methods refuse too: %q, %d comments", c.Title, nComments)
+	}
+	// The attachment API too (WeKan's ListLockAttachBleed): no file added to
+	// the locked list's card, none deleted from it, over REST or the method.
+	w.s.FilesDir = filepath.Join(t.TempDir(), "files")
+	_, _ = w.db.Collection("attachments").InsertOne(ctx, bson.M{"_id": "attLocked", "name": "locked.txt", "size": 4, "type": "text/plain",
+		"meta": bson.M{"boardId": rb.ID, "cardId": lc.ID, "listId": locked.ID, "swimlaneId": rb.Swimlane}})
+	upload := func(cardID, token string) int {
+		return call(t, "POST", w.srv.URL+"/api/attachment/upload", token,
+			`{"boardId":"`+rb.ID+`","cardId":"`+cardID+`","fileName":"x.txt","fileType":"text/plain","fileData":"eA=="}`, nil)
+	}
+	if code := upload(lc.ID, bt); code != 403 {
+		t.Errorf("negative: an upload to the locked list's card: %d", code)
+	}
+	if code := call(t, "DELETE", w.srv.URL+"/api/attachment/delete/attLocked", bt, "", nil); code != 403 {
+		t.Errorf("negative: a delete from the locked list's card: %d", code)
+	}
+	method("api.attachment.delete", `["attLocked"]`)
+	var att bson.M
+	_ = w.db.Collection("attachments").FindOne(ctx, bson.M{"_id": "attLocked"}).Decode(&att)
+	nFiles, _ := w.db.Collection("attachments").CountDocuments(ctx, bson.M{"meta.cardId": lc.ID})
+	if att["deletedAt"] != nil || nFiles != 1 {
+		t.Errorf("negative: the locked card's files are as they were: %v, %d", att, nFiles)
+	}
+	if code := upload(rb.Card, bt); code != 200 {
+		t.Errorf("an upload in an open list: %d", code)
 	}
 	// Still allowed: bob in an open list, ann in the locked one.
 	if code := call(t, "PUT", api+"/lists/"+rb.List+"/cards/"+rb.Card, bt, `{"title":"Open edit"}`, nil); code != 200 {
