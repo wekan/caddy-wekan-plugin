@@ -283,7 +283,7 @@ func TestScrumCollectionsWrittenOnlyByScrum(t *testing.T) {
 	}
 	files, _ := filepath.Glob("*.go")
 	for _, f := range files {
-		if strings.HasSuffix(f, "_test.go") || f == "scrum.go" || f == "scrum_history.go" || f == "scrum_daily.go" || f == "scrum_transfer.go" || f == "scrum_merge.go" || f == "scrum_import_recovery.go" {
+		if strings.HasSuffix(f, "_test.go") || f == "scrum.go" || f == "scrum_history.go" || f == "scrum_daily.go" || f == "scrum_transfer.go" || f == "scrum_merge.go" || f == "scrum_import_recovery.go" || f == "scrum_rollover.go" || f == "scrum_batch.go" {
 			continue
 		}
 		src, _ := os.ReadFile(f)
@@ -1140,5 +1140,79 @@ func TestScrumImportRecovery(t *testing.T) {
 	_ = w.db.Collection("scrumSprints").FindOne(ctx, bson.M{"_id": sprintID}).Decode(&sp)
 	if plain(c["scrum"]).(map[string]any)["sprintId"] != next["_id"] || canonical(plain(sp["rolloverPending"])) != canonical([]any{}) {
 		t.Errorf("rolled over, the plan left empty: %v %v", plain(c["scrum"]), sp["rolloverPending"])
+	}
+}
+
+// A large sprint's close, as WeKan's: it returns at once with its rollover
+// pending, the cards follow in the background a chunk at a time, each chunk
+// History rows of the close's batch (at most scrumPartRecords records a
+// row); one undo takes back the whole close - the rest of its batch as a
+// background job, which keeps every other undo out while it runs (negative).
+func TestScrumLargeClose(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Large")
+	ann := scrumCaller(t, w, "ann")
+	sp := resultOf(t, ann("scrum.saveSprint", rb.ID, nil, map[string]any{"name": "Big", "plannedStart": "2026-09-01", "plannedEnd": "2026-09-30"}, nil))
+	id := sp["_id"].(string)
+	n := 5001
+	if v := os.Getenv("SCRUM_LARGE_N"); v != "" {
+		n, _ = strconv.Atoi(v)
+	}
+	docs := make([]any, n)
+	for i := range docs {
+		docs[i] = bson.M{"_id": id + "-c" + strconv.Itoa(i), "boardId": rb.ID, "listId": rb.List, "swimlaneId": rb.Swimlane, "title": "x", "archived": false,
+			"large": true, "scrum": bson.M{"sprintId": id}}
+	}
+	if _, err := w.db.Collection("cards").InsertMany(ctx, docs); err != nil {
+		t.Fatal(err)
+	}
+	active := resultOf(t, ann("scrum.startSprint", rb.ID, id, 1))
+	closed := resultOf(t, ann("scrum.closeSprint", rb.ID, id, active["revision"], nil))
+	if closed["state"] != "closed" || closed["rolloverPending"] != true || closed["rolloverTotal"] != float64(n) {
+		t.Fatalf("the close returns at once: %v %v %v", closed["state"], closed["rolloverPending"], closed["rolloverTotal"])
+	}
+	inSprint := func() int64 {
+		c, _ := w.db.Collection("cards").CountDocuments(ctx, bson.M{"large": true, "scrum.sprintId": id})
+		return c
+	}
+	waitFor := func(what string, ok func() bool) {
+		t.Helper()
+		for deadline := time.Now().Add(90 * time.Second); !ok(); time.Sleep(500 * time.Millisecond) {
+			if time.Now().After(deadline) {
+				s := w.s.findDoc(ctx, "scrumSprints", bson.M{"_id": id})
+				t.Fatalf("timed out: %s: pending %v done %v err %v job %v", what, s["rolloverPending"], s["rolloverDone"], s["rolloverError"],
+					w.s.findDoc(ctx, "scrumBatchJobs", bson.M{"_id": rb.ID}))
+			}
+		}
+	}
+	started := time.Now()
+	waitFor("the rollover", func() bool {
+		s := w.s.findDoc(ctx, "scrumSprints", bson.M{"_id": id})
+		return s["rolloverPending"] == nil
+	})
+	t.Logf("rollover took %v", time.Since(started))
+	if inSprint() != 0 {
+		t.Fatalf("cards left in the closed sprint: %d", inSprint())
+	}
+	rows := w.s.findDocs(ctx, "changeHistory", bson.M{"boardId": rb.ID, "entityType": "scrum", "batchId": closeBatchID(id, active["revision"])})
+	if len(rows) < 6 {
+		t.Fatalf("the close's batch: %d rows", len(rows))
+	}
+	for _, r := range rows {
+		if recs := r["newContent"].(map[string]any)["records"].([]any); len(recs) > scrumPartRecords {
+			t.Errorf("a row of %d records", len(recs))
+		}
+	}
+	if out := resultOf(t, ann("changeHistory.undoLast", rb.ID)); out["undone"] != true || out["continuing"] != true {
+		t.Fatalf("the undo: %v", out)
+	}
+	if out := ann("changeHistory.undoLast", rb.ID); out["error"] != "scrum-history-running" {
+		t.Errorf("negative: an undo while the batch job runs: %v", out)
+	}
+	waitFor("the batch job", func() bool { return w.s.findDoc(ctx, "scrumBatchJobs", bson.M{"_id": rb.ID}) == nil })
+	if s := w.s.findDoc(ctx, "scrumSprints", bson.M{"_id": id}); s["state"] != "active" || inSprint() != int64(n) {
+		t.Errorf("the whole close undone: %v %d", s["state"], inSprint())
 	}
 }

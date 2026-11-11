@@ -34,6 +34,20 @@ import (
 
 const scrumSnapshotChunk = 2000
 
+// A History row of a Scrum change holds at most this many records and bytes
+// a side (models/lib/scrumHistory.js PART_RECORDS, PART_BYTES).
+const (
+	scrumPartRecords = 1000
+	scrumPartBytes   = 3 * 1024 * 1024
+)
+
+func nextMillisecond() {
+	now := time.Now().UnixMilli()
+	for time.Now().UnixMilli() == now {
+		time.Sleep(200 * time.Microsecond)
+	}
+}
+
 var scrumRecordCollections = map[string]string{"sprint": "scrumSprints", "release": "scrumReleases", "event": "scrumEvents"}
 
 // scrumHistoryCollections are the record types of a Scrum History row.
@@ -76,6 +90,9 @@ type scrumOp struct {
 	u       *User
 	boardID string
 	changes []scrumChange
+	// batchID names a change recorded over several calls (a close and its
+	// background rollover); its rows always carry it.
+	batchID string
 }
 
 func (op *scrumOp) record(kind string, before, after map[string]any) {
@@ -153,7 +170,7 @@ func (op *scrumOp) flush() {
 	if len(records) == 0 {
 		return
 	}
-	side := func(after bool) map[string]any {
+	side := func(records []*rec, after bool) map[string]any {
 		list := bson.A{}
 		for _, r := range records {
 			d := r.before
@@ -164,8 +181,45 @@ func (op *scrumOp) flush() {
 		}
 		return map[string]any{"records": list}
 	}
+	// historyParts: a change too large for one row - a sprint closed over
+	// many thousands of cards - is several rows of one batch, each at most
+	// scrumPartRecords records and scrumPartBytes a side, so a row, its
+	// checkpoint and its restored copy stay far below a document's limit.
+	var parts [][]*rec
+	var part []*rec
+	bytes := 0
+	size := func(v any) int {
+		raw, err := bson.Marshal(bson.M{"v": v})
+		if err != nil {
+			return 0
+		}
+		return len(raw)
+	}
+	for _, r := range records {
+		cost := max(size(r.before), size(r.after))
+		if len(part) > 0 && (len(part) >= scrumPartRecords || bytes+cost > scrumPartBytes) {
+			parts, part, bytes = append(parts, part), nil, 0
+		}
+		part, bytes = append(part, r), bytes+cost
+	}
+	parts = append(parts, part)
+	if len(parts) > 1 || op.batchID != "" {
+		batch := op.batchID
+		if batch == "" {
+			batch = randomID()
+		}
+		for i, p := range parts {
+			// Distinct milliseconds, so the undo stack keeps their order.
+			if i > 0 || op.batchID != "" {
+				nextMillisecond()
+			}
+			op.s.recordHistory(op.ctx, historyChange{BoardID: op.boardID, EntityType: "scrum", EntityID: op.boardID, Group: "scrum", ChangeType: "edited",
+				PreviousContent: side(p, false), NewContent: side(p, true), UserID: op.u.ID, BatchID: batch})
+		}
+		return
+	}
 	c := historyChange{BoardID: op.boardID, EntityType: "scrum", EntityID: op.boardID, Group: "scrum", ChangeType: "edited",
-		PreviousContent: side(false), NewContent: side(true), UserID: op.u.ID}
+		PreviousContent: side(records, false), NewContent: side(records, true), UserID: op.u.ID}
 	if len(records) == 1 {
 		r := records[0]
 		c.EntityID = r.id
@@ -1006,10 +1060,15 @@ func (s *Server) methodScrumCloseSprint(r *http.Request, u *User, args []json.Ra
 		if s.db.Collection("scrumHistoryPending").FindOne(ctx, bson.M{"_id": eq(boardID)}).Err() == nil {
 			return nil, &methodError{"scrum-history-pending", "Retry the interrupted Scrum History operation first."}
 		}
-		// A retry of the same close finishes its rollover, if it stopped.
+		// A retry of the same close finishes its rollover, if it stopped: a
+		// small one here, a large one in the background again.
 		if sprint["state"] == "closed" && rev != nil && revisionOf(sprint["closedFromRevision"]) == *rev && docString(sprint, "rolloverSprintId") == rollover {
-			if sprint["rolloverPending"] != nil {
+			if sprint["rolloverPending"] != nil && smallRollover(sprint) {
 				return s.runScrumRollover(op, sprint)
+			}
+			if sprint["rolloverPending"] == true {
+				_, _ = s.db.Collection("scrumSprints").UpdateOne(ctx, bson.M{"_id": eq(sprintID)}, bson.M{"$unset": bson.M{"rolloverError": ""}})
+				defer s.startRollover(sprintID)
 			}
 			return sprint, nil
 		}
@@ -1082,7 +1141,14 @@ func (s *Server) methodScrumCloseSprint(r *http.Request, u *User, args []json.Ra
 		if err != nil || closed["rolloverPending"] == nil {
 			return closed, err
 		}
-		return s.runScrumRollover(op, closed)
+		if smallRollover(closed) {
+			return s.runScrumRollover(op, closed)
+		}
+		// More cards follow in the background, in the close's History batch;
+		// the job takes the board's lock once this call has let it go.
+		op.batchID = closeBatchID(sprintID, closed["closedFromRevision"])
+		defer s.startRollover(sprintID)
+		return closed, nil
 	})
 }
 
@@ -1104,10 +1170,11 @@ func (s *Server) runScrumRollover(op *scrumOp, sprint map[string]any) (map[strin
 		return s.findDoc(ctx, "scrumSprints", bson.M{"_id": eq(sprintID)}), nil
 	} else {
 		for {
-			chunk := s.findDoc(ctx, "scrumRolloverRows", bson.M{"sprintId": eq(sprintID)})
-			if chunk == nil {
+			var raw bson.M
+			if s.db.Collection("scrumRolloverRows").FindOne(ctx, bson.M{"sprintId": eq(sprintID)}, options.FindOne().SetSort(bson.D{{Key: "chunk", Value: 1}})).Decode(&raw) != nil {
 				break
 			}
+			chunk := plain(raw).(map[string]any)
 			if docString(chunk, "boardId") != boardID {
 				return nil, scrumConflict()
 			}
@@ -1304,5 +1371,14 @@ func (s *Server) scrumBoardData(ctx context.Context, u *User, boardID string) (a
 		"sprints": sprints, "releases": releases, "events": events, "cards": cards, "lists": lists, "swimlanes": swimlanes, "customFields": fields,
 		"importLosses": losses, "importPending": importPending, "canAdmin": !importPending && admin,
 		"canRecoverImport": importPending && admin && journal,
-		"canWrite":         !importPending && b.Writable(u, "write", nil), "historyJob": nil, "partial": restricted}, nil
+		"canWrite":         !importPending && b.Writable(u, "write", nil), "historyJob": s.batchJobProgress(ctx, boardID), "partial": restricted}, nil
+}
+
+// batchJobProgress is the board's large undo or redo: its progress, not whose.
+func (s *Server) batchJobProgress(ctx context.Context, boardID string) any {
+	j := s.findDoc(ctx, "scrumBatchJobs", bson.M{"_id": eq(boardID)})
+	if j == nil {
+		return nil
+	}
+	return map[string]any{"direction": j["direction"], "done": j["done"], "total": j["total"], "state": j["state"], "error": docString(j, "error")}
 }

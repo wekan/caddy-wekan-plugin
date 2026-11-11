@@ -101,6 +101,8 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 	go s.runScheduledRules(s.stopMail)
 	go s.runWebhookQueue(s.stopMail)
 	go s.runScrumDaily(s.stopMail)
+	go s.resumeRollovers()
+	go s.resumeBatchJobs()
 	return s, nil
 }
 

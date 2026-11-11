@@ -2862,4 +2862,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     scrumMutate(el.classList.contains('js-scrum-resume-import') ? 'scrum.resumeImport' : 'scrum.discardImport');
   });
+
+  // While a rollover or a large undo runs in the background, the Scrum view
+  // looks again every few seconds; nothing is polled otherwise.
+  up.compiler('.scrum-view[data-polling="true"]', function () {
+    var t = setTimeout(function () { up.reload('.scrum-view', { cache: false }); }, 3000);
+    return function () { clearTimeout(t); };
+  });
 })();

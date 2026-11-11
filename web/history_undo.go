@@ -289,6 +289,10 @@ func (s *Server) reverseLast(r *http.Request, u *User, boardID, direction string
 	if requestID != nil {
 		return s.requestedScrumReversal(r, u, boardID, direction, *requestID)
 	}
+	// A large undo or redo still running keeps the stack still.
+	if err := s.assertNoBatchJob(ctx, boardID); err != nil {
+		return nil, err
+	}
 	// An interrupted Scrum operation of this user's, in this direction, is
 	// the one to finish first (pendingScrumHistoryRow).
 	row, err := s.pendingScrumHistoryRow(ctx, boardID, u.ID, direction)
@@ -313,7 +317,12 @@ func (s *Server) reverseLast(r *http.Request, u *User, boardID, direction string
 		if err := s.applyScrumHistoryJournaled(ctx, u, row, direction, nil); err != nil {
 			return nil, err
 		}
-		return map[string]any{key: true, "entityType": row["entityType"], "entityId": row["entityId"], "group": row["group"]}, nil
+		res := map[string]any{key: true, "entityType": row["entityType"], "entityId": row["entityId"], "group": row["group"]}
+		// The rest of its batch, as one logical change.
+		if err := s.continueBatch(r, u, row, direction, "", res); err != nil {
+			return nil, err
+		}
+		return res, nil
 	}
 	before := s.currentHistoryContent(ctx, row)
 	// Claimed first: of two that picked the same row, one applies it.

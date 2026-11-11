@@ -10,7 +10,7 @@
         i.fa.fa-th-large
         span.board-header-btn-label {{t $.L .ViewKey}}
     | {{template "_boardviews" .}}
-    .scrum-view(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}", data-view="{{.View}}", data-link="{{.Link}}", data-sprint="{{.SprintID}}", data-settings-revision="{{.SettingsRevision}}", data-confirm-close="{{t $.L `scrum-confirm-close`}}", data-confirm-cancel="{{t $.L `scrum-confirm-cancel`}}")
+    .scrum-view(class="board-color-{{.Board.Color}}", data-polling="{{if .Polling}}true{{end}}", data-board="{{.Board.ID}}", data-view="{{.View}}", data-link="{{.Link}}", data-sprint="{{.SprintID}}", data-settings-revision="{{.SettingsRevision}}", data-confirm-close="{{t $.L `scrum-confirm-close`}}", data-confirm-cancel="{{t $.L `scrum-confirm-cancel`}}")
       header.scrum-toolbar
         h2 {{t $.L .ViewKey}}
         button.js-scrum-refresh(type="button") {{t $.L "refresh"}}
@@ -33,6 +33,14 @@
             summary {{t $.L "import"}}
             each l in .ImportLosses
               p {{.}}
+        if .HistoryJob
+          .scrum-background-job.js-scrum-history-job(aria-live="polite")
+            if .HistoryJob.Failed
+              p.warning {{t $.L "scrum-history-job-failed"}} {{.HistoryJob.Error}}
+            else
+              p {{.HistoryJob.Text}}
+              .scrum-progress
+                .scrum-progress-bar(style="{{.HistoryJob.Style}}")
         if .Data.partial
           p.scrum-partial-report(role="status") {{t $.L "scrum-partial-report"}}
         if .CanAdmin
@@ -96,6 +104,11 @@
                 if .SprintID
                   p {{.Sprint.Goal}}
                   p {{.Sprint.State}}
+                  if .Sprint.Rollover
+                    .scrum-background-job.js-scrum-rollover-progress(aria-live="polite")
+                      p {{.Sprint.Rollover.Text}}
+                      .scrum-progress
+                        .scrum-progress-bar(style="{{.Sprint.Rollover.Style}}")
                   if .CanAdmin
                     .scrum-toolbar
                       if .Sprint.Planned

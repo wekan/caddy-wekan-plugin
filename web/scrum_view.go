@@ -316,6 +316,24 @@ func (s *Server) fillScrumPage(ctx context.Context, page, data map[string]any, b
 	canAdmin := data["canAdmin"] == true
 	page["Data"], page["CanAdmin"], page["Settings"] = data, canAdmin, settings
 	page["SettingsRevision"] = scrumNum(data["settingsRevision"])
+	// A large undo or redo running in the background, and whether to look
+	// again soon (it, or a sprint's rollover, still running).
+	polling := false
+	if j, _ := data["historyJob"].(map[string]any); j != nil {
+		done, total := numberOf(j["done"]), numberOf(j["total"])
+		pct := 0.0
+		if total > 0 {
+			pct = math.Min(100, math.Round(100*done/total))
+		}
+		job := map[string]any{"Failed": j["state"] == "failed", "Error": docString(j, "error"), "Style": "width: " + jsNumber(pct) + "%",
+			"Text": strings.NewReplacer("__done__", scrumNum(done), "__total__", scrumNum(total)).Replace(tr(lang, msg("scrum-history-job-running")))}
+		page["HistoryJob"] = job
+		polling = polling || j["state"] == "running"
+	}
+	for _, sp := range asDocs(data["sprints"]) {
+		polling = polling || sp["rolloverPending"] == true && sp["rolloverTotal"] != nil && docString(sp, "rolloverError") == ""
+	}
+	page["Polling"] = polling
 	// What an import could not place, in words (scrumView.js LOSS_KEYS) - a
 	// board admin's (scrum.getBoardData's importLosses).
 	lossKeys := map[string]string{"card-not-matched": msg("scrum-import-card-not-matched"), "card-ambiguous": msg("scrum-import-card-ambiguous"),
@@ -381,7 +399,8 @@ func (s *Server) fillScrumPage(ctx context.Context, page, data map[string]any, b
 			"Revision": scrumNum(sprint["revision"]), "Start": scrumDateValue(sprint["plannedStart"]), "End": scrumDateValue(sprint["plannedEnd"]),
 			"Capacity": capacityValue(sprint["capacity"]), "CapacityUnit": docString(sprint, "capacityUnit"),
 			"Planned": st == "planned", "Active": st == "active", "Open": st == "planned" || st == "active",
-			"NeedsRecovery": st == "closed" && sprint["rolloverPending"] == true, "RolloverError": docString(sprint, "rolloverError"),
+			"NeedsRecovery": st == "closed" && sprint["rolloverPending"] == true && (sprint["rolloverTotal"] == nil || docString(sprint, "rolloverError") != ""),
+			"Rollover":      rolloverProgress(lang, sprint), "RolloverError": docString(sprint, "rolloverError"),
 			"ClosedFromRevision": scrumNum(sprint["closedFromRevision"]), "RolloverSprintID": docString(sprint, "rolloverSprintId")}
 		rollover := []scrumOption{}
 		for _, sp := range sprints {
@@ -654,4 +673,21 @@ func asAnyList(v any) []any {
 		return x
 	}
 	return nil
+}
+
+// rolloverProgress is a sprint's background rollover, while it runs.
+func rolloverProgress(lang string, sp map[string]any) any {
+	if sp["rolloverPending"] != true || sp["rolloverTotal"] == nil || docString(sp, "rolloverError") != "" {
+		return nil
+	}
+	done, total := numberOf(sp["rolloverDone"]), numberOf(sp["rolloverTotal"])
+	if done != done {
+		done = 0
+	}
+	pct := 0.0
+	if total > 0 {
+		pct = math.Min(100, math.Round(100*done/total))
+	}
+	return map[string]any{"Style": "width: " + jsNumber(pct) + "%",
+		"Text": strings.NewReplacer("__done__", scrumNum(done), "__total__", scrumNum(total)).Replace(tr(lang, msg("scrum-rollover-progress")))}
 }

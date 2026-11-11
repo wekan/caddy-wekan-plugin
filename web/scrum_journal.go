@@ -27,7 +27,10 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
+
+const scrumOwnershipEvery = 50
 
 func historyPendingErr() error {
 	return &methodError{"scrum-history-pending", "Retry the interrupted Scrum History operation first."}
@@ -499,8 +502,17 @@ func (s *Server) applyScrumHistoryJournaled(ctx context.Context, u *User, row ma
 			return nil
 		}
 	}
+	// Whole, with the row's hash, when the operation begins; by its identity
+	// fields before each write after that - a row of a thousand records is
+	// megabytes, and was read whole before every one of them.
 	assertSource := func(rehash bool) error {
-		if !verifySource(s.findDoc(ctx, "changeHistory", bson.M{"_id": eq(docString(row, "_id"))}), row, direction, rehash) {
+		var opts []options.Lister[options.FindOneOptions]
+		if !rehash {
+			opts = append(opts, options.FindOne().SetProjection(bson.M{"_id": 1, "integrityHash": 1, "boardId": 1, "userId": 1, "superseded": 1}))
+		}
+		var raw bson.M
+		if s.db.Collection("changeHistory").FindOne(ctx, bson.M{"_id": eq(docString(row, "_id"))}, opts...).Decode(&raw) != nil ||
+			!verifySource(plain(raw).(map[string]any), row, direction, rehash) {
 			return scrumConflict()
 		}
 		return nil
@@ -527,13 +539,7 @@ func (s *Server) applyScrumHistoryJournaled(ctx context.Context, u *User, row ma
 		s.recordScrumHistoryFailure(ctx, j, worker, err)
 		return err
 	}
-	read := func() []map[string]any {
-		out := make([]map[string]any, len(targets))
-		for i, t := range targets {
-			out[i] = s.findDoc(ctx, scrumHistoryCollections[docString(t, "type")], bson.M{"_id": eq(docString(t, "id"))})
-		}
-		return out
-	}
+	read := func() []map[string]any { return s.readScrumTargets(ctx, targets) }
 	if j == nil {
 		if s.db.Collection("scrumSprints").FindOne(ctx, bson.M{"boardId": eq(boardID), "$or": bson.A{bson.M{"rolloverPending": true}, bson.M{"rolloverPending.0": bson.M{"$exists": true}}}}).Err() == nil {
 			return scrumConflict()
@@ -617,7 +623,8 @@ func (s *Server) applyScrumHistoryJournaled(ctx context.Context, u *User, row ma
 		"resolving": bson.M{"$exists": false}}, bson.M{"$set": bson.M{"worker": worker}})
 	assertCurrent := func() error {
 		if s.db.Collection("scrumHistoryPending").FindOne(ctx, bson.M{"_id": eq(boardID), "rowId": eq(docString(j, "rowId")), "userId": eq(docString(j, "userId")),
-			"direction": docString(j, "direction"), "operationId": eq(docString(j, "operationId")), "worker": eq(worker)}).Err() != nil {
+			"direction": docString(j, "direction"), "operationId": eq(docString(j, "operationId")), "worker": eq(worker)},
+			options.FindOne().SetProjection(bson.M{"_id": 1})).Err() != nil {
 			return scrumConflict()
 		}
 		return assertSource(false)
@@ -676,8 +683,14 @@ func (s *Server) applyScrumHistoryJournaled(ctx context.Context, u *User, row ma
 		}
 		target, _ := t["document"].(map[string]any)
 		orig := numberOf(revs[i])
-		if err := assertCurrent(); err != nil {
-			return fail(err)
+		// Ownership asked every scrumOwnershipEvery writes, not before each:
+		// a checkpoint and its row are megabytes for a large batch, and every
+		// write is compare-and-set on its own record, so a displaced worker
+		// still never overwrites a newer write.
+		if i%scrumOwnershipEvery == 0 {
+			if err := assertCurrent(); err != nil {
+				return fail(err)
+			}
 		}
 		switch {
 		case target == nil:
@@ -892,6 +905,28 @@ func (s *Server) readRequestCompletion(ctx context.Context, req scrumRequest) (m
 // requestedScrumReversal is requestedScrumRow: an undo or redo under a
 // request id - the row the request first selected, whatever came since.
 func (s *Server) requestedScrumReversal(r *http.Request, u *User, boardID, direction, requestID string) (map[string]any, error) {
+	if err := s.assertNoBatchJob(r.Context(), boardID); err != nil {
+		return nil, err
+	}
+	res, row, err := s.requestedScrumStep(r, u, boardID, direction, requestID, "")
+	if err != nil || row == nil {
+		return res, err
+	}
+	if err := s.continueBatch(r, u, row, direction, requestID, res); err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+// requestedScrumRow is one row of a batch under its derived request id.
+func (s *Server) requestedScrumRow(r *http.Request, u *User, boardID, direction, requestID, batchID string) (map[string]any, error) {
+	res, _, err := s.requestedScrumStep(r, u, boardID, direction, requestID, batchID)
+	return res, err
+}
+
+// requestedScrumStep is requestedScrumRow: the request's row applied, and
+// the row (nil when there was none).
+func (s *Server) requestedScrumStep(r *http.Request, u *User, boardID, direction, requestID, batchID string) (map[string]any, map[string]any, error) {
 	ctx := r.Context()
 	key := map[string]string{"undo": "undone", "redo": "redone"}[direction]
 	req, err := s.prepareScrumRequest(ctx, u, boardID, direction, requestID, func() (map[string]any, error) {
@@ -899,34 +934,61 @@ func (s *Server) requestedScrumReversal(r *http.Request, u *User, boardID, direc
 		if err != nil || row != nil {
 			return row, err
 		}
+		if batchID != "" {
+			return s.nextBatchRow(ctx, u.ID, boardID, direction, batchID), nil
+		}
 		return s.historyStackTop(ctx, u, boardID, direction), nil
 	})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	sel, _ := req["selection"].(map[string]any)
 	switch docString(sel, "kind") {
 	case "empty":
-		return map[string]any{key: false}, nil
+		return map[string]any{key: false}, nil, nil
 	case "unsupported":
-		return nil, &methodError{"scrum-history-request-unsupported", "Request IDs currently support Scrum History only. This request changed nothing."}
+		return nil, nil, &methodError{"scrum-history-request-unsupported", "Request IDs currently support Scrum History only. This request changed nothing."}
 	}
 	row := s.findDoc(ctx, "changeHistory", bson.M{"_id": eq(docString(sel, "rowId"))})
 	if row == nil || docString(row, "boardId") != boardID || docString(row, "userId") != u.ID || docString(row, "integrityHash") != docString(sel, "sourceHash") ||
 		docString(row, "entityType") != "scrum" {
-		return nil, requestConflict("The saved History source is missing or changed.")
+		return nil, nil, requestConflict("The saved History source is missing or changed.")
 	}
 	if err := s.requireHistoryIntegrity(r, u, row); err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if err := s.requireHistoryRowAccess(ctx, u, row); err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if err := s.applyScrumHistoryJournaled(ctx, u, row, direction, req); err != nil {
 		if _, ok := err.(*methodError); ok {
-			return nil, err
+			return nil, nil, err
 		}
-		return nil, requestConflict("The request could not be confirmed. Keep its ID when retrying; do not select a new operation.")
+		return nil, nil, requestConflict("The request could not be confirmed. Keep its ID when retrying; do not select a new operation.")
 	}
-	return map[string]any{key: true, "entityType": row["entityType"], "entityId": row["entityId"], "group": row["group"]}, nil
+	return map[string]any{key: true, "entityType": row["entityType"], "entityId": row["entityId"], "group": row["group"]}, row, nil
+}
+
+// readScrumTargets is readTargets: every target of a row read at once, one
+// query per record type rather than one per record - a sprint close carries
+// a thousand records a row.
+func (s *Server) readScrumTargets(ctx context.Context, targets []map[string]any) []map[string]any {
+	byType := map[string]bson.A{}
+	for _, t := range targets {
+		byType[docString(t, "type")] = append(byType[docString(t, "type")], docString(t, "id"))
+	}
+	found := map[string]map[string]any{}
+	for kind, ids := range byType {
+		for start := 0; start < len(ids); start += 500 {
+			end := min(start+500, len(ids))
+			for _, d := range s.findDocs(ctx, scrumHistoryCollections[kind], bson.M{"_id": dbIn(ids[start:end])}) {
+				found[kind+":"+docString(d, "_id")] = d
+			}
+		}
+	}
+	out := make([]map[string]any, len(targets))
+	for i, t := range targets {
+		out[i] = found[docString(t, "type")+":"+docString(t, "id")]
+	}
+	return out
 }

@@ -68,6 +68,7 @@ func (s *Server) validateScrumTargets(ctx context.Context, b *Board, board map[s
 		final[key], _ = t["document"].(map[string]any)
 	}
 	badRef := &methodError{"invalid-scrum-reference", "A referenced Scrum record is no longer on this board."}
+	listRefusal := map[string]bool{}
 	reference := func(kind, id string) error {
 		if id == "" {
 			return nil
@@ -99,9 +100,17 @@ func (s *Server) validateScrumTargets(ctx context.Context, b *Board, board map[s
 			if doc == nil {
 				return scrumNotAuthorized()
 			}
-			var c Card
-			_ = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&c)
-			if !b.WritableIn(ctx, s, u, "write", &c) {
+			// The card as read; a list's say asked once per list.
+			c := Card{ID: id, ListID: docString(doc, "listId"), Assignees: stringsOf(doc["assignees"])}
+			if !b.Writable(u, "write", &c) {
+				return scrumNotAuthorized()
+			}
+			refused, asked := listRefusal[c.ListID]
+			if !asked {
+				refused = s.refuseInList(ctx, b, c.ListID, u, "write", "list-locked:write")
+				listRefusal[c.ListID] = refused
+			}
+			if refused {
 				return scrumNotAuthorized()
 			}
 		case "list", "swimlane":
