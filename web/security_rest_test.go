@@ -254,8 +254,11 @@ func TestNoWriteDecidedByMembershipAlone(t *testing.T) {
 		}
 		src, _ := os.ReadFile(f)
 		for i, line := range strings.Split(string(src), "\n") {
-			// boardFor's own visibility rule (member or public) is the one exception.
-			if memberOf.MatchString(line) && !strings.Contains(line, `b.Permission != "public"`) {
+			// boardFor's own visibility rule (member or public) is one
+			// exception; the other is a check that decides no write at all,
+			// which has to say so and why on the line: "// not a write: <why>".
+			notAWrite := regexp.MustCompile(`// not a write: \S.{10,}`).MatchString(line)
+			if memberOf.MatchString(line) && !strings.Contains(line, `b.Permission != "public"`) && !notAWrite {
 				offenders = append(offenders, f+":"+strconv.Itoa(i+1)+": "+strings.TrimSpace(line))
 			}
 		}

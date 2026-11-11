@@ -72,6 +72,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"importBoard":                     s.methodImportBoard,
 		"importScoped":                    s.methodImportScoped,
 		"importReportForBoard":            s.methodImportReportForBoard,
+		"outgoingWebhooks":                s.methodOutgoingWebhooks,
 	}
 	for k, v := range s.customFieldMethods() {
 		m[k] = v
@@ -109,7 +110,12 @@ func (s *Server) methodRoutes(m *http.ServeMux) {
 			// Meteor's answer to a client write of a restricted collection
 			// with no allow rule: Weddy writes nothing through these, so every
 			// one it has no method for is denied - never a 404 that says
-			// whether the collection exists.
+			// whether the collection exists. What it tried is recorded when it
+			// is an attack WeKan records (security_attempts.go).
+			var denied []json.RawMessage
+			if json.NewDecoder(http.MaxBytesReader(w, r.Body, 1<<20)).Decode(&denied) == nil {
+				s.noteDeniedCollectionWrite(r, u, r.PathValue("name"), denied)
+			}
 			writeJSON(w, http.StatusBadRequest, map[string]any{"error": 403, "reason": "Access denied"})
 			return
 		}
@@ -219,6 +225,10 @@ func (s *Server) methodSetListCollapsedState(r *http.Request, u *User, args []js
 		return nil, &methodError{"Match.Error", "Expected boolean"}
 	}
 	list, lane, inLane := strings.Cut(key, ":")
+	// PrototypeBleed: these become keys of the user's collapsed lists map.
+	if s.refuseMapKeys(r, u, "setListCollapsedState", boardID, list) || (inLane && s.refuseMapKeys(r, u, "setListCollapsedState", lane)) {
+		return nil, &methodError{"invalid-map-key", "invalid-map-key"}
+	}
 	if !validID(boardID) || !validID(list) || (inLane && !validID(lane)) {
 		return nil, &methodError{"Match.Error", "Expected ids"}
 	}

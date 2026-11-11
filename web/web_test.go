@@ -911,13 +911,26 @@ func TestListCollapseState(t *testing.T) {
 	if c := call(cc, `["`+b.ID+`","`+l.ID+`",true]`); c != 400 {
 		t.Fatalf("negative: not on the private board: %d", c)
 	}
-	for _, bad := range []string{`"x.y"`, `"$set"`, `"a:b.c"`, `"a:b:c"`} {
-		if c := call(ann, `["`+b.ID+`",`+bad+`,true]`); c != 400 {
-			t.Errorf("negative: %s is no list id: %d", bad, c)
-		}
+	// Ordinary bad input is refused and costs nothing...
+	if c := call(ann, `["`+b.ID+`","a:b:c",true]`); c != 400 {
+		t.Errorf("negative: a:b:c is no list id: %d", c)
 	}
 	if c := call(ann, `["`+b.ID+`","`+l.ID+`","yes"]`); c != 400 {
 		t.Errorf("negative: collapsed is a boolean: %d", c)
+	}
+	// ...a key that would be a path or an operator is PrototypeBleed: refused,
+	// recorded, and the account is disabled (security_attempts.go), so the
+	// later ones are refused as signed out.
+	for _, bad := range []string{`"x.y"`, `"$set"`, `"a:b.c"`} {
+		if c := call(ann, `["`+b.ID+`",`+bad+`,true]`); c != 400 && c != 401 {
+			t.Errorf("negative: %s is no list id: %d", bad, c)
+		}
+	}
+	if n, _ := w.db.Collection("eventlog").CountDocuments(ctx, bson.M{"bleed": "PrototypeBleed", "source": "setListCollapsedState"}); n != 1 {
+		t.Errorf("PrototypeBleed rows: %d", n)
+	}
+	if got := w.s.collapsedLists(ctx, u.ID, b.ID); len(got) != 1 {
+		t.Errorf("only the real fold was kept: %v", got)
 	}
 	if _, html := get(t, w.client(t), boardURL); strings.Contains(html, "list-collapsed") {
 		t.Fatal("negative: another user's fold is not shown")

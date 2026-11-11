@@ -71,8 +71,13 @@ var securityCategories = map[string]securityCategory{
 	// server/lib/secureTransfer.js and models/lib/transferFailure.cjs: markup
 	// an import carried was removed, or the file was over a limit. A real
 	// board reaches both, so neither costs the account.
-	"transfer.sanitized": {Category: "Import/export validation", Bleed: "ImportExportSanitization", Severity: "warning", NeverBlocks: true},
-	"transfer.limit":     {Category: "Import/export validation", Bleed: "ImportExportValidation", Severity: "medium", NeverBlocks: true},
+	// security_attempts.go: attacks already refused, recorded as WeKan's are.
+	"authz.repoint":       {Category: "authz", Bleed: "RepointBleed", Severity: "high", CWE: "CWE-863"},
+	"injection.prototype": {Category: "injection", Bleed: "PrototypeBleed", Severity: "high", CWE: "CWE-1321"},
+	"ssrf.webhook-forge":  {Category: "ssrf", Bleed: "HookBleed", Severity: "high", CWE: "CWE-345"},
+	"authz.background":    {Category: "authz", Bleed: "BackgroundBleed", Severity: "high", CWE: "CWE-639"},
+	"transfer.sanitized":  {Category: "Import/export validation", Bleed: "ImportExportSanitization", Severity: "warning", NeverBlocks: true},
+	"transfer.limit":      {Category: "Import/export validation", Bleed: "ImportExportValidation", Severity: "medium", NeverBlocks: true},
 }
 
 // identityFields make two events the same problem; the actor is not one of them.
