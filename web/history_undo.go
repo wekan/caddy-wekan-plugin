@@ -265,12 +265,9 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 }
 
 // reverseLast is undoLast (direction "undo") and redoLast ("redo").
-func (s *Server) reverseLast(r *http.Request, u *User, boardID, direction string) (map[string]any, error) {
-	ctx := r.Context()
-	if _, err := s.historyBoardWrite(ctx, u, boardID); err != nil {
-		return nil, err
-	}
-	key := map[string]string{"undo": "undone", "redo": "redone"}[direction]
+// historyStackTop is the row an undo or redo takes: the user's newest
+// change on the board, or most recently undone one.
+func (s *Server) historyStackTop(ctx context.Context, u *User, boardID, direction string) map[string]any {
 	filter := bson.M{"userId": eq(u.ID), "boardId": eq(boardID), "undone": direction == "redo", "isCheckpoint": bson.M{"$ne": true}, "superseded": bson.M{"$ne": true}}
 	sortBy := "createdAt"
 	if direction == "redo" {
@@ -278,14 +275,45 @@ func (s *Server) reverseLast(r *http.Request, u *User, boardID, direction string
 	}
 	var raw bson.M
 	if s.db.Collection("changeHistory").FindOne(ctx, filter, options.FindOne().SetSort(bson.D{{Key: sortBy, Value: -1}})).Decode(&raw) != nil {
+		return nil
+	}
+	return plain(raw).(map[string]any)
+}
+
+func (s *Server) reverseLast(r *http.Request, u *User, boardID, direction string, requestID *string) (map[string]any, error) {
+	ctx := r.Context()
+	if _, err := s.historyBoardWrite(ctx, u, boardID); err != nil {
+		return nil, err
+	}
+	key := map[string]string{"undo": "undone", "redo": "redone"}[direction]
+	if requestID != nil {
+		return s.requestedScrumReversal(r, u, boardID, direction, *requestID)
+	}
+	// An interrupted Scrum operation of this user's, in this direction, is
+	// the one to finish first (pendingScrumHistoryRow).
+	row, err := s.pendingScrumHistoryRow(ctx, boardID, u.ID, direction)
+	if err != nil {
+		return nil, err
+	}
+	if row == nil {
+		row = s.historyStackTop(ctx, u, boardID, direction)
+	}
+	if row == nil {
 		return map[string]any{key: false}, nil
 	}
-	row := plain(raw).(map[string]any)
 	if err := s.requireHistoryIntegrity(r, u, row); err != nil {
 		return nil, err
 	}
 	if err := s.requireHistoryRowAccess(ctx, u, row); err != nil {
 		return nil, err
+	}
+	// A Scrum row is its own durable operation (scrum_journal.go), which
+	// flags the row itself.
+	if docString(row, "entityType") == "scrum" {
+		if err := s.applyScrumHistoryJournaled(ctx, u, row, direction, nil); err != nil {
+			return nil, err
+		}
+		return map[string]any{key: true, "entityType": row["entityType"], "entityId": row["entityId"], "group": row["group"]}, nil
 	}
 	before := s.currentHistoryContent(ctx, row)
 	// Claimed first: of two that picked the same row, one applies it.
@@ -294,19 +322,15 @@ func (s *Server) reverseLast(r *http.Request, u *User, boardID, direction string
 		bson.M{"undone": true, "undoneAt": at}, bson.M{"undone": false, "undoneAt": nil}
 	if direction == "redo" {
 		sel["undone"] = true
-		taken, released = bson.M{"undone": false, "undoneAt": nil}, bson.M{"undone": true, "undoneAt": raw["undoneAt"]}
+		taken, released = bson.M{"undone": false, "undoneAt": nil}, bson.M{"undone": true, "undoneAt": row["undoneAt"]}
 	}
 	res, err := s.db.Collection("changeHistory").UpdateOne(ctx, sel, bson.M{"$set": taken})
 	if err != nil || res.ModifiedCount == 0 {
 		return map[string]any{key: false, "reason": "conflict"}, nil
 	}
 	applied := false
-	if t := docString(row, "entityType"); t == "rule" || t == "scrum" {
-		apply := s.applyRuleHistory
-		if t == "scrum" {
-			apply = s.applyScrumHistory
-		}
-		ok, rerr := apply(ctx, u, row, direction)
+	if docString(row, "entityType") == "rule" {
+		ok, rerr := s.applyRuleHistory(ctx, u, row, direction)
 		if rerr != nil {
 			back := bson.M{"_id": eq(docString(row, "_id"))}
 			for k, v := range taken {
@@ -342,7 +366,16 @@ func (s *Server) historyMethods() map[string]methodFunc {
 			if err != nil {
 				return nil, err
 			}
-			return s.reverseLast(r, u, boardID, direction)
+			// check(requestId, Match.Maybe(String)).
+			var requestID *string
+			if v, given := scrumArg(args, 1); given && v != nil {
+				id, ok := v.(string)
+				if !ok {
+					return nil, &methodError{"Match.Error", "Expected string"}
+				}
+				requestID = &id
+			}
+			return s.reverseLast(r, u, boardID, direction, requestID)
 		}
 	}
 	return map[string]methodFunc{
@@ -483,14 +516,18 @@ func (s *Server) methodHistoryRestore(r *http.Request, u *User, args []json.RawM
 		if err := s.requireHistoryRowAccess(ctx, u, row); err != nil {
 			return nil, err
 		}
+		// A Scrum row's Restore writes its own restore rows (scrum_journal.go).
+		if docString(row, "entityType") == "scrum" {
+			if err := s.applyScrumHistoryJournaled(ctx, u, row, "restore", nil); err != nil {
+				return nil, err
+			}
+			restored++
+			continue
+		}
 		displaced := s.currentHistoryContent(ctx, row)
 		applied := false
-		if t := docString(row, "entityType"); t == "rule" || t == "scrum" {
-			apply := s.applyRuleHistory
-			if t == "scrum" {
-				apply = s.applyScrumHistory
-			}
-			ok, rerr := apply(ctx, u, row, "restore")
+		if docString(row, "entityType") == "rule" {
+			ok, rerr := s.applyRuleHistory(ctx, u, row, "restore")
 			if rerr != nil {
 				return nil, rerr
 			}

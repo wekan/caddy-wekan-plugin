@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // scrumCaller signs name in and calls methods as them.
@@ -837,5 +838,131 @@ func TestScrumCardFields(t *testing.T) {
 	}
 	if _, html := get(t, bobC, cardURL); !strings.Contains(html, "Alpha, Beta") || strings.Contains(html, "js-scrum-metadata") {
 		t.Error("negative: a read-only member gets the Scrum form")
+	}
+}
+
+// Scrum History's durable operations, as WeKan's: an undo or redo under a
+// request id answers its first result again and never moves the stack
+// twice (negatives: the id in the other direction, a too-short id, an
+// unsupported row); an empty stack stays empty for its request; an
+// interrupted compound undo resumes without repeating a write and blocks
+// every other Scrum write meanwhile (negative); a redo a newer edit
+// superseded, and a checkpoint whose record moved to a newer revision, are
+// refused and kept (negatives); a finished one leaves its receipt and no
+// checkpoint.
+func TestScrumHistoryJournal(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Journal")
+	ann := scrumCaller(t, w, "ann")
+	card := func() bson.M {
+		var c bson.M
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": rb.Card}).Decode(&c)
+		return c
+	}
+	issue := func() any { return plain(card()["scrum"]).(map[string]any)["issueType"] }
+	resultOf(t, ann("scrum.updateCard", rb.ID, rb.Card, map[string]any{"issueType": "Story"}, 0))
+	resultOf(t, ann("scrum.updateCard", rb.ID, rb.Card, map[string]any{"issueType": "Bug"}, 1))
+	undoID, redoID := "undo-request-"+randomID(), "redo-request-"+randomID()
+	first := resultOf(t, ann("changeHistory.undoLast", rb.ID, undoID))
+	rev := card()["scrumRevision"]
+	if first["undone"] != true || issue() != "Story" {
+		t.Fatalf("keyed undo: %v %v", first, issue())
+	}
+	if again := resultOf(t, ann("changeHistory.undoLast", rb.ID, undoID)); canonical(again) != canonical(first) || issue() != "Story" || card()["scrumRevision"] != rev {
+		t.Errorf("a retried request repeats its answer and nothing else: %v", again)
+	}
+	if n, _ := w.db.Collection("scrumHistoryCompletions").CountDocuments(ctx, bson.M{"boardId": rb.ID, "direction": "undo"}); n != 1 {
+		t.Errorf("one receipt for the undo: %d", n)
+	}
+	if n, _ := w.db.Collection("scrumHistoryPending").CountDocuments(ctx, bson.M{"_id": rb.ID}); n != 0 {
+		t.Error("a finished operation leaves no checkpoint")
+	}
+	if r := resultOf(t, ann("changeHistory.redoLast", rb.ID, redoID)); r["redone"] != true || issue() != "Bug" {
+		t.Errorf("keyed redo: %v", r)
+	}
+	if out := ann("changeHistory.redoLast", rb.ID, undoID); out["error"] != "scrum-history-request-conflict" {
+		t.Errorf("negative: an undo's id as a redo: %v", out)
+	}
+	if out := ann("changeHistory.undoLast", rb.ID, "short"); out["error"] != "scrum-history-request-conflict" {
+		t.Errorf("negative: a request id too short: %v", out)
+	}
+
+	// An interrupted compound undo: the first write done, the rest resumed.
+	sp := resultOf(t, ann("scrum.saveSprint", rb.ID, nil, map[string]any{"name": "R", "plannedStart": "2026-09-01", "plannedEnd": "2026-09-30"}, nil))
+	other := "card" + randomID()[:12]
+	_, _ = w.db.Collection("cards").InsertOne(ctx, bson.M{"_id": other, "boardId": rb.ID, "listId": rb.List, "swimlaneId": rb.Swimlane, "title": "O", "archived": false, "sort": 2})
+	for _, c := range []string{rb.Card, other} {
+		resultOf(t, ann("scrum.updateCard", rb.ID, c, map[string]any{"sprintId": sp["_id"]}, nil))
+	}
+	active := resultOf(t, ann("scrum.startSprint", rb.ID, sp["_id"], 1))
+	resultOf(t, ann("scrum.closeSprint", rb.ID, sp["_id"], active["revision"], nil))
+	var close bson.M
+	_ = w.db.Collection("changeHistory").FindOne(ctx, bson.M{"boardId": rb.ID, "entityType": "scrum"}, options.FindOne().SetSort(bson.D{{Key: "createdAt", Value: -1}})).Decode(&close)
+	row := plain(close).(map[string]any)
+	recs := row["previousContent"].(map[string]any)["records"].([]any)
+	revs := bson.A{}
+	for _, x := range row["newContent"].(map[string]any)["records"].([]any) {
+		e := x.(map[string]any)
+		d := w.s.findDoc(ctx, scrumHistoryCollections[docString(e, "type")], bson.M{"_id": e["id"]})
+		revs = append(revs, scrumRecordRevision(docString(e, "type"), d))
+	}
+	_, _ = w.db.Collection("scrumHistoryPending").InsertOne(ctx, bson.M{"_id": rb.ID, "rowId": row["_id"], "direction": "undo", "userId": row["userId"],
+		"content": row["previousContent"], "before": row["newContent"], "revisions": revs})
+	var firstCard map[string]any
+	for _, x := range recs {
+		if e := x.(map[string]any); e["type"] == "card" {
+			firstCard = e
+			break
+		}
+	}
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": firstCard["id"]}, bson.M{"$set": bson.M{"scrum": firstCard["document"].(map[string]any)["scrum"]}, "$inc": bson.M{"scrumRevision": 1}})
+	var done bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": firstCard["id"]}).Decode(&done)
+	if out := ann("scrum.configure", rb.ID, map[string]any{"productGoal": "Must wait"}); out["error"] != "scrum-history-pending" {
+		t.Errorf("negative: a Scrum write while an operation is interrupted: %v", out)
+	}
+	if out := resultOf(t, ann("changeHistory.undoLast", rb.ID)); out["undone"] != true {
+		t.Fatalf("the resumed undo: %v", out)
+	}
+	var again, sprint bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": firstCard["id"]}).Decode(&again)
+	_ = w.db.Collection("scrumSprints").FindOne(ctx, bson.M{"_id": sp["_id"]}).Decode(&sprint)
+	if again["scrumRevision"] != done["scrumRevision"] || sprint["state"] != "active" {
+		t.Errorf("resumed without repeating its first write: %v %v %v", again["scrumRevision"], done["scrumRevision"], sprint["state"])
+	}
+	if n, _ := w.db.Collection("scrumHistoryPending").CountDocuments(ctx, bson.M{"_id": rb.ID}); n != 0 {
+		t.Error("the resumed operation left its checkpoint")
+	}
+
+	// A checkpoint whose record a newer write moved on is refused, and kept.
+	resultOf(t, ann("scrum.updateCard", rb.ID, rb.Card, map[string]any{"issueType": "Epic"}, nil))
+	var top bson.M
+	_ = w.db.Collection("changeHistory").FindOne(ctx, bson.M{"boardId": rb.ID, "entityType": "scrum", "entityId": rb.Card}, options.FindOne().SetSort(bson.D{{Key: "createdAt", Value: -1}})).Decode(&top)
+	trow := plain(top).(map[string]any)
+	_, _ = w.db.Collection("scrumHistoryPending").InsertOne(ctx, bson.M{"_id": rb.ID, "rowId": trow["_id"], "direction": "undo", "userId": trow["userId"],
+		"operationId": "stale-operation", "content": trow["previousContent"], "before": trow["newContent"], "revisions": bson.A{card()["scrumRevision"]}})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": rb.Card}, bson.M{"$inc": bson.M{"scrumRevision": 1}})
+	for i := 0; i < 2; i++ {
+		if out := ann("changeHistory.undoLast", rb.ID); out["error"] != "scrum-conflict" || issue() != "Epic" {
+			t.Errorf("negative: a checkpoint completed over a newer revision: %v", out)
+		}
+	}
+	if j := w.s.scrumJournal(ctx, rb.ID); j == nil || j["operationId"] != "stale-operation" || j["lastFailure"] == nil {
+		t.Errorf("the refused checkpoint is kept, its failure noted: %v", j)
+	}
+	_, _ = w.db.Collection("scrumHistoryPending").DeleteOne(ctx, bson.M{"_id": rb.ID})
+
+	// An empty stack stays empty for its request; an ordinary row is not a
+	// keyed one.
+	_, _ = w.db.Collection("changeHistory").DeleteMany(ctx, bson.M{"boardId": rb.ID})
+	empty := "empty-request-" + randomID()
+	if out := resultOf(t, ann("changeHistory.undoLast", rb.ID, empty)); out["undone"] != false {
+		t.Errorf("an empty stack: %v", out)
+	}
+	resultOf(t, ann("scrum.updateCard", rb.ID, rb.Card, map[string]any{"issueType": "Task"}, nil))
+	if out := resultOf(t, ann("changeHistory.undoLast", rb.ID, empty)); out["undone"] != false || issue() != "Task" {
+		t.Errorf("negative: an empty request reselects later work: %v", out)
 	}
 }

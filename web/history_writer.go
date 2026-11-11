@@ -569,6 +569,9 @@ type historyChange struct {
 	UserID                                    string
 	BatchID, RestoredFromID, RestoredByUserID any
 	IsCheckpoint                              bool
+	// ID, when given, is the row's own id (a Scrum restore row's is fixed
+	// by its operation, scrum_journal.go); else a new one.
+	ID string
 }
 
 // recordHistory is ChangeHistory.record: one row after the board's chain's
@@ -588,7 +591,10 @@ func (s *Server) recordHistory(ctx context.Context, c historyChange) string {
 	if c.Group != "" {
 		group = c.Group
 	}
-	id := randomID()
+	id := c.ID
+	if id == "" {
+		id = randomID()
+	}
 	row := bson.D{{Key: "_id", Value: id}, {Key: "boardId", Value: c.BoardID}, {Key: "swimlaneId", Value: c.SwimlaneID}, {Key: "listId", Value: c.ListID},
 		{Key: "cardId", Value: orNil(c.CardID)}, {Key: "entityType", Value: c.EntityType}, {Key: "entityId", Value: c.EntityID}, {Key: "group", Value: group},
 		{Key: "changeType", Value: c.ChangeType}, {Key: "previousContent", Value: c.PreviousContent}, {Key: "newContent", Value: c.NewContent},

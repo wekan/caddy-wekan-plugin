@@ -1,7 +1,8 @@
 package web
 
 // Scrum's History, as WeKan's server/lib/scrumHistory.js: a row's records
-// put back - undone, redone or restored - by whoever may write each of them
+// as they are now, and the check before a row's records are put back
+// (scrum_journal.go applies them) - by whoever may write each of them
 // (a card's by whoever may change the card, a list's or swimlane's by a
 // member who may write, the settings and the records by a board admin). An
 // undo or redo is refused (scrum-conflict) when any record changed after the
@@ -13,7 +14,6 @@ package web
 
 import (
 	"context"
-	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -55,121 +55,6 @@ func (s *Server) scrumHistorySnapshot(ctx context.Context, row map[string]any) a
 		out = append(out, map[string]any{"type": kind, "id": r["id"], "document": scrumHistoryDocument(kind, doc)})
 	}
 	return map[string]any{"records": out}
-}
-
-// applyScrumHistory puts a row's side back: false when it is not one to
-// apply, an error when it may not or no longer can be.
-func (s *Server) applyScrumHistory(ctx context.Context, u *User, row map[string]any, direction string) (bool, error) {
-	boardID := docString(row, "boardId")
-	unlock := scrumLock(boardID)
-	defer unlock()
-	content := row["newContent"]
-	switch {
-	case direction == "undo":
-		content = row["previousContent"]
-	case direction == "restore" && content == nil:
-		content = row["previousContent"]
-	}
-	targets, ok := scrumHistoryRecords(content)
-	if !ok {
-		return false, &methodError{"invalid-scrum-history", "invalid-scrum-history"}
-	}
-	b, err := s.boardFor(ctx, boardID, u)
-	if err != nil {
-		return false, scrumNotAuthorized()
-	}
-	var raw bson.M
-	_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&raw)
-	if s.db.Collection("scrumSprints").FindOne(ctx, bson.M{"boardId": eq(boardID), "$or": bson.A{bson.M{"rolloverPending": true}, bson.M{"rolloverPending.0": bson.M{"$exists": true}}}}).Err() == nil {
-		return false, scrumConflict()
-	}
-	if err := s.scrumImportPending(ctx, boardID); err != nil {
-		return false, err
-	}
-	current := make([]map[string]any, len(targets))
-	for i, t := range targets {
-		current[i] = s.findDoc(ctx, scrumHistoryCollections[docString(t, "type")], bson.M{"_id": eq(docString(t, "id"))})
-	}
-	if err := s.validateScrumTargets(ctx, b, plain(raw).(map[string]any), u, targets, current); err != nil {
-		return false, err
-	}
-	live := bson.A{}
-	for i, t := range targets {
-		live = append(live, map[string]any{"type": t["type"], "id": t["id"], "document": scrumHistoryDocument(docString(t, "type"), current[i])})
-	}
-	expected := row["previousContent"]
-	if direction == "undo" {
-		expected = row["newContent"]
-	}
-	if direction != "restore" && canonical(map[string]any{"records": live}) != canonical(expected) {
-		return false, scrumConflict()
-	}
-	now := time.Now().UTC().Truncate(time.Millisecond)
-	for i, t := range targets {
-		kind := docString(t, "type")
-		coll := s.db.Collection(scrumHistoryCollections[kind])
-		target, _ := t["document"].(map[string]any)
-		cur := current[i]
-		if canonical(scrumHistoryDocument(kind, cur)) == canonical(target) {
-			continue
-		}
-		id := docString(t, "id")
-		metadata := scrumMetadataType(kind)
-		sel := bson.M{"_id": eq(id)}
-		if cur != nil {
-			if metadata {
-				sel = scrumRevisionSelector(cur)
-				sel["_id"] = eq(id)
-			} else {
-				sel["revision"] = cur["revision"]
-			}
-		}
-		switch {
-		case target == nil:
-			res, err := coll.DeleteOne(ctx, sel)
-			if err != nil || res.DeletedCount == 0 {
-				return false, scrumConflict()
-			}
-		case metadata:
-			res, err := coll.UpdateOne(ctx, sel, bson.M{"$set": bson.M{"scrum": target["scrum"], "scrumRevision": int32(revisionOf(cur["scrumRevision"]) + 1)}})
-			if err != nil || res.MatchedCount == 0 {
-				return false, scrumConflict()
-			}
-		case cur == nil:
-			doc := bson.M{}
-			for k, v := range target {
-				doc[k] = v
-			}
-			doc["revision"], doc["updatedAt"], doc["updatedBy"], doc["incarnation"] = int32(1), now, u.ID, randomID()
-			if _, err := coll.InsertOne(ctx, doc); err != nil {
-				return false, scrumConflict()
-			}
-		default:
-			set := bson.M{}
-			for k, v := range target {
-				if k != "_id" {
-					set[k] = v
-				}
-			}
-			set["revision"], set["updatedAt"], set["updatedBy"] = int32(revisionOf(cur["revision"])+1), now, u.ID
-			update := bson.M{"$set": set}
-			unset := bson.M{}
-			for k := range cur {
-				if _, keep := target[k]; !keep && k != "_id" && k != "revision" && k != "updatedAt" && k != "updatedBy" && k != "incarnation" {
-					unset[k] = ""
-				}
-			}
-			if len(unset) > 0 {
-				update["$unset"] = unset
-			}
-			res, err := coll.UpdateOne(ctx, sel, update)
-			if err != nil || res.MatchedCount == 0 {
-				return false, scrumConflict()
-			}
-		}
-	}
-	s.hub.publish(boardID, "board-changed")
-	return true, nil
 }
 
 // validateScrumTargets is validateTargets(): may u write every record, and
