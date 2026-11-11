@@ -185,7 +185,7 @@ func (s *Server) moveCardTo(ctx context.Context, u *User, card bson.M, from, to 
 	set["boardId"], set["swimlaneId"], set["listId"] = to.ID, swimlaneID, listID
 	set["sort"], set["modifiedAt"] = s.topSort(ctx, to.ID, listID), time.Now().UTC()
 	id, _ := card["_id"].(string)
-	if _, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(id), "boardId": from.ID}, bson.M{"$set": set}); err != nil {
+	if _, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": eq(id), "boardId": from.ID}, bson.M{"$set": set}); err != nil {
 		return err
 	}
 	byCard := bson.M{"cardId": eq(id)}

@@ -172,6 +172,10 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 	if direction == "undo" {
 		content, _ = row["previousContent"].(map[string]any)
 	}
+	// A card's position: moved back, across boards too (Card.move).
+	if docString(row, "entityType") == "card" && docString(row, "group") == "position" && content != nil {
+		return s.applyCardPosition(ctx, row, content)
+	}
 	// A field's content: the field set back (applyFieldContent), directly -
 	// the reversal's own row is written by the caller, not by this write.
 	if field, ok := content["field"].(string); ok && historyGroupFor(docString(row, "entityType"), field) != "" {
@@ -289,4 +293,47 @@ func (s *Server) historyMethods() map[string]methodFunc {
 		"changeHistory.undoLast": reverse("undo"),
 		"changeHistory.redoLast": reverse("redo"),
 	}
+}
+
+// applyCardPosition is applyCardContent's position: the card back on its
+// board, swimlane and list, at its sort; to another board through the move
+// that takes its comments, checklists and attachments along.
+func (s *Server) applyCardPosition(ctx context.Context, row, content map[string]any) bool {
+	var card bson.M
+	if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(docString(row, "entityId"))}).Decode(&card) != nil {
+		return false
+	}
+	boardID, _ := content["boardId"].(string)
+	if boardID == "" {
+		boardID = docString(card, "boardId")
+	}
+	lane, _ := content["swimlaneId"].(string)
+	list, _ := content["listId"].(string)
+	if !validID(boardID) || !validID(list) {
+		return false
+	}
+	set := bson.M{} // the $set below
+	set["swimlaneId"], set["listId"] = lane, list
+	if v, ok := content["sort"].(float64); ok {
+		set["sort"] = v
+	}
+	if r, ok := content["lastMoveReason"].(string); ok {
+		set["lastMoveReason"] = r
+	}
+	if boardID != docString(card, "boardId") {
+		var from, to Board
+		if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(docString(card, "boardId"))}).Decode(&from) != nil ||
+			s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&to) != nil {
+			return false
+		}
+		if s.moveCardTo(ctx, &User{ID: docString(row, "userId")}, card, &from, &to, lane, list) != nil {
+			return false
+		}
+		s.hub.publish(from.ID, "board-changed")
+	}
+	if _, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(docString(card, "_id"))}, bson.M{"$set": set}); err != nil {
+		return false
+	}
+	s.hub.publish(boardID, "board-changed")
+	return true
 }

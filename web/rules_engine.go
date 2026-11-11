@@ -1021,14 +1021,14 @@ func (s *Server) ruleMoveCard(ctx context.Context, a, act bson.M, b *Board, c *C
 		if err := s.moveCardTo(ctx, actor, raw, &from, to, swimlaneID, list.ID); err != nil {
 			return err
 		}
-		_, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"sort": sort}})
+		_, err := s.cardsUpdateOne(ctx, actorID(actor), bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"sort": sort}})
 		s.hub.publish(to.ID, "board-changed")
 		return err
 	}
 	if c.ListID == list.ID && c.SwimlaneID == swimlaneID && c.Sort == sort {
 		return nil
 	}
-	if _, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{
+	if _, err := s.cardsUpdateOne(ctx, actorID(actor), bson.M{"_id": c.ID}, bson.M{"$set": bson.M{
 		"listId": list.ID, "swimlaneId": swimlaneID, "sort": sort, "modifiedAt": time.Now().UTC()}}); err != nil {
 		return err
 	}

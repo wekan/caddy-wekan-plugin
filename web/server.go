@@ -1391,7 +1391,7 @@ func (s *Server) MoveCards(ctx context.Context, b *Board, u *User, moves []Move)
 			old.ListID != m.ListID && s.refuseInList(ctx, b, m.ListID, u, "moveCard", "list-locked:move-into")) {
 			return errForbidden
 		}
-		res, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(m.CardID), "boardId": b.ID},
+		res, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": eq(m.CardID), "boardId": b.ID},
 			bson.M{"$set": bson.M{"listId": m.ListID, "swimlaneId": m.SwimlaneID, "sort": m.Sort, "modifiedAt": time.Now().UTC()}})
 		if err != nil {
 			return err

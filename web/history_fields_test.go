@@ -137,7 +137,7 @@ func TestCardEditUndo(t *testing.T) {
 	}
 	// Negative: a write that changes nothing recordable is no row.
 	n := len(historyRows(t, w, rb.ID))
-	_ = w.s.updateRecorded(ctx, ann.ID, "card", rb.Card, bson.M{"$set": bson.M{"modifiedAt": time.Now(), "sort": 9.0}})
+	_ = w.s.updateRecorded(ctx, ann.ID, "card", rb.Card, bson.M{"$set": bson.M{"modifiedAt": time.Now()}})
 	if len(historyRows(t, w, rb.ID)) != n {
 		t.Error("negative: bookkeeping recorded")
 	}
@@ -147,30 +147,27 @@ func TestCardEditUndo(t *testing.T) {
 // history, or it is one of these, each with why. A new direct write fails
 // until it goes through cardsUpdateOne or is listed here with its reason.
 var unrecordedCardWrites = map[string]string{
-	"api_cards.go:apiCopyCard":                     "the copy's own fields, set on a card just made",
-	"api.go:apiAddCard":                            "the new card's fields, set as it is made",
-	"api_members.go:addCardFrom":                   "the new card's fields, set as it is made",
-	"cardmove.go:copyCardToPage":                   "the copy's own fields, set on a card just made",
-	"server.go:addCard":                            "the new card's fields, set as it is made",
-	"server.go:AddCardWith":                        "the new card's fields, set as it is made",
-	"api_lanes.go:moveCardTo":                      "a move: WeKan records it as one position row (Card.move) - a later step",
-	"server.go:MoveCards":                          "a move: WeKan records it as one position row (Card.move) - a later step",
-	"board_objects_move.go:methodMoveBoardObjects": "a move: WeKan records it as one position row - a later step",
-	"rules_engine.go:ruleMoveCard":                 "a rule's move, a position row - a later step",
-	"rules_engine.go:ruleSortList":                 "sort only, never recorded (NEVER_RECORD)",
-	"api_more.go:apiDeleteCustomField":             "the field's values leave with its definition, which is the change",
-	"attachments.go:attachmentCoverPage":           "coverId, not a recorded field",
-	"attachments.go:copyCardAttachments":           "a copy's attachments, on a card just made",
-	"attachments.go:softDeleteAttachmentBatch":     "the attachment's own soft delete, its lifecycle row a later step",
-	"attachments.go:uploadAttachment":              "the attachment's own added row, a later step",
-	"export_ics.go:apiImportICS":                   "an import, whose author WeKan's hooks do not have either",
-	"import_general.go:cards":                      "an import, whose author WeKan's hooks do not have either",
-	"history_undo.go:applyHistoryRow":              "undo and redo themselves, recorded as their restored row",
-	"history_undo.go:softRemoveList":               "a list's soft delete, recorded as its lifecycle row",
-	"members.go:removeBoardMember":                 "the board's people, recorded as the board's own change",
-	"server.go:restoreAllArchivedCardsPage":        "Restore all - lifecycle rows a later step",
-	"server.go:setPoker":                           "planning poker votes, recorded with the poker group - a later step",
-	"server.go:watchCardPage":                      "watchers, not a recorded field",
+	"api_cards.go:apiCopyCard":                 "the copy's own fields, set on a card just made",
+	"api.go:apiAddCard":                        "the new card's fields, set as it is made",
+	"api_members.go:addCardFrom":               "the new card's fields, set as it is made",
+	"cardmove.go:copyCardToPage":               "the copy's own fields, set on a card just made",
+	"server.go:addCard":                        "the new card's fields, set as it is made",
+	"server.go:AddCardWith":                    "the new card's fields, set as it is made",
+	"rules_engine.go:ruleSortList":             "sort only, never recorded (NEVER_RECORD)",
+	"api_more.go:apiDeleteCustomField":         "the field's values leave with its definition, which is the change",
+	"attachments.go:attachmentCoverPage":       "coverId, not a recorded field",
+	"attachments.go:copyCardAttachments":       "a copy's attachments, on a card just made",
+	"attachments.go:softDeleteAttachmentBatch": "the attachment's own soft delete, its lifecycle row a later step",
+	"attachments.go:uploadAttachment":          "the attachment's own added row, a later step",
+	"export_ics.go:apiImportICS":               "an import, whose author WeKan's hooks do not have either",
+	"import_general.go:cards":                  "an import, whose author WeKan's hooks do not have either",
+	"history_undo.go:applyHistoryRow":          "undo and redo themselves, recorded as their restored row",
+	"history_undo.go:applyCardPosition":        "undo and redo of a move, recorded as their restored row",
+	"history_undo.go:softRemoveList":           "a list's soft delete, recorded as its lifecycle row",
+	"members.go:removeBoardMember":             "the board's people, recorded as the board's own change",
+	"server.go:restoreAllArchivedCardsPage":    "Restore all - lifecycle rows a later step",
+	"server.go:setPoker":                       "planning poker votes, recorded with the poker group - a later step",
+	"server.go:watchCardPage":                  "watchers, not a recorded field",
 }
 
 func TestEveryCardWriteIsRecorded(t *testing.T) {
@@ -200,6 +197,78 @@ func TestEveryCardWriteIsRecorded(t *testing.T) {
 	for key := range unrecordedCardWrites {
 		if !found[key] {
 			t.Errorf("%s is listed but writes no card any more: take it off the list", key)
+		}
+	}
+}
+
+// A move is one position row; undo puts the card back, across boards too.
+func TestCardMoveUndo(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	at := login(t, w, "ann")
+	a := newRESTBoard(t, w, at, "From")
+	b := newRESTBoard(t, w, at, "To")
+	var ann User
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"username": "ann"}).Decode(&ann)
+	other := "list" + randomID()[:10]
+	_, _ = w.db.Collection("lists").InsertOne(ctx, bson.M{"_id": other, "boardId": a.ID, "title": "Other", "archived": false, "sort": 2.0})
+	var board Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": a.ID}).Decode(&board)
+	if err := w.s.MoveCards(ctx, &board, &ann, []Move{{CardID: a.Card, ListID: other, SwimlaneID: a.Swimlane, Sort: 5}}); err != nil {
+		t.Fatal(err)
+	}
+	var rows []map[string]any
+	for _, r := range historyRows(t, w, a.ID) {
+		if r["group"] == "position" {
+			rows = append(rows, r)
+		}
+	}
+	if len(rows) != 1 || rows[0]["changeType"] != "moved" {
+		t.Fatalf("one moved row: %v", len(rows))
+	}
+	if nc := rows[0]["newContent"].(map[string]any); nc["listId"] != other || nc["lastMoveReason"] != "" {
+		t.Errorf("the new position: %v", nc)
+	}
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	call := func(method, board string) {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/"+url.PathEscape(method), strings.NewReader(`["`+board+`"]`))
+		req.Header.Set("Content-Type", "application/json")
+		if res, err := c.Do(req); err == nil {
+			res.Body.Close()
+		}
+	}
+	card := func() bson.M {
+		var d bson.M
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": a.Card}).Decode(&d)
+		return d
+	}
+	call("changeHistory.undoLast", a.ID)
+	if card()["listId"] != a.List {
+		t.Errorf("undo moves it back: %v", card()["listId"])
+	}
+	call("changeHistory.redoLast", a.ID)
+	if card()["listId"] != other {
+		t.Errorf("redo moves it again: %v", card()["listId"])
+	}
+	var raw bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": a.Card}).Decode(&raw)
+	var to Board
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&to)
+	if err := w.s.moveCardTo(ctx, &ann, raw, &board, &to, b.Swimlane, b.List); err != nil {
+		t.Fatal(err)
+	}
+	if card()["boardId"] != b.ID {
+		t.Fatal("moved to the other board")
+	}
+	call("changeHistory.undoLast", b.ID)
+	if d := card(); d["boardId"] != a.ID || d["listId"] != other {
+		t.Errorf("undo brings it back to its board and list: %v %v", d["boardId"], d["listId"])
+	}
+	for _, id := range []string{a.ID, b.ID} {
+		if f := verifyWithWeKan(t, historyRows(t, w, id)); len(f) != 0 {
+			t.Errorf("WeKan's audit of %s: %v", id, f)
 		}
 	}
 }

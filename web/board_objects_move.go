@@ -219,7 +219,7 @@ func (s *Server) methodMoveBoardObjects(r *http.Request, u *User, args []json.Ra
 			set("cards", docString(card, "_id"), bson.M{"sort": sortWas})
 			return nil
 		}
-		_, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(docString(card, "_id"))},
+		_, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": eq(docString(card, "_id"))},
 			bson.M{"$set": bson.M{"swimlaneId": laneID, "listId": listID, "modifiedAt": now}})
 		return err
 	}

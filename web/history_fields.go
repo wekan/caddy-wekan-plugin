@@ -316,6 +316,11 @@ func (s *Server) updateRecorded(ctx context.Context, userID, entity, id string, 
 func (s *Server) recordFieldChanges(ctx context.Context, userID, entity string, before, after map[string]any, fields []string) {
 	defer func() { _ = recover() }() // recording never fails the write
 	changes := diffHistoryFields(entity, before, after, fields)
+	if entity == "card" {
+		if p := historyPositionChange(before, after, fields); p != nil {
+			changes = append(changes, *p)
+		}
+	}
 	if len(changes) == 0 {
 		return
 	}
@@ -383,4 +388,49 @@ func (s *Server) cardsUpdateOne(ctx context.Context, userID string, filter any, 
 		s.recordFieldChanges(ctx, userID, "card", plain(before).(map[string]any), plain(after).(map[string]any), updateFields(u))
 	}
 	return res, nil
+}
+
+// historyPositionChange is timeHistory.js positionChange: a card moved - its
+// board, swimlane, list or sort changed - is one "moved" row of its whole
+// position, its move reason with it.
+func historyPositionChange(before, after map[string]any, fields []string) *historyFieldChange {
+	keys := []string{"boardId", "swimlaneId", "listId", "sort"}
+	moved := false
+	for _, k := range keys {
+		for _, f := range fields {
+			if f == k && canonical(plain(before[k])) != canonical(plain(after[k])) {
+				moved = true
+			}
+		}
+	}
+	if !moved {
+		return nil
+	}
+	snap := func(d map[string]any) map[string]any {
+		out := map[string]any{}
+		for _, k := range append(keys, "lastMoveReason") {
+			v, ok := d[k]
+			switch {
+			case !ok && k == "lastMoveReason":
+				out[k] = ""
+			case !ok:
+				out[k] = nil
+			case k == "sort":
+				out[k] = historyNumber(v)
+			default:
+				out[k] = v
+			}
+		}
+		return out
+	}
+	return &historyFieldChange{Group: "position", ChangeType: "moved", PreviousContent: snap(before), NewContent: snap(after)}
+}
+
+// actorID is a rule's actor, "" when a rule runs without one (and so is not
+// recorded, as WeKan's hooks record nothing without an author).
+func actorID(u *User) string {
+	if u == nil {
+		return ""
+	}
+	return u.ID
 }
