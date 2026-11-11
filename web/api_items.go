@@ -274,7 +274,7 @@ func (s *Server) apiArchiveCard(archive bool) apiHandler {
 			update = bson.M{"$set": bson.M{"archived": false, "modifiedAt": now}, "$unset": bson.M{"archivedAt": ""}}
 			answer, kind = map[string]any{"_id": c.ID, "archived": false}, "restoredCard"
 		}
-		if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
+		if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, update); err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
@@ -318,7 +318,7 @@ func (s *Server) apiSetCardField(w http.ResponseWriter, r *http.Request, u *User
 		}
 		fields = append(fields, m)
 	}
-	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": raw["_id"]}, bson.M{"$set": bson.M{"customFields": fields}}); err != nil {
+	if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": raw["_id"]}, bson.M{"$set": bson.M{"customFields": fields}}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}

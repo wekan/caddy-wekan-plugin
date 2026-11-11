@@ -252,7 +252,7 @@ func (s *Server) apiAddDependency(w http.ResponseWriter, r *http.Request, u *Use
 	} else {
 		deps = append(deps, d.normalized())
 	}
-	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"cardDependencies": deps}}); err != nil {
+	if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"cardDependencies": deps}}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -301,7 +301,7 @@ func (s *Server) apiEditDependency(w http.ResponseWriter, r *http.Request, u *Us
 			}
 		}
 	}
-	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"cardDependencies": deps}}); err != nil {
+	if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"cardDependencies": deps}}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -325,7 +325,7 @@ func (s *Server) apiDeleteDependency(w http.ResponseWriter, r *http.Request, u *
 	}
 	target := r.PathValue("target")
 	deps = slices.DeleteFunc(deps, func(x dependency) bool { return x.CardID == target })
-	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"cardDependencies": deps}}); err != nil {
+	if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"cardDependencies": deps}}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}

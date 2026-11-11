@@ -109,7 +109,7 @@ func (s *Server) methodCardsUpdate(r *http.Request, u *User, args []json.RawMess
 	if len(unset) > 0 {
 		update["$unset"] = unset
 	}
-	res, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": eq(id), "boardId": b.ID}, update)
+	res, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": eq(id), "boardId": b.ID}, update)
 	if err != nil {
 		return nil, err
 	}

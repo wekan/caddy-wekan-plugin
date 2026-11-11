@@ -139,7 +139,7 @@ func (s *Server) setCardCustomField(r *http.Request, u *User, cardID, fieldID, k
 		fields[index] = bson.M{"_id": fieldID, "value": value} // inserted, not a filter
 	}
 	// The whole array: FerretDB has no positional update.
-	if _, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": card.ID}, bson.M{"$set": bson.M{"customFields": fields, "modifiedAt": time.Now().UTC()}}); err != nil {
+	if _, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": card.ID}, bson.M{"$set": bson.M{"customFields": fields, "modifiedAt": time.Now().UTC()}}); err != nil {
 		return nil, err
 	}
 	after := any(nil)

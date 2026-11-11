@@ -947,7 +947,7 @@ func (s *Server) toggleCardMemberPage(w http.ResponseWriter, r *http.Request, u 
 		}
 		update, kind = bson.M{"$addToSet": bson.M{"members": who}}, "joinMember"
 	}
-	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
+	if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, update); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -1015,7 +1015,7 @@ func (s *Server) votePage(w http.ResponseWriter, r *http.Request, u *User) {
 		}
 		update = bson.M{"$pull": bson.M{pull: u.ID}, "$addToSet": bson.M{add: u.ID}}
 	}
-	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
+	if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, update); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -1609,7 +1609,7 @@ func (s *Server) cardPeoplePage(w http.ResponseWriter, r *http.Request, u *User)
 		http.Error(w, "this field is not yours to change", http.StatusForbidden)
 		return
 	}
-	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID},
+	if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID},
 		bson.M{"$set": bson.M{person.Field: value, "modifiedAt": time.Now().UTC()}}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -1684,7 +1684,7 @@ func (s *Server) archiveCardPage(w http.ResponseWriter, r *http.Request, u *User
 	}
 	if !c.Archived {
 		now := time.Now().UTC()
-		if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"archived": true, "archivedAt": now, "modifiedAt": now}}); err != nil {
+		if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"archived": true, "archivedAt": now, "modifiedAt": now}}); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -1886,7 +1886,7 @@ func (s *Server) cardTitlePage(w http.ResponseWriter, r *http.Request, u *User) 
 		return
 	}
 	if title != c.Title {
-		if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"title": title, "modifiedAt": time.Now().UTC()}}); err != nil {
+		if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"title": title, "modifiedAt": time.Now().UTC()}}); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -1916,7 +1916,7 @@ func (s *Server) cardCompletePage(w http.ResponseWriter, r *http.Request, u *Use
 	}
 	done := r.FormValue("complete") == "true"
 	if done != c.DueComplete {
-		if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"dueComplete": done, "modifiedAt": time.Now().UTC()}}); err != nil {
+		if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"dueComplete": done, "modifiedAt": time.Now().UTC()}}); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}

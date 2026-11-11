@@ -124,6 +124,18 @@ func (s *Server) requireHistoryIntegrity(r *http.Request, u *User, row map[strin
 // currentHistoryContent is currentContentOf for what Weddy applies: a
 // list's lifecycle.
 func (s *Server) currentHistoryContent(ctx context.Context, row map[string]any) any {
+	for _, side := range []string{"newContent", "previousContent"} {
+		if c, ok := row[side].(map[string]any); ok {
+			if field, ok := c["field"].(string); ok {
+				var d bson.M
+				if s.db.Collection(historyCollections[docString(row, "entityType")]).FindOne(ctx, bson.M{"_id": eq(docString(row, "entityId"))}).Decode(&d) != nil {
+					return nil
+				}
+				v, present := plain(d).(map[string]any)[field]
+				return historyContent(field, v, present)
+			}
+		}
+	}
 	if docString(row, "entityType") != "list" || docString(row, "group") != "lifecycle" {
 		return nil
 	}
@@ -159,6 +171,21 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 	content, _ := row["newContent"].(map[string]any)
 	if direction == "undo" {
 		content, _ = row["previousContent"].(map[string]any)
+	}
+	// A field's content: the field set back (applyFieldContent), directly -
+	// the reversal's own row is written by the caller, not by this write.
+	if field, ok := content["field"].(string); ok && historyGroupFor(docString(row, "entityType"), field) != "" {
+		value, ok := historyValue(content)
+		coll := historyCollections[docString(row, "entityType")]
+		if !ok || coll == "" {
+			return false
+		}
+		res, err := s.db.Collection(coll).UpdateOne(ctx, bson.M{"_id": eq(docString(row, "entityId"))}, bson.M{"$set": bson.M{field: value}})
+		if err != nil || res.MatchedCount == 0 {
+			return false
+		}
+		s.hub.publish(docString(row, "boardId"), "board-changed")
+		return true
 	}
 	if docString(row, "entityType") != "list" || docString(row, "group") != "lifecycle" || content == nil {
 		return false

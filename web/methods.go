@@ -698,7 +698,7 @@ func (s *Server) methodArchiveSelectedCards(r *http.Request, u *User, args []jso
 	}
 	now := time.Now().UTC()
 	for _, c := range cards {
-		if _, err := s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"archived": true, "archivedAt": now, "modifiedAt": now}}); err != nil {
+		if _, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"archived": true, "archivedAt": now, "modifiedAt": now}}); err != nil {
 			return nil, err
 		}
 		s.activity(ctx, u.ID, "archivedCard", bson.M{"boardId": b.ID, "cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID, "cardTitle": c.Title})

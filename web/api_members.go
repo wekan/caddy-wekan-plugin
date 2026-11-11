@@ -625,7 +625,7 @@ func (s *Server) apiCardMember(field string, add bool) apiHandler {
 			}
 			update = bson.M{"$addToSet": bson.M{field: userID}}
 		}
-		if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
+		if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, update); err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
@@ -678,7 +678,7 @@ func (s *Server) toggleCardLabelPage(w http.ResponseWriter, r *http.Request, u *
 	if slices.Contains(c.LabelIDs, label) {
 		update, kind = bson.M{"$pull": bson.M{"labelIds": label}}, "removedLabel"
 	}
-	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": c.ID}, update); err != nil {
+	if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, update); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

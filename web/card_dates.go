@@ -81,7 +81,7 @@ func (s *Server) cardDescriptionPage(w http.ResponseWriter, r *http.Request, u *
 	}
 	if desc != c.Description {
 		set := bson.M{"description": desc}
-		if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": eq(c.ID), "boardId": eq(b.ID)},
+		if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": eq(c.ID), "boardId": eq(b.ID)},
 			bson.M{"$set": bson.M{"description": desc, "modifiedAt": time.Now().UTC()}}); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -126,7 +126,7 @@ func (s *Server) cardDatePage(w http.ResponseWriter, r *http.Request, u *User) {
 	if !del {
 		update = bson.M{"$set": bson.M{kind.Field: *at, "modifiedAt": time.Now().UTC()}}
 	}
-	if _, err := s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": eq(c.ID), "boardId": eq(b.ID)}, update); err != nil {
+	if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": eq(c.ID), "boardId": eq(b.ID)}, update); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
