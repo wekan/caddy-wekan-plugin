@@ -97,9 +97,9 @@ func (s *Server) wipListFor(r *http.Request, u *User, args []json.RawMessage) (*
 	return &l, nil
 }
 
-func (s *Server) setWip(r *http.Request, l *wipList, set bson.M) error {
+func (s *Server) setWip(r *http.Request, u *User, l *wipList, set bson.M) error {
 	set["modifiedAt"] = time.Now().UTC()
-	if _, err := s.db.Collection("lists").UpdateOne(r.Context(), bson.M{"_id": eq(l.ID)}, bson.M{"$set": set}); err != nil {
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "list", bson.M{"_id": eq(l.ID)}, bson.M{"$set": set}); err != nil {
 		return err
 	}
 	// Open pages of the board draw the list's limit again.
@@ -121,7 +121,7 @@ func (s *Server) wipMethods() map[string]methodFunc {
 			if math.IsNaN(limit) || math.IsInf(limit, 0) || limit < 1 {
 				limit = 1
 			}
-			return nil, s.setWip(r, l, bson.M{"wipLimit.value": limit})
+			return nil, s.setWip(r, u, l, bson.M{"wipLimit.value": limit})
 		},
 		"enableWipLimit": func(r *http.Request, u *User, args []json.RawMessage) (any, error) {
 			l, err := s.wipListFor(r, u, args)
@@ -132,14 +132,14 @@ func (s *Server) wipMethods() map[string]methodFunc {
 			if l.WipLimit.Value == 0 {
 				set["wipLimit.value"] = 1.0
 			}
-			return nil, s.setWip(r, l, set)
+			return nil, s.setWip(r, u, l, set)
 		},
 		"enableSoftLimit": func(r *http.Request, u *User, args []json.RawMessage) (any, error) {
 			l, err := s.wipListFor(r, u, args)
 			if err != nil {
 				return nil, err
 			}
-			return nil, s.setWip(r, l, bson.M{"wipLimit.soft": !l.WipLimit.Soft})
+			return nil, s.setWip(r, u, l, bson.M{"wipLimit.soft": !l.WipLimit.Soft})
 		},
 	}
 }

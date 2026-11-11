@@ -132,7 +132,7 @@ func (s *Server) apiEditChecklistItem(w http.ResponseWriter, r *http.Request, u 
 		update["$set"] = set
 	}
 	if len(update) > 0 {
-		if _, err := s.db.Collection("checklistItems").UpdateOne(r.Context(), bson.M{"_id": it["_id"]}, update); err != nil {
+		if _, err := s.entityUpdateOne(r.Context(), u.ID, "checklistItem", bson.M{"_id": it["_id"]}, update); err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
@@ -154,7 +154,7 @@ func (s *Server) apiDeleteChecklistItem(w http.ResponseWriter, r *http.Request, 
 		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}
-	if _, err := s.db.Collection("checklistItems").DeleteOne(r.Context(), bson.M{"_id": it["_id"]}); err != nil {
+	if _, err := s.deleteOneRecorded(r.Context(), u.ID, "checklistItem", bson.M{"_id": it["_id"]}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -221,7 +221,7 @@ func (s *Server) apiEditComment(w http.ResponseWriter, r *http.Request, u *User)
 	if !s.mayChangeComment(w, r, u, b, cm, "edit") {
 		return
 	}
-	if _, err := s.db.Collection("card_comments").UpdateOne(r.Context(), bson.M{"_id": cm["_id"]},
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "comment", bson.M{"_id": cm["_id"]},
 		bson.M{"$set": bson.M{"text": text, "modifiedAt": time.Now().UTC()}}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -243,7 +243,7 @@ func (s *Server) apiDeleteComment(w http.ResponseWriter, r *http.Request, u *Use
 	if cm == nil || !s.mayChangeComment(w, r, u, b, cm, "delete") {
 		return
 	}
-	if _, err := s.db.Collection("card_comments").DeleteOne(r.Context(), bson.M{"_id": cm["_id"]}); err != nil {
+	if _, err := s.deleteOneRecorded(r.Context(), u.ID, "comment", bson.M{"_id": cm["_id"]}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}

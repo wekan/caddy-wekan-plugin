@@ -378,7 +378,7 @@ func (s *Server) methodImportWrikeWorkflow(r *http.Request, u *User, args []json
 		if st.Color != "" {
 			set["color"] = st.Color
 		}
-		if _, err := s.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": eq(made.ID)}, bson.M{"$set": set}); err != nil {
+		if _, err := s.entityUpdateOne(ctx, u.ID, "list", bson.M{"_id": eq(made.ID)}, bson.M{"$set": set}); err != nil {
 			return nil, err
 		}
 		l := bson.M{"_id": made.ID, "title": st.Name, "sort": sort}

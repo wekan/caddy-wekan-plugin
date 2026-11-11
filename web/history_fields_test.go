@@ -272,3 +272,95 @@ func TestCardMoveUndo(t *testing.T) {
 		}
 	}
 }
+
+// The same for lists, swimlanes, checklists, items and comments: an update
+// is recorded (entityUpdateOne), and a sub-entity added or removed is
+// recorded (insertRecorded, deleteOneRecorded) - or listed with why.
+var unrecordedEntityWrites = map[string]string{
+	"api_cards.go:copyChecklists:checklists":                      "a copy's checklists, on a card just made",
+	"api_cards.go:copyChecklists:checklistItems":                  "a copy's items, on a card just made",
+	"api_lanes.go:moveCardTo:card_comments":                       "a moved card's comments follow it; the move is its position row",
+	"api_lanes.go:moveCardTo:checklists":                          "a moved card's checklists follow it; the move is its position row",
+	"board_objects_move.go:methodMoveBoardObjects:checklistItems": "items following their checklist in a move",
+	"card_checklist_writes.go:moveChecklistPage:checklistItems":   "items following their checklist to another card",
+	"history_undo.go:applyHistoryRow:lists":                       "undo and redo themselves, recorded as their restored row",
+	"history_undo.go:softRemoveList:lists":                        "a list's soft delete, recorded as its lifecycle row",
+	"import_general.go:cards:card_comments":                       "an import, whose author WeKan's hooks do not have either",
+	"import_general.go:cards:checklistItems":                      "an import, whose author WeKan's hooks do not have either",
+	"import_general.go:cards:checklists":                          "an import, whose author WeKan's hooks do not have either",
+	"import_scoped.go:importChecklists:checklistItems":            "an import, whose author WeKan's hooks do not have either",
+	"import_scoped.go:importChecklists:checklists":                "an import, whose author WeKan's hooks do not have either",
+	"import_scoped.go:importComments:card_comments":               "an import, whose author WeKan's hooks do not have either",
+	"rule_copy.go:ruleCopyCard:card_comments":                     "a rule's copy, on a card just made",
+	"rules_engine.go:performAction:card_comments":                 "a rule's action, recorded with rules' history - a later step",
+	"rules_engine.go:performAction:checklistItems":                "a rule's action, recorded with rules' history - a later step",
+	"rules_engine.go:performAction:checklists":                    "a rule's action, recorded with rules' history - a later step",
+	"webhooks_out.go:webhookReply:card_comments":                  "a two-way webhook's answer, which has no WeKan user",
+}
+
+func TestEveryEntityWriteIsRecorded(t *testing.T) {
+	files, _ := filepath.Glob("*.go")
+	write := regexp.MustCompile(`Collection\("(lists|swimlanes|checklists|checklistItems|card_comments)"\)\.(Update(?:One|Many))\(|Collection\("(checklists|checklistItems|card_comments)"\)\.(InsertOne|DeleteOne)\(`)
+	fn := regexp.MustCompile(`^func (?:\([^)]*\) )?([A-Za-z_]+)\(`)
+	helpers := map[string]bool{"entityUpdateOne": true, "insertRecorded": true, "deleteOneRecorded": true}
+	found := map[string]bool{}
+	for _, f := range files {
+		if strings.HasSuffix(f, "_test.go") {
+			continue
+		}
+		b, _ := os.ReadFile(f)
+		current := ""
+		for _, line := range strings.Split(string(b), "\n") {
+			if m := fn.FindStringSubmatch(line); m != nil {
+				current = m[1]
+			}
+			for _, m := range write.FindAllStringSubmatch(line, -1) {
+				if helpers[current] {
+					continue
+				}
+				coll := m[1] + m[3]
+				key := f + ":" + current + ":" + coll
+				found[key] = true
+				if _, ok := unrecordedEntityWrites[key]; !ok {
+					t.Errorf("%s writes without recording it: use entityUpdateOne / insertRecorded / deleteOneRecorded, or list it with why", key)
+				}
+			}
+		}
+	}
+	for key := range unrecordedEntityWrites {
+		if !found[key] {
+			t.Errorf("%s is listed but writes no such thing any more: take it off the list", key)
+		}
+	}
+}
+
+// A checklist added and deleted, and an item, are rows with the document.
+func TestChecklistLifecycleRecorded(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Lists")
+	var ann User
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"username": "ann"}).Decode(&ann)
+	if _, err := w.s.insertRecorded(ctx, ann.ID, "checklist", bson.M{"_id": "cl1", "cardId": rb.Card, "boardId": rb.ID, "title": "Todo", "createdAt": time.Now()}); err != nil {
+		t.Fatal(err)
+	}
+	_, _ = w.s.entityUpdateOne(ctx, ann.ID, "checklist", bson.M{"_id": "cl1"}, bson.M{"$set": bson.M{"title": "Done"}})
+	_, _ = w.s.deleteOneRecorded(ctx, ann.ID, "checklist", bson.M{"_id": "cl1"})
+	var kinds []string
+	for _, r := range historyRows(t, w, rb.ID) {
+		kinds = append(kinds, docString(r, "entityType")+":"+docString(r, "changeType"))
+		if r["entityType"] == "checklist" && r["changeType"] == "removed" {
+			doc := r["previousContent"].(map[string]any)["document"].(map[string]any)
+			if doc["title"] != "Done" || doc["cardId"] != rb.Card {
+				t.Errorf("the removed document: %v", doc)
+			}
+		}
+	}
+	if strings.Join(kinds, " ") != "checklist:added checklist:edited checklist:removed" {
+		t.Errorf("the rows: %v", kinds)
+	}
+	if f := verifyWithWeKan(t, historyRows(t, w, rb.ID)); len(f) != 0 {
+		t.Errorf("WeKan's audit: %v", f)
+	}
+}

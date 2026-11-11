@@ -312,9 +312,9 @@ func (s *Server) apiChecklist(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 }
 
-func (s *Server) insertItem(r *http.Request, c *Card, checklistID any, title string, sort int) (any, error) {
+func (s *Server) insertItem(r *http.Request, u *User, c *Card, checklistID any, title string, sort int) (any, error) {
 	id := randomID()
-	_, err := s.db.Collection("checklistItems").InsertOne(r.Context(), bson.M{"_id": id, "cardId": c.ID,
+	_, err := s.insertRecorded(r.Context(), u.ID, "checklistItem", bson.M{"_id": id, "cardId": c.ID,
 		"checklistId": checklistID, "title": title, "sort": sort, "isFinished": false, "createdAt": time.Now().UTC()})
 	return id, err
 }
@@ -355,13 +355,13 @@ func (s *Server) apiAddChecklist(w http.ResponseWriter, r *http.Request, u *User
 		return
 	}
 	id := randomID()
-	if _, err := s.db.Collection("checklists").InsertOne(r.Context(), bson.M{"_id": id, "cardId": c.ID, "title": title,
+	if _, err := s.insertRecorded(r.Context(), u.ID, "checklist", bson.M{"_id": id, "cardId": c.ID, "title": title,
 		"sort": 0, "createdAt": time.Now().UTC()}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 	for i, it := range items {
-		if _, err := s.insertItem(r, c, id, it, i); err != nil {
+		if _, err := s.insertItem(r, u, c, id, it, i); err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
@@ -391,7 +391,7 @@ func (s *Server) apiDeleteChecklist(w http.ResponseWriter, r *http.Request, u *U
 		return
 	}
 	_, _ = s.db.Collection("checklistItems").DeleteMany(r.Context(), bson.M{"checklistId": cl["_id"]})
-	if _, err := s.db.Collection("checklists").DeleteOne(r.Context(), bson.M{"_id": cl["_id"]}); err != nil {
+	if _, err := s.deleteOneRecorded(r.Context(), u.ID, "checklist", bson.M{"_id": cl["_id"]}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -450,7 +450,7 @@ func (s *Server) apiEditChecklist(w http.ResponseWriter, r *http.Request, u *Use
 	if len(set) > 0 {
 		update["$set"] = set
 	}
-	if _, err := s.db.Collection("checklists").UpdateOne(r.Context(), bson.M{"_id": cl["_id"], "cardId": eq(c.ID)}, update); err != nil {
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "checklist", bson.M{"_id": cl["_id"], "cardId": eq(c.ID)}, update); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -481,7 +481,7 @@ func (s *Server) apiAddChecklistItem(w http.ResponseWriter, r *http.Request, u *
 		return
 	}
 	n, _ := s.db.Collection("checklistItems").CountDocuments(r.Context(), bson.M{"checklistId": cl["_id"]})
-	id, err := s.insertItem(r, c, cl["_id"], title, int(n))
+	id, err := s.insertItem(r, u, c, cl["_id"], title, int(n))
 	if err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -550,7 +550,7 @@ func (s *Server) apiAddComment(w http.ResponseWriter, r *http.Request, u *User) 
 	}
 	now := time.Now().UTC()
 	id := randomID()
-	if _, err := s.db.Collection("card_comments").InsertOne(r.Context(), bson.M{"_id": id, "boardId": b.ID, "cardId": c.ID,
+	if _, err := s.insertRecorded(r.Context(), u.ID, "comment", bson.M{"_id": id, "boardId": b.ID, "cardId": c.ID,
 		"text": req.Comment, "userId": u.ID, "createdAt": now, "modifiedAt": now}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return

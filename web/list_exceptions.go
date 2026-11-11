@@ -76,7 +76,7 @@ func (s *Server) setListExceptions(ctx context.Context, u *User, listID string, 
 	if len(clean) > 0 {
 		mod = bson.M{"$set": bson.M{"roleExceptions": clean}}
 	}
-	if _, err := s.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": eq(listID), "boardId": b.ID}, mod); err != nil {
+	if _, err := s.entityUpdateOne(ctx, u.ID, "list", bson.M{"_id": eq(listID), "boardId": b.ID}, mod); err != nil {
 		return nil, err
 	}
 	s.hub.publish(b.ID, "board-changed")

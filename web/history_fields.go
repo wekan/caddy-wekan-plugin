@@ -375,7 +375,13 @@ func (s *Server) historyLocate(ctx context.Context, entity string, doc map[strin
 // read before and after, its changes a row each. What the routes of the
 // card details and the REST API write goes through it.
 func (s *Server) cardsUpdateOne(ctx context.Context, userID string, filter any, update any, opts ...options.Lister[options.UpdateOneOptions]) (*mongo.UpdateResult, error) {
-	coll := s.db.Collection("cards")
+	return s.entityUpdateOne(ctx, userID, "card", filter, update, opts...)
+}
+
+// entityUpdateOne is cardsUpdateOne for any recorded entity: a list, a
+// swimlane, a checklist, an item or a comment.
+func (s *Server) entityUpdateOne(ctx context.Context, userID, entity string, filter any, update any, opts ...options.Lister[options.UpdateOneOptions]) (*mongo.UpdateResult, error) {
+	coll := s.db.Collection(historyCollections[entity])
 	var before bson.M
 	_ = coll.FindOne(ctx, filter).Decode(&before)
 	res, err := coll.UpdateOne(ctx, filter, update, opts...)
@@ -385,7 +391,7 @@ func (s *Server) cardsUpdateOne(ctx context.Context, userID string, filter any, 
 	var after bson.M
 	if coll.FindOne(ctx, bson.M{"_id": before["_id"]}).Decode(&after) == nil {
 		u, _ := update.(bson.M)
-		s.recordFieldChanges(ctx, userID, "card", plain(before).(map[string]any), plain(after).(map[string]any), updateFields(u))
+		s.recordFieldChanges(ctx, userID, entity, plain(before).(map[string]any), plain(after).(map[string]any), updateFields(u))
 	}
 	return res, nil
 }
@@ -433,4 +439,79 @@ func actorID(u *User) string {
 		return ""
 	}
 	return u.ID
+}
+
+// historyLifecycleGroups: the group of a sub-entity's added and removed rows
+// (recordLifecycle).
+var historyLifecycleGroups = map[string]string{"checklist": "checklists", "checklistItem": "checklists", "comment": "comments", "attachment": "attachments"}
+
+// recordLifecycle is WeKan's: a checklist, an item, a comment or an
+// attachment added or removed, its whole document the row's content.
+func (s *Server) recordLifecycle(ctx context.Context, userID, entity string, doc map[string]any, changeType string) {
+	defer func() { _ = recover() }() // recording never fails the write
+	if userID == "" || doc == nil {
+		return
+	}
+	where := s.historyLocate(ctx, entity, doc)
+	if where.BoardID == "" {
+		return
+	}
+	raw, _ := json.Marshal(jsonForHistory(doc))
+	var snapshot any
+	_ = json.Unmarshal(raw, &snapshot)
+	row := where
+	row.EntityType, row.EntityID, row.Group, row.ChangeType, row.UserID = entity, docString(doc, "_id"), historyLifecycleGroups[entity], changeType, userID
+	if changeType == "removed" {
+		row.PreviousContent = map[string]any{"document": snapshot}
+	} else {
+		row.NewContent = map[string]any{"document": snapshot}
+	}
+	s.recordHistory(ctx, row)
+}
+
+// jsonForHistory is a document as JSON.parse(JSON.stringify(doc)) gives it:
+// a date as its ISO string.
+func jsonForHistory(v any) any {
+	switch x := plain(v).(type) {
+	case time.Time:
+		return x.UTC().Format("2006-01-02T15:04:05.000Z")
+	case map[string]any:
+		out := map[string]any{}
+		for k, e := range x {
+			out[k] = jsonForHistory(e)
+		}
+		return out
+	case []any:
+		out := make([]any, len(x))
+		for i, e := range x {
+			out[i] = jsonForHistory(e)
+		}
+		return out
+	}
+	return v
+}
+
+// insertRecorded is InsertOne of a sub-entity, recorded as added.
+func (s *Server) insertRecorded(ctx context.Context, userID, entity string, doc any) (*mongo.InsertOneResult, error) {
+	coll := s.db.Collection(historyCollections[entity])
+	res, err := coll.InsertOne(ctx, doc)
+	if err == nil {
+		var saved bson.M
+		if coll.FindOne(ctx, bson.M{"_id": res.InsertedID}).Decode(&saved) == nil {
+			s.recordLifecycle(ctx, userID, entity, plain(saved).(map[string]any), "added")
+		}
+	}
+	return res, err
+}
+
+// deleteOneRecorded is DeleteOne of a sub-entity, recorded as removed.
+func (s *Server) deleteOneRecorded(ctx context.Context, userID, entity string, filter any) (*mongo.DeleteResult, error) {
+	coll := s.db.Collection(historyCollections[entity])
+	var doc bson.M
+	_ = coll.FindOne(ctx, filter).Decode(&doc)
+	res, err := coll.DeleteOne(ctx, filter)
+	if err == nil && res.DeletedCount > 0 && doc != nil {
+		s.recordLifecycle(ctx, userID, entity, plain(doc).(map[string]any), "removed")
+	}
+	return res, err
 }

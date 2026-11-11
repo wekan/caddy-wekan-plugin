@@ -303,7 +303,7 @@ func (s *Server) methodMoveBoardObjects(r *http.Request, u *User, args []json.Ra
 	checklistID := dest["checklist"].ID
 	if len(grouped["item"]) > 0 && checklistID == "" {
 		checklistID = randomID()
-		_, _ = s.db.Collection("checklists").InsertOne(ctx, bson.M{"_id": checklistID, "cardId": cardID, "boardId": destBoard.ID, // inserted, not a filter
+		_, _ = s.insertRecorded(ctx, u.ID, "checklist", bson.M{"_id": checklistID, "cardId": cardID, "boardId": destBoard.ID, // inserted, not a filter
 			"title": docString(grouped["item"][0].Doc, "title"), "sort": 0.0, "createdAt": now})
 		grouped["checklist"] = append(grouped["checklist"], described{Kind: "checklist", ID: checklistID})
 	}

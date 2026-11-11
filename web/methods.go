@@ -338,7 +338,7 @@ func (s *Server) methodRemoveChecklist(r *http.Request, u *User, args []json.Raw
 	if _, err := s.db.Collection("checklistItems").DeleteMany(ctx, bson.M{"checklistId": cl.ID}); err != nil {
 		return nil, err
 	}
-	res, err := s.db.Collection("checklists").DeleteOne(ctx, bson.M{"_id": cl.ID})
+	res, err := s.deleteOneRecorded(ctx, u.ID, "checklist", bson.M{"_id": cl.ID})
 	if err != nil {
 		return nil, err
 	}
@@ -441,7 +441,7 @@ func (s *Server) methodUpdateListSort(r *http.Request, u *User, args []json.RawM
 		}
 		set[field] = v
 	}
-	if _, err := s.db.Collection("lists").UpdateOne(r.Context(), bson.M{"_id": l.ID}, bson.M{"$set": set}); err != nil {
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "list", bson.M{"_id": l.ID}, bson.M{"$set": set}); err != nil {
 		return nil, err
 	}
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
@@ -486,7 +486,7 @@ func (s *Server) methodUpdateList(r *http.Request, u *User, args []json.RawMessa
 		}
 		set[field] = v
 	}
-	if _, err := s.db.Collection("lists").UpdateOne(r.Context(), bson.M{"_id": l.ID}, bson.M{"$set": set}); err != nil {
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "list", bson.M{"_id": l.ID}, bson.M{"$set": set}); err != nil {
 		return nil, err
 	}
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))

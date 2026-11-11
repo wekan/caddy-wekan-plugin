@@ -237,7 +237,7 @@ func (s *Server) copySubtasksAndComments(r *http.Request, u *User, from, to *Car
 		_ = cur.All(ctx, &comments)
 		for _, cm := range comments {
 			cm["_id"], cm["cardId"], cm["boardId"] = randomID(), to.ID, toBoard.ID
-			_, _ = s.db.Collection("card_comments").InsertOne(ctx, cm)
+			_, _ = s.insertRecorded(ctx, u.ID, "comment", cm)
 		}
 	}
 }

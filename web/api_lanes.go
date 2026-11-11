@@ -260,7 +260,7 @@ func (s *Server) apiArchiveList(archive bool) apiHandler {
 		if archive {
 			set["archivedAt"] = time.Now().UTC()
 		}
-		if _, err := s.db.Collection("lists").UpdateOne(r.Context(), bson.M{"_id": l.ID}, bson.M{"$set": set}); err != nil {
+		if _, err := s.entityUpdateOne(r.Context(), u.ID, "list", bson.M{"_id": l.ID}, bson.M{"$set": set}); err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
@@ -433,7 +433,7 @@ func (s *Server) moveListTo(ctx context.Context, u *User, b, to *Board, l bson.M
 			set["title"] = title
 		}
 		if len(set) > 0 {
-			_, _ = s.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": eq(id)}, bson.M{"$set": set})
+			_, _ = s.entityUpdateOne(ctx, u.ID, "list", bson.M{"_id": eq(id)}, bson.M{"$set": set})
 		}
 		s.reposition(ctx, "lists", id, b.ID, req.Position)
 		s.hub.publish(b.ID, "board-changed")
@@ -594,7 +594,7 @@ func (s *Server) apiMoveSwimlane(w http.ResponseWriter, r *http.Request, u *User
 		set["boardId"], set["sort"] = to.ID, float64(n)
 	}
 	if len(set) > 0 {
-		if _, err := s.db.Collection("swimlanes").UpdateOne(ctx, bson.M{"_id": eq(id), "boardId": b.ID}, bson.M{"$set": set}); err != nil {
+		if _, err := s.entityUpdateOne(ctx, u.ID, "swimlane", bson.M{"_id": eq(id), "boardId": b.ID}, bson.M{"$set": set}); err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}

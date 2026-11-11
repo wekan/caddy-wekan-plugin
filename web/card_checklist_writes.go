@@ -100,7 +100,7 @@ func (s *Server) addChecklistPage(w http.ResponseWriter, r *http.Request, u *Use
 	}
 	id := randomID()
 	now := time.Now().UTC()
-	if _, err := s.db.Collection("checklists").InsertOne(r.Context(), bson.M{"_id": id, "cardId": c.ID, "boardId": b.ID, "title": title,
+	if _, err := s.insertRecorded(r.Context(), u.ID, "checklist", bson.M{"_id": id, "cardId": c.ID, "boardId": b.ID, "title": title,
 		"sort": s.nextSort(r.Context(), "checklists", bson.M{"cardId": eq(c.ID)}), "createdAt": now, "modifiedAt": now}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -126,7 +126,7 @@ func (s *Server) addChecklistItemPage(w http.ResponseWriter, r *http.Request, u 
 	clID := docString(cl, "_id")
 	id := randomID()
 	now := time.Now().UTC()
-	if _, err := s.db.Collection("checklistItems").InsertOne(r.Context(), bson.M{"_id": id, "cardId": c.ID, "boardId": b.ID, "checklistId": clID,
+	if _, err := s.insertRecorded(r.Context(), u.ID, "checklistItem", bson.M{"_id": id, "cardId": c.ID, "boardId": b.ID, "checklistId": clID,
 		"title": title, "sort": s.nextSort(r.Context(), "checklistItems", bson.M{"checklistId": eq(clID)}), "isFinished": false,
 		"createdAt": now, "modifiedAt": now}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -177,7 +177,7 @@ func (s *Server) toggleChecklistItemPage(w http.ResponseWriter, r *http.Request,
 	}
 	// ChecklistItems.before.update: a finished checklist is uncompleted.
 	wasFinished := s.checklistFinished(r.Context(), cl)
-	if _, err := s.db.Collection("checklistItems").UpdateOne(r.Context(), bson.M{"_id": eq(itemID)},
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "checklistItem", bson.M{"_id": eq(itemID)},
 		bson.M{"$set": bson.M{"isFinished": !finished, "modifiedAt": time.Now().UTC()}}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -208,7 +208,7 @@ func (s *Server) deleteChecklistPage(w http.ResponseWriter, r *http.Request, u *
 	clID := docString(cl, "_id")
 	s.activity(r.Context(), u.ID, "removeChecklist", bson.M{"cardId": c.ID, "boardId": b.ID, "checklistId": clID,
 		"checklistName": docString(cl, "title"), "listId": c.ListID, "swimlaneId": c.SwimlaneID})
-	if _, err := s.db.Collection("checklists").DeleteOne(r.Context(), bson.M{"_id": eq(clID), "cardId": eq(c.ID)}); err != nil {
+	if _, err := s.deleteOneRecorded(r.Context(), u.ID, "checklist", bson.M{"_id": eq(clID), "cardId": eq(c.ID)}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -230,7 +230,7 @@ func (s *Server) renameChecklistPage(w http.ResponseWriter, r *http.Request, u *
 	if !ok {
 		return
 	}
-	if _, err := s.db.Collection("checklists").UpdateOne(r.Context(), bson.M{"_id": eq(docString(cl, "_id")), "cardId": eq(c.ID)},
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "checklist", bson.M{"_id": eq(docString(cl, "_id")), "cardId": eq(c.ID)},
 		bson.M{"$set": bson.M{"title": title, "modifiedAt": time.Now().UTC()}}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -269,7 +269,7 @@ func (s *Server) checklistItemTitlePage(w http.ResponseWriter, r *http.Request, 
 	if !ok {
 		return
 	}
-	if _, err := s.db.Collection("checklistItems").UpdateOne(r.Context(), bson.M{"_id": eq(docString(it, "_id"))},
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "checklistItem", bson.M{"_id": eq(docString(it, "_id"))},
 		bson.M{"$set": bson.M{"title": title, "modifiedAt": time.Now().UTC()}}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -292,7 +292,7 @@ func (s *Server) deleteChecklistItemPage(w http.ResponseWriter, r *http.Request,
 	if !ok {
 		return
 	}
-	if _, err := s.db.Collection("checklistItems").DeleteOne(r.Context(), bson.M{"_id": eq(docString(it, "_id"))}); err != nil {
+	if _, err := s.deleteOneRecorded(r.Context(), u.ID, "checklistItem", bson.M{"_id": eq(docString(it, "_id"))}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -341,7 +341,7 @@ func (s *Server) moveChecklistPage(w http.ResponseWriter, r *http.Request, u *Us
 	_, _ = s.db.Collection("activities").UpdateMany(r.Context(), bson.M{"checklistId": eq(clID)}, bson.M{"$set": bson.M{"cardId": tc.ID}})
 	_, _ = s.db.Collection("checklistItems").UpdateMany(r.Context(), bson.M{"checklistId": eq(clID)},
 		bson.M{"$set": bson.M{"cardId": tc.ID, "boardId": tb.ID, "modifiedAt": now}})
-	if _, err := s.db.Collection("checklists").UpdateOne(r.Context(), bson.M{"_id": eq(clID), "cardId": eq(c.ID)},
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "checklist", bson.M{"_id": eq(clID), "cardId": eq(c.ID)},
 		bson.M{"$set": bson.M{"cardId": tc.ID, "boardId": tb.ID, "modifiedAt": now}}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -382,13 +382,13 @@ func (s *Server) copyChecklistPage(w http.ResponseWriter, r *http.Request, u *Us
 		doc[k] = v
 	}
 	doc["_id"], doc["cardId"], doc["boardId"], doc["createdAt"], doc["modifiedAt"] = copyID, tc.ID, tb.ID, now, now
-	if _, err := s.db.Collection("checklists").InsertOne(r.Context(), doc); err != nil {
+	if _, err := s.insertRecorded(r.Context(), u.ID, "checklist", doc); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	for _, it := range items {
 		it["_id"], it["checklistId"], it["cardId"], it["boardId"] = randomID(), copyID, tc.ID, tb.ID
-		_, _ = s.db.Collection("checklistItems").InsertOne(r.Context(), it)
+		_, _ = s.insertRecorded(r.Context(), u.ID, "checklistItem", it)
 	}
 	if tb.ID != b.ID {
 		s.hub.publishFrom(tb.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
@@ -423,7 +423,7 @@ func (s *Server) checklistItemAssigneePage(w http.ResponseWriter, r *http.Reques
 		}
 		update = bson.M{"$set": bson.M{"assigneeId": who, "modifiedAt": time.Now().UTC()}}
 	}
-	if _, err := s.db.Collection("checklistItems").UpdateOne(r.Context(), bson.M{"_id": eq(docString(it, "_id"))}, update); err != nil {
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "checklistItem", bson.M{"_id": eq(docString(it, "_id"))}, update); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -472,7 +472,7 @@ func (s *Server) sortChecklistItemsPage(w http.ResponseWriter, r *http.Request, 
 	}
 	now := time.Now().UTC()
 	for i, id := range order {
-		_, _ = s.db.Collection("checklistItems").UpdateOne(r.Context(), bson.M{"_id": eq(id), "checklistId": eq(clID)},
+		_, _ = s.entityUpdateOne(r.Context(), u.ID, "checklistItem", bson.M{"_id": eq(id), "checklistId": eq(clID)},
 			bson.M{"$set": bson.M{"sort": float64(i), "modifiedAt": now}})
 	}
 	// The page that dropped the item shows the order already: other pages

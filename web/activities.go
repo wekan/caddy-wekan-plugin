@@ -257,7 +257,7 @@ func (s *Server) AddComment(ctx context.Context, b *Board, u *User, c *Card, tex
 	}
 	now := time.Now().UTC()
 	id := randomID()
-	if _, err := s.db.Collection("card_comments").InsertOne(ctx, bson.M{"_id": id, "boardId": b.ID, "cardId": c.ID, // inserted, not a filter
+	if _, err := s.insertRecorded(ctx, u.ID, "comment", bson.M{"_id": id, "boardId": b.ID, "cardId": c.ID, // inserted, not a filter
 		"text": text, "userId": u.ID, "createdAt": now, "modifiedAt": now}); err != nil {
 		return "", err
 	}
