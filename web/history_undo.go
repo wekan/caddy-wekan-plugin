@@ -292,6 +292,7 @@ func (s *Server) historyMethods() map[string]methodFunc {
 		"lists.softRemove":       s.methodListSoftRemove,
 		"changeHistory.undoLast": reverse("undo"),
 		"changeHistory.redoLast": reverse("redo"),
+		"changeHistory.page":     s.methodHistoryPage,
 	}
 }
 
