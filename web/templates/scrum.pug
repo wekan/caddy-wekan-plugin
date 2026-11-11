@@ -164,6 +164,13 @@
                 p {{t $.L "scrum-daily-observations-help"}}
                 .js-scrum-daily-body
                   p(role="status") {{t $.L "loading"}}
+              //- WeKan's scrumScopeHistory: the sprint's scope and burndown,
+                change by change from History (scrum.getScopeHistory).
+              section.scrum-scope-history.js-scrum-scope(data-board="{{.Board.ID}}", data-sprint="{{.SprintID}}", data-empty="{{t $.L `scrum-scope-history-empty`}}", data-partial="{{t $.L `scrum-partial-report`}}", data-inconsistent="{{t $.L `scrum-scope-history-inconsistent`}}", data-truncated="{{t $.L `scrum-scope-history-truncated`}}", data-scope="{{t $.L `scrum-observed-scope`}}", data-remaining="{{t $.L `scrum-incomplete`}}", data-completed="{{t $.L `scrum-completed`}}", data-cause-start="{{t $.L `scrum-scope-cause-start`}}", data-cause-scrum="{{t $.L `scrum-scope-cause-scrum`}}", data-cause-custom-fields="{{t $.L `scrum-scope-cause-customFields`}}", data-cause-dates="{{t $.L `scrum-scope-cause-dates`}}", data-cause-position="{{t $.L `scrum-scope-cause-position`}}", data-cause-lifecycle="{{t $.L `scrum-scope-cause-lifecycle`}}")
+                h3 {{t $.L "scrum-scope-history"}}
+                p {{t $.L "scrum-scope-history-help"}}
+                .js-scrum-scope-body
+                  p(role="status") {{t $.L "loading"}}
             else
               p {{t $.L "scrum-select-sprint"}}
           else

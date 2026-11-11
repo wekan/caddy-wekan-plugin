@@ -381,3 +381,39 @@ func TestScrumDailyObservations(t *testing.T) {
 		t.Errorf("the newest 366: %v %d", win["truncated"], len(wr))
 	}
 }
+
+// The scope history, as WeKan's scrumScopeReplay: the start and each change
+// to the sprint's cards, from History; a write History never saw marks it
+// inconsistent (negative), and an assigned-only member's is theirs.
+func TestScrumScopeHistory(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	cy := w.seedUser(t, "cy", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Scope")
+	setMember(t, w, rb.ID, Member{UserID: cy.ID, IsActive: true, IsReadAssignedOnly: true})
+	second := "card" + randomID()[:12]
+	_, _ = w.db.Collection("cards").InsertOne(ctx, bson.M{"_id": second, "boardId": rb.ID, "listId": rb.List, "swimlaneId": rb.Swimlane,
+		"title": "Second", "archived": false, "sort": 2, "poker": bson.M{"estimation": 5}})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": rb.Card}, bson.M{"$set": bson.M{"poker.estimation": 3}})
+	ann, cyCall := scrumCaller(t, w, "ann"), scrumCaller(t, w, "cy")
+	sp := resultOf(t, ann("scrum.saveSprint", rb.ID, nil, map[string]any{"name": "S", "plannedStart": "2026-09-01", "plannedEnd": "2026-12-30"}, nil))
+	id := sp["_id"].(string)
+	resultOf(t, ann("scrum.updateCard", rb.ID, rb.Card, map[string]any{"sprintId": id}, 0))
+	resultOf(t, ann("scrum.startSprint", rb.ID, id, 1))
+	time.Sleep(5 * time.Millisecond)
+	resultOf(t, ann("scrum.updateCard", rb.ID, second, map[string]any{"sprintId": id}, 0))
+	h := resultOf(t, ann("scrum.getScopeHistory", rb.ID, id))
+	pts := h["points"].([]any)
+	if len(pts) != 2 || pts[0].(map[string]any)["cause"] != "start" || pts[1].(map[string]any)["cause"] != "scrum" ||
+		pts[1].(map[string]any)["scope"] != 8.0 || h["consistent"] != true {
+		t.Fatalf("the start and one change: %v", h)
+	}
+	if mine := resultOf(t, cyCall("scrum.getScopeHistory", rb.ID, id)); mine["partial"] != true || mine["points"].([]any)[0].(map[string]any)["scope"] != 0.0 {
+		t.Errorf("an assigned-only member's replay has none of the others' cards: %v", mine)
+	}
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": rb.Card}, bson.M{"$set": bson.M{"poker.estimation": 30}})
+	if h := resultOf(t, ann("scrum.getScopeHistory", rb.ID, id)); h["consistent"] != false {
+		t.Errorf("negative: a write History never saw is not flagged: %v", h)
+	}
+}

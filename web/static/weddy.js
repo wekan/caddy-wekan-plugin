@@ -2649,4 +2649,39 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     }, function (e) { scrumError(e.reason || e.message); });
   });
   document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && document.querySelector('.js-pop-over')) closePopOvers(); });
+
+  // WeKan's scrumScopeHistory: a point per change, each bar on the sprint's
+  // largest scope; a History that does not reproduce the sprint says so.
+  up.compiler('.js-scrum-scope', function (sec) {
+    var gone = false, d = sec.dataset, body = sec.querySelector('.js-scrum-scope-body');
+    window.Meteor.callAsync('scrum.getScopeHistory', d.board, d.sprint).then(function (h) {
+      if (gone || !sec.isConnected) return;
+      var html = '';
+      if (h.partial) html += '<p class="scrum-partial-report">' + esc(d.partial) + '</p>';
+      if (h.consistent === false) html += '<p class="warning js-scrum-scope-inconsistent">' + esc(d.inconsistent) + '</p>';
+      if (h.truncated) html += '<p class="warning">' + esc(d.truncated) + '</p>';
+      var points = h.points || [];
+      if (!points.length) { body.innerHTML = html + '<p>' + esc(d.empty) + '</p>'; return; }
+      var max = Math.max.apply(null, [1].concat(points.map(function (p) { return p.scope; })));
+      var cause = function (c) {
+        var key = 'cause' + String(c).replace(/^./, function (x) { return x.toUpperCase(); });
+        return d[key] || ('scrum-scope-cause-' + c);
+      };
+      html += '<section class="scrum-chart"><p>' + esc(h.unit) + '</p>';
+      points.forEach(function (p) {
+        var at = new Date(p.at).toISOString();
+        html += '<figure class="scrum-chart-row scrum-scope-row"><figcaption><time datetime="' + at + '">' + at + '</time> ' + esc(cause(p.cause)) + '</figcaption>';
+        ['scope', 'remaining', 'completed'].forEach(function (k) {
+          html += '<div class="scrum-chart-series"><span class="scrum-chart-label">' + esc(d[k]) + ': ' + esc(p[k]) + '</span>' +
+            '<div class="scrum-chart-track" aria-hidden="true"><div class="scrum-chart-bar ' + k + '" style="width: ' + Math.round(p[k] / max * 100) + '%"></div></div></div>';
+        });
+        html += '</figure>';
+      });
+      body.innerHTML = html + '</section>';
+    }, function (e) {
+      if (gone || !sec.isConnected) return;
+      body.innerHTML = '<p class="warning" role="alert">' + esc(e.reason || e.message) + '</p>';
+    });
+    return function () { gone = true; };
+  });
 })();

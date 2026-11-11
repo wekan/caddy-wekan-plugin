@@ -417,6 +417,7 @@ func (s *Server) scrumMethods() map[string]methodFunc {
 		},
 		"scrum.configure":       s.methodScrumConfigure,
 		"scrum.getDailyHistory": s.methodScrumDailyHistory,
+		"scrum.getScopeHistory": s.methodScrumScopeHistory,
 		"exportDownloadToken":   s.methodExportDownloadToken,
 		"scrum.startSprint":     s.methodScrumStartSprint,
 		"scrum.closeSprint":     s.methodScrumCloseSprint,
