@@ -2450,6 +2450,19 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   function storeHistoryRequest(v) {
     try { if (v) sessionStorage.setItem(HISTORY_KEY, JSON.stringify(v)); else sessionStorage.removeItem(HISTORY_KEY); } catch (err) { /* not retried after a reload */ }
   }
+  // The keystroke's own call: the reply settles its request at once, with
+  // none of callAsync's refresh of the user after it.
+  function historyCall(name) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return fetch('/_methods/' + encodeURIComponent(name), {
+      method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(args),
+    }).then(function (r) {
+      return r.json().then(function (d) {
+        if (!r.ok) { var e = new Error(d.reason || d.error); e.error = d.error; e.reason = d.reason; throw e; }
+        return d.result;
+      });
+    });
+  }
   function historyKeystroke(boardId, direction) {
     var now = Date.now(), pending = storedHistoryRequest(now);
     if (pending && pending.boardId !== boardId) pending = null;
@@ -2459,7 +2472,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       if (i >= calls.length) return Promise.resolve('settled');
       var req = calls[i], method = req.direction === 'undo' ? 'changeHistory.undoLast' : 'changeHistory.redoLast';
       storeHistoryRequest(req);
-      return callAsync(method, req.boardId, req.requestId).then(function () { return 'done'; }, function (err) {
+      return historyCall(method, req.boardId, req.requestId).then(function () { return 'done'; }, function (err) {
         var code = err && err.error;
         if (code === 'scrum-history-request-unsupported') return 'unsupported';
         if (code === undefined || code === null || code === 'too-many-requests' || code === 503 || code === 'timeout') return 'retry';
@@ -2468,7 +2481,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         if (outcome === 'retry') return 'pending';
         storeHistoryRequest(null);
         var next = function () { return run(i + 1); };
-        if (outcome === 'unsupported') return callAsync(method, req.boardId).then(next, next);
+        if (outcome === 'unsupported') return historyCall(method, req.boardId).then(next, next);
         return next();
       });
     };
