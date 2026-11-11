@@ -9,6 +9,7 @@ package web
 import (
 	"context"
 	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -16,6 +17,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -237,6 +239,9 @@ func (s *Server) boardCard(r *http.Request, u *User, boardID, cardID string) (*B
 func (s *Server) uploadAttachment(w http.ResponseWriter, r *http.Request, u *User) {
 	b, c, code := s.boardCard(r, u, r.PathValue("board"), r.PathValue("card"))
 	if code != 0 {
+		if code == http.StatusForbidden {
+			s.noteAssignedAttachmentWrite(r, u, r.PathValue("board"), r.PathValue("card"), "attachment-method:upload")
+		}
 		http.Error(w, http.StatusText(code), code)
 		return
 	}
@@ -262,6 +267,9 @@ func (s *Server) deleteAttachmentPage(w http.ResponseWriter, r *http.Request, u 
 	}
 	b, c, code := s.boardCard(r, u, a.Meta.BoardID, a.Meta.CardID)
 	if code != 0 {
+		if code == http.StatusForbidden {
+			s.noteAssignedAttachmentWrite(r, u, a.Meta.BoardID, a.Meta.CardID, "attachment-method:delete")
+		}
 		http.Error(w, http.StatusText(code), code)
 		return
 	}
@@ -363,6 +371,9 @@ func (s *Server) apiUploadAttachment(w http.ResponseWriter, r *http.Request, u *
 	}
 	b, c, code := s.boardCard(r, u, boardID, cardID)
 	if code != 0 {
+		if code == http.StatusForbidden {
+			s.noteAssignedAttachmentWrite(r, u, boardID, cardID, "attachment-api:upload")
+		}
 		apiError(w, code, http.StatusText(code))
 		return
 	}
@@ -427,6 +438,7 @@ func (s *Server) apiDeleteAttachment(w http.ResponseWriter, r *http.Request, u *
 	var c Card
 	_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": a.Meta.CardID, "boardId": b.ID}).Decode(&c)
 	if !b.WritableIn(r.Context(), s, u, "write", &c) {
+		s.noteAssignedAttachmentWrite(r, u, b.ID, a.Meta.CardID, "attachment-api:delete")
 		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}
@@ -612,4 +624,58 @@ func (s *Server) downloadableAttachment(w http.ResponseWriter, r *http.Request) 
 		return nil
 	}
 	return a
+}
+
+// noteAssignedAttachmentWrite is assignedOnlyAttachments.js
+// mayWriteCardAttachment's record: when an assigned-only member was refused
+// a change to an attachment of a card that is not assigned to them, the
+// attempt goes to Admin Panel -> Problems as UnassignedAttachBleed (medium:
+// it never disables the account). Any other refusal is not this one.
+func (s *Server) noteAssignedAttachmentWrite(r *http.Request, u *User, boardID, cardID, source string) {
+	defer func() { _ = recover() }() // logging must never break the guard
+	var b Board
+	if u == nil || !validID(boardID) || s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(boardID)}).Decode(&b) != nil {
+		return
+	}
+	m := b.member(u.ID)
+	if m == nil || !m.AssignedOnly() || u.IsAdmin {
+		return
+	}
+	var c Card
+	if validID(cardID) && s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(cardID), "boardId": eq(b.ID)}).Decode(&c) == nil &&
+		slices.Contains(c.Assignees, u.ID) {
+		return
+	}
+	s.recordSecurity(r, securityEvent{Key: "authz.assigned-attachment-write", Action: "blocked", Source: source, UserID: u.ID,
+		Detail: "Assigned-only member tried to change an attachment of a card not assigned to them."})
+}
+
+// methodAttachmentDelete is WeKan's api.attachment.delete, the DDP twin of
+// DELETE /api/attachment/delete/{id}: a soft delete by whoever may change
+// the attachment's card - an assigned-only member only on a card assigned
+// to them, the refusal recorded as UnassignedAttachBleed.
+func (s *Server) methodAttachmentDelete(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	id, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	a, err := s.attachment(r, id)
+	if err != nil || a == nil {
+		return nil, &methodError{"attachment-not-found", "Attachment not found"}
+	}
+	var b Board
+	if !validID(a.Meta.BoardID) || s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(a.Meta.BoardID)}).Decode(&b) != nil {
+		return nil, &methodError{"not-authorized", "You do not have permission to delete this attachment"}
+	}
+	var c Card
+	_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(a.Meta.CardID), "boardId": eq(b.ID)}).Decode(&c)
+	if !b.WritableIn(r.Context(), s, u, "write", &c) {
+		s.noteAssignedAttachmentWrite(r, u, b.ID, a.Meta.CardID, "attachment-method:delete")
+		return nil, &methodError{"not-authorized", "You do not have permission to delete this attachment"}
+	}
+	if err := s.softDeleteAttachment(r, a, u); err != nil {
+		return nil, &methodError{"delete-error", err.Error()}
+	}
+	s.hub.publish(b.ID, "board-changed")
+	return map[string]any{"success": true, "attachmentId": a.ID, "fileName": a.Name, "message": "Attachment deleted successfully"}, nil
 }
