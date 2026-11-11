@@ -193,7 +193,7 @@ func (s *Server) resetPassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	password := r.FormValue("password")
-	problem := passwordProblem(password, username, email)
+	problem := s.passwordProblem(r.Context(), password, username, email)
 	if problem == "" && password != r.FormValue("password2") {
 		problem = msg("password-again")
 	}

@@ -182,7 +182,7 @@ func (s *Server) apiCreateUser(w http.ResponseWriter, r *http.Request, u *User) 
 		apiError(w, http.StatusBadRequest, "an e-mail address is needed")
 		return
 	}
-	if p := passwordProblem(req.Password, req.Username, req.Email); p != "" {
+	if p := s.passwordProblem(r.Context(), req.Password, req.Username, req.Email); p != "" {
 		apiError(w, http.StatusBadRequest, p)
 		return
 	}

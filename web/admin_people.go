@@ -78,7 +78,7 @@ func (s *Server) editPerson(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	update := bson.M{"$set": set}
 	if pw := r.FormValue("password"); pw != "" {
-		if p := passwordProblem(pw, target.Username, email); p != "" {
+		if p := s.passwordProblem(r.Context(), pw, target.Username, email); p != "" {
 			back(p)
 			return
 		}
@@ -137,7 +137,7 @@ func (s *Server) methodSetCreateUser(r *http.Request, u *User, args []json.RawMe
 	if !usernamePattern.MatchString(username) || !email_.MatchString(email) || len(fullname) > 200 || len([]rune(initials)) > 8 {
 		return nil, &methodError{"error-user-notCreated", "error-user-notCreated"}
 	}
-	if p := passwordProblem(password, username, email); p != "" {
+	if p := s.passwordProblem(r.Context(), password, username, email); p != "" {
 		return nil, &methodError{"error-password-policy", tr("en", p)}
 	}
 	nu, err := s.CreateUser(ctx, username, email, password, isAdmin == "true")

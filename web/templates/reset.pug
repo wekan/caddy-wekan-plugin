@@ -10,7 +10,7 @@
         .at-error.js-reset-error {{t $.L .Error}}
       form#at-pwd-form(method="post", action="/reset-password/{{.Token}}")
         label(for="at-field-password") {{t $.L "password"}}
-        input#at-field-password(type="password", name="password", autocomplete="new-password", minlength="8", required)
+        input#at-field-password(type="password", name="password", autocomplete="new-password", minlength="{{$.PasswordMin}}", required)
         label(for="at-field-password2") {{t $.L "password-again"}}
-        input#at-field-password2(type="password", name="password2", autocomplete="new-password", minlength="8", required)
+        input#at-field-password2(type="password", name="password2", autocomplete="new-password", minlength="{{$.PasswordMin}}", required)
         button#at-btn.at-btn.submit.primary(type="submit") {{t $.L "change-password"}}

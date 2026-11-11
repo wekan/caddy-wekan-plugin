@@ -316,6 +316,9 @@ func TestVerifyEmailLink(t *testing.T) {
 // address, one mail a minute, a new password by the sign-up rules, every
 // other session signed out.
 func TestForgotAndResetPassword(t *testing.T) {
+	// These pin the ENFORCED password rules; WeKan's default, which Weddy
+	// follows, only reports a short password (TestPasswordPolicy).
+	t.Setenv("PASSWORD_MIN_LENGTH_ENFORCE", "true")
 	sink := newSMTPSink(t)
 	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
 	w := newTestWeKan(t)

@@ -240,6 +240,13 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 	lang := languageOf(r, u)
 	data["L"], data["Lang"] = lang.Tag, lang
 	data["TextPolicy"] = s.textPolicy(r.Context())
+	// The password fields' minlength: the enforced minimum, else none - WeKan's
+	// default only reports a short password (users.go).
+	if p := s.passwordPolicy(r.Context()); p.Enforce {
+		data["PasswordMin"] = p.MinLength
+	} else {
+		data["PasswordMin"] = 0
+	}
 	if u != nil {
 		data["Unread"] = s.unreadNotifications(r.Context(), u.ID)
 		data["Drawer"] = s.drawerGroups(r.Context(), u, s.drawerItems(r.Context(), u, lang.Tag), lang.Tag)

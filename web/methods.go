@@ -99,6 +99,15 @@ func (s *Server) methods() map[string]methodFunc {
 	return m
 }
 
+// publicMethods answer without a login: what the sign-up page needs to know
+// before anybody has signed in, and nothing that reads a user's data.
+func (s *Server) publicMethods() map[string]func(r *http.Request) (any, error) {
+	return map[string]func(r *http.Request) (any, error){
+		// server/lib/passwordPolicy.js: the policy the form checks against.
+		"getPasswordPolicy": func(r *http.Request) (any, error) { return s.passwordPolicy(r.Context()), nil },
+	}
+}
+
 // loggedOutError is the error a WeKan method throws when nobody is logged
 // in, where it is not "not-authorized" - a caller tells the two apart
 // (ImportBleed's spec does): models/import.js, server/models/users.js.
@@ -111,6 +120,12 @@ var loggedOutError = map[string]string{
 
 func (s *Server) methodRoutes(m *http.ServeMux) {
 	m.HandleFunc("POST /_methods/{name}", func(w http.ResponseWriter, r *http.Request) {
+		// The few methods a signed-out page asks, as WeKan's sign-up does.
+		if fn := s.publicMethods()[r.PathValue("name")]; fn != nil {
+			out, _ := fn(r)
+			writeJSON(w, http.StatusOK, map[string]any{"result": out})
+			return
+		}
 		u := s.currentUser(r)
 		if u == nil {
 			code := loggedOutError[r.PathValue("name")]

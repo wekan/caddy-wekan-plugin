@@ -20,6 +20,9 @@ func signUp(t *testing.T, w *testWeKan, c *http.Client, username, email, passwor
 }
 
 func TestUsers(t *testing.T) {
+	// These pin the ENFORCED password rules; WeKan's default, which Weddy
+	// follows, only reports a short password (TestPasswordPolicy).
+	t.Setenv("PASSWORD_MIN_LENGTH_ENFORCE", "true")
 	w := newTestWeKan(t)
 	ac := w.client(t)
 	if res := signUp(t, w, ac, "first", "first@example.invalid", "first-password"); res.StatusCode != http.StatusSeeOther {

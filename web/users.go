@@ -7,9 +7,13 @@ package web
 import (
 	"context"
 	"errors"
+	"fmt"
+	"math"
 	"net/http"
 	"net/url"
+	"os"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 	"unicode/utf8"
@@ -19,28 +23,88 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
-// Password length for a new password: WeKan's default minimum, and its cap
-// (hashing costs time in proportion to the length).
+// Which new passwords are accepted, as WeKan's models/lib/passwordPolicy.js:
+// PASSWORD_MIN_LENGTH (default 8, at most 256) is the length below which a
+// password is short; it is REFUSED only with PASSWORD_MIN_LENGTH_ENFORCE -
+// WeKan's default, which Weddy follows, only reports it - and then neither is
+// the username or the e-mail address. The length cap always holds (hashing
+// costs time in proportion to the length). Admin Panel's login settings
+// (settings.loginOptions) override each, as WeKan's authConfigCatalog.js.
 const (
-	PasswordMinLength = 8
-	PasswordMaxLength = 512
+	PasswordMinLength    = 8
+	passwordMaxMinLength = 256
+	PasswordMaxLength    = 512
 )
 
 var usernamePattern = regexp.MustCompile(`^[A-Za-z0-9._-]{2,64}$`)
 
-// passwordProblem is the translation key of what is wrong with a new password,
-// or "".
-func passwordProblem(password, username, email string) string {
-	n := utf8.RuneCountInString(password)
-	switch {
-	case n < PasswordMinLength:
+// passwordPolicy is the policy in force.
+type passwordPolicy struct {
+	MinLength  int  `json:"minLength"`
+	Enforce    bool `json:"enforce"`
+	CheckPwned bool `json:"checkPwned"`
+}
+
+// passwordPolicyFrom is passwordPolicyConfig: each value from the stored
+// override when there is one, else the environment; a broken one keeps the
+// default.
+func passwordPolicyFrom(stored map[string]any, env func(string) string) passwordPolicy {
+	p := passwordPolicy{MinLength: PasswordMinLength}
+	raw := strings.TrimSpace(env("PASSWORD_MIN_LENGTH"))
+	if v, ok := stored["passwordMinLength"]; ok && v != nil {
+		raw = strings.TrimSpace(fmt.Sprint(v))
+	}
+	if n, err := strconv.ParseFloat(raw, 64); err == nil && n >= 1 && n == math.Trunc(n) {
+		p.MinLength = int(math.Min(n, passwordMaxMinLength))
+	}
+	flag := func(key, name string) bool {
+		if v, ok := stored[key].(bool); ok {
+			return v
+		}
+		return strings.TrimSpace(env(name)) == "true"
+	}
+	p.Enforce = flag("passwordMinLengthEnforce", "PASSWORD_MIN_LENGTH_ENFORCE")
+	p.CheckPwned = flag("passwordCheckPwned", "PASSWORD_CHECK_PWNED")
+	return p
+}
+
+func (s *Server) passwordPolicy(ctx context.Context) passwordPolicy {
+	var set struct {
+		LoginOptions map[string]any `bson:"loginOptions"`
+	}
+	_ = s.db.Collection("settings").FindOne(ctx, bson.M{}).Decode(&set)
+	return passwordPolicyFrom(set.LoginOptions, os.Getenv)
+}
+
+// passwordTooShort: shorter than the minimum, counted in characters.
+func (p passwordPolicy) passwordTooShort(password string) bool {
+	return p.MinLength > 0 && utf8.RuneCountInString(password) < p.MinLength
+}
+
+// problem is passwordProblem: the translation key of what is wrong with a new
+// password, or "".
+func (p passwordPolicy) problem(password, username, email string) string {
+	if p.Enforce && p.passwordTooShort(password) {
 		return "password-too-short"
-	case n > PasswordMaxLength:
+	}
+	if utf8.RuneCountInString(password) > PasswordMaxLength {
 		return "password-too-long"
-	case strings.EqualFold(password, username) || (email != "" && strings.EqualFold(password, email)):
-		return "password-same-as-username"
+	}
+	if !p.Enforce {
+		return ""
+	}
+	local, _, _ := strings.Cut(email, "@")
+	for _, name := range []string{username, email, local} {
+		if utf8.RuneCountInString(name) >= 3 && strings.EqualFold(password, name) {
+			return "password-same-as-username"
+		}
 	}
 	return ""
+}
+
+// passwordProblem is the policy in force's problem with a new password.
+func (s *Server) passwordProblem(ctx context.Context, password, username, email string) string {
+	return s.passwordPolicy(ctx).problem(password, username, email)
 }
 
 // registrationOpen: WeKan's Admin Panel setting - and always for the very first
@@ -121,7 +185,7 @@ func (s *Server) signUp(w http.ResponseWriter, r *http.Request) {
 		fail(msg("error-user-notCreated"))
 		return
 	}
-	if p := passwordProblem(password, username, email); p != "" {
+	if p := s.passwordProblem(r.Context(), password, username, email); p != "" {
 		fail(p)
 		return
 	}
@@ -214,7 +278,7 @@ func (s *Server) changePassword(w http.ResponseWriter, r *http.Request, u *User)
 		email = u.Emails[0].Address
 	}
 	password := r.FormValue("newPassword")
-	if p := passwordProblem(password, u.Username, email); p != "" {
+	if p := s.passwordProblem(r.Context(), password, u.Username, email); p != "" {
 		http.Redirect(w, r, "/profile?error="+p, http.StatusSeeOther)
 		return
 	}

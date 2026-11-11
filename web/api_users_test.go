@@ -27,6 +27,9 @@ func rawBody(t *testing.T, method, url, token, body string) (int, string) {
 }
 
 func TestRESTUsersForASiteAdmin(t *testing.T) {
+	// These pin the ENFORCED password rules; WeKan's default, which Weddy
+	// follows, only reports a short password (TestPasswordPolicy).
+	t.Setenv("PASSWORD_MIN_LENGTH_ENFORCE", "true")
 	w := newTestWeKan(t)
 	ann := w.seedUser(t, "ann", "pw")
 	bob := w.seedUser(t, "bob", "pw")

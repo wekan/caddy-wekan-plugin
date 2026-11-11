@@ -10,11 +10,11 @@
       input#at-field-email(type="email", name="email", value="{{.Email}}", autocomplete="email", required)
       label(for="at-field-password") {{t $.L "password"}}
       .password-input-container
-        input#at-field-password.password-field(type="password", name="password", autocomplete="new-password", minlength="8", required)
+        input#at-field-password.password-field(type="password", name="password", autocomplete="new-password", minlength="{{$.PasswordMin}}", required)
         button.password-toggle-btn.primary(type="button", aria-label="{{t $.L `password`}}: {{t $.L `visibility`}}", title="{{t $.L `password`}}: {{t $.L `visibility`}}") 👁
       label(for="at-field-password_again") {{t $.L "password-again"}}
       .password-input-container
-        input#at-field-password_again.password-field(type="password", name="password2", autocomplete="new-password", minlength="8", required)
+        input#at-field-password_again.password-field(type="password", name="password2", autocomplete="new-password", minlength="{{$.PasswordMin}}", required)
         button.password-toggle-btn.primary(type="button", aria-label="{{t $.L `password`}}: {{t $.L `visibility`}}", title="{{t $.L `password`}}: {{t $.L `visibility`}}") 👁
       if .Invite
         //- WeKan's invitationcode field: registration is closed, an invitation opens it.
