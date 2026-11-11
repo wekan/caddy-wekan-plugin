@@ -1,4 +1,4 @@
-.board-wrapper(class="board-color-{{.Board.Color}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live", data-move="/b/{{.Board.ID}}/move", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}")
+.board-wrapper(class="board-color-{{.Board.Color}}", style="{{.Board.BackgroundStyle}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live", data-move="/b/{{.Board.ID}}/move", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}")
   .board-header
     h1.header-board-name.js-board-title {{.Board.Title}}
     //- WeKan's boardStarButton: the user's favorite, kept in their profile.
@@ -369,7 +369,7 @@
         rules where the file is chosen.
       if .CanAddAttachment
         template.js-pop-over-template(data-pop="card-attachments", data-title="{{t $.L `cardAttachmentsPopup-title`}}")
-          form.js-attachment-upload(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/attachments", enctype="multipart/form-data")
+          form.js-attachment-upload(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/attachments", enctype="multipart/form-data", up-submit, up-target=".board-wrapper")
             ul.pop-over-list
               li
                 input.js-attach-file.hide(type="file", name="file", aria-label="{{t $.L `add-attachment`}}", required)
@@ -707,6 +707,10 @@
                             a.minicard-complete-toggle.js-toggle-card-complete(href="#", data-card="{{.ID}}", data-complete="{{if .DueComplete}}false{{else}}true{{end}}", title="{{if .DueComplete}}{{t $.L `card-mark-incomplete`}}{{else}}{{t $.L `card-mark-complete`}}{{end}}")
                               .materialCheckBox(class="{{if .DueComplete}}is-checked{{end}}")
                         span.minicard-title-text {{viewer .Title $.TextPolicy}}
+                      //- WeKan's minicard cover: the card's cover image.
+                      if .CoverID
+                        .minicard-cover
+                          img(src="/cdn/storage/attachments/{{.CoverID}}", alt="", loading="lazy")
               if .CanAdd
                 //- The card composer is on the page only while it is open, at
                   the top or the bottom of the list (WeKan's inlined form).
@@ -1116,7 +1120,8 @@
         thumbnail or its extension, which opens attachmentViewer - with its
         name, size and actions.
       .card-checklist-attachmentGallery.card-attachmentGallery
-        h3.card-details-item-title
+        h3.card-details-item-title.js-toggle-card-section(data-section="attachments", role="button", tabindex="0")
+          i.fa.fa-caret-down
           i.fa.fa-paperclip
           |  {{t $.L "attachments"}}
         .attachment-gallery.attachments.js-attachments
@@ -1129,6 +1134,8 @@
                 //- WeKan's #3275: the gallery shows an image's thumbnail, not the original.
                 if .Thumbnail
                   img.attachment-thumbnail(src="/cdn/storage/attachments/{{.ID}}/thumbnail", alt="{{.Name}}", title="{{.Name}}", loading="lazy")
+                else if eq .Ext "svg"
+                  img.attachment-thumbnail(src="/cdn/storage/attachments/{{.ID}}", alt="{{.Name}}", title="{{.Name}}", type="image/svg+xml")
                 else
                   span.attachment-thumbnail-text {{.Ext}}
               .attachment-details-container
@@ -1144,6 +1151,26 @@
                       form.js-attachment-delete(method="post", action="/attachments/{{.ID}}/delete", up-submit, up-target=".board-wrapper")
                         button.js-confirm-delete(type="submit", title="{{t $.L `delete`}}", aria-label="{{t $.L `delete`}}")
                           i.fa.fa-trash
+                      if eq .PreviewKind "image"
+                        a.js-open-attachment-menu(href="#", data-attachment="{{.ID}}", title="{{t $.L `attachmentActionsPopup-title`}}", aria-label="{{t $.L `attachmentActionsPopup-title`}}")
+                          i.fa.fa-bars
+                        //- WeKan's attachmentActionsPopup: the card's cover, and
+                          the board's background for a board admin.
+                        template.js-pop-over-template(data-pop="attachment-actions-{{.ID}}", data-title="{{t $.L `attachmentActionsPopup-title`}}")
+                          ul.pop-over-list
+                            li
+                              form(method="post", action="/attachments/{{.ID}}/cover", up-submit, up-target=".board-wrapper")
+                                if eq .ID $.Card.CoverID
+                                  button.js-remove-cover(type="submit") {{t $.L "remove-cover"}}
+                                else
+                                  button.js-add-cover(type="submit") {{t $.L "add-cover"}}
+                            if $.IsBoardAdmin
+                              li
+                                form(method="post", action="/attachments/{{.ID}}/background", up-submit, up-target=".board-wrapper")
+                                  if eq (attachmentURL .ID) $.Board.BackgroundImageURL
+                                    button.js-remove-background-image(type="submit") {{t $.L "remove-background-image"}}
+                                  else
+                                    button.js-add-background-image(type="submit") {{t $.L "add-background-image"}}
       h3.card-details-item-title {{t $.L "comments"}}
       .comments
         if .CanComment

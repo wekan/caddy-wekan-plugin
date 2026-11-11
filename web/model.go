@@ -262,18 +262,20 @@ type Label struct {
 
 // Board is a document of the boards collection.
 type Board struct {
-	ID          string    `bson:"_id" json:"_id"`
-	Title       string    `bson:"title" json:"title"`
-	Description string    `bson:"description,omitempty" json:"description,omitempty"`
-	Slug        string    `bson:"slug" json:"slug"`
-	Color       string    `bson:"color,omitempty" json:"color,omitempty"`
-	Archived    bool      `bson:"archived" json:"archived"`
-	Permission  string    `bson:"permission" json:"permission"` // private | public
-	Type        string    `bson:"type,omitempty" json:"type,omitempty"`
-	Sort        float64   `bson:"sort,omitempty" json:"sort,omitempty"`
-	Members     []Member  `bson:"members" json:"members"`
-	Labels      []Label   `bson:"labels,omitempty" json:"labels,omitempty"`
-	CreatedAt   time.Time `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
+	ID          string   `bson:"_id" json:"_id"`
+	Title       string   `bson:"title" json:"title"`
+	Description string   `bson:"description,omitempty" json:"description,omitempty"`
+	Slug        string   `bson:"slug" json:"slug"`
+	Color       string   `bson:"color,omitempty" json:"color,omitempty"`
+	Archived    bool     `bson:"archived" json:"archived"`
+	Permission  string   `bson:"permission" json:"permission"` // private | public
+	Type        string   `bson:"type,omitempty" json:"type,omitempty"`
+	Sort        float64  `bson:"sort,omitempty" json:"sort,omitempty"`
+	Members     []Member `bson:"members" json:"members"`
+	Labels      []Label  `bson:"labels,omitempty" json:"labels,omitempty"`
+	// BackgroundImageURL is WeKan's: one of the board's image attachments.
+	BackgroundImageURL string    `bson:"backgroundImageURL,omitempty" json:"backgroundImageURL,omitempty"`
+	CreatedAt          time.Time `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
 	// AllowsDueCompleteOnMinicard is Card Settings' "Show at Minicard" of
 	// "Mark as complete": off unless set.
 	AllowsDueCompleteOnMinicard bool `bson:"allowsDueCompleteOnMinicard,omitempty" json:"allowsDueCompleteOnMinicard,omitempty"`
@@ -342,4 +344,6 @@ type Card struct {
 	Type        string    `bson:"type,omitempty" json:"type,omitempty"`
 	CardNumber  int64     `bson:"cardNumber,omitempty" json:"cardNumber,omitempty"`
 	CreatedAt   time.Time `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
+	// CoverID is WeKan's coverId: the image attachment shown on the minicard.
+	CoverID string `bson:"coverId,omitempty" json:"coverId,omitempty"`
 }

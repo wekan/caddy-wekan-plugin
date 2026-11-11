@@ -532,3 +532,5 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 #viewer-content { width: 90%; height: 90%; display: flex; align-items: center; justify-content: center; }
 #viewer-content img, #viewer-content video { max-width: 100%; max-height: 100%; }
 #viewer-content object { width: 100%; height: 100%; background: #fff; }
+.minicard-cover img { display: block; max-width: 100%; max-height: 120px; margin-top: .3em; border-radius: 2px; }
+.js-pop-over form button.js-add-cover, .js-pop-over form button.js-remove-cover, .js-pop-over form button.js-add-background-image, .js-pop-over form button.js-remove-background-image { background: none; border: 0; width: 100%; text-align: left; cursor: pointer; padding: .3em .5em; }

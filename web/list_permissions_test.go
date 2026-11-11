@@ -30,6 +30,9 @@ func TestEveryCardWriteAsksTheList(t *testing.T) {
 		"watchCardPage":       "watching changes only the member's own subscription",
 		"apiEditComment":      "a comment's edit follows the comment's own rule, as WeKan's",
 		"apiDeleteComment":    "a comment's deletion follows the comment's own rule, as WeKan's",
+		// The board's look, by a board admin: it changes nothing of the card
+		// its image is attached to (WeKan's setBackgroundImageURL).
+		"attachmentBackgroundPage": "the board's background is a board admin's choice, not a change to the card",
 	}
 	files, _ := filepath.Glob("*.go")
 	src := map[string]string{}

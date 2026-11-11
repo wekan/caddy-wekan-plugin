@@ -7,6 +7,7 @@ package web
 // WeKan's soft delete does.
 
 import (
+	"bytes"
 	"context"
 	"encoding/base64"
 	"encoding/json"
@@ -203,6 +204,12 @@ func (s *Server) serveAttachment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer f.Close()
+	// An SVG is an image again (svgResponse.js): shown sanitized, under a
+	// policy that lets nothing in it run or load; one that cannot be read
+	// as XML is downloaded, as any other file of a type not shown.
+	if isSVG(a.Type, a.Name) && s.serveSVG(w, r, a, f) {
+		return
+	}
 	disposition := "attachment"
 	typ := a.Type
 	if inline[typ] {
@@ -252,9 +259,14 @@ func (s *Server) uploadAttachment(w http.ResponseWriter, r *http.Request, u *Use
 		return
 	}
 	defer file.Close()
-	if _, err := s.StoreAttachment(r, b, c, u, header.Filename, header.Header.Get("Content-Type"), file); err != nil {
+	a, err := s.StoreAttachment(r, b, c, u, header.Filename, header.Header.Get("Content-Type"), file)
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
+	}
+	// An image uploaded from the card becomes its cover (attachments.js).
+	if a.PreviewKind() == "image" {
+		_, _ = s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": eq(c.ID), "boardId": eq(b.ID)}, bson.M{"$set": bson.M{"coverId": a.ID}})
 	}
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
@@ -326,6 +338,8 @@ func (s *Server) attachmentRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /cdn/storage/attachments/{id}/thumbnail", s.serveAttachmentThumbnail)
 	m.HandleFunc("POST /b/{board}/cards/{card}/attachments", s.page(s.uploadAttachment))
 	m.HandleFunc("POST /attachments/{id}/delete", s.page(s.deleteAttachmentPage))
+	m.HandleFunc("POST /attachments/{id}/cover", s.page(s.attachmentCoverPage))
+	m.HandleFunc("POST /attachments/{id}/background", s.page(s.attachmentBackgroundPage))
 	m.HandleFunc("POST /api/attachment/upload", s.api(s.apiUploadAttachment))
 	m.HandleFunc("GET /api/attachment/download/{id}", s.api(s.apiDownloadAttachment))
 	m.HandleFunc("GET /api/attachment/info/{id}", s.api(s.apiAttachmentInfo))
@@ -678,4 +692,120 @@ func (s *Server) methodAttachmentDelete(r *http.Request, u *User, args []json.Ra
 	}
 	s.hub.publish(b.ID, "board-changed")
 	return map[string]any{"success": true, "attachmentId": a.ID, "fileName": a.Name, "message": "Attachment deleted successfully"}, nil
+}
+
+// serveSVG answers an SVG attachment sanitized, or false when it is not one
+// that can be shown (then it is downloaded as before).
+func (s *Server) serveSVG(w http.ResponseWriter, r *http.Request, a *Attachment, f *attachmentFileHandle) bool {
+	raw, err := io.ReadAll(io.LimitReader(f, maxSVGBytes+1))
+	if err != nil {
+		return false
+	}
+	clean, changed, removed, err := sanitizeSVG(raw)
+	if err != nil {
+		if _, serr := f.Seek(0, io.SeekStart); serr != nil {
+			http.Error(w, "Attachment not found", http.StatusNotFound)
+			return true
+		}
+		return false
+	}
+	if changed {
+		// What was taken out is in Admin Panel -> Problems, as WeKan's
+		// logContentSanitized records it: by who uploaded the file.
+		func() {
+			defer func() { _ = recover() }() // logging must never break serving
+			s.recordSecurity(r, securityEvent{Key: "file.content", Action: "sanitized", Source: "fileView", UserID: a.UserID,
+				Detail: "removed active content from file content \"" + a.Name + "\": " + removed})
+		}()
+	}
+	h := w.Header()
+	h.Set("Content-Type", "image/svg+xml")
+	h.Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; sandbox")
+	h.Set("X-Content-Type-Options", "nosniff")
+	h.Set("X-Frame-Options", "DENY")
+	h.Set("Cache-Control", "private, no-cache")
+	if r.URL.Query().Get("download") == "true" {
+		h.Set("Content-Type", "application/octet-stream")
+		h.Set("Content-Disposition", mime.FormatMediaType("attachment", map[string]string{"filename": a.Name}))
+	} else {
+		h.Set("Content-Disposition", "inline")
+	}
+	http.ServeContent(w, r, "", f.modTime, bytes.NewReader(clean))
+	return true
+}
+
+// attachmentURL is getAttachmentUrl: the attachment's own address here.
+func attachmentURL(id string) string { return "/cdn/storage/attachments/" + id }
+
+// attachmentCoverPage is attachmentActionsPopup's js-add-cover and
+// js-remove-cover: an image of the card as its cover, or none, by whoever
+// may change the card.
+func (s *Server) attachmentCoverPage(w http.ResponseWriter, r *http.Request, u *User) {
+	a, err := s.attachment(r, r.PathValue("id"))
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	b, c, code := s.boardCard(r, u, a.Meta.BoardID, a.Meta.CardID)
+	if code != 0 {
+		http.Error(w, http.StatusText(code), code)
+		return
+	}
+	if a.PreviewKind() != "image" {
+		http.Error(w, "only an image is a cover", http.StatusBadRequest)
+		return
+	}
+	update := bson.M{"$set": bson.M{"coverId": a.ID}}
+	if c.CoverID == a.ID {
+		update = bson.M{"$unset": bson.M{"coverId": ""}}
+	}
+	_, _ = s.db.Collection("cards").UpdateOne(r.Context(), bson.M{"_id": eq(c.ID), "boardId": eq(b.ID)}, update)
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
+}
+
+// attachmentBackgroundPage is js-add-background-image and
+// js-remove-background-image: an image of the board as its background, or
+// none, by a board admin. Only an attachment's own address is ever stored,
+// so the board's style can name nothing else.
+func (s *Server) attachmentBackgroundPage(w http.ResponseWriter, r *http.Request, u *User) {
+	a, err := s.attachment(r, r.PathValue("id"))
+	if err != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	b, err2 := s.boardFor(r.Context(), a.Meta.BoardID, u)
+	if err2 != nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
+	if !b.AdminOf(u.ID) {
+		http.Error(w, "only a board admin sets the background", http.StatusForbidden)
+		return
+	}
+	if a.PreviewKind() != "image" {
+		http.Error(w, "only an image is a background", http.StatusBadRequest)
+		return
+	}
+	url := attachmentURL(a.ID)
+	update := bson.M{"$set": bson.M{"backgroundImageURL": url}}
+	if b.BackgroundImageURL == url {
+		update = bson.M{"$set": bson.M{"backgroundImageURL": ""}}
+	}
+	_, _ = s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": eq(b.ID)}, update)
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	to := "/b/" + b.ID + "/" + b.Slug
+	if validID(a.Meta.CardID) {
+		to += "/" + a.Meta.CardID
+	}
+	http.Redirect(w, r, to, http.StatusSeeOther)
+}
+
+// BackgroundStyle is the board's background image as a style, only ever one
+// of its own attachments' addresses.
+func (b Board) BackgroundStyle() string {
+	if !strings.HasPrefix(b.BackgroundImageURL, "/cdn/storage/attachments/") || !validID(strings.TrimPrefix(b.BackgroundImageURL, "/cdn/storage/attachments/")) {
+		return ""
+	}
+	return "background-image: url(" + b.BackgroundImageURL + "); background-size: cover;"
 }

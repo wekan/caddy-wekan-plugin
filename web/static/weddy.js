@@ -379,13 +379,20 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     openPopOver('card-attachments');
   });
+  // attachmentActionsPopup, the attachment's own.
+  up.on('click', '.card-attachmentGallery .js-open-attachment-menu', function (event, el) {
+    event.preventDefault();
+    openPopOver('attachment-actions-' + el.getAttribute('data-attachment'));
+  });
   up.on('click', '.js-pop-over .js-computer-upload', function (event, el) {
     event.preventDefault();
     var input = el.closest('form').querySelector('.js-attach-file');
     if (input) input.click();
   });
   up.on('change', '.js-pop-over .js-attach-file', function (event, el) {
-    if (el.files && el.files.length) el.form.submit();
+    // Sent in the background, as WeKan's uploader: the page stays, the board
+    // is answered with the file on it.
+    if (el.files && el.files.length) up.submit(el.form);
   });
   // attachmentViewer: a tile opens its file in the overlay - an image, a PDF,
   // video, audio or text - and anything else in its own tab.

@@ -37,6 +37,8 @@ var securityCategories = map[string]securityCategory{
 	"ssrf.attachment":   {Category: "ssrf", Bleed: "LiveBleed", Severity: "high", CWE: "CWE-918", NeverBlocks: true},
 	// UnassignedAttachBleed (GHSA-w26g-rc43-q6cm): an assigned-only member
 	// changing an attachment of a card no longer assigned to them.
+	// FileBleed: active content taken out of a file as it was served.
+	"file.content":                    {Category: "file", Bleed: "FileBleed", Severity: "medium", CWE: "CWE-79"},
 	"authz.assigned-attachment-write": {Category: "authz", Bleed: "UnassignedAttachBleed", Severity: "medium", CWE: "CWE-863"},
 	"authz.parent":                    {Category: "authz", Bleed: "ParentBleed", Severity: "high", CWE: "CWE-862"},
 	"authz.assigned":                  {Category: "authz", Bleed: "AssignedBleed", Severity: "medium", CWE: "CWE-863"},

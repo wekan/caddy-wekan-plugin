@@ -152,6 +152,8 @@ var funcs = template.FuncMap{
 	"t":         tr,
 	// viewer is WeKan's +viewer: a text written in Markdown, shown safely.
 	"viewer": viewer,
+	// attachmentURL is getAttachmentUrl, for the attachment menu.
+	"attachmentURL": attachmentURL,
 	// visibilityIcon is WeKan's: the lock, the users, or the globe.
 	"visibilityIcon": visibilityIcon,
 	// copula is WeKan's ruleTriggerCopula: the linking verb of a rule's trigger,
