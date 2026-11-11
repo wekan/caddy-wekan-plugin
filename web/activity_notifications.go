@@ -77,6 +77,9 @@ func writeCanonical(b *strings.Builder, v any) {
 	switch x := v.(type) {
 	case nil:
 		b.WriteString("null")
+	case jsUndefined:
+		// JavaScript's undefined, which WeKan's canonical() writes so.
+		b.WriteString(`{"$undefined":true}`)
 	case time.Time:
 		b.WriteString(`{"$date":` + jsonString(x.UTC().Format("2006-01-02T15:04:05.000Z")) + "}")
 	case []any:
