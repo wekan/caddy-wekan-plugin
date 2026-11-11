@@ -41,6 +41,60 @@ func historySummary(lang string, row map[string]any) string {
 	if content == nil {
 		return ""
 	}
+	// A Scrum row: each record's name (or id), state and Scrum metadata.
+	if docString(row, "entityType") == "scrum" {
+		var parts []string
+		recs, _ := content["records"].([]any)
+		for _, x := range recs {
+			e, _ := x.(map[string]any)
+			doc, _ := e["document"].(map[string]any)
+			if doc == nil {
+				parts = append(parts, tr(lang, "history-change-removed"))
+				continue
+			}
+			var bits []string
+			for _, b := range []string{docString(doc, "name"), docString(doc, "state")} {
+				if b != "" {
+					bits = append(bits, b)
+				}
+			}
+			if len(bits) == 0 || docString(doc, "name") == "" {
+				bits = append([]string{docString(doc, "_id")}, bits...)
+			}
+			if sc, ok := doc["scrum"]; ok && sc != nil {
+				if raw, err := json.Marshal(plain(sc)); err == nil {
+					bits = append(bits, string(raw))
+				}
+			}
+			parts = append(parts, strings.Join(bits, " — "))
+		}
+		return strings.Join(parts, "; ")
+	}
+	// A rule row: its title, trigger, action and whether it is on.
+	if docString(row, "entityType") == "rule" {
+		state := content
+		if content["rule"] == nil {
+			state, _ = row["previousContent"].(map[string]any)
+		}
+		rule, _ := state["rule"].(map[string]any)
+		trig, _ := state["trigger"].(map[string]any)
+		act, _ := state["action"].(map[string]any)
+		key := msg("history-change-removed")
+		if content["rule"] != nil {
+			key = msg("r-rule-enabled")
+			if r, _ := content["rule"].(map[string]any); r["enabled"] == false {
+				key = msg("r-rule-disabled")
+			}
+		}
+		var bits []string
+		for _, b := range []string{docString(rule, "title"), orDefault(docString(trig, "desc"), docString(trig, "activityType")),
+			orDefault(docString(act, "desc"), docString(act, "actionType")), tr(lang, key)} {
+			if b != "" {
+				bits = append(bits, b)
+			}
+		}
+		return strings.Join(bits, " — ")
+	}
 	v, has := content["value"]
 	switch {
 	case has && v == nil:

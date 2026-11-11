@@ -876,6 +876,11 @@ func TestScrumHistoryJournal(t *testing.T) {
 	if n, _ := w.db.Collection("scrumHistoryCompletions").CountDocuments(ctx, bson.M{"boardId": rb.ID, "direction": "undo"}); n != 1 {
 		t.Errorf("one receipt for the undo: %d", n)
 	}
+	// Found by its row too: on SQLite a field named rowId was read as ROWID.
+	undoneRow := w.s.findDoc(ctx, "changeHistory", bson.M{"boardId": rb.ID, "undone": true})
+	if n, _ := w.db.Collection("scrumHistoryCompletions").CountDocuments(ctx, bson.M{"rowId": undoneRow["_id"]}); undoneRow == nil || n != 1 {
+		t.Errorf("the receipt by its rowId: %d", n)
+	}
 	if n, _ := w.db.Collection("scrumHistoryPending").CountDocuments(ctx, bson.M{"_id": rb.ID}); n != 0 {
 		t.Error("a finished operation leaves no checkpoint")
 	}
@@ -974,7 +979,8 @@ func TestScrumHistoryJournal(t *testing.T) {
 	hc := w.client(t)
 	body(t, w.signIn(t, hc, "ann", "pw"))
 	_, html := get(t, hc, w.srv.URL+"/b/"+rb.ID+"/history?group=scrum")
-	if scrumRow == nil || titleRow == nil || !strings.Contains(html, `data-id="`+scrumRow["_id"].(string)+`"`) || strings.Contains(html, `data-id="`+titleRow["_id"].(string)+`"`) {
+	if scrumRow == nil || titleRow == nil || !strings.Contains(html, `data-id="`+scrumRow["_id"].(string)+`"`) || strings.Contains(html, `data-id="`+titleRow["_id"].(string)+`"`) ||
+		!strings.Contains(html, "issueType") {
 		t.Errorf("History at the Scrum changes: scrum %v, title %v", scrumRow != nil, titleRow != nil)
 	}
 }
