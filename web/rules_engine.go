@@ -1260,6 +1260,9 @@ func (s *Server) methodDeleteRule(r *http.Request, u *User, args []json.RawMessa
 	if err != nil {
 		return nil, err
 	}
+	ruleID := docString(rule, "_id")
+	beforeRule := s.ruleSnapshot(r.Context(), ruleID)
+	defer func() { s.recordRuleChange(r.Context(), beforeRule, s.ruleSnapshot(r.Context(), ruleID), u.ID) }()
 	return true, s.removeRule(r.Context(), rule)
 }
 
@@ -1270,6 +1273,9 @@ func (s *Server) methodSetRuleEnabled(r *http.Request, u *User, args []json.RawM
 	if err != nil {
 		return nil, err
 	}
+	ruleID := docString(rule, "_id")
+	beforeRule := s.ruleSnapshot(r.Context(), ruleID)
+	defer func() { s.recordRuleChange(r.Context(), beforeRule, s.ruleSnapshot(r.Context(), ruleID), u.ID) }()
 	var on bool
 	if len(args) < 2 || json.Unmarshal(args[1], &on) != nil {
 		return nil, &methodError{"Match.Error", "Expected boolean"}

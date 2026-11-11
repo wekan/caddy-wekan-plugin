@@ -193,6 +193,9 @@ func (s *Server) methodUpdateRule(r *http.Request, u *User, args []json.RawMessa
 	if !validID(ruleID) || s.db.Collection("rules").FindOne(ctx, bson.M{"_id": eq(ruleID)}).Decode(&rule) != nil {
 		return nil, &methodError{"not-found", "Rule not found"}
 	}
+	// One History row for the whole edit (ruleHistory.js withRuleHistory).
+	beforeRule := s.ruleSnapshot(ctx, ruleID)
+	defer func() { s.recordRuleChange(ctx, beforeRule, s.ruleSnapshot(ctx, ruleID), u.ID) }()
 	var b Board
 	if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(docString(rule, "boardId"))}).Decode(&b) != nil {
 		return nil, &methodError{"not-found", "Board not found"}

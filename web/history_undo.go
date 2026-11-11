@@ -125,6 +125,9 @@ func (s *Server) requireHistoryIntegrity(r *http.Request, u *User, row map[strin
 // currentHistoryContent is currentContentOf for what Weddy applies: a
 // list's lifecycle.
 func (s *Server) currentHistoryContent(ctx context.Context, row map[string]any) any {
+	if docString(row, "entityType") == "rule" {
+		return s.ruleSnapshot(ctx, docString(row, "entityId"))
+	}
 	for _, side := range []string{"newContent", "previousContent"} {
 		if c, ok := row[side].(map[string]any); ok {
 			if field, ok := c["field"].(string); ok {
@@ -294,7 +297,22 @@ func (s *Server) reverseLast(r *http.Request, u *User, boardID, direction string
 	if err != nil || res.ModifiedCount == 0 {
 		return map[string]any{key: false, "reason": "conflict"}, nil
 	}
-	if !s.applyHistoryRow(ctx, row, direction) {
+	applied := false
+	if docString(row, "entityType") == "rule" {
+		ok, rerr := s.applyRuleHistory(ctx, u, row, direction)
+		if rerr != nil {
+			back := bson.M{"_id": eq(docString(row, "_id"))}
+			for k, v := range taken {
+				back[k] = v
+			}
+			_, _ = s.db.Collection("changeHistory").UpdateOne(ctx, back, bson.M{"$set": released})
+			return nil, rerr
+		}
+		applied = ok
+	} else {
+		applied = s.applyHistoryRow(ctx, row, direction)
+	}
+	if !applied {
 		back := bson.M{"_id": eq(docString(row, "_id"))}
 		for k, v := range taken {
 			back[k] = v
@@ -459,7 +477,17 @@ func (s *Server) methodHistoryRestore(r *http.Request, u *User, args []json.RawM
 			return nil, err
 		}
 		displaced := s.currentHistoryContent(ctx, row)
-		if !s.applyHistoryRow(ctx, row, "restore") {
+		applied := false
+		if docString(row, "entityType") == "rule" {
+			ok, rerr := s.applyRuleHistory(ctx, u, row, "restore")
+			if rerr != nil {
+				return nil, rerr
+			}
+			applied = ok
+		} else {
+			applied = s.applyHistoryRow(ctx, row, "restore")
+		}
+		if !applied {
 			skipped++
 			continue
 		}

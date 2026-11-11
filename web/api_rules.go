@@ -315,6 +315,7 @@ func (s *Server) apiAddRule(w http.ResponseWriter, r *http.Request, u *User) {
 			}
 			var ids bson.M
 			if ids, err = s.insertRule(r.Context(), b.ID, title, trigger, action); err == nil {
+				s.recordRuleChange(r.Context(), map[string]any{"rule": nil}, s.ruleSnapshot(r.Context(), docString(ids, "_id")), u.ID)
 				writeJSON(w, http.StatusOK, ids)
 				return
 			}
@@ -365,6 +366,9 @@ func (s *Server) apiEditRule(w http.ResponseWriter, r *http.Request, u *User) {
 	if rule == nil {
 		return
 	}
+	ruleID := docString(rule, "_id")
+	beforeRule := s.ruleSnapshot(r.Context(), ruleID)
+	defer func() { s.recordRuleChange(r.Context(), beforeRule, s.ruleSnapshot(r.Context(), ruleID), u.ID) }()
 	var req map[string]any
 	if err := decodeJSON(r, &req); err != nil {
 		apiError(w, http.StatusBadRequest, err.Error())
@@ -464,6 +468,9 @@ func (s *Server) apiDeleteRule(w http.ResponseWriter, r *http.Request, u *User) 
 	if rule == nil {
 		return
 	}
+	ruleID := docString(rule, "_id")
+	beforeRule := s.ruleSnapshot(r.Context(), ruleID)
+	defer func() { s.recordRuleChange(r.Context(), beforeRule, s.ruleSnapshot(r.Context(), ruleID), u.ID) }()
 	if err := s.removeRule(r.Context(), rule); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -547,5 +554,6 @@ func (s *Server) methodCreateRule(r *http.Request, u *User, args []json.RawMessa
 	if err != nil {
 		return nil, err
 	}
+	s.recordRuleChange(r.Context(), map[string]any{"rule": nil}, s.ruleSnapshot(r.Context(), docString(ids, "_id")), u.ID)
 	return ids, nil
 }
