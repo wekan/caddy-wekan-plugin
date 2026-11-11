@@ -76,6 +76,8 @@ var securityCategories = map[string]securityCategory{
 	"injection.prototype": {Category: "injection", Bleed: "PrototypeBleed", Severity: "high", CWE: "CWE-1321"},
 	"ssrf.webhook-forge":  {Category: "ssrf", Bleed: "HookBleed", Severity: "high", CWE: "CWE-345"},
 	"authz.background":    {Category: "authz", Bleed: "BackgroundBleed", Severity: "high", CWE: "CWE-639"},
+	// A mutation of a board the caller may not change (boardMutationGuard.js).
+	"authz.mutation": {Category: "authz", Bleed: "MutationBleed", Severity: "high", CWE: "CWE-863"},
 	// CopyIdentityBleed: a copy given another board's or card's identity.
 	"authz.board-copy-overrides": {Category: "authz", Bleed: "CopyIdentityBleed", Severity: "high", CWE: "CWE-915"},
 	"authz.card-copy-overrides":  {Category: "authz", Bleed: "CopyIdentityBleed", Severity: "high", CWE: "CWE-915"},

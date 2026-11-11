@@ -79,6 +79,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"copyCard":                        s.methodCopyCard,
 		"inviteUserToBoard":               s.methodInviteUserToBoard,
 		"searchUsers":                     s.methodSearchUsers,
+		"moveBoardObjects":                s.methodMoveBoardObjects,
 	}
 	for k, v := range s.customFieldMethods() {
 		m[k] = v
