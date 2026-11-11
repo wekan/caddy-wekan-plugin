@@ -2426,9 +2426,54 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var wrapper = document.querySelector('.board-wrapper[data-board]');
     if (!wrapper) return;
     e.preventDefault();
-    callAsync(e.shiftKey ? 'changeHistory.redoLast' : 'changeHistory.undoLast', wrapper.getAttribute('data-board'))
+    historyKeystroke(wrapper.getAttribute('data-board'), e.shiftKey ? 'redo' : 'undo')
       .then(function () { up.reload('.board-wrapper'); }, function () {});
   });
+
+  // WeKan's client/lib/historyKeyRequest.js: each keystroke's request id,
+  // kept in sessionStorage until the server answers, so a lost reply's
+  // retry repeats that request instead of undoing one more change. A row
+  // the keyed path does not cover falls back to the ordinary call.
+  var HISTORY_KEY = 'wekan-history-key-request', HISTORY_KEY_AGE = 10 * 60 * 1000;
+  function newHistoryRequestId() {
+    var a = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', id = 'key-';
+    for (var i = 0; i < 28; i++) id += a[Math.floor(Math.random() * a.length) % a.length];
+    return id;
+  }
+  function storedHistoryRequest(now) {
+    try {
+      var v = JSON.parse(sessionStorage.getItem(HISTORY_KEY) || 'null');
+      return v && typeof v === 'object' && isFinite(v.at) && v.at <= now && now - v.at <= HISTORY_KEY_AGE && typeof v.boardId === 'string' && v.boardId &&
+        (v.direction === 'undo' || v.direction === 'redo') && /^[A-Za-z0-9_-]{16,128}$/.test(v.requestId || '') ? v : null;
+    } catch (err) { return null; }
+  }
+  function storeHistoryRequest(v) {
+    try { if (v) sessionStorage.setItem(HISTORY_KEY, JSON.stringify(v)); else sessionStorage.removeItem(HISTORY_KEY); } catch (err) { /* not retried after a reload */ }
+  }
+  function historyKeystroke(boardId, direction) {
+    var now = Date.now(), pending = storedHistoryRequest(now);
+    if (pending && pending.boardId !== boardId) pending = null;
+    var fresh = { boardId: boardId, direction: direction, requestId: newHistoryRequestId(), at: now };
+    var calls = !pending ? [fresh] : pending.direction === direction ? [pending] : [pending, fresh];
+    var run = function (i) {
+      if (i >= calls.length) return Promise.resolve('settled');
+      var req = calls[i], method = req.direction === 'undo' ? 'changeHistory.undoLast' : 'changeHistory.redoLast';
+      storeHistoryRequest(req);
+      return callAsync(method, req.boardId, req.requestId).then(function () { return 'done'; }, function (err) {
+        var code = err && err.error;
+        if (code === 'scrum-history-request-unsupported') return 'unsupported';
+        if (code === undefined || code === null || code === 'too-many-requests' || code === 503 || code === 'timeout') return 'retry';
+        return 'done';
+      }).then(function (outcome) {
+        if (outcome === 'retry') return 'pending';
+        storeHistoryRequest(null);
+        var next = function () { return run(i + 1); };
+        if (outcome === 'unsupported') return callAsync(method, req.boardId).then(next, next);
+        return next();
+      });
+    };
+    return run(0);
+  }
 
   window.weddyMultiDrag = { sorts: sorts }; // for the tests
 
@@ -2759,5 +2804,23 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         var p = form.querySelector('.warning') || form.insertBefore(document.createElement('p'), form.firstChild);
         p.className = 'warning'; p.setAttribute('role', 'alert'); p.textContent = e.reason || e.message;
       });
+  });
+
+  // WeKan's Scrum views open the board's History in a pop-over, at its
+  // Scrum changes: the History page's own table, its Restore included.
+  up.on('click', '.js-scrum-history', function (event, el) {
+    event.preventDefault();
+    fetch(el.getAttribute('href'), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (html) {
+      var table = new DOMParser().parseFromString(html, 'text/html').querySelector('.history-table');
+      if (!table) return;
+      closePopOvers();
+      var p = document.createElement('div');
+      p.className = 'pop-over js-pop-over';
+      p.setAttribute('role', 'dialog');
+      p.innerHTML = '<div class="header"><a class="close-btn js-close-pop-over" href="#">×</a></div><div class="content"></div>';
+      p.querySelector('.content').appendChild(document.importNode(table, true));
+      document.body.appendChild(p);
+      up.hello(p);
+    });
   });
 })();

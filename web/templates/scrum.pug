@@ -14,7 +14,7 @@
       header.scrum-toolbar
         h2 {{t $.L .ViewKey}}
         button.js-scrum-refresh(type="button") {{t $.L "refresh"}}
-        a.button.js-scrum-history(href="/b/{{.Board.ID}}/history") {{t $.L "history"}}
+        a.button.js-scrum-history(href="/b/{{.Board.ID}}/history?group=scrum") {{t $.L "history"}}
         if .IsReport
           a.button.js-export-chart(href="#", data-chart-key="{{.ChartKey}}", data-sprint-id="{{.SprintID}}") {{t $.L "export"}}
       if .Error

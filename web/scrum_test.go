@@ -965,4 +965,16 @@ func TestScrumHistoryJournal(t *testing.T) {
 	if out := resultOf(t, ann("changeHistory.undoLast", rb.ID, empty)); out["undone"] != false || issue() != "Task" {
 		t.Errorf("negative: an empty request reselects later work: %v", out)
 	}
+
+	// The Scrum views' History: the board's, at its Scrum changes only.
+	ann("/cards/update", map[string]any{"_id": rb.Card}, map[string]any{"$set": map[string]any{"title": "Ordinary"}})
+	var scrumRow, titleRow bson.M
+	_ = w.db.Collection("changeHistory").FindOne(ctx, bson.M{"boardId": rb.ID, "entityType": "scrum"}).Decode(&scrumRow)
+	_ = w.db.Collection("changeHistory").FindOne(ctx, bson.M{"boardId": rb.ID, "entityType": "card"}).Decode(&titleRow)
+	hc := w.client(t)
+	body(t, w.signIn(t, hc, "ann", "pw"))
+	_, html := get(t, hc, w.srv.URL+"/b/"+rb.ID+"/history?group=scrum")
+	if scrumRow == nil || titleRow == nil || !strings.Contains(html, `data-id="`+scrumRow["_id"].(string)+`"`) || strings.Contains(html, `data-id="`+titleRow["_id"].(string)+`"`) {
+		t.Errorf("History at the Scrum changes: scrum %v, title %v", scrumRow != nil, titleRow != nil)
+	}
 }
