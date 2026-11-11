@@ -78,6 +78,14 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 		lang := exportLang(ctx)
 		headers, rows, ok := s.chartRows(ctx, &b, key, lang)
 		title := tr(lang, chartTitles[key])
+		var notices []string
+		if key == "scrumDaily" {
+			var err error
+			if headers, rows, notices, err = s.scrumDailyChartRows(ctx, u, &b, lang, r.URL.Query().Get("sprintId")); err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+		}
 		if key == "scrumVelocity" || key == "scrumSprint" {
 			var err error
 			if title, headers, rows, err = s.scrumChartRows(ctx, u, &b, key, lang, r.URL.Query().Get("sprintId"), title); err != nil {
@@ -100,7 +108,7 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 		name := "export-chart-" + key + "-" + b.ID
 		w.Header().Set("Cache-Control", "no-store")
 		if format == "xlsx" {
-			out, err := chartXlsx(b.Title, title, headers, rows)
+			out, err := chartXlsx(b.Title, title, headers, rows, notices)
 			if err != nil {
 				http.Error(w, "Export failed", http.StatusInternalServerError)
 				return
@@ -117,6 +125,9 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 				cells[i] = cellText(c)
 			}
 			lines = append(lines, strings.Join(cells, "    "))
+		}
+		if len(notices) > 0 {
+			lines = append(append(lines, ""), notices...)
 		}
 		w.Header().Set("Content-Type", "application/pdf")
 		w.Header().Set("Content-Disposition", `attachment; filename="`+name+`.pdf"`)
@@ -167,12 +178,8 @@ func sinceDays(a, b time.Time) float64 { return math.Max(0, b.Sub(a).Hours()/24)
 // chartRows are a chart's table; ok false for one Weddy cannot compute yet.
 func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]any, [][]any, bool) {
 	if slices.Contains(scrumCharts, key) {
-		// The daily observations are not in Weddy yet: WeKan's table,
-		// without rows.
-		if key == "scrumDaily" {
-			return []any{tr(lang, "scrum-sprint"), tr(lang, "date"), "UTC", tr(lang, "scrum-estimate-unit")}, [][]any{}, true
-		}
-		return []any{tr(lang, "scrum-sprint"), tr(lang, "scrum-estimate-unit")}, [][]any{}, true
+		// Their rows are the reader's (scrumChartRows, scrumDailyChartRows).
+		return nil, nil, true
 	}
 	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetProjection(bson.M{
 		"title": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "labelIds": 1,
@@ -870,7 +877,7 @@ func xColumn(i int) string {
 // across row 1 in 16pt bold, the headers in row 2 bold on gray with thin
 // borders, the rows from row 3 - numbers as numbers and times as dates -
 // and every column 20 wide.
-func chartXlsx(boardTitle, title string, headers []any, rows [][]any) ([]byte, error) {
+func chartXlsx(boardTitle, title string, headers []any, rows [][]any, notices []string) ([]byte, error) {
 	name := strings.Map(func(r rune) rune {
 		if strings.ContainsRune(`[]:*?/\`, r) {
 			return ' '
@@ -906,5 +913,16 @@ func chartXlsx(boardTitle, title string, headers []any, rows [][]any) ([]byte, e
 			}
 		}
 	}
-	return xlsxStyledBook([]*xSheet{ws})
+	sheets := []*xSheet{ws}
+	// The notices on a sheet of their own, wrapped, a column 100 wide.
+	if len(notices) > 0 {
+		notes := newXSheet("Notes")
+		notes.Widths = []float64{100}
+		for i, n := range notices {
+			c := notes.cell("A" + strconv.Itoa(i+1))
+			c.Value, c.Alignment = n, xObj("wrapText", true)
+		}
+		sheets = append(sheets, notes)
+	}
+	return xlsxStyledBook(sheets)
 }

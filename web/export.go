@@ -26,6 +26,12 @@ func (s *Server) exportUser(r *http.Request) (*User, bool) {
 			return nil, false
 		}
 		u, err := s.userByToken(r.Context(), t)
+		if err != nil {
+			// A download link's own token (exportDownloadToken).
+			if u = s.exportTokenUser(r.Context(), t); u != nil {
+				return u, true
+			}
+		}
 		return u, err == nil
 	}
 	return s.currentUser(r), true

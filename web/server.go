@@ -100,6 +100,7 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 	go s.runEmailReceipts(s.stopMail)
 	go s.runScheduledRules(s.stopMail)
 	go s.runWebhookQueue(s.stopMail)
+	go s.runScrumDaily(s.stopMail)
 	return s, nil
 }
 

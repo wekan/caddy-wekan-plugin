@@ -3,11 +3,13 @@ package web
 import (
 	"context"
 	"encoding/json"
+	"io"
 	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -269,7 +271,8 @@ func TestScrumMethods(t *testing.T) {
 	}
 }
 
-// Every write to Scrum's own collections is scrum.go's or scrum_history.go's,
+// Every write to Scrum's own collections is scrum.go's, scrum_history.go's or
+// scrum_daily.go's,
 // so each one is compare-and-set and in a History row (negative: the scan
 // sees the shape it guards).
 func TestScrumCollectionsWrittenOnlyByScrum(t *testing.T) {
@@ -279,12 +282,102 @@ func TestScrumCollectionsWrittenOnlyByScrum(t *testing.T) {
 	}
 	files, _ := filepath.Glob("*.go")
 	for _, f := range files {
-		if strings.HasSuffix(f, "_test.go") || f == "scrum.go" || f == "scrum_history.go" {
+		if strings.HasSuffix(f, "_test.go") || f == "scrum.go" || f == "scrum_history.go" || f == "scrum_daily.go" {
 			continue
 		}
 		src, _ := os.ReadFile(f)
 		if write.Match(src) {
 			t.Errorf("%s writes a Scrum collection outside scrum.go", f)
 		}
+	}
+}
+
+// Daily observations, as WeKan's: taken on read once a UTC day and never
+// replaced, the reader's cards only (negative: an assigned-only member sees
+// no other card's estimate), the newest 366, refused while a Scrum import is
+// unfinished; their export with WeKan's notices, through a download token
+// that only the export routes take and that runs out (negatives).
+func TestScrumDailyObservations(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	cy := w.seedUser(t, "cy", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Daily")
+	setMember(t, w, rb.ID, Member{UserID: cy.ID, IsActive: true, IsReadAssignedOnly: true})
+	other := "card" + randomID()[:12]
+	_, _ = w.db.Collection("cards").InsertOne(ctx, bson.M{"_id": other, "boardId": rb.ID, "listId": rb.List, "swimlaneId": rb.Swimlane,
+		"title": "Hidden", "archived": false, "sort": 2, "poker": bson.M{"estimation": 999}})
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": rb.Card}, bson.M{"$set": bson.M{"poker.estimation": 3, "assignees": bson.A{cy.ID}}})
+	ann, cyCall := scrumCaller(t, w, "ann"), scrumCaller(t, w, "cy")
+	sp := resultOf(t, ann("scrum.saveSprint", rb.ID, nil, map[string]any{"name": "D", "plannedStart": "2026-09-01", "plannedEnd": "2026-09-30"}, nil))
+	id := sp["_id"].(string)
+	for _, c := range []string{rb.Card, other} {
+		resultOf(t, ann("scrum.updateCard", rb.ID, c, map[string]any{"sprintId": id}, 0))
+	}
+	resultOf(t, ann("scrum.startSprint", rb.ID, id, 1))
+	_, _ = w.db.Collection("scrumSprints").UpdateOne(ctx, bson.M{"_id": id}, bson.M{"$set": bson.M{"scrumImportPending": true}})
+	if out := ann("scrum.getDailyHistory", rb.ID, id); out["error"] != "scrum-import-pending" {
+		t.Errorf("negative: a daily history while the import is unfinished: %v", out)
+	}
+	if n, _ := w.db.Collection("scrumDailySnapshots").CountDocuments(ctx, bson.M{"boardId": rb.ID}); n != 0 {
+		t.Errorf("negative: an observation taken while the import is unfinished: %d", n)
+	}
+	_, _ = w.db.Collection("scrumSprints").UpdateOne(ctx, bson.M{"_id": id}, bson.M{"$unset": bson.M{"scrumImportPending": ""}})
+	first := resultOf(t, ann("scrum.getDailyHistory", rb.ID, id))
+	rows := first["rows"].([]any)
+	if len(rows) != 1 || rows[0].(map[string]any)["scope"].(map[string]any)["estimate"] != 1002.0 || rows[0].(map[string]any)["consistency"] != "observed" {
+		t.Fatalf("today's observation: %v", first)
+	}
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": rb.Card}, bson.M{"$set": bson.M{"poker.estimation": 8}})
+	if again := resultOf(t, ann("scrum.getDailyHistory", rb.ID, id)); canonical(again["rows"]) != canonical(first["rows"]) {
+		t.Errorf("an observation is never replaced: %v", again)
+	}
+	mine := resultOf(t, cyCall("scrum.getDailyHistory", rb.ID, id))
+	if mine["partial"] != true || mine["rows"].([]any)[0].(map[string]any)["scope"].(map[string]any)["estimate"] != 3.0 {
+		t.Errorf("an assigned-only member's observations: %v", mine)
+	}
+	if raw, _ := json.Marshal(mine); strings.Contains(string(raw), "999") {
+		t.Error("negative: another card's estimate reaches an assigned-only member")
+	}
+
+	// The export, through a download token.
+	tok := ann("exportDownloadToken")["result"].(string)
+	plainC := testClient
+	res, err := plainC.Get(w.srv.URL + "/api/boards/" + rb.ID + "/charts/scrumDaily/exportExcel?sprintId=" + id + "&authToken=" + tok)
+	if err != nil || res.StatusCode != 200 {
+		t.Fatalf("the daily export with a download token: %v %v", err, res)
+	}
+	data, _ := io.ReadAll(res.Body)
+	res.Body.Close()
+	sheets, _ := readXlsx(data)
+	if len(sheets) != 2 || sheets[1].Name != "Notes" || len(sheets[0].Rows) != 3 || sheets[0].Rows[2][4] != "2" || !strings.Contains(sheets[1].Rows[0][0], "missing days are omitted") {
+		t.Errorf("the daily export: %+v", sheets)
+	}
+	if res, _ := plainC.Get(w.srv.URL + "/api/boards/" + rb.ID + "/charts/scrumDaily/exportExcel?sprintId=foreign&authToken=" + tok); res.StatusCode == 200 {
+		t.Error("negative: another sprint's daily export")
+	}
+	req, _ := http.NewRequest("GET", w.srv.URL+"/api/boards/"+rb.ID, nil)
+	req.Header.Set("Authorization", "Bearer "+tok)
+	if res, _ := plainC.Do(req); res.StatusCode == 200 {
+		t.Error("negative: a download token opens the REST API")
+	}
+	_, _ = w.db.Collection("exportDownloadTokens").UpdateMany(ctx, bson.M{}, bson.M{"$set": bson.M{"expiresAt": time.Now().Add(-time.Minute)}})
+	if res, _ := plainC.Get(w.srv.URL + "/api/boards/" + rb.ID + "/charts/scrumDaily/exportExcel?sprintId=" + id + "&authToken=" + tok); res.StatusCode != http.StatusUnauthorized {
+		t.Errorf("negative: an expired download token: %d", res.StatusCode)
+	}
+
+	// The newest 366 of 367.
+	trunc := "trunc" + randomID()[:12]
+	start := time.Now().UTC().Add(-367 * 24 * time.Hour).Truncate(time.Millisecond)
+	_, _ = w.db.Collection("scrumSprints").InsertOne(ctx, bson.M{"_id": trunc, "boardId": rb.ID, "name": "W", "state": "closed",
+		"startSnapshot": bson.M{"at": start, "estimateSource": "poker", "completionPolicy": "dueComplete", "unit": "points", "cards": bson.A{}}})
+	for i := 0; i < 367; i++ {
+		at := start.Add(time.Duration(i+1) * 24 * time.Hour)
+		_, _ = w.db.Collection("scrumDailySnapshots").InsertOne(ctx, bson.M{"_id": trunc + strconv.Itoa(i), "boardId": rb.ID, "sprintId": trunc,
+			"startedAt": start, "capturedAt": at, "day": at.Format("2006-01-02"), "snapshot": bson.M{"unit": "points", "cards": bson.A{}}})
+	}
+	win := resultOf(t, ann("scrum.getDailyHistory", rb.ID, trunc))
+	if wr := win["rows"].([]any); win["truncated"] != true || len(wr) != 366 || wr[0].(map[string]any)["day"] != start.Add(48*time.Hour).Format("2006-01-02") {
+		t.Errorf("the newest 366: %v %d", win["truncated"], len(wr))
 	}
 }

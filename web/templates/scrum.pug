@@ -16,7 +16,7 @@
         button.js-scrum-refresh(type="button") {{t $.L "refresh"}}
         a.button.js-scrum-history(href="/b/{{.Board.ID}}/history") {{t $.L "history"}}
         if .IsReport
-          a.button.js-export-chart(href="/api/boards/{{.Board.ID}}/charts/{{.ChartKey}}/exportExcel?sprintId={{.SprintID}}", data-chart-key="{{.ChartKey}}") {{t $.L "export"}}
+          a.button.js-export-chart(href="#", data-chart-key="{{.ChartKey}}", data-sprint-id="{{.SprintID}}") {{t $.L "export"}}
       if .Error
         p.warning.js-scrum-error(role="alert") {{.Error}}
       else
@@ -156,6 +156,14 @@
                 | {{template "_scrumopts" .SprintOptions}}
             if .SprintID
               | {{template "_scrumreport" .Report}}
+              //- WeKan's scrumDailyHistory: the sprint's daily observations,
+                asked for by the page (scrum.getDailyHistory) and drawn there.
+              section.scrum-daily-history.js-scrum-daily(data-board="{{.Board.ID}}", data-sprint="{{.SprintID}}", data-loading="{{t $.L `loading`}}", data-empty="{{t $.L `scrum-daily-empty`}}", data-partial="{{t $.L `scrum-partial-report`}}", data-partial-snapshot="{{t $.L `scrum-partial-snapshot`}}", data-truncated="{{t $.L `scrum-daily-truncated`}}", data-cards="{{t $.L `cards`}}", data-estimate="{{t $.L `scrum-estimate`}}", data-scope="{{t $.L `scrum-observed-scope`}}", data-remaining="{{t $.L `scrum-incomplete`}}", data-completed="{{t $.L `scrum-completed`}}", data-total="{{t $.L `scrum-total`}}")
+                h3 {{t $.L "scrum-daily-observations"}}
+                a.button.js-export-chart(href="#", data-chart-key="scrumDaily", data-sprint-id="{{.SprintID}}") {{t $.L "export"}}
+                p {{t $.L "scrum-daily-observations-help"}}
+                .js-scrum-daily-body
+                  p(role="status") {{t $.L "loading"}}
             else
               p {{t $.L "scrum-select-sprint"}}
           else

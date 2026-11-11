@@ -415,9 +415,11 @@ func (s *Server) scrumMethods() map[string]methodFunc {
 			}
 			return s.scrumBoardData(r.Context(), u, boardID)
 		},
-		"scrum.configure":   s.methodScrumConfigure,
-		"scrum.startSprint": s.methodScrumStartSprint,
-		"scrum.closeSprint": s.methodScrumCloseSprint,
+		"scrum.configure":       s.methodScrumConfigure,
+		"scrum.getDailyHistory": s.methodScrumDailyHistory,
+		"exportDownloadToken":   s.methodExportDownloadToken,
+		"scrum.startSprint":     s.methodScrumStartSprint,
+		"scrum.closeSprint":     s.methodScrumCloseSprint,
 		"scrum.cancelSprint": func(r *http.Request, u *User, args []json.RawMessage) (any, error) {
 			boardID, err := stringArg(args, 0)
 			if err != nil {
@@ -885,10 +887,7 @@ func (s *Server) scrumSnapshotRows(ctx context.Context, sprint map[string]any, k
 	if snap["stored"] != "rows" {
 		return snapshotCards(snap), nil
 	}
-	kind := "close"
-	if key == "startSnapshot" {
-		kind = "start"
-	}
+	kind := map[string]string{"startSnapshot": "start", "closeSnapshot": "close", "daily": "daily"}[key]
 	at, _ := snap["at"].(time.Time)
 	chunks := s.findDocs(ctx, "scrumSnapshotRows", bson.M{"sprintId": eq(docString(sprint, "_id")), "kind": kind, "at": at},
 		options.Find().SetSort(bson.D{{Key: "chunk", Value: 1}}))

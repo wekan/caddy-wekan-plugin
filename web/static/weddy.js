@@ -2565,4 +2565,88 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       timeboxMinutes: Number(v.timeboxMinutes), notes: v.notes, sprintId: scrumView().dataset.sprint,
       followUpCardIds: new FormData(form).getAll('followUpCardIds') }, scrumRevision(form));
   });
+
+  // WeKan's scrumDailyHistory: a sprint's daily observations, asked for here
+  // (scrum.getDailyHistory) and drawn - by cards or by estimate, each unit and
+  // partiality on its own scale, missing days left out. An answer that comes
+  // after the view moved on to another sprint is dropped.
+  function esc(text) { var d = document.createElement('div'); d.textContent = text == null ? '' : String(text); return d.innerHTML; }
+  function dailyTotal(sec, t) {
+    return sec.dataset.total.replace('__count__', t.count).replace('__estimate__', t.estimate).replace('__unknown__', t.unknown);
+  }
+  function drawDaily(sec, history, metric) {
+    var body = sec.querySelector('.js-scrum-daily-body');
+    var d = sec.dataset, html = '';
+    if (history.partial) html += '<p class="scrum-partial-report">' + esc(d.partial) + '</p>';
+    if (history.truncated) html += '<p class="warning">' + esc(d.truncated) + '</p>';
+    var rows = history.rows || [];
+    if (!rows.length) { body.innerHTML = html + '<p>' + esc(d.empty) + '</p>'; return; }
+    html += '<label>' + esc(d.cards) + ' / ' + esc(d.estimate) + '<select class="js-scrum-daily-metric">' +
+      '<option value="count"' + (metric === 'count' ? ' selected' : '') + '>' + esc(d.cards) + '</option>' +
+      '<option value="estimate"' + (metric === 'estimate' ? ' selected' : '') + '>' + esc(d.estimate) + '</option></select></label>';
+    var groups = [], bySig = {};
+    rows.forEach(function (row) {
+      var sig = JSON.stringify([row.unit, !!row.partial]);
+      if (!bySig[sig]) { bySig[sig] = { unit: row.unit, partial: !!row.partial, rows: [], max: 0 }; groups.push(bySig[sig]); }
+      var g = bySig[sig];
+      g.rows.push(row);
+      ['scope', 'remaining', 'completed'].forEach(function (k) { g.max = Math.max(g.max, row[k][metric]); });
+    });
+    groups.forEach(function (g) {
+      html += '<section class="scrum-chart"><p>' + esc(g.unit) + '</p>' + (g.partial ? '<p>' + esc(d.partialSnapshot) + '</p>' : '');
+      g.rows.forEach(function (row) {
+        var at = new Date(row.capturedAt).toISOString();
+        html += '<figure class="scrum-chart-row scrum-daily-row"><figcaption><time datetime="' + at + '">' + at + '</time></figcaption>';
+        ['scope', 'remaining', 'completed'].forEach(function (k) {
+          var v = row[k][metric], width = g.max ? 100 * v / g.max : 0;
+          html += '<div class="scrum-chart-series"><span class="scrum-chart-label">' + esc(d[k]) + ': ' + esc(v) + '</span>' +
+            '<div class="scrum-chart-track" aria-hidden="true"><div class="scrum-chart-bar ' + k + '" style="width: ' + width + '%"></div></div>' +
+            '<small>' + esc(dailyTotal(sec, row[k])) + '</small></div>';
+        });
+        html += '</figure>';
+      });
+      html += '</section>';
+    });
+    body.innerHTML = html;
+  }
+  up.compiler('.js-scrum-daily', function (sec) {
+    var gone = false;
+    sec.weddyMetric = 'count';
+    window.Meteor.callAsync('scrum.getDailyHistory', sec.dataset.board, sec.dataset.sprint).then(function (history) {
+      if (gone || !sec.isConnected) return;
+      sec.weddyHistory = history;
+      drawDaily(sec, history, sec.weddyMetric);
+    }, function (e) {
+      if (gone || !sec.isConnected) return;
+      sec.querySelector('.js-scrum-daily-body').innerHTML = '<p class="warning" role="alert">' + esc(e.reason || e.message) + '</p>';
+    });
+    return function () { gone = true; };
+  });
+  up.on('change', '.js-scrum-daily-metric', function (event, el) {
+    var sec = el.closest('.js-scrum-daily');
+    sec.weddyMetric = el.value === 'estimate' ? 'estimate' : 'count';
+    if (sec.weddyHistory) drawDaily(sec, sec.weddyHistory, sec.weddyMetric);
+  });
+  // WeKan's exportChartPopup: the chart's PDF and Excel, each link carrying a
+  // download token of its own, as WeKan's carry the login token.
+  up.on('click', '.js-export-chart', function (event, el) {
+    event.preventDefault();
+    var board = (el.closest('[data-board]') || document.querySelector('[data-board]')).dataset.board;
+    callAsync('exportDownloadToken').then(function (token) {
+      closePopOvers();
+      var p = document.createElement('div');
+      p.className = 'pop-over js-pop-over';
+      p.setAttribute('role', 'dialog');
+      var list = '<ul class="pop-over-list">';
+      [['exportPDF', 'fa-file-pdf-o', 'PDF'], ['exportExcel', 'fa-file-excel-o', 'Excel']].forEach(function (f) {
+        var q = new URLSearchParams({ authToken: token });
+        if (el.dataset.sprintId) q.set('sprintId', el.dataset.sprintId);
+        list += '<li><a href="/api/boards/' + encodeURIComponent(board) + '/charts/' + encodeURIComponent(el.dataset.chartKey) + '/' + f[0] + '?' + q.toString() +
+          '" download><i class="fa ' + f[1] + '"></i> ' + f[2] + '</a></li>';
+      });
+      p.innerHTML = '<div class="header"><a class="close-btn js-close-pop-over" href="#">×</a></div><div class="content">' + list + '</ul></div>';
+      document.body.appendChild(p);
+    }, function (e) { scrumError(e.reason || e.message); });
+  });
+  document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && document.querySelector('.js-pop-over')) closePopOvers(); });
 })();
