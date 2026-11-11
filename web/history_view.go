@@ -87,7 +87,6 @@ func historySummary(lang string, row map[string]any) string {
 
 // historyViewPage is GET /b/{board}/history[?card=]: the table.
 func (s *Server) historyViewPage(w http.ResponseWriter, r *http.Request, u *User) {
-	lang := languageOf(r, u).Tag
 	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
 	if err != nil {
 		http.Error(w, "not found", http.StatusNotFound)
@@ -106,6 +105,14 @@ func (s *Server) historyViewPage(w http.ResponseWriter, r *http.Request, u *User
 		req.Scope, req.ScopeID = "card", c.ID
 		back, backTitle = back+"/"+c.ID, c.Title
 	}
+	s.renderHistory(w, r, u, req, "/b/"+b.ID+"/history", "/b/"+b.ID+"/history/restore", back, backTitle, cardID, b)
+}
+
+// renderHistory draws the table for a request: base is its own address,
+// restore where its form posts.
+func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, req historyPageRequest, base, restore, back, backTitle, cardID string, b *Board) {
+	lang := languageOf(r, u).Tag
+	q := r.URL.Query()
 	page, _ := strconv.ParseFloat(q.Get("page"), 64)
 	req.Page = page
 	res, err := s.historyPage(r, u, req)
@@ -122,9 +129,9 @@ func (s *Server) historyViewPage(w http.ResponseWriter, r *http.Request, u *User
 		}
 		mod(v)
 		if len(v) == 0 {
-			return "/b/" + b.ID + "/history"
+			return base
 		}
-		return "/b/" + b.ID + "/history?" + v.Encode()
+		return base + "?" + v.Encode()
 	}
 	var rows []historyViewRow
 	for _, row := range res["rows"].([]map[string]any) {
@@ -149,6 +156,9 @@ func (s *Server) historyViewPage(w http.ResponseWriter, r *http.Request, u *User
 	}
 	var cs []contributor
 	for _, c := range res["contributors"].([]map[string]any) {
+		if b == nil {
+			break // the Member view is one person already
+		}
 		id := c["userId"].(string)
 		name := id
 		var cu User
@@ -158,10 +168,13 @@ func (s *Server) historyViewPage(w http.ResponseWriter, r *http.Request, u *User
 		cs = append(cs, contributor{UserID: id, Name: name, Count: c["count"].(int64), Active: id == req.UserID,
 			Link: link(func(v url.Values) { v.Set("user", id); v.Del("page") })})
 	}
-	data := map[string]any{"Title": tr(lang, "history"), "User": u, "Board": b, "Rows": rows, "Search": req.Search, "CardID": cardID,
+	data := map[string]any{"Title": tr(lang, "history"), "User": u, "Rows": rows, "Search": req.Search, "CardID": cardID,
 		"ActiveUser": req.UserID, "Contributors": cs, "AllLink": link(func(v url.Values) { v.Del("user"); v.Del("page") }),
-		"Page": pageN, "Pages": pages, "Action": "/b/" + b.ID + "/history", "RestoreAction": "/b/" + b.ID + "/history/restore",
+		"Page": pageN, "Pages": pages, "Action": base, "RestoreAction": restore,
 		"Self": link(func(url.Values) {}), "Back": back, "BackTitle": backTitle}
+	if b != nil {
+		data["Board"] = b
+	}
 	if pageN > 1 {
 		data["Prev"] = link(func(v url.Values) { v.Set("page", strconv.FormatInt(pageN-1, 10)) })
 	}
@@ -192,9 +205,28 @@ func (s *Server) historyRestorePage(w http.ResponseWriter, r *http.Request, u *U
 	http.Redirect(w, r, back, http.StatusSeeOther)
 }
 
+// memberHistoryPage is Member Settings' History: one's own changes, on the
+// boards one sees now.
+func (s *Server) memberHistoryPage(w http.ResponseWriter, r *http.Request, u *User) {
+	req := historyPageRequest{UserID: u.ID, Search: r.URL.Query().Get("q")}
+	s.renderHistory(w, r, u, req, "/profile/history", "/profile/history/restore", "/profile", tr(languageOf(r, u).Tag, "edit-profile"), "", nil)
+}
+
+func (s *Server) memberHistoryRestorePage(w http.ResponseWriter, r *http.Request, u *User) {
+	_ = r.ParseForm()
+	raw, _ := jsonMarshalArgs(r.Form["id"])
+	if _, err := s.methodHistoryRestore(r, u, raw); err != nil {
+		http.Error(w, err.Error(), http.StatusForbidden)
+		return
+	}
+	http.Redirect(w, r, "/profile/history", http.StatusSeeOther)
+}
+
 func (s *Server) historyViewRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /b/{board}/history", s.page(s.historyViewPage))
 	m.HandleFunc("POST /b/{board}/history/restore", s.page(s.historyRestorePage))
+	m.HandleFunc("GET /profile/history", s.page(s.memberHistoryPage))
+	m.HandleFunc("POST /profile/history/restore", s.page(s.memberHistoryRestorePage))
 }
 
 // jsonMarshalArgs is a method's arguments as JSON: here the one id list.

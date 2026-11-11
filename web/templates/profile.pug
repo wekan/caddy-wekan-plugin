@@ -8,6 +8,10 @@
       p {{.PasswordRequired}}
   if .Error
     p.at-error.js-profile-error {{.ErrorText}}
+  p
+    a.js-member-history(href="/profile/history")
+      i.fa.fa-history
+      |  {{t $.L "history"}}
   form.js-profile-form(method="post", action="/profile")
     label(for="profile-fullname") {{t $.L "fullname"}}
     input#profile-fullname(type="text", name="fullname", value="{{.User.Profile.Fullname}}")

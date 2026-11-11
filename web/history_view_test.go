@@ -74,3 +74,44 @@ func TestHistoryView(t *testing.T) {
 		t.Errorf("negative: restore from a board not seen: %d", res.StatusCode)
 	}
 }
+
+// Member Settings' History: one's own changes on the boards one sees now.
+func TestMemberHistoryView(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	w.seedUser(t, "eve", "pw")
+	mine := newRESTBoard(t, w, login(t, w, "ann"), "Mine")
+	left := newRESTBoard(t, w, login(t, w, "eve"), "Left")
+	var ann User
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"username": "ann"}).Decode(&ann)
+	setMember(t, w, left.ID, Member{UserID: ann.ID, IsActive: true})
+	_ = w.s.updateRecorded(ctx, ann.ID, "card", mine.Card, bson.M{"$set": bson.M{"title": "MINE-EDIT"}})
+	_ = w.s.updateRecorded(ctx, ann.ID, "card", left.Card, bson.M{"$set": bson.M{"title": "LEFT-EDIT"}})
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	if _, h := get(t, c, w.srv.URL+"/profile"); !strings.Contains(h, `href="/profile/history"`) {
+		t.Error("the profile links to History")
+	}
+	_, h := get(t, c, w.srv.URL+"/profile/history")
+	if !strings.Contains(h, "MINE-EDIT") || !strings.Contains(h, "LEFT-EDIT") || strings.Contains(h, "js-history-contributor") {
+		t.Fatal("both boards' changes, and no contributor list")
+	}
+	// Negative: once off a board, its changes are not shown.
+	setMember(t, w, left.ID, Member{UserID: ann.ID, IsActive: false})
+	if _, h := get(t, c, w.srv.URL+"/profile/history"); strings.Contains(h, "LEFT-EDIT") || !strings.Contains(h, "MINE-EDIT") {
+		t.Error("negative: a board left is not shown")
+	}
+	// Restore from it.
+	var row bson.M
+	_ = w.db.Collection("changeHistory").FindOne(ctx, bson.M{"boardId": mine.ID, "newContent.value": "MINE-EDIT"}).Decode(&row)
+	_ = w.s.updateRecorded(ctx, ann.ID, "card", mine.Card, bson.M{"$set": bson.M{"title": "Later"}})
+	if res, _ := post(t, c, w.srv.URL+"/profile/history/restore", url.Values{"id": {docString(row, "_id")}}); res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("restore: %d", res.StatusCode)
+	}
+	var card bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": mine.Card}).Decode(&card)
+	if card["title"] != "MINE-EDIT" {
+		t.Errorf("restored: %v", card["title"])
+	}
+}
