@@ -2305,14 +2305,23 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       panel.querySelector('.js-table-page-prev').classList.toggle('disabled', state.page <= 1);
       panel.querySelector('.js-table-page-next').classList.toggle('disabled', state.page >= pages);
     }
-    function load(page) {
+    // WeKan's report is reactive: a row that recovery is delivering right now
+    // ("processing", its lease held) turns back when the lease is released.
+    // This one asks again, a second later, while a row is processing - else
+    // its buttons stayed disabled until the page was reloaded.
+    var again = null;
+    function load(page, keepRows) {
       var request = ++state.request;
-      state.rows = []; state.page = page || 1;
-      render();
+      clearTimeout(again); again = null;
+      state.page = page || 1;
+      if (!keepRows) { state.rows = []; render(); }
       callAsync('activityNotificationRecoveryReport', { search: state.search, page: state.page }).then(function (result) {
         if (request !== state.request) return;
         state.rows = result.rows || []; state.total = result.total || 0; state.page = result.page || 1;
         render();
+        if (state.rows.some(function (row) { return row.status === 'processing'; }) && panel.isConnected) {
+          again = setTimeout(function () { if (!state.busy) load(state.page, true); }, 1000);
+        }
       }, function () {
         if (request !== state.request) return;
         message(say('activity-recovery-unavailable'));
@@ -2393,7 +2402,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     search.addEventListener('keydown', onSearchKey);
     panel.addEventListener('click', onClick);
     load(1);
-    return function () { search.removeEventListener('keydown', onSearchKey); panel.removeEventListener('click', onClick); };
+    return function () { clearTimeout(again); search.removeEventListener('keydown', onSearchKey); panel.removeEventListener('click', onClick); };
   });
 
   window.weddyMultiDrag = { sorts: sorts }; // for the tests
