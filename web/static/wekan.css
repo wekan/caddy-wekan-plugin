@@ -510,3 +510,25 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .card-details label.check-box-container { cursor: pointer; display: inline-flex; align-items: center; }
 .card-details label.check-box-container input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .create-custom-field label { display: block; margin-top: .4em; }
+
+/* WeKan's attachmentGallery and attachmentViewer (attachments.css). */
+.fa-paperclip::before { content: "\1F4CE"; }
+.fa-arrow-down::before { content: "\2193"; }
+.hidden, .hide { display: none !important; }
+.attachment-gallery { display: flex; flex-wrap: wrap; gap: .5em; align-items: flex-start; }
+.attachment-item { display: flex; gap: .4em; border: 1px solid #dfe1e6; border-radius: 3px; padding: .3em; max-width: 100%; }
+.attachment-thumbnail-container { width: 64px; height: 48px; border: 0; background: #f4f5f7; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; overflow: hidden; }
+.attachment-thumbnail-container img { max-width: 100%; max-height: 100%; }
+.attachment-thumbnail-text { font-weight: bold; text-transform: uppercase; color: #5e6c84; }
+.attachment-actions { display: flex; gap: .4em; align-items: center; }
+.attachment-actions form { margin: 0; }
+.attachment-actions button { background: none; border: 0; cursor: pointer; padding: 0; }
+.card-attachmentGallery .add-attachment { align-self: center; padding: .2em .5em; }
+#viewer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.85); z-index: 2000; display: flex; flex-direction: column; }
+#viewer-overlay.hidden { display: none !important; }
+#viewer-top-bar { display: flex; justify-content: space-between; color: #fff; padding: .5em 1em; }
+#viewer-close { background: none; border: 0; color: #fff; font-size: 1.5em; cursor: pointer; }
+#viewer-container { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 0; }
+#viewer-content { width: 90%; height: 90%; display: flex; align-items: center; justify-content: center; }
+#viewer-content img, #viewer-content video { max-width: 100%; max-height: 100%; }
+#viewer-content object { width: 100%; height: 100%; background: #fff; }

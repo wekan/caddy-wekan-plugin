@@ -373,6 +373,45 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   });
   up.on('change', '.js-checklist-target .js-select-boards', function (event, sel) { fillChecklistTarget(sel.form, sel.value, false); });
   up.on('change', '.js-checklist-target .js-select-swimlanes, .js-checklist-target .js-select-lists', function (event, sel) { fillChecklistCards(sel.form); });
+  // attachmentGallery's "+": cardAttachmentsPopup, whose "Computer" picks a
+  // file and sends it.
+  up.on('click', '.card-attachmentGallery .js-add-attachment', function (event) {
+    event.preventDefault();
+    openPopOver('card-attachments');
+  });
+  up.on('click', '.js-pop-over .js-computer-upload', function (event, el) {
+    event.preventDefault();
+    var input = el.closest('form').querySelector('.js-attach-file');
+    if (input) input.click();
+  });
+  up.on('change', '.js-pop-over .js-attach-file', function (event, el) {
+    if (el.files && el.files.length) el.form.submit();
+  });
+  // attachmentViewer: a tile opens its file in the overlay - an image, a PDF,
+  // video, audio or text - and anything else in its own tab.
+  up.on('click', '.card-attachmentGallery .open-preview', function (event, el) {
+    event.preventDefault();
+    var kind = el.getAttribute('data-kind'), src = el.getAttribute('data-src');
+    var overlay = document.getElementById('viewer-overlay');
+    if (!overlay || kind === 'none') { window.open(src, '_blank', 'noopener'); return; }
+    ['image-viewer', 'video-viewer', 'audio-viewer', 'pdf-viewer', 'txt-viewer', 'office-viewer'].forEach(function (id) {
+      var v = document.getElementById(id);
+      if (v) v.classList.add('hidden');
+    });
+    var view = document.getElementById({ image: 'image-viewer', video: 'video-viewer', audio: 'audio-viewer', pdf: 'pdf-viewer', text: 'txt-viewer' }[kind]);
+    if (!view) return;
+    if (view.tagName === 'OBJECT') view.setAttribute('data', src);
+    else view.setAttribute('src', src);
+    view.classList.remove('hidden');
+    document.getElementById('attachment-name').textContent = el.getAttribute('data-name') || '';
+    overlay.classList.remove('hidden');
+  });
+  up.on('click', '#viewer-close', function () {
+    var overlay = document.getElementById('viewer-overlay');
+    if (!overlay) return;
+    overlay.classList.add('hidden');
+    overlay.querySelectorAll('video, audio').forEach(function (m) { m.pause(); });
+  });
   // cardCustomFieldsPopup, from the Custom Fields section's hamburger.
   up.on('click', '.js-open-custom-fields-settings', function (event) {
     event.preventDefault();

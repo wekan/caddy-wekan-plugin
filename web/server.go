@@ -819,6 +819,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		if err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c); err == nil {
 			data["Card"] = c
 			data["Attachments"] = s.cardAttachments(r, b, c.ID)
+			data["CanAddAttachment"] = b.WritableIn(r.Context(), s, u, "write", &c)
 			data["Comments"] = s.cardComments(r.Context(), b, c.ID)
 			data["Checklists"] = s.cardChecklists(r.Context(), c.ID)
 			data["CanModifyCard"] = b.WritableIn(r.Context(), s, u, "write", &c)

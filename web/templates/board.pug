@@ -365,6 +365,17 @@
                 option(value="currency") {{t $.L "custom-field-currency"}}
                 option(value="dropdown") {{t $.L "custom-field-dropdown"}}
             button.primary.wide(type="submit") {{t $.L "create"}}
+      //- WeKan's cardAttachmentsPopup: a file from the computer; the upload
+        rules where the file is chosen.
+      if .CanAddAttachment
+        template.js-pop-over-template(data-pop="card-attachments", data-title="{{t $.L `cardAttachmentsPopup-title`}}")
+          form.js-attachment-upload(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/attachments", enctype="multipart/form-data")
+            ul.pop-over-list
+              li
+                input.js-attach-file.hide(type="file", name="file", aria-label="{{t $.L `add-attachment`}}", required)
+                a.js-computer-upload(href="#") {{t $.L "computer"}}
+            .attachment-upload-help.quiet
+              div {{t $.L "invalid-file"}}
       //- WeKan's checklistItemAssigneePopup: the board's active members, or nobody.
       template.js-pop-over-template(data-pop="checklist-item-assignee", data-title="{{t $.L `checklist-item-assignee`}}")
         form.js-checklist-item-assignee-form(method="post", action="#", up-submit, up-target=".board-wrapper")
@@ -1100,18 +1111,39 @@
                   .edit-controls.clearfix
                     button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
                     a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
-      h3 {{t $.L "attachments"}}
-      ul.attachments.js-attachments
-        each a in .Attachments
-          li.js-attachment(data-attachment="{{.ID}}")
-            a.attachment-name(href="/cdn/storage/attachments/{{.ID}}/original/{{.Name}}", target="_blank", rel="noopener")
-              //- WeKan's #3275: the gallery shows an image's thumbnail, not the original.
-              if .Thumbnail
-                img.attachment-thumbnail(src="/cdn/storage/attachments/{{.ID}}/thumbnail", alt="{{.Name}}", title="{{.Name}}", loading="lazy")
-              | {{.Name}}
-            if $.CanEdit
-              form.js-attachment-delete(method="post", action="/attachments/{{.ID}}/delete", up-submit, up-target=".board-wrapper")
-                button(type="submit", aria-label="{{t $.L `delete`}}") ×
+      //- WeKan's attachmentGallery: a "+" opening cardAttachmentsPopup for
+        whoever may change the card, and each attachment as a tile - its
+        thumbnail or its extension, which opens attachmentViewer - with its
+        name, size and actions.
+      .card-checklist-attachmentGallery.card-attachmentGallery
+        h3.card-details-item-title
+          i.fa.fa-paperclip
+          |  {{t $.L "attachments"}}
+        .attachment-gallery.attachments.js-attachments
+          if .CanAddAttachment
+            a.card-label.add-label.add-attachment.js-add-attachment(href="#", title="{{t $.L `add-attachment`}}", aria-label="{{t $.L `add-attachment`}}")
+              i.fa.fa-plus
+          each a in .Attachments
+            .attachment-item.js-attachment(data-attachment="{{.ID}}")
+              button.attachment-thumbnail-container.open-preview(type="button", aria-label="{{t $.L `preview`}}: {{.Name}}", data-attachment-id="{{.ID}}", data-kind="{{.PreviewKind}}", data-name="{{.Name}}", data-src="/cdn/storage/attachments/{{.ID}}/original/{{.Name}}")
+                //- WeKan's #3275: the gallery shows an image's thumbnail, not the original.
+                if .Thumbnail
+                  img.attachment-thumbnail(src="/cdn/storage/attachments/{{.ID}}/thumbnail", alt="{{.Name}}", title="{{.Name}}", loading="lazy")
+                else
+                  span.attachment-thumbnail-text {{.Ext}}
+              .attachment-details-container
+                .attachment-details
+                  div
+                    b.attachment-name {{.Name}}
+                    |  
+                    span.file-size ({{.SizeText}})
+                  .attachment-actions
+                    a.js-download(href="/cdn/storage/attachments/{{.ID}}/original/{{.Name}}?download=true", download="{{.Name}}", title="{{t $.L `download`}}", aria-label="{{t $.L `download`}}")
+                      i.fa.fa-arrow-down
+                    if $.CanAddAttachment
+                      form.js-attachment-delete(method="post", action="/attachments/{{.ID}}/delete", up-submit, up-target=".board-wrapper")
+                        button.js-confirm-delete(type="submit", title="{{t $.L `delete`}}", aria-label="{{t $.L `delete`}}")
+                          i.fa.fa-trash
       h3.card-details-item-title {{t $.L "comments"}}
       .comments
         if .CanComment
@@ -1136,7 +1168,19 @@
                 span.activity-member {{.User}}
                 |  {{.Text}}
               time.activity-time(datetime="{{.ISO}}") {{.Display}}
-      if .CanEdit
-        form.js-attachment-upload(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/attachments", enctype="multipart/form-data")
-          input(type="file", name="file", aria-label="{{t $.L `add-attachment`}}", required)
-          button.primary(type="submit") {{t $.L "add-attachment"}}
+      //- WeKan's attachmentViewer: hidden until a tile is opened; an Office
+        file is never framed here (opened in its own tab instead).
+      #viewer-overlay.hidden(role="dialog", aria-modal="true", aria-labelledby="attachment-name")
+        #viewer-top-bar
+          span#attachment-name
+          button#viewer-close(type="button", aria-label="{{t $.L `close`}}")
+            i.fa.fa-times-thin
+        #viewer-container
+          #viewer-content
+            img#image-viewer.hidden(alt="{{t $.L `preview`}}")
+            video#video-viewer.hidden(controls)
+            audio#audio-viewer.hidden(controls)
+            object#pdf-viewer.hidden(type="application/pdf")
+              span.pdf-preview-error {{t $.L "preview-pdf-not-supported"}}
+            object#txt-viewer.hidden(type="text/plain")
+            #office-viewer.hidden

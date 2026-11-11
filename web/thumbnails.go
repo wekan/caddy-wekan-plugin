@@ -11,6 +11,7 @@ import (
 	"image/png"
 	"io"
 	"net/http"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"sync"
@@ -184,3 +185,43 @@ func (s *Server) serveAttachmentThumbnail(w http.ResponseWriter, r *http.Request
 
 // Thumbnail tells the card's attachment list to show a's thumbnail.
 func (a Attachment) Thumbnail() bool { return canThumbnail(&a) }
+
+// Ext is attachmentGallery's extension: the name's, lower-case, without its dot.
+func (a Attachment) Ext() string {
+	e := strings.ToLower(filepath.Ext(a.Name))
+	return strings.TrimPrefix(e, ".")
+}
+
+// SizeText is WeKan's fileSize: the size in B, KB, MB or GB.
+func (a Attachment) SizeText() string {
+	n := float64(a.Size)
+	for _, unit := range []string{"B", "KB", "MB", "GB"} {
+		if n < 1024 || unit == "GB" {
+			if unit == "B" {
+				return strconv.FormatInt(a.Size, 10) + " B"
+			}
+			return strconv.FormatFloat(n, 'f', 1, 64) + " " + unit
+		}
+		n /= 1024
+	}
+	return ""
+}
+
+// PreviewKind is what the attachment viewer shows it as: image, pdf, video,
+// audio, text - or none, opened in its own tab instead.
+func (a Attachment) PreviewKind() string {
+	t := strings.ToLower(a.Type)
+	switch {
+	case a.Thumbnail() || a.Ext() == "svg":
+		return "image"
+	case t == "application/pdf" || a.Ext() == "pdf":
+		return "pdf"
+	case strings.HasPrefix(t, "video/"):
+		return "video"
+	case strings.HasPrefix(t, "audio/"):
+		return "audio"
+	case t == "text/plain" || a.Ext() == "txt":
+		return "text"
+	}
+	return "none"
+}
