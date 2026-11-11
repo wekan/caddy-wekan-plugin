@@ -417,3 +417,74 @@ func TestScrumScopeHistory(t *testing.T) {
 		t.Errorf("negative: a write History never saw is not flagged: %v", h)
 	}
 }
+
+// The board export's native Scrum transfer, as WeKan's: every record with
+// its snapshots whole and no internal field; a card-scoped export only what
+// that card reaches, its leftovers as losses; none when the selection leaves
+// Scrum out (negative); the estimate field named when custom fields are left out.
+func TestScrumTransferExport(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	tok := login(t, w, "ann")
+	rb := newRESTBoard(t, w, tok, "Transfer")
+	other := "card" + randomID()[:12]
+	_, _ = w.db.Collection("cards").InsertOne(ctx, bson.M{"_id": other, "boardId": rb.ID, "listId": rb.List, "swimlaneId": rb.Swimlane,
+		"title": "Other", "archived": false, "sort": 2})
+	ann := scrumCaller(t, w, "ann")
+	sp := resultOf(t, ann("scrum.saveSprint", rb.ID, nil, map[string]any{"name": "E", "plannedStart": "2026-09-01", "plannedEnd": "2026-09-30"}, nil))
+	unrelated := resultOf(t, ann("scrum.saveSprint", rb.ID, nil, map[string]any{"name": "U"}, nil))
+	id := sp["_id"].(string)
+	for _, c := range []string{rb.Card, other} {
+		resultOf(t, ann("scrum.updateCard", rb.ID, c, map[string]any{"sprintId": id}, 0))
+	}
+	active := resultOf(t, ann("scrum.startSprint", rb.ID, id, 1))
+	resultOf(t, ann("scrum.getDailyHistory", rb.ID, id))
+	resultOf(t, ann("scrum.closeSprint", rb.ID, id, active["revision"], nil))
+	resultOf(t, ann("scrum.saveEvent", rb.ID, nil, map[string]any{"kind": "review", "name": "R", "sprintId": id, "startsAt": "2026-09-30T09:00:00Z",
+		"followUpCardIds": []string{rb.Card, other}}, nil))
+	export := func(q string) map[string]any {
+		var out map[string]any
+		call(t, "GET", w.srv.URL+"/api/boards/"+rb.ID+"/export"+q, tok, "", &out)
+		return out
+	}
+	full := export("")
+	tr, _ := full["scrumTransfer"].(map[string]any)
+	if tr == nil || tr["format"] != "wekan-scrum-2" || len(tr["sprints"].([]any)) != 2 || len(full["scrumTransferLosses"].([]any)) != 0 ||
+		len(tr["dailyObservations"].([]any)) != 1 {
+		t.Fatalf("the full transfer: %v", full["scrumTransfer"])
+	}
+	for _, x := range tr["sprints"].([]any) {
+		s := x.(map[string]any)
+		if s["_id"] == id && (len(s["closeSnapshot"].(map[string]any)["cards"].([]any)) != 2 || s["revision"] != nil || s["boardId"] != nil ||
+			s["closedFromRevision"] != nil || s["incarnation"] != nil) {
+			t.Errorf("the closed sprint, whole and without internals: %v", s)
+		}
+	}
+	if o := tr["dailyObservations"].([]any)[0].(map[string]any); o["_id"] != nil || o["boardId"] != nil {
+		t.Errorf("an observation without its ids: %v", o)
+	}
+	scoped := export("?cardId=" + rb.Card)["scrumTransfer"].(map[string]any)
+	for _, x := range scoped["sprints"].([]any) {
+		if x.(map[string]any)["_id"] == unrelated["_id"] {
+			t.Error("negative: a scoped transfer carries a sprint its card never was in")
+		}
+	}
+	snap := scoped["sprints"].([]any)[0].(map[string]any)["closeSnapshot"].(map[string]any)
+	if len(snap["cards"].([]any)) != 1 || snap["partial"] != true || len(scoped["events"].([]any)[0].(map[string]any)["followUpCardIds"].([]any)) != 1 {
+		t.Errorf("a card's scope: %v", snap)
+	}
+	if out := export("?fields=board-header,description"); out["scrumTransfer"] != nil || out["scrum"] != nil {
+		t.Error("negative: Scrum left out of the selection is still exported")
+	}
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": rb.ID}, bson.M{"$set": bson.M{"scrum.estimateSource": "customField", "scrum.estimateCustomFieldId": "omitted-estimate-field"}})
+	losses := export("?fields=scrum")["scrumTransferLosses"].([]any)
+	found := false
+	for _, l := range losses {
+		m := l.(map[string]any)
+		found = found || m["sourceId"] == "omitted-estimate-field" && m["reason"] == "estimate-field-not-exported"
+	}
+	if !found {
+		t.Errorf("the estimate field left out is a loss: %v", losses)
+	}
+}

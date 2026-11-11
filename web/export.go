@@ -281,6 +281,26 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, o exportDocOptions) (b
 		delete(row, "scrum")
 		delete(row, "scrumRevision")
 	}
+	// The native Scrum transfer (scrumTransferExport.js), of the exported
+	// cards, lists and swimlanes - unless the selection leaves Scrum out.
+	var scrumTransfer map[string]any
+	if want.has("scrum") {
+		idsOf := func(docs []bson.M) []string {
+			out := []string{}
+			for _, d := range docs {
+				out = append(out, docString(d, "_id"))
+			}
+			return out
+		}
+		t, losses, err := s.exportScrumTransfer(ctx, b.ID, idsOf(cards), idsOf(lists), idsOf(swimlanes), scoped, want.has("custom-fields"))
+		if err != nil {
+			return nil, err
+		}
+		if t != nil {
+			scrumTransfer = t
+			result["scrumTransfer"], result["scrumTransferLosses"] = t, losses
+		}
+	}
 	cardIDs := bson.A{}
 	for _, c := range cards {
 		cardIDs = append(cardIDs, c["_id"])
@@ -390,6 +410,20 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, o exportDocOptions) (b
 	for _, group := range [][]bson.M{comments, activities, checklists} {
 		for _, d := range group {
 			add(d["userId"])
+		}
+	}
+	if scrumTransfer != nil {
+		st, _ := scrumTransfer["settings"].(map[string]any)
+		add(st["productOwnerId"])
+		add(st["scrumMasterId"])
+		for _, id := range stringsOf(st["developerIds"]) {
+			add(id)
+		}
+		for _, k := range []string{"sprints", "releases", "events"} {
+			for _, r := range asDocs(scrumTransfer[k]) {
+				add(r["createdBy"])
+				add(r["updatedBy"])
+			}
 		}
 	}
 	userIDs := bson.A{}
