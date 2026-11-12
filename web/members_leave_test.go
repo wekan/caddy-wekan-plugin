@@ -137,3 +137,62 @@ func TestMemberLeavesPublicBoardKeepsStar(t *testing.T) {
 		t.Error("the star of a public board stays")
 	}
 }
+
+// A deleted custom field's values leave every card of every board it is on,
+// each a History row by whoever deleted it, as WeKan's CustomFields.before.remove
+// through the hooked Cards.update.
+func TestDeletedCustomFieldIsRecordedOnEveryBoard(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	tok := login(t, w, "ann")
+	a := newRESTBoard(t, w, tok, "A")
+	b := newRESTBoard(t, w, tok, "B")
+	var ann User
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"username": "ann"}).Decode(&ann)
+	var f struct {
+		ID string `json:"_id"`
+	}
+	call(t, "POST", w.srv.URL+"/api/boards/"+a.ID+"/custom-fields", tok, `{"name":"Size","type":"text","settings":{}}`, &f)
+	_, _ = w.db.Collection("customFields").UpdateOne(ctx, bson.M{"_id": f.ID}, bson.M{"$set": bson.M{"boardIds": bson.A{a.ID, b.ID}}})
+	set := func(card string, vals bson.A) {
+		_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": card}, bson.M{"$set": bson.M{"customFields": vals}})
+	}
+	set(a.Card, bson.A{bson.M{"_id": f.ID, "value": "L"}, bson.M{"_id": "keep", "value": 1}})
+	set(b.Card, bson.A{bson.M{"_id": f.ID, "value": "S"}})
+	plain := "card" + randomID()[:10]
+	_, _ = w.db.Collection("cards").InsertOne(ctx, bson.M{"_id": plain, "boardId": a.ID, "listId": a.List, "swimlaneId": a.Swimlane,
+		"title": "Without", "archived": false, "customFields": bson.A{bson.M{"_id": "keep", "value": 2}}})
+	if code := call(t, "DELETE", w.srv.URL+"/api/boards/"+a.ID+"/custom-fields/"+f.ID, tok, "", nil); code != 200 {
+		t.Fatalf("deleted: %d", code)
+	}
+	fields := func(id string) bson.A {
+		var c bson.M
+		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": id}).Decode(&c)
+		v, _ := c["customFields"].(bson.A)
+		return v
+	}
+	if len(fields(a.Card)) != 1 || len(fields(b.Card)) != 0 || len(fields(plain)) != 1 {
+		t.Fatalf("the values go from both boards, the other field stays: %v %v %v", fields(a.Card), fields(b.Card), fields(plain))
+	}
+	for _, rb := range []restBoard{a, b} {
+		rows := 0
+		for _, r := range historyRows(t, w, rb.ID) {
+			if r["group"] == "customFields" && r["entityType"] == "card" {
+				rows++
+				if r["userId"] != ann.ID || r["cardId"] != rb.Card {
+					t.Errorf("a row of %s's card by ann: %v", rb.ID, r)
+				}
+			}
+			if r["cardId"] == plain {
+				t.Errorf("negative: a card without the field is no row: %v", r)
+			}
+		}
+		if rows != 1 {
+			t.Errorf("one customFields row on %s: %d", rb.ID, rows)
+		}
+		if f := verifyWithWeKan(t, historyRows(t, w, rb.ID)); len(f) != 0 {
+			t.Errorf("WeKan's audit of %s: %v", rb.ID, f)
+		}
+	}
+}

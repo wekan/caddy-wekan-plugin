@@ -154,7 +154,6 @@ var unrecordedCardWrites = map[string]string{
 	"server.go:addCard":                     "the new card's fields, set as it is made",
 	"server.go:AddCardWith":                 "the new card's fields, set as it is made",
 	"rules_engine.go:ruleSortList":          "sort only, never recorded (NEVER_RECORD)",
-	"api_more.go:apiDeleteCustomField":      "the field's values leave with its definition, which is the change",
 	"attachments.go:attachmentCoverPage":    "coverId, not a recorded field",
 	"attachments.go:copyCardAttachments":    "a copy's attachments, on a card just made",
 	"attachments.go:softDeleteAttachmentAs": "the card's cover, unset with its attachment; the delete is the attachment's lifecycle row",
@@ -278,6 +277,9 @@ func TestCardMoveUndo(t *testing.T) {
 var unrecordedEntityWrites = map[string]string{
 	"api_cards.go:copyChecklists:checklists":                      "a copy's checklists, on a card just made",
 	"api_cards.go:copyChecklists:checklistItems":                  "a copy's items, on a card just made",
+	"api_more.go:apiDeleteChecklist:checklistItems":               "a deleted checklist's items, removed with it unrecorded as WeKan's ChecklistItems.direct (#6816)",
+	"card_checklist_writes.go:deleteChecklistPage:checklistItems": "a deleted checklist's items, removed with it unrecorded as WeKan's ChecklistItems.direct (#6816)",
+	"methods.go:methodRemoveChecklist:checklistItems":             "a deleted checklist's items, removed with it unrecorded as WeKan's ChecklistItems.direct (#6816)",
 	"api_lanes.go:moveCardTo:card_comments":                       "a moved card's comments follow it; the move is its position row",
 	"api_lanes.go:moveCardTo:checklists":                          "a moved card's checklists follow it; the move is its position row",
 	"board_objects_move.go:methodMoveBoardObjects:checklistItems": "items following their checklist in a move",
@@ -298,7 +300,7 @@ var unrecordedEntityWrites = map[string]string{
 
 func TestEveryEntityWriteIsRecorded(t *testing.T) {
 	files, _ := filepath.Glob("*.go")
-	write := regexp.MustCompile(`Collection\("(lists|swimlanes|checklists|checklistItems|card_comments)"\)\.(Update(?:One|Many))\(|Collection\("(checklists|checklistItems|card_comments)"\)\.(InsertOne|DeleteOne)\(`)
+	write := regexp.MustCompile(`Collection\("(lists|swimlanes|checklists|checklistItems|card_comments)"\)\.(Update(?:One|Many))\(|Collection\("(checklists|checklistItems|card_comments)"\)\.(InsertOne|DeleteOne|DeleteMany)\(`)
 	fn := regexp.MustCompile(`^func (?:\([^)]*\) )?([A-Za-z_]+)\(`)
 	helpers := map[string]bool{"entityUpdateOne": true, "insertRecorded": true, "deleteOneRecorded": true}
 	found := map[string]bool{}

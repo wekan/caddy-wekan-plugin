@@ -239,8 +239,23 @@ func (s *Server) apiDeleteCustomField(w http.ResponseWriter, r *http.Request, u 
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	_, _ = s.db.Collection("cards").UpdateMany(r.Context(), bson.M{"boardId": b.ID},
-		bson.M{"$pull": bson.M{"customFields": bson.M{"_id": doc["_id"]}}})
+	// WeKan's CustomFields.before.remove: the values leave every card of every
+	// board the field is on, each card through the hooked update - so each is a
+	// History row by whoever deleted the field.
+	boards := bson.A{b.ID}
+	if ids, ok := doc["boardIds"].(bson.A); ok && len(ids) > 0 {
+		boards = ids
+	}
+	cur, err := s.db.Collection("cards").Find(r.Context(), bson.M{"boardId": dbIn(boards), "customFields._id": doc["_id"]},
+		options.Find().SetProjection(bson.M{"_id": 1}))
+	if err == nil {
+		var cards []bson.M
+		_ = cur.All(r.Context(), &cards)
+		for _, c := range cards {
+			_, _ = s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c["_id"]},
+				bson.M{"$pull": bson.M{"customFields": bson.M{"_id": doc["_id"]}}})
+		}
+	}
 	writeJSON(w, http.StatusOK, map[string]any{"_id": doc["_id"]})
 }
 
