@@ -170,6 +170,15 @@ func (s *Server) noteDeniedCollectionWrite(r *http.Request, u *User, name string
 			s.recordSecurity(r, securityEvent{Key: "authz.admin-only-field", Action: "blocked", Source: "ddp:customFields.definition-insert", UserID: u.ID,
 				Detail: "Tried to create an admin-only custom field without being an admin of its boards."})
 		}
+	case (collection == "checklists" || collection == "checklistItems") && op == "update":
+		// #6813: a checklist or an item moved into a card of a board the caller
+		// cannot write to - by a new boardId, cardId or (an item) checklistId -
+		// is WeKan's canary; a move within the source board is not.
+		if s.crossBoardChildMove(ctx, u, collection, arg(0), arg(1)) {
+			name := map[string]string{"checklists": "checklist", "checklistItems": "checklist-item"}[collection]
+			s.recordSecurity(r, securityEvent{Key: "authz.checklist", Action: "detected", Source: "canary:" + name + ".cross-board-move", UserID: u.ID,
+				Detail: "Tried to move a " + strings.ReplaceAll(name, "-", " ") + " into a board they cannot write to."})
+		}
 	case collection == "cards" && (op == "insert" || op == "upsert"):
 		// AdminFieldBleed: a client card insert carrying a value of a field the
 		// caller may not read (assertFieldWrite of null -> doc).
@@ -348,6 +357,67 @@ func (s *Server) notAdminOfAll(ctx context.Context, u *User, ids []string) bool 
 		var b Board
 		if !validID(id) || s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&b) != nil || !b.AdminOf(u.ID) {
 			return true
+		}
+	}
+	return false
+}
+
+// crossBoardChildMove is WeKan's denyCrossBoardMoveByCard and
+// denyCrossBoardMoveByChecklistItem: does the $set move the document onto a
+// board other than its card's that u cannot write - or name a card or
+// checklist that is not there?
+func (s *Server) crossBoardChildMove(ctx context.Context, u *User, collection string, sel, mod map[string]any) bool {
+	set, _ := mod["$set"].(map[string]any)
+	if set == nil {
+		return false
+	}
+	id, _ := sel["_id"].(string)
+	var doc struct {
+		CardID string `bson:"cardId"`
+	}
+	if !validID(id) || s.db.Collection(collection).FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&doc) != nil {
+		return false
+	}
+	source := ""
+	var card Card
+	if validID(doc.CardID) && s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(doc.CardID)}).Decode(&card) == nil {
+		source = card.BoardID
+	}
+	unwritable := func(boardID string) bool {
+		if boardID == "" || boardID == source {
+			return false
+		}
+		var b Board
+		return !validID(boardID) || s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) != nil || !b.Writable(u, "write", nil)
+	}
+	boardOfCard := func(cardID string) (string, bool) {
+		var c Card
+		if !validID(cardID) || s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID)}).Decode(&c) != nil {
+			return "", false
+		}
+		return c.BoardID, true
+	}
+	if b, _ := set["boardId"].(string); unwritable(b) {
+		return true
+	}
+	if c, _ := set["cardId"].(string); c != "" {
+		b, ok := boardOfCard(c)
+		if !ok || unwritable(b) {
+			return true
+		}
+	}
+	if collection == "checklistItems" {
+		if cl, _ := set["checklistId"].(string); cl != "" {
+			var parent struct {
+				CardID string `bson:"cardId"`
+			}
+			if !validID(cl) || s.db.Collection("checklists").FindOne(ctx, bson.M{"_id": eq(cl)}).Decode(&parent) != nil {
+				return true
+			}
+			b, ok := boardOfCard(parent.CardID)
+			if !ok || unwritable(b) {
+				return true
+			}
 		}
 	}
 	return false

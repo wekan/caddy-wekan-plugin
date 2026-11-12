@@ -85,6 +85,9 @@ var securityCategories = map[string]securityCategory{
 	// write; StampBleed: a card's child stamped with another board.
 	"authz.attachment-upload": {Category: "authz", Bleed: "UploadBleed", Severity: "critical", CWE: "CWE-862"},
 	"authz.card-child-stamp":  {Category: "authz", Bleed: "StampBleed", Severity: "high", CWE: "CWE-639"},
+	// ChecklistBleed (#6813): a checklist or an item moved into a board the
+	// mover cannot write to - recorded as WeKan's canary, detected.
+	"authz.checklist": {Category: "authz", Bleed: "ChecklistBleed", Severity: "high", CWE: "CWE-863"},
 	// A change history row that fails its chain (changeHistoryIntegrity.js).
 	"integrity.history": {Category: "integrity", Bleed: "HistoryIntegrity", Severity: "critical", CWE: "CWE-345"},
 	// A mutation of a board the caller may not change (boardMutationGuard.js).
