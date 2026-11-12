@@ -138,6 +138,7 @@ func (s *Server) StoreAttachment(r *http.Request, b *Board, c *Card, u *User, na
 		_ = os.Remove(path)
 		return nil, err
 	}
+	s.moveToDefaultStorage(r.Context(), doc, path)
 	// The upload's history row (History.md §12.2) - never an import's, as
 	// WeKan's hook skips meta.source "import".
 	if m, _ := plain(doc).(map[string]any)["meta"].(map[string]any); m["source"] != "import" {
@@ -867,4 +868,57 @@ func (b Board) BackgroundStyle() string {
 		return ""
 	}
 	return "background-image: url(" + b.BackgroundImageURL + "); background-size: cover;"
+}
+
+// moveToDefaultStorage is WeKan's onAfterUpload move (models/lib/
+// fileStoreStrategy.js moveToStorage): an upload is stored on the filesystem
+// first, then - when Admin Panel's default storage is GridFS, enabled and
+// writable - copied into the "attachments" bucket with WeKan's metadata, its
+// version pointed at it, and the disk copy removed. A move that fails leaves
+// the file on the filesystem, where it is read as before. The cloud stores
+// are not written yet: an upload stays on the filesystem for them.
+func (s *Server) moveToDefaultStorage(ctx context.Context, doc bson.M, path string) {
+	var set bson.M
+	if s.db.Collection("attachmentStorageSettings").FindOne(ctx, bson.M{}).Decode(&set) != nil || set["defaultStorage"] != "gridfs" {
+		return
+	}
+	if nestedField(set, "storageConfig", "gridfs", "enabled") == false || nestedField(set, "storageConfig", "gridfs", "write") == false {
+		return
+	}
+	f, err := os.Open(path)
+	if err != nil {
+		return
+	}
+	defer f.Close()
+	meta := bson.M{}
+	if m, ok := doc["meta"].(bson.M); ok {
+		for k, v := range m {
+			meta[k] = v
+		}
+	}
+	meta["versionName"], meta["fileId"] = "original", doc["_id"]
+	name, _ := doc["name"].(string)
+	bucket := s.db.GridFSBucket(options.GridFSBucket().SetName("attachments"))
+	up, err := bucket.OpenUploadStream(ctx, name, options.GridFSUpload().SetMetadata(meta))
+	if err != nil {
+		return
+	}
+	if _, err := io.Copy(up, f); err != nil {
+		_ = up.Abort()
+		return
+	}
+	if err := up.Close(); err != nil {
+		return
+	}
+	id, ok := up.FileID.(bson.ObjectID)
+	if !ok {
+		return
+	}
+	if _, err := s.db.Collection("attachments").UpdateOne(ctx, bson.M{"_id": doc["_id"]}, bson.M{"$set": bson.M{
+		"versions.original.storage": "gridfs", "versions.original.meta.gridFsFileId": id.Hex()}}); err != nil {
+		_ = bucket.Delete(ctx, id)
+		return
+	}
+	_ = f.Close()
+	_ = os.Remove(path)
 }
