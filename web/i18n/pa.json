@@ -1042,6 +1042,7 @@
   "email-sent": "ਈਮੇਲ ਭੇਜੀ ਗਈ",
   "email-verifyEmail-subject": "__siteName__ 'ਤੇ ਆਪਣੇ ਈਮੇਲ ਪਤੇ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ",
   "email-verifyEmail-text": "ਹੈਲੋ __user__,\n\nਆਪਣੇ ਖਾਤੇ ਦੀ ਈਮੇਲ ਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਲਈ, ਹੇਠਾਂ ਦਿੱਤੇ ਲਿੰਕ 'ਤੇ ਕਲਿੱਕ ਕਰੋ।\n\n__url__\n\nਧੰਨਵਾਦ।",
+  "error": "ਗਲਤੀ",
   "error-email-taken": "ਈਮੇਲ ਪਹਿਲਾਂ ਹੀ ਲਿਆ ਗਿਆ ਹੈ",
   "error-invitation-code-not-exist": "ਸੱਦਾ ਕੋਡ ਮੌਜੂਦ ਨਹੀਂ ਹੈ",
   "error-json-malformed": "ਤੁਹਾਡਾ ਟੈਕਸਟ ਵੈਧ JSON ਨਹੀਂ ਹੈ",

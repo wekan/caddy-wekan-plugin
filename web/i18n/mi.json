@@ -1042,6 +1042,7 @@
   "email-sent": "Kua tukuna te īmēra",
   "email-verifyEmail-subject": "Manatokohia tō wāhitau īmēra i __siteName__",
   "email-verifyEmail-text": "Tēnā koe __user__,\n\nHei manatoko i te īmēra o tō pūkete, pāwhiria noa te hono i raro nei.\n\n__url__\n\nNgā mihi.",
+  "error": "Hapa",
   "error-email-taken": "Kua whakamahia kē te īmēra",
   "error-invitation-code-not-exist": "Kāore te waehere pōwhiri i te tīariari",
   "error-json-malformed": "Ehara tō kuputuhi i te JSON whaimana",

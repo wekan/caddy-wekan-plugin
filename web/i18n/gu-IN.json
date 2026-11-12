@@ -1042,6 +1042,7 @@
   "email-sent": "ઈમેલ મોકલ્યો",
   "email-verifyEmail-subject": "__siteName__ પર તમારું ઇમેઇલ સરનામું ચકાસો",
   "email-verifyEmail-text": "હેલો __user__,\n\nતમારું એકાઉન્ટ ઇમેઇલ ચકાસવા માટે, ફક્ત નીચેની લિંક પર ક્લિક કરો.\n\n__url__\n\nઆભાર.",
+  "error": "ભૂલ",
   "error-email-taken": "ઈમેલ પહેલેથી જ લેવામાં આવ્યો છે",
   "error-invitation-code-not-exist": "આમંત્રણ કોડ અસ્તિત્વમાં નથી",
   "error-json-malformed": "તમારું લખાણ માન્ય JSON નથી",

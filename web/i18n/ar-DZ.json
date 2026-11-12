@@ -1042,6 +1042,7 @@
   "email-sent": "أُرسل البريد الإلكتروني",
   "email-verifyEmail-subject": "تأكيد عنوان بريدك الإلكتروني على __siteName__",
   "email-verifyEmail-text": "مرحبًا __user__،\n\nلتأكيد البريد الإلكتروني لحسابك، انقر الرابط أدناه.\n\n__url__\n\nشكرًا.",
+  "error": "خطأ",
   "error-email-taken": "البريد الإلكتروني مأخوذ بالفعل",
   "error-invitation-code-not-exist": "رمز الدعوة غير موجود",
   "error-json-malformed": "النص ليس JSON صالحًا",

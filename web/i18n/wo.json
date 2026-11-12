@@ -1042,6 +1042,7 @@
   "email-sent": "Bataaxal yees yónne",
   "email-verifyEmail-subject": "Saytu sa adreesu imeel ci __siteName__",
   "email-verifyEmail-text": "Nanga def __user__,\n\nNgir saytu imeelu sa kont, bësal lëkkalekaay bi ci suuf rekk.\n\n__url__\n\nJërëjëf.",
+  "error": "Njuumte",
   "error-email-taken": "Adreesu email bii jëfandikoo nañu ko ba noppi",
   "error-invitation-code-not-exist": "Kodu woote bi amul",
   "error-json-malformed": "Sa mbind mi du JSON bu baax",

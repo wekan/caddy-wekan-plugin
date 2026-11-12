@@ -1045,6 +1045,7 @@
   "email-sent": "jabbI'ID ngeHlu'pu'",
   "email-verifyEmail-subject": "__siteName__-Daq QIn pat QuvlIj yI'ol",
   "email-verifyEmail-text": "nuqneH __user__,\n\naccountlIj QIn pat Quv Da'olmeH, bIngDaq rarwI' yIqIp.\n\n__url__\n\nqatlho'.",
+  "error": "Qagh",
   "error-email-taken": "DaH QIn pat Quvvam lo'lu'taH",
   "error-invitation-code-not-exist": "rItmeH ngoq tu'lu'be'",
   "error-json-malformed": "JSON lugh 'oHbe' ghItlhlIj'e'",

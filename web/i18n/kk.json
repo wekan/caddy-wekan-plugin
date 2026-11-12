@@ -1042,6 +1042,7 @@
   "email-sent": "Электрондық пошта жіберілді",
   "email-verifyEmail-subject": "__siteName__ сайтындағы электрондық пошта мекенжайын растау",
   "email-verifyEmail-text": "Сәлем, __user__,\n\nТіркелгінің электрондық поштасын растау үшін төмендегі сілтемені басыңыз.\n\n__url__\n\nРақмет.",
+  "error": "Қате",
   "error-email-taken": "Электрондық пошта бұрыннан алынған",
   "error-invitation-code-not-exist": "Шақыру коды жоқ",
   "error-json-malformed": "Мәтініңіз жарамды JSON емес",

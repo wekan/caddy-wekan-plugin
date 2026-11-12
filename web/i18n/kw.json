@@ -1042,6 +1042,7 @@
   "email-sent": "Ebost danvenys",
   "email-verifyEmail-subject": "Afydhya dha trigva ebost war __siteName__",
   "email-verifyEmail-text": "Dydh da __user__,\n\nRag afydhya ebost dha akont, klyckya an kevren a-woles hepken.\n\n__url__\n\nMeur ras.",
+  "error": "Kammwrians",
   "error-email-taken": "An ebost yw kemerys seulabrys",
   "error-invitation-code-not-exist": "Nyns yw an kod galow omma",
   "error-json-malformed": "Dha dest nyns yw JSON ewn",

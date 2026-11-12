@@ -1042,6 +1042,7 @@
   "email-sent": "Iimeel neldaama",
   "email-verifyEmail-subject": "Ƴeewto ñiiɓugol ñiiɓirde iimeel maa e __siteName__",
   "email-verifyEmail-text": "Jam __user__,\n\nNgam ƴeewtaade iimeel konte maa, dobo tan jokkol les ngol.\n\n__url__\n\nA jaaraama.",
+  "error": "Juumre",
   "error-email-taken": "Iimeel oo huutoraama kisa",
   "error-invitation-code-not-exist": "Kod noddaango oo woodaani",
   "error-json-malformed": "Binndol maa wonaa JSON moƴƴol",

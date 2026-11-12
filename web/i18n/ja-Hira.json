@@ -1042,6 +1042,7 @@
   "email-sent": "メールを送信しました",
   "email-verifyEmail-subject": "あなたの __siteName__ のメールアドレスを確認する",
   "email-verifyEmail-text": "こんにちは、__user__さん。\n\nメールアドレスを認証するために、以下のリンクをクリックしてください。\n\n__url__\n\nよろしくお願いします。",
+  "error": "エラー",
   "error-email-taken": "メールは既に受け取られています",
   "error-invitation-code-not-exist": "招待コードが存在しません",
   "error-json-malformed": "このテキストは、有効なJSON形式ではありません",

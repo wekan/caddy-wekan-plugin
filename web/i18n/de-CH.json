@@ -1047,6 +1047,7 @@
   "email-sent": "E-Mail gesendet",
   "email-verifyEmail-subject": "Bestätigen Sie ihre E-Mail-Adresse auf __siteName__",
   "email-verifyEmail-text": "Hallo __user__,\n\num ihre E-Mail-Adresse zu bestätigen, klicken Sie bitte auf folgenden Link:\n\n__url__\n\nDanke.",
+  "error": "Fehler",
   "error-email-taken": "E-Mail wird schon verwendet",
   "error-invitation-code-not-exist": "Ungültiger Einladungscode",
   "error-json-malformed": "Ihre Eingabe ist kein gültiges JSON",

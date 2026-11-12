@@ -1042,6 +1042,7 @@
   "email-sent": "郵件已寄送",
   "email-verifyEmail-subject": "驗證您在 __siteName__ 的電子郵件",
   "email-verifyEmail-text": "親愛的 __user__,\n\n點選下面的連結，驗證您的電子郵件地址：\n\n__url__\n\n謝謝。",
+  "error": "錯誤",
   "error-email-taken": "Email 已被使用",
   "error-invitation-code-not-exist": "邀請碼不存在",
   "error-json-malformed": "不是有效的 JSON",

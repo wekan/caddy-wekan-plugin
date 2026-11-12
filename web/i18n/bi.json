@@ -1042,6 +1042,7 @@
   "email-sent": "Imel sendem finis",
   "email-verifyEmail-subject": "Jekem adres blong imel blong yu long __siteName__",
   "email-verifyEmail-text": "Halo __user__,\n\nBlong jekem imel blong akaon blong yu, yu klik link ia daon nomo.\n\n__url__\n\nTangkyu.",
+  "error": "Mastik",
   "error-email-taken": "Narafala man i yusum imel ia finis",
   "error-invitation-code-not-exist": "Kod blong invetesen i no stap",
   "error-json-malformed": "Raeting blong yu i no stret JSON",

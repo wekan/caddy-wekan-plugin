@@ -1042,6 +1042,7 @@
   "email-sent": "leka uila hoʻouna ʻia",
   "email-verifyEmail-subject": "lelipawa kāu wahi leka uila ma __siteName__",
   "email-verifyEmail-text": "helalo __user__,\n\ni lelipawa kāu moʻokāki leka uila, kimapalawa kaomi ka loulou ma lalo.\n\n__url__\n\nkanakaka.",
+  "error": "Hewa",
   "error-email-taken": "leka uila loaʻa ua ua kakena",
   "error-invitation-code-not-exist": "inalikakiona koke koekanaka ekikaka",
   "error-json-malformed": "kāu kikokikona he ʻaʻole lalika JSON",

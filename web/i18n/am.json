@@ -1042,6 +1042,7 @@
   "email-sent": "ኢሜይል ተልኳል",
   "email-verifyEmail-subject": "በ__siteName__ ላይ የኢሜይል አድራሻዎን ያረጋግጡ",
   "email-verifyEmail-text": "ሰላም __user__፣\n\nየመለያዎን ኢሜይል ለማረጋገጥ ከታች ያለውን አገናኝ ብቻ ይጫኑ።\n\n__url__\n\nእናመሰግናለን።",
+  "error": "ስህተት",
   "error-email-taken": "ይህ ኢሜይል አስቀድሞ ተይዟል",
   "error-invitation-code-not-exist": "የግብዣ ኮዱ የለም",
   "error-json-malformed": "ጽሑፍዎ ትክክለኛ JSON አይደለም",

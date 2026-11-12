@@ -1042,6 +1042,7 @@
   "email-sent": "E-Mail geschéckt",
   "email-verifyEmail-subject": "Bestätegen Dir ihre E-Mail-Adress op __siteName__",
   "email-verifyEmail-text": "Hallo __user__,\n\num ihre E-Mail-Adress zu bestätegen, klicken Dir bitte op folgenden Link:\n\n__url__\n\nDanke.",
+  "error": "Feeler",
   "error-email-taken": "E-Mail gëtt schon benotzt",
   "error-invitation-code-not-exist": "Ungültiger Einladungscode",
   "error-json-malformed": "Är Eingabe ass kee gültiges JSON",

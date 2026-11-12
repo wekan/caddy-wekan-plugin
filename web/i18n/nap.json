@@ -1042,6 +1042,7 @@
   "email-sent": "Email inviata",
   "email-verifyEmail-subject": "Verifica ll'indirizzo email tuojo ncopp'a __siteName__",
   "email-verifyEmail-text": "Ciao __user__,\n\nPe verificare il tuo account email, clicca ncopp' 'o link seguente:\n\n__url__\n\nGrazie.",
+  "error": "Errore",
   "error-email-taken": "Chist'indirizzo email è già aduprato",
   "error-invitation-code-not-exist": "Il codice d'invito nun esiste",
   "error-json-malformed": "Il testo nun è in un formato JSON valido",

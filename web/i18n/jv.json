@@ -1042,6 +1042,7 @@
   "email-sent": "Email dikirim",
   "email-verifyEmail-subject": "Verifikasi alamat email ing __siteName__",
   "email-verifyEmail-text": "Halo __user__,\n\nKanggo verifikasi email akun, cukup klik pranala ing ngisor iki.\n\n__url__\n\nMatur nuwun.",
+  "error": "Kaluputan",
   "error-email-taken": "Email iki wis dienggo",
   "error-invitation-code-not-exist": "Kode undhangan ora ana",
   "error-json-malformed": "Teks sampeyan dudu JSON sing sah",

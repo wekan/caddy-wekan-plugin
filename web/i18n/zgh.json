@@ -1042,6 +1042,7 @@
   "email-sent": "ⵉⵎⴰⵢⵍ ⴰⵙⵏⵏ",
   "email-verifyEmail-subject": "ⵙⵙⵉⴷⴻⴷ ⴰⵏⵙⴰ ⵏ ⵉⵎⴰⵢⵍ ⵏⵏⴽ ⴳ __siteName__",
   "email-verifyEmail-text": "ⴰⵣⵓⵍ __user__,\n\nⴰⴼⴰⴷ ⴰⴷ ⵜⵙⵙⵉⴷⴷⴻⴷ ⴰⵏⵙⴰ ⵏ ⵉⵎⴰⵢⵍ ⵏ ⵓⵎⵉⴹⴰⵏ ⵏⵏⴽ, ⴽⵍⵉⴽⵉ ⵖⴼ ⵓⵙⵖⵏ ⴳ ⴷⴷⴰⵡ ⴷⴰ ⵖⴰⵙ.\n\n__url__\n\nⵜⴰⵏⵎⵎⵉⵔⵜ.",
+  "error": "ⵜⴰⵣⴳⵍⵜ",
   "error-email-taken": "ⴰⵏⵙⴰ ⵏ ⵉⵎⴰⵢⵍ ⵉⵜⵜⵓⵙⵎⵔⵙ ⵢⴰⴷ.",
   "error-invitation-code-not-exist": "ⵜⴰⵏⴳⴰⵍⵜ ⵏ ⵜⵉⵏⵏⵓⴱⴳⴰ ⵓⵔ ⵜⵍⵍⵉ",
   "error-json-malformed": "ⴰⴹⵕⵉⵙ ⵏⵏⴽ ⵓⵔ ⵉⵙⵖⵣⵏ ⴰⵎ JSON",

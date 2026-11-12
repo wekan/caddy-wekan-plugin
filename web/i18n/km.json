@@ -1042,6 +1042,7 @@
   "email-sent": "បានផ្ញើអ៊ីមែល",
   "email-verifyEmail-subject": "ផ្ទៀងផ្ទាត់អាសយដ្ឋានអ៊ីមែលរបស់អ្នកនៅលើ __siteName__",
   "email-verifyEmail-text": "ជំរាបសួរ __user__,\n\nដើម្បីផ្ទៀងផ្ទាត់អ៊ីមែលគណនីរបស់អ្នក គ្រាន់តែចុចលើតំណខាងក្រោម។\n\n__url__\n\nសូមអរគុណ។",
+  "error": "កំហុស",
   "error-email-taken": "អ៊ីមែលត្រូវបានយករួចហើយ",
   "error-invitation-code-not-exist": "មិនមានលេខកូដអញ្ជើញទេ។",
   "error-json-malformed": "អត្ថបទរបស់អ្នកមិនត្រឹមត្រូវ JSON",

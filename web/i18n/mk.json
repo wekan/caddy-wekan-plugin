@@ -1042,6 +1042,7 @@
   "email-sent": "Е-поштата е испратена",
   "email-verifyEmail-subject": "Потврдете ја вашата адреса за е-пошта на __siteName__",
   "email-verifyEmail-text": "Здраво __user__,\n\nЗа да ја потврдите адресата за е-пошта на сметката, кликнете на врската подолу.\n\n__url__\n\nВи благодариме.",
+  "error": "Грешка",
   "error-email-taken": "Адресата на е-пошта е веќе зафатена",
   "error-invitation-code-not-exist": "Кодот на поканата не постои",
   "error-json-malformed": "Вашиот текст не е валиден JSON",

@@ -1042,6 +1042,7 @@
   "email-sent": "Corréu unviáu",
   "email-verifyEmail-subject": "Verifica la to direición de corréu electrónicu en __siteName__",
   "email-verifyEmail-text": "Hola __user__,\n\nPa verificar el corréu electrónicu de la to cuenta, fai clic nel enllaz de baxo.\n\n__url__\n\nGracies.",
+  "error": "Fallu",
   "error-email-taken": "Esta direición de corréu electrónicu yá ta n’usu",
   "error-invitation-code-not-exist": "El códigu d’invitación nun existe",
   "error-json-malformed": "El to testu nun ye JSON válidu",

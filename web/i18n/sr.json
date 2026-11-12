@@ -1042,6 +1042,7 @@
   "email-sent": "Е-пошта је послана",
   "email-verifyEmail-subject": "Потврдите Вашу адресу е-поште на страници __siteName__",
   "email-verifyEmail-text": "Добар дан __user__,\n\nДа би сте потврдили ваш налог за е-пошту, једноставно притисните на везу испод.\n\n__url__\n\nХвала.",
+  "error": "Грешка",
   "error-email-taken": "Ова адреса е-поште је већ у употреби",
   "error-invitation-code-not-exist": "Такав позивни код не постоји",
   "error-json-malformed": "То што сте укуцали нема исправан JSON облик",

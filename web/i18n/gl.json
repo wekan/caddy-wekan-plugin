@@ -1042,6 +1042,7 @@
   "email-sent": "Correo electrónico enviado",
   "email-verifyEmail-subject": "Verifica o teu enderezo de correo electrónico en __siteName__",
   "email-verifyEmail-text": "Ola __user__,\n\nPara verificar o correo electrónico da túa conta, simplemente fai clic na ligazón de abaixo.\n\n__url__\n\nGrazas.",
+  "error": "Erro",
   "error-email-taken": "O correo electrónico xa está en uso",
   "error-invitation-code-not-exist": "O código de convite non existe",
   "error-json-malformed": "O teu texto non é un JSON válido",

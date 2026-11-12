@@ -1042,6 +1042,7 @@
   "email-sent": "Εστάλη Email",
   "email-verifyEmail-subject": "Επαληθεύστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας στο __siteName__",
   "email-verifyEmail-text": "Χαίρετε __user__,\n\nΓια να επιβεβαιώσετε το email που χρησιμοποιεί ο λογαριασμός σας, απλώς κάνετε κλικ στον παρακάτω σύνδεσμο.\n\n__url__\n\nΕυχαριστούμε.",
+  "error": "Σφάλμα",
   "error-email-taken": "Το email είναι ήδη κατειλημμένο",
   "error-invitation-code-not-exist": "Ο κωδικός πρόσκλησης δεν υπάρχει",
   "error-json-malformed": "Το κείμενο δεν είναι έγκυρο JSON",

@@ -1042,6 +1042,7 @@
   "email-sent": "ಇಮೇಲ್ ಕಳುಹಿಸಲಾಗಿದೆ",
   "email-verifyEmail-subject": "__siteName__ ನಲ್ಲಿ ನಿಮ್ಮ ಇಮೇಲ್ ವಿಳಾಸ ಪರಿಶೀಲಿಸಿ",
   "email-verifyEmail-text": "ನಮಸ್ಕಾರ __user__,\n\nನಿಮ್ಮ ಖಾತೆಯ ಇಮೇಲ್ ಪರಿಶೀಲಿಸಲು ಕೆಳಗಿನ ಲಿಂಕ್ ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ.\n\n__url__\n\nಧನ್ಯವಾದಗಳು.",
+  "error": "ದೋಷ",
   "error-email-taken": "ಈ ಇಮೇಲ್ ಅನ್ನು ಈಗಾಗಲೇ ಬಳಸಲಾಗಿದೆ",
   "error-invitation-code-not-exist": "ಆಹ್ವಾನ ಕೋಡ್ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ",
   "error-json-malformed": "ನಿಮ್ಮ ಪಠ್ಯ ಮಾನ್ಯ JSON ಅಲ್ಲ",

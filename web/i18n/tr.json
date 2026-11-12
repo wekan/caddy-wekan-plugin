@@ -1042,6 +1042,7 @@
   "email-sent": "E-posta gönderildi",
   "email-verifyEmail-subject": "__siteName__ üzerindeki e-posta adresini doğrulama",
   "email-verifyEmail-text": "Merhaba __user__,\n\nHesap e-posta adresini doğrulamak için aşağıdaki linke tıklaman yeterli.\n\n__url__\n\nTeşekkürler.",
+  "error": "Hata",
   "error-email-taken": "Bu e-posta adresi daha önceden alınmış",
   "error-invitation-code-not-exist": "Davetiye kodu bulunamadı",
   "error-json-malformed": "Girilen metin geçerli bir JSON formatında değil",

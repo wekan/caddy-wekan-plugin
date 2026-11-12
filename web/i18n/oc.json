@@ -1042,6 +1042,7 @@
   "email-sent": "Mail mandat",
   "email-verifyEmail-subject": "Vos cal verificar vòstra adreça corrièl del sit __siteName__",
   "email-verifyEmail-text": "Adieu __user__,\n\nPer verificar vòstra adreça corrièl, vos cal clicar sul ligam :\n\n__url__\n\nMercé.",
+  "error": "Error",
   "error-email-taken": "Lo corrièl es ja pres",
   "error-invitation-code-not-exist": "Lo còde de convit existís pas",
   "error-json-malformed": "Vòstre tèxte es pas valid JSON",

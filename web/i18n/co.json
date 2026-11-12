@@ -1042,6 +1042,7 @@
   "email-sent": "Posta elettronica mandata",
   "email-verifyEmail-subject": "Verificate u vostru indirizzu email nant’à __siteName__",
   "email-verifyEmail-text": "Salute __user__,\n\nPer verificà l’indirizzu di posta elettronica di u vostru contu, basta à cliccà nant’à u ligame quì sottu.\n\n__url__\n\nGrazie.",
+  "error": "Errore",
   "error-email-taken": "St’indirizzu email hè digià adupratu",
   "error-invitation-code-not-exist": "U codice d’invitu ùn esiste micca",
   "error-json-malformed": "U vostru testu ùn hè micca JSON validu",

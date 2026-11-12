@@ -1042,6 +1042,7 @@
   "email-sent": "imeyili rhumeriwile",
   "email-verifyEmail-subject": "Tiyisisa adirese ya wena ya imeyili eka __siteName__",
   "email-verifyEmail-text": "Avuxeni __user__,\n\nKu tiyisisa imeyili ya akhawunti ya wena, tshikelela ntsena xihlanganisi lexi nga laha hansi.\n\n__url__\n\nInkomu.",
+  "error": "Xihoxo",
   "error-email-taken": "Imeyili yi tekiwile khale",
   "error-invitation-code-not-exist": "Khodi ya xirhambo a yi kona",
   "error-json-malformed": "Tsalwa ra wena a hi JSON leyi faneleke",

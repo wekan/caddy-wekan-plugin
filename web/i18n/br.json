@@ -1042,6 +1042,7 @@
   "email-sent": "Emael dreuzet",
   "email-verifyEmail-subject": "Gwiriañ ho chomlec’h postel war __siteName__",
   "email-verifyEmail-text": "Demat __user__,\n\nEvit gwiriañ chomlec’h postel ho kont, klikit war al liamm amañ dindan.\n\n__url__\n\nTrugarez.",
+  "error": "Fazi",
   "error-email-taken": "Implijet eo ar chomlec’h postel-mañ dija",
   "error-invitation-code-not-exist": "N’eus ket eus ar c’hod pedadenn",
   "error-json-malformed": "N’eo ket ho testenn JSON talvoudek",

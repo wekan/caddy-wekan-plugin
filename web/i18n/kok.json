@@ -1042,6 +1042,7 @@
   "email-sent": "ईमेल धाडलो",
   "email-verifyEmail-subject": "__siteName__ चेर तुमचो ईमेल नामो तपासात",
   "email-verifyEmail-text": "नमस्कार __user__,\n\nतुमच्या खात्याचो ईमेल तपासपाक सकयल्या दुव्याचेर क्लिक करात.\n\n__url__\n\nदेव बरें करूं.",
+  "error": "चूक",
   "error-email-taken": "हो ईमेल आदींच घेतला",
   "error-invitation-code-not-exist": "आमंत्रण संकेत अस्तित्वांत ना",
   "error-json-malformed": "तुमचो मजकूर वैध JSON ना",

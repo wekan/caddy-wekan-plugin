@@ -1042,6 +1042,7 @@
   "email-sent": "Imeeli rán",
   "email-verifyEmail-subject": "Jẹrisi adirẹsi imeeli rẹ lori __siteName__",
   "email-verifyEmail-text": "Kaabo __user__,\n\nLati mọ daju imeeli àkọọlẹ rẹ, nìkan tẹ awọn ọna asopọ ni isalẹ.\n\n__url__\n\nO ṣeun.",
+  "error": "Asise",
   "error-email-taken": "Imeeli ti gba tẹlẹ",
   "error-invitation-code-not-exist": "Koodu ifiwepe ko si",
   "error-json-malformed": "Ọrọ rẹ ko wulo JSON",

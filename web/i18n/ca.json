@@ -1042,6 +1042,7 @@
   "email-sent": "Correu enviat",
   "email-verifyEmail-subject": "Verifiqueu la vostra adreça de correu electrònic a __siteName__",
   "email-verifyEmail-text": "Hola __user__,\n\n per verificar el teu correu, segueix l'enllaç següent.\n\n __url__\n\n Gràcies.",
+  "error": "Missatge d'error",
   "error-email-taken": "L'adreça de correu electrònic ja és en ús",
   "error-invitation-code-not-exist": "El codi d'invitació no existeix",
   "error-json-malformed": "El text no és JSON vàlid",

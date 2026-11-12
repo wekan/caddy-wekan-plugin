@@ -1042,6 +1042,7 @@
   "email-sent": "Emel dihantar",
   "email-verifyEmail-subject": "Sila sahkan emel anda di __siteName__",
   "email-verifyEmail-text": "Salam Sejahtera __user__,\n\nUntuk mengesahkan akaun email anda, hanya perlu klik pautan di bawah.\n\n__url__\n\nTerima kasih.",
+  "error": "Ralat",
   "error-email-taken": "Emel sudah wujud",
   "error-invitation-code-not-exist": "Kod Jemputan tidak wujud",
   "error-json-malformed": "Teks anda tidak sah sebagai JSON",

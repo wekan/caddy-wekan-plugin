@@ -1042,6 +1042,7 @@
   "email-sent": "Nalefa ny mailaka",
   "email-verifyEmail-subject": "Hamarino ny adiresy mailakao ao amin'i __siteName__",
   "email-verifyEmail-text": "Manao ahoana __user__,\n\nHanamarinana ny mailakan'ny kaontinao dia kitiho fotsiny ny rohy etsy ambany.\n\n__url__\n\nMisaotra.",
+  "error": "Hadisoana",
   "error-email-taken": "Efa ampiasaina ny mailaka",
   "error-invitation-code-not-exist": "Tsy misy ny kaodin'ny fanasana",
   "error-json-malformed": "Tsy JSON manan-kery ny soratrao",

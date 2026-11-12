@@ -1042,6 +1042,7 @@
   "email-sent": "Imeiḽi yo rumelwa",
   "email-verifyEmail-subject": "Khwaṱhisedzani ḓiresi yaṋu ya imeiḽi kha __siteName__",
   "email-verifyEmail-text": "Ndaa __user__,\n\nU khwaṱhisedza imeiḽi ya akhaunthu yaṋu, kiḽikani ḽinki i re afho fhasi.\n\n__url__\n\nRo livhuwa.",
+  "error": "Vhukhakhi",
   "error-email-taken": "Imeiḽi yo no shumiswa",
   "error-invitation-code-not-exist": "Khoudu ya thambo a i ho",
   "error-json-malformed": "Maipfi aṋu a si JSON yo teaho",

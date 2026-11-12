@@ -1042,6 +1042,7 @@
   "email-sent": "Elektroniczny lëst wësłóny",
   "email-verifyEmail-subject": "Zweryfikuj swòj adres E-mail na __siteName__",
   "email-verifyEmail-text": "Witaj __user__,\nAby zweryfikowôć adres E-mail, kliknij w link poniżej.\n__url__\nDzięki.",
+  "error": "Fela",
   "error-email-taken": "Adres E-mail jest już zarezerwowany",
   "error-invitation-code-not-exist": "Kòd zôproszeniô nie istnieje",
   "error-json-malformed": "Twoja fraza nié jest w formacie JSON",

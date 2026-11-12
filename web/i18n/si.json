@@ -1042,6 +1042,7 @@
   "email-sent": "විද්‍යුත් තැපෑල යවන ලදී",
   "email-verifyEmail-subject": "__siteName__ හි ඔබගේ විද්‍යුත් තැපැල් ලිපිනය සත්‍යාපනය කරන්න",
   "email-verifyEmail-text": "ආයුබෝවන් __user__,\n\nඔබගේ ගිණුමේ විද්‍යුත් තැපෑල සත්‍යාපනය කිරීමට පහත සබැඳිය ක්ලික් කරන්න.\n\n__url__\n\nස්තුතියි.",
+  "error": "දෝෂය",
   "error-email-taken": "විද්‍යුත් තැපෑල දැනටමත් භාවිත වේ",
   "error-invitation-code-not-exist": "ආරාධනා කේතය නොපවතී",
   "error-json-malformed": "ඔබගේ පෙළ වලංගු JSON නොවේ",

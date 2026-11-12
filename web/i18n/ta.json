@@ -1042,6 +1042,7 @@
   "email-sent": "மின்னஞ்சல் அனுப்பப்பட்டது",
   "email-verifyEmail-subject": "__siteName__ இல் உங்கள் மின்னஞ்சல் முகவரியைச் சரிபார்க்கவும்",
   "email-verifyEmail-text": "வணக்கம் __user__,\n\nஉங்கள் கணக்கின் மின்னஞ்சலைச் சரிபார்க்க, கீழே உள்ள இணைப்பைச் சொடுக்கவும்.\n\n__url__\n\nநன்றி.",
+  "error": "பிழை",
   "error-email-taken": "மின்னஞ்சல் ஏற்கெனவே எடுக்கப்பட்டுவிட்டது",
   "error-invitation-code-not-exist": "அழைப்புக் குறியீடு இல்லை",
   "error-json-malformed": "உங்கள் உரை செல்லுபடியான JSON அல்ல",

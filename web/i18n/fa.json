@@ -1042,6 +1042,7 @@
   "email-sent": "نامه الکترونیکی فرستاده شد",
   "email-verifyEmail-subject": "تایید آدرس الکترونیکی شما در __siteName__",
   "email-verifyEmail-text": "سلام __user__\nبه منظور تایید آدرس الکترونیکی حساب خود، آدرس زیر را دنبال نمایید، باتشکر:\n__url__.",
+  "error": "خطا",
   "error-email-taken": "رایانامه توسط گیرنده دریافت شده است",
   "error-invitation-code-not-exist": "چنین کد دعوتی یافت نشد",
   "error-json-malformed": "متن در قالب صحیح Json نمی باشد.",

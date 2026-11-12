@@ -1042,6 +1042,7 @@
   "email-sent": "电子邮件已发送",
   "email-verifyEmail-subject": "验证您的电子邮件地址 __siteName__",
   "email-verifyEmail-text": "你好__user__，\n\n要验证您的帐户电子邮件，只需单击下面的链接。\n\n__url__\n\n谢谢。",
+  "error": "错误",
   "error-email-taken": "电子邮件已被占用",
   "error-invitation-code-not-exist": "邀请码不存在",
   "error-json-malformed": "您的文本不是有效的 JSON",

@@ -1042,6 +1042,7 @@
   "email-sent": "ส่งอีเมล์",
   "email-verifyEmail-subject": "ยืนยันที่อยู่อีเม์ของคุณบน __siteName__",
   "email-verifyEmail-text": "สวัสดี __user__,\n\nตรวจสอบบัญชีอีเมล์ของคุณ ง่าย ๆ ตามลิงค์ด้านล่าง \n\n__url__\n\n ขอบคุณค่ะ",
+  "error": "ข้อผิดพลาด",
   "error-email-taken": "อีเมลนี้ถูกใช้แล้ว",
   "error-invitation-code-not-exist": "ไม่มีรหัสคำเชิญนี้",
   "error-json-malformed": "ข้อความของคุณไม่ใช่ JSON",

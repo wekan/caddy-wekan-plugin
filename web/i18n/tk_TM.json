@@ -1042,6 +1042,7 @@
   "email-sent": "E-poçta iberildi",
   "email-verifyEmail-subject": "E-poçta salgyňyzy __siteName__ tassyklaň",
   "email-verifyEmail-text": "Salam __user__,\n\nHasabyňyzyň e-poçta habaryny barlamak üçin aşakdaky baglanyşyga basyň.\n\n__url__\n\nSag boluň.",
+  "error": "Roralňyşlyk",
   "error-email-taken": "E-poçta eýýäm alyndy",
   "error-invitation-code-not-exist": "Çakylyk kody ýok",
   "error-json-malformed": "Tekstiňiz JSON dogry däl",

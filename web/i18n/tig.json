@@ -1042,6 +1042,7 @@
   "email-sent": "ኢመይል ትላአከ",
   "email-verifyEmail-subject": "ኣድራሻ ኢመይልካ ኣብ __siteName__ ኣረጋግጽ",
   "email-verifyEmail-text": "ሰላም __user__፣\n\nኢመይል ሕሳብካ ንምርግጋጽ፣ ኣብ ታሕቲ ዘሎ መራኸቢ ጥራይ ጠውቕ።\n\n__url__\n\nየቐንየልና።",
+  "error": "ጌጋ",
   "error-email-taken": "ኢመይል ድሮ ተወሲዱ",
   "error-invitation-code-not-exist": "ኮድ ዕድመ የለን",
   "error-json-malformed": "ጽሑፍካ ቅኑዕ JSON ኣይኮነን",

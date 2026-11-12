@@ -1042,6 +1042,7 @@
   "email-sent": "Tlahcuilolli otitlaniloc",
   "email-verifyEmail-subject": "Xicmelahua motlahcuilolnemachiyo ipan __siteName__",
   "email-verifyEmail-text": "Niltze __user__,\n\nInic ticmelahuas motlacatequitilamatl itlahcuilolnemachiyo, zan xictoca in ilpiliztli tlatzintlan.\n\n__url__\n\nTlazohcamati.",
+  "error": "Tlahtlacolli",
   "error-email-taken": "Inin tlahcuilolnemachiyotl ya motequihuia",
   "error-invitation-code-not-exist": "Notzaliztli machiyotl amo onca",
   "error-json-malformed": "Motlahtol amo cualli JSON",

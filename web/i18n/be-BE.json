@@ -1042,6 +1042,7 @@
   "email-sent": "Ліст адпраўлены",
   "email-verifyEmail-subject": "Пацвердзіце свой адрас электроннай пошты на __siteName__",
   "email-verifyEmail-text": "Прывітанне, __user__,\n\nКаб пацвердзіць адрас электроннай пошты акаўнта, проста націсніце на спасылку ніжэй.\n\n__url__\n\nДзякуй.",
+  "error": "Памылка",
   "error-email-taken": "Гэты адрас электроннай пошты ўжо занят",
   "error-invitation-code-not-exist": "Код запрашэння не існуе",
   "error-json-malformed": "Ваш тэкст не з'яўляецца сапраўдным JSON",

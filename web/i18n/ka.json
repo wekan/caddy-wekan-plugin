@@ -1042,6 +1042,7 @@
   "email-sent": "ელ.ფოსტა გაგზავნილია",
   "email-verifyEmail-subject": "შეამოწმეთ ელ.ფოსტის მისამართი __siteName__-ზე",
   "email-verifyEmail-text": "გამარჯობა __user__,\n\nანგარიშის ელ.ფოსტის შესამოწმებლად დააკლიკეთ ქვედა ბმულს.\n\n__url__\n\nმადლობა.",
+  "error": "შეცდომა",
   "error-email-taken": "უკვე არსებობს მსგავსი ელ.ფოსტა",
   "error-invitation-code-not-exist": "მსგავსი მოსაწვევი კოდი არ არსებობს",
   "error-json-malformed": "შენი ტექსტი არ არის ვალიდური JSON",

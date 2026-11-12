@@ -1042,6 +1042,7 @@
   "email-sent": "E-post ferstjoerd",
   "email-verifyEmail-subject": "Befêstigje jo e-mailadres op __siteName__",
   "email-verifyEmail-text": "Hallo __user__,\n\nOm jo akkount e-post te ferifiearjen, klikje jo gewoan op de link hjirûnder.\n\n__url__\n\nTankewol.",
+  "error": "Fersin",
   "error-email-taken": "E-post is al nommen",
   "error-invitation-code-not-exist": "Utnoegingskoade bestiet net",
   "error-json-malformed": "Jo tekst is net jildich JSON",

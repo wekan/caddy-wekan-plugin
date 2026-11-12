@@ -474,10 +474,28 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var kind = el.getAttribute('data-kind'), src = el.getAttribute('data-src');
     var overlay = document.getElementById('viewer-overlay');
     if (!overlay || kind === 'none') { window.open(src, '_blank', 'noopener'); return; }
-    ['image-viewer', 'video-viewer', 'audio-viewer', 'pdf-viewer', 'txt-viewer', 'office-viewer'].forEach(function (id) {
+    ['image-viewer', 'video-viewer', 'audio-viewer', 'pdf-viewer', 'txt-viewer', 'office-viewer', 'zip-viewer'].forEach(function (id) {
       var v = document.getElementById(id);
       if (v) v.classList.add('hidden');
     });
+    if (kind === 'zip') {
+      // WeKan's ZIP preview: the entry names, as inert text, never links.
+      var zip = document.getElementById('zip-viewer');
+      zip.textContent = zip.dataset.loading || '';
+      zip.classList.remove('hidden');
+      fetch('/cdn/storage/attachments/' + encodeURIComponent(el.getAttribute('data-attachment-id')) + '/zip-entries', { credentials: 'same-origin' })
+        .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error(d.error); return d.entries || []; }); })
+        .then(function (entries) {
+          zip.replaceChildren();
+          if (!entries.length) { zip.textContent = zip.dataset.empty || ''; return; }
+          var ul = document.createElement('ul');
+          entries.forEach(function (name) { var li = document.createElement('li'); li.textContent = name; ul.appendChild(li); });
+          zip.appendChild(ul);
+        }, function () { zip.textContent = zip.dataset.error || ''; });
+      document.getElementById('attachment-name').textContent = el.getAttribute('data-name') || '';
+      overlay.classList.remove('hidden');
+      return;
+    }
     var view = document.getElementById({ image: 'image-viewer', video: 'video-viewer', audio: 'audio-viewer', pdf: 'pdf-viewer', text: 'txt-viewer' }[kind]);
     if (!view) return;
     if (view.tagName === 'OBJECT') view.setAttribute('data', src);

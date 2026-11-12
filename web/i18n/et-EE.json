@@ -1042,6 +1042,7 @@
   "email-sent": "Saadetud e-kiri",
   "email-verifyEmail-subject": "Kontrollida oma e-posti aadressi __siteName__",
   "email-verifyEmail-text": "Tere __user__,\n\nOma konto e-posti aadressi kinnitamiseks klõpsake lihtsalt alloleval lingil.\n\n__url__\n\nTänan teid.",
+  "error": "Viga",
   "error-email-taken": "E-post on juba võetud",
   "error-invitation-code-not-exist": "Kutse kood ei ole olemas",
   "error-json-malformed": "Teie tekst ei ole kehtiv JSON",

@@ -1042,6 +1042,7 @@
   "email-sent": "Email inviata",
   "email-verifyEmail-subject": "Verifica il tuo indirizzo email su __siteName__",
   "email-verifyEmail-text": "Ciao __user__,\n\nPer verificare il tuo account email, clicca sul link seguente:\n\n__url__\n\nGrazie.",
+  "error": "Errore",
   "error-email-taken": "L'email è già stata presa",
   "error-invitation-code-not-exist": "Il codice d'invito non esiste",
   "error-json-malformed": "Il testo non è in un formato JSON valido",

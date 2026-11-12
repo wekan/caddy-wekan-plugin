@@ -1042,6 +1042,7 @@
   "email-sent": "E-posta bidali da",
   "email-verifyEmail-subject": "Egiaztatu __siteName__ guneko zure e-posta helbidea.",
   "email-verifyEmail-text": "Kaixo __user__,\n\nZure e-posta kontua egiaztatzeko, egin klik beheko loturan.\n\n__url__\n\nEskerrik asko.",
+  "error": "Errorea",
   "error-email-taken": "E-mail hori hartuta dago",
   "error-invitation-code-not-exist": "Gonbidapen kodea ez da existitzen",
   "error-json-malformed": "Zure testua ez da baliozko JSON",

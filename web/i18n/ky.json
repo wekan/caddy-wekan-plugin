@@ -1042,6 +1042,7 @@
   "email-sent": "Электрондук кат жөнөтүлдү",
   "email-verifyEmail-subject": "__siteName__ сайтындагы электрондук почта дарегиңизди ырастоо",
   "email-verifyEmail-text": "Саламатсызбы, __user__,\n\nАккаунтуңуздун электрондук почтасын ырастоо үчүн төмөнкү шилтемени басыңыз.\n\n__url__\n\nРахмат.",
+  "error": "Ката",
   "error-email-taken": "Электрондук почта мурунтан алынган",
   "error-invitation-code-not-exist": "Чакыруу коду жок",
   "error-json-malformed": "Текстиңиз жарактуу JSON эмес",

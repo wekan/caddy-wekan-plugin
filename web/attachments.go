@@ -392,6 +392,7 @@ func (s *Server) attachmentRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /cdn/storage/attachments/{id}", s.serveAttachment)
 	m.HandleFunc("GET /cdn/storage/attachments/{id}/original/{name}", s.serveAttachment)
 	m.HandleFunc("GET /cdn/storage/attachments/{id}/thumbnail", s.serveAttachmentThumbnail)
+	m.HandleFunc("GET /cdn/storage/attachments/{id}/zip-entries", s.serveZipEntries)
 	m.HandleFunc("POST /b/{board}/cards/{card}/attachments", s.page(s.uploadAttachment))
 	m.HandleFunc("POST /attachments/{id}/delete", s.page(s.deleteAttachmentPage))
 	m.HandleFunc("POST /attachments/{id}/cover", s.page(s.attachmentCoverPage))

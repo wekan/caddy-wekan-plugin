@@ -1042,6 +1042,7 @@
   "email-sent": "အီးမေးလ် ပို့ပြီး",
   "email-verifyEmail-subject": "__siteName__ တွင် သင့်အီးမေးလ်လိပ်စာကို အတည်ပြုရန်",
   "email-verifyEmail-text": "မင်္ဂလာပါ __user__၊\n\nသင့်အကောင့်အီးမေးလ်ကို အတည်ပြုရန် အောက်ပါလင့်ခ်ကို နှိပ်ပါ။\n\n__url__\n\nကျေးဇူးတင်ပါသည်။",
+  "error": "အမှား",
   "error-email-taken": "အီးမေးလ်ကို အသုံးပြုပြီးဖြစ်သည်",
   "error-invitation-code-not-exist": "ဖိတ်ကြားချက်ကုဒ် မရှိပါ",
   "error-json-malformed": "သင့်စာသားသည် မှန်ကန်သော JSON မဟုတ်ပါ",

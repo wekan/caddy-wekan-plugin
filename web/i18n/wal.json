@@ -1042,6 +1042,7 @@
   "email-sent": "Iimeeliyaa yedettiis",
   "email-verifyEmail-subject": "__siteName__ bolla ne iimeeliyaa sohuwaa tumissa",
   "email-verifyEmail-text": "Saro __user__,\n\nNe akkawuntiyaa iimeeliyaa tumissanaw, garssan de'iya gattiyaabaa qoxxa.\n\n__url__\n\nGalatay.",
+  "error": "Balaa",
   "error-email-taken": "Iimeeliyay kase ekettiis",
   "error-invitation-code-not-exist": "Xeesiyo koodiyay baawa",
   "error-json-malformed": "Ne xaafoy bessiya JSON gidenna",

@@ -1042,6 +1042,7 @@
   "email-sent": "Email trimeas",
   "email-verifyEmail-subject": "Verificã adresa di email pi __siteName__",
   "email-verifyEmail-text": "Bunã __user__,\\n\\nTi s-verifici email-lu a contului, clicã ligãtura di ma njos.\\n\\n__url__\\n\\nHaristo.",
+  "error": "Alatus",
   "error-email-taken": "Adresa di email easti deagi ufilisitã",
   "error-invitation-code-not-exist": "Codul di invitatsie nu existã",
   "error-json-malformed": "Textul a tãu nu easti JSON valid",

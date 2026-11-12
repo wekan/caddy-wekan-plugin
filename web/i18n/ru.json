@@ -1042,6 +1042,7 @@
   "email-sent": "Письмо отправлено",
   "email-verifyEmail-subject": "Подтвердите адрес электронной почты на __siteName__",
   "email-verifyEmail-text": "Привет __user__,\n\nДля подтверждения вашей электронной почты перейдите по ссылке ниже.\n\n__url__\n\nСпасибо.",
+  "error": "Ошибка",
   "error-email-taken": "Этот адрес уже занят",
   "error-invitation-code-not-exist": "Код приглашения не существует",
   "error-json-malformed": "Ваше текст не является правильным JSON",

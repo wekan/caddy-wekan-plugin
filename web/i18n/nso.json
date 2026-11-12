@@ -1042,6 +1042,7 @@
   "email-sent": "Imeile e rometšwe",
   "email-verifyEmail-subject": "Netefatša aterese ya gago ya imeile go __siteName__",
   "email-verifyEmail-text": "Dumela __user__,\n\nGo netefatša imeile ya akhaonto ya gago, kgotla feela kgokaganyo ye e lego ka tlase.\n\n__url__\n\nRe a leboga.",
+  "error": "Phošo",
   "error-email-taken": "Imeile e šetše e šomišwa",
   "error-invitation-code-not-exist": "Khoutu ya taletšo ga e gona",
   "error-json-malformed": "Sengwalwa sa gago ga se JSON ya maleba",

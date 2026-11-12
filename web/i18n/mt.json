@@ -1042,6 +1042,7 @@
   "email-sent": "Il-posta elettronika ntbagħtet",
   "email-verifyEmail-subject": "Verify tiegħek email address fuq __siteName__",
   "email-verifyEmail-text": "Hello __user__,\n\nTo verify tiegħek account email, simply click il- link below.\n\n__url__\n\nThanks.",
+  "error": "Żball",
   "error-email-taken": "L-indirizz tal-posta elettronika diġà qed jintuża",
   "error-invitation-code-not-exist": "Il-kodiċi tal-istedina ma jeżistix",
   "error-json-malformed": "Your text huwa mhux valid JSON",

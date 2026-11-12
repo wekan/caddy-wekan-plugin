@@ -1042,6 +1042,7 @@
   "email-sent": "I-imeyili itfunyelwe",
   "email-verifyEmail-subject": "Cinisekisa likheli lakho le-imeyili ku-__siteName__",
   "email-verifyEmail-text": "Sawubona __user__,\n\nKuze ucinisekise i-imeyili ye-akhawunti yakho, mane uchafate sichumanisi lesingentasi.\n\n__url__\n\nSiyabonga.",
+  "error": "Liphutsa",
   "error-email-taken": "I-imeyili seyivele isetjentisiwe",
   "error-invitation-code-not-exist": "Ikhodi yesimemo ayikho",
   "error-json-malformed": "Umbhalo wakho awuyona i-JSON levumelekile",

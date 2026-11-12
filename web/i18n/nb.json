@@ -1042,6 +1042,7 @@
   "email-sent": "E-post sendt",
   "email-verifyEmail-subject": "Verifiser din e-postadresse på __siteName__",
   "email-verifyEmail-text": "Hei __user__,\n\nFor å verifisere e-postsdressen din, klikk på lenken under.\n\n__url__\n\nTakk.",
+  "error": "Feil",
   "error-email-taken": "E-postadressen er allerede i bruk",
   "error-invitation-code-not-exist": "Invitasjonskode eksisterer ikke",
   "error-json-malformed": "Denne teksten er ikke gyldig JSON",

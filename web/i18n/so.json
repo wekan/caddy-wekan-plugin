@@ -1042,6 +1042,7 @@
   "email-sent": "Iimaylka waa la diray",
   "email-verifyEmail-subject": "Xaqiiji cinwaanka iimaylkaaga ee __siteName__",
   "email-verifyEmail-text": "Salaan __user__,\n\nSi aad u xaqiijiso iimaylka akoonkaaga, si fudud u guji xiriiriyaha hoose.\n\n__url__\n\nMahadsanid.",
+  "error": "Khalad",
   "error-email-taken": "Iimaylkan hore ayaa loo qaatay",
   "error-invitation-code-not-exist": "Koodhka martiqaadku ma jiro",
   "error-json-malformed": "Qoraalkaagu ma aha JSON sax ah",

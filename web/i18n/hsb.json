@@ -1042,6 +1042,7 @@
   "email-sent": "E-mejl je so pósłał",
   "email-verifyEmail-subject": "Wobkrućće swoju e-mejlowu adresu na __siteName__",
   "email-verifyEmail-text": "Witaj __user__,\n\nzo by e-mejlowu adresu swojeho konta wobkrućił, klikń prosće na slědowacy wotkaz.\n\n__url__\n\nDźakujemy so.",
+  "error": "Zmylk",
   "error-email-taken": "Tuta e-mejl so hižo wužiwa",
   "error-invitation-code-not-exist": "Přeprošowanski kod njeeksistuje",
   "error-json-malformed": "Waš tekst płaćiwy JSON njeje",

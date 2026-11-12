@@ -1042,6 +1042,7 @@
   "email-sent": "ای میل بھیج دی گئی",
   "email-verifyEmail-subject": "__siteName__ پر اپنے ای میل پتے کی تصدیق کریں",
   "email-verifyEmail-text": "السلام علیکم __user__،\n\nاپنے اکاؤنٹ کے ای میل کی تصدیق کے لیے، بس نیچے دیے گئے لنک پر کلک کریں۔\n\n__url__\n\nشکریہ۔",
+  "error": "خرابی",
   "error-email-taken": "یہ ای میل پہلے ہی لی جا چکی ہے",
   "error-invitation-code-not-exist": "دعوتی کوڈ موجود نہیں ہے",
   "error-json-malformed": "آپ کا متن درست JSON نہیں ہے",

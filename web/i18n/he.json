@@ -1042,6 +1042,7 @@
   "email-sent": "הודעת הדוא״ל נשלחה",
   "email-verifyEmail-subject": "אימות כתובת הדוא״ל שלך באתר __siteName__",
   "email-verifyEmail-text": "__user__ שלום,\n\nלאימות כתובת הדוא״ל המשויכת לחשבונך, עליך פשוט ללחוץ על הקישור המופיע להלן.\n\n__url__\n\nתודה.",
+  "error": "שגיאה",
   "error-email-taken": "כתובת הדוא״ל כבר נמצאת בשימוש",
   "error-invitation-code-not-exist": "קוד ההזמנה אינו קיים",
   "error-json-malformed": "הטקסט שלך אינו JSON תקין",

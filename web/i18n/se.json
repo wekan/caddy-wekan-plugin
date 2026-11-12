@@ -1042,6 +1042,7 @@
   "email-sent": "E-poasta sáddejuvvui",
   "email-verifyEmail-subject": "Nanne e-poastačujuhusat báikkis __siteName__",
   "email-verifyEmail-text": "Dearvvuođat __user__,\n\nNannet konttu e-poastta coahkkal dušše vuolábeale liŋkka.\n\n__url__\n\nGiitu.",
+  "error": "Meattáhus",
   "error-email-taken": "E-poasta lea juo anus",
   "error-invitation-code-not-exist": "Bovdehuskoda ii leat gávdnamis",
   "error-json-malformed": "Du teaksta ii leat gustojeaddji JSON",

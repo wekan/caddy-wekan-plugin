@@ -1042,6 +1042,7 @@
   "email-sent": "Email envoyé",
   "email-verifyEmail-subject": "Verifyî vosse adresse emile so __siteName__",
   "email-verifyEmail-text": "Bondjoû __user__,\n\nPo verifyî l' adresse emile di vosse conte, clitchîz sol hårdêye pa dzo.\n\n__url__\n\nGråces.",
+  "error": "Erôre",
   "error-email-taken": "Cisse adresse emile ci est dedja prise",
   "error-invitation-code-not-exist": "Li côde d' invitåcion n' egzistêye nén",
   "error-json-malformed": "Vosse tecse n' est nén do JSON valåbe",

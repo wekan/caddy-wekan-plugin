@@ -1042,6 +1042,7 @@
   "email-sent": "I-imeyile ithunyelwe",
   "email-verifyEmail-subject": "Qinisekisa idilesi yemeyile yakho ku-__siteName__",
   "email-verifyEmail-text": "Molo __user__,\n\nUkuqinisekisa iakhawunti yakho ye-imeyile, nqakraza ngokulula ikhonkco elingezantsi.\n\n__url__\n\nEnkosi.",
+  "error": "Impazamo",
   "error-email-taken": "I-imeyile sele ithathiwe",
   "error-invitation-code-not-exist": "Ikhowudi yesimemo ayikho",
   "error-json-malformed": "Umbhalo wakho awusebenzi kwi-JSON",

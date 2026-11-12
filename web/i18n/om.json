@@ -1042,6 +1042,7 @@
   "email-sent": "Imeeliin ergameera",
   "email-verifyEmail-subject": "Teessoo imeelii kee __siteName__ irratti mirkaneessi",
   "email-verifyEmail-text": "Akkam __user__,\n\nImeelii herrega kee mirkaneessuuf geessituu armaan gadii qofa cuqaasi.\n\n__url__\n\nGalatoomi.",
+  "error": "Dogoggora",
   "error-email-taken": "Imeeliin duraan fudhatameera",
   "error-invitation-code-not-exist": "Koodiin affeerraa hin jiru",
   "error-json-malformed": "Barruun kee JSON sirrii miti",

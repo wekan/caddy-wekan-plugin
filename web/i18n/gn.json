@@ -1042,6 +1042,7 @@
   "email-sent": "Ñanduti veve oñemondo",
   "email-verifyEmail-subject": "Emoneĩ ne ñanduti veve renda __siteName__-pe",
   "email-verifyEmail-text": "Maitei __user__,\n\nEmoneĩ hag̃ua ne mba'ete ñanduti veve, eikutu joajuha iguýpe.\n\n__url__\n\nAguyje.",
+  "error": "Javy",
   "error-email-taken": "Ñanduti veve ojepurúma",
   "error-invitation-code-not-exist": "Ñepepirũ ayvu ndaipóri",
   "error-json-malformed": "Ne moñe'ẽrã ndaha'éi JSON oikóva",

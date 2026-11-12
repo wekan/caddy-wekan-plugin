@@ -1042,6 +1042,7 @@
   "email-sent": "ای میل سوزنہٕ آیہِ",
   "email-verifyEmail-subject": "__siteName__ پؠٹھ پنُن ای میل پتہٕ تصدیق کریو",
   "email-verifyEmail-text": "آداب __user__،\n\nپننِس کھاتس ہُنٛد ای میل تصدیق کرنہٕ خٲطرٕ بۄنہٕ کَنہِ لنکس پؠٹھ کلک کریو۔\n\n__url__\n\nشکریہ۔",
+  "error": "غلطی",
   "error-email-taken": "ای میل چھُ گوڈٕ استعمالس منٛز",
   "error-invitation-code-not-exist": "دعوت کوڈ چھُنہٕ موجود",
   "error-json-malformed": "تُہند متن چھُنہٕ درست JSON",

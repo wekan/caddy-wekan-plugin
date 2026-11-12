@@ -1042,6 +1042,7 @@
   "email-sent": "برېښناليک ولېږل شو",
   "email-verifyEmail-subject": "په __siteName__ کې خپل برېښناليک پته تاييد کړئ",
   "email-verifyEmail-text": "سلام __user__،\n\nد خپل حساب د برېښناليک تاييدولو لپاره يوازې پر لاندې تړوني ټک وکړئ.\n\n__url__\n\nمننه.",
+  "error": "تېروتنه",
   "error-email-taken": "دا برېښناليک مخکې اخيستل شوی",
   "error-invitation-code-not-exist": "د بلنې کوډ نشته",
   "error-json-malformed": "ستاسو متن سم JSON نه دی",

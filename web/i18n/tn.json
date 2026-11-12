@@ -1042,6 +1042,7 @@
   "email-sent": "Imeile e rometswe",
   "email-verifyEmail-subject": "Netefatsa aterese ya imeile mo go __siteName__",
   "email-verifyEmail-text": "Dumela __user__,\n\nGo netefatsa imeile ya akhaonto ya gago, tobetsa fela kgokagano e e fa tlase.\n\n__url__\n\nRe a leboga.",
+  "error": "Phoso",
   "error-email-taken": "Imeile e setse e dirisiwa",
   "error-invitation-code-not-exist": "Taletso khoutu doesn't exist",
   "error-json-malformed": "Mokwalo wa gago ga se JSON e e siameng",

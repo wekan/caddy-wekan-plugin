@@ -1042,6 +1042,7 @@
   "email-sent": "Emaili nassiunneqarpoq",
   "email-verifyEmail-subject": "__siteName__-imi emailit uppernarsaruk",
   "email-verifyEmail-text": "Aluu __user__,\n\nKontop emailia uppernarsarniarlugu linki ataaniittoq tooruk.\n\n__url__\n\nQujanaq.",
+  "error": "Kukkuneq",
   "error-email-taken": "Emaili atorneqareerpoq",
   "error-invitation-code-not-exist": "Qaaqqusissutip kodea piunngilaq",
   "error-json-malformed": "Allatat JSON-i atuutinngilaq",

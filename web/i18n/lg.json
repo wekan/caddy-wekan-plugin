@@ -1042,6 +1042,7 @@
   "email-sent": "Imeyilo sent",
   "email-verifyEmail-subject": "Verify kyo imeyilo ndagiriro ku __siteName__",
   "email-verifyEmail-text": "Hello __user__, Eri verify kyo akaawunti imeyilo, simply click kakwate below. __url__ Thanks.",
+  "error": "Ensobi",
   "error-email-taken": "Imeyilo has already abadde taken",
   "error-invitation-code-not-exist": "Okuyita code doesn't exist",
   "error-json-malformed": "Kyo bigambo kiri si kikkirizibwa JSON",

@@ -1042,6 +1042,7 @@
   "email-sent": "Имэйл илгээгдлээ",
   "email-verifyEmail-subject": "__siteName__ дээрх имэйл хаягаа баталгаажуулах",
   "email-verifyEmail-text": "Сайн байна уу __user__,\n\nБүртгэлийн имэйлээ баталгаажуулахын тулд доорх холбоос дээр дарна уу.\n\n__url__\n\nБаярлалаа.",
+  "error": "Алдаа",
   "error-email-taken": "Энэ имэйл аль хэдийн ашиглагдсан байна",
   "error-invitation-code-not-exist": "Урилгын код байхгүй байна",
   "error-json-malformed": "Таны текст зөв JSON биш байна",

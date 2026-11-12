@@ -222,6 +222,8 @@ func (a Attachment) PreviewKind() string {
 		return "audio"
 	case t == "text/plain" || a.Ext() == "txt":
 		return "text"
+	case isZipAttachment(a.Type, a.Name):
+		return "zip"
 	}
 	return "none"
 }

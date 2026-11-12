@@ -1043,6 +1043,7 @@
   "email-sent": "Courriel envoyé",
   "email-verifyEmail-subject": "Vérifier votre adresse de courriel sur __siteName__",
   "email-verifyEmail-text": "Bonjour __user__,\n\nPour vérifier votre compte courriel, il suffit de cliquer sur le lien ci-dessous.\n\n__url__\n\nMerci.",
+  "error": "Erreur",
   "error-email-taken": "Cette adresse mail est déjà utilisée",
   "error-invitation-code-not-exist": "Ce code d'invitation n'existe pas.",
   "error-json-malformed": "Votre texte JSON n'est pas valide",

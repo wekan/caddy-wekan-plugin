@@ -1042,6 +1042,7 @@
   "email-sent": "Email wysłany",
   "email-verifyEmail-subject": "Zweryfikuj swój adres email na __siteName__",
   "email-verifyEmail-text": "Witaj __user__,\nAby zweryfikować adres email, kliknij w link poniżej.\n__url__\nDzięki.",
+  "error": "Błąd",
   "error-email-taken": "Adres email jest już zarezerwowany",
   "error-invitation-code-not-exist": "Kod zaproszenia nie istnieje",
   "error-json-malformed": "Twoja fraza nie jest w formacie JSON",

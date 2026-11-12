@@ -1042,6 +1042,7 @@
   "email-sent": "ଇମେଲ୍ ପଠାଯାଇଛି |",
   "email-verifyEmail-subject": "__siteName__ ରେ ଆପଣଙ୍କର ଇମେଲ୍ ଠିକଣା ଯାଞ୍ଚ କରନ୍ତୁ |",
   "email-verifyEmail-text": "ନମସ୍କାର __user__,\n\nଆପଣଙ୍କର ଖାତା ଇମେଲ୍ ଯାଞ୍ଚ କରିବାକୁ, କେବଳ ନିମ୍ନ ଲିଙ୍କ୍ କ୍ଲିକ୍ କରନ୍ତୁ |\n\n__url__\n\nଧନ୍ୟବାଦ",
+  "error": "ତ୍ରୁଟି |",
   "error-email-taken": "ଇମେଲ୍ ନିଆଯାଇଛି |",
   "error-invitation-code-not-exist": "ନିମନ୍ତ୍ରଣ କୋଡ୍ ବିଦ୍ୟମାନ ନାହିଁ |",
   "error-json-malformed": "ଆପଣଙ୍କର ପାଠ ବ valid ଧ JSON ନୁହେଁ |",

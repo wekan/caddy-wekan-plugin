@@ -1042,6 +1042,7 @@
   "email-sent": "Email invieta",
   "email-verifyEmail-subject": "Verifica il tuo direzion e-mail su __siteName__",
   "email-verifyEmail-text": "Mandi __user__,\n\nPar verificâ la e-mail dal to account, fâs clic sul colegament chi sot.\n\n__url__\n\nGraciis.",
+  "error": "Erôr",
   "error-email-taken": "La e-mail e je za doprade",
   "error-invitation-code-not-exist": "Il codice d'invito no esiste",
   "error-json-malformed": "Il testo no è in un formato JSON valido",

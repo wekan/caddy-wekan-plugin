@@ -1042,6 +1042,7 @@
   "email-sent": "Sendis retpoŝton",
   "email-verifyEmail-subject": "Konfirmi vian retpoŝtadreson ĉe __siteName__",
   "email-verifyEmail-text": "Saluton __user__,\n\nPor konfirmi la retpoŝtadreson de via konto, simple alklaku la suban ligilon.\n\n__url__\n\nDankon.",
+  "error": "Eraro",
   "error-email-taken": "Retpoŝtadreso jam estas uzata",
   "error-invitation-code-not-exist": "Invitkodo ne ekzistas",
   "error-json-malformed": "Via teksto estas nevalida JSON",

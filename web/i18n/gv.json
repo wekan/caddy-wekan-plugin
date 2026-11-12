@@ -1042,6 +1042,7 @@
   "email-sent": "Post-l currit",
   "email-verifyEmail-subject": "Firrinaghey dty enmys post-l er __siteName__",
   "email-verifyEmail-text": "Moghrey mie __user__,\n\nDy firrinaghey post-l dty choontys, broogh er y chiangley heese.\n\n__url__\n\nGura mie ayd.",
+  "error": "Marranys",
   "error-email-taken": "Ta'n post-l goit hannah",
   "error-invitation-code-not-exist": "Cha nel coad cuirrey ayn",
   "error-json-malformed": "Cha nel dty heks JSON fondagh",

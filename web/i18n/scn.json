@@ -1042,6 +1042,7 @@
   "email-sent": "Emalu inviata",
   "email-verifyEmail-subject": "Verifica lu tuo indirizzo emalu su __siteName__",
   "email-verifyEmail-text": "Ciao __user__,\n\nPer verificare lu tuo account email, clicca supra lu link seguente:\n\n__url__\n\nGrazie.",
+  "error": "Erruri",
   "error-email-taken": "L'emalu è già stata presa",
   "error-invitation-code-not-exist": "Lu codice d'invito nnu esiste",
   "error-json-malformed": "Lu testo nnu è in nu formato JSON valido",

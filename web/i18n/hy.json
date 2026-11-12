@@ -1042,6 +1042,7 @@
   "email-sent": "Նամակն ուղարկվեց",
   "email-verifyEmail-subject": "Հաստատեք ձեր էլփոստի հասցեն __siteName__ հասցեով",
   "email-verifyEmail-text": "Բարև __user__,\n\nՁեր հաշվի էլ.փոստը հաստատելու համար պարզապես սեղմեք ստորև նշված հղմանը:\n\n__url__\n\nՇնորհակալություն։",
+  "error": "Սխալ",
   "error-email-taken": "Էլփոստն արդեն ընդունված է",
   "error-invitation-code-not-exist": "Հրավերի կոդը գոյություն չունի",
   "error-json-malformed": "Ձեր տեքստը վավեր JSON չէ",

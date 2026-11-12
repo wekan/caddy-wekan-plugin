@@ -1042,6 +1042,7 @@
   "email-sent": "ईमेल भेज दिहल गइल",
   "email-verifyEmail-subject": "__siteName__ पर आपन ईमेल पता सत्यापित करीं",
   "email-verifyEmail-text": "नमस्कार __user__,\n\nआपन खाता के ईमेल सत्यापित करे खातिर बस नीचे दिहल कड़ी पर क्लिक करीं।\n\n__url__\n\nधन्यवाद।",
+  "error": "गलती",
   "error-email-taken": "ई ईमेल पहिले से लिहल जा चुकल बा",
   "error-invitation-code-not-exist": "नेवता कोड मौजूद नइखे",
   "error-json-malformed": "रउआ के लिखाई मान्य JSON नइखे",

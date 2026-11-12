@@ -1042,6 +1042,7 @@
   "email-sent": "E-name hate şandin",
   "email-verifyEmail-subject": "Navnîşana e-nameya xwe li __siteName__ piştrast bike",
   "email-verifyEmail-text": "Silav __user__,\n\nJi bo piştrastkirina e-nameya hesabê xwe, tenê li girêdana jêr bitikîne.\n\n__url__\n\nSpas.",
+  "error": "Çewtî",
   "error-email-taken": "E-name jixwe hatiye girtin",
   "error-invitation-code-not-exist": "Koda vexwendinê tune",
   "error-json-malformed": "Nivîsa te JSON-eke derbasdar nîne",

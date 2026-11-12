@@ -1042,6 +1042,7 @@
   "email-sent": "Napadara an email",
   "email-verifyEmail-subject": "Beripikaha an imo email address ha __siteName__",
   "email-verifyEmail-text": "Kumusta __user__,\n\nBasi maberipika an email han imo account, i-klik la an link ha ilarom.\n\n__url__\n\nSalamat.",
+  "error": "Sayop",
   "error-email-taken": "Ginagamit na an email",
   "error-invitation-code-not-exist": "Waray an kodigo han imbitasyon",
   "error-json-malformed": "An imo teksto diri balido nga JSON",

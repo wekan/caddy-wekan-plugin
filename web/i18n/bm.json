@@ -1042,6 +1042,7 @@
   "email-sent": "Imɛli cira",
   "email-verifyEmail-subject": "I ka imɛli ladamu __siteName__ kan",
   "email-verifyEmail-text": "I ni ce __user__,\n\nWalasa ka i ka jate imɛli ladamu, i ka lasigiden min bɛ duguma, o digi dɔrɔn.\n\n__url__\n\nI ni ce.",
+  "error": "Fili",
   "error-email-taken": "Imɛli in taara kaban",
   "error-invitation-code-not-exist": "Wele kɔdi tɛ yen",
   "error-json-malformed": "I ka sɛbɛnni tɛ JSON tiɲɛnen ye",

@@ -1042,6 +1042,7 @@
   "email-sent": "E-poçt göndərildi",
   "email-verifyEmail-subject": "__siteName__ ünvanında e-poçt ünvanınızı doğrulayın",
   "email-verifyEmail-text": "Salam __user__,\n\nHesab e-poçtunuzu təsdiqləmək üçün aşağıdakı linkə klikləyin.\n\n__url__\n\ntəşəkkürlər.",
+  "error": "Xəta",
   "error-email-taken": "E-poçt artıq götürülüb",
   "error-invitation-code-not-exist": "Dəvət kodu mövcud deyil",
   "error-json-malformed": "Sizin mətn düzgün JSON deyil",

@@ -1042,6 +1042,7 @@
   "email-sent": "Emel ka teukirem",
   "email-verifyEmail-subject": "Peubeutoi alamat emel droeneueh bak __siteName__",
   "email-verifyEmail-text": "Saleuem __user__,\n\nKeu peubeutoi alamat emel akun droeneueh, neuklik tautan di miyup.\n\n__url__\n\nTeurimong geunaseh.",
+  "error": "Saleuh",
   "error-email-taken": "Emel nyoe ka geungui",
   "error-invitation-code-not-exist": "Kode undangan hana",
   "error-json-malformed": "Teks droeneueh kon JSON nyang sah",

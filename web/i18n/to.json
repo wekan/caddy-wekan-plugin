@@ -1042,6 +1042,7 @@
   "email-sent": "Kuo ʻave ʻa e ʻīmeili",
   "email-verifyEmail-subject": "Fakamoʻoniʻi hoʻo tuasila ʻīmeili ʻi he __siteName__",
   "email-verifyEmail-text": "Mālō e lelei __user__,\n\nKe fakamoʻoniʻi ʻa e ʻīmeili ʻo hoʻo ʻakauni, lomiʻi pē ʻa e fehokotaki ʻi lalo.\n\n__url__\n\nMālō.",
+  "error": "Hala",
   "error-email-taken": "Kuo ʻosi ngāueʻaki ʻa e ʻīmeili",
   "error-invitation-code-not-exist": "ʻOku ʻikai ke ʻi ai ʻa e kouti fakaafe",
   "error-json-malformed": "ʻOku ʻikai ko ha JSON totonu hoʻo tohi",

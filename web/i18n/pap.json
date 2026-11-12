@@ -1042,6 +1042,7 @@
   "email-sent": "Correo enbiado",
   "email-verifyEmail-subject": "Berifica bo direcshon di correo den __siteName__",
   "email-verifyEmail-text": "Hola __user__,\n\nPa berificar bo kuenta di e-mail, hasi clic den e siguiente enlase.\n\n__url__\n\nGrasias.",
+  "error": "Eror",
   "error-email-taken": "E direcshon di correo ya ta den uso",
   "error-invitation-code-not-exist": "E código di inbitashon no existe",
   "error-json-malformed": "E teksto no ta un HSON bálido",

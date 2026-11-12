@@ -1042,6 +1042,7 @@
   "email-sent": "Imèl voye",
   "email-verifyEmail-subject": "Verifye adrès imèl ou sou __siteName__",
   "email-verifyEmail-text": "Bonjou __user__,\n\nPou verifye imèl kont ou, tou senpleman klike sou lyen ki anba a.\n\n__url__\n\nMèsi.",
+  "error": "Erè",
   "error-email-taken": "Imèl sa a deja itilize",
   "error-invitation-code-not-exist": "Kòd envitasyon an pa egziste",
   "error-json-malformed": "Tèks ou a pa yon JSON valab",

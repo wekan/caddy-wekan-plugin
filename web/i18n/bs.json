@@ -1042,6 +1042,7 @@
   "email-sent": "Email je poslan",
   "email-verifyEmail-subject": "Potvrdite adresu e-pošte na __siteName__",
   "email-verifyEmail-text": "Zdravo __user__,\n\nDa potvrdite adresu e-pošte svog računa, jednostavno kliknite poveznicu ispod.\n\n__url__\n\nHvala.",
+  "error": "Greška",
   "error-email-taken": "Ova adresa e-pošte je već zauzeta",
   "error-invitation-code-not-exist": "Pozivni kod ne postoji",
   "error-json-malformed": "Vaš tekst nije ispravan JSON",

@@ -1042,6 +1042,7 @@
   "email-sent": "Post-d air a chur",
   "email-verifyEmail-subject": "Dearbhaich an seòladh puist-d agad air __siteName__",
   "email-verifyEmail-text": "Halò __user__,\n\nGus post-d a' chunntais agad a dhearbhadh, dìreach briog air a' cheangal gu h-ìosal.\n\n__url__\n\nTapadh leat.",
+  "error": "Mearachd",
   "error-email-taken": "Tha am post-d ga chleachdadh mu thràth",
   "error-invitation-code-not-exist": "Chan eil còd a' chuiridh ann",
   "error-json-malformed": "Chan e JSON dligheach a tha san teacsa agad",

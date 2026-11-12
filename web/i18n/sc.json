@@ -1042,6 +1042,7 @@
   "email-sent": "Posta eletrònica imbiada",
   "email-verifyEmail-subject": "Verìfica s'indiritzu de posta eletrònica tuo in __siteName__",
   "email-verifyEmail-text": "Salude __user__,\n\nPro verificare sa posta eletrònica de su contu tuo, craca su ligàmene inoghe suta.\n\n__url__\n\nGràtzias.",
+  "error": "Errore",
   "error-email-taken": "Custa posta eletrònica est giai impreada",
   "error-invitation-code-not-exist": "Su còdighe de invitu non esistit",
   "error-json-malformed": "Su testu tuo no est in formadu JSON vàlidu",

@@ -1042,6 +1042,7 @@
   "email-sent": "이메일 전송",
   "email-verifyEmail-subject": "이메일 인증: __siteName__",
   "email-verifyEmail-text": "안녕하세요. __user__님,\n\n당신의 계정과 이메일을 활성하려면 아래 링크를 클릭하십시오.\n\n__url__\n\n감사합니다.",
+  "error": "오류",
   "error-email-taken": "이미 사용 중인 이메일입니다",
   "error-invitation-code-not-exist": "초대 코드가 존재하지 않습니다.",
   "error-json-malformed": "텍스트가 JSON 형식에 유효하지 않습니다.",

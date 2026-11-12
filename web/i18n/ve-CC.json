@@ -1042,6 +1042,7 @@
   "email-sent": "Email mandà",
   "email-verifyEmail-subject": "Verìfica el to indiriso email so __siteName__",
   "email-verifyEmail-text": "Ciao __user__,\n\nPar verificar ła email del to conto, clica el łigamento qua soto.\n\n__url__\n\nGrasie.",
+  "error": "Eror",
   "error-email-taken": "Ła email ła xe dezà doparà",
   "error-invitation-code-not-exist": "El còdaze de invito no el esiste",
   "error-json-malformed": "El to testo no el xe JSON vàłido",

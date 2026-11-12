@@ -1042,6 +1042,7 @@
   "email-sent": "电子邮件已发送",
   "email-verifyEmail-subject": "验证侬勒 __siteName__ 浪个电子邮件地址",
   "email-verifyEmail-text": "__user__，侬好：\n\n要验证侬个账户电子邮件地址，点下头个链接就可以仔。\n\n__url__\n\n谢谢。",
+  "error": "错误",
   "error-email-taken": "搿个电子邮件地址已经畀人用脱仔",
   "error-invitation-code-not-exist": "搿个邀请码勿存在",
   "error-json-malformed": "侬个文本勿是有效个 JSON",

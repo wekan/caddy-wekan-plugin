@@ -1042,6 +1042,7 @@
   "email-sent": "اي ميل موڪلي وئي",
   "email-verifyEmail-subject": "__siteName__ تي پنهنجو اي ميل پتو تصديق ڪريو",
   "email-verifyEmail-text": "سلام __user__،\n\nپنهنجي کاتي جي اي ميل تصديق ڪرڻ لاءِ هيٺين ڪڙي تي ڪلڪ ڪريو.\n\n__url__\n\nمهرباني.",
+  "error": "غلطي",
   "error-email-taken": "اي ميل اڳ ئي ورتل آهي",
   "error-invitation-code-not-exist": "دعوت ڪوڊ موجود ناهي",
   "error-json-malformed": "توهان جو متن صحيح JSON ناهي",

@@ -1042,6 +1042,7 @@
   "email-sent": "E-mail tramess",
   "email-verifyEmail-subject": "Verifitgescha tia adressa dad e-mail sin __siteName__",
   "email-verifyEmail-text": "Hallo __user__,\n\nPer verifitgar l’adressa dad e-mail da tes cont, clicca simplamain sin la colliaziun sutvart.\n\n__url__\n\nGrazia.",
+  "error": "Errur",
   "error-email-taken": "Questa adressa dad e-mail vegn gia utilisada",
   "error-invitation-code-not-exist": "Il code d’invitaziun n’exista betg",
   "error-json-malformed": "Tes text n’è betg JSON valid",

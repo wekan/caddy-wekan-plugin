@@ -1042,6 +1042,7 @@
   "email-sent": "Imeile e rometswe",
   "email-verifyEmail-subject": "Netefatsa aterese ya hao ya imeile ho __siteName__",
   "email-verifyEmail-text": "Dumela __user__,\n\nHo netefatsa imeile ya akhaonto ya hao, tobetsa feela lehokelo le ka tlase.\n\n__url__\n\nRe a leboha.",
+  "error": "Phoso",
   "error-email-taken": "Imeile ena e se e sebediswa",
   "error-invitation-code-not-exist": "Khoutu ya memo ha e teng",
   "error-json-malformed": "Mongolo wa hao ha se JSON e nepahetseng",

@@ -1042,6 +1042,7 @@
   "email-sent": "Tölvupóstur sendur",
   "email-verifyEmail-subject": "Staðfesta netfangið þitt á __siteName__",
   "email-verifyEmail-text": "Halló __user__,\n\nTil að staðfesta netfang aðgangsins skaltu einfaldlega smella á tengilinn hér fyrir neðan.\n\n__url__\n\nTakk.",
+  "error": "Villa",
   "error-email-taken": "Netfangið er þegar í notkun",
   "error-invitation-code-not-exist": "Boðskóðinn er ekki til",
   "error-json-malformed": "Textinn þinn er ekki gilt JSON",

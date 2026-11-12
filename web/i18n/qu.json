@@ -1042,6 +1042,7 @@
   "email-sent": "Correo kachasqa",
   "email-verifyEmail-subject": "__siteName__ nisqapi correo tiyanaykita chiqaqchay",
   "email-verifyEmail-text": "Napaykuyki __user__,\n\nYupanayki correota chiqaqchanaykipaq, kay uraypi t'inkita ñit'iy.\n\n__url__\n\nSulpayki.",
+  "error": "Pantay",
   "error-email-taken": "Correoqa ña hap'isqañam",
   "error-invitation-code-not-exist": "Invitay kikinchayqa manam kanchu",
   "error-json-malformed": "Qillqaykiqa manam allin JSONchu",

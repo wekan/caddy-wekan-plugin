@@ -1042,6 +1042,7 @@
   "email-sent": "E-mail trimis",
   "email-verifyEmail-subject": "Verificați adresa de e-mail pe __siteName__",
   "email-verifyEmail-text": "Bună ziua, __user__,\n\nPentru a verifica adresa de e-mail a contului, faceți clic pe legătura de mai jos.\n\n__url__\n\nVă mulțumim.",
+  "error": "Eroare",
   "error-email-taken": "Adresa de e-mail este deja utilizată",
   "error-invitation-code-not-exist": "Codul de invitație nu există",
   "error-json-malformed": "Textul dumneavoastră nu este JSON valid",

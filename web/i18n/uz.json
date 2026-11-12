@@ -1042,6 +1042,7 @@
   "email-sent": "Email yuborildi",
   "email-verifyEmail-subject": "__siteName__ elektron pochta manzilingizni tasdiqlang",
   "email-verifyEmail-text": "Salom __user__,\n\nHisob qaydnomangiz elektron pochta manzilini tasdiqlash uchun quyidagi havolani bosing.\n\n__url__\n\nrahmat.",
+  "error": "Xato",
   "error-email-taken": "Elektron pochta allaqachon olingan",
   "error-invitation-code-not-exist": "Taklif kodi mavjud emas",
   "error-json-malformed": "Matningiz noto‘g‘ri JSON",

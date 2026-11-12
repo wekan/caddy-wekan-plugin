@@ -1042,6 +1042,7 @@
   "email-sent": "ईमेल भेजा गया",
   "email-verifyEmail-subject": "__siteName__ पर अपना ईमेल पता सत्यापित करें",
   "email-verifyEmail-text": "नमस्ते __user__,\n\nअपने खाते का ईमेल सत्यापित करने के लिए नीचे दिए गए लिंक पर क्लिक करें।\n\n__url__\n\nधन्यवाद।",
+  "error": "त्रुटि",
   "error-email-taken": "यह ईमेल पहले से लिया जा चुका है",
   "error-invitation-code-not-exist": "आमंत्रण कोड मौजूद नहीं है",
   "error-json-malformed": "आपका पाठ मान्य JSON नहीं है",

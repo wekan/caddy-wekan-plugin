@@ -1042,6 +1042,7 @@
   "email-sent": "الإيميل تصيفط",
   "email-verifyEmail-subject": "أكّد عنوان الإيميل ديالك ف __siteName__",
   "email-verifyEmail-text": "السلام __user__،\n\nباش تأكّد الإيميل ديال الحساب ديالك، غير كليكي على الرابط اللي لتحت.\n\n__url__\n\nشكرا.",
+  "error": "خطأ",
   "error-email-taken": "البريد الإلكتروني مأخوذ بالفعل",
   "error-invitation-code-not-exist": "رمز الدعوة غير موجود",
   "error-json-malformed": "النص ديالك ماشي JSON صحيح",

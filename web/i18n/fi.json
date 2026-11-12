@@ -1042,6 +1042,7 @@
   "email-sent": "Sähköposti lähetetty",
   "email-verifyEmail-subject": "Vahvista sähköpostiosoitteesi palvelussa __siteName__",
   "email-verifyEmail-text": "Hei __user__,\n\nvahvistaaksesi sähköpostiosoitteesi, klikkaa alla olevaa linkkiä.\n\n__url__\n\nKiitos.",
+  "error": "Virhe",
   "error-email-taken": "Sähköpostiosoite on jo käytössä",
   "error-invitation-code-not-exist": "Kutsukoodia ei ole olemassa",
   "error-json-malformed": "Tekstisi ei ole kelvollisessa JSON-muodossa",

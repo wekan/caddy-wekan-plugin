@@ -1042,6 +1042,7 @@
   "email-sent": "Sa vakau na imeli",
   "email-verifyEmail-subject": "Vakadeitaka na nomu itikotiko ni imeli ena __siteName__",
   "email-verifyEmail-text": "Bula __user__,\n\nMo vakadeitaka na imeli ni nomu akaude, kiliki ga ena isema e ra.\n\n__url__\n\nVinaka.",
+  "error": "Cala",
   "error-email-taken": "Sa vakayagataki oti na imeli",
   "error-invitation-code-not-exist": "E sega ni tiko na kode ni veisureti",
   "error-json-malformed": "Na nomu itukutuku e sega ni JSON vakabau",

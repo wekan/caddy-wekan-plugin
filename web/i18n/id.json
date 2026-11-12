@@ -1042,6 +1042,7 @@
   "email-sent": "Email terkirim",
   "email-verifyEmail-subject": "Verifikasi surel Anda pada __siteName__",
   "email-verifyEmail-text": "Halo __user__,\n\nUntuk memverifikasi surel Anda, silakan klik tautan berikut.\n\n__url__\n\nTerima kasih.",
+  "error": "Galat",
   "error-email-taken": "Alamat email sudah digunakan",
   "error-invitation-code-not-exist": "Kode undangan tidak ada",
   "error-json-malformed": "Teks Anda bukan JSON yang sah",

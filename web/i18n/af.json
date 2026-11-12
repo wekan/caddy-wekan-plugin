@@ -1042,6 +1042,7 @@
   "email-sent": "E-pos gestuur",
   "email-verifyEmail-subject": "Verifieer jou e-posadres op __siteName__",
   "email-verifyEmail-text": "Hallo __user__,\n\nOm jou rekening-e-posadres te verifieer, klik eenvoudig op die skakel hieronder.\n\n__url__\n\nDankie.",
+  "error": "Fout",
   "error-email-taken": "E-pos is reeds geneem",
   "error-invitation-code-not-exist": "Uitnodigingskode bestaan ​​nie",
   "error-json-malformed": "Jou teks is nie geldige JSON nie",

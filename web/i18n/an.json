@@ -1042,6 +1042,7 @@
   "email-sent": "Correu ninviau",
   "email-verifyEmail-subject": "Verifica a tuya adreza de correu en __siteName__",
   "email-verifyEmail-text": "Hola __user__,\n\nTa verificar o correu d'a tuya cuenta, fe clic en o vinclo de debaixo.\n\n__url__\n\nGrazias.",
+  "error": "Mensaje de error",
   "error-email-taken": "Ista dirección de correo ya está en uso",
   "error-invitation-code-not-exist": "O codigo d’invitación no existe",
   "error-json-malformed": "O tuyo texto no ye JSON valido",

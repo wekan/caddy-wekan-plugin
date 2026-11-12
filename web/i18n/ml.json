@@ -1042,6 +1042,7 @@
   "email-sent": "ഇമെയിൽ അയച്ചു",
   "email-verifyEmail-subject": "__siteName__-ലെ നിങ്ങളുടെ ഇമെയിൽ വിലാസം സ്ഥിരീകരിക്കുക",
   "email-verifyEmail-text": "നമസ്കാരം __user__,\n\nഅക്കൗണ്ട് ഇമെയിൽ സ്ഥിരീകരിക്കാൻ താഴെയുള്ള ലിങ്കിൽ ക്ലിക്ക് ചെയ്യുക.\n\n__url__\n\nനന്ദി.",
+  "error": "പിശക്",
   "error-email-taken": "ഇമെയിൽ ഇതിനകം ഉപയോഗത്തിലാണ്",
   "error-invitation-code-not-exist": "ക്ഷണക്കോഡ് നിലവിലില്ല",
   "error-json-malformed": "നിങ്ങളുടെ വാചകം സാധുവായ JSON അല്ല",

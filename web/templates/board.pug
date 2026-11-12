@@ -1385,3 +1385,5 @@
               span.pdf-preview-error {{t $.L "preview-pdf-not-supported"}}
             object#txt-viewer.hidden(type="text/plain")
             #office-viewer.hidden
+            //- WeKan's ZIP preview: the archive's entry names, as text.
+            #zip-viewer.hidden(aria-live="polite", data-loading="{{t $.L `loading`}}", data-empty="{{t $.L `no-results`}}", data-error="{{t $.L `error`}}")

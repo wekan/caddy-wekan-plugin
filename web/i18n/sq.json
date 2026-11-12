@@ -1042,6 +1042,7 @@
   "email-sent": "Emaili u dërgua",
   "email-verifyEmail-subject": "Verifiko adresën e emailit në __siteName__",
   "email-verifyEmail-text": "Përshëndetje __user__,\n\nPër të verifikuar emailin e llogarisë, kliko lidhjen më poshtë.\n\n__url__\n\nFaleminderit.",
+  "error": "Gabim",
   "error-email-taken": "Emaili është përdorur tashmë",
   "error-invitation-code-not-exist": "Kodi i ftesës nuk ekziston",
   "error-json-malformed": "Teksti yt nuk është JSON i vlefshëm",

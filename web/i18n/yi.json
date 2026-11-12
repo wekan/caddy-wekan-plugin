@@ -1042,6 +1042,7 @@
   "email-sent": "בליצפּאָסט געשיקט",
   "email-verifyEmail-subject": "באַשטעטיקן דיין בליצפּאָסט אַדרעס אויף __siteName__",
   "email-verifyEmail-text": "העלא __user__,\n\nצו באַשטעטיקן דיין חשבון E- בריוו, פשוט גיט די לינק אונטן.\n\n__url__\n\nא דאנק.",
+  "error": "טעות",
   "error-email-taken": "בליצפּאָסט איז שוין גענומען",
   "error-invitation-code-not-exist": "פאַרבעטונג קאָד טוט נישט עקסיסטירן",
   "error-json-malformed": "דיין טעקסט איז נישט גילטיק JSON",

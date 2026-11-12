@@ -1042,6 +1042,7 @@
   "email-sent": "Yɛasoma ɛmɛl no",
   "email-verifyEmail-subject": "Verify wo email address wɔ __siteName__",
   "email-verifyEmail-text": "Akwaaba __user__,\n\nSɛ wopɛ sɛ wusi w’akontaabu email so dua a, klik link a ɛwɔ ase ha no.\n\n__url__\n\nYɛda wo ase.",
+  "error": "Mfomsoɔ",
   "error-email-taken": "Mfomso bi sii wɔ dwumadi yi mu",
   "error-invitation-code-not-exist": "Mfomso bi sii wɔ dwumadi yi mu",
   "error-json-malformed": "Nsɛm a woakyerɛw no nyɛ JSON a ɛfata",

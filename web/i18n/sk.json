@@ -1042,6 +1042,7 @@
   "email-sent": "E-mail bol odoslaný",
   "email-verifyEmail-subject": "Overte svoju e-mailovú adresu na __siteName__",
   "email-verifyEmail-text": "Ahoj __user__,\n\nAk chceš overiť e-mailovú adresu účtu, klikni na odkaz nižšie.\n\n__url__\n\nĎakujeme.",
+  "error": "Chyba",
   "error-email-taken": "Táto e-mailová adresa sa už používa",
   "error-invitation-code-not-exist": "Kód pozvánky neexistuje.",
   "error-json-malformed": "Tvoj text nie je platný JSON",

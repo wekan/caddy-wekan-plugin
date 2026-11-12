@@ -1042,6 +1042,7 @@
   "email-sent": "Imel salim pinis",
   "email-verifyEmail-subject": "Sekim adres bilong imel bilong yu long __siteName__",
   "email-verifyEmail-text": "Halo __user__,\n\nBilong sekim imel bilong akaun bilong yu, klikim link aninit.\n\n__url__\n\nTenkyu.",
+  "error": "Rong",
   "error-email-taken": "Ol i yusim dispela imel pinis",
   "error-invitation-code-not-exist": "Kod bilong singautim i kam i no stap",
   "error-json-malformed": "Teks bilong yu i no stretpela JSON",

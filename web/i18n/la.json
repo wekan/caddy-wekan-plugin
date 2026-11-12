@@ -1042,6 +1042,7 @@
   "email-sent": "Epistula electronica missa est",
   "email-verifyEmail-subject": "Confirma inscriptionem tuam electronicam in __siteName__",
   "email-verifyEmail-text": "Salve __user__,\n\nUt inscriptionem electronicam rationis tuae confirmes, preme ligamen infra.\n\n__url__\n\nGratias.",
+  "error": "Error",
   "error-email-taken": "Haec inscriptio electronica iam occupata est",
   "error-invitation-code-not-exist": "Codex invitationis non exsistit",
   "error-json-malformed": "Textus tuus non est JSON validum",

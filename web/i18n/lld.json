@@ -1042,6 +1042,7 @@
   "email-sent": "E-mail mandà",
   "email-verifyEmail-subject": "Cuntrolea tua adressa e-mail sun __siteName__",
   "email-verifyEmail-text": "Bundì __user__,\n\nPer cuntrulé l e-mail de tie cont, cliché sun l link dessot.\n\n__url__\n\nDiotelpaie.",
+  "error": "Fal",
   "error-email-taken": "L e-mail ie bele tëut",
   "error-invitation-code-not-exist": "L code de nvidëda ne n’ie nia",
   "error-json-malformed": "Tie test ne n’ie nia JSON valit",

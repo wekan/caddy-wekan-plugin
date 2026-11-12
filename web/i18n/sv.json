@@ -1042,6 +1042,7 @@
   "email-sent": "E-post skickad",
   "email-verifyEmail-subject": "Verifiera din e-post adress på __siteName__",
   "email-verifyEmail-text": "Hej __user__,\n\nFör att verifiera din konto e-post, klicka på länken nedan.\n\n__url__\n\nTack!",
+  "error": "Fel",
   "error-email-taken": "E-post har redan tagits",
   "error-invitation-code-not-exist": "Inbjudningskod finns inte",
   "error-json-malformed": "Din text är inte giltigt JSON",
