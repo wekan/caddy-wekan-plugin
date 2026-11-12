@@ -3,6 +3,7 @@ package web
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -1177,9 +1178,22 @@ func TestScrumLargeClose(t *testing.T) {
 		c, _ := w.db.Collection("cards").CountDocuments(ctx, bson.M{"large": true, "scrum.sprintId": id})
 		return c
 	}
+	// The deadline is on progress, not on the whole: under the package's
+	// parallel tests the batch job advances slower, and while its done count
+	// or the rollover's still moves, it is working - it times out only when it
+	// has stood still for 90 seconds.
+	progress := func() string {
+		sp := w.s.findDoc(ctx, "scrumSprints", bson.M{"_id": id})
+		job := w.s.findDoc(ctx, "scrumBatchJobs", bson.M{"_id": rb.ID})
+		return fmt.Sprint(sp["rolloverDone"], "/", job["done"], "/", job["index"])
+	}
 	waitFor := func(what string, ok func() bool) {
 		t.Helper()
+		last := progress()
 		for deadline := time.Now().Add(90 * time.Second); !ok(); time.Sleep(500 * time.Millisecond) {
+			if now := progress(); now != last {
+				last, deadline = now, time.Now().Add(90*time.Second)
+			}
 			if time.Now().After(deadline) {
 				s := w.s.findDoc(ctx, "scrumSprints", bson.M{"_id": id})
 				t.Fatalf("timed out: %s: pending %v done %v err %v job %v", what, s["rolloverPending"], s["rolloverDone"], s["rolloverError"],
