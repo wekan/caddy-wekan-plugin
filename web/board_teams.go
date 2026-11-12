@@ -431,3 +431,176 @@ func (s *Server) teamLeaveCleanup(ctx context.Context, actorID string, b *Board,
 		_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(id)}, bson.M{"$pull": bson.M{"profile.starredBoards": b.ID}})
 	}
 }
+
+type boardOrg struct {
+	OrgID          string `json:"orgId" bson:"orgId"`
+	OrgDisplayName string `json:"orgDisplayName" bson:"orgDisplayName"`
+	IsActive       bool   `json:"isActive" bson:"isActive"`
+}
+
+// boardAdminTarget is the board-admin check WeKan's three board group methods
+// begin with.
+func (s *Server) boardAdminTarget(r *http.Request, u *User, boardID string) (*Board, error) {
+	var b Board
+	if !validID(boardID) || s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(boardID)}).Decode(&b) != nil {
+		return nil, &methodError{"board-not-found", "Board not found."}
+	}
+	if !b.AdminOf(u.ID) {
+		return nil, &methodError{"not-authorized", "You must be a board admin to perform this action."}
+	}
+	return &b, nil
+}
+
+// methodSetBoardOrgs is WeKan's setBoardOrgs(orgs, boardId): a board admin
+// sets the board's organizations, adding only ones they belong to (#5141),
+// any for a site admin.
+func (s *Server) methodSetBoardOrgs(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	match := &methodError{"Match.Error", "Match failed"}
+	var raw []map[string]any
+	if len(args) < 2 || json.Unmarshal(args[0], &raw) != nil {
+		return nil, match
+	}
+	var orgs []boardOrg
+	for _, o := range raw {
+		id, ok1 := o["orgId"].(string)
+		name, ok2 := o["orgDisplayName"].(string)
+		active, ok3 := o["isActive"].(bool)
+		if !ok1 || !ok2 || !ok3 {
+			return nil, match
+		}
+		orgs = append(orgs, boardOrg{id, name, active})
+	}
+	boardID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	b, err := s.boardAdminTarget(r, u, boardID)
+	if err != nil {
+		return nil, err
+	}
+	ctx := r.Context()
+	var stored struct {
+		Orgs []boardOrg `bson:"orgs"`
+	}
+	_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&stored)
+	var previous, next, own []string
+	for _, o := range stored.Orgs {
+		previous = append(previous, o.OrgID)
+	}
+	for _, o := range orgs {
+		next = append(next, o.OrgID)
+	}
+	mine, _ := s.orgTeamIDs(ctx, u.ID)
+	for id := range mine {
+		own = append(own, id)
+	}
+	if len(forbiddenNewGroupIDs(previous, next, own, u.IsAdmin)) > 0 {
+		return nil, &methodError{"not-authorized", "You can add only organizations you belong to."}
+	}
+	if orgs == nil {
+		orgs = []boardOrg{}
+	}
+	if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"orgs": orgs, "modifiedAt": time.Now().UTC()}}); err != nil {
+		return nil, err
+	}
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	return nil, nil
+}
+
+// normalizeBoardDomains is setBoardDomains' validation (#5850): each domain
+// trimmed and lowercased, with a "." and no "@" or whitespace, once.
+func normalizeBoardDomains(raw []map[string]any) ([]boardDomain, error) {
+	out := []boardDomain{}
+	seen := map[string]bool{}
+	for _, e := range raw {
+		d, ok1 := e["domain"].(string)
+		active, ok2 := e["isActive"].(bool)
+		if !ok1 || !ok2 {
+			return nil, &methodError{"Match.Error", "Match failed"}
+		}
+		domain := strings.ToLower(strings.TrimSpace(d))
+		if domainProblem(domain) {
+			return nil, &methodError{"invalid-domain", "Invalid domain: " + d}
+		}
+		if seen[domain] {
+			continue
+		}
+		seen[domain] = true
+		out = append(out, boardDomain{Domain: domain, IsActive: active})
+	}
+	return out, nil
+}
+
+func (s *Server) setBoardDomains(r *http.Request, u *User, raw []map[string]any, boardID string) (any, error) {
+	b, err := s.boardAdminTarget(r, u, boardID)
+	if err != nil {
+		return nil, err
+	}
+	domains, err := normalizeBoardDomains(raw)
+	if err != nil {
+		return nil, err
+	}
+	if _, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"domains": domains, "modifiedAt": time.Now().UTC()}}); err != nil {
+		return nil, err
+	}
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	return nil, nil
+}
+
+// methodSetBoardDomains is WeKan's setBoardDomains(domains, boardId).
+func (s *Server) methodSetBoardDomains(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	var raw []map[string]any
+	if len(args) < 2 || json.Unmarshal(args[0], &raw) != nil {
+		return nil, &methodError{"Match.Error", "Match failed"}
+	}
+	boardID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	return s.setBoardDomains(r, u, raw, boardID)
+}
+
+// boardDomainsRaw is the board's stored domains as setBoardDomains takes them.
+func (s *Server) boardDomainsRaw(r *http.Request, boardID string) []map[string]any {
+	out := []map[string]any{}
+	if validID(boardID) {
+		for _, d := range s.domainsOf(r, boardID) {
+			out = append(out, map[string]any{"domain": d.Domain, "isActive": d.IsActive})
+		}
+	}
+	return out
+}
+
+// methodAddBoardDomain is WeKan's addBoardDomain(domain, boardId): the
+// board's domains and this one, active, through setBoardDomains' checks.
+func (s *Server) methodAddBoardDomain(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	domain, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	boardID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	raw := s.boardDomainsRaw(r, boardID)
+	normalized := strings.ToLower(strings.TrimSpace(domain))
+	if !slices.ContainsFunc(raw, func(d map[string]any) bool { return d["domain"] == normalized }) {
+		raw = append(raw, map[string]any{"domain": normalized, "isActive": true})
+	}
+	return s.setBoardDomains(r, u, raw, boardID)
+}
+
+// methodRemoveBoardDomain is WeKan's removeBoardDomain(domain, boardId).
+func (s *Server) methodRemoveBoardDomain(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	domain, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	boardID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	normalized := strings.ToLower(strings.TrimSpace(domain))
+	raw := slices.DeleteFunc(s.boardDomainsRaw(r, boardID), func(d map[string]any) bool { return d["domain"] == normalized })
+	return s.setBoardDomains(r, u, raw, boardID)
+}

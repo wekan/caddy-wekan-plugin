@@ -238,3 +238,82 @@ func TestAddsBoardMember(t *testing.T) {
 		t.Error("a site admin adds any")
 	}
 }
+
+// setBoardOrgs adds only the admin's own organizations (#5141), any for a
+// site admin; setBoardDomains, addBoardDomain and removeBoardDomain keep
+// valid domains, normalized, once (#5850); none of them is anybody's but a
+// board admin's, and a collection write of either field is GroupLinkBleed.
+func TestBoardOrgsAndDomains(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	w.seedUser(t, "bob", "pw")
+	root := w.seedUser(t, "root", "pw")
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": root.ID}, bson.M{"$set": bson.M{"isAdmin": true}})
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Groups")
+	var ann User
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"username": "ann"}).Decode(&ann)
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": ann.ID}, bson.M{"$set": bson.M{"orgs": bson.A{bson.M{"orgId": "myOrg", "orgDisplayName": "Mine"}}}})
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": rb.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": root.ID, "isActive": true, "isAdmin": true}}})
+	ac := w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	org := func(id string) string { return `{"orgId":"` + id + `","orgDisplayName":"x","isActive":true}` }
+	if _, out := methodCall(t, w, ac, "setBoardOrgs", `[[`+org("theirOrg")+`],"`+rb.ID+`"]`); out["error"] != "not-authorized" {
+		t.Errorf("#5141: an org the admin is not in: %v", out)
+	}
+	if _, out := methodCall(t, w, ac, "setBoardOrgs", `[[`+org("myOrg")+`],"`+rb.ID+`"]`); out["error"] != nil {
+		t.Errorf("their own org: %v", out)
+	}
+	rc := w.client(t)
+	body(t, w.signIn(t, rc, "root", "pw"))
+	if _, out := methodCall(t, w, rc, "setBoardOrgs", `[[`+org("myOrg")+`,`+org("theirOrg")+`],"`+rb.ID+`"]`); out["error"] != nil {
+		t.Errorf("a site admin adds any: %v", out)
+	}
+	var stored struct {
+		Orgs    []boardOrg    `bson:"orgs"`
+		Domains []boardDomain `bson:"domains"`
+	}
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&stored)
+	if len(stored.Orgs) != 2 {
+		t.Errorf("both orgs: %+v", stored.Orgs)
+	}
+	if _, out := methodCall(t, w, ac, "setBoardDomains", `[[{"domain":"  Example.COM ","isActive":true},{"domain":"example.com","isActive":false},{"domain":"b.org","isActive":false}],"`+rb.ID+`"]`); out["error"] != nil {
+		t.Fatalf("set domains: %v", out)
+	}
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&stored)
+	if len(stored.Domains) != 2 || stored.Domains[0] != (boardDomain{"example.com", true}) || stored.Domains[1] != (boardDomain{"b.org", false}) {
+		t.Errorf("normalized, once: %+v", stored.Domains)
+	}
+	for _, bad := range []string{"nodot", "a@b.com", "a b.com", ""} {
+		if _, out := methodCall(t, w, ac, "setBoardDomains", `[[{"domain":"`+bad+`","isActive":true}],"`+rb.ID+`"]`); out["error"] != "invalid-domain" {
+			t.Errorf("negative: %q: %v", bad, out)
+		}
+	}
+	_, _ = methodCall(t, w, ac, "addBoardDomain", `[" New.Example ","`+rb.ID+`"]`)
+	_, _ = methodCall(t, w, ac, "addBoardDomain", `["new.example","`+rb.ID+`"]`)
+	_, _ = methodCall(t, w, ac, "removeBoardDomain", `["B.ORG","`+rb.ID+`"]`)
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&stored)
+	if len(stored.Domains) != 2 || stored.Domains[1] != (boardDomain{"new.example", true}) {
+		t.Errorf("added once, removed: %+v", stored.Domains)
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	for _, c := range []string{`setBoardOrgs`, `setBoardDomains`} {
+		if _, out := methodCall(t, w, bc, c, `[[],"`+rb.ID+`"]`); out["error"] != "not-authorized" {
+			t.Errorf("negative: %s by a non-admin: %v", c, out)
+		}
+	}
+	if _, out := methodCall(t, w, bc, "addBoardDomain", `["x.example","`+rb.ID+`"]`); out["error"] != "not-authorized" {
+		t.Errorf("negative: addBoardDomain by a non-admin: %v", out)
+	}
+	// The collection write of either is GroupLinkBleed.
+	_, _ = w.db.Collection("eventlog").DeleteMany(ctx, bson.M{"bleed": "GroupLinkBleed"})
+	for _, mod := range []string{`{"$set":{"orgs":[]}}`, `{"$set":{"domains.0.isActive":false}}`} {
+		if _, out := methodCall(t, w, ac, "/boards/update", `[{"_id":"`+rb.ID+`"},`+mod+`]`); out["reason"] != "Access denied" {
+			t.Errorf("the collection refuses %s: %v", mod, out)
+		}
+	}
+	if n, _ := w.db.Collection("eventlog").CountDocuments(ctx, bson.M{"bleed": "GroupLinkBleed"}); n == 0 {
+		t.Error("recorded as GroupLinkBleed")
+	}
+}
