@@ -166,7 +166,6 @@ var unrecordedCardWrites = map[string]string{
 	"history_undo.go:applyHistoryRow":       "undo and redo themselves, recorded as their restored row",
 	"history_undo.go:applyCardPosition":     "undo and redo of a move, recorded as their restored row",
 	"history_undo.go:softRemoveList":        "a list's soft delete, recorded as its lifecycle row",
-	"members.go:removeBoardMember":          "the board's people, recorded as the board's own change",
 	"server.go:watchCardPage":               "watchers, not a recorded field",
 }
 
@@ -291,6 +290,7 @@ var unrecordedEntityWrites = map[string]string{
 	"import_scoped.go:importChecklists:checklistItems":            "an import, whose author WeKan's hooks do not have either",
 	"import_scoped.go:importChecklists:checklists":                "an import, whose author WeKan's hooks do not have either",
 	"import_scoped.go:importComments:card_comments":               "an import, whose author WeKan's hooks do not have either",
+	"members.go:memberLeavesBoard:lists":                          "a removed member's list watching, not a recorded field",
 	"rule_copy.go:ruleCopyCard:card_comments":                     "a rule's copy, on a card just made",
 	"rules_engine.go:performAction:checklistItems":                "a deleted checklist's items, which go with it - the checklist is the row",
 	"webhooks_out.go:webhookReply:card_comments":                  "a two-way webhook's answer, which has no WeKan user",

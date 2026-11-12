@@ -77,8 +77,8 @@ func TestBoardMembersInSidebar(t *testing.T) {
 	}
 	var card Card
 	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": c.ID}).Decode(&card)
-	if len(card.Members) != 0 || len(card.Assignees) != 0 {
-		t.Fatal("and from the board's cards")
+	if len(card.Members) != 0 || len(card.Assignees) != 1 {
+		t.Fatal("and from the board's cards' members; assignees stay, as WeKan's")
 	}
 	if r, _ := ann.PostForm(w.srv.URL+"/b/"+b.ID+"/members/"+u.ID+"/remove", nil); r.StatusCode != http.StatusBadRequest {
 		t.Fatalf("negative: not oneself, the last admin: %d", r.StatusCode)

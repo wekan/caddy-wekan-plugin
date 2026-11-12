@@ -3,6 +3,7 @@ package web
 import (
 	"context"
 	"encoding/json"
+	"maps"
 	"net/http"
 	"regexp"
 	"slices"
@@ -318,17 +319,59 @@ func (s *Server) removeBoardMember(w http.ResponseWriter, r *http.Request, u *Us
 		http.Error(w, "the board's last admin stays", http.StatusBadRequest)
 		return
 	}
-	members := slices.Clone(b.Members)
-	members[i].IsActive = false
 	ctx := r.Context()
-	if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"members": members, "modifiedAt": time.Now().UTC()}}); err != nil {
+	if err := s.memberLeavesBoard(ctx, u.ID, b, i); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	_, _ = s.db.Collection("cards").UpdateMany(ctx, bson.M{"boardId": b.ID}, bson.M{"$pull": bson.M{"members": id, "assignees": id}})
 	s.activity(ctx, u.ID, "removeBoardMember", bson.M{"boardId": b.ID, "memberId": id})
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+}
+
+// memberLeavesBoard is WeKan's removeMember with the Boards.before.update hook
+// it sets off (server/models/boards.js, foreachRemovedMember): the entry stays,
+// inactive and no longer an admin, without the groups it came through (#4178:
+// a removal is final), and the person leaves the board's cards - members,
+// requesters, assigners and watchers; assignees stay, as WeKan's - its lists'
+// and the board's watchers, and their star unless the board is readable
+// without membership (#3249). Each card is recorded in the change history as
+// WeKan's after.update hook records it, by actorID: the admin who removed the
+// member, or the member who left.
+func (s *Server) memberLeavesBoard(ctx context.Context, actorID string, b *Board, i int) error {
+	id := b.Members[i].UserID
+	members := slices.Clone(b.Members)
+	members[i].IsActive, members[i].IsAdmin = false, false
+	if members[i].Rest != nil {
+		rest := maps.Clone(members[i].Rest)
+		delete(rest, "grantedBy")
+		members[i].Rest = rest
+	}
+	if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{
+		"$set":  bson.M{"members": members, "modifiedAt": time.Now().UTC()},
+		"$pull": bson.M{"watchers": bson.M{"userId": b.Members[i].UserID}},
+	}); err != nil {
+		return err
+	}
+	b.Members = members
+	pull := bson.M{"$pull": bson.M{"members": id, "requesters": id, "assigners": id, "watchers": id}}
+	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID, "$or": bson.A{
+		bson.M{"members": id}, bson.M{"requesters": id}, bson.M{"assigners": id}, bson.M{"watchers": id}}},
+		options.Find().SetProjection(bson.M{"_id": 1}))
+	if err == nil {
+		var cards []struct {
+			ID string `bson:"_id"`
+		}
+		_ = cur.All(ctx, &cards)
+		for _, c := range cards {
+			_, _ = s.cardsUpdateOne(ctx, actorID, bson.M{"_id": c.ID}, pull)
+		}
+	}
+	_, _ = s.db.Collection("lists").UpdateMany(ctx, bson.M{"boardId": b.ID}, bson.M{"$pull": bson.M{"watchers": id}})
+	if b.Permission != "public" && b.Permission != "instance" {
+		_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(id)}, bson.M{"$pull": bson.M{"profile.starredBoards": b.ID}})
+	}
+	return nil
 }
 
 // methodSearchUsers is WeKan's searchUsers(query, boardId), the Members

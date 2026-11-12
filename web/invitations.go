@@ -245,9 +245,7 @@ func (s *Server) methodQuitBoard(r *http.Request, u *User, args []json.RawMessag
 			}
 		}
 		if !b.Members[i].IsAdmin || admins > 1 {
-			members := slices.Clone(b.Members)
-			members[i].IsActive = false
-			_, _ = s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"members": members, "modifiedAt": time.Now().UTC()}})
+			_ = s.memberLeavesBoard(ctx, u.ID, &b, i)
 			s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 		}
 	}
