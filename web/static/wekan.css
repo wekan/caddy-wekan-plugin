@@ -728,3 +728,10 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .card-settings-inline-collapse { color: inherit; width: 1rem; text-align: center; }
 /* The opened card's sections (WeKan's one section model). */
 .card-details-section > .card-details-item-title.js-toggle-card-section .fa { margin-inline-end: 0.3rem; }
+/* Each section of the opened card a full-width block, as WeKan's; inside it
+   the fields flow in a row, and what is a group of its own (custom fields,
+   checklists, attachments, comments ...) takes the whole width. */
+.card-details .card-details-items { display: block; }
+.card-details-items > .card-details-section { margin-bottom: 0.5em; }
+.card-details-section-body { display: flex; flex-wrap: wrap; gap: 0.5em; }
+.card-details-section-body > :not(.card-details-item) { flex: 1 1 100%; min-width: 0; }

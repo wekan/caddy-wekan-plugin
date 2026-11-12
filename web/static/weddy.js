@@ -59,18 +59,33 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     // What the user opened in the card details - a <details> such as the
     // Scrum fields' editor - stays open through somebody else's change: the
     // same ones, by their place, are opened again in the new page.
-    var all = function () { return Array.prototype.slice.call(document.querySelectorAll('.board-wrapper .js-card-details details')); };
+    // Which are open is read when the new page is in, not when the reload
+    // starts: one opened while the page was on its way stays open too.
     var card = document.querySelector('.board-wrapper .js-card-details');
-    var open = all().map(function (d, i) { return d.open ? i : -1; }).filter(function (i) { return i >= 0; });
     var cardID = card && card.dataset.card;
+    var open = openCardDetails();
     var p = up.reload('.board-wrapper');
-    if (open.length && p && p.then) p.then(function () {
+    if (p && p.then) p.then(function () {
       var now = document.querySelector('.board-wrapper .js-card-details');
       if (!now || now.dataset.card !== cardID) return;
-      var list = all();
-      open.forEach(function (i) { if (list[i]) list[i].open = true; });
-    }, function () {});
+      var list = cardDetailsList();
+      (detailsSeen ? detailsOpen : open).forEach(function (i) { if (list[i]) list[i].open = true; });
+      detailsSeen = false;
+    }, function () { detailsSeen = false; });
+    detailsSeen = true;
+    detailsOpen = open;
   }
+  function cardDetailsList() { return Array.prototype.slice.call(document.querySelectorAll('.board-wrapper .js-card-details details')); }
+  function openCardDetails() {
+    return cardDetailsList().map(function (d, i) { return d.open ? i : -1; }).filter(function (i) { return i >= 0; });
+  }
+  // While a reload is on its way, the open <details> of the card details as
+  // the user leaves them, by place.
+  var detailsSeen = false, detailsOpen = [];
+  document.addEventListener('toggle', function (event) {
+    if (!detailsSeen || !event.target.closest || !event.target.closest('.board-wrapper .js-card-details')) return;
+    detailsOpen = openCardDetails();
+  }, true);
 
   // A form sent is answered with the whole board: what was waiting is in it.
   up.on('up:form:submit', function () { staleUnderForm = false; });
