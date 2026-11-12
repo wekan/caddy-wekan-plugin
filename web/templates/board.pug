@@ -1252,6 +1252,31 @@
                   .edit-controls.clearfix
                     button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
                     a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+      //- WeKan's subtasks.jade: the card's subtasks, each linking its card,
+        and for whoever may change the card "Add Subtask" - a title and
+        whether it takes the card's labels (#2184).
+      .card-details-item.card-details-subtasks
+        h3.card-details-item-title
+          i.fa.fa-sitemap
+          |  {{t $.L "subtasks"}}
+        .card-subtasks-items
+          each st in .Subtasks
+            .js-subtasks.subtask
+              .subtask-title
+                h2.title
+                  a(href="/b/{{.BoardID}}/x/{{.ID}}", up-follow) {{.Title}}
+        if .CanModifyCard
+          a.js-open-inlined-form(href="#", data-opens="add-subtask", title="{{t $.L `add-subtask`}}", aria-label="{{t $.L `add-subtask`}}")
+            i.fa.fa-plus
+          form.js-add-subtask.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/subtasks", up-submit, up-target=".board-wrapper")
+            template.js-inlined-form-body
+              textarea.js-add-subtask-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `add-subtask`}}", required)
+              label.subtask-inherit-labels
+                input.js-add-subtask-inherit-labels(type="checkbox", name="inheritLabels")
+                |  {{t $.L "subtask-inherit-parent-labels"}}
+              .edit-controls.clearfix
+                button.primary.confirm(type="submit") {{t $.L "save"}}
+                a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
       //- WeKan's attachmentGallery: a "+" opening cardAttachmentsPopup for
         whoever may change the card, and each attachment as a tile - its
         thumbnail or its extension, which opens attachmentViewer - with its

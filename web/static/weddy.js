@@ -559,7 +559,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   });
   // The checklists' inlined forms: a "+" opens its own form - the
   // checklist's for an item, the section's for a checklist.
-  up.on('click', '.js-checklists-section .js-open-inlined-form, .card-details-group-description .js-open-inlined-form', function (event, el) {
+  up.on('click', '.js-checklists-section .js-open-inlined-form, .card-details-group-description .js-open-inlined-form, .card-details-subtasks .js-open-inlined-form', function (event, el) {
     event.preventDefault();
     var opens = el.getAttribute('data-opens');
     var where = {
@@ -568,13 +568,14 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       'edit-checklist-title': ['.js-checklist', 'form.js-edit-checklist-title'],
       'edit-checklist-item': ['.js-checklist-item', 'form.js-edit-checklist-item'],
       'edit-description': ['.card-details-group-description', 'form.js-card-description'],
+      'add-subtask': ['.card-details-subtasks', 'form.js-add-subtask'],
     }[opens];
     if (!where) return;
     var box = el.closest(where[0]);
     var form = box && box.querySelector(where[1]);
     if (!form) return;
     // One inlined form at a time, as WeKan's, and its fields only while open.
-    el.closest('.js-card-details').querySelectorAll('.js-checklists-section .js-inlined-form, .card-details-group-description .js-inlined-form').forEach(function (f) { if (f !== form) closeInlinedForm(f); });
+    el.closest('.js-card-details').querySelectorAll('.js-checklists-section .js-inlined-form, .card-details-group-description .js-inlined-form, .card-details-subtasks .js-inlined-form').forEach(function (f) { if (f !== form) closeInlinedForm(f); });
     var body = form.querySelector(':scope > template.js-inlined-form-body');
     if (body && !form.querySelector('textarea')) form.appendChild(body.content.cloneNode(true));
     form.classList.remove('is-hidden');

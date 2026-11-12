@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"testing"
 
@@ -91,9 +92,19 @@ func TestBoardCreationPolicy(t *testing.T) {
 	}
 }
 
+// boardsWeKanMakesItself are the board inserts that never ask the creation
+// policy, each with why (models/lib/boardCreationPolicy.js): "Boards WeKan
+// makes itself ... are not created by the user and never ask."
+var boardsWeKanMakesItself = map[string]string{
+	"subtasks.go:defaultSubtasksBoard": "a board's default subtasks board, made when its first subtask is",
+}
+
 // CreateBleed, everywhere: a board is inserted only by insertBoard, after the
-// check, or by an import after the same check - so no path can skip it.
+// check, or by an import after the same check - or is one of the boards WeKan
+// makes itself, listed with why - so no path can skip it.
 func TestEveryBoardInsertIsChecked(t *testing.T) {
+	fn := regexp.MustCompile(`^func (?:\([^)]*\) )?([A-Za-z_]+)\(`)
+	found := map[string]bool{}
 	files, _ := filepath.Glob("*.go")
 	for _, f := range files {
 		if strings.HasSuffix(f, "_test.go") {
@@ -105,10 +116,26 @@ func TestEveryBoardInsertIsChecked(t *testing.T) {
 				continue
 			}
 			text := string(src)
-			before := strings.Join(strings.Split(text, "\n")[max(0, i-12):i], "\n")
+			lines := strings.Split(text, "\n")
+			current := ""
+			for j := i; j >= 0 && current == ""; j-- {
+				if m := fn.FindStringSubmatch(lines[j]); m != nil {
+					current = m[1]
+				}
+			}
+			if _, ok := boardsWeKanMakesItself[f+":"+current]; ok {
+				found[f+":"+current] = true
+				continue
+			}
+			before := strings.Join(lines[max(0, i-12):i], "\n")
 			if !strings.Contains(before, "mayCreateBoard") && !strings.Contains(before, "func (s *Server) insertBoard") {
 				t.Errorf("%s:%d inserts a board without WeKan's board creation check", f, i+1)
 			}
+		}
+	}
+	for key := range boardsWeKanMakesItself {
+		if !found[key] {
+			t.Errorf("%s is listed but inserts no board any more: take it off the list", key)
 		}
 	}
 }

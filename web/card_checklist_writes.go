@@ -22,6 +22,7 @@ import (
 
 func (s *Server) registerChecklistWrites(m *http.ServeMux) {
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists", s.page(s.addChecklistPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/subtasks", s.page(s.addSubtaskPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items", s.page(s.addChecklistItemPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/toggle", s.page(s.toggleChecklistItemPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/delete", s.page(s.deleteChecklistPage))
