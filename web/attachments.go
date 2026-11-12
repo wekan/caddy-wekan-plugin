@@ -127,10 +127,12 @@ func (s *Server) StoreAttachment(r *http.Request, b *Board, c *Card, u *User, na
 		"isImage": isImage, "isVideo": strings.HasPrefix(typ, "video/"), "isAudio": strings.HasPrefix(typ, "audio/"),
 		"isText": strings.HasPrefix(typ, "text/"), "isJSON": typ == "application/json", "isPDF": typ == "application/pdf",
 		"path": path, "_storagePath": dir, "_collectionName": "attachments", "_downloadRoute": "/cdn/storage", "public": false,
-		"versions": bson.M{"original": bson.M{"path": path, "size": n, "type": typ, "extension": ext, "storage": "fs"}},
-		"meta": bson.M{"boardId": b.ID, "swimlaneId": c.SwimlaneID, "listId": c.ListID, "cardId": c.ID,
-			"fileId": id, "source": "weddy"},
+		"versions":   bson.M{"original": bson.M{"path": path, "size": n, "type": typ, "extension": ext, "storage": "fs"}},
+		"meta":       bson.M{"boardId": b.ID, "fileId": id, "source": "weddy"},
 		"uploadedAt": now,
+	}
+	if c != nil { // a card's attachment; without one, a board's own image
+		doc["meta"].(bson.M)["swimlaneId"], doc["meta"].(bson.M)["listId"], doc["meta"].(bson.M)["cardId"] = c.SwimlaneID, c.ListID, c.ID
 	}
 	if _, err := s.db.Collection("attachments").InsertOne(r.Context(), doc); err != nil {
 		_ = os.Remove(path)
@@ -141,8 +143,10 @@ func (s *Server) StoreAttachment(r *http.Request, b *Board, c *Card, u *User, na
 	if m, _ := plain(doc).(map[string]any)["meta"].(map[string]any); m["source"] != "import" {
 		s.recordLifecycle(r.Context(), u.ID, "attachment", plain(doc).(map[string]any), "added")
 	}
-	s.activity(r.Context(), u.ID, "addAttachment", bson.M{"attachmentId": id, "attachmentName": name, "boardId": b.ID,
-		"cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
+	if c != nil {
+		s.activity(r.Context(), u.ID, "addAttachment", bson.M{"attachmentId": id, "attachmentName": name, "boardId": b.ID,
+			"cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
+	}
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return s.attachment(r, id)
 }
@@ -255,6 +259,10 @@ func (s *Server) uploadAttachment(w http.ResponseWriter, r *http.Request, u *Use
 			s.noteAssignedAttachmentWrite(r, u, r.PathValue("board"), r.PathValue("card"), "attachment-method:upload")
 		}
 		http.Error(w, http.StatusText(code), code)
+		return
+	}
+	if s.attachmentUploadBlocked(r) { // Admin Panel's attachmentsUploadBlocked, as WeKan's onBeforeUpload
+		http.Error(w, "Uploads are turned off.", http.StatusForbidden)
 		return
 	}
 	r.Body = http.MaxBytesReader(w, r.Body, MaxAttachmentBytes+1<<20)
@@ -400,6 +408,10 @@ func (s *Server) attachmentRoutes(m *http.ServeMux) {
 // apiUploadAttachment takes WeKan's JSON body with the file in base64, or - with
 // fileName and the ids in the query - the file itself as the body.
 func (s *Server) apiUploadAttachment(w http.ResponseWriter, r *http.Request, u *User) {
+	if s.attachmentLimit(r, "apiUploadBlocked") == true { // WeKan's getApiTransferLimits
+		apiError(w, http.StatusForbidden, "API uploads are disabled by administrator")
+		return
+	}
 	q := r.URL.Query()
 	var boardID, cardID, name, typ string
 	var body io.Reader

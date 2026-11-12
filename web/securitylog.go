@@ -81,6 +81,10 @@ var securityCategories = map[string]securityCategory{
 	// inviteUserToBoard. Medium: recorded, the account kept, as WeKan's.
 	"authz.group-link": {Category: "authz", Bleed: "GroupLinkBleed", Severity: "medium", CWE: "CWE-863"},
 	"authz.member-add": {Category: "authz", Bleed: "GroupLinkBleed", Severity: "medium", CWE: "CWE-863"},
+	// UploadBleed: an upload onto a card or board the uploader may not
+	// write; StampBleed: a card's child stamped with another board.
+	"authz.attachment-upload": {Category: "authz", Bleed: "UploadBleed", Severity: "critical", CWE: "CWE-862"},
+	"authz.card-child-stamp":  {Category: "authz", Bleed: "StampBleed", Severity: "high", CWE: "CWE-639"},
 	// A change history row that fails its chain (changeHistoryIntegrity.js).
 	"integrity.history": {Category: "integrity", Bleed: "HistoryIntegrity", Severity: "critical", CWE: "CWE-345"},
 	// A mutation of a board the caller may not change (boardMutationGuard.js).
