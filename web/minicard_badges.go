@@ -136,6 +136,8 @@ func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane) 
 type minicardChecklist struct {
 	ID, Title string
 	Items     []minicardChecklistItem
+	// Collapsed: folded by the user, on the minicard and the card alike (#1591).
+	Collapsed bool
 }
 
 type minicardChecklistItem struct {
@@ -181,7 +183,7 @@ func (s *Server) minicardChecklists(ctx context.Context, b *Board, cardIDs bson.
 		byList[it.ChecklistID] = append(byList[it.ChecklistID], minicardChecklistItem{it.ID, it.Title, it.IsFinished})
 	}
 	for _, l := range lists {
-		out[l.CardID] = append(out[l.CardID], minicardChecklist{l.ID, l.Title, byList[l.ID]})
+		out[l.CardID] = append(out[l.CardID], minicardChecklist{ID: l.ID, Title: l.Title, Items: byList[l.ID]})
 	}
 	return out
 }

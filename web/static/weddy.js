@@ -1441,6 +1441,40 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       b.setAttribute('aria-checked', on ? 'true' : 'false');
     });
   }
+  // WeKan's folds, each the user's own: a swimlane (setSwimlaneCollapsedState),
+  // a minicard (setCardCollapsedState) and a minicard's checklist - the same
+  // fold as in the opened card (setCollapsedCardSection, "checklist-<id>").
+  // A fold never opens the card it sits on.
+  function toggleFold(el) {
+    var board = document.querySelector('.board-wrapper[data-board]');
+    if (!board) return;
+    var folded = el.dataset.collapsed !== 'true', p;
+    if (el.classList.contains('js-collapse-swimlane')) {
+      p = callAsync('setSwimlaneCollapsedState', board.dataset.board, el.dataset.swimlane, folded);
+    } else if (el.classList.contains('js-collapse-minicard')) {
+      p = callAsync('setCardCollapsedState', board.dataset.board, el.dataset.card, folded);
+    } else {
+      var mini = el.closest('.js-minicard[data-card]');
+      if (!mini) return;
+      p = callAsync('setCollapsedCardSection', mini.dataset.card, 'checklist-' + el.dataset.checklist, folded);
+    }
+    p.then(function () { up.reload('.board-wrapper'); }, function () {});
+  }
+  document.addEventListener('click', function (event) {
+    var el = event.target.closest && event.target.closest('.js-collapse-swimlane, .js-collapse-minicard, .minicard-checklist .js-collapse-checklist');
+    if (!el) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    toggleFold(el);
+  }, true);
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    var el = event.target.closest && event.target.closest('.js-collapse-minicard, .minicard-checklist .js-collapse-checklist');
+    if (!el) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    toggleFold(el);
+  }, true);
   // A selection checkbox selects; it never opens the card it sits on.
   document.addEventListener('click', function (event) {
     var b = event.target.closest && event.target.closest('.js-structural-selection, .js-toggle-multi-selection');
@@ -1512,9 +1546,10 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       var node = el.closest(tries[i][1]);
       if (node) return { kind: tries[i][0], id: node.dataset[tries[i][2]], node: node };
     }
-    var head = el.closest('.js-swimlane-header');
-    var lane = (head || (drop ? el : null)) && (head || el).closest('.js-swimlane[data-swimlane]');
-    if (lane) return { kind: 'swimlane', id: lane.dataset.swimlane, node: head || lane };
+    var head = el.closest('.js-swimlane-header[data-swimlane]');
+    if (head) return { kind: 'swimlane', id: head.dataset.swimlane, node: head };
+    var lane = drop && el.closest('.js-swimlane[data-swimlane]');
+    if (lane) return { kind: 'swimlane', id: lane.dataset.swimlane, node: lane };
     return null;
   }
   function structuralTargetFor(entity, boardID) {
@@ -1536,7 +1571,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       if (list) { t.listId = list.dataset.list; t.swimlaneId = list.dataset.swimlane || undefined; }
     }
     if (!t.swimlaneId) {
-      var lane = node.closest('.js-swimlane[data-swimlane]');
+      var lane = node.closest('[data-swimlane]');
       if (lane) t.swimlaneId = lane.dataset.swimlane;
     }
     Object.keys(t).forEach(function (k) { if (t[k] === undefined) delete t[k]; });
@@ -1590,7 +1625,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var board = document.querySelector('.board-wrapper[data-board]');
     if (!board) return;
     var destination = structuralTargetFor(d.target, board.dataset.board);
-    var bounds = d.target.node.getBoundingClientRect();
+    // Before or after by the drop's half - of a list's header when dropped on
+    // it, the part of the list one aims at, not of the whole column.
+    var under = document.elementFromPoint(event.clientX, event.clientY);
+    var header = d.target.kind === 'list' && under && under.closest && under.closest('.list-header');
+    var bounds = (header && d.target.node.contains(header) ? header : d.target.node).getBoundingClientRect();
     destination.position = event.clientY < bounds.y + bounds.height / 2 ? 'before' : 'after';
     callAsync('moveBoardObjects', board.dataset.board, d.selection, destination, { drag: true }).then(function () {
       multiSelection = { on: false, cards: {}, objects: {} };

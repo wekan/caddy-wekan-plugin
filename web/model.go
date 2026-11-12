@@ -369,6 +369,8 @@ type Card struct {
 	MinicardComments []string        `bson:"-" json:"-"`
 	// MinicardChecklists are its checklists shown on the minicard (WeKan's
 	// showChecklistAtMinicard), with their items.
-	MinicardChecklists   []minicardChecklist `bson:"-" json:"-"`
-	MinicardMoreComments bool                `bson:"-" json:"-"`
+	MinicardChecklists []minicardChecklist `bson:"-" json:"-"`
+	// MinicardCollapsed: the user folded this minicard (profile.collapsedCards).
+	MinicardCollapsed    bool `bson:"-" json:"-"`
+	MinicardMoreComments bool `bson:"-" json:"-"`
 }

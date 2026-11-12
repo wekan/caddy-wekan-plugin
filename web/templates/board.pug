@@ -760,11 +760,20 @@
                 a(href="/api/boards/{{.Board.ID}}/calendar.ics", download) .ics
   .board-canvas#board-canvas
     each sw in .Lanes
-      .swimlane.js-swimlane(id="swimlane-{{.ID}}", data-swimlane="{{.ID}}")
-        .swimlane-header.js-swimlane-header
+      //- A folded swimlane (WeKan's collapseSwimlane) keeps its header, and
+        shows nothing of its lists: it is no .js-swimlane, and has no id.
+      .swimlane(id="{{if not .Collapsed}}swimlane-{{.ID}}{{end}}", data-swimlane="{{.ID}}", class="{{if .Collapsed}}swimlane-collapsed{{else}}js-swimlane{{end}}")
+        .swimlane-header.js-swimlane-header(data-swimlane="{{.ID}}")
           //- WeKan's structuralSelectionCheckbox: shown while Multi-Selection is on.
           if $.CanEdit
             button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="swimlane", data-id="{{.ID}}")
+          //- WeKan's swimlaneHeader.jade: the caret folds the swimlane, for this user.
+          if $.User
+            a.swimlane-collapse-indicator.js-collapse-swimlane.swimlane-header-collapse(href="#", data-swimlane="{{.ID}}", data-collapsed="{{if .Collapsed}}true{{end}}", title="{{t $.L `collapse`}}", aria-label="{{t $.L `collapse`}}")
+              if .Collapsed
+                i.fa.fa-caret-right
+              else
+                i.fa.fa-caret-down
           span.swimlane-header-name.title {{.Title}}
           if $.CanExport
             a.js-open-swimlane-menu.swimlane-header-menu-icon(href="#", data-swimlane="{{.ID}}", title="{{t $.L `swimlaneActionPopup-title`}}", aria-label="{{t $.L `swimlaneActionPopup-title`}}")
@@ -772,130 +781,138 @@
           if $.CanEdit
             a.js-open-add-swimlane-menu.swimlane-header-plus-icon(href="#", data-swimlane="{{.ID}}", title="{{t $.L `add-swimlane`}}", aria-label="{{t $.L `add-swimlane`}}")
               i.fa.fa-plus
-        .list-group.js-lists
-          each li in .Lists
-            .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}", data-swimlane="{{.Lane}}", data-watching="{{if watching $.User .Watchers}}1{{end}}", class="{{if .Collapsed}}list-collapsed{{end}}")
-              .list-header
-                if $.CanEdit
-                  button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="list", data-id="{{.ID}}")
-                //- WeKan's caret (listHeader.jade): per user, per list in this swimlane (#6712).
-                if .Collapsed
-                  a.list-collapse-indicator.js-collapse(href="#", data-collapse="{{t $.L `collapse`}}", data-uncollapse="{{t $.L `uncollapse`}}", title="{{t $.L `uncollapse`}}", aria-label="{{t $.L `uncollapse`}}")
-                    i.fa.fa-caret-right
-                else
-                  a.list-collapse-indicator.js-collapse(href="#", data-collapse="{{t $.L `collapse`}}", data-uncollapse="{{t $.L `uncollapse`}}", title="{{t $.L `collapse`}}", aria-label="{{t $.L `collapse`}}")
-                    i.fa.fa-caret-down
-                span.list-header-name {{.Title}}
-                if watching $.User .Watchers
-                  i.list-header-watch-icon.fa.fa-eye(title="{{t $.L `watching`}}")
-                if .CanAdd
-                  a.js-add-card.list-header-plus-top(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `add-card-to-top-of-list`}}", aria-label="{{t $.L `add-card-to-top-of-list`}}") +
-                if $.CanEdit
-                  //- WeKan's listHeader.jade: the inline Add List composer
-                    after this list (#6465), in this swimlane.
-                  a.js-add-list-here.list-header-add-list(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `add-list`}}", aria-label="{{t $.L `add-list`}}")
-                    i.fa.fa-plus-square-o
-                  a.js-open-list-menu(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `listActionPopup-title`}}", aria-label="{{t $.L `listActionPopup-title`}}") ☰
-              .list-body.js-minicards(data-list="{{.ID}}", data-swimlane="{{.Lane}}")
-                each c in .Cards
-                  //- A block that opens the card, not a link: a link in its title
-                    must not sit inside another link (WeKan's minicard is a block too).
-                  .minicard-wrapper.js-minicard(up-href="/b/{{$.Board.ID}}/{{$.Board.Slug}}/{{.ID}}", up-follow, up-clickable, up-target=".board-wrapper", data-card="{{.ID}}", data-card-id="{{.ID}}", data-sort="{{.Sort}}")
-                    //- WeKan's listBody.jade: while Multi-Selection is on, the card's
-                      own select checkbox.
-                    if $.CanEdit
-                      .materialCheckBox.multi-selection-checkbox.js-toggle-multi-selection.is-hidden(role="checkbox", aria-checked="false", tabindex="0", data-card="{{.ID}}")
-                    .minicard
-                      .minicard-title
-                        //- WeKan's "Mark as complete" on the minicard, when Card
-                          Settings shows it there; the server checks the card.
-                        if $.Board.AllowsDueCompleteOnMinicard
-                          if $.CanEdit
-                            a.minicard-complete-toggle.js-toggle-card-complete(href="#", data-card="{{.ID}}", data-complete="{{if .DueComplete}}false{{else}}true{{end}}", title="{{if .DueComplete}}{{t $.L `card-mark-incomplete`}}{{else}}{{t $.L `card-mark-complete`}}{{end}}")
-                              .materialCheckBox(class="{{if .DueComplete}}is-checked{{end}}")
-                        span.minicard-title-text {{viewer .Title $.TextPolicy}}
-                      //- WeKan's scrumMetadata, compact: the Scrum fields Card
-                        Settings shows on the minicard.
-                      if .MinicardScrum
-                        .scrum-metadata
-                          each f in .MinicardScrum
-                            div
-                              strong {{.Label}}:
-                              span {{.Value}}
-                      //- WeKan's minicard assignees: an avatar each.
-                      if .MinicardAssignees
-                        .minicard-assignees.js-minicard-assignees
-                          each p in .MinicardAssignees
-                            span.member(title="{{.Name}}") {{.Initials}}
-                      //- Its newest comments, each on a line of its own below
-                        the avatars, wrapping (minicard.css, the 2026-10-08 report).
-                      if .MinicardComments
-                        .minicard-comments
-                          each cm in .MinicardComments
-                            .minicard-comment
-                              span.minicard-comment-icon
-                                i.fa.fa-comment-o
-                              span.minicard-comment-text {{.}}
-                      //- WeKan's minicardChecklist: a checklist its card shows
-                        on the minicard, its items done or not.
-                      each cl in .MinicardChecklists
-                        .minicard-checklist(data-checklist="{{.ID}}")
-                          .checklist-header
+        if not .Collapsed
+          .list-group.js-lists
+            each li in .Lists
+              .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}", data-swimlane="{{.Lane}}", data-watching="{{if watching $.User .Watchers}}1{{end}}", class="{{if .Collapsed}}list-collapsed{{end}}")
+                .list-header
+                  if $.CanEdit
+                    button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="list", data-id="{{.ID}}")
+                  //- WeKan's caret (listHeader.jade): per user, per list in this swimlane (#6712).
+                  if .Collapsed
+                    a.list-collapse-indicator.js-collapse(href="#", data-collapse="{{t $.L `collapse`}}", data-uncollapse="{{t $.L `uncollapse`}}", title="{{t $.L `uncollapse`}}", aria-label="{{t $.L `uncollapse`}}")
+                      i.fa.fa-caret-right
+                  else
+                    a.list-collapse-indicator.js-collapse(href="#", data-collapse="{{t $.L `collapse`}}", data-uncollapse="{{t $.L `uncollapse`}}", title="{{t $.L `collapse`}}", aria-label="{{t $.L `collapse`}}")
+                      i.fa.fa-caret-down
+                  span.list-header-name {{.Title}}
+                  if watching $.User .Watchers
+                    i.list-header-watch-icon.fa.fa-eye(title="{{t $.L `watching`}}")
+                  if .CanAdd
+                    a.js-add-card.list-header-plus-top(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `add-card-to-top-of-list`}}", aria-label="{{t $.L `add-card-to-top-of-list`}}") +
+                  if $.CanEdit
+                    //- WeKan's listHeader.jade: the inline Add List composer
+                      after this list (#6465), in this swimlane.
+                    a.js-add-list-here.list-header-add-list(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `add-list`}}", aria-label="{{t $.L `add-list`}}")
+                      i.fa.fa-plus-square-o
+                    a.js-open-list-menu(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `listActionPopup-title`}}", aria-label="{{t $.L `listActionPopup-title`}}") ☰
+                .list-body.js-minicards(data-list="{{.ID}}", data-swimlane="{{.Lane}}")
+                  each c in .Cards
+                    //- A block that opens the card, not a link: a link in its title
+                      must not sit inside another link (WeKan's minicard is a block too).
+                    .minicard-wrapper.js-minicard(up-href="/b/{{$.Board.ID}}/{{$.Board.Slug}}/{{.ID}}", up-follow, up-clickable, up-target=".board-wrapper", data-card="{{.ID}}", data-card-id="{{.ID}}", data-sort="{{.Sort}}")
+                      //- WeKan's listBody.jade: while Multi-Selection is on, the card's
+                        own select checkbox.
+                      if $.CanEdit
+                        .materialCheckBox.multi-selection-checkbox.js-toggle-multi-selection.is-hidden(role="checkbox", aria-checked="false", tabindex="0", data-card="{{.ID}}")
+                      .minicard(class="{{if .MinicardCollapsed}}minicard-collapsed{{end}}")
+                        .minicard-title
+                          //- WeKan's minicard caret: folds the minicard to its title, for this user.
+                          if $.User
+                            a.minicard-collapse-toggle.js-collapse-minicard(href="#", role="button", tabindex="0", data-card="{{.ID}}", data-collapsed="{{if .MinicardCollapsed}}true{{end}}", title="{{if .MinicardCollapsed}}{{t $.L `uncollapse`}}{{else}}{{t $.L `collapse`}}{{end}}")
+                              i.fa(class="{{if .MinicardCollapsed}}fa-caret-right{{else}}fa-caret-down{{end}}")
+                          //- WeKan's "Mark as complete" on the minicard, when Card
+                            Settings shows it there; the server checks the card.
+                          if $.Board.AllowsDueCompleteOnMinicard
                             if $.CanEdit
-                              button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="checklist", data-id="{{.ID}}")
-                            h4.checklist-title {{.Title}}
-                          .minicard-checklist-items
-                            each it in .Items
-                              .minicard-checklist-item(data-item="{{.ID}}", class="{{if .IsFinished}}is-checked{{end}}")
-                                if $.CanEdit
-                                  button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="item", data-id="{{.ID}}")
-                                .materialCheckBox(class="{{if .IsFinished}}is-checked{{end}}")
-                                span {{.Title}}
-                      //- WeKan's minicard cover: the card's cover image.
-                      if .CoverID
-                        .minicard-cover
-                          img(src="/cdn/storage/attachments/{{.CoverID}}", alt="", loading="lazy")
-              if .CanAdd
-                //- The card composer is on the page only while it is open, at
-                  the top or the bottom of the list (WeKan's inlined form).
-                template.js-card-composer-template
-                  form.js-inlined-form.js-card-composer(method="post", action="/b/{{$.Board.ID}}/cards", up-submit, up-target=".board-wrapper")
-                    input(type="hidden", name="listId", value="{{.ID}}")
-                    input(type="hidden", name="swimlaneId", value="{{.Lane}}")
-                    input.js-card-position(type="hidden", name="position", value="bottom")
-                    //- WeKan's addCardForm: the composer drawn as a minicard.
-                    .minicard.minicard-composer.js-composer
-                      textarea.minicard-composer-textarea.js-card-title(name="title", dir="auto", aria-label="{{t $.L `title`}}", required)
-                    .add-controls.clearfix
-                      button.primary.confirm(type="submit") {{t $.L "add-card"}}
-                      a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
-                //- listBody.jade: the closed bottom composer, "+ Add card".
-                a.open-minicard-composer.js-card-composer.js-open-inlined-form(href="#", title="{{t $.L `add-card-to-bottom-of-list`}}")
-                  i.fa.fa-plus
-                  |  {{t $.L "add-card"}}
-          if $.CanEdit
-            //- WeKan's addListInline (swimlanes.jade), cloned after the list
-              whose header + was clicked: one list, or one a line.
-            template.js-add-list-inline-template
-              .list.list-composer.js-list-composer.js-add-list-inline
-                .list-header-add
-                  form.js-add-list-inline-form
-                    textarea.list-name-input.full-line(rows="2", dir="auto", placeholder="{{t $.L `add-list`}}", aria-label="{{t $.L `add-list`}}", autocomplete="off", required)
-                    fieldset.multiline-title-choice
-                      legend {{t $.L "add-many-lines-as"}}
-                      label
-                        input.js-multiline-title-mode(type="radio", name="title-mode", value="one", checked)
-                        |  1 {{t $.L "list"}}
-                      label
-                        input.js-multiline-title-mode(type="radio", name="title-mode", value="separate")
-                        |  {{tv $.L "many-items" "items" (t $.L "lists")}}
-                    .edit-controls.clearfix
-                      button.primary.confirm(type="submit") {{t $.L "save"}}
-                      a.js-close-add-list-inline(href="#", title="{{t $.L `close`}}", aria-label="{{t $.L `close`}}") ×
-            .list.js-list-composer
-              form.js-inlined-form.js-list-form(method="post", action="/b/{{$.Board.ID}}/lists", up-submit, up-target=".board-wrapper")
-                input.list-name-input(type="text", name="title", aria-label="{{t $.L `add-list`}}", placeholder="{{t $.L `add-list`}}", required)
-                button.primary(type="submit") {{t $.L "add-list"}}
+                              a.minicard-complete-toggle.js-toggle-card-complete(href="#", data-card="{{.ID}}", data-complete="{{if .DueComplete}}false{{else}}true{{end}}", title="{{if .DueComplete}}{{t $.L `card-mark-incomplete`}}{{else}}{{t $.L `card-mark-complete`}}{{end}}")
+                                .materialCheckBox(class="{{if .DueComplete}}is-checked{{end}}")
+                          span.minicard-title-text {{viewer .Title $.TextPolicy}}
+                        //- WeKan's scrumMetadata, compact: the Scrum fields Card
+                          Settings shows on the minicard.
+                        if .MinicardScrum
+                          .scrum-metadata
+                            each f in .MinicardScrum
+                              div
+                                strong {{.Label}}:
+                                span {{.Value}}
+                        //- WeKan's minicard assignees: an avatar each.
+                        if .MinicardAssignees
+                          .minicard-assignees.js-minicard-assignees
+                            each p in .MinicardAssignees
+                              span.member(title="{{.Name}}") {{.Initials}}
+                        //- Its newest comments, each on a line of its own below
+                          the avatars, wrapping (minicard.css, the 2026-10-08 report).
+                        if .MinicardComments
+                          .minicard-comments
+                            each cm in .MinicardComments
+                              .minicard-comment
+                                span.minicard-comment-icon
+                                  i.fa.fa-comment-o
+                                span.minicard-comment-text {{.}}
+                        //- WeKan's minicardChecklist: a checklist its card shows
+                          on the minicard, its items done or not.
+                        each cl in .MinicardChecklists
+                          .minicard-checklist(data-checklist="{{.ID}}")
+                            .checklist-header
+                              if $.CanEdit
+                                button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="checklist", data-id="{{.ID}}")
+                              //- #1591: the same fold as in the opened card.
+                              a.fa.checklist-collapse.js-collapse-checklist(href="#", role="button", tabindex="0", data-checklist="{{.ID}}", data-collapsed="{{if .Collapsed}}true{{end}}", aria-expanded="{{if .Collapsed}}false{{else}}true{{end}}", class="{{if .Collapsed}}fa-caret-right{{else}}fa-caret-down{{end}}", title="{{if .Collapsed}}{{t $.L `expand-checklist`}}{{else}}{{t $.L `collapse-checklist`}}{{end}}")
+                              h4.checklist-title {{.Title}}
+                            if not .Collapsed
+                              .minicard-checklist-items.js-checklist-items
+                                each it in .Items
+                                  .minicard-checklist-item(data-item="{{.ID}}", class="{{if .IsFinished}}is-checked{{end}}")
+                                    if $.CanEdit
+                                      button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="item", data-id="{{.ID}}")
+                                    .materialCheckBox(class="{{if .IsFinished}}is-checked{{end}}")
+                                    span {{.Title}}
+                        //- WeKan's minicard cover: the card's cover image.
+                        if .CoverID
+                          .minicard-cover
+                            img(src="/cdn/storage/attachments/{{.CoverID}}", alt="", loading="lazy")
+                if .CanAdd
+                  //- The card composer is on the page only while it is open, at
+                    the top or the bottom of the list (WeKan's inlined form).
+                  template.js-card-composer-template
+                    form.js-inlined-form.js-card-composer(method="post", action="/b/{{$.Board.ID}}/cards", up-submit, up-target=".board-wrapper")
+                      input(type="hidden", name="listId", value="{{.ID}}")
+                      input(type="hidden", name="swimlaneId", value="{{.Lane}}")
+                      input.js-card-position(type="hidden", name="position", value="bottom")
+                      //- WeKan's addCardForm: the composer drawn as a minicard.
+                      .minicard.minicard-composer.js-composer
+                        textarea.minicard-composer-textarea.js-card-title(name="title", dir="auto", aria-label="{{t $.L `title`}}", required)
+                      .add-controls.clearfix
+                        button.primary.confirm(type="submit") {{t $.L "add-card"}}
+                        a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+                  //- listBody.jade: the closed bottom composer, "+ Add card".
+                  a.open-minicard-composer.js-card-composer.js-open-inlined-form(href="#", title="{{t $.L `add-card-to-bottom-of-list`}}")
+                    i.fa.fa-plus
+                    |  {{t $.L "add-card"}}
+            if $.CanEdit
+              //- WeKan's addListInline (swimlanes.jade), cloned after the list
+                whose header + was clicked: one list, or one a line.
+              template.js-add-list-inline-template
+                .list.list-composer.js-list-composer.js-add-list-inline
+                  .list-header-add
+                    form.js-add-list-inline-form
+                      textarea.list-name-input.full-line(rows="2", dir="auto", placeholder="{{t $.L `add-list`}}", aria-label="{{t $.L `add-list`}}", autocomplete="off", required)
+                      fieldset.multiline-title-choice
+                        legend {{t $.L "add-many-lines-as"}}
+                        label
+                          input.js-multiline-title-mode(type="radio", name="title-mode", value="one", checked)
+                          |  1 {{t $.L "list"}}
+                        label
+                          input.js-multiline-title-mode(type="radio", name="title-mode", value="separate")
+                          |  {{tv $.L "many-items" "items" (t $.L "lists")}}
+                      .edit-controls.clearfix
+                        button.primary.confirm(type="submit") {{t $.L "save"}}
+                        a.js-close-add-list-inline(href="#", title="{{t $.L `close`}}", aria-label="{{t $.L `close`}}") ×
+              .list.js-list-composer
+                form.js-inlined-form.js-list-form(method="post", action="/b/{{$.Board.ID}}/lists", up-submit, up-target=".board-wrapper")
+                  input.list-name-input(type="text", name="title", aria-label="{{t $.L `add-list`}}", placeholder="{{t $.L `add-list`}}", required)
+                  button.primary(type="submit") {{t $.L "add-list"}}
   if .Card
     .card-details.js-card-details(data-card="{{.Card.ID}}", class="{{if .User.Profile.CardMaximized}}card-details-maximized{{end}}")
       .card-details-header

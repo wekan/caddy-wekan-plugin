@@ -751,6 +751,8 @@ func (s *Server) visibilityPage(w http.ResponseWriter, r *http.Request, u *User)
 type lane struct {
 	Swimlane
 	Lists []laneList
+	// Collapsed: the user folded the swimlane (profile.collapsedSwimlanes).
+	Collapsed bool
 }
 
 type laneList struct {
@@ -848,9 +850,18 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	starred := slices.Contains(u.Profile.StarredBoards, b.ID)
 	invited := slices.Contains(u.Profile.InvitedBoards, b.ID)
 	folded := s.collapsedLists(r.Context(), u.ID, b.ID)
+	folds := s.foldsOf(r.Context(), u.ID, b.ID)
 	for i := range lanes {
+		lanes[i].Collapsed = folds.Swimlanes[lanes[i].ID]
 		for j := range lanes[i].Lists {
 			ll := &lanes[i].Lists[j]
+			for k := range ll.Cards {
+				c := &ll.Cards[k]
+				c.MinicardCollapsed = folds.Cards[c.ID]
+				for x := range c.MinicardChecklists {
+					c.MinicardChecklists[x].Collapsed = folds.Sections[c.ID]["checklist-"+c.MinicardChecklists[x].ID]
+				}
+			}
 			v, ok := folded[ll.ID+":"+ll.Lane]
 			if !ok {
 				v = folded[ll.ID]

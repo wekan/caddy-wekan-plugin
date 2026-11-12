@@ -289,13 +289,20 @@ func TestNoUnguardedMapKeyPath(t *testing.T) {
 			if !built.MatchString(line) || strings.Contains(line, `"actors.`) {
 				continue
 			}
-			if strings.Contains(line, "profile.collapsedLists.") {
+			if strings.Contains(line, "profile.collapsedLists.") || (f == "fold_states.go" && strings.Contains(line, `"profile." + mapName`)) {
 				continue // checked below
 			}
 			if _, ok := fixed[f]; !ok {
 				t.Errorf("%s builds a database path from a value: %s - guard it with refuseMapKeys, or list why it is fixed", f, strings.TrimSpace(line))
 			}
 		}
+	}
+	// The folds' one writer, setFold, refuses an unsafe key before it builds
+	// the path (fold_states.go).
+	folds, _ := os.ReadFile("fold_states.go")
+	if i, j := strings.Index(string(folds), "func (s *Server) setFold("), strings.Index(string(folds), `"profile." + mapName`); i < 0 || j < i ||
+		!strings.Contains(string(folds)[i:j], "s.refuseMapKeys(") {
+		t.Error("setFold builds profile.<map>.<key>.<key> without refuseMapKeys first")
 	}
 	src, _ := os.ReadFile("methods.go")
 	fn := string(src)
