@@ -1,0 +1,55 @@
+//- WeKan's Admin Panel / Problems / Security Report (adminProblems.jade
+  eventStreamReport, stream "security"): the security stream's summary rows,
+  newest first, by search, a page at a time (security_report.go).
+.setting-content.admin-reports-content
+  .content-body
+    .side-menu
+      ul
+        li.active
+          a.js-left-menu-item(href="/admin/problems/security-report", data-id="report-security")
+            i.fa.fa-shield
+            |  {{t $.L "securityReportTitle"}}
+        li
+          a.js-left-menu-item(href="/admin/problems/password-length", data-id="report-password-length")
+            i.fa.fa-key
+            |  {{t $.L "password-length-report-title"}}
+        li
+          a.js-left-menu-item(href="/admin/problems/recovery", data-id="report-recovery") {{t $.L "recoveryReportTitle"}}
+    .main-body
+      h2.pane-title {{t $.L "securityReportTitle"}}
+      form.table-page-controls.js-security-report(method="get", action="/admin/problems/security-report")
+        input.js-table-page-search(type="search", name="q", value="{{.SecuritySearch}}", placeholder="{{t $.L `search`}}", aria-label="{{t $.L `search`}}")
+        button(type="submit") {{t $.L "search"}}
+        span.table-page-total {{.SecurityTotal}}
+        .table-page-pagination
+          if .SecurityPrev
+            a.js-security-prev(href="{{.SecurityPrev}}", title="{{t $.L `previous`}}") &lt;
+          span.table-page-page-info {{.SecurityPage}} / {{.SecurityPages}}
+          if .SecurityNext
+            a.js-security-next(href="{{.SecurityNext}}", title="{{t $.L `next`}}") &gt;
+      table.table-page-table.security-report
+        thead
+          tr
+            th {{t $.L "event-datetime"}}
+            th {{t $.L "event-category"}}
+            th {{t $.L "event-bleed"}}
+            th {{t $.L "event-severity"}}
+            th {{t $.L "event-action"}}
+            th {{t $.L "event-source"}}
+            th {{t $.L "username"}}
+            th IP
+            th {{t $.L "event-attempts"}}
+            th {{t $.L "event-detail"}}
+        tbody
+          each row in .SecurityRows
+            tr
+              td.nowrap {{.Date}}
+              td {{.Category}}
+              td {{.Bleed}}
+              td(data-severity="{{.Severity}}") {{.Severity}}
+              td {{.Action}}
+              td {{.Source}}
+              td {{.Username}}
+              td {{.IP}}
+              td.nowrap {{.Attempts}}
+              td {{.Detail}}

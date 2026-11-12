@@ -8,6 +8,10 @@
   .content-body
     .side-menu
       ul
+        li
+          a.js-left-menu-item(href="/admin/problems/security-report", data-id="report-security")
+            i.fa.fa-shield
+            |  {{t $.L "securityReportTitle"}}
         li.active
           a.js-left-menu-item(href="/admin/problems/recovery", data-id="report-recovery") {{t $.L "recoveryReportTitle"}}
         li

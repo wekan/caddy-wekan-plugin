@@ -7,8 +7,8 @@ progress; update it with the template.
 
 | Status | Count |
 |---|---|
-| started - the first part of the page | 19 |
-| not yet | 155 |
+| started - the first part of the page | 20 |
+| not yet | 154 |
 
 | WeKan template | Go Pug | Status |
 |---|---|---|
@@ -146,7 +146,7 @@ progress; update it with the template.
 | `components/rules/triggers/checklistTriggers.jade` | | not yet |
 | `components/rules/triggers/scheduledTriggers.jade` | | not yet |
 | `components/settings/adminAuditLog.jade` | | not yet |
-| `components/settings/adminProblems.jade` | problems.pug: Recovery's e-mail delivery queue and pending activity notifications - paused, resumed, cancelled, retried | started |
+| `components/settings/adminProblems.jade` | problems.pug: Recovery's e-mail delivery queue and pending activity notifications - paused, resumed, cancelled, retried; securityreport.pug: the Security Report, searched and paged | started |
 | `components/settings/attachments.jade` | | not yet |
 | `components/settings/authProviderSettings.jade` | | not yet |
 | `components/settings/backupRunsStatus.jade` | | not yet |
@@ -160,7 +160,7 @@ progress; update it with the template.
 | `components/settings/migrationProgress.jade` | | not yet |
 | `components/settings/notificationDeliverySettings.jade` | | not yet |
 | `components/settings/notificationSettingsPopup.jade` | | not yet |
-| `components/settings/passwordLengthReport.jade` | | not yet |
+| `components/settings/passwordLengthReport.jade` | passwordlength.pug: the minimum, its enforcement and who signs in with a shorter password | started |
 | `components/settings/peopleBody.jade` | people.pug: users, admin and active, registration; cloudsettings.pug: People / Cloud | started |
 | `components/settings/problemsSummary.jade` | | not yet |
 | `components/settings/settingBody.jade` | cloudpanel.pug: the Cloud Panel's Settings, Domains and CloudFlare | started |
