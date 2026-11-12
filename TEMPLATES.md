@@ -171,7 +171,7 @@ progress; update it with the template.
 | `components/sidebar/sidebarArchives.jade` | | not yet |
 | `components/sidebar/sidebarCustomFields.jade` | | not yet |
 | `components/sidebar/sidebarFilters.jade` | | not yet |
-| `components/sidebar/sidebar.jade` | board.pug: the sidebar, the board menu with Export | started |
+| `components/sidebar/sidebar.jade` | board.pug: the sidebar, the board menu with Export, Board Settings / Card (Card Settings) | started |
 | `components/sidebar/sidebarOriginalPositions.jade` | | not yet |
 | `components/sidebar/sidebarSearches.jade` | | not yet |
 | `components/sidebar/sidebarSinceLastVisit.jade` | | not yet |

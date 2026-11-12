@@ -38,20 +38,22 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       if (!(n.matches && n.matches('template.js-inlined-form-body'))) form.removeChild(n);
     });
   }
-  function reloadBoard() {
+  function reloadBoard(underPopOver) {
     // A drag in progress - or a press on a checklist item that may become
     // one - is not swept away: the board catches up after it.
     if (dragging > 0 || itemDrag) { stale = true; return; }
     // An open pop-over is not swept away by somebody else's change: the board
-    // catches up when it closes.
-    if (document.querySelector('.js-pop-over')) { staleUnderPopOver = true; return; }
+    // catches up when it closes. A pop-over that changes how the board is
+    // drawn (Card Settings) asks for the board under it at once: the
+    // pop-over is outside the board, so it stays.
+    if (!underPopOver && document.querySelector('.js-pop-over')) { staleUnderPopOver = true; return; }
     // Nor is an inlined form opened in the card details (WeKan's inlinedForm
     // stays as its page changes around it): the board catches up when it
     // closes. The add-list form is always there, so it is not one of these.
     if (document.querySelector('.board-wrapper .js-card-details .js-inlined-form:not(.is-hidden)')) { staleUnderForm = true; return; }
     // A change of this page's own - a form still on its way - is announced
     // before its answer arrives: reload after it, or the older page wins.
-    if (up.network.isBusy()) { setTimeout(reloadBoard, 150); return; }
+    if (up.network.isBusy()) { setTimeout(function () { reloadBoard(underPopOver); }, 150); return; }
     stale = false;
     if (!document.querySelector('.board-wrapper')) return;
     // What the user opened in the card details - a <details> such as the
@@ -212,6 +214,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     p.className = 'pop-over js-pop-over';
     p.setAttribute('role', 'dialog');
     p.setAttribute('aria-label', t.getAttribute('data-title') || '');
+    // WeKan's pop-over names itself by its template (popup.jade data-popup).
+    if (t.dataset.popup) p.setAttribute('data-popup', t.dataset.popup);
     p.appendChild(t.content.cloneNode(true));
     document.body.appendChild(p);
     up.hello(p);
@@ -247,6 +251,76 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     openPopOver('create-board');
     var t = document.querySelector('.js-pop-over .js-new-board-title');
     if (t) t.focus();
+  });
+  // WeKan's Popup.open(name) and Popup.close(), for what opens a pop-over by
+  // its WeKan name: the Weddy pop-over whose template has that data-popup.
+  if (!window.Popup) {
+    window.Popup = {
+      open: function (name) {
+        return function () {
+          var t = document.querySelector('template.js-pop-over-template[data-popup="' + name + 'Popup"]');
+          if (t) openPopOver(t.dataset.pop);
+        };
+      },
+      close: function () { closePopOvers(); },
+    };
+  }
+  // Board Settings / Card (WeKan's boardCardSettingsPopup).
+  up.on('click', '.js-open-board-card-settings', function (event) {
+    event.preventDefault();
+    openPopOver('board-card-settings');
+  });
+  // A row's checkbox: the board's setting for that side (/boards/update, as
+  // WeKan's Boards.update), a Scrum field's visibility (scrum.configure), or
+  // the user's own labels text - each cycling as WeKan's does.
+  function setCardSettingsBox(box, on) {
+    box.classList.toggle('is-checked', on);
+    box.setAttribute('aria-checked', on ? 'true' : 'false');
+    var m = box.querySelector('.materialCheckBox');
+    if (m) m.classList.toggle('is-checked', on);
+  }
+  up.on('click', '.js-card-settings-toggle', function (event, box) {
+    event.preventDefault();
+    var row = box.closest('.js-card-field-order-row');
+    var pane = box.closest('.js-card-settings-pane');
+    var on = !box.classList.contains('is-checked');
+    var d = row.dataset, done;
+    if (d.kind === 'scrum') {
+      var vis = {}; vis[d.scrum] = on;
+      done = window.Meteor.callAsync('scrum.configure', pane.dataset.board, { visibility: vis }, Number(pane.dataset.revision) || 0).then(function () {
+        document.querySelectorAll('.js-card-settings-pane').forEach(function (p) { p.dataset.revision = String((Number(p.dataset.revision) || 0) + 1); });
+      });
+    } else if (d.kind === 'personal') {
+      // Shown follows the override: shown, then hidden, then the board's.
+      done = d.side === 'minicard'
+        ? window.Meteor.callAsync('setShowLabelTextOverride', on)
+        : window.Meteor.callAsync('/users/update', { _id: window.Meteor.userId() }, { $set: { 'profile.cardLabelTextOverride': on } });
+    } else {
+      var set = {}; set[d.field] = on;
+      done = window.Meteor.callAsync('/boards/update', { _id: pane.dataset.board }, { $set: set });
+    }
+    done.then(function () {
+      setCardSettingsBox(box, on);
+      reloadBoard(true);
+    }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
+  });
+  // A section's checkbox: the whole section shown on that side or not.
+  up.on('click', '.js-card-settings-section-shown', function (event, box) {
+    event.preventDefault();
+    var pane = box.closest('.js-card-settings-pane');
+    var on = !box.classList.contains('is-checked');
+    var hidden = Array.prototype.slice.call(pane.querySelectorAll('.js-card-settings-section'))
+      .filter(function (sec) {
+        var b = sec.querySelector('.js-card-settings-section-shown');
+        return b === box ? !on : !b.classList.contains('is-checked');
+      }).map(function (sec) { return sec.dataset.section; });
+    var set = {};
+    set[pane.dataset.side === 'minicard' ? 'cardSettingsHiddenOnMinicard' : 'cardSettingsHiddenOnCard'] = hidden;
+    window.Meteor.callAsync('/boards/update', { _id: pane.dataset.board }, { $set: set }).then(function () {
+      setCardSettingsBox(box, on);
+      box.closest('.js-card-settings-section').classList.toggle('is-section-hidden', !on);
+      reloadBoard(true);
+    }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
   });
   up.on('click', '.js-open-board-menu', function (event) {
     event.preventDefault();

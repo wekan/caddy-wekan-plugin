@@ -167,7 +167,8 @@ var memberRoleFlags = map[string]bool{"isAdmin": true, "isNoComments": true, "is
 // deny rules first - a group link or a member added is GroupLinkBleed, a
 // background of another board BackgroundBleed - each recorded; then the
 // board admin's (or site admin's) allow rule, for the one write WeKan's
-// client makes on a board's people, a member's role flags. Anything else is
+// client makes on a board's people, a member's role flags, and for Board
+// Settings / Card's own fields (cardSettingsBoardWrite). Anything else is
 // the numeric 403 "Access denied" an unhandled write gets.
 func (s *Server) methodBoardsUpdate(r *http.Request, u *User, args []json.RawMessage) (any, error) {
 	denied := &methodError{"403", "Access denied"}
@@ -201,6 +202,19 @@ func (s *Server) methodBoardsUpdate(r *http.Request, u *User, args []json.RawMes
 	}
 	if addsBoardMember(b.Members, mod) {
 		return refuse()
+	}
+	// Board Settings / Card: the board's own Card Settings fields
+	// (card_settings.go), a board admin's as the rest.
+	if cardSettingsBoardWrite(set) {
+		if !u.IsAdmin && !b.AdminOf(u.ID) {
+			return nil, denied
+		}
+		set["modifiedAt"] = time.Now().UTC()
+		if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": set}); err != nil {
+			return nil, err
+		}
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+		return 1, nil
 	}
 	members := slices.Clone(b.Members)
 	for path, v := range set {

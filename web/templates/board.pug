@@ -217,6 +217,10 @@
         if .CanExport
           li
             a.js-export-board(href="#") {{t $.L "export"}}
+        li
+          a.js-open-board-card-settings(href="#", data-pop="board-card-settings")
+            i.fa.fa-id-card-o
+            |  {{t $.L "card-settings"}}
         if .Board.AdminOf .User.ID
           li
             a.js-open-rules-view(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules", title="{{t $.L `rules`}}")
@@ -238,6 +242,42 @@
             a.js-open-board-notifications(href="/b/{{.Board.ID}}/{{.Board.Slug}}/notifications", title="{{t $.L `notifications`}}")
               i.fa.fa-bell
               |  {{t $.L "notifications"}}
+  //- WeKan's boardCardSettingsPopup (sidebar.jade): Board Settings / Card,
+    both sides at once - the Minicard pane, then the Card pane - each the
+    board's sections as checklists. A section's checkbox shows or hides the
+    whole section on that side; a row's is the board's setting for that side
+    (card_settings.go). A board admin's, but for the user's own labels text.
+  template.js-pop-over-template(data-pop="board-card-settings", data-popup="boardCardSettingsPopup", data-title="{{t $.L `card-settings`}}")
+    .header
+      span.header-title {{t $.L "card-settings"}}
+      a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+    .content.card-settings-panes-container
+      .card-settings-panes
+        each p in .CardSettings
+          .card-settings-inline.card-settings-pane.js-card-settings-inline.js-card-settings-pane(data-side="{{.Side}}", data-board="{{$.Board.ID}}", data-revision="{{.ScrumRevision}}", class="card-settings-pane-{{.Side}}")
+            .card-settings-pane-head
+              h3.card-settings-pane-title {{.Title}}
+            .card-settings-pane-body
+              each sec in .Sections
+                .card-settings-inline-section.js-card-settings-section(data-section="{{.ID}}", class="{{if not .Shown}}is-section-hidden{{end}}")
+                  .card-settings-inline-section-head
+                    span.card-settings-side.card-settings-section-side
+                      a.flex.card-field-order-toggle.card-settings-section-toggle(href="#", class="{{if .Writable}}js-card-settings-section-shown{{else}}is-disabled{{end}} {{if .Shown}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Shown}}true{{else}}false{{end}}", aria-label="{{.Title}}")
+                        .materialCheckBox(class="{{if .Shown}}is-checked{{end}}")
+                    h4.card-settings-inline-section-title
+                      i.fa(class="{{.Icon}}", aria-hidden="true")
+                      |  {{.Title}}
+                    span.card-settings-inline-section-count {{.CheckedCount}}/{{len .Lines}}
+                  .card-settings-inline-items
+                    each line in .Lines
+                      .card-settings-line.card-settings-inline-item.js-card-field-order-row(data-key="{{.Key}}", data-side="{{.Side}}", data-kind="{{.Kind}}", data-field="{{.Field}}", data-scrum="{{.Scrum}}")
+                        span.card-settings-side(class="card-settings-side-{{.Side}}")
+                          a.flex.card-field-order-toggle(href="#", class="{{if .Writable}}js-card-settings-toggle{{else}}is-disabled{{end}} {{if .Checked}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Checked}}true{{else}}false{{end}}", aria-label="{{.Title}}")
+                            .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
+                        span.card-settings-line-label
+                          each icon in .Icons
+                            i.fa(class="{{.}}", aria-hidden="true")
+                          | {{.Title}}
   if .CanEdit
     //- WeKan's swimlaneAddPopup: a swimlane below or above the chosen one.
     template.js-pop-over-template(data-pop="add-swimlane", data-title="{{t $.L `swimlaneAddPopup-title`}}")
@@ -828,6 +868,13 @@
                               a.minicard-complete-toggle.js-toggle-card-complete(href="#", data-card="{{.ID}}", data-complete="{{if .DueComplete}}false{{else}}true{{end}}", title="{{if .DueComplete}}{{t $.L `card-mark-incomplete`}}{{else}}{{t $.L `card-mark-complete`}}{{end}}")
                                 .materialCheckBox(class="{{if .DueComplete}}is-checked{{end}}")
                           span.minicard-title-text {{viewer .Title $.TextPolicy}}
+                        //- WeKan's work item type badge, on every minicard unless
+                          Card Settings turned it off (allowsIssueTypeOnMinicard).
+                        if .MinicardIssueType
+                          .badge.minicard-issue-type(class="issue-type-{{.MinicardIssueType.Tone}}", title="{{.MinicardIssueType.Name}}")
+                            span.badge-icon
+                              i.fa(class="{{.MinicardIssueType.Icon}}")
+                            span.badge-text {{.MinicardIssueType.Name}}
                         //- WeKan's scrumMetadata, compact: the Scrum fields Card
                           Settings shows on the minicard.
                         if .MinicardScrum

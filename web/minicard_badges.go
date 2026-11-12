@@ -52,6 +52,7 @@ func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane) 
 	_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(b.ID)}).Decode(&board)
 	showAssignees := minicardFlag(board, "allowsAssigneeOnMinicard", "allowsAssignee", true)
 	showComments := board["allowsCommentsOnMinicard"] == true
+	showIssueType := board["allowsIssueTypeOnMinicard"] != false
 	// No early return when neither shows: the checklists shown on minicards
 	// are their own checklists' choice (showChecklistAtMinicard).
 	cardIDs := bson.A{}
@@ -118,6 +119,9 @@ func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane) 
 			for k := range lanes[i].Lists[j].Cards {
 				c := &lanes[i].Lists[j].Cards[k]
 				c.MinicardChecklists = checklists[c.ID]
+				if showIssueType {
+					c.MinicardIssueType = issueTypeBadge(c.Scrum["issueType"])
+				}
 				if showAssignees {
 					for _, a := range c.Assignees {
 						if p, ok := names[a]; ok {

@@ -639,3 +639,27 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .swimlane-collapsed .swimlane-header { opacity: .85; }
 .minicard-collapsed > :not(.minicard-title) { display: none !important; }
 .minicard-collapse-toggle, .checklist-collapse, .swimlane-collapse-indicator { color: inherit; text-decoration: none; cursor: pointer; margin-inline-end: 4px; }
+/* WeKan's Card Settings (sidebar.css .card-settings-panes): the Minicard and
+   Card panes side by side when the pop-over is wide enough, stacked when it
+   is not, each scrolling on its own; a section is a checklist of its rows. */
+.js-pop-over[data-popup="boardCardSettingsPopup"] { width: min(46rem, calc(100vw - 2rem)); max-width: 100%; }
+.card-settings-panes { display: flex; flex-wrap: wrap; gap: 1rem; }
+.card-settings-pane { flex: 1 1 18rem; min-width: 0; max-height: 70vh; overflow-y: auto; }
+.card-settings-pane-title { margin: 0 0 0.5rem; font-size: 1rem; }
+.card-settings-inline-section { margin-bottom: 0.6rem; }
+.card-settings-inline-section.is-section-hidden .card-settings-inline-items { opacity: 0.5; }
+.card-settings-inline-section-head, .card-settings-line { display: flex; align-items: center; gap: 0.4rem; }
+.card-settings-inline-section-title { margin: 0; font-size: 0.95rem; flex: 1; }
+.card-settings-inline-section-count { color: #777; font-size: 0.85em; }
+.card-settings-inline-items { padding-inline-start: 1.4rem; }
+.card-settings-line { padding: 2px 0; }
+.card-settings-line-label .fa { margin-inline-end: 0.25rem; }
+.card-field-order-toggle { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; }
+.card-field-order-toggle.is-disabled { opacity: 0.5; cursor: default; }
+/* WeKan's minicard work item type badge (minicard.css .minicard-issue-type). */
+.minicard-issue-type { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.8em; padding: 0 0.3rem; border-radius: 3px; background: #eee; }
+.minicard-issue-type.issue-type-red { color: #b04632; }
+.minicard-issue-type.issue-type-green { color: #3d7a00; }
+.minicard-issue-type.issue-type-blue { color: #0067b0; }
+.minicard-issue-type.issue-type-purple { color: #6f42c1; }
+.minicard-issue-type.issue-type-orange { color: #b35900; }

@@ -1,0 +1,1587 @@
+{
+ "rows": [
+  {
+   "key": "collapse",
+   "icons": [
+    "fa-caret-down"
+   ],
+   "label": [
+    "collapse"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "dueComplete",
+    "kind": "board",
+    "field": "allowsCardCollapse",
+    "default": true
+   },
+   "minicard": {
+    "after": "dueComplete",
+    "kind": "board",
+    "field": "allowsMinicardCollapse",
+    "default": true
+   }
+  },
+  {
+   "key": "labelsAboveTitle",
+   "icons": [
+    "fa-arrow-up"
+   ],
+   "label": [
+    "title"
+   ],
+   "labelSeparator": " ↑ ",
+   "card": {
+    "after": "labels",
+    "kind": "board",
+    "field": "labelsAboveTitleOnCard",
+    "default": false
+   },
+   "minicard": {
+    "after": "labels",
+    "kind": "board",
+    "field": "labelsAboveTitleOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "checklistDueDate",
+   "icons": [
+    "fa-clock-o"
+   ],
+   "label": [
+    "card-due"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "checklists",
+    "kind": "board",
+    "field": "allowsChecklistDueDate",
+    "default": true
+   },
+   "minicard": {
+    "after": "checklists",
+    "kind": "board",
+    "field": "allowsChecklistDueDateOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "checklistTitle",
+   "icons": [
+    "fa-check"
+   ],
+   "label": [
+    "title"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "checklists",
+    "kind": "board",
+    "field": "allowsChecklistTitle",
+    "default": true
+   },
+   "minicard": {
+    "after": "checklists",
+    "kind": "board",
+    "field": "allowsChecklistTitleOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "dueComplete",
+   "icons": [
+    "fa-check-square-o"
+   ],
+   "label": [
+    "card-mark-complete"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsDueComplete",
+    "default": false
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsDueCompleteOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "cardNumber",
+   "icons": [
+    "fa-hashtag"
+   ],
+   "label": [
+    "number"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsCardNumber",
+    "default": false
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsCardNumberOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "cover",
+   "icons": [
+    "fa-picture-o"
+   ],
+   "label": [
+    "cover-image"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsCoverAttachmentOnCard",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsCoverAttachmentOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "labels",
+   "icons": [
+    "fa-tag"
+   ],
+   "label": [
+    "labels"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsLabels",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsLabelsOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "labelText",
+   "icons": [
+    "fa-tag",
+    "fa-file-text-o"
+   ],
+   "label": [
+    "custom-field-text"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "labels",
+    "kind": "board",
+    "field": "allowsLabelTextOnCard",
+    "default": true
+   },
+   "minicard": {
+    "after": "labels",
+    "kind": "board",
+    "field": "showLabelText",
+    "default": true
+   }
+  },
+  {
+   "key": "labelTextPersonal",
+   "icons": [
+    "fa-tag",
+    "fa-file-text-o"
+   ],
+   "label": [
+    "custom-field-text"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "labelText",
+    "kind": "personal",
+    "field": "showsCardLabelText"
+   },
+   "minicard": {
+    "after": "labelText",
+    "kind": "personal",
+    "field": "showsMinicardLabelText"
+   }
+  },
+  {
+   "key": "stickers",
+   "icons": [
+    "fa-sticky-note-o"
+   ],
+   "label": [
+    "stickers"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsStickers",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsStickersOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "location",
+   "icons": [
+    "fa-map-marker"
+   ],
+   "label": [
+    "location"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsLocation",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsLocationOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "receivedDate",
+   "icons": [
+    "fa-sign-in"
+   ],
+   "label": [
+    "card-received"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsReceivedDate",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsReceivedDateOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "startDate",
+   "icons": [
+    "fa-hourglass"
+   ],
+   "label": [
+    "card-start"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsStartDate",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsStartDateOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "dueDate",
+   "icons": [
+    "fa-sign-in"
+   ],
+   "label": [
+    "card-due"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsDueDate",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsDueDateOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "endDate",
+   "icons": [
+    "fa-clock-o"
+   ],
+   "label": [
+    "card-end"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsEndDate",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsEndDateOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "members",
+   "icons": [
+    "fa-users"
+   ],
+   "label": [
+    "members"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsMembers",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsMembersOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "assignee",
+   "icons": [
+    "fa-user"
+   ],
+   "label": [
+    "assignee"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsAssignee",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsAssigneeOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "creator",
+   "icons": [
+    "fa-user"
+   ],
+   "label": [
+    "creator"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsCreator",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsCreatorOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "requestedBy",
+   "icons": [
+    "fa-shopping-cart"
+   ],
+   "label": [
+    "requested-by"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsRequestedBy",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsRequestedByOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "assignedBy",
+   "icons": [
+    "fa-user-plus"
+   ],
+   "label": [
+    "assigned-by"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsAssignedBy",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsAssignedByOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "dependencies",
+   "icons": [
+    "fa-link"
+   ],
+   "label": [
+    "card-dependencies"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsDependencies",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsDependenciesOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "cardSortingByNumber",
+   "icons": [
+    "fa-sort-numeric-asc"
+   ],
+   "label": [
+    "card-sorting-by-number"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsCardSortingByNumber",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsCardSortingByNumberOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "showLists",
+   "icons": [
+    "fa-list"
+   ],
+   "label": [
+    "card-show-lists"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsShowLists",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsShowListsOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "listTitle",
+   "icons": [
+    "fa-list"
+   ],
+   "label": [
+    "list",
+    "title"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "showLists",
+    "needsCard": true,
+    "kind": "personal",
+    "field": "showsListOnCard"
+   },
+   "minicard": {
+    "after": "showLists",
+    "needsCard": true,
+    "kind": "personal",
+    "field": "showsListOnMinicard"
+   }
+  },
+  {
+   "key": "swimlaneName",
+   "icons": [
+    "fa-list-alt"
+   ],
+   "label": [
+    "swimlane"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "showLists",
+    "kind": "board",
+    "field": "allowsSwimlaneNameOnCard",
+    "default": false
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsSwimlaneNameOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "spentTime",
+   "icons": [
+    "fa-clock-o"
+   ],
+   "label": [
+    "spent-time-hours"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsSpentTime",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsSpentTimeOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "flowtime",
+   "icons": [
+    "fa-bolt"
+   ],
+   "label": [
+    "flowtime"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsFlowtime",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsFlowtimeOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "pomodoro",
+   "icons": [
+    "fa-clock-o"
+   ],
+   "label": [
+    "pomodoro"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsPomodoro",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsPomodoroOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "customFields",
+   "icons": [
+    "fa-list-alt"
+   ],
+   "label": [
+    "custom-fields"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsCustomFields",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsCustomFieldsOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "vote",
+   "icons": [
+    "fa-thumbs-up"
+   ],
+   "label": [
+    "vote-question"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsVote",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsVoteOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "poker",
+   "icons": [
+    "fa-check-square"
+   ],
+   "label": [
+    "poker-question"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsPoker",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsPokerOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "descriptionTitle",
+   "icons": [
+    "fa-file-text-o"
+   ],
+   "label": [
+    "title"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsDescriptionTitle",
+    "default": true
+   },
+   "minicard": {
+    "after": "descriptionText",
+    "kind": "board",
+    "field": "allowsDescriptionTitleOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "descriptionText",
+   "icons": [
+    "fa-file-text-o"
+   ],
+   "label": [
+    "custom-field-text"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsDescriptionText",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsDescriptionTextOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "checklists",
+   "icons": [
+    "fa-check"
+   ],
+   "label": [
+    "checklists"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsChecklists",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsChecklistsOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "checklistCount",
+   "icons": [
+    "fa-check-square-o"
+   ],
+   "label": [
+    "checklist-count"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsChecklistCountBadgeOnCard",
+    "default": false
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsChecklistCountBadgeOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "subtasks",
+   "icons": [
+    "fa-globe"
+   ],
+   "label": [
+    "subtasks"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsSubtasks",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsSubtasksOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "attachmentCount",
+   "icons": [
+    "fa-paperclip"
+   ],
+   "label": [
+    "attachment-count"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsAttachmentCountOnCard",
+    "default": false
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsBadgeAttachmentOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "attachments",
+   "icons": [
+    "fa-paperclip"
+   ],
+   "label": [
+    "attachments"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsAttachments",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsAttachmentListOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "textNotes",
+   "icons": [
+    "fa-file-text-o"
+   ],
+   "label": [
+    "text-notes"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsTextNotes",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsTextNotesOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "comments",
+   "icons": [
+    "fa-comment-o"
+   ],
+   "label": [
+    "card-comments-on-minicard"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsComments",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsCommentsOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "commentCount",
+   "icons": [
+    "fa-comment-o"
+   ],
+   "label": [
+    "number"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "comments",
+    "kind": "board",
+    "field": "allowsCommentCountOnCard",
+    "default": false
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsCommentCountOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "activities",
+   "icons": [
+    "fa-history"
+   ],
+   "label": [
+    "activities"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsActivities",
+    "default": true
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsActivitiesOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "cardColor",
+   "icons": [
+    "fa-paint-brush"
+   ],
+   "label": [
+    "card-settings-card-color"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "cover",
+    "kind": "board",
+    "field": "allowsCardColorOnCard",
+    "default": true
+   },
+   "minicard": {
+    "after": "dueComplete",
+    "kind": "board",
+    "field": "allowsCardColorOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "parentCard",
+   "icons": [
+    "fa-sitemap"
+   ],
+   "label": [
+    "parent-card"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "cardNumber",
+    "kind": "board",
+    "field": "allowsParentCardOnCard",
+    "default": true
+   },
+   "minicard": {
+    "after": "cardNumber",
+    "kind": "board",
+    "field": "allowsParentCardOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "linkedCard",
+   "icons": [
+    "fa-id-card"
+   ],
+   "label": [
+    "card-settings-linked-card"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "cardNumber",
+    "kind": "board",
+    "field": "allowsLinkedCardOnCard",
+    "default": true
+   },
+   "minicard": {
+    "after": "cardNumber",
+    "kind": "board",
+    "field": "allowsLinkedCardOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "cardButtons",
+   "icons": [
+    "fa-hand-pointer-o"
+   ],
+   "label": [
+    "r-card-button"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsCardButtonsOnCard",
+    "default": true
+   },
+   "minicard": {
+    "after": "cardSortingByNumber",
+    "kind": "board",
+    "field": "allowsCardButtonsOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "descriptionBadge",
+   "icons": [
+    "fa-file-text-o"
+   ],
+   "label": [
+    "card-settings-description-badge"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "descriptionText",
+    "kind": "board",
+    "field": "allowsDescriptionBadgeOnCard",
+    "default": false
+   },
+   "minicard": {
+    "after": "descriptionText",
+    "kind": "board",
+    "field": "allowsDescriptionBadgeOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "unreadComments",
+   "icons": [
+    "fa-comment"
+   ],
+   "label": [
+    "card-has-unread-comments"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "comments",
+    "kind": "board",
+    "field": "allowsUnreadCommentsOnCard",
+    "default": false
+   },
+   "minicard": {
+    "after": "commentCount",
+    "kind": "board",
+    "field": "allowsUnreadCommentsOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "dueFromTitle",
+   "icons": [
+    "fa-calendar-plus-o"
+   ],
+   "label": [
+    "due-from-title"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "dueDate",
+    "kind": "board",
+    "field": "allowsDueFromTitleOnCard",
+    "default": true
+   },
+   "minicard": {
+    "after": "dueDate",
+    "kind": "board",
+    "field": "allowsDueFromTitleOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "similarCards",
+   "icons": [
+    "fa-clone"
+   ],
+   "label": [
+    "similar-cards"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "kind": "board",
+    "field": "allowsSimilarCardsOnCard",
+    "default": true
+   },
+   "minicard": {
+    "after": "swimlaneName",
+    "kind": "board",
+    "field": "allowsSimilarCardsOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "atRisk",
+   "icons": [
+    "fa-exclamation-triangle"
+   ],
+   "label": [
+    "at-risk"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "dueDate",
+    "kind": "board",
+    "field": "allowsAtRiskOnCard",
+    "default": true
+   },
+   "minicard": {
+    "after": "dueDate",
+    "kind": "board",
+    "field": "allowsAtRiskOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "suggestedMembers",
+   "icons": [
+    "fa-user-plus"
+   ],
+   "label": [
+    "suggested-members"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "members",
+    "kind": "board",
+    "field": "allowsSuggestedMembersOnCard",
+    "default": true
+   }
+  },
+  {
+   "key": "forecast",
+   "icons": [
+    "fa-line-chart"
+   ],
+   "label": [
+    "forecast"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "endDate",
+    "kind": "board",
+    "field": "allowsForecastOnCard",
+    "default": true
+   },
+   "minicard": {
+    "after": "atRisk",
+    "kind": "board",
+    "field": "allowsForecastOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "checklistFromDescription",
+   "icons": [
+    "fa-list-ul"
+   ],
+   "label": [
+    "checklist-from-description"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "checklists",
+    "kind": "board",
+    "field": "allowsChecklistFromDescriptionOnCard",
+    "default": true
+   }
+  },
+  {
+   "key": "attachmentPreviews",
+   "icons": [
+    "fa-paperclip",
+    "fa-picture-o"
+   ],
+   "label": [
+    "preview"
+   ],
+   "labelSeparator": ": ",
+   "card": {
+    "after": "attachments",
+    "kind": "board",
+    "field": "allowsAttachmentPreviewsOnCard",
+    "default": true
+   }
+  },
+  {
+   "key": "attachmentDetails",
+   "icons": [
+    "fa-paperclip",
+    "fa-user"
+   ],
+   "label": [
+    "details"
+   ],
+   "labelSeparator": ": ",
+   "card": {
+    "after": "attachments",
+    "kind": "board",
+    "field": "allowsAttachmentDetailsOnCard",
+    "default": true
+   }
+  },
+  {
+   "key": "whiteboard",
+   "icons": [
+    "fa-pencil"
+   ],
+   "label": [
+    "cardDrawingPopup-title"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "attachments",
+    "kind": "board",
+    "field": "allowsWhiteboardOnCard",
+    "default": true
+   }
+  },
+  {
+   "key": "actionItems",
+   "icons": [
+    "fa-tasks"
+   ],
+   "label": [
+    "action-items"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "comments",
+    "kind": "board",
+    "field": "allowsActionItemsOnCard",
+    "default": true
+   }
+  },
+  {
+   "key": "scrumSprint",
+   "icons": [
+    "fa-repeat"
+   ],
+   "label": [
+    "scrum-sprint"
+   ],
+   "labelSeparator": ": ",
+   "card": {
+    "kind": "scrum",
+    "scrum": "cardSprint"
+   },
+   "minicard": {
+    "kind": "scrum",
+    "scrum": "minicardSprint"
+   }
+  },
+  {
+   "key": "scrumPastSprints",
+   "icons": [
+    "fa-history"
+   ],
+   "label": [
+    "scrum-past-sprints"
+   ],
+   "labelSeparator": ": ",
+   "card": {
+    "kind": "scrum",
+    "scrum": "cardPastSprints"
+   },
+   "minicard": {
+    "kind": "scrum",
+    "scrum": "minicardPastSprints"
+   }
+  },
+  {
+   "key": "scrumRelease",
+   "icons": [
+    "fa-flag"
+   ],
+   "label": [
+    "scrum-release"
+   ],
+   "labelSeparator": ": ",
+   "card": {
+    "kind": "scrum",
+    "scrum": "cardRelease"
+   },
+   "minicard": {
+    "kind": "scrum",
+    "scrum": "minicardRelease"
+   }
+  },
+  {
+   "key": "scrumIssueType",
+   "icons": [
+    "fa-bug"
+   ],
+   "label": [
+    "scrum-issue-type"
+   ],
+   "labelSeparator": ": ",
+   "card": {
+    "kind": "scrum",
+    "scrum": "cardIssueType"
+   },
+   "minicard": {
+    "kind": "board",
+    "field": "allowsIssueTypeOnMinicard",
+    "default": true
+   }
+  },
+  {
+   "key": "scrumAcceptanceCriteria",
+   "icons": [
+    "fa-check-square-o"
+   ],
+   "label": [
+    "scrum-acceptance-criteria"
+   ],
+   "labelSeparator": ": ",
+   "card": {
+    "kind": "scrum",
+    "scrum": "cardAcceptanceCriteria"
+   },
+   "minicard": {
+    "kind": "scrum",
+    "scrum": "minicardAcceptanceCriteria"
+   }
+  },
+  {
+   "key": "scrumBacklogRank",
+   "icons": [
+    "fa-sort-numeric-asc"
+   ],
+   "label": [
+    "scrum-backlog-rank"
+   ],
+   "labelSeparator": ": ",
+   "card": {
+    "kind": "scrum",
+    "scrum": "cardBacklogRank"
+   },
+   "minicard": {
+    "kind": "scrum",
+    "scrum": "minicardBacklogRank"
+   }
+  }
+ ],
+ "sections": [
+  {
+   "id": "labels",
+   "icon": "fa-tag",
+   "labelKey": "labels",
+   "general": false,
+   "keys": [
+    "labels",
+    "labelsAboveTitle",
+    "labelText",
+    "labelTextPersonal",
+    "stickers",
+    "location",
+    "cardColor"
+   ]
+  },
+  {
+   "id": "date",
+   "icon": "fa-calendar",
+   "labelKey": "date",
+   "general": false,
+   "keys": [
+    "receivedDate",
+    "startDate",
+    "dueDate",
+    "endDate",
+    "dueComplete",
+    "dueFromTitle",
+    "atRisk",
+    "forecast"
+   ]
+  },
+  {
+   "id": "members",
+   "icon": "fa-users",
+   "labelKey": "members",
+   "general": false,
+   "keys": [
+    "members",
+    "assignee",
+    "creator",
+    "requestedBy",
+    "assignedBy",
+    "suggestedMembers"
+   ]
+  },
+  {
+   "id": "card",
+   "icon": "fa-id-card-o",
+   "labelKey": "card",
+   "general": true,
+   "keys": [
+    "cardNumber",
+    "collapse",
+    "parentCard",
+    "linkedCard",
+    "dependencies",
+    "cardSortingByNumber",
+    "showLists",
+    "listTitle",
+    "swimlaneName",
+    "cardButtons",
+    "similarCards"
+   ]
+  },
+  {
+   "id": "time",
+   "icon": "fa-clock-o",
+   "labelKey": "time",
+   "general": false,
+   "keys": [
+    "spentTime",
+    "flowtime",
+    "pomodoro"
+   ]
+  },
+  {
+   "id": "customFields",
+   "icon": "fa-list-alt",
+   "labelKey": "custom-fields",
+   "general": false,
+   "keys": [
+    "customFields"
+   ]
+  },
+  {
+   "id": "vote",
+   "icon": "fa-thumbs-up",
+   "labelKey": "vote-question",
+   "general": false,
+   "keys": [
+    "vote"
+   ]
+  },
+  {
+   "id": "poker",
+   "icon": "fa-check-square",
+   "labelKey": "poker-question",
+   "general": false,
+   "keys": [
+    "poker"
+   ]
+  },
+  {
+   "id": "description",
+   "icon": "fa-file-text-o",
+   "labelKey": "description",
+   "general": false,
+   "keys": [
+    "descriptionTitle",
+    "descriptionText",
+    "descriptionBadge"
+   ]
+  },
+  {
+   "id": "scrum",
+   "icon": "fa-repeat",
+   "labelKey": "scrum-settings",
+   "general": false,
+   "keys": [
+    "scrumSprint",
+    "scrumPastSprints",
+    "scrumRelease",
+    "scrumIssueType",
+    "scrumAcceptanceCriteria",
+    "scrumBacklogRank"
+   ]
+  },
+  {
+   "id": "checklists",
+   "icon": "fa-check",
+   "labelKey": "checklists",
+   "general": false,
+   "keys": [
+    "checklists",
+    "checklistTitle",
+    "checklistDueDate",
+    "checklistCount",
+    "checklistFromDescription"
+   ]
+  },
+  {
+   "id": "subtasks",
+   "icon": "fa-sitemap",
+   "labelKey": "subtasks",
+   "general": false,
+   "keys": [
+    "subtasks"
+   ]
+  },
+  {
+   "id": "attachments",
+   "icon": "fa-paperclip",
+   "labelKey": "attachments",
+   "general": false,
+   "keys": [
+    "cover",
+    "attachments",
+    "attachmentCount",
+    "attachmentPreviews",
+    "attachmentDetails",
+    "textNotes",
+    "whiteboard"
+   ]
+  },
+  {
+   "id": "comments",
+   "icon": "fa-comment-o",
+   "labelKey": "comments",
+   "general": false,
+   "keys": [
+    "comments",
+    "commentCount",
+    "unreadComments",
+    "activities",
+    "actionItems"
+   ]
+  }
+ ],
+ "order": {
+  "card": [
+   "labels",
+   "date",
+   "members",
+   "card",
+   "time",
+   "customFields",
+   "vote",
+   "poker",
+   "description",
+   "scrum",
+   "checklists",
+   "subtasks",
+   "attachments",
+   "comments"
+  ],
+  "minicard": [
+   "scrum",
+   "date",
+   "time",
+   "labels",
+   "customFields",
+   "members",
+   "checklists",
+   "card",
+   "comments",
+   "vote",
+   "poker",
+   "attachments",
+   "subtasks",
+   "description"
+  ]
+ },
+ "i18nKeys": [
+  "action-items",
+  "activities",
+  "assigned-by",
+  "assignee",
+  "at-risk",
+  "attachment-count",
+  "attachments",
+  "card",
+  "card-comments-on-minicard",
+  "card-dependencies",
+  "card-due",
+  "card-end",
+  "card-has-unread-comments",
+  "card-mark-complete",
+  "card-received",
+  "card-settings-card-color",
+  "card-settings-description-badge",
+  "card-settings-linked-card",
+  "card-show-lists",
+  "card-sorting-by-number",
+  "card-start",
+  "cardDrawingPopup-title",
+  "checklist-count",
+  "checklist-from-description",
+  "checklists",
+  "collapse",
+  "comments",
+  "cover-image",
+  "creator",
+  "custom-field-text",
+  "custom-fields",
+  "date",
+  "description",
+  "details",
+  "due-from-title",
+  "flowtime",
+  "forecast",
+  "labels",
+  "list",
+  "location",
+  "members",
+  "number",
+  "parent-card",
+  "poker-question",
+  "pomodoro",
+  "preview",
+  "r-card-button",
+  "requested-by",
+  "scrum-acceptance-criteria",
+  "scrum-backlog-rank",
+  "scrum-issue-type",
+  "scrum-past-sprints",
+  "scrum-release",
+  "scrum-settings",
+  "scrum-sprint",
+  "similar-cards",
+  "spent-time-hours",
+  "stickers",
+  "subtasks",
+  "suggested-members",
+  "swimlane",
+  "text-notes",
+  "time",
+  "title",
+  "vote-question"
+ ]
+}
