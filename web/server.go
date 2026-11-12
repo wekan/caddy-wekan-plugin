@@ -918,7 +918,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["CanAddAttachment"] = b.WritableIn(r.Context(), s, u, "write", &c)
 			data["Comments"] = s.cardComments(r.Context(), b, c.ID)
 			data["Checklists"] = s.cardChecklists(r.Context(), c.ID)
-			data["Subtasks"] = s.cardSubtasks(r.Context(), c.ID)
+			data["Subtasks"], data["SubtaskCount"] = s.cardSubtasks(r.Context(), u, c.ID)
 			data["CanModifyCard"] = b.WritableIn(r.Context(), s, u, "write", &c)
 			data["CanCheckItems"] = s.canCheckChecklistItem(r.Context(), b, u, &c)
 			data["ChecklistDue"] = s.boardAllows(r.Context(), b.ID, "allowsChecklistDueDate")

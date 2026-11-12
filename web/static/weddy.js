@@ -1471,6 +1471,14 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (inMenu) closePopOvers();
     openComposer(list, el.classList.contains('list-header-plus-bottom') ? 'bottom' : 'top');
   });
+  // WeKan's #4693: tick a subtask done in its parent's Subtasks.
+  up.on('click', '.js-toggle-subtask-done', function (event, el) {
+    event.preventDefault();
+    var done = el.getAttribute('aria-checked') !== 'true';
+    callAsync('setSubtaskDone', el.dataset.parent, el.dataset.subtask, done).then(function () {
+      up.reload('.board-wrapper');
+    }, function () {});
+  });
   up.on('click', '.js-close-inlined-form', function (event, el) {
     event.preventDefault();
     var form = el.closest('.js-inlined-form');

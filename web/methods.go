@@ -77,6 +77,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"setBoardTeams":                     s.methodSetBoardTeams,
 		"createListAfter":                   s.methodCreateListAfter,
 		"addSubtaskCard":                    s.methodAddSubtaskCard,
+		"setSubtaskDone":                    s.methodSetSubtaskDone,
 		"setBoardOrgs":                      s.methodSetBoardOrgs,
 		"setBoardDomains":                   s.methodSetBoardDomains,
 		"addBoardDomain":                    s.methodAddBoardDomain,

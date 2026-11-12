@@ -117,3 +117,74 @@ func TestAddSubtask(t *testing.T) {
 		t.Error("recorded as SubtaskDepositBleed")
 	}
 }
+
+// #4693: a subtask ticked done from its parent - marked complete, counted
+// "done/total" - by whoever may edit it; a comment-only member sees it but
+// cannot tick it, and neither a card that is no subtask of this parent nor an
+// archived subtask is ticked.
+func TestSetSubtaskDone(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Done")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": rb.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": bob.ID, "isActive": true, "isAdmin": false, "isCommentOnly": true}}})
+	ac := w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	ids := []string{}
+	for _, title := range []string{"One", "Two"} {
+		_, out := methodCall(t, w, ac, "addSubtaskCard", `["`+rb.Card+`","`+title+`",false]`)
+		ids = append(ids, out["result"].(string))
+	}
+	// The subtasks board shares the parent's members: bob is comment-only there too.
+	tick := func(cl *http.Client, sub string, done bool) map[string]any {
+		d := "false"
+		if done {
+			d = "true"
+		}
+		_, out := methodCall(t, w, cl, "setSubtaskDone", `["`+rb.Card+`","`+sub+`",`+d+`]`)
+		return out
+	}
+	if out := tick(ac, ids[0], true); out["result"] != true {
+		t.Fatalf("ticked: %v", out)
+	}
+	var c bson.M
+	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": ids[0]}).Decode(&c)
+	if c["dueComplete"] != true {
+		t.Error("marked complete")
+	}
+	_, html := get(t, ac, w.srv.URL+"/b/"+rb.ID+"/x/"+rb.Card)
+	if !strings.Contains(html, "(1/2)") || !strings.Contains(html, "js-toggle-subtask-done") {
+		t.Errorf("the count and the checkbox")
+	}
+	if out := tick(ac, ids[0], false); out["result"] != false {
+		t.Errorf("unticked: %v", out)
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if out := tick(bc, ids[1], true); out["error"] != "not-authorized" {
+		t.Errorf("negative: comment-only: %v", out)
+	}
+	if _, html := get(t, bc, w.srv.URL+"/b/"+rb.ID+"/x/"+rb.Card); strings.Contains(html, "js-toggle-subtask-done") || !strings.Contains(html, "subtask-done-toggle is-disabled") {
+		t.Error("negative: a comment-only member sees the state, not the toggle")
+	}
+	if out := tick(ac, rb.Card, true); out["error"] != "not-a-subtask" {
+		t.Errorf("negative: not a subtask of this parent: %v", out)
+	}
+	if out := tick(ac, "noSuchCard12345", true); out["error"] != "not-found" {
+		t.Errorf("negative: no such card: %v", out)
+	}
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": ids[1]}, bson.M{"$set": bson.M{"archived": true}})
+	if out := tick(ac, ids[1], true); out["error"] != "subtask-archived" {
+		t.Errorf("negative: an archived subtask: %v", out)
+	}
+	if _, html := get(t, ac, w.srv.URL+"/b/"+rb.ID+"/x/"+rb.Card); !strings.Contains(html, "(1/2)") || !strings.Contains(html, "subtask-completed-icon") {
+		t.Error("an archived subtask is done and shown completed")
+	}
+	w.seedUser(t, "eve", "pw")
+	ec := w.client(t)
+	body(t, w.signIn(t, ec, "eve", "pw"))
+	if out := tick(ec, ids[0], true); out["error"] != "not-found" {
+		t.Errorf("negative: a parent on a board one cannot see: %v", out)
+	}
+}

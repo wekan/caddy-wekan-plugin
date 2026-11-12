@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 
@@ -253,12 +254,114 @@ func (s *Server) addSubtaskPage(w http.ResponseWriter, r *http.Request, u *User)
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug+"/"+c.ID, http.StatusSeeOther)
 }
 
-// cardSubtasks are a card's subtasks: its child cards not archived, by sort.
-func (s *Server) cardSubtasks(ctx context.Context, cardID string) []Card {
-	var out []Card
-	if cur, err := s.db.Collection("cards").Find(ctx, bson.M{"parentId": eq(cardID), "archived": false, "deletedAt": nil},
+// subtaskRow is one subtask in the card details: its card, done (#4693:
+// marked complete or archived), archived, and whether this user may tick it.
+type subtaskRow struct {
+	Card
+	Done, Archived, CanTick bool
+}
+
+// cardSubtasks are a card's subtasks, archived ones too (WeKan's
+// allSubtasks), by sort; and its "done/total" count, empty when none.
+func (s *Server) cardSubtasks(ctx context.Context, u *User, cardID string) ([]subtaskRow, string) {
+	var docs []bson.M
+	if cur, err := s.db.Collection("cards").Find(ctx, bson.M{"parentId": eq(cardID), "deletedAt": nil},
 		options.Find().SetSort(bson.D{{Key: "sort", Value: 1}})); err == nil {
-		_ = cur.All(ctx, &out)
+		_ = cur.All(ctx, &docs)
 	}
-	return out
+	var rows []subtaskRow
+	done := 0
+	for _, d := range docs {
+		var c Card
+		raw, _ := bson.Marshal(d)
+		_ = bson.Unmarshal(raw, &c)
+		row := subtaskRow{Card: c, Archived: d["archived"] == true}
+		row.Done = row.Archived || d["dueComplete"] == true
+		if row.Done {
+			done++
+		}
+		row.CanTick = !row.Archived && s.subtaskDoneDenial(ctx, u, cardID, d, d) == ""
+		rows = append(rows, row)
+	}
+	if len(rows) == 0 {
+		return nil, ""
+	}
+	return rows, strconv.Itoa(done) + "/" + strconv.Itoa(len(rows))
+}
+
+// subtaskDoneDenial is WeKan's models/lib/subtaskDone.js subtaskDoneDenial:
+// why u may not tick this subtask of parentID done, or "" - the subtask's own
+// parents, type and state, and u's right to edit edit: the subtask, or the
+// card a linked subtask shows.
+func (s *Server) subtaskDoneDenial(ctx context.Context, u *User, parentID string, sub, edit bson.M) string {
+	if u == nil {
+		return "not-authorized"
+	}
+	parents := append([]string{docString(sub, "parentId")}, stringsOf(sub["parentIds"])...)
+	if !slices.Contains(parents, parentID) || sub["type"] == "cardType-linkedBoard" {
+		return "not-a-subtask"
+	}
+	var c Card
+	raw, _ := bson.Marshal(edit)
+	_ = bson.Unmarshal(raw, &c)
+	b, err := s.boardFor(ctx, c.BoardID, u)
+	if err != nil || !b.WritableIn(ctx, s, u, "write", &c) {
+		return "not-authorized"
+	}
+	if m := b.member(u.ID); m != nil && m.AssignedOnly() && !slices.Contains(c.Assignees, u.ID) {
+		return "not-authorized"
+	}
+	if sub["archived"] == true {
+		return "subtask-archived"
+	}
+	return ""
+}
+
+// methodSetSubtaskDone is WeKan's setSubtaskDone(parentCardId, subtaskId,
+// done) (#4693): the subtask - a linked one's card - marked complete or not,
+// by whoever may edit it, from the parent they may see.
+func (s *Server) methodSetSubtaskDone(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	parentID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	subID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	var done bool
+	if len(args) < 3 || json.Unmarshal(args[2], &done) != nil {
+		return nil, &methodError{"Match.Error", "Expected boolean"}
+	}
+	ctx := r.Context()
+	var parent Card
+	if !validID(parentID) || s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(parentID)}).Decode(&parent) != nil {
+		return nil, &methodError{"not-found", "not-found"}
+	}
+	if _, err := s.boardFor(ctx, parent.BoardID, u); err != nil {
+		return nil, &methodError{"not-found", "not-found"}
+	}
+	var sub bson.M
+	if !validID(subID) || s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(subID)}).Decode(&sub) != nil {
+		return nil, &methodError{"not-found", "not-found"}
+	}
+	target := sub
+	if sub["type"] == "cardType-linkedCard" {
+		if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(docString(sub, "linkedId"))}).Decode(&target) != nil {
+			return nil, &methodError{"not-found", "not-found"}
+		}
+	}
+	if denial := s.subtaskDoneDenial(ctx, u, parentID, sub, target); denial != "" {
+		return nil, &methodError{denial, denial}
+	}
+	if (target["dueComplete"] == true) != done {
+		if _, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": target["_id"]}, bson.M{"$set": bson.M{"dueComplete": done, "modifiedAt": time.Now().UTC()}}); err != nil {
+			return nil, err
+		}
+		s.hub.publishFrom(parent.BoardID, "board-changed", r.Header.Get("X-Weddy-Page"))
+		if b := docString(target, "boardId"); b != parent.BoardID {
+			s.hub.publishFrom(b, "board-changed", r.Header.Get("X-Weddy-Page"))
+		}
+	}
+	return done, nil
 }
