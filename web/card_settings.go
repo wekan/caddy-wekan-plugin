@@ -161,12 +161,16 @@ func cardSettingsBoardWrite(set map[string]any) (bson.M, bool) {
 				list[i] = id
 			}
 			out[path] = sectionOrderOf(list, side)
-		case path == "cardFieldOrder":
+		case path == "cardFieldOrder" || path == "minicardFieldOrder":
 			keys, ok := stringList(v)
 			if !ok {
 				return nil, false
 			}
-			out[path] = applyCardLayout(keys)
+			side := "card"
+			if path == "minicardFieldOrder" {
+				side = "minicard"
+			}
+			out[path] = sideLayout(side).apply(keys)
 		default:
 			return nil, false
 		}
@@ -190,6 +194,9 @@ type cardSettingsLine struct {
 	Key, Side, Kind, Field, Scrum, Title string
 	Icons                                []string
 	Checked, Writable                    bool
+	// Positioned: the row has a place of its own in its side's order, so it
+	// is dragged (by Handles, the user's drag handles, or by its name).
+	Positioned, Handles bool
 }
 
 type cardSettingsPaneSection struct {
@@ -255,7 +262,9 @@ func (s *Server) cardSettingsPanes(ctx context.Context, b *Board, u *User, lang 
 					parts[i] = tr(lang, k)
 				}
 				line := cardSettingsLine{Key: row.Key, Side: side, Kind: sp.Kind, Field: sp.Field, Scrum: sp.Scrum,
-					Title: strings.Join(parts, row.LabelSeparator), Icons: row.Icons, Writable: admin}
+					Title: strings.Join(parts, row.LabelSeparator), Icons: row.Icons, Writable: admin,
+					Positioned: sp.After == "" && sideLayout(side).sectionOf(row.Key) != nil,
+					Handles:    u != nil && u.Profile.ShowDesktopDragHandles}
 				switch sp.Kind {
 				case "board":
 					line.Checked = sp.Default

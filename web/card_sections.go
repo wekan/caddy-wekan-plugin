@@ -82,25 +82,30 @@ func rowsForSide(side string, order []string) []*cardSettingsRow {
 	return placed
 }
 
-// sideFieldOrder is a side's flat field order: the card's stored
-// cardFieldOrder, canonical; the minicard's rows in their sections' order.
+// sideLayout is the side's layout.
+func sideLayout(side string) *fieldLayout {
+	if side == "minicard" {
+		return &minicardLayout
+	}
+	return &cardLayout
+}
+
+// sideFieldOrder is a side's flat field order: its stored cardFieldOrder or
+// minicardFieldOrder, canonical in its layout.
 func sideFieldOrder(board bson.M, side string) []string {
-	if side == "card" {
-		var stored []string
-		if list, ok := plain(board["cardFieldOrder"]).([]any); ok {
-			for _, v := range list {
-				if s, ok := v.(string); ok {
-					stored = append(stored, s)
-				}
+	field := "cardFieldOrder"
+	if side == "minicard" {
+		field = "minicardFieldOrder"
+	}
+	var stored []string
+	if list, ok := plain(board[field]).([]any); ok {
+		for _, v := range list {
+			if s, ok := v.(string); ok {
+				stored = append(stored, s)
 			}
 		}
-		return applyCardLayout(stored)
 	}
-	var out []string
-	for _, sec := range cardSettings.Sections {
-		out = append(out, sec.Keys...)
-	}
-	return out
+	return sideLayout(side).apply(stored)
 }
 
 type cardSectionView struct {

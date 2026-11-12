@@ -366,6 +366,15 @@ type Card struct {
 	Locations        []cardLocation `bson:"locations,omitempty" json:"-"`
 	DateLastActivity time.Time      `bson:"dateLastActivity,omitempty" json:"-"`
 	MinicardSides    minicardSides  `bson:"-" json:"-"`
+	// The card's dates (WeKan's receivedAt, startAt, dueAt, endAt), and what
+	// the minicard draws in the Minicard pane's order (minicard_order.go).
+	ReceivedAt      *time.Time       `bson:"receivedAt,omitempty" json:"-"`
+	StartAt         *time.Time       `bson:"startAt,omitempty" json:"-"`
+	DueAt           *time.Time       `bson:"dueAt,omitempty" json:"-"`
+	EndAt           *time.Time       `bson:"endAt,omitempty" json:"-"`
+	MinicardParts   []minicardPart   `bson:"-" json:"-"`
+	MinicardDates   []minicardDate   `bson:"-" json:"-"`
+	MinicardMembers []minicardPerson `bson:"-" json:"-"`
 	// CoverID is WeKan's coverId: the image attachment shown on the minicard.
 	CoverID string `bson:"coverId,omitempty" json:"coverId,omitempty"`
 	// What the board's minicard shows of it, drawn only (minicard_badges.go).

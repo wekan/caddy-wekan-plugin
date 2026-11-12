@@ -1007,6 +1007,7 @@
   "domains": "Verkkotunnukset",
   "done": "Valmis",
   "download": "Lataa",
+  "drag-to-reorder": "Järjestä uudelleen vetämällä. Ylä- ja alanuolinäppäimet siirtävät yhden askeleen.",
   "due-date": "Eräpäivä",
   "due-from-title": "Eräpäivä otsikosta",
   "edit": "Muokkaa",

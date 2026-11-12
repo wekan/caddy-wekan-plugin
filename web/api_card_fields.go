@@ -22,13 +22,17 @@ type cardSection struct {
 	PinnedFirst bool
 }
 
-// cardLayout is WeKan's CARD_LAYOUT.
-var cardLayout = struct {
+// fieldLayout is one of WeKan's layouts (models/lib/cardFieldOrder.js): the
+// head drawn at a fixed place, the sections that are ordered, the tail.
+type fieldLayout struct {
 	Head, Tail []string
 	Sections   []cardSection
 	Legacy     map[string][]string
 	Aliases    map[string][]string
-}{
+}
+
+// cardLayout is WeKan's CARD_LAYOUT.
+var cardLayout = fieldLayout{
 	Head: []string{"dueComplete", "cardNumber", "cover"},
 	Sections: []cardSection{
 		{Key: "labels", Fields: []string{"labels", "stickers", "location"}},
@@ -82,23 +86,26 @@ func cardFieldOrderKeys() []string {
 // applyCardLayout is WeKan's applyLayoutOrder: the canonical flat order of a
 // stored value - field keys, section keys, legacy or aliased keys; unknown keys
 // dropped, no field lost or doubled.
-func applyCardLayout(stored []string) []string {
+func applyCardLayout(stored []string) []string { return cardLayout.apply(stored) }
+
+// apply is WeKan's applyLayoutOrder for this layout.
+func (l *fieldLayout) apply(stored []string) []string {
 	all := map[string]bool{}
-	for _, f := range cardLayout.Head {
+	for _, f := range l.Head {
 		all[f] = true
 	}
-	for _, s := range cardLayout.Sections {
+	for _, s := range l.Sections {
 		for _, f := range s.Fields {
 			all[f] = true
 		}
 	}
-	for _, f := range cardLayout.Tail {
+	for _, f := range l.Tail {
 		all[f] = true
 	}
 	legacy := len(stored) > 0
 	someNotField := false
 	for _, k := range stored {
-		if _, ok := cardLayout.Legacy[k]; !ok {
+		if _, ok := l.Legacy[k]; !ok {
 			legacy = false
 		}
 		if !all[k] {
@@ -110,7 +117,7 @@ func applyCardLayout(stored []string) []string {
 	for _, k := range stored {
 		switch {
 		case legacy:
-			for _, f := range cardLayout.Legacy[k] {
+			for _, f := range l.Legacy[k] {
 				if all[f] {
 					fields = append(fields, f)
 				}
@@ -119,13 +126,13 @@ func applyCardLayout(stored []string) []string {
 			fields = append(fields, k)
 		default:
 			found := false
-			for _, s := range cardLayout.Sections {
+			for _, s := range l.Sections {
 				if s.Key == k {
 					fields, found = append(fields, s.Fields...), true
 				}
 			}
 			if !found {
-				for _, f := range cardLayout.Aliases[k] {
+				for _, f := range l.Aliases[k] {
 					if all[f] {
 						fields = append(fields, f)
 					}
@@ -135,19 +142,19 @@ func applyCardLayout(stored []string) []string {
 	}
 	var keys []string
 	for _, f := range fields {
-		if s := cardSectionOf(f); s != nil && !slices.Contains(keys, s.Key) {
+		if s := l.sectionOf(f); s != nil && !slices.Contains(keys, s.Key) {
 			keys = append(keys, s.Key)
 		}
 	}
-	for _, s := range cardLayout.Sections {
+	for _, s := range l.Sections {
 		if !slices.Contains(keys, s.Key) {
 			keys = append(keys, s.Key)
 		}
 	}
-	out := append([]string{}, cardLayout.Head...)
+	out := append([]string{}, l.Head...)
 	for _, k := range keys {
 		var s cardSection
-		for _, x := range cardLayout.Sections {
+		for _, x := range l.Sections {
 			if x.Key == k {
 				s = x
 			}
@@ -169,7 +176,43 @@ func applyCardLayout(stored []string) []string {
 		}
 		out = append(out, in...)
 	}
-	return append(out, cardLayout.Tail...)
+	return append(out, l.Tail...)
+}
+
+// sectionOf is the section of the layout a field is in.
+func (l *fieldLayout) sectionOf(field string) *cardSection {
+	for i, s := range l.Sections {
+		if slices.Contains(s.Fields, field) {
+			return &l.Sections[i]
+		}
+	}
+	return nil
+}
+
+// minicardLayout is WeKan's MINICARD_LAYOUT.
+var minicardLayout = fieldLayout{
+	Head: []string{"dueComplete", "cardNumber", "cover"},
+	Sections: []cardSection{
+		{Key: "scrum", Fields: []string{"scrumSprint", "scrumPastSprints", "scrumRelease", "scrumAcceptanceCriteria", "scrumBacklogRank", "scrumIssueType"}},
+		{Key: "date", Fields: []string{"receivedDate", "startDate", "dueDate", "endDate"}},
+		{Key: "time", Fields: []string{"spentTime", "flowtime", "pomodoro"}},
+		{Key: "labels", Fields: []string{"labels", "stickers", "location"}},
+		{Key: "customFields", Fields: []string{"customFields"}},
+		{Key: "members", Fields: []string{"assignee", "members", "creator", "requestedBy", "assignedBy"}},
+		{Key: "checklists", Fields: []string{"checklists", "checklistCount"}},
+		{Key: "card", Fields: []string{"dependencies", "cardSortingByNumber", "showLists", "swimlaneName"}},
+		{Key: "comments", Fields: []string{"commentCount", "comments", "activities"}},
+		{Key: "vote", Fields: []string{"vote"}},
+		{Key: "poker", Fields: []string{"poker"}},
+		{Key: "attachments", Fields: []string{"attachmentCount", "attachments", "textNotes"}},
+		{Key: "subtasks", Fields: []string{"subtasks"}},
+		{Key: "description", Fields: []string{"descriptionText"}},
+	},
+	Legacy: map[string][]string{},
+	Aliases: map[string][]string{
+		"dates":  {"receivedDate", "startDate", "dueDate", "endDate", "spentTime"},
+		"badges": {"scrumIssueType", "dependencies", "stickers", "commentCount", "vote", "poker", "attachmentCount", "subtasks", "checklistCount", "cardSortingByNumber"},
+	},
 }
 
 // applyCardFieldOrder is WeKan's: the sections in the order the stored value gives.

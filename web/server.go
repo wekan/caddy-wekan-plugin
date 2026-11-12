@@ -1547,6 +1547,9 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 	ch := s.hub.subscribe(b.ID)
 	defer s.hub.unsubscribe(b.ID, ch)
 	s.liveSince(r.Context(), b.ID, r.URL.Query().Get("v"), ch)
+	if u != nil {
+		s.liveAs(r.Context(), u.ID, ch)
+	}
 	fmt.Fprint(w, ": connected\n\n")
 	if err := rc.Flush(); err != nil {
 		http.Error(w, "streaming unsupported", http.StatusInternalServerError)
@@ -1586,10 +1589,14 @@ type hub struct {
 	// own last announcement, left it; stamp reads one (board_watch.go).
 	seen  map[string]string
 	stamp func(board string) string
+	// owner is the signed-in user of each page's channel, and seenUsers each
+	// such user's profile stamp at the watch's last look (board_watch.go).
+	owner     map[chan string]string
+	seenUsers map[string]string
 }
 
 func newHub() *hub {
-	return &hub{subs: map[string]map[chan string]bool{}, seen: map[string]string{}}
+	return &hub{subs: map[string]map[chan string]bool{}, seen: map[string]string{}, owner: map[chan string]string{}, seenUsers: map[string]string{}}
 }
 
 func (h *hub) subscribe(board string) chan string {
@@ -1606,6 +1613,7 @@ func (h *hub) subscribe(board string) chan string {
 func (h *hub) unsubscribe(board string, ch chan string) {
 	h.mu.Lock()
 	defer h.mu.Unlock()
+	delete(h.owner, ch)
 	if h.subs[board][ch] {
 		delete(h.subs[board], ch)
 		close(ch)

@@ -56,10 +56,17 @@ func TestCardSettingsOrderWrites(t *testing.T) {
 	if o := strings.Join(clean["cardFieldOrder"].([]string), " "); strings.Contains(o, "bogus") || strings.Index(o, "dueDate") > strings.Index(o, "receivedDate") {
 		t.Fatalf("the field order, canonical: %s", o)
 	}
-	for _, bad := range []map[string]any{{"cardFieldOrder": "dueDate"}, {"cardSettingsSectionOrder": []any{1}}, {"minicardFieldOrder": []any{"labels"}}} {
+	for _, bad := range []map[string]any{{"cardFieldOrder": "dueDate"}, {"cardSettingsSectionOrder": []any{1}}, {"minicardFieldOrders": []any{"labels"}}, {"minicardFieldOrder": []any{"labels", 2}}} {
 		if _, ok := cardSettingsBoardWrite(bad); ok {
 			t.Fatalf("refused: %v", bad)
 		}
+	}
+	// The minicard's field order is its own, in the minicard's layout
+	// (MINICARD_LAYOUT): writable since the Minicard pane's rows are dragged.
+	clean, ok = cardSettingsBoardWrite(map[string]any{"minicardFieldOrder": []any{"endDate", "receivedDate"}})
+	if o := strings.Join(clean["minicardFieldOrder"].([]string), " "); !ok || !strings.HasPrefix(o, "dueComplete cardNumber cover endDate receivedDate startDate dueDate scrumSprint") ||
+		strings.Index(o, "endDate") > strings.Index(o, "receivedDate") || !strings.Contains(o, "swimlaneName") {
+		t.Fatalf("the minicard's order, canonical in its layout: %s", o)
 	}
 }
 

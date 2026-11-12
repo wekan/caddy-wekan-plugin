@@ -16,6 +16,9 @@ import (
 // it; for the rest, each board some page has open is read again every
 // boardWatchEvery, one query per board however many pages show it, and
 // announced when its document is not what it was.
+// The signed-in user's own profile is followed the same way, for that user's
+// pages only - a preference changed elsewhere (drag handles, a fold, a
+// language) redraws them, as WeKan's reactive user does.
 // The page carries the board's stamp as it was drawn (boardStamp), and its
 // live connection is told at once when the board is no longer that, so a
 // change between drawing the page and connecting is not lost either.
@@ -60,6 +63,87 @@ func (h *hub) sawBoard(board, stamp string) (string, bool) {
 	return before, had
 }
 
+// userStamp is the stamp of a user's profile, its notifications left out:
+// they change on their own and redraw nothing of the board.
+func (s *Server) userStamp(ctx context.Context, id string) string {
+	// In the stored order (bson.D): a map's order is Go's, random, and
+	// would stamp the same profile differently each look.
+	var doc struct {
+		Profile bson.D `bson:"profile"`
+	}
+	if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&doc) != nil {
+		return ""
+	}
+	kept := bson.D{}
+	for _, e := range doc.Profile {
+		if e.Key != "notifications" {
+			kept = append(kept, e)
+		}
+	}
+	raw, err := bson.Marshal(kept)
+	if err != nil {
+		return ""
+	}
+	sum := sha256.Sum256(raw)
+	return hex.EncodeToString(sum[:12])
+}
+
+// openUsers are the signed-in users of the open pages, with their channels;
+// a user with none is forgotten.
+func (h *hub) openUsers() map[string][]chan string {
+	h.mu.Lock()
+	defer h.mu.Unlock()
+	out := map[string][]chan string{}
+	for ch, u := range h.owner {
+		out[u] = append(out[u], ch)
+	}
+	for u := range h.seenUsers {
+		if _, ok := out[u]; !ok {
+			delete(h.seenUsers, u)
+		}
+	}
+	return out
+}
+
+// liveAs follows the page's user: its profile as it is now is what the
+// watch compares with, unless another of its pages' look already is.
+func (s *Server) liveAs(ctx context.Context, userID string, ch chan string) {
+	st := s.userStamp(ctx, userID)
+	s.hub.mu.Lock()
+	defer s.hub.mu.Unlock()
+	s.hub.owner[ch] = userID
+	if _, had := s.hub.seenUsers[userID]; !had && st != "" {
+		s.hub.seenUsers[userID] = st
+	}
+}
+
+// watchUsersOnce looks at each open page's user once, and tells that user's
+// pages when the profile is not what it was.
+func (s *Server) watchUsersOnce(ctx context.Context) {
+	for id, chans := range s.hub.openUsers() {
+		st := s.userStamp(ctx, id)
+		if st == "" {
+			continue
+		}
+		s.hub.mu.Lock()
+		before, had := s.hub.seenUsers[id]
+		s.hub.seenUsers[id] = st
+		changed := had && before != st
+		if changed {
+			for _, ch := range chans {
+				if _, open := s.hub.owner[ch]; !open {
+					continue // closed since
+				}
+				select {
+				case ch <- "board-changed":
+				default:
+				}
+			}
+		}
+		s.hub.mu.Unlock()
+	}
+}
+
 func (s *Server) runBoardWatch(stop chan struct{}) {
 	t := time.NewTicker(boardWatchEvery)
 	defer t.Stop()
@@ -70,6 +154,7 @@ func (s *Server) runBoardWatch(stop chan struct{}) {
 		case <-t.C:
 			if !s.boardWatchOff.Load() {
 				s.watchBoardsOnce(context.Background())
+				s.watchUsersOnce(context.Background())
 			}
 		}
 	}

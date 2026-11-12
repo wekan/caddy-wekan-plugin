@@ -53,6 +53,8 @@ func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane, 
 	showAssignees := minicardFlag(board, "allowsAssigneeOnMinicard", "allowsAssignee", true)
 	showComments := board["allowsCommentsOnMinicard"] == true
 	showIssueType := board["allowsIssueTypeOnMinicard"] != false
+	showMembers := boardFlag(board, "allowsMembersOnMinicard", true)
+	parts := minicardParts(board)
 	// No early return when neither shows: the checklists shown on minicards
 	// are their own checklists' choice (showChecklistAtMinicard).
 	cardIDs := bson.A{}
@@ -64,11 +66,14 @@ func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane, 
 				for _, a := range c.Assignees {
 					people[a] = true
 				}
+				for _, m := range c.Members {
+					people[m] = true
+				}
 			}
 		}
 	}
 	names := map[string]minicardPerson{}
-	if showAssignees && len(people) > 0 {
+	if (showAssignees || showMembers) && len(people) > 0 {
 		ids := bson.A{}
 		for id := range people {
 			ids = append(ids, id)
@@ -120,6 +125,15 @@ func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane, 
 				c := &lanes[i].Lists[j].Cards[k]
 				c.MinicardChecklists = checklists[c.ID]
 				c.MinicardSides = sidesOfMinicard(board, c, dateFormat)
+				c.MinicardParts = parts
+				c.MinicardDates = minicardDatesOf(board, c, dateFormat)
+				if showMembers {
+					for _, m := range c.Members {
+						if p, ok := names[m]; ok {
+							c.MinicardMembers = append(c.MinicardMembers, p)
+						}
+					}
+				}
 				if showIssueType {
 					c.MinicardIssueType = issueTypeBadge(c.Scrum["issueType"])
 				}
