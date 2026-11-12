@@ -52,9 +52,8 @@ func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane) 
 	_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(b.ID)}).Decode(&board)
 	showAssignees := minicardFlag(board, "allowsAssigneeOnMinicard", "allowsAssignee", true)
 	showComments := board["allowsCommentsOnMinicard"] == true
-	if !showAssignees && !showComments {
-		return
-	}
+	// No early return when neither shows: the checklists shown on minicards
+	// are their own checklists' choice (showChecklistAtMinicard).
 	cardIDs := bson.A{}
 	people := map[string]bool{}
 	for _, l := range lanes {
@@ -113,10 +112,12 @@ func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane) 
 			}
 		}
 	}
+	checklists := s.minicardChecklists(ctx, b, cardIDs)
 	for i := range lanes {
 		for j := range lanes[i].Lists {
 			for k := range lanes[i].Lists[j].Cards {
 				c := &lanes[i].Lists[j].Cards[k]
+				c.MinicardChecklists = checklists[c.ID]
 				if showAssignees {
 					for _, a := range c.Assignees {
 						if p, ok := names[a]; ok {
@@ -128,4 +129,59 @@ func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane) 
 			}
 		}
 	}
+}
+
+// minicardChecklist is one checklist on its card's minicard (WeKan's
+// minicardChecklist): its title and its items, done or not.
+type minicardChecklist struct {
+	ID, Title string
+	Items     []minicardChecklistItem
+}
+
+type minicardChecklistItem struct {
+	ID, Title  string
+	IsFinished bool
+}
+
+// minicardChecklists are the board's checklists shown on their minicards
+// (showChecklistAtMinicard), by card, each with its items, by sort.
+func (s *Server) minicardChecklists(ctx context.Context, b *Board, cardIDs bson.A) map[string][]minicardChecklist {
+	out := map[string][]minicardChecklist{}
+	if len(cardIDs) == 0 {
+		return out
+	}
+	var lists []struct {
+		ID     string `bson:"_id"`
+		CardID string `bson:"cardId"`
+		Title  string `bson:"title"`
+	}
+	if cur, err := s.db.Collection("checklists").Find(ctx, bson.M{"cardId": dbIn(cardIDs), "showChecklistAtMinicard": true},
+		options.Find().SetSort(bson.D{{Key: "sort", Value: 1}})); err == nil {
+		_ = cur.All(ctx, &lists)
+	}
+	if len(lists) == 0 {
+		return out
+	}
+	ids := bson.A{}
+	for _, l := range lists {
+		ids = append(ids, l.ID)
+	}
+	var items []struct {
+		ID          string `bson:"_id"`
+		ChecklistID string `bson:"checklistId"`
+		Title       string `bson:"title"`
+		IsFinished  bool   `bson:"isFinished"`
+	}
+	if cur, err := s.db.Collection("checklistItems").Find(ctx, bson.M{"checklistId": dbIn(ids)},
+		options.Find().SetSort(bson.D{{Key: "sort", Value: 1}})); err == nil {
+		_ = cur.All(ctx, &items)
+	}
+	byList := map[string][]minicardChecklistItem{}
+	for _, it := range items {
+		byList[it.ChecklistID] = append(byList[it.ChecklistID], minicardChecklistItem{it.ID, it.Title, it.IsFinished})
+	}
+	for _, l := range lists {
+		out[l.CardID] = append(out[l.CardID], minicardChecklist{l.ID, l.Title, byList[l.ID]})
+	}
+	return out
 }

@@ -97,6 +97,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"inviteUserToBoard":                 s.methodInviteUserToBoard,
 		"searchUsers":                       s.methodSearchUsers,
 		"moveBoardObjects":                  s.methodMoveBoardObjects,
+		"structuralMoveOptions":             s.methodStructuralMoveOptions,
 		"shortPasswordLoginsPage":           s.methodShortPasswordLoginsPage,
 	}
 	for k, v := range s.customFieldMethods() {

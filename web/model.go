@@ -363,9 +363,12 @@ type Card struct {
 	MinicardAssignees []minicardPerson `bson:"-" json:"-"`
 	// Scrum is WeKan's Scrum metadata of the card (scrum.go), and
 	// MinicardScrum its minicard's shown fields (scrum_fields.go).
-	Scrum                bson.M          `bson:"scrum,omitempty" json:"-"`
-	ScrumRevision        float64         `bson:"scrumRevision,omitempty" json:"-"`
-	MinicardScrum        []scrumFieldRow `bson:"-" json:"-"`
-	MinicardComments     []string        `bson:"-" json:"-"`
-	MinicardMoreComments bool            `bson:"-" json:"-"`
+	Scrum            bson.M          `bson:"scrum,omitempty" json:"-"`
+	ScrumRevision    float64         `bson:"scrumRevision,omitempty" json:"-"`
+	MinicardScrum    []scrumFieldRow `bson:"-" json:"-"`
+	MinicardComments []string        `bson:"-" json:"-"`
+	// MinicardChecklists are its checklists shown on the minicard (WeKan's
+	// showChecklistAtMinicard), with their items.
+	MinicardChecklists   []minicardChecklist `bson:"-" json:"-"`
+	MinicardMoreComments bool                `bson:"-" json:"-"`
 }

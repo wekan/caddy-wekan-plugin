@@ -71,6 +71,34 @@
           ul.pop-over-list
             li
               a.js-archive-selection(href="#") {{t $.L "archive-selection"}}
+            if $.CanEdit
+              li
+                //- WeKan's multiselectionSidebar: the mixed selection's Move.
+                a.sidebar-btn.js-move-selection(href="#")
+                  i.fa.fa-upload
+                  |  {{t $.L "move-selection"}}
+          if $.CanEdit
+            //- WeKan's moveObjectsPopup: where the selection goes - board,
+              swimlane, list, card, checklist, item - and before or after it.
+            template.js-pop-over-template(data-pop="move-objects", data-title="{{t $.L `move-selection`}}")
+              .js-move-objects-form
+                .warning.js-move-objects-error.is-hidden
+                label {{t $.L "boards"}}
+                select.js-object-destination(data-field="boardId")
+                label {{t $.L "swimlanes"}}
+                select.js-object-destination(data-field="swimlaneId", data-empty="—")
+                label {{t $.L "lists"}}
+                select.js-object-destination(data-field="listId", data-empty="—")
+                label {{t $.L "cards"}}
+                select.js-object-destination(data-field="cardId", data-empty="{{t $.L `add-card`}}")
+                label {{t $.L "checklists"}}
+                select.js-object-destination(data-field="checklistId", data-empty="{{t $.L `add-checklist`}}")
+                label {{t $.L "r-item"}}
+                select.js-object-destination(data-field="itemId", data-empty="—")
+                select.js-object-position(aria-label="{{t $.L `move-selection`}}")
+                  option(value="before") {{t $.L "move-selection-before"}}
+                  option(value="after") {{t $.L "move-selection-after"}}
+                button.primary.js-move-objects(type="button") {{t $.L "move-selection"}}
       //- WeKan's filterSidebar: its Advanced Filter, the board's cards by their
         custom fields and dates (advanced_filter.go). The board shows only the
         cards it matches; one that does not parse keeps the last that did.
@@ -734,6 +762,9 @@
     each sw in .Lanes
       .swimlane.js-swimlane(id="swimlane-{{.ID}}", data-swimlane="{{.ID}}")
         .swimlane-header.js-swimlane-header
+          //- WeKan's structuralSelectionCheckbox: shown while Multi-Selection is on.
+          if $.CanEdit
+            button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="swimlane", data-id="{{.ID}}")
           span.swimlane-header-name.title {{.Title}}
           if $.CanExport
             a.js-open-swimlane-menu.swimlane-header-menu-icon(href="#", data-swimlane="{{.ID}}", title="{{t $.L `swimlaneActionPopup-title`}}", aria-label="{{t $.L `swimlaneActionPopup-title`}}")
@@ -745,6 +776,8 @@
           each li in .Lists
             .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}", data-swimlane="{{.Lane}}", data-watching="{{if watching $.User .Watchers}}1{{end}}", class="{{if .Collapsed}}list-collapsed{{end}}")
               .list-header
+                if $.CanEdit
+                  button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="list", data-id="{{.ID}}")
                 //- WeKan's caret (listHeader.jade): per user, per list in this swimlane (#6712).
                 if .Collapsed
                   a.list-collapse-indicator.js-collapse(href="#", data-collapse="{{t $.L `collapse`}}", data-uncollapse="{{t $.L `uncollapse`}}", title="{{t $.L `uncollapse`}}", aria-label="{{t $.L `uncollapse`}}")
@@ -768,6 +801,10 @@
                   //- A block that opens the card, not a link: a link in its title
                     must not sit inside another link (WeKan's minicard is a block too).
                   .minicard-wrapper.js-minicard(up-href="/b/{{$.Board.ID}}/{{$.Board.Slug}}/{{.ID}}", up-follow, up-clickable, up-target=".board-wrapper", data-card="{{.ID}}", data-card-id="{{.ID}}", data-sort="{{.Sort}}")
+                    //- WeKan's listBody.jade: while Multi-Selection is on, the card's
+                      own select checkbox.
+                    if $.CanEdit
+                      .materialCheckBox.multi-selection-checkbox.js-toggle-multi-selection.is-hidden(role="checkbox", aria-checked="false", tabindex="0", data-card="{{.ID}}")
                     .minicard
                       .minicard-title
                         //- WeKan's "Mark as complete" on the minicard, when Card
@@ -799,6 +836,21 @@
                               span.minicard-comment-icon
                                 i.fa.fa-comment-o
                               span.minicard-comment-text {{.}}
+                      //- WeKan's minicardChecklist: a checklist its card shows
+                        on the minicard, its items done or not.
+                      each cl in .MinicardChecklists
+                        .minicard-checklist(data-checklist="{{.ID}}")
+                          .checklist-header
+                            if $.CanEdit
+                              button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="checklist", data-id="{{.ID}}")
+                            h4.checklist-title {{.Title}}
+                          .minicard-checklist-items
+                            each it in .Items
+                              .minicard-checklist-item(data-item="{{.ID}}", class="{{if .IsFinished}}is-checked{{end}}")
+                                if $.CanEdit
+                                  button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="item", data-id="{{.ID}}")
+                                .materialCheckBox(class="{{if .IsFinished}}is-checked{{end}}")
+                                span {{.Title}}
                       //- WeKan's minicard cover: the card's cover image.
                       if .CoverID
                         .minicard-cover
@@ -1185,6 +1237,8 @@
                 .checklist-items.js-checklist-items(data-sort-url="{{if $.CanModifyCard}}/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items/sort{{end}}", data-handles="{{if $.User.Profile.ShowDesktopDragHandles}}true{{end}}")
                   each it in .Items
                     .js-checklist-item.checklist-item(data-item="{{.ID}}", class="{{if .Finished}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Finished}}true{{else}}false{{end}}", aria-readonly="{{if $.CanCheckItems}}false{{else}}true{{end}}", tabindex="{{if $.CanCheckItems}}0{{else}}-1{{end}}")
+                      if $.CanEdit
+                        button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="item", data-id="{{.ID}}")
                       if $.CanCheckItems
                         form.check-box-container.js-toggle-checklist-item(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/toggle", up-submit, up-target=".board-wrapper")
                           button.check-box.materialCheckBox(type="submit", class="{{if .Finished}}is-checked{{end}}", aria-label="{{.Title}}")

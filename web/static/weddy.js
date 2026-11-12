@@ -1416,7 +1416,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // a list's menu selects all its cards; the selection goes to the Archive
   // with WeKan's archiveSelectedCards.
   // The selection outlasts the board's reloads, as WeKan's Multi-Selection.
-  var multiSelection = { on: false, cards: {} };
+  // objects are WeKan's structural selection: swimlanes, lists, checklists
+  // and items, "kind:id", beside the cards.
+  var multiSelection = { on: false, cards: {}, objects: {} };
   function showMultiSelection(wrapper) {
     if (!multiSelection.on) return;
     var sb = wrapper.querySelector('.board-sidebar');
@@ -1426,7 +1428,226 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     wrapper.querySelectorAll('.js-minicard').forEach(function (c) {
       c.classList.toggle('is-selected', !!multiSelection.cards[c.dataset.card]);
     });
+    wrapper.querySelectorAll('.js-toggle-multi-selection').forEach(function (b) {
+      var on = !!multiSelection.cards[b.dataset.card];
+      b.classList.remove('is-hidden');
+      b.classList.toggle('is-checked', on);
+      b.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+    wrapper.querySelectorAll('.js-structural-selection').forEach(function (b) {
+      var on = !!multiSelection.objects[b.dataset.kind + ':' + b.dataset.id];
+      b.classList.remove('is-hidden');
+      b.classList.toggle('is-checked', on);
+      b.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
   }
+  // A selection checkbox selects; it never opens the card it sits on.
+  document.addEventListener('click', function (event) {
+    var b = event.target.closest && event.target.closest('.js-structural-selection, .js-toggle-multi-selection');
+    if (!b) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    if (b.classList.contains('js-structural-selection')) {
+      var key = b.dataset.kind + ':' + b.dataset.id;
+      if (multiSelection.objects[key]) delete multiSelection.objects[key];
+      else multiSelection.objects[key] = true;
+    } else if (multiSelection.cards[b.dataset.card]) delete multiSelection.cards[b.dataset.card];
+    else multiSelection.cards[b.dataset.card] = true;
+    var wrapper = b.closest('.board-wrapper');
+    if (wrapper) showMultiSelection(wrapper);
+  }, true);
+  // WeKan's moveObjectsPopup: board, swimlane, list, card, checklist and item
+  // offered step by step (structuralMoveOptions), a change clearing the steps
+  // after it; Move sends the mixed selection to moveBoardObjects.
+  var moveFields = ['boardId', 'swimlaneId', 'listId', 'cardId', 'checklistId', 'itemId'];
+  function mixedSelection() {
+    var out = Object.keys(multiSelection.objects).map(function (k) {
+      var i = k.indexOf(':');
+      return { kind: k.slice(0, i), id: k.slice(i + 1) };
+    });
+    Object.keys(multiSelection.cards).forEach(function (id) { out.push({ kind: 'card', id: id }); });
+    return out;
+  }
+  function loadMoveOptions(form) {
+    var target = form._target;
+    return callAsync('structuralMoveOptions', target).then(function (opts) {
+      moveFields.forEach(function (key) {
+        var sel = form.querySelector('.js-object-destination[data-field="' + key + '"]');
+        if (!sel) return;
+        sel.replaceChildren();
+        if (key !== 'boardId') {
+          var empty = document.createElement('option');
+          empty.value = '';
+          empty.textContent = sel.dataset.empty || '—';
+          sel.appendChild(empty);
+        }
+        (opts[key] || []).forEach(function (o) {
+          var opt = document.createElement('option');
+          opt.value = o._id;
+          opt.textContent = o.title;
+          if (target[key] === o._id) opt.selected = true;
+          sel.appendChild(opt);
+        });
+      });
+    }, function (e) { showMoveError(form, e); });
+  }
+  function showMoveError(form, e) {
+    var w = form.querySelector('.js-move-objects-error');
+    w.textContent = (e && (e.reason || e.message)) || '';
+    w.classList.toggle('is-hidden', !w.textContent);
+  }
+  // WeKan's mixed drag (structuralSelection.js): a selected object dragged
+  // onto a swimlane, list, card, checklist or item moves the whole selection
+  // there, before or after it as the drop's half says. Read from the page's
+  // data attributes; names in the preview are text, never cloned controls.
+  function structuralEntityAt(el, drop) {
+    if (!el || !el.closest) return null;
+    var tries = [
+      ['item', '.minicard-checklist-item[data-item], .js-checklist-item[data-item]', 'item'],
+      ['checklist', '.minicard-checklist[data-checklist], .js-checklist[data-checklist]', 'checklist'],
+      ['card', '.js-minicard[data-card]', 'card'],
+      ['list', '.js-list[data-list]', 'list'],
+    ];
+    for (var i = 0; i < tries.length; i++) {
+      var node = el.closest(tries[i][1]);
+      if (node) return { kind: tries[i][0], id: node.dataset[tries[i][2]], node: node };
+    }
+    var head = el.closest('.js-swimlane-header');
+    var lane = (head || (drop ? el : null)) && (head || el).closest('.js-swimlane[data-swimlane]');
+    if (lane) return { kind: 'swimlane', id: lane.dataset.swimlane, node: head || lane };
+    return null;
+  }
+  function structuralTargetFor(entity, boardID) {
+    var t = { boardId: boardID, position: 'before' };
+    var node = entity.node, kind = entity.kind;
+    if (kind === 'item') {
+      t.itemId = entity.id;
+      var cl = node.closest('[data-checklist]');
+      if (cl) t.checklistId = cl.dataset.checklist;
+      kind = 'checklist';
+    } else if (kind === 'checklist') t.checklistId = entity.id;
+    if (kind === 'checklist') {
+      var mc = node.closest('.js-minicard[data-card]') || node.closest('.js-card-details[data-card]');
+      if (mc) t.cardId = mc.dataset.card;
+      kind = 'card';
+    } else if (kind === 'card') t.cardId = entity.id;
+    if (kind === 'card' || kind === 'list') {
+      var list = node.closest('.js-list[data-list]');
+      if (list) { t.listId = list.dataset.list; t.swimlaneId = list.dataset.swimlane || undefined; }
+    }
+    if (!t.swimlaneId) {
+      var lane = node.closest('.js-swimlane[data-swimlane]');
+      if (lane) t.swimlaneId = lane.dataset.swimlane;
+    }
+    Object.keys(t).forEach(function (k) { if (t[k] === undefined) delete t[k]; });
+    return t;
+  }
+  function structuralSelected(entity) {
+    return entity.kind === 'card' ? !!multiSelection.cards[entity.id] : !!multiSelection.objects[entity.kind + ':' + entity.id];
+  }
+  // Pointer events, in the capture phase: the board's own drag (interact.js)
+  // listens to them, so a drag of the selection never starts it too.
+  var structuralDrag = null;
+  document.addEventListener('pointerdown', function (event) {
+    if (event.button !== 0 || !multiSelection.on || !Object.keys(multiSelection.objects).length) return;
+    if (event.target.closest('input,textarea,button,select,.materialCheckBox')) return;
+    var entity = structuralEntityAt(event.target, false);
+    if (!entity || !structuralSelected(entity)) return;
+    event.stopImmediatePropagation();
+    event.preventDefault();
+    structuralDrag = { x: event.clientX, y: event.clientY, selection: mixedSelection() };
+  }, true);
+  document.addEventListener('pointermove', function (event) {
+    var d = structuralDrag;
+    if (!d) return;
+    if (!d.preview && Math.hypot(event.clientX - d.x, event.clientY - d.y) < 7) return;
+    if (!d.preview) {
+      d.preview = document.createElement('div');
+      d.preview.className = 'structural-drag-preview';
+      var count = document.createElement('div');
+      count.className = 'structural-drag-count';
+      count.textContent = String(d.selection.length);
+      d.preview.appendChild(count);
+      document.body.appendChild(d.preview);
+    }
+    event.preventDefault();
+    d.preview.style.left = (event.clientX + 12) + 'px';
+    d.preview.style.top = (event.clientY + 12) + 'px';
+    if (d.target) d.target.node.classList.remove('structural-drop-target');
+    d.target = structuralEntityAt(document.elementFromPoint(event.clientX, event.clientY), true);
+    if (d.target) d.target.node.classList.add('structural-drop-target');
+  }, true);
+  document.addEventListener('pointerup', function (event) {
+    var d = structuralDrag;
+    if (!d) return;
+    structuralDrag = null;
+    if (d.preview) d.preview.remove();
+    if (d.target) d.target.node.classList.remove('structural-drop-target');
+    if (!d.preview || !d.target) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    document.addEventListener('click', function (c) { c.preventDefault(); c.stopImmediatePropagation(); }, { capture: true, once: true });
+    var board = document.querySelector('.board-wrapper[data-board]');
+    if (!board) return;
+    var destination = structuralTargetFor(d.target, board.dataset.board);
+    var bounds = d.target.node.getBoundingClientRect();
+    destination.position = event.clientY < bounds.y + bounds.height / 2 ? 'before' : 'after';
+    callAsync('moveBoardObjects', board.dataset.board, d.selection, destination, { drag: true }).then(function () {
+      multiSelection = { on: false, cards: {}, objects: {} };
+      up.reload('.board-wrapper');
+    }, function (e) {
+      // An incomplete destination is corrected in the Move pop-over.
+      openPopOver('move-objects');
+      var form = document.querySelector('.js-pop-over .js-move-objects-form');
+      if (!form) return;
+      form._target = destination;
+      loadMoveOptions(form).then(function () { showMoveError(form, e); });
+    });
+  }, true);
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape' || !structuralDrag) return;
+    if (structuralDrag.preview) structuralDrag.preview.remove();
+    if (structuralDrag.target) structuralDrag.target.node.classList.remove('structural-drop-target');
+    structuralDrag = null;
+  }, true);
+  up.on('click', '.js-move-selection', function (event) {
+    event.preventDefault();
+    var board = document.querySelector('.board-wrapper[data-board]');
+    if (!board || !mixedSelection().length) return;
+    openPopOver('move-objects');
+    var form = document.querySelector('.js-pop-over .js-move-objects-form');
+    form._target = { boardId: board.dataset.board };
+    loadMoveOptions(form);
+  });
+  document.addEventListener('change', function (event) {
+    var sel = event.target;
+    if (!sel.matches || !sel.matches('.js-move-objects-form .js-object-destination')) return;
+    var form = sel.closest('.js-move-objects-form');
+    var key = sel.dataset.field;
+    var next = Object.assign({}, form._target);
+    next[key] = sel.value;
+    if (!sel.value) delete next[key];
+    moveFields.slice(moveFields.indexOf(key) + 1).forEach(function (k) { delete next[k]; });
+    form._target = next;
+    showMoveError(form, null);
+    loadMoveOptions(form);
+  });
+  up.on('click', '.js-move-objects', function (event, el) {
+    event.preventDefault();
+    var form = el.closest('.js-move-objects-form');
+    var board = document.querySelector('.board-wrapper[data-board]');
+    if (!form || !board || el.disabled) return;
+    el.disabled = true;
+    var target = Object.assign({}, form._target, { position: form.querySelector('.js-object-position').value });
+    callAsync('moveBoardObjects', board.dataset.board, mixedSelection(), target).then(function () {
+      multiSelection = { on: false, cards: {}, objects: {} };
+      closePopOvers();
+      up.reload('.board-wrapper');
+    }, function (e) {
+      el.disabled = false;
+      showMoveError(form, e);
+    });
+  });
   up.compiler('.board-wrapper', function (wrapper) { showMultiSelection(wrapper); });
   up.on('click', '.js-multiselection-activate', function (event, el) {
     event.preventDefault();
@@ -1449,7 +1670,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var ids = Object.keys(multiSelection.cards);
     if (!ids.length) return;
     callAsync('archiveSelectedCards', board.dataset.board, ids).then(function () {
-      multiSelection = { on: false, cards: {} };
+      multiSelection = { on: false, cards: {}, objects: {} };
       up.reload('.board-wrapper');
     },
       function (e) { window.alert(e.reason || e.message); });

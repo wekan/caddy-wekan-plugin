@@ -620,3 +620,18 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .multiline-title-choice legend { font-weight: bold; margin-bottom: 4px; }
 .multiline-title-choice label { display: flex; align-items: center; gap: 6px; margin: 4px 0; }
 .multiline-title-choice input[type="radio"] { width: auto; margin: 0; flex: 0 0 auto; }
+
+/* WeKan's multi-selection checkboxes (structuralSelection.jade, listBody.jade):
+   a square box beside what it selects, filled when selected. */
+.multi-selection-checkbox { display: inline-block; box-sizing: border-box; width: 16px; height: 16px; min-width: 16px; max-width: 16px; min-height: 16px; max-height: 16px; align-self: center; flex: 0 0 16px; padding: 0; margin: 2px 4px; border: 2px solid #5a5a5a; border-radius: 2px; background: #fff; cursor: pointer; vertical-align: middle; line-height: 0; }
+.multi-selection-checkbox.is-checked { border-color: var(--accent); background: var(--accent); }
+.minicard-wrapper > .js-toggle-multi-selection { position: relative; z-index: 1; }
+.minicard-checklist { margin-top: 4px; font-size: 12px; }
+.minicard-checklist .checklist-header { display: flex; align-items: center; gap: 4px; }
+.minicard-checklist .checklist-title { margin: 0; font-size: 12px; }
+.minicard-checklist-item { display: flex; align-items: center; gap: 4px; }
+.minicard-checklist-item .materialCheckBox { width: 10px; height: 10px; border: 2px solid #7f7f7f; border-radius: 2px; flex: none; }
+.minicard-checklist-item .materialCheckBox.is-checked { border-color: #3cb500; background: #3cb500; }
+.structural-drag-preview { position: fixed; z-index: 10000; pointer-events: none; background: #fff; border: 1px solid #c1c7d0; border-radius: 3px; padding: 4px 8px; box-shadow: 0 2px 6px rgba(0,0,0,.2); font-size: 12px; }
+.structural-drag-count { font-weight: bold; }
+.structural-drop-target { outline: 2px dashed var(--accent); }
