@@ -70,6 +70,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"archiveSelectedCards":              s.methodArchiveSelectedCards,
 		"/cards/update":                     s.methodCardsUpdate,
 		"/boards/update":                    s.methodBoardsUpdate,
+		"/settings/update":                  s.methodSettingsUpdate,
 		"/checklists/insert":                s.methodInsertChecklist,
 		"_FilesCollectionStart_attachments": s.methodFilesStart,
 		"_FilesCollectionWrite_attachments": s.methodFilesWrite,
