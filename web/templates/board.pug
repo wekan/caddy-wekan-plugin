@@ -258,26 +258,29 @@
             .card-settings-pane-head
               h3.card-settings-pane-title {{.Title}}
             .card-settings-pane-body
-              each sec in .Sections
-                .card-settings-inline-section.js-card-settings-section(data-section="{{.ID}}", class="{{if not .Shown}}is-section-hidden{{end}}")
-                  .card-settings-inline-section-head
-                    span.card-settings-side.card-settings-section-side
-                      a.flex.card-field-order-toggle.card-settings-section-toggle(href="#", class="{{if .Writable}}js-card-settings-section-shown{{else}}is-disabled{{end}} {{if .Shown}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Shown}}true{{else}}false{{end}}", aria-label="{{.Title}}")
-                        .materialCheckBox(class="{{if .Shown}}is-checked{{end}}")
-                    h4.card-settings-inline-section-title
-                      i.fa(class="{{.Icon}}", aria-hidden="true")
-                      |  {{.Title}}
-                    span.card-settings-inline-section-count {{.CheckedCount}}/{{len .Lines}}
-                  .card-settings-inline-items
-                    each line in .Lines
-                      .card-settings-line.card-settings-inline-item.js-card-field-order-row(data-key="{{.Key}}", data-side="{{.Side}}", data-kind="{{.Kind}}", data-field="{{.Field}}", data-scrum="{{.Scrum}}")
-                        span.card-settings-side(class="card-settings-side-{{.Side}}")
-                          a.flex.card-field-order-toggle(href="#", class="{{if .Writable}}js-card-settings-toggle{{else}}is-disabled{{end}} {{if .Checked}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Checked}}true{{else}}false{{end}}", aria-label="{{.Title}}")
-                            .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
-                        span.card-settings-line-label
-                          each icon in .Icons
-                            i.fa(class="{{.}}", aria-hidden="true")
-                          | {{.Title}}
+              .card-settings-inline-sections.js-card-settings-sections-sortable(data-side="{{.Side}}")
+                each sec in .Sections
+                  .card-settings-inline-section.js-card-settings-section(data-section="{{.ID}}", class="{{if not .Shown}}is-section-hidden{{end}}")
+                    .card-settings-inline-section-head
+                      a.card-settings-inline-collapse.js-toggle-card-settings-section(href="#", role="button", aria-expanded="true", title="{{t $.L `collapse`}}", aria-label="{{t $.L `collapse`}}")
+                        i.fa.fa-caret-down(aria-hidden="true")
+                      span.card-settings-side.card-settings-section-side
+                        a.flex.card-field-order-toggle.card-settings-section-toggle(href="#", class="{{if .Writable}}js-card-settings-section-shown{{else}}is-disabled{{end}} {{if .Shown}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Shown}}true{{else}}false{{end}}", aria-label="{{.Title}}")
+                          .materialCheckBox(class="{{if .Shown}}is-checked{{end}}")
+                      h4.card-settings-inline-section-title(class="{{if .Writable}}js-card-settings-section-handle{{end}}")
+                        i.fa(class="{{.Icon}}", aria-hidden="true")
+                        |  {{.Title}}
+                      span.card-settings-inline-section-count {{.CheckedCount}}/{{len .Lines}}
+                    .card-settings-inline-items
+                      each line in .Lines
+                        .card-settings-line.card-settings-inline-item.js-card-field-order-row(data-key="{{.Key}}", data-side="{{.Side}}", data-kind="{{.Kind}}", data-field="{{.Field}}", data-scrum="{{.Scrum}}")
+                          span.card-settings-side(class="card-settings-side-{{.Side}}")
+                            a.flex.card-field-order-toggle(href="#", class="{{if .Writable}}js-card-settings-toggle{{else}}is-disabled{{end}} {{if .Checked}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Checked}}true{{else}}false{{end}}", aria-label="{{.Title}}")
+                              .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
+                          span.card-settings-line-label(class="{{if .Writable}}js-card-field-order-handle{{end}}")
+                            each icon in .Icons
+                              i.fa(class="{{.}}", aria-hidden="true")
+                            | {{.Title}}
   if .CanEdit
     //- WeKan's swimlaneAddPopup: a swimlane below or above the chosen one.
     template.js-pop-over-template(data-pop="add-swimlane", data-title="{{t $.L `swimlaneAddPopup-title`}}")
@@ -1007,509 +1010,44 @@
         if .CanEdit
           a.card-details-menu.js-open-card-details-menu(href="#", title="{{t $.L `cardDetailsActionsPopup-title`}}", aria-label="{{t $.L `cardDetailsActionsPopup-title`}}") ☰
         a.js-close-card-details(href="/b/{{.Board.ID}}/{{.Board.Slug}}", aria-label="{{t $.L `close`}}", up-follow, up-target=".board-wrapper") ×
-      //- Swimlane, Show on Card: the swimlane the card is in.
-      if .CardSides.SwimlaneName
-        .card-details-item.card-details-swimlane-name
-          h3.card-details-item-title
-            i.fa.fa-list-alt
-            |  {{t $.L "swimlane"}}
-          | {{.CardSides.SwimlaneName}}
       a.js-toggle-watch-card(href="/b/{{.Board.ID}}/cards/{{.Card.ID}}/watch", up-method="post", up-target=".board-wrapper", class="{{if .WatchingCard}}is-checked{{end}}") {{if .WatchingCard}}{{t $.L "watching"}} ✓{{else}}{{t $.L "watch"}}{{end}}
-      //- WeKan's scrumMetadata: the card's shown Scrum fields, and their
-        editor for whoever may change the card (scrum.updateCard).
-      if .CardScrum
-        .scrum-metadata
-          each f in .CardScrum
-            div
-              strong {{.Label}}:
-              span {{.Value}}
-          if .CardScrumEditors
-            details
-              summary {{t $.L "edit"}}
-              form.js-scrum-metadata(data-board="{{.Board.ID}}", data-card="{{.Card.ID}}", data-revision="{{.Card.ScrumRevision}}")
-                each e in .CardScrumEditors
-                  label {{.Label}}
-                    if .Options
-                      if .Multiple
-                        select(name="{{.Field}}", multiple)
-                          | {{template "_scrumopts" .Options}}
-                        small.scrum-multiple-help {{t $.L "scrum-releases-select-help"}}
-                      else
-                        select(name="{{.Field}}")
-                          | {{template "_scrumopts" .Options}}
-                    else if .Number
-                      input(type="number", name="{{.Field}}", value="{{.Value}}", min="0", step="any")
-                    else
-                      textarea(name="{{.Field}}") {{.Value}}
-                button.primary(type="submit") {{t $.L "save"}}
+      //- WeKan's one section model (cardDetails.jade): Card Settings' sections
+        in the Card pane's order, each headed with its icon and title, only those
+        this card has something for (card_sections.go).
       .card-details-items
-        .card-details-item.card-details-item-members
-          h3.card-details-item-title {{t $.L "members"}}
-          each mem in .CardMembers
-            span.card-member.js-member(data-user="{{.ID}}") {{.Username}}
-          if $.CanEdit
-            a.card-details-item-add-button.js-add-members(href="#", title="{{t $.L `add-members`}}", aria-label="{{t $.L `add-members`}}") +
-        //- WeKan's card list picker: the card's list, and another of the board.
-        .card-details-item.card-details-item-list
-          h3.card-details-item-title {{t $.L "list"}}
-          if $.CanEdit
-            details.card-details-list-picker
-              summary
-                each li in $.Lists
-                  if eq .ID $.Card.ListID
-                    | {{.Title}}
-              .card-details-list-options(role="listbox", aria-label="{{t $.L `list`}}")
-                each li in $.Lists
-                  form(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/move-to", up-submit, up-target=".board-wrapper")
-                    input(type="hidden", name="boardId", value="{{$.Board.ID}}")
-                    input(type="hidden", name="swimlaneId", value="{{$.Card.SwimlaneID}}")
-                    input(type="hidden", name="listId", value="{{.ID}}")
-                    button.js-select-card-details-list-option(type="submit", role="option", data-list-id="{{.ID}}", aria-selected="{{if eq .ID $.Card.ListID}}true{{else}}false{{end}}") {{.Title}}
-          else
-            each li in $.Lists
-              if eq .ID $.Card.ListID
-                span {{.Title}}
-        //- WeKan's card labels, and the + that opens cardLabelsPopup.
-        .card-details-item.card-details-item-labels
-          h3.card-details-item-title {{t $.L "labels"}}
-          each lb in .CardLabels
-            if .Selected
-              span.card-label(class="card-label-{{.Color}}") {{.Name}}
-          if $.CanEdit
-            a.card-details-item-add-button.js-add-labels(href="#", title="{{t $.L `cardLabelsPopup-title`}}", aria-label="{{t $.L `cardLabelsPopup-title`}}") +
-        //- WeKan's card dates: Received, Start, Due and End, as the board
-          allows them - a badge, or a "+" for whoever may set them.
-        each cd in .CardDates
-          .card-details-item(class="card-details-item-{{.Kind}}")
-            h3.card-details-item-title
-              i.fa(class="{{.Icon}}")
-              |  {{t $.L .Label}}
-            if .Date.Set
-              if $.CanSetDates
-                a.js-edit-date.card-date(href="#", class="{{.Kind}}-date", title="{{t $.L .Label}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/dates/{{.Kind}}", data-date="{{.Date.ISO}}", data-default-time="{{.DefaultTime}}", data-title="{{t $.L .Title}}")
-                  time(datetime="{{.Date.ISO}}") {{.Date.Show $.DateFormat}}
-              else
-                a.card-date(class="{{.Kind}}-date", title="{{t $.L .Label}}")
-                  time(datetime="{{.Date.ISO}}") {{.Date.Show $.DateFormat}}
-            else if $.CanSetDates
-              a.card-label.add-label(href="#", class="js-{{.Kind}}-date", title="{{t $.L .Label}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/dates/{{.Kind}}", data-default-time="{{.DefaultTime}}", data-title="{{t $.L .Title}}")
-                i.fa.fa-plus
-        //- WeKan's cardButtons: the board's card button rules.
-        if .CardButtons
-          .card-details-item.card-details-item-buttons
-            h3.card-details-item-title
-              i.fa.fa-hand-pointer-o
-              |  {{t $.L "r-card-button"}}
-            .card-details-item-content.card-buttons
-              each btn in .CardButtons
-                button.primary.js-run-card-button(type="button", data-rule-id="{{.ID}}")
-                  i.fa.fa-magic
-                  |  {{.Label}}
-        //- WeKan's Requested By and Assigned By: free text, Edit or Add.
-        each p in .People
-          .card-details-item.card-details-item-name(class="card-details-item-{{.Label}}")
-            h3.card-details-item-title
-              i.fa(class="{{.Icon}}")
-              |  {{t $.L .Label}}
-            if .Value
-              .viewer {{.Value}}
-            if .Editable
-              .card-details-person-controls
-                if .Value
-                  a.js-open-inlined-form(href="#", title="{{t $.L `edit`}}", aria-label="{{t $.L `edit`}}")
-                    i.fa.fa-pencil-square-o(aria-hidden="true")
-                else
-                  a.js-open-inlined-form(href="#", title="{{t $.L `add`}}", aria-label="{{t $.L `add`}}")
-                    i.fa.fa-plus(aria-hidden="true")
-              form.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/people", up-submit, up-target=".board-wrapper")
-                input(type="hidden", name="field", value="{{.Field}}")
-                input(type="text", name="value", value="{{.Value}}", aria-label="{{t $.L .Label}}")
-                button.primary(type="submit") {{t $.L "save"}}
-                a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
-      //- WeKan's cardFieldSectionCustomFields: one section, its hamburger the
-        picker of the board's fields (cardCustomFieldsPopup), and each field
-        of the card with its cardCustomField-* editor - fields on the page only
-        while it is open.
-      if .CardFieldsShown
-        .card-details-group.card-details-group-custom-fields
-          //- cardSectionHeader: its caret folds the section; the hamburger and,
-            while open, the layout toggle (one per row, or a grid) beside it.
-          h3.card-details-item-title.js-toggle-card-section(data-section="customFields", role="button", tabindex="0")
-            i.fa.fa-caret-down
-            i.fa.fa-list-alt
-            |  {{t $.L "custom-fields"}}
-            a.card-details-section-menu.js-open-custom-fields-settings(href="#", title="{{t $.L `custom-fields`}}", aria-label="{{t $.L `custom-fields`}}")
-              i.fa.fa-navicon
-            button.custom-fields-layout-toggle#toggleCustomFieldsGridButton.js-section-open-only(type="button", title="{{t $.L `change`}} {{t $.L `custom-fields`}} {{t $.L `layout`}}", aria-label="{{t $.L `change`}} {{t $.L `custom-fields`}} {{t $.L `layout`}}")
-              i.fa.fa-th-large
-          .card-details-group-body(class="{{if .User.Profile.CustomFieldsGrid}}custom-fields-one-per-row{{else}}custom-fields-grid{{end}}")
-            each cf in .CardFields
-              .card-details-item.card-details-item-customfield(data-field="{{.ID}}", data-type="{{.Type}}")
-                h3.card-details-item-title(class="{{if .Editable}}js-edit-card-custom-field-value is-editable{{end}}", role="{{if .Editable}}button{{end}}", tabindex="{{if .Editable}}0{{else}}-1{{end}}", title="{{if .Editable}}{{t $.L `edit`}}{{end}}")
-                  i.fa.fa-list
-                  |  {{.Name}}
-                if eq .Type "date"
-                  a.js-edit-date.js-custom-field-edit-trigger(href="#", title="{{.Title}}", aria-label="{{t $.L `edit`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/custom-fields/{{.ID}}", data-date="{{.Date.ISO}}", data-default-time="now", data-title="{{.Name}}")
-                    if .Set
-                      .card-date
-                        time(datetime="{{.Date.ISO}}") {{.Text}}
-                    else
-                      i.fa.fa-pencil-square-o(aria-hidden="true")
-                else if eq .Type "checkbox"
-                  form.js-card-custom-field-checkbox-toggle(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/custom-fields/{{.ID}}", up-submit, up-target=".board-wrapper")
-                    input(type="hidden", name="value", value="{{if .Checked}}false{{else}}true{{end}}")
-                  .js-card-custom-field-checkbox.js-edit-card-custom-field-value.checklist-item(class="{{if .Checked}}is-checked{{end}}", title="{{t $.L `edit`}}", aria-label="{{t $.L `edit`}}", role="button", tabindex="0")
-                    .check-box-container
-                      .check-box.materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
-                  form.js-inlined-form.is-hidden.js-card-customfield-checkbox-editor(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/custom-fields/{{.ID}}", up-submit, up-target=".board-wrapper")
-                    template.js-inlined-form-body
-                      span.custom-field-copy-control
-                        a.fa.fa-copy.js-copy-custom-field(href="#", title="{{t $.L `copy-text-to-clipboard`}}", data-value="{{if .Checked}}true{{else}}false{{end}}")
-                      //- The box first: ticked, its "true" is the value read; else "false".
-                      label.check-box-container
-                        if .Checked
-                          input.js-card-customfield-checkbox-input(type="checkbox", name="value", value="true", checked)
-                        else
-                          input.js-card-customfield-checkbox-input(type="checkbox", name="value", value="true")
-                        .check-box.materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
-                      input(type="hidden", name="value", value="false")
-                      .edit-controls.clearfix
-                        button.primary(type="submit") {{t $.L "save"}}
-                        a.fa.fa-times-thin.js-close-inlined-form(href="#", title="{{t $.L `close`}}")
-                else if .Editable
-                  a.js-edit-card-custom-field-value(href="#", title="{{t $.L `edit`}}", aria-label="{{t $.L `edit`}}")
-                    if .Set
-                      if eq .Type "text"
-                        | {{viewer .Text $.TextPolicy}}
-                      else
-                        | {{.Text}}
-                    else
-                      i.fa.fa-pencil-square-o(aria-hidden="true")
-                  form.js-inlined-form.is-hidden(class="js-card-customfield-{{.Type}}", method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/custom-fields/{{.ID}}", up-submit, up-target=".board-wrapper")
-                    template.js-inlined-form-body
-                      span.custom-field-copy-control
-                        a.fa.fa-copy.js-copy-custom-field(href="#", title="{{t $.L `copy-text-to-clipboard`}}", data-value="{{.Text}}")
-                      if eq .Type "text"
-                        textarea.editor(name="value", dir="auto", aria-label="{{.Name}}") {{.Edit}}
-                      else if eq .Type "dropdownMultiSelect"
-                        //- cardCustomField-dropdownMultiSelect: the items, any number ticked.
-                        .js-card-customfield-dropdown-multi-select-items
-                          input(type="hidden", name="value", value="")
-                          each it in .Items
-                            label.custom-field-multi-select-item
-                              if .Selected
-                                input(type="checkbox", name="value", value="{{.ID}}", checked)
-                              else
-                                input(type="checkbox", name="value", value="{{.ID}}")
-                              |  {{.Name}}
-                      else if eq .Type "stringtemplate"
-                        //- cardCustomField-stringtemplate: its items, and one more.
-                        each sv in .Strings
-                          input.js-card-customfield-stringtemplate-item(type="text", name="value", value="{{.}}", autocomplete="off")
-                        input.js-card-customfield-stringtemplate-item.last(type="text", name="value", value="", placeholder="{{t $.L `custom-field-stringtemplate-item-placeholder`}}", autocomplete="off")
-                      else if eq .Type "dropdown"
-                        select.inline(name="value", aria-label="{{.Name}}")
-                          option(value="") –
-                          each it in .Items
-                            if .Selected
-                              option(value="{{.ID}}", selected) {{.Name}}
-                            else
-                              option(value="{{.ID}}") {{.Name}}
-                      else if eq .Type "number"
-                        input(type="number", step="any", name="value", value="{{.Edit}}", aria-label="{{.Name}}")
-                      else
-                        input(type="text", name="value", value="{{.Edit}}", aria-label="{{.Name}}", autocomplete="off")
-                      .edit-controls.clearfix
-                        button.primary(type="submit") {{t $.L "save"}}
-                        a.fa.fa-times-thin.js-close-inlined-form(href="#", title="{{t $.L `close`}}")
-                else if .Text
-                  .viewer {{.Text}}
-      if .Vote
-        .card-details-group.card-details-group-vote
-          h3.card-details-item-title.js-toggle-card-section(data-section="vote", role="button", tabindex="0")
-            i.fa.fa-caret-down
-            |  {{t $.L "vote-question"}}
-          .card-details-section(data-section="vote")
-            .vote-result
-              if .Vote.Public
-                a.card-label.card-label-green.js-show-positive-votes {{.Vote.Positive}}
-                a.card-label.card-label-red.js-show-negative-votes {{.Vote.Negative}}
-              else
-                .card-label.card-label-green {{.Vote.Positive}}
-                .card-label.card-label-red {{.Vote.Negative}}
-            .viewer {{.Vote.Question}}
-            if .Vote.CanVote
-              form.js-vote-form(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/vote", up-submit, up-target=".board-wrapper")
-                button.card-details-green.js-vote.js-vote-positive(type="submit", name="vote", value="positive", class="{{if .Vote.For}}voted{{end}}") {{t $.L "vote-for-it"}}
-                button.card-details-red.js-vote.js-vote-negative(type="submit", name="vote", value="negative", class="{{if .Vote.Against}}voted{{end}}") {{t $.L "vote-against"}}
-      if .Poker
-        .card-details-group.card-details-group-poker
-          h3.card-details-item-title.js-toggle-card-section(data-section="poker", role="button", tabindex="0")
-            i.fa.fa-caret-down
-            |  {{t $.L "poker-question"}}
-          .card-details-section(data-section="poker")
-            .viewer {{.Poker.Question}}
-            if .Poker.CanVote
-              form.poker-result(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/poker", up-submit, up-target=".board-wrapper")
-                each pc in .Poker.Cards
-                  .poker-deck
-                    .poker-card
-                      button.inner.js-poker(type="submit", name="state", value="{{.Field}}", class="js-poker-vote-{{.Class}}{{if .Voted}} poker-voted{{end}}") {{.Label}}
-      //- WeKan's cardFieldSectionDescription: the description as markdown; for
-        whoever may change the card but a Worker, the pencil - and the text -
-        open descriptionForm, whose fields are on the page only while open.
-      if .DescriptionShown
-        .card-details-group.card-details-group-description
-          if .DescriptionTitle
-            h3.card-details-item-title
-              i.fa.fa-file-text-o
-              |  {{t $.L "description"}}
-          if .DescriptionText
-            if .CanEditDescription
-              a.js-open-inlined-form(href="#", data-opens="edit-description", title="{{t $.L `edit`}}", aria-label="{{t $.L `edit`}}")
-                i.fa.fa-pencil-square-o(aria-hidden="true")
-              a.js-open-inlined-form.card-description-view(href="#", data-opens="edit-description", title="{{t $.L `edit`}}")
-                if .Card.Description
-                  | {{viewer .Card.Description $.TextPolicy}}
-              form.card-description.js-card-description.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/description", up-submit, up-target=".board-wrapper")
-                template.js-inlined-form-body
-                  .new-description.js-new-description.is-open
-                    textarea.editor.js-new-description-input(name="description", dir="auto", aria-label="{{t $.L `description`}}") {{.Card.Description}}
-                  .edit-controls.clearfix
-                    button.primary(type="submit") {{t $.L "save"}}
-                    a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
-            else if .Card.Description
-              .card-description
-                | {{viewer .Card.Description $.TextPolicy}}
-      //- WeKan's checklists (checklists.jade): each checklist's title, its
-        progress and its items, an item ticked by whoever may check it (a
-        Worker too, #3307); for whoever may change the card, a checklist
-        added - the title line's "+" before there is one, the bottom one
-        after - an item added under its checklist, and the checklist's menu,
-        checklistActionsPopup, with its Export and Delete.
-      if or .Checklists .CanModifyCard
-        .card-checklist-attachmentGallery.card-checklists.js-checklists-section
-          .checklists-title
-            h3.card-details-item-title
-              i.fa.fa-check
-              |  {{t $.L "checklists"}}
-              if and $.CanModifyCard (not .Checklists)
-                a.add-checklist-top.js-open-inlined-form(href="#", data-opens="add-checklist", title="{{t $.L `add-checklist`}}", aria-label="{{t $.L `add-checklist`}}")
-                  i.fa.fa-plus
-          .card-checklist-items
-            each cl in .Checklists
-              .js-checklist.checklist(data-checklist="{{.ID}}")
-                .checklist-title
-                  //- #4755: the checklist's due date - added here, shown below.
-                  if and $.ChecklistDue $.CanModifyCard (not .Due.Set)
-                    button.js-checklist-due-date.checklist-due-date-add(type="button", title="{{t $.L `card-due`}}", aria-label="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/due")
-                      i.fa.fa-clock-o
-                  if $.CanModifyCard
-                    a.fa.fa-navicon.checklist-details-menu.js-open-checklist-details-menu(href="#", data-checklist="{{.ID}}", title="{{t $.L `checklistActionsPopup-title`}}", aria-label="{{t $.L `checklistActionsPopup-title`}}")
-                  if $.CanModifyCard
-                    h4.title.js-open-inlined-form.is-editable(data-opens="edit-checklist-title")
-                      | {{viewer .Title $.TextPolicy}}
-                  else
-                    h4.title
-                      | {{viewer .Title $.TextPolicy}}
-                if $.CanModifyCard
-                  form.js-edit-checklist-title.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/title", up-submit, up-target=".board-wrapper")
-                    //- Its fields are on the page only while it is open (WeKan's inlinedForm).
-                    template.js-inlined-form-body
-                      textarea.js-edit-checklist-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `checklist`}}", required) {{.Title}}
-                      .edit-controls.clearfix
-                        button.primary.confirm.js-submit-edit-checklist-item-form(type="submit") {{t $.L "save"}}
-                        a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
-                if and $.ChecklistDue .Due.Set
-                  if $.CanModifyCard
-                    a.js-edit-date.card-date.due-date.checklist-due-date(href="#", title="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/due", data-date="{{.Due.ISO}}")
-                      time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
-                  else
-                    a.card-date.due-date.checklist-due-date(title="{{t $.L `card-due`}}")
-                      time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
-                if .Percent
-                  .checklist-progress-bar-container
-                    .checklist-progress-text {{.Percent}}%
-                    .checklist-progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="{{.Percent}}", aria-label="{{.Title}}")
-                      .checklist-progress(style="width:{{.Percent}}%")
-                .checklist-items.js-checklist-items(data-sort-url="{{if $.CanModifyCard}}/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items/sort{{end}}", data-handles="{{if $.User.Profile.ShowDesktopDragHandles}}true{{end}}")
-                  each it in .Items
-                    .js-checklist-item.checklist-item(data-item="{{.ID}}", class="{{if .Finished}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Finished}}true{{else}}false{{end}}", aria-readonly="{{if $.CanCheckItems}}false{{else}}true{{end}}", tabindex="{{if $.CanCheckItems}}0{{else}}-1{{end}}")
-                      if $.CanEdit
-                        button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="item", data-id="{{.ID}}")
-                      if $.CanCheckItems
-                        form.check-box-container.js-toggle-checklist-item(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/toggle", up-submit, up-target=".board-wrapper")
-                          button.check-box.materialCheckBox(type="submit", class="{{if .Finished}}is-checked{{end}}", aria-label="{{.Title}}")
-                      else
-                        .check-box-container
-                          .check-box.materialCheckBox(class="{{if .Finished}}is-checked{{end}}")
-                      if $.CanModifyCard
-                        if $.User.Profile.ShowDesktopDragHandles
-                          span.fa.fa-arrows.checklistitem-handle(title="{{t $.L `move-scope`}}")
-                        .item-title.js-open-inlined-form.is-editable(data-opens="edit-checklist-item", class="{{if .Finished}}is-checked{{end}}")
-                          | {{viewer .Title $.TextPolicy}}
-                        form.js-edit-checklist-item.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/title", up-submit, up-target=".board-wrapper")
-                          //- Its fields are on the page only while it is open (WeKan's inlinedForm).
-                          template.js-inlined-form-body
-                            textarea.js-edit-checklist-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `add-checklist-item`}}", required) {{.Title}}
-                            .edit-controls.clearfix
-                              button.primary.confirm.js-submit-edit-checklist-item-form(type="submit") {{t $.L "save"}}
-                              a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
-                              a.js-delete-checklist-item(href="#", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/delete") {{t $.L "delete"}}...
-                      else
-                        .item-title(class="{{if .Finished}}is-checked{{end}}")
-                          | {{viewer .Title $.TextPolicy}}
-                      //- #4755: the item's due date.
-                      if $.ChecklistDue
-                        if .Due.Set
-                          if $.CanModifyCard
-                            a.js-edit-date.card-date.due-date.checklist-item-due-date(href="#", title="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/due", data-date="{{.Due.ISO}}")
-                              time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
-                          else
-                            a.card-date.due-date.checklist-item-due-date(title="{{t $.L `card-due`}}")
-                              time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
-                        else if $.CanModifyCard
-                          a.checklist-item-due-date-add.js-checklist-item-due-date(href="#", title="{{t $.L `card-due`}}", aria-label="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/due")
-                            i.fa.fa-clock-o
-                      //- #1618: who is responsible for this item.
-                      if $.CanModifyCard
-                        a.checklist-item-assignee.js-checklist-item-assignee(href="#", title="{{t $.L `checklist-item-assignee`}}", aria-label="{{t $.L `checklist-item-assignee`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/assignee", data-assignee="{{.AssigneeID}}")
-                          if .AssigneeID
-                            span.member.js-checklist-item-assignee-name(title="{{.AssigneeName}}") {{.AssigneeName}}
-                          else
-                            i.fa.fa-user-plus
-                      else
-                        if .AssigneeID
-                          span.checklist-item-assignee
-                            span.member(title="{{.AssigneeName}}") {{.AssigneeName}}
-                if $.CanModifyCard
-                  a.add-checklist-item.js-open-inlined-form(href="#", data-opens="add-checklist-item", title="{{t $.L `add-checklist-item`}}", aria-label="{{t $.L `add-checklist-item`}}")
-                    i.fa.fa-plus
-                  form.js-add-checklist-item.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items", up-submit, up-target=".board-wrapper")
-                    //- Its fields are on the page only while it is open (WeKan's inlinedForm).
-                    template.js-inlined-form-body
-                      textarea.js-add-checklist-item(name="title", rows="1", aria-label="{{t $.L `add-checklist-item`}}", required)
-                      .edit-controls.clearfix
-                        button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
-                        a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
-          if .CanModifyCard
-            .checklists-bottom-actions
-              if .Checklists
-                a.add-checklist.js-open-inlined-form(href="#", data-opens="add-checklist", title="{{t $.L `add-checklist`}}", aria-label="{{t $.L `add-checklist`}}")
-                  i.fa.fa-plus
-              form.js-add-checklist.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/checklists", up-submit, up-target=".board-wrapper")
-                //- Its fields are on the page only while it is open (WeKan's inlinedForm).
-                template.js-inlined-form-body
-                  textarea.js-add-checklist-item(name="title", rows="1", aria-label="{{t $.L `add-checklist`}}", required)
-                  .edit-controls.clearfix
-                    button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
-                    a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
-      //- WeKan's subtasks.jade: the card's subtasks, each linking its card,
-        and for whoever may change the card "Add Subtask" - a title and
-        whether it takes the card's labels (#2184).
-      .card-details-item.card-details-subtasks
-        h3.card-details-item-title
-          i.fa.fa-sitemap
-          |  {{t $.L "subtasks"}}
-          if .SubtaskCount
-            span.card-details-item-count  ({{.SubtaskCount}})
-        .card-subtasks-items
-          each st in .Subtasks
-            .js-subtasks.subtask(class="{{if .Archived}}is-completed{{end}}")
-              .subtask-title(class="{{if .Done}}is-done{{end}}")
-                //- #4693: ticked done right here, by whoever may edit that
-                  subtask; the server checks the same again.
-                if .CanTick
-                  a.subtask-done-toggle.js-toggle-subtask-done(href="#", role="checkbox", aria-checked="{{if .Done}}true{{else}}false{{end}}", data-parent="{{$.Card.ID}}", data-subtask="{{.ID}}", title="{{if .Done}}{{t $.L `subtask-mark-not-done`}}{{else}}{{t $.L `subtask-mark-done`}}{{end}}")
-                    .materialCheckBox(class="{{if .Done}}is-checked{{end}}")
-                else
-                  span.subtask-done-toggle.is-disabled(role="checkbox", aria-checked="{{if .Done}}true{{else}}false{{end}}", aria-disabled="true", title="{{if .Archived}}{{t $.L `completed`}}{{else}}{{t $.L `subtask-done-no-permission`}}{{end}}")
-                    .materialCheckBox(class="{{if .Done}}is-checked{{end}}")
-                if .Archived
-                  i.fa.fa-check-circle.subtask-completed-icon(title="{{t $.L `completed`}}")
-                h2.title
-                  a(href="/b/{{.BoardID}}/x/{{.ID}}", up-follow) {{.Title}}
-        if .CanModifyCard
-          a.js-open-inlined-form(href="#", data-opens="add-subtask", title="{{t $.L `add-subtask`}}", aria-label="{{t $.L `add-subtask`}}")
-            i.fa.fa-plus
-          form.js-add-subtask.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/subtasks", up-submit, up-target=".board-wrapper")
-            template.js-inlined-form-body
-              textarea.js-add-subtask-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `add-subtask`}}", required)
-              label.subtask-inherit-labels
-                input.js-add-subtask-inherit-labels(type="checkbox", name="inheritLabels")
-                |  {{t $.L "subtask-inherit-parent-labels"}}
-              .edit-controls.clearfix
-                button.primary.confirm(type="submit") {{t $.L "save"}}
-                a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
-      //- WeKan's attachmentGallery: a "+" opening cardAttachmentsPopup for
-        whoever may change the card, and each attachment as a tile - its
-        thumbnail or its extension, which opens attachmentViewer - with its
-        name, size and actions.
-      .card-checklist-attachmentGallery.card-attachmentGallery
-        h3.card-details-item-title.js-toggle-card-section(data-section="attachments", role="button", tabindex="0")
-          i.fa.fa-caret-down
-          i.fa.fa-paperclip
-          |  {{t $.L "attachments"}}
-        .attachment-gallery.attachments.js-attachments
-          if .CanAddAttachment
-            a.card-label.add-label.add-attachment.js-add-attachment(href="#", title="{{t $.L `add-attachment`}}", aria-label="{{t $.L `add-attachment`}}")
-              i.fa.fa-plus
-          each a in .Attachments
-            .attachment-item.js-attachment(data-attachment="{{.ID}}")
-              button.attachment-thumbnail-container.open-preview(type="button", aria-label="{{t $.L `preview`}}: {{.Name}}", data-attachment-id="{{.ID}}", data-kind="{{.PreviewKind}}", data-name="{{.Name}}", data-src="/cdn/storage/attachments/{{.ID}}/original/{{.Name}}")
-                //- WeKan's #3275: the gallery shows an image's thumbnail, not the original.
-                if .Thumbnail
-                  img.attachment-thumbnail(src="/cdn/storage/attachments/{{.ID}}/thumbnail", alt="{{.Name}}", title="{{.Name}}", loading="lazy")
-                else if eq .Ext "svg"
-                  img.attachment-thumbnail(src="/cdn/storage/attachments/{{.ID}}", alt="{{.Name}}", title="{{.Name}}", type="image/svg+xml")
-                else
-                  span.attachment-thumbnail-text {{.Ext}}
-              .attachment-details-container
-                .attachment-details
-                  div
-                    b.attachment-name {{.Name}}
-                    |  
-                    span.file-size ({{.SizeText}})
-                  .attachment-actions
-                    a.js-download(href="/cdn/storage/attachments/{{.ID}}/original/{{.Name}}?download=true", download="{{.Name}}", title="{{t $.L `download`}}", aria-label="{{t $.L `download`}}")
-                      i.fa.fa-arrow-down
-                    if $.CanAddAttachment
-                      form.js-attachment-delete(method="post", action="/attachments/{{.ID}}/delete", up-submit, up-target=".board-wrapper")
-                        button.js-confirm-delete(type="submit", title="{{t $.L `delete`}}", aria-label="{{t $.L `delete`}}")
-                          i.fa.fa-trash
-                      if eq .PreviewKind "image"
-                        a.js-open-attachment-menu(href="#", data-attachment="{{.ID}}", title="{{t $.L `attachmentActionsPopup-title`}}", aria-label="{{t $.L `attachmentActionsPopup-title`}}")
-                          i.fa.fa-bars
-                        //- WeKan's attachmentActionsPopup: the card's cover, and
-                          the board's background for a board admin.
-                        template.js-pop-over-template(data-pop="attachment-actions-{{.ID}}", data-title="{{t $.L `attachmentActionsPopup-title`}}")
-                          ul.pop-over-list
-                            li
-                              form(method="post", action="/attachments/{{.ID}}/cover", up-submit, up-target=".board-wrapper")
-                                if eq .ID $.Card.CoverID
-                                  button.js-remove-cover(type="submit") {{t $.L "remove-cover"}}
-                                else
-                                  button.js-add-cover(type="submit") {{t $.L "add-cover"}}
-                            if $.IsBoardAdmin
-                              li
-                                form(method="post", action="/attachments/{{.ID}}/background", up-submit, up-target=".board-wrapper")
-                                  if eq (attachmentURL .ID) $.Board.BackgroundImageURL
-                                    button.js-remove-background-image(type="submit") {{t $.L "remove-background-image"}}
-                                  else
-                                    button.js-add-background-image(type="submit") {{t $.L "add-background-image"}}
-      h3.card-details-item-title {{t $.L "comments"}}
-      .comments
-        if .CanComment
-          .new-comment.js-new-comment
-            form.js-new-comment-form(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/comments", up-submit, up-target=".board-wrapper")
-              textarea.editor.js-new-comment-input(name="comment", aria-label="{{t $.L `comment`}}", required)
-              button.primary.confirm.js-add-comment(type="submit") {{t $.L "comment"}}
-        each cm in .Comments
-          .comment(data-id="{{.ID}}")
-            span.comment-member {{.User}}
-            .comment-text
-              .viewer {{.Text}}
-            time.activity-time(datetime="{{.ISO}}") {{.Display}}
+        each sec in .CardSections
+          .card-details-section(data-card-section="{{.ID}}", class="card-details-section-{{.ID}}")
+            if .Header
+              h3.card-details-item-title.js-toggle-card-section(data-section="{{.ID}}", role="button", tabindex="0")
+                i.fa(class="{{.Icon}}", aria-hidden="true")
+                |  {{.Title}}
+            .card-details-section-body
+              if eq .ID "labels"
+                | {{template "_cardsec_labels" $}}
+              else if eq .ID "date"
+                | {{template "_cardsec_date" $}}
+              else if eq .ID "members"
+                | {{template "_cardsec_members" $}}
+              else if eq .ID "card"
+                | {{template "_cardsec_card" $}}
+              else if eq .ID "customFields"
+                | {{template "_cardsec_customFields" $}}
+              else if eq .ID "vote"
+                | {{template "_cardsec_vote" $}}
+              else if eq .ID "poker"
+                | {{template "_cardsec_poker" $}}
+              else if eq .ID "description"
+                | {{template "_cardsec_description" $}}
+              else if eq .ID "scrum"
+                | {{template "_cardsec_scrum" $}}
+              else if eq .ID "checklists"
+                | {{template "_cardsec_checklists" $}}
+              else if eq .ID "subtasks"
+                | {{template "_cardsec_subtasks" $}}
+              else if eq .ID "attachments"
+                | {{template "_cardsec_attachments" $}}
+              else if eq .ID "comments"
+                | {{template "_cardsec_comments" $}}
       h3.card-details-item-title.js-toggle-card-section(data-section="activities", role="button", tabindex="0")
         i.fa.fa-caret-right
         |  {{t $.L "activities"}}

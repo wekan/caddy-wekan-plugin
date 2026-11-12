@@ -304,6 +304,65 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       reloadBoard(true);
     }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
   });
+  // A section of Card Settings folds by its caret, for this pop-over.
+  up.on('click', '.js-toggle-card-settings-section', function (event, el) {
+    event.preventDefault();
+    var open = el.getAttribute('aria-expanded') !== 'true';
+    el.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var i = el.querySelector('.fa');
+    if (i) { i.classList.toggle('fa-caret-down', open); i.classList.toggle('fa-caret-right', !open); }
+    var items = el.closest('.js-card-settings-section').querySelector('.card-settings-inline-items');
+    if (items) items.hidden = !open;
+  });
+  // Sections and rows of Card Settings dragged above or below one another, as
+  // WeKan's: a section by its title, a row by its name; dropped on the upper
+  // half of another it goes before it, on the lower half after. The new order
+  // is the board's: a side's section order (setCardSettingsSectionOrder), or
+  // the card's field order (setCardFieldOrder), each normalised by the server.
+  var csDrag = null;
+  document.addEventListener('pointerdown', function (event) {
+    if (event.button !== 0) return;
+    var handle = event.target.closest && event.target.closest('.js-pop-over .js-card-settings-section-handle, .js-pop-over .js-card-field-order-handle');
+    if (!handle) return;
+    var row = handle.classList.contains('js-card-field-order-handle');
+    var item = row ? handle.closest('.js-card-field-order-row') : handle.closest('.js-card-settings-section');
+    var pane = handle.closest('.js-card-settings-pane');
+    // The minicard's own field order is not one Weddy writes yet.
+    if (!item || !pane || (row && pane.dataset.side !== 'card')) return;
+    csDrag = { item: item, row: row, pane: pane, y: event.clientY, moved: false };
+    event.preventDefault();
+  }, true);
+  document.addEventListener('pointermove', function (event) {
+    if (!csDrag) return;
+    if (!csDrag.moved && Math.abs(event.clientY - csDrag.y) > 4) {
+      csDrag.moved = true;
+      csDrag.item.classList.add('is-dragging');
+    }
+  }, true);
+  document.addEventListener('pointerup', function (event) {
+    var d = csDrag;
+    csDrag = null;
+    if (!d || !d.moved) return;
+    d.item.classList.remove('is-dragging');
+    var under = document.elementFromPoint(event.clientX, event.clientY);
+    var sel = d.row ? '.js-card-field-order-row' : '.js-card-settings-section';
+    var target = under && under.closest(sel);
+    if (!target || target === d.item || !d.pane.contains(target)) return;
+    // A row stays in its own section, as WeKan's.
+    if (d.row && target.parentNode !== d.item.parentNode) return;
+    var r = target.getBoundingClientRect();
+    target.parentNode.insertBefore(d.item, event.clientY < r.top + r.height / 2 ? target : target.nextSibling);
+    var set = {};
+    if (d.row) {
+      set.cardFieldOrder = Array.prototype.map.call(d.pane.querySelectorAll('.js-card-field-order-row'), function (el) { return el.dataset.key; });
+    } else {
+      set[d.pane.dataset.side === 'minicard' ? 'minicardSettingsSectionOrder' : 'cardSettingsSectionOrder'] =
+        Array.prototype.map.call(d.pane.querySelectorAll('.js-card-settings-sections-sortable > .js-card-settings-section'), function (el) { return el.dataset.section; });
+    }
+    window.Meteor.callAsync('/boards/update', { _id: d.pane.dataset.board }, { $set: set }).then(function () {
+      reloadBoard(true);
+    }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
+  }, true);
   // A section's checkbox: the whole section shown on that side or not.
   up.on('click', '.js-card-settings-section-shown', function (event, box) {
     event.preventDefault();

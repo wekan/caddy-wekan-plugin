@@ -1,0 +1,39 @@
+//- The opened card's card section (card_sections.go), called with the page's data.
+//- WeKan's card list picker: the card's list, and another of the board.
+.card-details-item.card-details-item-list
+  h3.card-details-item-title {{t $.L "list"}}
+  if $.CanEdit
+    details.card-details-list-picker
+      summary
+        each li in $.Lists
+          if eq .ID $.Card.ListID
+            | {{.Title}}
+      .card-details-list-options(role="listbox", aria-label="{{t $.L `list`}}")
+        each li in $.Lists
+          form(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/move-to", up-submit, up-target=".board-wrapper")
+            input(type="hidden", name="boardId", value="{{$.Board.ID}}")
+            input(type="hidden", name="swimlaneId", value="{{$.Card.SwimlaneID}}")
+            input(type="hidden", name="listId", value="{{.ID}}")
+            button.js-select-card-details-list-option(type="submit", role="option", data-list-id="{{.ID}}", aria-selected="{{if eq .ID $.Card.ListID}}true{{else}}false{{end}}") {{.Title}}
+  else
+    each li in $.Lists
+      if eq .ID $.Card.ListID
+        span {{.Title}}
+//- WeKan's cardButtons: the board's card button rules.
+if .CardButtons
+  .card-details-item.card-details-item-buttons
+    h3.card-details-item-title
+      i.fa.fa-hand-pointer-o
+      |  {{t $.L "r-card-button"}}
+    .card-details-item-content.card-buttons
+      each btn in .CardButtons
+        button.primary.js-run-card-button(type="button", data-rule-id="{{.ID}}")
+          i.fa.fa-magic
+          |  {{.Label}}
+//- Swimlane, Show on Card: the swimlane the card is in.
+if .CardSides.SwimlaneName
+  .card-details-item.card-details-swimlane-name
+    h3.card-details-item-title
+      i.fa.fa-list-alt
+      |  {{t $.L "swimlane"}}
+    | {{.CardSides.SwimlaneName}}

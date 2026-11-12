@@ -1,0 +1,124 @@
+//- The opened card's checklists section (card_sections.go), called with the page's data.
+//- WeKan's checklists (checklists.jade): each checklist's title, its
+  progress and its items, an item ticked by whoever may check it (a
+  Worker too, #3307); for whoever may change the card, a checklist
+  added - the title line's "+" before there is one, the bottom one
+  after - an item added under its checklist, and the checklist's menu,
+  checklistActionsPopup, with its Export and Delete.
+if or .Checklists .CanModifyCard
+  .card-checklist-attachmentGallery.card-checklists.js-checklists-section
+    .checklists-title
+      h3.card-details-item-title
+        i.fa.fa-check
+        |  {{t $.L "checklists"}}
+        if and $.CanModifyCard (not .Checklists)
+          a.add-checklist-top.js-open-inlined-form(href="#", data-opens="add-checklist", title="{{t $.L `add-checklist`}}", aria-label="{{t $.L `add-checklist`}}")
+            i.fa.fa-plus
+    .card-checklist-items
+      each cl in .Checklists
+        .js-checklist.checklist(data-checklist="{{.ID}}")
+          .checklist-title
+            //- #4755: the checklist's due date - added here, shown below.
+            if and $.ChecklistDue $.CanModifyCard (not .Due.Set)
+              button.js-checklist-due-date.checklist-due-date-add(type="button", title="{{t $.L `card-due`}}", aria-label="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/due")
+                i.fa.fa-clock-o
+            if $.CanModifyCard
+              a.fa.fa-navicon.checklist-details-menu.js-open-checklist-details-menu(href="#", data-checklist="{{.ID}}", title="{{t $.L `checklistActionsPopup-title`}}", aria-label="{{t $.L `checklistActionsPopup-title`}}")
+            if $.CanModifyCard
+              h4.title.js-open-inlined-form.is-editable(data-opens="edit-checklist-title")
+                | {{viewer .Title $.TextPolicy}}
+            else
+              h4.title
+                | {{viewer .Title $.TextPolicy}}
+          if $.CanModifyCard
+            form.js-edit-checklist-title.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/title", up-submit, up-target=".board-wrapper")
+              //- Its fields are on the page only while it is open (WeKan's inlinedForm).
+              template.js-inlined-form-body
+                textarea.js-edit-checklist-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `checklist`}}", required) {{.Title}}
+                .edit-controls.clearfix
+                  button.primary.confirm.js-submit-edit-checklist-item-form(type="submit") {{t $.L "save"}}
+                  a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+          if and $.ChecklistDue .Due.Set
+            if $.CanModifyCard
+              a.js-edit-date.card-date.due-date.checklist-due-date(href="#", title="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/due", data-date="{{.Due.ISO}}")
+                time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
+            else
+              a.card-date.due-date.checklist-due-date(title="{{t $.L `card-due`}}")
+                time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
+          if .Percent
+            .checklist-progress-bar-container
+              .checklist-progress-text {{.Percent}}%
+              .checklist-progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="{{.Percent}}", aria-label="{{.Title}}")
+                .checklist-progress(style="width:{{.Percent}}%")
+          .checklist-items.js-checklist-items(data-sort-url="{{if $.CanModifyCard}}/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items/sort{{end}}", data-handles="{{if $.User.Profile.ShowDesktopDragHandles}}true{{end}}")
+            each it in .Items
+              .js-checklist-item.checklist-item(data-item="{{.ID}}", class="{{if .Finished}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Finished}}true{{else}}false{{end}}", aria-readonly="{{if $.CanCheckItems}}false{{else}}true{{end}}", tabindex="{{if $.CanCheckItems}}0{{else}}-1{{end}}")
+                if $.CanEdit
+                  button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="item", data-id="{{.ID}}")
+                if $.CanCheckItems
+                  form.check-box-container.js-toggle-checklist-item(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/toggle", up-submit, up-target=".board-wrapper")
+                    button.check-box.materialCheckBox(type="submit", class="{{if .Finished}}is-checked{{end}}", aria-label="{{.Title}}")
+                else
+                  .check-box-container
+                    .check-box.materialCheckBox(class="{{if .Finished}}is-checked{{end}}")
+                if $.CanModifyCard
+                  if $.User.Profile.ShowDesktopDragHandles
+                    span.fa.fa-arrows.checklistitem-handle(title="{{t $.L `move-scope`}}")
+                  .item-title.js-open-inlined-form.is-editable(data-opens="edit-checklist-item", class="{{if .Finished}}is-checked{{end}}")
+                    | {{viewer .Title $.TextPolicy}}
+                  form.js-edit-checklist-item.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/title", up-submit, up-target=".board-wrapper")
+                    //- Its fields are on the page only while it is open (WeKan's inlinedForm).
+                    template.js-inlined-form-body
+                      textarea.js-edit-checklist-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `add-checklist-item`}}", required) {{.Title}}
+                      .edit-controls.clearfix
+                        button.primary.confirm.js-submit-edit-checklist-item-form(type="submit") {{t $.L "save"}}
+                        a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+                        a.js-delete-checklist-item(href="#", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/delete") {{t $.L "delete"}}...
+                else
+                  .item-title(class="{{if .Finished}}is-checked{{end}}")
+                    | {{viewer .Title $.TextPolicy}}
+                //- #4755: the item's due date.
+                if $.ChecklistDue
+                  if .Due.Set
+                    if $.CanModifyCard
+                      a.js-edit-date.card-date.due-date.checklist-item-due-date(href="#", title="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/due", data-date="{{.Due.ISO}}")
+                        time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
+                    else
+                      a.card-date.due-date.checklist-item-due-date(title="{{t $.L `card-due`}}")
+                        time(datetime="{{.Due.ISO}}") {{.Due.Show $.DateFormat}}
+                  else if $.CanModifyCard
+                    a.checklist-item-due-date-add.js-checklist-item-due-date(href="#", title="{{t $.L `card-due`}}", aria-label="{{t $.L `card-due`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/due")
+                      i.fa.fa-clock-o
+                //- #1618: who is responsible for this item.
+                if $.CanModifyCard
+                  a.checklist-item-assignee.js-checklist-item-assignee(href="#", title="{{t $.L `checklist-item-assignee`}}", aria-label="{{t $.L `checklist-item-assignee`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ChecklistID}}/items/{{.ID}}/assignee", data-assignee="{{.AssigneeID}}")
+                    if .AssigneeID
+                      span.member.js-checklist-item-assignee-name(title="{{.AssigneeName}}") {{.AssigneeName}}
+                    else
+                      i.fa.fa-user-plus
+                else
+                  if .AssigneeID
+                    span.checklist-item-assignee
+                      span.member(title="{{.AssigneeName}}") {{.AssigneeName}}
+          if $.CanModifyCard
+            a.add-checklist-item.js-open-inlined-form(href="#", data-opens="add-checklist-item", title="{{t $.L `add-checklist-item`}}", aria-label="{{t $.L `add-checklist-item`}}")
+              i.fa.fa-plus
+            form.js-add-checklist-item.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items", up-submit, up-target=".board-wrapper")
+              //- Its fields are on the page only while it is open (WeKan's inlinedForm).
+              template.js-inlined-form-body
+                textarea.js-add-checklist-item(name="title", rows="1", aria-label="{{t $.L `add-checklist-item`}}", required)
+                .edit-controls.clearfix
+                  button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
+                  a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×
+    if .CanModifyCard
+      .checklists-bottom-actions
+        if .Checklists
+          a.add-checklist.js-open-inlined-form(href="#", data-opens="add-checklist", title="{{t $.L `add-checklist`}}", aria-label="{{t $.L `add-checklist`}}")
+            i.fa.fa-plus
+        form.js-add-checklist.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/checklists", up-submit, up-target=".board-wrapper")
+          //- Its fields are on the page only while it is open (WeKan's inlinedForm).
+          template.js-inlined-form-body
+            textarea.js-add-checklist-item(name="title", rows="1", aria-label="{{t $.L `add-checklist`}}", required)
+            .edit-controls.clearfix
+              button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{t $.L "save"}}
+              a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×

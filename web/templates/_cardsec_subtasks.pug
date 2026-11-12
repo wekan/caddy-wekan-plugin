@@ -1,0 +1,38 @@
+//- The opened card's subtasks section (card_sections.go), called with the page's data.
+//- WeKan's subtasks.jade: the card's subtasks, each linking its card,
+  and for whoever may change the card "Add Subtask" - a title and
+  whether it takes the card's labels (#2184).
+.card-details-item.card-details-subtasks
+  h3.card-details-item-title
+    i.fa.fa-sitemap
+    |  {{t $.L "subtasks"}}
+    if .SubtaskCount
+      span.card-details-item-count  ({{.SubtaskCount}})
+  .card-subtasks-items
+    each st in .Subtasks
+      .js-subtasks.subtask(class="{{if .Archived}}is-completed{{end}}")
+        .subtask-title(class="{{if .Done}}is-done{{end}}")
+          //- #4693: ticked done right here, by whoever may edit that
+            subtask; the server checks the same again.
+          if .CanTick
+            a.subtask-done-toggle.js-toggle-subtask-done(href="#", role="checkbox", aria-checked="{{if .Done}}true{{else}}false{{end}}", data-parent="{{$.Card.ID}}", data-subtask="{{.ID}}", title="{{if .Done}}{{t $.L `subtask-mark-not-done`}}{{else}}{{t $.L `subtask-mark-done`}}{{end}}")
+              .materialCheckBox(class="{{if .Done}}is-checked{{end}}")
+          else
+            span.subtask-done-toggle.is-disabled(role="checkbox", aria-checked="{{if .Done}}true{{else}}false{{end}}", aria-disabled="true", title="{{if .Archived}}{{t $.L `completed`}}{{else}}{{t $.L `subtask-done-no-permission`}}{{end}}")
+              .materialCheckBox(class="{{if .Done}}is-checked{{end}}")
+          if .Archived
+            i.fa.fa-check-circle.subtask-completed-icon(title="{{t $.L `completed`}}")
+          h2.title
+            a(href="/b/{{.BoardID}}/x/{{.ID}}", up-follow) {{.Title}}
+  if .CanModifyCard
+    a.js-open-inlined-form(href="#", data-opens="add-subtask", title="{{t $.L `add-subtask`}}", aria-label="{{t $.L `add-subtask`}}")
+      i.fa.fa-plus
+    form.js-add-subtask.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/subtasks", up-submit, up-target=".board-wrapper")
+      template.js-inlined-form-body
+        textarea.js-add-subtask-item(name="title", rows="1", dir="auto", aria-label="{{t $.L `add-subtask`}}", required)
+        label.subtask-inherit-labels
+          input.js-add-subtask-inherit-labels(type="checkbox", name="inheritLabels")
+          |  {{t $.L "subtask-inherit-parent-labels"}}
+        .edit-controls.clearfix
+          button.primary.confirm(type="submit") {{t $.L "save"}}
+          a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×

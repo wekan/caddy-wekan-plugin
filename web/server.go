@@ -947,7 +947,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			var rawCard, rawBoard bson.M
 			_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(c.ID)}).Decode(&rawCard)
 			_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&rawBoard)
-			data["CardDates"] = s.cardDates(r.Context(), b.ID, rawCard)
+			data["CardDates"] = orderCardDates(s.cardDates(r.Context(), b.ID, rawCard), rawBoard)
 			data["CanSetDates"] = s.canSetCardDates(r.Context(), b, u, &c)
 			// cardFieldSectionDescription: shown to an editor always, to anyone
 			// else when there is a description; its title and text as the
@@ -978,6 +978,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["LabelPalette"] = labelPalette
 			data["WatchingCard"] = slices.Contains(s.cardWatchers(r.Context(), c.ID), u.ID)
 			data["CanComment"] = s.canCommentIn(r.Context(), b, u, &c)
+			data["CardSections"] = cardSectionsOf(data, rawBoard, lang)
 		}
 	}
 	s.render(w, r, "board", http.StatusOK, data)

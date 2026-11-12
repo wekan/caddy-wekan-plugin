@@ -722,3 +722,9 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .card-details-paleturquoise { background: #afeeee !important; color: #000 !important; }
 .card-details-mistyrose { background: #ffe4e1 !important; color: #000 !important; }
 .card-details-indigo { background: #4b0082 !important; color: #fff !important; }
+/* Card Settings' drags: a section by its title, a row by its name. */
+.js-card-settings-section-handle, .js-card-field-order-handle { cursor: grab; user-select: none; touch-action: none; }
+.js-card-settings-section.is-dragging, .js-card-field-order-row.is-dragging { opacity: 0.5; }
+.card-settings-inline-collapse { color: inherit; width: 1rem; text-align: center; }
+/* The opened card's sections (WeKan's one section model). */
+.card-details-section > .card-details-item-title.js-toggle-card-section .fa { margin-inline-end: 0.3rem; }

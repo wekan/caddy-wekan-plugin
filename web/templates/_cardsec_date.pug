@@ -1,0 +1,18 @@
+//- The opened card's date section (card_sections.go), called with the page's data.
+//- WeKan's card dates: Received, Start, Due and End, as the board
+  allows them - a badge, or a "+" for whoever may set them.
+each cd in .CardDates
+  .card-details-item(class="card-details-item-{{.Kind}}")
+    h3.card-details-item-title
+      i.fa(class="{{.Icon}}")
+      |  {{t $.L .Label}}
+    if .Date.Set
+      if $.CanSetDates
+        a.js-edit-date.card-date(href="#", class="{{.Kind}}-date", title="{{t $.L .Label}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/dates/{{.Kind}}", data-date="{{.Date.ISO}}", data-default-time="{{.DefaultTime}}", data-title="{{t $.L .Title}}")
+          time(datetime="{{.Date.ISO}}") {{.Date.Show $.DateFormat}}
+      else
+        a.card-date(class="{{.Kind}}-date", title="{{t $.L .Label}}")
+          time(datetime="{{.Date.ISO}}") {{.Date.Show $.DateFormat}}
+    else if $.CanSetDates
+      a.card-label.add-label(href="#", class="js-{{.Kind}}-date", title="{{t $.L .Label}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/dates/{{.Kind}}", data-default-time="{{.DefaultTime}}", data-title="{{t $.L .Title}}")
+        i.fa.fa-plus

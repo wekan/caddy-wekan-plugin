@@ -1,0 +1,14 @@
+//- The opened card's poker section (card_sections.go), called with the page's data.
+if .Poker
+  .card-details-group.card-details-group-poker
+    h3.card-details-item-title.js-toggle-card-section(data-section="poker", role="button", tabindex="0")
+      i.fa.fa-caret-down
+      |  {{t $.L "poker-question"}}
+    .card-details-section(data-section="poker")
+      .viewer {{.Poker.Question}}
+      if .Poker.CanVote
+        form.poker-result(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/poker", up-submit, up-target=".board-wrapper")
+          each pc in .Poker.Cards
+            .poker-deck
+              .poker-card
+                button.inner.js-poker(type="submit", name="state", value="{{.Field}}", class="js-poker-vote-{{.Class}}{{if .Voted}} poker-voted{{end}}") {{.Label}}

@@ -106,33 +106,72 @@ func cardSettingsSectionIDs() []string {
 	return ids
 }
 
-// cardSettingsBoardWrite says whether a /boards/update $set is Card
-// Settings' own: every path a row's boolean board field, or a side's hidden
-// sections as a list of known section ids.
-func cardSettingsBoardWrite(set map[string]any) bool {
+// cardSettingsBoardWrite is a /boards/update $set that is Card Settings'
+// own, as it is to be written: every path a row's boolean board field, a
+// side's hidden sections as known section ids, a side's section order
+// (normalised as WeKan's setCardSettingsSectionOrder) or the card's field
+// order (as setCardFieldOrder). Anything else is not.
+func cardSettingsBoardWrite(set map[string]any) (bson.M, bool) {
 	known := cardSettingsSectionIDs()
+	out := bson.M{}
+	stringList := func(v any) ([]string, bool) {
+		list, ok := v.([]any)
+		if !ok || len(list) > 200 {
+			return nil, false
+		}
+		var ss []string
+		for _, x := range list {
+			s, ok := x.(string)
+			if !ok {
+				return nil, false
+			}
+			ss = append(ss, s)
+		}
+		return ss, true
+	}
 	for path, v := range set {
 		switch {
 		case cardSettingsBoardFields[path]:
 			if _, ok := v.(bool); !ok {
-				return false
+				return nil, false
 			}
+			out[path] = v
 		case path == cardSettingsHiddenField["card"] || path == cardSettingsHiddenField["minicard"]:
-			list, ok := v.([]any)
-			if !ok || len(list) > len(known) {
-				return false
+			ids, ok := stringList(v)
+			if !ok {
+				return nil, false
 			}
-			for _, id := range list {
-				s, ok := id.(string)
-				if !ok || !slices.Contains(known, s) {
-					return false
+			for _, id := range ids {
+				if !slices.Contains(known, id) {
+					return nil, false
 				}
 			}
+			out[path] = ids
+		case path == cardSettingsOrderField["card"] || path == cardSettingsOrderField["minicard"]:
+			ids, ok := stringList(v)
+			if !ok {
+				return nil, false
+			}
+			side := "card"
+			if path == cardSettingsOrderField["minicard"] {
+				side = "minicard"
+			}
+			list := make([]any, len(ids))
+			for i, id := range ids {
+				list[i] = id
+			}
+			out[path] = sectionOrderOf(list, side)
+		case path == "cardFieldOrder":
+			keys, ok := stringList(v)
+			if !ok {
+				return nil, false
+			}
+			out[path] = applyCardLayout(keys)
 		default:
-			return false
+			return nil, false
 		}
 	}
-	return len(set) > 0
+	return out, len(out) > 0
 }
 
 // labelTextShown is WeKan's resolveShowLabelTextValue: the user's override,
@@ -190,8 +229,8 @@ func (s *Server) cardSettingsPanes(ctx context.Context, b *Board, u *User, lang 
 	for _, side := range []string{"minicard", "card"} {
 		pane := cardSettingsPane{Side: side, Title: titles[side], ScrumRevision: int(revisionOf(board["scrumRevision"]))}
 		hidden, _ := plain(board[cardSettingsHiddenField[side]]).([]any)
-		order := cardSettings.Order[side]
-		for _, id := range order {
+		rows := rowsForSide(side, sideFieldOrder(board, side))
+		for _, id := range sectionOrderOf(board[cardSettingsOrderField[side]], side) {
 			var sec *cardSettingsSection
 			for i := range cardSettings.Sections {
 				if cardSettings.Sections[i].ID == id {
@@ -203,9 +242,8 @@ func (s *Server) cardSettingsPanes(ctx context.Context, b *Board, u *User, lang 
 			}
 			ps := cardSettingsPaneSection{ID: sec.ID, Icon: sec.Icon, Title: tr(lang, sec.LabelKey),
 				Shown: !slices.Contains(hidden, any(sec.ID)), Writable: admin}
-			for _, key := range sec.Keys {
-				row := cardSettingsRowOf(key)
-				if row == nil {
+			for _, row := range rows {
+				if !slices.Contains(sec.Keys, row.Key) {
 					continue
 				}
 				sp := row.side(side)

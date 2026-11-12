@@ -1,0 +1,9 @@
+//- The opened card's labels section (card_sections.go), called with the page's data.
+//- WeKan's card labels, and the + that opens cardLabelsPopup.
+.card-details-item.card-details-item-labels
+  h3.card-details-item-title {{t $.L "labels"}}
+  each lb in .CardLabels
+    if .Selected
+      span.card-label(class="card-label-{{.Color}}") {{.Name}}
+  if $.CanEdit
+    a.card-details-item-add-button.js-add-labels(href="#", title="{{t $.L `cardLabelsPopup-title`}}", aria-label="{{t $.L `cardLabelsPopup-title`}}") +

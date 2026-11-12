@@ -1,0 +1,28 @@
+//- The opened card's scrum section (card_sections.go), called with the page's data.
+//- WeKan's scrumMetadata: the card's shown Scrum fields, and their
+  editor for whoever may change the card (scrum.updateCard).
+if .CardScrum
+  .scrum-metadata
+    each f in .CardScrum
+      div
+        strong {{.Label}}:
+        span {{.Value}}
+    if .CardScrumEditors
+      details
+        summary {{t $.L "edit"}}
+        form.js-scrum-metadata(data-board="{{.Board.ID}}", data-card="{{.Card.ID}}", data-revision="{{.Card.ScrumRevision}}")
+          each e in .CardScrumEditors
+            label {{.Label}}
+              if .Options
+                if .Multiple
+                  select(name="{{.Field}}", multiple)
+                    | {{template "_scrumopts" .Options}}
+                  small.scrum-multiple-help {{t $.L "scrum-releases-select-help"}}
+                else
+                  select(name="{{.Field}}")
+                    | {{template "_scrumopts" .Options}}
+              else if .Number
+                input(type="number", name="{{.Field}}", value="{{.Value}}", min="0", step="any")
+              else
+                textarea(name="{{.Field}}") {{.Value}}
+          button.primary(type="submit") {{t $.L "save"}}

@@ -1,0 +1,14 @@
+//- The opened card's comments section (card_sections.go), called with the page's data.
+h3.card-details-item-title {{t $.L "comments"}}
+.comments
+  if .CanComment
+    .new-comment.js-new-comment
+      form.js-new-comment-form(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/comments", up-submit, up-target=".board-wrapper")
+        textarea.editor.js-new-comment-input(name="comment", aria-label="{{t $.L `comment`}}", required)
+        button.primary.confirm.js-add-comment(type="submit") {{t $.L "comment"}}
+  each cm in .Comments
+    .comment(data-id="{{.ID}}")
+      span.comment-member {{.User}}
+      .comment-text
+        .viewer {{.Text}}
+      time.activity-time(datetime="{{.ISO}}") {{.Display}}

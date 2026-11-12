@@ -1,0 +1,99 @@
+//- The opened card's customFields section (card_sections.go), called with the page's data.
+//- WeKan's cardFieldSectionCustomFields: one section, its hamburger the
+  picker of the board's fields (cardCustomFieldsPopup), and each field
+  of the card with its cardCustomField-* editor - fields on the page only
+  while it is open.
+if .CardFieldsShown
+  .card-details-group.card-details-group-custom-fields
+    //- cardSectionHeader: its caret folds the section; the hamburger and,
+      while open, the layout toggle (one per row, or a grid) beside it.
+    h3.card-details-item-title.js-toggle-card-section(data-section="customFields", role="button", tabindex="0")
+      i.fa.fa-caret-down
+      i.fa.fa-list-alt
+      |  {{t $.L "custom-fields"}}
+      a.card-details-section-menu.js-open-custom-fields-settings(href="#", title="{{t $.L `custom-fields`}}", aria-label="{{t $.L `custom-fields`}}")
+        i.fa.fa-navicon
+      button.custom-fields-layout-toggle#toggleCustomFieldsGridButton.js-section-open-only(type="button", title="{{t $.L `change`}} {{t $.L `custom-fields`}} {{t $.L `layout`}}", aria-label="{{t $.L `change`}} {{t $.L `custom-fields`}} {{t $.L `layout`}}")
+        i.fa.fa-th-large
+    .card-details-group-body(class="{{if .User.Profile.CustomFieldsGrid}}custom-fields-one-per-row{{else}}custom-fields-grid{{end}}")
+      each cf in .CardFields
+        .card-details-item.card-details-item-customfield(data-field="{{.ID}}", data-type="{{.Type}}")
+          h3.card-details-item-title(class="{{if .Editable}}js-edit-card-custom-field-value is-editable{{end}}", role="{{if .Editable}}button{{end}}", tabindex="{{if .Editable}}0{{else}}-1{{end}}", title="{{if .Editable}}{{t $.L `edit`}}{{end}}")
+            i.fa.fa-list
+            |  {{.Name}}
+          if eq .Type "date"
+            a.js-edit-date.js-custom-field-edit-trigger(href="#", title="{{.Title}}", aria-label="{{t $.L `edit`}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/custom-fields/{{.ID}}", data-date="{{.Date.ISO}}", data-default-time="now", data-title="{{.Name}}")
+              if .Set
+                .card-date
+                  time(datetime="{{.Date.ISO}}") {{.Text}}
+              else
+                i.fa.fa-pencil-square-o(aria-hidden="true")
+          else if eq .Type "checkbox"
+            form.js-card-custom-field-checkbox-toggle(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/custom-fields/{{.ID}}", up-submit, up-target=".board-wrapper")
+              input(type="hidden", name="value", value="{{if .Checked}}false{{else}}true{{end}}")
+            .js-card-custom-field-checkbox.js-edit-card-custom-field-value.checklist-item(class="{{if .Checked}}is-checked{{end}}", title="{{t $.L `edit`}}", aria-label="{{t $.L `edit`}}", role="button", tabindex="0")
+              .check-box-container
+                .check-box.materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
+            form.js-inlined-form.is-hidden.js-card-customfield-checkbox-editor(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/custom-fields/{{.ID}}", up-submit, up-target=".board-wrapper")
+              template.js-inlined-form-body
+                span.custom-field-copy-control
+                  a.fa.fa-copy.js-copy-custom-field(href="#", title="{{t $.L `copy-text-to-clipboard`}}", data-value="{{if .Checked}}true{{else}}false{{end}}")
+                //- The box first: ticked, its "true" is the value read; else "false".
+                label.check-box-container
+                  if .Checked
+                    input.js-card-customfield-checkbox-input(type="checkbox", name="value", value="true", checked)
+                  else
+                    input.js-card-customfield-checkbox-input(type="checkbox", name="value", value="true")
+                  .check-box.materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
+                input(type="hidden", name="value", value="false")
+                .edit-controls.clearfix
+                  button.primary(type="submit") {{t $.L "save"}}
+                  a.fa.fa-times-thin.js-close-inlined-form(href="#", title="{{t $.L `close`}}")
+          else if .Editable
+            a.js-edit-card-custom-field-value(href="#", title="{{t $.L `edit`}}", aria-label="{{t $.L `edit`}}")
+              if .Set
+                if eq .Type "text"
+                  | {{viewer .Text $.TextPolicy}}
+                else
+                  | {{.Text}}
+              else
+                i.fa.fa-pencil-square-o(aria-hidden="true")
+            form.js-inlined-form.is-hidden(class="js-card-customfield-{{.Type}}", method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/custom-fields/{{.ID}}", up-submit, up-target=".board-wrapper")
+              template.js-inlined-form-body
+                span.custom-field-copy-control
+                  a.fa.fa-copy.js-copy-custom-field(href="#", title="{{t $.L `copy-text-to-clipboard`}}", data-value="{{.Text}}")
+                if eq .Type "text"
+                  textarea.editor(name="value", dir="auto", aria-label="{{.Name}}") {{.Edit}}
+                else if eq .Type "dropdownMultiSelect"
+                  //- cardCustomField-dropdownMultiSelect: the items, any number ticked.
+                  .js-card-customfield-dropdown-multi-select-items
+                    input(type="hidden", name="value", value="")
+                    each it in .Items
+                      label.custom-field-multi-select-item
+                        if .Selected
+                          input(type="checkbox", name="value", value="{{.ID}}", checked)
+                        else
+                          input(type="checkbox", name="value", value="{{.ID}}")
+                        |  {{.Name}}
+                else if eq .Type "stringtemplate"
+                  //- cardCustomField-stringtemplate: its items, and one more.
+                  each sv in .Strings
+                    input.js-card-customfield-stringtemplate-item(type="text", name="value", value="{{.}}", autocomplete="off")
+                  input.js-card-customfield-stringtemplate-item.last(type="text", name="value", value="", placeholder="{{t $.L `custom-field-stringtemplate-item-placeholder`}}", autocomplete="off")
+                else if eq .Type "dropdown"
+                  select.inline(name="value", aria-label="{{.Name}}")
+                    option(value="") –
+                    each it in .Items
+                      if .Selected
+                        option(value="{{.ID}}", selected) {{.Name}}
+                      else
+                        option(value="{{.ID}}") {{.Name}}
+                else if eq .Type "number"
+                  input(type="number", step="any", name="value", value="{{.Edit}}", aria-label="{{.Name}}")
+                else
+                  input(type="text", name="value", value="{{.Edit}}", aria-label="{{.Name}}", autocomplete="off")
+                .edit-controls.clearfix
+                  button.primary(type="submit") {{t $.L "save"}}
+                  a.fa.fa-times-thin.js-close-inlined-form(href="#", title="{{t $.L `close`}}")
+          else if .Text
+            .viewer {{.Text}}

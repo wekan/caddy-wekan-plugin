@@ -1,0 +1,19 @@
+//- The opened card's vote section (card_sections.go), called with the page's data.
+if .Vote
+  .card-details-group.card-details-group-vote
+    h3.card-details-item-title.js-toggle-card-section(data-section="vote", role="button", tabindex="0")
+      i.fa.fa-caret-down
+      |  {{t $.L "vote-question"}}
+    .card-details-section(data-section="vote")
+      .vote-result
+        if .Vote.Public
+          a.card-label.card-label-green.js-show-positive-votes {{.Vote.Positive}}
+          a.card-label.card-label-red.js-show-negative-votes {{.Vote.Negative}}
+        else
+          .card-label.card-label-green {{.Vote.Positive}}
+          .card-label.card-label-red {{.Vote.Negative}}
+      .viewer {{.Vote.Question}}
+      if .Vote.CanVote
+        form.js-vote-form(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/vote", up-submit, up-target=".board-wrapper")
+          button.card-details-green.js-vote.js-vote-positive(type="submit", name="vote", value="positive", class="{{if .Vote.For}}voted{{end}}") {{t $.L "vote-for-it"}}
+          button.card-details-red.js-vote.js-vote-negative(type="submit", name="vote", value="negative", class="{{if .Vote.Against}}voted{{end}}") {{t $.L "vote-against"}}

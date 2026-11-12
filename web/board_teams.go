@@ -205,12 +205,12 @@ func (s *Server) methodBoardsUpdate(r *http.Request, u *User, args []json.RawMes
 	}
 	// Board Settings / Card: the board's own Card Settings fields
 	// (card_settings.go), a board admin's as the rest.
-	if cardSettingsBoardWrite(set) {
+	if clean, ok := cardSettingsBoardWrite(set); ok {
 		if !u.IsAdmin && !b.AdminOf(u.ID) {
 			return nil, denied
 		}
-		set["modifiedAt"] = time.Now().UTC()
-		if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": set}); err != nil {
+		clean["modifiedAt"] = time.Now().UTC()
+		if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": clean}); err != nil {
 			return nil, err
 		}
 		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
