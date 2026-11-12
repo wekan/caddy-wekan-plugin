@@ -18,6 +18,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/Joker/jade"
@@ -36,13 +37,16 @@ var staticFiles embed.FS
 
 // Server is the WeKan of one domain.
 type Server struct {
-	db       *mongo.Database
-	release  func() error
-	pages    map[string]*template.Template
-	hub      *hub
-	throttle loginThrottle
-	mux      *http.ServeMux
-	log      *slog.Logger
+	db      *mongo.Database
+	release func() error
+	pages   map[string]*template.Template
+	hub     *hub
+	// boardWatchOff stops the board watch's looks (board_watch.go), for a
+	// test that looks itself.
+	boardWatchOff atomic.Bool
+	throttle      loginThrottle
+	mux           *http.ServeMux
+	log           *slog.Logger
 	// Tenant: a customer's WeKan in a many-domain Weddy - no Cloud menu.
 	Tenant bool
 	// CloudDir: the primary's WeKan in a many-domain Weddy - Admin Panel /
@@ -110,6 +114,8 @@ func New(db *mongo.Database, log *slog.Logger) (*Server, error) {
 	go s.runScrumDaily(s.stopMail)
 	go s.resumeRollovers()
 	go s.resumeBatchJobs()
+	s.hub.stamp = func(board string) string { return s.boardStamp(context.Background(), board) }
+	go s.runBoardWatch(s.stopMail)
 	return s, nil
 }
 
@@ -845,7 +851,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			}
 		}
 	}
-	s.annotateMinicards(r.Context(), b, lanes)
+	s.annotateMinicards(r.Context(), b, lanes, u.Profile.DateFormat)
 	s.annotateScrumMinicards(r.Context(), b, languageOf(r, u).Tag, lanes)
 	starred := slices.Contains(u.Profile.StarredBoards, b.ID)
 	invited := slices.Contains(u.Profile.InvitedBoards, b.ID)
@@ -895,6 +901,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["CanInvite"] = canInviteToBoard(u, b, s.inviteRoles(r))
 	data["IsBoardAdmin"] = b.AdminOf(u.ID)
 	data["CardSettings"] = s.cardSettingsPanes(r.Context(), b, u, lang)
+	// The board as this page draws it, for its live connection (board_watch.go).
+	data["BoardStamp"] = s.boardStamp(r.Context(), b.ID)
 	data["Views"] = s.boardViewEntries(b, lang, "")
 	// A stopped Scrum History operation blocks the board's Scrum writes
 	// (historyRecoveryNotice.jade): who may resolve it, and how.
@@ -918,6 +926,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		var c Card
 		if err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c); err == nil {
 			data["Card"] = c
+			data["CardSides"] = s.sidesOfOpenedCard(r.Context(), b, &c, u)
 			// The card's Scrum fields, and their editor for whoever may change it.
 			if n := s.scrumNamesOf(r.Context(), b.ID); len(n.visibility) > 0 {
 				lang := languageOf(r, u).Tag
@@ -1536,6 +1545,7 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 	w.Header().Set("Cache-Control", "no-cache")
 	ch := s.hub.subscribe(b.ID)
 	defer s.hub.unsubscribe(b.ID, ch)
+	s.liveSince(r.Context(), b.ID, r.URL.Query().Get("v"), ch)
 	fmt.Fprint(w, ": connected\n\n")
 	if err := rc.Flush(); err != nil {
 		http.Error(w, "streaming unsupported", http.StatusInternalServerError)
@@ -1571,9 +1581,15 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 type hub struct {
 	mu   sync.Mutex
 	subs map[string]map[chan string]bool
+	// seen is the stamp of each open board as the board watch, or Weddy's
+	// own last announcement, left it; stamp reads one (board_watch.go).
+	seen  map[string]string
+	stamp func(board string) string
 }
 
-func newHub() *hub { return &hub{subs: map[string]map[chan string]bool{}} }
+func newHub() *hub {
+	return &hub{subs: map[string]map[chan string]bool{}, seen: map[string]string{}}
+}
 
 func (h *hub) subscribe(board string) chan string {
 	h.mu.Lock()
@@ -1606,6 +1622,18 @@ func (h *hub) publishFrom(board, ev, page string) {
 }
 
 func (h *hub) publish(board, ev string) {
+	// The board as Weddy's own change left it, for the board watch: read
+	// before the lock, and only for a board somebody has open.
+	h.mu.Lock()
+	open := len(h.subs[board]) > 0
+	h.mu.Unlock()
+	if open && h.stamp != nil {
+		if st := h.stamp(board); st != "" {
+			h.mu.Lock()
+			h.seen[board] = st
+			h.mu.Unlock()
+		}
+	}
 	h.mu.Lock()
 	defer h.mu.Unlock()
 	for ch := range h.subs[board] {

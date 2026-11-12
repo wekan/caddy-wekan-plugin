@@ -1,4 +1,4 @@
-.board-wrapper(class="board-color-{{.Board.Color}}", style="{{.Board.BackgroundStyle}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live", data-move="/b/{{.Board.ID}}/move", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}")
+.board-wrapper(class="board-color-{{.Board.Color}}", style="{{.Board.BackgroundStyle}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live?v={{.BoardStamp}}", data-move="/b/{{.Board.ID}}/move", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}")
   .board-header
     h1.header-board-name.js-board-title {{.Board.Title}}
     //- WeKan's boardStarButton: the user's favorite, kept in their profile.
@@ -855,7 +855,7 @@
                         own select checkbox.
                       if $.CanEdit
                         .materialCheckBox.multi-selection-checkbox.js-toggle-multi-selection.is-hidden(role="checkbox", aria-checked="false", tabindex="0", data-card="{{.ID}}")
-                      .minicard(class="{{if .MinicardCollapsed}}minicard-collapsed{{end}}")
+                      .minicard(class="{{if .MinicardCollapsed}}minicard-collapsed{{end}} {{.MinicardSides.ColorClass}}")
                         .minicard-title
                           //- WeKan's minicard caret: folds the minicard to its title, for this user.
                           if $.User
@@ -875,6 +875,25 @@
                             span.badge-icon
                               i.fa(class="{{.MinicardIssueType.Icon}}")
                             span.badge-text {{.MinicardIssueType.Name}}
+                        //- Card Settings' sides on the minicard (card_sides.go):
+                          the description's badge, who requested it, where, and
+                          when it last changed.
+                        if .MinicardSides.DescriptionBadge
+                          .badge.badge-state-image-only(title="{{.Description}}")
+                            span.badge-icon
+                              i.fa.fa-file-text-o
+                        if .MinicardSides.RequestedBy
+                          .minicard-requested-by(title="{{t $.L `requested-by`}}")
+                            i.fa.fa-shopping-cart
+                            span {{.MinicardSides.RequestedBy}}
+                        each loc in .MinicardSides.Locations
+                          .minicard-location
+                            i.fa.fa-map-marker
+                            | {{.}}
+                        if .MinicardSides.LastActivity
+                          .minicard-last-activity(title="{{t $.L `activities`}}")
+                            i.fa.fa-history
+                            | {{.MinicardSides.LastActivity}}
                         //- WeKan's scrumMetadata, compact: the Scrum fields Card
                           Settings shows on the minicard.
                         if .MinicardScrum
@@ -961,14 +980,22 @@
                   input.list-name-input(type="text", name="title", aria-label="{{t $.L `add-list`}}", placeholder="{{t $.L `add-list`}}", required)
                   button.primary(type="submit") {{t $.L "add-list"}}
   if .Card
-    .card-details.js-card-details(data-card="{{.Card.ID}}", class="{{if .User.Profile.CardMaximized}}card-details-maximized{{end}}")
-      .card-details-header
+    .card-details.js-card-details(data-card="{{.Card.ID}}", class="{{if .User.Profile.CardMaximized}}card-details-maximized{{end}} {{if .CardSides.Collapsed}}card-details-collapsed{{end}}")
+      //- Card colour, Show on Card: the header's colour.
+      .card-details-header(class="{{.CardSides.ColorClass}}")
+        //- WeKan's caret folding the card's details, the user's own, unless
+          the board turned it off (allowsCardCollapse).
+        if .CardSides.Collapse
+          a.card-collapse-toggle.js-card-collapse-toggle(href="#", data-collapsed="{{if .CardSides.Collapsed}}true{{end}}", title="{{t $.L `collapse`}}", aria-label="{{t $.L `collapse`}}")
+            i.fa(class="{{if .CardSides.Collapsed}}fa-caret-right{{else}}fa-caret-down{{end}}")
         //- WeKan's card title: its leading part opens the editor (Ctrl+Enter saves).
         h2.card-details-title.js-card-title
           if .CanEdit
             span.card-details-title-edit-zone.js-open-inlined-form {{viewer .Card.Title $.TextPolicy}}
           else
             | {{viewer .Card.Title $.TextPolicy}}
+        if .CardSides.DescriptionBadge
+          i.fa.fa-file-text-o.card-details-description-badge(title="{{t $.L `description`}}")
         if .CanEdit
           form.js-card-details-title.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/title", up-submit, up-target=".board-wrapper")
             textarea.js-edit-card-title(name="title", rows="2", dir="auto", aria-label="{{t $.L `title`}}", required) {{.Card.Title}}
@@ -980,6 +1007,13 @@
         if .CanEdit
           a.card-details-menu.js-open-card-details-menu(href="#", title="{{t $.L `cardDetailsActionsPopup-title`}}", aria-label="{{t $.L `cardDetailsActionsPopup-title`}}") ☰
         a.js-close-card-details(href="/b/{{.Board.ID}}/{{.Board.Slug}}", aria-label="{{t $.L `close`}}", up-follow, up-target=".board-wrapper") ×
+      //- Swimlane, Show on Card: the swimlane the card is in.
+      if .CardSides.SwimlaneName
+        .card-details-item.card-details-swimlane-name
+          h3.card-details-item-title
+            i.fa.fa-list-alt
+            |  {{t $.L "swimlane"}}
+          | {{.CardSides.SwimlaneName}}
       a.js-toggle-watch-card(href="/b/{{.Board.ID}}/cards/{{.Card.ID}}/watch", up-method="post", up-target=".board-wrapper", class="{{if .WatchingCard}}is-checked{{end}}") {{if .WatchingCard}}{{t $.L "watching"}} ✓{{else}}{{t $.L "watch"}}{{end}}
       //- WeKan's scrumMetadata: the card's shown Scrum fields, and their
         editor for whoever may change the card (scrum.updateCard).

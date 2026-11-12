@@ -663,3 +663,62 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .minicard-issue-type.issue-type-blue { color: #0067b0; }
 .minicard-issue-type.issue-type-purple { color: #6f42c1; }
 .minicard-issue-type.issue-type-orange { color: #b35900; }
+/* Card Settings' sides (card_sides.go): the opened card folded to its header
+   by its caret, and the minicard's requested by, location and last change. */
+.card-details-collapsed > :not(.card-details-header) { display: none; }
+.card-collapse-toggle { margin-inline-end: 0.3rem; }
+.card-details-description-badge { margin-inline-start: 0.3rem; color: #777; }
+.minicard-requested-by, .minicard-location, .minicard-last-activity { font-size: 0.85em; color: #555; margin-top: 2px; }
+.minicard-requested-by .fa, .minicard-location .fa, .minicard-last-activity .fa { margin-inline-end: 0.25rem; }
+/* WeKan's card colours (minicard.css .minicard-<colour>, cardDetails.css
+   .card-details-<colour>): each colour's own rule, for Card Settings' card
+   colour on either side. */
+.minicard-green { background-color: #3cb500 !important; color: #fff !important; }
+.minicard-yellow { background-color: #fad900 !important; }
+.minicard-orange { background-color: #ff9f19 !important; }
+.minicard-red { background-color: #eb4646 !important; color: #fff !important; }
+.minicard-purple { background-color: #a632db !important; color: #fff !important; }
+.minicard-blue { background-color: #0079bf !important; color: #fff !important; }
+.minicard-pink { background-color: #ff78cb !important; }
+.minicard-sky { background-color: #00c2e0 !important; color: #fff !important; }
+.minicard-black { background-color: #4d4d4d !important; color: #fff !important; }
+.minicard-lime { background-color: #51e898 !important; }
+.minicard-silver { background-color: #c0c0c0 !important; }
+.minicard-peachpuff { background-color: #ffdab9 !important; }
+.minicard-crimson { background-color: #dc143c !important; color: #fff !important; }
+.minicard-plum { background-color: #dda0dd !important; }
+.minicard-darkgreen { background-color: #006400 !important; color: #fff !important; }
+.minicard-slateblue { background-color: #6a5acd !important; color: #fff !important; }
+.minicard-magenta { background-color: #f0f !important; color: #fff !important; }
+.minicard-gold { background-color: #ffd700 !important; }
+.minicard-navy { background-color: #000080 !important; color: #fff !important; }
+.minicard-gray { background-color: #808080 !important; color: #fff !important; }
+.minicard-saddlebrown { background-color: #8b4513 !important; color: #fff !important; }
+.minicard-paleturquoise { background-color: #afeeee !important; }
+.minicard-mistyrose { background-color: #ffe4e1 !important; }
+.minicard-indigo { background-color: #4b0082 !important; color: #fff !important; }
+.card-details-white { background: #fff !important; color: #000 !important; border: 1px solid #eee; }
+.card-details-green { background: #3cb500 !important; color: #fff !important; }
+.card-details-yellow { background: #fad900 !important; color: #000 !important; }
+.card-details-orange { background: #ff9f19 !important; color: #000 !important; }
+.card-details-red { background: #eb4646 !important; color: #fff !important; }
+.card-details-purple { background: #a632db !important; color: #fff !important; }
+.card-details-blue { background: #0079bf !important; color: #fff !important; }
+.card-details-pink { background: #ff78cb !important; color: #000 !important; }
+.card-details-sky { background: #00c2e0 !important; color: #fff !important; }
+.card-details-black { background: #4d4d4d !important; color: #fff !important; }
+.card-details-lime { background: #51e898 !important; color: #000 !important; }
+.card-details-silver { background: #c0c0c0 !important; color: #000 !important; }
+.card-details-peachpuff { background: #ffdab9 !important; color: #000 !important; }
+.card-details-crimson { background: #dc143c !important; color: #fff !important; }
+.card-details-plum { background: #dda0dd !important; color: #000 !important; }
+.card-details-darkgreen { background: #006400 !important; color: #fff !important; }
+.card-details-slateblue { background: #6a5acd !important; color: #fff !important; }
+.card-details-magenta { background: #f0f !important; color: #fff !important; }
+.card-details-gold { background: #ffd700 !important; color: #000 !important; }
+.card-details-navy { background: #000080 !important; color: #fff !important; }
+.card-details-gray { background: #808080 !important; color: #fff !important; }
+.card-details-saddlebrown { background: #8b4513 !important; color: #fff !important; }
+.card-details-paleturquoise { background: #afeeee !important; color: #000 !important; }
+.card-details-mistyrose { background: #ffe4e1 !important; color: #000 !important; }
+.card-details-indigo { background: #4b0082 !important; color: #fff !important; }

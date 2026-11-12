@@ -1402,6 +1402,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   });
 
   // A card full-screen, or not: the user's own choice (toggleCardMaximized).
+  // WeKan's card caret: the user's own fold of the opened card's details.
+  up.on('click', '.js-card-collapse-toggle', function (event, el) {
+    event.preventDefault();
+    callAsync('setCardCollapsed', el.dataset.collapsed !== 'true').then(function () { up.reload('.board-wrapper'); });
+  });
   up.on('click', '.js-maximize-card-details, .js-minimize-card-details', function (event) {
     event.preventDefault();
     callAsync('toggleCardMaximized').then(function () { up.reload('.board-wrapper'); });

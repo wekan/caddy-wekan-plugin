@@ -101,6 +101,8 @@ type User struct {
 		InvitedBoards []string `bson:"invitedBoards,omitempty" json:"invitedBoards,omitempty"`
 		// CardMaximized: the user opens a card full-screen (WeKan's profile.cardMaximized).
 		CardMaximized bool `bson:"cardMaximized,omitempty" json:"cardMaximized,omitempty"`
+		// CardCollapsed: the user folds the opened card's details (WeKan's profile.cardCollapsed).
+		CardCollapsed bool `bson:"cardCollapsed,omitempty" json:"cardCollapsed,omitempty"`
 		// SubmitOnEnter: Enter saves an editor and Shift+Enter is a new line
 		// (WeKan's profile.submitOnEnter); off, Ctrl/Cmd+Enter saves.
 		SubmitOnEnter bool `bson:"submitOnEnter,omitempty" json:"submitOnEnter,omitempty"`
@@ -357,6 +359,13 @@ type Card struct {
 	Type        string    `bson:"type,omitempty" json:"type,omitempty"`
 	CardNumber  int64     `bson:"cardNumber,omitempty" json:"cardNumber,omitempty"`
 	CreatedAt   time.Time `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
+	// Color, RequestedBy, Locations and DateLastActivity are drawn by Card
+	// Settings' sides (card_sides.go).
+	Color            string         `bson:"color,omitempty" json:"-"`
+	RequestedBy      string         `bson:"requestedBy,omitempty" json:"-"`
+	Locations        []cardLocation `bson:"locations,omitempty" json:"-"`
+	DateLastActivity time.Time      `bson:"dateLastActivity,omitempty" json:"-"`
+	MinicardSides    minicardSides  `bson:"-" json:"-"`
 	// CoverID is WeKan's coverId: the image attachment shown on the minicard.
 	CoverID string `bson:"coverId,omitempty" json:"coverId,omitempty"`
 	// What the board's minicard shows of it, drawn only (minicard_badges.go).

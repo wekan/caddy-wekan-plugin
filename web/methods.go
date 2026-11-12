@@ -67,6 +67,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"createCardWithDueDate":             s.methodCreateCardWithDueDate,
 		"rules.setEnabled":                  s.methodSetRuleEnabled,
 		"toggleCardMaximized":               s.methodToggleCardMaximized,
+		"setCardCollapsed":                  s.methodSetCardCollapsed,
 		"toggleSubmitOnEnter":               s.methodToggleSubmitOnEnter,
 		"toggleCustomFieldsGrid":            s.methodToggleCustomFieldsGrid,
 		"api.attachment.delete":             s.methodAttachmentDelete,

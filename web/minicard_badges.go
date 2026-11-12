@@ -47,7 +47,7 @@ func initialsOf(name string) string {
 
 // annotateMinicards puts what each minicard shows on the lanes' cards: one
 // query for the people, one for the comments.
-func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane) {
+func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane, dateFormat string) {
 	var board bson.M
 	_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(b.ID)}).Decode(&board)
 	showAssignees := minicardFlag(board, "allowsAssigneeOnMinicard", "allowsAssignee", true)
@@ -119,6 +119,7 @@ func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane) 
 			for k := range lanes[i].Lists[j].Cards {
 				c := &lanes[i].Lists[j].Cards[k]
 				c.MinicardChecklists = checklists[c.ID]
+				c.MinicardSides = sidesOfMinicard(board, c, dateFormat)
 				if showIssueType {
 					c.MinicardIssueType = issueTypeBadge(c.Scrum["issueType"])
 				}
