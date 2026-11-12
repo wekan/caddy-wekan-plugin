@@ -53,7 +53,21 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     // before its answer arrives: reload after it, or the older page wins.
     if (up.network.isBusy()) { setTimeout(reloadBoard, 150); return; }
     stale = false;
-    if (document.querySelector('.board-wrapper')) up.reload('.board-wrapper');
+    if (!document.querySelector('.board-wrapper')) return;
+    // What the user opened in the card details - a <details> such as the
+    // Scrum fields' editor - stays open through somebody else's change: the
+    // same ones, by their place, are opened again in the new page.
+    var all = function () { return Array.prototype.slice.call(document.querySelectorAll('.board-wrapper .js-card-details details')); };
+    var card = document.querySelector('.board-wrapper .js-card-details');
+    var open = all().map(function (d, i) { return d.open ? i : -1; }).filter(function (i) { return i >= 0; });
+    var cardID = card && card.dataset.card;
+    var p = up.reload('.board-wrapper');
+    if (open.length && p && p.then) p.then(function () {
+      var now = document.querySelector('.board-wrapper .js-card-details');
+      if (!now || now.dataset.card !== cardID) return;
+      var list = all();
+      open.forEach(function (i) { if (list[i]) list[i].open = true; });
+    }, function () {});
   }
 
   // A form sent is answered with the whole board: what was waiting is in it.
