@@ -75,6 +75,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"_FilesCollectionWrite_attachments": s.methodFilesWrite,
 		"_FilesCollectionAbort_attachments": s.methodFilesAbort,
 		"setBoardTeams":                     s.methodSetBoardTeams,
+		"createListAfter":                   s.methodCreateListAfter,
 		"setBoardOrgs":                      s.methodSetBoardOrgs,
 		"setBoardDomains":                   s.methodSetBoardDomains,
 		"addBoardDomain":                    s.methodAddBoardDomain,

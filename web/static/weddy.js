@@ -84,6 +84,72 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (button) button.click();
     else if (editor.form.requestSubmit) editor.form.requestSubmit();
   });
+  // WeKan's multilineTitles.creationTitles: the composer's text as one title,
+  // or - "Many" chosen - one a line, blank lines left out.
+  function creationTitles(value, separate) {
+    var title = String(value || '').replace(/\r\n?/g, '\n').trim();
+    if (!separate) return title ? [title] : [];
+    return title.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+  }
+  // WeKan's inline Add List composer (#6465): the list header's + opens it
+  // after that list; it adds the lists right after it, in order, through
+  // createListAfter.
+  function closeAddListInline() {
+    document.querySelectorAll('.js-add-list-inline').forEach(function (n) { n.remove(); });
+  }
+  up.on('click', '.js-add-list-here', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    closeAddListInline();
+    var list = this.closest('.js-list');
+    var tpl = document.querySelector('template.js-add-list-inline-template');
+    if (!list || !tpl) return;
+    var node = tpl.content.firstElementChild.cloneNode(true);
+    node.dataset.after = this.dataset.list;
+    node.dataset.swimlane = this.dataset.swimlane || '';
+    var group = 'title-mode-' + Math.random().toString(36).slice(2);
+    node.querySelectorAll('.js-multiline-title-mode').forEach(function (r) { r.name = group; });
+    list.after(node);
+    node.querySelector('textarea').focus();
+  });
+  up.on('click', '.js-close-add-list-inline', function (event) {
+    event.preventDefault();
+    closeAddListInline();
+  });
+  document.addEventListener('submit', function (event) {
+    var form = event.target;
+    if (!form.matches || !form.matches('.js-add-list-inline-form')) return;
+    event.preventDefault();
+    var node = form.closest('.js-add-list-inline');
+    var board = document.querySelector('.board-wrapper[data-board]');
+    var input = form.querySelector('.list-name-input');
+    var mode = form.querySelector('.js-multiline-title-mode:checked');
+    var titles = creationTitles(input.value, mode && mode.value === 'separate');
+    if (!titles.length || form.dataset.busy || !board) return;
+    form.dataset.busy = '1';
+    input.disabled = true;
+    var after = node.dataset.after || null;
+    var done = 0;
+    var next = function () {
+      if (done >= titles.length) return Promise.resolve();
+      return callAsync('createListAfter', { title: titles[done], boardId: board.dataset.board,
+        swimlaneId: node.dataset.swimlane || null, afterListId: after, type: 'list' }).then(function (id) {
+        after = id;
+        done += 1;
+        return next();
+      });
+    };
+    next().then(function () {
+      closeAddListInline();
+      up.reload('.board-wrapper');
+    }, function () {
+      // What was not added stays in the composer, as WeKan's.
+      input.value = titles.slice(done).join('\n');
+      input.disabled = false;
+      delete form.dataset.busy;
+      input.focus();
+    });
+  }, true);
   // Member Settings' toggle: the profile, and this page, at once.
   up.on('click', '.js-change-settings', function (event) {
     event.preventDefault();

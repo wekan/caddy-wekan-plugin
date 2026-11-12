@@ -163,6 +163,8 @@ var funcs = template.FuncMap{
 	// avatarURL is WeKan's avatarDisplayUrl, for a stored profile.avatarUrl.
 	"avatarURL": avatarDisplayURL,
 	"t":         tr,
+	// tv is t with WeKan's __name__ placeholders filled: tv lang key name value ...
+	"tv": trVars,
 	// viewer is WeKan's +viewer: a text written in Markdown, shown safely.
 	"viewer": viewer,
 	// attachmentURL is getAttachmentUrl, for the attachment menu.

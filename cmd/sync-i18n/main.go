@@ -21,7 +21,7 @@ import (
 )
 
 var (
-	useRe  = regexp.MustCompile("(?:\\bt \\$?\\.L |\\btr\\([^;\"]*?, |\\bmsg\\()[\"`]([A-Za-z0-9_.-]+)[\"`]")
+	useRe  = regexp.MustCompile("(?:\\btv? \\$?\\.L |\\btr\\([^;\"]*?, |\\bmsg\\()[\"`]([A-Za-z0-9_.-]+)[\"`]")
 	langRe = regexp.MustCompile(`\["([^"]+)", "[^"]*", "([^"]+)", "((?:[^"\\]|\\.)*)", (true|false)\]`)
 	// loadRe is languages.js's loader table: the file of each tag, which is
 	// not always <tag>.i18n.json - or-IN is or_IN, ca-valencia ca@valencia.

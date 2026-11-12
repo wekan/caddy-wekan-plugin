@@ -758,6 +758,10 @@
                 if .CanAdd
                   a.js-add-card.list-header-plus-top(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `add-card-to-top-of-list`}}", aria-label="{{t $.L `add-card-to-top-of-list`}}") +
                 if $.CanEdit
+                  //- WeKan's listHeader.jade: the inline Add List composer
+                    after this list (#6465), in this swimlane.
+                  a.js-add-list-here.list-header-add-list(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `add-list`}}", aria-label="{{t $.L `add-list`}}")
+                    i.fa.fa-plus-square-o
                   a.js-open-list-menu(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}", title="{{t $.L `listActionPopup-title`}}", aria-label="{{t $.L `listActionPopup-title`}}") ☰
               .list-body.js-minicards(data-list="{{.ID}}", data-swimlane="{{.Lane}}")
                 each c in .Cards
@@ -818,6 +822,24 @@
                   i.fa.fa-plus
                   |  {{t $.L "add-card"}}
           if $.CanEdit
+            //- WeKan's addListInline (swimlanes.jade), cloned after the list
+              whose header + was clicked: one list, or one a line.
+            template.js-add-list-inline-template
+              .list.list-composer.js-list-composer.js-add-list-inline
+                .list-header-add
+                  form.js-add-list-inline-form
+                    textarea.list-name-input.full-line(rows="2", dir="auto", placeholder="{{t $.L `add-list`}}", aria-label="{{t $.L `add-list`}}", autocomplete="off", required)
+                    fieldset.multiline-title-choice
+                      legend {{t $.L "add-many-lines-as"}}
+                      label
+                        input.js-multiline-title-mode(type="radio", name="title-mode", value="one", checked)
+                        |  1 {{t $.L "list"}}
+                      label
+                        input.js-multiline-title-mode(type="radio", name="title-mode", value="separate")
+                        |  {{tv $.L "many-items" "items" (t $.L "lists")}}
+                    .edit-controls.clearfix
+                      button.primary.confirm(type="submit") {{t $.L "save"}}
+                      a.js-close-add-list-inline(href="#", title="{{t $.L `close`}}", aria-label="{{t $.L `close`}}") ×
             .list.js-list-composer
               form.js-inlined-form.js-list-form(method="post", action="/b/{{$.Board.ID}}/lists", up-submit, up-target=".board-wrapper")
                 input.list-name-input(type="text", name="title", aria-label="{{t $.L `add-list`}}", placeholder="{{t $.L `add-list`}}", required)

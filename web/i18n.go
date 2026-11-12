@@ -119,3 +119,13 @@ func Languages() []Language {
 	translations.load()
 	return translations.languages
 }
+
+// trVars is tr with its __name__ placeholders filled from name, value pairs,
+// as WeKan's TAPi18n.__(key, { name: value }).
+func trVars(tag, key string, pairs ...string) string {
+	out := tr(tag, key)
+	for i := 0; i+1 < len(pairs); i += 2 {
+		out = strings.ReplaceAll(out, "__"+pairs[i]+"__", pairs[i+1])
+	}
+	return out
+}
