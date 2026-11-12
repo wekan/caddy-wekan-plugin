@@ -76,6 +76,11 @@ var securityCategories = map[string]securityCategory{
 	"injection.prototype": {Category: "injection", Bleed: "PrototypeBleed", Severity: "high", CWE: "CWE-1321"},
 	"ssrf.webhook-forge":  {Category: "ssrf", Bleed: "HookBleed", Severity: "high", CWE: "CWE-345"},
 	"authz.background":    {Category: "authz", Bleed: "BackgroundBleed", Severity: "high", CWE: "CWE-639"},
+	// GroupLinkBleed (GHSA-v544-rmr5-38gx): a client board write naming
+	// organizations, teams or domains, or adding a member past
+	// inviteUserToBoard. Medium: recorded, the account kept, as WeKan's.
+	"authz.group-link": {Category: "authz", Bleed: "GroupLinkBleed", Severity: "medium", CWE: "CWE-863"},
+	"authz.member-add": {Category: "authz", Bleed: "GroupLinkBleed", Severity: "medium", CWE: "CWE-863"},
 	// A change history row that fails its chain (changeHistoryIntegrity.js).
 	"integrity.history": {Category: "integrity", Bleed: "HistoryIntegrity", Severity: "critical", CWE: "CWE-345"},
 	// A mutation of a board the caller may not change (boardMutationGuard.js).

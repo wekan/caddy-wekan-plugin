@@ -292,6 +292,7 @@ var unrecordedEntityWrites = map[string]string{
 	"import_scoped.go:importChecklists:checklistItems":            "an import, whose author WeKan's hooks do not have either",
 	"import_scoped.go:importChecklists:checklists":                "an import, whose author WeKan's hooks do not have either",
 	"import_scoped.go:importComments:card_comments":               "an import, whose author WeKan's hooks do not have either",
+	"board_teams.go:teamLeaveCleanup:lists":                       "a member the teams no longer bring, off the lists' watchers - not a recorded field",
 	"members.go:memberLeavesBoard:lists":                          "a removed member's list watching, not a recorded field",
 	"rule_copy.go:ruleCopyCard:card_comments":                     "a rule's copy, on a card just made",
 	"rules_engine.go:performAction:checklistItems":                "a deleted checklist's items, which go with it - the checklist is the row",

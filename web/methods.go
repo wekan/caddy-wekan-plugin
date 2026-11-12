@@ -69,6 +69,8 @@ func (s *Server) methods() map[string]methodFunc {
 		"api.attachment.delete":           s.methodAttachmentDelete,
 		"archiveSelectedCards":            s.methodArchiveSelectedCards,
 		"/cards/update":                   s.methodCardsUpdate,
+		"/boards/update":                  s.methodBoardsUpdate,
+		"setBoardTeams":                   s.methodSetBoardTeams,
 		"watch":                           s.methodWatch,
 		"createBoardWithInitialSwimlanes": s.methodCreateBoardWithInitialSwimlanes,
 		"importBoard":                     s.methodImportBoard,

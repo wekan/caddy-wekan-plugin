@@ -164,8 +164,12 @@ func (s *Server) noteDeniedCollectionWrite(r *http.Request, u *User, name string
 			s.recordSecurity(r, securityEvent{Key: "authz.repoint", Action: "blocked", Source: "ddp:customFields." + op, UserID: u.ID,
 				Detail: "Tried to put a custom field on, or take it off, a board without write access there."})
 		}
+	case collection == "boards" && op == "insert" && groupLinksInInsert(arg(0)):
+		s.recordSecurity(r, securityEvent{Key: "authz.group-link", Action: "blocked", Source: "ddp:boards.insert", UserID: u.ID,
+			Detail: "A client board insert named organizations, teams or domains."})
 	case collection == "boards" && (op == "update" || op == "upsert"):
 		mod := arg(1)
+		s.noteBoardGroupWrite(r, u, op, arg(0), mod, args)
 		set, _ := mod["$set"].(map[string]any)
 		id, _ := set["backgroundImageId"].(string)
 		renamed := false
@@ -278,4 +282,41 @@ func (s *Server) storedIntegration(ctx context.Context, given map[string]any) bs
 		return nil
 	}
 	return hook
+}
+
+// noteBoardGroupWrite records GroupLinkBleed in a denied client board update:
+// orgs, teams or domains written outside the board methods, or a member added
+// outside inviteUserToBoard - WeKan's two Boards.deny rules of it.
+func (s *Server) noteBoardGroupWrite(r *http.Request, u *User, op string, sel, mod map[string]any, args []json.RawMessage) {
+	var fields []string
+	for o, raw := range mod {
+		m, _ := raw.(map[string]any)
+		for k, v := range m {
+			fields = append(fields, k)
+			if o == "$rename" {
+				if to, ok := v.(string); ok {
+					fields = append(fields, to)
+				}
+			}
+		}
+	}
+	for _, f := range fields {
+		if isGroupLinkField(f) {
+			s.recordSecurity(r, securityEvent{Key: "authz.group-link", Action: "blocked", Source: "ddp:boards." + op, UserID: u.ID,
+				Detail: "A client board update named organizations, teams or domains outside the board methods."})
+			break
+		}
+	}
+	boardID, _ := sel["_id"].(string)
+	if boardID == "" && len(args) > 0 {
+		_ = json.Unmarshal(args[0], &boardID)
+	}
+	var b Board
+	if !validID(boardID) || s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(boardID)}).Decode(&b) != nil {
+		return
+	}
+	if addsBoardMember(b.Members, mod) {
+		s.recordSecurity(r, securityEvent{Key: "authz.member-add", Action: "blocked", Source: "ddp:boards." + op, UserID: u.ID,
+			Detail: "A client board update added a member outside inviteUserToBoard."})
+	}
 }
