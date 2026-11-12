@@ -225,6 +225,12 @@ func (s *Server) copyCardTo(r *http.Request, u *User, card bson.M, from, to *Boa
 	for _, k := range []string{"_id", "scrum", "scrumRevision", "linkedId", "syncExternalId", "syncSourceType", "syncSourceKey", "syncLastSource", "syncClosedByWeKan"} {
 		delete(doc, k)
 	}
+	// AdminFieldBleed: a copy keeps only the custom fields its copier may read,
+	// as WeKan's Card.copy for its actor - a member's copy carried an
+	// admin-only field's value onto a card they could then read it from.
+	if _, has := doc["customFields"]; has {
+		doc["customFields"] = s.fieldReaderFor(ctx, from, u).readableFieldsOnly(card["customFields"])
+	}
 	// The card's Scrum, kept on its board, linked by name on another
 	// (scrumCopy.js).
 	planning := s.scrumPlanningPair(ctx, from.ID, to.ID)

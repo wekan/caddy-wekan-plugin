@@ -54,6 +54,18 @@ func (s *Server) methodCopyCard(r *http.Request, u *User, args []json.RawMessage
 	if err != nil || !to.Writable(u, "write", nil) {
 		return nil, &methodError{"not-authorized", "not-authorized"}
 	}
+	// A forged merge is refused before anything is copied (WeKan's
+	// assertFieldWrite on { ...card, ...mergeCardValues }).
+	merged := map[string]any{}
+	for k, v := range card {
+		merged[k] = v
+	}
+	for k, v := range values {
+		merged[k] = v
+	}
+	if s.fieldWriteRefused(r, u, from, card, merged, "method:copyCard") {
+		return nil, &methodError{"not-authorized", "Protected custom field"}
+	}
 	attempt, bad := false, false
 	for k, v := range values {
 		if k != "title" && k != "description" {

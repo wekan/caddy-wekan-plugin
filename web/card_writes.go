@@ -52,6 +52,13 @@ func (s *Server) methodCardsUpdate(r *http.Request, u *User, args []json.RawMess
 	if json.Unmarshal(args[1], &mod) != nil || len(mod) == 0 {
 		return nil, denied
 	}
+	for _, fields := range mod {
+		for k := range fields {
+			if k == "customFields" || strings.HasPrefix(k, "customFields.") {
+				return s.cardsUpdateCustomFields(r, u, id, mod)
+			}
+		}
+	}
 	set, unset := bson.M{}, bson.M{}
 	for op, fields := range mod {
 		if (op != "$set" && op != "$unset") || len(fields) == 0 {
@@ -129,4 +136,89 @@ func (s *Server) methodCardsUpdate(r *http.Request, u *User, args []json.RawMess
 	}
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	return res.MatchedCount, nil // Meteor answers the number it matched
+}
+
+// cardsUpdateCustomFields is /cards/update of a card's custom fields, under
+// WeKan's rules: the modifier is applied to a copy of the card and checked
+// with assertFieldWrite - a change to a value the caller may not read, or to
+// a read-only one they may not write, is AdminFieldBleed, refused and
+// recorded (a replace, a $push or an $unset of the array included). What a
+// card editor may then write is the one change WeKan's card details make, a
+// field's value by its index: $set customFields.N.value. Anything else is
+// Meteor's 403.
+func (s *Server) cardsUpdateCustomFields(r *http.Request, u *User, id string, mod map[string]map[string]any) (any, error) {
+	denied := &methodError{"403", "Access denied"}
+	ctx := r.Context()
+	var raw bson.M
+	if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&raw) != nil {
+		return 0, nil
+	}
+	var card Card
+	_ = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&card)
+	b, err := s.boardFor(ctx, card.BoardID, u)
+	if err != nil || !b.WritableIn(ctx, s, u, "write", &card) {
+		return nil, denied
+	}
+	before := plain(raw).(map[string]any)
+	fields := fieldValues(before)
+	after := map[string]any{}
+	for k, v := range before {
+		after[k] = v
+	}
+	valueEdit := true
+	for op, set := range mod {
+		for k, v := range set {
+			parts := strings.Split(k, ".")
+			switch {
+			case op == "$set" && k == "customFields":
+				after["customFields"] = v
+				valueEdit = false
+			case op == "$push" && k == "customFields":
+				list := []any{}
+				for _, f := range fieldValues(after) {
+					list = append(list, f)
+				}
+				after["customFields"] = append(list, v)
+				valueEdit = false
+			case op == "$unset" && k == "customFields":
+				delete(after, "customFields")
+				valueEdit = false
+			case op == "$set" && len(parts) == 3 && parts[0] == "customFields" && digits.MatchString(parts[1]) && parts[2] == "value":
+				i := 0
+				for _, c := range parts[1] {
+					if i = i*10 + int(c-'0'); i >= len(fields) {
+						return nil, denied
+					}
+				}
+				list := fieldValues(after)
+				list[i]["value"] = v
+				anyList := []any{}
+				for _, f := range list {
+					anyList = append(anyList, f)
+				}
+				after["customFields"] = anyList
+			default:
+				return nil, denied
+			}
+		}
+	}
+	if s.fieldWriteRefused(r, u, b, before, after, "ddp:cards.update") {
+		return nil, &methodError{"not-authorized", "Protected custom field"}
+	}
+	if !valueEdit {
+		return nil, denied
+	}
+	fr := s.fieldReaderFor(ctx, b, u)
+	next := bson.A{}
+	for i, f := range fieldValues(after) {
+		if canonical(f) != canonical(fields[i]) && !fr.mayWrite(f["_id"].(string)) {
+			return nil, denied // a field no longer on the board, or one they may not write
+		}
+		next = append(next, f)
+	}
+	if _, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": card.ID}, bson.M{"$set": bson.M{"customFields": next, "modifiedAt": time.Now().UTC()}}); err != nil {
+		return nil, err
+	}
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	return 1, nil
 }

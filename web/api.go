@@ -568,6 +568,41 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 		apiError(w, parentStatus(err), err.Error())
 		return
 	}
+	// The card's custom field values, as WeKan's PUT takes them: under
+	// assertFieldWrite - a change to a value the caller may not read or write
+	// is AdminFieldBleed, refused and recorded - and only fields of this board.
+	if v, ok := req["customFields"]; ok {
+		list, isList := v.([]any)
+		if !isList {
+			apiError(w, http.StatusBadRequest, "customFields is a list")
+			return
+		}
+		var raw bson.M
+		_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(c.ID)}).Decode(&raw)
+		before := plain(raw).(map[string]any)
+		if s.fieldWriteRefused(r, u, b, before, map[string]any{"customFields": list}, "rest:card-edit") {
+			apiError(w, http.StatusForbidden, "Protected custom field")
+			return
+		}
+		fr := s.fieldReaderFor(r.Context(), b, u)
+		old := map[string]string{}
+		for _, f := range fieldValues(before) {
+			old[f["_id"].(string)] = canonical(f)
+		}
+		next := bson.A{}
+		for _, f := range fieldValues(map[string]any{"customFields": list}) {
+			id := f["_id"].(string)
+			if !fr.mayRead(id) && old[id] == "" {
+				continue // not a field of this board
+			}
+			if old[id] != canonical(f) && !fr.mayWrite(id) {
+				apiError(w, http.StatusForbidden, "Protected custom field")
+				return
+			}
+			next = append(next, f)
+		}
+		set["customFields"] = next
+	}
 	set["modifiedAt"] = time.Now().UTC()
 	// A move to another board: newBoardId, newSwimlaneId and newListId together
 	// (WeKan's isBoardMove), with write access there and a list and swimlane of

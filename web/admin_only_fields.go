@@ -18,7 +18,9 @@ package web
 
 import (
 	"context"
+	"net/http"
 	"slices"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -99,4 +101,107 @@ func (fr *fieldReader) redactCard(card bson.M) bson.M {
 	}
 	card["customFields"] = out
 	return card
+}
+
+// AdminFieldBleed, the write side: WeKan's assertFieldWrite
+// (server/lib/adminOnlyCustomFields.js). A user's card write may not change
+// the values of the fields that user may not read - an admin-only field of a
+// board they do not administer - nor, unless an admin, a read-only field's
+// value (#3143). The card before and after are compared; any difference is
+// refused and recorded, whatever path the write took.
+
+// mayWrite is WeKan's mayWriteField, for this board.
+func (fr *fieldReader) mayWrite(fieldID string) bool {
+	if !fr.mayRead(fieldID) {
+		return false
+	}
+	return fr.defs[fieldID]["readOnly"] != true || fr.admin
+}
+
+// fieldValues are the card's custom fields as {_id, value} pairs, in order.
+func fieldValues(card map[string]any) []bson.M {
+	var list []any
+	switch v := card["customFields"].(type) {
+	case bson.A:
+		list = v
+	case []any:
+		list = v
+	}
+	out := []bson.M{}
+	for _, f := range list {
+		var m map[string]any
+		switch x := f.(type) {
+		case bson.M:
+			m = x
+		case map[string]any:
+			m = x
+		case bson.D:
+			m = map[string]any{}
+			for _, e := range x {
+				m[e.Key] = e.Value
+			}
+		default:
+			continue
+		}
+		out = append(out, bson.M{"_id": docString(m, "_id"), "value": plain(m["value"])}) // inserted, not a filter
+	}
+	return out
+}
+
+// protectedValues is WeKan's: the set values of fields the reader may not read.
+func (fr *fieldReader) protectedValues(card map[string]any) string {
+	var out []bson.M
+	for _, f := range fieldValues(card) {
+		if f["value"] != nil && !fr.mayRead(f["_id"].(string)) {
+			out = append(out, f)
+		}
+	}
+	return canonical(out)
+}
+
+// writeProtectedValues is WeKan's: the set values of read-only fields the
+// reader may read but not write, by field id.
+func (fr *fieldReader) writeProtectedValues(card map[string]any) string {
+	var out []bson.M
+	for _, f := range fieldValues(card) {
+		id := f["_id"].(string)
+		if f["value"] != nil && fr.defs[id]["readOnly"] == true && fr.mayRead(id) && !fr.mayWrite(id) {
+			out = append(out, f)
+		}
+	}
+	slices.SortFunc(out, func(a, b bson.M) int { return strings.Compare(a["_id"].(string), b["_id"].(string)) })
+	return canonical(out)
+}
+
+// fieldWriteRefused is assertFieldWrite: true - recorded - when the write
+// from before to after changes a value the user may not.
+func (s *Server) fieldWriteRefused(r *http.Request, u *User, b *Board, before, after map[string]any, source string) bool {
+	if u == nil {
+		return false // trusted server-side writes have no requester
+	}
+	fr := s.fieldReaderFor(r.Context(), b, u)
+	if before == nil {
+		before = map[string]any{}
+	}
+	if after == nil {
+		after = map[string]any{}
+	}
+	if fr.protectedValues(before) == fr.protectedValues(after) && fr.writeProtectedValues(before) == fr.writeProtectedValues(after) {
+		return false
+	}
+	s.recordSecurity(r, securityEvent{Key: "authz.admin-only-field", Action: "blocked", Source: source, UserID: u.ID,
+		Detail: "Protected custom-field mutation refused"})
+	return true
+}
+
+// readableFieldsOnly is the copy's custom fields as WeKan's Card.copy keeps
+// them for its actor: only those the copier may read.
+func (fr *fieldReader) readableFieldsOnly(v any) bson.A {
+	out := bson.A{}
+	for _, f := range fieldValues(map[string]any{"customFields": v}) {
+		if fr.mayRead(f["_id"].(string)) {
+			out = append(out, f)
+		}
+	}
+	return out
 }

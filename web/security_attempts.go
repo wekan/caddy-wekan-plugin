@@ -164,6 +164,24 @@ func (s *Server) noteDeniedCollectionWrite(r *http.Request, u *User, name string
 			s.recordSecurity(r, securityEvent{Key: "authz.repoint", Action: "blocked", Source: "ddp:customFields." + op, UserID: u.ID,
 				Detail: "Tried to put a custom field on, or take it off, a board without write access there."})
 		}
+		// AdminFieldBleed: an admin-only field made by someone who is not an
+		// admin of every board it names.
+		if op == "insert" && arg(0)["adminOnly"] == true && !u.IsAdmin && s.notAdminOfAll(ctx, u, named) {
+			s.recordSecurity(r, securityEvent{Key: "authz.admin-only-field", Action: "blocked", Source: "ddp:customFields.definition-insert", UserID: u.ID,
+				Detail: "Tried to create an admin-only custom field without being an admin of its boards."})
+		}
+	case collection == "cards" && (op == "insert" || op == "upsert"):
+		// AdminFieldBleed: a client card insert carrying a value of a field the
+		// caller may not read (assertFieldWrite of null -> doc).
+		doc := arg(0)
+		if op == "upsert" {
+			doc = arg(1)
+		}
+		boardID, _ := doc["boardId"].(string)
+		var b Board
+		if validID(boardID) && s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) == nil {
+			_ = s.fieldWriteRefused(r, u, &b, nil, doc, "ddp:cards.insert")
+		}
 	case collection == "boards" && op == "insert" && groupLinksInInsert(arg(0)):
 		s.recordSecurity(r, securityEvent{Key: "authz.group-link", Action: "blocked", Source: "ddp:boards.insert", UserID: u.ID,
 			Detail: "A client board insert named organizations, teams or domains."})
@@ -319,4 +337,18 @@ func (s *Server) noteBoardGroupWrite(r *http.Request, u *User, op string, sel, m
 		s.recordSecurity(r, securityEvent{Key: "authz.member-add", Action: "blocked", Source: "ddp:boards." + op, UserID: u.ID,
 			Detail: "A client board update added a member outside inviteUserToBoard."})
 	}
+}
+
+// notAdminOfAll: is u not an admin of every board in ids (or are there none)?
+func (s *Server) notAdminOfAll(ctx context.Context, u *User, ids []string) bool {
+	if len(ids) == 0 {
+		return true
+	}
+	for _, id := range ids {
+		var b Board
+		if !validID(id) || s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&b) != nil || !b.AdminOf(u.ID) {
+			return true
+		}
+	}
+	return false
 }
