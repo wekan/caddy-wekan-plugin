@@ -885,6 +885,7 @@
   "bots-summary": "%s körs · %s väntar på dig",
   "bots-token": "Signeringstoken (valfri)",
   "bots-url": "Körarens adress",
+  "bucket-example": " Som till exempel  \"Bucket List\"",
   "cancel": "Avbryt",
   "card": "Kort",
   "card-archive-pop": "Kortet kommer inte synas i denna listan efter det är arkiverat.",

@@ -885,6 +885,7 @@
   "bots-summary": "%s en execució · %s esperant-vos",
   "bots-token": "Testimoni de signatura (opcional)",
   "bots-url": "Adreça de l'executor",
+  "bucket-example": "Com ara \"Llista de desitjos\" per exemple",
   "cancel": "Cancel·la",
   "card": "Fitxa",
   "card-archive-pop": "La fitxa no serà visible en aquesta llista després d'arxivar la fitxa.",

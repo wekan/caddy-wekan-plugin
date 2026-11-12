@@ -885,6 +885,7 @@
   "bots-summary": "%s en ejecución · %s esperándolo",
   "bots-token": "Token de firma (opcional)",
   "bots-url": "Dirección del ejecutor",
+  "bucket-example": "Mes anterior",
   "cancel": "Cancelar",
   "card": "Tarjeta",
   "card-archive-pop": "La tarjeta no será visible en la lista despues de archivarla",

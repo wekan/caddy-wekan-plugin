@@ -885,6 +885,7 @@
   "bots-summary": "%s개 실행 중 · %s개 응답 대기 중",
   "bots-token": "서명 토큰 (선택 사항)",
   "bots-url": "실행기 주소",
+  "bucket-example": "예: \"꼭 하고싶은 일 목록\"",
   "cancel": "취소",
   "card": "카드",
   "card-archive-pop": "카드를 저장소에 보관한 후 이 리스트에서 카드가 보이지 않을 것입니다.",

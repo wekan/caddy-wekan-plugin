@@ -885,6 +885,7 @@
   "bots-summary": "実行中 %s · あなたの対応待ち %s",
   "bots-token": "署名トークン（任意）",
   "bots-url": "ランナーのアドレス",
+  "bucket-example": "例えば「やりたいことリスト」など",
   "cancel": "キャンセル",
   "card": "カード",
   "card-archive-pop": "カードをアーカイブすると、このリストに表示されなくなります。",

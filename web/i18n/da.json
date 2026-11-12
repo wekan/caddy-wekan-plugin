@@ -885,6 +885,7 @@
   "bots-summary": "%s kører · %s venter på dig",
   "bots-token": "Signeringstoken (valgfri)",
   "bots-url": "Runner-adresse",
+  "bucket-example": "F.eks. \"Bucket List\"",
   "cancel": "Annuller",
   "card": "Kort",
   "card-archive-pop": "Kortet vil ikke være synligt på denne liste efter arkivering.",

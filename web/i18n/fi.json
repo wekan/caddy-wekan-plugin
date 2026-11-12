@@ -885,6 +885,7 @@
   "bots-summary": "%s käynnissä · %s odottaa sinua",
   "bots-token": "Allekirjoitustunnus (valinnainen)",
   "bots-url": "Suorittimen osoite",
+  "bucket-example": "Kuten esimerkiksi \"Säiliö lista\"",
   "cancel": "Peruuta",
   "card": "Kortti",
   "card-archive-pop": "Kortti ei enää näy tässä listassa arkistoinnin jälkeen.",

@@ -885,6 +885,7 @@
   "bots-summary": "%s running · %s waiting for you",
   "bots-token": "Signing token (optional)",
   "bots-url": "Runner address",
+  "bucket-example": "Like \"Bucket List\" for example",
   "cancel": "Cancel",
   "card": "Card",
   "card-archive-pop": "Card will not be visible at this list after archiving card.",

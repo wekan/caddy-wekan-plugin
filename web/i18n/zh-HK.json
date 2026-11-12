@@ -885,6 +885,7 @@
   "bots-summary": "%s 個執行中 · %s 個正在等你",
   "bots-token": "簽署權杖（選用）",
   "bots-url": "執行器位址",
+  "bucket-example": "例如「人生清單」",
   "cancel": "取消",
   "card": "卡片",
   "card-archive-pop": "封存卡片後，將不會在此清單看到卡片。",

@@ -885,6 +885,7 @@
   "bots-summary": "%s çalışıyor · %s sizi bekliyor",
   "bots-token": "İmzalama belirteci (isteğe bağlı)",
   "bots-url": "Yürütücü adresi",
+  "bucket-example": "Örneğin \"Yapılacaklar Listesi\" gibi",
   "cancel": "İptal",
   "card": "Kart",
   "card-archive-pop": "Kart arşivlendikten sonra bu listede kart görünmeyecektir.",

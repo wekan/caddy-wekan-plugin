@@ -885,6 +885,7 @@
   "bots-summary": "%s em execução · %s à sua espera",
   "bots-token": "Token de assinatura (opcional)",
   "bots-url": "Endereço do executor",
+  "bucket-example": "Como \"Lista de Desejos\", por exemplo",
   "cancel": "Cancelar",
   "card": "Cartão",
   "card-archive-pop": "O cartão não ficará visível nesta lista depois de arquivado.",

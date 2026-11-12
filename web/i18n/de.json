@@ -890,6 +890,7 @@
   "bots-summary": "%s laufen · %s warten auf Sie",
   "bots-token": "Signatur-Token (optional)",
   "bots-url": "Runner-Adresse",
+  "bucket-example": "z.B. \"Löffelliste\"",
   "cancel": "Abbrechen",
   "card": "Karte",
   "card-archive-pop": "Die Karte wird nach ihrer Archivierung nicht in dieser Liste sichtbar sein.",

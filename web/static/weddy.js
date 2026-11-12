@@ -227,6 +227,13 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     sidebarState('archives', false);
     sidebarState('filter', false);
   });
+  // WeKan's header Create Board icon: the pop-over, its title to type into.
+  up.on('click', '.js-create-board', function (event) {
+    event.preventDefault();
+    openPopOver('create-board');
+    var t = document.querySelector('.js-pop-over .js-new-board-title');
+    if (t) t.focus();
+  });
   up.on('click', '.js-open-board-menu', function (event) {
     event.preventDefault();
     openPopOver('board-menu');

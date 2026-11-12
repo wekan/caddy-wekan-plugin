@@ -885,6 +885,7 @@
   "bots-summary": "%s en execución · %s asperando-te",
   "bots-token": "Token de sinyatura (opcional)",
   "bots-url": "Adreza de l'executor",
+  "bucket-example": "Mes anterior",
   "cancel": "Cancelar",
   "card": "Tarcheta",
   "card-archive-pop": "La tarcheta no será visible en la lista despues de archivarla",

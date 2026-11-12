@@ -263,6 +263,9 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 		data["Unread"] = s.unreadNotifications(r.Context(), u.ID)
 		data["Drawer"] = s.drawerGroups(r.Context(), u, s.drawerItems(r.Context(), u, lang.Tag), lang.Tag)
 		data["CloudMenu"] = s.cloudOn() && u.IsAdmin
+		// The header's Create Board icon: for whoever may make a board -
+		// checked, not attempted, so nothing is recorded (boardpolicy.go).
+		data["MayCreateBoard"] = u.IsAdmin || !s.tableSetting(r.Context(), "tableVisibilityMode-boardCreationAdminOnly")
 		data["PanelMenu"] = s.panelAllowed(r, u)
 		data["AllowEmailChange"] = s.accountSetting(r.Context(), "accounts-allowEmailChange")
 		data["Email"] = ""
@@ -648,16 +651,46 @@ func (s *Server) insertBoard(ctx context.Context, u *User, title, typ, permissio
 }
 
 func (s *Server) createBoard(w http.ResponseWriter, r *http.Request, u *User) {
-	b, err := s.CreateBoard(r.Context(), u, r.FormValue("title"))
-	if errors.Is(err, errBoardCreation) {
-		http.Error(w, err.Error(), http.StatusForbidden)
+	// WeKan's createBoardForm with its multiline title choice: one board, or
+	// - "Many" chosen - one a line, in order; the page goes to the last made.
+	titles := creationTitles(r.FormValue("title"), r.FormValue("titleMode") == "separate")
+	if len(titles) == 0 {
+		http.Error(w, "a board needs a title", http.StatusBadRequest)
 		return
 	}
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+	var b *Board
+	for _, title := range titles {
+		var err error
+		b, err = s.CreateBoard(r.Context(), u, title)
+		if errors.Is(err, errBoardCreation) {
+			http.Error(w, err.Error(), http.StatusForbidden)
+			return
+		}
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
 	}
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+}
+
+// creationTitles is WeKan's models/lib/multilineTitles.js creationTitles: the
+// text as one title, or one a line with blank lines left out.
+func creationTitles(value string, separate bool) []string {
+	title := strings.TrimSpace(strings.ReplaceAll(strings.ReplaceAll(value, "\r\n", "\n"), "\r", "\n"))
+	if !separate {
+		if title == "" {
+			return nil
+		}
+		return []string{title}
+	}
+	var out []string
+	for _, line := range strings.Split(title, "\n") {
+		if line = strings.TrimSpace(line); line != "" {
+			out = append(out, line)
+		}
+	}
+	return out
 }
 
 // boardFor is the board, if u may see it: an active member, or a public board.

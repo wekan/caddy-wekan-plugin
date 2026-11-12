@@ -29,6 +29,24 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
                   input.primary.wide(type="submit", value="{{t $.L `rename`}}")
             else
               span.header-page-title(role="heading", aria-level="1", title="{{.Board.Title}}") {{.Board.Title}}
+        if .MayCreateBoard
+          //- WeKan's header.jade: the Create Board pop-over (createBoardForm).
+          a#header-new-board-icon.board-header-btn.js-create-board(href="#", title="{{t $.L `add-board`}}", aria-label="{{t $.L `add-board`}}")
+            i.fa.fa-plus
+          template.js-pop-over-template(data-pop="create-board", data-title="{{t $.L `add-board`}}")
+            form.js-create-board-form(method="post", action="/boards")
+              label
+                | {{t $.L "title"}}
+                textarea.js-new-board-title(name="title", rows="3", dir="auto", placeholder="{{t $.L `bucket-example`}}", required)
+              fieldset.multiline-title-choice
+                legend {{t $.L "add-many-lines-as"}}
+                label
+                  input.js-multiline-title-mode(type="radio", name="titleMode", value="one", checked)
+                  |  1 {{t $.L "board"}}
+                label
+                  input.js-multiline-title-mode(type="radio", name="titleMode", value="separate")
+                  |  {{tv $.L "many-items" "items" (t $.L "boards")}}
+              input.primary.wide(type="submit", value="{{t $.L `create`}}")
         if .User.IsAdmin
           a.js-admin-people(href="/admin/people") {{t $.L "admin-panel"}} / {{t $.L "people"}}
           a.js-admin-notifications(href="/admin/notifications") {{t $.L "admin-panel"}} / {{t $.L "notifications"}}

@@ -885,6 +885,7 @@
   "bots-summary": "%s 个运行中 · %s 个等待你回复",
   "bots-token": "签名令牌（可选）",
   "bots-url": "执行器地址",
+  "bucket-example": "例如“愿望清单”",
   "cancel": "取消",
   "card": "卡片",
   "card-archive-pop": "归档卡片后，卡片在此列表中将不可见。",
