@@ -231,6 +231,9 @@ type cardSettingsLine struct {
 	// Positioned: the row has a place of its own in its side's order, so it
 	// is dragged (by Handles, the user's drag handles, or by its name).
 	Positioned, Handles bool
+	// Override: the user's own labels text over the board's default;
+	// Overridden while they have set one (WeKan's labelTextOverride).
+	Override, Overridden bool
 }
 
 type cardSettingsPaneSection struct {
@@ -335,12 +338,15 @@ func (s *Server) cardSettingsPanes(ctx context.Context, b *Board, u *User, lang 
 				case "scrum":
 					line.Checked = visibility[sp.Scrum] == true
 				case "personal":
-					line.Writable = u != nil
+					line.Writable, line.Override = u != nil, true
+					override := prof["cardLabelTextOverride"]
 					if side == "minicard" {
-						line.Checked = labelTextShown(prof["showLabelTextOverride"], board["showLabelText"])
+						override = prof["showLabelTextOverride"]
+						line.Checked = labelTextShown(override, board["showLabelText"])
 					} else {
-						line.Checked = labelTextShown(prof["cardLabelTextOverride"], board["allowsLabelTextOnCard"])
+						line.Checked = labelTextShown(override, board["allowsLabelTextOnCard"])
 					}
+					_, line.Overridden = override.(bool)
 				}
 				if line.Checked {
 					ps.CheckedCount++

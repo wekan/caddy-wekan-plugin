@@ -543,6 +543,24 @@
                               each icon in .Icons
                                 i.fa(class="{{.}}", aria-hidden="true")
                               | {{.Title}}
+                              //- The user's own labels text (WeKan's cardSettingsRowLabel):
+                                following the board, or overriding it - the word a way back.
+                              if .Override
+                                if .Overridden
+                                  |  (
+                                  a(href="#", class="{{if eq .Side `minicard`}}js-reset-minicard-label-text-override{{else}}js-reset-card-label-text-override{{end}}", title="{{t $.L `label-text-use-board-default`}}") {{t $.L "label-text-overridden"}}
+                                  | )
+                                else
+                                  |  ({{t $.L "label-text-follows-board"}})
+                            //- A row's hamburger, only when it has something: the way back
+                              to the board's default while the user overrides it.
+                            if .Overridden
+                              a.card-settings-inline-menu.js-open-card-settings-item-menu(href="#", role="button", aria-expanded="false", data-panel="row-{{.Key}}-{{.Side}}", title="{{t $.L `actions`}}", aria-label="{{t $.L `actions`}}")
+                                i.fa.fa-bars(aria-hidden="true")
+                              template.js-card-settings-panel-tpl(data-panel="row-{{.Key}}-{{.Side}}")
+                                .card-settings-item-menu
+                                  div.check-div.card-settings-board-option
+                                    a(href="#", class="{{if eq .Side `minicard`}}js-reset-minicard-label-text-override{{else}}js-reset-card-label-text-override{{end}}") {{t $.L "label-text-use-board-default"}}
                     //- Custom Fields' items: the board's fields, each with this
                       side's checkbox and its form behind a hamburger; the + makes
                       one (WeKan's cardSettingsCustomFields.js).

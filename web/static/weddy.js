@@ -165,6 +165,13 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         if (fc && c) c.textContent = fc.textContent;
         var fi = fsec.querySelector('.card-settings-inline-items'), items = sec.querySelector('.card-settings-inline-items');
         if (fi && items) order(fi, items, '.js-card-field-order-row', 'key', function (frow, row) {
+          // A row whose hamburger came or went (the labels-text override
+          // set or reset) is drawn again whole.
+          if (!!frow.querySelector('.js-open-card-settings-item-menu') !== !!row.querySelector('.js-open-card-settings-item-menu')) {
+            row.className = frow.className;
+            row.innerHTML = frow.innerHTML;
+            return;
+          }
           row.className = frow.className;
           syncBox(frow.querySelector('.card-field-order-toggle'), row.querySelector('.card-field-order-toggle'));
           // The row's handle as the new page draws it (drag handles on or off).
@@ -729,7 +736,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // the same hamburger or Escape closing it, never Card Settings itself.
   function csClosePanels(pop) {
     (pop || document).querySelectorAll('.js-card-settings-panel').forEach(function (p) { p.remove(); });
-    (pop || document).querySelectorAll('.js-open-card-settings-section-menu.is-open, .js-card-settings-edit-custom-field.is-open, .js-card-settings-add-custom-field.is-open').forEach(function (b) {
+    (pop || document).querySelectorAll('.js-open-card-settings-section-menu.is-open, .js-open-card-settings-item-menu.is-open, .js-card-settings-edit-custom-field.is-open, .js-card-settings-add-custom-field.is-open').forEach(function (b) {
       b.classList.remove('is-open'); b.setAttribute('aria-expanded', 'false');
     });
   }
@@ -742,7 +749,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     panel.dataset.panel = burger.dataset.panel;
     // WeKan's kinds (cardSettingsInlinePanel): a section's, a field's, or
     // the + making one.
-    panel.dataset.kind = burger.dataset.panel === 'field-new' ? 'create' : burger.dataset.panel.indexOf('field-') === 0 ? 'field' : 'section';
+    panel.dataset.kind = burger.dataset.panel === 'field-new' ? 'create' : burger.dataset.panel.indexOf('field-') === 0 ? 'field'
+      : burger.dataset.panel.indexOf('row-') === 0 ? 'row' : 'section';
     var close = document.createElement('a');
     close.href = '#'; close.className = 'card-settings-inline-panel-close js-close-card-settings-panel';
     close.setAttribute('role', 'button'); close.setAttribute('aria-label', burger.getAttribute('aria-label') || '');
@@ -753,7 +761,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     // section's list of fields, which a redraw renews around it.
     var list = burger.closest('.js-card-settings-custom-fields');
     var head = burger.closest('.card-settings-inline-section-head');
-    if (list) list.parentNode.insertBefore(panel, list.nextSibling);
+    var row = burger.closest('.card-settings-inline-item.js-card-field-order-row');
+    if (row) row.parentNode.insertBefore(panel, row.nextSibling); // a row's: under the row
+    else if (list) list.parentNode.insertBefore(panel, list.nextSibling);
     else if (head) head.parentNode.insertBefore(panel, head.nextSibling);
     else burger.parentNode.insertBefore(panel, burger.nextSibling); // the +: under it
     burger.classList.add('is-open');
@@ -766,7 +776,18 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     csClosePanels(burger.closest('.js-pop-over'));
     if (!open) csOpenPanel(burger);
   });
-  up.on('click', '.js-card-settings-edit-custom-field, .js-card-settings-add-custom-field', function (event, burger) {
+  // The user's labels text back to the board's default (WeKan's
+  // setShowLabelTextOverride(null), and the card's override unset).
+  up.on('click', '.js-reset-minicard-label-text-override, .js-reset-card-label-text-override', function (event, el) {
+    event.preventDefault();
+    event.stopPropagation();
+    var pop = el.closest('.js-pop-over');
+    var done = el.classList.contains('js-reset-minicard-label-text-override')
+      ? window.Meteor.callAsync('setShowLabelTextOverride', null)
+      : window.Meteor.callAsync('/users/update', { _id: window.Meteor.userId() }, { $unset: { 'profile.cardLabelTextOverride': '' } });
+    done.then(function () { csClosePanels(pop); reloadBoard(true); }, csFail);
+  });
+  up.on('click', '.js-card-settings-edit-custom-field, .js-card-settings-add-custom-field, .js-open-card-settings-item-menu', function (event, burger) {
     event.preventDefault();
     var open = burger.classList.contains('is-open');
     csClosePanels(burger.closest('.js-pop-over'));

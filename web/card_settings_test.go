@@ -177,3 +177,50 @@ func TestIssueTypeBadge(t *testing.T) {
 		t.Fatal("no badge without a name")
 	}
 }
+
+// The user's labels text: following the board's default, or overriding it,
+// with a way back - a hamburger only while overridden.
+func TestCardSettingsLabelTextOverride(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	ann := w.seedUser(t, "ann", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Labels")
+	ac := w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	row := func(html, side string) string {
+		at := strings.Index(html, `data-key="labelTextPersonal" data-side="`+side+`"`)
+		if at < 0 {
+			t.Fatalf("the %s row", side)
+		}
+		r := html[at:]
+		if end := strings.Index(r[10:], `js-card-field-order-row`); end > 0 {
+			r = r[:end+10]
+		}
+		return r
+	}
+	_, html := get(t, ac, w.srv.URL+"/b/"+rb.ID+"/labels")
+	if r := row(html, "minicard"); !strings.Contains(r, "follows board default") || strings.Contains(r, "js-open-card-settings-item-menu") {
+		t.Fatal("no override: follows the board, no hamburger")
+	}
+	if _, out := methodCall(t, w, ac, "setShowLabelTextOverride", `[false]`); out["error"] != nil {
+		t.Fatalf("override: %v", out)
+	}
+	_, html = get(t, ac, w.srv.URL+"/b/"+rb.ID+"/labels")
+	r := row(html, "minicard")
+	if !strings.Contains(r, "js-reset-minicard-label-text-override") || !strings.Contains(r, "js-open-card-settings-item-menu") || !strings.Contains(r, ">overridden<") {
+		t.Fatal("overridden: the word is the way back, and the hamburger holds it")
+	}
+	if c := row(html, "card"); strings.Contains(c, "js-open-card-settings-item-menu") {
+		t.Fatal("the card's own override is not set")
+	}
+	if _, out := methodCall(t, w, ac, "setShowLabelTextOverride", `[null]`); out["error"] != nil {
+		t.Fatalf("back to the board's: %v", out)
+	}
+	var u struct {
+		Profile bson.M `bson:"profile"`
+	}
+	_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": ann.ID}).Decode(&u)
+	if _, set := u.Profile["showLabelTextOverride"]; set {
+		t.Fatal("the override is gone")
+	}
+}
