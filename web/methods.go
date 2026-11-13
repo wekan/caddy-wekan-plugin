@@ -35,6 +35,9 @@ func (s *Server) methods() map[string]methodFunc {
 		"setLanguage":                       s.methodSetLanguage,
 		"cards.pokerVote":                   s.methodPokerVote,
 		"setListCollapsedState":             s.methodSetListCollapsedState,
+		"applyListWidth":                    s.methodApplyListWidth,
+		"applySwimlaneHeightToStorage":      s.methodApplySwimlaneHeight("applySwimlaneHeightToStorage"),
+		"applySwimlaneHeight":               s.methodApplySwimlaneHeight("applySwimlaneHeight"),
 		"setSwimlaneCollapsedState":         s.methodSetSwimlaneCollapsedState,
 		"setCardCollapsedState":             s.methodSetCardCollapsedState,
 		"setCollapsedCardSection":           s.methodSetCollapsedCardSection,
@@ -157,6 +160,7 @@ var loggedOutError = map[string]string{
 	"importBoard":           "error-notAuthorized",
 	"importScoped":          "error-notAuthorized",
 	"setListCollapsedState": "not-logged-in",
+	"applyListWidth":        "not-logged-in",
 	"toggleBoardStar":       "not-logged-in",
 }
 

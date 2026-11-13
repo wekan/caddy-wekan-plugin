@@ -340,6 +340,8 @@ type List struct {
 	Type       string  `bson:"type,omitempty" json:"type,omitempty"`
 	// Watchers are the users who watch the list (WeKan's watchable list).
 	Watchers []string `bson:"watchers,omitempty" json:"watchers,omitempty"`
+	// Width is the list's own width, shared with everybody (WeKan's lists.width).
+	Width float64 `bson:"width,omitempty" json:"width,omitempty"`
 }
 
 // Card is a document of the cards collection.

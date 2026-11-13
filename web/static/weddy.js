@@ -4220,8 +4220,41 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // WeKan's scrumMetadata form: the card's Scrum fields through
   // scrum.updateCard - every chosen release, none when cleared.
   up.on('click', '.minicard .scrum-metadata', function (event) { event.stopPropagation(); });
+  // What was chosen in it, until it is sent, is not taken away by the board
+  // drawn again under it (scrum-multiple-releases: a redraw came between the
+  // choice and Save, and Save sent the releases the card already had).
+  var scrumEdit = null;
+  function scrumFormValues(form) {
+    var values = {};
+    Array.prototype.forEach.call(form.elements, function (f) {
+      if (!f.name) return;
+      values[f.name] = f.multiple ? Array.prototype.filter.call(f.options, function (o) { return o.selected; }).map(function (o) { return o.value; }) : f.value;
+    });
+    return values;
+  }
+  ['input', 'change'].forEach(function (type) {
+    document.addEventListener(type, function (event) {
+      var form = event.target.closest && event.target.closest('.board-wrapper .js-card-details form.js-scrum-metadata');
+      if (form) scrumEdit = { card: form.dataset.card, values: scrumFormValues(form) };
+    }, true);
+  });
+  up.on('up:fragment:inserted', function (event, el) {
+    if (!scrumEdit || !el || !el.matches || !el.matches('.board-wrapper')) return;
+    var edit = scrumEdit;
+    var form = el.querySelector('.js-card-details form.js-scrum-metadata[data-card="' + edit.card + '"]');
+    if (!form) { scrumEdit = null; return; }
+    Array.prototype.forEach.call(form.elements, function (f) {
+      if (!f.name || !(f.name in edit.values)) return;
+      var v = edit.values[f.name];
+      if (f.multiple) Array.prototype.forEach.call(f.options, function (o) { o.selected = v.indexOf(o.value) >= 0; });
+      else f.value = v;
+    });
+    var box = form.closest('details');
+    if (box) box.open = true;
+  });
   up.on('submit', '.js-scrum-metadata', function (event, form) {
     event.preventDefault();
+    scrumEdit = null;
     var fd = new FormData(form), meta = {};
     fd.forEach(function (v, k) { if (!(k in meta)) meta[k] = v; });
     ['sprintId', 'releaseId'].forEach(function (k) { if (k in meta) meta[k] = meta[k] || null; });
@@ -4280,6 +4313,104 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
 
   // While a rollover or a large undo runs in the background, the Scrum view
   // looks again every few seconds; nothing is polled otherwise.
+  // Swimlane and list resizing, as WeKan's list.js and swimlanes.js: a list's
+  // handle on its inline end - its left edge right-to-left, where dragging
+  // left widens it (#6801) - and a swimlane's at its bottom. A list's width is
+  // the board's (applyListWidth, or the board's one width while same width for
+  // all lists is on); a swimlane's height is the user's own, or this browser's
+  // for a visitor (localStorage wekan-swimlane-heights, as WeKan's).
+  var MIN_LIST_WIDTH = 200, MAX_LIST_WIDTH = 1000, MIN_LANE_HEIGHT = 100, MAX_LANE_HEIGHT = 2000;
+  function pageXY(e) {
+    var t = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]) || e;
+    return { x: t.pageX, y: t.pageY };
+  }
+  function sizeTo(el, prop, px) {
+    var p = px + 'px';
+    el.style.setProperty(prop === 'width' ? '--list-width' : '--swimlane-height', p);
+    el.style.setProperty(prop, p);
+    el.style.setProperty('min-' + prop, p);
+    el.style.setProperty('max-' + prop, p);
+    el.style.setProperty('flex', 'none');
+  }
+  function resizeDrag(handle, el, prop, start) {
+    var dir = prop === 'width' && window.getComputedStyle(el).direction === 'rtl' ? -1 : 1;
+    var from = el.getBoundingClientRect()[prop];
+    var min = prop === 'width' ? MIN_LIST_WIDTH : MIN_LANE_HEIGHT, max = prop === 'width' ? MAX_LIST_WIDTH : MAX_LANE_HEIGHT;
+    var size = from;
+    el.classList.add(prop === 'width' ? 'list-resizing' : 'swimlane-resizing');
+    document.body.classList.add(prop === 'width' ? 'list-resizing-active' : 'swimlane-resizing-active');
+    document.body.style.userSelect = 'none';
+    dragging++;
+    function move(e) {
+      var at = pageXY(e), d = prop === 'width' ? (at.x - start.x) * dir : at.y - start.y;
+      size = Math.round(Math.max(min, Math.min(max, from + d)));
+      sizeTo(el, prop, size);
+      if (prop === 'height') window.dispatchEvent(new Event('wekan-swimlane-resized'));
+      if (e.cancelable) e.preventDefault();
+    }
+    function end(e) {
+      if (e) move(e);
+      document.removeEventListener('mousemove', move);
+      document.removeEventListener('mouseup', end);
+      document.removeEventListener('touchmove', move);
+      document.removeEventListener('touchend', end);
+      el.classList.remove('list-resizing', 'swimlane-resizing');
+      document.body.classList.remove('list-resizing-active', 'swimlane-resizing-active');
+      document.body.style.userSelect = '';
+      var wrapper = el.closest('.board-wrapper');
+      var boardId = wrapper && wrapper.getAttribute('data-board');
+      var saved;
+      if (prop === 'height') {
+        var laneId = el.getAttribute('data-swimlane');
+        if (window.Meteor && Meteor.userId && Meteor.userId()) {
+          saved = Meteor.callAsync('applySwimlaneHeightToStorage', boardId, laneId, size);
+        } else {
+          try {
+            var heights = JSON.parse(localStorage.getItem('wekan-swimlane-heights') || '{}');
+            (heights[boardId] = heights[boardId] || {})[laneId] = size;
+            localStorage.setItem('wekan-swimlane-heights', JSON.stringify(heights));
+          } catch (err) { /* this browser keeps none */ }
+        }
+      } else if (wrapper && wrapper.getAttribute('data-same-width') === 'true') {
+        saved = Meteor.callAsync('/boards/update', { _id: boardId }, { $set: { sameWidthForAllListsValue: size } });
+        // Every list of the board is that one width at once.
+        wrapper.querySelectorAll('.js-list:not(.list-collapsed)').forEach(function (l) { sizeTo(l, 'width', size); });
+      } else {
+        saved = Meteor.callAsync('applyListWidth', boardId, el.getAttribute('data-list'), size, size);
+      }
+      // The board drawn again during the drag catches up once it is saved.
+      Promise.resolve(saved).catch(function (err) { if (window.console) console.error('Error saving the size:', err); })
+        .then(function () {
+          dragging = Math.max(0, dragging - 1);
+          if (dragging === 0 && stale) reloadBoard();
+        });
+    }
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseup', end);
+    document.addEventListener('touchmove', move, { passive: false });
+    document.addEventListener('touchend', end);
+  }
+  function resizeStart(event) {
+    var handle = event.target.closest && event.target.closest('.js-list-resize-handle, .js-swimlane-resize-handle');
+    if (!handle || (event.type === 'mousedown' && event.button !== 0)) return;
+    var isList = handle.classList.contains('js-list-resize-handle');
+    var el = handle.closest(isList ? '.js-list' : '.js-swimlane');
+    if (!el) return;
+    event.preventDefault();
+    event.stopPropagation();
+    resizeDrag(handle, el, isList ? 'width' : 'height', pageXY(event));
+  }
+  document.addEventListener('mousedown', resizeStart, true);
+  document.addEventListener('touchstart', resizeStart, { capture: true, passive: false });
+  // A visitor's own swimlane heights, from this browser.
+  up.compiler('.board-wrapper[data-signed-out="true"]', function (wrapper) {
+    var heights = {};
+    try { heights = JSON.parse(localStorage.getItem('wekan-swimlane-heights') || '{}')[wrapper.getAttribute('data-board')] || {}; } catch (err) { return; }
+    wrapper.querySelectorAll('.js-swimlane[data-swimlane]').forEach(function (lane) {
+      var h = heights[lane.getAttribute('data-swimlane')];
+      if (typeof h === 'number' && h >= MIN_LANE_HEIGHT && h <= MAX_LANE_HEIGHT) sizeTo(lane, 'height', h + 5);
+    });
+  });
   up.compiler('.scrum-view[data-polling="true"]', function () {
     var t = setTimeout(function () { up.reload('.scrum-view', { cache: false }); }, 3000);
     return function () { clearTimeout(t); };

@@ -289,7 +289,8 @@ func TestNoUnguardedMapKeyPath(t *testing.T) {
 			if !built.MatchString(line) || strings.Contains(line, `"actors.`) {
 				continue
 			}
-			if strings.Contains(line, "profile.collapsedLists.") || (f == "fold_states.go" && strings.Contains(line, `"profile." + mapName`)) {
+			if strings.Contains(line, "profile.collapsedLists.") || strings.Contains(line, "profile.swimlaneHeights.") ||
+				(f == "fold_states.go" && strings.Contains(line, `"profile." + mapName`)) {
 				continue // checked below
 			}
 			if _, ok := fixed[f]; !ok {
@@ -310,6 +311,13 @@ func TestNoUnguardedMapKeyPath(t *testing.T) {
 	j := strings.Index(fn[i:], "profile.collapsedLists.")
 	if i < 0 || j < 0 || !strings.Contains(fn[i:i+j], "s.refuseMapKeys(") {
 		t.Error("setListCollapsedState writes profile.collapsedLists.<id> without refuseMapKeys first")
+	}
+	// A swimlane's height, the user's own (resize.go): the same, before
+	// profile.swimlaneHeights.<board>.<swimlane>.
+	resize, _ := os.ReadFile("resize.go")
+	if i, j := strings.Index(string(resize), "func (s *Server) methodApplySwimlaneHeight("), strings.Index(string(resize), `"profile.swimlaneHeights."`); i < 0 || j < i ||
+		!strings.Contains(string(resize)[i:j], "s.refuseMapKeys(") {
+		t.Error("applySwimlaneHeightToStorage writes profile.swimlaneHeights.<id> without refuseMapKeys first")
 	}
 	if !strings.Contains(fn, "s.noteDeniedCollectionWrite(r, u, r.PathValue(\"name\"), denied)") {
 		t.Error("the denied collection writes are no longer looked at for RepointBleed and BackgroundBleed")

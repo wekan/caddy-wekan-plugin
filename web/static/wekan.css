@@ -26,7 +26,7 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 .swimlane { margin-bottom: 12px; }
 .swimlane-header { color: #fff; font-weight: 600; padding: 4px; }
 .list-group { display: flex; align-items: flex-start; gap: 8px; }
-.list { flex: 0 0 272px; background: var(--list); border-radius: 4px; padding: 6px; }
+.list { position: relative; flex: 0 0 var(--list-width, 272px); background: var(--list); border-radius: 4px; padding: 6px; }
 .list-header { display: flex; justify-content: space-between; align-items: center; padding: 4px; font-weight: 600; }
 .list-header a { text-decoration: none; color: inherit; font-size: 18px; padding: 0 6px; }
 /* A collapsed list: a narrow column with its caret and name, as WeKan's list.css. */
@@ -812,3 +812,18 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .js-toggle-password-min-length-enforce { display: inline-flex; gap: 0.4rem; align-items: center; color: inherit; }
 .js-toggle-password-min-length-enforce .materialCheckBox { display: inline-block; width: 13px; height: 13px; border: 2px solid #5a5a5a; border-radius: 1px; }
 .js-toggle-password-min-length-enforce .materialCheckBox.is-checked { width: 7px; height: 15px; border-top-color: transparent; border-left-color: transparent; border-bottom-color: #3cb500; border-right-color: #3cb500; transform: rotate(40deg); }
+
+/* Swimlane and list resizing, as WeKan's list.css and swimlanes.css: a list's
+   handle on its inline end, a swimlane's at its bottom. */
+.list-resize-handle { position: absolute; top: 0; inset-inline-end: -3px; width: 6px; height: 100%; cursor: col-resize; z-index: 10; border-radius: 2px; }
+.list:hover .list-resize-handle { background: rgba(0, 0, 0, .1); }
+.list-resize-handle:hover, .list:hover .list-resize-handle:hover { background: rgba(0, 123, 255, .4); box-shadow: 0 0 4px rgba(0, 123, 255, .3); }
+.list-resize-handle:active { background: rgba(0, 123, 255, .6); }
+.list.list-collapsed .list-resize-handle { display: none; }
+.js-swimlane { position: relative; }
+.js-swimlane[style*="height"] { display: flex; flex-direction: column; overflow: hidden; }
+.js-swimlane[style*="height"] > .list-group { flex: 1 1 auto; min-height: 0; overflow: auto; }
+.swimlane-resize-handle { position: absolute; bottom: 0; inset-inline: 0; height: 8px; cursor: row-resize; z-index: 20; border-radius: 2px; }
+.swimlane:hover .swimlane-resize-handle { background: rgba(0, 0, 0, .1); }
+.swimlane-resize-handle:hover { background: rgba(0, 123, 255, .4); }
+.list.list-resizing, .swimlane.swimlane-resizing { transition: none !important; }

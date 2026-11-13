@@ -223,6 +223,17 @@ func (s *Server) methodBoardsUpdate(r *http.Request, u *User, args []json.RawMes
 		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 		return 1, nil
 	}
+	// Same width for all lists: the board's one width, dragged by a writer.
+	if v, ok := sameWidthValueWrite(set); ok {
+		if !b.Writable(u, "write", nil) || !validListWidth(v) {
+			return refuse()
+		}
+		if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"sameWidthForAllListsValue": v}}); err != nil {
+			return nil, err
+		}
+		s.hub.publishFrom(b.ID, "board-changed", pageOfRequest(r))
+		return 1, nil
+	}
 	if clean, ok := cardSettingsBoardWrite(set); ok {
 		if !u.IsAdmin && !b.AdminOf(u.ID) {
 			return nil, denied

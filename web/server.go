@@ -764,6 +764,8 @@ type lane struct {
 	Lists []laneList
 	// Collapsed: the user folded the swimlane (profile.collapsedSwimlanes).
 	Collapsed bool
+	// Height is the user's own height of it in pixels, or 0 (resize.go).
+	Height int
 }
 
 type laneList struct {
@@ -772,6 +774,7 @@ type laneList struct {
 	Cards     []Card
 	Collapsed bool // folded by this user, in this swimlane (#6712)
 	CanAdd    bool // this user may add a card here: the list's rule, else the board's (#4527)
+	Width     int  // drawn at this width in pixels, or the stylesheet's (resize.go)
 }
 
 func (s *Server) boardData(ctx context.Context, b *Board) ([]lane, []List, error) {
@@ -912,6 +915,19 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	var rawB bson.M
 	_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&rawB)
 	data["SettingsAdmin"] = b.AdminOf(u.ID) || u.IsAdmin
+	// Swimlane and list resizing (resize.go): the sizes, and the handles for
+	// whoever may use them - a list's for who may change the board, a
+	// swimlane's for the user - unless Board Settings locks them.
+	sizes := s.resizeOf(r.Context(), u.ID, b.ID, rawB)
+	for i := range lanes {
+		lanes[i].Height = sizes.laneHeight(lanes[i].ID)
+		for j := range lanes[i].Lists {
+			lanes[i].Lists[j].Width = sizes.listWidth(lanes[i].Lists[j].List.Width)
+		}
+	}
+	data["SameWidthOn"] = sizes.SameWidth
+	data["CanResizeLists"] = !sizes.ListLocked && b.Writable(u, "write", nil)
+	data["CanResizeLanes"] = !sizes.LaneLocked
 	if b.MemberOf(u.ID) || u.IsAdmin { // not a write: what Card's hamburger shows
 		data["AskForMoveReason"] = rawB["askForMoveReason"] == true
 		data["CardDragRows"] = cardDragRowsOf(rawB, lang)
