@@ -642,9 +642,28 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 /* WeKan's Card Settings (sidebar.css .card-settings-panes): the Minicard and
    Card panes side by side when the pop-over is wide enough, stacked when it
    is not, each scrolling on its own; a section is a checklist of its rows. */
-.js-pop-over[data-popup="boardCardSettingsPopup"] { width: min(46rem, calc(100vw - 2rem)); max-width: 100%; }
-.card-settings-panes { display: flex; flex-wrap: wrap; gap: 1rem; }
-.card-settings-pane { flex: 1 1 18rem; min-width: 0; max-height: 70vh; overflow-y: auto; }
+.js-pop-over[data-popup="boardCardSettingsPopup"] { width: min(56rem, calc(100vw - 2rem)); height: min(40rem, calc(100vh - 6rem));
+  max-width: calc(100vw - 1rem); max-height: calc(100vh - 5rem); display: flex; flex-direction: column; overflow: hidden; }
+.js-pop-over[data-popup="boardCardSettingsPopup"] > .card-settings-panes-container { flex: 1 1 auto; min-height: 0; display: flex; }
+.card-settings-panes { --card-settings-split: 0.5; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: row; }
+.card-settings-pane { min-width: 16em; min-height: 0; display: flex; flex-direction: column; }
+.card-settings-pane-minicard { flex: 0 0 calc((100% - 8px) * var(--card-settings-split)); }
+.card-settings-pane-card { flex: 1 1 0; }
+.card-settings-pane-head { display: flex; align-items: center; gap: 0.3rem; flex: none; }
+.card-settings-pane-collapse { color: inherit; width: 1rem; text-align: center; }
+.card-settings-pane-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.card-settings-splitter { flex: 0 0 8px; cursor: col-resize; background: linear-gradient(to right, transparent 3px, #ccc 3px, #ccc 5px, transparent 5px); touch-action: none; }
+.card-settings-splitter:focus-visible { outline: 2px solid #0079bf; }
+/* A folded pane is its title; the other takes the width, with no splitter. */
+.card-settings-pane.is-pane-collapsed { flex: 0 0 auto; min-width: 0; }
+.card-settings-panes.has-collapsed-pane .card-settings-pane:not(.is-pane-collapsed) { flex: 1 1 0; }
+.card-settings-panes.has-collapsed-pane .card-settings-splitter, .card-settings-panes.is-stacked .card-settings-splitter { display: none; }
+/* Narrower than two panes: Minicard above Card, each as tall as it needs. */
+.card-settings-panes.is-stacked { flex-direction: column; overflow-y: auto; }
+.card-settings-panes.is-stacked .card-settings-pane { flex: none; min-width: 0; }
+.card-settings-panes.is-stacked .card-settings-pane-body { overflow: visible; }
+.js-date-popup-resize { position: absolute; right: 0; bottom: 0; width: 16px; height: 16px; padding: 0; border: 0; cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, #999 50%, #999 60%, transparent 60%, transparent 75%, #999 75%, #999 85%, transparent 85%); }
 .card-settings-pane-title { margin: 0 0 0.5rem; font-size: 1rem; }
 .card-settings-inline-section { margin-bottom: 0.6rem; }
 .card-settings-inline-section.is-section-hidden .card-settings-inline-items { opacity: 0.5; }

@@ -103,6 +103,8 @@ type User struct {
 		CardMaximized bool `bson:"cardMaximized,omitempty" json:"cardMaximized,omitempty"`
 		// CardCollapsed: the user folds the opened card's details (WeKan's profile.cardCollapsed).
 		CardCollapsed bool `bson:"cardCollapsed,omitempty" json:"cardCollapsed,omitempty"`
+		// CardSettingsSplit: the Minicard pane's share of Card Settings' width.
+		CardSettingsSplit float64 `bson:"cardSettingsSplit,omitempty" json:"cardSettingsSplit,omitempty"`
 		// SubmitOnEnter: Enter saves an editor and Shift+Enter is a new line
 		// (WeKan's profile.submitOnEnter); off, Ctrl/Cmd+Enter saves.
 		SubmitOnEnter bool `bson:"submitOnEnter,omitempty" json:"submitOnEnter,omitempty"`

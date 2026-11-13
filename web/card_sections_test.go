@@ -120,3 +120,31 @@ func TestOpenedCardFollowsTheCardPane(t *testing.T) {
 		t.Fatal("the Card pane in the card's order")
 	}
 }
+
+// The Minicard pane's share: half unless the user set it, within bounds.
+func TestCardSettingsSplitOf(t *testing.T) {
+	u := &User{}
+	if cardSettingsSplitOf(nil) != "0.5000" || cardSettingsSplitOf(u) != "0.5000" {
+		t.Fatal("half by default")
+	}
+	u.Profile.CardSettingsSplit = 0.7
+	if cardSettingsSplitOf(u) != "0.7000" {
+		t.Fatal("the user's own")
+	}
+	u.Profile.CardSettingsSplit = 5
+	if cardSettingsSplitOf(u) != "0.9000" {
+		t.Fatal("never past the bounds")
+	}
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Split")
+	ac := w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	_, html := get(t, ac, w.srv.URL+"/b/"+rb.ID+"/split")
+	for _, want := range []string{`js-card-settings-panes" style="--card-settings-split: 0.5000"`, `js-card-settings-splitter" role="separator"`,
+		`button class="js-date-popup-resize"`, `js-toggle-card-settings-pane"`, `js-card-settings-pane-body"`} {
+		if !strings.Contains(html, want) {
+			t.Fatalf("Card Settings has %s", want)
+		}
+	}
+}

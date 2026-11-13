@@ -251,13 +251,22 @@
     .header
       span.header-title {{t $.L "card-settings"}}
       a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
-    .content.card-settings-panes-container
-      .card-settings-panes
+    //- The panes side by side, the splitter between them - the Minicard
+      pane's share of the width, the user's own (profile.cardSettingsSplit) -
+      or stacked when the pop-over is narrower than two; each pane folds by its
+      caret and scrolls on its own; the corner grip resizes the pop-over.
+    button.js-date-popup-resize(type="button", title="{{t $.L `card-drawing-resize`}}", aria-label="{{t $.L `card-drawing-resize`}}")
+    .content.card-settings-panes-container.js-card-settings-panes-container
+      .card-settings-panes.js-card-settings-panes(style="--card-settings-split: {{.CardSettingsSplit}}")
         each p in .CardSettings
+          if eq .Side "card"
+            .card-settings-splitter.js-card-settings-splitter(role="separator", aria-orientation="vertical", tabindex="0", aria-valuemin="0", aria-valuemax="100", title="{{t $.L `card-drawing-resize`}}", aria-label="{{t $.L `card-drawing-resize`}}")
           .card-settings-inline.card-settings-pane.js-card-settings-inline.js-card-settings-pane(data-side="{{.Side}}", data-board="{{$.Board.ID}}", data-revision="{{.ScrumRevision}}", class="card-settings-pane-{{.Side}}")
             .card-settings-pane-head
+              a.card-settings-pane-collapse.js-toggle-card-settings-pane(href="#", role="button", aria-expanded="true", title="{{t $.L `collapse`}}", aria-label="{{t $.L `collapse`}}")
+                i.fa.fa-caret-down(aria-hidden="true")
               h3.card-settings-pane-title {{.Title}}
-            .card-settings-pane-body
+            .card-settings-pane-body.js-card-settings-pane-body
               .card-settings-inline-sections.js-card-settings-sections-sortable(data-side="{{.Side}}")
                 each sec in .Sections
                   .card-settings-inline-section.js-card-settings-section(data-section="{{.ID}}", class="{{if not .Shown}}is-section-hidden{{end}}")

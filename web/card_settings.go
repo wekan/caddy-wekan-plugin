@@ -4,8 +4,10 @@ import (
 	"context"
 	_ "embed"
 	"encoding/json"
+	"math"
 	"net/http"
 	"slices"
+	"strconv"
 	"strings"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -296,6 +298,17 @@ func (s *Server) cardSettingsPanes(ctx context.Context, b *Board, u *User, lang 
 		panes = append(panes, pane)
 	}
 	return panes
+}
+
+// cardSettingsSplitOf is the Minicard pane's share of Card Settings' width,
+// the user's own (WeKan's models/lib/cardSettingsSplit.js): half unless set,
+// and within 0.1 to 0.9.
+func cardSettingsSplitOf(u *User) string {
+	v := 0.5
+	if u != nil && u.Profile.CardSettingsSplit > 0 {
+		v = math.Min(0.9, math.Max(0.1, u.Profile.CardSettingsSplit))
+	}
+	return strconv.FormatFloat(v, 'f', 4, 64)
 }
 
 // methodSetShowLabelTextOverride is WeKan's setShowLabelTextOverride(value):

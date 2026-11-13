@@ -901,6 +901,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["CanInvite"] = canInviteToBoard(u, b, s.inviteRoles(r))
 	data["IsBoardAdmin"] = b.AdminOf(u.ID)
 	data["CardSettings"] = s.cardSettingsPanes(r.Context(), b, u, lang)
+	data["CardSettingsSplit"] = cardSettingsSplitOf(u)
 	// The board as this page draws it, for its live connection (board_watch.go).
 	data["BoardStamp"] = s.boardStamp(r.Context(), b.ID)
 	data["Views"] = s.boardViewEntries(b, lang, "")

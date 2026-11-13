@@ -380,6 +380,126 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       reloadBoard(true);
     }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
   });
+  // Card Settings' layout (WeKan's boardCardSettingsPopup): a pane folds by
+  // its caret, kept for the browser; the panes stack when the pop-over is
+  // narrower than two of them; the splitter between them is the Minicard
+  // pane's share of the width - dragged, by the keys, half and half again on
+  // a double-click - kept in the user's profile (cardSettingsSplit); the
+  // corner grip resizes the pop-over.
+  var CS_MIN_EM = 16, CS_SPLITTER = 8;
+  // The split last set here: the pop-over opened again is made from the
+  // page's template, drawn with the split as it was then.
+  var csSplitNow = null;
+  function csStore(key, value) {
+    try {
+      if (value === undefined) return localStorage.getItem('weddy-card-settings-' + key);
+      localStorage.setItem('weddy-card-settings-' + key, value);
+    } catch (e) { /* no storage: the fold lasts while the pop-over is open */ }
+    return null;
+  }
+  function csFoldPane(pane, folded) {
+    pane.classList.toggle('is-pane-collapsed', folded);
+    var caret = pane.querySelector('.js-toggle-card-settings-pane');
+    if (caret) {
+      caret.setAttribute('aria-expanded', folded ? 'false' : 'true');
+      var i = caret.querySelector('.fa');
+      if (i) { i.classList.toggle('fa-caret-down', !folded); i.classList.toggle('fa-caret-right', folded); }
+    }
+    var body = pane.querySelector('.js-card-settings-pane-body');
+    if (body) body.hidden = folded;
+    var panes = pane.closest('.js-card-settings-panes');
+    if (panes) panes.classList.toggle('has-collapsed-pane', !!panes.querySelector('.is-pane-collapsed'));
+  }
+  function csLayout(panes) {
+    var em = parseFloat(getComputedStyle(panes).fontSize) || 16;
+    // Two panes at their narrowest and the splitter fill it exactly: stacked.
+    panes.classList.toggle('is-stacked', panes.clientWidth <= 2 * CS_MIN_EM * em + CS_SPLITTER);
+  }
+  function csSetSplit(panes, f, save) {
+    var em = parseFloat(getComputedStyle(panes).fontSize) || 16;
+    var w = panes.clientWidth - CS_SPLITTER;
+    var min = w > 0 ? Math.min(0.5, CS_MIN_EM * em / w) : 0.1;
+    f = Math.max(min, Math.min(1 - min, f));
+    panes.style.setProperty('--card-settings-split', f.toFixed(4));
+    if (save) csSplitNow = f;
+    var sp = panes.querySelector('.js-card-settings-splitter');
+    if (sp) sp.setAttribute('aria-valuenow', String(Math.round(f * 100)));
+    if (save && window.Meteor && window.Meteor.userId()) {
+      clearTimeout(csSetSplit.timer);
+      csSetSplit.timer = setTimeout(function () {
+        window.Meteor.callAsync('/users/update', { _id: window.Meteor.userId() }, { $set: { 'profile.cardSettingsSplit': Number(f.toFixed(4)) } }).catch(function () {});
+      }, 200);
+    }
+  }
+  up.compiler('.js-pop-over .js-card-settings-panes', function (panes) {
+    panes.querySelectorAll('.js-card-settings-pane').forEach(function (pane) {
+      if (csStore('folded-' + pane.dataset.side) === '1') csFoldPane(pane, true);
+    });
+    csLayout(panes);
+    csSetSplit(panes, csSplitNow !== null ? csSplitNow : (parseFloat(getComputedStyle(panes).getPropertyValue('--card-settings-split')) || 0.5), false);
+    if (typeof ResizeObserver === 'undefined') return;
+    var ro = new ResizeObserver(function () { csLayout(panes); });
+    ro.observe(panes);
+    return function () { ro.disconnect(); };
+  });
+  up.on('click', '.js-toggle-card-settings-pane', function (event, el) {
+    event.preventDefault();
+    var pane = el.closest('.js-card-settings-pane');
+    var folded = !pane.classList.contains('is-pane-collapsed');
+    csFoldPane(pane, folded);
+    csStore('folded-' + pane.dataset.side, folded ? '1' : '0');
+  });
+  var csSplitDrag = null;
+  document.addEventListener('pointerdown', function (event) {
+    var sp = event.button === 0 && event.target.closest && event.target.closest('.js-pop-over .js-card-settings-splitter');
+    if (!sp) return;
+    event.preventDefault();
+    csSplitDrag = { panes: sp.closest('.js-card-settings-panes') };
+    document.body.classList.add('card-settings-splitting-active');
+  }, true);
+  document.addEventListener('pointermove', function (event) {
+    if (!csSplitDrag) return;
+    var r = csSplitDrag.panes.getBoundingClientRect();
+    var rtl = getComputedStyle(csSplitDrag.panes).direction === 'rtl';
+    var x = rtl ? r.right - event.clientX : event.clientX - r.left;
+    csSetSplit(csSplitDrag.panes, (x - CS_SPLITTER / 2) / (r.width - CS_SPLITTER), true);
+  }, true);
+  document.addEventListener('pointerup', function () {
+    if (!csSplitDrag) return;
+    csSplitDrag = null;
+    document.body.classList.remove('card-settings-splitting-active');
+  }, true);
+  up.on('dblclick', '.js-card-settings-splitter', function (event, sp) {
+    csSetSplit(sp.closest('.js-card-settings-panes'), 0.5, true);
+  });
+  up.on('keydown', '.js-card-settings-splitter', function (event, sp) {
+    var panes = sp.closest('.js-card-settings-panes');
+    var f = parseFloat(panes.style.getPropertyValue('--card-settings-split')) || 0.5;
+    var step = { ArrowRight: 0.05, ArrowLeft: -0.05 }[event.key];
+    if (getComputedStyle(panes).direction === 'rtl' && step) step = -step;
+    if (step) f += step;
+    else if (event.key === 'Home') f = 0;
+    else if (event.key === 'End') f = 1;
+    else return;
+    event.preventDefault();
+    csSetSplit(panes, f, true);
+  });
+  var csGrip = null;
+  document.addEventListener('pointerdown', function (event) {
+    var g = event.button === 0 && event.target.closest && event.target.closest('.js-pop-over > .js-date-popup-resize');
+    if (!g) return;
+    event.preventDefault();
+    var pop = g.parentNode, r = pop.getBoundingClientRect();
+    // From here on the pop-over is placed by its top left corner, which stays.
+    pop.style.left = r.left + 'px'; pop.style.top = r.top + 'px'; pop.style.right = 'auto';
+    csGrip = { pop: pop, x: event.clientX, y: event.clientY, w: r.width, h: r.height };
+  }, true);
+  document.addEventListener('pointermove', function (event) {
+    if (!csGrip) return;
+    csGrip.pop.style.width = Math.max(200, csGrip.w + event.clientX - csGrip.x) + 'px';
+    csGrip.pop.style.height = Math.max(150, csGrip.h + event.clientY - csGrip.y) + 'px';
+  }, true);
+  document.addEventListener('pointerup', function () { csGrip = null; }, true);
   // A section of Card Settings folds by its caret, for this pop-over.
   up.on('click', '.js-toggle-card-settings-section', function (event, el) {
     event.preventDefault();
