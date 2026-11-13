@@ -1377,13 +1377,32 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     }
     var form = item.querySelector('form.js-inlined-form');
     if (!form) return;
-    el.closest('.js-card-details').querySelectorAll('.card-details-item-customfield .js-inlined-form').forEach(function (f) { if (f !== form) closeInlinedForm(f); });
+    openFieldEditor(form);
+    // Opened while an earlier save was on its way: the board that save draws
+    // opens it again, rather than taking it away (03-cards-operations, the
+    // checkbox's square then its row, in a slow run).
+    if (up.network.isBusy()) reopenEditor = form.getAttribute('action');
+  });
+  function openFieldEditor(form) {
+    form.closest('.js-card-details').querySelectorAll('.card-details-item-customfield .js-inlined-form').forEach(function (f) { if (f !== form) closeInlinedForm(f); });
     var body = form.querySelector(':scope > template.js-inlined-form-body');
     if (body && !form.querySelector('input, textarea, select')) form.appendChild(body.content.cloneNode(true));
     form.classList.remove('is-hidden');
     var input = form.querySelector('textarea, select, input:not([type=hidden])');
     if (input) input.focus();
+  }
+  var reopenEditor = null;
+  up.on('up:fragment:inserted', function (event, el) {
+    if (!reopenEditor || !el || !el.matches || !el.matches('.board-wrapper')) return;
+    var action = reopenEditor;
+    reopenEditor = null;
+    var form = Array.prototype.find.call(el.querySelectorAll('.card-details-item-customfield form.js-inlined-form'), function (f) {
+      return f.getAttribute('action') === action;
+    });
+    if (form && form.classList.contains('is-hidden')) openFieldEditor(form);
   });
+  // An editor closed, or sent, needs no reopening.
+  up.on('up:form:submit', function () { reopenEditor = null; });
   // The checkbox editor's square follows its box.
   up.on('change', '.js-card-customfield-checkbox-editor .js-card-customfield-checkbox-input', function (event, el) {
     var square = el.parentNode.querySelector('.materialCheckBox');
@@ -2589,6 +2608,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   });
   up.on('click', '.js-close-inlined-form', function (event, el) {
     event.preventDefault();
+    reopenEditor = null;
     var form = el.closest('.js-inlined-form');
     if (form.classList.contains('js-card-composer')) form.remove();
     else closeInlinedForm(form);
