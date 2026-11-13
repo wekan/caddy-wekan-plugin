@@ -261,3 +261,51 @@ func TestCardSettingsCustomFields(t *testing.T) {
 		t.Fatal("a member who is no admin gets no field list")
 	}
 }
+
+// WeKan's setBoardDragging and Card's Draggable table: a board admin's, an
+// unknown kind or a foreign board refused; checklist items made undraggable
+// say so on the opened card.
+func TestSetBoardDragging(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	w.seedUser(t, "bob", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Drag")
+	foreign := newRESTBoard(t, w, login(t, w, "bob"), "Foreign")
+	ac := w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	call := func(args string) map[string]any {
+		_, out := methodCall(t, w, ac, "setBoardDragging", args)
+		return out
+	}
+	if out := call(`["` + foreign.ID + `","card",false]`); out["error"] != "not-authorized" {
+		t.Fatalf("a board the caller is no admin of: %v", out)
+	}
+	if out := call(`["` + rb.ID + `","unknown",false]`); out["error"] != "invalid-setting" {
+		t.Fatalf("an unknown kind: %v", out)
+	}
+	if out := call(`["` + rb.ID + `","card","false"]`); out["error"] == nil {
+		t.Fatal("a boolean only")
+	}
+	if out := call(`["` + rb.ID + `","item",false]`); out["error"] != nil {
+		t.Fatalf("the admin's: %v", out)
+	}
+	var b bson.M
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&b)
+	if b["allowsChecklistItemDragging"] != false || b["allowsCardDragging"] != nil {
+		t.Fatalf("only that kind: %v", b)
+	}
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": foreign.ID}).Decode(&b)
+	if b["allowsCardDragging"] == false {
+		t.Fatal("the foreign board untouched")
+	}
+	_, _ = w.db.Collection("checklists").InsertOne(ctx, bson.M{"_id": "cl1", "cardId": rb.Card, "boardId": rb.ID, "title": "Locked", "sort": 0})
+	_, html := get(t, ac, w.srv.URL+"/b/"+rb.ID+"/drag/"+rb.Card)
+	if !strings.Contains(html, `class="board-drag-settings"`) || !strings.Contains(html, `js-board-drag-setting" type="checkbox" data-kind="card" checked`) ||
+		strings.Contains(html, `data-kind="item" checked`) {
+		t.Fatal("the Draggable table, items unticked")
+	}
+	if !strings.Contains(html, `data-drag="off"`) {
+		t.Fatal("the opened card's checklist items stay put")
+	}
+}

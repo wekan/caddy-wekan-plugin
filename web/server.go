@@ -907,6 +907,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		var rawB bson.M
 		_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&rawB)
 		data["AskForMoveReason"] = rawB["askForMoveReason"] == true
+		data["CardDragRows"] = cardDragRowsOf(rawB, lang)
 		data["SubtaskPanel"] = s.subtaskPanelOf(r.Context(), b, u, rawB)
 	}
 	// The board as this page draws it, for its live connection (board_watch.go).
@@ -950,6 +951,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["Subtasks"], data["SubtaskCount"] = s.cardSubtasks(r.Context(), u, c.ID)
 			data["CanModifyCard"] = b.WritableIn(r.Context(), s, u, "write", &c)
 			data["CanCheckItems"] = s.canCheckChecklistItem(r.Context(), b, u, &c)
+			// The board's Draggable setting of checklist items (DRAG_SETTINGS).
+			data["ItemDragOff"] = !s.boardAllows(r.Context(), b.ID, "allowsChecklistItemDragging")
 			data["ChecklistDue"] = s.boardAllows(r.Context(), b.ID, "allowsChecklistDueDate")
 			data["DateFormat"] = u.Profile.DateFormat
 			var rawCard, rawBoard bson.M

@@ -50,7 +50,7 @@ if or .Checklists .CanModifyCard
               .checklist-progress-text {{.Percent}}%
               .checklist-progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="{{.Percent}}", aria-label="{{.Title}}")
                 .checklist-progress(style="width:{{.Percent}}%")
-          .checklist-items.js-checklist-items(data-sort-url="{{if $.CanModifyCard}}/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items/sort{{end}}", data-handles="{{if $.User.Profile.ShowDesktopDragHandles}}true{{end}}")
+          .checklist-items.js-checklist-items(data-sort-url="{{if $.CanModifyCard}}/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items/sort{{end}}", data-handles="{{if $.User.Profile.ShowDesktopDragHandles}}true{{end}}", data-drag="{{if $.ItemDragOff}}off{{end}}")
             each it in .Items
               .js-checklist-item.checklist-item(data-item="{{.ID}}", class="{{if .Finished}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Finished}}true{{else}}false{{end}}", aria-readonly="{{if $.CanCheckItems}}false{{else}}true{{end}}", tabindex="{{if $.CanCheckItems}}0{{else}}-1{{end}}")
                 if $.CanEdit

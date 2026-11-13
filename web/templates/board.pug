@@ -317,6 +317,22 @@
             a.flex.card-ask-move-reason.js-ask-move-reason(href="#", role="checkbox", aria-checked="{{if .AskForMoveReason}}true{{else}}false{{end}}")
               .materialCheckBox(class="{{if .AskForMoveReason}}is-checked{{end}}")
               span {{t $.L "ask-move-reason"}}
+          //- WeKan's boardDragSettings of the Card section: whether each kind
+            may be dragged on this board.
+          table.board-drag-settings
+            thead
+              tr
+                th {{t $.L "name"}}
+                th {{t $.L "draggable"}}
+            tbody
+              each dr in .CardDragRows
+                tr
+                  td {{.Title}}
+                  td
+                    if .Enabled
+                      input.js-board-drag-setting(type="checkbox", data-kind="{{.Kind}}", checked, aria-label="{{.Title}}")
+                    else
+                      input.js-board-drag-setting(type="checkbox", data-kind="{{.Kind}}", aria-label="{{.Title}}")
       template.js-card-settings-panel-tpl(data-panel="section-subtasks")
         .card-settings-section-menu
           .card-settings-section-action(data-action="subtaskSettings")
@@ -1127,11 +1143,11 @@
                                 if not .Collapsed
                                   .minicard-checklist-items.js-checklist-items
                                     each it in .Items
-                                      .minicard-checklist-item(data-item="{{.ID}}", class="{{if .IsFinished}}is-checked{{end}}")
+                                      .minicard-checklist-item.js-checklist-item(data-item="{{.ID}}", class="{{if .IsFinished}}is-checked{{end}}")
                                         if $.CanEdit
                                           button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="item", data-id="{{.ID}}")
                                         .materialCheckBox(class="{{if .IsFinished}}is-checked{{end}}")
-                                        span {{.Title}}
+                                        span.item-title {{.Title}}
                         //- WeKan's minicard cover: the card's cover image.
                         if .CoverID
                           .minicard-cover

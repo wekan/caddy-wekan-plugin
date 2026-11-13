@@ -703,6 +703,13 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       if (m) m.classList.toggle('is-checked', on);
     });
   });
+  // Card's Draggable table (WeKan's boardDragSettings): setBoardDragging.
+  up.on('change', '.js-card-settings-panel .js-board-drag-setting', function (event, el) {
+    var pane = el.closest('.js-pop-over').querySelector('.js-card-settings-pane');
+    window.Meteor.callAsync('setBoardDragging', pane.dataset.board, el.dataset.kind, el.checked).then(function () {
+      reloadBoard(true);
+    }, function (err) { el.checked = !el.checked; window.alert((err && (err.reason || err.message)) || String(err)); });
+  });
   up.on('click', '.js-card-settings-panel .js-field-show-parent-in-minicard', function (event, el) {
     event.preventDefault();
     csPanelSet(el, { presentParentTask: el.dataset.value });
@@ -917,7 +924,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (event.button !== 0 || !event.target.closest) return;
     var item = event.target.closest('.js-checklist-items .js-checklist-item');
     var box = item && item.closest('.js-checklist-items');
-    if (!box || !box.getAttribute('data-sort-url')) return;
+    // The board's Draggable setting of checklist items (DRAG_SETTINGS) off:
+    // they stay put.
+    if (!box || !box.getAttribute('data-sort-url') || box.getAttribute('data-drag') === 'off') return;
     var onHandle = !!event.target.closest('.checklistitem-handle');
     if (box.getAttribute('data-handles') === 'true' ? !onHandle : event.target.closest('button, a, textarea, input, form, .check-box-container')) return;
     itemDrag = { item: item, box: box, x: event.clientX, y: event.clientY, started: false };

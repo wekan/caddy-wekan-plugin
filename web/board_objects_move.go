@@ -33,7 +33,57 @@ var structuralCollections = map[string]string{"swimlane": "swimlanes", "list": "
 
 // boardDragFields are DRAG_SETTINGS: a board's own "may be dragged".
 var boardDragFields = map[string]string{"swimlane": "allowsSwimlaneDragging", "list": "allowsListDragging", "card": "allowsCardDragging",
-	"checklist": "allowsChecklistDragging", "item": "allowsChecklistItemDragging"}
+	"checklist": "allowsChecklistDragging", "item": "allowsChecklistItemDragging", "subtask": "allowsSubtaskDragging"}
+
+// cardDragRows are DRAG_SETTINGS of the Card section, in WeKan's order, each
+// with the translation key of its name.
+var cardDragRows = []struct{ Kind, Label string }{{"card", msg("card")}, {"checklist", msg("checklists")}, {"item", msg("r-item")}, {"subtask", msg("subtasks")}}
+
+// boardDragRow is one row of WeKan's boardDragSettings table.
+type boardDragRow struct {
+	Kind, Title string
+	Enabled     bool
+}
+
+func cardDragRowsOf(board bson.M, lang string) []boardDragRow {
+	out := make([]boardDragRow, 0, len(cardDragRows))
+	for _, r := range cardDragRows {
+		out = append(out, boardDragRow{r.Kind, tr(lang, r.Label), board[boardDragFields[r.Kind]] != false})
+	}
+	return out
+}
+
+// methodSetBoardDragging is WeKan's setBoardDragging(boardId, kind, enabled):
+// whether the board lets that kind be dragged, a board admin's or a site
+// admin's. A missing setting means draggable, as before the settings existed.
+func (s *Server) methodSetBoardDragging(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	kind, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	var enabled bool
+	if len(args) < 3 || json.Unmarshal(args[2], &enabled) != nil {
+		return nil, &methodError{"Match.Error", "Expected boolean"}
+	}
+	field, ok := boardDragFields[kind]
+	if !ok {
+		return nil, &methodError{"invalid-setting", "invalid-setting"}
+	}
+	var b Board
+	if !validID(boardID) || s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(boardID)}).Decode(&b) != nil || (!u.IsAdmin && !b.AdminOf(u.ID)) {
+		return nil, &methodError{"not-authorized", "not-authorized"}
+	}
+	res, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": b.ID}, bson.M{"$set": bson.M{field: enabled}})
+	if err != nil {
+		return nil, err
+	}
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	return res.ModifiedCount, nil
+}
 
 type structuralTarget struct {
 	BoardID     string `json:"boardId"`
