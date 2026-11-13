@@ -108,3 +108,27 @@ func TestOpenedCardSidesAndBoardWatch(t *testing.T) {
 		t.Fatalf("the outside change after a page's own is announced to all: %q", ev)
 	}
 }
+
+// A value of another type than WeKan stores (a date as text, a location as a
+// string) reads as none: the card is drawn, its other sides too.
+func TestCardExtrasTolerateOtherTypes(t *testing.T) {
+	var c Card
+	fillCardExtras(&c, bson.M{"endAt": "not-a-date", "dueAt": time.Date(2026, 9, 1, 0, 0, 0, 0, time.UTC), "color": 5,
+		"requestedBy": "Req", "locations": bson.A{"Shop", bson.M{"name": "Works"}}})
+	if c.EndAt != nil || c.DueAt == nil || c.Color != "" || c.RequestedBy != "Req" || len(c.Locations) != 1 || c.Locations[0].Name != "Works" {
+		t.Fatalf("%+v", c)
+	}
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Odd")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": rb.Card}, bson.M{"$set": bson.M{"endAt": "not-a-date", "color": "green"}})
+	ac := w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	if _, html := get(t, ac, w.srv.URL+"/b/"+rb.ID+"/odd"); !strings.Contains(html, `data-card="`+rb.Card+`"`) || !strings.Contains(html, "minicard-green") {
+		t.Fatal("the card is drawn, with its colour")
+	}
+	if _, html := get(t, ac, w.srv.URL+"/b/"+rb.ID+"/odd/"+rb.Card); !strings.Contains(html, "card-details-green") {
+		t.Fatal("and opened")
+	}
+}

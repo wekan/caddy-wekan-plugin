@@ -110,8 +110,8 @@ func sideFieldOrder(board bson.M, side string) []string {
 
 type cardSectionView struct {
 	ID, Icon, Title string
-	// Header: the section is headed here; the ones whose own heading folds
-	// them (custom fields, vote, poker, attachments) keep theirs.
+	// Header: the section is headed here; the ones with a heading of their
+	// own keep theirs (cardSectionsOf).
 	Header bool
 }
 
@@ -144,7 +144,12 @@ func cardSectionsOf(data map[string]any, board bson.M, lang string) []cardSectio
 		"scrum":        present(data["CardScrum"]),
 		"checklists":   present(data["Checklists"]) || present(data["CanModifyCard"]),
 	}
-	ownHeading := map[string]bool{"customFields": true, "vote": true, "poker": true, "attachments": true}
+	// A section whose fields open with its own title (Labels, Members,
+	// Description, Checklists, Subtasks, Comments) or whose heading folds it
+	// (custom fields, vote, poker, attachments) is not headed again: the
+	// same word twice, one above the other, only pushes the card down.
+	ownHeading := map[string]bool{"customFields": true, "vote": true, "poker": true, "attachments": true,
+		"labels": true, "members": true, "description": true, "checklists": true, "subtasks": true, "comments": true}
 	hidden, _ := plain(board[cardSettingsHiddenField["card"]]).([]any)
 	var out []cardSectionView
 	for _, id := range sectionOrderOf(board[cardSettingsOrderField["card"]], "card") {

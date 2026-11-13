@@ -926,7 +926,6 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		var c Card
 		if err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c); err == nil {
 			data["Card"] = c
-			data["CardSides"] = s.sidesOfOpenedCard(r.Context(), b, &c, u)
 			// The card's Scrum fields, and their editor for whoever may change it.
 			if n := s.scrumNamesOf(r.Context(), b.ID); len(n.visibility) > 0 {
 				lang := languageOf(r, u).Tag
@@ -948,6 +947,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(c.ID)}).Decode(&rawCard)
 			_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&rawBoard)
 			data["CardDates"] = orderCardDates(s.cardDates(r.Context(), b.ID, rawCard), rawBoard)
+			fillCardExtras(&c, rawCard)
+			data["CardSides"] = s.sidesOfOpenedCard(r.Context(), b, &c, u)
 			data["CanSetDates"] = s.canSetCardDates(r.Context(), b, u, &c)
 			// cardFieldSectionDescription: shown to an editor always, to anyone
 			// else when there is a description; its title and text as the

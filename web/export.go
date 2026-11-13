@@ -74,7 +74,8 @@ func (s *Server) apiExport(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Disposition", `attachment; filename="export-board-`+b.ID+`.json"`)
 	w.Header().Set("Cache-Control", "no-store")
-	writeJSON(w, http.StatusOK, out)
+	// Its dates as WeKan's export writes them (js_dates.go).
+	writeJSON(w, http.StatusOK, jsDates(out))
 }
 
 // exportBoard is WeKan's Exporter.build: the board and everything of it, each

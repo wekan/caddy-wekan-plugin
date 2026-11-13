@@ -72,6 +72,15 @@ func (s *Server) annotateMinicards(ctx context.Context, b *Board, lanes []lane, 
 			}
 		}
 	}
+	var all []*Card
+	for i := range lanes {
+		for j := range lanes[i].Lists {
+			for k := range lanes[i].Lists[j].Cards {
+				all = append(all, &lanes[i].Lists[j].Cards[k])
+			}
+		}
+	}
+	s.fillCardsExtras(ctx, all)
 	names := map[string]minicardPerson{}
 	if (showAssignees || showMembers) && len(people) > 0 {
 		ids := bson.A{}

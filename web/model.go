@@ -360,18 +360,21 @@ type Card struct {
 	CardNumber  int64     `bson:"cardNumber,omitempty" json:"cardNumber,omitempty"`
 	CreatedAt   time.Time `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
 	// Color, RequestedBy, Locations and DateLastActivity are drawn by Card
-	// Settings' sides (card_sides.go).
-	Color            string         `bson:"color,omitempty" json:"-"`
-	RequestedBy      string         `bson:"requestedBy,omitempty" json:"-"`
-	Locations        []cardLocation `bson:"locations,omitempty" json:"-"`
-	DateLastActivity time.Time      `bson:"dateLastActivity,omitempty" json:"-"`
+	// Settings' sides (card_sides.go). They and the dates below are read from
+	// the card's document by fillCardExtras, not decoded with the card: a
+	// value of another type there (a date stored as text) must not make the
+	// card itself unreadable.
+	Color            string         `bson:"-" json:"-"`
+	RequestedBy      string         `bson:"-" json:"-"`
+	Locations        []cardLocation `bson:"-" json:"-"`
+	DateLastActivity time.Time      `bson:"-" json:"-"`
 	MinicardSides    minicardSides  `bson:"-" json:"-"`
 	// The card's dates (WeKan's receivedAt, startAt, dueAt, endAt), and what
 	// the minicard draws in the Minicard pane's order (minicard_order.go).
-	ReceivedAt      *time.Time       `bson:"receivedAt,omitempty" json:"-"`
-	StartAt         *time.Time       `bson:"startAt,omitempty" json:"-"`
-	DueAt           *time.Time       `bson:"dueAt,omitempty" json:"-"`
-	EndAt           *time.Time       `bson:"endAt,omitempty" json:"-"`
+	ReceivedAt      *time.Time       `bson:"-" json:"-"`
+	StartAt         *time.Time       `bson:"-" json:"-"`
+	DueAt           *time.Time       `bson:"-" json:"-"`
+	EndAt           *time.Time       `bson:"-" json:"-"`
 	MinicardParts   []minicardPart   `bson:"-" json:"-"`
 	MinicardDates   []minicardDate   `bson:"-" json:"-"`
 	MinicardMembers []minicardPerson `bson:"-" json:"-"`

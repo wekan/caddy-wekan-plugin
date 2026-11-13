@@ -26,7 +26,7 @@ func tfail(msg string) { sfail("Invalid Scrum transfer: " + msg) }
 // jsonValue is a document as JSON reads it: numbers as float64, dates as
 // ISO text - the shape the transfer's checks are written for.
 func jsonValue(v any) any {
-	raw, err := json.Marshal(plain(v))
+	raw, err := json.Marshal(jsDates(plain(v)))
 	if err != nil {
 		return nil
 	}

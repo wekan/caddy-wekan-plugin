@@ -4,8 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // What Card Settings' sides added on 2026-10-02 draw (WeKan's minicard.jade
@@ -16,6 +18,53 @@ import (
 type cardLocation struct {
 	Name    string `bson:"name,omitempty"`
 	Address string `bson:"address,omitempty"`
+}
+
+// fillCardExtras reads what Card Settings' sides draw from the card's
+// document, each of the type WeKan stores and anything else as none.
+func fillCardExtras(c *Card, doc bson.M) {
+	c.Color, _ = doc["color"].(string)
+	c.RequestedBy, _ = doc["requestedBy"].(string)
+	c.Locations = nil
+	if list, ok := plain(doc["locations"]).([]any); ok {
+		for _, v := range list {
+			if m, ok := v.(map[string]any); ok {
+				name, _ := m["name"].(string)
+				addr, _ := m["address"].(string)
+				c.Locations = append(c.Locations, cardLocation{Name: name, Address: addr})
+			}
+		}
+	}
+	at := func(k string) *time.Time { return dueDateOf(doc[k]).At }
+	if t := at("dateLastActivity"); t != nil {
+		c.DateLastActivity = *t
+	}
+	c.ReceivedAt, c.StartAt, c.DueAt, c.EndAt = at("receivedAt"), at("startAt"), at("dueAt"), at("endAt")
+}
+
+// fillCardsExtras is fillCardExtras for many cards: one query.
+func (s *Server) fillCardsExtras(ctx context.Context, cards []*Card) {
+	if len(cards) == 0 {
+		return
+	}
+	ids := bson.A{}
+	byID := map[string]*Card{}
+	for _, c := range cards {
+		ids = append(ids, c.ID)
+		byID[c.ID] = c
+	}
+	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"_id": dbIn(ids)}, options.Find().SetProjection(bson.M{
+		"color": 1, "requestedBy": 1, "locations": 1, "dateLastActivity": 1, "receivedAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1}))
+	if err != nil {
+		return
+	}
+	var docs []bson.M
+	_ = cur.All(ctx, &docs)
+	for _, d := range docs {
+		if c := byID[docString(d, "_id")]; c != nil {
+			fillCardExtras(c, d)
+		}
+	}
 }
 
 // minicardSides are the minicard's: its colour, who requested it, where,
