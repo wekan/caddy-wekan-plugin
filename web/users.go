@@ -6,6 +6,7 @@ package web
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"math"
@@ -450,4 +451,50 @@ func (s *Server) setEmail(ctx context.Context, actor *User, userID, email string
 	_, err := s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(userID)},
 		bson.M{"$set": bson.M{"emails": bson.A{bson.M{"address": email, "verified": false}}}})
 	return err
+}
+
+// methodSetPassword is WeKan's setPassword(newPassword, userId): a site
+// admin sets an account's password - WeKan's own password accounts against
+// the password policy - and, as Meteor's Accounts.setPasswordAsync does by
+// default, every session of that account ends (the admin's own too, when it
+// is theirs).
+func (s *Server) methodSetPassword(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	password, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	userID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	if !u.IsAdmin {
+		return nil, &methodError{"not-authorized", "not-authorized"}
+	}
+	var target struct {
+		User                 `bson:",inline"`
+		AuthenticationMethod string `bson:"authenticationMethod"`
+	}
+	if !validID(userID) || s.db.Collection("users").FindOne(r.Context(), bson.M{"_id": eq(userID)}).Decode(&target) != nil {
+		return nil, &methodError{"not-found", "User not found"}
+	}
+	if target.AuthenticationMethod == "" || target.AuthenticationMethod == "password" {
+		email := ""
+		if len(target.Emails) > 0 {
+			email = target.Emails[0].Address
+		}
+		if p := s.passwordProblem(r.Context(), password, target.Username, email); p != "" {
+			return nil, &methodError{p, p}
+		}
+	}
+	hash, err := HashPassword(password)
+	if err != nil {
+		return nil, err
+	}
+	if _, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": target.ID}, bson.M{
+		"$set":   bson.M{"services.password.bcrypt": hash, "services.resume.loginTokens": []bson.M{}},
+		"$unset": bson.M{"services.password.argon2": ""}}); err != nil {
+		return nil, err
+	}
+	s.endPasswordChangeRequirement(r.Context(), target.ID)
+	return nil, nil
 }

@@ -69,6 +69,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"toggleCardMaximized":               s.methodToggleCardMaximized,
 		"setCardCollapsed":                  s.methodSetCardCollapsed,
 		"setBoardDragging":                  s.methodSetBoardDragging,
+		"setPassword":                       s.methodSetPassword,
 		"setBoardSettingsColumn":            s.methodSetBoardSettingsColumn,
 		"toggleSubmitOnEnter":               s.methodToggleSubmitOnEnter,
 		"toggleCustomFieldsGrid":            s.methodToggleCustomFieldsGrid,
@@ -160,6 +161,16 @@ var loggedOutError = map[string]string{
 }
 
 func (s *Server) methodRoutes(m *http.ServeMux) {
+	// Whether the page's session still signs it in - 204, or 401 when it has
+	// ended elsewhere - for the page's own look (weddy.js); nothing else.
+	m.HandleFunc("GET /_session", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "no-store")
+		if s.currentUser(r) == nil {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+		w.WriteHeader(http.StatusNoContent)
+	})
 	m.HandleFunc("POST /_methods/{name}", func(w http.ResponseWriter, r *http.Request) {
 		// The few methods a signed-out page asks, as WeKan's sign-up does.
 		if fn := s.publicMethods()[r.PathValue("name")]; fn != nil {

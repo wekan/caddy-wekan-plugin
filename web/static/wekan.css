@@ -809,3 +809,6 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .calendar-create-card .modal-content { background: #fff; border-radius: 6px; padding: 0.8rem; min-width: min(24rem, 90vw); }
 .calendar-create-card .modal-header { display: flex; justify-content: space-between; align-items: center; }
 .calendar-create-card textarea { width: 100%; box-sizing: border-box; }
+.js-toggle-password-min-length-enforce { display: inline-flex; gap: 0.4rem; align-items: center; color: inherit; }
+.js-toggle-password-min-length-enforce .materialCheckBox { display: inline-block; width: 13px; height: 13px; border: 2px solid #5a5a5a; border-radius: 1px; }
+.js-toggle-password-min-length-enforce .materialCheckBox.is-checked { width: 7px; height: 15px; border-top-color: transparent; border-left-color: transparent; border-bottom-color: #3cb500; border-right-color: #3cb500; transform: rotate(40deg); }

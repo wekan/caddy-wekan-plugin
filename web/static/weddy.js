@@ -1913,8 +1913,68 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       return up.render({ target: 'body', document: html, history: false });
     });
   }
+  // A table page's filter applies as it is chosen (WeKan's tablePage).
+  up.on('change', 'select.js-table-page-filter', function (event, el) {
+    if (el.form) el.form.requestSubmit ? el.form.requestSubmit() : el.form.submit();
+  });
+  // A page's session ended elsewhere - the password changed in another
+  // browser, the account signed out everywhere - signs this page out too, as
+  // WeKan's client is the moment its login token is gone: looked at while the
+  // page is shown, and then it is the sign-in page's.
+  {
+    setInterval(function () {
+      // Decided at each look: the page is parsed, its user known, by then.
+      if (!currentUser && !document.querySelector('.js-open-header-member-menu')) return;
+      if (document.hidden || /^\/sign-(in|up)/.test(window.location.pathname)) return;
+      fetch('/_session', { credentials: 'same-origin' }).then(function (r) {
+        if (r.status !== 401) return;
+        currentUser = null;
+        window.location.href = '/sign-in';
+      }).catch(function () {});
+    }, 5000);
+  }
+  // The required password change: when this account's sessions end - its
+  // password changed from another browser - this page goes to sign-in.
+  up.compiler('.js-password-change-required', function () {
+    var timer = setInterval(function () {
+      fetch('/_session', { credentials: 'same-origin' }).then(function (r) {
+        if (r.status === 401) { clearInterval(timer); currentUser = null; window.location.href = '/sign-in'; }
+      }).catch(function () {});
+    }, 2000);
+    return function () { clearInterval(timer); };
+  });
+  // Admin Panel / Problems / Password length: the enforce toggle, sent as
+  // the form's enforce field.
+  up.on('click', '.js-toggle-password-min-length-enforce', function (event, el) {
+    event.preventDefault();
+    var on = el.getAttribute('aria-checked') !== 'true';
+    el.setAttribute('aria-checked', on ? 'true' : 'false');
+    var box = el.querySelector('.materialCheckBox');
+    if (box) box.classList.toggle('is-checked', on);
+    var input = el.closest('form').querySelector('.js-password-min-length-enforce');
+    if (input) input.value = on ? 'true' : '';
+  });
+  // WeKan's AccountsTemplates client, the part a page asks of it: a field's
+  // rules, as the sign-up form enforces them (its minlength, the server's
+  // enforced password minimum).
+  if (!window.AccountsTemplates) {
+    window.AccountsTemplates = {
+      getField: function (id) {
+        var el = document.getElementById('at-field-' + id);
+        return el ? { _id: id, minLength: Number(el.getAttribute('minlength')) || 0 } : undefined;
+      },
+    };
+  }
   if (!window.Meteor) {
     window.Meteor = {
+      // Weddy's pages come drawn by the server: a subscription is ready at
+      // once, and there is nothing to stop.
+      subscribe: function () {
+        var args = Array.prototype.slice.call(arguments), last = args[args.length - 1];
+        var cb = typeof last === 'function' ? last : last && last.onReady;
+        if (typeof cb === 'function') setTimeout(cb, 0);
+        return { ready: function () { return true; }, stop: function () {}, subscriptionId: '' };
+      },
       user: function () { return currentUser; },
       userId: function () { return currentUser ? currentUser._id : null; },
       callAsync: callAsync,

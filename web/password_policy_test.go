@@ -3,6 +3,7 @@ package web
 import (
 	"context"
 	"encoding/json"
+	"io"
 	"net/http"
 	"strings"
 	"testing"
@@ -86,9 +87,12 @@ func TestPasswordPolicySignUp(t *testing.T) {
 	if p := policy(); p != (passwordPolicy{MinLength: 8}) {
 		t.Errorf("signed out, the default policy: %+v", p)
 	}
-	// The form does not refuse it in the browser either.
-	if _, html := get(t, w.client(t), w.srv.URL+"/sign-up"); !strings.Contains(html, `name="password" autocomplete="new-password" minlength="0"`) {
-		t.Error("not enforced, the sign-up form asks no minimum")
+	// The form asks only its own 6, as WeKan's (config/accounts.js) - changed
+	// from no minimum on 2026-11-13, when WeKan's password-length-report spec
+	// pinned "not enforced: the form's own 6"; a 7-character password still
+	// registers.
+	if _, html := get(t, w.client(t), w.srv.URL+"/sign-up"); !strings.Contains(html, `name="password" autocomplete="new-password" minlength="6"`) {
+		t.Error("not enforced, the sign-up form asks its own 6")
 	}
 	if res := signUp(t, w, w.client(t), "seven", "seven@example.invalid", "seven77"); res.StatusCode != http.StatusSeeOther {
 		t.Errorf("not enforced, a 7-character password registers: %d", res.StatusCode)
@@ -114,5 +118,49 @@ func TestPasswordPolicySignUp(t *testing.T) {
 	req.Header.Set("Content-Type", "application/json")
 	if res, err := w.client(t).Do(req); err != nil || res.StatusCode != http.StatusUnauthorized {
 		t.Errorf("negative: setLanguage signed out: %v %v", err, res.StatusCode)
+	}
+}
+
+// /_session says whether a page's session still signs it in, and nothing
+// more: 204 while it does, 401 once it ended - its password changed by an
+// admin's setPassword, which signs every session out.
+func TestSessionEndpointAndSetPassword(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "admin", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"username": "admin"}, bson.M{"$set": bson.M{"isAdmin": true}})
+	ac, bc := w.client(t), w.client(t)
+	body(t, w.signIn(t, ac, "admin", "pw"))
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	status := func(c *http.Client) int {
+		res, err := c.Get(w.srv.URL + "/_session")
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		if b, _ := io.ReadAll(res.Body); len(b) != 0 {
+			t.Fatal("no body")
+		}
+		return res.StatusCode
+	}
+	if status(bc) != http.StatusNoContent || status(w.client(t)) != http.StatusUnauthorized {
+		t.Fatal("204 signed in, 401 not")
+	}
+	// Negative: only a site admin sets another's password.
+	if _, out := methodCall(t, w, bc, "setPassword", `["Another-long-1","`+bob.ID+`"]`); out["error"] != "not-authorized" {
+		t.Fatalf("not an admin: %v", out)
+	}
+	if _, out := methodCall(t, w, ac, "setPassword", `["New-long-pass-1","`+bob.ID+`"]`); out["error"] != nil {
+		t.Fatalf("the admin's: %v", out)
+	}
+	if status(bc) != http.StatusUnauthorized {
+		t.Fatal("bob's session ended")
+	}
+	if status(ac) != http.StatusNoContent {
+		t.Fatal("the admin's own is not")
+	}
+	if res := w.signIn(t, w.client(t), "bob", "New-long-pass-1"); res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("the new password signs in: %d", res.StatusCode)
 	}
 }

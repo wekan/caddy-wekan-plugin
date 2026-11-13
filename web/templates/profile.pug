@@ -2,10 +2,21 @@
   h1 {{t $.L "edit-profile"}}
   if .Saved
     p.cloud-saved.js-profile-saved {{t $.L "cloud-saved"}}
+  //- WeKan's passwordChangeRequired dialog: while the enforced minimum asks
+    for it, the change before anything else - its own form, WeKan's fields;
+    this page leaves for sign-in when the account is signed out elsewhere.
   if .PasswordRequired
-    .js-password-change-required
+    .js-password-change-required.password-change-required.at-form
       h2 {{t $.L "password-change-required-title"}}
       p {{.PasswordRequired}}
+      form.js-password-change-required-form(method="post", action="/profile/password")
+        label(for="at-field-current_password") {{t $.L "password"}}
+        input#at-field-current_password(type="password", name="oldPassword", autocomplete="current-password", required)
+        label(for="at-field-password") {{t $.L "change-password"}}
+        input#at-field-password(type="password", name="newPassword", autocomplete="new-password", minlength="{{$.PasswordMin}}", required)
+        label(for="at-field-password_again") {{t $.L "password-again"}}
+        input#at-field-password_again(type="password", name="newPassword2", autocomplete="new-password", minlength="{{$.PasswordMin}}", required)
+        button#at-btn.at-btn.primary(type="submit") {{t $.L "change-password"}}
   if .Error
     p.at-error.js-profile-error {{.ErrorText}}
   p
@@ -29,15 +40,18 @@
   if .User.Profile.AvatarURL
     form.js-avatar-remove(method="post", action="/profile/avatar/remove")
       button(type="submit") {{t $.L "initials"}}
-  h2 {{t $.L "changePasswordPopup-title"}}
-  form.js-password-form(method="post", action="/profile/password")
-    label(for="old-password") {{t $.L "password"}}
-    input#old-password(type="password", name="oldPassword", autocomplete="current-password", required)
-    label(for="new-password") {{t $.L "change-password"}}
-    input#new-password(type="password", name="newPassword", autocomplete="new-password", minlength="{{$.PasswordMin}}", required)
-    label(for="new-password2") {{t $.L "password-again"}}
-    input#new-password2(type="password", name="newPassword2", autocomplete="new-password", minlength="{{$.PasswordMin}}", required)
-    button.primary(type="submit") {{t $.L "change-password"}}
+  //- WeKan's changePasswordPopup, its AccountsTemplates fields; the required
+    change above has them instead while it is asked for.
+  if not .PasswordRequired
+    h2 {{t $.L "changePasswordPopup-title"}}
+    form.js-password-form(method="post", action="/profile/password")
+      label(for="at-field-current_password") {{t $.L "password"}}
+      input#at-field-current_password(type="password", name="oldPassword", autocomplete="current-password", required)
+      label(for="at-field-password") {{t $.L "change-password"}}
+      input#at-field-password(type="password", name="newPassword", autocomplete="new-password", minlength="{{$.PasswordMin}}", required)
+      label(for="at-field-password_again") {{t $.L "password-again"}}
+      input#at-field-password_again(type="password", name="newPassword2", autocomplete="new-password", minlength="{{$.PasswordMin}}", required)
+      button#at-btn.at-btn.primary(type="submit") {{t $.L "change-password"}}
   //- WeKan's Member Settings / Notification Settings, the member's own part
     of #3695 / #5171: how their e-mail and tray deliver ("Default" is the
     board's, else Admin Panel's), and leaving their name out of webhooks.

@@ -194,6 +194,10 @@ var funcs = template.FuncMap{
 	"starred": func(u *User, id string) bool { return u != nil && slices.Contains(u.Profile.StarredBoards, id) },
 }
 
+// formPasswordMin is WeKan's sign-up form's own password minimum
+// (config/accounts.js), while no minimum is enforced.
+const formPasswordMin = 6
+
 // compileTemplates turns every templates/<page>.pug into an html/template, inside
 // templates/layout.pug.
 func (s *Server) compileTemplates() error {
@@ -258,12 +262,13 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 	lang := languageOf(r, u)
 	data["L"], data["Lang"] = lang.Tag, lang
 	data["TextPolicy"] = s.textPolicy(r.Context())
-	// The password fields' minlength: the enforced minimum, else none - WeKan's
-	// default only reports a short password (users.go).
+	// The password fields' minlength: the enforced minimum, else the form's
+	// own 6 (WeKan's config/accounts.js password field) - the server refuses
+	// nothing shorter while not enforced, it only reports it (users.go).
 	if p := s.passwordPolicy(r.Context()); p.Enforce {
 		data["PasswordMin"] = p.MinLength
 	} else {
-		data["PasswordMin"] = 0
+		data["PasswordMin"] = formPasswordMin
 	}
 	if u != nil {
 		data["Unread"] = s.unreadNotifications(r.Context(), u.ID)
