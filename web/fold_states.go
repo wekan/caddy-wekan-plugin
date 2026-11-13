@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"slices"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -111,6 +113,18 @@ func (s *Server) methodSetCollapsedCardSection(r *http.Request, u *User, args []
 	}
 	if s.refuseMapKeys(r, u, "setCollapsedCardSection", cardID, section) {
 		return nil, &methodError{"invalid-map-key", "invalid-map-key"}
+	}
+	// Card Settings' sections fold per board: WeKan's key card-settings-<id>
+	// (or card-settings-minicard-<id>) under the board's id.
+	if strings.HasPrefix(section, "card-settings-") {
+		id := strings.TrimPrefix(strings.TrimPrefix(section, "card-settings-"), "minicard-")
+		if !slices.Contains(cardSettingsSectionIDs(), id) {
+			return nil, &methodError{"Match.Error", "Expected a section"}
+		}
+		if _, err := s.boardFor(r.Context(), cardID, u); err != nil {
+			return nil, &methodError{"not-found", "not-found"}
+		}
+		return s.setFold(r, u, "setCollapsedCardSection", "collapsedCardSections", cardID, section, folded)
 	}
 	var c Card
 	if !validID(cardID) || s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(cardID)}).Decode(&c) != nil {

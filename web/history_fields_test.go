@@ -166,6 +166,7 @@ var unrecordedCardWrites = map[string]string{
 	"history_undo.go:applyCardPosition":     "undo and redo of a move, recorded as their restored row",
 	"history_undo.go:softRemoveList":        "a list's soft delete, recorded as its lifecycle row",
 	"server.go:watchCardPage":               "watchers, not a recorded field",
+	"collection_updates.go:addToAllCards":   "WeKan's addToAllCards: an always-on field, empty, appended to cards - no value of a card changes, and WeKan records none",
 }
 
 func TestEveryCardWriteIsRecorded(t *testing.T) {

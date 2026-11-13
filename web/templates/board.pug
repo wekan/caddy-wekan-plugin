@@ -471,6 +471,8 @@
                     option(value="null", selected) {{t $.L "custom-field-dropdown-none"}}
                   else
                     option(value="null") {{t $.L "custom-field-dropdown-none"}}
+    //- The words of the buttons Weddy's script adds to the header.
+    template.js-card-settings-labels(data-maximize="{{t $.L `maximize-card`}}", data-minimize="{{t $.L `minimize-card`}}")
     button.js-date-popup-resize(type="button", title="{{t $.L `card-drawing-resize`}}", aria-label="{{t $.L `card-drawing-resize`}}")
     .content.card-settings-panes-container.js-card-settings-panes-container
       .card-settings-panes.js-card-settings-panes(style="--card-settings-split: {{.CardSettingsSplit}}")
@@ -485,51 +487,74 @@
             .card-settings-pane-body.js-card-settings-pane-body
               .card-settings-inline-sections.js-card-settings-sections-sortable(data-side="{{.Side}}")
                 each sec in .Sections
-                  .card-settings-inline-section.js-card-settings-section(data-section="{{.ID}}", class="{{if not .Shown}}is-section-hidden{{end}}")
-                    .card-settings-inline-section-head
-                      a.card-settings-inline-collapse.js-toggle-card-settings-section(href="#", role="button", aria-expanded="true", title="{{t $.L `collapse`}}", aria-label="{{t $.L `collapse`}}")
-                        i.fa.fa-caret-down(aria-hidden="true")
-                      span.card-settings-side.card-settings-section-side
-                        a.flex.card-field-order-toggle.card-settings-section-toggle(href="#", class="{{if .Writable}}js-card-settings-section-shown{{else}}is-disabled{{end}} {{if .Shown}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Shown}}true{{else}}false{{end}}", aria-label="{{.Title}}")
-                          .materialCheckBox(class="{{if .Shown}}is-checked{{end}}")
-                      h4.card-settings-inline-section-title(class="{{if .Writable}}js-card-settings-section-handle{{end}}")
-                        i.fa(class="{{.Icon}}", aria-hidden="true")
-                        |  {{.Title}}
-                      span.card-settings-inline-section-count {{.CheckedCount}}/{{len .Lines}}
-                      //- WeKan's section hamburger: Card's holds what is not a field,
-                        Subtasks' the board's Subtasks Settings; it opens under the line.
-                      if or (and (eq .ID "card") $.CardDragRows) (and .Writable (eq .ID "subtasks"))
-                        a.card-settings-inline-menu.js-open-card-settings-section-menu(href="#", role="button", aria-expanded="false", data-panel="section-{{.ID}}", title="{{t $.L `actions`}}", aria-label="{{t $.L `actions`}}")
-                          i.fa.fa-bars(aria-hidden="true")
-                    .card-settings-inline-items
-                      each line in .Lines
-                        .card-settings-line.card-settings-inline-item.js-card-field-order-row(data-key="{{.Key}}", data-side="{{.Side}}", data-kind="{{.Kind}}", data-field="{{.Field}}", data-scrum="{{.Scrum}}", class="{{if .Positioned}}is-positioned{{end}}")
-                          span.card-settings-side(class="card-settings-side-{{.Side}}")
-                            a.flex.card-field-order-toggle(href="#", class="{{if .Writable}}js-card-settings-toggle{{else}}is-disabled{{end}} {{if .Checked}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Checked}}true{{else}}false{{end}}", aria-label="{{.Title}}")
-                              .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
-                          //- What a row is dragged by (WeKan's cardSettingsRowLabel): with
-                            the user's drag handles on, only its handle; else its name,
-                            which the Up and Down keys also move. A row with no place of
-                            its own is not dragged.
-                          span.card-settings-line-label(class="{{if and .Writable .Positioned (not .Handles)}}js-card-field-order-handle card-field-order-drag-label{{end}}", tabindex="{{if and .Writable .Positioned (not .Handles)}}0{{end}}")
-                            if and .Writable .Positioned .Handles
-                              a.flex.card-field-order-move.card-field-order-handle.js-card-field-order-handle(href="#", draggable="false", role="button", tabindex="0", title="{{t $.L `drag-to-reorder`}}", aria-label="{{t $.L `drag-to-reorder`}}")
-                                i.fa.fa-arrows
-                            each icon in .Icons
-                              i.fa(class="{{.}}", aria-hidden="true")
-                            | {{.Title}}
+                  .card-settings-inline-section.js-card-settings-section(data-section="{{.ID}}", class="{{if not .Shown}}is-section-hidden{{end}} {{if .Single}}is-single{{end}} {{if .Collapsed}}is-collapsed{{end}}")
+                    //- A section's line (WeKan's cardSettingsInlineSection): its caret, its
+                      checkbox - whether the whole section is shown on this side; for a
+                      section of one row, and for Custom Fields, the field's own flag - its
+                      title, dragged and moved by the Up and Down keys, its count, its
+                      hamburger. A section of one row is one line: no caret, no count.
+                    if .FlagLine
+                      .card-settings-inline-section-head.js-card-field-order-row(data-key="{{.FlagLine.Key}}", data-side="{{.FlagLine.Side}}", data-kind="{{.FlagLine.Kind}}", data-field="{{.FlagLine.Field}}", data-scrum="{{.FlagLine.Scrum}}", data-flag="{{if .FlagLine.Checked}}true{{end}}", data-shown="{{if .Shown}}true{{end}}")
+                        if not .Single
+                          a.card-settings-inline-collapse.js-toggle-card-settings-section(href="#", role="button", aria-expanded="{{if .Collapsed}}false{{else}}true{{end}}", title="{{t $.L `collapse`}}", aria-label="{{t $.L `collapse`}}")
+                            i.fa(class="{{if .Collapsed}}fa-caret-right{{else}}fa-caret-down{{end}}", aria-hidden="true")
+                        span.card-settings-side.card-settings-section-side
+                          a.flex.card-field-order-toggle.card-settings-section-toggle(href="#", class="{{if .Writable}}js-card-settings-single-toggle{{else}}is-disabled{{end}} {{if .FlagChecked}}is-checked{{end}}", role="checkbox", aria-checked="{{if .FlagChecked}}true{{else}}false{{end}}", aria-label="{{.Title}}")
+                            .materialCheckBox(class="{{if .FlagChecked}}is-checked{{end}}")
+                        h4.card-settings-inline-section-title(class="{{if .Writable}}js-card-settings-section-handle{{end}}", tabindex="{{if .Writable}}0{{end}}")
+                          i.fa(class="{{.Icon}}", aria-hidden="true")
+                          |  {{.Title}}
+                        if not .Single
+                          span.card-settings-inline-section-count {{.CheckedCount}}/{{len .Lines}}
+                        if and .Writable (eq .ID "subtasks")
+                          a.card-settings-inline-menu.js-open-card-settings-section-menu(href="#", role="button", aria-expanded="false", data-panel="section-{{.ID}}", title="{{t $.L `actions`}}", aria-label="{{t $.L `actions`}}")
+                            i.fa.fa-bars(aria-hidden="true")
+                    else
+                      .card-settings-inline-section-head
+                        a.card-settings-inline-collapse.js-toggle-card-settings-section(href="#", role="button", aria-expanded="{{if .Collapsed}}false{{else}}true{{end}}", title="{{t $.L `collapse`}}", aria-label="{{t $.L `collapse`}}")
+                          i.fa(class="{{if .Collapsed}}fa-caret-right{{else}}fa-caret-down{{end}}", aria-hidden="true")
+                        span.card-settings-side.card-settings-section-side
+                          a.flex.card-field-order-toggle.card-settings-section-toggle(href="#", class="{{if .Writable}}js-card-settings-section-shown{{else}}is-disabled{{end}} {{if .Shown}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Shown}}true{{else}}false{{end}}", aria-label="{{.Title}}")
+                            .materialCheckBox(class="{{if .Shown}}is-checked{{end}}")
+                        h4.card-settings-inline-section-title(class="{{if .Writable}}js-card-settings-section-handle{{end}}", tabindex="{{if .Writable}}0{{end}}")
+                          i.fa(class="{{.Icon}}", aria-hidden="true")
+                          |  {{.Title}}
+                        span.card-settings-inline-section-count {{.CheckedCount}}/{{len .Lines}}
+                        //- WeKan's section hamburger: Card's holds what is not a field,
+                          Subtasks' the board's Subtasks Settings; it opens under the line.
+                        if or (and (eq .ID "card") $.CardDragRows) (and .Writable (eq .ID "subtasks"))
+                          a.card-settings-inline-menu.js-open-card-settings-section-menu(href="#", role="button", aria-expanded="false", data-panel="section-{{.ID}}", title="{{t $.L `actions`}}", aria-label="{{t $.L `actions`}}")
+                            i.fa.fa-bars(aria-hidden="true")
+                    if and (not .Single) .Lines
+                      .card-settings-inline-items
+                        each line in .Lines
+                          .card-settings-line.card-settings-inline-item.js-card-field-order-row(data-key="{{.Key}}", data-side="{{.Side}}", data-kind="{{.Kind}}", data-field="{{.Field}}", data-scrum="{{.Scrum}}", class="{{if .Positioned}}is-positioned{{end}}")
+                            span.card-settings-side(class="card-settings-side-{{.Side}}")
+                              a.flex.card-field-order-toggle(href="#", class="{{if .Writable}}js-card-settings-toggle{{else}}is-disabled{{end}} {{if .Checked}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Checked}}true{{else}}false{{end}}", aria-label="{{.Title}}")
+                                .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
+                            //- What a row is dragged by (WeKan's cardSettingsRowLabel): with
+                              the user's drag handles on, only its handle; else its name,
+                              which the Up and Down keys also move. A row with no place of
+                              its own is not dragged.
+                            span.card-settings-line-label(class="{{if and .Writable .Positioned (not .Handles)}}js-card-field-order-handle card-field-order-drag-label{{end}}", tabindex="{{if and .Writable .Positioned (not .Handles)}}0{{end}}")
+                              if and .Writable .Positioned .Handles
+                                a.flex.card-field-order-move.card-field-order-handle.js-card-field-order-handle(href="#", draggable="false", role="button", tabindex="0", title="{{t $.L `drag-to-reorder`}}", aria-label="{{t $.L `drag-to-reorder`}}")
+                                  i.fa.fa-arrows
+                              each icon in .Icons
+                                i.fa(class="{{.}}", aria-hidden="true")
+                              | {{.Title}}
                     //- Custom Fields' items: the board's fields, each with this
                       side's checkbox and its form behind a hamburger; the + makes
                       one (WeKan's cardSettingsCustomFields.js).
                     if eq .ID "customFields"
-                      if .Writable
-                        .card-settings-custom-fields-list.js-card-settings-custom-fields
-                          each f in .CustomFields
-                            .card-settings-line.card-settings-inline-item.card-settings-custom-field.js-card-settings-custom-field(data-id="{{.ID}}")
-                              span.card-settings-side
-                                a.flex.card-field-order-toggle.js-card-settings-custom-field-toggle(href="#", class="{{if .Checked}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Checked}}true{{else}}false{{end}}", aria-label="{{.Name}}")
-                                  .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
-                              span.card-settings-line-label {{.Name}}
+                      .card-settings-custom-fields-list.js-card-settings-custom-fields
+                        each f in .CustomFields
+                          .card-settings-line.card-settings-inline-item.card-settings-custom-field.js-card-settings-custom-field(data-id="{{.ID}}", data-side="{{.Side}}")
+                            span.card-settings-side
+                              a.flex.card-field-order-toggle(href="#", class="{{if .Writable}}js-card-settings-custom-field-toggle{{else}}is-disabled{{end}} {{if .Checked}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Checked}}true{{else}}false{{end}}", aria-label="{{.Name}}")
+                                .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
+                            span.card-settings-line-label(class="{{if .Writable}}js-card-settings-custom-field-handle{{end}}", tabindex="{{if .Writable}}0{{end}}") {{.Name}}
+                            if .Writable
                               a.card-settings-inline-menu.js-card-settings-edit-custom-field(href="#", role="button", aria-expanded="false", data-panel="field-{{.ID}}", title="{{t $.L `edit`}}", aria-label="{{t $.L `edit`}}")
                                 i.fa.fa-bars(aria-hidden="true")
                               template.js-card-settings-panel-tpl(data-panel="field-{{.ID}}")
@@ -550,23 +575,24 @@
                                     .materialCheckBox(class="{{if .ShowLabelOnMini}}is-checked{{end}}")
                                     span {{t $.L "showLabel-field-on-card"}}
                                   button.primary(type="submit") {{t $.L "save"}}
-                          a.card-settings-add-custom-field.js-card-settings-add-custom-field(href="#", data-panel="field-new", title="{{t $.L `createCustomField`}}", aria-label="{{t $.L `createCustomField`}}")
-                            i.fa.fa-plus(aria-hidden="true")
-                          template.js-card-settings-panel-tpl(data-panel="field-new")
-                            form.card-settings-panel-form.js-card-settings-field-create(method="post", action="/b/{{$.Board.ID}}/custom-fields")
-                              label
-                                | {{t $.L "name"}}
-                                input.js-field-name(type="text", name="name", required, maxlength="200", autocomplete="off")
-                              label
-                                | {{t $.L "type"}}
-                                select.js-field-type(name="type")
-                                  option(value="text") {{t $.L "custom-field-text"}}
-                                  option(value="number") {{t $.L "custom-field-number"}}
-                                  option(value="date") {{t $.L "custom-field-date"}}
-                                  option(value="checkbox") {{t $.L "custom-field-checkbox"}}
-                                  option(value="currency") {{t $.L "custom-field-currency"}}
-                                  option(value="dropdown") {{t $.L "custom-field-dropdown"}}
-                              button.primary(type="submit") {{t $.L "create"}}
+                      if .Writable
+                        a.card-settings-add-custom-field.js-card-settings-add-custom-field(href="#", role="button", aria-expanded="false", data-panel="field-new", title="{{t $.L `createCustomField`}}", aria-label="{{t $.L `createCustomField`}}")
+                          i.fa.fa-plus(aria-hidden="true")
+                        template.js-card-settings-panel-tpl(data-panel="field-new")
+                          form.card-settings-panel-form.js-card-settings-field-create(method="post", action="/b/{{$.Board.ID}}/custom-fields")
+                            label
+                              | {{t $.L "name"}}
+                              input.js-field-name(type="text", name="name", required, maxlength="200", autocomplete="off")
+                            label
+                              | {{t $.L "type"}}
+                              select.js-field-type(name="type")
+                                option(value="text") {{t $.L "custom-field-text"}}
+                                option(value="number") {{t $.L "custom-field-number"}}
+                                option(value="date") {{t $.L "custom-field-date"}}
+                                option(value="checkbox") {{t $.L "custom-field-checkbox"}}
+                                option(value="currency") {{t $.L "custom-field-currency"}}
+                                option(value="dropdown") {{t $.L "custom-field-dropdown"}}
+                            button.primary(type="submit") {{t $.L "create"}}
   if .CanEdit
     //- WeKan's swimlaneAddPopup: a swimlane below or above the chosen one.
     template.js-pop-over-template(data-pop="add-swimlane", data-title="{{t $.L `swimlaneAddPopup-title`}}")
@@ -1181,7 +1207,7 @@
                             if $c.MinicardDates
                               .dates
                                 each d in $c.MinicardDates
-                                  span.badge(class="minicard-date minicard-date-{{.Kind}}", title="{{t $.L .Title}}")
+                                  span.badge(class="minicard-date minicard-date-{{.Kind}} date {{.Kind}}-date", title="{{t $.L .Title}}")
                                     i.fa(class="{{.Icon}}")
                                     |  {{.Text}}
                           else if eq .Key "assignee"
@@ -1322,40 +1348,42 @@
       //- WeKan's one section model (cardDetails.jade): Card Settings' sections
         in the Card pane's order, each headed with its icon and title, only those
         this card has something for (card_sections.go).
-      .card-details-items
-        each sec in .CardSections
-          .card-details-section(data-card-section="{{.ID}}", class="card-details-section-{{.ID}}")
-            if .Header
-              h3.card-details-item-title.js-toggle-card-section(data-section="{{.ID}}", role="button", tabindex="0")
-                i.fa(class="{{.Icon}}", aria-hidden="true")
-                |  {{.Title}}
-            .card-details-section-body
-              if eq .ID "labels"
-                | {{template "_cardsec_labels" $}}
-              else if eq .ID "date"
-                | {{template "_cardsec_date" $}}
-              else if eq .ID "members"
-                | {{template "_cardsec_members" $}}
-              else if eq .ID "card"
-                | {{template "_cardsec_card" $}}
-              else if eq .ID "customFields"
-                | {{template "_cardsec_customFields" $}}
-              else if eq .ID "vote"
-                | {{template "_cardsec_vote" $}}
-              else if eq .ID "poker"
-                | {{template "_cardsec_poker" $}}
-              else if eq .ID "description"
-                | {{template "_cardsec_description" $}}
-              else if eq .ID "scrum"
-                | {{template "_cardsec_scrum" $}}
-              else if eq .ID "checklists"
-                | {{template "_cardsec_checklists" $}}
-              else if eq .ID "subtasks"
-                | {{template "_cardsec_subtasks" $}}
-              else if eq .ID "attachments"
-                | {{template "_cardsec_attachments" $}}
-              else if eq .ID "comments"
-                | {{template "_cardsec_comments" $}}
+      //- WeKan's card details' left column: the sections.
+      .card-details-left
+        .card-details-items
+          each sec in .CardSections
+            .card-details-section(data-card-section="{{.ID}}", class="card-details-section-{{.ID}}")
+              if .Header
+                h3.card-details-item-title.js-toggle-card-section(data-section="{{.ID}}", role="button", tabindex="0")
+                  i.fa(class="{{.Icon}}", aria-hidden="true")
+                  |  {{.Title}}
+              .card-details-section-body
+                if eq .ID "labels"
+                  | {{template "_cardsec_labels" $}}
+                else if eq .ID "date"
+                  | {{template "_cardsec_date" $}}
+                else if eq .ID "members"
+                  | {{template "_cardsec_members" $}}
+                else if eq .ID "card"
+                  | {{template "_cardsec_card" $}}
+                else if eq .ID "customFields"
+                  | {{template "_cardsec_customFields" $}}
+                else if eq .ID "vote"
+                  | {{template "_cardsec_vote" $}}
+                else if eq .ID "poker"
+                  | {{template "_cardsec_poker" $}}
+                else if eq .ID "description"
+                  | {{template "_cardsec_description" $}}
+                else if eq .ID "scrum"
+                  | {{template "_cardsec_scrum" $}}
+                else if eq .ID "checklists"
+                  | {{template "_cardsec_checklists" $}}
+                else if eq .ID "subtasks"
+                  | {{template "_cardsec_subtasks" $}}
+                else if eq .ID "attachments"
+                  | {{template "_cardsec_attachments" $}}
+                else if eq .ID "comments"
+                  | {{template "_cardsec_comments" $}}
       h3.card-details-item-title.js-toggle-card-section(data-section="activities", role="button", tabindex="0")
         i.fa.fa-caret-right
         |  {{t $.L "activities"}}

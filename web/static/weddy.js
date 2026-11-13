@@ -84,6 +84,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // ticks, counts and place from the new page - nothing the user holds or
   // looks at is swapped under them; the folds and scrolling are theirs.
   function refreshCardSettings() {
+    // Not under a drag in Card Settings: what is held is not moved from the
+    // user's hand; it catches up after.
+    if (csDrag || cfDrag) { setTimeout(refreshCardSettings, 200); return; }
     var pop = document.querySelector('.js-pop-over[data-popup="boardCardSettingsPopup"]');
     var t = document.querySelector('template.js-pop-over-template[data-pop="board-card-settings"]');
     if (!pop || !t) return;
@@ -96,10 +99,18 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     };
     // Children of `into` matching `sel`, by `key`, in the order of `from`'s.
     var order = function (from, into, sel, key, sync) {
-      var have = {};
-      Array.prototype.forEach.call(into.querySelectorAll(':scope > ' + sel), function (el) { have[el.dataset[key]] = el; });
+      var have = {}, now = [], want = [];
+      Array.prototype.forEach.call(into.querySelectorAll(':scope > ' + sel), function (el) { have[el.dataset[key]] = el; now.push(el.dataset[key]); });
+      var fresh = Array.prototype.slice.call(from.querySelectorAll(':scope > ' + sel));
+      fresh.forEach(function (f) { want.push(f.dataset[key]); });
+      // The same ones in the same order: only what they show changes - no
+      // element is moved, so nothing the user looks at scrolls or jumps.
+      if (now.join('\n') === want.join('\n')) {
+        fresh.forEach(function (f) { sync(f, have[f.dataset[key]]); });
+        return;
+      }
       var keep = {};
-      Array.prototype.forEach.call(from.querySelectorAll(':scope > ' + sel), function (f) {
+      fresh.forEach(function (f) {
         var el = have[f.dataset[key]] || f.cloneNode(true);
         if (have[f.dataset[key]]) sync(f, el);
         keep[f.dataset[key]] = true;
@@ -124,7 +135,15 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     t.content.querySelectorAll('.js-card-settings-pane').forEach(function (fp) {
       var fl = fp.querySelector('.js-card-settings-custom-fields');
       var l = pop.querySelector('.js-card-settings-pane[data-side="' + fp.dataset.side + '"] .js-card-settings-custom-fields');
-      if (fl && l && fl.innerHTML !== l.innerHTML) l.innerHTML = fl.innerHTML;
+      if (fl && l && fl.innerHTML !== l.innerHTML) {
+        l.innerHTML = fl.innerHTML;
+        // A field's form left open says so on its renewed hamburger.
+        l.closest('.js-card-settings-section').querySelectorAll('.js-card-settings-panel').forEach(function (panel) {
+          var b = l.querySelector('[data-panel="' + panel.dataset.panel + '"]');
+          if (b) { b.classList.add('is-open'); b.setAttribute('aria-expanded', 'true'); }
+        });
+        up.hello(l);
+      }
     });
     t.content.querySelectorAll('.js-card-settings-pane').forEach(function (fp) {
       var pane = pop.querySelector('.js-card-settings-pane[data-side="' + fp.dataset.side + '"]');
@@ -134,6 +153,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       if (!fs || !ps) return;
       order(fs, ps, '.js-card-settings-section', 'section', function (fsec, sec) {
         sec.classList.toggle('is-section-hidden', fsec.classList.contains('is-section-hidden'));
+        var fh = fsec.querySelector('.card-settings-inline-section-head'), h = sec.querySelector('.card-settings-inline-section-head');
+        if (fh && h) { h.dataset.flag = fh.dataset.flag || ''; h.dataset.shown = fh.dataset.shown || ''; }
         syncBox(fsec.querySelector('.js-card-settings-section-shown, .card-settings-section-toggle'), sec.querySelector('.js-card-settings-section-shown, .card-settings-section-toggle'));
         var fc = fsec.querySelector('.card-settings-inline-section-count'), c = sec.querySelector('.card-settings-inline-section-count');
         if (fc && c) c.textContent = fc.textContent;
@@ -492,30 +513,62 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var m = box.querySelector('.materialCheckBox');
     if (m) m.classList.toggle('is-checked', on);
   }
+  // A row's setting written, as WeKan's handler of that row writes it.
+  function csWriteRow(d, pane, on) {
+    if (d.kind === 'scrum') {
+      var vis = {}; vis[d.scrum] = on;
+      return window.Meteor.callAsync('scrum.configure', pane.dataset.board, { visibility: vis }, Number(pane.dataset.revision) || 0).then(function () {
+        document.querySelectorAll('.js-card-settings-pane').forEach(function (p) { p.dataset.revision = String((Number(p.dataset.revision) || 0) + 1); });
+      });
+    }
+    if (d.kind === 'personal') {
+      // Shown follows the override: shown, then hidden, then the board's.
+      return d.side === 'minicard'
+        ? window.Meteor.callAsync('setShowLabelTextOverride', on)
+        : window.Meteor.callAsync('/users/update', { _id: window.Meteor.userId() }, { $set: { 'profile.cardLabelTextOverride': on } });
+    }
+    var set = {}; set[d.field] = on;
+    return window.Meteor.callAsync('/boards/update', { _id: pane.dataset.board }, { $set: set });
+  }
+  function csHiddenWithout(pane, id) {
+    return Array.prototype.filter.call(pane.querySelectorAll('.js-card-settings-section.is-section-hidden'), function (sec) {
+      return sec.dataset.section !== id;
+    }).map(function (sec) { return sec.dataset.section; });
+  }
+  function csFail(err) { window.alert((err && (err.reason || err.message)) || String(err)); }
   up.on('click', '.js-card-settings-toggle', function (event, box) {
     event.preventDefault();
     var row = box.closest('.js-card-field-order-row');
-    var pane = box.closest('.js-card-settings-pane');
     var on = !box.classList.contains('is-checked');
-    var d = row.dataset, done;
-    if (d.kind === 'scrum') {
-      var vis = {}; vis[d.scrum] = on;
-      done = window.Meteor.callAsync('scrum.configure', pane.dataset.board, { visibility: vis }, Number(pane.dataset.revision) || 0).then(function () {
-        document.querySelectorAll('.js-card-settings-pane').forEach(function (p) { p.dataset.revision = String((Number(p.dataset.revision) || 0) + 1); });
-      });
-    } else if (d.kind === 'personal') {
-      // Shown follows the override: shown, then hidden, then the board's.
-      done = d.side === 'minicard'
-        ? window.Meteor.callAsync('setShowLabelTextOverride', on)
-        : window.Meteor.callAsync('/users/update', { _id: window.Meteor.userId() }, { $set: { 'profile.cardLabelTextOverride': on } });
-    } else {
-      var set = {}; set[d.field] = on;
-      done = window.Meteor.callAsync('/boards/update', { _id: pane.dataset.board }, { $set: set });
-    }
-    done.then(function () {
+    csWriteRow(row.dataset, box.closest('.js-card-settings-pane'), on).then(function () {
       setCardSettingsBox(box, on);
       reloadBoard(true);
-    }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
+    }, csFail);
+  });
+  // A section's one line, and Custom Fields' own checkbox (WeKan's
+  // singleLineChecked): ticked is the field's flag on AND the section shown;
+  // unticking turns the flag off, ticking turns it on and shows the section.
+  up.on('click', '.js-card-settings-single-toggle', function (event, box) {
+    event.preventDefault();
+    var head = box.closest('.js-card-field-order-row'), sec = box.closest('.js-card-settings-section');
+    var pane = box.closest('.js-card-settings-pane');
+    var flagOn = head.dataset.flag === 'true', shown = !sec.classList.contains('is-section-hidden');
+    var steps = [];
+    if (flagOn && shown) steps.push(function () { return csWriteRow(head.dataset, pane, false).then(function () { head.dataset.flag = ''; }); });
+    else {
+      if (!flagOn) steps.push(function () { return csWriteRow(head.dataset, pane, true).then(function () { head.dataset.flag = 'true'; }); });
+      if (!shown) {
+        var set = {};
+        set[pane.dataset.side === 'minicard' ? 'cardSettingsHiddenOnMinicard' : 'cardSettingsHiddenOnCard'] = csHiddenWithout(pane, sec.dataset.section);
+        steps.push(function () {
+          return window.Meteor.callAsync('/boards/update', { _id: pane.dataset.board }, { $set: set }).then(function () { sec.classList.remove('is-section-hidden'); });
+        });
+      }
+    }
+    steps.reduce(function (p, step) { return p.then(step); }, Promise.resolve()).then(function () {
+      setCardSettingsBox(box, head.dataset.flag === 'true' && !sec.classList.contains('is-section-hidden'));
+      reloadBoard(true);
+    }, csFail);
   });
   // Card Settings' layout (WeKan's boardCardSettingsPopup): a pane folds by
   // its caret, kept for the browser; the panes stack when the pop-over is
@@ -667,7 +720,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var list = burger.closest('.js-card-settings-custom-fields');
     var head = burger.closest('.card-settings-inline-section-head');
     if (list) list.parentNode.insertBefore(panel, list.nextSibling);
-    else head.parentNode.insertBefore(panel, head.nextSibling);
+    else if (head) head.parentNode.insertBefore(panel, head.nextSibling);
+    else burger.parentNode.insertBefore(panel, burger.nextSibling); // the +: under it
     burger.classList.add('is-open');
     burger.setAttribute('aria-expanded', 'true');
     up.hello(panel);
@@ -684,6 +738,49 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     csClosePanels(burger.closest('.js-pop-over'));
     if (!open) csOpenPanel(burger);
   });
+  // Custom Fields' items dragged by their names, or moved by Up and Down:
+  // each field's place written as its sort (WeKan's placeCustomFieldOrder).
+  function cfSaveOrder(list) {
+    var ids = Array.prototype.map.call(list.querySelectorAll('.js-card-settings-custom-field'), function (el) { return el.dataset.id; });
+    Promise.all(ids.map(function (id, i) {
+      return window.Meteor.callAsync('/customFields/update', { _id: id }, { $set: { sort: i } });
+    })).then(function () { reloadBoard(true); }, csFail);
+  }
+  var cfDrag = null;
+  document.addEventListener('pointerdown', function (event) {
+    var h = event.button === 0 && event.target.closest && event.target.closest('.js-pop-over .js-card-settings-custom-field-handle');
+    if (!h) return;
+    cfDrag = { item: h.closest('.js-card-settings-custom-field'), y: event.clientY, moved: false };
+    event.preventDefault();
+  }, true);
+  document.addEventListener('pointermove', function (event) {
+    if (cfDrag && !cfDrag.moved && Math.abs(event.clientY - cfDrag.y) > 4) { cfDrag.moved = true; cfDrag.item.classList.add('is-dragging'); }
+  }, true);
+  document.addEventListener('pointerup', function (event) {
+    var d = cfDrag;
+    cfDrag = null;
+    if (!d || !d.moved) return;
+    d.item.classList.remove('is-dragging');
+    var under = document.elementFromPoint(event.clientX, event.clientY);
+    var target = under && under.closest('.js-card-settings-custom-field');
+    if (!target || target === d.item || target.parentNode !== d.item.parentNode) return;
+    var r = target.getBoundingClientRect();
+    target.parentNode.insertBefore(d.item, event.clientY < r.top + r.height / 2 ? target : target.nextSibling);
+    cfSaveOrder(d.item.parentNode);
+  }, true);
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+    var h = event.target.closest && event.target.closest('.js-pop-over .js-card-settings-custom-field-handle');
+    if (!h) return;
+    event.preventDefault();
+    var item = h.closest('.js-card-settings-custom-field');
+    var sib = item;
+    do { sib = event.key === 'ArrowUp' ? sib.previousElementSibling : sib.nextElementSibling; } while (sib && !sib.classList.contains('js-card-settings-custom-field'));
+    if (!sib) return;
+    item.parentNode.insertBefore(item, event.key === 'ArrowUp' ? sib : sib.nextSibling);
+    h.focus();
+    cfSaveOrder(item.parentNode);
+  }, true);
   // A custom field's checkbox: this side's flag of it (WeKan's SIDE_FLAG),
   // through the customFields collection's own update.
   up.on('click', '.js-card-settings-custom-field-toggle', function (event, box) {
@@ -773,16 +870,72 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.on('change', '.js-card-settings-panel .js-field-deposit-list', function (event, el) {
     csPanelSet(el, { subtasksDefaultListId: el.value === 'null' || el.value === '' ? null : el.value });
   });
-  // A section of Card Settings folds by its caret, for this pop-over.
+  // A section of Card Settings folds by its caret, its title and count
+  // staying - kept per user (WeKan's collapsedCardSections, under the board,
+  // card-settings-<id> or card-settings-minicard-<id>).
   up.on('click', '.js-toggle-card-settings-section', function (event, el) {
     event.preventDefault();
-    var open = el.getAttribute('aria-expanded') !== 'true';
-    el.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var sec = el.closest('.js-card-settings-section'), pane = el.closest('.js-card-settings-pane');
+    var folded = !sec.classList.contains('is-collapsed');
+    sec.classList.toggle('is-collapsed', folded);
+    el.setAttribute('aria-expanded', folded ? 'false' : 'true');
     var i = el.querySelector('.fa');
-    if (i) { i.classList.toggle('fa-caret-down', open); i.classList.toggle('fa-caret-right', !open); }
-    var items = el.closest('.js-card-settings-section').querySelector('.card-settings-inline-items');
-    if (items) items.hidden = !open;
+    if (i) { i.classList.toggle('fa-caret-down', !folded); i.classList.toggle('fa-caret-right', folded); }
+    var key = (pane.dataset.side === 'minicard' ? 'card-settings-minicard-' : 'card-settings-') + sec.dataset.section;
+    window.Meteor.callAsync('setCollapsedCardSection', pane.dataset.board, key, folded).catch(function () {});
   });
+  // The keyboard way to drag a section: Up and Down on its focused title.
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+    var title = event.target.closest && event.target.closest('.js-pop-over .js-card-settings-section-handle');
+    if (!title) return;
+    event.preventDefault();
+    var sec = title.closest('.js-card-settings-section'), pane = title.closest('.js-card-settings-pane');
+    var sib = event.key === 'ArrowUp' ? sec.previousElementSibling : sec.nextElementSibling;
+    if (!sib) return;
+    sec.parentNode.insertBefore(sec, event.key === 'ArrowUp' ? sib : sib.nextSibling);
+    title.focus();
+    saveCardSettingsOrder(pane, false);
+  }, true);
+  // WeKan's movable, maximizable Card Settings (popup.js MOVABLE_POPUPS,
+  // MAXIMIZABLE_POPUPS): dragged by its title; maximized and back by the
+  // button beside its close.
+  up.compiler('.js-pop-over[data-popup="boardCardSettingsPopup"] .header', function (header) {
+    if (header.querySelector('.js-popup-maximize')) return;
+    var pop = header.closest('.js-pop-over');
+    var label = function (key) { var t = pop.querySelector('template.js-card-settings-labels'); return (t && t.dataset[key]) || ''; };
+    var max = document.createElement('a');
+    max.href = '#'; max.className = 'js-popup-maximize popup-maximize'; max.setAttribute('role', 'button');
+    max.setAttribute('aria-label', label('maximize')); max.title = label('maximize');
+    max.innerHTML = '<i class="fa fa-window-maximize" aria-hidden="true"></i>';
+    var close = header.querySelector('.js-close-pop-over');
+    header.insertBefore(max, close);
+  });
+  up.on('click', '.js-popup-maximize, .js-popup-minimize', function (event, el) {
+    event.preventDefault();
+    var pop = el.closest('.js-pop-over');
+    var maximize = el.classList.contains('js-popup-maximize');
+    pop.classList.toggle('pop-over--maximized', maximize);
+    el.classList.toggle('js-popup-maximize', !maximize);
+    el.classList.toggle('js-popup-minimize', maximize);
+    var i = el.querySelector('.fa');
+    if (i) { i.classList.toggle('fa-window-maximize', !maximize); i.classList.toggle('fa-window-restore', maximize); }
+  });
+  var popMove = null;
+  document.addEventListener('pointerdown', function (event) {
+    var t = event.button === 0 && event.target.closest && event.target.closest('.js-pop-over[data-popup="boardCardSettingsPopup"] .header-title');
+    if (!t) return;
+    var pop = t.closest('.js-pop-over'), r = pop.getBoundingClientRect();
+    pop.style.left = r.left + 'px'; pop.style.top = r.top + 'px'; pop.style.right = 'auto';
+    popMove = { pop: pop, x: event.clientX - r.left, y: event.clientY - r.top };
+    event.preventDefault();
+  }, true);
+  document.addEventListener('pointermove', function (event) {
+    if (!popMove) return;
+    popMove.pop.style.left = Math.max(0, event.clientX - popMove.x) + 'px';
+    popMove.pop.style.top = Math.max(0, event.clientY - popMove.y) + 'px';
+  }, true);
+  document.addEventListener('pointerup', function () { popMove = null; }, true);
   // Sections and rows of Card Settings dragged above or below one another, as
   // WeKan's: a section by its title, a row by its name; dropped on the upper
   // half of another it goes before it, on the lower half after. The new order
@@ -857,11 +1010,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     var pane = box.closest('.js-card-settings-pane');
     var on = !box.classList.contains('is-checked');
-    var hidden = Array.prototype.slice.call(pane.querySelectorAll('.js-card-settings-section'))
-      .filter(function (sec) {
-        var b = sec.querySelector('.js-card-settings-section-shown');
-        return b === box ? !on : !b.classList.contains('is-checked');
-      }).map(function (sec) { return sec.dataset.section; });
+    // The side's hidden sections as they are drawn, this one changed - read
+    // from the sections, as a one-line section has no such checkbox.
+    var mine = box.closest('.js-card-settings-section').dataset.section;
+    var hidden = csHiddenWithout(pane, mine);
+    if (!on) hidden.push(mine);
     var set = {};
     set[pane.dataset.side === 'minicard' ? 'cardSettingsHiddenOnMinicard' : 'cardSettingsHiddenOnCard'] = hidden;
     window.Meteor.callAsync('/boards/update', { _id: pane.dataset.board }, { $set: set }).then(function () {

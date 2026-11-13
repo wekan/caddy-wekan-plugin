@@ -161,6 +161,13 @@ func (s *Server) methodUpdateCustomField(r *http.Request, u *User, args []json.R
 				return nil, accessDenied
 			}
 			out[k] = cleanImported(settings, "")
+		case k == "sort":
+			// Its place among the board's fields (Card Settings' drag).
+			n, isNum := v.(float64)
+			if !isNum || n < 0 || n > 1e6 {
+				return nil, accessDenied
+			}
+			out[k] = n
 		case k == "adminOnly" || isCustomFieldFlag(k):
 			on, isBool := v.(bool)
 			if !isBool {
@@ -184,6 +191,11 @@ func (s *Server) methodUpdateCustomField(r *http.Request, u *User, args []json.R
 	res, err := s.db.Collection("customFields").UpdateOne(ctx, bson.M{"_id": eq(id)}, bson.M{"$set": out})
 	if err != nil {
 		return nil, err
+	}
+	// WeKan's CustomFields.after.update: a field always on cards is added to
+	// every card of its boards.
+	if out["alwaysOnCard"] == true || (f["alwaysOnCard"] == true && out["alwaysOnCard"] == nil) {
+		s.addToAllCards(ctx, id, boardIDs)
 	}
 	for _, bid := range boardIDs {
 		s.hub.publishFrom(bid, "board-changed", r.Header.Get("X-Weddy-Page"))
@@ -209,4 +221,18 @@ func (s *Server) anyBoardWritable(ctx context.Context, u *User, ids []string) bo
 		}
 	}
 	return false
+}
+
+// addToAllCards is WeKan's CustomFields.addToAllCards: the field, with no
+// value, on every card of its boards that has it not yet.
+func (s *Server) addToAllCards(ctx context.Context, fieldID string, boardIDs []string) {
+	ids := bson.A{}
+	for _, b := range boardIDs {
+		ids = append(ids, b)
+	}
+	if len(ids) == 0 {
+		return
+	}
+	_, _ = s.db.Collection("cards").UpdateMany(ctx, bson.M{"boardId": dbIn(ids), "customFields": bson.M{"$not": bson.M{"$elemMatch": bson.M{"_id": eq(fieldID)}}}},
+		bson.M{"$push": bson.M{"customFields": bson.M{"_id": fieldID, "value": nil}}}) // inserted, not a filter
 }

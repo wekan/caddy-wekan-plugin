@@ -247,7 +247,9 @@ func (s *Server) createCustomFieldPage(w http.ResponseWriter, r *http.Request, u
 		return
 	}
 	id := randomID()
-	if _, err := s.db.Collection("customFields").InsertOne(r.Context(), bson.M{"_id": id, "name": name, "type": typ, "settings": bson.M{}, // inserted, not a filter
+	// The last of the board's fields (WeKan's Card Settings: + adds the last item).
+	n, _ := s.db.Collection("customFields").CountDocuments(r.Context(), bson.M{"boardIds": eq(b.ID)})
+	if _, err := s.db.Collection("customFields").InsertOne(r.Context(), bson.M{"_id": id, "name": name, "type": typ, "settings": bson.M{}, "sort": n, // inserted, not a filter
 		"showOnCard": true, "automaticallyOnCard": false, "alwaysOnCard": false, "showLabelOnMiniCard": false,
 		"showSumAtTopOfList": false, "boardIds": bson.A{b.ID}, "createdAt": time.Now().UTC()}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

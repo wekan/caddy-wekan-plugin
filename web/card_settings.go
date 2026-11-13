@@ -149,6 +149,14 @@ func cardSettingsBoardWrite(set map[string]any) (bson.M, bool) {
 					return nil, false
 				}
 			}
+			// In the sections' own order, as WeKan's normaliseHiddenSections.
+			ordered := []string{}
+			for _, id := range known {
+				if slices.Contains(ids, id) {
+					ordered = append(ordered, id)
+				}
+			}
+			ids = ordered // none hidden is a list, as WeKan's hiddenSectionsAfter writes it
 			out[path] = ids
 		case path == cardSettingsOrderField["card"] || path == cardSettingsOrderField["minicard"]:
 			ids, ok := stringList(v)
@@ -233,14 +241,23 @@ type cardSettingsPaneSection struct {
 	// CustomFields: the Custom Fields section's items, the board's fields
 	// (WeKan's cardSettingsCustomFields.js).
 	CustomFields []cardSettingsField
+	// Single: a section with one row on this side is one line - its checkbox
+	// the row's own flag (WeKan's isSingleRowSection). FlagLine is that row,
+	// or Custom Fields' own flag row, drawn as the section's line; FlagChecked
+	// is it ticked and the section shown (singleLineChecked).
+	Single, FlagChecked bool
+	FlagLine            *cardSettingsLine
+	// Collapsed: the user folded the section here (collapsedCardSections,
+	// card-settings-<id> or card-settings-minicard-<id>).
+	Collapsed bool
 }
 
 // cardSettingsField is one of the board's custom fields in Card Settings: its
 // checkbox this side's flag of it (SIDE_FLAG: alwaysOnCard on the card,
 // showOnCard on the minicard), and what its form edits.
 type cardSettingsField struct {
-	ID, Name, Type                                                 string
-	Checked                                                        bool
+	ID, Name, Type, Side                                           string
+	Checked, Writable                                              bool
 	ShowOnCard, AutomaticallyOnCard, AlwaysOnCard, ShowLabelOnMini bool
 }
 
@@ -269,10 +286,12 @@ func (s *Server) cardSettingsPanes(ctx context.Context, b *Board, u *User, lang 
 		prof = doc.Profile
 	}
 	admin := u != nil && (u.IsAdmin || b.AdminOf(u.ID))
-	var fields []cardSettingsField
-	if admin {
-		fields = s.cardSettingsFieldsOf(ctx, b.ID)
-	}
+	// Every member reads the board's custom fields here; a board admin
+	// changes them.
+	// An admin-only field is a board admin's alone to see (AdminFieldBleed).
+	fields := s.cardSettingsFieldsOf(ctx, b.ID, admin)
+	allFolds, _ := plain(prof["collapsedCardSections"]).(map[string]any)
+	folds, _ := plain(allFolds[b.ID]).(map[string]any)
 	var panes []cardSettingsPane
 	titles := map[string]string{"minicard": tr(lang, "show-on-minicard"), "card": tr(lang, "show-on-card")}
 	for _, side := range []string{"minicard", "card"} {
@@ -328,18 +347,35 @@ func (s *Server) cardSettingsPanes(ctx context.Context, b *Board, u *User, lang 
 				}
 				ps.Lines = append(ps.Lines, line)
 			}
-			if sec.ID == "customFields" && admin {
+			if sec.ID == "customFields" {
 				for _, f := range fields {
 					f.Checked = f.AlwaysOnCard
 					if side == "minicard" {
 						f.Checked = f.ShowOnCard
 					}
+					f.Writable, f.Side = admin, side
 					ps.CustomFields = append(ps.CustomFields, f)
+				}
+			}
+			foldKey := "card-settings-" + sec.ID
+			if side == "minicard" {
+				foldKey = "card-settings-minicard-" + sec.ID
+			}
+			ps.Collapsed = folds[foldKey] == true
+			// One row on this side: one line; Custom Fields' one row is its
+			// own flag, the line above its items.
+			if len(ps.Lines) == 1 {
+				line := ps.Lines[0]
+				ps.FlagLine, ps.FlagChecked = &line, line.Checked && ps.Shown
+				if sec.ID == "customFields" {
+					ps.Lines = nil
+				} else {
+					ps.Single = true
 				}
 			}
 			// A section with no row on this side is left out; Card, holding
 			// what is not a field, stays.
-			if len(ps.Lines) == 0 && sec.ID != "card" {
+			if len(ps.Lines) == 0 && ps.FlagLine == nil && sec.ID != "card" {
 				continue
 			}
 			pane.Sections = append(pane.Sections, ps)
@@ -458,7 +494,7 @@ func (s *Server) subtaskPanelOf(ctx context.Context, b *Board, u *User, board bs
 
 // cardSettingsFieldsOf are the board's custom fields as WeKan's
 // orderedDefinitions lists them: by sort, those without one after, by name.
-func (s *Server) cardSettingsFieldsOf(ctx context.Context, boardID string) []cardSettingsField {
+func (s *Server) cardSettingsFieldsOf(ctx context.Context, boardID string, admin bool) []cardSettingsField {
 	var docs []bson.M
 	if cur, err := s.db.Collection("customFields").Find(ctx, bson.M{"boardIds": eq(boardID)}); err == nil {
 		_ = cur.All(ctx, &docs)
@@ -482,6 +518,9 @@ func (s *Server) cardSettingsFieldsOf(ctx context.Context, boardID string) []car
 	})
 	out := make([]cardSettingsField, 0, len(docs))
 	for _, d := range docs {
+		if d["adminOnly"] == true && !admin {
+			continue
+		}
 		out = append(out, cardSettingsField{ID: docString(d, "_id"), Name: docString(d, "name"), Type: docString(d, "type"),
 			ShowOnCard: d["showOnCard"] == true, AutomaticallyOnCard: d["automaticallyOnCard"] == true,
 			AlwaysOnCard: d["alwaysOnCard"] == true, ShowLabelOnMini: d["showLabelOnMiniCard"] == true})

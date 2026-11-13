@@ -1,5 +1,8 @@
 //- The opened card's comments section (card_sections.go), called with the page's data.
-h3.card-details-item-title {{t $.L "comments"}}
+//- The comments' heading folds them, as WeKan's sections' do.
+h3.card-details-item-title.js-toggle-card-section(data-section="comments", role="button", tabindex="0")
+  i.fa.fa-comment-o(aria-hidden="true")
+  |  {{t $.L "comments"}}
 .comments
   if .CanComment
     .new-comment.js-new-comment

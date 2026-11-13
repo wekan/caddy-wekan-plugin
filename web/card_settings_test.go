@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"testing"
 
@@ -121,7 +122,7 @@ func TestCardSettingsPopover(t *testing.T) {
 	if cardSettingsTicked(t, html, "scrumIssueType", "minicard") {
 		t.Fatal("its checkbox is unticked")
 	}
-	if !strings.Contains(html, `js-card-settings-section is-section-hidden" data-section="scrum"`) {
+	if !regexp.MustCompile(`js-card-settings-section is-section-hidden[^"]*" data-section="scrum"`).MatchString(html) {
 		t.Fatal("the hidden section is drawn hidden")
 	}
 	// The Scrum row: scrum.configure's visibility flag, one side only.

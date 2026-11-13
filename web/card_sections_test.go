@@ -257,8 +257,12 @@ func TestCardSettingsCustomFields(t *testing.T) {
 	}
 	bc := w.client(t)
 	body(t, w.signIn(t, bc, "bob", "pw"))
-	if _, html := get(t, bc, w.srv.URL+"/b/"+rb.ID+"/fields"); strings.Contains(html, "js-card-settings-custom-field\"") {
-		t.Fatal("a member who is no admin gets no field list")
+	// A member who is no admin reads the list, as WeKan's (card-add-fields:
+	// "no +, disabled checkboxes"): no edit form, no +, the boxes disabled.
+	_, html = get(t, bc, w.srv.URL+"/b/"+rb.ID+"/fields")
+	if !strings.Contains(html, `js-card-settings-custom-field" data-id="cfA"`) || strings.Contains(html, "js-card-settings-custom-field-toggle") ||
+		strings.Contains(html, "js-card-settings-edit-custom-field") || strings.Contains(html, "js-card-settings-add-custom-field") {
+		t.Fatal("a member who is no admin reads the fields and changes none")
 	}
 }
 
@@ -307,5 +311,30 @@ func TestSetBoardDragging(t *testing.T) {
 	}
 	if !strings.Contains(html, `data-drag="off"`) {
 		t.Fatal("the opened card's checklist items stay put")
+	}
+}
+
+// AdminFieldBleed's shape, in Card Settings: an admin-only custom field is
+// listed to a board admin only, never to a member who reads the list.
+func TestCardSettingsHidesAdminOnlyFields(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Secret")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": rb.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": bob.ID, "isAdmin": false, "isActive": true}}})
+	_, _ = w.db.Collection("customFields").InsertMany(ctx, []any{
+		bson.M{"_id": "cfOpen", "boardIds": bson.A{rb.ID}, "name": "OpenField", "type": "text"},
+		bson.M{"_id": "cfSecret", "boardIds": bson.A{rb.ID}, "name": "SecretField", "type": "text", "adminOnly": true},
+	})
+	ac, bc := w.client(t), w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if _, html := get(t, ac, w.srv.URL+"/b/"+rb.ID+"/secret"); !strings.Contains(html, `data-id="cfSecret"`) {
+		t.Fatal("the admin sees it")
+	}
+	_, html := get(t, bc, w.srv.URL+"/b/"+rb.ID+"/secret")
+	if strings.Contains(html, "cfSecret") || strings.Contains(html, "SecretField") || !strings.Contains(html, `data-id="cfOpen"`) {
+		t.Fatal("a member never sees an admin-only field, nor its name")
 	}
 }

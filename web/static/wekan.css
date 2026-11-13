@@ -783,3 +783,18 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .board-settings-column-actions button { font-size: 0.8em; padding: 0 0.4rem; }
 .board-settings-column-actions .warning { color: #b04632; }
 .board-swimlane-settings .check-div a.flex, .board-list-settings .check-div a.flex { display: flex; gap: 0.4rem; align-items: center; color: inherit; padding: 2px 0; }
+/* A folded section of Card Settings: its title and count, no rows. */
+.js-card-settings-section.is-collapsed .card-settings-inline-items, .js-card-settings-section.is-collapsed .card-settings-custom-fields-list { display: none; }
+.card-settings-inline-section.is-single .card-settings-inline-section-head { padding-inline-start: 1rem; }
+.card-settings-inline-section-title[tabindex="0"]:focus-visible { outline: 2px solid #0079bf; }
+/* A maximized Card Settings fills the window. */
+.js-pop-over.pop-over--maximized { left: 0.5rem !important; top: 0.5rem !important; right: 0.5rem !important; width: auto !important; height: calc(100vh - 1rem) !important; max-height: none; }
+.popup-maximize { margin-inline-start: auto; margin-inline-end: 0.5rem; color: inherit; }
+.js-pop-over[data-popup="boardCardSettingsPopup"] .header-title { cursor: move; user-select: none; }
+.js-card-settings-custom-field-handle { cursor: grab; user-select: none; touch-action: none; }
+.js-card-settings-custom-field.is-dragging { opacity: 0.5; }
+/* Clipped, never scrolled: scrollIntoView scrolls every overflow:hidden
+   ancestor too, which shifted the whole of Card Settings up under its
+   header; only each pane's body scrolls. */
+.js-pop-over[data-popup="boardCardSettingsPopup"], .js-pop-over[data-popup="boardCardSettingsPopup"] > .card-settings-panes-container { overflow: clip; }
+.card-settings-panes:not(.is-stacked), .card-settings-pane { overflow: clip; }
