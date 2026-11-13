@@ -216,3 +216,48 @@ func TestCardSettingsPanels(t *testing.T) {
 		}
 	}
 }
+
+// Card Settings' Custom Fields: the board's fields, by sort then name, each
+// side's checkbox its own flag (alwaysOnCard on the card, showOnCard on the
+// minicard); a board admin's only.
+func TestCardSettingsCustomFields(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Fields")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": rb.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": bob.ID, "isAdmin": false, "isActive": true}}})
+	_, _ = w.db.Collection("customFields").InsertMany(ctx, []any{
+		bson.M{"_id": "cfB", "boardIds": bson.A{rb.ID}, "name": "Beta", "type": "text", "showOnCard": true, "alwaysOnCard": false},
+		bson.M{"_id": "cfA", "boardIds": bson.A{rb.ID}, "name": "Alpha", "type": "text", "showOnCard": false, "alwaysOnCard": true, "sort": 0},
+	})
+	ac := w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	_, html := get(t, ac, w.srv.URL+"/b/"+rb.ID+"/fields")
+	card := html[strings.Index(html, `data-side="card" data-board=`):]
+	mini := html[strings.Index(html, `data-side="minicard" data-board=`):]
+	field := func(pane, id string) string {
+		at := strings.Index(pane, `js-card-settings-custom-field" data-id="`+id+`"`)
+		if at < 0 {
+			t.Fatalf("field %s listed", id)
+		}
+		return pane[at : at+400]
+	}
+	if strings.Index(card, `data-id="cfA"`) > strings.Index(card, `data-id="cfB"`) {
+		t.Fatal("by sort: Alpha (sort 0) first")
+	}
+	if !strings.Contains(field(card, "cfA"), `aria-checked="true"`) || strings.Contains(field(card, "cfB"), `aria-checked="true"`) {
+		t.Fatal("the card's checkbox is alwaysOnCard")
+	}
+	if strings.Contains(field(mini, "cfA"), `aria-checked="true"`) || !strings.Contains(field(mini, "cfB"), `aria-checked="true"`) {
+		t.Fatal("the minicard's is showOnCard")
+	}
+	if !strings.Contains(html, `js-card-settings-add-custom-field"`) || !strings.Contains(html, `js-card-settings-field-form" data-id="cfA"`) {
+		t.Fatal("the + and each field's form")
+	}
+	bc := w.client(t)
+	body(t, w.signIn(t, bc, "bob", "pw"))
+	if _, html := get(t, bc, w.srv.URL+"/b/"+rb.ID+"/fields"); strings.Contains(html, "js-card-settings-custom-field\"") {
+		t.Fatal("a member who is no admin gets no field list")
+	}
+}

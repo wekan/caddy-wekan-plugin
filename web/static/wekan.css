@@ -763,3 +763,8 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .card-settings-inline-panel .board-subtask-settings label { display: block; margin-top: 0.4rem; }
 .card-settings-inline-panel .board-subtask-settings select { width: 100%; }
 .card-settings-inline-panel .card-ask-move-reason { display: flex; gap: 0.4rem; align-items: center; }
+.card-settings-custom-fields-list { padding-inline-start: 1.4rem; }
+.card-settings-custom-field .card-settings-inline-menu { margin-inline-start: auto; }
+.card-settings-add-custom-field { display: inline-block; padding: 2px 0; color: inherit; }
+.card-settings-panel-form label { display: block; margin-bottom: 0.3rem; }
+.card-settings-panel-form a.flex { display: flex; gap: 0.4rem; align-items: center; padding: 2px 0; color: inherit; }

@@ -230,6 +230,18 @@ type cardSettingsPaneSection struct {
 	Shown, Writable bool
 	Lines           []cardSettingsLine
 	CheckedCount    int
+	// CustomFields: the Custom Fields section's items, the board's fields
+	// (WeKan's cardSettingsCustomFields.js).
+	CustomFields []cardSettingsField
+}
+
+// cardSettingsField is one of the board's custom fields in Card Settings: its
+// checkbox this side's flag of it (SIDE_FLAG: alwaysOnCard on the card,
+// showOnCard on the minicard), and what its form edits.
+type cardSettingsField struct {
+	ID, Name, Type                                                 string
+	Checked                                                        bool
+	ShowOnCard, AutomaticallyOnCard, AlwaysOnCard, ShowLabelOnMini bool
 }
 
 type cardSettingsPane struct {
@@ -257,6 +269,10 @@ func (s *Server) cardSettingsPanes(ctx context.Context, b *Board, u *User, lang 
 		prof = doc.Profile
 	}
 	admin := u != nil && (u.IsAdmin || b.AdminOf(u.ID))
+	var fields []cardSettingsField
+	if admin {
+		fields = s.cardSettingsFieldsOf(ctx, b.ID)
+	}
 	var panes []cardSettingsPane
 	titles := map[string]string{"minicard": tr(lang, "show-on-minicard"), "card": tr(lang, "show-on-card")}
 	for _, side := range []string{"minicard", "card"} {
@@ -311,6 +327,15 @@ func (s *Server) cardSettingsPanes(ctx context.Context, b *Board, u *User, lang 
 					ps.CheckedCount++
 				}
 				ps.Lines = append(ps.Lines, line)
+			}
+			if sec.ID == "customFields" && admin {
+				for _, f := range fields {
+					f.Checked = f.AlwaysOnCard
+					if side == "minicard" {
+						f.Checked = f.ShowOnCard
+					}
+					ps.CustomFields = append(ps.CustomFields, f)
+				}
 			}
 			// A section with no row on this side is left out; Card, holding
 			// what is not a field, stays.
@@ -429,6 +454,39 @@ func (s *Server) subtaskPanelOf(ctx context.Context, b *Board, u *User, board bs
 	}
 	p.NoList = st.DefaultListID == ""
 	return p
+}
+
+// cardSettingsFieldsOf are the board's custom fields as WeKan's
+// orderedDefinitions lists them: by sort, those without one after, by name.
+func (s *Server) cardSettingsFieldsOf(ctx context.Context, boardID string) []cardSettingsField {
+	var docs []bson.M
+	if cur, err := s.db.Collection("customFields").Find(ctx, bson.M{"boardIds": eq(boardID)}); err == nil {
+		_ = cur.All(ctx, &docs)
+	}
+	slices.SortStableFunc(docs, func(a, b bson.M) int {
+		as, bs := numberOf(a["sort"]), numberOf(b["sort"])
+		aok, bok := !math.IsNaN(as), !math.IsNaN(bs)
+		switch {
+		case aok && bok && as != bs:
+			if as < bs {
+				return -1
+			}
+			return 1
+		case aok != bok:
+			if aok {
+				return -1
+			}
+			return 1
+		}
+		return strings.Compare(docString(a, "name"), docString(b, "name"))
+	})
+	out := make([]cardSettingsField, 0, len(docs))
+	for _, d := range docs {
+		out = append(out, cardSettingsField{ID: docString(d, "_id"), Name: docString(d, "name"), Type: docString(d, "type"),
+			ShowOnCard: d["showOnCard"] == true, AutomaticallyOnCard: d["automaticallyOnCard"] == true,
+			AlwaysOnCard: d["alwaysOnCard"] == true, ShowLabelOnMini: d["showLabelOnMiniCard"] == true})
+	}
+	return out
 }
 
 // cardSettingsSplitOf is the Minicard pane's share of Card Settings' width,

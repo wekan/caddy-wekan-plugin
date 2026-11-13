@@ -352,6 +352,55 @@
                             each icon in .Icons
                               i.fa(class="{{.}}", aria-hidden="true")
                             | {{.Title}}
+                    //- Custom Fields' items: the board's fields, each with this
+                      side's checkbox and its form behind a hamburger; the + makes
+                      one (WeKan's cardSettingsCustomFields.js).
+                    if eq .ID "customFields"
+                      if .Writable
+                        .card-settings-custom-fields-list.js-card-settings-custom-fields
+                          each f in .CustomFields
+                            .card-settings-line.card-settings-inline-item.card-settings-custom-field.js-card-settings-custom-field(data-id="{{.ID}}")
+                              span.card-settings-side
+                                a.flex.card-field-order-toggle.js-card-settings-custom-field-toggle(href="#", class="{{if .Checked}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Checked}}true{{else}}false{{end}}", aria-label="{{.Name}}")
+                                  .materialCheckBox(class="{{if .Checked}}is-checked{{end}}")
+                              span.card-settings-line-label {{.Name}}
+                              a.card-settings-inline-menu.js-card-settings-edit-custom-field(href="#", role="button", aria-expanded="false", data-panel="field-{{.ID}}", title="{{t $.L `edit`}}", aria-label="{{t $.L `edit`}}")
+                                i.fa.fa-bars(aria-hidden="true")
+                              template.js-card-settings-panel-tpl(data-panel="field-{{.ID}}")
+                                form.card-settings-panel-form.js-card-settings-field-form(data-id="{{.ID}}")
+                                  label
+                                    | {{t $.L "name"}}
+                                    input.js-field-name(type="text", name="name", value="{{.Name}}", required, maxlength="200", autocomplete="off")
+                                  a.flex.js-field-show-on-card(href="#", data-flag="showOnCard", class="{{if .ShowOnCard}}is-checked{{end}}")
+                                    .materialCheckBox(class="{{if .ShowOnCard}}is-checked{{end}}")
+                                    span {{t $.L "show-field-on-card"}}
+                                  a.flex.js-field-automatically-on-card(href="#", data-flag="automaticallyOnCard", class="{{if .AutomaticallyOnCard}}is-checked{{end}}")
+                                    .materialCheckBox(class="{{if .AutomaticallyOnCard}}is-checked{{end}}")
+                                    span {{t $.L "automatically-field-on-card"}}
+                                  a.flex.js-field-always-on-card(href="#", data-flag="alwaysOnCard", class="{{if .AlwaysOnCard}}is-checked{{end}}")
+                                    .materialCheckBox(class="{{if .AlwaysOnCard}}is-checked{{end}}")
+                                    span {{t $.L "always-field-on-card"}}
+                                  a.flex.js-field-show-label-on-minicard(href="#", data-flag="showLabelOnMiniCard", class="{{if .ShowLabelOnMini}}is-checked{{end}}")
+                                    .materialCheckBox(class="{{if .ShowLabelOnMini}}is-checked{{end}}")
+                                    span {{t $.L "showLabel-field-on-card"}}
+                                  button.primary(type="submit") {{t $.L "save"}}
+                          a.card-settings-add-custom-field.js-card-settings-add-custom-field(href="#", data-panel="field-new", title="{{t $.L `createCustomField`}}", aria-label="{{t $.L `createCustomField`}}")
+                            i.fa.fa-plus(aria-hidden="true")
+                          template.js-card-settings-panel-tpl(data-panel="field-new")
+                            form.card-settings-panel-form.js-card-settings-field-create(method="post", action="/b/{{$.Board.ID}}/custom-fields")
+                              label
+                                | {{t $.L "name"}}
+                                input.js-field-name(type="text", name="name", required, maxlength="200", autocomplete="off")
+                              label
+                                | {{t $.L "type"}}
+                                select.js-field-type(name="type")
+                                  option(value="text") {{t $.L "custom-field-text"}}
+                                  option(value="number") {{t $.L "custom-field-number"}}
+                                  option(value="date") {{t $.L "custom-field-date"}}
+                                  option(value="checkbox") {{t $.L "custom-field-checkbox"}}
+                                  option(value="currency") {{t $.L "custom-field-currency"}}
+                                  option(value="dropdown") {{t $.L "custom-field-dropdown"}}
+                              button.primary(type="submit") {{t $.L "create"}}
   if .CanEdit
     //- WeKan's swimlaneAddPopup: a swimlane below or above the chosen one.
     template.js-pop-over-template(data-pop="add-swimlane", data-title="{{t $.L `swimlaneAddPopup-title`}}")

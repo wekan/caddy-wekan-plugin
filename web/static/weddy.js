@@ -120,6 +120,12 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       panel.appendChild(nt.content.cloneNode(true));
       up.hello(panel);
     });
+    // Each pane's custom fields as the new page lists them.
+    t.content.querySelectorAll('.js-card-settings-pane').forEach(function (fp) {
+      var fl = fp.querySelector('.js-card-settings-custom-fields');
+      var l = pop.querySelector('.js-card-settings-pane[data-side="' + fp.dataset.side + '"] .js-card-settings-custom-fields');
+      if (fl && l && fl.innerHTML !== l.innerHTML) l.innerHTML = fl.innerHTML;
+    });
     t.content.querySelectorAll('.js-card-settings-pane').forEach(function (fp) {
       var pane = pop.querySelector('.js-card-settings-pane[data-side="' + fp.dataset.side + '"]');
       if (!pane) return;
@@ -518,7 +524,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // the same hamburger or Escape closing it, never Card Settings itself.
   function csClosePanels(pop) {
     (pop || document).querySelectorAll('.js-card-settings-panel').forEach(function (p) { p.remove(); });
-    (pop || document).querySelectorAll('.js-open-card-settings-section-menu.is-open').forEach(function (b) {
+    (pop || document).querySelectorAll('.js-open-card-settings-section-menu.is-open, .js-card-settings-edit-custom-field.is-open, .js-card-settings-add-custom-field.is-open').forEach(function (b) {
       b.classList.remove('is-open'); b.setAttribute('aria-expanded', 'false');
     });
   }
@@ -535,8 +541,12 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     close.innerHTML = '<i class="fa fa-times" aria-hidden="true"></i>';
     panel.appendChild(close);
     panel.appendChild(t.content.cloneNode(true));
+    // Under the section's line; a custom field's, and the +'s, under the
+    // section's list of fields, which a redraw renews around it.
+    var list = burger.closest('.js-card-settings-custom-fields');
     var head = burger.closest('.card-settings-inline-section-head');
-    head.parentNode.insertBefore(panel, head.nextSibling);
+    if (list) list.parentNode.insertBefore(panel, list.nextSibling);
+    else head.parentNode.insertBefore(panel, head.nextSibling);
     burger.classList.add('is-open');
     burger.setAttribute('aria-expanded', 'true');
     up.hello(panel);
@@ -546,6 +556,52 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var open = burger.classList.contains('is-open');
     csClosePanels(burger.closest('.js-pop-over'));
     if (!open) csOpenPanel(burger);
+  });
+  up.on('click', '.js-card-settings-edit-custom-field, .js-card-settings-add-custom-field', function (event, burger) {
+    event.preventDefault();
+    var open = burger.classList.contains('is-open');
+    csClosePanels(burger.closest('.js-pop-over'));
+    if (!open) csOpenPanel(burger);
+  });
+  // A custom field's checkbox: this side's flag of it (WeKan's SIDE_FLAG),
+  // through the customFields collection's own update.
+  up.on('click', '.js-card-settings-custom-field-toggle', function (event, box) {
+    event.preventDefault();
+    var item = box.closest('.js-card-settings-custom-field'), pane = box.closest('.js-card-settings-pane');
+    var on = !box.classList.contains('is-checked'), set = {};
+    set[pane.dataset.side === 'minicard' ? 'showOnCard' : 'alwaysOnCard'] = on;
+    window.Meteor.callAsync('/customFields/update', { _id: item.dataset.id }, { $set: set }).then(function () {
+      setCardSettingsBox(box, on);
+      reloadBoard(true);
+    }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
+  });
+  // The field's form: its flags ticked here, saved together with its name.
+  up.on('click', '.js-card-settings-field-form [data-flag]', function (event, el) {
+    event.preventDefault();
+    var on = !el.classList.contains('is-checked');
+    el.classList.toggle('is-checked', on);
+    var m = el.querySelector('.materialCheckBox');
+    if (m) m.classList.toggle('is-checked', on);
+  });
+  up.on('submit', '.js-card-settings-field-form', function (event, form) {
+    event.preventDefault();
+    var set = { name: form.querySelector('.js-field-name').value };
+    form.querySelectorAll('[data-flag]').forEach(function (el) { set[el.dataset.flag] = el.classList.contains('is-checked'); });
+    var pop = form.closest('.js-pop-over');
+    window.Meteor.callAsync('/customFields/update', { _id: form.dataset.id }, { $set: set }).then(function () {
+      csClosePanels(pop);
+      reloadBoard(true);
+    }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
+  });
+  up.on('submit', '.js-card-settings-field-create', function (event, form) {
+    event.preventDefault();
+    var pop = form.closest('.js-pop-over');
+    fetch(form.getAttribute('action'), { method: 'POST', credentials: 'same-origin', body: new URLSearchParams(new FormData(form)),
+      headers: { 'X-Weddy-Page': pageId } }).then(function (res) {
+      if (!res.ok) throw new Error(res.statusText);
+      csClosePanels(pop);
+      reloadBoard(true);
+    }).catch(function (err) { window.alert(err.message || String(err)); });
   });
   up.on('click', '.js-close-card-settings-panel', function (event, el) {
     event.preventDefault();
@@ -1287,8 +1343,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // ... and only a choice made in it: an update the page was already waiting
   // for when the pop-over opened leaves it open.
   var closeAfterChoice = false;
-  up.on('up:form:submit', '.js-pop-over form', function () { closeAfterChoice = true; });
-  up.on('submit', '.js-pop-over form', function () { closeAfterChoice = true; });
+  // Card Settings is not such a pop-over: it stays open through its own
+  // changes, as WeKan's does (its forms' handlers send them themselves).
+  var choiceForm = function (form) { return !form.closest('.js-pop-over[data-popup="boardCardSettingsPopup"]'); };
+  up.on('up:form:submit', '.js-pop-over form', function (event, form) { if (choiceForm(form)) closeAfterChoice = true; });
+  up.on('submit', '.js-pop-over form', function (event, form) { if (choiceForm(form)) closeAfterChoice = true; });
   up.on('up:fragment:inserted', function (event, el) {
     if (closeAfterChoice && el && el.matches && el.matches('.board-wrapper')) {
       closeAfterChoice = false;
