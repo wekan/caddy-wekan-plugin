@@ -754,3 +754,12 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .card-details-items > .card-details-section { margin-bottom: 0.5em; }
 .card-details-section-body { display: flex; flex-wrap: wrap; gap: 0.5em; }
 .card-details-section-body > :not(.card-details-item) { flex: 1 1 100%; min-width: 0; }
+/* Card Settings' hamburger panels, under their section's line. */
+.card-settings-inline-menu { margin-inline-start: auto; color: inherit; padding: 0 0.3rem; }
+.card-settings-inline-menu.is-open { color: #0079bf; }
+.card-settings-inline-panel { position: relative; margin: 0.3rem 0 0.5rem; padding: 0.5rem 1.6rem 0.5rem 0.6rem; border: 1px solid #ddd; border-radius: 4px; background: #fafafa; }
+.card-settings-inline-panel-close { position: absolute; top: 0.3rem; right: 0.4rem; color: inherit; }
+.card-settings-inline-panel .board-subtask-settings a.flex { display: flex; gap: 0.4rem; align-items: center; padding: 2px 0; }
+.card-settings-inline-panel .board-subtask-settings label { display: block; margin-top: 0.4rem; }
+.card-settings-inline-panel .board-subtask-settings select { width: 100%; }
+.card-settings-inline-panel .card-ask-move-reason { display: flex; gap: 0.4rem; align-items: center; }

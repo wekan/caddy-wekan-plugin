@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // WeKan's Board Settings / Card (client/components/sidebar/sidebar.jade,
@@ -163,6 +164,29 @@ func cardSettingsBoardWrite(set map[string]any) (bson.M, bool) {
 				list[i] = id
 			}
 			out[path] = sectionOrderOf(list, side)
+		case path == "askForMoveReason":
+			if _, ok := v.(bool); !ok {
+				return nil, false
+			}
+			out[path] = v
+		case path == "presentParentTask":
+			p, ok := v.(string)
+			if !ok || !slices.Contains(presentParentTasks, p) {
+				return nil, false
+			}
+			out[path] = p
+		case path == "subtasksDefaultBoardId" || path == "subtasksDefaultListId" || path == "subtasksDefaultSwimlaneId":
+			// An id, or none (WeKan's "null" choice); whether the caller may
+			// name it is subtaskDepositRefused's.
+			if v == nil {
+				out[path] = nil
+				continue
+			}
+			id, ok := v.(string)
+			if !ok || !validID(id) {
+				return nil, false
+			}
+			out[path] = id
 		case path == "cardFieldOrder" || path == "minicardFieldOrder":
 			keys, ok := stringList(v)
 			if !ok {
@@ -298,6 +322,113 @@ func (s *Server) cardSettingsPanes(ctx context.Context, b *Board, u *User, lang 
 		panes = append(panes, pane)
 	}
 	return panes
+}
+
+// presentParentTasks are the Boards schema's presentParentTask values.
+// Each is also its own translation key, so they are named with msg.
+var presentParentTasks = []string{msg("prefix-with-full-path"), msg("prefix-with-parent"), msg("subtext-with-full-path"),
+	msg("subtext-with-parent"), msg("no-parent")}
+
+// subtaskDepositRefused says whether a Card Settings write names a subtasks
+// board the caller may not write, or a landing list or swimlane not on the
+// subtasks board - SubtaskDepositBleed's shape, recorded. A new board with no
+// list or swimlane named resets them, as WeKan's Subtasks Settings do (#4849,
+// #1953): they were the old board's.
+func (s *Server) subtaskDepositRefused(r *http.Request, u *User, b *Board, clean bson.M) bool {
+	ctx := r.Context()
+	target, changed := clean["subtasksDefaultBoardId"]
+	if changed {
+		if _, ok := clean["subtasksDefaultListId"]; !ok {
+			clean["subtasksDefaultListId"] = nil
+		}
+		if _, ok := clean["subtasksDefaultSwimlaneId"]; !ok {
+			clean["subtasksDefaultSwimlaneId"] = nil
+		}
+	} else {
+		target = s.subtaskSettings(ctx, b.ID).DefaultBoardID
+	}
+	deposit, _ := target.(string)
+	if deposit == "null" {
+		deposit = ""
+	}
+	refuse := func(detail string) bool {
+		try := func() {
+			defer func() { _ = recover() }() // logging must never break the guard
+			s.recordSecurity(r, securityEvent{Key: "authz.subtask-deposit", Action: "blocked", Source: "ddp:boards.update", UserID: u.ID, Detail: detail})
+		}
+		try()
+		return true
+	}
+	if changed && deposit != "" && deposit != b.ID {
+		db, err := s.boardFor(ctx, deposit, u)
+		if err != nil || !db.Writable(u, "write", nil) {
+			return refuse("Subtasks board the caller may not write refused.")
+		}
+	}
+	home := deposit
+	if home == "" {
+		home = b.ID
+	}
+	for field, coll := range map[string]string{"subtasksDefaultListId": "lists", "subtasksDefaultSwimlaneId": "swimlanes"} {
+		id, _ := clean[field].(string)
+		if id == "" {
+			continue
+		}
+		if n, _ := s.db.Collection(coll).CountDocuments(ctx, bson.M{"_id": eq(id), "boardId": eq(home)}); n == 0 {
+			return refuse("Subtask landing place not on the subtasks board refused.")
+		}
+	}
+	return false
+}
+
+// subtaskPanel is WeKan's boardSubtaskSettingsBody for Card Settings'
+// Subtasks hamburger: how a minicard shows its parent, whether the board
+// shows the subtasks field, and where subtasks land.
+type subtaskPanel struct {
+	PresentParentTask string
+	Choices           []string
+	AllowsSubtasks    bool
+	Boards, Lists     []depositOption
+	NoBoard, NoList   bool
+}
+
+type depositOption struct {
+	ID, Title string
+	Selected  bool
+}
+
+func (s *Server) subtaskPanelOf(ctx context.Context, b *Board, u *User, board bson.M) subtaskPanel {
+	p := subtaskPanel{PresentParentTask: "no-parent", Choices: presentParentTasks, AllowsSubtasks: board["allowsSubtasks"] != false}
+	if v, ok := board["presentParentTask"].(string); ok && slices.Contains(presentParentTasks, v) {
+		p.PresentParentTask = v
+	}
+	st := s.subtaskSettings(ctx, b.ID)
+	var mine []Board
+	if cur, err := s.db.Collection("boards").Find(ctx, bson.M{"members.userId": u.ID, "archived": false}, options.Find().SetSort(bson.D{{Key: "title", Value: 1}})); err == nil {
+		_ = cur.All(ctx, &mine)
+	}
+	for _, x := range mine {
+		if x.Writable(u, "write", nil) && x.Type != "template-container" {
+			p.Boards = append(p.Boards, depositOption{x.ID, x.Title, x.ID == st.DefaultBoardID})
+		}
+	}
+	p.NoBoard = st.DefaultBoardID == "" || st.DefaultBoardID == "null"
+	home := st.DefaultBoardID
+	if p.NoBoard {
+		home = b.ID
+	}
+	var lists []struct {
+		ID    string `bson:"_id"`
+		Title string `bson:"title"`
+	}
+	if cur, err := s.db.Collection("lists").Find(ctx, bson.M{"boardId": eq(home), "archived": false}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}})); err == nil {
+		_ = cur.All(ctx, &lists)
+	}
+	for _, l := range lists {
+		p.Lists = append(p.Lists, depositOption{l.ID, l.Title, l.ID == st.DefaultListID})
+	}
+	p.NoList = st.DefaultListID == ""
+	return p
 }
 
 // cardSettingsSplitOf is the Minicard pane's share of Card Settings' width,

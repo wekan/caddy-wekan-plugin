@@ -209,6 +209,9 @@ func (s *Server) methodBoardsUpdate(r *http.Request, u *User, args []json.RawMes
 		if !u.IsAdmin && !b.AdminOf(u.ID) {
 			return nil, denied
 		}
+		if s.subtaskDepositRefused(r, u, &b, clean) {
+			return nil, denied
+		}
 		clean["modifiedAt"] = time.Now().UTC()
 		if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": clean}); err != nil {
 			return nil, err

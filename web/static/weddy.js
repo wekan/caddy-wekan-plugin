@@ -107,6 +107,19 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       });
       Object.keys(have).forEach(function (k) { if (!keep[k]) have[k].remove(); });
     };
+    // The panels' templates as the new page draws them, and an open panel
+    // made again from its new one.
+    t.content.querySelectorAll('template.js-card-settings-panel-tpl').forEach(function (ft) {
+      var mine = pop.querySelector('template.js-card-settings-panel-tpl[data-panel="' + ft.dataset.panel + '"]');
+      if (mine) mine.replaceWith(ft.cloneNode(true));
+    });
+    pop.querySelectorAll('.js-card-settings-panel').forEach(function (panel) {
+      var nt = pop.querySelector('template.js-card-settings-panel-tpl[data-panel="' + panel.dataset.panel + '"]');
+      if (!nt) return;
+      while (panel.childNodes.length > 1) panel.removeChild(panel.lastChild);
+      panel.appendChild(nt.content.cloneNode(true));
+      up.hello(panel);
+    });
     t.content.querySelectorAll('.js-card-settings-pane').forEach(function (fp) {
       var pane = pop.querySelector('.js-card-settings-pane[data-side="' + fp.dataset.side + '"]');
       if (!pane) return;
@@ -500,6 +513,82 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     csGrip.pop.style.height = Math.max(150, csGrip.h + event.clientY - csGrip.y) + 'px';
   }, true);
   document.addEventListener('pointerup', function () { csGrip = null; }, true);
+  // A hamburger of Card Settings (WeKan's cardSettingsInlinePanel): what it
+  // holds opens under the section's line, inside the pane - one at a time,
+  // the same hamburger or Escape closing it, never Card Settings itself.
+  function csClosePanels(pop) {
+    (pop || document).querySelectorAll('.js-card-settings-panel').forEach(function (p) { p.remove(); });
+    (pop || document).querySelectorAll('.js-open-card-settings-section-menu.is-open').forEach(function (b) {
+      b.classList.remove('is-open'); b.setAttribute('aria-expanded', 'false');
+    });
+  }
+  function csOpenPanel(burger) {
+    var pop = burger.closest('.js-pop-over');
+    var t = pop && pop.querySelector('template.js-card-settings-panel-tpl[data-panel="' + burger.dataset.panel + '"]');
+    if (!t) return;
+    var panel = document.createElement('div');
+    panel.className = 'card-settings-inline-panel js-card-settings-panel card-settings-inline-panel-section';
+    panel.dataset.panel = burger.dataset.panel;
+    var close = document.createElement('a');
+    close.href = '#'; close.className = 'card-settings-inline-panel-close js-close-card-settings-panel';
+    close.setAttribute('role', 'button'); close.setAttribute('aria-label', burger.getAttribute('aria-label') || '');
+    close.innerHTML = '<i class="fa fa-times" aria-hidden="true"></i>';
+    panel.appendChild(close);
+    panel.appendChild(t.content.cloneNode(true));
+    var head = burger.closest('.card-settings-inline-section-head');
+    head.parentNode.insertBefore(panel, head.nextSibling);
+    burger.classList.add('is-open');
+    burger.setAttribute('aria-expanded', 'true');
+    up.hello(panel);
+  }
+  up.on('click', '.js-open-card-settings-section-menu', function (event, burger) {
+    event.preventDefault();
+    var open = burger.classList.contains('is-open');
+    csClosePanels(burger.closest('.js-pop-over'));
+    if (!open) csOpenPanel(burger);
+  });
+  up.on('click', '.js-close-card-settings-panel', function (event, el) {
+    event.preventDefault();
+    csClosePanels(el.closest('.js-pop-over'));
+  });
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape' || !document.querySelector('.js-pop-over .js-card-settings-panel')) return;
+    event.stopPropagation();
+    event.preventDefault();
+    csClosePanels();
+  }, true);
+  // The panels' own controls: each a board setting, written as WeKan's
+  // Boards.update writes it (a board admin's, through /boards/update).
+  function csPanelSet(el, set) {
+    var pane = el.closest('.js-pop-over').querySelector('.js-card-settings-pane');
+    return window.Meteor.callAsync('/boards/update', { _id: pane.dataset.board }, { $set: set }).then(function () {
+      reloadBoard(true);
+    }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
+  }
+  up.on('click', '.js-card-settings-panel .js-ask-move-reason', function (event, el) {
+    event.preventDefault();
+    var on = el.getAttribute('aria-checked') !== 'true';
+    csPanelSet(el, { askForMoveReason: on }).then(function () {
+      el.setAttribute('aria-checked', on ? 'true' : 'false');
+      var m = el.querySelector('.materialCheckBox');
+      if (m) m.classList.toggle('is-checked', on);
+    });
+  });
+  up.on('click', '.js-card-settings-panel .js-field-show-parent-in-minicard', function (event, el) {
+    event.preventDefault();
+    csPanelSet(el, { presentParentTask: el.dataset.value });
+  });
+  up.on('click', '.js-card-settings-panel .js-field-has-subtasks', function (event, el) {
+    event.preventDefault();
+    csPanelSet(el, { allowsSubtasks: !el.classList.contains('is-checked') });
+  });
+  up.on('change', '.js-card-settings-panel .js-field-deposit-board', function (event, el) {
+    var v = el.value === 'null' ? null : el.value;
+    csPanelSet(el, { subtasksDefaultBoardId: v, subtasksDefaultListId: null, subtasksDefaultSwimlaneId: null });
+  });
+  up.on('change', '.js-card-settings-panel .js-field-deposit-list', function (event, el) {
+    csPanelSet(el, { subtasksDefaultListId: el.value === 'null' || el.value === '' ? null : el.value });
+  });
   // A section of Card Settings folds by its caret, for this pop-over.
   up.on('click', '.js-toggle-card-settings-section', function (event, el) {
     event.preventDefault();

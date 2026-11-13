@@ -255,6 +255,56 @@
       pane's share of the width, the user's own (profile.cardSettingsSplit) -
       or stacked when the pop-over is narrower than two; each pane folds by its
       caret and scrolls on its own; the corner grip resizes the pop-over.
+    //- What the hamburgers open (WeKan's cardSettingsInlinePanel), made under
+      the section's line when opened.
+    if .SubtaskPanel
+      template.js-card-settings-panel-tpl(data-panel="section-card")
+        .card-settings-section-menu
+          div.check-div.card-settings-board-option.card-settings-ask-move-reason
+            a.flex.card-ask-move-reason.js-ask-move-reason(href="#", role="checkbox", aria-checked="{{if .AskForMoveReason}}true{{else}}false{{end}}")
+              .materialCheckBox(class="{{if .AskForMoveReason}}is-checked{{end}}")
+              span {{t $.L "ask-move-reason"}}
+      template.js-card-settings-panel-tpl(data-panel="section-subtasks")
+        .card-settings-section-menu
+          .card-settings-section-action(data-action="subtaskSettings")
+            h4.card-settings-section-action-title
+              i.fa.fa-cog(aria-hidden="true")
+              |  {{t $.L "subtask-settings"}}
+            form.board-subtask-settings
+              h3 {{t $.L "show-parent-in-minicard"}}
+              each c in .SubtaskPanel.Choices
+                a.flex.js-field-show-parent-in-minicard(href="#", id="{{.}}", data-value="{{.}}", class="{{if eq . $.SubtaskPanel.PresentParentTask}}is-checked{{end}}")
+                  i.fa(class="{{if eq . $.SubtaskPanel.PresentParentTask}}fa-check{{else}}fa-square-o{{end}}")
+                  span {{t $.L .}}
+              hr
+              div.check-div
+                a.flex.js-field-has-subtasks(href="#", class="{{if .SubtaskPanel.AllowsSubtasks}}is-checked{{end}}")
+                  i.fa(class="{{if .SubtaskPanel.AllowsSubtasks}}fa-check{{else}}fa-square-o{{end}}")
+                  span {{t $.L "show-subtasks-field"}}
+              label
+                | {{t $.L "deposit-subtasks-board"}}
+                select.js-field-deposit-board
+                  each o in .SubtaskPanel.Boards
+                    if .Selected
+                      option(value="{{.ID}}", selected) {{.Title}}
+                    else
+                      option(value="{{.ID}}") {{.Title}}
+                  if .SubtaskPanel.NoBoard
+                    option(value="null", selected) {{t $.L "custom-field-dropdown-none"}}
+                  else
+                    option(value="null") {{t $.L "custom-field-dropdown-none"}}
+              label
+                | {{t $.L "deposit-subtasks-list"}}
+                select.js-field-deposit-list
+                  each o in .SubtaskPanel.Lists
+                    if .Selected
+                      option(value="{{.ID}}", selected) {{.Title}}
+                    else
+                      option(value="{{.ID}}") {{.Title}}
+                  if .SubtaskPanel.NoList
+                    option(value="null", selected) {{t $.L "custom-field-dropdown-none"}}
+                  else
+                    option(value="null") {{t $.L "custom-field-dropdown-none"}}
     button.js-date-popup-resize(type="button", title="{{t $.L `card-drawing-resize`}}", aria-label="{{t $.L `card-drawing-resize`}}")
     .content.card-settings-panes-container.js-card-settings-panes-container
       .card-settings-panes.js-card-settings-panes(style="--card-settings-split: {{.CardSettingsSplit}}")
@@ -280,6 +330,11 @@
                         i.fa(class="{{.Icon}}", aria-hidden="true")
                         |  {{.Title}}
                       span.card-settings-inline-section-count {{.CheckedCount}}/{{len .Lines}}
+                      //- WeKan's section hamburger: Card's holds what is not a field,
+                        Subtasks' the board's Subtasks Settings; it opens under the line.
+                      if and .Writable (or (eq .ID "card") (eq .ID "subtasks"))
+                        a.card-settings-inline-menu.js-open-card-settings-section-menu(href="#", role="button", aria-expanded="false", data-panel="section-{{.ID}}", title="{{t $.L `actions`}}", aria-label="{{t $.L `actions`}}")
+                          i.fa.fa-bars(aria-hidden="true")
                     .card-settings-inline-items
                       each line in .Lines
                         .card-settings-line.card-settings-inline-item.js-card-field-order-row(data-key="{{.Key}}", data-side="{{.Side}}", data-kind="{{.Kind}}", data-field="{{.Field}}", data-scrum="{{.Scrum}}", class="{{if .Positioned}}is-positioned{{end}}")

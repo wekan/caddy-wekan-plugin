@@ -148,3 +148,71 @@ func TestCardSettingsSplitOf(t *testing.T) {
 		}
 	}
 }
+
+// Card Settings' hamburgers: ask for a move reason and the board's Subtasks
+// Settings, a board admin's; a subtasks board the admin may not write, or a
+// landing list not on it, is SubtaskDepositBleed's shape - refused, recorded.
+func TestCardSettingsPanels(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	w.seedUser(t, "bob", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Panels")
+	foreign := newRESTBoard(t, w, login(t, w, "bob"), "Bobs")
+	mine := newRESTBoard(t, w, login(t, w, "ann"), "Deposit")
+	ac := w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	write := func(set string) map[string]any {
+		_, out := methodCall(t, w, ac, "/boards/update", `[{"_id":"`+rb.ID+`"},{"$set":`+set+`}]`)
+		return out
+	}
+	if out := write(`{"askForMoveReason":true,"presentParentTask":"prefix-with-parent"}`); out["error"] != nil {
+		t.Fatalf("the admin's: %v", out)
+	}
+	for _, bad := range []string{`{"presentParentTask":"anything"}`, `{"askForMoveReason":"yes"}`, `{"subtasksDefaultBoardId":"../x"}`} {
+		if out := write(bad); out["reason"] != "Access denied" {
+			t.Fatalf("%s refused: %v", bad, out)
+		}
+	}
+	if out := write(`{"subtasksDefaultBoardId":"` + mine.ID + `","subtasksDefaultListId":"` + mine.List + `"}`); out["error"] != nil {
+		t.Fatalf("a board of the admin's, its list: %v", out)
+	}
+	var b bson.M
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&b)
+	if b["askForMoveReason"] != true || b["presentParentTask"] != "prefix-with-parent" || b["subtasksDefaultBoardId"] != mine.ID || b["subtasksDefaultListId"] != mine.List {
+		t.Fatalf("written: %v", b)
+	}
+	// A new board resets the landing list, which was the old board's.
+	if out := write(`{"subtasksDefaultBoardId":null}`); out["error"] != nil {
+		t.Fatalf("none: %v", out)
+	}
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&b)
+	if b["subtasksDefaultListId"] != nil {
+		t.Fatal("the old board's list is reset")
+	}
+	if out := write(`{"subtasksDefaultListId":"` + mine.List + `"}`); out["reason"] != "Access denied" {
+		t.Fatalf("a list not on the subtasks board (now this one): %v", out)
+	}
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"username": "ann"}, bson.M{"$set": bson.M{"loginDisabled": false}})
+	ac = w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	if out := write(`{"subtasksDefaultBoardId":"` + foreign.ID + `"}`); out["reason"] != "Access denied" {
+		t.Fatalf("a board the admin may not write: %v", out)
+	}
+	_ = w.db.Collection("boards").FindOne(ctx, bson.M{"_id": rb.ID}).Decode(&b)
+	if b["subtasksDefaultBoardId"] == foreign.ID {
+		t.Fatal("not written")
+	}
+	if n, _ := w.db.Collection("eventlog").CountDocuments(ctx, bson.M{"bleed": "SubtaskDepositBleed", "source": "ddp:boards.update"}); n == 0 {
+		t.Fatal("recorded as SubtaskDepositBleed")
+	}
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"username": "ann"}, bson.M{"$set": bson.M{"loginDisabled": false}})
+	ac = w.client(t)
+	body(t, w.signIn(t, ac, "ann", "pw"))
+	_, html := get(t, ac, w.srv.URL+"/b/"+rb.ID+"/panels")
+	for _, want := range []string{`data-panel="section-card"`, `data-panel="section-subtasks"`, `js-open-card-settings-section-menu"`, `class="board-subtask-settings"`, `js-ask-move-reason"`} {
+		if !strings.Contains(html, want) {
+			t.Fatalf("the page has %s", want)
+		}
+	}
+}

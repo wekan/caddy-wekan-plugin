@@ -67,9 +67,19 @@ func TestWipLimitsAndRestore(t *testing.T) {
 	_, _ = w.db.Collection("cards").InsertOne(ctx, bson.M{"_id": archived, "boardId": rb.ID, "listId": rb.List, "swimlaneId": rb.Swimlane,
 		"title": "Alpha Card", "archived": true, "sort": 1})
 	boardURL := w.srv.URL + "/b/" + rb.ID + "/" + board.Slug
-	if _, html := get(t, annC, boardURL); !strings.Contains(html, `data-pop="restore-card-`+archived+`"`) ||
-		!strings.Contains(html, "js-restore-wip-reached") || !strings.Contains(html, `<option value="`+other+`">List C</option>`) ||
-		strings.Contains(html, `<option value="`+rb.List+`"`) {
+	// Read in the restore pop-over itself: other parts of the page (Card
+	// Settings' Subtasks panel) rightly list every list of the board.
+	_, html := get(t, annC, boardURL)
+	at := strings.Index(html, `data-pop="restore-card-`+archived+`"`)
+	if at < 0 {
+		t.Fatal("the card's restore pop-over")
+	}
+	popover := html[at:]
+	if end := strings.Index(popover, "</template>"); end > 0 {
+		popover = popover[:end]
+	}
+	if !strings.Contains(popover, "js-restore-wip-reached") || !strings.Contains(popover, `<option value="`+other+`">List C</option>`) ||
+		strings.Contains(popover, `<option value="`+rb.List+`"`) {
 		t.Fatal("a full list's card asks for another list, offering List C and not the full one")
 	}
 	restore := func(form url.Values) int {
