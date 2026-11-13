@@ -126,7 +126,10 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       var mine = pop.querySelector('template.js-card-settings-panel-tpl[data-panel="' + ft.dataset.panel + '"]');
       if (mine) mine.replaceWith(ft.cloneNode(true));
     });
-    pop.querySelectorAll('.js-card-settings-panel').forEach(function (panel) {
+    pop.querySelectorAll('.js-card-settings-panel[data-kind="section"]').forEach(function (panel) {
+      // A section's panel shows settings; a field's form, or the +'s, is the
+      // user's typing, never made again under it (card-settings-sections-order:
+      // a redraw emptied the new field's name before it was sent).
       var nt = pop.querySelector('template.js-card-settings-panel-tpl[data-panel="' + panel.dataset.panel + '"]');
       if (!nt) return;
       while (panel.childNodes.length > 1) panel.removeChild(panel.lastChild);
