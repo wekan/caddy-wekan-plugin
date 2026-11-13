@@ -35,23 +35,13 @@ var structuralCollections = map[string]string{"swimlane": "swimlanes", "list": "
 var boardDragFields = map[string]string{"swimlane": "allowsSwimlaneDragging", "list": "allowsListDragging", "card": "allowsCardDragging",
 	"checklist": "allowsChecklistDragging", "item": "allowsChecklistItemDragging", "subtask": "allowsSubtaskDragging"}
 
-// cardDragRows are DRAG_SETTINGS of the Card section, in WeKan's order, each
-// with the translation key of its name.
-var cardDragRows = []struct{ Kind, Label string }{{"card", msg("card")}, {"checklist", msg("checklists")}, {"item", msg("r-item")}, {"subtask", msg("subtasks")}}
-
 // boardDragRow is one row of WeKan's boardDragSettings table.
 type boardDragRow struct {
 	Kind, Title string
 	Enabled     bool
 }
 
-func cardDragRowsOf(board bson.M, lang string) []boardDragRow {
-	out := make([]boardDragRow, 0, len(cardDragRows))
-	for _, r := range cardDragRows {
-		out = append(out, boardDragRow{r.Kind, tr(lang, r.Label), board[boardDragFields[r.Kind]] != false})
-	}
-	return out
-}
+func cardDragRowsOf(board bson.M, lang string) []boardDragRow { return dragRowsOf(board, "card", lang) }
 
 // methodSetBoardDragging is WeKan's setBoardDragging(boardId, kind, enabled):
 // whether the board lets that kind be dragged, a board admin's or a site

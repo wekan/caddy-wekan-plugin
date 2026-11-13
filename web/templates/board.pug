@@ -217,6 +217,15 @@
         if .CanExport
           li
             a.js-export-board(href="#") {{t $.L "export"}}
+        if .SwimlaneDragRows
+          li
+            a.js-open-board-swimlane-settings(href="#", title="{{t $.L `swimlane`}}")
+              i.fa.fa-th-large
+              |  {{t $.L "swimlane"}}
+          li
+            a.js-open-board-list-settings(href="#", title="{{t $.L `list`}}")
+              i.fa.fa-list
+              |  {{t $.L "list"}}
         if .BoardViewRows
           li
             a.js-open-board-view-settings(href="#", title="{{t $.L `board-view`}}")
@@ -247,6 +256,82 @@
             a.js-open-board-notifications(href="/b/{{.Board.ID}}/{{.Board.Slug}}/notifications", title="{{t $.L `notifications`}}")
               i.fa.fa-bell
               |  {{t $.L "notifications"}}
+  //- WeKan's boardSwimlaneSettingsPopup and boardListSettingsPopup: what may be
+    dragged, and each one's own settings, every column set at once by its
+    Select all / Unselect all (board_settings_columns.go). A board admin's.
+  if .SwimlaneDragRows
+    template.js-pop-over-template(data-pop="board-swimlane-settings", data-popup="boardSwimlaneSettingsPopup", data-title="{{t $.L `swimlane`}}")
+      .header
+        span.header-title {{t $.L "swimlane"}}
+        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+      .content
+        table.board-drag-settings(data-board="{{$.Board.ID}}")
+          thead
+            tr
+              th {{t $.L "name"}}
+              th
+                | {{t $.L "draggable"}}
+                .board-settings-column-actions(data-section="swimlane", data-column="draggable")
+                  button.js-set-settings-column(type="button", data-enabled="true") {{t $.L "select-all"}}
+                  button.js-set-settings-column(type="button", data-enabled="false") {{t $.L "unselect-all"}}
+          tbody
+            each dr in .SwimlaneDragRows
+              tr
+                td {{.Title}}
+                td
+                  if .Enabled
+                    input.js-board-drag-setting(type="checkbox", data-kind="{{.Kind}}", checked, aria-label="{{.Title}}")
+                  else
+                    input.js-board-drag-setting(type="checkbox", data-kind="{{.Kind}}", aria-label="{{.Title}}")
+        form.board-swimlane-settings(data-board="{{.Board.ID}}")
+          .board-settings-column-actions(data-section="swimlane", data-column="settings")
+            button.js-set-settings-column(type="button", data-enabled="true") {{t $.L "select-all"}}
+            button.js-set-settings-column(type="button", data-enabled="false") {{t $.L "unselect-all"}}
+          div.check-div
+            a.flex.js-board-settings-flag(href="#", data-field="swimlaneHeightResizeLocked", title="{{t $.L `lock-swimlane-height-resize`}}", class="{{if .SwimlaneHeightLocked}}is-checked{{end}}")
+              i.fa(class="{{if .SwimlaneHeightLocked}}fa-check{{else}}fa-square-o{{end}}")
+              span
+                i.fa.fa-arrows-v
+                |  {{t $.L "lock-swimlane-height-resize"}}
+    template.js-pop-over-template(data-pop="board-list-settings", data-popup="boardListSettingsPopup", data-title="{{t $.L `list`}}")
+      .header
+        span.header-title {{t $.L "list"}}
+        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+      .content
+        table.board-drag-settings(data-board="{{$.Board.ID}}")
+          thead
+            tr
+              th {{t $.L "name"}}
+              th
+                | {{t $.L "draggable"}}
+                .board-settings-column-actions(data-section="list", data-column="draggable")
+                  button.js-set-settings-column(type="button", data-enabled="true") {{t $.L "select-all"}}
+                  button.js-set-settings-column(type="button", data-enabled="false") {{t $.L "unselect-all"}}
+          tbody
+            each dr in .ListDragRows
+              tr
+                td {{.Title}}
+                td
+                  if .Enabled
+                    input.js-board-drag-setting(type="checkbox", data-kind="{{.Kind}}", checked, aria-label="{{.Title}}")
+                  else
+                    input.js-board-drag-setting(type="checkbox", data-kind="{{.Kind}}", aria-label="{{.Title}}")
+        form.board-list-settings(data-board="{{.Board.ID}}")
+          .board-settings-column-actions(data-section="list", data-column="settings")
+            button.js-set-settings-column(type="button", data-enabled="true") {{t $.L "select-all"}}
+            button.js-set-settings-column(type="button", data-enabled="false") {{t $.L "unselect-all"}}
+          div.check-div
+            a.flex.js-board-settings-flag(href="#", data-field="listWidthResizeLocked", title="{{t $.L `lock-list-width-resize`}}", class="{{if .ListWidthLocked}}is-checked{{end}}")
+              i.fa(class="{{if .ListWidthLocked}}fa-check{{else}}fa-square-o{{end}}")
+              span
+                i.fa.fa-arrows-h
+                |  {{t $.L "lock-list-width-resize"}}
+          div.check-div
+            a.flex.js-board-settings-flag(href="#", data-field="sameWidthForAllLists", title="{{t $.L `same-width-for-all-lists`}}", class="{{if .SameWidthLists}}is-checked{{end}}")
+              i.fa(class="{{if .SameWidthLists}}fa-check{{else}}fa-square-o{{end}}")
+              span
+                i.fa.fa-columns
+                |  {{t $.L "same-width-for-all-lists"}}
   //- WeKan's boardViewSettingsPopup: Board Settings / Board View - each
     view's row, default and shown on a public and a private board, in the
     board's order, dragged by its name (or its handle with drag handles on)
@@ -310,29 +395,41 @@
       caret and scrolls on its own; the corner grip resizes the pop-over.
     //- What the hamburgers open (WeKan's cardSettingsInlinePanel), made under
       the section's line when opened.
-    if .SubtaskPanel
+    if .CardDragRows
       template.js-card-settings-panel-tpl(data-panel="section-card")
         .card-settings-section-menu
           div.check-div.card-settings-board-option.card-settings-ask-move-reason
-            a.flex.card-ask-move-reason.js-ask-move-reason(href="#", role="checkbox", aria-checked="{{if .AskForMoveReason}}true{{else}}false{{end}}")
+            a.flex.card-ask-move-reason(href="#", class="{{if .SettingsAdmin}}js-ask-move-reason{{else}}is-disabled{{end}}", role="checkbox", aria-checked="{{if .AskForMoveReason}}true{{else}}false{{end}}")
               .materialCheckBox(class="{{if .AskForMoveReason}}is-checked{{end}}")
               span {{t $.L "ask-move-reason"}}
           //- WeKan's boardDragSettings of the Card section: whether each kind
             may be dragged on this board.
-          table.board-drag-settings
+          table.board-drag-settings(data-board="{{$.Board.ID}}")
             thead
               tr
                 th {{t $.L "name"}}
-                th {{t $.L "draggable"}}
+                th
+                  | {{t $.L "draggable"}}
+                  if $.SettingsAdmin
+                    .board-settings-column-actions(data-section="card", data-column="draggable")
+                      button.js-set-settings-column(type="button", data-enabled="true") {{t $.L "select-all"}}
+                      button.js-set-settings-column(type="button", data-enabled="false") {{t $.L "unselect-all"}}
             tbody
               each dr in .CardDragRows
                 tr
                   td {{.Title}}
                   td
-                    if .Enabled
-                      input.js-board-drag-setting(type="checkbox", data-kind="{{.Kind}}", checked, aria-label="{{.Title}}")
+                    if $.SettingsAdmin
+                      if .Enabled
+                        input.js-board-drag-setting(type="checkbox", data-kind="{{.Kind}}", checked, aria-label="{{.Title}}")
+                      else
+                        input.js-board-drag-setting(type="checkbox", data-kind="{{.Kind}}", aria-label="{{.Title}}")
                     else
-                      input.js-board-drag-setting(type="checkbox", data-kind="{{.Kind}}", aria-label="{{.Title}}")
+                      if .Enabled
+                        input(type="checkbox", checked, disabled, aria-label="{{.Title}}")
+                      else
+                        input(type="checkbox", disabled, aria-label="{{.Title}}")
+    if .SubtaskPanel
       template.js-card-settings-panel-tpl(data-panel="section-subtasks")
         .card-settings-section-menu
           .card-settings-section-action(data-action="subtaskSettings")
@@ -401,7 +498,7 @@
                       span.card-settings-inline-section-count {{.CheckedCount}}/{{len .Lines}}
                       //- WeKan's section hamburger: Card's holds what is not a field,
                         Subtasks' the board's Subtasks Settings; it opens under the line.
-                      if and .Writable (or (eq .ID "card") (eq .ID "subtasks"))
+                      if or (and (eq .ID "card") $.CardDragRows) (and .Writable (eq .ID "subtasks"))
                         a.card-settings-inline-menu.js-open-card-settings-section-menu(href="#", role="button", aria-expanded="false", data-panel="section-{{.ID}}", title="{{t $.L `actions`}}", aria-label="{{t $.L `actions`}}")
                           i.fa.fa-bars(aria-hidden="true")
                     .card-settings-inline-items

@@ -69,6 +69,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"toggleCardMaximized":               s.methodToggleCardMaximized,
 		"setCardCollapsed":                  s.methodSetCardCollapsed,
 		"setBoardDragging":                  s.methodSetBoardDragging,
+		"setBoardSettingsColumn":            s.methodSetBoardSettingsColumn,
 		"toggleSubmitOnEnter":               s.methodToggleSubmitOnEnter,
 		"toggleCustomFieldsGrid":            s.methodToggleCustomFieldsGrid,
 		"api.attachment.delete":             s.methodAttachmentDelete,

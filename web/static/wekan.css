@@ -776,3 +776,10 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .board-view-settings-row a.flex { display: inline-flex; color: inherit; }
 .board-view-drag-label, .board-view-order-handle { cursor: grab; user-select: none; touch-action: none; }
 .board-view-settings-row.is-dragging { opacity: 0.5; }
+/* WeKan's board settings column actions and Draggable tables. */
+.board-drag-settings { border-collapse: collapse; margin: 0.3rem 0; }
+.board-drag-settings th, .board-drag-settings td { padding: 2px 0.5rem; text-align: start; }
+.board-settings-column-actions { display: inline-flex; gap: 0.3rem; margin-inline-start: 0.4rem; font-weight: normal; }
+.board-settings-column-actions button { font-size: 0.8em; padding: 0 0.4rem; }
+.board-settings-column-actions .warning { color: #b04632; }
+.board-swimlane-settings .check-div a.flex, .board-list-settings .check-div a.flex { display: flex; gap: 0.4rem; align-items: center; color: inherit; padding: 2px 0; }

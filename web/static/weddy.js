@@ -362,6 +362,49 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       close: function () { closePopOvers(); },
     };
   }
+  // Board Settings / Swimlane and List (WeKan's boardSwimlaneSettingsPopup,
+  // boardListSettingsPopup).
+  up.on('click', '.js-open-board-swimlane-settings', function (event) { event.preventDefault(); openPopOver('board-swimlane-settings'); });
+  up.on('click', '.js-open-board-list-settings', function (event) { event.preventDefault(); openPopOver('board-list-settings'); });
+  function settingsBox(el, on) {
+    el.classList.toggle('is-checked', on);
+    var i = el.querySelector('.fa');
+    if (i) { i.classList.toggle('fa-check', on); i.classList.toggle('fa-square-o', !on); }
+  }
+  // A board setting of theirs, a board admin's, as WeKan's Boards.update.
+  up.on('click', '.js-board-settings-flag', function (event, el) {
+    event.preventDefault();
+    var on = !el.classList.contains('is-checked'), set = {};
+    set[el.dataset.field] = on;
+    window.Meteor.callAsync('/boards/update', { _id: el.closest('form').dataset.board }, { $set: set }).then(function () {
+      settingsBox(el, on);
+      reloadBoard(true);
+    }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
+  });
+  // WeKan's boardSettingsColumnActions: a whole column at once
+  // (setBoardSettingsColumn), the boxes of that column shown as it now is.
+  up.on('click', '.js-set-settings-column', function (event, button) {
+    event.preventDefault();
+    event.stopPropagation();
+    var actions = button.closest('.board-settings-column-actions');
+    var holder = actions.closest('[data-board]') || button.closest('.js-pop-over').querySelector('[data-board]');
+    var on = button.dataset.enabled === 'true';
+    actions.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+    var old = actions.querySelector('.warning');
+    if (old) old.remove();
+    window.Meteor.callAsync('setBoardSettingsColumn', holder.dataset.board, actions.dataset.section, actions.dataset.column, on).then(function () {
+      if (actions.dataset.column === 'draggable') {
+        actions.closest('.board-drag-settings').querySelectorAll('.js-board-drag-setting').forEach(function (box) { box.checked = on; });
+      } else {
+        actions.closest('form').querySelectorAll('.js-board-settings-flag').forEach(function (f) { settingsBox(f, on); });
+      }
+      reloadBoard(true);
+    }, function (err) {
+      var w = document.createElement('div');
+      w.className = 'warning'; w.setAttribute('role', 'alert'); w.textContent = (err && (err.reason || err.message)) || String(err);
+      actions.appendChild(w);
+    }).then(function () { actions.querySelectorAll('button').forEach(function (b) { b.disabled = false; }); });
+  });
   // Board Settings / Board View (WeKan's boardViewSettingsPopup): a view's
   // default or shown flag of a side, and its place in the menu - dragged by
   // its name or handle, or moved by Up and Down - each written as WeKan's
@@ -610,6 +653,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var panel = document.createElement('div');
     panel.className = 'card-settings-inline-panel js-card-settings-panel card-settings-inline-panel-section';
     panel.dataset.panel = burger.dataset.panel;
+    // WeKan's kinds (cardSettingsInlinePanel): a section's, a field's, or
+    // the + making one.
+    panel.dataset.kind = burger.dataset.panel === 'field-new' ? 'create' : burger.dataset.panel.indexOf('field-') === 0 ? 'field' : 'section';
     var close = document.createElement('a');
     close.href = '#'; close.className = 'card-settings-inline-panel-close js-close-card-settings-panel';
     close.setAttribute('role', 'button'); close.setAttribute('aria-label', burger.getAttribute('aria-label') || '');
@@ -705,10 +751,10 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       if (m) m.classList.toggle('is-checked', on);
     });
   });
-  // Card's Draggable table (WeKan's boardDragSettings): setBoardDragging.
-  up.on('change', '.js-card-settings-panel .js-board-drag-setting', function (event, el) {
-    var pane = el.closest('.js-pop-over').querySelector('.js-card-settings-pane');
-    window.Meteor.callAsync('setBoardDragging', pane.dataset.board, el.dataset.kind, el.checked).then(function () {
+  // A Draggable table (WeKan's boardDragSettings), Swimlane's, List's or
+  // Card's: setBoardDragging.
+  up.on('change', '.js-pop-over .js-board-drag-setting', function (event, el) {
+    window.Meteor.callAsync('setBoardDragging', el.closest('.board-drag-settings').dataset.board, el.dataset.kind, el.checked).then(function () {
       reloadBoard(true);
     }, function (err) { el.checked = !el.checked; window.alert((err && (err.reason || err.message)) || String(err)); });
   });

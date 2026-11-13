@@ -164,7 +164,7 @@ func cardSettingsBoardWrite(set map[string]any) (bson.M, bool) {
 				list[i] = id
 			}
 			out[path] = sectionOrderOf(list, side)
-		case path == "askForMoveReason":
+		case path == "askForMoveReason" || boardSettingsFlags[path]:
 			if _, ok := v.(bool); !ok {
 				return nil, false
 			}

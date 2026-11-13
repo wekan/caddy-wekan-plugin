@@ -902,12 +902,20 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["IsBoardAdmin"] = b.AdminOf(u.ID)
 	data["CardSettings"] = s.cardSettingsPanes(r.Context(), b, u, lang)
 	data["CardSettingsSplit"] = cardSettingsSplitOf(u)
-	if b.AdminOf(u.ID) || u.IsAdmin {
-		data["BoardViewRows"] = s.boardViewRows(r.Context(), b, u, lang)
-		var rawB bson.M
-		_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&rawB)
+	// Card's hamburger is every member's to read (WeKan's
+	// cardSettingsInlinePanel: what is not a field), a board admin's to change.
+	var rawB bson.M
+	_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&rawB)
+	data["SettingsAdmin"] = b.AdminOf(u.ID) || u.IsAdmin
+	if b.MemberOf(u.ID) || u.IsAdmin { // not a write: what Card's hamburger shows
 		data["AskForMoveReason"] = rawB["askForMoveReason"] == true
 		data["CardDragRows"] = cardDragRowsOf(rawB, lang)
+	}
+	if b.AdminOf(u.ID) || u.IsAdmin {
+		data["BoardViewRows"] = s.boardViewRows(r.Context(), b, u, lang)
+		data["SwimlaneDragRows"], data["ListDragRows"] = dragRowsOf(rawB, "swimlane", lang), dragRowsOf(rawB, "list", lang)
+		data["SwimlaneHeightLocked"] = rawB["swimlaneHeightResizeLocked"] == true
+		data["ListWidthLocked"], data["SameWidthLists"] = rawB["listWidthResizeLocked"] == true, rawB["sameWidthForAllLists"] == true
 		data["SubtaskPanel"] = s.subtaskPanelOf(r.Context(), b, u, rawB)
 	}
 	// The board as this page draws it, for its live connection (board_watch.go).
