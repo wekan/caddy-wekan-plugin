@@ -280,7 +280,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // Other users' changes arrive as "board-changed".
   up.compiler('.board-wrapper[data-live]', function (el) {
     if (typeof EventSource === 'undefined') return;
-    var es = new EventSource(el.getAttribute('data-live'));
+    // The page names itself, so a change it makes to its own user is not
+    // announced back to it (X-Weddy-Live on its method calls).
+    var es = new EventSource(el.getAttribute('data-live') + '&p=' + pageId);
     es.addEventListener('board-changed', function (e) {
       // This page's own change (publishFrom) is on it already.
       if (String(e.data || '').split(' ')[1] === pageId) return;
@@ -1493,7 +1495,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var args = Array.prototype.slice.call(arguments, 1);
     return fetch('/_methods/' + encodeURIComponent(name), {
       method: 'POST', credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(args),
+      headers: { 'Content-Type': 'application/json', 'X-Weddy-Live': pageId }, body: JSON.stringify(args),
     }).then(function (r) {
       return r.json().then(function (d) {
         if (!r.ok) {

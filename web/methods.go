@@ -220,6 +220,12 @@ func (s *Server) methodRoutes(m *http.ServeMux) {
 			writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "500", "reason": "Internal server error"})
 			return
 		}
+		// A change the page made to its own user is on it already: that page's
+		// profile baseline moves with it (board_watch.go), so the user watch
+		// does not redraw it - the user's other pages are still told.
+		if page := r.Header.Get("X-Weddy-Live"); validID(page) {
+			s.pageSawItsUser(r.Context(), u.ID, page)
+		}
 		writeJSON(w, http.StatusOK, map[string]any{"result": out})
 	})
 }

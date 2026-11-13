@@ -73,6 +73,34 @@ func (s *Server) userStamp(ctx context.Context, id string) string {
 	return hex.EncodeToString(sum[:12])
 }
 
+// pageSawItsUser moves the baseline of the user's page whose live connection
+// named page (/live?p=...) to the profile as it is now: the page made the
+// change itself.
+func (s *Server) pageSawItsUser(ctx context.Context, userID, page string) {
+	s.hub.mu.Lock()
+	var chans []chan string
+	for ch, p := range s.hub.pageOf {
+		if p == page && s.hub.owner[ch] == userID {
+			chans = append(chans, ch)
+		}
+	}
+	s.hub.mu.Unlock()
+	if len(chans) == 0 {
+		return
+	}
+	st := s.userStamp(ctx, userID)
+	if st == "" {
+		return
+	}
+	s.hub.mu.Lock()
+	defer s.hub.mu.Unlock()
+	for _, ch := range chans {
+		if _, open := s.hub.owner[ch]; open {
+			s.hub.seenUsers[ch] = st
+		}
+	}
+}
+
 // openUsers are the signed-in users of the open pages, with their channels.
 func (h *hub) openUsers() map[string][]chan string {
 	h.mu.Lock()
@@ -88,7 +116,7 @@ func (h *hub) openUsers() map[string][]chan string {
 // was drawn from (drawn, its stamp on the page), else as it is now: one
 // baseline per page, not per user - a page drawn after a change already
 // shows it, while another of the user's pages, drawn before, does not.
-func (s *Server) liveAs(ctx context.Context, userID, drawn string, ch chan string) {
+func (s *Server) liveAs(ctx context.Context, userID, drawn, page string, ch chan string) {
 	st := drawn
 	if st == "" {
 		st = s.userStamp(ctx, userID)
@@ -97,6 +125,9 @@ func (s *Server) liveAs(ctx context.Context, userID, drawn string, ch chan strin
 	defer s.hub.mu.Unlock()
 	s.hub.owner[ch] = userID
 	s.hub.seenUsers[ch] = st
+	if validID(page) {
+		s.hub.pageOf[ch] = page
+	}
 }
 
 // watchUsersOnce looks at each open page's user once, and tells each of that

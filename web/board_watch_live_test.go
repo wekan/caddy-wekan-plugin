@@ -78,8 +78,8 @@ func TestUserWatch(t *testing.T) {
 	annCh, bobCh := w.s.hub.subscribe("b1"), w.s.hub.subscribe("b1")
 	defer w.s.hub.unsubscribe("b1", annCh)
 	defer w.s.hub.unsubscribe("b1", bobCh)
-	w.s.liveAs(ctx, ann.ID, "", annCh)
-	w.s.liveAs(ctx, bob.ID, "", bobCh)
+	w.s.liveAs(ctx, ann.ID, "", "PageAnnAAAAAAAAAA", annCh)
+	w.s.liveAs(ctx, bob.ID, "", "", bobCh)
 	got := func(ch chan string) string {
 		select {
 		case ev := <-ch:
@@ -119,10 +119,25 @@ func TestUserWatch(t *testing.T) {
 	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": ann.ID}, bson.M{"$set": bson.M{"profile.submitOnEnter": true}})
 	freshCh := w.s.hub.subscribe("b1")
 	defer w.s.hub.unsubscribe("b1", freshCh)
-	w.s.liveAs(ctx, ann.ID, w.s.userStamp(ctx, ann.ID), freshCh)
+	w.s.liveAs(ctx, ann.ID, w.s.userStamp(ctx, ann.ID), "", freshCh)
 	w.s.watchUsersOnce(ctx)
 	if got(freshCh) != "" || got(annCh) != "board-changed" {
 		t.Fatal("the fresh page is up to date, the older one is told")
+	}
+	// A change the page made itself (a method call naming it) is not told to
+	// it again; ann's other page is told.
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": ann.ID}, bson.M{"$set": bson.M{"profile.submitOnEnter": false}})
+	w.s.pageSawItsUser(ctx, ann.ID, "PageAnnAAAAAAAAAA")
+	w.s.watchUsersOnce(ctx)
+	if got(annCh) != "" || got(freshCh) != "board-changed" {
+		t.Fatal("the page that made the change is not told; the other is")
+	}
+	// Negative: another user's page id moves nothing of ann's.
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": ann.ID}, bson.M{"$set": bson.M{"profile.submitOnEnter": true}})
+	w.s.pageSawItsUser(ctx, bob.ID, "PageAnnAAAAAAAAAA")
+	w.s.watchUsersOnce(ctx)
+	if got(annCh) != "board-changed" {
+		t.Fatal("bob cannot move ann's page")
 	}
 }
 

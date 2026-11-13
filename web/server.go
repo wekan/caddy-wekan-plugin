@@ -1561,7 +1561,7 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 	defer s.hub.unsubscribe(b.ID, ch)
 	s.liveSince(r.Context(), b.ID, r.URL.Query().Get("v"), ch)
 	if u != nil {
-		s.liveAs(r.Context(), u.ID, r.URL.Query().Get("u"), ch)
+		s.liveAs(r.Context(), u.ID, r.URL.Query().Get("u"), r.URL.Query().Get("p"), ch)
 	}
 	fmt.Fprint(w, ": connected\n\n")
 	if err := rc.Flush(); err != nil {
@@ -1607,10 +1607,12 @@ type hub struct {
 	// profile stamp each such page shows (board_watch.go).
 	owner     map[chan string]string
 	seenUsers map[chan string]string
+	// pageOf is each channel's page id (its X-Weddy-Live on method calls).
+	pageOf map[chan string]string
 }
 
 func newHub() *hub {
-	return &hub{subs: map[string]map[chan string]bool{}, seen: map[chan string]string{}, owner: map[chan string]string{}, seenUsers: map[chan string]string{}}
+	return &hub{subs: map[string]map[chan string]bool{}, seen: map[chan string]string{}, owner: map[chan string]string{}, seenUsers: map[chan string]string{}, pageOf: map[chan string]string{}}
 }
 
 func (h *hub) subscribe(board string) chan string {
@@ -1629,6 +1631,7 @@ func (h *hub) unsubscribe(board string, ch chan string) {
 	defer h.mu.Unlock()
 	delete(h.owner, ch)
 	delete(h.seenUsers, ch)
+	delete(h.pageOf, ch)
 	delete(h.seen, ch)
 	if h.subs[board][ch] {
 		delete(h.subs[board], ch)
