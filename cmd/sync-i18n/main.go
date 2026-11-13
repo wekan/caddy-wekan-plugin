@@ -80,17 +80,21 @@ func UsedKeys(dir string) ([]string, error) {
 			set[k] = true
 		}
 	}
-	// Board Settings / Card's rows and sections: their names, from WeKan's
-	// table (card_settings.json, cmd/card-settings).
-	if b, err := os.ReadFile(filepath.Join(dir, "card_settings.json")); err == nil {
-		var table struct {
-			I18nKeys []string `json:"i18nKeys"`
-		}
-		if err := json.Unmarshal(b, &table); err != nil {
-			return nil, fmt.Errorf("card_settings.json: %w", err)
-		}
-		for _, k := range table.I18nKeys {
-			set[k] = true
+	// Board Settings / Card's rows and sections, and Board Settings / Board
+	// View's views: their names, from WeKan's tables (card_settings.json,
+	// board_views.json, made by cmd/card-settings and cmd/board-views).
+	for _, table := range []string{"card_settings.json", "board_views.json"} {
+		if b, err := os.ReadFile(filepath.Join(dir, table)); err == nil {
+			name := table
+			var keys struct {
+				I18nKeys []string `json:"i18nKeys"`
+			}
+			if err := json.Unmarshal(b, &keys); err != nil {
+				return nil, fmt.Errorf("%s: %w", name, err)
+			}
+			for _, k := range keys.I18nKeys {
+				set[k] = true
+			}
 		}
 	}
 	keys := make([]string, 0, len(set))

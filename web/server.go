@@ -903,6 +903,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["CardSettings"] = s.cardSettingsPanes(r.Context(), b, u, lang)
 	data["CardSettingsSplit"] = cardSettingsSplitOf(u)
 	if b.AdminOf(u.ID) || u.IsAdmin {
+		data["BoardViewRows"] = s.boardViewRows(r.Context(), b, u, lang)
 		var rawB bson.M
 		_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&rawB)
 		data["AskForMoveReason"] = rawB["askForMoveReason"] == true

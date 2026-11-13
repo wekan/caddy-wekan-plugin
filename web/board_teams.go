@@ -205,6 +205,24 @@ func (s *Server) methodBoardsUpdate(r *http.Request, u *User, args []json.RawMes
 	}
 	// Board Settings / Card: the board's own Card Settings fields
 	// (card_settings.go), a board admin's as the rest.
+	// Board Settings / Board View's fields, checked as the REST API checks
+	// them (boardViewRequest), a board admin's.
+	if input, ok := boardViewWrite(set); ok {
+		if !u.IsAdmin && !b.AdminOf(u.ID) {
+			return nil, denied
+		}
+		var doc bson.M
+		_ = s.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&doc)
+		clean, problem := boardViewRequest(boardViewStateOf(doc), input)
+		if problem != "" || len(clean) == 0 {
+			return nil, &methodError{"invalid-board-view-settings", problem}
+		}
+		if _, err := s.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": clean}); err != nil {
+			return nil, err
+		}
+		s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+		return 1, nil
+	}
 	if clean, ok := cardSettingsBoardWrite(set); ok {
 		if !u.IsAdmin && !b.AdminOf(u.ID) {
 			return nil, denied

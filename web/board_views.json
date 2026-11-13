@@ -1,0 +1,246 @@
+{
+ "views": [
+  {
+   "view": "board-view-swimlanes",
+   "labelKey": "swimlanes",
+   "icon": "fa-th-large"
+  },
+  {
+   "view": "board-view-lists",
+   "labelKey": "board-view-lists",
+   "icon": "fa-trello"
+  },
+  {
+   "view": "board-view-table",
+   "labelKey": "board-view-table",
+   "icon": "fa-table"
+  },
+  {
+   "view": "board-view-cal",
+   "labelKey": "board-view-cal",
+   "icon": "fa-calendar"
+  },
+  {
+   "view": "board-view-calendar-mode",
+   "labelKey": "board-view-calendar-mode",
+   "icon": "fa-calendar-check-o"
+  },
+  {
+   "view": "board-view-multiboard-cal",
+   "labelKey": "board-view-multiboard-cal",
+   "icon": "fa-calendar-plus-o"
+  },
+  {
+   "view": "board-view-time",
+   "labelKey": "board-view-time",
+   "icon": "fa-clock-o"
+  },
+  {
+   "view": "board-view-timeline",
+   "labelKey": "board-view-timeline",
+   "icon": "fa-history"
+  },
+  {
+   "view": "board-view-stats",
+   "labelKey": "board-view-stats",
+   "icon": "fa-pie-chart"
+  },
+  {
+   "view": "board-view-group-by-assignee",
+   "labelKey": "board-view-group-by-assignee",
+   "icon": "fa-users"
+  },
+  {
+   "view": "board-view-gantt",
+   "labelKey": "board-view-gantt",
+   "icon": "fa-bar-chart"
+  },
+  {
+   "view": "board-view-gantt-frappe",
+   "labelKey": "board-view-gantt-frappe",
+   "icon": "fa-tasks"
+  },
+  {
+   "view": "board-view-gantt-dhtmlx",
+   "labelKey": "board-view-gantt-dhtmlx",
+   "icon": "fa-list-alt"
+  },
+  {
+   "view": "board-view-product-backlog",
+   "labelKey": "board-view-product-backlog",
+   "icon": "fa-list-ol"
+  },
+  {
+   "view": "board-view-sprints",
+   "labelKey": "board-view-sprints",
+   "icon": "fa-repeat"
+  },
+  {
+   "view": "board-view-sprint-report",
+   "labelKey": "board-view-sprint-report",
+   "icon": "fa-bar-chart"
+  },
+  {
+   "view": "board-view-velocity",
+   "labelKey": "board-view-velocity",
+   "icon": "fa-line-chart"
+  },
+  {
+   "view": "board-view-roadmap",
+   "labelKey": "board-view-roadmap",
+   "icon": "fa-road"
+  },
+  {
+   "view": "board-view-dashboard",
+   "labelKey": "board-view-dashboard",
+   "icon": "fa-tachometer"
+  },
+  {
+   "view": "board-view-bigboard",
+   "labelKey": "board-view-bigboard",
+   "icon": "fa-th"
+  },
+  {
+   "view": "board-view-burndown",
+   "labelKey": "board-view-burndown",
+   "icon": "fa-line-chart"
+  },
+  {
+   "view": "board-view-burnup",
+   "labelKey": "board-view-burnup",
+   "icon": "fa-area-chart"
+  },
+  {
+   "view": "board-view-cumulative-flow",
+   "labelKey": "board-view-cumulative-flow",
+   "icon": "fa-signal"
+  },
+  {
+   "view": "board-view-control-chart",
+   "labelKey": "board-view-control-chart",
+   "icon": "fa-crosshairs"
+  },
+  {
+   "view": "board-view-cycle-time",
+   "labelKey": "board-view-cycle-time",
+   "icon": "fa-refresh"
+  },
+  {
+   "view": "board-view-flow-efficiency",
+   "labelKey": "board-view-flow-efficiency",
+   "icon": "fa-percent"
+  },
+  {
+   "view": "board-view-lead-time",
+   "labelKey": "board-view-lead-time",
+   "icon": "fa-hourglass-half"
+  },
+  {
+   "view": "board-view-throughput-histogram",
+   "labelKey": "board-view-throughput-histogram",
+   "icon": "fa-columns"
+  },
+  {
+   "view": "board-view-wip-run",
+   "labelKey": "board-view-wip-run",
+   "icon": "fa-flag-checkered"
+  },
+  {
+   "view": "board-view-pulse",
+   "labelKey": "board-view-pulse",
+   "icon": "fa-heartbeat"
+  },
+  {
+   "view": "board-view-aging-wip",
+   "labelKey": "board-view-aging-wip",
+   "icon": "fa-hourglass-half"
+  },
+  {
+   "view": "board-view-blocker-analysis",
+   "labelKey": "board-view-blocker-analysis",
+   "icon": "fa-ban"
+  },
+  {
+   "view": "board-view-monte-carlo",
+   "labelKey": "board-view-monte-carlo",
+   "icon": "fa-random"
+  },
+  {
+   "view": "board-view-process-behavior",
+   "labelKey": "board-view-process-behavior",
+   "icon": "fa-line-chart"
+  },
+  {
+   "view": "board-view-size-cycle-time",
+   "labelKey": "board-view-size-cycle-time",
+   "icon": "fa-braille"
+  },
+  {
+   "view": "board-view-map",
+   "labelKey": "board-view-map",
+   "icon": "fa-map-marker"
+  },
+  {
+   "view": "board-view-email",
+   "labelKey": "board-view-email",
+   "icon": "fa-envelope"
+  },
+  {
+   "view": "board-view-chat",
+   "labelKey": "board-view-chat",
+   "icon": "fa-comments"
+  },
+  {
+   "view": "board-view-version-control",
+   "labelKey": "board-view-version-control",
+   "icon": "fa-code-fork"
+  },
+  {
+   "view": "board-view-column-sets",
+   "labelKey": "board-view-column-sets",
+   "icon": "fa-columns"
+  }
+ ],
+ "i18nKeys": [
+  "board-view-aging-wip",
+  "board-view-bigboard",
+  "board-view-blocker-analysis",
+  "board-view-burndown",
+  "board-view-burnup",
+  "board-view-cal",
+  "board-view-calendar-mode",
+  "board-view-chat",
+  "board-view-column-sets",
+  "board-view-control-chart",
+  "board-view-cumulative-flow",
+  "board-view-cycle-time",
+  "board-view-dashboard",
+  "board-view-email",
+  "board-view-flow-efficiency",
+  "board-view-gantt",
+  "board-view-gantt-dhtmlx",
+  "board-view-gantt-frappe",
+  "board-view-group-by-assignee",
+  "board-view-lead-time",
+  "board-view-lists",
+  "board-view-map",
+  "board-view-monte-carlo",
+  "board-view-multiboard-cal",
+  "board-view-process-behavior",
+  "board-view-product-backlog",
+  "board-view-pulse",
+  "board-view-roadmap",
+  "board-view-size-cycle-time",
+  "board-view-sprint-report",
+  "board-view-sprints",
+  "board-view-stats",
+  "board-view-table",
+  "board-view-throughput-histogram",
+  "board-view-time",
+  "board-view-timeline",
+  "board-view-velocity",
+  "board-view-version-control",
+  "board-view-wip-run",
+  "swimlanes"
+ ]
+}

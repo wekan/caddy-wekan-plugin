@@ -217,6 +217,11 @@
         if .CanExport
           li
             a.js-export-board(href="#") {{t $.L "export"}}
+        if .BoardViewRows
+          li
+            a.js-open-board-view-settings(href="#", title="{{t $.L `board-view`}}")
+              i.fa.fa-eye
+              |  {{t $.L "board-view"}}
         li
           a.js-open-board-card-settings(href="#", data-pop="board-card-settings")
             i.fa.fa-id-card-o
@@ -242,6 +247,54 @@
             a.js-open-board-notifications(href="/b/{{.Board.ID}}/{{.Board.Slug}}/notifications", title="{{t $.L `notifications`}}")
               i.fa.fa-bell
               |  {{t $.L "notifications"}}
+  //- WeKan's boardViewSettingsPopup: Board Settings / Board View - each
+    view's row, default and shown on a public and a private board, in the
+    board's order, dragged by its name (or its handle with drag handles on)
+    and moved by the Up and Down keys (board_view_settings.go).
+  if .BoardViewRows
+    template.js-pop-over-template(data-pop="board-view-settings", data-popup="boardViewSettingsPopup", data-title="{{t $.L `board-view`}}")
+      .header
+        span.header-title {{t $.L "board-view"}}
+        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+      .content
+        form.board-view-settings(data-board="{{.Board.ID}}")
+          .board-view-settings-row.board-view-settings-head
+            .board-view-settings-column
+              h4 {{t $.L "default-on-public-board"}}
+            .board-view-settings-column
+              h4 {{t $.L "show-on-public-board"}}
+            .board-view-settings-column
+              h4 {{t $.L "default-on-private-board"}}
+            .board-view-settings-column
+              h4 {{t $.L "show-on-private-board"}}
+            .board-view-settings-column
+              h4 {{t $.L "description"}}
+          .board-view-settings-rows.js-board-view-sortable
+            each v in .BoardViewRows
+              .board-view-settings-row.js-board-view-row(data-view="{{.View}}")
+                .board-view-settings-column
+                  a.flex.js-board-view-default(href="#", data-visibility="public", title="{{t $.L `default-on-public-board`}}", class="{{if .DefaultPublic}}is-checked{{end}}")
+                    i.fa(class="{{if .DefaultPublic}}fa-check{{else}}fa-square-o{{end}}")
+                .board-view-settings-column
+                  a.flex.js-board-view-show(href="#", data-visibility="public", title="{{t $.L `show-on-public-board`}}", class="{{if .ShowPublic}}is-checked{{end}}")
+                    i.fa(class="{{if .ShowPublic}}fa-check{{else}}fa-square-o{{end}}")
+                .board-view-settings-column
+                  a.flex.js-board-view-default(href="#", data-visibility="private", title="{{t $.L `default-on-private-board`}}", class="{{if .DefaultPrivate}}is-checked{{end}}")
+                    i.fa(class="{{if .DefaultPrivate}}fa-check{{else}}fa-square-o{{end}}")
+                .board-view-settings-column
+                  a.flex.js-board-view-show(href="#", data-visibility="private", title="{{t $.L `show-on-private-board`}}", class="{{if .ShowPrivate}}is-checked{{end}}")
+                    i.fa(class="{{if .ShowPrivate}}fa-check{{else}}fa-square-o{{end}}")
+                .board-view-settings-column
+                  if .Handles
+                    a.flex.board-view-order-handle.js-board-view-order-handle(href="#", draggable="false", role="button", title="{{t $.L `drag-to-reorder`}}", aria-label="{{t $.L `drag-to-reorder`}}")
+                      i.fa.fa-arrows
+                    span
+                      i.fa(class="{{.Icon}}")
+                      |  {{.Label}}
+                  else
+                    span.js-board-view-order-handle.board-view-drag-label(tabindex="0", title="{{t $.L `drag-to-reorder`}}")
+                      i.fa(class="{{.Icon}}")
+                      |  {{.Label}}
   //- WeKan's boardCardSettingsPopup (sidebar.jade): Board Settings / Card,
     both sides at once - the Minicard pane, then the Card pane - each the
     board's sections as checklists. A section's checkbox shows or hides the

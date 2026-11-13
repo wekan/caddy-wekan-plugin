@@ -360,6 +360,79 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       close: function () { closePopOvers(); },
     };
   }
+  // Board Settings / Board View (WeKan's boardViewSettingsPopup): a view's
+  // default or shown flag of a side, and its place in the menu - dragged by
+  // its name or handle, or moved by Up and Down - each written as WeKan's
+  // Boards.update writes it, the server refusing an unknown view or a side's
+  // default hidden.
+  up.on('click', '.js-open-board-view-settings', function (event) {
+    event.preventDefault();
+    openPopOver('board-view-settings');
+  });
+  function bvSet(el, set) {
+    var form = el.closest('.board-view-settings');
+    return window.Meteor.callAsync('/boards/update', { _id: form.dataset.board }, { $set: set }).then(function () {
+      reloadBoard(true);
+    }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
+  }
+  function bvBox(el, on) {
+    el.classList.toggle('is-checked', on);
+    var i = el.querySelector('.fa');
+    if (i) { i.classList.toggle('fa-check', on); i.classList.toggle('fa-square-o', !on); }
+  }
+  up.on('click', '.js-board-view-default', function (event, el) {
+    event.preventDefault();
+    var row = el.closest('.js-board-view-row'), side = el.dataset.visibility, set = {};
+    set[side === 'public' ? 'defaultPublicBoardView' : 'defaultPrivateBoardView'] = row.dataset.view;
+    bvSet(el, set).then(function () {
+      el.closest('.js-board-view-sortable').querySelectorAll('.js-board-view-default[data-visibility="' + side + '"]').forEach(function (d) { bvBox(d, d === el); });
+      bvBox(row.querySelector('.js-board-view-show[data-visibility="' + side + '"]'), true);
+    });
+  });
+  up.on('click', '.js-board-view-show', function (event, el) {
+    event.preventDefault();
+    var row = el.closest('.js-board-view-row'), on = !el.classList.contains('is-checked'), set = {};
+    set['boardViewSettings.' + row.dataset.view + '.' + (el.dataset.visibility === 'public' ? 'showOnPublic' : 'showOnPrivate')] = on;
+    bvSet(el, set).then(function () { bvBox(el, on); });
+  });
+  function bvSaveOrder(box) {
+    var order = Array.prototype.map.call(box.querySelectorAll('.js-board-view-row'), function (r) { return r.dataset.view; });
+    bvSet(box, { boardViewOrder: order });
+  }
+  var bvDrag = null;
+  document.addEventListener('pointerdown', function (event) {
+    var h = event.button === 0 && event.target.closest && event.target.closest('.js-pop-over .js-board-view-order-handle');
+    if (!h) return;
+    bvDrag = { row: h.closest('.js-board-view-row'), y: event.clientY, moved: false };
+    event.preventDefault();
+  }, true);
+  document.addEventListener('pointermove', function (event) {
+    if (bvDrag && !bvDrag.moved && Math.abs(event.clientY - bvDrag.y) > 4) { bvDrag.moved = true; bvDrag.row.classList.add('is-dragging'); }
+  }, true);
+  document.addEventListener('pointerup', function (event) {
+    var d = bvDrag;
+    bvDrag = null;
+    if (!d || !d.moved) return;
+    d.row.classList.remove('is-dragging');
+    var under = document.elementFromPoint(event.clientX, event.clientY);
+    var target = under && under.closest('.js-board-view-row');
+    if (!target || target === d.row || target.parentNode !== d.row.parentNode) return;
+    var r = target.getBoundingClientRect();
+    target.parentNode.insertBefore(d.row, event.clientY < r.top + r.height / 2 ? target : target.nextSibling);
+    bvSaveOrder(d.row.parentNode);
+  }, true);
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+    var h = event.target.closest && event.target.closest('.js-pop-over .js-board-view-order-handle');
+    if (!h) return;
+    event.preventDefault();
+    var row = h.closest('.js-board-view-row');
+    var sib = event.key === 'ArrowUp' ? row.previousElementSibling : row.nextElementSibling;
+    if (!sib) return;
+    row.parentNode.insertBefore(row, event.key === 'ArrowUp' ? sib : sib.nextSibling);
+    h.focus();
+    bvSaveOrder(row.parentNode);
+  }, true);
   // Board Settings / Card (WeKan's boardCardSettingsPopup).
   up.on('click', '.js-open-board-card-settings', function (event) {
     event.preventDefault();
