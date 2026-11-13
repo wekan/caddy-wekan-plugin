@@ -53,7 +53,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     // Nor is an inlined form opened in the card details (WeKan's inlinedForm
     // stays as its page changes around it): the board catches up when it
     // closes. The add-list form is always there, so it is not one of these.
-    if (document.querySelector('.board-wrapper .js-card-details .js-inlined-form:not(.is-hidden)')) { staleUnderForm = true; return; }
+    // ... nor the card composer the user has open in a list, which a redraw
+    // would take away: the board catches up when it is sent or closed.
+    if (openEditorForm()) { staleUnderForm = true; return; }
     // A change of this page's own - a form still on its way - is announced
     // before its answer arrives: reload after it, or the older page wins.
     if (up.network.isBusy()) { setTimeout(function () { reloadBoard(underPopOver); }, 150); return; }
@@ -188,6 +190,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     detailsOpen = openCardDetails();
   }, true);
 
+  function openEditorForm() {
+    return document.querySelector('.board-wrapper .js-card-details .js-inlined-form:not(.is-hidden), .board-wrapper form.js-card-composer');
+  }
   // A form sent is answered with the whole board: what was waiting is in it.
   up.on('up:form:submit', function () { staleUnderForm = false; });
   // WeKan's submit-on-Enter (models/lib/editorSubmitKey.js, editorSubmit.js):
@@ -1646,7 +1651,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       // WeKan's EscapeActions: a pop-over first, else an inlined form of the card.
       if (document.querySelector('.js-pop-over')) closePopOvers();
       else document.querySelectorAll('.js-card-details .js-checklists-section .js-inlined-form:not(.is-hidden), .js-card-details .card-details-group-description .js-inlined-form:not(.is-hidden), .js-card-details .card-details-item-customfield .js-inlined-form:not(.is-hidden)').forEach(function (f) { closeInlinedForm(f); });
-      if (staleUnderForm && !document.querySelector('.board-wrapper .js-card-details .js-inlined-form:not(.is-hidden)')) { staleUnderForm = false; setTimeout(reloadBoard, 0); }
+      if (staleUnderForm && !openEditorForm()) { staleUnderForm = false; setTimeout(reloadBoard, 0); }
     }
   });
 

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // A board changed by something other than Weddy - another program on the
@@ -25,14 +26,25 @@ import (
 
 const boardWatchEvery = 2 * time.Second
 
-// boardStamp is the board document's stamp, "" when there is none.
+// boardStamp is the stamp of the board document and of its custom fields
+// (what Card Settings and the card details draw of the board, and what
+// WeKan's page follows as reactively), "" when there is no board. The fields
+// are read in _id order, so the same ones always stamp the same.
 func (s *Server) boardStamp(ctx context.Context, id string) string {
 	raw, err := s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(id)}).Raw()
 	if err != nil {
 		return ""
 	}
-	sum := sha256.Sum256(raw)
-	return hex.EncodeToString(sum[:12])
+	h := sha256.New()
+	h.Write(raw)
+	if cur, err := s.db.Collection("customFields").Find(ctx, bson.M{"boardIds": eq(id)},
+		options.Find().SetSort(bson.D{{Key: "_id", Value: 1}})); err == nil {
+		for cur.Next(ctx) {
+			h.Write(cur.Current)
+		}
+		_ = cur.Close(ctx)
+	}
+	return hex.EncodeToString(h.Sum(nil)[:12])
 }
 
 // openBoards are the boards some page has open, with their pages' channels.

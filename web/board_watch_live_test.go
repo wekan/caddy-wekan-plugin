@@ -162,3 +162,26 @@ func TestBoardWatchPerPage(t *testing.T) {
 		t.Fatalf("fresh %d, old %d", len(fresh), len(old))
 	}
 }
+
+// A custom field added to the board changes its stamp: Card Settings and the
+// card details draw them, as WeKan's reactive page does.
+func TestBoardStampFollowsCustomFields(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Stamp")
+	before := w.s.boardStamp(ctx, rb.ID)
+	if before != w.s.boardStamp(ctx, rb.ID) {
+		t.Fatal("the same board stamps the same")
+	}
+	_, _ = w.db.Collection("customFields").InsertOne(ctx, bson.M{"_id": "cfX", "boardIds": bson.A{rb.ID}, "name": "X", "type": "text"})
+	if w.s.boardStamp(ctx, rb.ID) == before {
+		t.Fatal("a new field changes it")
+	}
+	// Negative: another board's field does not.
+	other := w.s.boardStamp(ctx, rb.ID)
+	_, _ = w.db.Collection("customFields").InsertOne(ctx, bson.M{"_id": "cfY", "boardIds": bson.A{"elsewhere"}, "name": "Y", "type": "text"})
+	if w.s.boardStamp(ctx, rb.ID) != other {
+		t.Fatal("another board's field changes nothing here")
+	}
+}
