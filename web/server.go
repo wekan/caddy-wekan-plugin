@@ -921,7 +921,13 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	// The board as this page draws it, for its live connection (board_watch.go).
 	data["BoardStamp"] = s.boardStamp(r.Context(), b.ID)
 	data["UserStamp"] = s.userStamp(r.Context(), u.ID)
-	data["Views"] = s.boardViewEntries(b, lang, "")
+	// The Calendar view: the same cards, on a calendar (calendar_view.go).
+	current := ""
+	if r.URL.Query().Get("view") == "cal" {
+		current = "cal"
+		data["Calendar"] = calendarData(b, lanes, lang)
+	}
+	data["Views"] = s.boardViewEntries(b, lang, current)
 	// A stopped Scrum History operation blocks the board's Scrum writes
 	// (historyRecoveryNotice.jade): who may resolve it, and how.
 	if cp, err := s.inspectCheckpointFor(r.Context(), u, b.ID); err == nil && cp != nil && cp["stuck"] == true {

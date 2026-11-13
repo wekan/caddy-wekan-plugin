@@ -798,3 +798,14 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
    header; only each pane's body scrolls. */
 .js-pop-over[data-popup="boardCardSettingsPopup"], .js-pop-over[data-popup="boardCardSettingsPopup"] > .card-settings-panes-container { overflow: clip; }
 .card-settings-panes:not(.is-stacked), .card-settings-pane { overflow: clip; }
+/* WeKan's Calendar view (boardBody.css .calendar-view): today's number marked,
+   the card colours on their events, and the create-card dialog. */
+.calendar-view { padding: 0.5rem 1rem; background: #fff; border-radius: 4px; margin: 0.5rem; }
+.calendar-view .fc-daygrid-day.fc-day-today .fc-daygrid-day-number { background: #3cb500; color: #fff; border-radius: 1em; padding: 0 0.4em; }
+.calendar-event-green { background: #3cb500; border-color: #3cb500; } .calendar-event-red { background: #eb4646; border-color: #eb4646; }
+.calendar-event-blue { background: #0079bf; border-color: #0079bf; } .calendar-event-yellow { background: #fad900; border-color: #fad900; color: #000; }
+.calendar-event-orange { background: #ff9f19; border-color: #ff9f19; } .calendar-event-purple { background: #a632db; border-color: #a632db; }
+.modal.calendar-create-card { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.3); z-index: 2000; }
+.calendar-create-card .modal-content { background: #fff; border-radius: 6px; padding: 0.8rem; min-width: min(24rem, 90vw); }
+.calendar-create-card .modal-header { display: flex; justify-content: space-between; align-items: center; }
+.calendar-create-card textarea { width: 100%; box-sizing: border-box; }

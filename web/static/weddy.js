@@ -351,6 +351,101 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     };
   });
 
+  // WeKan's Calendar view (boardBody.js calendarView): FullCalendar, loaded
+  // the first time a calendar is drawn, with WeKan's options
+  // (calendarBaseOptions); the events the page carries, the cards the board
+  // shows. A day selected asks for a title and makes a card due then
+  // (createCardWithDueDate); an event dragged moves its card's due date,
+  // resized its end. The calendar is the element's _wekanCalendar, as WeKan's.
+  var fullCalendarLoad = null;
+  function loadFullCalendar() {
+    if (window.FullCalendar) return Promise.resolve();
+    if (fullCalendarLoad) return fullCalendarLoad;
+    var css = document.createElement('link');
+    css.rel = 'stylesheet'; css.href = '/static/vendor/fullcalendar.min.css';
+    document.head.appendChild(css);
+    fullCalendarLoad = new Promise(function (resolve, reject) {
+      var js = document.createElement('script');
+      js.src = '/static/vendor/fullcalendar.min.js';
+      js.onload = function () { resolve(); };
+      js.onerror = reject;
+      document.head.appendChild(js);
+    });
+    return fullCalendarLoad;
+  }
+  function calendarSetDate(el, cardId, kind, at) {
+    var body = new URLSearchParams();
+    body.append('at', at.toISOString());
+    return fetch('/b/' + el.dataset.board + '/cards/' + encodeURIComponent(cardId) + '/dates/' + kind,
+      { method: 'POST', credentials: 'same-origin', body: body, headers: { 'X-Weddy-Page': pageId } })
+      .then(function (r) { if (!r.ok) throw new Error(r.statusText); });
+  }
+  function calendarCreateCard(el, labels, start) {
+    var t = function (k) { return labels[k] || k; };
+    var modal = document.createElement('div');
+    modal.className = 'modal calendar-create-card';
+    modal.setAttribute('role', 'dialog');
+    var form = document.createElement('form');
+    form.className = 'modal-content';
+    form.innerHTML = '<div class="modal-header"><h5 class="modal-title"></h5>' +
+      '<button type="button" class="close calendar-create-close" aria-label=""><span aria-hidden="true">&times;</span></button></div>' +
+      '<div class="modal-body"><textarea rows="2" class="form-control" id="card-title-input" data-editor-submit="#create-card-button"></textarea></div>' +
+      '<div class="modal-footer"><button type="submit" class="primary confirm" id="create-card-button"></button></div>';
+    form.querySelector('.modal-title').textContent = t('r-create-card');
+    form.querySelector('.calendar-create-close').setAttribute('aria-label', t('close'));
+    form.querySelector('#create-card-button').textContent = t('add-card');
+    modal.appendChild(form);
+    var close = function () { modal.remove(); };
+    form.querySelector('.calendar-create-close').addEventListener('click', close);
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var title = form.querySelector('#card-title-input').value;
+      if (!title.trim() || !el.dataset.list || !el.dataset.swimlane) return;
+      window.Meteor.callAsync('createCardWithDueDate', el.dataset.board, el.dataset.list, title, start.toISOString(), el.dataset.swimlane)
+        .then(function () { close(); reloadBoard(true); }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
+    });
+    document.body.appendChild(modal);
+    form.querySelector('#card-title-input').focus();
+  }
+  up.compiler('#calendar-view', function (el) {
+    var labels = {}, events = [];
+    try { labels = JSON.parse(el.dataset.labels || '{}'); events = JSON.parse(el.dataset.events || '[]'); } catch (e) { /* drawn with none */ }
+    var t = function (k, fallback) { return labels[k] || fallback; };
+    var cal = null, gone = false;
+    loadFullCalendar().then(function () {
+      if (gone) return;
+      cal = new window.FullCalendar.Calendar(el, {
+        initialView: 'dayGridMonth',
+        firstDay: Number(el.dataset.firstDay) || 1,
+        weekNumbers: true,
+        headerToolbar: { left: 'title', center: '', right: 'today prev,next timeGridDay,listDay timeGridWeek,listWeek dayGridMonth,listMonth' },
+        buttonIcons: false,
+        buttonText: { prev: t('previous', 'Previous'), next: t('next', 'Next'), today: t('today', 'Today'), day: t('day', 'Day'),
+          week: t('week', 'Week'), month: t('month', 'Month'), list: t('list', 'List') },
+        height: 'auto',
+        nowIndicator: true,
+        locale: document.documentElement.lang || 'en',
+        direction: document.documentElement.dir === 'rtl' ? 'rtl' : 'ltr',
+        editable: true,
+        selectable: true,
+        navLinks: true,
+        businessHours: { daysOfWeek: [1, 2, 3, 4, 5], start: '8:00', end: '18:00' },
+        events: events,
+        eventDrop: function (info) {
+          if (info.event.allDay) { info.revert(); return; }
+          calendarSetDate(el, info.event.id, 'due', info.event.start).catch(function () { info.revert(); });
+        },
+        eventResize: function (info) {
+          if (!info.event.end) { info.revert(); return; }
+          calendarSetDate(el, info.event.id, 'end', info.event.end).catch(function () { info.revert(); });
+        },
+        select: function (info) { calendarCreateCard(el, labels, info.start); },
+      });
+      el._wekanCalendar = cal;
+      cal.render();
+    });
+    return function () { gone = true; if (cal) cal.destroy(); };
+  });
   // WeKan's sidebar and pop-overs: the sidebar opens and closes, the board menu
   // opens from it, and one pop-over is open at a time.
   // As in WeKan, there is one pop-over at a time: opening one makes it from
