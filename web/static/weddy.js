@@ -304,17 +304,41 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     });
   });
   // Other users' changes arrive as "board-changed".
+  // One live connection per page and board, kept while the board is drawn
+  // again: closing and opening it on every redraw lost what was announced in
+  // between (an undo right after a rule's change, rules-history). It is
+  // closed only when no page of that board is drawn any more.
+  var live = null; // { board, es, closing }
   up.compiler('.board-wrapper[data-live]', function (el) {
     if (typeof EventSource === 'undefined') return;
-    // The page names itself, so a change it makes to its own user is not
-    // announced back to it (X-Weddy-Live on its method calls).
-    var es = new EventSource(el.getAttribute('data-live') + '&p=' + pageId);
-    es.addEventListener('board-changed', function (e) {
-      // This page's own change (publishFrom) is on it already.
-      if (String(e.data || '').split(' ')[1] === pageId) return;
-      reloadBoard();
-    });
-    return function () { es.close(); };
+    var board = el.getAttribute('data-board');
+    if (live && live.board === board) {
+      clearTimeout(live.closing);
+      live.closing = null;
+    } else {
+      if (live) live.es.close();
+      // The page names itself, so a change it makes to its own user is not
+      // announced back to it (X-Weddy-Live on its method calls).
+      var es = new EventSource(el.getAttribute('data-live') + '&p=' + pageId);
+      es.addEventListener('board-changed', function (e) {
+        // This page's own change (publishFrom) is on it already.
+        if (String(e.data || '').split(' ')[1] === pageId) return;
+        reloadBoard();
+      });
+      live = { board: board, es: es, closing: null };
+    }
+    return function () {
+      // A redraw puts the same board back at once; leaving it closes.
+      var mine = live;
+      if (!mine || mine.board !== board) return;
+      clearTimeout(mine.closing);
+      mine.closing = setTimeout(function () {
+        if (live === mine && !document.querySelector('.board-wrapper[data-board="' + board + '"]')) {
+          mine.es.close();
+          live = null;
+        }
+      }, 1000);
+    };
   });
 
   // WeKan's sidebar and pop-overs: the sidebar opens and closes, the board menu
@@ -557,21 +581,23 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     var head = box.closest('.js-card-field-order-row'), sec = box.closest('.js-card-settings-section');
     var pane = box.closest('.js-card-settings-pane');
-    var flagOn = head.dataset.flag === 'true', shown = !sec.classList.contains('is-section-hidden');
-    var steps = [];
-    if (flagOn && shown) steps.push(function () { return csWriteRow(head.dataset, pane, false).then(function () { head.dataset.flag = ''; }); });
-    else {
-      if (!flagOn) steps.push(function () { return csWriteRow(head.dataset, pane, true).then(function () { head.dataset.flag = 'true'; }); });
-      if (!shown) {
-        var set = {};
-        set[pane.dataset.side === 'minicard' ? 'cardSettingsHiddenOnMinicard' : 'cardSettingsHiddenOnCard'] = csHiddenWithout(pane, sec.dataset.section);
-        steps.push(function () {
-          return window.Meteor.callAsync('/boards/update', { _id: pane.dataset.board }, { $set: set }).then(function () { sec.classList.remove('is-section-hidden'); });
-        });
-      }
+    // Decided by what the box shows, the one thing the user sees: ticked, the
+    // flag goes off; unticked, the flag goes on and the section is shown -
+    // both idempotent, so nothing hangs on the page's other state being new.
+    var steps;
+    if (box.getAttribute('aria-checked') === 'true') {
+      steps = [function () { return csWriteRow(head.dataset, pane, false); }];
+    } else {
+      var set = {};
+      set[pane.dataset.side === 'minicard' ? 'cardSettingsHiddenOnMinicard' : 'cardSettingsHiddenOnCard'] = csHiddenWithout(pane, sec.dataset.section);
+      steps = [function () { return csWriteRow(head.dataset, pane, true); },
+        function () { return window.Meteor.callAsync('/boards/update', { _id: pane.dataset.board }, { $set: set }); }];
     }
+    var on = box.getAttribute('aria-checked') !== 'true';
     steps.reduce(function (p, step) { return p.then(step); }, Promise.resolve()).then(function () {
-      setCardSettingsBox(box, head.dataset.flag === 'true' && !sec.classList.contains('is-section-hidden'));
+      head.dataset.flag = on ? 'true' : '';
+      if (on) sec.classList.remove('is-section-hidden');
+      setCardSettingsBox(box, on);
       reloadBoard(true);
     }, csFail);
   });
