@@ -910,6 +910,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	// The board as this page draws it, for its live connection (board_watch.go).
 	data["BoardStamp"] = s.boardStamp(r.Context(), b.ID)
+	data["UserStamp"] = s.userStamp(r.Context(), u.ID)
 	data["Views"] = s.boardViewEntries(b, lang, "")
 	// A stopped Scrum History operation blocks the board's Scrum writes
 	// (historyRecoveryNotice.jade): who may resolve it, and how.
@@ -1556,7 +1557,7 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 	defer s.hub.unsubscribe(b.ID, ch)
 	s.liveSince(r.Context(), b.ID, r.URL.Query().Get("v"), ch)
 	if u != nil {
-		s.liveAs(r.Context(), u.ID, ch)
+		s.liveAs(r.Context(), u.ID, r.URL.Query().Get("u"), ch)
 	}
 	fmt.Fprint(w, ": connected\n\n")
 	if err := rc.Flush(); err != nil {
@@ -1593,18 +1594,19 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 type hub struct {
 	mu   sync.Mutex
 	subs map[string]map[chan string]bool
-	// seen is the stamp of each open board as the board watch, or Weddy's
-	// own last announcement, left it; stamp reads one (board_watch.go).
-	seen  map[string]string
+	// seen is the board stamp each page shows - as drawn, or as the board
+	// watch or Weddy's own last announcement left it; stamp reads one
+	// (board_watch.go).
+	seen  map[chan string]string
 	stamp func(board string) string
-	// owner is the signed-in user of each page's channel, and seenUsers each
-	// such user's profile stamp at the watch's last look (board_watch.go).
+	// owner is the signed-in user of each page's channel, and seenUsers the
+	// profile stamp each such page shows (board_watch.go).
 	owner     map[chan string]string
-	seenUsers map[string]string
+	seenUsers map[chan string]string
 }
 
 func newHub() *hub {
-	return &hub{subs: map[string]map[chan string]bool{}, seen: map[string]string{}, owner: map[chan string]string{}, seenUsers: map[string]string{}}
+	return &hub{subs: map[string]map[chan string]bool{}, seen: map[chan string]string{}, owner: map[chan string]string{}, seenUsers: map[chan string]string{}}
 }
 
 func (h *hub) subscribe(board string) chan string {
@@ -1622,6 +1624,8 @@ func (h *hub) unsubscribe(board string, ch chan string) {
 	h.mu.Lock()
 	defer h.mu.Unlock()
 	delete(h.owner, ch)
+	delete(h.seenUsers, ch)
+	delete(h.seen, ch)
 	if h.subs[board][ch] {
 		delete(h.subs[board], ch)
 		close(ch)
@@ -1647,7 +1651,9 @@ func (h *hub) publish(board, ev string) {
 	if open && h.stamp != nil {
 		if st := h.stamp(board); st != "" {
 			h.mu.Lock()
-			h.seen[board] = st
+			for ch := range h.subs[board] {
+				h.seen[ch] = st // each page now reloads to it, or made it
+			}
 			h.mu.Unlock()
 		}
 	}

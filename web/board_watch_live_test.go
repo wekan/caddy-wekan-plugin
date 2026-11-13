@@ -78,8 +78,8 @@ func TestUserWatch(t *testing.T) {
 	annCh, bobCh := w.s.hub.subscribe("b1"), w.s.hub.subscribe("b1")
 	defer w.s.hub.unsubscribe("b1", annCh)
 	defer w.s.hub.unsubscribe("b1", bobCh)
-	w.s.liveAs(ctx, ann.ID, annCh)
-	w.s.liveAs(ctx, bob.ID, bobCh)
+	w.s.liveAs(ctx, ann.ID, "", annCh)
+	w.s.liveAs(ctx, bob.ID, "", bobCh)
 	got := func(ch chan string) string {
 		select {
 		case ev := <-ch:
@@ -113,5 +113,37 @@ func TestUserWatch(t *testing.T) {
 	w.s.watchUsersOnce(ctx)
 	if got(annCh) != "" {
 		t.Fatal("once")
+	}
+	// A page drawn after a change shows it: not told again, while ann's page
+	// drawn before it is (one baseline per page, not per user).
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": ann.ID}, bson.M{"$set": bson.M{"profile.submitOnEnter": true}})
+	freshCh := w.s.hub.subscribe("b1")
+	defer w.s.hub.unsubscribe("b1", freshCh)
+	w.s.liveAs(ctx, ann.ID, w.s.userStamp(ctx, ann.ID), freshCh)
+	w.s.watchUsersOnce(ctx)
+	if got(freshCh) != "" || got(annCh) != "board-changed" {
+		t.Fatal("the fresh page is up to date, the older one is told")
+	}
+}
+
+// One board baseline per page: a page drawn after an outside change is not
+// told of it again; a page drawn before it is (the reload race that wiped an
+// open card composer).
+func TestBoardWatchPerPage(t *testing.T) {
+	w := newTestWeKan(t)
+	w.s.boardWatchOff.Store(true) // this test looks itself
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	rb := newRESTBoard(t, w, login(t, w, "ann"), "Pages")
+	old := w.s.hub.subscribe(rb.ID)
+	defer w.s.hub.unsubscribe(rb.ID, old)
+	w.s.liveSince(ctx, rb.ID, w.s.boardStamp(ctx, rb.ID), old)
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": rb.ID}, bson.M{"$set": bson.M{"allowsCardCollapse": false}})
+	fresh := w.s.hub.subscribe(rb.ID)
+	defer w.s.hub.unsubscribe(rb.ID, fresh)
+	w.s.liveSince(ctx, rb.ID, w.s.boardStamp(ctx, rb.ID), fresh)
+	w.s.watchBoardsOnce(ctx)
+	if len(fresh) != 0 || len(old) != 1 {
+		t.Fatalf("fresh %d, old %d", len(fresh), len(old))
 	}
 }

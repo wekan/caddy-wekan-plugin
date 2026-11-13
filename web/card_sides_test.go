@@ -68,6 +68,7 @@ func TestOpenedCardSidesAndBoardWatch(t *testing.T) {
 	w.s.boardWatchOff.Store(true) // this test looks itself
 	ch := w.s.hub.subscribe(rb.ID)
 	defer w.s.hub.unsubscribe(rb.ID, ch)
+	w.s.liveSince(ctx, rb.ID, "", ch) // as the page's live connection starts
 	w.s.watchBoardsOnce(ctx)
 	got := func() string {
 		select {

@@ -1,4 +1,4 @@
-.board-wrapper(class="board-color-{{.Board.Color}}", style="{{.Board.BackgroundStyle}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live?v={{.BoardStamp}}", data-move="/b/{{.Board.ID}}/move", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}")
+.board-wrapper(class="board-color-{{.Board.Color}}", style="{{.Board.BackgroundStyle}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live?v={{.BoardStamp}}&u={{.UserStamp}}", data-move="/b/{{.Board.ID}}/move", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}")
   .board-header
     h1.header-board-name.js-board-title {{.Board.Title}}
     //- WeKan's boardStarButton: the user's favorite, kept in their profile.

@@ -35,32 +35,17 @@ func (s *Server) boardStamp(ctx context.Context, id string) string {
 	return hex.EncodeToString(sum[:12])
 }
 
-// openBoards are the boards some page has open; a board nobody has open is
-// forgotten, there being nothing to compare with.
-func (h *hub) openBoards() []string {
+// openBoards are the boards some page has open, with their pages' channels.
+func (h *hub) openBoards() map[string][]chan string {
 	h.mu.Lock()
 	defer h.mu.Unlock()
-	var out []string
+	out := map[string][]chan string{}
 	for b, chans := range h.subs {
-		if len(chans) > 0 {
-			out = append(out, b)
-		}
-	}
-	for b := range h.seen {
-		if len(h.subs[b]) == 0 {
-			delete(h.seen, b)
+		for ch := range chans {
+			out[b] = append(out[b], ch)
 		}
 	}
 	return out
-}
-
-// sawBoard keeps the board's stamp, saying what it was before.
-func (h *hub) sawBoard(board, stamp string) (string, bool) {
-	h.mu.Lock()
-	defer h.mu.Unlock()
-	before, had := h.seen[board]
-	h.seen[board] = stamp
-	return before, had
 }
 
 // userStamp is the stamp of a user's profile, its notifications left out:
@@ -88,8 +73,7 @@ func (s *Server) userStamp(ctx context.Context, id string) string {
 	return hex.EncodeToString(sum[:12])
 }
 
-// openUsers are the signed-in users of the open pages, with their channels;
-// a user with none is forgotten.
+// openUsers are the signed-in users of the open pages, with their channels.
 func (h *hub) openUsers() map[string][]chan string {
 	h.mu.Lock()
 	defer h.mu.Unlock()
@@ -97,28 +81,26 @@ func (h *hub) openUsers() map[string][]chan string {
 	for ch, u := range h.owner {
 		out[u] = append(out[u], ch)
 	}
-	for u := range h.seenUsers {
-		if _, ok := out[u]; !ok {
-			delete(h.seenUsers, u)
-		}
-	}
 	return out
 }
 
-// liveAs follows the page's user: its profile as it is now is what the
-// watch compares with, unless another of its pages' look already is.
-func (s *Server) liveAs(ctx context.Context, userID string, ch chan string) {
-	st := s.userStamp(ctx, userID)
+// liveAs follows the page's user. Each page is compared with the profile it
+// was drawn from (drawn, its stamp on the page), else as it is now: one
+// baseline per page, not per user - a page drawn after a change already
+// shows it, while another of the user's pages, drawn before, does not.
+func (s *Server) liveAs(ctx context.Context, userID, drawn string, ch chan string) {
+	st := drawn
+	if st == "" {
+		st = s.userStamp(ctx, userID)
+	}
 	s.hub.mu.Lock()
 	defer s.hub.mu.Unlock()
 	s.hub.owner[ch] = userID
-	if _, had := s.hub.seenUsers[userID]; !had && st != "" {
-		s.hub.seenUsers[userID] = st
-	}
+	s.hub.seenUsers[ch] = st
 }
 
-// watchUsersOnce looks at each open page's user once, and tells that user's
-// pages when the profile is not what it was.
+// watchUsersOnce looks at each open page's user once, and tells each of that
+// user's pages whose profile is not the one it shows.
 func (s *Server) watchUsersOnce(ctx context.Context) {
 	for id, chans := range s.hub.openUsers() {
 		st := s.userStamp(ctx, id)
@@ -126,18 +108,15 @@ func (s *Server) watchUsersOnce(ctx context.Context) {
 			continue
 		}
 		s.hub.mu.Lock()
-		before, had := s.hub.seenUsers[id]
-		s.hub.seenUsers[id] = st
-		changed := had && before != st
-		if changed {
-			for _, ch := range chans {
-				if _, open := s.hub.owner[ch]; !open {
-					continue // closed since
-				}
-				select {
-				case ch <- "board-changed":
-				default:
-				}
+		for _, ch := range chans {
+			before, open := s.hub.seenUsers[ch]
+			if _, still := s.hub.owner[ch]; !still || !open || before == st {
+				continue // closed since, or up to date
+			}
+			s.hub.seenUsers[ch] = st
+			select {
+			case ch <- "board-changed":
+			default:
 			}
 		}
 		s.hub.mu.Unlock()
@@ -160,33 +139,41 @@ func (s *Server) runBoardWatch(stop chan struct{}) {
 	}
 }
 
-// watchBoardsOnce looks at each open board once and announces each that is
-// not what the last look, or Weddy's own last announcement, left it.
+// watchBoardsOnce looks at each open board once and tells each of its pages
+// that does not show the board as it is: one baseline per page, so a page
+// drawn after a change is never told of it again.
 func (s *Server) watchBoardsOnce(ctx context.Context) {
-	for _, id := range s.hub.openBoards() {
+	for id, chans := range s.hub.openBoards() {
 		stamp := s.boardStamp(ctx, id)
 		if stamp == "" {
 			continue
 		}
-		if before, had := s.hub.sawBoard(id, stamp); had && before != stamp {
-			s.hub.publish(id, "board-changed")
+		s.hub.mu.Lock()
+		for _, ch := range chans {
+			before, ok := s.hub.seen[ch]
+			if !ok || !s.hub.subs[id][ch] || before == stamp {
+				continue
+			}
+			s.hub.seen[ch] = stamp
+			select {
+			case ch <- "board-changed":
+			default:
+			}
 		}
+		s.hub.mu.Unlock()
 	}
 }
 
-// liveSince starts a page's live connection: the board as it is now is the
-// watch's to compare with, unless another page's look already is - that one
-// may not have been announced yet - and when the page was drawn from another
-// board than this (its drawn stamp), the page is told at once.
+// liveSince starts a page's live connection: the page is compared with the
+// board it was drawn from (drawn, its stamp on the page), and told at once
+// when the board has changed since.
 func (s *Server) liveSince(ctx context.Context, board, drawn string, ch chan string) {
 	now := s.boardStamp(ctx, board)
 	if now == "" {
 		return
 	}
 	s.hub.mu.Lock()
-	if _, had := s.hub.seen[board]; !had {
-		s.hub.seen[board] = now
-	}
+	s.hub.seen[ch] = now
 	s.hub.mu.Unlock()
 	if drawn != "" && drawn != now {
 		select {
