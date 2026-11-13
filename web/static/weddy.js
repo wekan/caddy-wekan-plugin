@@ -1558,7 +1558,32 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (body && !form.querySelector('textarea')) form.appendChild(body.content.cloneNode(true));
     form.classList.remove('is-hidden');
     form.querySelector('textarea').focus();
+    // Opened while a redraw is on its way: the board it draws opens it again,
+    // with what was typed (checklist-single-submit, a profile changed just as
+    // the card opened).
+    if (up.network.isBusy()) reopenInlined = { opens: opens, key: inlinedKey(box), value: '' };
   });
+  function inlinedKey(box) {
+    return (box && (box.getAttribute('data-checklist') || box.getAttribute('data-item') || box.getAttribute('data-card'))) || '';
+  }
+  var reopenInlined = null;
+  document.addEventListener('input', function (event) {
+    if (reopenInlined && event.target.closest && event.target.closest('.board-wrapper .js-card-details .js-inlined-form')) reopenInlined.value = event.target.value;
+  }, true);
+  up.on('up:fragment:inserted', function (event, el) {
+    if (!reopenInlined || !el || !el.matches || !el.matches('.board-wrapper')) return;
+    var r = reopenInlined;
+    reopenInlined = null;
+    var opener = Array.prototype.find.call(el.querySelectorAll('.js-card-details .js-open-inlined-form[data-opens="' + r.opens + '"]'), function (o) {
+      var box = o.closest('.js-checklist-item, .js-checklist, .js-checklists-section, .card-details-group-description, .card-details-subtasks');
+      return inlinedKey(box) === r.key;
+    });
+    if (!opener) return;
+    opener.click();
+    var field = el.querySelector('.js-card-details .js-inlined-form:not(.is-hidden) textarea');
+    if (field && r.value && !field.value) field.value = r.value;
+  });
+  up.on('up:form:submit', function () { reopenInlined = null; });
   // WeKan's editDateForm: a month drawn day by day, the day picked marked,
   // and on Save the time the browser makes of that date and the time typed
   // (empty: the opener's default - 17:00 for a due date), refused when the
@@ -2728,6 +2753,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.on('click', '.js-close-inlined-form', function (event, el) {
     event.preventDefault();
     reopenEditor = null;
+    reopenInlined = null;
     var form = el.closest('.js-inlined-form');
     if (form.classList.contains('js-card-composer')) form.remove();
     else closeInlinedForm(form);
