@@ -4418,7 +4418,23 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var wrapper = widthList && widthList.closest('.board-wrapper');
     closePopOvers();
     if (!wrapper) return;
-    callAsync('setFixedListWidthEnabled', wrapper.getAttribute('data-board'), wrapper.getAttribute('data-fixed-width') !== 'true').then(function () { reloadBoard(); });
+    var boardId = wrapper.getAttribute('data-board'), enable = wrapper.getAttribute('data-fixed-width') !== 'true';
+    // WeKan: the two modes are exclusive - same width turns the viewer's own
+    // automatic width off.
+    var first = enable && wrapper.getAttribute('data-personal-width') === 'true' && wrapper.getAttribute('data-auto-width') === 'true'
+      ? callAsync('setPersonalAutoWidth', boardId, false) : Promise.resolve();
+    first.then(function () { return callAsync('setFixedListWidthEnabled', boardId, enable); }).then(function () { reloadBoard(); });
+  });
+  // #6409 WeKan's automatic width: the viewer's own in personal mode, else the
+  // board's.
+  up.on('click', '.js-pop-over .js-toggle-auto-width', function (event) {
+    event.preventDefault();
+    var wrapper = widthList && widthList.closest('.board-wrapper');
+    closePopOvers();
+    if (!wrapper) return;
+    var boardId = wrapper.getAttribute('data-board'), on = wrapper.getAttribute('data-auto-width') !== 'true';
+    var method = wrapper.getAttribute('data-personal-width') === 'true' ? 'setPersonalAutoWidth' : 'setBoardAutoWidth';
+    callAsync(method, boardId, on).then(function () { reloadBoard(); }, function (e) { window.alert(e.reason || e.message); });
   });
   function resizeStart(event) {
     var handle = event.target.closest && event.target.closest('.js-list-resize-handle, .js-swimlane-resize-handle');

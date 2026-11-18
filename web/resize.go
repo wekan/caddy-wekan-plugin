@@ -42,6 +42,10 @@ type boardResize struct {
 	FixedWidth float64
 	Personal   bool
 	Personals  map[string]float64
+	// Auto is WeKan's automatic width (#6409, effectiveAutoWidth): the lists
+	// share the row, with no width of their own and no handle - the board's
+	// autoWidth, or in personal mode the viewer's profile.autoWidthBoards.
+	Auto bool
 }
 
 func validListWidth(w float64) bool {
@@ -56,6 +60,8 @@ func validListWidth(w float64) bool {
 func (z boardResize) listWidth(listID string, own float64) int {
 	px := func(w float64) int { return int(math.Round(w)) }
 	switch {
+	case z.Auto:
+		return 0
 	case z.SameWidth && validListWidth(z.SameWidthValue):
 		return px(z.SameWidthValue)
 	case z.SameWidth:
@@ -77,7 +83,7 @@ func (z boardResize) listWidth(listID string, own float64) int {
 // viewer's own mode, the viewer; else who may change the board.
 func (z boardResize) canResize(writer bool) bool {
 	switch {
-	case z.ListLocked:
+	case z.ListLocked, z.Auto:
 		return false
 	case z.SameWidth:
 		return writer
@@ -102,6 +108,7 @@ func (s *Server) resizeOf(ctx context.Context, userID, boardID string, rawB bson
 		LaneLocked: rawB["swimlaneHeightResizeLocked"] == true}
 	z.SameWidthValue = numberOf(rawB["sameWidthForAllListsValue"])
 	if userID == "" {
+		z.Auto = autoWidthOn(false, rawB["autoWidth"] == true, false)
 		return z
 	}
 	var u struct {
@@ -110,15 +117,26 @@ func (s *Server) resizeOf(ctx context.Context, userID, boardID string, rawB bson
 			FixedListWidthBoards map[string]bool               `bson:"fixedListWidthBoards"`
 			FixedListWidths      map[string]float64            `bson:"fixedListWidths"`
 			ListWidths           map[string]map[string]float64 `bson:"listWidths"`
+			AutoWidthBoards      map[string]bool               `bson:"autoWidthBoards"`
 		} `bson:"profile"`
 	}
 	_ = s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(userID)}, options.FindOne().SetProjection(bson.M{
-		"profile.swimlaneHeights": 1, "profile.fixedListWidthBoards": 1, "profile.fixedListWidths": 1, "profile.listWidths": 1})).Decode(&u)
+		"profile.swimlaneHeights": 1, "profile.fixedListWidthBoards": 1, "profile.fixedListWidths": 1, "profile.listWidths": 1, "profile.autoWidthBoards": 1})).Decode(&u)
 	z.Heights = u.Profile.SwimlaneHeights[boardID]
 	z.Fixed, z.FixedWidth = u.Profile.FixedListWidthBoards[boardID], u.Profile.FixedListWidths[boardID]
 	z.Personal = rawB["allowsPersonalListWidth"] == true
 	z.Personals = u.Profile.ListWidths[boardID]
+	z.Auto = autoWidthOn(z.Personal, rawB["autoWidth"] == true, u.Profile.AutoWidthBoards[boardID])
 	return z
+}
+
+// autoWidthOn is WeKan's effectiveAutoWidth: in personal mode the viewer's own
+// switch, else the board's, the same for everyone.
+func autoWidthOn(personal, board, own bool) bool {
+	if personal {
+		return own
+	}
+	return board
 }
 
 func numberArg(args []json.RawMessage, i int) (float64, error) {
@@ -312,4 +330,44 @@ func (s *Server) methodApplyListWidthToStorage(r *http.Request, u *User, args []
 		return nil, err
 	}
 	return nil, nil
+}
+
+// methodSetBoardAutoWidth is WeKan's setBoardAutoWidth (#6409): the board's
+// automatic width, the same for everyone, so only who may write the board.
+func (s *Server) methodSetBoardAutoWidth(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	var on bool
+	if len(args) < 2 || json.Unmarshal(args[1], &on) != nil {
+		return nil, &methodError{"Match.Error", "Expected boolean"}
+	}
+	b, err := s.boardFor(r.Context(), boardID, u)
+	if err != nil || !b.Writable(u, "write", nil) {
+		return nil, &methodError{"error-notAuthorized", "error-notAuthorized"}
+	}
+	if _, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": eq(b.ID)}, bson.M{"$set": bson.M{"autoWidth": on}}); err != nil {
+		return nil, err
+	}
+	return true, nil
+}
+
+// methodSetPersonalAutoWidth is the viewer's own automatic width on a board in
+// personal mode - what WeKan's user.toggleAutoWidth writes to
+// profile.autoWidthBoards from the client, through the same profile writer as
+// the other per-viewer widths.
+func (s *Server) methodSetPersonalAutoWidth(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	var on bool
+	if len(args) < 2 || json.Unmarshal(args[1], &on) != nil {
+		return nil, &methodError{"Match.Error", "Expected boolean"}
+	}
+	if err := s.setProfileMap(r, u, "setPersonalAutoWidth", "autoWidthBoards", on, boardID); err != nil {
+		return nil, err
+	}
+	return true, nil
 }

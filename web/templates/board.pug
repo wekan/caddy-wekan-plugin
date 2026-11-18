@@ -1,4 +1,4 @@
-.board-wrapper(class="board-color-{{.Board.Color}}", style="{{.Board.BackgroundStyle}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live?v={{.BoardStamp}}&u={{.UserStamp}}", data-move="/b/{{.Board.ID}}/move", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}", data-same-width="{{if .SameWidthOn}}true{{end}}", data-fixed-width="{{if .FixedWidthOn}}true{{end}}", data-personal-width="{{if .PersonalWidthOn}}true{{end}}")
+.board-wrapper(class="board-color-{{.Board.Color}}", style="{{.Board.BackgroundStyle}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live?v={{.BoardStamp}}&u={{.UserStamp}}", data-move="/b/{{.Board.ID}}/move", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}", data-same-width="{{if .SameWidthOn}}true{{end}}", data-fixed-width="{{if .FixedWidthOn}}true{{end}}", data-personal-width="{{if .PersonalWidthOn}}true{{end}}", data-auto-width="{{if .AutoWidthOn}}true{{end}}")
   .board-header
     h1.header-board-name.js-board-title {{.Board.Title}}
     //- WeKan's boardStarButton: the user's favorite, kept in their profile.
@@ -967,11 +967,16 @@
   if .CanEdit
     template.js-pop-over-template(data-pop="list-width", data-title="{{t $.L `set-list-width`}}")
       #js-list-width-edit
-        label {{t $.L "set-list-width-value"}}
+        //- #6409: while automatic width is on, there is no width to type in.
+        label.list-width-value-label(class="{{if .AutoWidthOn}}is-hidden{{end}}") {{t $.L "set-list-width-value"}}
           p
             input.list-width-value(type="number", min="200", max="1000", step="1")
             input.list-width-apply(type="submit", value="{{t $.L `apply`}}")
         p.list-width-error.is-hidden(role="alert") {{t $.L "list-width-error-message"}}
+        if .CanChangeAutoWidth
+          a.js-toggle-auto-width(href="#", title="{{if .AutoWidthOn}}{{t $.L `click-to-disable-auto-width`}}{{else}}{{t $.L `click-to-enable-auto-width`}}{{end}}")
+            i.fa(class="{{if .AutoWidthOn}}fa-compress{{else}}fa-arrows-h{{end}}")
+            span {{t $.L "auto-list-width"}}
         a.js-toggle-fixed-list-width(href="#", data-on-title="{{t $.L `click-to-disable-fixed-list-width`}}", data-off-title="{{t $.L `click-to-enable-fixed-list-width`}}")
           i.fa.fa-square-o
           span {{t $.L "fixed-list-width"}}
@@ -1185,7 +1190,7 @@
           if not .Collapsed
             .list-group.js-lists
               each li in .Lists
-                .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}", data-swimlane="{{.Lane}}", data-watching="{{if watching $.User .Watchers}}1{{end}}", class="{{if .Collapsed}}list-collapsed{{end}}", style="{{if and .Width (not .Collapsed)}}--list-width:{{.Width}}px;{{end}}")
+                .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}", data-swimlane="{{.Lane}}", data-watching="{{if watching $.User .Watchers}}1{{end}}", class="{{if .Collapsed}}list-collapsed{{end}} {{if $.AutoWidthOn}}list-auto-width{{end}}", style="{{if and .Width (not .Collapsed)}}--list-width:{{.Width}}px;{{end}}")
                   .list-header
                     if $.CanEdit
                       button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="list", data-id="{{.ID}}")

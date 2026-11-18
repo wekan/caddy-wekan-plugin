@@ -820,6 +820,9 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
 .list-resize-handle:hover, .list:hover .list-resize-handle:hover { background: rgba(0, 123, 255, .4); box-shadow: 0 0 4px rgba(0, 123, 255, .3); }
 .list-resize-handle:active { background: rgba(0, 123, 255, .6); }
 .list.list-collapsed .list-resize-handle { display: none; }
+/* #6409 automatic width: the lists share the row (list.css .list-auto-width). */
+.list.list-auto-width { flex: 1 1 0; min-width: 0; }
+.list.list-auto-width .list-resize-handle { display: none; }
 .js-swimlane { position: relative; }
 .js-swimlane[style*="height"] { display: flex; flex-direction: column; overflow: hidden; }
 .js-swimlane[style*="height"] > .list-group { flex: 1 1 auto; min-height: 0; overflow: auto; }

@@ -38,6 +38,8 @@ func (s *Server) methods() map[string]methodFunc {
 		"applyListWidth":                    s.methodApplyListWidth,
 		"applyListWidthToStorage":           s.methodApplyListWidthToStorage,
 		"setFixedListWidthEnabled":          s.methodSetFixedListWidthEnabled,
+		"setBoardAutoWidth":                 s.methodSetBoardAutoWidth,
+		"setPersonalAutoWidth":              s.methodSetPersonalAutoWidth,
 		"setFixedListWidth":                 s.methodSetFixedListWidth,
 		"applySwimlaneHeightToStorage":      s.methodApplySwimlaneHeight("applySwimlaneHeightToStorage"),
 		"applySwimlaneHeight":               s.methodApplySwimlaneHeight("applySwimlaneHeight"),
@@ -165,6 +167,8 @@ var loggedOutError = map[string]string{
 	"setListCollapsedState":    "not-logged-in",
 	"applyListWidth":           "not-logged-in",
 	"setFixedListWidthEnabled": "not-logged-in",
+	"setBoardAutoWidth":        "not-logged-in",
+	"setPersonalAutoWidth":     "not-logged-in",
 	"setFixedListWidth":        "not-logged-in",
 	"toggleBoardStar":          "not-logged-in",
 }

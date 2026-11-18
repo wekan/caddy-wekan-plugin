@@ -926,6 +926,10 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		}
 	}
 	data["SameWidthOn"], data["FixedWidthOn"], data["PersonalWidthOn"] = sizes.SameWidth, sizes.Fixed, sizes.Personal
+	// #6409: who may switch automatic width - the viewer in personal mode,
+	// else who may write the board.
+	data["AutoWidthOn"] = sizes.Auto
+	data["CanChangeAutoWidth"] = u != nil && (sizes.Personal || b.Writable(u, "write", nil))
 	data["CanResizeLists"] = sizes.canResize(b.Writable(u, "write", nil))
 	data["CanResizeLanes"] = !sizes.LaneLocked
 	if b.MemberOf(u.ID) || u.IsAdmin { // not a write: what Card's hamburger shows
