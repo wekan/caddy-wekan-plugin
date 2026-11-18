@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Seet",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoom ba mu fees",
   "board": "Tablo",
+  "board-announcement": "Yégleb tablo",
+  "board-announcement-enabled": "Won ko ñépp ñi nekk ci tablo bii",
   "board-not-found": "Tablo su ñu koy",
   "board-status-remaining-time-total": "Diir bi des bala bis bi ñu war a jeexal",
   "board-view": "Nekkinu Tablo",

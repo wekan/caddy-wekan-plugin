@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Tìm kiếm",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Thu phóng cho vừa",
   "board": "Bảng",
+  "board-announcement": "Thông báo của bảng",
+  "board-announcement-enabled": "Hiển thị cho mọi người trên bảng này",
   "board-not-found": "Không tìm được bảng",
   "board-status-remaining-time-total": "Thời gian còn lại đến hạn",
   "board-view": "Kiểu xem Bảng",

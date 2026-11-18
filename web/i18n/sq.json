@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Kërko",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Përshtat zmadhimin",
   "board": "Tabelë",
+  "board-announcement": "Njoftim në tabelë",
+  "board-announcement-enabled": "Shfaqja të gjithëve në këtë tabelë",
   "board-not-found": "Tabela nuk u gjet",
   "board-status-remaining-time-total": "Koha e mbetur deri në afat",
   "board-view": "Pamja e tabelës",

@@ -234,6 +234,21 @@
       .content
         p.js-restore-all-skipped {{.RestoreSkipped}}
   | {{template "_boardviews" .}}
+  //- WeKan's boardAnnouncementPopup, for a board admin.
+  if .Board.AdminOf .User.ID
+    template.js-pop-over-template(data-pop="board-announcement", data-popup="boardAnnouncementPopup", data-title="{{t $.L `board-announcement`}}")
+      .header
+        span.header-title {{t $.L "board-announcement"}}
+        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+      .content
+        form.js-board-announcement-form(method="post", action="/b/{{.Board.ID}}/announcement", up-submit, up-target=".board-wrapper")
+          label(for="board-announcement-text") {{t $.L "board-announcement"}}
+          textarea.js-board-announcement-text#board-announcement-text(name="body", rows="5", maxlength="2000") {{.AnnouncementBody}}
+          input.js-board-announcement-enabled-value(type="hidden", name="enabled", value="{{if .AnnouncementEnabled}}true{{end}}")
+          a.flex.js-board-announcement-enabled(href="#", class="{{if .AnnouncementEnabled}}is-checked{{end}}")
+            .materialCheckBox(class="{{if .AnnouncementEnabled}}is-checked{{end}}")
+            span {{t $.L "board-announcement-enabled"}}
+          button.primary.wide.js-board-announcement-save(type="submit") {{t $.L "save"}}
   template.js-pop-over-template(data-pop="board-menu", data-title="{{t $.L `boardMenuPopup-title`}}")
     .header
       span.header-title {{t $.L "boardMenuPopup-title"}}
@@ -270,6 +285,10 @@
             i.fa.fa-id-card-o
             |  {{t $.L "card-settings"}}
         if .Board.AdminOf .User.ID
+          li
+            a.js-open-board-announcement(href="#", data-pop="board-announcement", title="{{t $.L `board-announcement`}}")
+              i.fa.fa-bullhorn
+              |  {{t $.L "board-announcement"}}
           li
             a.js-open-rules-view(href="/b/{{.Board.ID}}/{{.Board.Slug}}/rules", title="{{t $.L `rules`}}")
               i.fa.fa-magic
@@ -1202,6 +1221,16 @@
             ul.pop-over-list
               li
                 a(href="/api/boards/{{.Board.ID}}/calendar.ics", download) .ics
+  //- WeKan's boardAnnouncement (#1566): plain text, above the canvas - the
+    canvas starts below it, so nothing lies over its close button.
+  if .Announcement
+    .announcement.board-announcement.js-board-announcement(role="status", aria-live="polite")
+      ul
+        li
+          i.fa.fa-bullhorn(aria-hidden="true")
+          |  {{.Announcement}}
+          a.js-close-board-announcement(href="#", aria-label="{{t $.L `close`}}", title="{{t $.L `close`}}")
+            i.fa.fa-times-thin(aria-hidden="true") ×
   .board-canvas#board-canvas
     //- WeKan's calendarView: the board's cards on a calendar - the same cards
       the board shows, the Filter's too (calendar_view.go, weddy.js).

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Saili",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Faalautele ia ofi",
   "board": "Laupapa",
+  "board-announcement": "Faasilasilaga o le laupapa",
+  "board-announcement-enabled": "Faaali i tagata uma i lenei laupapa",
   "board-not-found": "E le maua le laupapa",
   "board-status-remaining-time-total": "Taimi totoe e oo atu i le aso e tatau ai",
   "board-view": "Vaaiga o le Laupapa",

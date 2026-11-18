@@ -335,6 +335,7 @@ func (s *Server) routes() {
 	s.registerChecklistWrites(m)
 	s.cardDateRoutes(m)
 	s.cardCustomFieldRoutes(m)
+	s.boardAnnouncementRoutes(m)
 	m.HandleFunc("POST /b/{board}/cards/{card}/complete", s.page(s.cardCompletePage))
 	m.HandleFunc("POST /b/{board}/title", s.page(s.renameBoardPage))
 	m.HandleFunc("POST /b/{board}/restore", s.page(s.restoreBoardPage))
@@ -936,6 +937,12 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	// whoever may use them - a list's for who may change the board, a
 	// swimlane's for the user - unless Board Settings locks them.
 	sizes := s.resizeOf(r.Context(), u.ID, b.ID, rawB)
+	// The board's announcement (#1566): shown until dismissed at its version;
+	// the board admin's pop-over edits it.
+	data["Announcement"] = boardAnnouncementShown(rawB, b.ID, u.Profile.DismissedBoardAnnouncements)
+	if a := announcementOf(rawB); a != nil {
+		data["AnnouncementBody"], data["AnnouncementEnabled"] = a.Body, a.Enabled
+	}
 	for i := range lanes {
 		lanes[i].Height = sizes.laneHeight(lanes[i].ID)
 		for j := range lanes[i].Lists {

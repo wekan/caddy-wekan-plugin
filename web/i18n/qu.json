@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Maskay",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Tupachinapaq hatunyachiy",
   "board": "Pirqa",
+  "board-announcement": "Pirqap willakuynin",
+  "board-announcement-enabled": "Kay pirqapi llapanman rikuchiy",
   "board-not-found": "Pirqa mana tarikunchu",
   "board-status-remaining-time-total": "Tukukuy p'unchawkama pisqa pacha",
   "board-view": "Pirqa qhaway",

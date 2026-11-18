@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Maghanap",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Iangkop ang pag-zoom upang magkasya",
   "board": "Pisara",
+  "board-announcement": "Anunsiyo ng pisara",
+  "board-announcement-enabled": "Ipakita ito sa lahat sa pisarang ito",
   "board-not-found": "pisara Hindi nakita",
   "board-status-remaining-time-total": "Natitirang oras hanggang sa takdang petsa",
   "board-view": "pisara Tingnan",

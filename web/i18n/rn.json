@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Rondera",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Aguka bikwire",
   "board": "Icapa",
+  "board-announcement": "Itangazo ry'icapa",
+  "board-announcement-enabled": "Ryereke abantu bose bari kuri iki capa",
   "board-not-found": "Icapa nticabonetse",
   "board-status-remaining-time-total": "Igihe gisigaye kugeza ku itariki ntarengwa",
   "board-view": "Uko icapa kiboneka",

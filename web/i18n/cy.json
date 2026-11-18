@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Chwilio",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Chwyddo i ffitio",
   "board": "Bwrdd",
+  "board-announcement": "Cyhoeddiad y bwrdd",
+  "board-announcement-enabled": "Ei ddangos i bawb ar y bwrdd hwn",
   "board-not-found": "Bwrdd heb ei ganfod",
   "board-status-remaining-time-total": "Amser sy'n weddill hyd at y dyddiad cau",
   "board-view": "Golygfa Bwrdd",

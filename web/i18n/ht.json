@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Chèche",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Ajiste zoum pou tout bagay antre",
   "board": "Tablo",
+  "board-announcement": "Anons tablo a",
+  "board-announcement-enabled": "Montre li bay tout moun sou tablo sa a",
   "board-not-found": "Tablo pa jwenn",
   "board-status-remaining-time-total": "Tan ki rete jiska dat limit la",
   "board-view": "Afichaj tablo",

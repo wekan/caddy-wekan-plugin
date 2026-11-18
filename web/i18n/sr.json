@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Тражи",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Прилагоди увећање",
   "board": "Списи",
+  "board-announcement": "Обавештење у списима",
+  "board-announcement-enabled": "Прикажи свима у овим списима",
   "board-not-found": "Спис није пронађен",
   "board-status-remaining-time-total": "Преостало време до рока",
   "board-view": "Поглед на садржај списа",

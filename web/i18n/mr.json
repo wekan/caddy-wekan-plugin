@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "शोधा",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "सर्व मावेल असा झूम करा",
   "board": "फलक",
+  "board-announcement": "फलकावरील घोषणा",
+  "board-announcement-enabled": "या फलकावरील सर्वांना दाखवा",
   "board-not-found": "फलक सापडला नाही",
   "board-status-remaining-time-total": "नियत तारखेपर्यंत उर्वरित वेळ",
   "board-view": "फलक दृश्य",

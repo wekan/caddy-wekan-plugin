@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Αναζήτηση",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Προσαρμογή μεγέθυνσης",
   "board": "Πίνακας",
+  "board-announcement": "Ανακοίνωση πίνακα",
+  "board-announcement-enabled": "Εμφάνιση σε όλους σε αυτόν τον πίνακα",
   "board-not-found": "Ο πίνακας δε βρέθηκε",
   "board-status-remaining-time-total": "Χρόνος που απομένει έως την προθεσμία",
   "board-view": "Προβολή Πίνακα",

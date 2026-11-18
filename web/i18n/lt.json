@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Ieškoti",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Pritaikyti mastelį",
   "board": "lenta",
+  "board-announcement": "Lentos pranešimas",
+  "board-announcement-enabled": "Rodyti visiems šioje lentoje",
   "board-not-found": "Lenta nerasta",
   "board-status-remaining-time-total": "Likęs laikas iki termino",
   "board-view": "Lentos vaizdas",

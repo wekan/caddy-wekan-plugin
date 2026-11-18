@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Soek",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoem om te pas",
   "board": "Raad",
+  "board-announcement": "Raadaankondiging",
+  "board-announcement-enabled": "Wys dit aan almal op hierdie raad",
   "board-not-found": "Bord nie gevind nie",
   "board-status-remaining-time-total": "Oorblywende tyd tot vervaldatum",
   "board-view": "Bordaansig",

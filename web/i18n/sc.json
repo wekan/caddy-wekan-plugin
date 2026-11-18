@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Chirca",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Adata su zoom",
   "board": "Tàula",
+  "board-announcement": "Annùntziu de sa tàula",
+  "board-announcement-enabled": "Ammustra·ddu a totus in custa tàula",
   "board-not-found": "Tàula no agatada",
   "board-status-remaining-time-total": "Tempus chi abarrat fintzas a sa data de iscadèntzia",
   "board-view": "Vista de sa tàula",

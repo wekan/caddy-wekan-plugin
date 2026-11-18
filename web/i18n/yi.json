@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "זוכן",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "צופּאַסן דעם פֿאַרגרעסערונגסמאָס",
   "board": "ברעט",
+  "board-announcement": "ברעט־אָנזאָג",
+  "board-announcement-enabled": "ווײַזן עס אַלעמען אויף דעם ברעט",
   "board-not-found": "ברעט ניט געפונען",
   "board-status-remaining-time-total": "צײַט וואָס בלײַבט ביז דעם טערמין",
   "board-view": "ברעט View",

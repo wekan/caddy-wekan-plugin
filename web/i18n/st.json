@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Batla",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Atametsa hore tsohle di lekane ponong",
   "board": "Boto",
+  "board-announcement": "Tsebiso ya boto",
+  "board-announcement-enabled": "E bontshe bohle botong ena",
   "board-not-found": "Boto ha e a fumanwa",
   "board-status-remaining-time-total": "Nako e setseng ho fihla letsatsing la ho qetela",
   "board-view": "Pono ya boto",

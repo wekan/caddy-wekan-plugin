@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Ҷустуҷӯ",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Мутобиқ кардани миқёс ба намоиш",
   "board": "Тахта",
+  "board-announcement": "Эълони тахта",
+  "board-announcement-enabled": "Ба ҳама дар ин тахта нишон додан",
   "board-not-found": "Тахта ёфт нашуд",
   "board-status-remaining-time-total": "Вақти боқимонда то мӯҳлат",
   "board-view": "Намуди тахта",

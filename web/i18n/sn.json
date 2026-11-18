@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Tsvaga",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Chinja kukudza kuti zvose zvikwane",
   "board": "Bhodhi",
+  "board-announcement": "Chiziviso chebhodhi",
+  "board-announcement-enabled": "Ratidza munhu wese ari pabhodhi rino",
   "board-not-found": "bhodhi haina kuwanikwa",
   "board-status-remaining-time-total": "Nguva yasara kusvika zuva rekupedzisira",
   "board-view": "bhodhi View",

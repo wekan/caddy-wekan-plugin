@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Hledat",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Přizpůsobit měřítko",
   "board": "Tablo",
+  "board-announcement": "Oznámení na tablu",
+  "board-announcement-enabled": "Zobrazit všem na tomto tablu",
   "board-not-found": "Tablo nenalezeno",
   "board-status-remaining-time-total": "Zbývající čas do termínu splnění",
   "board-view": "Náhled tabla",

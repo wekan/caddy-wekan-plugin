@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Sesha",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Khulisa kute kulingane",
   "board": "Libhodi",
+  "board-announcement": "Simemetelo selibhodi",
+  "board-announcement-enabled": "Kukhombise bonkhe labakulelibhodi",
   "board-not-found": "Libhodi alitfolakalanga",
   "board-status-remaining-time-total": "Sikhatsi lesisele kuze kube ngusuku lekugcina",
   "board-view": "Kubukwa Kwelibhodi",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Търсене",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Мащабиране до побиране",
   "board": "Табло",
+  "board-announcement": "Съобщение на таблото",
+  "board-announcement-enabled": "Показване на всички в това табло",
   "board-not-found": "Таблото не е намерено",
   "board-status-remaining-time-total": "Оставащо време до крайния срок",
   "board-view": "Изглед на таблото",

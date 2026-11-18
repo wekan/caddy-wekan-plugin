@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Procurar",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Axustar o zoom",
   "board": "Taboleiro",
+  "board-announcement": "Anuncio do taboleiro",
+  "board-announcement-enabled": "Amosalo a todas as persoas deste taboleiro",
   "board-not-found": "Non se atopou o taboleiro",
   "board-status-remaining-time-total": "Tempo restante ata a data de vencemento",
   "board-view": "Vista do taboleiro",

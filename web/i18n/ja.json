@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "検索",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "画面に合わせて拡大縮小",
   "board": "ボード",
+  "board-announcement": "ボードのお知らせ",
+  "board-announcement-enabled": "このボードの全員に表示",
   "board-not-found": "ボードが見つかりません",
   "board-status-remaining-time-total": "期限までの残り時間",
   "board-view": "ボード表示",

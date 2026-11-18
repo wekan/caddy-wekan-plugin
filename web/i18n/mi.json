@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Rapu",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Topa kia uru katoa",
   "board": "Papa",
+  "board-announcement": "Pānui papa",
+  "board-announcement-enabled": "Whakaaturia ki te katoa i runga i tēnei papa",
   "board-not-found": "Kāore i kitea te papa",
   "board-status-remaining-time-total": "Te wā e toe ana tae noa ki te rā whakamutunga",
   "board-view": "Tirohanga Papa",

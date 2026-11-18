@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Cercar",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Ajustar lo zoom",
   "board": "Tablèu",
+  "board-announcement": "Anóncia del tablèu",
+  "board-announcement-enabled": "La mostrar a totes sus aqueste tablèu",
   "board-not-found": "Tablèu pas trapat",
   "board-status-remaining-time-total": "Temps que demòra fins a la data limita",
   "board-view": "Presentacion del tablèu",

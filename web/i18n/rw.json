@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Shakisha",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Igipimo gikwiye",
   "board": "Ikibaho",
+  "board-announcement": "Itangazo ry'ikibaho",
+  "board-announcement-enabled": "Ryereke buri wese uri kuri iki kibaho",
   "board-not-found": "Ikibaho nticyabonetse",
   "board-status-remaining-time-total": "Igihe gisigaye kugeza ku itariki ntarengwa",
   "board-view": "Uko Ikibaho Kigaragara",

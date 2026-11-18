@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Cerca",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Adatta zoom",
   "board": "Bacheca",
+  "board-announcement": "Annuncio della bacheca",
+  "board-announcement-enabled": "Mostra a tutti su questa bacheca",
   "board-not-found": "Bacheca non trovata",
   "board-status-remaining-time-total": "Tempo rimanente fino alla scadenza",
   "board-view": "Vista bacheca",

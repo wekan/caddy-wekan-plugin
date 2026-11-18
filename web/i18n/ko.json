@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "검색",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "확대 축소해서 화면에 맞추기",
   "board": "보드",
+  "board-announcement": "보드 공지",
+  "board-announcement-enabled": "이 보드의 모든 사람에게 표시",
   "board-not-found": "보드를 찾을 수 없습니다",
   "board-status-remaining-time-total": "마감일까지 남은 시간",
   "board-view": "보드 화면",

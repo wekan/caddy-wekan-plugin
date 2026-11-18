@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Batla",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Godisa go lekana",
   "board": "Boto",
+  "board-announcement": "Kitsiso ya boto",
+  "board-announcement-enabled": "E bontsha mongwe le mongwe mo botong e",
   "board-not-found": "Boto ga e a bonwa",
   "board-status-remaining-time-total": "Nako e setseng go fitlha letsatsing la bofelo",
   "board-view": "Pono ya boto",

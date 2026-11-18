@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Ṱoḓa",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoom u ṱanganedzana",
   "board": "Bodo",
+  "board-announcement": "Nḓivhadzo ya bodo",
+  "board-announcement-enabled": "I sumbedzeni muthu muṅwe na muṅwe kha bodo iyi",
   "board-not-found": "Bodo a yo ngo wanala",
   "board-status-remaining-time-total": "Tshifhinga tsho salaho u swika ḓuvha ḽa mafhelelo",
   "board-view": "Mbonalo ya bodo",

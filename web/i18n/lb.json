@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Sichen",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoom upassen, fir alles ze weisen",
   "board": "Tafel",
+  "board-announcement": "Tafel-Matdeelung",
+  "board-announcement-enabled": "Jidderengem op dëser Tafel weisen",
   "board-not-found": "Board net gefunden",
   "board-status-remaining-time-total": "Verbleiwend Zäit bis zum Fälegkeetsdatum",
   "board-view": "Boardansicht",

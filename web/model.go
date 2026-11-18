@@ -100,8 +100,11 @@ type User struct {
 		CalendarSystem string `bson:"calendarSystem,omitempty" json:"calendarSystem,omitempty"`
 		// BoardView and BoardViews are WeKan's profile.boardView - the view
 		// every board shared - and profile.boardViews, a board's own (#4906).
-		BoardView  string            `bson:"boardView,omitempty" json:"boardView,omitempty"`
-		BoardViews map[string]string `bson:"boardViews,omitempty" json:"boardViews,omitempty"`
+		BoardView string `bson:"boardView,omitempty" json:"boardView,omitempty"`
+		// DismissedBoardAnnouncements: board id -> the announcement version
+		// the member dismissed (#1566).
+		DismissedBoardAnnouncements map[string]string `bson:"dismissedBoardAnnouncements,omitempty" json:"-"`
+		BoardViews                  map[string]string `bson:"boardViews,omitempty" json:"boardViews,omitempty"`
 		// StartDayOfWeek is WeKan's profile.startDayOfWeek: 0 Sunday ... 6.
 		StartDayOfWeek *int `bson:"startDayOfWeek,omitempty" json:"startDayOfWeek,omitempty"`
 		// AvatarURL is WeKan's profile.avatarUrl: the user's uploaded picture.

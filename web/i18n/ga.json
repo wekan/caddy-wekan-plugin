@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Cuardaigh",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zúmáil chun oiriúnú",
   "board": "Clár",
+  "board-announcement": "Fógra cláir",
+  "board-announcement-enabled": "Taispeáin é do gach duine ar an gclár seo",
   "board-not-found": "Níor aimsíodh an clár",
   "board-status-remaining-time-total": "An t-am atá fágtha go dtí an spriocdháta",
   "board-view": "Amharc Cláir",

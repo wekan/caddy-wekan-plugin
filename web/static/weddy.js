@@ -386,6 +386,26 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     window.Popup.back();
   });
+  // WeKan's board announcement (#1566): dismissed at its version, and the
+  // board admin's pop-over - its switch kept in the form until Save.
+  up.on('click', '.js-close-board-announcement', function (event, el) {
+    event.preventDefault();
+    var wrapper = document.querySelector('.board-wrapper'), banner = el.closest('.js-board-announcement');
+    callAsync('dismissBoardAnnouncement', wrapper.getAttribute('data-board')).then(function () { if (banner) banner.remove(); });
+  });
+  up.on('click', '.js-open-board-announcement', function (event) {
+    event.preventDefault();
+    openPopOver('board-announcement');
+  });
+  up.on('click', '.js-pop-over .js-board-announcement-enabled', function (event, el) {
+    event.preventDefault();
+    var on = !el.classList.contains('is-checked');
+    el.classList.toggle('is-checked', on);
+    var box = el.querySelector('.materialCheckBox');
+    if (box) box.classList.toggle('is-checked', on);
+    el.form.querySelector('.js-board-announcement-enabled-value').value = on ? 'true' : '';
+  });
+  up.on('up:form:submit', 'form.js-board-announcement-form', function () { closePopOvers(); });
   // Member Settings' toggle: the profile, and this page, at once.
   up.on('click', '.js-change-settings', function (event) {
     event.preventDefault();

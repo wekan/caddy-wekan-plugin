@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Бэдэрхэ",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Багтаахаар томоруулха",
   "board": "Самбар",
+  "board-announcement": "Самбарай мэдээсэл",
+  "board-announcement-enabled": "Энэ самбар дээрэхи бүхы хүнүүдтэ харуулха",
   "board-not-found": "Самбар олдобогүй",
   "board-status-remaining-time-total": "Хугасаа болтор үлдэhэн саг",
   "board-view": "Самбарай харагдаса",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Karohy",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Ahitsio ny haben'ny fijery mba hahitana ny rehetra",
   "board": "Solaitra",
+  "board-announcement": "Filazana momba ny solaitra",
+  "board-announcement-enabled": "Asehoy amin’ny olona rehetra eto amin’ity solaitra ity",
   "board-not-found": "Tsy hita ny solaitra",
   "board-status-remaining-time-total": "Fotoana sisa hatramin'ny daty fetra",
   "board-view": "Fijerin'ny solaitra",

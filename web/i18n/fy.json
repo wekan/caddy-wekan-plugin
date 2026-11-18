@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Sykje",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoom oanpasse",
   "board": "Boerd",
+  "board-announcement": "Boerdmelding",
+  "board-announcement-enabled": "Lit it oan elkenien op dit boerd sjen",
   "board-not-found": "Board net fûn",
   "board-status-remaining-time-total": "Tiid dy't oer is oant de deadline",
   "board-view": "Boardwerjefte",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Shirr",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Mooadee dy chooie",
   "board": "Boayrd",
+  "board-announcement": "Fockle-fys y voayrd",
+  "board-announcement-enabled": "Soilshee eh da dy chooilley pheiagh er y voayrd shoh",
   "board-not-found": "Cha row boayrd er ny gheddyn",
   "board-status-remaining-time-total": "Yn traa t'ayns fardail derrey'n date jerree",
   "board-view": "Reayrt boayrd",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Heka",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoom oike hag̃uáicha",
   "board": "Tembiapo renda",
+  "board-announcement": "Peteĩcha momarandu",
+  "board-announcement-enabled": "Ehechauka opavavépe ko peteĩchápe",
   "board-not-found": "Peteĩcha ndojejuhúi",
   "board-status-remaining-time-total": "Ára opytáva itiempo guasúpe",
   "board-view": "Peteĩcha jehecha",

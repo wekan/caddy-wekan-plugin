@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Painim",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Senisim sais bilong lukluk bai olgeta i ken stap insait",
   "board": "Bot",
+  "board-announcement": "Toksave bilong bot",
+  "board-announcement-enabled": "Soim long olgeta manmeri long dispela bot",
   "board-not-found": "Bot i nogat stap",
   "board-status-remaining-time-total": "Taim i stap yet inap long deteline",
   "board-view": "Lukluk bilong bot",

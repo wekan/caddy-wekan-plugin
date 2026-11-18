@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Іздеу",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Барлығы сыятындай масштабтау",
   "board": "Тақта",
+  "board-announcement": "Тақта хабарландыруы",
+  "board-announcement-enabled": "Оны осы тақтадағы барлығына көрсету",
   "board-not-found": "Тақта табылмады",
   "board-status-remaining-time-total": "Мерзімге дейін қалған уақыт",
   "board-view": "Тақта көрінісі",

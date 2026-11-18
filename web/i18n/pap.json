@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Buska",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Ahustá e zoom pa tur kos keda visibel",
   "board": "Tabla",
+  "board-announcement": "Anunsio di tabla",
+  "board-announcement-enabled": "Mustra esaki na tur hende riba e tabla aki",
   "board-not-found": "Tabla no encontrado",
   "board-status-remaining-time-total": "Tempu ku resta te dia final",
   "board-view": "Bista di e tabla",

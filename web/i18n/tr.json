@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Ara",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Sığacak şekilde yakınlaştır",
   "board": "Pano",
+  "board-announcement": "Pano duyurusu",
+  "board-announcement-enabled": "Bu panodaki herkese göster",
   "board-not-found": "Pano bulunamadı",
   "board-status-remaining-time-total": "Son tarihe kadar kalan süre",
   "board-view": "Pano Görünümü",

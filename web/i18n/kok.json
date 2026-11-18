@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "सोदात",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "सगळें मावपाक झूम बदलात",
   "board": "फळो",
+  "board-announcement": "फळ्याची घोशणा",
+  "board-announcement-enabled": "ह्या फळ्यावयल्या सगळ्यांक दाखोवचें",
   "board-not-found": "फळो मेळ्ळो ना",
   "board-status-remaining-time-total": "थारावणी तारीक मेरेन उरिल्लो वेळ",
   "board-view": "फळो दृश्य",

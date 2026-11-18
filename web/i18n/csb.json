@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Szukôj",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Dopasëjë pòwiãkszenié",
   "board": "Tôfla",
+  "board-announcement": "Òbwieszczenié tôflë",
+  "board-announcement-enabled": "Pòkôżë to wszëtczim na ti tôfli",
   "board-not-found": "Tôfla nie nalazłô",
   "board-status-remaining-time-total": "Ùczestny czas do terminu",
   "board-view": "Widok tôblëcë",

@@ -846,6 +846,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Пошук",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Припасувати масштаб",
   "board": "Дошка",
+  "board-announcement": "Оголошення дошки",
+  "board-announcement-enabled": "Показувати всім на цій дошці",
   "board-not-found": "Дошка не знайдена",
   "board-status-remaining-time-total": "Час, що залишився до терміну",
   "board-view": "Вид дошки",

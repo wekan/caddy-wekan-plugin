@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Pamiling",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Iangay an kadako han pagpakita basi magkasigo",
   "board": "Pisara",
+  "board-announcement": "Pahibaro han pisara",
+  "board-announcement-enabled": "Ipakita ha ngatanan ha ini nga pisara",
   "board-not-found": "Waray nakita nga board",
   "board-status-remaining-time-total": "Nahibibilin nga oras tubtob ha takdang petsa",
   "board-view": "Pagtan-aw han pisara",

@@ -850,6 +850,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Suchen",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoom anpassen",
   "board": "Arbeitstafel",
+  "board-announcement": "Mitteilung zur Arbeitstafel",
+  "board-announcement-enabled": "Allen auf dieser Arbeitstafel anzeigen",
   "board-not-found": "Board nicht gefunden",
   "board-status-remaining-time-total": "Verbleibende Zeit bis zum Fälligkeitsdatum",
   "board-view": "Boardansicht",

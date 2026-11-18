@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Barbaadi",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Akka walsimuuf guddisi",
   "board": "Gabatee",
+  "board-announcement": "Beeksisa gabatee",
+  "board-announcement-enabled": "Nama gabatee kana irra jiru hundaaf agarsiisi",
   "board-not-found": "Gabateen hin argamne",
   "board-status-remaining-time-total": "Yeroo guyyaa dhumaatiitti hafe",
   "board-view": "Mul'ata Gabatee",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Vakasaqara",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Vakalevutaka me ganita",
   "board": "Vola",
+  "board-announcement": "Itukutuku ni vola",
+  "board-announcement-enabled": "Vakaraitaka vei ira kece ena vola oqo",
   "board-not-found": "Sega ni kune na vola",
   "board-status-remaining-time-total": "Gauna vo tiko me yacova na siga ni oti",
   "board-view": "Rai ni Vola",

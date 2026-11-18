@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Lorg",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Sùm airson freagairt",
   "board": "Bòrd",
+  "board-announcement": "Brath a’ bhùird",
+  "board-announcement-enabled": "Seall e dhan a h-uile duine air a’ bhòrd seo",
   "board-not-found": "Cha deach am bòrd a lorg",
   "board-status-remaining-time-total": "An ùine a tha air fhàgail chun a' cheann-latha",
   "board-view": "Sealladh Bùird",

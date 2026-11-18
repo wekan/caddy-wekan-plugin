@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Hľadať",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Priblížiť na mieru",
   "board": "Nástenka",
+  "board-announcement": "Oznámenie na nástenke",
+  "board-announcement-enabled": "Zobraziť všetkým na tejto nástenke",
   "board-not-found": "Nástenka sa nenašla",
   "board-status-remaining-time-total": "Zostávajúci čas do termínu",
   "board-view": "Zobrazenie nástenky",

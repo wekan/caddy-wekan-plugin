@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Cîr",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Adate zoom",
   "board": "Taule",
+  "board-announcement": "Avîs de taule",
+  "board-announcement-enabled": "Mostrilu a ducj su cheste taule",
   "board-not-found": "Taule no trovata",
   "board-status-remaining-time-total": "Timp ch'al reste fin ae scjadince",
   "board-view": "Vista taule",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "ፈትሽ",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "ክሰማማዕ ኣዕቢ",
   "board": "ምዱድ",
+  "board-announcement": "አዋጅ ምዱድ",
+  "board-announcement-enabled": "ዲብ እሊ ምዱድ ንክሎም ኣርኤ",
   "board-not-found": "ምዱድ ኣይተረኽበን",
   "board-status-remaining-time-total": "እስከ ዕለት ተወዳእታ ዝተረፍ ግዜ",
   "board-view": "ርእይቶ ምዱድ",

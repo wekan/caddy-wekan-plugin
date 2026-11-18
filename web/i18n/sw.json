@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Tafuta",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Rekebisha kiwango cha kukuza ili vyote vitoshee",
   "board": "Bodi",
+  "board-announcement": "Tangazo la bodi",
+  "board-announcement-enabled": "Lionyeshe kwa kila mtu kwenye bodi hii",
   "board-not-found": "Bodi haijapatikana",
   "board-status-remaining-time-total": "Muda uliobaki hadi tarehe ya mwisho",
   "board-view": "Mtazamo wa Bodi",

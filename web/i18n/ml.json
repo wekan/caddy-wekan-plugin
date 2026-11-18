@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "തിരയുക",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "മുഴുവൻ കാണാൻ സൂം ക്രമീകരിക്കുക",
   "board": "ബോർഡ്",
+  "board-announcement": "ബോർഡ് അറിയിപ്പ്",
+  "board-announcement-enabled": "ഈ ബോർഡിലെ എല്ലാവർക്കും ഇത് കാണിക്കുക",
   "board-not-found": "ബോർഡ് കണ്ടെത്തിയില്ല",
   "board-status-remaining-time-total": "അവസാന തീയതി വരെയുള്ള ശേഷിക്കുന്ന സമയം",
   "board-view": "ബോർഡ് കാഴ്ച",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Kumi",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Fakalahi ke feʻunga",
   "board": "Papa",
+  "board-announcement": "Fanongonongo ʻo e papa",
+  "board-announcement-enabled": "Fakahā ia ki he tokotaha kotoa pē ʻi he papa ko ʻeni",
   "board-not-found": "ʻIkai maʻu ʻa e papa",
   "board-status-remaining-time-total": "Taimi toe kae aʻu ki he ʻaho fakaʻosi",
   "board-view": "Founga sio ʻo e papa",

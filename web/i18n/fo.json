@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Leita",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Laga zoom til",
   "board": "Talva",
+  "board-announcement": "Kunngerð á talvuni",
+  "board-announcement-enabled": "Vís hana fyri øllum á hesi talvuni",
   "board-not-found": "Talvan varð ikki funnin",
   "board-status-remaining-time-total": "Tíð, sum eftir er, til fríafrest",
   "board-view": "Talvusýni",

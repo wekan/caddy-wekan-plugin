@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Nyaka",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Fetoša kgodišo ya pono gore tšohle di lekane",
   "board": "Poto",
+  "board-announcement": "Tsebišo ya poto",
+  "board-announcement-enabled": "E bontšhe bohle go poto ye",
   "board-not-found": "Boto ga se ya hwetšwa",
   "board-status-remaining-time-total": "Nako e šetšego go fihla letšatšing la mafelelo",
   "board-view": "Pono ya boto",

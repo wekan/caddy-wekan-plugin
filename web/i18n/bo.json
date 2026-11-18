@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "འཚོལ་བ།",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "འཚམ་པར་ཆེ་ཆུང་སྒྲིག",
   "board": "བྱང་བུ།",
+  "board-announcement": "ལས་སྒྲོམ་གྱི་གསལ་བསྒྲགས།",
+  "board-announcement-enabled": "ལས་སྒྲོམ་འདིའི་མི་ཚང་མར་སྟོན།",
   "board-not-found": "ལས་སྒྲོམ་མ་རྙེད།",
   "board-status-remaining-time-total": "ཚེས་གྲངས་ཟིན་མའི་བར་གྱི་དུས་ཚོད་ལྷག་མ།",
   "board-view": "ལས་སྒྲོམ་མཐོང་སྣང་།",

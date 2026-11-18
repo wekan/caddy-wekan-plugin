@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "ଖୋଜନ୍ତୁ",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "ଖାପ ଖୁଆଇବାକୁ ଜୁମ୍ କରନ୍ତୁ",
   "board": "ବୋର୍ଡ |",
+  "board-announcement": "ବୋର୍ଡ ଘୋଷଣା",
+  "board-announcement-enabled": "ଏହି ବୋର୍ଡରେ ସମସ୍ତଙ୍କୁ ଦେଖାନ୍ତୁ",
   "board-not-found": "ବୋର୍ଡ ମିଳିଲା ନାହିଁ |",
   "board-status-remaining-time-total": "ନିର୍ଦ୍ଧାରିତ ତାରିଖ ପର୍ଯ୍ୟନ୍ତ ବଳକା ସମୟ",
   "board-view": "ବୋର୍ଡ ଭ୍ୟୁ |",

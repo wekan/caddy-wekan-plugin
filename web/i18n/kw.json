@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Hwilas",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Brashyans dhe gowel",
   "board": "Estyllen",
+  "board-announcement": "Deklaryans an estyllen",
+  "board-announcement-enabled": "Diskwedh dhe bubonan war an estyllen ma",
   "board-not-found": "Estyllen heb y kavos",
   "board-status-remaining-time-total": "Termyn a-drig bys dydh-dyghtya",
   "board-view": "Gwel estyllen",

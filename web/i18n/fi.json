@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Haku",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Sovita zoomaamalla",
   "board": "Taulu",
+  "board-announcement": "Taulun tiedote",
+  "board-announcement-enabled": "Näytä kaikille tämän taulun käyttäjille",
   "board-not-found": "Taulua ei löytynyt",
   "board-status-remaining-time-total": "Jäljellä oleva aika eräpäivään",
   "board-view": "Taulunäkymä",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Pytać",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Skalowanje přiměrić",
   "board": "Tafla",
+  "board-announcement": "Wozjewjenje tafle",
+  "board-announcement-enabled": "Wšěm na tutej tafli pokazać",
   "board-not-found": "Tafla njeje so namakała",
   "board-status-remaining-time-total": "Zbywacy čas hač do termina",
   "board-view": "Napohlad tafle",

@@ -1155,3 +1155,9 @@ html[dir='rtl'] .pop-over > button.js-date-popup-resize > span {
 .selected-calendar-selects select,
 .selected-calendar-selects input { width: 0; }
 .pop-over:has(.edit-date) .datepicker-container .fields > .left { min-width: 0; }
+/* #1566: the board's announcement, in the site announcement's style
+   (header.css .announcement), above the canvas (boardBody.css). */
+.announcement { width: 100%; text-align: center; padding: 0; margin: 0; background: #f8ecbd; color: #172b4d; clear: both; }
+.announcement ul { list-style: none; margin: 0; padding: 7px; }
+.board-wrapper > .board-announcement { flex: 0 0 auto; position: relative; z-index: 1; }
+.board-announcement .js-close-board-announcement { margin-inline-start: 8px; color: inherit; text-decoration: none; cursor: pointer; }

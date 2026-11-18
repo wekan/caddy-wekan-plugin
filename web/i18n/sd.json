@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "ڳوليو",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "سڄو ڏيک سمائڻ لاءِ زوم ڪريو",
   "board": "بورڊ",
+  "board-announcement": "بورڊ جو اعلان",
+  "board-announcement-enabled": "هن بورڊ تي هر ڪنهن کي ڏيکاريو",
   "board-not-found": "بورڊ نه مليو",
   "board-status-remaining-time-total": "مقرر تاريخ تائين بچيل وقت",
   "board-view": "بورڊ ڏيک",

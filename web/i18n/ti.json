@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "ድለ",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "ክገጥም ኣጉልሕ",
   "board": "ሰሌዳ",
+  "board-announcement": "መግለጺ ሰሌዳ",
+  "board-announcement-enabled": "ንኹሉ ኣብዚ ሰሌዳ ዘሎ ኣርኢ",
   "board-not-found": "ሰሌዳ ኣይተረኽበን",
   "board-status-remaining-time-total": "ክሳብ ዕለት መወዳእታ ዝተረፈ ግዜ",
   "board-view": "ትርኢት ሰሌዳ",

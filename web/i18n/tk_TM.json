@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Gözle",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Ählisi sygar ýaly masştaby sazla",
   "board": "Geňeş",
+  "board-announcement": "Tagta bildirişi",
+  "board-announcement-enabled": "Ony şu tagtadaky hemmelere görkez",
   "board-not-found": "Geňeş tapylmady",
   "board-status-remaining-time-total": "Möhlete çenli galan wagt",
   "board-view": "Tagtanyň görnüşi",

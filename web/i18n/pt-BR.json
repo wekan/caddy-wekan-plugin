@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Pesquisar",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Ajustar ampliação",
   "board": "Quadro",
+  "board-announcement": "Anúncio do quadro",
+  "board-announcement-enabled": "Mostrar a todas as pessoas neste quadro",
   "board-not-found": "Quadro não encontrado",
   "board-status-remaining-time-total": "Tempo restante até a data de vencimento",
   "board-view": "Visão de quadro",

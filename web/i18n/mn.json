@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Хайх",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Бүгдийг багтаах хэмжээнд тохируулах",
   "board": "Самбар",
+  "board-announcement": "Самбарын зарлал",
+  "board-announcement-enabled": "Энэ самбарын бүх хүнд харуулах",
   "board-not-found": "Самбар олдсонгүй",
   "board-status-remaining-time-total": "Дуусах хугацаа хүртэл үлдсэн цаг",
   "board-view": "Самбарын харагдац",

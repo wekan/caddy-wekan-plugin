@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Serĉi",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zomi por adapti",
   "board": "Tabulo",
+  "board-announcement": "Tabula anonco",
+  "board-announcement-enabled": "Montri ĝin al ĉiuj en ĉi tiu tabulo",
   "board-not-found": "Tabulo ne trovita",
   "board-status-remaining-time-total": "Restanta tempo ĝis la limdato",
   "board-view": "Tabula vido",

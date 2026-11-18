@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Huli",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Hoʻololi i ka nui nānā i kūpono ai",
   "board": "Papa",
+  "board-announcement": "Hoʻolaha o ka papa",
+  "board-announcement-enabled": "Hōʻike i kēia i nā kānaka a pau ma kēia papa",
   "board-not-found": "papa ʻheʻole i loaʻhe",
   "board-status-remaining-time-total": "Manawa i koe a hiki i ka lā palena",
   "board-view": "papa nānā",

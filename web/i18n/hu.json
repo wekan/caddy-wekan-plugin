@@ -850,6 +850,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Keresés",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Nagyítás a tartalomhoz",
   "board": "Tábla",
+  "board-announcement": "Táblahirdetmény",
+  "board-announcement-enabled": "Megjelenítés mindenkinek ezen a táblán",
   "board-not-found": "A tábla nem található",
   "board-status-remaining-time-total": "Hátralévő idő a határidőig",
   "board-view": "Tábla nézet",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Oza",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Stuorit heivet",
   "board": "Távval",
+  "board-announcement": "Távvala almmuhus",
+  "board-announcement-enabled": "Čájet dan buohkaide dán távvalis",
   "board-not-found": "Távval ii gávdnon",
   "board-status-remaining-time-total": "Áigi mii lea báhcán loahppabeaivái",
   "board-view": "Távvalčájeheapmi",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Zoeken",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Op scherm inpassen",
   "board": "Bord",
+  "board-announcement": "Bordmededeling",
+  "board-announcement-enabled": "Toon ze aan iedereen op dit bord",
   "board-not-found": "Bord is niet gevonden",
   "board-status-remaining-time-total": "Resterende tijd tot de vervaldatum",
   "board-view": "Bord overzicht",

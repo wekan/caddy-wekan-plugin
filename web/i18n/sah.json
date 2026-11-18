@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Көрдөө",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Барыта көстөрүнэн улаатыннар",
   "board": "Дуоска",
+  "board-announcement": "Дуоска биллэриитэ",
+  "board-announcement-enabled": "Бу дуоскаҕа баар бары дьоҥҥо көрдөр",
   "board-not-found": "Дуоска көстүбэтэ",
   "board-status-remaining-time-total": "Сроктан хаалларга үлдэн турар кэм",
   "board-view": "Дуоска көрүҥэ",

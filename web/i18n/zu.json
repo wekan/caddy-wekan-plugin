@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Sesha",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Sondeza ukuze kulingane",
   "board": "Ibhodi",
+  "board-announcement": "Isimemezelo sebhodi",
+  "board-announcement-enabled": "Sibonise kuwo wonke umuntu kuleli bhodi",
   "board-not-found": "Ibhodi alitholakali",
   "board-status-remaining-time-total": "Isikhathi esisele size sifike osukwini lokugcina",
   "board-view": "Ukubuka Kwebhodi",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "தேடு",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "பொருந்துமாறு பெரிதாக்கு",
   "board": "பலகை",
+  "board-announcement": "பலகை அறிவிப்பு",
+  "board-announcement-enabled": "இந்தப் பலகையில் உள்ள அனைவருக்கும் இதைக் காட்டு",
   "board-not-found": "பலகை காணப்படவில்லை",
   "board-status-remaining-time-total": "இறுதி தேதி வரை மீதமுள்ள நேரம்",
   "board-view": "பலகைக் காட்சி",

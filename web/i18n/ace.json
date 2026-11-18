@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Mita",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoom mangat pah",
   "board": "Papan",
+  "board-announcement": "Peunyata papan",
+  "board-announcement-enabled": "Peuleumah u bandum ureueng bak papan nyoe",
   "board-not-found": "Papan hana meuteumèe",
   "board-status-remaining-time-total": "Watèe nyang tinggai sampoe watèe siat",
   "board-view": "Peuleumah Papan",

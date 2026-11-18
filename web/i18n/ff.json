@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Yiylo",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Mawnin ngam fotde",
   "board": "Alluwal",
+  "board-announcement": "Tintinol alluwal",
+  "board-announcement-enabled": "Hollu ɗum kala neɗɗo e alluwal ngal",
   "board-not-found": "Alluwal yiytaaka",
   "board-status-remaining-time-total": "Sahaa heddiingo haa ñalnde happirde",
   "board-view": "Jiytol alluwal",

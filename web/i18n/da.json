@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Søg",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Tilpas zoom",
   "board": "Tavle",
+  "board-announcement": "Meddelelse på tavlen",
+  "board-announcement-enabled": "Vis til alle på denne tavle",
   "board-not-found": "Tavlen blev ikke fundet",
   "board-status-remaining-time-total": "Resterende tid til forfaldsdato",
   "board-view": "Tavlevisning",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "بحث",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "تكبير لاحتواء المحتوى",
   "board": "لوحة",
+  "board-announcement": "إعلان اللوحة",
+  "board-announcement-enabled": "إظهاره للجميع في هذه اللوحة",
   "board-not-found": "لوحة مفقودة",
   "board-status-remaining-time-total": "الوقت المتبقي حتى تاريخ الاستحقاق",
   "board-view": "عرض اللوحات",

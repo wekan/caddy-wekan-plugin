@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "ئىزدەڭ",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "سىغدۇرۇپ كۆرسىتىڭ",
   "board": "تاختا",
+  "board-announcement": "تاختا ئۇقتۇرۇشى",
+  "board-announcement-enabled": "بۇ تاختىدىكى ھەممەيلەنگە كۆرسىتىش",
   "board-not-found": "مۇدىرىيەت تېپىلمىدى",
   "board-status-remaining-time-total": "مۆھلەتكىچە قالغان ۋاقىت",
   "board-view": "تاختا كۆرۈنۈشى",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Koyya",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Gaittana mala gitissa",
   "board": "Bookkiya",
+  "board-announcement": "Bookkiya erissuwaa",
+  "board-announcement-enabled": "Ha bookkiya bolla de'iya ubbaas bessa",
   "board-not-found": "Bookkiyay demettibeenna",
   "board-status-remaining-time-total": "Wurssettaa gallassaa gakkanaw attida wodiyaa",
   "board-view": "Bookkiya xeelluwaa",

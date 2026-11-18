@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Quaere",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Magnificationem apta ut omnia contineantur",
   "board": "Tabula",
+  "board-announcement": "Nuntius tabulae",
+  "board-announcement-enabled": "Omnibus in hac tabula ostende",
   "board-not-found": "Tabula non inventa est",
   "board-status-remaining-time-total": "Tempus reliquum usque ad diem constitutum",
   "board-view": "Conspectus tabulae",

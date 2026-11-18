@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Cerca",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Ajusta el zoom",
   "board": "Tauler",
+  "board-announcement": "Anunci del tauler",
+  "board-announcement-enabled": "Mostra’l a tothom d’aquest tauler",
   "board-not-found": "No s'ha trobat el tauler",
   "board-status-remaining-time-total": "Temps restant fins a la data de venciment",
   "board-view": "Visió del tauler",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "قیدیریش",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "سیغه‌دیگن قیلیب مسشتابلش",
   "board": "تخته",
+  "board-announcement": "تخته اعلانی",
+  "board-announcement-enabled": "اوشبو تخته‌دهگی هر کیمگه کۉرسه‌تیش",
   "board-not-found": "تخته تاپیلمه‌دی",
   "board-status-remaining-time-total": "مدتگچه قالگن وقت",
   "board-view": "تخته کۉرینیشی",

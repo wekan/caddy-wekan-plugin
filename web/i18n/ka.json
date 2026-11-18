@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "ძიება",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "მასშტაბის მორგება",
   "board": "დაფა",
+  "board-announcement": "დაფის განცხადება",
+  "board-announcement-enabled": "ამ დაფაზე ყველასთვის ჩვენება",
   "board-not-found": "დაფა არ მოიძებნა",
   "board-status-remaining-time-total": "დარჩენილი დრო ვადამდე",
   "board-view": "დაფის ნახვა",

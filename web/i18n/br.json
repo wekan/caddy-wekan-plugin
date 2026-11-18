@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Klask",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Azasaat ar zoum",
   "board": "Taolenn",
+  "board-announcement": "Kemenn an daolenn",
+  "board-announcement-enabled": "Diskouez anezhañ d'an holl war an daolenn-mañ",
   "board-not-found": "Taolenn diank",
   "board-status-remaining-time-total": "Amzer a chom betek an deiziad termen",
   "board-view": "Gwel an daolenn",

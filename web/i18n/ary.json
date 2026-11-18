@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "بحث",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "ضبط التكبير باش يبان كلشي",
   "board": "لوحة",
+  "board-announcement": "إعلان اللوحة",
+  "board-announcement-enabled": "بيّنو لكاع اللي فهاد اللوحة",
   "board-not-found": "لوحة مفقودة",
   "board-status-remaining-time-total": "الوقت اللي بقا حتى تاريخ الاستحقاق",
   "board-view": "عرض اللوحات",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Mirar",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Achustar o zoom",
   "board": "Tablero",
+  "board-announcement": "Anuncio d'o tablero",
+  "board-announcement-enabled": "Amostrar-lo a totz en este tablero",
   "board-not-found": "Tablero no encontrado",
   "board-status-remaining-time-total": "Tiempo restante dica la data de vencimiento",
   "board-view": "Vista d'o tablero",

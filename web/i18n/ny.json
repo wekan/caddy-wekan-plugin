@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Fufuzani",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Kulitsani kuti zigwirizane",
   "board": "Bolodi",
+  "board-announcement": "Chilengezo cha bolodi",
+  "board-announcement-enabled": "Chionetseni kwa aliyense pa bolodi ili",
   "board-not-found": "Bolodi silinapezeke",
   "board-status-remaining-time-total": "Nthawi yotsala mpaka tsiku lomaliza",
   "board-view": "Maonekedwe a Bolodi",

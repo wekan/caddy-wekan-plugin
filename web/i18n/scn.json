@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Circari",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Adattari u zoom",
   "board": "Tavula",
+  "board-announcement": "Avvisu dâ tavula",
+  "board-announcement-enabled": "Mùstralu a tutti chiddi di sta tavula",
   "board-not-found": "Tàvula nnu trovata",
   "board-status-remaining-time-total": "Tempu ca resta finu â scadenza",
   "board-view": "Vista tàvula",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "搜尋",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "縮放至全部顯示",
   "board": "看板",
+  "board-announcement": "看板公告",
+  "board-announcement-enabled": "俾呢個看板上面所有人睇",
   "board-not-found": "未找到主機板",
   "board-status-remaining-time-total": "距到期日剩餘時間",
   "board-view": "板視圖",

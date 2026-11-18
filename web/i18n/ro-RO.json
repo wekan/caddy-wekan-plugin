@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Caută",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Potrivește mărirea",
   "board": "Panou",
+  "board-announcement": "Anunțul panoului",
+  "board-announcement-enabled": "Afișează tuturor persoanelor de pe acest panou",
   "board-not-found": "Tabla nu a fost găsită",
   "board-status-remaining-time-total": "Timp rămas până la termenul limită",
   "board-view": "Vizualizare panou",

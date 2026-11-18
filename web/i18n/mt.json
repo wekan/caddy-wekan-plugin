@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Fittex",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Aġġusta t-tkabbir biex jidħol kollox",
   "board": "Bord",
+  "board-announcement": "Avviż tal-bord",
+  "board-announcement-enabled": "Urih lil kulħadd fuq dan il-bord",
   "board-not-found": "Bord mhux found",
   "board-status-remaining-time-total": "Ħin li fadal sad-data tal-iskadenza",
   "board-view": "Bord Ara",

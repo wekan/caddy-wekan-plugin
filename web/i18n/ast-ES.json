@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Buscar",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Axustar el zoom",
   "board": "Tableru",
+  "board-announcement": "Anunciu del tableru",
+  "board-announcement-enabled": "Amosalu a toos nesti tableru",
   "board-not-found": "Tablero no encontrado",
   "board-status-remaining-time-total": "Tiempu restante hasta la data de venciment",
   "board-view": "Vista del tablero",

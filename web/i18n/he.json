@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "חיפוש",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "התאמת התצוגה לגודל",
   "board": "לוח",
+  "board-announcement": "הודעת לוח",
+  "board-announcement-enabled": "הצגה לכל מי שבלוח הזה",
   "board-not-found": "לוח לא נמצא",
   "board-status-remaining-time-total": "זמן שנותר עד לתאריך היעד",
   "board-view": "תצוגת לוח",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Otsi",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Mahuta vaatesse",
   "board": "Tahvel",
+  "board-announcement": "Tahvli teadaanne",
+  "board-announcement-enabled": "Näita kõigile sellel tahvlil",
   "board-not-found": "Juhatust ei leitud",
   "board-status-remaining-time-total": "Tähtajani jäänud aeg",
   "board-view": "Juhatuse vaade",

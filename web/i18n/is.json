@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Leita",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Aðdráttur svo allt sjáist",
   "board": "Tafla",
+  "board-announcement": "Tilkynning á töflu",
+  "board-announcement-enabled": "Sýna öllum á þessari töflu",
   "board-not-found": "Tafla fannst ekki",
   "board-status-remaining-time-total": "Tími sem eftir er til lokafrests",
   "board-view": "Töflusýn",

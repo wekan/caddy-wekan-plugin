@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Raadi",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Weynee ama yaree si ay ugu wada muuqdaan",
   "board": "Sabuurad",
+  "board-announcement": "Ogeysiiska sabuuradda",
+  "board-announcement-enabled": "U muuji qof kasta oo sabuuraddan jooga",
   "board-not-found": "Sabuuradda lama helin",
   "board-status-remaining-time-total": "Waqtiga hadhay ilaa taariikhda dhammaadka",
   "board-view": "Muuqaalka Sabuuradda",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Chọọ",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Gbanwee nha nlele ka ihe niile daba",
   "board": "bọọdụ",
+  "board-announcement": "Ọkwa bọọdụ",
+  "board-announcement-enabled": "Gosi ya onye ọ bụla nọ na bọọdụ a",
   "board-not-found": "Ahụghị bọọdụ",
   "board-status-remaining-time-total": "Oge fọdụrụnụ ruo ụbọchị ikpeazụ",
   "board-view": "Nlele osisi",

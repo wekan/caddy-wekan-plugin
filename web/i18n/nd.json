@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Dinga",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Sondeza kulingane",
   "board": "Ibhodi",
+  "board-announcement": "Isaziso sebhodi",
+  "board-announcement-enabled": "Sitshengise wonke umuntu okule bhodi",
   "board-not-found": "Ibhodi alitholakalanga",
   "board-status-remaining-time-total": "Isikhathi esiseleyo kufikela osukwini lokuphela",
   "board-view": "Ukubukwa kwebhodi",

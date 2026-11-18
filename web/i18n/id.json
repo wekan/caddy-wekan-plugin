@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Cari",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Sesuaikan pembesaran agar muat",
   "board": "Papan",
+  "board-announcement": "Pengumuman papan",
+  "board-announcement-enabled": "Tampilkan kepada semua orang di papan ini",
   "board-not-found": "Panel tidak ditemukan",
   "board-status-remaining-time-total": "Waktu tersisa hingga jatuh tempo",
   "board-view": "Tampilan Papan",

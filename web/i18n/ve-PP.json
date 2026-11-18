@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Eci",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Mitkata sobivaks",
   "board": "Laud",
+  "board-announcement": "Laudan tedotuz",
+  "board-announcement-enabled": "Ozuta sidä kaikile necil laudal",
   "board-not-found": "Laud ei ole löutud",
   "board-status-remaining-time-total": "Tshifhinga tsho salaho u swika ḓuvha ḽa mafhelelo",
   "board-view": "Laudan nägo",

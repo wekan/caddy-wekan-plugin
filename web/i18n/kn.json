@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "ಹುಡುಕು",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "ಹೊಂದುವಂತೆ ಹಿಗ್ಗಿಸು",
   "board": "ಫಲಕ",
+  "board-announcement": "ಫಲಕದ ಪ್ರಕಟಣೆ",
+  "board-announcement-enabled": "ಈ ಫಲಕದಲ್ಲಿರುವ ಎಲ್ಲರಿಗೂ ಇದನ್ನು ತೋರಿಸಿ",
   "board-not-found": "ಫಲಕ ಕಂಡುಬಂದಿಲ್ಲ",
   "board-status-remaining-time-total": "ಗಡುವು ಇರುವ ದಿನಾಂಕದವರೆಗೆ ಉಳಿದ ಸಮಯ",
   "board-view": "ಫಲಕ ನೋಟ",

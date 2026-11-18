@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "શોધો",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "સમાઈ જાય તે રીતે ઝૂમ કરો",
   "board": "બોર્ડ",
+  "board-announcement": "બોર્ડની જાહેરાત",
+  "board-announcement-enabled": "આ બોર્ડ પરના દરેકને બતાવો",
   "board-not-found": "બોર્ડ મળ્યું નથી",
   "board-status-remaining-time-total": "નિયત તારીખ સુધીનો બાકી સમય",
   "board-view": "બોર્ડ દૃશ્ય",

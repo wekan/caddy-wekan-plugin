@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Serca",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoom par adatar",
   "board": "Quadro",
+  "board-announcement": "Aviso del quadro",
+  "board-announcement-enabled": "Mostrało a tuti so sto quadro",
   "board-not-found": "Quadro no catà",
   "board-status-remaining-time-total": "Tenpo che resta fin a la scadensa",
   "board-view": "Vista del quadro",

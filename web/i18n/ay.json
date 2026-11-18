@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Thaqhaña",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoom suma uñjañataki",
   "board": "Pirqa",
+  "board-announcement": "Pirqa yatiyäwi",
+  "board-announcement-enabled": "Aka pirqan taqiniru uñacht'ayaña",
   "board-not-found": "pirqa jani found",
   "board-status-remaining-time-total": "Tukuyañ urukama jakhaki pachaxa",
   "board-view": "pirqa uñjaña",

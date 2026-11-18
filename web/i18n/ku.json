@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Lêgerîn",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Mezinahiyê li gorî qadê saz bike",
   "board": "Depo",
+  "board-announcement": "Daxuyaniya depoyê",
+  "board-announcement-enabled": "Nîşanî her kesê li ser vê depoyê bide",
   "board-not-found": "Depo nehat dîtin",
   "board-status-remaining-time-total": "Dema mayî heta dîroka dawî",
   "board-view": "Dîtina depoyê",

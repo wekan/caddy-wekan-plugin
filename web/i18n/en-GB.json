@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Search",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoom to fit",
   "board": "Board",
+  "board-announcement": "Board announcement",
+  "board-announcement-enabled": "Show it to everyone on this board",
   "board-not-found": "Board not found",
   "board-status-remaining-time-total": "Remaining time until due",
   "board-view": "Board View",

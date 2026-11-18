@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Bilatu",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Egokitu zooma",
   "board": "Arbela",
+  "board-announcement": "Arbelaren iragarkia",
+  "board-announcement-enabled": "Erakutsi arbel honetako guztiei",
   "board-not-found": "Ez da arbela aurkitu",
   "board-status-remaining-time-total": "Mugaeguna arte falta den denbora",
   "board-view": "Arbela ikuspegia",

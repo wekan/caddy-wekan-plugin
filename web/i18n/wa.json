@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Trover",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Zoumer po tot vey",
   "board": "Tåvlea",
+  "board-announcement": "Anonce do tåvlea",
+  "board-announcement-enabled": "El mostrer a tot l' monde so ci tåvlea ci",
   "board-not-found": "Tåvlea nen trové",
   "board-status-remaining-time-total": "Tins ki dmeure disqu'å date",
   "board-view": "Vue du tåvlea",

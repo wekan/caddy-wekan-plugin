@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "ရှာဖွေရန်",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "အံဝင်စေရန် ချဲ့ကြည့်မှု ချိန်ညှိရန်",
   "board": "ဘုတ်",
+  "board-announcement": "ဘုတ် ကြေညာချက်",
+  "board-announcement-enabled": "ဤဘုတ်ပေါ်ရှိ လူတိုင်းကို ပြရန်",
   "board-not-found": "ဘုတ်ကို မတွေ့ပါ",
   "board-status-remaining-time-total": "သတ်မှတ်ရက်အထိ ကျန်ရှိသည့်အချိန်",
   "board-view": "ဘုတ်မြင်ကွင်း",

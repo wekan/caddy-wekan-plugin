@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Goleki",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Atur ukuran supaya pas",
   "board": "Papan",
+  "board-announcement": "Wara-wara papan",
+  "board-announcement-enabled": "Tampilake marang kabeh wong ing papan iki",
   "board-not-found": "Papan ora ditemokake",
   "board-status-remaining-time-total": "Wektu sing kèri nganti tanggal jatuh tempo",
   "board-view": "Tampilan Papan",

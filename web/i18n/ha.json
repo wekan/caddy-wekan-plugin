@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Nema",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Daidaita girman gani don komai ya shiga",
   "board": "Allo",
+  "board-announcement": "Sanarwar allo",
+  "board-announcement-enabled": "Nuna ta ga kowa a wannan allo",
   "board-not-found": "Ba a sami allo ba",
   "board-status-remaining-time-total": "Lokacin da ya rage zuwa ranar ƙarshe",
   "board-view": "Ganin allo",

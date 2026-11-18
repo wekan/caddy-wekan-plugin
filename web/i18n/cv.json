@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Шырав",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Кӗрекен пек масштаб",
   "board": "Хӑма",
+  "board-announcement": "Хӑма пӗлтерӗвӗ",
+  "board-announcement-enabled": "Ӑна ҫак хӑмари пур ҫынна та кӑтартас",
   "board-not-found": "Хӑма тупӑнмарӗ",
   "board-status-remaining-time-total": "Срок çитиччен юлнă вăхăт",
   "board-view": "Хӑма курӑнӑвӗ",

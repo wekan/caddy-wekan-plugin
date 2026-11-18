@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Ɲini",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "A bonya ka bɛn",
   "board": "Walan",
+  "board-announcement": "Walan kunnafoni",
+  "board-announcement-enabled": "A jira mɔgɔ bɛɛ la nin walan kan",
   "board-not-found": "Tabali ma sɔrɔ",
   "board-status-remaining-time-total": "Waati tɔw ka se ka don min tuma",
   "board-view": "Tabali yeli",

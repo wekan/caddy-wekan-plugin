@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Axtar",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Hamısı sığacaq şəkildə miqyasla",
   "board": "Lövhə",
+  "board-announcement": "Lövhə elanı",
+  "board-announcement-enabled": "Bu lövhədəki hər kəsə göstərin",
   "board-not-found": "Lövhə tapılmadı",
   "board-status-remaining-time-total": "Son tarixə qədər qalan vaxt",
   "board-view": "İdarə Heyəti Görünüşü",

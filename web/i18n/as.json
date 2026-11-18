@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "সন্ধান কৰক",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "খাপ খুৱাবলৈ জুম কৰক",
   "board": "ফলক",
+  "board-announcement": "ফলকৰ ঘোষণা",
+  "board-announcement-enabled": "এই ফলকৰ সকলোকে দেখুৱাওক",
   "board-not-found": "ব'ৰ্ড পোৱা নগ'ল",
   "board-status-remaining-time-total": "নিৰ্ধাৰিত তাৰিখলৈ বাকী থকা সময়",
   "board-view": "ব'ৰ্ড দৃশ্য",

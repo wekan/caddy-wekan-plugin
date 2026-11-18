@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Enrescé",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Adaté zoom",
   "board": "Tofl",
+  "board-announcement": "Comunicaziun dl tofl",
+  "board-announcement-enabled": "Le mostré a dötes sön chësc tofl",
   "board-not-found": "La tofl ne n'ie nia stata abineda",
   "board-status-remaining-time-total": "Tëmp che resta enfin a la scadënza",
   "board-view": "Vijion dla tofl",

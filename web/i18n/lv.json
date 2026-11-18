@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Meklēt",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Pielāgot skatam",
   "board": "Dēlis",
+  "board-announcement": "Dēļa paziņojums",
+  "board-announcement-enabled": "Rādīt visiem šajā dēlī",
   "board-not-found": "Dēlis nav atrasts",
   "board-status-remaining-time-total": "Atlikušais laiks līdz termiņam",
   "board-view": "Dēļa skats",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Noonya",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Funza okujjuza",
   "board": "Olubaawo",
+  "board-announcement": "Ekirango ky'olubaawo",
+  "board-announcement-enabled": "Kiraga buli muntu ali ku lubaawo luno",
   "board-not-found": "Lubaawo tekizuuliddwa",
   "board-status-remaining-time-total": "Ekiseera ekisigadde okutuuka ku lunaku olw'enkomerero",
   "board-view": "Lubaawo Laba",

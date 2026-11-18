@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "گەڕان",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "گەورەکردنەوە ڕێک بخە بۆ گونجان",
   "board": "تەختە",
+  "board-announcement": "ڕاگەیاندنی تەختە",
+  "board-announcement-enabled": "پیشانی هەمووان بدە لەم تەختەیەدا",
   "board-not-found": "تەختە نەدۆزرایەوە",
   "board-status-remaining-time-total": "کاتی ماوە تا بەروار",
   "board-view": "دیمەنی تەختە",

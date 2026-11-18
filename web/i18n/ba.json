@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Эҙләү",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Һыйҙырыу өсөн масштабты үҙгәртергә",
   "board": "Такта",
+  "board-announcement": "Такта иғланы",
+  "board-announcement-enabled": "Уны был тактала барыһына ла күрһәтергә",
   "board-not-found": "Таҡта табылманы",
   "board-status-remaining-time-total": "Срок тамамланғанға тиклем ҡалған ваҡыт",
   "board-view": "Таҡта күренеше",

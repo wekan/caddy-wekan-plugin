@@ -846,6 +846,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Rechercher",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Adapter le zoom",
   "board": "Tableau",
+  "board-announcement": "Annonce du tableau",
+  "board-announcement-enabled": "Afficher à toutes les personnes de ce tableau",
   "board-not-found": "Tableau non trouvé",
   "board-status-remaining-time-total": "Temps restant jusqu'à l'échéance",
   "board-view": "Vue du tableau",

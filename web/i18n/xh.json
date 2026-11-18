@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Khangela",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Sondeza ukuze kulingane",
   "board": "Ibhodi",
+  "board-announcement": "Isaziso sebhodi",
+  "board-announcement-enabled": "Sibonise kuye wonke umntu okule bhodi",
   "board-not-found": "Ibhodi ayifunyenwanga",
   "board-status-remaining-time-total": "Ixesha eliseleyo ukuya kufikelela kumhla wokugqibela",
   "board-view": "Umbono weBhodi",

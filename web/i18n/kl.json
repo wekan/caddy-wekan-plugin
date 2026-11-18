@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Ujarlerit",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Naleqqussarlugu angissusilersoruk",
   "board": "Ilisarnaat",
+  "board-announcement": "Ilisarnaatip nalunaarutaa",
+  "board-announcement-enabled": "Ilisarnaammi matumani tamanut takutiguk",
   "board-not-found": "Ilisarnaat nassaarineqanngilaq",
   "board-status-remaining-time-total": "Piffissaqqusami tamaviaartinneqarsimasup naanngiffiani sivisussusia",
   "board-view": "Ilisarnaatip isikkua",

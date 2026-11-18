@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "ፈልግ",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "እንዲገጥም አጉላ",
   "board": "ሰሌዳ",
+  "board-announcement": "የሰሌዳ ማስታወቂያ",
+  "board-announcement-enabled": "በዚህ ሰሌዳ ላይ ላሉ ሁሉ አሳይ",
   "board-not-found": "ሰሌዳው አልተገኘም",
   "board-status-remaining-time-total": "እስከ ማብቂያ ቀን የቀረ ጊዜ",
   "board-view": "የሰሌዳ እይታ",

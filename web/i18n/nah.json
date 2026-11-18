@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Xictemo",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Xicnamicti tlachializtli ihueyiliz",
   "board": "Huapalli",
+  "board-announcement": "Huapalli itenahuatil",
+  "board-announcement-enabled": "Xicnexti ixquichtin ipan inin huapalli",
   "board-not-found": "Huapalli amo monexti",
   "board-status-remaining-time-total": "Cāhuitl mocāhua ic ahcitz tonalli",
   "board-view": "Huapalli itlachializ",

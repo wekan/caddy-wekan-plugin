@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Qidirish",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Sigʻadigan qilib masshtablash",
   "board": "Taxta",
+  "board-announcement": "Taxta eʼloni",
+  "board-announcement-enabled": "Bu taxtadagi hammaga koʻrsatish",
   "board-not-found": "Taxta topilmadi",
   "board-status-remaining-time-total": "Muddatgacha qolgan vaqt",
   "board-view": "Taxta ko'rinishi",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "खोजू",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "समाएबाक लेल जूम करू",
   "board": "पट्ट",
+  "board-announcement": "पट्टक घोषणा",
+  "board-announcement-enabled": "एहि पट्ट पर सभकेँ देखाउ",
   "board-not-found": "बोर्ड नहि भेटल",
   "board-status-remaining-time-total": "निर्धारित तिथि धरि बचल समय",
   "board-view": "बोर्ड दृश्य",

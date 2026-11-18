@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Որոնել",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Հարմարեցնել խոշորացումը",
   "board": "Վարչություն",
+  "board-announcement": "Տախտակի հայտարարություն",
+  "board-announcement-enabled": "Ցույց տալ այն այս տախտակի բոլոր անդամներին",
   "board-not-found": "Տախտակը չի գտնվել",
   "board-status-remaining-time-total": "Ժամանակը՝ մինչև վերջնաժամկետը",
   "board-view": "Տախտակի տեսք",

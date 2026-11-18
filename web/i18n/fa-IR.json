@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "جستجو",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "تنظیم بزرگ‌نمایی برای جا شدن",
   "board": "برد",
+  "board-announcement": "اطلاعیه برد",
+  "board-announcement-enabled": "نمایش به همه افراد این برد",
   "board-not-found": "برد پیدا نشد",
   "board-status-remaining-time-total": "زمان باقی‌مانده تا تاریخ سررسید",
   "board-view": "نمایش برد",

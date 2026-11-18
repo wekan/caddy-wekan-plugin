@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "ស្វែងរក",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "ពង្រីកឬបង្រួមឱ្យសម",
   "board": "ក្តារ",
+  "board-announcement": "សេចក្តីប្រកាសរបស់ក្តារ",
+  "board-announcement-enabled": "បង្ហាញវាដល់អ្នកទាំងអស់គ្នានៅលើក្តារនេះ",
   "board-not-found": "រកមិនឃើញបន្ទះ",
   "board-status-remaining-time-total": "ពេលវេលានៅសល់រហូតដល់កាលបរិច្ឆេទកំណត់",
   "board-view": "ទិដ្ឋភាពក្តារ",

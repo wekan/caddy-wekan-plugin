@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "لټون",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "د ليد کچه د ځای سره برابره کړئ",
   "board": "تخته",
+  "board-announcement": "د تختې اعلان",
+  "board-announcement-enabled": "دا د دې تختې ټولو ته وښایاست",
   "board-not-found": "تخته ونه موندل شوه",
   "board-status-remaining-time-total": "د پای نیټې پورې پاتې وخت",
   "board-view": "د تختې ليد",

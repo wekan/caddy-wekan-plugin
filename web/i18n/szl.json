@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Szukej",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Dopasuj powiynkszynie",
   "board": "Tabula",
+  "board-announcement": "Ôgłoszynie tabule",
+  "board-announcement-enabled": "Pokŏż to wszyskim na tyj tabuli",
   "board-not-found": "Niy szło znojś tabule",
   "board-status-remaining-time-total": "Czas, kery ôstoł do terminu",
   "board-view": "Widok tabule",

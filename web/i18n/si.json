@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "සොයන්න",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "ගැළපෙන ලෙස විශාලනය සකසන්න",
   "board": "පුවරුව",
+  "board-announcement": "පුවරු නිවේදනය",
+  "board-announcement-enabled": "මෙම පුවරුවේ සියලු දෙනාට එය පෙන්වන්න",
   "board-not-found": "පුවරුව හමු නොවීය",
   "board-status-remaining-time-total": "නියමිත දිනය දක්වා ඉතිරි කාලය",
   "board-view": "පුවරු දසුන",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Пребарај",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Приспособи го размерот",
   "board": "Табло",
+  "board-announcement": "Известување на таблото",
+  "board-announcement-enabled": "Прикажи им го на сите на ова табло",
   "board-not-found": "Таблото не е најдено",
   "board-status-remaining-time-total": "Преостанато време до рокот",
   "board-view": "Изглед на таблото",

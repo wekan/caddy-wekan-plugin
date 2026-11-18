@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Caftã",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Adapteadzã zoomlu",
   "board": "Tabelã",
+  "board-announcement": "Anuntsu di tabelã",
+  "board-announcement-enabled": "Aratã-l la tuti pi aestã tabelã",
   "board-not-found": "Tabela nu s-aflã",
   "board-status-remaining-time-total": "Chiro tsi armasi pãnã la limitã",
   "board-view": "Videarea ali tabelã",

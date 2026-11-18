@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Tschertgar",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Adattar zoom",
   "board": "Tabella",
+  "board-announcement": "Annunzia da la tabella",
+  "board-announcement-enabled": "Mussar a tuts sin questa tabella",
   "board-not-found": "Tabella betg chattada",
   "board-status-remaining-time-total": "Temp restant fin al termin",
   "board-view": "Vista tabella",

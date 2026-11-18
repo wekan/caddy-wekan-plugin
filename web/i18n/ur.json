@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "تلاش کریں",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "پورا دکھانے کے لیے زوم کریں",
   "board": "بورڈ",
+  "board-announcement": "بورڈ کا اعلان",
+  "board-announcement-enabled": "اس بورڈ کے سب افراد کو دکھائیں",
   "board-not-found": "بورڈ نہیں ملا",
   "board-status-remaining-time-total": "مقررہ تاریخ تک باقی وقت",
   "board-view": "بورڈ کا منظر",

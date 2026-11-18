@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Sukön",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Gretükön ad pötön",
   "board": "Tab",
+  "board-announcement": "Nunod taba",
+  "board-announcement-enabled": "Jonön oni valikanes su tab at",
   "board-not-found": "Tab no petuvon",
   "board-status-remaining-time-total": "Tim retöl jü fimük",
   "board-view": "Logam taba",

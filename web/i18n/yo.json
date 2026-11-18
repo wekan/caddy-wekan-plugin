@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Wa",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Ṣàtúnṣe ìsúnmọ́ kí gbogbo rẹ̀ lè wọlé",
   "board": "Ọkọ",
+  "board-announcement": "Ikede ọkọ",
+  "board-announcement-enabled": "Fi han fun gbogbo eniyan lori ọkọ yii",
   "board-not-found": "Board ko ri",
   "board-status-remaining-time-total": "Àkókò tí ó ṣẹ́kù títí di ọjọ́ ìkẹyìn",
   "board-view": "Wiwo Board",

@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Traži",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Prilagodi uvećanje",
   "board": "Ploča",
+  "board-announcement": "Obavijest na ploči",
+  "board-announcement-enabled": "Prikaži svima na ovoj ploči",
   "board-not-found": "Ploča nije pronađena",
   "board-status-remaining-time-total": "Preostalo vrijeme do roka",
   "board-view": "Prikaz ploče",

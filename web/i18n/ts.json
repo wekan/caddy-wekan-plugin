@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Lavisisa",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Kurisa leswaku swi ringanela",
   "board": "Bodo",
+  "board-announcement": "Xitiviso xa bodo",
+  "board-announcement-enabled": "Xi kombisa un'wana na un'wana eka bodo leyi",
   "board-not-found": "Bodo a yi kumiwanga",
   "board-status-remaining-time-total": "Nkarhi lowu saleke ku fika nkarhi wo hetelela",
   "board-view": "bodo mhaka",

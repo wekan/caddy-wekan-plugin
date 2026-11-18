@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "Lukaot",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "Jenisim saes blong evri samting i fit",
   "board": "Bod",
+  "board-announcement": "Toktok blong bod",
+  "board-announcement-enabled": "Soem long evriwan long bod ia",
   "board-not-found": "Mi no faenem bod",
   "board-status-remaining-time-total": "Taem we i stap yet kasem dedlaen",
   "board-view": "Fasin blong Lukluk Bod",

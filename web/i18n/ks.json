@@ -845,6 +845,8 @@
   "blockly-WORKSPACE_SEARCH_PLACEHOLDER": "ژھانڈیو",
   "blockly-ZOOM_TO_FIT_ARIA_LABEL": "فِٹ کرنہٕ خٲطرٕ زوم",
   "board": "بورڈ",
+  "board-announcement": "بورڈُک اعلان",
+  "board-announcement-enabled": "یہ ہاوِو یتھ بورڈس پؠٹھ پرٛتھ کٲنٛسِہ",
   "board-not-found": "بورڈ آو نہٕ لبنہٕ",
   "board-status-remaining-time-total": "میعاد تک بچھ ہاؤن ولہ وقٕت",
   "board-view": "بورڈ نظارٕ",
