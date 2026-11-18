@@ -406,12 +406,8 @@ func (s *Server) dashboardRows(ctx context.Context, b *Board, cards []chartCard,
 		a.user(u)
 		id, _ := u["_id"].(string)
 		name, _ := u["username"].(string)
-		if p, ok := u["profile"].(bson.M); ok {
+		if p := asM(u["profile"]); len(p) > 0 { // stored: decoded as bson.D
 			if f, _ := p["fullname"].(string); f != "" {
-				name = f
-			}
-		} else if p, ok := u["profile"].(bson.D); ok {
-			if f, _ := docMap(p)["fullname"].(string); f != "" {
 				name = f
 			}
 		}

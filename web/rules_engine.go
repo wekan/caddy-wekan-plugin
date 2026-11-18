@@ -1362,7 +1362,7 @@ func (s *Server) rulesExport(w http.ResponseWriter, r *http.Request, u *User) {
 		cw.UseCRLF = true
 		_ = cw.Write([]string{"title", "triggerType", "triggerFields", "actionType", "actionFields"})
 		for _, e := range entries {
-			t, a := e["trigger"].(bson.M), e["action"].(bson.M)
+			t, a := asM(e["trigger"]), asM(e["action"])
 			tf, af := bson.M{}, bson.M{}
 			for k, v := range t {
 				if k != "activityType" {

@@ -226,7 +226,7 @@ func (s *Server) apiPutAttachmentSettings(w http.ResponseWriter, r *http.Request
 	prev, _ := plain(existing).(map[string]any)
 	// storageConfig: the providers given, merged over the stored ones; a
 	// cloud secret left blank keeps the stored one.
-	if cfg, ok := clean["storageConfig"].(bson.M); ok {
+	if cfg := asM(clean["storageConfig"]); len(cfg) > 0 {
 		prevCfg, _ := prev["storageConfig"].(map[string]any)
 		merged := bson.M{}
 		for k, v := range prevCfg {

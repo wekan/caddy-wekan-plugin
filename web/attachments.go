@@ -892,7 +892,7 @@ func (s *Server) moveToDefaultStorage(ctx context.Context, doc bson.M, path stri
 	}
 	defer f.Close()
 	meta := bson.M{}
-	if m, ok := doc["meta"].(bson.M); ok {
+	if m := asM(doc["meta"]); len(m) > 0 { // stored: decoded as bson.D
 		for k, v := range m {
 			meta[k] = v
 		}

@@ -217,7 +217,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, format string, w
 			_ = cur.All(ctx, &docs)
 			for _, d := range docs {
 				x := extNamed{ID: strOf(d["_id"]), Title: strOf(d["title"]), Color: strOf(d["color"])}
-				if w, ok := d["wipLimit"].(bson.M); ok {
+				if w := asM(d["wipLimit"]); len(w) > 0 { // stored: decoded as bson.D
 					v, _ := plain(w["value"]).(float64)
 					if n, ok := plain(w["value"]).(int32); ok {
 						v = float64(n)

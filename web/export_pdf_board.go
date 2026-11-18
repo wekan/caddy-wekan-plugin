@@ -39,12 +39,7 @@ func pdfUser(u bson.M) string {
 	if u == nil {
 		return "Unknown"
 	}
-	p, _ := u["profile"].(bson.M)
-	if p == nil {
-		if d, ok := u["profile"].(bson.D); ok {
-			p = bson.M(docMap(d))
-		}
-	}
+	p := asM(u["profile"]) // stored: decoded as bson.D
 	for _, v := range []string{strOf(p["fullname"]), strOf(u["username"]), strOf(p["initials"]), strOf(u["_id"])} {
 		if v != "" {
 			return v

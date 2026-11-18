@@ -94,8 +94,7 @@ func jsSlice16(s string, n int) string {
 func wrikeCompletion(rules []bson.M) map[string]string {
 	out := map[string]string{}
 	for _, r := range rules {
-		t, _ := r["trigger"].(bson.M)
-		a, _ := r["action"].(bson.M)
+		t, a := asM(r["trigger"]), asM(r["action"])
 		list := docString(t, "listName")
 		if docString(t, "activityType") != "moveCard" || list == "" || list == "*" {
 			continue
@@ -390,8 +389,7 @@ func (s *Server) methodImportWrikeWorkflow(r *http.Request, u *User, args []json
 	// The lists that already have a complete or incomplete move rule.
 	governed := map[string]bool{}
 	for _, rule := range s.boardRuleParts(ctx, b.ID) {
-		t, _ := rule["trigger"].(bson.M)
-		a, _ := rule["action"].(bson.M)
+		t, a := asM(rule["trigger"]), asM(rule["action"])
 		if docString(t, "activityType") == "moveCard" && (docString(a, "actionType") == "markCardComplete" || docString(a, "actionType") == "markCardIncomplete") {
 			governed[docString(t, "listName")] = true
 		}

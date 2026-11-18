@@ -102,9 +102,15 @@ func dropdownItemsOf(def bson.M) []cardFieldItem {
 	return out
 }
 
+// asM is a document however it was decoded: bson.M as the code builds it,
+// bson.D as the driver decodes a stored nested document (a bson.M assertion
+// on it finds nothing), or map[string]any from JSON; else an empty one.
 func asM(v any) bson.M {
 	if m, ok := v.(bson.M); ok {
 		return m
+	}
+	if m, ok := v.(map[string]any); ok {
+		return bson.M(m)
 	}
 	if d, ok := v.(bson.D); ok {
 		m := bson.M{}
