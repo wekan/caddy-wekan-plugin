@@ -4317,8 +4317,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // handle on its inline end - its left edge right-to-left, where dragging
   // left widens it (#6801) - and a swimlane's at its bottom. A list's width is
   // the board's (applyListWidth, or the board's one width while same width for
-  // all lists is on); a swimlane's height is the user's own, or this browser's
-  // for a visitor (localStorage wekan-swimlane-heights, as WeKan's).
+  // all lists is on, or the viewer's own modes); a swimlane's height is the
+  // user's own.
   var MIN_LIST_WIDTH = 200, MAX_LIST_WIDTH = 1000, MIN_LANE_HEIGHT = 100, MAX_LANE_HEIGHT = 2000;
   function pageXY(e) {
     var t = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]) || e;
@@ -4359,25 +4359,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       document.body.style.userSelect = '';
       var wrapper = el.closest('.board-wrapper');
       var boardId = wrapper && wrapper.getAttribute('data-board');
-      var saved;
-      if (prop === 'height') {
-        var laneId = el.getAttribute('data-swimlane');
-        if (window.Meteor && Meteor.userId && Meteor.userId()) {
-          saved = Meteor.callAsync('applySwimlaneHeightToStorage', boardId, laneId, size);
-        } else {
-          try {
-            var heights = JSON.parse(localStorage.getItem('wekan-swimlane-heights') || '{}');
-            (heights[boardId] = heights[boardId] || {})[laneId] = size;
-            localStorage.setItem('wekan-swimlane-heights', JSON.stringify(heights));
-          } catch (err) { /* this browser keeps none */ }
-        }
-      } else if (wrapper && wrapper.getAttribute('data-same-width') === 'true') {
-        saved = Meteor.callAsync('/boards/update', { _id: boardId }, { $set: { sameWidthForAllListsValue: size } });
-        // Every list of the board is that one width at once.
-        wrapper.querySelectorAll('.js-list:not(.list-collapsed)').forEach(function (l) { sizeTo(l, 'width', size); });
-      } else {
-        saved = Meteor.callAsync('applyListWidth', boardId, el.getAttribute('data-list'), size, size);
-      }
+      var saved = prop === 'height' ? callAsync('applySwimlaneHeightToStorage', boardId, el.getAttribute('data-swimlane'), size)
+        : saveListWidth(wrapper, el, size);
       // The board drawn again during the drag catches up once it is saved.
       Promise.resolve(saved).catch(function (err) { if (window.console) console.error('Error saving the size:', err); })
         .then(function () {
@@ -4390,6 +4373,53 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     document.addEventListener('touchmove', move, { passive: false });
     document.addEventListener('touchend', end);
   }
+  // A list's width, saved where the board's mode keeps it (saveListWidth):
+  // the board's one width, the viewer's own one width - every list of the
+  // board that width at once, in both - the viewer's personal width, or the
+  // list's own.
+  function saveListWidth(wrapper, list, size) {
+    var boardId = wrapper.getAttribute('data-board');
+    var all = function () { wrapper.querySelectorAll('.js-list:not(.list-collapsed)').forEach(function (l) { sizeTo(l, 'width', size); }); };
+    if (wrapper.getAttribute('data-same-width') === 'true') { all(); return callAsync('/boards/update', { _id: boardId }, { $set: { sameWidthForAllListsValue: size } }); }
+    if (wrapper.getAttribute('data-fixed-width') === 'true') { all(); return callAsync('setFixedListWidth', boardId, size); }
+    if (wrapper.getAttribute('data-personal-width') === 'true') return callAsync('applyListWidthToStorage', boardId, list.getAttribute('data-list'), size, size);
+    return callAsync('applyListWidth', boardId, list.getAttribute('data-list'), size, size);
+  }
+  // WeKan's setListWidthPopup, from the list menu: the list's width typed in,
+  // whole pixels of at least 200 (parseListWidthInput), and the viewer's own
+  // same width for all lists turned on or off; its note says whose width it is.
+  var widthList = null;
+  up.on('click', '.js-pop-over .js-set-list-width', function (event) {
+    event.preventDefault();
+    widthList = menuList;
+    if (!widthList) return;
+    openPopOver('list-width');
+    var p = document.querySelector('.js-pop-over #js-list-width-edit'), wrapper = widthList.closest('.board-wrapper');
+    if (!p || !wrapper) return;
+    var fixed = wrapper.getAttribute('data-fixed-width') === 'true';
+    p.querySelector('.list-width-value').value = Math.round(widthList.getBoundingClientRect().width);
+    var toggle = p.querySelector('.js-toggle-fixed-list-width');
+    toggle.title = fixed ? toggle.dataset.onTitle : toggle.dataset.offTitle;
+    toggle.querySelector('i').className = 'fa ' + (fixed ? 'fa-check-square-o' : 'fa-square-o');
+    var note = p.querySelector('.list-width-scope-note');
+    note.textContent = fixed ? note.dataset.fixed : wrapper.getAttribute('data-personal-width') === 'true' ? note.dataset.personal : note.dataset.shared;
+  });
+  up.on('click', '.js-pop-over .list-width-apply', function (event, el) {
+    event.preventDefault();
+    var p = el.closest('#js-list-width-edit'), raw = String(p.querySelector('.list-width-value').value).trim();
+    var width = /^\d+$/.test(raw) ? Number(raw) : NaN;
+    if (!(width >= MIN_LIST_WIDTH && width <= MAX_LIST_WIDTH) || !widthList) { p.querySelector('.list-width-error').classList.remove('is-hidden'); return; }
+    var list = widthList, wrapper = list.closest('.board-wrapper');
+    closePopOvers();
+    Promise.resolve(saveListWidth(wrapper, list, width)).then(function () { reloadBoard(); }, function (e) { window.alert(e.reason || e.message); });
+  });
+  up.on('click', '.js-pop-over .js-toggle-fixed-list-width', function (event) {
+    event.preventDefault();
+    var wrapper = widthList && widthList.closest('.board-wrapper');
+    closePopOvers();
+    if (!wrapper) return;
+    callAsync('setFixedListWidthEnabled', wrapper.getAttribute('data-board'), wrapper.getAttribute('data-fixed-width') !== 'true').then(function () { reloadBoard(); });
+  });
   function resizeStart(event) {
     var handle = event.target.closest && event.target.closest('.js-list-resize-handle, .js-swimlane-resize-handle');
     if (!handle || (event.type === 'mousedown' && event.button !== 0)) return;
@@ -4402,15 +4432,6 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   }
   document.addEventListener('mousedown', resizeStart, true);
   document.addEventListener('touchstart', resizeStart, { capture: true, passive: false });
-  // A visitor's own swimlane heights, from this browser.
-  up.compiler('.board-wrapper[data-signed-out="true"]', function (wrapper) {
-    var heights = {};
-    try { heights = JSON.parse(localStorage.getItem('wekan-swimlane-heights') || '{}')[wrapper.getAttribute('data-board')] || {}; } catch (err) { return; }
-    wrapper.querySelectorAll('.js-swimlane[data-swimlane]').forEach(function (lane) {
-      var h = heights[lane.getAttribute('data-swimlane')];
-      if (typeof h === 'number' && h >= MIN_LANE_HEIGHT && h <= MAX_LANE_HEIGHT) sizeTo(lane, 'height', h + 5);
-    });
-  });
   up.compiler('.scrum-view[data-polling="true"]', function () {
     var t = setTimeout(function () { up.reload('.scrum-view', { cache: false }); }, 3000);
     return function () { clearTimeout(t); };

@@ -114,19 +114,20 @@ func TestListAndSwimlaneResize(t *testing.T) {
 	if p := func() string { res, _ := rc.Get(w.srv.URL + "/b/" + rb.ID + "/x"); return body(t, res) }(); strings.Contains(p, "--swimlane-height:305px") {
 		t.Fatal("another user's swimlane keeps its own height")
 	}
-	for name, args := range map[string]string{
-		"too low":     `["` + rb.ID + `","` + rb.Swimlane + `",20]`,
-		"map key":     `["` + rb.ID + `","$where",300]`,
-		"not visible": `["nosuchboard01","` + rb.Swimlane + `",300]`,
-	} {
-		if _, out := methodCall(t, w, ac, "applySwimlaneHeightToStorage", args); out["error"] == nil {
-			t.Fatalf("%s is refused: %v", name, out)
-		}
-	}
-
 	// The locks take the handles away.
 	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": rb.ID}, bson.M{"$set": bson.M{"listWidthResizeLocked": true, "swimlaneHeightResizeLocked": true}})
-	if p := page(); strings.Contains(p, "js-list-resize-handle") || strings.Contains(p, "js-swimlane-resize-handle") {
-		t.Fatal("locked: no handles")
+	if p := page(); !strings.Contains(p, `id="js-list-`+rb.List+`"`) || strings.Contains(p, "js-list-resize-handle") || strings.Contains(p, "js-swimlane-resize-handle") {
+		t.Fatal("locked: the board, with no handles")
+	}
+	// Negative: too low, a board not seen, and last an unsafe key -
+	// PrototypeBleed's attempt, which disables the account.
+	for _, c := range []struct{ name, args string }{
+		{"too low", `["` + rb.ID + `","` + rb.Swimlane + `",20]`},
+		{"not visible", `["nosuchboard01","` + rb.Swimlane + `",300]`},
+		{"map key", `["` + rb.ID + `","$where",300]`},
+	} {
+		if _, out := methodCall(t, w, ac, "applySwimlaneHeightToStorage", c.args); out["error"] == nil {
+			t.Fatalf("%s is refused: %v", c.name, out)
+		}
 	}
 }

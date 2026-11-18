@@ -36,6 +36,9 @@ func (s *Server) methods() map[string]methodFunc {
 		"cards.pokerVote":                   s.methodPokerVote,
 		"setListCollapsedState":             s.methodSetListCollapsedState,
 		"applyListWidth":                    s.methodApplyListWidth,
+		"applyListWidthToStorage":           s.methodApplyListWidthToStorage,
+		"setFixedListWidthEnabled":          s.methodSetFixedListWidthEnabled,
+		"setFixedListWidth":                 s.methodSetFixedListWidth,
 		"applySwimlaneHeightToStorage":      s.methodApplySwimlaneHeight("applySwimlaneHeightToStorage"),
 		"applySwimlaneHeight":               s.methodApplySwimlaneHeight("applySwimlaneHeight"),
 		"setSwimlaneCollapsedState":         s.methodSetSwimlaneCollapsedState,
@@ -157,11 +160,13 @@ func (s *Server) publicMethods() map[string]func(r *http.Request) (any, error) {
 // in, where it is not "not-authorized" - a caller tells the two apart
 // (ImportBleed's spec does): models/import.js, server/models/users.js.
 var loggedOutError = map[string]string{
-	"importBoard":           "error-notAuthorized",
-	"importScoped":          "error-notAuthorized",
-	"setListCollapsedState": "not-logged-in",
-	"applyListWidth":        "not-logged-in",
-	"toggleBoardStar":       "not-logged-in",
+	"importBoard":              "error-notAuthorized",
+	"importScoped":             "error-notAuthorized",
+	"setListCollapsedState":    "not-logged-in",
+	"applyListWidth":           "not-logged-in",
+	"setFixedListWidthEnabled": "not-logged-in",
+	"setFixedListWidth":        "not-logged-in",
+	"toggleBoardStar":          "not-logged-in",
 }
 
 func (s *Server) methodRoutes(m *http.ServeMux) {

@@ -922,11 +922,11 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	for i := range lanes {
 		lanes[i].Height = sizes.laneHeight(lanes[i].ID)
 		for j := range lanes[i].Lists {
-			lanes[i].Lists[j].Width = sizes.listWidth(lanes[i].Lists[j].List.Width)
+			lanes[i].Lists[j].Width = sizes.listWidth(lanes[i].Lists[j].ID, lanes[i].Lists[j].List.Width)
 		}
 	}
-	data["SameWidthOn"] = sizes.SameWidth
-	data["CanResizeLists"] = !sizes.ListLocked && b.Writable(u, "write", nil)
+	data["SameWidthOn"], data["FixedWidthOn"], data["PersonalWidthOn"] = sizes.SameWidth, sizes.Fixed, sizes.Personal
+	data["CanResizeLists"] = sizes.canResize(b.Writable(u, "write", nil))
 	data["CanResizeLanes"] = !sizes.LaneLocked
 	if b.MemberOf(u.ID) || u.IsAdmin { // not a write: what Card's hamburger shows
 		data["AskForMoveReason"] = rawB["askForMoveReason"] == true

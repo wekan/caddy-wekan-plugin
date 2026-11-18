@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"math"
 	"net/http"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -33,6 +34,14 @@ type boardResize struct {
 	ListLocked     bool    // listWidthResizeLocked
 	LaneLocked     bool    // swimlaneHeightResizeLocked
 	Heights        map[string]float64
+	// The viewer's own modes: the Set Width pop-over's same width for all
+	// lists (profile.fixedListWidthBoards, fixedListWidths), and personal
+	// widths while the board allows them (allowsPersonalListWidth,
+	// profile.listWidths).
+	Fixed      bool
+	FixedWidth float64
+	Personal   bool
+	Personals  map[string]float64
 }
 
 func validListWidth(w float64) bool {
@@ -40,19 +49,42 @@ func validListWidth(w float64) bool {
 }
 
 // listWidth is the width a list is drawn at, in whole pixels, or 0 for the
-// stylesheet's own (resolveListWidth): the board's one width while same width
-// is on, else the list's own when it is one.
-func (z boardResize) listWidth(own float64) int {
-	if z.SameWidth {
-		if validListWidth(z.SameWidthValue) {
-			return int(math.Round(z.SameWidthValue))
-		}
+// stylesheet's own, in WeKan's order (effectiveListWidth, resolveListWidth):
+// the board's one width while its same width is on, the viewer's own same
+// width, the viewer's personal width while the board allows them, the list's
+// own width.
+func (z boardResize) listWidth(listID string, own float64) int {
+	px := func(w float64) int { return int(math.Round(w)) }
+	switch {
+	case z.SameWidth && validListWidth(z.SameWidthValue):
+		return px(z.SameWidthValue)
+	case z.SameWidth:
 		return defaultListWidth
-	}
-	if validListWidth(own) {
-		return int(math.Round(own))
+	case z.Fixed && validListWidth(z.FixedWidth):
+		return px(z.FixedWidth)
+	case z.Fixed:
+		return defaultListWidth
+	case z.Personal && validListWidth(z.Personals[listID]):
+		return px(z.Personals[listID])
+	case validListWidth(own):
+		return px(own)
 	}
 	return 0
+}
+
+// canResize: who drags a list's handle (canResizeList) - nobody while it is
+// locked; while the board's same width is on, who may change the board; in a
+// viewer's own mode, the viewer; else who may change the board.
+func (z boardResize) canResize(writer bool) bool {
+	switch {
+	case z.ListLocked:
+		return false
+	case z.SameWidth:
+		return writer
+	case z.Fixed, z.Personal:
+		return true
+	}
+	return writer
 }
 
 // laneHeight is the user's height of a swimlane, or 0 for its own height
@@ -68,25 +100,24 @@ func (z boardResize) laneHeight(id string) int {
 func (s *Server) resizeOf(ctx context.Context, userID, boardID string, rawB bson.M) boardResize {
 	z := boardResize{SameWidth: rawB["sameWidthForAllLists"] == true, ListLocked: rawB["listWidthResizeLocked"] == true,
 		LaneLocked: rawB["swimlaneHeightResizeLocked"] == true}
-	switch v := rawB["sameWidthForAllListsValue"].(type) {
-	case float64:
-		z.SameWidthValue = v
-	case int32:
-		z.SameWidthValue = float64(v)
-	case int64:
-		z.SameWidthValue = float64(v)
-	}
+	z.SameWidthValue = numberOf(rawB["sameWidthForAllListsValue"])
 	if userID == "" {
 		return z
 	}
 	var u struct {
 		Profile struct {
-			SwimlaneHeights map[string]map[string]float64 `bson:"swimlaneHeights"`
+			SwimlaneHeights      map[string]map[string]float64 `bson:"swimlaneHeights"`
+			FixedListWidthBoards map[string]bool               `bson:"fixedListWidthBoards"`
+			FixedListWidths      map[string]float64            `bson:"fixedListWidths"`
+			ListWidths           map[string]map[string]float64 `bson:"listWidths"`
 		} `bson:"profile"`
 	}
-	_ = s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(userID)},
-		options.FindOne().SetProjection(bson.M{"profile.swimlaneHeights": 1})).Decode(&u)
+	_ = s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(userID)}, options.FindOne().SetProjection(bson.M{
+		"profile.swimlaneHeights": 1, "profile.fixedListWidthBoards": 1, "profile.fixedListWidths": 1, "profile.listWidths": 1})).Decode(&u)
 	z.Heights = u.Profile.SwimlaneHeights[boardID]
+	z.Fixed, z.FixedWidth = u.Profile.FixedListWidthBoards[boardID], u.Profile.FixedListWidths[boardID]
+	z.Personal = rawB["allowsPersonalListWidth"] == true
+	z.Personals = u.Profile.ListWidths[boardID]
 	return z
 }
 
@@ -156,20 +187,10 @@ func (s *Server) methodApplySwimlaneHeight(source string) methodFunc {
 		if err != nil {
 			return nil, err
 		}
-		if s.refuseMapKeys(r, u, source, boardID, laneID) {
-			return nil, &methodError{"invalid-map-key", "invalid-map-key"}
-		}
-		if !validID(boardID) || !validID(laneID) {
-			return nil, &methodError{"Match.Error", "Expected ids"}
-		}
 		if math.IsNaN(height) || height < minSwimlaneHeight || height > maxSwimlaneHeight {
 			return nil, &methodError{"invalid-height", "Height must be between 100 and 2000"}
 		}
-		if _, err := s.boardFor(r.Context(), boardID, u); err != nil {
-			return nil, &methodError{"not-found", "Board not found"}
-		}
-		path := "profile.swimlaneHeights." + boardID + "." + laneID
-		if _, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)}, bson.M{"$set": bson.M{path: height}}); err != nil {
+		if err := s.setProfileMap(r, u, source, "swimlaneHeights", height, boardID, laneID); err != nil {
 			return nil, err
 		}
 		return nil, nil
@@ -196,4 +217,99 @@ func pageOfRequest(r *http.Request) string {
 		return p
 	}
 	return r.Header.Get("X-Weddy-Live")
+}
+
+// setProfileMap writes profile.<mapName>.<board>[.<id>] = value in the
+// user's own profile, as WeKan's user setters do, on a board the user can
+// see. The keys become the path, so they are refused first when they would
+// make it something else - a "$" or a "." (assertSafeMapKey, PrototypeBleed) -
+// and must be ids.
+func (s *Server) setProfileMap(r *http.Request, u *User, source, mapName string, value any, boardID string, ids ...string) error {
+	keys := append([]string{boardID}, ids...)
+	if s.refuseMapKeys(r, u, source, keys...) {
+		return &methodError{"invalid-map-key", "invalid-map-key"}
+	}
+	for _, k := range keys {
+		if !validID(k) {
+			return &methodError{"Match.Error", "Expected ids"}
+		}
+	}
+	if _, err := s.boardFor(r.Context(), boardID, u); err != nil {
+		return &methodError{"not-found", "Board not found"}
+	}
+	path := "profile." + mapName + "." + strings.Join(keys, ".")
+	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)}, bson.M{"$set": bson.M{path: value}})
+	return err
+}
+
+// methodSetFixedListWidthEnabled is WeKan's setFixedListWidthEnabled
+// (#5729): the viewer's own same width for all lists, on one board.
+func (s *Server) methodSetFixedListWidthEnabled(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	var enabled bool
+	if len(args) < 2 || json.Unmarshal(args[1], &enabled) != nil {
+		return nil, &methodError{"Match.Error", "Expected boolean"}
+	}
+	if err := s.setProfileMap(r, u, "setFixedListWidthEnabled", "fixedListWidthBoards", enabled, boardID); err != nil {
+		return nil, err
+	}
+	return true, nil
+}
+
+// methodSetFixedListWidth is WeKan's setFixedListWidth: the one width of
+// every list while the viewer's own same width is on - under 200 refused.
+func (s *Server) methodSetFixedListWidth(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	width, err := numberArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	if !validListWidth(width) {
+		return nil, &methodError{"invalid-width", "Width must be >= 200"}
+	}
+	if err := s.setProfileMap(r, u, "setFixedListWidth", "fixedListWidths", width, boardID); err != nil {
+		return nil, err
+	}
+	return true, nil
+}
+
+// methodApplyListWidthToStorage is WeKan's applyListWidthToStorage: the
+// viewer's personal width of one list of the board (and its constraint, kept
+// as WeKan keeps it), which the board draws while it allows personal widths.
+func (s *Server) methodApplyListWidthToStorage(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	listID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	width, err := numberArg(args, 2)
+	if err != nil {
+		return nil, err
+	}
+	constraint, err := numberArg(args, 3)
+	if err != nil {
+		return nil, err
+	}
+	if !validListWidth(width) {
+		return nil, &methodError{"invalid-width", "Width must be between 200 and 1000"}
+	}
+	if n, _ := s.db.Collection("lists").CountDocuments(r.Context(), bson.M{"_id": eq(listID), "boardId": eq(boardID)}); n == 0 {
+		return nil, &methodError{"error-notAuthorized", "error-notAuthorized"}
+	}
+	if err := s.setProfileMap(r, u, "applyListWidthToStorage", "listWidths", width, boardID, listID); err != nil {
+		return nil, err
+	}
+	if err := s.setProfileMap(r, u, "applyListWidthToStorage", "listConstraints", constraint, boardID, listID); err != nil {
+		return nil, err
+	}
+	return nil, nil
 }

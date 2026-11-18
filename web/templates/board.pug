@@ -1,4 +1,4 @@
-.board-wrapper(class="board-color-{{.Board.Color}}", style="{{.Board.BackgroundStyle}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live?v={{.BoardStamp}}&u={{.UserStamp}}", data-move="/b/{{.Board.ID}}/move", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}", data-same-width="{{if .SameWidthOn}}true{{end}}", data-signed-out="{{if not .User}}true{{end}}")
+.board-wrapper(class="board-color-{{.Board.Color}}", style="{{.Board.BackgroundStyle}}", data-board="{{.Board.ID}}", data-live="/b/{{.Board.ID}}/live?v={{.BoardStamp}}&u={{.UserStamp}}", data-move="/b/{{.Board.ID}}/move", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}", data-same-width="{{if .SameWidthOn}}true{{end}}", data-fixed-width="{{if .FixedWidthOn}}true{{end}}", data-personal-width="{{if .PersonalWidthOn}}true{{end}}")
   .board-header
     h1.header-board-name.js-board-title {{.Board.Title}}
     //- WeKan's boardStarButton: the user's favorite, kept in their profile.
@@ -942,6 +942,11 @@
           a.js-select-cards(href="#") {{t $.L "list-select-cards"}}
         li
           a.js-toggle-watch-list(href="#", data-watch="{{t $.L `watch`}}", data-unwatch="{{t $.L `unwatch`}}") {{t $.L "watch"}}
+        //- WeKan's Set width (listHeader.jade setListWidthPopup).
+        li
+          a.js-set-list-width(href="#")
+            i.fa.fa-arrows-h
+            |  {{t $.L "set-list-width"}}
         //- #1173: the list's Export and Import (listHeader.jade).
         if .CanExport
           li
@@ -957,6 +962,20 @@
             a.js-list-permissions(href="#", data-base="/b/{{.Board.ID}}/{{.Board.Slug}}")
               i.fa.fa-lock
               |  {{t $.L "listPermissionsPopup-title"}}
+  //- WeKan's setListWidthPopup: the list's width, and the viewer's own same
+    width for all lists; weddy.js fills it from the list whose menu is open.
+  if .CanEdit
+    template.js-pop-over-template(data-pop="list-width", data-title="{{t $.L `set-list-width`}}")
+      #js-list-width-edit
+        label {{t $.L "set-list-width-value"}}
+          p
+            input.list-width-value(type="number", min="200", max="1000", step="1")
+            input.list-width-apply(type="submit", value="{{t $.L `apply`}}")
+        p.list-width-error.is-hidden(role="alert") {{t $.L "list-width-error-message"}}
+        a.js-toggle-fixed-list-width(href="#", data-on-title="{{t $.L `click-to-disable-fixed-list-width`}}", data-off-title="{{t $.L `click-to-enable-fixed-list-width`}}")
+          i.fa.fa-square-o
+          span {{t $.L "fixed-list-width"}}
+        p.list-width-scope-note(data-fixed="{{t $.L `fixed-list-width-note`}}", data-personal="{{t $.L `list-width-personal-note`}}", data-shared="{{t $.L `list-width-shared-note`}}")
   template.js-pop-over-template(data-pop="watch", data-title="{{t $.L `boardChangeWatchPopup-title`}}")
     .header
       span.header-title {{t $.L "boardChangeWatchPopup-title"}}
