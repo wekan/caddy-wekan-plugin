@@ -6,6 +6,7 @@ package web
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"strings"
 	"time"
@@ -45,17 +46,34 @@ func (s *Server) nextCardNumber(ctx context.Context, boardID string) (int64, err
 	return b.CardNumber, err
 }
 
+// errCardGone: the card was no longer where it was looked up when it was to be
+// deleted - moved to another board or list, or deleted, meanwhile.
+var errCardGone = errors.New("card not found")
+
 // DeleteCard removes a card with its checklists, checklist items and comments,
 // and records one deleteCard activity - not one per child (#3252). The card's
 // earlier activities stay, for board reports (#1598).
+//
+// RaceBleed (GHSA-3vjg-3p4q-8fwh), as WeKan's models/lib/claimedCardRemoval.js:
+// the card itself goes FIRST, keyed on the board and list it was looked up on,
+// and its children only when that removal matched. They used to go first, so a
+// move to another board landing in between left the card alive there without
+// any of them. A card that has moved keeps everything, and the caller gets
+// errCardGone.
 func (s *Server) DeleteCard(ctx context.Context, b *Board, u *User, c *Card) error {
+	res, err := s.db.Collection("cards").DeleteOne(ctx, bson.M{"_id": c.ID, "boardId": b.ID, "listId": c.ListID})
+	if err != nil {
+		return err
+	}
+	if res.DeletedCount == 0 {
+		s.recordSecurityCtx(ctx, securityEvent{Key: "authz.card-delete-race", Action: "blocked", Source: "rest:card-delete", UserID: u.ID,
+			Detail: "card " + c.ID + " left board " + b.ID + " before it was deleted; nothing removed"})
+		return errCardGone
+	}
 	for _, coll := range []string{"checklistItems", "checklists", "card_comments"} {
 		if _, err := s.db.Collection(coll).DeleteMany(ctx, bson.M{"cardId": c.ID}); err != nil {
 			return err
 		}
-	}
-	if _, err := s.db.Collection("cards").DeleteOne(ctx, bson.M{"_id": c.ID, "boardId": b.ID}); err != nil {
-		return err
 	}
 	s.activity(ctx, u.ID, "deleteCard", bson.M{"boardId": b.ID, "cardId": c.ID, "cardTitle": c.Title,
 		"listId": c.ListID, "swimlaneId": c.SwimlaneID})
@@ -95,15 +113,19 @@ func (s *Server) apiBulkDeleteCards(w http.ResponseWriter, r *http.Request, u *U
 		}
 	}
 	deleted := make([]string, 0, len(cards))
+	notFound := []string{}
 	for i := range cards {
-		if err := s.DeleteCard(r.Context(), b, u, &cards[i]); err != nil {
+		if err := s.DeleteCard(r.Context(), b, u, &cards[i]); errors.Is(err, errCardGone) {
+			notFound = append(notFound, cards[i].ID) // moved away meanwhile: RaceBleed
+			continue
+		} else if err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
 		deleted = append(deleted, cards[i].ID)
 	}
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
-	writeJSON(w, http.StatusOK, map[string]any{"deleted": deleted})
+	writeJSON(w, http.StatusOK, map[string]any{"deleted": deleted, "notFound": notFound})
 }
 
 // apiCopyCard copies a card, with its checklists and their items, to a list of a

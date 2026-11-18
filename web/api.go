@@ -687,7 +687,10 @@ func (s *Server) apiDeleteCard(w http.ResponseWriter, r *http.Request, u *User) 
 		apiError(w, http.StatusForbidden, "Forbidden")
 		return
 	}
-	if err := s.DeleteCard(r.Context(), b, u, c); err != nil {
+	if err := s.DeleteCard(r.Context(), b, u, c); errors.Is(err, errCardGone) {
+		apiError(w, http.StatusNotFound, "no such card")
+		return
+	} else if err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
