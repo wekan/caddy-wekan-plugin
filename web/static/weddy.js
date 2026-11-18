@@ -297,10 +297,99 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       input.focus();
     });
   }, true);
+  // WeKan's dates in the member's calendar (#4335, client/lib/dateDisplay.js,
+  // imports/lib/calendarSystems.js): only the text shown changes - the
+  // datetime attribute, the picker and what is stored stay Gregorian. The
+  // native calendar's year, month and day in Latin digits, in the member's
+  // order, with the era where a year needs one, and the time where the date
+  // had one. Gregorian dates keep the server's text.
+  var CALENDAR_INTL = { gregorian: 'gregory', jalali: 'persian' };
+  function nativeDateText(date, system, withTime) {
+    var cal = CALENDAR_INTL[system] || system, parts = {};
+    try {
+      new Intl.DateTimeFormat('en', { calendar: cal, numberingSystem: 'latn', year: 'numeric', month: '2-digit', day: '2-digit', era: 'short' })
+        .formatToParts(date).forEach(function (p) { parts[p.type] = p.value; });
+    } catch (e) { return null; }
+    var y = parts.year || parts.relatedYear, m = parts.month, d = parts.day;
+    if (!y || !m || !d) return null;
+    var fmt = document.documentElement.getAttribute('data-date-format') || 'YYYY-MM-DD';
+    if (/-date-only$/.test(fmt)) { fmt = fmt.slice(0, -10); withTime = false; }
+    var text = fmt === 'DD-MM-YYYY' ? d + '-' + m + '-' + y : fmt === 'MM-DD-YYYY' ? m + '-' + d + '-' + y : y + '-' + m + '-' + d;
+    if (parts.era && system !== 'jalali') text += ' ' + parts.era;
+    if (withTime) text += ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+    return text;
+  }
+  function drawCalendarDate(el) {
+    var system = document.documentElement.getAttribute('data-calendar-system') || 'gregorian';
+    if (!el.dataset.gregorianText) el.dataset.gregorianText = el.textContent;
+    if (system === 'gregorian') { el.textContent = el.dataset.gregorianText; return; }
+    var at = new Date(el.getAttribute('datetime'));
+    if (isNaN(at.getTime())) return;
+    var text = nativeDateText(at, system, /\d:\d/.test(el.dataset.gregorianText));
+    if (text) el.textContent = text;
+  }
+  up.compiler('time[datetime]', drawCalendarDate);
+  window.weddyRedrawDates = function () { document.querySelectorAll('time[datetime]').forEach(drawCalendarDate); };
+  // WeKan's Popup.back(): the pop-over this one was opened from, else none.
+  function openPopOverFrom(name, back) {
+    openPopOver(name);
+    var p = document.querySelector('.js-pop-over');
+    if (p && back) p.dataset.back = back;
+    return p;
+  }
+  up.on('click', '.js-member-date-settings', function (event) {
+    event.preventDefault();
+    openPopOverFrom('member-date-settings', 'member-menu');
+  });
+  up.on('submit', '.js-pop-over form.js-date-format-form', function (event, form) {
+    event.preventDefault();
+    if (form.dataset.saving) return;
+    form.dataset.saving = '1';
+    var format = form.querySelector('.js-date-format-select').value, override = form.querySelector('.js-date-format-override').checked;
+    var day = Number(form.querySelector('#start-day-of-week').value), system = form.querySelector('#calendar-system').value;
+    var err = form.querySelector('.js-date-format-error');
+    callAsync('changeDateFormat', format, override)
+      .then(function () { return callAsync('changeStartDayOfWeek', day); })
+      .then(function () { return callAsync('changeCalendarSystem', system); })
+      .then(function () {
+        var html = document.documentElement;
+        // The pop-over's template is the page's, drawn once: it keeps what was
+        // saved, so it opens again with it.
+        var tpl = document.querySelector('template.js-pop-over-template[data-pop="member-date-settings"]');
+        if (tpl) {
+          var pick = function (sel, value) {
+            tpl.content.querySelectorAll(sel + ' option').forEach(function (o) {
+              if (o.value === String(value)) o.setAttribute('selected', ''); else o.removeAttribute('selected');
+            });
+          };
+          pick('.js-date-format-select', format);
+          pick('#start-day-of-week', day);
+          pick('#calendar-system', system);
+          var box = tpl.content.querySelector('.js-date-format-override');
+          if (box) { if (override) box.setAttribute('checked', ''); else box.removeAttribute('checked'); }
+        }
+        html.setAttribute('data-calendar-system', system);
+        html.setAttribute('data-start-day', String(day));
+        if (override) html.setAttribute('data-date-format', format);
+        // The page draws again with the saved settings; the pop-over goes back.
+        // Where to go back to is read now: the board drawn again closes the
+        // pop-over.
+        var pop = form.closest('.js-pop-over'), back = pop && pop.dataset.back;
+        var wrapper = document.querySelector('.board-wrapper');
+        var redrawn = wrapper ? Promise.resolve(up.reload('.board-wrapper')).catch(function () {}) : Promise.resolve();
+        if (!wrapper) document.querySelectorAll('time[datetime]').forEach(drawCalendarDate);
+        return redrawn.then(function () { if (back) openPopOver(back); else closePopOvers(); });
+      }, function (e) { err.textContent = e.reason || e.message; err.hidden = false; })
+      .finally(function () { delete form.dataset.saving; });
+  });
+  up.on('click', '.js-pop-over .js-apply-user-settings', function (event) {
+    event.preventDefault();
+    window.Popup.back();
+  });
   // Member Settings' toggle: the profile, and this page, at once.
   up.on('click', '.js-change-settings', function (event) {
     event.preventDefault();
-    openPopOver('change-settings');
+    openPopOverFrom('change-settings', 'member-menu');
     var c = document.querySelector('.js-pop-over .js-submit-on-enter-check');
     if (c) c.hidden = !submitOnEnter();
   });
@@ -446,7 +535,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     Object.keys(byDay).forEach(function (k) {
       byDay[k].sort(function (a, b) { return num(a.listSort) - num(b.listSort) || num(a.sort) - num(b.sort) || String(a.title).localeCompare(String(b.title)); });
     });
-    var firstDay = Number(view.dataset.firstDay); if (!(firstDay >= 0 && firstDay <= 6)) firstDay = 1;
+    var firstDay = pickerFirstDay(); // the member's first day of the week
     var range = 'month';
     try { if (localStorage.getItem(CALENDAR_MODE_RANGE_KEY) === 'week') range = 'week'; } catch (e) { /* month */ }
     var anchor = new Date(), locale = document.documentElement.lang || 'en';
@@ -508,6 +597,54 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     });
     draw();
   });
+  // WeKan's calendarDateDisplayOptions (client/lib/dateDisplay.js): the board
+  // calendars in the member's calendar - a month is the calendar's own month,
+  // found by its fields; the title, the day numbers and the list's days are
+  // drawn in it; Previous and Next step its months. Gregorian keeps
+  // FullCalendar's own month.
+  function nativeCalendarOptions(el) {
+    var system = document.documentElement.getAttribute('data-calendar-system') || 'gregorian';
+    var cal = CALENDAR_INTL[system] || system;
+    if (system === 'gregorian' || !calParts(new Date(), cal)) return {};
+    var labels = {};
+    try { labels = JSON.parse(el.dataset.labels || '{}'); } catch (e) { /* defaults */ }
+    var t = function (k, fallback) { return labels[k] || fallback; };
+    var marker = function (m) { return nativeDateText(new Date(m.year, m.month, m.day, 12), system, false); };
+    var range = function (date) { return calMonthRange(date, cal); };
+    var navigate = function (dir) {
+      var c = el._wekanCalendar;
+      if (!c) return;
+      if (['selectedCalendarMonth', 'selectedCalendarListMonth'].indexOf(c.view.type) < 0) { c[dir < 0 ? 'prev' : 'next'](); return; }
+      var r = range(c.getDate());
+      c.gotoDate(dir < 0 ? calDay(r.start, -1) : r.end);
+    };
+    return {
+      initialView: 'selectedCalendarMonth',
+      views: {
+        selectedCalendarMonth: { type: 'dayGrid', monthMode: true, fixedWeekCount: false, visibleRange: range },
+        selectedCalendarListMonth: { type: 'list', visibleRange: range },
+      },
+      customButtons: {
+        dayGridMonth: { text: t('month', 'Month'), click: function () { el._wekanCalendar.changeView('selectedCalendarMonth'); } },
+        listMonth: { text: t('list', 'List'), click: function () { el._wekanCalendar.changeView('selectedCalendarListMonth'); } },
+        prev: { text: t('previous', 'Previous'), click: function () { navigate(-1); } },
+        next: { text: t('next', 'Next'), click: function () { navigate(1); } },
+      },
+      titleFormat: function (info) {
+        var start = marker(info.start), end = info.end && marker(info.end);
+        return end && end !== start ? start + (info.defaultSeparator || ' – ') + end : start;
+      },
+      dayCellContent: function (info) {
+        var p = calParts(info.date, cal);
+        return p ? String(Number(p.day)) : info.dayNumberText;
+      },
+      dayHeaderContent: function (info) {
+        return ['dayGridMonth', 'selectedCalendarMonth'].indexOf(info.view.type) >= 0 ? info.text : nativeDateText(info.date, system, false);
+      },
+      listDayFormat: function (info) { return marker(info.date); },
+      listDaySideFormat: function () { return ''; },
+    };
+  }
   up.compiler('#calendar-view, #multiboard-calendar-view', function (el) {
     var labels = {}, events = [];
     try { labels = JSON.parse(el.dataset.labels || '{}'); events = JSON.parse(el.dataset.events || '[]'); } catch (e) { /* drawn with none */ }
@@ -515,9 +652,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var cal = null, gone = false;
     loadFullCalendar().then(function () {
       if (gone) return;
-      cal = new window.FullCalendar.Calendar(el, {
+      cal = new window.FullCalendar.Calendar(el, Object.assign({
         initialView: 'dayGridMonth',
-        firstDay: Number(el.dataset.firstDay) || 1,
+        firstDay: pickerFirstDay(), // the member's first day of the week
         weekNumbers: true,
         headerToolbar: { left: 'title', center: '', right: 'today prev,next timeGridDay,listDay timeGridWeek,listWeek dayGridMonth,listMonth' },
         buttonIcons: false,
@@ -543,7 +680,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
           calendarSetDate(el, info.event.id, 'end', info.event.end).catch(function () { info.revert(); });
         },
         select: function (info) { calendarCreateCard(el, labels, info.start); },
-      });
+      }, nativeCalendarOptions(el)));
       el._wekanCalendar = cal;
       cal.render();
     });
@@ -626,6 +763,10 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         };
       },
       close: function () { closePopOvers(); },
+      back: function () {
+        var p = document.querySelector('.js-pop-over'), back = p && p.dataset.back;
+        if (back) openPopOver(back); else closePopOvers();
+      },
     };
   }
   // Board Settings / Swimlane and List (WeKan's boardSwimlaneSettingsPopup,
@@ -1749,42 +1890,159 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // date is missing or its year is not four digits (datepicker.js).
   function pad2(n) { return (n < 10 ? '0' : '') + n; }
   function isoDay(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+  // WeKan's calendarDateInput in the member's calendar (#4335, #6853,
+  // imports/lib/calendarMonth.js): a month is found by the calendar's own
+  // fields - leap months and a short thirteenth month included - never as a
+  // Gregorian one; the year, month and day pickers under the grid reach any
+  // date; the arrow keys walk the days. Gregorian goes the same way.
+  function pickerCalendar() { var s = document.documentElement.getAttribute('data-calendar-system') || 'gregorian'; return CALENDAR_INTL[s] || s; }
+  function pickerFirstDay() { var d = Number(document.documentElement.getAttribute('data-start-day')); return d >= 0 && d <= 6 && document.documentElement.getAttribute('data-start-day') !== '' ? d : 1; }
+  function calParts(date, cal) {
+    var parts = {};
+    try {
+      new Intl.DateTimeFormat('en', { calendar: cal, numberingSystem: 'latn', year: 'numeric', month: '2-digit', day: '2-digit', era: 'short' })
+        .formatToParts(date).forEach(function (p) { parts[p.type] = p.value; });
+    } catch (e) { return null; }
+    parts.year = parts.year || parts.relatedYear;
+    return parts;
+  }
+  function calDay(date, days) { var r = new Date(date); r.setDate(r.getDate() + days); r.setHours(12, 0, 0, 0); return r; }
+  function calMonthRange(date, cal) {
+    var key = function (v) { var p = calParts(v, cal); return (p.era || '') + '|' + p.year + '|' + p.month; };
+    var anchor = calDay(date, 0), k = key(anchor), start = anchor, end = calDay(anchor, 1);
+    for (var i = 0; i < 40; i++) { var prev = calDay(start, -1); if (key(prev) !== k) break; start = prev; }
+    for (var j = 0; j < 40 && key(end) === k; j++) end = calDay(end, 1);
+    start.setHours(0, 0, 0, 0); end.setHours(0, 0, 0, 0);
+    return { start: start, end: end };
+  }
+  function calYearKey(date, cal) { var p = calParts(date, cal); return (p.era || '') + '|' + p.year; }
+  function calYearRange(date, cal) {
+    var k = calYearKey(date, cal), start = calDay(date, 0), end = calDay(date, 1);
+    for (var i = 0; i < 400 && calYearKey(calDay(start, -1), cal) === k; i++) start = calDay(start, -1);
+    for (var j = 0; j < 400 && calYearKey(end, cal) === k; j++) end = calDay(end, 1);
+    return { start: start, end: end };
+  }
+  function calSameDayInYear(date, target, cal) {
+    var cur = calYearRange(date, cal), next = calYearRange(target, cal);
+    var c = calDay(next.start, Math.round((calDay(date, 0) - cur.start) / 86400000));
+    return c < next.end ? c : calDay(next.end, -1);
+  }
+  function calShiftYear(date, dir, cal) {
+    var cur = calYearRange(date, cal);
+    return calSameDayInYear(date, calYearRange(dir < 0 ? calDay(cur.start, -1) : cur.end, cal).start, cal);
+  }
+  function calShiftMonth(date, dir, cal) {
+    var r = calMonthRange(date, cal), next = calMonthRange(dir < 0 ? calDay(r.start, -1) : r.end, cal);
+    var c = calDay(next.start, Number(calParts(date, cal).day) - 1);
+    return c < next.end ? c : calDay(next.end, -1);
+  }
+  function calSignedYear(date, cal) {
+    var p = calParts(date, cal), y = p && Number(p.year);
+    if (!isFinite(y)) return null;
+    return /^(BC|BCE|BH|ERA0|Before)/i.test(p.era || '') ? 1 - y : y;
+  }
+  function calDateInYear(date, target, cal) {
+    if (!Number.isInteger(target)) return null;
+    try {
+      var guess = calDay(date, 0);
+      for (var step = 0; step < 40; step++) {
+        var y = calSignedYear(guess, cal);
+        if (y === null) return null;
+        if (y === target) return calSameDayInYear(date, guess, cal);
+        var next = calDay(guess, Math.round((target - y) * 365.2425) || (target > y ? 1 : -1));
+        if (isNaN(next.getTime())) return null;
+        guess = next;
+      }
+    } catch (e) { /* beyond what a date holds */ }
+    return null;
+  }
+  function calYearMonths(date, cal) {
+    var year = calYearRange(date, cal), cur = calMonthRange(date, cal).start.getTime(), out = [];
+    for (var start = year.start; start < year.end && out.length < 20;) {
+      var r = calMonthRange(start, cal);
+      out.push({ date: calDay(r.start, 0), selected: r.start.getTime() === cur });
+      start = calDay(r.end, 0);
+    }
+    return out;
+  }
+  function calSameDayInMonth(date, monthStart, cal) {
+    var next = calMonthRange(monthStart, cal), c = calDay(next.start, Number(calParts(date, cal).day) - 1);
+    return c < next.end ? c : calDay(next.end, -1);
+  }
+  function fromIsoDay(v) { if (!v) return null; var d = new Date(v.length === 10 ? v + 'T12:00:00' : v); return isNaN(d.getTime()) ? null : d; }
   function drawCalendar(form) {
-    var lang = document.documentElement.lang || undefined;
-    var shown = form._shown, picked = form.querySelector('.js-date-field').value;
-    form.querySelector('.js-calendar-month-label').textContent = shown.toLocaleDateString(lang, { month: 'long', year: 'numeric' });
+    var lang = document.documentElement.lang || 'en', cal = pickerCalendar(), first = pickerFirstDay();
+    var shown = form._shown, picked = form.querySelector('.js-date-field').value, focusIso = form._focus || picked;
+    var fmt = function (opts, d) { try { return new Intl.DateTimeFormat(lang, opts).format(d); } catch (e) { return isoDay(d); } };
+    var monthOpts = { calendar: cal, month: 'long', year: 'numeric', numberingSystem: 'latn' };
+    if (calSignedYear(shown, cal) <= 0) monthOpts.era = 'short';
+    form.querySelector('.js-calendar-month-label').textContent = fmt(monthOpts, shown);
     var head = form.querySelector('.js-calendar-weekdays');
     head.innerHTML = '';
     for (var i = 0; i < 7; i++) {
       var th = document.createElement('th');
       th.scope = 'col';
-      th.textContent = new Date(2024, 0, 1 + i).toLocaleDateString(lang, { weekday: 'short' });
+      th.textContent = fmt({ weekday: 'short' }, new Date(2024, 0, 7 + ((first + i) % 7)));
       head.appendChild(th);
     }
+    var range = calMonthRange(shown, cal), days = [];
+    for (var lead = (range.start.getDay() - first + 7) % 7; lead > 0; lead--) days.push(null);
+    for (var day = calDay(range.start, 0); day < range.end; day = calDay(day, 1)) days.push(day);
+    while (days.length % 7) days.push(null);
+    var isos = days.filter(Boolean).map(isoDay);
+    if (isos.indexOf(focusIso) < 0) focusIso = isos[0];
     var body = form.querySelector('.js-calendar-weeks');
     body.innerHTML = '';
-    var first = new Date(shown.getFullYear(), shown.getMonth(), 1);
-    var lead = (first.getDay() + 6) % 7; // weeks start on Monday
-    var days = new Date(shown.getFullYear(), shown.getMonth() + 1, 0).getDate();
     var today = isoDay(new Date()), tr = null;
-    for (var cell = 0; cell < lead + days; cell++) {
+    days.forEach(function (d, cell) {
       if (cell % 7 === 0) { tr = document.createElement('tr'); body.appendChild(tr); }
       var td = document.createElement('td');
-      if (cell >= lead) {
-        var d = new Date(shown.getFullYear(), shown.getMonth(), cell - lead + 1), iso = isoDay(d);
-        var b = document.createElement('button');
+      if (d) {
+        var iso = isoDay(d), b = document.createElement('button');
         b.type = 'button';
         b.className = 'primary js-calendar-day' + (iso === today ? ' is-today' : '');
         b.setAttribute('data-date', iso);
         if (iso === today) b.setAttribute('aria-current', 'date'); // #6751: today, for a screen reader too
         b.setAttribute('aria-pressed', iso === picked ? 'true' : 'false');
-        b.title = d.toLocaleDateString(lang, { dateStyle: 'full' });
-        b.textContent = String(d.getDate());
+        b.tabIndex = iso === focusIso ? 0 : -1;
+        b.title = fmt({ calendar: cal, dateStyle: 'full' }, d);
+        b.setAttribute('aria-label', b.title);
+        b.textContent = (calParts(d, cal) || {}).day || String(d.getDate());
         if (iso === today) td.className = 'is-today-cell';
         td.appendChild(b);
       }
       tr.appendChild(td);
+    });
+    // #6853: the year typed or stepped, the month and the day picked.
+    var year = form.querySelector('.js-calendar-year');
+    if (year) year.value = calSignedYear(shown, cal);
+    var month = form.querySelector('.js-calendar-month');
+    if (month) {
+      month.innerHTML = '';
+      calYearMonths(shown, cal).forEach(function (m) {
+        var o = document.createElement('option');
+        o.value = isoDay(m.date); o.textContent = fmt({ calendar: cal, month: 'long', numberingSystem: 'latn' }, m.date); o.selected = m.selected;
+        month.appendChild(o);
+      });
     }
+    var daySel = form.querySelector('.js-calendar-day-select');
+    if (daySel) {
+      daySel.innerHTML = '';
+      if (isos.indexOf(picked) < 0) {
+        var none = document.createElement('option'); none.value = ''; none.textContent = '–'; none.disabled = true; none.selected = true;
+        daySel.appendChild(none);
+      }
+      days.filter(Boolean).forEach(function (d) {
+        var o = document.createElement('option');
+        o.value = isoDay(d); o.textContent = (calParts(d, cal) || {}).day; o.selected = o.value === picked;
+        daySel.appendChild(o);
+      });
+    }
+  }
+  function pickDate(form, d) {
+    form.querySelector('.js-date-field').value = isoDay(d);
+    form._shown = d; form._focus = isoDay(d);
+    drawCalendar(form);
   }
   // calendarTimeInput: the hour and minute selects over the hidden time.
   function setPickerTime(form, hhmm) {
@@ -1824,7 +2082,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     form.querySelector('.js-date-field').value = isoDay(at || now);
     setPickerTime(form, at ? pad2(at.getHours()) + ':' + pad2(at.getMinutes()) : defaultTime);
     form.querySelector('.js-delete-date').hidden = !at;
-    form._shown = new Date((at || now).getFullYear(), (at || now).getMonth(), 1);
+    form._shown = calDay(at || now, 0);
+    form._focus = null;
     drawCalendar(form);
   }
   up.on('click', '.js-checklist-due-date, .js-checklist-item-due-date, .js-checklists-section .js-edit-date', function (event, el) {
@@ -1844,22 +2103,64 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.on('click', '.js-pop-over form.edit-date .js-calendar-day', function (event, el) {
     var form = el.form;
     form.querySelector('.js-date-field').value = el.getAttribute('data-date');
-    form.querySelectorAll('.js-calendar-day').forEach(function (b) { b.setAttribute('aria-pressed', b === el ? 'true' : 'false'); });
+    form._focus = el.getAttribute('data-date');
+    form.querySelectorAll('.js-calendar-day').forEach(function (b) { b.setAttribute('aria-pressed', b === el ? 'true' : 'false'); b.tabIndex = b === el ? 0 : -1; });
+    var daySel = form.querySelector('.js-calendar-day-select');
+    if (daySel) daySel.value = el.getAttribute('data-date');
   });
   up.on('click', '.js-pop-over form.edit-date .js-calendar-previous, .js-pop-over form.edit-date .js-calendar-next, .js-pop-over form.edit-date .js-calendar-today', function (event, el) {
-    var form = el.form, s = form._shown;
+    var form = el.form, cal = pickerCalendar(), r = calMonthRange(form._shown, cal);
     var toToday = el.classList.contains('js-calendar-today');
-    if (toToday) form._shown = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-    else form._shown = new Date(s.getFullYear(), s.getMonth() + (el.classList.contains('js-calendar-next') ? 1 : -1), 1);
+    if (toToday) form._shown = calDay(new Date(), 0);
+    else form._shown = el.classList.contains('js-calendar-next') ? calDay(r.end, 0) : calDay(r.start, -1);
     drawCalendar(form);
     // Today goes to today's month and to today itself, choosing nothing.
     var todayButton = toToday && form.querySelector('.js-calendar-day.is-today');
     if (todayButton) todayButton.focus();
   });
   up.on('click', '.js-pop-over form.edit-date .js-calendar-year-previous, .js-pop-over form.edit-date .js-calendar-year-next', function (event, el) {
-    var form = el.form, s = form._shown;
-    form._shown = new Date(s.getFullYear() + (el.classList.contains('js-calendar-year-next') ? 1 : -1), s.getMonth(), 1);
+    var form = el.form;
+    form._shown = calShiftYear(form._shown, el.classList.contains('js-calendar-year-next') ? 1 : -1, pickerCalendar());
     drawCalendar(form);
+  });
+  // #6853: the year, month and day under the calendar select that date.
+  up.on('change', '.js-pop-over form.edit-date .js-calendar-year', function (event, el) {
+    var form = el.form, cal = pickerCalendar();
+    var target = el.value.trim() === '' ? null : calDateInYear(form._shown, Number(el.value), cal);
+    if (!target) { el.value = calSignedYear(form._shown, cal); return; }
+    pickDate(form, target);
+  });
+  up.on('keydown', '.js-pop-over form.edit-date .js-calendar-year', function (event, el) {
+    if (event.key !== 'Enter') return; // Enter applies the year, not Save
+    event.preventDefault(); event.stopPropagation();
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+  up.on('change', '.js-pop-over form.edit-date .js-calendar-month', function (event, el) {
+    var form = el.form, cal = pickerCalendar();
+    pickDate(form, calSameDayInMonth(fromIsoDay(form.querySelector('.js-date-field').value) || form._shown, fromIsoDay(el.value), cal));
+  });
+  up.on('change', '.js-pop-over form.edit-date .js-calendar-day-select', function (event, el) {
+    var d = fromIsoDay(el.value);
+    if (d) pickDate(el.form, d);
+  });
+  // The days by the keyboard (WeKan's calendarDateInput): the arrows a day and
+  // a week - mirrored right to left - PageUp and PageDown a month, with Shift a
+  // year, Home and End the week's first and last day.
+  up.on('keydown', '.js-pop-over form.edit-date .js-calendar-day', function (event, el) {
+    var form = el.form, cal = pickerCalendar(), d = fromIsoDay(el.getAttribute('data-date')), next = null;
+    var h = getComputedStyle(form).direction === 'rtl' ? -1 : 1;
+    var steps = { ArrowLeft: -h, ArrowRight: h, ArrowUp: -7, ArrowDown: 7 };
+    if (event.key in steps) next = calDay(d, steps[event.key]);
+    else if (event.key === 'PageUp' || event.key === 'PageDown') next = (event.shiftKey ? calShiftYear : calShiftMonth)(d, event.key === 'PageUp' ? -1 : 1, cal);
+    else if (event.key === 'Home' || event.key === 'End') {
+      var off = (d.getDay() - pickerFirstDay() + 7) % 7;
+      next = calDay(d, event.key === 'Home' ? -off : 6 - off);
+    } else return;
+    event.preventDefault(); event.stopPropagation();
+    form._shown = next; form._focus = isoDay(next);
+    drawCalendar(form);
+    var b = form.querySelector('.js-calendar-day[data-date="' + isoDay(next) + '"]');
+    if (b) b.focus();
   });
   up.on('click', '.js-pop-over form.edit-date .js-delete-date', function (event, el) {
     var form = el.form;
@@ -2071,6 +2372,12 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         // WeKan's pages change language the moment it is set: draw this page
         // again in it - its lang and direction too - before the call answers.
         if (name === 'setLanguage') return refreshUser().then(rerenderPage).then(done, done);
+        // WeKan's dates follow the member's settings the moment they change.
+        var html = document.documentElement;
+        if (name === 'changeCalendarSystem') html.setAttribute('data-calendar-system', String(args[0]));
+        if (name === 'changeStartDayOfWeek') html.setAttribute('data-start-day', String(args[0]));
+        if (name === 'changeDateFormat') html.setAttribute('data-date-format', args[1] === false ? '' : String(args[0]));
+        if (/^change(CalendarSystem|DateFormat)$/.test(name) && window.weddyRedrawDates) window.weddyRedrawDates();
         return refreshUser().then(done);
       });
     });

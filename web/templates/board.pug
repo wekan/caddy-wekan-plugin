@@ -825,6 +825,11 @@
                       thead
                         tr.js-calendar-weekdays
                       tbody.js-calendar-weeks
+                    //- #6853: any year, month and day by a pick, under the calendar.
+                    .selected-calendar-selects
+                      input.js-calendar-year(type="number", step="1", inputmode="numeric", aria-label="{{t $.L `predicate-year`}}")
+                      select.js-calendar-month(aria-label="{{t $.L `month`}}")
+                      select.js-calendar-day-select(aria-label="{{t $.L `day`}}")
               .right
                 label {{t $.L "time"}}
                 //- calendarTimeInput: an hour and a minute picked.
@@ -1314,7 +1319,8 @@
                                   each d in $c.MinicardDates
                                     span.badge(class="minicard-date minicard-date-{{.Kind}} date {{.Kind}}-date", title="{{t $.L .Title}}")
                                       i.fa(class="{{.Icon}}")
-                                      |  {{.Text}}
+                                      |  
+                                      time(datetime="{{.ISO}}") {{.Text}}
                             else if eq .Key "assignee"
                               //- WeKan's minicard assignees: an avatar each.
                               if $c.MinicardAssignees

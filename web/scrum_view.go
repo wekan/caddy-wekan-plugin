@@ -301,7 +301,7 @@ func (s *Server) scrumPage(w http.ResponseWriter, r *http.Request, u *User) {
 // Scrum views.
 func (s *Server) boardViewEntries(b *Board, lang, current string) []map[string]any {
 	out := []map[string]any{{"Class": "js-open-swimlanes-view", "Icon": "fa-th-large", "Label": tr(lang, "swimlanes"),
-		"URL": "/b/" + b.ID + "/" + b.Slug, "Current": current == ""},
+		"URL": "/b/" + b.ID + "/" + b.Slug + "?view=swimlanes", "Current": current == ""},
 		// WeKan's Calendar view (calendar_view.go).
 		{"Class": "js-open-cal-view", "Icon": "fa-calendar", "Label": tr(lang, "board-view-cal"),
 			"URL": "/b/" + b.ID + "/" + b.Slug + "?view=cal", "Current": current == "cal"},

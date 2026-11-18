@@ -3,6 +3,7 @@ package web
 import (
 	"context"
 	"encoding/json"
+	"slices"
 	"sort"
 	"strings"
 	"time"
@@ -206,4 +207,21 @@ func (s *Server) multiboardCalendarData(ctx context.Context, u *User, f boardFil
 	out, _ := json.Marshal(events)
 	data["Events"], data["ReadOnly"] = string(out), true
 	return data
+}
+
+// storedCalendarView is the calendar view the member chose in WeKan for this
+// board - the board's own choice, else the one every board shared (WeKan's
+// storedBoardView) - for the views Weddy draws from it; "" for the board.
+func storedCalendarView(u *User, boardID string) string {
+	if u == nil {
+		return ""
+	}
+	views := map[string]string{"board-view-cal": "cal", "board-view-calendar-mode": "calendar-mode", "board-view-multiboard-cal": "multiboard-cal"}
+	if v, ok := u.Profile.BoardViews[boardID]; ok && slices.Contains(boardViewKeys, v) {
+		return views[v]
+	}
+	if slices.Contains(boardViewKeys, u.Profile.BoardView) {
+		return views[u.Profile.BoardView]
+	}
+	return ""
 }

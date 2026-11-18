@@ -84,3 +84,42 @@ func TestCalendarModePage(t *testing.T) {
 		t.Fatal("the board's own page is not Calendar Mode")
 	}
 }
+
+// The calendar view the member chose in WeKan opens with the board: the
+// board's own choice, else the shared one (#4906); an unknown one is not a
+// view, and the Board View menu's Swimlanes always reaches the board.
+func TestStoredCalendarView(t *testing.T) {
+	u := &User{}
+	u.Profile.BoardView = "board-view-cal"
+	if storedCalendarView(u, "b1") != "cal" {
+		t.Fatal("the shared view")
+	}
+	u.Profile.BoardViews = map[string]string{"b1": "board-view-multiboard-cal", "b2": "board-view-swimlanes", "b3": "not-a-view"}
+	if storedCalendarView(u, "b1") != "multiboard-cal" || storedCalendarView(u, "b2") != "" {
+		t.Fatal("the board's own choice wins, a non-calendar one included")
+	}
+	if storedCalendarView(u, "b3") != "cal" || storedCalendarView(nil, "b1") != "" {
+		t.Fatal("negative: an unknown view falls back to the shared one; nobody signed in has none")
+	}
+
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	ann := w.seedUser(t, "ann", "pw")
+	b, _ := w.s.CreateBoard(ctx, ann, "Stored")
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": ann.ID}, bson.M{"$set": bson.M{"profile.boardView": "board-view-cal"}})
+	cl := w.client(t)
+	body(t, w.signIn(t, cl, "ann", "pw"))
+	get := func(q string) string {
+		res, err := cl.Get(w.srv.URL + "/b/" + b.ID + "/x" + q)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return body(t, res)
+	}
+	if !strings.Contains(get(""), `id="calendar-view"`) {
+		t.Fatal("the stored Calendar view opens with the board")
+	}
+	if h := get("?view=swimlanes"); strings.Contains(h, `id="calendar-view"`) || !strings.Contains(h, "js-swimlane") {
+		t.Fatal("Swimlanes reaches the board")
+	}
+}

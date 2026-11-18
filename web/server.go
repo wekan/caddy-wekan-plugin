@@ -271,6 +271,7 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 		data["PasswordMin"] = formPasswordMin
 	}
 	if u != nil {
+		data["DateSettings"] = dateSettingsOf(u, lang.Tag)
 		data["Unread"] = s.unreadNotifications(r.Context(), u.ID)
 		data["Drawer"] = s.drawerGroups(r.Context(), u, s.drawerItems(r.Context(), u, lang.Tag), lang.Tag)
 		data["CloudMenu"] = s.cloudOn() && u.IsAdmin
@@ -964,7 +965,11 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["UserStamp"] = s.userStamp(r.Context(), u.ID)
 	// The Calendar view: the same cards, on a calendar (calendar_view.go).
 	current := ""
-	switch r.URL.Query().Get("view") {
+	view := r.URL.Query().Get("view")
+	if view == "" {
+		view = storedCalendarView(u, b.ID)
+	}
+	switch view {
 	case "cal":
 		current = "cal"
 		data["Calendar"] = calendarData(b, lanes, lang)

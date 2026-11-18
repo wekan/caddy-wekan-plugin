@@ -1,5 +1,5 @@
 doctype html
-html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
+html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-calendar-system="{{if .User}}{{.DateSettings.Calendar}}{{end}}", data-start-day="{{if .User}}{{.DateSettings.StartDay}}{{end}}", data-date-format="{{if .User}}{{if .DateSettings.Override}}{{.DateSettings.Format}}{{end}}{{end}}")
   head
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width, initial-scale=1")
@@ -92,46 +92,97 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
             a.board-header-btn.js-toggle-page-sidebar(href="#", title="{{t $.L `sidebar-open`}} {{t $.L `or`}} {{t $.L `sidebar-close`}}", aria-label="{{t $.L `sidebar-open`}}") ☰
         //- WeKan's memberMenuPopup: what Weddy has of it.
         template.js-pop-over-template(data-pop="member-menu", data-title="{{t $.L `memberMenuPopup-title`}}")
-          ul.pop-over-list
-            li
-              a(href="/", up-follow)
-                i.fa.fa-home
-                |  {{t $.L "all-boards"}}
-            if .User.IsAdmin
+          .content
+            ul.pop-over-list
               li
-                a.js-go-setting(href="/admin/people")
-                  i.fa.fa-lock
-                  |  {{t $.L "admin-panel"}}
-            hr
-            li
-              a.board-header-btn.js-open-archived-board(href="/allboards/archive")
-                i.fa.fa-archive
-                |  {{t $.L "archives"}}
-            hr
-            li
-              a.js-edit-profile(href="#")
-                i.fa.fa-user
-                |  {{t $.L "edit-profile"}}
-            li
-              a.js-change-password(href="/profile")
-                i.fa.fa-key
-                |  {{t $.L "changePasswordPopup-title"}}
-            li
-              a.js-change-language(href="/language")
-                i.fa.fa-globe
-                |  {{t $.L "changeLanguagePopup-title"}}
-            li
-              a.js-change-settings(href="#")
-                i.fa.fa-cog
-                |  {{t $.L "change-settings"}}
+                a(href="/", up-follow)
+                  i.fa.fa-home
+                  |  {{t $.L "all-boards"}}
+              if .User.IsAdmin
+                li
+                  a.js-go-setting(href="/admin/people")
+                    i.fa.fa-lock
+                    |  {{t $.L "admin-panel"}}
+              hr
+              li
+                a.board-header-btn.js-open-archived-board(href="/allboards/archive")
+                  i.fa.fa-archive
+                  |  {{t $.L "archives"}}
+              hr
+              li
+                a.js-edit-profile(href="#")
+                  i.fa.fa-user
+                  |  {{t $.L "edit-profile"}}
+              li
+                a.js-change-password(href="/profile")
+                  i.fa.fa-key
+                  |  {{t $.L "changePasswordPopup-title"}}
+              li
+                a.js-change-language(href="/language")
+                  i.fa.fa-globe
+                  |  {{t $.L "changeLanguagePopup-title"}}
+              li
+                a.js-member-date-settings(href="#")
+                  i.fa.fa-calendar
+                  |  {{t $.L "date"}}
+              li
+                a.js-change-settings(href="#")
+                  i.fa.fa-cog
+                  |  {{t $.L "change-settings"}}
         //- WeKan's changeSettingsPopup: what Weddy has of it.
         template.js-pop-over-template(data-pop="change-settings", data-title="{{t $.L `changeSettingsPopup-title`}}")
-          ul.pop-over-list
-            li
-              a.js-toggle-submit-on-enter(href="#", title="{{t $.L `submit-on-enter-description`}}")
-                i.fa.fa-level-down
-                |  {{t $.L "submit-on-enter"}}
-                i.fa.fa-check.js-submit-on-enter-check(hidden)
+          .content
+            ul.pop-over-list
+              li
+                a.js-toggle-submit-on-enter(href="#", title="{{t $.L `submit-on-enter-description`}}")
+                  i.fa.fa-level-down
+                  |  {{t $.L "submit-on-enter"}}
+                  i.fa.fa-check.js-submit-on-enter-check(hidden)
+            //- Weddy applies each setting as it is clicked; Apply closes, as
+              WeKan's js-apply-user-settings does after saving.
+            button.primary.js-apply-user-settings(type="button") {{t $.L "apply"}}
+        //- WeKan's memberDateSettingsPopup (dateFormatSettings.jade): the
+          member's date format, first day of the week and calendar (#4335).
+        if .User
+          template.js-pop-over-template(data-pop="member-date-settings", data-title="{{t $.L `date-format`}}")
+            .content
+              form.js-date-format-form
+                strong.js-member-date-format-heading {{t $.L "memberMenuPopup-title"}}: {{t $.L "date-format"}}
+                label.flex
+                  if .DateSettings.Override
+                    input.js-date-format-override(type="checkbox", checked)
+                  else
+                    input.js-date-format-override(type="checkbox")
+                  span.js-member-date-format-enabled {{t $.L "date-format"}}
+                select.js-date-format-select(aria-label="{{t $.L `date-format`}}")
+                  each o in .DateSettings.Formats
+                    if .Selected
+                      option(value="{{.Value}}", selected) {{.Name}}
+                    else
+                      option(value="{{.Value}}") {{.Name}}
+                hr
+                label.bold.clear(for="start-day-of-week")
+                  i.fa.fa-calendar
+                  |  {{t $.L "start-day-of-week"}}
+                select#start-day-of-week
+                  each o in .DateSettings.Days
+                    if .Selected
+                      option(value="{{.Value}}", selected) {{.Name}}
+                    else
+                      option(value="{{.Value}}") {{.Name}}
+                hr
+                label.bold.clear(for="calendar-system")
+                  i.fa.fa-calendar-check-o
+                  |  {{t $.L "calendar-system"}}
+                //- Display-only: dates stay stored as Gregorian.
+                select#calendar-system
+                  each o in .DateSettings.Calendars
+                    if .Selected
+                      option(value="{{.Value}}", selected) {{.Name}}
+                    else
+                      option(value="{{.Value}}") {{.Name}}
+                p.error.js-date-format-error(hidden)
+                button.primary(type="submit") {{t $.L "save"}}
         //- WeKan's editProfilePopup.
         template.js-pop-over-template(data-pop="edit-profile", data-title="{{t $.L `editProfilePopup-title`}}")
           form.js-edit-profile-form(method="post", action="/profile")

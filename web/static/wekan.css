@@ -1150,3 +1150,8 @@ html[dir='rtl'] .pop-over > button.js-date-popup-resize > span {
   box-sizing: border-box;
   padding-bottom: 24px;
 }
+/* The year field's own width (an input's size) made the row - and the popup
+   with it - wider than the calendar: the three share the row by flex alone. */
+.selected-calendar-selects select,
+.selected-calendar-selects input { width: 0; }
+.pop-over:has(.edit-date) .datepicker-container .fields > .left { min-width: 0; }

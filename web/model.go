@@ -93,6 +93,17 @@ type User struct {
 		Language string `bson:"language,omitempty" json:"language,omitempty"`
 		// DateFormat is WeKan's profile.dateFormat: YYYY-MM-DD and the rest.
 		DateFormat string `bson:"dateFormat,omitempty" json:"dateFormat,omitempty"`
+		// DateFormatOverride: the member's own format wins (dateFormatPolicy.js).
+		DateFormatOverride bool `bson:"dateFormatOverride,omitempty" json:"dateFormatOverride,omitempty"`
+		// CalendarSystem is WeKan's profile.calendarSystem (#4335): how dates
+		// are drawn for the member - stored dates stay Gregorian.
+		CalendarSystem string `bson:"calendarSystem,omitempty" json:"calendarSystem,omitempty"`
+		// BoardView and BoardViews are WeKan's profile.boardView - the view
+		// every board shared - and profile.boardViews, a board's own (#4906).
+		BoardView  string            `bson:"boardView,omitempty" json:"boardView,omitempty"`
+		BoardViews map[string]string `bson:"boardViews,omitempty" json:"boardViews,omitempty"`
+		// StartDayOfWeek is WeKan's profile.startDayOfWeek: 0 Sunday ... 6.
+		StartDayOfWeek *int `bson:"startDayOfWeek,omitempty" json:"startDayOfWeek,omitempty"`
 		// AvatarURL is WeKan's profile.avatarUrl: the user's uploaded picture.
 		AvatarURL string `bson:"avatarUrl,omitempty" json:"avatarUrl,omitempty"`
 		// StarredBoards are the user's favorites, WeKan's profile.starredBoards.
