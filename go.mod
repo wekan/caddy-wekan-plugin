@@ -1,6 +1,6 @@
 module github.com/wekan/caddy-wekan-plugin
 
-go 1.27.3
+go 1.27.4
 
 require (
 	github.com/Joker/jade v1.1.3
