@@ -508,7 +508,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     });
     draw();
   });
-  up.compiler('#calendar-view', function (el) {
+  up.compiler('#calendar-view, #multiboard-calendar-view', function (el) {
     var labels = {}, events = [];
     try { labels = JSON.parse(el.dataset.labels || '{}'); events = JSON.parse(el.dataset.events || '[]'); } catch (e) { /* drawn with none */ }
     var t = function (k, fallback) { return labels[k] || fallback; };
@@ -527,9 +527,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         nowIndicator: true,
         locale: document.documentElement.lang || 'en',
         direction: document.documentElement.dir === 'rtl' ? 'rtl' : 'ltr',
-        editable: true,
-        selectable: true,
-        navLinks: true,
+        // The Multi Board Calendar is read-only (#2469): a card's board is not
+        // necessarily the one open.
+        editable: el.dataset.readonly !== 'true',
+        selectable: el.dataset.readonly !== 'true',
+        navLinks: el.dataset.readonly !== 'true',
         businessHours: { daysOfWeek: [1, 2, 3, 4, 5], start: '8:00', end: '18:00' },
         events: events,
         eventDrop: function (info) {

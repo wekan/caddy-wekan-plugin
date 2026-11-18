@@ -307,7 +307,10 @@ func (s *Server) boardViewEntries(b *Board, lang, current string) []map[string]a
 			"URL": "/b/" + b.ID + "/" + b.Slug + "?view=cal", "Current": current == "cal"},
 		// WeKan's Calendar Mode (#3194), below Calendar.
 		{"Class": "js-open-calendar-mode-view", "Icon": "fa-calendar-o", "Label": tr(lang, "board-view-calendar-mode"),
-			"URL": "/b/" + b.ID + "/" + b.Slug + "?view=calendar-mode", "Current": current == "calendar-mode"}}
+			"URL": "/b/" + b.ID + "/" + b.Slug + "?view=calendar-mode", "Current": current == "calendar-mode"},
+		// WeKan's Multi Board Calendar (#2469): every board of the viewer's.
+		{"Class": "js-open-multiboard-cal-view", "Icon": "fa-calendar-plus-o", "Label": tr(lang, "board-view-multiboard-cal"),
+			"URL": "/b/" + b.ID + "/" + b.Slug + "?view=multiboard-cal", "Current": current == "multiboard-cal"}}
 	for _, v := range scrumViews {
 		out = append(out, map[string]any{"Class": "js-open-" + v.Slug + "-view", "Icon": v.Icon, "Label": tr(lang, v.Key),
 			"URL": "/b/" + b.ID + "/" + b.Slug + "/scrum?view=" + v.Slug, "Current": current == v.Slug})

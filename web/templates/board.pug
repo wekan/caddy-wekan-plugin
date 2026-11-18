@@ -1206,7 +1206,7 @@
         .calendar-mode-grid(role="grid")
     else if .Calendar
       .calendar-view.swimlane.dragscroll
-        #calendar-view(data-board="{{.Board.ID}}", data-list="{{.Calendar.List}}", data-swimlane="{{.Calendar.Swimlane}}", data-events="{{.Calendar.Events}}", data-labels="{{.Calendar.Labels}}", data-first-day="1")
+        div(id="{{if .Calendar.ReadOnly}}multiboard-calendar-view{{else}}calendar-view{{end}}", data-board="{{.Board.ID}}", data-list="{{.Calendar.List}}", data-swimlane="{{.Calendar.Swimlane}}", data-events="{{.Calendar.Events}}", data-labels="{{.Calendar.Labels}}", data-first-day="1", data-readonly="{{if .Calendar.ReadOnly}}true{{end}}")
     else
       each sw in .Lanes
         //- A folded swimlane (WeKan's collapseSwimlane) keeps its header, and

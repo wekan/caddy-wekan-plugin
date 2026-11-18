@@ -1,8 +1,10 @@
 package web
 
 import (
+	"context"
 	"encoding/json"
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -153,4 +155,55 @@ func calendarModeData(b *Board, lanes []lane, lang string) map[string]any {
 	}
 	l, _ := json.Marshal(labels)
 	return map[string]any{"Cards": string(cards), "Labels": string(l)}
+}
+
+// isHelperBoardTitle is WeKan's models/lib/helperBoards.js: an internal board
+// of WeKan's own - ^Subtasks^ and the like - that no list of boards shows.
+func isHelperBoardTitle(title string) bool {
+	return len(title) >= 2 && strings.HasPrefix(title, "^") && strings.HasSuffix(title, "^")
+}
+
+// multiboardCalendarData is WeKan's Multi Board Calendar (#2469,
+// multiboardCalendarView.js): the Calendar view of every board the viewer is
+// a member of - not archived, not a template, not a helper board - each event
+// prefixed with its board's title, and read-only: a card's board is not
+// necessarily the one open. The board's Filter applies to each, as WeKan's
+// one filter selector does.
+func (s *Server) multiboardCalendarData(ctx context.Context, u *User, f boardFilter, lang string) map[string]any {
+	events := []calendarEvent{}
+	boards, _ := s.boardsOf(ctx, u.ID)
+	for i := range boards {
+		b := &boards[i]
+		if isHelperBoardTitle(b.Title) {
+			continue
+		}
+		lanes, _, err := s.boardData(ctx, b)
+		if err != nil {
+			continue
+		}
+		if f.active() {
+			shown := s.boardFilterCardIDs(ctx, b.ID, f)
+			for i := range lanes {
+				for j := range lanes[i].Lists {
+					ll := &lanes[i].Lists[j]
+					kept := ll.Cards[:0]
+					for _, c := range ll.Cards {
+						if shown[c.ID] {
+							kept = append(kept, c)
+						}
+					}
+					ll.Cards = kept
+				}
+			}
+		}
+		s.annotateMinicards(ctx, b, lanes, u.Profile.DateFormat) // the cards' dates
+		for _, e := range calendarEventsOf(b, lanes, lang) {
+			e.Title = "[" + b.Title + "] " + e.Title
+			events = append(events, e)
+		}
+	}
+	data := calendarData(&Board{}, nil, lang)
+	out, _ := json.Marshal(events)
+	data["Events"], data["ReadOnly"] = string(out), true
+	return data
 }

@@ -971,6 +971,9 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	case "calendar-mode":
 		current = "calendar-mode"
 		data["CalendarMode"] = calendarModeData(b, lanes, lang)
+	case "multiboard-cal":
+		current = "multiboard-cal"
+		data["Calendar"] = s.multiboardCalendarData(r.Context(), u, cardFilter, lang)
 	}
 	data["Views"] = s.boardViewEntries(b, lang, current)
 	// A stopped Scrum History operation blocks the board's Scrum writes
