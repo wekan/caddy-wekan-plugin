@@ -964,9 +964,13 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data["UserStamp"] = s.userStamp(r.Context(), u.ID)
 	// The Calendar view: the same cards, on a calendar (calendar_view.go).
 	current := ""
-	if r.URL.Query().Get("view") == "cal" {
+	switch r.URL.Query().Get("view") {
+	case "cal":
 		current = "cal"
 		data["Calendar"] = calendarData(b, lanes, lang)
+	case "calendar-mode":
+		current = "calendar-mode"
+		data["CalendarMode"] = calendarModeData(b, lanes, lang)
 	}
 	data["Views"] = s.boardViewEntries(b, lang, current)
 	// A stopped Scrum History operation blocks the board's Scrum writes

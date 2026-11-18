@@ -1192,7 +1192,19 @@
   .board-canvas#board-canvas
     //- WeKan's calendarView: the board's cards on a calendar - the same cards
       the board shows, the Filter's too (calendar_view.go, weddy.js).
-    if .Calendar
+    if .CalendarMode
+      //- WeKan's calendarModeView (#3194): weddy.js draws the month or week.
+      .calendar-mode-view.js-calendar-mode-view(data-cards="{{.CalendarMode.Cards}}", data-labels="{{.CalendarMode.Labels}}", data-first-day="1")
+        .calendar-mode-toolbar
+          h2.calendar-mode-title
+          .calendar-mode-buttons
+            button.js-calendar-mode-today(type="button") {{t $.L "today"}}
+            button.js-calendar-mode-prev(type="button", aria-label="{{t $.L `previous`}}") {{t $.L "previous"}}
+            button.js-calendar-mode-next(type="button", aria-label="{{t $.L `next`}}") {{t $.L "next"}}
+            button.js-calendar-mode-range(type="button", data-range="week") {{t $.L "week"}}
+            button.js-calendar-mode-range(type="button", data-range="month") {{t $.L "month"}}
+        .calendar-mode-grid(role="grid")
+    else if .Calendar
       .calendar-view.swimlane.dragscroll
         #calendar-view(data-board="{{.Board.ID}}", data-list="{{.Calendar.List}}", data-swimlane="{{.Calendar.Swimlane}}", data-events="{{.Calendar.Events}}", data-labels="{{.Calendar.Labels}}", data-first-day="1")
     else

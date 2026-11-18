@@ -407,6 +407,107 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     document.body.appendChild(modal);
     form.querySelector('#card-title-input').focus();
   }
+  // WeKan's Calendar Mode (#3194, models/lib/calendarMode.js): each due card
+  // on its local day, the date only, with its labels and whole title; a day's
+  // cards in the board's order - the list's place, then the card's, then the
+  // title. A month or a week, the choice kept in this browser only.
+  var CALENDAR_MODE_RANGE_KEY = 'calendarModeRange';
+  function calModePad(n) { return String(n).padStart(2, '0'); }
+  function calModeDayKey(date) {
+    var d = date instanceof Date ? date : new Date(date);
+    if (isNaN(d.getTime())) return null;
+    return d.getFullYear() + '-' + calModePad(d.getMonth() + 1) + '-' + calModePad(d.getDate());
+  }
+  function calModeMidnight(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function calModeDays(anchor, range, firstDay) {
+    var base = calModeMidnight(anchor);
+    var first = range === 'month' ? new Date(base.getFullYear(), base.getMonth(), 1) : base;
+    var back = (first.getDay() - firstDay + 7) % 7;
+    var start = new Date(first.getFullYear(), first.getMonth(), first.getDate() - back);
+    var monthEnd = new Date(base.getFullYear(), base.getMonth() + 1, 1), todayKey = calModeDayKey(new Date());
+    var weeks = [], cursor = start;
+    do {
+      var week = [];
+      for (var i = 0; i < 7; i += 1) {
+        var date = new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate() + i);
+        week.push({ key: calModeDayKey(date), date: date, inRange: range === 'week' || date.getMonth() === base.getMonth(), isToday: calModeDayKey(date) === todayKey });
+      }
+      weeks.push(week);
+      cursor = new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate() + 7);
+    } while (range === 'month' && cursor < monthEnd && weeks.length < 6);
+    return weeks;
+  }
+  up.compiler('.js-calendar-mode-view', function (view) {
+    var cards = [];
+    try { cards = JSON.parse(view.dataset.cards || '[]'); } catch (e) { /* drawn with none */ }
+    var byDay = {};
+    var num = function (v) { return typeof v === 'number' && isFinite(v) ? v : Infinity; };
+    cards.forEach(function (c) { var k = calModeDayKey(c.dueAt); if (k) (byDay[k] = byDay[k] || []).push(c); });
+    Object.keys(byDay).forEach(function (k) {
+      byDay[k].sort(function (a, b) { return num(a.listSort) - num(b.listSort) || num(a.sort) - num(b.sort) || String(a.title).localeCompare(String(b.title)); });
+    });
+    var firstDay = Number(view.dataset.firstDay); if (!(firstDay >= 0 && firstDay <= 6)) firstDay = 1;
+    var range = 'month';
+    try { if (localStorage.getItem(CALENDAR_MODE_RANGE_KEY) === 'week') range = 'week'; } catch (e) { /* month */ }
+    var anchor = new Date(), locale = document.documentElement.lang || 'en';
+    var grid = view.querySelector('.calendar-mode-grid'), title = view.querySelector('.calendar-mode-title');
+    function fmt(opts, d) { try { return new Intl.DateTimeFormat(locale, opts).format(d); } catch (e) { return d.toDateString(); } }
+    function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+    function draw() {
+      var weeks = calModeDays(anchor, range, firstDay);
+      title.textContent = range === 'week'
+        ? fmt({ day: 'numeric', month: 'short', year: 'numeric' }, weeks[0][0].date) + ' - ' + fmt({ day: 'numeric', month: 'short', year: 'numeric' }, weeks[0][6].date)
+        : fmt({ month: 'long', year: 'numeric' }, anchor);
+      view.querySelectorAll('.js-calendar-mode-range').forEach(function (b) { b.classList.toggle('is-active', b.dataset.range === range); });
+      grid.textContent = '';
+      var head = el('div', 'calendar-mode-weekdays'); head.setAttribute('role', 'row');
+      weeks[0].forEach(function (d) { var h = el('div', 'calendar-mode-weekday', fmt({ weekday: 'short' }, d.date)); h.setAttribute('role', 'columnheader'); head.appendChild(h); });
+      grid.appendChild(head);
+      weeks.forEach(function (week) {
+        var row = el('div', 'calendar-mode-week'); row.setAttribute('role', 'row');
+        week.forEach(function (d) {
+          var cell = el('div', 'calendar-mode-day' + (d.inRange ? '' : ' is-outside') + (d.isToday ? ' is-today' : ''));
+          cell.setAttribute('role', 'gridcell'); cell.dataset.day = d.key;
+          cell.appendChild(el('div', 'calendar-mode-day-number', String(d.date.getDate())));
+          (byDay[d.key] || []).forEach(function (c) {
+            var a = el('a', 'calendar-mode-card js-calendar-mode-card' + (c.color ? ' card-label-' + c.color + '-border' : ''));
+            a.href = c.url; a.dataset.cardId = c._id;
+            if (c.labels && c.labels.length) {
+              var marks = el('div', 'calendar-mode-card-labels');
+              c.labels.forEach(function (l) { var m = el('span', 'card-label card-label-' + l.color, l.name); m.title = l.name; marks.appendChild(m); });
+              a.appendChild(marks);
+            }
+            a.appendChild(el('div', 'calendar-mode-card-title', c.title));
+            cell.appendChild(a);
+          });
+          row.appendChild(cell);
+        });
+        grid.appendChild(row);
+      });
+    }
+    function shift(step) {
+      var b = calModeMidnight(anchor);
+      anchor = range === 'week' ? new Date(b.getFullYear(), b.getMonth(), b.getDate() + 7 * step) : new Date(b.getFullYear(), b.getMonth() + step, 1);
+      draw();
+    }
+    view.addEventListener('click', function (event) {
+      var t = event.target.closest('button, .js-calendar-mode-card');
+      if (!t) return;
+      if (t.classList.contains('js-calendar-mode-today')) { anchor = new Date(); draw(); }
+      else if (t.classList.contains('js-calendar-mode-prev')) shift(-1);
+      else if (t.classList.contains('js-calendar-mode-next')) shift(1);
+      else if (t.classList.contains('js-calendar-mode-range')) {
+        if (t.dataset.range !== 'week' && t.dataset.range !== 'month') return;
+        range = t.dataset.range;
+        try { localStorage.setItem(CALENDAR_MODE_RANGE_KEY, range); } catch (e) { /* this browser only */ }
+        draw();
+      } else if (t.classList.contains('js-calendar-mode-card')) {
+        event.preventDefault();
+        up.navigate({ url: t.getAttribute('href') });
+      }
+    });
+    draw();
+  });
   up.compiler('#calendar-view', function (el) {
     var labels = {}, events = [];
     try { labels = JSON.parse(el.dataset.labels || '{}'); events = JSON.parse(el.dataset.events || '[]'); } catch (e) { /* drawn with none */ }

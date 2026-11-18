@@ -94,3 +94,63 @@ func calendarData(b *Board, lanes []lane, lang string) map[string]any {
 	l, _ := json.Marshal(labels)
 	return map[string]any{"Events": string(events), "List": firstList, "Swimlane": firstLane, "Labels": string(l)}
 }
+
+// WeKan's Calendar Mode (#3194, calendarModeView.jade, models/lib/
+// calendarMode.js): Trello's calendar - each card on the day it is due, the
+// date only, with its labels and whole title, a day's cards in the board's
+// order. The page carries the due cards the board shows (the Filter's too);
+// weddy.js lays them on the viewer's own local days, a month or a week.
+type calendarModeCard struct {
+	ID       string             `json:"_id"`
+	Title    string             `json:"title"`
+	DueAt    string             `json:"dueAt"`
+	ListSort float64            `json:"listSort"`
+	Sort     float64            `json:"sort"`
+	Color    string             `json:"color,omitempty"`
+	URL      string             `json:"url"`
+	Labels   []calendarModeMark `json:"labels"`
+}
+
+type calendarModeMark struct {
+	Name  string `json:"name"`
+	Color string `json:"color"`
+}
+
+func calendarModeCardsOf(b *Board, lanes []lane) []calendarModeCard {
+	labels := map[string]Label{}
+	for _, l := range b.Labels {
+		labels[l.ID] = l
+	}
+	out := []calendarModeCard{}
+	seen := map[string]bool{}
+	for _, l := range lanes {
+		for _, ll := range l.Lists {
+			for _, c := range ll.Cards {
+				if seen[c.ID] || c.DueAt == nil || c.DueAt.IsZero() {
+					continue
+				}
+				seen[c.ID] = true
+				marks := []calendarModeMark{}
+				for _, id := range c.LabelIDs {
+					if lb, ok := labels[id]; ok {
+						marks = append(marks, calendarModeMark{Name: lb.Name, Color: lb.Color})
+					}
+				}
+				out = append(out, calendarModeCard{ID: c.ID, Title: c.Title, DueAt: jsISO(*c.DueAt), ListSort: ll.Sort, Sort: c.Sort,
+					Color: c.Color, URL: "/b/" + b.ID + "/" + b.Slug + "/" + c.ID, Labels: marks})
+			}
+		}
+	}
+	return out
+}
+
+// calendarModeData is what the Calendar Mode page carries for its script.
+func calendarModeData(b *Board, lanes []lane, lang string) map[string]any {
+	cards, _ := json.Marshal(calendarModeCardsOf(b, lanes))
+	labels := map[string]string{}
+	for _, k := range []string{msg("today"), msg("previous"), msg("next"), msg("week"), msg("month")} {
+		labels[k] = tr(lang, k)
+	}
+	l, _ := json.Marshal(labels)
+	return map[string]any{"Cards": string(cards), "Labels": string(l)}
+}
