@@ -35,9 +35,9 @@ var securityCategories = map[string]securityCategory{
 	// RaceBleed (GHSA-3vjg-3p4q-8fwh): a card delete whose card was moved away
 	// first. Refused, and nothing removed; a stale view is not an attack.
 	"authz.card-delete-race": {Category: "authz", Bleed: "RaceBleed", Severity: "medium", CWE: "CWE-367", NeverBlocks: true},
-	"authz.list-locked": {Category: "authz", Bleed: "ListLockBleed", Severity: "medium", CWE: "CWE-863", NeverBlocks: true},
-	"ssrf.webhook":      {Category: "ssrf", Bleed: "IntegrationBleed", Severity: "high", CWE: "CWE-918", NeverBlocks: true},
-	"ssrf.attachment":   {Category: "ssrf", Bleed: "LiveBleed", Severity: "high", CWE: "CWE-918", NeverBlocks: true},
+	"authz.list-locked":      {Category: "authz", Bleed: "ListLockBleed", Severity: "medium", CWE: "CWE-863", NeverBlocks: true},
+	"ssrf.webhook":           {Category: "ssrf", Bleed: "IntegrationBleed", Severity: "high", CWE: "CWE-918", NeverBlocks: true},
+	"ssrf.attachment":        {Category: "ssrf", Bleed: "LiveBleed", Severity: "high", CWE: "CWE-918", NeverBlocks: true},
 	// UnassignedAttachBleed (GHSA-w26g-rc43-q6cm): an assigned-only member
 	// changing an attachment of a card no longer assigned to them.
 	// FileBleed: active content taken out of a file as it was served.
