@@ -481,13 +481,21 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     } catch (e) { /* no storage: the sidebar just closes on reload */ }
     return false;
   }
+  // The board sidebar opens below the header bar, as WeKan's, so the bar's
+  // sidebar hamburger stays on screen; the bar wraps, so its height is measured.
+  function headerHeight() {
+    var bar = document.getElementById('header');
+    if (bar) document.documentElement.style.setProperty('--weddy-header-height', bar.getBoundingClientRect().bottom + 'px');
+  }
+  up.compiler('#header', function () { headerHeight(); });
+  window.addEventListener('resize', headerHeight);
   up.on('click', '.js-toggle-page-sidebar', function (event) {
     event.preventDefault();
     var sb = document.querySelector('.board-sidebar');
     if (sb) {
       var open = sb.classList.toggle('is-open');
       sidebarState('open', open);
-      if (!open) sidebarState('archives', false);
+      if (!open) { sidebarState('archives', false); sidebarState('filter', false); }
     }
   });
   up.on('click', '.js-close-sidebar', function (event, el) {
@@ -2198,18 +2206,10 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // board drawn again with only the cards it matches - the server decides,
   // with the same query a rule's advanced-filter trigger uses.
   function applyBoardFilter(text) {
-    var wrapper = document.querySelector('.board-wrapper');
     var view = document.querySelector('.js-filter-view');
-    if (!wrapper) return;
-    var url = new URL(window.location.href);
-    url.searchParams.delete('advanced'); url.searchParams.delete('last');
-    if (text) {
-      url.searchParams.set('advanced', text);
-      var last = view ? view.dataset.applied : '';
-      if (last) url.searchParams.set('last', last);
-    }
-    up.navigate({ url: url.pathname + url.search, target: '.board-wrapper', history: 'replace', cache: false });
+    setBoardFilterParams({ advanced: text, last: text && view ? view.dataset.applied || '' : '' });
   }
+
   up.on('click', '.js-open-filter-view', function (event) {
     event.preventDefault();
     closePopOvers();
@@ -2221,9 +2221,53 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     sidebarState('open', true);
     sidebarState('filter', true);
   });
+  // WeKan's card text and label filters (client/lib/filter.js), kept in the
+  // URL so the board - and its Calendar view - is drawn again with only the
+  // cards they match. A label goes chosen -> excluded -> off (#2886); "no
+  // label" is chosen or off.
+  // The state is kept here between a click and the board drawn for it, so a
+  // second click before the first answer builds on the first, not on the page.
+  var pendingFilter = null, filterNav = 0;
+  function boardFilterState() {
+    if (!pendingFilter) {
+      var q = new URL(window.location.href).searchParams;
+      pendingFilter = {};
+      ['advanced', 'last', 'text', 'labels', 'xlabels', 'labelMode'].forEach(function (k) { pendingFilter[k] = q.get(k) || ''; });
+    }
+    return pendingFilter;
+  }
+  function setBoardFilterParams(change) {
+    var st = boardFilterState();
+    Object.keys(change).forEach(function (k) { st[k] = change[k]; });
+    var url = new URL(window.location.href);
+    Object.keys(st).forEach(function (k) {
+      if (st[k]) url.searchParams.set(k, st[k]); else url.searchParams.delete(k);
+    });
+    var mine = ++filterNav;
+    Promise.resolve(up.navigate({ url: url.pathname + url.search, target: '.board-wrapper', history: 'replace', cache: false }))
+      .finally(function () { if (mine === filterNav) pendingFilter = null; });
+  }
+  up.on('change', '.js-field-card-filter', function (event, el) {
+    setBoardFilterParams({ text: el.value.trim() });
+  });
+  up.on('change', '.js-label-filter-mode', function (event, el) {
+    setBoardFilterParams({ labelMode: el.value === 'and' ? 'and' : '' });
+  });
+  up.on('click', '.js-toggle-label-filter', function (event, el) {
+    event.preventDefault();
+    var st = boardFilterState(), id = el.getAttribute('data-filter-id');
+    var chosen = st.labels ? st.labels.split(',') : [], excluded = st.xlabels ? st.xlabels.split(',') : [];
+    var state = chosen.indexOf(id) >= 0 ? 'in' : excluded.indexOf(id) >= 0 ? 'out' : '';
+    var next = id === '__none__' ? (state === 'in' ? '' : 'in') : (state === 'in' ? 'out' : state === 'out' ? '' : 'in');
+    chosen = chosen.filter(function (x) { return x !== id; });
+    excluded = excluded.filter(function (x) { return x !== id; });
+    if (next === 'in') chosen.push(id); else if (next === 'out') excluded.push(id);
+    setBoardFilterParams({ labels: chosen.join(','), xlabels: excluded.join(',') });
+  });
+  up.compiler('.js-label-filters input[data-indeterminate="true"]', function (input) { input.indeterminate = true; });
   up.on('click', '.js-filter-reset', function (event) {
     event.preventDefault();
-    applyBoardFilter('');
+    setBoardFilterParams({ advanced: '', last: '', text: '', labels: '', xlabels: '', labelMode: '' });
   });
   up.on('change', '.js-field-advanced-filter', function (event, el) {
     applyBoardFilter(el.value.trim());

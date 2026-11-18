@@ -68,7 +68,7 @@ input[type=text], input[type=password], textarea { font: inherit; padding: 6px 8
 /* The board's sidebar and WeKan's pop-overs. */
 .board-header { display: flex; align-items: center; gap: .5em; }
 .board-header-btn { cursor: pointer; text-decoration: none; padding: 0 .4em; }
-.board-sidebar { display: none; position: fixed; top: 0; right: 0; bottom: 0; width: 18em; max-width: 100%;
+.board-sidebar { display: none; position: fixed; top: var(--weddy-header-height, 0px); right: 0; bottom: 0; width: 18em; max-width: 100%;
   background: #f7f7f7; box-shadow: -2px 0 6px rgba(0,0,0,.2); padding: 1em; z-index: 20; overflow-y: auto; }
 .board-sidebar.is-open { display: block; }
 /* An open card sits beside an open sidebar, and above it where both cannot fit. */

@@ -83,6 +83,13 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}")
                   .notification-date
                     small.quiet {{.Display}}
         a.header-user.js-open-header-member-menu(href="/profile") {{memberName .User}}
+        //- WeKan's sidebar hamburger (header.jade): at the end of the username,
+          in the bar that is always on screen, on a board - the sidebar opens
+          below this bar, so it never covers it.
+        if .Lanes
+          .board-header-btns.header-sidebar-toggle
+            .separator
+            a.board-header-btn.js-toggle-page-sidebar(href="#", title="{{t $.L `sidebar-open`}} {{t $.L `or`}} {{t $.L `sidebar-close`}}", aria-label="{{t $.L `sidebar-open`}}") ☰
         //- WeKan's memberMenuPopup: what Weddy has of it.
         template.js-pop-over-template(data-pop="member-menu", data-title="{{t $.L `memberMenuPopup-title`}}")
           ul.pop-over-list

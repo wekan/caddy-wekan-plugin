@@ -845,6 +845,21 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			break
 		}
 	}
+	// The sidebar's card text and label filters (board_filter.go), with the
+	// Advanced Filter: a card is shown when it matches both.
+	cardFilter := parseBoardFilter(r.URL.Query(), b)
+	if cardFilter.active() {
+		ids := s.boardFilterCardIDs(r.Context(), b.ID, cardFilter)
+		if shown != nil {
+			for id := range shown {
+				if !ids[id] {
+					delete(shown, id)
+				}
+			}
+		} else {
+			shown = ids
+		}
+	}
 	if shown != nil {
 		for i := range lanes {
 			for j := range lanes[i].Lists {
@@ -885,7 +900,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		}
 	}
 	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "Starred": starred, "Invited": invited,
-		"AdvancedFilter": typed, "AppliedFilter": applied, "FilterActive": applied != ""}
+		"AdvancedFilter": typed, "AppliedFilter": applied, "FilterActive": applied != "" || cardFilter.active(),
+		"FilterText": cardFilter.Text, "FilterNoLabel": cardFilter.NoLabel, "FilterLabelAnd": cardFilter.And, "FilterLabels": cardFilter.sidebarLabels(b)}
 	// WeKan's sidebar: the board menu for a member who is not comment-only or a
 	// worker; its Export for whoever may export the board (models/lib/exportAccess.js).
 	m := b.member(u.ID)
