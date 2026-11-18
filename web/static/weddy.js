@@ -1184,7 +1184,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   });
   var popMove = null;
   document.addEventListener('pointerdown', function (event) {
-    var t = event.button === 0 && event.target.closest && event.target.closest('.js-pop-over[data-popup="boardCardSettingsPopup"] .header-title');
+    var t = event.button === 0 && event.target.closest && event.target.closest('.js-pop-over[data-popup="boardCardSettingsPopup"] .header-title, .js-pop-over:has(form.edit-date) > .header .header-title');
     if (!t) return;
     var pop = t.closest('.js-pop-over'), r = pop.getBoundingClientRect();
     pop.style.left = r.left + 'px'; pop.style.top = r.top + 'px'; pop.style.right = 'auto';
@@ -1197,6 +1197,54 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     popMove.pop.style.top = Math.max(0, event.clientY - popMove.y) + 'px';
   }, true);
   document.addEventListener('pointerup', function () { popMove = null; }, true);
+  // WeKan's popup grip (main/popup.js resizeDatePopup): wider and taller by the
+  // pointer or by 20px per arrow key, mirrored in a right-to-left page, kept
+  // 12px inside the window, never under 320px wide.
+  // Weddy opens a pop-over at the window's edge, where WeKan's opens beside its
+  // opener, so a popup that grows past the window moves back from that edge as
+  // much as it must - the whole window is its room.
+  function resizePopOver(pop, width, height) {
+    var b = pop.getBoundingClientRect(), rtl = getComputedStyle(pop).direction === 'rtl', right = b.left + b.width;
+    var availW = Math.max(0, window.innerWidth - 24), availH = Math.max(0, window.innerHeight - 24);
+    var minH = Number(pop.dataset.resizeMinimumHeight) || Math.min(160, b.height);
+    pop.dataset.resizeMinimumHeight = String(minH);
+    var w = Math.min(availW, Math.max(Math.min(320, availW), width)), h = Math.min(availH, Math.max(Math.min(minH, availH), height));
+    var left = rtl ? right - w : b.left, top = b.top;
+    left = Math.max(12, Math.min(window.innerWidth - 12 - w, left));
+    top = Math.max(12, Math.min(window.innerHeight - 12 - h, top));
+    pop.dataset.userResized = 'true';
+    var st = { position: 'fixed', 'inset-inline-start': 'auto', 'inset-inline-end': 'auto', right: 'auto', bottom: 'auto',
+      left: left + 'px', top: top + 'px', margin: '0', 'min-width': '0', 'min-height': '0',
+      'max-width': availW + 'px', 'max-height': availH + 'px', width: w + 'px', height: h + 'px' };
+    Object.keys(st).forEach(function (k) { pop.style.setProperty(k, st[k], 'important'); });
+  }
+  var popResize = null;
+  document.addEventListener('pointerdown', function (event) {
+    var g = event.button === 0 && event.target.closest && event.target.closest('.js-pop-over > .js-date-popup-resize');
+    if (!g) return;
+    event.preventDefault(); event.stopPropagation();
+    var pop = g.closest('.js-pop-over'), b = pop.getBoundingClientRect();
+    popResize = { pop: pop, id: event.pointerId, x: event.clientX, y: event.clientY, w: b.width, h: b.height, dir: getComputedStyle(pop).direction === 'rtl' ? -1 : 1 };
+    try { g.setPointerCapture(event.pointerId); } catch (e) { /* the document still sees the moves */ }
+  }, true);
+  document.addEventListener('pointermove', function (event) {
+    if (!popResize || popResize.id !== event.pointerId) return;
+    event.preventDefault();
+    resizePopOver(popResize.pop, popResize.w + popResize.dir * (event.clientX - popResize.x), popResize.h + event.clientY - popResize.y);
+  }, true);
+  document.addEventListener('pointerup', function () { popResize = null; }, true);
+  document.addEventListener('pointercancel', function () { popResize = null; }, true);
+  document.addEventListener('click', function (event) {
+    if (event.target.closest && event.target.closest('.js-pop-over > .js-date-popup-resize')) { event.preventDefault(); event.stopPropagation(); }
+  }, true);
+  document.addEventListener('keydown', function (event) {
+    var g = event.target.closest && event.target.closest('.js-pop-over > .js-date-popup-resize');
+    var step = { ArrowLeft: [-20, 0], ArrowRight: [20, 0], ArrowUp: [0, -20], ArrowDown: [0, 20] }[event.key];
+    if (!g || !step) return;
+    event.preventDefault(); event.stopPropagation();
+    var pop = g.closest('.js-pop-over'), b = pop.getBoundingClientRect(), dir = getComputedStyle(pop).direction === 'rtl' ? -1 : 1;
+    resizePopOver(pop, b.width + dir * step[0], b.height + step[1]);
+  }, true);
   // Sections and rows of Card Settings dragged above or below one another, as
   // WeKan's: a section by its title, a row by its name; dropped on the upper
   // half of another it goes before it, on the lower half after. The new order
@@ -1759,7 +1807,14 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var form = document.querySelector('.js-pop-over form.edit-date');
     if (!form) return;
     var pop = form.closest('.js-pop-over');
-    if (el.getAttribute('data-title')) pop.setAttribute('aria-label', el.getAttribute('data-title'));
+    if (el.getAttribute('data-title')) {
+      pop.setAttribute('aria-label', el.getAttribute('data-title'));
+      var ht = pop.querySelector('.header-title');
+      if (ht) ht.textContent = el.getAttribute('data-title');
+    }
+    // The grip is the popup's own (WeKan's popup.tpl.jade: a child of .pop-over).
+    var grip = pop.querySelector('.js-date-popup-resize');
+    if (grip && grip.parentNode !== pop) pop.appendChild(grip);
     form.setAttribute('action', el.getAttribute('data-url'));
     var now = new Date();
     if (defaultTime === 'now') defaultTime = pad2(now.getHours()) + ':' + pad2(now.getMinutes());

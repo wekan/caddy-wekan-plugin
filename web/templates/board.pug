@@ -797,6 +797,14 @@
         (calendarDateInput): static/weddy.js draws the month and sends the
         time the browser makes of the date and time picked.
       template.js-pop-over-template(data-pop="edit-date", data-title="{{t $.L `editCardDueDatePopup-title`}}")
+        //- WeKan's popup header: moved by its title (#6839), closed by its X.
+        .header
+          span.header-title {{t $.L "editCardDueDatePopup-title"}}
+          a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+        //- WeKan's popup grip (popup.tpl.jade): the popup resized by pointer or
+          by the arrow keys.
+        button.js-date-popup-resize(type="button", aria-label="{{t $.L `size`}}", title="{{t $.L `size`}}")
+          span(aria-hidden="true") ◢
         .datepicker-container
           form.edit-date(method="post", action="#", up-submit, up-target=".board-wrapper")
             input(type="hidden", name="at")
