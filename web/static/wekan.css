@@ -920,3 +920,24 @@ body.is-dragging-checklist-item { user-select: none; -webkit-user-select: none; 
     min-height: 70px;
   }
 }
+
+/* #6751: today in the date picker (forms/calendarDateInput.css) - a green fill
+   with white text on every board theme, a white inset ring and an underline
+   that mark it without colour vision too. */
+.calendar-date-input .selected-calendar-picker button.js-calendar-day.is-today {
+  background: #2e7d32 !important;
+  color: #fff !important;
+  box-shadow: inset 0 0 0 2px #fff;
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.calendar-date-input .selected-calendar-picker button.js-calendar-day.is-today[aria-pressed='true'] {
+  outline: 2px solid #2e7d32;
+  outline-offset: 2px;
+}
+.calendar-date-input .selected-calendar-picker td.is-today-cell {
+  background: color-mix(in srgb, currentColor 15%, transparent);
+  border-radius: 9px;
+}

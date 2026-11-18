@@ -1728,6 +1728,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         b.type = 'button';
         b.className = 'primary js-calendar-day' + (iso === today ? ' is-today' : '');
         b.setAttribute('data-date', iso);
+        if (iso === today) b.setAttribute('aria-current', 'date'); // #6751: today, for a screen reader too
         b.setAttribute('aria-pressed', iso === picked ? 'true' : 'false');
         b.title = d.toLocaleDateString(lang, { dateStyle: 'full' });
         b.textContent = String(d.getDate());
@@ -1792,9 +1793,13 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   });
   up.on('click', '.js-pop-over form.edit-date .js-calendar-previous, .js-pop-over form.edit-date .js-calendar-next, .js-pop-over form.edit-date .js-calendar-today', function (event, el) {
     var form = el.form, s = form._shown;
-    if (el.classList.contains('js-calendar-today')) form._shown = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    var toToday = el.classList.contains('js-calendar-today');
+    if (toToday) form._shown = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     else form._shown = new Date(s.getFullYear(), s.getMonth() + (el.classList.contains('js-calendar-next') ? 1 : -1), 1);
     drawCalendar(form);
+    // Today goes to today's month and to today itself, choosing nothing.
+    var todayButton = toToday && form.querySelector('.js-calendar-day.is-today');
+    if (todayButton) todayButton.focus();
   });
   up.on('click', '.js-pop-over form.edit-date .js-calendar-year-previous, .js-pop-over form.edit-date .js-calendar-year-next', function (event, el) {
     var form = el.form, s = form._shown;
