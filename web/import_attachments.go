@@ -203,6 +203,9 @@ func attachmentRequest(source string, att any, a *importAttachmentAuth) importAt
 	return importAttachmentRequest{url: u, headers: with(u)}
 }
 
+// outboundHTTPURL is an absolute http or https address with a host.
+var outboundHTTPURL = regexp.MustCompile(`^[hH][tT][tT][pP][sS]?://[^/?#\s]+([/?#]\S*)?$`)
+
 // errAttachmentBlocked is a download the guard refused.
 type errAttachmentBlocked struct{ reason string }
 
@@ -217,12 +220,19 @@ func fetchImportedAttachment(ctx context.Context, raw string, headers map[string
 	}
 	origin := originOf(raw)
 	for hop := 0; ; hop++ {
+		// Every hop is an http or https address with a host - checked on the
+		// very text that is requested (code scanning #108) - and then, as
+		// every request Weddy makes, by the SSRF guard.
+		target := cur.String()
+		if !outboundHTTPURL.MatchString(target) {
+			return nil, "", errAttachmentBlocked{"Only HTTP and HTTPS protocols are allowed"}
+		}
 		if !webhookAllowLoopbackForTests {
-			if why := validateOutboundURL(ctx, cur.String()); why != "" {
+			if why := validateOutboundURL(ctx, target); why != "" {
 				return nil, "", errAttachmentBlocked{why}
 			}
 		}
-		req, err := http.NewRequestWithContext(ctx, http.MethodGet, cur.String(), nil)
+		req, err := http.NewRequestWithContext(ctx, http.MethodGet, target, nil)
 		if err != nil {
 			return nil, "", errAttachmentBlocked{"Invalid URL format"}
 		}

@@ -256,11 +256,20 @@ func (s *Server) historyRestorePage(w http.ResponseWriter, r *http.Request, u *U
 		http.Error(w, err.Error(), http.StatusForbidden)
 		return
 	}
-	back := r.FormValue("back")
-	if !strings.HasPrefix(back, "/b/"+b.ID+"/history") {
-		back = "/b/" + b.ID + "/history"
+	http.Redirect(w, r, historyBack(b.ID, r.FormValue("back")), http.StatusSeeOther)
+}
+
+// historyBack is where a board's Restore goes back to: the board's own
+// History page, with the query the page had (its search, its page) - never
+// anywhere else. The address is made here, from "/b/", the board's id and
+// "/history"; only a query is taken from the form (code scanning #162).
+func historyBack(boardID, back string) string {
+	page := "/b/" + boardID + "/history"
+	rest, ok := strings.CutPrefix(back, page)
+	if !ok || rest != "" && !strings.HasPrefix(rest, "?") {
+		return page
 	}
-	http.Redirect(w, r, back, http.StatusSeeOther)
+	return page + rest
 }
 
 // memberHistoryPage is Member Settings' History: one's own changes, on the

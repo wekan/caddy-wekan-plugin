@@ -109,6 +109,36 @@ type mailAttachment struct {
 // headerSafe: no line break, so a value can never start another header.
 func headerSafe(v string) bool { return !strings.ContainsAny(v, "\r\n") }
 
+// headerBytes is every byte a header value written here may hold, as itself:
+// printable ASCII, the space, the tab and UTF-8's bytes (an address may be
+// internationalised). Any other control character - CR, LF, NUL, DEL - is 0,
+// not one of them.
+var headerBytes = func() (t [256]byte) {
+	t['\t'] = '\t'
+	for c := 0x20; c < 0x100; c++ {
+		if c != 0x7f {
+			t[c] = byte(c)
+		}
+	}
+	return t
+}()
+
+// headerText is v as a header value: made again of headerBytes, so what goes
+// in the header is only those bytes - never a line break that would start a
+// header or a body of its own (code scanning #26); ok is false when v has
+// any other byte.
+func headerText(v string) (string, bool) {
+	b := make([]byte, len(v))
+	for i := 0; i < len(v); i++ {
+		c := headerBytes[v[i]]
+		if c == 0 {
+			return "", false
+		}
+		b[i] = c
+	}
+	return string(b), true
+}
+
 // buildMail is the message as it goes on the wire: its headers - the subject
 // encoded as RFC 2047 when it is not ASCII - and the text quoted-printable.
 func buildMail(from string, m mailMessage, now time.Time) ([]byte, error) {
@@ -118,19 +148,27 @@ func buildMail(from string, m mailMessage, now time.Time) ([]byte, error) {
 	if len(m.To) == 0 {
 		return nil, errors.New("a mail needs an address to go to")
 	}
-	for _, to := range m.To {
-		if a, err := mail.ParseAddress(to); err != nil || !headerSafe(to) || a.Address == "" {
-			return nil, fmt.Errorf("not an e-mail address: %q", to)
+	to := make([]string, 0, len(m.To))
+	for _, addr := range m.To {
+		text, ok := headerText(addr)
+		if a, err := mail.ParseAddress(addr); err != nil || !ok || a.Address == "" {
+			return nil, fmt.Errorf("not an e-mail address: %q", addr)
 		}
+		to = append(to, text)
 	}
 	sender, err := mail.ParseAddress(from)
 	if err != nil {
 		return nil, fmt.Errorf("not a sender address: %q", from)
 	}
+	fromText, okFrom := headerText(sender.String())
+	subject, okSubject := headerText(mime.QEncoding.Encode("utf-8", m.Subject))
+	if !okFrom || !okSubject {
+		return nil, errors.New("a mail header has a control character")
+	}
 	var b bytes.Buffer
 	domain := sender.Address[strings.LastIndex(sender.Address, "@")+1:]
 	fmt.Fprintf(&b, "From: %s\r\nTo: %s\r\nSubject: %s\r\nDate: %s\r\nMessage-ID: <%s@%s>\r\n",
-		sender.String(), strings.Join(m.To, ", "), mime.QEncoding.Encode("utf-8", m.Subject), now.Format(time.RFC1123Z), randomID(), domain)
+		fromText, strings.Join(to, ", "), subject, now.Format(time.RFC1123Z), randomID(), domain)
 	b.WriteString("MIME-Version: 1.0\r\n")
 	mixed := ""
 	if len(m.Attachments) > 0 {

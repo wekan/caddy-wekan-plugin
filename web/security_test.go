@@ -216,13 +216,12 @@ func TestNoFastHashOfPasswords(t *testing.T) {
 		// The one other: PASSWORD_CHECK_PWNED's range lookup, whose API is
 		// keyed by SHA-1 - never stored, never logged, five digits sent
 		// (pwned_passwords.go). Only there, and only for that lookup.
-		if f != "pwned_passwords.go" && (strings.Contains(text, `"crypto/sha1"`) || strings.Contains(text, "breachLookupDigest(")) {
+		// Through the crypto package's registry since code scanning #163,
+		// as meteorPreHash is.
+		if f != "pwned_passwords.go" && (strings.Contains(text, `"crypto/sha1"`) || strings.Contains(text, "crypto.SHA1") || strings.Contains(text, "breachLookupDigest(")) {
 			offenders = append(offenders, f+": SHA-1 or the breach digest outside pwned_passwords.go")
 		}
 		for i, line := range strings.Split(text, "\n") {
-			if f == "pwned_passwords.go" && strings.Contains(line, "sum := sha1.Sum([]byte(password))") {
-				continue
-			}
 			if fast.MatchString(line) && pass.MatchString(line) {
 				offenders = append(offenders, fmt.Sprintf("%s:%d %s", f, i+1, strings.TrimSpace(line)))
 			}
@@ -231,8 +230,11 @@ func TestNoFastHashOfPasswords(t *testing.T) {
 	if len(offenders) > 0 {
 		t.Fatalf("a fast hash next to a password:\n%s", strings.Join(offenders, "\n"))
 	}
-	if !fast.MatchString(`sum := sha256.Sum256([]byte(password))`) {
+	if !fast.MatchString(`sum := sha256.Sum256([]byte(password))`) || !fast.MatchString(`sum := sha1.Sum([]byte(password))`) {
 		t.Fatal("the scan misses the old shape")
+	}
+	if src, _ := os.ReadFile("pwned_passwords.go"); strings.Contains(string(src), "sha1.Sum(") || !strings.Contains(string(src), "crypto.SHA1.New()") {
+		t.Fatal("the breach digest is computed through the crypto package's registry only (code scanning #163)")
 	}
 }
 

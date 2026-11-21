@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"io"
+	"math"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -127,7 +128,9 @@ func columnLimit(doc any, name string) int {
 		if !ok || v == nil {
 			v = jsGet(c, "task_limit")
 		}
-		if n, ok := jsToNumber(v); ok && n > 0 && n == float64(int64(n)) {
+		// A whole number, at most what an int holds on every platform: a
+		// larger one is no limit anybody set, and is not converted.
+		if n, ok := jsToNumber(v); ok && n > 0 && n <= math.MaxInt32 && n == math.Trunc(n) {
 			return int(n)
 		}
 		return 0

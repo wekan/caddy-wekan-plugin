@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"math"
+	"math/big"
 	"regexp"
 	"sort"
 	"strconv"
@@ -447,8 +448,15 @@ func jsToNumber(v any) (float64, bool) {
 			n, err := strconv.ParseFloat(s, 64)
 			return n, err == nil
 		case jsRadix.MatchString(s):
-			n, err := strconv.ParseUint(s[2:], map[byte]int{'x': 16, 'X': 16, 'o': 8, 'O': 8, 'b': 2, 'B': 2}[s[1]], 64)
-			return float64(n), err == nil
+			// As JavaScript's Number(): any number of digits, rounded to the
+			// nearest double - never cut at 64 bits, and never an integer
+			// another conversion could overflow (code scanning #159-#161).
+			n, ok := new(big.Int).SetString(s[2:], map[byte]int{'x': 16, 'X': 16, 'o': 8, 'O': 8, 'b': 2, 'B': 2}[s[1]])
+			if !ok {
+				return math.NaN(), false
+			}
+			f, _ := new(big.Float).SetInt(n).Float64()
+			return f, true
 		}
 	}
 	return math.NaN(), false

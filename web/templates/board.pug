@@ -924,7 +924,7 @@
           form.js-checklist-item-delete-form(method="post", action="#", up-submit, up-target=".board-wrapper")
             button.js-confirm.negate.full(type="submit") {{t $.L "delete"}}
       //- WeKan's checklistDeletePopup.
-      template.js-pop-over-template(data-pop="checklist-delete", data-title="{{t $.L `checklistActionsPopup-title`}}", data-card-url="/b/{{.Board.ID}}/cards/{{.Card.ID}}/checklists/")
+      template.js-pop-over-template(data-pop="checklist-delete", data-title="{{t $.L `checklistActionsPopup-title`}}", data-board="{{.Board.ID}}", data-card="{{.Card.ID}}")
         .content
           p {{t $.L "confirm-checklist-delete-popup"}}
           form.js-checklist-delete-form(method="post", action="#", up-submit, up-target=".board-wrapper")

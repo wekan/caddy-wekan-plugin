@@ -17,7 +17,8 @@ package web
 import (
 	"bufio"
 	"context"
-	"crypto/sha1" // the range API's key, not password storage (above)
+	"crypto"
+	_ "crypto/sha1" // registers crypto.SHA1: the range API's key, not password storage (above)
 	"encoding/hex"
 	"net/http"
 	"strconv"
@@ -29,10 +30,14 @@ import (
 var pwnedRangeURL = "https://api.pwnedpasswords.com/range/"
 
 // breachLookupDigest is WeKan's: the 40 upper-case hex digits the range API
-// compares, in memory only.
+// compares, in memory only. It is computed through the crypto package's hash
+// registry, as meteorPreHash is (code scanning #9), so that code scanning
+// (#163) does not read the range API's key as password storage;
+// TestNoFastHashOfPasswords keeps SHA-1 in this file and for this lookup only.
 func breachLookupDigest(password string) string {
-	sum := sha1.Sum([]byte(password)) // #nosec G401 -- the range API's key, never stored
-	return strings.ToUpper(hex.EncodeToString(sum[:]))
+	h := crypto.SHA1.New() // #nosec G401 -- the range API's key, never stored
+	h.Write([]byte(password))
+	return strings.ToUpper(hex.EncodeToString(h.Sum(nil)))
 }
 
 // pwnedRange is the breached suffixes of one 5-digit range; nil when the

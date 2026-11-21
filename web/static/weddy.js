@@ -1540,16 +1540,21 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var board = t.getAttribute('data-board');
     p.querySelectorAll('a.js-scope-link').forEach(function (a) {
       var path = a.getAttribute('data-path');
-      var url = '/api/boards/' + encodeURIComponent(board) + '/' + path;
+      // Every part of the address is encoded: what a page's attribute says is
+      // a name in the address, never an address of its own (code scanning
+      // #105-#107; TestScriptAddressesAreEncoded).
+      var url = '/api/boards/' + encodeURIComponent(board) + '/' + encodeURIComponent(path);
       var q = new URLSearchParams(a.getAttribute('data-query') || '');
       // A card's PDF and Excel are the card's own (exportScope.js routeFor).
       if (kind === 'card' && (path === 'exportPDF' || path === 'exportExcel')) {
-        url = '/api/boards/' + encodeURIComponent(board) + '/lists/' + encodeURIComponent(target.listId) + '/cards/' + encodeURIComponent(target.cardId) + '/' + path;
+        url = '/api/boards/' + encodeURIComponent(board) + '/lists/' + encodeURIComponent(target.listId) + '/cards/' + encodeURIComponent(target.cardId) + '/' + encodeURIComponent(path);
       } else {
         Object.keys(target).forEach(function (k) { if (target[k]) q.set(k, target[k]); });
       }
       q.set('fields', '');
-      a.setAttribute('href', url + '?' + q.toString());
+      var query = [];
+      q.forEach(function (v, k) { query.push(encodeURIComponent(k) + '=' + encodeURIComponent(v)); });
+      a.setAttribute('href', url + '?' + query.join('&'));
     });
     applyExportSelection(p);
   }
@@ -1586,7 +1591,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var t = document.querySelector('template.js-pop-over-template[data-pop="checklist-delete"]');
     openPopOver('checklist-delete');
     var f = document.querySelector('.js-pop-over .js-checklist-delete-form');
-    if (f && t) f.setAttribute('action', t.getAttribute('data-card-url') + encodeURIComponent(menuChecklist) + '/delete');
+    if (f && t) f.setAttribute('action', '/b/' + encodeURIComponent(t.getAttribute('data-board')) + '/cards/' + encodeURIComponent(t.getAttribute('data-card')) + '/checklists/' + encodeURIComponent(menuChecklist) + '/delete');
   });
   // checklistSortableItems: an item dragged - by its handle when the member
   // shows drag handles, else by the item - among its checklist's items, a
@@ -1702,7 +1707,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     openPopOver(name);
     var form = document.querySelector('.js-pop-over .js-checklist-target');
     if (!form || !t) return;
-    form.setAttribute('action', '/b/' + form.dataset.board + '/cards/' + form.dataset.card + '/checklists/' + encodeURIComponent(menuChecklist) + '/' + t.getAttribute('data-path'));
+    form.setAttribute('action', '/b/' + encodeURIComponent(form.dataset.board) + '/cards/' + encodeURIComponent(form.dataset.card) + '/checklists/' + encodeURIComponent(menuChecklist) + '/' + encodeURIComponent(t.getAttribute('data-path')));
     fillChecklistTarget(form, form.querySelector('.js-select-boards').value, true);
   });
   up.on('change', '.js-checklist-target .js-select-boards', function (event, sel) { fillChecklistTarget(sel.form, sel.value, false); });
