@@ -163,7 +163,7 @@ func (s *Server) recordSecurity(r *http.Request, e securityEvent) {
 	if e.UserID != "" {
 		latest["userId"] = e.UserID
 		var u User
-		if s.db.Collection("users").FindOne(ctx, bson.M{"_id": e.UserID}).Decode(&u) == nil && u.Username != "" {
+		if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(e.UserID)}).Decode(&u) == nil && u.Username != "" {
 			name := u.Username
 			if len(name) > 100 {
 				name = name[:100]
@@ -230,7 +230,7 @@ func (s *Server) recordSecurity(r *http.Request, e securityEvent) {
 			reason += " at " + e.Source
 		}
 		ip, _ := latest["ip"].(string)
-		_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": e.UserID, "loginDisabled": bson.M{"$ne": true}},
+		_, _ = s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(e.UserID), "loginDisabled": bson.M{"$ne": true}},
 			bson.M{"$set": bson.M{"loginDisabled": true, "services.securityBlock": bson.M{
 				"at": now, "reason": reason, "bleed": cat.Bleed, "source": e.Source, "ip": ip}}})
 	}

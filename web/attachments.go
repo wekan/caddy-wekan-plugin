@@ -915,7 +915,7 @@ func (s *Server) moveToDefaultStorage(ctx context.Context, doc bson.M, path stri
 	if !ok {
 		return
 	}
-	if _, err := s.db.Collection("attachments").UpdateOne(ctx, bson.M{"_id": doc["_id"]}, bson.M{"$set": bson.M{
+	if _, err := s.db.Collection("attachments").UpdateOne(ctx, bson.M{"_id": eq(docString(doc, "_id"))}, bson.M{"$set": bson.M{
 		"versions.original.storage": "gridfs", "versions.original.meta.gridFsFileId": id.Hex()}}); err != nil {
 		_ = bucket.Delete(ctx, id)
 		return

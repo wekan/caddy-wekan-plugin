@@ -641,7 +641,7 @@ var numberedTitle = regexp.MustCompile(`^(.*?)\s*(\[(\d+)\]\s*$|\s*$)`)
 // the highest number a board of that title has.
 func (s *Server) uniqueTitle(ctx context.Context, title string) string {
 	base := numberedTitle.FindStringSubmatch(title)[1]
-	cur, err := s.db.Collection("boards").Find(ctx, bson.M{"title": bson.M{"$regex": "^" + regexp.QuoteMeta(base) + `\s*(\[\d+\]\s*$|\s*$)`}})
+	cur, err := s.db.Collection("boards").Find(ctx, bson.M{"title": bson.M{"$regex": queryText("^" + regexp.QuoteMeta(base) + `\s*(\[\d+\]\s*$|\s*$)`)}})
 	if err != nil {
 		return title
 	}

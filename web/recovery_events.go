@@ -28,7 +28,7 @@ var _ = []string{msg("recovery-report-desc"), msg("recovery-no-events"), msg("re
 func recoveryReportQuery(search, status string) bson.M {
 	var clauses []bson.M
 	if search != "" {
-		re := bson.Regex{Pattern: jsEscapeRegExp(search), Options: "i"}
+		re := bson.Regex{Pattern: queryText(jsEscapeRegExp(search)), Options: "i"}
 		clauses = append(clauses, bson.M{"$or": bson.A{bson.M{"type": re}, bson.M{"detail": re}, bson.M{"db": re}}})
 	}
 	switch status {

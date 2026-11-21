@@ -380,7 +380,7 @@ func (s *Server) activityReport(ctx context.Context, search string, page int64) 
 	intents := s.db.Collection("activityNotificationIntents")
 	query := bson.M{"state": bson.M{"$in": bson.A{"pending", "cancelled"}}}
 	if q := strings.TrimSpace(search); q != "" {
-		pattern := bson.M{"$regex": regexp.QuoteMeta(q), "$options": "i"}
+		pattern := containsFold(q)
 		var or bson.A
 		for _, k := range []string{"_id", "activity._id", "activity.boardId", "activity.cardId", "activityId", "boardId", "cardId"} {
 			or = append(or, bson.M{k: pattern})

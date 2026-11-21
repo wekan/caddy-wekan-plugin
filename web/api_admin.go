@@ -2,7 +2,6 @@ package web
 
 import (
 	"net/http"
-	"regexp"
 	"slices"
 	"strconv"
 	"time"
@@ -83,7 +82,7 @@ func (s *Server) apiProblemStream(w http.ResponseWriter, r *http.Request, u *Use
 	limit, skip := clampInt(q.Get("limit"), 50, 1, 200), clampInt(q.Get("skip"), 0, 0, 1<<53)
 	filter := bson.M{"stream": stream}
 	if search := q.Get("search"); search != "" && len(search) <= 200 {
-		rx := bson.M{"$regex": regexp.QuoteMeta(search), "$options": "i"}
+		rx := containsFold(search)
 		or := bson.A{}
 		for _, f := range []string{"category", "bleed", "source", "detail", "db", "kind", "type", "message", "username", "ip", "api"} {
 			or = append(or, bson.M{f: rx})

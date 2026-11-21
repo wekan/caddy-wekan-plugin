@@ -4,7 +4,6 @@ import (
 	"context"
 	"net/http"
 	"net/url"
-	"regexp"
 	"strconv"
 	"time"
 	"unicode/utf8"
@@ -45,7 +44,7 @@ func (s *Server) securityReportPage(w http.ResponseWriter, r *http.Request, u *U
 	}
 	filter := bson.M{"stream": "security"}
 	if search != "" {
-		rx := bson.M{"$regex": regexp.QuoteMeta(search), "$options": "i"}
+		rx := containsFold(search)
 		or := bson.A{}
 		for _, f := range []string{"category", "bleed", "source", "detail", "username", "ip", "severity", "action"} {
 			or = append(or, bson.M{f: rx})

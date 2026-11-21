@@ -39,10 +39,12 @@ func parseBoardFilter(q url.Values, b *Board) boardFilter {
 	if len([]rune(f.Text)) > maxFilterText {
 		f.Text = string([]rune(f.Text)[:maxFilterText])
 	}
-	// Only the board's own labels: anything else in the URL is not a filter.
-	known := map[string]bool{}
+	// Only the board's own labels: anything else in the URL is not a filter,
+	// and what is put in the filter is the board's own id of the label, not
+	// the text of the URL.
+	known := map[string]string{}
 	for _, l := range b.Labels {
-		known[l.ID] = true
+		known[l.ID] = l.ID
 	}
 	ids := func(raw string, allowNone bool) []string {
 		var out []string
@@ -50,8 +52,8 @@ func parseBoardFilter(q url.Values, b *Board) boardFilter {
 			switch {
 			case id == noLabel && allowNone:
 				f.NoLabel = true
-			case known[id] && !contains(out, id):
-				out = append(out, id)
+			case known[id] != "" && !contains(out, known[id]):
+				out = append(out, known[id])
 			}
 		}
 		return out
@@ -98,7 +100,7 @@ func (f boardFilter) labelSelector() bson.M {
 func (s *Server) boardFilterCardIDs(ctx context.Context, boardID string, f boardFilter) map[string]bool {
 	sel := bson.A{bson.M{"boardId": eq(boardID)}, f.labelSelector()}
 	if f.Text != "" {
-		rx := bson.Regex{Pattern: regexp.QuoteMeta(f.Text), Options: "i"}
+		rx := bson.Regex{Pattern: queryText(regexp.QuoteMeta(f.Text)), Options: "i"}
 		matched := bson.A{bson.M{"title": rx}, bson.M{"description": rx}}
 		var hits bson.A // card ids read from the database
 		for coll, field := range map[string]string{"card_comments": "text", "checklists": "title", "checklistItems": "title"} {

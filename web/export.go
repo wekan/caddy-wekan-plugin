@@ -449,8 +449,10 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, o exportDocOptions) (b
 func dbIn(ids bson.A) bson.M {
 	ok := []string{}
 	for _, v := range ids {
-		if id, isString := v.(string); isString && validID(id) {
-			ok = append(ok, id)
+		if id, isString := v.(string); isString {
+			if clean, valid := queryID(id); valid {
+				ok = append(ok, clean)
+			}
 		}
 	}
 	return bson.M{"$in": ok}

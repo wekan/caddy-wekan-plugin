@@ -427,8 +427,8 @@ func (s *Server) sendActivityWebhooks(activity bson.M) {
 		defer cancel()
 		description := "act-" + docString(activity, "activityType")
 		cur, err := s.db.Collection("integrations").Find(ctx, bson.M{
-			"boardId": bson.M{"$in": bson.A{boardID, "_global"}}, "enabled": true, "bot": bson.M{"$ne": true},
-			"activities": bson.M{"$in": bson.A{description, "all"}}})
+			"boardId": bson.M{"$in": bson.A{queryText(boardID), "_global"}}, "enabled": true, "bot": bson.M{"$ne": true},
+			"activities": bson.M{"$in": bson.A{queryText(description), "all"}}})
 		if err != nil {
 			return
 		}

@@ -78,7 +78,7 @@ func (s *Server) searchMembers(w http.ResponseWriter, r *http.Request, u *User) 
 		return
 	}
 	// The text is quoted, so it is matched as text and never as a pattern.
-	rx := bson.M{"$regex": "^" + regexp.QuoteMeta(q), "$options": "i"}
+	rx := prefixFold(q)
 	or := bson.A{}
 	for _, f := range []string{"username", "profile.fullname", "emails.address"} {
 		or = append(or, bson.M{f: rx})
@@ -402,7 +402,7 @@ func (s *Server) methodSearchUsers(r *http.Request, u *User, args []json.RawMess
 		return out, nil
 	}
 	// The text is quoted, so it is matched as text and never as a pattern.
-	rx := bson.M{"$regex": regexp.QuoteMeta(query), "$options": "i"}
+	rx := containsFold(query)
 	or := bson.A{}
 	for _, f := range []string{"username", "profile.fullname", "emails.address"} {
 		or = append(or, bson.M{f: rx})

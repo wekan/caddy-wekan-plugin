@@ -6,7 +6,6 @@ import (
 	"errors"
 	"math"
 	"net/http"
-	"regexp"
 	"sort"
 	"strings"
 	"time"
@@ -208,7 +207,7 @@ func (s *Server) emailOutboxReport(ctx context.Context, search string, page int6
 	match := bson.M{"state": bson.M{"$in": bson.A{"pending", "failed"}}}
 	paused := bson.M{"paused": true}
 	if q := strings.TrimSpace(search); q != "" {
-		pattern := bson.M{"$regex": regexp.QuoteMeta(q), "$options": "i"}
+		pattern := containsFold(q)
 		match["userId"], paused["_id"] = pattern, pattern
 	}
 	cur, err := s.db.Collection("notificationEmailJobs").Find(ctx, match,

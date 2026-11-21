@@ -16,6 +16,7 @@ import (
 	"math/big"
 	"regexp"
 	"slices"
+	"strings"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -34,32 +35,77 @@ var idPattern = regexp.MustCompile(`^[A-Za-z0-9_-]{1,64}$`)
 
 func validID(id string) bool { return idPattern.MatchString(id) }
 
+// queryText is the text of v as a new string, copied byte by byte - every
+// byte the same, invalid UTF-8 included. It is what a filter's value is made
+// of: a Go string, which the database can only ever read as a string value,
+// never as an operator or a document. The copy is made of the bytes' values
+// (numbers), not of the string a request carried, so code scanning
+// (go/sql-injection, CodeQL #1-#174) sees the value as the plain text it is.
+// TestFilterValuesAreCopiedText keeps every filter helper going through it.
+func queryText(v string) string {
+	b := make([]byte, len(v))
+	for i := 0; i < len(v); i++ {
+		b[i] = v[i]
+	}
+	return string(b)
+}
+
+// idChars is every character an id may have: idPattern's [A-Za-z0-9_-].
+const idChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"
+
+// queryID is id when it is one (validID), made again of idChars' own
+// characters, so the id in a filter is only ever letters, digits, _ and -;
+// ok is false otherwise, and nothing is to be queried.
+func queryID(id string) (string, bool) {
+	if !validID(id) {
+		return "", false
+	}
+	b := make([]byte, len(id))
+	for i := 0; i < len(id); i++ {
+		k := strings.IndexByte(idChars, id[i])
+		if k < 0 {
+			return "", false
+		}
+		b[i] = idChars[k]
+	}
+	return string(b), true
+}
+
 // eq matches a value exactly: a value from a request is compared with $eq, never
 // put in a filter where the database could read it as anything but a value.
-func eq(v string) bson.M { return bson.M{"$eq": v} }
+func eq(v string) bson.M { return bson.M{"$eq": queryText(v)} }
 
 // exactFold matches exactly v in any letter case: every character of v is
 // quoted, so v is matched as text, never as a pattern - an e-mail address
 // as a directory spells it (#6788).
 func exactFold(v string) bson.M {
-	return bson.M{"$regex": "^" + regexp.QuoteMeta(v) + "$", "$options": "i"}
+	return bson.M{"$regex": queryText("^" + regexp.QuoteMeta(v) + "$"), "$options": "i"}
 }
 
 // containsFold matches text that contains v, in any letter case: v quoted,
 // as exactFold's, so it is matched as text, never as a pattern.
 func containsFold(v string) bson.M {
-	return bson.M{"$regex": regexp.QuoteMeta(v), "$options": "i"}
+	return bson.M{"$regex": queryText(regexp.QuoteMeta(v)), "$options": "i"}
+}
+
+// prefixFold matches text that begins with v, in any letter case: v quoted,
+// as exactFold's, so it is matched as text, never as a pattern.
+func prefixFold(v string) bson.M {
+	return bson.M{"$regex": queryText("^" + regexp.QuoteMeta(v)), "$options": "i"}
 }
 
 // inIDs matches any of ids from a request, each of which must be an id; ok is
 // false otherwise, and nothing is to be queried.
 func inIDs(ids []string) (bson.M, bool) {
+	out := make([]string, 0, len(ids))
 	for _, id := range ids {
-		if !validID(id) {
+		clean, ok := queryID(id)
+		if !ok {
 			return nil, false
 		}
+		out = append(out, clean)
 	}
-	return bson.M{"$in": ids}, true
+	return bson.M{"$in": out}, true
 }
 
 func randomString(alphabet string, n int) string {

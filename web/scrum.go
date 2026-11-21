@@ -285,11 +285,33 @@ func revisionOf(v any) float64 {
 }
 
 // scrumRevisionSelector is WeKan's: the stored revision, or none stored.
+// The stored revision is a number (this code and WeKan write an int32), and
+// it is matched as the number it is, with $eq; one stored as text is matched
+// as that text. Any other stored value - a document, an array - is no
+// revision: it matches no card, and the write is a conflict, as a revision
+// changed by somebody else is.
 func scrumRevisionSelector(doc map[string]any) bson.M {
-	if v, ok := doc["scrumRevision"]; ok {
-		return bson.M{"scrumRevision": v}
+	v, ok := doc["scrumRevision"]
+	if !ok {
+		return bson.M{"scrumRevision": bson.M{"$exists": false}}
 	}
-	return bson.M{"scrumRevision": bson.M{"$exists": false}}
+	switch n := v.(type) {
+	case nil:
+		return bson.M{"scrumRevision": nil}
+	case int32:
+		return bson.M{"scrumRevision": bson.M{"$eq": n}}
+	case int64:
+		return bson.M{"scrumRevision": bson.M{"$eq": n}}
+	case int:
+		return bson.M{"scrumRevision": bson.M{"$eq": n}}
+	case float64:
+		return bson.M{"scrumRevision": bson.M{"$eq": n}}
+	case bool:
+		return bson.M{"scrumRevision": bson.M{"$eq": n}}
+	case string:
+		return bson.M{"scrumRevision": eq(n)}
+	}
+	return bson.M{"_id": bson.M{"$in": bson.A{}}}
 }
 
 // scrumPending is pending(): an unfinished Scrum import, History operation
@@ -944,7 +966,9 @@ func (s *Server) scrumSnapshotRows(ctx context.Context, sprint map[string]any, k
 		return snapshotCards(snap), nil
 	}
 	kind := map[string]string{"startSnapshot": "start", "closeSnapshot": "close", "daily": "daily"}[key]
+	// The snapshot's time, as BSON stores it: milliseconds.
 	at, _ := snap["at"].(time.Time)
+	at = time.UnixMilli(at.UnixMilli()).UTC()
 	chunks := s.findDocs(ctx, "scrumSnapshotRows", bson.M{"sprintId": eq(docString(sprint, "_id")), "kind": kind, "at": at},
 		options.Find().SetSort(bson.D{{Key: "chunk", Value: 1}}))
 	missing := &methodError{"scrum-snapshot-missing", "A sprint snapshot is incomplete."}
