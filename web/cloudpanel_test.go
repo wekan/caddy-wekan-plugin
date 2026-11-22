@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -119,7 +120,7 @@ func TestCloudPanel(t *testing.T) {
 	if file.CloudPanelDomain != panel {
 		t.Fatalf("domains.json: %+v", file)
 	}
-	if st, _ := os.Stat(filepath.Join(dir, "settings.json")); st == nil || st.Mode().Perm() != 0o600 {
+	if st, _ := os.Stat(filepath.Join(dir, "settings.json")); !ownerOnlyMode(st) {
 		t.Fatal("settings.json, mode 0600")
 	}
 	if res, _ := do(t, ac, "POST", srv+"/admin/people/cloud", primary, url.Values{"cloudPanelDomain": {"../evil"}}); res.StatusCode != http.StatusBadRequest {
@@ -173,7 +174,7 @@ func TestCloudPanel(t *testing.T) {
 	const token = "cf-secret-token-123"
 	do(t, bc, "POST", srv+"/cloud/cloudflare", panel, url.Values{"apiToken": {token}})
 	st, err := os.Stat(filepath.Join(dir, "cloudflare.json"))
-	if err != nil || st.Mode().Perm() != 0o600 {
+	if err != nil || !ownerOnlyMode(st) {
 		t.Fatalf("cloudflare.json, mode 0600: %v", err)
 	}
 	for _, path := range []string{"/cloud", "/cloud?pane=cloudflare", "/"} {
@@ -235,4 +236,18 @@ func TestCloudPanel(t *testing.T) {
 	if res, _ := do(t, bc, "GET", srv+"/cloud", panel, nil); res.StatusCode != http.StatusForbidden {
 		t.Fatal("negative: a tenant has no Cloud Panel")
 	}
+}
+
+// ownerOnlyMode: the file is readable by its owner only (0600). Windows has no
+// Unix permission bits - Go reports 0666 for any writable file there - so on
+// Windows only that the file exists is checked; the 0600 is kept on every
+// other platform.
+func ownerOnlyMode(st os.FileInfo) bool {
+	if st == nil {
+		return false
+	}
+	if runtime.GOOS == "windows" {
+		return true
+	}
+	return st.Mode().Perm() == 0o600
 }
