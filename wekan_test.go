@@ -21,8 +21,10 @@ func freeAddr(t *testing.T) string {
 }
 
 func TestValidate(t *testing.T) {
-	for _, ok := range []App{{Data: "/var/lib/weddy"}, {Data: "/var/lib/weddy", Primary: "wekan.example.org"},
-		{Data: "/var/lib/weddy", DatabaseListen: "127.0.0.1:27017"}} {
+	// An absolute path of this OS: /var/lib/weddy is not one on Windows.
+	data := t.TempDir()
+	for _, ok := range []App{{Data: data}, {Data: data, Primary: "wekan.example.org"},
+		{Data: data, DatabaseListen: "127.0.0.1:27017"}} {
 		if err := ok.Validate(); err != nil {
 			t.Errorf("%+v: %v", ok, err)
 		}
@@ -30,9 +32,9 @@ func TestValidate(t *testing.T) {
 	for name, a := range map[string]App{
 		"no data":                     {},
 		"relative data":               {Data: "weddy"},
-		"primary not a domain":        {Data: "/x", Primary: "../etc"},
-		"database_listen no port":     {Data: "/x", DatabaseListen: "127.0.0.1"},
-		"database_listen and domains": {Data: "/x", Primary: "wekan.example.org", DatabaseListen: "127.0.0.1:27017"},
+		"primary not a domain":        {Data: data, Primary: "../etc"},
+		"database_listen no port":     {Data: data, DatabaseListen: "127.0.0.1"},
+		"database_listen and domains": {Data: data, Primary: "wekan.example.org", DatabaseListen: "127.0.0.1:27017"},
 	} {
 		if err := a.Validate(); err == nil {
 			t.Errorf("negative: %s must be refused", name)

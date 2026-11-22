@@ -1,0 +1,5 @@
+# Every file is checked out byte for byte as it is committed, on every OS.
+# The Windows runner's git converts LF to CRLF on checkout (core.autocrlf), which
+# moved the offsets the source-reading tests look for and broke the golden files,
+# some of which are CRLF or mixed on purpose: a CSV export ends its rows in CRLF.
+* -text
