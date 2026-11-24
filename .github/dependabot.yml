@@ -1,0 +1,19 @@
+# Security updates only (open-pull-requests-limit: 0 turns off version
+# updates; security updates still open). go.opentelemetry.io/otel/sdk/log is
+# ignored: its update fails on every run because go.mod replaces FerretDB with
+# a local ../FerretDB that Dependabot cannot check out, and the version it
+# asks for is already on main.
+version: 2
+updates:
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
+    ignore:
+      - dependency-name: go.opentelemetry.io/otel/sdk/log
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
