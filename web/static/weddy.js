@@ -2727,7 +2727,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (!pendingFilter) {
       var q = new URL(window.location.href).searchParams;
       pendingFilter = {};
-      ['advanced', 'last', 'text', 'labels', 'xlabels', 'labelMode'].forEach(function (k) { pendingFilter[k] = q.get(k) || ''; });
+      ['advanced', 'last', 'text', 'labels', 'xlabels', 'labelMode', 'sort'].forEach(function (k) { pendingFilter[k] = q.get(k) || ''; });
     }
     return pendingFilter;
   }
@@ -2763,6 +2763,21 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.on('click', '.js-filter-reset', function (event) {
     event.preventDefault();
     setBoardFilterParams({ advanced: '', last: '', text: '', labels: '', xlabels: '', labelMode: '' });
+  });
+  // WeKan's Sort Cards (cardsSortPopup): the board drawn in the order chosen,
+  // kept in the URL beside the filter, and off again by its reset.
+  up.on('click', '.js-sort-cards', function (event) {
+    event.preventDefault();
+    openPopOver('cards-sort');
+  });
+  up.on('click', '.js-pop-over .js-sort-card-order', function (event, el) {
+    event.preventDefault();
+    closePopOvers();
+    setBoardFilterParams({ sort: el.dataset.sort });
+  });
+  up.on('click', '.js-sort-reset', function (event) {
+    event.preventDefault();
+    setBoardFilterParams({ sort: '' });
   });
   up.on('change', '.js-field-advanced-filter', function (event, el) {
     applyBoardFilter(el.value.trim());

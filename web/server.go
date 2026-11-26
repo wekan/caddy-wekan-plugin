@@ -876,6 +876,9 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			}
 		}
 	}
+	// cardsSortPopup's display order (board_sort.go).
+	cardSort := parseCardSort(r.URL.Query())
+	s.sortLaneCards(r.Context(), b, lanes, cardSort)
 	s.annotateMinicards(r.Context(), b, lanes, u.Profile.DateFormat)
 	s.annotateScrumMinicards(r.Context(), b, languageOf(r, u).Tag, lanes)
 	starred := slices.Contains(u.Profile.StarredBoards, b.ID)
@@ -903,7 +906,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "CanSetBoardDates": canSetBoardDates(b, u), "Starred": starred, "Invited": invited,
 		"AdvancedFilter": typed, "AppliedFilter": applied, "FilterActive": applied != "" || cardFilter.active(),
-		"FilterText": cardFilter.Text, "FilterNoLabel": cardFilter.NoLabel, "FilterLabelAnd": cardFilter.And, "FilterLabels": cardFilter.sidebarLabels(b)}
+		"CardSort": cardSort, "CardSorts": cardSorts, "FilterText": cardFilter.Text, "FilterNoLabel": cardFilter.NoLabel, "FilterLabelAnd": cardFilter.And, "FilterLabels": cardFilter.sidebarLabels(b)}
 	// WeKan's sidebar: the board menu for a member who is not comment-only or a
 	// worker; its Export for whoever may export the board (models/lib/exportAccess.js).
 	m := b.member(u.ID)
