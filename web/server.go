@@ -901,7 +901,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			ll.CanAdd = s.canAddCardIn(r.Context(), b, ll.ID, u)
 		}
 	}
-	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "Starred": starred, "Invited": invited,
+	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "CanSetBoardDates": canSetBoardDates(b, u), "Starred": starred, "Invited": invited,
 		"AdvancedFilter": typed, "AppliedFilter": applied, "FilterActive": applied != "" || cardFilter.active(),
 		"FilterText": cardFilter.Text, "FilterNoLabel": cardFilter.NoLabel, "FilterLabelAnd": cardFilter.And, "FilterLabels": cardFilter.sidebarLabels(b)}
 	// WeKan's sidebar: the board menu for a member who is not comment-only or a

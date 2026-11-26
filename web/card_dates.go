@@ -44,6 +44,14 @@ func (s *Server) cardDates(ctx context.Context, boardID string, card bson.M) []c
 	return out
 }
 
+// canSetBoardDates is canSetCardDates for the board as a whole: whoever may
+// change its cards but a Worker. A minicard's date opens the date picker for
+// them (WeKan's minicard dates), and the picker is on the page for them.
+func canSetBoardDates(b *Board, u *User) bool {
+	m := b.member(u.ID)
+	return b.Writable(u, "write", nil) && (m == nil || !m.IsWorker)
+}
+
 // canSetCardDates is canModifyCard, unless the member is a Worker.
 func (s *Server) canSetCardDates(ctx context.Context, b *Board, u *User, c *Card) bool {
 	m := b.member(u.ID)

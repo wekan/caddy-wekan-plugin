@@ -60,7 +60,7 @@ func (l *fieldLayout) sectionByKey(key string) *cardSection {
 }
 
 // minicardDate is one date on the minicard's dates line.
-type minicardDate struct{ Kind, Icon, Title, Text, ISO string }
+type minicardDate struct{ Kind, Icon, Title, Text, ISO, DefaultTime, PopupTitle string }
 
 // minicardDatesOf are the card's dates the board shows on minicards, in the
 // minicard's field order.
@@ -84,7 +84,8 @@ func minicardDatesOf(board bson.M, c *Card, dateFormat string) []minicardDate {
 			continue
 		}
 		out = append(out, minicardDate{Kind: k.Kind, Icon: k.Icon, Title: k.Label,
-			Text: formatDateByUserPreference(*at[f], dateFormat, true, ""), ISO: jsISO(*at[f])})
+			Text: formatDateByUserPreference(*at[f], dateFormat, true, ""), ISO: jsISO(*at[f]),
+			DefaultTime: k.DefaultTime, PopupTitle: k.Title})
 	}
 	return out
 }

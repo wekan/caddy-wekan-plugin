@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strings"
 	"testing"
 
@@ -54,6 +55,13 @@ func TestCardDates(t *testing.T) {
 	if n := strings.Count(html, `class="js-edit-date card-date`); n != 4 {
 		t.Errorf("four badges: %d", n)
 	}
+	// The minicard's date opens the date picker too, which is on the board
+	// page without an opened card (WeKan's minicard dates).
+	minicardPicker := regexp.MustCompile(`<a class="badge js-edit-date[^"]*\bjs-start-date\b`)
+	if _, board := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug); !minicardPicker.MatchString(board) ||
+		!strings.Contains(board, `data-pop="edit-date"`) || !strings.Contains(board, `data-url="/b/`+b.ID+`/cards/`+c.ID+`/dates/start"`) {
+		t.Error("a minicard's date opens the date picker, which the board page has")
+	}
 	if code := post(ann, "due", url.Values{"delete": {"1"}}); code != http.StatusSeeOther || field("dueAt") != nil {
 		t.Errorf("cleared: %d", code)
 	}
@@ -76,6 +84,11 @@ func TestCardDates(t *testing.T) {
 	body(t, w.signIn(t, wes, "wes", "pw"))
 	if code := post(wes, "start", url.Values{"delete": {"1"}}); code != http.StatusForbidden || field("startAt") == nil {
 		t.Errorf("negative: a Worker sets no date: %d", code)
+	}
+	// Negative: a Worker's minicard dates are badges, not the date picker's.
+	if _, board := get(t, wes, w.srv.URL+"/b/"+b.ID+"/"+b.Slug); minicardPicker.MatchString(board) ||
+		!strings.Contains(board, `minicard-date-start`) {
+		t.Error("negative: a Worker's minicard date opens no date picker")
 	}
 	if _, html := get(t, wes, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID); strings.Contains(html, "js-due-date") || strings.Contains(html, "js-edit-date card-date") {
 		t.Error("negative: no date controls for a Worker")

@@ -702,6 +702,57 @@
       .js-search-member
         input.js-search-member-input(type="text", placeholder="{{t $.L `email-address`}}", aria-label="{{t $.L `add-members`}}")
       ul.pop-over-list.js-member-search-results
+  //- The date picker is the board's, not only the opened card's: a minicard's
+    date opens it too, as WeKan's minicard dates do.
+  if .CanEdit
+    //- WeKan's editDateForm (forms/datepicker.jade) with its inline calendar
+      (calendarDateInput): static/weddy.js draws the month and sends the
+      time the browser makes of the date and time picked.
+    template.js-pop-over-template(data-pop="edit-date", data-title="{{t $.L `editCardDueDatePopup-title`}}")
+      //- WeKan's popup header: moved by its title (#6839), closed by its X.
+      .header
+        span.header-title {{t $.L "editCardDueDatePopup-title"}}
+        a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+      //- WeKan's popup grip (popup.tpl.jade): the popup resized by pointer or
+        by the arrow keys.
+      button.js-date-popup-resize(type="button", aria-label="{{t $.L `size`}}", title="{{t $.L `size`}}")
+        span(aria-hidden="true") ◢
+      .datepicker-container
+        form.edit-date(method="post", action="#", up-submit, up-target=".board-wrapper")
+          input(type="hidden", name="at")
+          input(type="hidden", name="delete", value="")
+          .fields
+            .left
+              .calendar-date-input
+                input.js-calendar-native-value.js-date-field#date(type="hidden", name="date")
+                .selected-calendar-picker
+                  .selected-calendar-heading
+                    button.primary.js-calendar-year-previous(type="button", aria-label="{{t $.L `previous`}} {{t $.L `predicate-year`}}") «
+                    button.primary.js-calendar-previous(type="button", aria-label="{{t $.L `previous`}} {{t $.L `month`}}") ‹
+                    span.js-calendar-month-label(aria-live="polite")
+                    button.primary.js-calendar-today(type="button", aria-label="{{t $.L `today`}}") {{t $.L "today"}}
+                    button.primary.js-calendar-next(type="button", aria-label="{{t $.L `next`}} {{t $.L `month`}}") ›
+                    button.primary.js-calendar-year-next(type="button", aria-label="{{t $.L `next`}} {{t $.L `predicate-year`}}") »
+                  table
+                    thead
+                      tr.js-calendar-weekdays
+                    tbody.js-calendar-weeks
+                  //- #6853: any year, month and day by a pick, under the calendar.
+                  .selected-calendar-selects
+                    input.js-calendar-year(type="number", step="1", inputmode="numeric", aria-label="{{t $.L `predicate-year`}}")
+                    select.js-calendar-month(aria-label="{{t $.L `month`}}")
+                    select.js-calendar-day-select(aria-label="{{t $.L `day`}}")
+            .right
+              label {{t $.L "time"}}
+              //- calendarTimeInput: an hour and a minute picked.
+              .calendar-time-input
+                input.js-calendar-native-time.js-time-field#time(type="hidden", name="time")
+                select.js-calendar-hour(aria-label="{{t $.L `hours`}}")
+                span(aria-hidden="true") :
+                select.js-calendar-minute(aria-label="{{t $.L `minutes`}}")
+          .warning.js-date-error(hidden, data-invalid-date="{{t $.L `invalid-date`}}", data-invalid-time="{{t $.L `invalid-time`}}", data-invalid-year="{{t $.L `invalid-year`}}")
+          button.primary.wide.left.js-submit-date(type="submit") {{t $.L "save"}}
+          button.js-delete-date.negate.wide.right(type="button") {{t $.L "delete"}}
   if .Card
     if .CanEdit
       //- WeKan's cardLabelsPopup: each label of the board, on the card or off.
@@ -812,54 +863,6 @@
           select.js-select-cards(name="cardId")
           .edit-controls.clearfix
             button.primary.confirm.js-done(type="submit") {{t $.L "done"}}
-      //- WeKan's editDateForm (forms/datepicker.jade) with its inline calendar
-        (calendarDateInput): static/weddy.js draws the month and sends the
-        time the browser makes of the date and time picked.
-      template.js-pop-over-template(data-pop="edit-date", data-title="{{t $.L `editCardDueDatePopup-title`}}")
-        //- WeKan's popup header: moved by its title (#6839), closed by its X.
-        .header
-          span.header-title {{t $.L "editCardDueDatePopup-title"}}
-          a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
-        //- WeKan's popup grip (popup.tpl.jade): the popup resized by pointer or
-          by the arrow keys.
-        button.js-date-popup-resize(type="button", aria-label="{{t $.L `size`}}", title="{{t $.L `size`}}")
-          span(aria-hidden="true") ◢
-        .datepicker-container
-          form.edit-date(method="post", action="#", up-submit, up-target=".board-wrapper")
-            input(type="hidden", name="at")
-            input(type="hidden", name="delete", value="")
-            .fields
-              .left
-                .calendar-date-input
-                  input.js-calendar-native-value.js-date-field#date(type="hidden", name="date")
-                  .selected-calendar-picker
-                    .selected-calendar-heading
-                      button.primary.js-calendar-year-previous(type="button", aria-label="{{t $.L `previous`}} {{t $.L `predicate-year`}}") «
-                      button.primary.js-calendar-previous(type="button", aria-label="{{t $.L `previous`}} {{t $.L `month`}}") ‹
-                      span.js-calendar-month-label(aria-live="polite")
-                      button.primary.js-calendar-today(type="button", aria-label="{{t $.L `today`}}") {{t $.L "today"}}
-                      button.primary.js-calendar-next(type="button", aria-label="{{t $.L `next`}} {{t $.L `month`}}") ›
-                      button.primary.js-calendar-year-next(type="button", aria-label="{{t $.L `next`}} {{t $.L `predicate-year`}}") »
-                    table
-                      thead
-                        tr.js-calendar-weekdays
-                      tbody.js-calendar-weeks
-                    //- #6853: any year, month and day by a pick, under the calendar.
-                    .selected-calendar-selects
-                      input.js-calendar-year(type="number", step="1", inputmode="numeric", aria-label="{{t $.L `predicate-year`}}")
-                      select.js-calendar-month(aria-label="{{t $.L `month`}}")
-                      select.js-calendar-day-select(aria-label="{{t $.L `day`}}")
-              .right
-                label {{t $.L "time"}}
-                //- calendarTimeInput: an hour and a minute picked.
-                .calendar-time-input
-                  input.js-calendar-native-time.js-time-field#time(type="hidden", name="time")
-                  select.js-calendar-hour(aria-label="{{t $.L `hours`}}")
-                  span(aria-hidden="true") :
-                  select.js-calendar-minute(aria-label="{{t $.L `minutes`}}")
-            .warning.js-date-error(hidden, data-invalid-date="{{t $.L `invalid-date`}}", data-invalid-time="{{t $.L `invalid-time`}}", data-invalid-year="{{t $.L `invalid-year`}}")
-            button.primary.wide.left.js-submit-date(type="submit") {{t $.L "save"}}
-            button.js-delete-date.negate.wide.right(type="button") {{t $.L "delete"}}
       //- WeKan's cardCustomFieldsPopup: every field of the board, ticked when it
         is on this card; a click puts it on or takes it off.
       if .CardFieldsShown
@@ -1346,10 +1349,17 @@
                               if $c.MinicardDates
                                 .dates
                                   each d in $c.MinicardDates
-                                    span.badge(class="minicard-date minicard-date-{{.Kind}} date {{.Kind}}-date", title="{{t $.L .Title}}")
-                                      i.fa(class="{{.Icon}}")
-                                      |  
-                                      time(datetime="{{.ISO}}") {{.Text}}
+                                    //- WeKan's minicard date opens its date picker, for whoever may change the card.
+                                    if $.CanSetBoardDates
+                                      a.badge.js-edit-date(href="#", class="minicard-date minicard-date-{{.Kind}} date {{.Kind}}-date js-{{.Kind}}-date", title="{{t $.L .Title}}", data-url="/b/{{$.Board.ID}}/cards/{{$c.ID}}/dates/{{.Kind}}", data-date="{{.ISO}}", data-default-time="{{.DefaultTime}}", data-title="{{t $.L .PopupTitle}}")
+                                        i.fa(class="{{.Icon}}")
+                                        |  
+                                        time(datetime="{{.ISO}}") {{.Text}}
+                                    else
+                                      span.badge(class="minicard-date minicard-date-{{.Kind}} date {{.Kind}}-date", title="{{t $.L .Title}}")
+                                        i.fa(class="{{.Icon}}")
+                                        |  
+                                        time(datetime="{{.ISO}}") {{.Text}}
                             else if eq .Key "assignee"
                               //- WeKan's minicard assignees: an avatar each.
                               if $c.MinicardAssignees
