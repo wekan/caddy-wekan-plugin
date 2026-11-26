@@ -14,21 +14,32 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-calendar-s
       #header.header-bar
         a.header-all-boards.js-all-boards(href="/", up-follow) {{t $.L "all-boards"}}
         if .Board
-          //- WeKan's header quick access: the board's title, renamed by its admin.
-          #header-quick-access.nodragscroll
-            if .Board.AdminOf .User.ID
-              span.header-page-title.js-edit-board-title.is-editable(role="heading", aria-level="1", title="{{.Board.Title}}") {{.Board.Title}}
-              template.js-pop-over-template(data-pop="board-title", data-title="{{t $.L `rename`}}")
-                form(method="post", action="/b/{{.Board.ID}}/title")
-                  label
-                    | {{t $.L "title"}}
-                    textarea.js-board-name(name="title", rows="2", dir="auto", required) {{.Board.Title}}
-                  label
-                    | {{t $.L "description"}}
-                    textarea.js-board-desc(name="description", dir="auto") {{.Board.Description}}
-                  input.primary.wide(type="submit", value="{{t $.L `rename`}}")
-            else
-              span.header-page-title(role="heading", aria-level="1", title="{{.Board.Title}}") {{.Board.Title}}
+          //- WeKan's header quick access: Home, the toggle that collapses the
+            header's icons, and the board's title, renamed by its admin; then
+            the mobile/desktop toggle, the first of the icons it collapses.
+          #header-quick-access.nodragscroll(role="navigation", aria-label="{{t $.L `all-boards`}}")
+            span.home-icon.allBoards
+              a.header-home-link(href="/", up-follow, title="{{t $.L `all-boards`}}", aria-label="{{t $.L `all-boards`}}")
+                i.fa.fa-home
+              a.board-header-btn.js-toggle-header-icons-collapsed(href="#", title="{{t $.L `toggle-header-icons-collapsed`}}", aria-label="{{t $.L `toggle-header-icons-collapsed`}}")
+                i.fa.fa-angle-double-left
+              if .Board.AdminOf .User.ID
+                span.header-page-title.js-edit-board-title.is-editable(role="heading", aria-level="1", title="{{.Board.Title}}") {{.Board.Title}}
+                template.js-pop-over-template(data-pop="board-title", data-title="{{t $.L `rename`}}")
+                  form(method="post", action="/b/{{.Board.ID}}/title")
+                    label
+                      | {{t $.L "title"}}
+                      textarea.js-board-name(name="title", rows="2", dir="auto", required) {{.Board.Title}}
+                    label
+                      | {{t $.L "description"}}
+                      textarea.js-board-desc(name="description", dir="auto") {{.Board.Description}}
+                    input.primary.wide(type="submit", value="{{t $.L `rename`}}")
+              else
+                span.header-page-title(role="heading", aria-level="1", title="{{.Board.Title}}") {{.Board.Title}}
+            .mobile-mode-toggle.js-header-collapsible-icon
+              a.board-header-btn.js-mobile-mode-toggle.desktop-active(href="#", title="{{t $.L `mobile-desktop-toggle`}}", aria-label="{{t $.L `mobile-desktop-toggle`}}", data-profile="{{.User.MobileModeChoice}}")
+                i.desktop-icon
+                  i.fa.fa-desktop
         if .MayCreateBoard
           //- WeKan's header.jade: the Create Board pop-over (createBoardForm).
           a#header-new-board-icon.board-header-btn.js-create-board(href="#", title="{{t $.L `add-board`}}", aria-label="{{t $.L `add-board`}}")

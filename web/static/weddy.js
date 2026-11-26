@@ -2286,6 +2286,53 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     exportOff[field] = !exportOff[field];
     applyExportSelection(el.closest('.js-pop-over'));
   });
+  // WeKan's header (header.jade, header.js): the toggle beside Home hides
+  // every .js-header-collapsible-icon for this viewer, this session; and the
+  // mobile/desktop toggle is Utils.setMobileMode - localStorage's
+  // wekan-mobile-mode first, then the profile's choice, else a narrow screen
+  // or a touch one up to 1024px - as body.mobile-mode or body.desktop-mode.
+  function storeGet(store, key) { try { return window[store].getItem(key); } catch (e) { return null; } }
+  function storeSet(store, key, value) { try { window[store].setItem(key, value); } catch (e) { /* not kept */ } }
+  function setHeaderCollapsed(header, on) {
+    if (on) header.setAttribute('data-header-icons-collapsed', 'true');
+    else header.removeAttribute('data-header-icons-collapsed');
+    var icon = header.querySelector('.js-toggle-header-icons-collapsed i');
+    if (icon) icon.className = 'fa ' + (on ? 'fa-angle-double-right' : 'fa-angle-double-left');
+  }
+  up.compiler('#header-quick-access', function (header) {
+    setHeaderCollapsed(header, storeGet('sessionStorage', 'wekan-header-icons-collapsed') === 'true');
+  });
+  up.on('click', '.js-toggle-header-icons-collapsed', function (event, el) {
+    event.preventDefault();
+    var header = el.closest('#header-quick-access');
+    var on = header.getAttribute('data-header-icons-collapsed') !== 'true';
+    storeSet('sessionStorage', 'wekan-header-icons-collapsed', on ? 'true' : 'false');
+    setHeaderCollapsed(header, on);
+  });
+  function mobileModeOn(toggle) {
+    var stored = storeGet('localStorage', 'wekan-mobile-mode');
+    if (stored !== null) return stored === 'true';
+    if (toggle && toggle.dataset.profile) return toggle.dataset.profile === 'true';
+    var mq = function (q) { return !!(window.matchMedia && window.matchMedia(q).matches); };
+    return mq('(max-width: 800px)') || (mq('(pointer: coarse)') && window.innerWidth <= 1024);
+  }
+  function applyMobileMode(toggle, on) {
+    document.body.classList.toggle('mobile-mode', on);
+    document.body.classList.toggle('desktop-mode', !on);
+    if (!toggle) return;
+    toggle.classList.toggle('mobile-active', on);
+    toggle.classList.toggle('desktop-active', !on);
+    toggle.innerHTML = on ? '<i class="mobile-icon"><i class="fa fa-mobile"></i></i>' : '<i class="desktop-icon"><i class="fa fa-desktop"></i></i>';
+  }
+  up.compiler('.js-mobile-mode-toggle', function (toggle) { applyMobileMode(toggle, mobileModeOn(toggle)); });
+  up.on('click', '.js-mobile-mode-toggle', function (event, toggle) {
+    event.preventDefault();
+    var on = !mobileModeOn(toggle);
+    storeSet('localStorage', 'wekan-mobile-mode', on ? 'true' : 'false');
+    applyMobileMode(toggle, on);
+    toggle.dataset.profile = on ? 'true' : 'false';
+    window.Meteor.callAsync('setMobileMode', on).catch(function () { /* kept in this browser */ });
+  });
   up.on('click', '.js-watch-board', function (event) {
     event.preventDefault();
     openPopOver('watch');

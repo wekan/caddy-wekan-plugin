@@ -79,6 +79,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"createCardWithDueDate":             s.methodCreateCardWithDueDate,
 		"rules.setEnabled":                  s.methodSetRuleEnabled,
 		"toggleCardMaximized":               s.methodToggleCardMaximized,
+		"setMobileMode":                     s.methodSetMobileMode,
 		"setCardCollapsed":                  s.methodSetCardCollapsed,
 		"setBoardDragging":                  s.methodSetBoardDragging,
 		"setPassword":                       s.methodSetPassword,

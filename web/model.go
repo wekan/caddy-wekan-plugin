@@ -159,6 +159,9 @@ type User struct {
 		StarredBoards []string `bson:"starredBoards,omitempty" json:"starredBoards,omitempty"`
 		// InvitedBoards are the boards the user is invited to, server-written.
 		InvitedBoards []string `bson:"invitedBoards,omitempty" json:"invitedBoards,omitempty"`
+		// MobileMode: the user's choice of the header's mobile/desktop toggle
+		// (WeKan's profile.mobileMode); nil when never chosen.
+		MobileMode *bool `bson:"mobileMode,omitempty" json:"mobileMode,omitempty"`
 		// CardMaximized: the user opens a card full-screen (WeKan's profile.cardMaximized).
 		CardMaximized bool `bson:"cardMaximized,omitempty" json:"cardMaximized,omitempty"`
 		// CardCollapsed: the user folds the opened card's details (WeKan's profile.cardCollapsed).

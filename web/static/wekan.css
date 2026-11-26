@@ -1161,3 +1161,18 @@ html[dir='rtl'] .pop-over > button.js-date-popup-resize > span {
 .announcement ul { list-style: none; margin: 0; padding: 7px; }
 .board-wrapper > .board-announcement { flex: 0 0 auto; position: relative; z-index: 1; }
 .board-announcement .js-close-board-announcement { margin-inline-start: 8px; color: inherit; text-decoration: none; cursor: pointer; }
+
+/* WeKan's header (header.css): the toggle beside Home hides every icon from
+   the mobile/desktop toggle on, and the header's Home, toggle and title sit
+   on one line. */
+#header-quick-access .home-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+#header-quick-access[data-header-icons-collapsed="true"] .js-header-collapsible-icon {
+  display: none !important;
+}
+#header-quick-access .mobile-mode-toggle {
+  display: inline-flex;
+}
