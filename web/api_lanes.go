@@ -284,30 +284,38 @@ func archiveStateUpdate(archive bool, now time.Time) bson.M {
 	return bson.M{"$set": set, "$unset": bson.M{"archivedAt": ""}}
 }
 
-// Resume a template-list operation from its claimed state if a card write
-// fails. Already processed cards are excluded by the current-state filter.
-func (s *Server) archiveTemplateListCards(ctx context.Context, userID, boardID, listID string, archive bool, now time.Time) error {
+func (s *Server) templateListArchiveCards(ctx context.Context, boardID, listID string, archive bool) ([]string, error) {
 	cards := s.db.Collection("cards")
 	scope := bson.M{"boardId": boardID, "listId": listID, "archived": !archive, "deletedAt": nil}
 	cur, err := cards.Find(ctx, scope, options.Find().SetProjection(bson.M{"_id": 1}))
 	if err != nil {
-		return err
+		return nil, err
 	}
 	var ids []struct {
 		ID string `bson:"_id"`
 	}
 	if err := cur.All(ctx, &ids); err != nil {
-		return err
+		return nil, err
 	}
-	update := archiveStateUpdate(archive, now)
+	result := make([]string, 0, len(ids))
 	for _, card := range ids {
-		scope["_id"] = eq(card.ID)
+		result = append(result, card.ID)
+	}
+	return result, nil
+}
+
+// Resume only the cards selected when the template-list operation was claimed.
+func (s *Server) archiveTemplateListCards(ctx context.Context, userID, boardID, listID string, archive bool, now time.Time, ids []string) error {
+	scope := bson.M{"boardId": boardID, "listId": listID, "archived": !archive, "deletedAt": nil}
+	update := archiveStateUpdate(archive, now)
+	for _, id := range ids {
+		scope["_id"] = eq(id)
 		if _, err := s.cardsUpdateOne(ctx, userID, scope, update); err != nil {
 			return err
 		}
 	}
-	_, err = s.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": listID, "boardId": boardID,
-		"archived": archive, "archiveCascadePending": archive}, bson.M{"$unset": bson.M{"archiveCascadePending": ""}})
+	_, err := s.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": listID, "boardId": boardID,
+		"archived": archive, "archiveCascadePending": archive}, bson.M{"$unset": bson.M{"archiveCascadePending": "", "archiveCascadeCards": ""}})
 	return err
 }
 
@@ -324,6 +332,7 @@ func (s *Server) apiArchiveList(archive bool) apiHandler {
 			List       `bson:",inline"`
 			Pending    *bool     `bson:"archiveCascadePending"`
 			ArchivedAt time.Time `bson:"archivedAt"`
+			Cards      *[]string `bson:"archiveCascadeCards"`
 		}
 		ctx := r.Context()
 		scope := bson.M{"_id": eq(id), "boardId": b.ID, "deletedAt": nil}
@@ -336,6 +345,25 @@ func (s *Server) apiArchiveList(archive bool) apiHandler {
 			apiError(w, http.StatusConflict, "Finish the pending list archive operation first")
 			return
 		}
+		// Pending operations created before the snapshot was introduced pick
+		// their remaining IDs once, then resume using that same list.
+		if l.Type == "template-list" && l.Cards == nil {
+			ids, err := s.templateListArchiveCards(ctx, b.ID, l.ID, archive)
+			if err != nil {
+				apiError(w, http.StatusInternalServerError, err.Error())
+				return
+			}
+			if l.Pending != nil {
+				result, err := s.db.Collection("lists").UpdateOne(ctx,
+					bson.M{"_id": l.ID, "boardId": b.ID, "archiveCascadePending": archive, "archiveCascadeCards": nil},
+					bson.M{"$set": bson.M{"archiveCascadeCards": ids}})
+				if err != nil || result.MatchedCount != 1 {
+					apiError(w, http.StatusConflict, "List archive operation changed")
+					return
+				}
+			}
+			l.Cards = &ids
+		}
 		now := time.Now().UTC()
 		if l.Pending == nil {
 			scope["archived"] = !archive
@@ -343,6 +371,7 @@ func (s *Server) apiArchiveList(archive bool) apiHandler {
 			update := archiveStateUpdate(archive, now)
 			if l.Type == "template-list" {
 				update["$set"].(bson.M)["archiveCascadePending"] = archive
+				update["$set"].(bson.M)["archiveCascadeCards"] = *l.Cards
 			}
 			result, err := s.entityUpdateOne(ctx, u.ID, "list", scope, update)
 			if err != nil {
@@ -357,7 +386,7 @@ func (s *Server) apiArchiveList(archive bool) apiHandler {
 			now = l.ArchivedAt
 		}
 		if l.Type == "template-list" {
-			if err := s.archiveTemplateListCards(ctx, u.ID, b.ID, l.ID, archive, now); err != nil {
+			if err := s.archiveTemplateListCards(ctx, u.ID, b.ID, l.ID, archive, now, *l.Cards); err != nil {
 				apiError(w, http.StatusInternalServerError, err.Error())
 				return
 			}

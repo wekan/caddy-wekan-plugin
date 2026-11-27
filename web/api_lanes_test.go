@@ -87,7 +87,13 @@ func TestRESTListsSwimlanesAndBoardMoves(t *testing.T) {
 	// A retry resumes a claimed list operation without duplicating the list row.
 	listCollection := w.db.Collection("lists")
 	if _, err := listCollection.UpdateOne(ctx, bson.M{"_id": src.List},
-		bson.M{"$set": bson.M{"archived": true, "archivedAt": time.Now().UTC(), "archiveCascadePending": true}}); err != nil {
+		bson.M{"$set": bson.M{"archived": true, "archivedAt": time.Now().UTC(), "archiveCascadePending": true, "archiveCascadeCards": bson.A{src.Card}}}); err != nil {
+		t.Fatal(err)
+	}
+	lateID := randomID()
+	if _, err := w.db.Collection("cards").InsertOne(ctx, bson.M{
+		"_id": lateID, "boardId": src.ID, "listId": src.List, "swimlaneId": src.Swimlane, "archived": false,
+	}); err != nil {
 		t.Fatal(err)
 	}
 	if code := call(t, "POST", list+"/unarchive", a, "", nil); code != 409 {
@@ -97,6 +103,12 @@ func TestRESTListsSwimlanesAndBoardMoves(t *testing.T) {
 		count("cards", bson.M{"_id": src.Card, "archived": true}) != 1 ||
 		count("lists", bson.M{"_id": src.List, "archiveCascadePending": bson.M{"$exists": true}}) != 0 {
 		t.Fatalf("template list archive retry: %d", code)
+	}
+	if count("cards", bson.M{"_id": lateID, "archived": false}) != 1 {
+		t.Fatal("archive retry changed a card outside the saved operation")
+	}
+	if _, err := w.db.Collection("cards").DeleteOne(ctx, bson.M{"_id": lateID}); err != nil {
+		t.Fatal(err)
 	}
 	if code := call(t, "POST", list+"/unarchive", a, "", nil); code != 200 {
 		t.Fatalf("template list cleanup: %d", code)
