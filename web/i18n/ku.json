@@ -1935,5 +1935,7 @@
   "color-slateblue": "şînê kevirî",
   "color-white": "spî",
   "color-yellow": "zer",
-  "due-complete": "Dawî qediya"
+  "due-complete": "Dawî qediya",
+  "hideCheckedChecklistItems": "Hêmanên nîşankirî yên lîsteya kontrolê veşêre",
+  "hideAllChecklistItems": "Hemû hêmanên lîsteya kontrolê veşêre"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "kurşun mavisi",
   "color-white": "beyaz",
   "color-yellow": "sarı",
-  "due-complete": "Bitiş tamamlandı"
+  "due-complete": "Bitiş tamamlandı",
+  "hideCheckedChecklistItems": "İşaretlenen checklist öğelerini gizle",
+  "hideAllChecklistItems": "Tüm checklist öğelerini gizle"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "Ardesia",
   "color-white": "bianco",
   "color-yellow": "giallo",
-  "due-complete": "Scadenza completata"
+  "due-complete": "Scadenza completata",
+  "hideCheckedChecklistItems": "Nascondi gli elementi della lista di controllo selezionati",
+  "hideAllChecklistItems": "Nascondi gli elementi della lista di controllo"
 }

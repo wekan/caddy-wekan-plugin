@@ -1935,5 +1935,7 @@
   "color-slateblue": "स्लेट निळा",
   "color-white": "पांढरा",
   "color-yellow": "पिवळा",
-  "due-complete": "देय पूर्ण"
+  "due-complete": "देय पूर्ण",
+  "hideCheckedChecklistItems": "निवडलेले तपासणीसूची घटक लपवा",
+  "hideAllChecklistItems": "सर्व तपासणीसूची घटक लपवा"
 }

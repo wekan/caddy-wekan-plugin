@@ -1935,5 +1935,7 @@
   "color-slateblue": "gorm-sglèata",
   "color-white": "geal",
   "color-yellow": "buidhe",
-  "due-complete": "Ri phàigheadh crìochnaichte"
+  "due-complete": "Ri phàigheadh crìochnaichte",
+  "hideCheckedChecklistItems": "Falaich nithean comharraichte na liosta-sgrùdaidh",
+  "hideAllChecklistItems": "Falaich gach nì air an liosta-sgrùdaidh"
 }

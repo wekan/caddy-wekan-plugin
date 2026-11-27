@@ -1935,5 +1935,7 @@
   "color-slateblue": "abuhing asul",
   "color-white": "puti",
   "color-yellow": "dilaw",
-  "due-complete": "Takda kumpletuhin"
+  "due-complete": "Takda kumpletuhin",
+  "hideCheckedChecklistItems": "Itago may tsek aytem ng tsek-listahanahans",
+  "hideAllChecklistItems": "Itago lahat aytem ng tsek-listahanahans"
 }

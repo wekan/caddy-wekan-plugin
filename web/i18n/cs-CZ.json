@@ -1935,5 +1935,7 @@
   "color-slateblue": "břidlicově modrá",
   "color-white": "bílá",
   "color-yellow": "žlutá",
-  "due-complete": "Termín splněn"
+  "due-complete": "Termín splněn",
+  "hideCheckedChecklistItems": "Skrýt zaškrtnuté položky checklistu",
+  "hideAllChecklistItems": "Skrýt všechny položky checklistu"
 }

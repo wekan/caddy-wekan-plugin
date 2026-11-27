@@ -1935,5 +1935,7 @@
   "color-slateblue": "albastru di plãcã",
   "color-white": "albu",
   "color-yellow": "galbin",
-  "due-complete": "Limitã bitisitã"
+  "due-complete": "Limitã bitisitã",
+  "hideCheckedChecklistItems": "Ascundi elementili bifati di lista di control",
+  "hideAllChecklistItems": "Ascundi tuti elementili di lista di control"
 }

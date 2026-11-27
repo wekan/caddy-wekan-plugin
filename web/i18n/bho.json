@@ -1935,5 +1935,7 @@
   "color-slateblue": "स्लेटी नीला",
   "color-white": "उज्जर",
   "color-yellow": "पीयर",
-  "due-complete": "नियत काम पूरा"
+  "due-complete": "नियत काम पूरा",
+  "hideCheckedChecklistItems": "जाँच कइल जाँच-सूची मद छिपाईं",
+  "hideAllChecklistItems": "सभ जाँच-सूची मद छिपाईं"
 }

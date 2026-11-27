@@ -1935,5 +1935,7 @@
   "color-slateblue": "shuɗin slate",
   "color-white": "fari",
   "color-yellow": "rawaya",
-  "due-complete": "An kammala ƙarewa"
+  "due-complete": "An kammala ƙarewa",
+  "hideCheckedChecklistItems": "Ɓoye abubuwan jerin dubawa da aka yi wa alama",
+  "hideAllChecklistItems": "Ɓoye dukkan abubuwan jerin dubawa"
 }

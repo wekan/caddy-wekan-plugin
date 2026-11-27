@@ -1935,5 +1935,7 @@
   "color-slateblue": "šīfera zils",
   "color-white": "balts",
   "color-yellow": "dzeltens",
-  "due-complete": "Termiņš pabeigts"
+  "due-complete": "Termiņš pabeigts",
+  "hideCheckedChecklistItems": "Paslēpt atzīmētos kontrolsaraksta vienumus",
+  "hideAllChecklistItems": "Paslēpt visus kontrolsaraksta vienumus"
 }

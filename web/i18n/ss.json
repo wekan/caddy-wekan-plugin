@@ -1935,5 +1935,7 @@
   "color-slateblue": "slate luhlata sasibhakabhaka",
   "color-white": "mhlophe",
   "color-yellow": "phuti",
-  "due-complete": "Lokufanele kuphelile"
+  "due-complete": "Lokufanele kuphelile",
+  "hideCheckedChecklistItems": "Fihla tintfo teluhlu lwekuhlola letihloliwe",
+  "hideAllChecklistItems": "Fihla tonkhe tintfo teluhlu lwekuhlola"
 }

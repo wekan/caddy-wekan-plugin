@@ -1935,5 +1935,7 @@
   "color-slateblue": "leiklipblou",
   "color-white": "wit",
   "color-yellow": "geel",
-  "due-complete": "Sper voltooid"
+  "due-complete": "Sper voltooid",
+  "hideCheckedChecklistItems": "Versteek gemerkte kontrolelysitems",
+  "hideAllChecklistItems": "Versteek alle kontrolelys-items"
 }

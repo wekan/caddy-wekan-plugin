@@ -1935,5 +1935,7 @@
   "color-slateblue": "cuquliisa dhagaa",
   "color-white": "adii",
   "color-yellow": "keelloo",
-  "due-complete": "Yeroon xumuraa guutame"
+  "due-complete": "Yeroon xumuraa guutame",
+  "hideCheckedChecklistItems": "Galmeewwan tarree qorannoo mallatteeffaman dhoksi",
+  "hideAllChecklistItems": "Galmeewwan tarree qorannoo hunda dhoksi"
 }

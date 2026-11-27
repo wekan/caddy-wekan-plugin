@@ -1935,5 +1935,7 @@
   "color-slateblue": "шистово синьо",
   "color-white": "бяло",
   "color-yellow": "жълто",
-  "due-complete": "Крайният срок е приключен"
+  "due-complete": "Крайният срок е приключен",
+  "hideCheckedChecklistItems": "Скриване на отметнатите елементи от чеклиста",
+  "hideAllChecklistItems": "Скриване на всички елементи от чеклиста"
 }

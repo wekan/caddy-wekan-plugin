@@ -1935,5 +1935,7 @@
   "color-slateblue": "սալիկապատ",
   "color-white": "սպիտակ",
   "color-yellow": "դեղին",
-  "due-complete": "Վերջնաժամկետը ավարտված"
+  "due-complete": "Վերջնաժամկետը ավարտված",
+  "hideCheckedChecklistItems": "Թաքցնել ստուգված ստուգաթերթի տարրերը",
+  "hideAllChecklistItems": "Թաքցնել ստուգաթերթի բոլոր կետերը"
 }

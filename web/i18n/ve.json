@@ -1935,5 +1935,7 @@
   "color-slateblue": "lutombo lwa tsimbi",
   "color-white": "tshena",
   "color-yellow": "ṱaḓa",
-  "due-complete": "U fhelela ho fhela"
+  "due-complete": "U fhelela ho fhela",
+  "hideCheckedChecklistItems": "Dzumba zwithu zwo swayiwaho zwa mutevhe wa u sedza",
+  "hideAllChecklistItems": "Dzumba zwithu zwoṱhe zwa mutevhe wa u sedza"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "manga takelaka",
   "color-white": "fotsy",
   "color-yellow": "mavo",
-  "due-complete": "Vita ny voatondro"
+  "due-complete": "Vita ny voatondro",
+  "hideCheckedChecklistItems": "Afeno ny singa lisitra fanamarinana voamarika",
+  "hideAllChecklistItems": "Afeno ny singa lisitra fanamarinana rehetra"
 }

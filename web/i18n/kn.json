@@ -1935,5 +1935,7 @@
   "color-slateblue": "ಸ್ಲೇಟ್ ನೀಲಿ",
   "color-white": "ಬಿಳಿ",
   "color-yellow": "ಹಳದಿ",
-  "due-complete": "ಕೊನೆಯ ದಿನಾಂಕ ಪೂರ್ಣಗೊಂಡಿದೆ"
+  "due-complete": "ಕೊನೆಯ ದಿನಾಂಕ ಪೂರ್ಣಗೊಂಡಿದೆ",
+  "hideCheckedChecklistItems": "ಗುರುತಿಸಿದ ಪರಿಶೀಲನಾ ಪಟ್ಟಿಯ ಅಂಶಗಳನ್ನು ಮರೆಮಾಡಿ",
+  "hideAllChecklistItems": "ಎಲ್ಲ ಪರಿಶೀಲನಾ ಪಟ್ಟಿಯ ಅಂಶಗಳನ್ನು ಮರೆಮಾಡಿ"
 }

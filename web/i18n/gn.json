@@ -1935,5 +1935,7 @@
   "color-slateblue": "hovy itatĩ",
   "color-white": "morotĩ",
   "color-yellow": "sa'yju",
-  "due-complete": "Arange paha oñemohu'ã"
+  "due-complete": "Arange paha oñemohu'ã",
+  "hideCheckedChecklistItems": "Eñomi ysaja ñehesa'ỹijo mba'e ojehechamava'ekue",
+  "hideAllChecklistItems": "Eñomi opaite ysaja ñehesa'ỹijo mba'e"
 }

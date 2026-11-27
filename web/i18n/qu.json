@@ -1935,5 +1935,7 @@
   "color-slateblue": "rumi anqas",
   "color-white": "yuraq",
   "color-yellow": "q'illu",
-  "due-complete": "Tukuy pacha hunt'asqa"
+  "due-complete": "Tukuy pacha hunt'asqa",
+  "hideCheckedChecklistItems": "Chikunasqa qhawana sutisuyu kaqkunata pakay",
+  "hideAllChecklistItems": "Llapa qhawana sutisuyu kaqkunata pakay"
 }

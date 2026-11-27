@@ -1935,5 +1935,7 @@
   "color-slateblue": "slatablövik",
   "color-white": "vietik",
   "color-yellow": "yelovik",
-  "due-complete": "Termadat pefinüköl"
+  "due-complete": "Termadat pefinüköl",
+  "hideCheckedChecklistItems": "Klänedön notetis pemäköl kontrolaliseda",
+  "hideAllChecklistItems": "Klänedön notetis valik kontrolaliseda"
 }

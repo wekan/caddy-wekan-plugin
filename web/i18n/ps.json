@@ -1935,5 +1935,7 @@
   "color-slateblue": "سليټي آبي",
   "color-white": "سپين",
   "color-yellow": "ژېړ",
-  "due-complete": "ټاکلې نېټه بشپړه شوه"
+  "due-complete": "ټاکلې نېټه بشپړه شوه",
+  "hideCheckedChecklistItems": "نښه شوي د کتنليک توکي پټ کړئ",
+  "hideAllChecklistItems": "د کتنليک ټول توکي پټ کړئ"
 }

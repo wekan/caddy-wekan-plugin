@@ -1935,5 +1935,7 @@
   "color-slateblue": "karakarawa dravu",
   "color-white": "vulavula",
   "color-yellow": "dromodromo",
-  "due-complete": "Sa oti ena gauna"
+  "due-complete": "Sa oti ena gauna",
+  "hideCheckedChecklistItems": "Vunitaka na ka digitaki ni lisi ni vakadinadina",
+  "hideAllChecklistItems": "Vunitaka na ka kece ni lisi ni vakadinadina"
 }

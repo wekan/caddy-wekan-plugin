@@ -1935,5 +1935,7 @@
   "color-slateblue": "آبی فولادی",
   "color-white": "سفید",
   "color-yellow": "زرد",
-  "due-complete": "سررسید کامل"
+  "due-complete": "سررسید کامل",
+  "hideCheckedChecklistItems": "پنهان کردن موارد انجام شده چک لیست",
+  "hideAllChecklistItems": "پنهان کردن همه موارد چک لیست"
 }

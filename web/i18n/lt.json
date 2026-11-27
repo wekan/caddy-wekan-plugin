@@ -1935,5 +1935,7 @@
   "color-slateblue": "šiferio mėlyna",
   "color-white": "baltas",
   "color-yellow": "geltona",
-  "due-complete": "Terminas įvykdytas"
+  "due-complete": "Terminas įvykdytas",
+  "hideCheckedChecklistItems": "Slėpti pažymėtus kontrolinio sąrašo elementus",
+  "hideAllChecklistItems": "Slėpti visus kontrolinio sąrašo elementus"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "σχιστολιθικό μπλε",
   "color-white": "λευκό",
   "color-yellow": "κίτρινο",
-  "due-complete": "Ολοκληρωμένη λήξη"
+  "due-complete": "Ολοκληρωμένη λήξη",
+  "hideCheckedChecklistItems": "Απόκρυψη επιλεγμένων στοιχείων λίστας ελέγχου",
+  "hideAllChecklistItems": "Απόκρυψη όλων των στοιχείων λίστας ελέγχου"
 }

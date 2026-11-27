@@ -1935,5 +1935,7 @@
   "color-slateblue": "nextic texotictic",
   "color-white": "iztac",
   "color-yellow": "coztic",
-  "due-complete": "Tlamiliztli tlamic"
+  "due-complete": "Tlamiliztli tlamic",
+  "hideCheckedChecklistItems": "Xiquintlaati tlanextiliztocatlahtolli tlamantli omachiyoh",
+  "hideAllChecklistItems": "Xiquintlaati mochtin tlanextiliztocatlahtolli tlamantli"
 }

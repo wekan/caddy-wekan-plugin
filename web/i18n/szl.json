@@ -1935,5 +1935,7 @@
   "color-slateblue": "szaroniebieska",
   "color-white": "biała",
   "color-yellow": "żółta",
-  "due-complete": "Termin ukończony"
+  "due-complete": "Termin ukończony",
+  "hideCheckedChecklistItems": "Skryj zaznaczone pozycje checklisty",
+  "hideAllChecklistItems": "Skryj wszyskie pozycje checklisty"
 }

@@ -1940,5 +1940,7 @@
   "color-slateblue": "Schieferblau",
   "color-white": "Weiss",
   "color-yellow": "gelb",
-  "due-complete": "Fälligkeit erledigt"
+  "due-complete": "Fälligkeit erledigt",
+  "hideCheckedChecklistItems": "Erledigte Checklisteneinträge ausblenden",
+  "hideAllChecklistItems": "Verberge alle Checklisteneinträge"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "asul nga may purpura",
   "color-white": "busag",
   "color-yellow": "amarilyo",
-  "due-complete": "Tapos an deadline"
+  "due-complete": "Tapos an deadline",
+  "hideCheckedChecklistItems": "Itago an mga gin-check nga item han checklist",
+  "hideAllChecklistItems": "Itago an ngatanan nga item han checklist"
 }

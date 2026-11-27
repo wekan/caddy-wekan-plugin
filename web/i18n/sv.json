@@ -1935,5 +1935,7 @@
   "color-slateblue": "skifferblå",
   "color-white": "vit",
   "color-yellow": "gul",
-  "due-complete": "Förfallodatum slutfört"
+  "due-complete": "Förfallodatum slutfört",
+  "hideCheckedChecklistItems": "Dölj markerade objekt i checklistan",
+  "hideAllChecklistItems": "Dölj alla objekt i checklistan"
 }

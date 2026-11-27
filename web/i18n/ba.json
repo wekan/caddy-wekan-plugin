@@ -1935,5 +1935,7 @@
   "color-slateblue": "шифер күге",
   "color-white": "аҡ",
   "color-yellow": "һары",
-  "due-complete": "Тамамлау үтәлде"
+  "due-complete": "Тамамлау үтәлде",
+  "hideCheckedChecklistItems": "Билдәләнгән тикшереү исемлеге элементтарын йәшерергә",
+  "hideAllChecklistItems": "Бөтә тикшереү исемлеге элементтарын йәшерергә"
 }

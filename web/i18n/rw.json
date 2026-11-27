@@ -1935,5 +1935,7 @@
   "color-slateblue": "ubururu bwa slate",
   "color-white": "umweru",
   "color-yellow": "umuhondo",
-  "due-complete": "Igihe cyo kurangira cyujujwe"
+  "due-complete": "Igihe cyo kurangira cyujujwe",
+  "hideCheckedChecklistItems": "Hisha ibyashyizweho akamenyetso ku rutonde rw'igenzura",
+  "hideAllChecklistItems": "Hisha ibiri ku rutonde rw'igenzura byose"
 }

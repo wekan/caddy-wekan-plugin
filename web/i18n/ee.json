@@ -1935,5 +1935,7 @@
   "color-slateblue": "blɔ-ɣi",
   "color-white": "ɣie",
   "color-yellow": "aklama",
-  "due-complete": "Wowu ŋkeke mamlɛ nu"
+  "due-complete": "Wowu ŋkeke mamlɛ nu",
+  "hideCheckedChecklistItems": "Ɣla ŋkuɖodzinudzesi ƒe nane siwo wode dzesi",
+  "hideAllChecklistItems": "Ɣla ŋkuɖodzinudzesi ƒe naneawo katã"
 }

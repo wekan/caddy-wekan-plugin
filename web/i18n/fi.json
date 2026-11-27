@@ -1935,5 +1935,7 @@
   "color-slateblue": "liuskekivi sininen",
   "color-white": "valkoinen",
   "color-yellow": "keltainen",
-  "due-complete": "Erääntyy"
+  "due-complete": "Erääntyy",
+  "hideCheckedChecklistItems": "Piilota ruksatut tarkistuslistan kohdat",
+  "hideAllChecklistItems": "Piilota kaikki tarkistuslistan kohdat"
 }

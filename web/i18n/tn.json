@@ -1935,5 +1935,7 @@
   "color-slateblue": "pududu ya letlapa",
   "color-white": "tshweu",
   "color-yellow": "serolwana",
-  "due-complete": "Bofelo feditse"
+  "due-complete": "Bofelo feditse",
+  "hideCheckedChecklistItems": "Fitlha tlhatlhobilwe dilo tsa lenaane la tlhatlhobo",
+  "hideAllChecklistItems": "Fitlha tsotlhe dilo tsa lenaane la tlhatlhobo"
 }

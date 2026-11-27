@@ -1935,5 +1935,7 @@
   "color-slateblue": "स्लेट नीला",
   "color-white": "सफ़ेद",
   "color-yellow": "पीला",
-  "due-complete": "नियत पूर्ण"
+  "due-complete": "नियत पूर्ण",
+  "hideCheckedChecklistItems": "चेक की गई चेकलिस्ट आइटम छिपाएं",
+  "hideAllChecklistItems": "सभी चेकलिस्ट आइटम छिपाएं"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "lanu moana-efuefu",
   "color-white": "hinehina",
   "color-yellow": "lanu engeenga",
-  "due-complete": "Kuo kakato ʻa e ngataʻanga"
+  "due-complete": "Kuo kakato ʻa e ngataʻanga",
+  "hideCheckedChecklistItems": "Fakafufū ʻa e ngaahi meʻa ʻo e lisi sivi kuo maaka",
+  "hideAllChecklistItems": "Fakafufū ʻa e ngaahi meʻa kotoa ʻo e lisi sivi"
 }

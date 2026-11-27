@@ -1935,5 +1935,7 @@
   "color-slateblue": "lanumoana-efuefu",
   "color-white": "paepae",
   "color-yellow": "samasama",
-  "due-complete": "Ua mae'a le mea e tatau ai"
+  "due-complete": "Ua mae'a le mea e tatau ai",
+  "hideCheckedChecklistItems": "Nana mea ua siakiina o le lisi siaki",
+  "hideAllChecklistItems": "Nana mea uma o le lisi siaki"
 }

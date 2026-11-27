@@ -1935,5 +1935,7 @@
   "color-slateblue": "шифер хүхэ",
   "color-white": "сагаан",
   "color-yellow": "шара",
-  "due-complete": "Дүүргэхэ даабари дүүрээ"
+  "due-complete": "Дүүргэхэ даабари дүүрээ",
+  "hideCheckedChecklistItems": "Тэмдэглэгдэһэн шалгалтын жагсаалтын зүйлнүүдые нюуха",
+  "hideAllChecklistItems": "Шалгалтын жагсаалтын бүхы зүйлнүүдые нюуха"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "blù ardesia",
   "color-white": "bianco",
   "color-yellow": "giallo",
-  "due-complete": "Scadënza fenida"
+  "due-complete": "Scadënza fenida",
+  "hideCheckedChecklistItems": "Platé i elemënc marcei dla lista de control",
+  "hideAllChecklistItems": "Platé duc i elemënc dla lista de control"
 }

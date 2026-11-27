@@ -1935,5 +1935,7 @@
   "color-slateblue": "bleu gris",
   "color-white": "blanc",
   "color-yellow": "djaene",
-  "due-complete": "Echeyance fwaite"
+  "due-complete": "Echeyance fwaite",
+  "hideCheckedChecklistItems": "Catchî les cayets markés del djivêye di verifiaedje",
+  "hideAllChecklistItems": "Catchî tos les cayets del djivêye di verifiaedje"
 }

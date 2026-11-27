@@ -1935,5 +1935,7 @@
   "color-slateblue": "glas legh",
   "color-white": "gwynn",
   "color-yellow": "melyn",
-  "due-complete": "Termyn gorfenwys"
+  "due-complete": "Termyn gorfenwys",
+  "hideCheckedChecklistItems": "Kudha taklennow checkys an rol checkya",
+  "hideAllChecklistItems": "Kudha pub taklen an rol checkya"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "islateblue",
   "color-white": "mhlophe",
   "color-yellow": "lubhelu",
-  "due-complete": "Okumiselweyo kugqityiwe"
+  "due-complete": "Okumiselweyo kugqityiwe",
+  "hideCheckedChecklistItems": "Fihla izinto zoluhlu olukhangelweyo",
+  "hideAllChecklistItems": "Fihla zonke izinto zoluhlu lokukhangela"
 }

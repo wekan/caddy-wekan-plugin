@@ -1935,5 +1935,7 @@
   "color-slateblue": "സ്ലേറ്റ് നീല",
   "color-white": "വെള്ള",
   "color-yellow": "മഞ്ഞ",
-  "due-complete": "അവസാന തീയതി പൂർത്തിയായി"
+  "due-complete": "അവസാന തീയതി പൂർത്തിയായി",
+  "hideCheckedChecklistItems": "അടയാളപ്പെടുത്തിയ ചെക്ക്‌ലിസ്റ്റ് ഇനങ്ങൾ മറയ്ക്കുക",
+  "hideAllChecklistItems": "എല്ലാ ചെക്ക്‌ലിസ്റ്റ് ഇനങ്ങളും മറയ്ക്കുക"
 }

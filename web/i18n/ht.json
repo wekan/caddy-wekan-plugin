@@ -1935,5 +1935,7 @@
   "color-slateblue": "ble adwaz",
   "color-white": "blan",
   "color-yellow": "jòn",
-  "due-complete": "Limit fini"
+  "due-complete": "Limit fini",
+  "hideCheckedChecklistItems": "Kache eleman lis verifikasyon ki tcheke yo",
+  "hideAllChecklistItems": "Kache tout eleman lis verifikasyon"
 }

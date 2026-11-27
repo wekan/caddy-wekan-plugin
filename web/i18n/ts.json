@@ -1935,5 +1935,7 @@
   "color-slateblue": "wasi ra ribye",
   "color-white": "basa",
   "color-yellow": "xitshopana",
-  "due-complete": "fanele hetisa"
+  "due-complete": "fanele hetisa",
+  "hideCheckedChecklistItems": "Fihla swilo swa nxaxamelo wo kambela leswi kamberiweke",
+  "hideAllChecklistItems": "fihla hinkwavo nxaxamelo wo kambela mhaka"
 }

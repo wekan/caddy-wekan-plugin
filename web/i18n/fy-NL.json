@@ -1935,5 +1935,7 @@
   "color-slateblue": "leiblau",
   "color-white": "wyt",
   "color-yellow": "giel",
-  "due-complete": "Ferfal foltôge"
+  "due-complete": "Ferfal foltôge",
+  "hideCheckedChecklistItems": "Hide kontrolearre checklist items",
+  "hideAllChecklistItems": "Ferbergje alle checklist items"
 }

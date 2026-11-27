@@ -1936,5 +1936,7 @@
   "color-slateblue": "сіро-голубий",
   "color-white": "білий",
   "color-yellow": "жовтий",
-  "due-complete": "Термін виконано"
+  "due-complete": "Термін виконано",
+  "hideCheckedChecklistItems": "Приховати відмічені елементи чек-листа",
+  "hideAllChecklistItems": "Приховати всі пункти чек-листа"
 }

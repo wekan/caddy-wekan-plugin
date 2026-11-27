@@ -1935,5 +1935,7 @@
   "color-slateblue": "kalakepalue",
   "color-white": "keʻokeʻo",
   "color-yellow": "melemele",
-  "due-complete": "kue hoʻopau"
+  "due-complete": "kue hoʻopau",
+  "hideCheckedChecklistItems": "hūnā kaha ʻia papa kaha nā mea",
+  "hideAllChecklistItems": "hūnā a pau papa kaha nā mea"
 }

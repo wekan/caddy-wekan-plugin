@@ -1935,5 +1935,7 @@
   "color-slateblue": "Ardesia",
   "color-white": "ghianco",
   "color-yellow": "giallo",
-  "due-complete": "Scadenza cumpletata"
+  "due-complete": "Scadenza cumpletata",
+  "hideCheckedChecklistItems": "Annascunne 'e elemente d' 'a lista 'e cuntrollo selezionati",
+  "hideAllChecklistItems": "Annascunne 'e elemente d' 'a lista 'e cuntrollo"
 }

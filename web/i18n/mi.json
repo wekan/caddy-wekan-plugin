@@ -1935,5 +1935,7 @@
   "color-slateblue": "kikorangi papa-kōhatu",
   "color-white": "mā",
   "color-yellow": "kōwhai",
-  "due-complete": "Kua oti te mea tika"
+  "due-complete": "Kua oti te mea tika",
+  "hideCheckedChecklistItems": "Huna ngā tūemi rārangi arowhai kua tohua",
+  "hideAllChecklistItems": "Huna ngā tūemi rārangi arowhai katoa"
 }

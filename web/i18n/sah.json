@@ -1935,5 +1935,7 @@
   "color-slateblue": "бороҥ күөх",
   "color-white": "үрүҥ",
   "color-yellow": "сарыы",
-  "due-complete": "Болдьох бүттэ"
+  "due-complete": "Болдьох бүттэ",
+  "hideCheckedChecklistItems": "Бэрэбиэркэ испииһэгин бэлиэтэммит пууннарын кистээ",
+  "hideAllChecklistItems": "Бэрэбиэркэ испииһэгин бары пууннарын кистээ"
 }

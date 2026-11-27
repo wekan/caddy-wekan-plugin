@@ -1935,5 +1935,7 @@
   "color-slateblue": "сланец кӑвакӗ",
   "color-white": "шурӑ",
   "color-yellow": "сарӑ",
-  "due-complete": "Вӗҫленӳ пӗтнӗ"
+  "due-complete": "Вӗҫленӳ пӗтнӗ",
+  "hideCheckedChecklistItems": "Паллӑ тунӑ тӗрӗслев список пунктӗсене пытӑрас",
+  "hideAllChecklistItems": "Тӗрӗслев списокӗн пур пунктне пытӑрас"
 }

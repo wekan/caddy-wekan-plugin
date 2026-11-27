@@ -1935,5 +1935,7 @@
   "color-slateblue": "ስሌት ሰማያዊ",
   "color-white": "ጻዕዳ",
   "color-yellow": "ብጫ",
-  "due-complete": "ገደብ ተዛዚሙ"
+  "due-complete": "ገደብ ተዛዚሙ",
+  "hideCheckedChecklistItems": "ምልክት ዝተገብረሎም ነገራት ዝርዝር መረጋገጺ ሕባእ",
+  "hideAllChecklistItems": "ኩሎም ነገራት ዝርዝር መረጋገጺ ሕባእ"
 }

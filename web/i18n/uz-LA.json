@@ -1935,5 +1935,7 @@
   "color-slateblue": "ko'k rangli",
   "color-white": "oq",
   "color-yellow": "sariq",
-  "due-complete": "Muddat bajarildi"
+  "due-complete": "Muddat bajarildi",
+  "hideCheckedChecklistItems": "Belgilangan nazorat roʻyxati elementlarini yashirish",
+  "hideAllChecklistItems": "Tekshirish roʻyxatining barcha elementlarini yashirish"
 }

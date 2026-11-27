@@ -1935,5 +1935,7 @@
   "color-slateblue": "شینی خۆڵەمێشی",
   "color-white": "سپی",
   "color-yellow": "زەرد",
-  "due-complete": "کۆتایی تەواوە"
+  "due-complete": "کۆتایی تەواوە",
+  "hideCheckedChecklistItems": "بڕگە نیشانەکراوەکانی لیستی پشکنین بشارەوە",
+  "hideAllChecklistItems": "هەموو بڕگەکانی لیستی پشکنین بشارەوە"
 }

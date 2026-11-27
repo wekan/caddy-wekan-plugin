@@ -1909,5 +1909,7 @@
   "wsjf-score": "Pontuação WSJF",
   "yes": "Sim",
   "zoom-in": "Aumentar Zoom",
-  "zoom-out": "Diminuir Zoom"
+  "zoom-out": "Diminuir Zoom",
+  "hideCheckedChecklistItems": "Esconder itens concluídos da lista de verificação",
+  "hideAllChecklistItems": "Esconder todos os itens da lista de verificação"
 }

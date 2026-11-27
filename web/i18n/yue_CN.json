@@ -1935,5 +1935,7 @@
   "color-slateblue": "石板藍",
   "color-white": "白色的",
   "color-yellow": "黃色的",
-  "due-complete": "到期已完成"
+  "due-complete": "到期已完成",
+  "hideCheckedChecklistItems": "隱藏選取的清單項目",
+  "hideAllChecklistItems": "隱藏所有清單項目"
 }

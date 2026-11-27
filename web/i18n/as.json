@@ -1935,5 +1935,7 @@
   "color-slateblue": "শিলনীলা",
   "color-white": "বগা",
   "color-yellow": "হালধীয়া",
-  "due-complete": "দেয় সম্পূৰ্ণ"
+  "due-complete": "দেয় সম্পূৰ্ণ",
+  "hideCheckedChecklistItems": "চিহ্নিত চেকলিষ্ট বস্তুসমূহ লুকুৱাওক",
+  "hideAllChecklistItems": "সকলো চেকলিষ্ট বস্তু লুকুৱাওক"
 }

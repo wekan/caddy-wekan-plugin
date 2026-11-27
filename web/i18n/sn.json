@@ -1935,5 +1935,7 @@
   "color-slateblue": "bhuruu ine pepuru nepfumbu",
   "color-white": "chena",
   "color-yellow": "yero",
-  "due-complete": "Kupera kwapedzwa"
+  "due-complete": "Kupera kwapedzwa",
+  "hideCheckedChecklistItems": "Vanza zvinhu zvakamakwa zverondedzero yekuongorora",
+  "hideAllChecklistItems": "Vanza zvinhu zvose zverondedzero yekuongorora"
 }

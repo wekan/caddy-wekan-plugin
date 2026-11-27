@@ -1935,5 +1935,7 @@
   "color-slateblue": "کۉک رنگلی",
   "color-white": "آق",
   "color-yellow": "سریق",
-  "due-complete": "مدت تاماملندی"
+  "due-complete": "مدت تاماملندی",
+  "hideCheckedChecklistItems": "بیلگیلنگن نظارت رۉیختی ایلیمینتلرینی یشیریش",
+  "hideAllChecklistItems": "تیکشیریش رۉیختینینگ برچه ایلیمینتلرینی یشیریش"
 }

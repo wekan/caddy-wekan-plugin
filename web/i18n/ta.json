@@ -1935,5 +1935,7 @@
   "color-slateblue": "பாறை நீலம்",
   "color-white": "வெள்ளை",
   "color-yellow": "மஞ்சள்",
-  "due-complete": "காலக்கெடு முடிந்தது"
+  "due-complete": "காலக்கெடு முடிந்தது",
+  "hideCheckedChecklistItems": "குறிக்கப்பட்ட சரிபார்ப்புப் பட்டியல் உருப்படிகளை மறை",
+  "hideAllChecklistItems": "அனைத்துச் சரிபார்ப்புப் பட்டியல் உருப்படிகளையும் மறை"
 }

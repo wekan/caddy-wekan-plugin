@@ -1935,5 +1935,7 @@
   "color-slateblue": "سلیٹی نیلا",
   "color-white": "سفید",
   "color-yellow": "پیلا",
-  "due-complete": "مقررہ کام مکمل"
+  "due-complete": "مقررہ کام مکمل",
+  "hideCheckedChecklistItems": "جانچ فہرست کے نشان زدہ اجزا چھپائیں",
+  "hideAllChecklistItems": "جانچ فہرست کے تمام اجزا چھپائیں"
 }

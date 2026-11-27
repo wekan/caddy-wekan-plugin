@@ -1935,5 +1935,7 @@
   "color-slateblue": "uqi larama",
   "color-white": "janq'u",
   "color-yellow": "q'illu",
-  "due-complete": "tukuyañ complete"
+  "due-complete": "tukuyañ complete",
+  "hideCheckedChecklistItems": "imantaña uñakipata uñakipañ lista items",
+  "hideAllChecklistItems": "imantaña taqi uñakipañ lista items"
 }

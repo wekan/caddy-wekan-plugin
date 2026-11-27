@@ -1935,5 +1935,7 @@
   "color-slateblue": "azul ardósia",
   "color-white": "branco",
   "color-yellow": "amarelo",
-  "due-complete": "Prazo concluído"
+  "due-complete": "Prazo concluído",
+  "hideCheckedChecklistItems": "Esconder itens concluídos da lista de verificação",
+  "hideAllChecklistItems": "Esconder todos os itens da lista de verificação"
 }

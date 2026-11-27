@@ -1935,5 +1935,7 @@
   "color-slateblue": "llechen glas",
   "color-white": "gwyn",
   "color-yellow": "melyn",
-  "due-complete": "Wedi cwblhau erbyn y dyddiad"
+  "due-complete": "Wedi cwblhau erbyn y dyddiad",
+  "hideCheckedChecklistItems": "Cuddio eitemau rhestr wirio wedi'u gwirio",
+  "hideAllChecklistItems": "Cuddio holl eitemau'r rhestr wirio"
 }

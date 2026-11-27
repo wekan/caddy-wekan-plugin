@@ -1935,5 +1935,7 @@
   "color-slateblue": "blè ardexia",
   "color-white": "bianco",
   "color-yellow": "giallo",
-  "due-complete": "Scadensa completà"
+  "due-complete": "Scadensa completà",
+  "hideCheckedChecklistItems": "Scondi łe vozi segnà de ła lista de controło",
+  "hideAllChecklistItems": "Scondi tute łe vozi de ła lista de controło"
 }

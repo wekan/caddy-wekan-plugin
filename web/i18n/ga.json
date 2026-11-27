@@ -1935,5 +1935,7 @@
   "color-slateblue": "scláta-ghorm",
   "color-white": "bán",
   "color-yellow": "buí",
-  "due-complete": "Dlite críochnaithe"
+  "due-complete": "Dlite críochnaithe",
+  "hideCheckedChecklistItems": "Folaigh míreanna ticáilte an tseicliosta",
+  "hideAllChecklistItems": "Folaigh gach mír seicliosta"
 }

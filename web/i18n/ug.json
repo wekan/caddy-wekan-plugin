@@ -1935,5 +1935,7 @@
   "color-slateblue": "شىفېر كۆك",
   "color-white": "ئاق",
   "color-yellow": "سېرىق",
-  "due-complete": "قەرەل تاماملاندى"
+  "due-complete": "قەرەل تاماملاندى",
+  "hideCheckedChecklistItems": "تەكشۈرۈلگەن تەكشۈرۈش تۈرلىرىنى يوشۇرۇش",
+  "hideAllChecklistItems": "بارلىق تەكشۈرۈش تۈرلىرىنى يوشۇرۇڭ"
 }

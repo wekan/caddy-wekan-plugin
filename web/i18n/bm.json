@@ -1935,5 +1935,7 @@
   "color-slateblue": "bulaman nɛrɛmuguman",
   "color-white": "jɛman",
   "color-yellow": "nɛrɛmuguman",
-  "due-complete": "Laban banna"
+  "due-complete": "Laban banna",
+  "hideCheckedChecklistItems": "Lajɛli lisiti fɛn taamasiyɛnnenw dogo",
+  "hideAllChecklistItems": "Lajɛli lisiti fɛnw bɛɛ dogo"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "škriljasto plava",
   "color-white": "bijela",
   "color-yellow": "žuta",
-  "due-complete": "Rok dovršen"
+  "due-complete": "Rok dovršen",
+  "hideCheckedChecklistItems": "Sakrij označene stavke kontrolne liste",
+  "hideAllChecklistItems": "Sakrij sve stavke kontrolne liste"
 }

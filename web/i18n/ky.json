@@ -1935,5 +1935,7 @@
   "color-slateblue": "шифер көк",
   "color-white": "ак",
   "color-yellow": "сары",
-  "due-complete": "Мөөнөтү аяктады"
+  "due-complete": "Мөөнөтү аяктады",
+  "hideCheckedChecklistItems": "Белгиленген текшерүү тизмеси пункттарын жашыруу",
+  "hideAllChecklistItems": "Текшерүү тизмесинин бардык пункттарын жашыруу"
 }

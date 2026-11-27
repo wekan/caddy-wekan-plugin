@@ -1935,5 +1935,7 @@
   "color-slateblue": "ụcha anụnụ anụnụ slate",
   "color-white": "ọcha",
   "color-yellow": "edo edo",
-  "due-complete": "Njedebe emechara"
+  "due-complete": "Njedebe emechara",
+  "hideCheckedChecklistItems": "Zoo ihe ndetu elele anya",
+  "hideAllChecklistItems": "Zoo ihe ndepụta ndetu niile"
 }

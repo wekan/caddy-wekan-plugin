@@ -1909,5 +1909,7 @@
   "wsjf-score": "WSJF スコア",
   "yes": "はい",
   "zoom-in": "拡大",
-  "zoom-out": "縮小"
+  "zoom-out": "縮小",
+  "hideCheckedChecklistItems": "チェック済みチェックリスト項目を非表示",
+  "hideAllChecklistItems": "すべてのチェックリスト項目を非表示"
 }

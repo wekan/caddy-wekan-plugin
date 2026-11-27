@@ -1935,5 +1935,7 @@
   "color-slateblue": "biaitu ardesia",
   "color-white": "biancu",
   "color-yellow": "grogu",
-  "due-complete": "Iscadèntzia cumpletada"
+  "due-complete": "Iscadèntzia cumpletada",
+  "hideCheckedChecklistItems": "Cua sos elementos marcados de sa lista de controllu",
+  "hideAllChecklistItems": "Cua totu sos elementos de sa lista de controllu"
 }

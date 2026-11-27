@@ -1935,5 +1935,7 @@
   "color-slateblue": "gorrym claghagh",
   "color-white": "bane",
   "color-yellow": "bwee",
-  "due-complete": "Cooie cooilleenit"
+  "due-complete": "Cooie cooilleenit",
+  "hideCheckedChecklistItems": "Follee nheeghyn rolley scrutaghey scrutit",
+  "hideAllChecklistItems": "Follee dy chooilley nhee rolley scrutaghey"
 }

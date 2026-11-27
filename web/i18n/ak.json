@@ -1935,5 +1935,7 @@
   "color-slateblue": "slate bruu",
   "color-white": "fitaa",
   "color-yellow": "akokɔsradeɛ",
-  "due-complete": "Wɔawie adwuma a ne bere adu"
+  "due-complete": "Wɔawie adwuma a ne bere adu",
+  "hideCheckedChecklistItems": "Suma checked nhwehwɛmu ades",
+  "hideAllChecklistItems": "Suma nhwehwɛmu no mu nneɛma nyinaa"
 }

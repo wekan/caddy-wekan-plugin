@@ -1935,5 +1935,7 @@
   "color-slateblue": "biru batèe",
   "color-white": "puteh",
   "color-yellow": "kuneng",
-  "due-complete": "Tempo seuleusoe"
+  "due-complete": "Tempo seuleusoe",
+  "hideCheckedChecklistItems": "Peusöm item checklist nyang ka geucek",
+  "hideAllChecklistItems": "Peusöm mandum item checklist"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "siletibulu",
   "color-white": "funfun",
   "color-yellow": "ofeefee",
-  "due-complete": "Ipari ti pari"
+  "due-complete": "Ipari ti pari",
+  "hideCheckedChecklistItems": "Tọju awọn ohun akojọ ayẹwo",
+  "hideAllChecklistItems": "Tọju gbogbo awọn nkan akojọ ayẹwo"
 }

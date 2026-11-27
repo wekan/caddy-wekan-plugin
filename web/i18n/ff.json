@@ -1935,5 +1935,7 @@
   "color-slateblue": "bulaajo slate",
   "color-white": "daneejo",
   "color-yellow": "oolo",
-  "due-complete": "Keerol timmii"
+  "due-complete": "Keerol timmii",
+  "hideCheckedChecklistItems": "Suuɗ geɗe doggol ƴeewtagol ƴeewtaaɗe",
+  "hideAllChecklistItems": "Suuɗ geɗe doggol ƴeewtagol fof"
 }

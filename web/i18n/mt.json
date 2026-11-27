@@ -1935,5 +1935,7 @@
   "color-slateblue": "blu lavanja",
   "color-white": "abjad",
   "color-yellow": "isfar",
-  "due-complete": "Skadenza mmarkata bħala lesta"
+  "due-complete": "Skadenza mmarkata bħala lesta",
+  "hideCheckedChecklistItems": "Aħbi l-oġġetti mmarkati tal-lista ta’ verifika",
+  "hideAllChecklistItems": "Aħbi l-oġġetti kollha tal-lista ta’ verifika"
 }

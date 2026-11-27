@@ -1935,5 +1935,7 @@
   "color-slateblue": "ýazgy",
   "color-white": "ak",
   "color-yellow": "sary",
-  "due-complete": "Möhlet tamamlandy"
+  "due-complete": "Möhlet tamamlandy",
+  "hideCheckedChecklistItems": "Barlanan gözegçilik sanawyny gizläň",
+  "hideAllChecklistItems": "Barlag sanawynyň ähli elementlerini gizläň"
 }

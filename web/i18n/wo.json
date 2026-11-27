@@ -1935,5 +1935,7 @@
   "color-slateblue": "baxa ardo",
   "color-white": "weex",
   "color-yellow": "mboq",
-  "due-complete": "Àpp bu jeex"
+  "due-complete": "Àpp bu jeex",
+  "hideCheckedChecklistItems": "Nëbb mbiri limu bu seetlu yi ñu màndargaal",
+  "hideAllChecklistItems": "Nëbb mbiri limu bu seetlu bi yépp"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "turchinu d’ardesia",
   "color-white": "biancu",
   "color-yellow": "ghjallu",
-  "due-complete": "Scadenza compia"
+  "due-complete": "Scadenza compia",
+  "hideCheckedChecklistItems": "Piattà l’elementi marcati di e liste di cuntrollu",
+  "hideAllChecklistItems": "Piattà tutti l’elementi di e liste di cuntrollu"
 }

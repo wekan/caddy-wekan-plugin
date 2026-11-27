@@ -1935,5 +1935,7 @@
   "color-slateblue": "שיווערשטיין",
   "color-white": "ווייַס",
   "color-yellow": "געל",
-  "due-complete": "פֿעליק פֿאַרענדיקט"
+  "due-complete": "פֿעליק פֿאַרענדיקט",
+  "hideCheckedChecklistItems": "באַהאַלטן אָפּגעשטעלט טשעקליסט זאכן",
+  "hideAllChecklistItems": "באַהאַלטן אַלע טשעקליסט זאכן"
 }

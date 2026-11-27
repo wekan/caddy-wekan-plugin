@@ -1935,5 +1935,7 @@
   "color-slateblue": "น้ำเงินสเลท",
   "color-white": "ขาว",
   "color-yellow": "เหลือง",
-  "due-complete": "ครบกำหนดเสร็จสมบูรณ์"
+  "due-complete": "ครบกำหนดเสร็จสมบูรณ์",
+  "hideCheckedChecklistItems": "ซ่อนรายการเช็คลิสต์ที่ทำเครื่องหมายแล้ว",
+  "hideAllChecklistItems": "ซ่อนรายการเช็คลิสต์ทั้งหมด"
 }

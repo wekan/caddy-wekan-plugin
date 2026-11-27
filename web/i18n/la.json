@@ -1935,5 +1935,7 @@
   "color-slateblue": "caeruleus violaceus",
   "color-white": "albus",
   "color-yellow": "flavus",
-  "due-complete": "Terminus notatus ut completus"
+  "due-complete": "Terminus notatus ut completus",
+  "hideCheckedChecklistItems": "Cela res signatas indicis probationis",
+  "hideAllChecklistItems": "Cela omnes res indicis probationis"
 }

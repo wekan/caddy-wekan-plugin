@@ -1935,5 +1935,7 @@
   "color-slateblue": "ardezblua",
   "color-white": "blanka",
   "color-yellow": "flava",
-  "due-complete": "Limdato plenumita"
+  "due-complete": "Limdato plenumita",
+  "hideCheckedChecklistItems": "Kaŝi markitajn kontrollistajn erojn",
+  "hideAllChecklistItems": "Kaŝi ĉiujn kontrollistajn erojn"
 }

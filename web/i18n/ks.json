@@ -1935,5 +1935,7 @@
   "color-slateblue": "سلیٹ نیول",
   "color-white": "سفید",
   "color-yellow": "زرد",
-  "due-complete": "آخری تٲریخ مکمل"
+  "due-complete": "آخری تٲریخ مکمل",
+  "hideCheckedChecklistItems": "نشان کرنہٕ آمتۍ چیک لسٹ شے ژھانٛڈیو",
+  "hideAllChecklistItems": "سٲری چیک لسٹ شے ژھانٛڈیو"
 }

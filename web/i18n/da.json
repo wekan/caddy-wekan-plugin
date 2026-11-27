@@ -1935,5 +1935,7 @@
   "color-slateblue": "blågrå",
   "color-white": "hvid",
   "color-yellow": "gul",
-  "due-complete": "Forfaldsdato"
+  "due-complete": "Forfaldsdato",
+  "hideCheckedChecklistItems": "Skjul afkrydsede tjeklisteelementer",
+  "hideAllChecklistItems": "Skjul alle tjeklisteelementer"
 }

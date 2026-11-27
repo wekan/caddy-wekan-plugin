@@ -1935,5 +1935,7 @@
   "color-slateblue": "ስሌት አዝረቁ",
   "color-white": "ጸዕደ",
   "color-yellow": "ቢጫይ",
-  "due-complete": "መወዳእታ ተወዲኡ"
+  "due-complete": "መወዳእታ ተወዲኡ",
+  "hideCheckedChecklistItems": "ምልክት ዝተገብረሎም ንጥልታት ናይ ምርመራ ዝርዝር ሕባእ",
+  "hideAllChecklistItems": "ኵሎም ንጥልታት ናይ ምርመራ ዝርዝር ሕባእ"
 }

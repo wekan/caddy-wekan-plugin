@@ -1935,5 +1935,7 @@
   "color-slateblue": "хөхөвтөр",
   "color-white": "цагаан",
   "color-yellow": "шар",
-  "due-complete": "Дуусах хугацаа биелсэн"
+  "due-complete": "Дуусах хугацаа биелсэн",
+  "hideCheckedChecklistItems": "Тэмдэглэсэн чеклистийн зүйлсийг нуух",
+  "hideAllChecklistItems": "Бүх чеклистийн зүйлсийг нуух"
 }

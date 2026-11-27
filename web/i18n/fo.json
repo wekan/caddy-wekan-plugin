@@ -1935,5 +1935,7 @@
   "color-slateblue": "skiferblátt",
   "color-white": "hvítt",
   "color-yellow": "gult",
-  "due-complete": "Freist liðug"
+  "due-complete": "Freist liðug",
+  "hideCheckedChecklistItems": "Fjal avhakað lið á kanningarlista",
+  "hideAllChecklistItems": "Fjal øll lið á kanningarlista"
 }

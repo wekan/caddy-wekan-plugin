@@ -1935,5 +1935,7 @@
   "color-slateblue": "glas-louz",
   "color-white": "gwenn",
   "color-yellow": "melen",
-  "due-complete": "Termen peurechu"
+  "due-complete": "Termen peurechu",
+  "hideCheckedChecklistItems": "Kuzhat elfennoù merket ar roll kontroll",
+  "hideAllChecklistItems": "Kuzhat holl elfennoù ar roll kontroll"
 }

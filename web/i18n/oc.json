@@ -1935,5 +1935,7 @@
   "color-slateblue": "blau lausa",
   "color-white": "blanc",
   "color-yellow": "jaune",
-  "due-complete": "Escasença acabada"
+  "due-complete": "Escasença acabada",
+  "hideCheckedChecklistItems": "Amagar los elements marcats de la lista de contraròtle",
+  "hideAllChecklistItems": "Amagar totes los elements de la lista de contraròtle"
 }

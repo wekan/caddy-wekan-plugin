@@ -1935,5 +1935,7 @@
   "color-slateblue": "blu na ret i miks wantaim liklik blak",
   "color-white": "wait",
   "color-yellow": "yelo",
-  "due-complete": "Wok bilong de yu makim i pinis"
+  "due-complete": "Wok bilong de yu makim i pinis",
+  "hideCheckedChecklistItems": "Haitim ol samting i gat mak tik long lis bilong sekim",
+  "hideAllChecklistItems": "Haitim olgeta samting long lis bilong sekim"
 }

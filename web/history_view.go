@@ -63,6 +63,14 @@ func historyViewLabel(lang string, row, content map[string]any) string {
 		if entity == "card" {
 			return tr(lang, "overtime")
 		}
+	case "isFinished":
+		if entity == "checklistItem" {
+			return tr(lang, "completed")
+		}
+	case "hideCheckedChecklistItems", "hideAllChecklistItems":
+		if entity == "checklist" {
+			return tr(lang, docString(content, "field"))
+		}
 	case "dueComplete":
 		if entity == "card" {
 			return tr(lang, "due-complete")
@@ -152,7 +160,8 @@ func historySummary(lang string, row, content map[string]any) string {
 		}
 		return x
 	case bool:
-		if field := docString(content, "field"); field == "dueComplete" || field == "isOvertime" {
+		switch docString(content, "field") {
+		case "dueComplete", "isOvertime", "isFinished", "hideCheckedChecklistItems", "hideAllChecklistItems":
 			if x {
 				return tr(lang, "yes")
 			}

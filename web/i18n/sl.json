@@ -1935,5 +1935,7 @@
   "color-slateblue": "skrilasto modra",
   "color-white": "bela",
   "color-yellow": "rumena",
-  "due-complete": "Rok dokončan"
+  "due-complete": "Rok dokončan",
+  "hideCheckedChecklistItems": "Skrij označene postavke kontrolnega seznama",
+  "hideAllChecklistItems": "Skrij vse postavke kontrolnega seznama"
 }

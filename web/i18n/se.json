@@ -1935,5 +1935,7 @@
   "color-slateblue": "ránesalit",
   "color-white": "vilges",
   "color-yellow": "fiskat",
-  "due-complete": "Mearreáigi ollašuvvan"
+  "due-complete": "Mearreáigi ollašuvvan",
+  "hideCheckedChecklistItems": "Čiega merkojuvvon dárkkistančuoggáid",
+  "hideAllChecklistItems": "Čiega buot dárkkistančuoggáid"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "buluug dhagax",
   "color-white": "caddaan",
   "color-yellow": "jaalle",
-  "due-complete": "Waqtiga kama dambaysta ah waa la dhammaystiray"
+  "due-complete": "Waqtiga kama dambaysta ah waa la dhammaystiray",
+  "hideCheckedChecklistItems": "Qari walxaha liiska hubinta ee la calaamadeeyey",
+  "hideAllChecklistItems": "Qari dhammaan walxaha liiska hubinta"
 }

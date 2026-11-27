@@ -1935,5 +1935,7 @@
   "color-slateblue": "xanh đá",
   "color-white": "trắng",
   "color-yellow": "vàng",
-  "due-complete": "Đến hạn hoàn thành"
+  "due-complete": "Đến hạn hoàn thành",
+  "hideCheckedChecklistItems": "Ẩn các mục checklist đã đánh dấu",
+  "hideAllChecklistItems": "Ẩn tất cả các mục checklist"
 }

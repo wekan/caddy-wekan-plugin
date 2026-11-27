@@ -1935,5 +1935,7 @@
   "color-slateblue": "bolou ba letlapa",
   "color-white": "tshweu",
   "color-yellow": "tshehla",
-  "due-complete": "Nako ya ho qetela e phethilwe"
+  "due-complete": "Nako ya ho qetela e phethilwe",
+  "hideCheckedChecklistItems": "Pata dintho tsa lenane la tlhahlobo tse tshwailweng",
+  "hideAllChecklistItems": "Pata dintho tsohle tsa lenane la tlhahlobo"
 }

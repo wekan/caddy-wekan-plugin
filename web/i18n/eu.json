@@ -1935,5 +1935,7 @@
   "color-slateblue": "urdin grisa",
   "color-white": "zuria",
   "color-yellow": "horia",
-  "due-complete": "Muga osatuta"
+  "due-complete": "Muga osatuta",
+  "hideCheckedChecklistItems": "Ezkutatu egiaztatutako zerrendako elementuak",
+  "hideAllChecklistItems": "Ezkutatu kontrol-zerrendako elementu guztiak"
 }

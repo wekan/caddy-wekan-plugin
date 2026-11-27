@@ -1935,5 +1935,7 @@
   "color-slateblue": "buluu ya mawe",
   "color-white": "nyeupe",
   "color-yellow": "njano",
-  "due-complete": "Imekamilika kwa wakati"
+  "due-complete": "Imekamilika kwa wakati",
+  "hideCheckedChecklistItems": "Ficha vipengee vya orodha tiki",
+  "hideAllChecklistItems": "Ficha vitu vyote vya orodha hakiki"
 }

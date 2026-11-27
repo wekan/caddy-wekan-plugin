@@ -1935,5 +1935,7 @@
   "color-slateblue": "schieferblo",
   "color-white": "wäiss",
   "color-yellow": "giel",
-  "due-complete": "Ofgab erleedegt"
+  "due-complete": "Ofgab erleedegt",
+  "hideCheckedChecklistItems": "Ofgehaakt Elementer vun der Checklëscht verstoppen",
+  "hideAllChecklistItems": "Verberge all Checklisteneinträge"
 }

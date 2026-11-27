@@ -1935,5 +1935,7 @@
   "color-slateblue": "Lavagna blu",
   "color-white": "jancu",
   "color-yellow": "giarnu",
-  "due-complete": "Scadenza cumprita"
+  "due-complete": "Scadenza cumprita",
+  "hideCheckedChecklistItems": "Ammuccia l'elimenti signati dâ lista di cuntrollu",
+  "hideAllChecklistItems": "Ammuccia l'elimenti dâ lista di cuntrollu"
 }

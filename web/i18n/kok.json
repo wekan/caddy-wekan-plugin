@@ -1935,5 +1935,7 @@
   "color-slateblue": "पाटी निळो",
   "color-white": "धवो",
   "color-yellow": "हळदुवो",
-  "due-complete": "निमाणें पुराय"
+  "due-complete": "निमाणें पुराय",
+  "hideCheckedChecklistItems": "तपासिल्ले तपास वळेरी घटक लिपयात",
+  "hideAllChecklistItems": "सगळे तपास वळेरी घटक लिपयात"
 }

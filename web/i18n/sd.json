@@ -1935,5 +1935,7 @@
   "color-slateblue": "سليٽي نيرو",
   "color-white": "اڇو",
   "color-yellow": "پيلو",
-  "due-complete": "مقرر ڪم مڪمل"
+  "due-complete": "مقرر ڪم مڪمل",
+  "hideCheckedChecklistItems": "نشان لڳل جاچ فهرست جون شيون لڪايو",
+  "hideAllChecklistItems": "جاچ فهرست جون سڀ شيون لڪايو"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "أزرق أردوازي",
   "color-white": "أبيض",
   "color-yellow": "أصفر",
-  "due-complete": "الاستحقاق مكتمل"
+  "due-complete": "الاستحقاق مكتمل",
+  "hideCheckedChecklistItems": "إخفاء عناصر قائمة التحقق المحددة",
+  "hideAllChecklistItems": "إخفاء جميع عناصر قائمة التحقق"
 }

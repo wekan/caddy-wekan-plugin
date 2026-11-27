@@ -1935,5 +1935,7 @@
   "color-slateblue": "ពណ៌ខៀវថ្មភ្នំ",
   "color-white": "ស",
   "color-yellow": "លឿង",
-  "due-complete": "កំណត់បានបញ្ចប់"
+  "due-complete": "កំណត់បានបញ្ចប់",
+  "hideCheckedChecklistItems": "លាក់ធាតុបញ្ជីត្រួតពិនិត្យ",
+  "hideAllChecklistItems": "លាក់ធាតុបញ្ជីត្រួតពិនិត្យទាំងអស់។"
 }

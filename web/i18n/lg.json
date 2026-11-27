@@ -1935,5 +1935,7 @@
   "color-slateblue": "bbululu-kivuvu",
   "color-white": "njeru",
   "color-yellow": "kyenvu",
-  "due-complete": "Olunaku olusembayo luwedde"
+  "due-complete": "Olunaku olusembayo luwedde",
+  "hideCheckedChecklistItems": "Kweka checked ebintu by'olukalala lw'okukebera",
+  "hideAllChecklistItems": "Kweka byonna ebintu by'olukalala lw'okukebera"
 }

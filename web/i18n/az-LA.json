@@ -1935,5 +1935,7 @@
   "color-slateblue": "şifer mavisi",
   "color-white": "ağ",
   "color-yellow": "sarı",
-  "due-complete": "Son tarix tamamlandı"
+  "due-complete": "Son tarix tamamlandı",
+  "hideCheckedChecklistItems": "Yoxlanmış yoxlama siyahısı elementlərini gizlədin",
+  "hideAllChecklistItems": "Bütün yoxlama siyahısı elementlərini gizlədin"
 }

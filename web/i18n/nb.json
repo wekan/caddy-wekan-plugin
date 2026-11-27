@@ -1935,5 +1935,7 @@
   "color-slateblue": "blå",
   "color-white": "hvit",
   "color-yellow": "gul",
-  "due-complete": "Forfall fullført"
+  "due-complete": "Forfall fullført",
+  "hideCheckedChecklistItems": "Skjul avkryssede sjekklisteelementer",
+  "hideAllChecklistItems": "Skjul alle sjekklisteelementer"
 }

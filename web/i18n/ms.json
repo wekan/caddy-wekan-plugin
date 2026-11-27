@@ -1935,5 +1935,7 @@
   "color-slateblue": "biru muda",
   "color-white": "putih",
   "color-yellow": "kuning",
-  "due-complete": "Tarikh akhir selesai"
+  "due-complete": "Tarikh akhir selesai",
+  "hideCheckedChecklistItems": "Sembunyikan item senarai semak yang ditanda",
+  "hideAllChecklistItems": "Sembunyikan semua item senarai semak"
 }

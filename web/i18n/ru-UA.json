@@ -1935,5 +1935,7 @@
   "color-slateblue": "серо-голубой",
   "color-white": "белый",
   "color-yellow": "желтый",
-  "due-complete": "Назначенная дата выполнена"
+  "due-complete": "Назначенная дата выполнена",
+  "hideCheckedChecklistItems": "Скрыть отмеченные пункты чек-листа",
+  "hideAllChecklistItems": "Скрыть все пункты чек-листа"
 }

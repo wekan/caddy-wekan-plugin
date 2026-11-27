@@ -1935,5 +1935,7 @@
   "color-slateblue": "スレートブルー",
   "color-white": "白",
   "color-yellow": "黄",
-  "due-complete": "期限完了"
+  "due-complete": "期限完了",
+  "hideCheckedChecklistItems": "チェック済みチェックリスト項目を非表示",
+  "hideAllChecklistItems": "すべてのチェックリスト項目を非表示"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "кабуди шиферӣ",
   "color-white": "сафед",
   "color-yellow": "зард",
-  "due-complete": "Муҳлат анҷом ёфт"
+  "due-complete": "Муҳлат анҷом ёфт",
+  "hideCheckedChecklistItems": "Пинҳон кардани бандҳои қайдшудаи рӯйхати санҷиш",
+  "hideAllChecklistItems": "Пинҳон кардани ҳамаи бандҳои рӯйхати санҷиш"
 }

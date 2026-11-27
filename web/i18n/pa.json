@@ -1935,5 +1935,7 @@
   "color-slateblue": "ਸਲੇਟ ਨੀਲਾ",
   "color-white": "ਚਿੱਟਾ",
   "color-yellow": "ਪੀਲਾ",
-  "due-complete": "ਨਿਯਤ ਮਿਤੀ ਮੁਕੰਮਲ"
+  "due-complete": "ਨਿਯਤ ਮਿਤੀ ਮੁਕੰਮਲ",
+  "hideCheckedChecklistItems": "ਚੈੱਕ-ਲਿਸਟ ਆਈਟਮਾਂ ਨੂੰ ਲੁਕਾਓ",
+  "hideAllChecklistItems": "ਸਾਰੀਆਂ ਚੈੱਕਲਿਸਟ ਆਈਟਮਾਂ ਨੂੰ ਲੁਕਾਓ"
 }

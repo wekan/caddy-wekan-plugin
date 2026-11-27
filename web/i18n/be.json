@@ -1935,5 +1935,7 @@
   "color-slateblue": "шыферна-сіні",
   "color-white": "белы",
   "color-yellow": "жоўты",
-  "due-complete": "Тэрмін завершаны"
+  "due-complete": "Тэрмін завершаны",
+  "hideCheckedChecklistItems": "Схаваць адзначаныя пункты кантрольнага спіса",
+  "hideAllChecklistItems": "Схаваць усе пункты кантрольнага спіса"
 }

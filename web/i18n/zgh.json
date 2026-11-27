@@ -1935,5 +1935,7 @@
   "color-slateblue": "ⴰⵏⵉⵍⵉ ⵏ ⵜⴰⵙⵍⴰ",
   "color-white": "ⴰⵎⵍⵍⴰⵍ",
   "color-yellow": "ⴰⵡⵔⴰⵖ",
-  "due-complete": "ⴰⵣⴻⵎⵣ ⴰⵎⴳⴳⴰⵔⵓ ⵢⴻⴽⵎⴻⵍ"
+  "due-complete": "ⴰⵣⴻⵎⵣ ⴰⵎⴳⴳⴰⵔⵓ ⵢⴻⴽⵎⴻⵍ",
+  "hideCheckedChecklistItems": "ⵙⵙⵏⵜⵍ ⵉⴼⵔⴷⵉⵙⵏ ⵉⵜⵜⵓⵙⵎⴰⵜⵔⵏ ⵏ ⵜⵍⴳⴰⵎⵜ ⵏ ⵜⵎⵏⵥⵉⵜ",
+  "hideAllChecklistItems": "ⵙⵙⵏⵜⵍ ⵉⴼⵔⴷⵉⵙⵏ ⴰⴽⴽⵯ ⵏ ⵜⵍⴳⴰⵎⵜ ⵏ ⵜⵎⵏⵥⵉⵜ"
 }

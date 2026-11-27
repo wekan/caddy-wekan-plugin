@@ -1935,5 +1935,7 @@
   "color-slateblue": "슬레이트블루",
   "color-white": "흰색",
   "color-yellow": "옐로우",
-  "due-complete": "마감 완료"
+  "due-complete": "마감 완료",
+  "hideCheckedChecklistItems": "확인된 확인목록 항목 숨기기",
+  "hideAllChecklistItems": "모든 확인목록 항목 숨기기"
 }

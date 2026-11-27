@@ -1940,5 +1940,7 @@
   "color-slateblue": "palakék",
   "color-white": "fehér",
   "color-yellow": "sárga",
-  "due-complete": "Határidő teljesítve"
+  "due-complete": "Határidő teljesítve",
+  "hideCheckedChecklistItems": "Kipipált ellenőrzőlista-elemek elrejtése",
+  "hideAllChecklistItems": "Az összes ellenőrzőlista-elem elrejtése"
 }

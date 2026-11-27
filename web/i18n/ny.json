@@ -1935,5 +1935,7 @@
   "color-slateblue": "wabuluu wa slate",
   "color-white": "woyera",
   "color-yellow": "wachikasu",
-  "due-complete": "Nthawi yomalizira yakwaniritsidwa"
+  "due-complete": "Nthawi yomalizira yakwaniritsidwa",
+  "hideCheckedChecklistItems": "Bisani zinthu zowunikidwa za mndandanda wowunika",
+  "hideAllChecklistItems": "Bisani zinthu zonse za mndandanda wowunika"
 }

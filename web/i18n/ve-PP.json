@@ -1935,5 +1935,7 @@
   "color-slateblue": "slate-sinine",
   "color-white": "vauged",
   "color-yellow": "pakuine",
-  "due-complete": "Srok val'miž"
+  "due-complete": "Srok val'miž",
+  "hideCheckedChecklistItems": "Peitä kaik znamoitud kodvindlugetišen kohtad",
+  "hideAllChecklistItems": "Peitä kaik kodvindlugetišen kohtad"
 }

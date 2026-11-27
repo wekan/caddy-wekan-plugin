@@ -1935,5 +1935,7 @@
   "color-slateblue": "ግራጫማ ሰማያዊ",
   "color-white": "ነጭ",
   "color-yellow": "ቢጫ",
-  "due-complete": "ማለቂያው ተጠናቋል"
+  "due-complete": "ማለቂያው ተጠናቋል",
+  "hideCheckedChecklistItems": "ምልክት የተደረገባቸውን የማረጋገጫ ዝርዝር ንጥሎች ደብቅ",
+  "hideAllChecklistItems": "ሁሉንም የማረጋገጫ ዝርዝር ንጥሎች ደብቅ"
 }

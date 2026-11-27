@@ -1935,5 +1935,7 @@
   "color-slateblue": "azul",
   "color-white": "blanco",
   "color-yellow": "amariya",
-  "due-complete": "Bensimiento kompletá"
+  "due-complete": "Bensimiento kompletá",
+  "hideCheckedChecklistItems": "Skonde elementos marcados di e lista di chèk",
+  "hideAllChecklistItems": "Skonde tur e elementos di e lista di chèk"
 }

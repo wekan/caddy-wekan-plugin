@@ -1935,5 +1935,7 @@
   "color-slateblue": "blau ardaisa",
   "color-white": "bianco",
   "color-yellow": "giallo",
-  "due-complete": "Scadenza terminada"
+  "due-complete": "Scadenza terminada",
+  "hideCheckedChecklistItems": "Zuppentar ils elements marcads da la glista da controlla",
+  "hideAllChecklistItems": "Zuppentar tut ils elements da la glista da controlla"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "talalerata ya letlapa",
   "color-white": "tšhweu",
   "color-yellow": "serolane",
-  "due-complete": "Go swanela go phethilwe"
+  "due-complete": "Go swanela go phethilwe",
+  "hideCheckedChecklistItems": "Fihla dilo tša lenaneo la go hlahloba tše di hlahlobilwego",
+  "hideAllChecklistItems": "Fihla dilo ka moka tša lenaneo la go hlahloba"
 }

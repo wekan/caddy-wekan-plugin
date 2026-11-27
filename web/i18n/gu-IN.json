@@ -1935,5 +1935,7 @@
   "color-slateblue": "સ્લેટ વાદળી",
   "color-white": "સફેદ",
   "color-yellow": "પીળો",
-  "due-complete": "નિયત પૂર્ણ"
+  "due-complete": "નિયત પૂર્ણ",
+  "hideCheckedChecklistItems": "ચેક કરેલ ચેકલિસ્ટ વસ્તુઓ છુપાવો",
+  "hideAllChecklistItems": "તમામ ચેકલિસ્ટ વસ્તુઓ છુપાવો"
 }

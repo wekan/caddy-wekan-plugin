@@ -1909,5 +1909,7 @@
   "wsjf-score": "Puntuació WSJF",
   "yes": "Si",
   "zoom-in": "Amplia",
-  "zoom-out": "Redueix"
+  "zoom-out": "Redueix",
+  "hideCheckedChecklistItems": "Amaga els elements marcats de la llista de verificació",
+  "hideAllChecklistItems": "Amaga tots els elements de la llista de verificació"
 }

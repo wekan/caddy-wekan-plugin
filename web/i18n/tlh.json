@@ -1938,5 +1938,7 @@
   "color-slateblue": "SuD (#6A5ACD)",
   "color-white": "chIS",
   "color-yellow": "SuD (#FFFF00)",
-  "due-complete": "qaS rInpu'"
+  "due-complete": "qaS rInpu'",
+  "hideCheckedChecklistItems": "ghItlhHommey tetlhDaq rInbogh ghItlhHommey tISo'",
+  "hideAllChecklistItems": "ghItlhHommey tetlhDaq Hoch ghItlhHommey tISo'"
 }

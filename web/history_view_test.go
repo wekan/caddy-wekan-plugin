@@ -173,3 +173,22 @@ func TestHistoryViewContainerColors(t *testing.T) {
 		}
 	}
 }
+
+func TestHistoryViewChecklistSettings(t *testing.T) {
+	for _, tc := range []struct {
+		entity, field, label string
+	}{
+		{"checklist", "hideCheckedChecklistItems", "Piilota ruksatut tarkistuslistan kohdat"},
+		{"checklist", "hideAllChecklistItems", "Piilota kaikki tarkistuslistan kohdat"},
+		{"checklistItem", "isFinished", "Valmistunut"},
+	} {
+		row := map[string]any{"entityType": tc.entity, "group": "checklists"}
+		content := map[string]any{"field": tc.field, "value": false}
+		if got := historyViewLabel("fi", row, content); got != tc.label {
+			t.Errorf("%s label = %q, want %q", tc.field, got, tc.label)
+		}
+		if got := historySummary("fi", row, content); got != "Ei" {
+			t.Errorf("%s value = %q, want Ei", tc.field, got)
+		}
+	}
+}

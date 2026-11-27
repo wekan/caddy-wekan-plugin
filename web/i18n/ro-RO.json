@@ -1935,5 +1935,7 @@
   "color-slateblue": "albastru ardezie",
   "color-white": "alb",
   "color-yellow": "galben",
-  "due-complete": "Scadență finalizată"
+  "due-complete": "Scadență finalizată",
+  "hideCheckedChecklistItems": "Ascunde elementele bifate ale listelor de verificare",
+  "hideAllChecklistItems": "Ascunde toate elementele listelor de verificare"
 }

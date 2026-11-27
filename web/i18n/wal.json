@@ -1935,5 +1935,7 @@
   "color-slateblue": "bitaa salo",
   "color-white": "bootta",
   "color-yellow": "baqqiya mera",
-  "due-complete": "Wurssiyo wodiyan polettiis"
+  "due-complete": "Wurssiyo wodiyan polettiis",
+  "hideCheckedChecklistItems": "Malaatettida paccissiya mazgabaa issibata qotta",
+  "hideAllChecklistItems": "Paccissiya mazgabaa issibata ubbaa qotta"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "blau pissarra",
   "color-white": "blanc",
   "color-yellow": "groc",
-  "due-complete": "Venciment complet"
+  "due-complete": "Venciment complet",
+  "hideCheckedChecklistItems": "Amaga els elements marcats de la checklist",
+  "hideAllChecklistItems": "Amaga tots els elements de la checklist"
 }

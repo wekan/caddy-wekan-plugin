@@ -1935,5 +1935,7 @@
   "color-slateblue": "རྡོ་སྔོན།",
   "color-white": "དཀར་པོ།",
   "color-yellow": "སེར་པོ།",
-  "due-complete": "དུས་བཀག་ལེགས་གྲུབ།"
+  "due-complete": "དུས་བཀག་ལེགས་གྲུབ།",
+  "hideCheckedChecklistItems": "རྟགས་བརྒྱབ་པའི་ཞིབ་ཐོའི་རྣམ་གྲངས་སྦས།",
+  "hideAllChecklistItems": "ཞིབ་ཐོའི་རྣམ་གྲངས་ཚང་མ་སྦས།"
 }

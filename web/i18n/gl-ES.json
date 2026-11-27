@@ -1935,5 +1935,7 @@
   "color-slateblue": "azul lousa",
   "color-white": "branco",
   "color-yellow": "amarelo",
-  "due-complete": "Vencemento completado"
+  "due-complete": "Vencemento completado",
+  "hideCheckedChecklistItems": "Agochar os elementos marcados da lista de verificación",
+  "hideAllChecklistItems": "Agochar todos os elementos da lista de verificación"
 }

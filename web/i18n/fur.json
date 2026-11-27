@@ -1935,5 +1935,7 @@
   "color-slateblue": "blu lavagne",
   "color-white": "blanc",
   "color-yellow": "zâl",
-  "due-complete": "Scadenza completeta"
+  "due-complete": "Scadenza completeta",
+  "hideCheckedChecklistItems": "Plate gli elementi de lista di controllo selezioneti",
+  "hideAllChecklistItems": "Plate gli elementi de lista di controllo"
 }

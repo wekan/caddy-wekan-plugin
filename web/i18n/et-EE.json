@@ -1935,5 +1935,7 @@
   "color-slateblue": "kiltkivisinine",
   "color-white": "valge",
   "color-yellow": "kollane",
-  "due-complete": "Tähtaeg lõpetatud"
+  "due-complete": "Tähtaeg lõpetatud",
+  "hideCheckedChecklistItems": "Peida märgitud kontrollnimekirja objektid",
+  "hideAllChecklistItems": "Peida kõik kontrollnimekirja objektid"
 }

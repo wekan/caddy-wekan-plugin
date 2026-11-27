@@ -1935,5 +1935,7 @@
   "color-slateblue": "স্লেট নীল",
   "color-white": "সাদা",
   "color-yellow": "হলুদ",
-  "due-complete": "নির্ধারিত কাজ সম্পূর্ণ"
+  "due-complete": "নির্ধারিত কাজ সম্পূর্ণ",
+  "hideCheckedChecklistItems": "চিহ্নিত যাচাইতালিকা আইটেম লুকান",
+  "hideAllChecklistItems": "যাচাইতালিকার সব আইটেম লুকান"
 }

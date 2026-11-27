@@ -1935,5 +1935,7 @@
   "color-slateblue": "зәңгәрсу шәмәхә",
   "color-white": "ак",
   "color-yellow": "сары",
-  "due-complete": "Үтәү тәмамланган"
+  "due-complete": "Үтәү тәмамланган",
+  "hideCheckedChecklistItems": "Билгеләнгән тикшерү исемлеге пунктларын яшерү",
+  "hideAllChecklistItems": "Тикшерү исемлегенең барлык пунктларын яшерү"
 }

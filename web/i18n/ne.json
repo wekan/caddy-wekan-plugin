@@ -1935,5 +1935,7 @@
   "color-slateblue": "स्लेट निलो",
   "color-white": "सेतो",
   "color-yellow": "पहेंलो",
-  "due-complete": "अन्तिम मिति पूरा"
+  "due-complete": "अन्तिम मिति पूरा",
+  "hideCheckedChecklistItems": "चिन्ह लगाइएका जाँचसूची वस्तुहरू लुकाउनुहोस्",
+  "hideAllChecklistItems": "सबै जाँचसूची वस्तुहरू लुकाउनुहोस्"
 }

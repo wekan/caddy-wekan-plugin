@@ -1935,5 +1935,7 @@
   "color-slateblue": "загаситоплава",
   "color-white": "бела",
   "color-yellow": "жута",
-  "due-complete": "Рок завршен"
+  "due-complete": "Рок завршен",
+  "hideCheckedChecklistItems": "Сакриј обављене ставке контролне листе",
+  "hideAllChecklistItems": "Сакриј све ставке контролне листе"
 }

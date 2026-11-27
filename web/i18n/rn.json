@@ -1935,5 +1935,7 @@
   "color-slateblue": "ubururu bw'ibuye",
   "color-white": "umweru",
   "color-yellow": "umuhondo",
-  "due-complete": "Igihe ntarengwa carangiye"
+  "due-complete": "Igihe ntarengwa carangiye",
+  "hideCheckedChecklistItems": "Nyegeza ibintu vyasuzumwe vyo ku rutonde rwo kugenzura",
+  "hideAllChecklistItems": "Nyegeza ibintu vyose vyo ku rutonde rwo kugenzura"
 }

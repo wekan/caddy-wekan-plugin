@@ -1935,5 +1935,7 @@
   "color-slateblue": "сұрғылт көк",
   "color-white": "ақ",
   "color-yellow": "сары",
-  "due-complete": "Мерзімі аяқталды"
+  "due-complete": "Мерзімі аяқталды",
+  "hideCheckedChecklistItems": "Белгіленген тексеру тізімі тармақтарын жасыру",
+  "hideAllChecklistItems": "Тексеру тізімінің барлық тармақтарын жасыру"
 }

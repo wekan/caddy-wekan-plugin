@@ -1935,5 +1935,7 @@
   "color-slateblue": "blu olsem ston sleit",
   "color-white": "waet",
   "color-yellow": "yelo",
-  "due-complete": "Dedlaen i finis"
+  "due-complete": "Dedlaen i finis",
+  "hideCheckedChecklistItems": "Haedem ol samting long jeklis we oli tikim",
+  "hideAllChecklistItems": "Haedem evri samting long jeklis"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "slateblue",
   "color-white": "white",
   "color-yellow": "yellow",
-  "due-complete": "Due complete"
+  "due-complete": "Due complete",
+  "hideCheckedChecklistItems": "Hide checked checklist items",
+  "hideAllChecklistItems": "Hide all checklist items"
 }

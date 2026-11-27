@@ -1935,5 +1935,7 @@
   "color-slateblue": "blu rrase",
   "color-white": "e bardhë",
   "color-yellow": "e verdhë",
-  "due-complete": "Afati i përfunduar"
+  "due-complete": "Afati i përfunduar",
+  "hideCheckedChecklistItems": "Fshih elementet e shënuara të listës së kontrollit",
+  "hideAllChecklistItems": "Fshih të gjithë elementet e listës së kontrollit"
 }

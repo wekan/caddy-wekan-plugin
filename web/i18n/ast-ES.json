@@ -1935,5 +1935,7 @@
   "color-slateblue": "azul",
   "color-white": "blanco",
   "color-yellow": "amarilla",
-  "due-complete": "Vencimientu completáu"
+  "due-complete": "Vencimientu completáu",
+  "hideCheckedChecklistItems": "Anubrir los elementos marcaos de la llista de comprobación",
+  "hideAllChecklistItems": "Anubrir tolos elementos de la llista de comprobación"
 }

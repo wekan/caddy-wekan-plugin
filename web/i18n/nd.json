@@ -1935,5 +1935,7 @@
   "color-slateblue": "luhlaza olumpunga",
   "color-white": "mhlophe",
   "color-yellow": "phuzi",
-  "due-complete": "Ukuphela kuqediwe"
+  "due-complete": "Ukuphela kuqediwe",
+  "hideCheckedChecklistItems": "Fihla izinto zohlu lokuhlola ezihloliweyo",
+  "hideAllChecklistItems": "Fihla zonke izinto zohlu lokuhlola"
 }

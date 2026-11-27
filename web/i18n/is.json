@@ -1935,5 +1935,7 @@
   "color-slateblue": "leirblár",
   "color-white": "hvítur",
   "color-yellow": "gulur",
-  "due-complete": "Skilum lokið"
+  "due-complete": "Skilum lokið",
+  "hideCheckedChecklistItems": "Fela afgreidd gátlistaatriði",
+  "hideAllChecklistItems": "Fela öll gátlistaatriði"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "צפחה כחולה",
   "color-white": "לבן",
   "color-yellow": "צהוב",
-  "due-complete": "היעד הושלם"
+  "due-complete": "היעד הושלם",
+  "hideCheckedChecklistItems": "הסתרת פריטים שסומנו ברשימת הפריטים",
+  "hideAllChecklistItems": "הסתרת כל הפריטים ברשימת המטלות"
 }

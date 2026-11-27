@@ -1935,5 +1935,7 @@
   "color-slateblue": "azul",
   "color-white": "blanco",
   "color-yellow": "amarillo",
-  "due-complete": "Vencimiento completado"
+  "due-complete": "Vencimiento completado",
+  "hideCheckedChecklistItems": "Ocultar elementos marcados de la lista de verificación",
+  "hideAllChecklistItems": "Ocultar todos los elementos de la lista de verificación"
 }

@@ -1935,5 +1935,7 @@
   "color-slateblue": "szaromòdri",
   "color-white": "biôłi",
   "color-yellow": "żòłta",
-  "due-complete": "Termin wëkònóny"
+  "due-complete": "Termin wëkònóny",
+  "hideCheckedChecklistItems": "Zatacë zaznaczoné elementë lëstë kòntrólny",
+  "hideAllChecklistItems": "Zatacë wszëtczé elementë lëstë kòntrólny"
 }

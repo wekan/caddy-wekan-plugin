@@ -1935,5 +1935,7 @@
   "color-slateblue": "ujarak tungujortoq",
   "color-white": "qaqortoq",
   "color-yellow": "sungaartoq",
-  "due-complete": "Killigititaq naammassivoq"
+  "due-complete": "Killigititaq naammassivoq",
+  "hideCheckedChecklistItems": "Misissuiffiusumi immikkoortut nalunaaqutserneqartut isertukkit",
+  "hideAllChecklistItems": "Misissuiffiusumi immikkoortut tamarmik isertukkit"
 }

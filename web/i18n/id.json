@@ -1935,5 +1935,7 @@
   "color-slateblue": "biru muda",
   "color-white": "putih",
   "color-yellow": "kuning",
-  "due-complete": "Jatuh tempo selesai"
+  "due-complete": "Jatuh tempo selesai",
+  "hideCheckedChecklistItems": "Sembunyikan item checklist yang tercentang",
+  "hideAllChecklistItems": "Sembunyikan semua item checklist"
 }

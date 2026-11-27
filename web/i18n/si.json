@@ -1935,5 +1935,7 @@
   "color-slateblue": "ස්ලේට් නිල්",
   "color-white": "සුදු",
   "color-yellow": "කහ",
-  "due-complete": "නියමිත කාර්යය සම්පූර්ණයි"
+  "due-complete": "නියමිත කාර්යය සම්පූර්ණයි",
+  "hideCheckedChecklistItems": "සලකුණු කළ පිරික්සුම් ලැයිස්තු අයිතම සඟවන්න",
+  "hideAllChecklistItems": "සියලු පිරික්සුම් ලැයිස්තු අයිතම සඟවන්න"
 }
