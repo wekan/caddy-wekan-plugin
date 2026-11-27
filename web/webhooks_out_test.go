@@ -119,6 +119,11 @@ func TestOutgoingWebhooks(t *testing.T) {
 	if tok != "tok-h1" {
 		t.Errorf("X-Wekan-Token: %q", tok)
 	}
+	// The global webhook is sent beside the board's, not after it: waited for
+	// on its own, as the board's is above.
+	for deadline := time.Now().Add(5 * time.Second); len(sink.bodies("/global")) == 0 && time.Now().Before(deadline); {
+		time.Sleep(20 * time.Millisecond)
+	}
 	if len(sink.bodies("/global")) == 0 {
 		t.Error("a global webhook gets every board's activity")
 	}
