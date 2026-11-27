@@ -18,6 +18,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strconv"
 	"strings"
@@ -391,6 +392,9 @@ func (s *Server) restoreAttachmentAs(r *http.Request, a *Attachment, u *User, re
 func (s *Server) attachmentRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /cdn/storage/attachments/{id}", s.serveAttachment)
 	m.HandleFunc("GET /cdn/storage/attachments/{id}/original/{name}", s.serveAttachment)
+	// WeKan's older address of the same file.
+	m.HandleFunc("GET /cfs/files/attachments/{id}", s.serveAttachment)
+	m.HandleFunc("GET /cfs/files/attachments/{id}/original/{name}", s.serveAttachment)
 	m.HandleFunc("GET /cdn/storage/attachments/{id}/thumbnail", s.serveAttachmentThumbnail)
 	m.HandleFunc("GET /cdn/storage/attachments/{id}/zip-entries", s.serveZipEntries)
 	m.HandleFunc("POST /b/{board}/cards/{card}/attachments", s.page(s.uploadAttachment))
@@ -739,8 +743,15 @@ func (s *Server) downloadableAttachment(w http.ResponseWriter, r *http.Request) 
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		return nil
 	}
-	if _, err := s.boardFor(r.Context(), a.Meta.BoardID, u); err != nil {
+	b, err := s.boardFor(r.Context(), a.Meta.BoardID, u)
+	if err != nil {
 		http.Error(w, "Attachment not found", http.StatusNotFound)
+		return nil
+	}
+	// AssignedBleed (GHSA-3cgr-47wm-9cc9): an assigned-only member gets only
+	// their own cards' files - the file, its thumbnail and its zip entries.
+	if !s.assignedMayRead(r, u, b, a, "file-server:cdn") {
+		http.Error(w, "Forbidden", http.StatusForbidden)
 		return nil
 	}
 	return a
@@ -967,4 +978,52 @@ func (s *Server) moveToDefaultStorage(ctx context.Context, doc bson.M, path stri
 	}
 	_ = f.Close()
 	_ = os.Remove(path)
+}
+
+// methodSearchDocumentText is WeKan's searchAttachmentDocumentText(boardId,
+// query) (server/routes/universalFileServer.js): the board's documents whose
+// extracted text (documentPreviews) has the words - white space as one, at
+// least two and at most 200 characters - with a snippet around them, at most
+// 50; of an assigned-only member's own cards only (AssignedBleed,
+// GHSA-3cgr-47wm-9cc9), and nobody's but a reader's of the board. Ordinary
+// use, so nothing is recorded.
+func (s *Server) methodSearchDocumentText(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	boardID, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	query, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	needle := strings.Join(strings.Fields(query), " ")
+	if runes := []rune(needle); len(runes) > 200 {
+		needle = string(runes[:200])
+	}
+	out := []map[string]any{}
+	if utf8.RuneCountInString(needle) < 2 {
+		return out, nil
+	}
+	b, err := s.boardFor(r.Context(), boardID, u)
+	if err != nil {
+		return nil, &methodError{"not-authorized", "not-authorized"}
+	}
+	filter := bson.M{"boardId": eq(b.ID), "searchText": bson.M{"$regex": regexp.QuoteMeta(needle), "$options": "i"}}
+	if !u.IsAdmin && assignedOnlyOn(b, u) {
+		ids := []string{}
+		for _, c := range s.findDocs(r.Context(), "cards", bson.M{"boardId": eq(b.ID), "assignees": eq(u.ID)}) {
+			if id, ok := c["_id"].(string); ok {
+				ids = append(ids, id)
+			}
+		}
+		filter["cardId"] = bson.M{"$in": ids}
+	}
+	for _, row := range s.findDocs(r.Context(), "documentPreviews", filter, options.Find().SetLimit(50)) {
+		text, _ := row["searchText"].(string)
+		at := strings.Index(strings.ToLower(text), strings.ToLower(needle))
+		from := max(0, at-80)
+		end := min(len(text), from+240)
+		out = append(out, map[string]any{"attachmentId": row["attachmentId"], "cardId": row["cardId"], "snippet": text[from:end]})
+	}
+	return out, nil
 }

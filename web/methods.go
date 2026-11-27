@@ -62,6 +62,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"/users/update":                     s.methodUpdateUser,
 		"setEmail":                          s.methodSetEmail,
 		"setUsername":                       s.methodSetUsername,
+		"searchAttachmentDocumentText":      s.methodSearchDocumentText,
 		"rules.runButton":                   s.methodRunButton,
 		"setNotificationDelivery":           s.methodSetNotificationDelivery,
 		"lists.setRoleExceptions":           s.methodSetListExceptions,

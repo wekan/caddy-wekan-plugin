@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"os"
 	"regexp"
@@ -233,6 +234,48 @@ func TestAssignedOnlyAttachmentReads(t *testing.T) {
 	if code, _ := get(annTok, "/api/attachment/info/aohidden01"); code != 200 {
 		t.Errorf("negative: the owner reads the other card's info: %d", code)
 	}
+	// The file routes, at both addresses: another card's file refused, and
+	// recorded; their own not (its bytes are not there: 404, never 403).
+	for _, route := range []string{"/cdn/storage/attachments/", "/cfs/files/attachments/"} {
+		if code, _ := get(amyTok, route+"aohidden01"); code != http.StatusForbidden {
+			t.Errorf("negative: %s another card's file: %d", route, code)
+		}
+		if code, _ := get(amyTok, route+"aomine0001"); code == http.StatusForbidden {
+			t.Errorf("%s their own file is not refused", route)
+		}
+	}
+	if n, _ := w.db.Collection("eventlog").CountDocuments(ctx, bson.M{"bleed": "AssignedBleed", "source": "file-server:cdn"}); n < 1 {
+		t.Error("the refused file is in Admin Panel -> Problems")
+	}
+	if code, _ := get(annTok, "/cdn/storage/attachments/aohidden01"); code == http.StatusForbidden {
+		t.Error("negative: the owner is not refused the file")
+	}
+	// The document search: only their own card's text.
+	for id, c := range map[string]*Card{"aomine0001": mine, "aohidden01": hidden} {
+		_, _ = w.db.Collection("documentPreviews").InsertOne(ctx, bson.M{"_id": "dp" + id, "attachmentId": id, "boardId": b.ID, "cardId": c.ID,
+			"searchText": "the secretword of " + id})
+	}
+	search := func(user string) []any {
+		c := w.client(t)
+		body(t, w.signIn(t, c, user, "pw"))
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/searchAttachmentDocumentText", strings.NewReader(`["`+b.ID+`","  SECRETWORD  "]`))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := c.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		rows, _ := out["result"].([]any)
+		return rows
+	}
+	if rows := search("amy"); len(rows) != 1 || rows[0].(map[string]any)["attachmentId"] != "aomine0001" {
+		t.Errorf("an assigned-only member finds their own card's text only: %v", rows)
+	}
+	if rows := search("ann"); len(rows) != 2 {
+		t.Errorf("negative: the owner finds both: %v", rows)
+	}
 }
 
 // Negative, tree-wide: every REST read of one attachment asks whether an
@@ -243,7 +286,7 @@ func TestEveryAttachmentReadChecksAssignedOnly(t *testing.T) {
 		t.Fatal(err)
 	}
 	s := string(src)
-	for _, fn := range []string{"apiDownloadAttachment", "apiAttachmentInfo"} {
+	for _, fn := range []string{"apiDownloadAttachment", "apiAttachmentInfo", "downloadableAttachment"} {
 		m := regexp.MustCompile(`(?s)func \(s \*Server\) ` + fn + `\(.*?\n}\n`).FindString(s)
 		if !strings.Contains(m, "assignedMayRead(") {
 			t.Errorf("%s reads without asking assignedMayRead", fn)
