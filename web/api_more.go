@@ -1,6 +1,7 @@
 package web
 
 import (
+	"math"
 	"net/http"
 	"slices"
 	"strings"
@@ -142,6 +143,37 @@ func (s *Server) apiRename(coll string) apiHandler {
 			default:
 				apiError(w, http.StatusBadRequest, "Invalid starred value")
 				return
+			}
+		}
+		if raw := req["wipLimit"]; coll == "lists" && raw != nil {
+			if !b.AdminOf(u.ID) {
+				apiError(w, http.StatusForbidden, "Board administration required")
+				return
+			}
+			limit, ok := raw.(map[string]any)
+			if !ok {
+				apiError(w, http.StatusBadRequest, "Invalid WIP limit")
+				return
+			}
+			value := float64(1)
+			if rawValue, present := limit["value"]; present {
+				value, ok = rawValue.(float64)
+				if !ok || math.Abs(value) > 9007199254740991 || value != math.Trunc(value) {
+					apiError(w, http.StatusBadRequest, "Invalid WIP limit")
+					return
+				}
+			}
+			set["wipLimit.value"] = value
+			for _, flag := range []string{"enabled", "soft"} {
+				value := false
+				if rawFlag, present := limit[flag]; present {
+					value, ok = rawFlag.(bool)
+					if !ok {
+						apiError(w, http.StatusBadRequest, "Invalid WIP "+flag+" flag")
+						return
+					}
+				}
+				set["wipLimit."+flag] = value
 			}
 		}
 		if len(set) == 0 {

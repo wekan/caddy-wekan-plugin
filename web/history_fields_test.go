@@ -646,3 +646,27 @@ func TestRESTListColorHistory(t *testing.T) {
 		t.Fatalf("restore returned %d, color %q", response.StatusCode, docString(row, "color"))
 	}
 }
+
+func TestRESTListWIPHistory(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	token := login(t, w, "ann")
+	board := newRESTBoard(t, w, token, "WIP")
+	path := w.srv.URL + "/api/boards/" + board.ID + "/lists/" + board.List
+	if code := call(t, "PUT", path, token, `{"wipLimit":{"value":1.5}}`, nil); code != 400 {
+		t.Fatalf("invalid WIP limit returned %d", code)
+	}
+	if code := call(t, "PUT", path, token, `{"wipLimit":{"value":3,"enabled":true,"soft":false}}`, nil); code != 200 {
+		t.Fatalf("WIP edit returned %d", code)
+	}
+	for _, row := range historyRows(t, w, board.ID) {
+		content, _ := row["newContent"].(map[string]any)
+		if row["entityId"] == board.List && row["group"] == "title" && content["field"] == "wipLimit" {
+			value, _ := content["value"].(map[string]any)
+			if historyNumber(value["value"]) == 3 && value["enabled"] == true && value["soft"] == false {
+				return
+			}
+		}
+	}
+	t.Fatal("expected the WIP limit in list History")
+}
