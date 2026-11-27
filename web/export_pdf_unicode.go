@@ -61,8 +61,9 @@ type pdfUnicodeFont struct {
 	widths     []int
 }
 
-func (f *pdfUnicodeFont) encode(text string) string {
+func (f *pdfUnicodeFont) encode(text string) (string, int) {
 	var encoded strings.Builder
+	width := 0
 	for _, r := range text {
 		cid, exists := f.characters[r]
 		if !exists && len(f.runes) < 65535 {
@@ -74,9 +75,12 @@ func (f *pdfUnicodeFont) encode(text string) string {
 			cid = uint16(len(f.runes))
 			f.characters[r] = cid
 		}
+		if cid != 0 {
+			width += f.widths[int(cid)-1]
+		}
 		fmt.Fprintf(&encoded, "%04X", cid)
 	}
-	return encoded.String()
+	return encoded.String(), width
 }
 
 func pdfStream(properties string, data []byte) []byte {

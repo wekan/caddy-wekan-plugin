@@ -224,3 +224,21 @@ func TestExportPDFSubsetsOutlines(t *testing.T) {
 		t.Fatalf("short Unicode PDF is %d bytes", len(output))
 	}
 }
+
+func TestPDFStylesUnicodeRuns(t *testing.T) {
+	lines := []pdfLine{
+		pdfRuns([]pdfRun{{Text: "A"}, {Text: "日", Bold: true, Italic: true}, {Text: "B"}}),
+		pdfPlain("Next", false),
+	}
+	pdf := string(buildExportPdfBuffer(lines))
+	for _, fragment := range []string{
+		"(A) Tj\n/FU 10 Tf\n1 0 0.2 1 56 782 Tm",
+		"0.28 w\n2 Tr\n<0001> Tj\n0 Tr\n1 0 0 1 66 782 Tm\n/F1 10 Tf\n(B) Tj",
+		"1 0 0 1 50 768 Tm\n(Next) Tj",
+		"<0001> <65E5>",
+	} {
+		if !strings.Contains(pdf, fragment) {
+			t.Errorf("PDF lacks %q", fragment)
+		}
+	}
+}

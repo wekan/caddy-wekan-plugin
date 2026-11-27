@@ -989,12 +989,19 @@ func buildPdfBufferWithFont(lines []pdfLine, unicodeEnabled bool) []byte {
 				cur = name
 			}
 		}
+		x, baseline := pdfMargin*1000, pdfPageHeight-pdfMargin-pdfFontSize
+		repositioned := false
+		setTextPosition := func(shear string) {
+			text.WriteString("\n1 0 " + shear + " 1 " + jsNum(float64(x)/1000) + " " + strconv.Itoa(baseline) + " Tm")
+		}
 		draw := func(t string, bold, italic bool) {
 			drawWinAnsi := func(part string) {
 				setFont(fontFor(bold, italic))
 				text.WriteString("\n(")
-				text.Write(escapePdfText(encodeWinAnsi(part)))
+				encoded := encodeWinAnsi(part)
+				text.Write(escapePdfText(encoded))
 				text.WriteString(") Tj")
+				x += len(encoded) * 600 * pdfFontSize
 			}
 			if !unicodeEnabled || !needsPDFUnicode(t) {
 				drawWinAnsi(t)
@@ -1003,7 +1010,22 @@ func buildPdfBufferWithFont(lines []pdfLine, unicodeEnabled bool) []byte {
 			writeRun := func(part string, plane int) {
 				if f := openUnicodeFont(plane); f != nil {
 					setFont(unicodeNames[plane])
-					text.WriteString("\n<" + f.encode(part) + "> Tj")
+					if italic {
+						setTextPosition("0.2")
+						repositioned = true
+					}
+					if bold {
+						text.WriteString("\n0.28 w\n2 Tr")
+					}
+					encoded, width := f.encode(part)
+					text.WriteString("\n<" + encoded + "> Tj")
+					x += width * pdfFontSize
+					if bold {
+						text.WriteString("\n0 Tr")
+					}
+					if italic {
+						setTextPosition("0")
+					}
 				} else {
 					drawWinAnsi(part)
 				}
@@ -1026,7 +1048,14 @@ func buildPdfBufferWithFont(lines []pdfLine, unicodeEnabled bool) []byte {
 
 		for i, item := range pl {
 			if i > 0 {
-				text.WriteString("\nT*")
+				x = pdfMargin * 1000
+				baseline -= pdfLineHeight
+				if repositioned {
+					setTextPosition("0")
+					repositioned = false
+				} else {
+					text.WriteString("\nT*")
+				}
 			}
 			if item.HasRuns {
 				if len(item.Runs) == 0 {
