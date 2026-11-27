@@ -23,11 +23,17 @@
         input(type="hidden", name="list", value="{{.ListID}}")
       if .SwimlaneID
         input(type="hidden", name="swimlane", value="{{.SwimlaneID}}")
-      if .Group
-        input(type="hidden", name="group", value="{{.Group}}")
+      select.js-history-group(name="group", aria-label="{{t $.L `filter`}}")
+        option(value="") {{t $.L "filter"}}
+        each group in .Groups
+          if .Selected
+            option(value="{{.Value}}", selected) {{.Label}}
+          else
+            option(value="{{.Value}}") {{.Label}}
       if .ActiveUser
         input(type="hidden", name="user", value="{{.ActiveUser}}")
       input.js-history-search(type="search", name="q", value="{{.Search}}", placeholder="{{t $.L `search`}}", aria-label="{{t $.L `search`}}")
+      button(type="submit") {{t $.L "apply"}}
       .history-pagination
         if .Prev
           a.js-history-prev(href="{{.Prev}}", title="{{t $.L `previous`}}") &lt;

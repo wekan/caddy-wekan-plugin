@@ -292,7 +292,8 @@ func TestHistoryViewLifecycleFilter(t *testing.T) {
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
 	_, html := get(t, c, w.srv.URL+"/b/"+board.ID+"/history?group=lifecycle")
-	if strings.Count(html, "js-history-row") != 1 || !strings.Contains(html, "Only lifecycle") || strings.Contains(html, "Other history") {
+	if strings.Count(html, "js-history-row") != 1 || !strings.Contains(html, "Only lifecycle") || strings.Contains(html, "Other history") ||
+		!strings.Contains(html, `value="lifecycle" selected`) {
 		t.Fatal("expected only the lifecycle row")
 	}
 	for i := range 25 {

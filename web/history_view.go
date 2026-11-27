@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/url"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -20,7 +21,7 @@ import (
 // details already use for it; one without a word shows none.
 var historyGroupKeys = map[string]string{"rules": "r-board-rules", "scrum": "scrum-settings", "title": "title", "description": "description",
 	"labels": "labels", "members": "members", "assignees": "assignees", "dates": "date", "checklists": "checklists", "subtasks": "subtasks",
-	"attachments": "attachments", "comments": "comments", "customFields": "custom-fields", "dependencies": "card-dependencies", "position": "sort"}
+	"attachments": "attachments", "comments": "comments", "customFields": "custom-fields", "dependencies": "card-dependencies", "position": "sort", "lifecycle": "archives"}
 
 // historyTypeKey is changeTypeKey.
 func historyTypeKey(t string) string {
@@ -294,9 +295,12 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 	if req.Search != "" {
 		filters.Set("q", req.Search)
 	}
+	if req.Group != "" {
+		filters.Set("group", req.Group)
+	}
 	if b != nil {
 		for key, value := range map[string]string{
-			"card": cardID, "list": q.Get("list"), "swimlane": q.Get("swimlane"), "user": req.UserID, "group": req.Group,
+			"card": cardID, "list": q.Get("list"), "swimlane": q.Get("swimlane"), "user": req.UserID,
 		} {
 			if value != "" {
 				filters.Set(key, value)
@@ -368,8 +372,17 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 		cs = append(cs, contributor{UserID: id, Name: name, Count: c["count"].(int64), Active: id == req.UserID,
 			Link: link(func(v url.Values) { v.Set("user", id); v.Del("page") })})
 	}
+	groups := make([]string, 0, len(historyGroupKeys))
+	for group := range historyGroupKeys {
+		groups = append(groups, group)
+	}
+	sort.Strings(groups)
+	options := make([]map[string]any, 0, len(groups))
+	for _, group := range groups {
+		options = append(options, map[string]any{"Value": group, "Label": tr(lang, historyGroupKeys[group]), "Selected": group == req.Group})
+	}
 	data := map[string]any{"Title": tr(lang, "history"), "User": u, "Rows": rows, "Search": req.Search, "CardID": cardID,
-		"ListID": filters.Get("list"), "SwimlaneID": filters.Get("swimlane"), "Group": filters.Get("group"), "ActiveUser": filters.Get("user"), "Contributors": cs, "AllLink": link(func(v url.Values) { v.Del("user"); v.Del("page") }),
+		"ListID": filters.Get("list"), "SwimlaneID": filters.Get("swimlane"), "Groups": options, "ActiveUser": filters.Get("user"), "Contributors": cs, "AllLink": link(func(v url.Values) { v.Del("user"); v.Del("page") }),
 		"Page": pageN, "Pages": pages, "Action": base, "RestoreAction": restore,
 		"Self": link(func(v url.Values) {
 			if pageN > 1 {
@@ -443,6 +456,7 @@ func historyBack(page, back string) string {
 // boards one sees now.
 func (s *Server) memberHistoryPage(w http.ResponseWriter, r *http.Request, u *User) {
 	req := historyPageRequest{UserID: u.ID, Search: r.URL.Query().Get("q")}
+	req.Group = r.URL.Query().Get("group")
 	s.renderHistory(w, r, u, req, "/profile/history", "/profile/history/restore", "/profile", tr(languageOf(r, u).Tag, "edit-profile"), "", nil)
 }
 
