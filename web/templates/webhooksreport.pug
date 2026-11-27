@@ -50,18 +50,18 @@
                     | {{.Board}}
                 td
                   | {{.Owner}}
-                  if .FullName
+                  if .OwnerFullName
                     br
-                    span.quiet {{.FullName}}
+                    span.quiet {{.OwnerFullName}}
                 td {{.Title}}
                 td {{.URL}}
                 td
-                  | {{t $.L .Type}}
+                  | {{t $.L .TypeKey}}
                   if .Mattermost
                     br
                     span.quiet Mattermost
                 td {{t $.L .Status}}
-                td {{.Activities}}
+                td {{.ActivityText}}
                 td
                   if .TokenSet
                     | {{t $.L "webhooks-report-token-set"}}

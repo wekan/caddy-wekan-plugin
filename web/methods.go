@@ -128,6 +128,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"structuralMoveOptions":             s.methodStructuralMoveOptions,
 		"setShowLabelTextOverride":          s.methodSetShowLabelTextOverride,
 		"shortPasswordLoginsPage":           s.methodShortPasswordLoginsPage,
+		"webhooksReportPage":                s.methodWebhooksReportPage,
 	}
 	for k, v := range s.customFieldMethods() {
 		m[k] = v

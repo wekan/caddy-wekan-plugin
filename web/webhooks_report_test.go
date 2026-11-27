@@ -56,4 +56,20 @@ func TestWebhooksReport(t *testing.T) {
 	if res, _ := get(t, ownerClient, report); res.StatusCode != http.StatusNotFound {
 		t.Fatalf("board owner report status: %d", res.StatusCode)
 	}
+	_, reply := methodCall(t, w, siteClient, "webhooksReportPage", `[{"limit":1}]`)
+	result, ok := reply["result"].(map[string]any)
+	if !ok || result["total"] != float64(2) || result["webhooksOff"] != true {
+		t.Fatal("expected the total and switch state")
+	}
+	rows := result["rows"].([]any)
+	if len(rows) != 1 {
+		t.Fatal("expected one row at the requested limit")
+	}
+	row := rows[0].(map[string]any)
+	if row["_id"] != "board-hook" || row["boardTitle"] != "Roadmap" || row["tokenSet"] != true || row["token"] != nil {
+		t.Fatal("expected the redacted board hook")
+	}
+	if _, reply := methodCall(t, w, ownerClient, "webhooksReportPage", `[]`); reply["error"] != "not-authorized" {
+		t.Fatal("the method is restricted to site administrators")
+	}
 }
