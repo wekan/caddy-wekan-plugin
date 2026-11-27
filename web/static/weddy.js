@@ -1046,12 +1046,21 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.compiler('#header', function () { headerHeight(); });
   window.addEventListener('resize', headerHeight);
   var boardSearchId = null;
+  var boardSearchTerm = '';
+  var boardSearchCard = null;
+  var boardSearchDirection = 1;
   function showBoardSearch(sidebar, open) {
     var search = sidebar.querySelector('.js-weddy-board-search');
     if (!search) return;
     search.classList.toggle('is-hidden', !open);
     sidebar.querySelector('.js-board-sidebar-content').classList.toggle('is-hidden', open);
     if (open) sidebar.classList.add('is-open');
+    else {
+      boardSearchTerm = '';
+      boardSearchCard = null;
+      search.querySelector('form').reset();
+      renderBoardSearch(search, 0);
+    }
   }
   up.on('click', '.js-open-search-view', function (event, button) {
     var board = button.closest('.board-wrapper');
@@ -1060,6 +1069,10 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (!search) return;
     event.preventDefault();
     closePopOvers();
+    if (boardSearchId !== board.dataset.board) {
+      boardSearchTerm = '';
+      boardSearchCard = null;
+    }
     boardSearchId = board.dataset.board;
     showBoardSearch(sidebar, true);
     search.querySelector('input').focus();
@@ -1070,24 +1083,64 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     sidebar.querySelector('.js-close-sidebar').click();
     sidebar.closest('.board-wrapper').querySelector('.js-open-search-view').focus();
   });
+  up.on('keydown', '.js-weddy-board-search input', function (event) {
+    if (event.key === 'Enter') boardSearchDirection = event.shiftKey ? -1 : 1;
+  });
   up.on('submit', '.js-weddy-board-search .js-search-term-form', function (event, form) {
     event.preventDefault();
-    var term = form.elements.searchTerm.value.trim().toLocaleLowerCase();
-    var sidebar = form.closest('.board-sidebar');
-    var results = sidebar.querySelector('.js-weddy-search-results');
+    var term = form.elements.searchTerm.value.trim();
+    if (term !== boardSearchTerm) boardSearchCard = null;
+    boardSearchTerm = term;
+    renderBoardSearch(form.closest('.js-weddy-board-search'), boardSearchDirection);
+    boardSearchDirection = 1;
+  });
+  up.on('click', '.js-weddy-search-step', function (event, button) {
+    renderBoardSearch(button.closest('.js-weddy-board-search'), Number(button.dataset.direction));
+  });
+  function renderBoardSearch(search, direction) {
+    var board = search.closest('.board-wrapper');
+    var term = boardSearchTerm.toLocaleLowerCase();
+    var results = search.querySelector('.js-weddy-search-results');
+    var counter = search.querySelector('.search-step');
+    var cards = [];
     results.replaceChildren();
+    counter.classList.add('is-hidden');
+    board.querySelectorAll('.board-canvas .is-search-highlight').forEach(function (card) {
+      card.classList.remove('is-search-highlight');
+    });
     if (!term) return;
-    sidebar.closest('.board-wrapper').querySelectorAll('.board-canvas .js-minicard').forEach(function (card) {
+    board.querySelectorAll('.board-canvas .js-minicard').forEach(function (card) {
       var title = card.querySelector('.minicard-title-text');
       if (!title || !title.textContent.toLocaleLowerCase().includes(term)) return;
+      cards.push(card);
       var item = document.createElement('li');
       var link = document.createElement('a');
+      var name = document.createElement('span');
+      link.className = 'minicard-wrapper js-minicard js-board-search-card';
       link.href = card.getAttribute('up-href');
-      link.textContent = title.textContent;
+      name.className = 'minicard-title';
+      name.textContent = title.textContent;
+      link.appendChild(name);
       item.appendChild(link);
       results.appendChild(item);
     });
-  });
+    if (!cards.length) {
+      boardSearchCard = null;
+      return;
+    }
+    var index = cards.findIndex(function (card) { return card.dataset.cardId === boardSearchCard; });
+    if (direction) {
+      index = index < 0 ? (direction > 0 ? 0 : cards.length - 1) : (index + direction + cards.length) % cards.length;
+    }
+    if (index < 0) return;
+    var selected = cards[index];
+    boardSearchCard = selected.dataset.cardId;
+    selected.classList.add('is-search-highlight');
+    if (direction) selected.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    var caption = counter.querySelector('.js-search-step-count');
+    caption.textContent = caption.dataset.caption.replace('%s', String(index + 1)).replace('%s', String(cards.length));
+    counter.classList.remove('is-hidden');
+  }
   up.on('click', '.js-toggle-page-sidebar', function (event) {
     event.preventDefault();
     var sb = document.querySelector('.board-sidebar');
@@ -3249,7 +3302,10 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.compiler('.board-sidebar', function (sb) {
     if (sidebarState('open')) sb.classList.add('is-open');
     if (boardSearchId !== null && sb.closest('.board-wrapper').dataset.board === boardSearchId) {
+      var search = sb.querySelector('.js-weddy-board-search');
       showBoardSearch(sb, true);
+      search.querySelector('input').value = boardSearchTerm;
+      renderBoardSearch(search, 0);
     }
     var filterView = sb.querySelector('.js-filter-view');
     if (filterView && sidebarState('filter')) filterView.classList.remove('is-hidden');
@@ -3541,7 +3597,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (sb) sb.classList.add('is-open');
     var view = wrapper.querySelector('.js-multiselection-view');
     if (view) view.classList.remove('is-hidden');
-    wrapper.querySelectorAll('.js-minicard').forEach(function (c) {
+    wrapper.querySelectorAll('.js-minicard[data-card]').forEach(function (c) {
       c.classList.toggle('is-selected', !!multiSelection.cards[c.dataset.card]);
     });
     wrapper.querySelectorAll('.js-toggle-multi-selection').forEach(function (b) {
@@ -3884,7 +3940,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   });
 
   // Ctrl/Cmd-click selects cards for a drag that moves many.
-  up.on('click', '.js-minicard', function (event, el) {
+  up.on('click', '.js-minicard[data-card]', function (event, el) {
     if (el.getAttribute('data-dragged') === '1') {
       el.removeAttribute('data-dragged');
       event.preventDefault();
@@ -3906,7 +3962,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       // The dragged cards are under the pointer too, still inside the list they
       // came from: look past them.
       if (moving.some(function (m) { return m.contains(stack[i]); })) continue;
-      var body = stack[i].closest && stack[i].closest('.js-minicards');
+      var body = stack[i].closest && stack[i].closest('.list-body.js-minicards');
       if (!body) continue;
       var cards = Array.prototype.filter.call(body.querySelectorAll('.js-minicard'), function (c) {
         return moving.indexOf(c) === -1;
@@ -3980,7 +4036,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
 
   if (window.interact) {
     interact.maxInteractions(Infinity); // MultiDrag: one interaction per pointer
-    interact('.js-minicard').draggable({
+    interact('.js-minicard[data-card]').draggable({
       inertia: false,
       autoScroll: true,
       listeners: {

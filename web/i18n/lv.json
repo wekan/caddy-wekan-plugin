@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Nezināms novērtējums",
   "scrum-working-days": "Darba dienas",
   "search": "Meklēt",
+  "search-step": "%s no %s - nospiediet Enter, lai pārietu uz nākamo",
   "securityReportTitle": "Drošība",
   "select-all": "Atlasīt visu",
   "select-color": "Mainīt krāsu",

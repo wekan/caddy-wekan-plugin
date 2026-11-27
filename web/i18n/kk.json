@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Белгісіз бағалау",
   "scrum-working-days": "Жұмыс күндері",
   "search": "Іздеу",
+  "search-step": "%s / %s - келесісі үшін Enter басыңыз",
   "securityReportTitle": "Қауіпсіздік есебі",
   "select-all": "Барлығын таңдау",
   "select-color": "Түсті таңдау",

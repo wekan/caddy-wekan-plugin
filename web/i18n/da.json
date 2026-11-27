@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Ukendt estimat",
   "scrum-working-days": "Arbejdsdage",
   "search": "Søg",
+  "search-step": "%s af %s - tryk Enter for den næste",
   "securityReportTitle": "Sikkerhed",
   "select-all": "Vælg alle",
   "select-color": "Vælg farve",

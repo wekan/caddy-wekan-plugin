@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "མ་ཤེས་པའི་ཚོད་རྩིས།",
   "scrum-working-days": "ལཱ་གི་ཉིནམ་ཚུ།",
   "search": "འཚོལ།",
+  "search-step": "%s / %s - རྗེས་མ་ལུ་འགྱོ་ནིའི་དོན་ལུ་ Enter ཨེབ།",
   "securityReportTitle": "ཉེན་སྲུང་སྙན་ཞུ།",
   "select-all": "ཆ་མཉམ་གདམ་ཁ་རྐྱབ།",
   "select-color": "ཁ་དོག་འདེམས།",

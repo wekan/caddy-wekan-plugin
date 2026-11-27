@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "הערכה לא ידועה",
   "scrum-working-days": "ימי עבודה",
   "search": "חיפוש",
+  "search-step": "%s מתוך %s - הקש Enter לתוצאה הבאה",
   "securityReportTitle": "אבטחה",
   "select-all": "בחירה בכולם",
   "select-color": "בחירת צבע",

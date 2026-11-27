@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Tuntematon arvio",
   "scrum-working-days": "Työpäivät",
   "search": "Etsi",
+  "search-step": "%s / %s - paina Enter siirtyäksesi seuraavaan",
   "securityReportTitle": "Tietoturva",
   "select-all": "Valitse kaikki",
   "select-color": "Valitse väri",

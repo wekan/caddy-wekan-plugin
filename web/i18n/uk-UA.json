@@ -1804,6 +1804,7 @@
   "scrum-unknown-estimate": "Невідома оцінка",
   "scrum-working-days": "Робочі дні",
   "search": "Шукати",
+  "search-step": "%s з %s - натисніть Enter, щоб перейти до наступної",
   "securityReportTitle": "Безпека",
   "select-all": "Вибрати все",
   "select-color": "Обрати колір",

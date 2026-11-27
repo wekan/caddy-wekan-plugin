@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Neznámy odhad",
   "scrum-working-days": "Pracovné dni",
   "search": "Hľadať",
+  "search-step": "%s z %s - stlačte Enter pre ďalšiu",
   "securityReportTitle": "Bezpečnosť",
   "select-all": "Vybrať všetko",
   "select-color": "Vybrať farbu",

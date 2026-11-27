@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Непозната процена",
   "scrum-working-days": "Работни денови",
   "search": "Барај",
+  "search-step": "%s од %s - притиснете Enter за следната",
   "securityReportTitle": "Безбедност",
   "select-all": "Избери сè",
   "select-color": "Избери боја",

@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "නොදන්නා ඇස්තමේන්තුව",
   "scrum-working-days": "වැඩ කරන දින",
   "search": "සොයන්න",
+  "search-step": "%s / %s - ඊළඟ එකට Enter ඔබන්න",
   "securityReportTitle": "ආරක්ෂක වාර්තාව",
   "select-all": "සියල්ල තෝරන්න",
   "select-color": "වර්ණය තෝරන්න",

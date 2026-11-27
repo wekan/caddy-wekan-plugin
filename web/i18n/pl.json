@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Nieznane oszacowanie",
   "scrum-working-days": "Dni robocze",
   "search": "Wyszukaj",
+  "search-step": "%s z %s - naciśnij Enter, aby przejść do następnego",
   "securityReportTitle": "Bezpieczeństwo",
   "select-all": "Zaznacz wszystko",
   "select-color": "Wybierz kolor",

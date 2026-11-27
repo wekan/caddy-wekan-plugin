@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Тодорхойгүй үнэлгээ",
   "scrum-working-days": "Ажлын өдрүүд",
   "search": "Хайх",
+  "search-step": "%s / %s - дараагийнх руу Enter дарна уу",
   "securityReportTitle": "Аюулгүй байдал",
   "select-all": "Бүгдийг сонгох",
   "select-color": "Өнгө сонгох",

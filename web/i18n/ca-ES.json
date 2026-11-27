@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Estimació desconeguda",
   "scrum-working-days": "Dies laborables",
   "search": "Cerca",
+  "search-step": "%s de %s - premeu Intro per a la següent",
   "securityReportTitle": "Seguretat",
   "select-all": "Selecciona-ho tot",
   "select-color": "Seleccioneu el color",

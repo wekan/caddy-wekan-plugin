@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Άγνωστη εκτίμηση",
   "scrum-working-days": "Εργάσιμες ημέρες",
   "search": "Αναζήτηση",
+  "search-step": "%s από %s - πατήστε Enter για την επόμενη",
   "securityReportTitle": "Ασφάλεια",
   "select-all": "Επιλογή όλων",
   "select-color": "Επιλέξτε Χρώμα",

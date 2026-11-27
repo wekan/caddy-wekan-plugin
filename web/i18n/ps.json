@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "نامعلوم اټکل",
   "scrum-working-days": "کاري ورځې",
   "search": "لټون",
+  "search-step": "%s له %s څخه - د بل لپاره Enter کېکاږئ",
   "securityReportTitle": "د امنيت راپور",
   "select-all": "ټول وټاکئ",
   "select-color": "رنګ وټاکئ",

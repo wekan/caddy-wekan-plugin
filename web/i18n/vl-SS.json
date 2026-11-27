@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Onbekende schatting",
   "scrum-working-days": "Werkdagen",
   "search": "Zoek",
+  "search-step": "%s van %s - toets Enter voor de volgende",
   "securityReportTitle": "Beveiliging",
   "select-all": "Alles selecteren",
   "select-color": "Selecteer kleur",

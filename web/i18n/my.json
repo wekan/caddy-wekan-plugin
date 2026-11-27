@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "မသိသော ခန့်မှန်းချက်",
   "scrum-working-days": "အလုပ်လုပ်ရက်များ",
   "search": "ရှာဖွေရန်",
+  "search-step": "%s / %s - နောက်တစ်ခုအတွက် Enter နှိပ်ပါ",
   "securityReportTitle": "လုံခြုံရေး အစီရင်ခံစာ",
   "select-all": "အားလုံး ရွေးရန်",
   "select-color": "အရောင် ရွေးရန်",

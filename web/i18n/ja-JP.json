@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "不明な見積もり",
   "scrum-working-days": "稼働日",
   "search": "検索",
+  "search-step": "%s / %s 件 - Enter で次へ",
   "securityReportTitle": "セキュリティ",
   "select-all": "すべて選択",
   "select-color": "色を選択",

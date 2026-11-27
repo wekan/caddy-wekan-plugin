@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Teadmata hinnang",
   "scrum-working-days": "Tööpäevad",
   "search": "Otsi",
+  "search-step": "%s/%s - järgmise jaoks vajutage Enter",
   "securityReportTitle": "Turvalisus",
   "select-all": "Vali kõik",
   "select-color": "Valige värv",

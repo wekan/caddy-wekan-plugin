@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Óþekkt mat",
   "scrum-working-days": "Vinnudagar",
   "search": "Leita",
+  "search-step": "%s af %s - ýttu á Enter fyrir næsta",
   "securityReportTitle": "Öryggisskýrsla",
   "select-all": "Velja allt",
   "select-color": "Velja lit",

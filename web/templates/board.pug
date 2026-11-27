@@ -72,9 +72,13 @@
     .sidebar-content.js-weddy-board-search.is-hidden
       button.js-back-home(type="button") {{t $.L "back"}}
       form.js-search-term-form
-        input(type="search", name="searchTerm", aria-label="{{t $.L `search`}}")
+        input(type="text", name="searchTerm", dir="auto", aria-label="{{t $.L `search`}}")
         button(type="submit") {{t $.L "search"}}
-      ul.sidebar-list.js-weddy-search-results(aria-live="polite")
+      p.quiet.search-step.is-hidden
+        button.js-weddy-search-step(type="button", data-direction="-1", aria-label="{{t $.L `previous`}}") ‹
+        span.js-search-step-count(aria-live="polite", data-caption="{{t $.L `search-step`}}")
+        button.js-weddy-search-step(type="button", data-direction="1", aria-label="{{t $.L `next`}}") ›
+      ul.sidebar-list.js-weddy-search-results.js-minicards(aria-live="polite")
     .sidebar-content.js-board-sidebar-content
       if .Invited
         //- sidebar.jade: an invitation to this board, to accept or decline.

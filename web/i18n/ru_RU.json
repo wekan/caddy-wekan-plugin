@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Неизвестная оценка",
   "scrum-working-days": "Рабочие дни",
   "search": "Поиск",
+  "search-step": "%s из %s - нажмите Enter для перехода к следующему",
   "securityReportTitle": "Безопасность",
   "select-all": "Выбрать все",
   "select-color": "Выбрать цвет",

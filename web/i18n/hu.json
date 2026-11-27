@@ -1808,6 +1808,7 @@
   "scrum-unknown-estimate": "Ismeretlen becslés",
   "scrum-working-days": "Munkanapok",
   "search": "Keresés",
+  "search-step": "%s / %s - a következőhöz nyomja meg az Entert",
   "securityReportTitle": "Biztonság",
   "select-all": "Összes kijelölése",
   "select-color": "Szín kiválasztása",

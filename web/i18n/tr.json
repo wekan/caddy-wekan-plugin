@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Bilinmeyen tahmin",
   "scrum-working-days": "Çalışma günleri",
   "search": "Arama",
+  "search-step": "%s / %s - sonraki için Enter'a basın",
   "securityReportTitle": "Güvenlik",
   "select-all": "Tümünü seç",
   "select-color": "Renk Seç",

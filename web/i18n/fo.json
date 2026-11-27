@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Ókend meting",
   "scrum-working-days": "Arbeiðsdagar",
   "search": "Leita",
+  "search-step": "%s av %s - trýst á Enter fyri næsta",
   "securityReportTitle": "Trygdarfrágreiðing",
   "select-all": "Vel alt",
   "select-color": "Vel lit",

@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "Nežinomas įvertis",
   "scrum-working-days": "Darbo dienos",
   "search": "Ieškoti",
+  "search-step": "%s iš %s - paspauskite Enter, kad pereitumėte prie kitos",
   "securityReportTitle": "Sauga",
   "select-all": "Pasirinkti viską",
   "select-color": "Pasirinkite Spalva",

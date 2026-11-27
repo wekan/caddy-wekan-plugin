@@ -1803,6 +1803,7 @@
   "scrum-unknown-estimate": "未知估算",
   "scrum-working-days": "工作日",
   "search": "搜尋",
+  "search-step": "第 %s 個，共 %s 個 - 按下 Enter 鍵查看下一個",
   "securityReportTitle": "安全",
   "select-all": "選取全部",
   "select-color": "選擇顏色",
