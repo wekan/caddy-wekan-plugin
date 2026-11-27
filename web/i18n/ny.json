@@ -1292,6 +1292,8 @@
   "invalid-year": "Chaka chosalondola. Chonde lembani manambala onse anayi, mwachitsanzo 2026.",
   "invitation-code": "Khodi yoitanira",
   "just-invited": "Mwaitanidwa kumene ku bolodi ili",
+  "keep-add-card-form-open": "Siyani fomu yowonjezera khadi yotseguka mutawonjezera khadi",
+  "keep-add-card-form-open-description": "Yayatsidwa: khadi likawonjezedwa, fomu imakhalabe yotseguka ndi mutu wopanda kanthu wa khadi lotsatira. Yazimitsidwa: fomu imatsekedwa khadi likangowonjezedwa.",
   "label-text-follows-board": "zikutsatira zolinga za bolodi",
   "label-text-overridden": "zasinthidwa",
   "label-text-use-board-default": "Gwiritsani ntchito zolinga za bolodi",

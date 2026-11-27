@@ -1292,6 +1292,8 @@
   "invalid-year": "Nieprawidłowy rok. Wpisz wszyskie cztery cyfry, na przykład 2026.",
   "invitation-code": "Kod z zaproszenia",
   "just-invited": "Zostałeś zaproszony do tej tabule",
+  "keep-add-card-form-open": "Trzimej formular przidowanio karty ôtwarty po przidaniu karty",
+  "keep-add-card-form-open-description": "Załōnczōne: po przidaniu karty formular ôstowo ôtwarty z prōznym tytułym do nastympnyj karty. Wyłōnczōne: formular sie zawiyro, jak ino karta je przidano.",
   "label-text-follows-board": "idzie za wychodnym sztelōnkym tabule",
   "label-text-overridden": "nadpisane",
   "label-text-use-board-default": "Użyj wychodnego sztelōnku tabule",

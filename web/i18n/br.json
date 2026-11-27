@@ -1292,6 +1292,8 @@
   "invalid-year": "Bloavezh direizh. Skrivit ar pevar sifr, da skouer 2026.",
   "invitation-code": "Kòd dinam",
   "just-invited": "Pedet oc’h bet d’an daolenn-mañ",
+  "keep-add-card-form-open": "Derc'hel digor ar furmskrid Ouzhpennañ ur gartenn goude bezañ ouzhpennet ur gartenn",
+  "keep-add-card-form-open-description": "Enaouet: goude ouzhpennañ ur gartenn e chom digor ar furmskrid gant un titl goullo evit ar gartenn war-lerc'h. Lazhet: serret e vez ar furmskrid kerkent ha ma vez ouzhpennet ar gartenn.",
   "label-text-follows-board": "heuliañ dre-ziouer ar follenn",
   "label-text-overridden": "flastret",
   "label-text-use-board-default": "Implij dre-ziouer ar follenn",

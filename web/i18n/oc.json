@@ -1292,6 +1292,8 @@
   "invalid-year": "Annada invalida. Picatz los quatre chifres, per exemple 2026.",
   "invitation-code": "Còde de convit",
   "just-invited": "Sètz just convidat dins aqueste tablèu",
+  "keep-add-card-form-open": "Gardar dobèrt lo formulari d'apondon de carta aprèp aver apondut una carta",
+  "keep-add-card-form-open-description": "Activat: aprèp l'apondon d'una carta, lo formulari demòra dobèrt amb un títol void per la carta seguenta. Desactivat: lo formulari se tampa tre que la carta es aponduda.",
   "label-text-follows-board": "sègue lo defaut del tablèu",
   "label-text-overridden": "remplaçat",
   "label-text-use-board-default": "Utilizar lo defaut del tablèu",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Nederīgs gads. Ievadiet visus četrus ciparus, piemēram, 2026.",
   "invitation-code": "Ielūguma kods",
   "just-invited": "Jūs ielūdza pievienoties šim dēlim",
+  "keep-add-card-form-open": "Pēc kartiņas pievienošanas atstāt kartiņas pievienošanas formu atvērtu",
+  "keep-add-card-form-open-description": "Ieslēgts: pēc kartiņas pievienošanas forma paliek atvērta ar tukšu nosaukumu nākamajai kartiņai. Izslēgts: forma tiek aizvērta, tiklīdz kartiņa ir pievienota.",
   "label-text-follows-board": "seko dēļa noklusējumam",
   "label-text-overridden": "pārrakstīts",
   "label-text-use-board-default": "Izmantot dēļa noklusējumu",

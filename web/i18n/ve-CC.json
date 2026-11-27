@@ -1292,6 +1292,8 @@
   "invalid-year": "Ano no vàłido. Par piaser scrivi tute e quatro łe cifre, par exenpio 2026.",
   "invitation-code": "Còdexe de invito",
   "just-invited": "Te si pena stà invità a sto quadro",
+  "keep-add-card-form-open": "Tien verta la forma Zonta na scheda dopo aver zontà na scheda",
+  "keep-add-card-form-open-description": "Ativo: dopo che na scheda la xe stà zontà, la forma la resta verta co un titolo vodo par la scheda dopo. Disativo: la forma la se sera co la scheda la xe stà zontà.",
   "label-text-follows-board": "seguisi el predefinìo del quadro",
   "label-text-overridden": "sostituìo",
   "label-text-use-board-default": "Dòpara el predefinìo del quadro",

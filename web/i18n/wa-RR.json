@@ -1292,6 +1292,8 @@
   "invalid-year": "Diri balido nga tuig. Isurat an bug-os nga upat nga numero, pananglitan 2026.",
   "invitation-code": "Kodigo han Imbitasyon",
   "just-invited": "Karuruyag ka pa la gin-imbitar hini nga board",
+  "keep-add-card-form-open": "Igpabilin nga bukas an porma han Idugang an Card katapos magdugang hin kard",
+  "keep-add-card-form-open-description": "Naka-on: katapos madugang an kard, nagpapabilin nga bukas an porma nga may waray sulod nga titulo para han sunod nga kard. Naka-off: nasisira an porma kon nadugang na an kard.",
   "label-text-follows-board": "nasunod ha daan nga takda han pisara",
   "label-text-overridden": "ginsaliwnan",
   "label-text-use-board-default": "Gamita an daan nga takda han pisara",

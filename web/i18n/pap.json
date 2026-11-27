@@ -1292,6 +1292,8 @@
   "invalid-year": "Aña no bálido. Escribe e cuatro dígitos, pa ehemplo 2026.",
   "invitation-code": "Código di Inbitashon",
   "just-invited": "Has sido inbitado na e tabla",
+  "keep-add-card-form-open": "Tene e formulario di agregá karchi habri despues di agregá un karchi",
+  "keep-add-card-form-open-description": "Prendí: despues ku un karchi a wòrdu agregá, e formulario ta keda habri ku un título bashí pa e siguiente karchi. Pagá: e formulario ta sera apenas e karchi a wòrdu agregá.",
   "label-text-follows-board": "ta sigui e default di tabla",
   "label-text-overridden": "sobreskirbí",
   "label-text-use-board-default": "Usa default di tabla",

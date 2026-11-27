@@ -1293,6 +1293,8 @@
   "invalid-year": "Année invalide. Saisissez les quatre chiffres, par exemple 2026.",
   "invitation-code": "Code d'invitation",
   "just-invited": "Vous venez d'être invité à ce tableau",
+  "keep-add-card-form-open": "Garder le formulaire d'ajout de carte ouvert après l'ajout d'une carte",
+  "keep-add-card-form-open-description": "Activé : après l'ajout d'une carte, le formulaire reste ouvert avec un titre vide pour la carte suivante. Désactivé : le formulaire se ferme une fois la carte ajoutée.",
   "label-text-follows-board": "suit le réglage par défaut du tableau",
   "label-text-overridden": "remplacé",
   "label-text-use-board-default": "Utiliser le réglage par défaut du tableau",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Yaroqsiz yil. Toʻrtta raqamning hammasini kiriting, masalan 2026.",
   "invitation-code": "Taklif kodi",
   "just-invited": "Siz hozirgina ushbu taxtaga taklif qilindingiz",
+  "keep-add-card-form-open": "Karta qo'shilgandan keyin Karta qo'shish formasini ochiq qoldirish",
+  "keep-add-card-form-open-description": "Yoqilgan: karta qo'shilgandan so'ng forma keyingi karta uchun bo'sh sarlavha bilan ochiq qoladi. O'chirilgan: karta qo'shilishi bilan forma yopiladi.",
   "label-text-follows-board": "doskaning standart sozlamasiga amal qiladi",
   "label-text-overridden": "bekor qilindi",
   "label-text-use-board-default": "Doskaning standart sozlamasidan foydalanish",

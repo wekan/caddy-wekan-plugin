@@ -1292,6 +1292,8 @@
   "invalid-year": "Tahun tidak sah. Taip keempat-empat digit, contohnya 2026.",
   "invitation-code": "Kod Jemputa",
   "just-invited": "Anda telah dijemput ke Papan ini",
+  "keep-add-card-form-open": "Biarkan borang Tambah Kad terbuka selepas menambah kad",
+  "keep-add-card-form-open-description": "Hidup: selepas kad ditambah, borang kekal terbuka dengan tajuk kosong untuk kad seterusnya. Mati: borang ditutup sebaik sahaja kad ditambah.",
   "label-text-follows-board": "mengikut lalai papan",
   "label-text-overridden": "ditindih",
   "label-text-use-board-default": "Guna lalai papan",

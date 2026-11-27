@@ -1292,6 +1292,8 @@
   "invalid-year": "ዘይቅኑዕ ዓመት። በጃኻ ኩሎም ኣርባዕተ ኣሃዛት፣ ንኣብነት 2026፣ ጽሓፍ።",
   "invitation-code": "ኮድ ዕድመ",
   "just-invited": "ሕጂ ጥራይ ናብዚ ምዱድ ተዓዲምካ",
+  "keep-add-card-form-open": "ወረቀት ካርድ ምን ወሰክካ ሕድ ፎርም ወስክ ወረቀት ካርድ ክፉት ሐዜ",
+  "keep-add-card-form-open-description": "ክፉት: ወረቀት ካርድ ምን ተወሰከ ሕድ፡ ፎርም ለሐድ ወረቀት ካርድ ምስል ጸሩይ ኣርእስት ክፉት ተሐዜ። ድቡእ: ፎርም ወረቀት ካርድ ምን ተወሰከ ተድብእ።",
   "label-text-follows-board": "ን ቀደም ምድላው ምዱድ ይስዕብ",
   "label-text-overridden": "ተቐይሩ",
   "label-text-use-board-default": "ቀደም ምድላው ምዱድ ተጠቐም",

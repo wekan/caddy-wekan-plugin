@@ -1292,6 +1292,8 @@
   "invalid-year": "Yel no lonöfon. Penolös numatis fol valik, ad sam 2026.",
   "invitation-code": "Kot vüda",
   "just-invited": "Pevüdol lü tab at",
+  "keep-add-card-form-open": "Kipön fometi kadilüüka maifiki pos lüük kada",
+  "keep-add-card-form-open-description": "Jäfedik: pos kad pelüükon, fomet blibon maifik ko tiäd vägik pro kad sökik. Nejäfedik: fomet pefärmükon ven kad pelüükon.",
   "label-text-follows-board": "sökon stabi taba",
   "label-text-overridden": "pevotüköl",
   "label-text-use-board-default": "Gebön stabi taba",

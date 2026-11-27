@@ -1292,6 +1292,8 @@
   "invalid-year": "An nivalid. Ti pãlãcãrsescu, scrie tuti patrulu cifri, bunãoarã 2026.",
   "invitation-code": "Codicu di invitatsii",
   "just-invited": "Fushi apoa invitat la aesta tabelã",
+  "keep-add-card-form-open": "Tsãne dishcljisã forma tra s-adavgã cartã dupã ţi adavgã unã cartã",
+  "keep-add-card-form-open-description": "Dishcljisã: dupã ţi s-adavgã unã cartã, forma armâni dishcljisã cu un titlu goal tra cartã ţi yini. Ncljisã: forma s-ncljidi cãndu cartã easti adavgatã.",
   "label-text-follows-board": "urmeadzã predefinitlu ali tabelã",
   "label-text-overridden": "alãxit",
   "label-text-use-board-default": "Ufiliseashti predefinitlu ali tabelã",

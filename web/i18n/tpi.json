@@ -1292,6 +1292,8 @@
   "invalid-year": "Yia i no stret. Plis raitim olgeta fopela namba, olsem 2026.",
   "invitation-code": "Kod bilong singautim i kam",
   "just-invited": "Ol i singautim yu tasol bilong kam long dispela bot",
+  "keep-add-card-form-open": "Larim fom bilong Putim kat i stap op bihain long putim kat",
+  "keep-add-card-form-open-description": "On: bihain long yu putim kat, fom i stap op wantaim nem i nogat samting long narapela kat. Of: fom i pas taim kat i go insait pinis.",
   "label-text-follows-board": "i bihainim seting bilong bot",
   "label-text-overridden": "senisim pinis",
   "label-text-use-board-default": "Yusim seting bilong bot",

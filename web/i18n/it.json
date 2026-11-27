@@ -1292,6 +1292,8 @@
   "invalid-year": "Anno non valido. Digita tutte e quattro le cifre, ad esempio 2026.",
   "invitation-code": "Codice d'invito",
   "just-invited": "Sei stato appena invitato a questa bacheca",
+  "keep-add-card-form-open": "Mantieni aperto il modulo Aggiungi scheda dopo l'aggiunta di una scheda",
+  "keep-add-card-form-open-description": "Attivo: dopo l'aggiunta di una scheda, il modulo resta aperto con un titolo vuoto per la scheda successiva. Disattivo: il modulo si chiude una volta aggiunta la scheda.",
   "label-text-follows-board": "segue l'impostazione predefinita della bacheca",
   "label-text-overridden": "sovrascritto",
   "label-text-use-board-default": "Usa impostazione predefinita della bacheca",

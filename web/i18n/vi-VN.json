@@ -1292,6 +1292,8 @@
   "invalid-year": "Năm không hợp lệ. Hãy nhập đủ bốn chữ số, ví dụ 2026.",
   "invitation-code": "Mã lời mời",
   "just-invited": "Bạn vừa được mời vào bảng này",
+  "keep-add-card-form-open": "Giữ biểu mẫu Thêm Thẻ mở sau khi thêm thẻ",
+  "keep-add-card-form-open-description": "Bật: sau khi thêm thẻ, biểu mẫu vẫn mở với tiêu đề trống cho thẻ tiếp theo. Tắt: biểu mẫu đóng lại khi thẻ đã được thêm.",
   "label-text-follows-board": "theo mặc định của bảng",
   "label-text-overridden": "đã ghi đè",
   "label-text-use-board-default": "Dùng mặc định của bảng",

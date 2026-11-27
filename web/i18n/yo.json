@@ -1292,6 +1292,8 @@
   "invalid-year": "Ọdún tí kò tọ́. Tẹ gbogbo nọ́mbà mẹ́rin, fún àpẹẹrẹ 2026.",
   "invitation-code": "koodu ifiwepe",
   "just-invited": "O kan pe si igbimọ yii",
+  "keep-add-card-form-open": "Jẹ́ kí fọ́ọ̀mù Fi Kaadi kun wà ní ṣíṣí lẹ́yìn tí o bá fi kaadi kun",
+  "keep-add-card-form-open-description": "Tan: lẹ́yìn tí a bá fi kaadi kan kun, fọ́ọ̀mù náà yóò wà ní ṣíṣí pẹ̀lú àkọlé òfo fún kaadi tó kàn. Pa: fọ́ọ̀mù náà yóò tì ní kété tí a bá fi kaadi náà kun.",
   "label-text-follows-board": "ó ń tẹ̀lé àṣàyàn ìpìlẹ̀ pátákó náà",
   "label-text-overridden": "ti fagilee",
   "label-text-use-board-default": "Lo àṣàyàn ìpìlẹ̀ pátákó náà",

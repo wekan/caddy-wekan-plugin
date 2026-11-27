@@ -1292,6 +1292,8 @@
   "invalid-year": "Ógilt ár. Sláðu inn alla fjóra tölustafina, til dæmis 2026.",
   "invitation-code": "Boðskóði",
   "just-invited": "Þér var rétt í þessu boðið á þessa töflu",
+  "keep-add-card-form-open": "Halda eyðublaðinu til að bæta við spjaldi opnu eftir að spjaldi er bætt við",
+  "keep-add-card-form-open-description": "Kveikt: eftir að spjaldi er bætt við helst eyðublaðið opið með tómum titli fyrir næsta spjald. Slökkt: eyðublaðinu er lokað um leið og spjaldinu hefur verið bætt við.",
   "label-text-follows-board": "fylgir sjálfgefinni stillingu spjaldsins",
   "label-text-overridden": "yfirskrifað",
   "label-text-use-board-default": "Nota sjálfgefna stillingu spjaldsins",

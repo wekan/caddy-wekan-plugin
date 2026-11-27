@@ -1292,6 +1292,8 @@
   "invalid-year": "Ugyldig år. Skriv alle fire sifrene, for eksempel 2026.",
   "invitation-code": "Invitasjonskode",
   "just-invited": "Du har nå blitt invitert til denne Tavlen",
+  "keep-add-card-form-open": "Hold skjemaet for å legge til kort åpent etter at et kort er lagt til",
+  "keep-add-card-form-open-description": "På: etter at et kort er lagt til, forblir skjemaet åpent med en tom tittel for neste kort. Av: skjemaet lukkes når kortet er lagt til.",
   "label-text-follows-board": "følger tavlens standard",
   "label-text-overridden": "overstyrt",
   "label-text-use-board-default": "Bruk tavlens standard",

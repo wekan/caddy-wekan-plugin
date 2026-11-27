@@ -1292,6 +1292,8 @@
   "invalid-year": "At mi baaxul. Bindal ñeenti lim yépp, misaal 2026.",
   "invitation-code": "Code woo",
   "just-invited": "Ñu ngi la sàkku nga bokk ci tablo bii",
+  "keep-add-card-form-open": "Bàyyi formulaire Yokk Kart bi mu ubbeeku ginnaaw bu ñu yokkee karta",
+  "keep-add-card-form-open-description": "Taal: ginnaaw bu ñu yokkee karta, formulaire bi day des ubbeeku ak tur bu amul dara ngir karta bi ci topp. Fey: formulaire bi day tëju bu karta bi yokkoo.",
   "label-text-follows-board": "moo topp njëkk bu tablo bi",
   "label-text-overridden": "soppiku",
   "label-text-use-board-default": "Jëfandikoo njëkk bu tablo bi",

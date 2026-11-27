@@ -1292,6 +1292,8 @@
   "invalid-year": "Ongeldig jaar. Typ alle vier de cijfers, bijvoorbeeld 2026.",
   "invitation-code": "Uitnodigings code",
   "just-invited": "Je bent zojuist uitgenodigd om mee toen doen aan dit bord",
+  "keep-add-card-form-open": "Houd het formulier Kaart toevoegen open na het toevoegen van een kaart",
+  "keep-add-card-form-open-description": "Aan: nadat een kaart is toegevoegd, blijft het formulier open met een lege titel voor de volgende kaart. Uit: het formulier sluit zodra de kaart is toegevoegd.",
   "label-text-follows-board": "volgt de standaardinstelling van het bord",
   "label-text-overridden": "overschreven",
   "label-text-use-board-default": "Standaardinstelling van het bord gebruiken",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Blein neu-chiart. Screeu ooilley ny kiare earrooyn, son sampleyr 2026.",
   "invitation-code": "Coad cuirrey",
   "just-invited": "T'ou er ny chuirrey gys y voayrd shoh nish",
+  "keep-add-card-form-open": "Freill yn form son kaart y chur rish foshlit lurg da kaart ve currit rish",
+  "keep-add-card-form-open-description": "Er: lurg da kaart ve currit rish, nee yn form fuirraght foshlit lesh ard-ennym follym son yn nah kaart. Jeh: nee yn form dooney tra ta'n kaart currit rish.",
   "label-text-follows-board": "geiyrt er y vun-choyrle voayrd",
   "label-text-overridden": "caghlaait",
   "label-text-use-board-default": "Ymmyrk bun-choyrle y voayrd",

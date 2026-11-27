@@ -1292,6 +1292,8 @@
   "invalid-year": "年份無效。請輸入完整四位數字，例如 2026。",
   "invitation-code": "邀請碼",
   "just-invited": "您剛剛被邀請加入此論壇",
+  "keep-add-card-form-open": "加咗卡片之後保持「添加卡」表單開住",
+  "keep-add-card-form-open-description": "開：加咗卡片之後，表單會保持開住，標題留空俾下一張卡片。關：卡片加咗之後表單就會閂埋。",
   "label-text-follows-board": "跟随看板默认设置",
   "label-text-overridden": "已覆盖",
   "label-text-use-board-default": "使用看板默认设置",

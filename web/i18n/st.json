@@ -1292,6 +1292,8 @@
   "invalid-year": "Selemo ha se sebetse. Ka kopo ngola dipalo tsohle tse nne, mohlala 2026.",
   "invitation-code": "Khoutu ya memo",
   "just-invited": "O sa tswa memelwa botong ena",
+  "keep-add-card-form-open": "Boloka foromo ya ho eketsa karete e butswe kamora ho eketsa karete",
+  "keep-add-card-form-open-description": "Ho butswe: kamora hore karete e ekelwe, foromo e dula e butswe ka sehlooho se se nang letho bakeng sa karete e latelang. Ho kwetswe: foromo e a kwalwa hang ha karete e ekeditswe.",
   "label-text-follows-board": "e latela tlhophiso ya tlwaelo ya boto",
   "label-text-overridden": "e fetotswe",
   "label-text-use-board-default": "Sebedisa tlhophiso ya tlwaelo ya boto",

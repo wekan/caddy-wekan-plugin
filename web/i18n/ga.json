@@ -1292,6 +1292,8 @@
   "invalid-year": "Bliain neamhbhailí. Clóscríobh na ceithre dhigit ar fad, mar shampla 2026.",
   "invitation-code": "Cód Cuireadh",
   "just-invited": "Tá cuireadh díreach faighte agat chuig an gclár seo",
+  "keep-add-card-form-open": "Coinnigh an fhoirm chun cárta a chur leis oscailte tar éis cárta a chur leis",
+  "keep-add-card-form-open-description": "Air: tar éis cárta a chur leis, fanann an fhoirm oscailte le teideal folamh don chéad chárta eile. As: dúntar an fhoirm a luaithe a chuirtear an cárta leis.",
   "label-text-follows-board": "leanann sé réamhshocrú an chláir",
   "label-text-overridden": "sáraithe",
   "label-text-use-board-default": "Úsáid réamhshocrú an chláir",

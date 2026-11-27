@@ -1292,6 +1292,8 @@
   "invalid-year": "Taona tsy manan-kery. Soraty ny tarehimarika efatra, ohatra 2026.",
   "invitation-code": "Kaodin'ny fanasana",
   "just-invited": "Vao nasaina ho amin'ity solaitra ity ianao",
+  "keep-add-card-form-open": "Avelao hisokatra ny fisoratana Hanampy karatra aorian'ny fanampiana karatra",
+  "keep-add-card-form-open-description": "Mandeha: rehefa nampiana karatra, mijanona misokatra ny fisoratana miaraka amin'ny lohateny foana ho an'ny karatra manaraka. Tsy mandeha: mihidy ny fisoratana raha vao nampiana ny karatra.",
   "label-text-follows-board": "manaraka ny default-n'ny tapatoetra",
   "label-text-overridden": "nosoloana",
   "label-text-use-board-default": "Ampiasao ny default-n'ny tapatoetra",

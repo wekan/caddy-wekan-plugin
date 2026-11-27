@@ -1292,6 +1292,8 @@
   "invalid-year": "Ngwaga ga se wa maleba. Hle ngwala dinomoro ka moka tše nne, mohlala 2026.",
   "invitation-code": "Khoutu ya Taletšo",
   "just-invited": "O sa tšwa go laletšwa botong ye",
+  "keep-add-card-form-open": "Tlogela foromo ya go oketša karata e butšwe ka morago ga go oketša karata",
+  "keep-add-card-form-open-description": "Bulegile: ka morago ga ge karata e okeditšwe, foromo e dula e butšwe ka thaetlele ye e se nago selo bakeng sa karata ye e latelago. Tswaletšwe: foromo e a tswalega ge karata e okeditšwe.",
   "label-text-follows-board": "e latela tlhaelo ya boto",
   "label-text-overridden": "e fetotšwe",
   "label-text-use-board-default": "Diriša tlhaelo ya boto",

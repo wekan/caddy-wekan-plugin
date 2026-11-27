@@ -1292,6 +1292,8 @@
   "invalid-year": "Ongeldige jaar. Tik al vier syfers in, byvoorbeeld 2026.",
   "invitation-code": "Uitnodigingskode",
   "just-invited": "Jy word net uitgenooi na hierdie bord",
+  "keep-add-card-form-open": "Hou die Voeg kaart by-vorm oop nadat 'n kaart bygevoeg is",
+  "keep-add-card-form-open-description": "Aan: nadat 'n kaart bygevoeg is, bly die vorm oop met 'n leë titel vir die volgende kaart. Af: die vorm maak toe sodra die kaart bygevoeg is.",
   "label-text-follows-board": "volg bordverstek",
   "label-text-overridden": "oorskryf",
   "label-text-use-board-default": "Gebruik bordverstek",

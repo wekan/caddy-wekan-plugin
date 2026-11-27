@@ -1292,6 +1292,8 @@
   "invalid-year": "Tahun tidak valid. Ketik keempat digitnya, misalnya 2026.",
   "invitation-code": "Kode Undangan",
   "just-invited": "Anda baru diundang di panel ini",
+  "keep-add-card-form-open": "Biarkan formulir Tambah Kartu tetap terbuka setelah menambahkan kartu",
+  "keep-add-card-form-open-description": "Aktif: setelah kartu ditambahkan, formulir tetap terbuka dengan judul kosong untuk kartu berikutnya. Nonaktif: formulir ditutup setelah kartu ditambahkan.",
   "label-text-follows-board": "mengikuti default papan",
   "label-text-overridden": "ditimpa",
   "label-text-use-board-default": "Gunakan default papan",

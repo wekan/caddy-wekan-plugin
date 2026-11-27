@@ -1292,6 +1292,8 @@
   "invalid-year": "Annu nun vàlidu. Scrivi tutti e quattru li cifri, p'esempiu 2026.",
   "invitation-code": "Còdici d'invitu",
   "just-invited": "Fusti appena mmitatu a sta tavula",
+  "keep-add-card-form-open": "Teni apertu lu mòdulu pi aggiunciri na carta doppu ca s'aggiunci na carta",
+  "keep-add-card-form-open-description": "Addumatu: doppu ca na carta è aggiunciuta, lu mòdulu resta apertu cu nu tìtulu vacanti pi la carta appressu. Astutatu: lu mòdulu si chiui appena ca la carta è aggiunciuta.",
   "label-text-follows-board": "sigui lu predefinutu dâ tavula",
   "label-text-overridden": "canciatu",
   "label-text-use-board-default": "Usa lu predefinutu dâ tavula",

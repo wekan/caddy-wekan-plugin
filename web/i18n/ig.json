@@ -1292,6 +1292,8 @@
   "invalid-year": "Afọ ezighi ezi. Pịnye ọnụọgụ anọ niile, dịka 2026.",
   "invitation-code": "Koodu ọkpụkpọ oku",
   "just-invited": "A na-akpọ gị òkù ịbanye na bọọdụ a",
+  "keep-add-card-form-open": "Hapụ fọm Tinye Kaadị ka ọ nọrọ mepere emepe mgbe etinyechara kaadị",
+  "keep-add-card-form-open-description": "Gbanyere: mgbe etinyechara kaadị, fọm ahụ na-anọgide na-emeghe na aha efu maka kaadị na-esote. Gbanyụrụ: fọm ahụ na-emechi ozugbo etinyere kaadị ahụ.",
   "label-text-follows-board": "na-eso ndabara bọọdụ",
   "label-text-overridden": "e degharịrị ya",
   "label-text-use-board-default": "Jiri ndabara bọọdụ",

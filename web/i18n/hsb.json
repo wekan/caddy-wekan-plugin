@@ -1292,6 +1292,8 @@
   "invalid-year": "Njepłaćiwe lěto. Prošu zapodajće wšě štyri cyfry, na přikład 2026.",
   "invitation-code": "Přeprošowanski kod",
   "just-invited": "Sće runje na tutu taflu přeprošeny",
+  "keep-add-card-form-open": "Formular za přidawanje karty po přidaću karty wočinjeny wostajić",
+  "keep-add-card-form-open-description": "Zapinjeny: po přidaću karty wostanje formular z prózdnym titulom za přichodnu kartu wočinjeny. Wupinjeny: formular so začini, hdyž je so karta přidała.",
   "label-text-follows-board": "sćěhuje standard tafle",
   "label-text-overridden": "přepisane",
   "label-text-use-board-default": "Standard tafle wužiwać",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Ary ndoikóiva. Ehai irundy papapy, techapyrã 2026.",
   "invitation-code": "Ñepepirũ ayvu",
   "just-invited": "Nde ramoite reñepepirũ ko peteĩchápe",
+  "keep-add-card-form-open": "Ejei ijurujápe formulario mboja kuatia'i rehegua emboja rire peteĩ kuatia'i",
+  "keep-add-card-form-open-description": "Hendy: emboja rire peteĩ kuatia'i, formulario opyta ijurujápe téra nandi reheve kuatia'i upeigua peguarã. Ogue: formulario oñemboty oñembojaha rire kuatia'i.",
   "label-text-follows-board": "ohupyty tabla ypy",
   "label-text-overridden": "oñemoambue",
   "label-text-use-board-default": "Eipuru tabla ypy",

@@ -1292,6 +1292,8 @@
   "invalid-year": "An no valido. Digita dutis e quattro le cifre, ad esempio 2026.",
   "invitation-code": "Codiç di invît",
   "just-invited": "Sei stato appena invitato a cheste taule",
+  "keep-add-card-form-open": "Ten viert il formulari par zontâ une cjarte dopo vê zontade une cjarte",
+  "keep-add-card-form-open-description": "Ativât: dopo che une cjarte e je stade zontade, il formulari al reste viert cuntun titul vueit pe cjarte sucessive. Disativât: il formulari si siere une volte zontade la cjarte.",
   "label-text-follows-board": "sedi il predefinît de bachece",
   "label-text-overridden": "modificât",
   "label-text-use-board-default": "Dopre il predefinît de bachece",

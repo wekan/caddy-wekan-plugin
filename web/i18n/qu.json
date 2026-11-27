@@ -1292,6 +1292,8 @@
   "invalid-year": "Mana allin wata. Ama hina kaspa llapa tawa yupaykunata qillqay, kay hina: 2026.",
   "invitation-code": "Invitay kikinchay",
   "just-invited": "Kunallan kay pirqaman minkasqa kanki",
+  "keep-add-card-form-open": "Kartata yapaspa kartata yapanapaq formulariota kichasqata saqiy",
+  "keep-add-card-form-open-description": "Kichasqa: huk karta yapasqa kaptinqa, formularioqa kichasqalla qhepan ch'usaq sutiwan qatiq kartapaq. Wichqasqa: kartata yapasqa kaptinkama formularioqa wichqakun.",
   "label-text-follows-board": "pizarrapa ñawpaq kamachiynin qatin",
   "label-text-overridden": "tikrasqa",
   "label-text-use-board-default": "Pizarrapa ñawpaq kamachiynin servichikuy",

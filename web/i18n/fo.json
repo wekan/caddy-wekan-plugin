@@ -1292,6 +1292,8 @@
   "invalid-year": "Ógilt ár. Skriva øll fýra tølini, til dømis 2026.",
   "invitation-code": "Innbjóðingarkota",
   "just-invited": "Tú ert júst boðin á hesa talvuna",
+  "keep-add-card-form-open": "Hald formin at leggja kort afturat opnan, eftir at eitt kort er lagt afturat",
+  "keep-add-card-form-open-description": "Á: tá ið eitt kort er lagt afturat, verður formurin verandi opin við tómum heiti til næsta kortið. Av: formurin verður latin aftur, tá ið kortið er lagt afturat.",
   "label-text-follows-board": "fylgir tavlu-forsetning",
   "label-text-overridden": "broytt",
   "label-text-use-board-default": "Nýt tavlu-forsetning",

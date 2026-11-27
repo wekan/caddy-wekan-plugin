@@ -1292,6 +1292,8 @@
   "invalid-year": "Bledhen anewn. Skrifa an peswar niver oll, kepar ha 2026.",
   "invitation-code": "Kod galow",
   "just-invited": "Ty yw gelwys a-lemmyn dhe'n estyllen ma",
+  "keep-add-card-form-open": "Gwitha an furvlen keworra karten ygor wosa keworra karten",
+  "keep-add-card-form-open-description": "Ynkys: wosa keworra karten, an furvlen a drig ygor gans titel gwag rag an nessa karten. Difeudhys: an furvlen a dhegea pan vo keworrys an karten.",
   "label-text-follows-board": "sywya standard an vord",
   "label-text-overridden": "chanjys",
   "label-text-use-board-default": "Usya standard an vord",

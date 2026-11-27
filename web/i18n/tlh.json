@@ -1295,6 +1295,8 @@
   "invalid-year": "DIS lughbe'. loS mI' Hoch yIghItlh, 2026 rur.",
   "invitation-code": "rI'meH ngoq",
   "just-invited": "raSvamvaD DurI'lu'pu' neH",
+  "keep-add-card-form-open": "'echletHom chellu'DI' 'echletHom chelmeH nav yIpoSmoHtaHmoH",
+  "keep-add-card-form-open-description": "chu'lu'DI': 'echletHom chellu'DI', 'echletHom veb chelmeH nav poStaH, pong chIm ghaj. chu'Ha'lu'DI': 'echletHom chellu'DI' nav SoQmoHlu'.",
   "label-text-follows-board": "raS DichmoH tlha'",
   "label-text-overridden": "choHlu'pu'",
   "label-text-use-board-default": "raS DichmoH lo'",

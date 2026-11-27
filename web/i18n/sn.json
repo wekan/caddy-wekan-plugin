@@ -1292,6 +1292,8 @@
   "invalid-year": "Gore harina kukodzera. Ndapota nyora manhamba ose mana, semuenzaniso 2026.",
   "invitation-code": "Kodhi yekukoka",
   "just-invited": "Uchangobva kukokwa kubhodhi iri",
+  "keep-add-card-form-open": "Siya fomu yekuwedzera kadhi yakavhurika mushure mekuwedzera kadhi",
+  "keep-add-card-form-open-description": "Yakabatidzwa: kana kadhi rawedzerwa, fomu inoramba yakavhurika ine musoro usina chinhu wekadhi rinotevera. Yakadzimwa: fomu inovharwa kadhi kana rangowedzerwa.",
   "label-text-follows-board": "inotevera zvakajairika zvebhodhi",
   "label-text-overridden": "zvashandurwa",
   "label-text-use-board-default": "Shandisa zvakajairika zvebhodhi",

@@ -86,6 +86,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"setBoardDragging":                  s.methodSetBoardDragging,
 		"setPassword":                       s.methodSetPassword,
 		"setBoardSettingsColumn":            s.methodSetBoardSettingsColumn,
+		"toggleKeepAddCardFormOpen":         s.methodToggleKeepAddCardFormOpen,
 		"toggleHideFocusOutline":            s.methodToggleHideFocusOutline,
 		"toggleDesktopDragHandles":          s.methodToggleDesktopDragHandles,
 		"toggleSubmitOnEnter":               s.methodToggleSubmitOnEnter,
@@ -733,6 +734,13 @@ func (s *Server) methodToggleCustomFieldsGrid(r *http.Request, u *User, args []j
 	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
 		bson.M{"$set": bson.M{"profile.customFieldsGrid": !u.Profile.CustomFieldsGrid}})
 	return nil, err
+}
+
+func (s *Server) methodToggleKeepAddCardFormOpen(r *http.Request, u *User, _ []json.RawMessage) (any, error) {
+	on := !u.Profile.KeepAddCardFormOpen
+	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
+		bson.M{"$set": bson.M{"profile.keepAddCardFormOpen": on}})
+	return on, err
 }
 
 func (s *Server) methodToggleHideFocusOutline(r *http.Request, u *User, _ []json.RawMessage) (any, error) {

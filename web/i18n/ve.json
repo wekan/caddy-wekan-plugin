@@ -1292,6 +1292,8 @@
   "invalid-year": "Ṅwaha a wo ngo tea. Ṅwalani nomboro dzoṱhe nṋa, sa tsumbo 2026.",
   "invitation-code": "Khoudu ya thambo",
   "just-invited": "No tou rambwa kha bodo iyi ya Kanban",
+  "keep-add-card-form-open": "Siani fomo ya u engedza garaṱa yo vulea musi no no engedza garaṱa",
+  "keep-add-card-form-open-description": "Yo vulwa: musi garaṱa yo no engedzwa, fomo i dzula yo vulea i na ṱhoho i si na tshithu ya garaṱa i tevhelaho. Yo valwa: fomo i a vala musi garaṱa yo no engedzwa.",
   "label-text-follows-board": "i tevhela zwa u thoma zwa bodo",
   "label-text-overridden": "yo shandukiswa",
   "label-text-use-board-default": "Shumisani zwa u thoma zwa bodo",

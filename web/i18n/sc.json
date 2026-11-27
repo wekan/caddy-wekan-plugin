@@ -1292,6 +1292,8 @@
   "invalid-year": "Annu non vàlidu. Iscrie totu sas bator tzifras, pro esempru 2026.",
   "invitation-code": "Còdighe de invitu",
   "just-invited": "Ses istadu invitadu immoe a custa tàula",
+  "keep-add-card-form-open": "Mantene abertu su mòdulu pro agiùnghere una carta a pustis de àere agiuntu una carta",
+  "keep-add-card-form-open-description": "Ativu: a pustis chi una carta est agiunta, su mòdulu abarrat abertu cun unu tìtulu bòidu pro sa carta imbeniente. Disativadu: su mòdulu si serrat comente sa carta est agiunta.",
   "label-text-follows-board": "sighit s'impostatzione predefinida de sa tàula",
   "label-text-overridden": "modificadu",
   "label-text-use-board-default": "Imprea s'impostatzione predefinida de sa tàula",

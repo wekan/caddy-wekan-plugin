@@ -170,8 +170,9 @@ type User struct {
 		CardSettingsSplit float64 `bson:"cardSettingsSplit,omitempty" json:"cardSettingsSplit,omitempty"`
 		// SubmitOnEnter: Enter saves an editor and Shift+Enter is a new line
 		// (WeKan's profile.submitOnEnter); off, Ctrl/Cmd+Enter saves.
-		SubmitOnEnter    bool `bson:"submitOnEnter,omitempty" json:"submitOnEnter,omitempty"`
-		HideFocusOutline bool `bson:"hideFocusOutline,omitempty" json:"hideFocusOutline,omitempty"`
+		SubmitOnEnter       bool `bson:"submitOnEnter,omitempty" json:"submitOnEnter,omitempty"`
+		KeepAddCardFormOpen bool `bson:"keepAddCardFormOpen,omitempty" json:"keepAddCardFormOpen,omitempty"`
+		HideFocusOutline    bool `bson:"hideFocusOutline,omitempty" json:"hideFocusOutline,omitempty"`
 		// ShowDesktopDragHandles: drag by a handle, not the whole item
 		// (WeKan's profile.showDesktopDragHandles).
 		ShowDesktopDragHandles bool `bson:"showDesktopDragHandles,omitempty" json:"showDesktopDragHandles,omitempty"`

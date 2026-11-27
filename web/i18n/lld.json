@@ -1292,6 +1292,8 @@
   "invalid-year": "Ann nia valit. Per plajëi scrij dutes cater la cifres, per ejëmpl 2026.",
   "invitation-code": "Code de nvidëda",
   "just-invited": "Te ies apena stat nvià a chësta tofl",
+  "keep-add-card-form-open": "Tegnì davert le formular per jonté na ciarta do avëi jonté na ciarta",
+  "keep-add-card-form-open-description": "Ativ: do che na ciarta é gnüda jontada, resta le formular davert cun n titul vet por la ciarta dedô. Destudé: le formular vëgn stlüt sciöch la ciarta é jontada.",
   "label-text-follows-board": "va do l standard dla tofl",
   "label-text-overridden": "mudà",
   "label-text-use-board-default": "Adurvé l standard dla tofl",

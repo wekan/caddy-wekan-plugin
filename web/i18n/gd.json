@@ -1292,6 +1292,8 @@
   "invalid-year": "Bliadhna mhì-dhligheach. Sgrìobh na ceithir figearan uile, mar eisimpleir 2026.",
   "invitation-code": "Còd Cuireadh",
   "just-invited": "Chaidh cuireadh a thoirt dhut dhan bhòrd seo an-dràsta",
+  "keep-add-card-form-open": "Cùm am foirm airson cairt a chur ris fosgailte às dèidh cairt a chur ris",
+  "keep-add-card-form-open-description": "Air: às dèidh cairt a chur ris, fanaidh am foirm fosgailte le tiotal falamh airson na h-ath chairt. Dheth: dùinidh am foirm cho luath 's a bhios a' chairt air a cur ris.",
   "label-text-follows-board": "a' leantainn gnàth-shuidheachadh a' bhùird",
   "label-text-overridden": "tar-àithnte",
   "label-text-use-board-default": "Cleachd gnàth-shuidheachadh a' bhùird",

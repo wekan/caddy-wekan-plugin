@@ -1292,6 +1292,8 @@
   "invalid-year": "Blwyddyn annilys. Teipiwch y pedwar digid, er enghraifft 2026.",
   "invitation-code": "Cod Gwahoddiad",
   "just-invited": "Fe'ch gwahoddir i'r bwrdd hwn",
+  "keep-add-card-form-open": "Cadw'r ffurflen Ychwanegu Cerdyn ar agor ar ôl ychwanegu cerdyn",
+  "keep-add-card-form-open-description": "Ymlaen: ar ôl ychwanegu cerdyn, mae'r ffurflen yn aros ar agor gyda theitl gwag ar gyfer y cerdyn nesaf. I ffwrdd: mae'r ffurflen yn cau cyn gynted ag yr ychwanegir y cerdyn.",
   "label-text-follows-board": "yn dilyn rhagosodiad y bwrdd",
   "label-text-overridden": "diystyriwyd",
   "label-text-use-board-default": "Defnyddio rhagosodiad y bwrdd",

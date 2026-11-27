@@ -1292,6 +1292,8 @@
   "invalid-year": "Ane pa valab. Tanpri tape tout kat chif yo, pa egzanp 2026.",
   "invitation-code": "Kòd envitasyon",
   "just-invited": "Yo fèk envite ou nan tablo sa a",
+  "keep-add-card-form-open": "Kenbe fòm pou ajoute kat la ouvè apre ou fin ajoute yon kat",
+  "keep-add-card-form-open-description": "Aktive: apre ou fin ajoute yon kat, fòm nan rete ouvè ak yon tit vid pou pwochen kat la. Dezaktive: fòm nan fèmen yon fwa kat la ajoute.",
   "label-text-follows-board": "swiv reglaj pa defo tablo a",
   "label-text-overridden": "ranplase",
   "label-text-use-board-default": "Itilize reglaj pa defo tablo a",

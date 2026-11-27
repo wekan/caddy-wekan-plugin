@@ -1292,6 +1292,8 @@
   "invalid-year": "Unyaka ongasebenziyo. Chwetheza onke amanani amane, umzekelo 2026.",
   "invitation-code": "Ikhowudi yesimemo",
   "just-invited": "Uyamenywa nje kule bhodi",
+  "keep-add-card-form-open": "Gcina ifomu yokuYongeza iKhadi ivulekile emva kokongeza ikhadi",
+  "keep-add-card-form-open-description": "Ivuliwe: emva kokuba ikhadi longeziwe, ifomu ihlala ivulekile inesihloko esingenanto sekhadi elilandelayo. Ivaliwe: ifomu iyavalwa nje ukuba ikhadi longezwe.",
   "label-text-follows-board": "ilandela umgangatho wangoku webhodi",
   "label-text-overridden": "igqithisiwe",
   "label-text-use-board-default": "Sebenzisa umgangatho wangoku webhodi",

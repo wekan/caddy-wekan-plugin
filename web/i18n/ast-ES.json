@@ -1292,6 +1292,8 @@
   "invalid-year": "Añu inválidu. Escribi les cuatro cifres, por exemplu 2026.",
   "invitation-code": "Código de Invitación",
   "just-invited": "Acaben de convidate a esti tableru.",
+  "keep-add-card-form-open": "Caltener abiertu'l formulariu d'amestar tarxeta dempués d'amestar una tarxeta",
+  "keep-add-card-form-open-description": "Activáu: dempués d'amestar una tarxeta, el formulariu sigue abiertu con un títulu baleru pa la tarxeta siguiente. Desactiváu: el formulariu ciérrase en cuantes s'amiesta la tarxeta.",
   "label-text-follows-board": "sigue lo predetermináo del tableru",
   "label-text-overridden": "sobrescritu",
   "label-text-use-board-default": "Usar lo predetermináo del tableru",

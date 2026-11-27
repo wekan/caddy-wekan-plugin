@@ -1292,6 +1292,8 @@
   "invalid-year": "Sal nederbasdar e. Ji kerema xwe her çar hejmaran binivîse, mînak 2026.",
   "invitation-code": "Koda vexwendinê",
   "just-invited": "Tu nû ji bo vê depoyê hatî vexwendin",
+  "keep-add-card-form-open": "Forma zêdekirina kartê piştî zêdekirina kartekê vekirî bihêle",
+  "keep-add-card-form-open-description": "Çalak: piştî ku kartek tê zêdekirin, form bi sernavekî vala ji bo karta din vekirî dimîne. Neçalak: form piştî zêdekirina kartê tê girtin.",
   "label-text-follows-board": "li gorî standarda text-textê ye",
   "label-text-overridden": "hate guhertin",
   "label-text-use-board-default": "Standarda text bikar bîne",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Vigane aasta. Sisesta kõik neli numbrit, näiteks 2026.",
   "invitation-code": "Kutse kood",
   "just-invited": "Teid lihtsalt kutsutakse siia foorumisse",
+  "keep-add-card-form-open": "Hoia kaardi lisamise vorm pärast kaardi lisamist avatud",
+  "keep-add-card-form-open-description": "Sees: pärast kaardi lisamist jääb vorm avatuks tühja pealkirjaga järgmise kaardi jaoks. Väljas: vorm suletakse, kui kaart on lisatud.",
   "label-text-follows-board": "järgib tahvli vaikeseadet",
   "label-text-overridden": "tühistatud",
   "label-text-use-board-default": "Kasuta tahvli vaikeseadet",

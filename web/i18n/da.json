@@ -1292,6 +1292,8 @@
   "invalid-year": "Ugyldigt år. Skriv alle fire cifre, for eksempel 2026.",
   "invitation-code": "Invitationskode",
   "just-invited": "Du er netop blevet inviteret til denne tavle",
+  "keep-add-card-form-open": "Hold formularen Tilføj kort åben efter tilføjelse af et kort",
+  "keep-add-card-form-open-description": "Til: når et kort er tilføjet, forbliver formularen åben med en tom titel til det næste kort. Fra: formularen lukkes, så snart kortet er tilføjet.",
   "label-text-follows-board": "følger tavlens standard",
   "label-text-overridden": "tilsidesat",
   "label-text-use-board-default": "Brug tavlens standard",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Di-wasto taon. Please uri lahat four digits, para sa example 2026.",
   "invitation-code": "Imbitasyon Kodigo",
   "just-invited": "Ikaw ay just invited sa ito pisara",
+  "keep-add-card-form-open": "Panatilihing bukas ang form ng Magdagdag ng kard pagkatapos magdagdag ng kard",
+  "keep-add-card-form-open-description": "Naka-on: pagkatapos magdagdag ng kard, nananatiling bukas ang form na may walang lamang pamagat para sa susunod na kard. Naka-off: nagsasara ang form kapag naidagdag na ang kard.",
   "label-text-follows-board": "sumusunod sa default ng board",
   "label-text-overridden": "na-override",
   "label-text-use-board-default": "Gamitin ang default ng board",

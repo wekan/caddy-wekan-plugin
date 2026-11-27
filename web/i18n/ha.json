@@ -1292,6 +1292,8 @@
   "invalid-year": "Shekara mara inganci. Don Allah rubuta duk lambobi huɗu, misali 2026.",
   "invitation-code": "Lambar gayyata",
   "just-invited": "Yanzu aka gayyace ka zuwa wannan allo",
+  "keep-add-card-form-open": "Bar fom ɗin ƙara kati a buɗe bayan an ƙara kati",
+  "keep-add-card-form-open-description": "A kunne: bayan an ƙara kati, fom ɗin zai kasance a buɗe da take mara komai don kati na gaba. A kashe: fom ɗin zai rufe da zarar an ƙara katin.",
   "label-text-follows-board": "yana bin tsohon saitin allo",
   "label-text-overridden": "an maye gurbi",
   "label-text-use-board-default": "Yi amfani da tsohon saitin allo",

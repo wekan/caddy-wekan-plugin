@@ -1292,6 +1292,8 @@
   "invalid-year": "Umnyaka awukavumeleki. Uyacelwa ubhale tonkhe tinombolo letine, sibonelo 2026.",
   "invitation-code": "Ikhodi Yesimemo",
   "just-invited": "Usandza kumenywa kulelibhodi",
+  "keep-add-card-form-open": "Gcina lifomu lekungeta likhadi livulekile ngemuva kwekungeta likhadi",
+  "keep-add-card-form-open-description": "Kuvuliwe: ngemuva kwekungeta likhadi, lifomu lihlala livulekile linesihloko lesingenalutfo selikhadi lelilandzelako. Kuvaliwe: lifomu liyavaleka nangabe likhadi selingetiwe.",
   "label-text-follows-board": "ilandzela lokujwayelekile kwelibhodi",
   "label-text-overridden": "kutjintjiwe",
   "label-text-use-board-default": "Sebentisa lokujwayelekile kwelibhodi",

@@ -1297,6 +1297,8 @@
   "invalid-year": "Ungültiges Jahr. Bitte alle vier Ziffern eingeben, zum Beispiel 2026.",
   "invitation-code": "Einladungscode",
   "just-invited": "Sie wurden soeben zu diesem Board eingeladen",
+  "keep-add-card-form-open": "Formular „Karte hinzufügen“ nach dem Hinzufügen einer Karte geöffnet lassen",
+  "keep-add-card-form-open-description": "Ein: Nach dem Hinzufügen einer Karte bleibt das Formular mit einem leeren Titel für die nächste Karte geöffnet. Aus: Das Formular wird geschlossen, sobald die Karte hinzugefügt wurde.",
   "label-text-follows-board": "folgt der Board-Standardeinstellung",
   "label-text-overridden": "überschrieben",
   "label-text-use-board-default": "Board-Standard verwenden",

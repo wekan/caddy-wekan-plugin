@@ -1292,6 +1292,8 @@
   "invalid-year": "Netinkami metai. Įveskite visus keturis skaitmenis, pavyzdžiui 2026.",
   "invitation-code": "Kvietimo kodas",
   "just-invited": "Jūs tiesiog esate pakviesti į šią lentą",
+  "keep-add-card-form-open": "Pridėjus kortelę, palikti kortelės pridėjimo formą atidarytą",
+  "keep-add-card-form-open-description": "Įjungta: pridėjus kortelę, forma lieka atidaryta su tuščiu pavadinimu kitai kortelei. Išjungta: forma uždaroma, kai tik kortelė pridedama.",
   "label-text-follows-board": "seka lentos numatytąjį nustatymą",
   "label-text-overridden": "perrašyta",
   "label-text-use-board-default": "Naudoti lentos numatytąjį nustatymą",

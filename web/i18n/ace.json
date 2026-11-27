@@ -1292,6 +1292,8 @@
   "invalid-year": "Thon hana sah. Neutuléh mandum peuet angka, contoh jih 2026.",
   "invitation-code": "Kode Undangan",
   "just-invited": "Droeneueh ban geuundang u papan nyoe",
+  "keep-add-card-form-open": "Peutinggai formulir Tamah Kad teuhah lheueh kad ka geutamah",
+  "keep-add-card-form-open-description": "Udep: lheueh kad ka geutamah, formulir teutap teuhah ngon judul soh keu kad lheueh nyoe. Mate: formulir teutôp meunan kad ka geutamah.",
   "label-text-follows-board": "tu'ôt default papan",
   "label-text-overridden": "geutimpa",
   "label-text-use-board-default": "Ngui default papan",

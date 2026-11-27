@@ -1292,6 +1292,8 @@
   "invalid-year": "Nädogry ýyl. Dört sanyň hemmesini ýazyň, meselem 2026.",
   "invitation-code": "Çakylyk kody",
   "just-invited": "Sizi bu tagta çagyrdylar",
+  "keep-add-card-form-open": "Kart goşulandan soň Kart goşmak formasyny açyk sakla",
+  "keep-add-card-form-open-description": "Açyk: kart goşulandan soň forma indiki kart üçin boş at bilen açyk galýar. Ýapyk: kart goşulan badyna forma ýapylýar.",
   "label-text-follows-board": "tagtanyň öýjük sazlamasyna eýerýär",
   "label-text-overridden": "üýtgedildi",
   "label-text-use-board-default": "Tagtanyň sazlamasyny ulan",

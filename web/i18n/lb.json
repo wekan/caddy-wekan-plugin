@@ -1292,6 +1292,8 @@
   "invalid-year": "Ungültiges Joer. W.e.g. all vier Ziffern eingeben, fir de Beispiel 2026.",
   "invitation-code": "Invitatiounscode",
   "just-invited": "Dir gouft just op dës Tafel invitéiert",
+  "keep-add-card-form-open": "De Formulaire fir eng Kaart derbäizesetzen no dem Derbäisetze vun enger Kaart op loossen",
+  "keep-add-card-form-open-description": "Un: nodeems eng Kaart derbäigesat gouf, bleift de Formulaire mat engem eidelen Titel fir déi nächst Kaart op. Aus: de Formulaire gëtt zougemaach, soubal d'Kaart derbäigesat ass.",
   "label-text-follows-board": "follegt der Standardastellung vum Bord",
   "label-text-overridden": "iwwerschriwwen",
   "label-text-use-board-default": "Standard vum Bord benotzen",

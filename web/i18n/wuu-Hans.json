@@ -1292,6 +1292,8 @@
   "invalid-year": "年份无效。请拿四位数字输全，比方讲 2026。",
   "invitation-code": "邀请码",
   "just-invited": "侬刚刚畀人邀请加入搿块看板",
+  "keep-add-card-form-open": "添加卡片以后让添加卡表单保持打开",
+  "keep-add-card-form-open-description": "开：添加卡片以后，表单保持打开，标题空个，好添下一张卡片。关：卡片添好以后表单就关脱。",
   "label-text-follows-board": "跟看板默认设置",
   "label-text-overridden": "已经覆盖",
   "label-text-use-board-default": "用看板默认设置",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Unyaka ongavumelekile. Thayipha zonke izinombolo ezine, isibonelo 2026.",
   "invitation-code": "Ikhodi Yesimemo",
   "just-invited": "Usanda kumenywa kuleli bhodi",
+  "keep-add-card-form-open": "Gcina ifomu yokwEngeza iKhadi ivulekile ngemva kokwengeza ikhadi",
+  "keep-add-card-form-open-description": "Kuvuliwe: ngemva kokuthi ikhadi lengezwe, ifomu lihlala livulekile linesihloko esingenalutho sekhadi elilandelayo. Kuvaliwe: ifomu liyavalwa uma ikhadi selengeziwe.",
   "label-text-follows-board": "ilandela okuzenzakalelayo kwebhodi",
   "label-text-overridden": "kugqithisiwe",
   "label-text-use-board-default": "Sebenzisa okuzenzakalelayo kwebhodi",

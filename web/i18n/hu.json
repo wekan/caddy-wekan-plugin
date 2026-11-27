@@ -1297,6 +1297,8 @@
   "invalid-year": "Érvénytelen év. Írd be mind a négy számjegyet, például 2026.",
   "invitation-code": "Meghívási kód",
   "just-invited": "Éppen most hívták meg erre a táblára",
+  "keep-add-card-form-open": "Kártya hozzáadása űrlap nyitva tartása kártya hozzáadása után",
+  "keep-add-card-form-open-description": "Be: kártya hozzáadása után az űrlap nyitva marad üres címmel a következő kártyához. Ki: az űrlap bezárul, amint a kártya hozzá lett adva.",
   "label-text-follows-board": "a tábla alapértelmezését követi",
   "label-text-overridden": "felülbírálva",
   "label-text-use-board-default": "Tábla alapértelmezésének használata",

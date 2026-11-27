@@ -1292,6 +1292,8 @@
   "invalid-year": "Tausaga lē aoga. Faamolemole taina numera uma e fa, mo se faataitaiga 2026.",
   "invitation-code": "Numera o le Valaaulia",
   "just-invited": "Faatoa valaaulia oe i lenei laupapa",
+  "keep-add-card-form-open": "Tuu pea ona tatala le fomu Faaopoopo se pepa pe a uma ona faaopoopo se pepa",
+  "keep-add-card-form-open-description": "Tatala: pe a uma ona faaopoopo se pepa, e tumau pea ona tatala le fomu ma se ulutala avanoa mo le isi pepa. Tapuni: e tapuni le fomu pe a uma ona faaopoopo le pepa.",
   "label-text-follows-board": "e mulimuli i le mea masani a le laupapa",
   "label-text-overridden": "ua suia",
   "label-text-use-board-default": "Faaaoga le mea masani a le laupapa",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Urte baliogabea. Idatzi lau zifrak, adibidez 2026.",
   "invitation-code": "Gonbidapen kodea",
   "just-invited": "Arbel honetara gonbidatu berri zaituzte",
+  "keep-add-card-form-open": "Mantendu txartela gehitzeko inprimakia irekita txartel bat gehitu ondoren",
+  "keep-add-card-form-open-description": "Aktibatuta: txartel bat gehitu ondoren, inprimakia irekita geratzen da hurrengo txartelerako izenburu hutsarekin. Desaktibatuta: inprimakia itxi egiten da txartela gehitu bezain laster.",
   "label-text-follows-board": "taularen lehenespena jarraitzen du",
   "label-text-overridden": "gainidatzita",
   "label-text-use-board-default": "Erabili taularen lehenespena",

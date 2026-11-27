@@ -1292,6 +1292,8 @@
   "invalid-year": "Xihuitl amo cualli. Xictlahcuilo mochi nahui tlapoualtin, machiyotl 2026.",
   "invitation-code": "Notzaliztli machiyotl",
   "just-invited": "Axcan oticnotzaloc ipan inin huapalli",
+  "keep-add-card-form-open": "Ma tlapohtoc mocahua in amatl ic xicaquiti amatlapalli in ihcuac oticaquih ce amatlapalli",
+  "keep-add-card-form-open-description": "Tlapohtoc: in ihcuac omocaquih ce amatlapalli, in amatl mocahua tlapohtoc ica ce cactoc tocaitl ic occe amatlapalli. Tzauctoc: in amatl motzacua in ihcuac omocaquih in amatlapalli.",
   "label-text-follows-board": "quitoca tlapechtli neneuhcayotl",
   "label-text-overridden": "patlac",
   "label-text-use-board-default": "Xictequiuhti tlapechtli neneuhcayotl",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Año no válido. Escribe os cuatro dígitos, por ejemplo 2026.",
   "invitation-code": "Código de Invitación",
   "just-invited": "Has sido invitado a iste tablero",
+  "keep-add-card-form-open": "Mantener ubierto o formulario d'adhibir tarcheta dimpués d'adhibir una tarcheta",
+  "keep-add-card-form-open-description": "Activau: dimpués d'adhibir una tarcheta, o formulario se mantién ubierto con un titol vuedo pa la siguient tarcheta. Desactivau: o formulario se zarra en cuanto s'adhibe la tarcheta.",
   "label-text-follows-board": "sigue lo predeterminau d'o tablero",
   "label-text-overridden": "sobreescrito",
   "label-text-use-board-default": "Usar lo predeterminau d'o tablero",

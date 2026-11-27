@@ -1292,6 +1292,8 @@
   "invalid-year": "Nevalida jaro. Tajpu ĉiujn kvar ciferojn, ekzemple 2026.",
   "invitation-code": "Invitkodo",
   "just-invited": "Vi ĵus estas invitita al ĉi tiu tabulo",
+  "keep-add-card-form-open": "Teni la formularon Aldoni karton malfermita post aldono de karto",
+  "keep-add-card-form-open-description": "Ŝaltita: post aldono de karto, la formularo restas malfermita kun malplena titolo por la sekva karto. Malŝaltita: la formularo fermiĝas tuj kiam la karto estas aldonita.",
   "label-text-follows-board": "sekvas la apriorajxon de la tabulo",
   "label-text-overridden": "anstataŭigita",
   "label-text-use-board-default": "Uzi la apriorajxon de la tabulo",

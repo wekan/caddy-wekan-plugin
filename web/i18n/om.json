@@ -1292,6 +1292,8 @@
   "invalid-year": "Waggaan sirrii miti. Maaloo dijiitii afran hunda barreessi, fakkeenyaaf 2026.",
   "invitation-code": "Koodii Affeerraa",
   "just-invited": "Amma qofa gara gabatee kanaatti affeeramteetta",
+  "keep-add-card-form-open": "Erga kaardiin dabalamee booda unka kaardii dabaluu banaa dhiisi",
+  "keep-add-card-form-open-description": "Banaa: erga kaardiin dabalamee booda, unkaan mata-duree duwwaa wajjin kaardii itti aanuuf banaa ta'ee hafa. Cufaa: unkaan akkuma kaardiin dabalameen ni cufama.",
   "label-text-follows-board": "durduuba bordii hordofa",
   "label-text-overridden": "jijjiirame",
   "label-text-use-board-default": "Durduuba bordii fayyadami",

@@ -1292,6 +1292,8 @@
   "invalid-year": "An invalid. Tastează toate cele patru cifre, de exemplu 2026.",
   "invitation-code": "Cod de invitație",
   "just-invited": "Tocmai ați fost invitat la acest panou",
+  "keep-add-card-form-open": "Păstrează formularul de adăugare card deschis după adăugarea unui card",
+  "keep-add-card-form-open-description": "Activat: după ce un card este adăugat, formularul rămâne deschis cu un titlu gol pentru următorul card. Dezactivat: formularul se închide imediat ce cardul este adăugat.",
   "label-text-follows-board": "urmează setarea implicită a panoului",
   "label-text-overridden": "suprascris",
   "label-text-use-board-default": "Folosește setarea implicită a panoului",

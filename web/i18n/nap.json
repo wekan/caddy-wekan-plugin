@@ -1292,6 +1292,8 @@
   "invalid-year": "Anno nun valido. Digita tutte e quattro 'e cifre, ad esempio 2026.",
   "invitation-code": "Codece 'e 'mmito",
   "just-invited": "Sei stato appena invitato a chesta tavula",
+  "keep-add-card-form-open": "Tiene aràpe 'o modulo pe azzeccà na carta doppo c'aje azzeccato na carta",
+  "keep-add-card-form-open-description": "Appicciato: doppo ca s'azzecca na carta, 'o modulo resta aràpe cu nu titolo vacante pe' 'a carta appriesso. Stutato: 'o modulo se chiure quanno 'a carta è stata azzeccata.",
   "label-text-follows-board": "segue 'a mpustazione predefinita d' 'a tavula",
   "label-text-overridden": "cagnato",
   "label-text-use-board-default": "Usa 'a mpustazione predefinita d' 'a tavula",

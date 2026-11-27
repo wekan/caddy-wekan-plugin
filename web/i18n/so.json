@@ -1292,6 +1292,8 @@
   "invalid-year": "Sannad aan sax ahayn. Fadlan qor afarta lambar oo dhan, tusaale ahaan 2026.",
   "invitation-code": "Koodhka Martiqaadka",
   "just-invited": "Hadda uun ayaa lagugu martiqaaday sabuuraddan",
+  "keep-add-card-form-open": "Ka dhig foomka Ku dar kaar mid furan kadib marka kaar lagu daro",
+  "keep-add-card-form-open-description": "Shidan: kadib marka kaar lagu daro, foomku wuxuu ahaanayaa mid furan oo leh cinwaan madhan oo loogu talagalay kaarka xiga. Damsan: foomku wuu xirmaa marka kaarka lagu daro.",
   "label-text-follows-board": "raacaysa caadiga sabuurada",
   "label-text-overridden": "la burburiyay",
   "label-text-use-board-default": "Isticmaal caadiga sabuurada",

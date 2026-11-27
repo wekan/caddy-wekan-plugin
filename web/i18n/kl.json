@@ -1292,6 +1292,8 @@
   "invalid-year": "Ukioq atuutinngilaq. Kisitsisit sisamat tamaasa allakkit, assersuutigalugu 2026.",
   "invitation-code": "Qaaqqusissutip kodea",
   "just-invited": "Ilisarnaammut matumunnga qaaqquneqaqqammerputit",
+  "keep-add-card-form-open": "Kortsip ilanngunneqarnerata kingorna kortsimik ilanngussinermut immersugassaq ammasoq qimallugu",
+  "keep-add-card-form-open-description": "Ikitaq: kortsi ilanngunneqareerpat immersugassaq ammasoq qimaneqassaaq qulequtaa imaqanngitsoq kortsimut tullermut. Qamitaq: kortsi ilanngunneqareerpat immersugassaq matuneqassaaq.",
   "label-text-follows-board": "allattaviup atuutsissutaanik malinnippoq",
   "label-text-overridden": "allanngortinneqarpoq",
   "label-text-use-board-default": "Allattaviup atuutsissutaa atorniarlugu",

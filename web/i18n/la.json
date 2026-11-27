@@ -1292,6 +1292,8 @@
   "invalid-year": "Annus invalidus. Quaeso omnes quattuor cifras insere, exempli gratia 2026.",
   "invitation-code": "Codex invitationis",
   "just-invited": "Modo ad hanc tabulam invitatus es",
+  "keep-add-card-form-open": "Formam chartae addendae apertam serva postquam charta addita est",
+  "keep-add-card-form-open-description": "Activum: postquam charta addita est, forma aperta manet cum titulo vacuo ad chartam proximam. Inactivum: forma clauditur simul ac charta addita est.",
   "label-text-follows-board": "sequitur praedefinitum tabulae",
   "label-text-overridden": "praetermissum",
   "label-text-use-board-default": "Utere praedefinito tabulae",

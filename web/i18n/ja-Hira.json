@@ -1292,6 +1292,8 @@
   "invalid-year": "年が無効です。4桁すべてを入力してください(例: 2026)。",
   "invitation-code": "招待コード",
   "just-invited": "このボードのメンバーに招待されています",
+  "keep-add-card-form-open": "カードを追加した後もカード追加フォームを開いたままにする",
+  "keep-add-card-form-open-description": "オン: カードを追加した後、次のカード用にタイトルが空の状態でフォームが開いたままになります。オフ: カードを追加するとフォームが閉じます。",
   "label-text-follows-board": "ボードの既定値に従う",
   "label-text-overridden": "上書き済み",
   "label-text-use-board-default": "ボードの既定値を使用",

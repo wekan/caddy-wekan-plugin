@@ -1292,6 +1292,8 @@
   "invalid-year": "Vit i pavlefshëm. Shkruaj të katër shifrat, për shembull 2026.",
   "invitation-code": "Kodi i ftesës",
   "just-invited": "Sapo je ftuar në këtë tabelë",
+  "keep-add-card-form-open": "Mbaje formularin Shto kartë të hapur pas shtimit të një karte",
+  "keep-add-card-form-open-description": "Aktiv: pasi shtohet një kartë, formulari mbetet i hapur me titull bosh për kartën tjetër. Joaktiv: formulari mbyllet sapo shtohet karta.",
   "label-text-follows-board": "ndjek parazgjedhjen e tabelës",
   "label-text-overridden": "anashkaluar",
   "label-text-use-board-default": "Përdor parazgjedhjen e tabelës",

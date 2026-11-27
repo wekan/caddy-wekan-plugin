@@ -1292,6 +1292,8 @@
   "invalid-year": "Tau muhu. Patohia ngā mati e whā katoa, hei tauira 2026.",
   "invitation-code": "Waehere Pōwhiri",
   "just-invited": "Kātahi anō koe ka pōwhiritia ki tēnei papa",
+  "keep-add-card-form-open": "Waiho kia tuwhera te puka Tāpiri kāri i muri i te tāpiri kāri",
+  "keep-add-card-form-open-description": "Kā: i muri i te tāpiritanga o tētahi kāri, ka noho tuwhera tonu te puka me tētahi taitara wātea mō te kāri e whai ake ana. Weto: ka kati te puka ina tāpirihia te kāri.",
   "label-text-follows-board": "e whai ana i te taunoa papa",
   "label-text-overridden": "kua whakakapia",
   "label-text-use-board-default": "Whakamahia te taunoa papa",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Sena invalida. Jekk jogħġbok ikteb l-erba’ ċifri kollha, pereżempju 2026.",
   "invitation-code": "Kodiċi tal-istedina",
   "just-invited": "Għadek kif ġejt mistieden għal dan il-bord",
+  "keep-add-card-form-open": "Żomm il-formola Żid karta miftuħa wara li żżid karta",
+  "keep-add-card-form-open-description": "Mixgħul: wara li tiżdied karta, il-formola tibqa' miftuħa b'titlu vojt għall-karta li jmiss. Mitfi: il-formola tingħalaq hekk kif tiżdied il-karta.",
   "label-text-follows-board": "isegwi l-valur default tal-bord",
   "label-text-overridden": "miksur",
   "label-text-use-board-default": "Uża l-valur default tal-bord",

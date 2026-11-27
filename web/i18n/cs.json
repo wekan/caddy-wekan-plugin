@@ -1292,6 +1292,8 @@
   "invalid-year": "Neplatný rok. Zadejte všechny čtyři číslice, například 2026.",
   "invitation-code": "Kód pozvánky",
   "just-invited": "Právě jsi byl pozván(a) do tohoto tabla",
+  "keep-add-card-form-open": "Ponechat formulář Přidat kartu otevřený po přidání karty",
+  "keep-add-card-form-open-description": "Zapnuto: po přidání karty zůstane formulář otevřený s prázdným názvem pro další kartu. Vypnuto: formulář se zavře, jakmile je karta přidána.",
   "label-text-follows-board": "řídí se výchozím nastavením tabule",
   "label-text-overridden": "přepsáno",
   "label-text-use-board-default": "Použít výchozí nastavení tabule",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Invalid year. Please type all four digits, for example 2026.",
   "invitation-code": "Invitation Code",
   "just-invited": "You are just invited to this board",
+  "keep-add-card-form-open": "Keep the Add card form open after adding a card",
+  "keep-add-card-form-open-description": "On: after a card is added, the form stays open with an empty title for the next card. Off: the form closes once the card is added.",
   "label-text-follows-board": "follows board default",
   "label-text-overridden": "overridden",
   "label-text-use-board-default": "Use board default",

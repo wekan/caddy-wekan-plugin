@@ -1455,7 +1455,7 @@
                     //- The card composer is on the page only while it is open, at
                       the top or the bottom of the list (WeKan's inlined form).
                     template.js-card-composer-template
-                      form.js-inlined-form.js-card-composer(method="post", action="/b/{{$.Board.ID}}/cards", up-submit, up-target=".board-wrapper")
+                      form.js-inlined-form.js-card-composer(method="post", action="/b/{{$.Board.ID}}/cards", up-target=".board-wrapper")
                         input(type="hidden", name="listId", value="{{.ID}}")
                         input(type="hidden", name="swimlaneId", value="{{.Lane}}")
                         input.js-card-position(type="hidden", name="position", value="bottom")

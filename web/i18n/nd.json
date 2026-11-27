@@ -1292,6 +1292,8 @@
   "invalid-year": "Umnyaka awusebenzi. Sicela ubhale amanani amane wonke, isibonelo 2026.",
   "invitation-code": "Ikhodi yesimemo",
   "just-invited": "Usanda kumenywa kuleli bhodi",
+  "keep-add-card-form-open": "Gcina ifomu lokwengeza ikhadi livuliwe ngemva kokwengeza ikhadi",
+  "keep-add-card-form-open-description": "Kuvuliwe: ngemva kokwengezwa kwekhadi, ifomu lihlala livuliwe lilesihloko esingelalutho sekhadi elilandelayo. Kuvaliwe: ifomu liyavalwa nxa ikhadi selingeziwe.",
   "label-text-follows-board": "ilandela okuzenzakalelayo kwebhodi",
   "label-text-overridden": "kuguqulwe",
   "label-text-use-board-default": "Sebenzisa okuzenzakalelayo kwebhodi",

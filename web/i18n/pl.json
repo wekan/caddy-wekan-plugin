@@ -1292,6 +1292,8 @@
   "invalid-year": "Nieprawidłowy rok. Wpisz wszystkie cztery cyfry, na przykład 2026.",
   "invitation-code": "Kod z zaproszenia",
   "just-invited": "Zostałeś zaproszony do tej tablicy",
+  "keep-add-card-form-open": "Pozostaw formularz dodawania karty otwarty po dodaniu karty",
+  "keep-add-card-form-open-description": "Włączone: po dodaniu karty formularz pozostaje otwarty z pustym tytułem dla następnej karty. Wyłączone: formularz zamyka się po dodaniu karty.",
   "label-text-follows-board": "zgodne z domyślnym ustawieniem tablicy",
   "label-text-overridden": "nadpisane",
   "label-text-use-board-default": "Użyj domyślnego ustawienia tablicy",

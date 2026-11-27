@@ -1292,6 +1292,8 @@
   "invalid-year": "Yanlış il. Dörd rəqəmin hamısını yazın, məsələn 2026.",
   "invitation-code": "Dəvət kodu",
   "just-invited": "Siz sadəcə bu lövhəyə dəvətlisiniz",
+  "keep-add-card-form-open": "Kart əlavə edildikdən sonra Kart əlavə et formasını açıq saxla",
+  "keep-add-card-form-open-description": "Aktiv: kart əlavə edildikdən sonra forma növbəti kart üçün boş başlıqla açıq qalır. Deaktiv: kart əlavə edilən kimi forma bağlanır.",
   "label-text-follows-board": "lövhənin standartına uyğundur",
   "label-text-overridden": "ləğv edildi",
   "label-text-use-board-default": "Lövhənin standartından istifadə et",

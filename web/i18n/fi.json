@@ -1292,6 +1292,8 @@
   "invalid-year": "Virheellinen vuosi. Kirjoita kaikki neljä numeroa, esimerkiksi 2026.",
   "invitation-code": "Kutsukoodi",
   "just-invited": "Sinut on juuri kutsuttu tälle taululle",
+  "keep-add-card-form-open": "Pidä kortin lisäyslomake auki kortin lisäämisen jälkeen",
+  "keep-add-card-form-open-description": "Päällä: kun kortti on lisätty, lomake pysyy auki tyhjällä otsikolla seuraavaa korttia varten. Pois: lomake sulkeutuu, kun kortti on lisätty.",
   "label-text-follows-board": "noudattaa taulun oletusta",
   "label-text-overridden": "ohitettu",
   "label-text-use-board-default": "Käytä taulun oletusta",

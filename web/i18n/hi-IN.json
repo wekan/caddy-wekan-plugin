@@ -1292,6 +1292,8 @@
   "invalid-year": "अमान्य वर्ष। चारों अंक टाइप करें, उदाहरण के लिए 2026।",
   "invitation-code": "आमंत्रण कोड",
   "just-invited": "You are just invited तक  यह बोर्ड",
+  "keep-add-card-form-open": "कार्ड जोड़ने के बाद कार्ड जोड़ें फ़ॉर्म खुला रखें",
+  "keep-add-card-form-open-description": "चालू: कार्ड जोड़ने के बाद, फ़ॉर्म अगले कार्ड के लिए खाली शीर्षक के साथ खुला रहता है। बंद: कार्ड जुड़ते ही फ़ॉर्म बंद हो जाता है।",
   "label-text-follows-board": "बोर्ड की डिफ़ॉल्ट सेटिंग का पालन करता है",
   "label-text-overridden": "ओवरराइड किया गया",
   "label-text-use-board-default": "बोर्ड की डिफ़ॉल्ट सेटिंग का उपयोग करें",

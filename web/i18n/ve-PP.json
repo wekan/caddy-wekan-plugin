@@ -1292,6 +1292,8 @@
   "invalid-year": "Vär vozʹ. Kirjuta kaik nelʹlʹ cifrad, ozutesikš 2026.",
   "invitation-code": "Kucundan kod",
   "just-invited": "Sinei om ani nügüd' antud kucund necile laudale",
+  "keep-add-card-form-open": "Pidä kartan ližadusen forma avaitud kartan ližadusen jäl'ghe",
+  "keep-add-card-form-open-description": "Päl: kartan ližadusen jäl'ghe forma jäb avaitud tühjän nimenke jäl'gmäižen kartan täht. Pois: forma saubase, konz kart om ližatud.",
   "label-text-follows-board": "i tevhela zwe bammbi ḽa ita",
   "label-text-overridden": "vajehtadud",
   "label-text-use-board-default": "Shumisani zwe bammbi ḽa ita",

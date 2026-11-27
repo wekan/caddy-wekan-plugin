@@ -1292,6 +1292,8 @@
   "invalid-year": "Taun ora sah. Tulisen kabeh papat digit, tuladhane 2026.",
   "invitation-code": "Kode Undhangan",
   "just-invited": "Sampeyan lagi wae diundang menyang papan iki",
+  "keep-add-card-form-open": "Formulir tambah kertu tetep dibukak sawise nambah kertu",
+  "keep-add-card-form-open-description": "Urip: sawise kertu ditambahake, formulir tetep kabukak kanthi irah-irahan kosong kanggo kertu sabanjure. Mati: formulir ditutup sawise kertu ditambahake.",
   "label-text-follows-board": "ndherek standar papan",
   "label-text-overridden": "diganti",
   "label-text-use-board-default": "Nggunakake standar papan",

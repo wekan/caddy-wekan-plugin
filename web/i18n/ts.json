@@ -1292,6 +1292,8 @@
   "invalid-year": "Lembe leri nga tirhiki. Ndza kombela u tsala tinomboro hinkwato ta mune, xikombiso 2026.",
   "invitation-code": "Khodi ya xirhambo",
   "just-invited": "U ha ku rhambiwa eka bodo leyi",
+  "keep-add-card-form-open": "Hlayisa fomo ya Engetela khadi yi pfulekile endzhaku ko engetela khadi",
+  "keep-add-card-form-open-description": "Ku pfuriwile: endzhaku ka loko khadi ri engeteriwile, fomo yi tshama yi pfulekile na nhloko leyi nga riki na nchumu ya khadi leri landzelaka. Ku pfariwile: fomo ya pfaleka loko khadi ri engeteriwile.",
   "label-text-follows-board": "ya landzelela xiyimo xa bodo",
   "label-text-overridden": "xi cinciwile",
   "label-text-use-board-default": "Tirhisa xiyimo xa bodo",

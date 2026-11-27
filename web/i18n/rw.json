@@ -1292,6 +1292,8 @@
   "invalid-year": "Umwaka ntiwemewe. Andika imibare ine yose, urugero 2026.",
   "invitation-code": "Kode y'Ubutumire",
   "just-invited": "Ubu ni bwo utumiwe kuri iki kibaho",
+  "keep-add-card-form-open": "Reka ifishi yo kongeraho ikarita ifunguye nyuma yo kongeraho ikarita",
+  "keep-add-card-form-open-description": "Bifunguye: nyuma yo kongeraho ikarita, ifishi iguma ifunguye ifite umutwe ubusa ku ikarita ikurikira. Bifunze: ifishi irafunga ikarita ikimara kongerwaho.",
   "label-text-follows-board": "gukurikiza mburabuzi y'ikibaho",
   "label-text-overridden": "byahinduwe",
   "label-text-use-board-default": "Koresha mburabuzi y'ikibaho",

@@ -1292,6 +1292,8 @@
   "invalid-year": "Bessenna layttaa. Oyddu qoodaa ubbaa xaafa, leemisuwaas 2026.",
   "invitation-code": "Xeesiyo koodiyaa",
   "just-invited": "Neeni ha bookkiyaas ha'i xeesettaasa",
+  "keep-add-card-form-open": "Kaardiya gujjiyoogaappe guyyiyan kaardiya gujjiyo formiya dooyettidaagaadan aggaa",
+  "keep-add-card-form-open-description": "Doyettiis: kaardiyaa gujjidaappe guyyiyan, formiyaa kaallidi yaana kaardiyau mela huuphe sunttaara dooyettidaagaadan aggees. Gorddettiis: kaardiyaa gujjettiya wode formiyaa gorddettees.",
   "label-text-follows-board": "bookkiyaa gishetaa kaalliya",
   "label-text-overridden": "laamettida",
   "label-text-use-board-default": "Bookkiyaa gishetaa go77etta",

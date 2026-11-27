@@ -1292,6 +1292,8 @@
   "invalid-year": "Ano non válido. Escribe os catro díxitos, por exemplo 2026.",
   "invitation-code": "Código de convite",
   "just-invited": "Acabas de ser convidado a este taboleiro",
+  "keep-add-card-form-open": "Manter aberto o formulario de engadir tarxeta despois de engadir unha tarxeta",
+  "keep-add-card-form-open-description": "Activado: despois de engadir unha tarxeta, o formulario segue aberto cun título baleiro para a seguinte tarxeta. Desactivado: o formulario péchase unha vez engadida a tarxeta.",
   "label-text-follows-board": "segue o valor por defecto do taboleiro",
   "label-text-overridden": "sobrescrito",
   "label-text-use-board-default": "Usar o valor por defecto do taboleiro",

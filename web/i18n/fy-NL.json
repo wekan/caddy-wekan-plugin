@@ -1292,6 +1292,8 @@
   "invalid-year": "Unjildich jier. Typ alle fjouwer sifers, bygelyks 2026.",
   "invitation-code": "Utnoeging Code",
   "just-invited": "Jo binne krekt útnoege foar dit bestjoer",
+  "keep-add-card-form-open": "It formulier foar kaart tafoegje iepen hâlde nei it tafoegjen fan in kaart",
+  "keep-add-card-form-open-description": "Oan: nei't in kaart tafoege is, bliuwt it formulier iepen mei in lege titel foar de folgjende kaart. Út: it formulier slút sa gau't de kaart tafoege is.",
   "label-text-follows-board": "folget de standertynstelling fan it boerd",
   "label-text-overridden": "oerskreaun",
   "label-text-use-board-default": "Standert fan it boerd brûke",

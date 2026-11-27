@@ -1292,6 +1292,8 @@
   "invalid-year": "Neveljavno leto. Vnesite vse štiri števke, na primer 2026.",
   "invitation-code": "Koda Povabila",
   "just-invited": "Povabljeni ste k tej tabli",
+  "keep-add-card-form-open": "Po dodajanju kartice pusti obrazec za dodajanje kartice odprt",
+  "keep-add-card-form-open-description": "Vklopljeno: po dodajanju kartice obrazec ostane odprt s praznim naslovom za naslednjo kartico. Izklopljeno: obrazec se zapre, ko je kartica dodana.",
   "label-text-follows-board": "sledi privzeti nastavitvi table",
   "label-text-overridden": "preglašeno",
   "label-text-use-board-default": "Uporabi privzeto nastavitev table",

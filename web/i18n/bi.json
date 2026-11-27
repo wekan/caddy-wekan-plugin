@@ -1292,6 +1292,8 @@
   "invalid-year": "Yia i no stret. Plis raetem evri fo namba, olsem 2026.",
   "invitation-code": "Kod blong invetesen",
   "just-invited": "Oli jes singaot yu long bod ia",
+  "keep-add-card-form-open": "Livim fom blong Adem kad i stap open afta we yu adem wan kad",
+  "keep-add-card-form-open-description": "On: afta we yu adem wan kad, fom i stap open wetem wan taetel we i emti blong nekis kad. Of: fom i satem stret taem we kad i kam insaed.",
   "label-text-follows-board": "i folem seting blong bod",
   "label-text-overridden": "i jenis finis",
   "label-text-use-board-default": "Yusum seting blong bod",
