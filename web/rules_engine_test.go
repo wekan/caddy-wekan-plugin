@@ -268,6 +268,17 @@ func TestRulesPage(t *testing.T) {
 			t.Errorf("the Rules page has %s (%d)", want, res.StatusCode)
 		}
 	}
+	if _, html := get(t, ann, rulesURL); !strings.Contains(html, "js-open-rules-bots-view") {
+		t.Fatal("Bots navigation is missing while webhooks are enabled")
+	}
+	if _, err := w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"webhooksDisabled": true}}, options.UpdateOne().SetUpsert(true)); err != nil {
+		t.Fatal(err)
+	}
+	if res, html := get(t, ann, rulesURL+"?view=bots"); res.StatusCode != 200 ||
+		strings.Contains(html, "js-open-rules-bots-view") || strings.Contains(html, "js-bots-add") ||
+		!strings.Contains(html, "Archive new") {
+		t.Fatal("Rules should remain available with Bots hidden while webhooks are disabled")
+	}
 	bc := w.client(t)
 	body(t, w.signIn(t, bc, "bob", "pw"))
 	if _, html := get(t, bc, rulesURL); strings.Contains(html, "rules-lists-item") || strings.Contains(html, "js-goto-trigger") {

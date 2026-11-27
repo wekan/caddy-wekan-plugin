@@ -1176,11 +1176,12 @@ func (s *Server) rulesPage(w http.ResponseWriter, r *http.Request, u *User) {
 		return
 	}
 	view := r.URL.Query().Get("view")
-	if !slices.Contains([]string{"list", "workflow", "import", "bots", "blocks"}, view) {
+	webhooksOff := s.webhooksOff(r.Context())
+	if (view == "bots" && webhooksOff) || !slices.Contains([]string{"list", "workflow", "import", "bots", "blocks"}, view) {
 		view = "list"
 	}
 	data := map[string]any{"Title": tr(lang, "rules"), "User": u, "Board": b, "CanEdit": b.AdminOf(u.ID), "View": view,
-		"RuleTokens": s.ruleVariableTokens(r.Context(), b.ID), "CopyBoards": s.copyBoards(r.Context(), u, b.ID),
+		"WebhooksOff": webhooksOff, "RuleTokens": s.ruleVariableTokens(r.Context(), b.ID), "CopyBoards": s.copyBoards(r.Context(), u, b.ID),
 		"TriggerPalette": paletteChips(lang, triggerPalette), "ActionPalette": paletteChips(lang, actionPalette)}
 	if b.AdminOf(u.ID) {
 		ctx := r.Context()
