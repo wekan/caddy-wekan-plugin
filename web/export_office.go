@@ -252,6 +252,16 @@ func pdfText(s string) string {
 
 // pdfOf is a PDF of lines on A4 pages in Helvetica, 50 lines a page.
 func pdfOf(lines []string) []byte {
+	for _, text := range lines {
+		if needsPDFUnicode(text) {
+			document := make([]pdfLine, len(lines))
+			for i, line := range lines {
+				document[i] = pdfPlain(line, false)
+			}
+			return buildExportPdfBuffer(document)
+		}
+	}
+
 	const perPage = 50
 	var pages [][]string
 	for len(lines) > perPage {

@@ -87,6 +87,17 @@ func TestExportCharts(t *testing.T) {
 	if code, typ, data = get(base+"dashboard/exportPDF", a); code != 200 || typ != "application/pdf" || !bytes.HasPrefix(data, []byte("%PDF")) {
 		t.Fatalf("pdf: %d %s", code, typ)
 	}
+	if _, err := w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"title": "日本語"}}); err != nil {
+		t.Fatal(err)
+	}
+	code, typ, data = get(base+"dashboard/exportPDF", a)
+	if code != 200 || typ != "application/pdf" || !bytes.Contains(data, []byte("/ToUnicode")) ||
+		!bytes.Contains(data, []byte("<0001> <65E5>")) {
+		t.Fatalf("Unicode chart PDF: %d %s, %d bytes", code, typ, len(data))
+	}
+	if _, err := w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"title": "Charts"}}); err != nil {
+		t.Fatal(err)
+	}
 	if code, _, _ = get(base+"nosuch/exportPDF", a); code != 400 {
 		t.Errorf("negative: an unknown chart: %d", code)
 	}
