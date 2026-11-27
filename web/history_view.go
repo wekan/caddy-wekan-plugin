@@ -50,6 +50,11 @@ func historyViewLabel(lang string, row, content map[string]any) string {
 		case "list", "swimlane":
 			return tr(lang, entity)
 		}
+	case "receivedAt", "startAt", "dueAt", "endAt":
+		if entity == "card" {
+			field := docString(content, "field")
+			return tr(lang, "card-"+strings.TrimSuffix(field, "At"))
+		}
 	case "dueComplete":
 		if entity == "card" {
 			return tr(lang, "due-complete")
