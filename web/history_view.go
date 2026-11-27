@@ -161,10 +161,12 @@ func historySummary(lang string, row, content map[string]any) string {
 	case has && v == nil:
 		return "—"
 	case content["isDate"] == true:
-		switch n := v.(type) {
-		case float64, int32, int64, int:
-			return time.UnixMilli(int64(historyNumber(n))).UTC().Format("2006-01-02 15:04")
+		if value, ok := historyValue(content); ok {
+			if date, ok := value.(time.Time); ok {
+				return date.Format("2006-01-02 15:04")
+			}
 		}
+		return ""
 	}
 	switch x := v.(type) {
 	case string:

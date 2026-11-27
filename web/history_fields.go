@@ -141,7 +141,11 @@ func historyValue(content map[string]any) (any, bool) {
 		if v == nil {
 			return nil, true
 		}
-		return time.UnixMilli(int64(historyNumber(v))).UTC(), true
+		ms := historyNumber(v)
+		if math.IsNaN(ms) || math.Abs(ms) > 8640000000000000 || math.Trunc(ms) != ms {
+			return nil, false
+		}
+		return time.UnixMilli(int64(ms)).UTC(), true
 	}
 	paths, _ := content["datePaths"].([]any)
 	if len(paths) == 0 {

@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"strings"
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -304,5 +305,15 @@ func TestHistoryViewIntegerDate(t *testing.T) {
 	content := map[string]any{"field": "dueAt", "value": int64(1795815000000), "isDate": true}
 	if got := historySummary("en", row, content); got != "2026-11-27 21:30" {
 		t.Errorf("integer date summary = %q", got)
+	}
+	value, ok := historyValue(content)
+	if date, isDate := value.(time.Time); !ok || !isDate || date.UnixMilli() != 1795815000000 {
+		t.Fatalf("integer date replay = %v, %v", value, ok)
+	}
+	for _, malformed := range []any{"1795815000000", 1.5, int64(8640000000000001)} {
+		content["value"] = malformed
+		if _, ok := historyValue(content); ok || historySummary("en", row, content) != "" {
+			t.Errorf("invalid date %v should not be used", malformed)
+		}
 	}
 }
