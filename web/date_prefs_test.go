@@ -171,4 +171,12 @@ func TestBoardDateFormatRendering(t *testing.T) {
 	assertDate(boardURL, "2026-03-21")
 	set("users", bson.M{"_id": u.ID}, bson.M{"profile.dateFormat": "MM-DD-YYYY-date-only", "profile.dateFormatOverride": true})
 	assertDate(boardURL, "03-21-2026")
+	set("boards", bson.M{"_id": board.ID}, bson.M{"dateFormatOverride": false})
+	set("settings", bson.M{}, bson.M{"hideDateFormat": false})
+	_, html := get(t, client, boardURL)
+	for _, status := range []string{"Disabled: DD-MM-YYYY-date-only", "Disabled: YYYY-MM-DD-date-only"} {
+		if !strings.Contains(html, status) {
+			t.Errorf("missing saved inactive date format: %s", status)
+		}
+	}
 }

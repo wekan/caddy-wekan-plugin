@@ -2769,7 +2769,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // Meteor.user() and Meteor.userId() as Node.js WeKan's pages have them: the
   // signed-in user, without secrets (/api/user), refreshed every few seconds -
   // for WeKan's scripts and tests, which read the user that way.
-  var currentUser = null;
+  var currentUser = null, userRequests = 0;
   // Meteor.call / Meteor.callAsync: WeKan's methods that Weddy has, through
   // POST /_methods/{name}; a failure is a Meteor.Error-like {error, reason}.
   function callAsync(name) {
@@ -2870,6 +2870,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         return { ready: function () { return true; }, stop: function () {}, subscriptionId: '' };
       },
       user: function () { return currentUser; },
+      loggingIn: function () { return !currentUser && userRequests > 0; },
       userId: function () { return currentUser ? currentUser._id : null; },
       callAsync: callAsync,
       // Meteor.apply(name, args, [options], [callback]).
@@ -2893,6 +2894,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     return list.filter(function (n) { return !n.read; }).length;
   }
   function refreshUser() {
+    userRequests += 1;
     return fetch('/api/user', { credentials: 'same-origin' }).then(function (r) {
       return r.ok ? r.json() : null;
     }).then(function (u) {
@@ -2904,7 +2906,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         var c = el.querySelector('.notifications-count');
         if (c) c.textContent = unread > 0 ? String(unread) : '';
       });
-    }).catch(function () {});
+    }).catch(function () {}).finally(function () { userRequests -= 1; });
   }
   // The notifications drawer: opened from the indicator; its menu marks all
   // read, or - after a confirmation in the user's language - deletes all.

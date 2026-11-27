@@ -370,7 +370,7 @@
             if .SiteDate.Enabled
               |  {{t $.L "r-rule-enabled"}}: {{.SiteDate.Format}}
             else
-              |  {{t $.L "r-rule-disabled"}}
+              |  {{t $.L "r-rule-disabled"}}{{if .SiteDate.Format}}: {{.SiteDate.Format}}{{end}}
           form.js-date-format-form(data-board="{{.Board.ID}}")
             label.flex
               if .Board.DateFormatOverride

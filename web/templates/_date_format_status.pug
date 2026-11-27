@@ -4,11 +4,11 @@
     if .SiteDate.Enabled
       |  {{t $.L "r-rule-enabled"}}: {{.SiteDate.Format}}
     else
-      |  {{t $.L "r-rule-disabled"}}
+      |  {{t $.L "r-rule-disabled"}}{{if .SiteDate.Format}}: {{.SiteDate.Format}}{{end}}
   if .BoardDateFormats
     p.js-board-date-format-status
       strong {{t $.L "board"}}: {{t $.L "date-format"}}
       if .Board.DateFormatOverride
         |  {{t $.L "r-rule-enabled"}}: {{.Board.DateFormat}}
       else
-        |  {{t $.L "r-rule-disabled"}}
+        |  {{t $.L "r-rule-disabled"}}{{if .Board.DateFormat}}: {{.Board.DateFormat}}{{end}}
