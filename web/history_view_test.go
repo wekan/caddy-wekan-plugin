@@ -258,13 +258,19 @@ func TestHistoryViewMoveReason(t *testing.T) {
 }
 
 func TestHistoryViewDocumentSummary(t *testing.T) {
-	for _, content := range []map[string]any{
-		{"description": "Previous description"},
-		{"document": map[string]any{"description": "Previous description"}},
+	for _, tc := range []struct {
+		content map[string]any
+		want    string
+	}{
+		{map[string]any{"description": "Previous description"}, "Previous description"},
+		{map[string]any{"document": map[string]any{"description": "Previous description"}}, "Previous description"},
+		{map[string]any{"document": map[string]any{"text": "Deleted comment", "description": "Metadata"}}, "Deleted comment"},
+		{map[string]any{"deleted": true, "document": map[string]any{"name": "Removed file.txt"}}, "Removed file.txt"},
+		{map[string]any{"deleted": true}, tr("en", "history-change-removed")},
 	} {
-		row := map[string]any{"entityType": "card", "previousContent": content}
-		if got := historySummary("en", row, historyViewContent(row)); got != "Previous description" {
-			t.Errorf("document summary = %q", got)
+		row := map[string]any{"entityType": "card", "previousContent": tc.content}
+		if got := historySummary("en", row, historyViewContent(row)); got != tc.want {
+			t.Errorf("document summary = %q, want %q", got, tc.want)
 		}
 	}
 }
@@ -297,6 +303,18 @@ func TestHistoryViewLifecycleFilter(t *testing.T) {
 		!strings.Contains(html, `value="lifecycle" selected`) {
 		t.Fatal("expected only the lifecycle row")
 	}
+	if _, err := w.db.Collection("changeHistory").InsertOne(ctx, bson.M{
+		"_id": "document-removal", "boardId": board.ID, "userId": ann.ID, "group": "lifecycle",
+		"entityType": "attachment", "entityId": "removed-file", "cardId": board.Card, "changeType": "removed",
+		"previousContent": bson.M{"deleted": true, "document": bson.M{"name": "Notes <draft>.txt"}},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	_, attachment := get(t, c, w.srv.URL+"/b/"+board.ID+"/history?group=lifecycle&q=Notes")
+	if strings.Count(attachment, "js-history-row") != 1 || !strings.Contains(attachment, "Notes &lt;draft&gt;.txt") {
+		t.Fatal("expected escaped attachment filename in History")
+	}
+	_, _ = w.db.Collection("changeHistory").DeleteOne(ctx, bson.M{"_id": "document-removal"})
 	for i := range 25 {
 		if _, err := w.db.Collection("changeHistory").InsertOne(ctx, bson.M{
 			"_id": fmt.Sprintf("description-%d", i), "boardId": board.ID, "userId": ann.ID,
