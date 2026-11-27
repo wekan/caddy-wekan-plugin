@@ -146,6 +146,20 @@ func TestWipLimitsAndRestore(t *testing.T) {
 	if c.Archived || c.ListID != rb.List {
 		t.Errorf("restored to its own list: %v %s", c.Archived, c.ListID)
 	}
+	var savedLimit, savedHard, savedSoft bool
+	for _, row := range historyRows(t, w, rb.ID) {
+		content, _ := row["newContent"].(map[string]any)
+		if row["entityType"] != "list" || row["entityId"] != rb.List || content["field"] != "wipLimit" {
+			continue
+		}
+		snapshot, _ := content["value"].(map[string]any)
+		savedLimit = savedLimit || historyNumber(snapshot["value"]) == 1
+		savedHard = savedHard || (snapshot["enabled"] == true && snapshot["soft"] != true)
+		savedSoft = savedSoft || (snapshot["enabled"] == true && snapshot["soft"] == true)
+	}
+	if !savedLimit || !savedHard || !savedSoft {
+		t.Fatalf("missing WIP History snapshots for value, hard or soft limit: %t %t %t", savedLimit, savedHard, savedSoft)
+	}
 }
 
 func TestWipLimitBlocksRestore(t *testing.T) {
