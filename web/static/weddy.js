@@ -2170,6 +2170,20 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         if (dragging === 0 && stale) reloadBoard();
       });
   });
+  // Only the card on the board route closes on a plain canvas click.
+  up.on('click', '.board-canvas', function (event, canvas) {
+    var target = event.target;
+    if (event.defaultPrevented || event.button !== 0 || dragging || itemDragJustEnded ||
+        !target.closest || target.closest('a, button, input, textarea, select, label, form, [contenteditable], .js-card-details, .js-pop-over')) return;
+    var board = canvas.closest('.board-wrapper');
+    var card = board && board.querySelector(':scope > .js-card-details');
+    if (!card) return;
+    var selection = window.getSelection();
+    if (selection && !selection.isCollapsed &&
+        (card.contains(selection.anchorNode) || card.contains(selection.focusNode))) return;
+    var close = card.querySelector('.js-close-card-details');
+    if (close) close.click();
+  });
   // The click that ends a drag does not open the item's editor.
   document.addEventListener('click', function (event) {
     if (itemDragJustEnded) { event.preventDefault(); event.stopPropagation(); }
