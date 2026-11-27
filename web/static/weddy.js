@@ -423,7 +423,26 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     openPopOverFrom('member-date-settings', 'member-menu');
   });
-  up.on('submit', '.js-pop-over form.js-date-format-form', function (event, form) {
+  up.on('click', '.js-open-board-date-settings', function (event) {
+    event.preventDefault();
+    openPopOverFrom('board-date-settings', 'board-menu');
+  });
+  up.on('submit', '.js-pop-over form.js-date-format-form[data-board]', function (event, form) {
+    event.preventDefault();
+    if (form.dataset.saving) return;
+    form.dataset.saving = '1';
+    var format = form.querySelector('.js-date-format-select').value;
+    var enabled = form.querySelector('.js-date-format-override').checked;
+    callAsync('setBoardDateFormat', form.dataset.board, format, enabled)
+      .then(function () { return up.reload('.board-wrapper'); })
+      .then(function () { if (form.isConnected) closePopOvers(); })
+      .catch(function (e) {
+        var error = form.querySelector('.js-date-format-error');
+        error.textContent = e.reason || e.message;
+        error.hidden = false;
+      }).finally(function () { delete form.dataset.saving; });
+  });
+  up.on('submit', '.js-pop-over form.js-date-format-form:not([data-board])', function (event, form) {
     event.preventDefault();
     if (form.dataset.saving) return;
     form.dataset.saving = '1';

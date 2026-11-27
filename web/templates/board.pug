@@ -296,6 +296,10 @@
             |  {{t $.L "card-settings"}}
         if .Board.AdminOf .User.ID
           li
+            a.js-open-board-date-settings(href="#")
+              i.fa.fa-calendar
+              |  {{t $.L "date"}}
+          li
             a.js-open-board-announcement(href="#", data-pop="board-announcement", title="{{t $.L `board-announcement`}}")
               i.fa.fa-bullhorn
               |  {{t $.L "board-announcement"}}
@@ -356,6 +360,30 @@
               span
                 i.fa.fa-arrows-v
                 |  {{t $.L "lock-swimlane-height-resize"}}
+    if .IsBoardAdmin
+      template.js-pop-over-template(data-pop="board-date-settings", data-popup="boardDateSettingsPopup", data-title="{{t $.L `date`}}")
+        .content
+          p.js-global-date-format-status
+            strong {{t $.L "date-format-for-everyone"}}
+            if .SiteDate.Enabled
+              |  {{t $.L "r-rule-enabled"}}: {{.SiteDate.Format}}
+            else
+              |  {{t $.L "r-rule-disabled"}}
+          form.js-date-format-form(data-board="{{.Board.ID}}")
+            label.flex
+              if .Board.DateFormatOverride
+                input.js-date-format-override(type="checkbox", checked)
+              else
+                input.js-date-format-override(type="checkbox")
+              |  {{t $.L "date-format"}}
+            select.js-date-format-select(aria-label="{{t $.L `date-format`}}")
+              each f in .BoardDateFormats
+                if .Selected
+                  option(value="{{.Value}}", selected) {{.Name}}
+                else
+                  option(value="{{.Value}}") {{.Name}}
+            p.error.js-date-format-error(hidden)
+            button.primary(type="submit") {{t $.L "save"}}
     template.js-pop-over-template(data-pop="board-list-settings", data-popup="boardListSettingsPopup", data-title="{{t $.L `list`}}")
       .header
         span.header-title {{t $.L "list"}}

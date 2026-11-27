@@ -154,7 +154,20 @@ func TestBoardDateFormatRendering(t *testing.T) {
 	}
 	assertDate(boardURL, "21-03-2026")
 	assertDate(boardURL+"/"+card.ID, "21-03-2026")
-	set("boards", bson.M{"_id": board.ID}, bson.M{"dateFormat": "YYYY-MM-DD-date-only", "dateFormatOverride": true})
+	boardFormatArgs := `["` + board.ID + `","YYYY-MM-DD-date-only",true]`
+	member := w.seedUser(t, "member", "pw")
+	if _, err := w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": board.ID},
+		bson.M{"$push": bson.M{"members": bson.M{"userId": member.ID, "isActive": true}}}); err != nil {
+		t.Fatal(err)
+	}
+	memberClient := w.client(t)
+	body(t, w.signIn(t, memberClient, "member", "pw"))
+	if _, out := methodCall(t, w, memberClient, "setBoardDateFormat", boardFormatArgs); out["error"] != "not-authorized" {
+		t.Fatalf("ordinary member date format change: %v", out)
+	}
+	if _, out := methodCall(t, w, client, "setBoardDateFormat", boardFormatArgs); out["result"] != float64(1) {
+		t.Fatalf("board admin date format change: %v", out)
+	}
 	assertDate(boardURL, "2026-03-21")
 	set("users", bson.M{"_id": u.ID}, bson.M{"profile.dateFormat": "MM-DD-YYYY-date-only", "profile.dateFormatOverride": true})
 	assertDate(boardURL, "03-21-2026")

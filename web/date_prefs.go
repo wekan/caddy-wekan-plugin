@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"slices"
 	"strconv"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -95,6 +96,27 @@ func (s *Server) methodChangeDateFormat(r *http.Request, u *User, args []json.Ra
 		return nil, &methodError{"Match.Error", "Unknown date format"}
 	}
 	return true, s.setProfileFields(r, u, bson.M{"profile.dateFormat": format, "profile.dateFormatOverride": override})
+}
+
+func (s *Server) methodSetBoardDateFormat(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	var boardID, format string
+	var enabled *bool
+	if len(args) != 3 || json.Unmarshal(args[0], &boardID) != nil ||
+		json.Unmarshal(args[1], &format) != nil || json.Unmarshal(args[2], &enabled) != nil ||
+		enabled == nil || !slices.Contains(dateFormats, format) {
+		return nil, &methodError{"Match.Error", "Expected a board, date format and boolean"}
+	}
+	board, err := s.boardFor(r.Context(), boardID, u)
+	if err != nil || !board.AdminOf(u.ID) {
+		return nil, &methodError{"not-authorized", "Only a board admin can change the board date format"}
+	}
+	result, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": eq(boardID)},
+		bson.M{"$set": bson.M{"dateFormat": format, "dateFormatOverride": *enabled, "modifiedAt": time.Now().UTC()}})
+	if err != nil {
+		return nil, err
+	}
+	s.hub.publishFrom(boardID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	return result.MatchedCount, nil
 }
 
 // methodChangeStartDayOfWeek is WeKan's changeStartDayOfWeek(day): 0 to 6.

@@ -1410,3 +1410,24 @@ body.has-hide-focus-outline [tabindex]:focus {
 body.has-hide-focus-outline :is(a, button, input, select, textarea, summary, [tabindex], [role="button"], [contenteditable="true"]):focus-visible {
   box-shadow: none !important;
 }
+
+/* WeKan's dateFormatSettings.css: labelled native checkboxes. */
+.js-date-format-form input[type="checkbox"] {
+  display: inline-block;
+  visibility: visible;
+  position: static;
+  inset-inline-start: auto;
+  width: 16px;
+  height: 16px;
+  min-height: 0;
+  flex: 0 0 16px;
+  padding: 0;
+  margin: 0;
+  margin-inline-end: 6px;
+  appearance: auto;
+  cursor: pointer;
+}
+.js-date-format-form > label.flex {
+  display: flex;
+  align-items: center;
+}

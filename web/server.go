@@ -947,6 +947,16 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		data["RestoreSkipped"] = strings.ReplaceAll(tr(lang, "restore-all-skipped-wip-limit"), "__count__", strconv.Itoa(n))
 	}
 	data["CanInvite"] = canInviteToBoard(u, b, s.inviteRoles(r))
+	data["SiteDate"] = siteDate
+	boardFormat := b.DateFormat
+	if !slices.Contains(dateFormats, boardFormat) {
+		boardFormat = dateFormats[0]
+	}
+	var boardFormats []dateOption
+	for _, f := range dateFormats {
+		boardFormats = append(boardFormats, dateOption{Value: f, Name: f, Selected: f == boardFormat})
+	}
+	data["BoardDateFormats"] = boardFormats
 	data["IsBoardAdmin"] = b.AdminOf(u.ID)
 	data["CardSettings"] = s.cardSettingsPanes(r.Context(), b, u, lang)
 	data["CardSettingsSplit"] = cardSettingsSplitOf(u)
