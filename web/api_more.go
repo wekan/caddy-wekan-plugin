@@ -116,7 +116,7 @@ func (s *Server) apiRename(coll string) apiHandler {
 			return
 		}
 		set := bson.M{}
-		if raw, present := req["title"]; present {
+		if raw, present := req["title"]; present && (coll != "lists" || (raw != nil && raw != "")) {
 			title, _ := raw.(string)
 			title = strings.TrimSpace(title)
 			if title == "" || len(title) > 1000 {
@@ -125,7 +125,7 @@ func (s *Server) apiRename(coll string) apiHandler {
 			}
 			set["title"] = title
 		}
-		if raw, present := req["color"]; coll == "lists" && present {
+		if raw := req["color"]; coll == "lists" && raw != nil && raw != "" {
 			color, ok := raw.(string)
 			if !ok || (!cardColors[color] && !hexColor.MatchString(color)) {
 				apiError(w, http.StatusBadRequest, "Invalid list color")
@@ -134,6 +134,10 @@ func (s *Server) apiRename(coll string) apiHandler {
 			set["color"] = color
 		}
 		if len(set) == 0 {
+			if coll == "lists" {
+				writeJSON(w, http.StatusNotFound, map[string]string{"message": "Error"})
+				return
+			}
 			apiError(w, http.StatusBadRequest, "a title is needed")
 			return
 		}

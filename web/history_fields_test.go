@@ -601,6 +601,15 @@ func TestRESTListColorHistory(t *testing.T) {
 			t.Fatalf("color edit returned %d", code)
 		}
 	}
+	if code := call(t, "PUT", path, token, `{"color":null,"title":"Renamed without recoloring"}`, nil); code != 200 {
+		t.Fatalf("rename with a null color returned %d", code)
+	}
+	if code := call(t, "PUT", path, token, `{"color":""}`, nil); code != 404 {
+		t.Fatalf("empty list edit returned %d", code)
+	}
+	if doc := w.s.findDoc(context.Background(), "lists", bson.M{"_id": eq(board.List)}); docString(doc, "color") != "#00aaff" {
+		t.Fatal("optional color values should leave the list color intact")
+	}
 	var id string
 	for _, row := range historyRows(t, w, board.ID) {
 		content, _ := row["newContent"].(map[string]any)
