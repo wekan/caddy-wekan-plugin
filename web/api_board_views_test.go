@@ -24,7 +24,9 @@ func TestBoardViewSettingsAsWeKan(t *testing.T) {
 		"olderDefault": {older, "board-view-swimlanes,board-view-lists,board-view-table,board-view-cal,board-view-calendar-mode,board-view-multiboard-cal"},
 	} {
 		got := normalizeBoardViewOrder(c.in)
-		if len(got) != 40 || strings.Join(got[:6], ",") != c.head {
+		// Every one of WeKan's views, however many there are: the count was
+		// 40 here until WeKan added 14 more (2026-11), and is WeKan's to say.
+		if len(got) != len(boardViewKeys) || strings.Join(got[:6], ",") != c.head {
 			t.Errorf("%s: %v", name, got[:6])
 		}
 	}

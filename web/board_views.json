@@ -199,10 +199,82 @@
    "view": "board-view-column-sets",
    "labelKey": "board-view-column-sets",
    "icon": "fa-columns"
+  },
+  {
+   "view": "board-view-created-resolved",
+   "labelKey": "board-view-created-resolved",
+   "icon": "fa-exchange"
+  },
+  {
+   "view": "board-view-net-flow",
+   "labelKey": "board-view-net-flow",
+   "icon": "fa-balance-scale"
+  },
+  {
+   "view": "board-view-time-in-list",
+   "labelKey": "board-view-time-in-list",
+   "icon": "fa-hourglass-o"
+  },
+  {
+   "view": "board-view-average-age",
+   "labelKey": "board-view-average-age",
+   "icon": "fa-birthday-cake"
+  },
+  {
+   "view": "board-view-throughput-run",
+   "labelKey": "board-view-throughput-run",
+   "icon": "fa-line-chart"
+  },
+  {
+   "view": "board-view-due-date-performance",
+   "labelKey": "board-view-due-date-performance",
+   "icon": "fa-calendar-check-o"
+  },
+  {
+   "view": "board-view-release-burndown",
+   "labelKey": "board-view-release-burndown",
+   "icon": "fa-flag"
+  },
+  {
+   "view": "board-view-epic-progress",
+   "labelKey": "board-view-epic-progress",
+   "icon": "fa-sitemap"
+  },
+  {
+   "view": "board-view-workload",
+   "labelKey": "board-view-workload",
+   "icon": "fa-user-circle"
+  },
+  {
+   "view": "board-view-distribution",
+   "labelKey": "board-view-distribution",
+   "icon": "fa-pie-chart"
+  },
+  {
+   "view": "board-view-dependency-map",
+   "labelKey": "board-view-dependency-map",
+   "icon": "fa-share-alt"
+  },
+  {
+   "view": "board-view-activity-heatmap",
+   "labelKey": "board-view-activity-heatmap",
+   "icon": "fa-th"
+  },
+  {
+   "view": "board-view-website",
+   "labelKey": "board-view-website",
+   "icon": "fa-globe"
+  },
+  {
+   "view": "board-view-shop",
+   "labelKey": "board-view-shop",
+   "icon": "fa-shopping-cart"
   }
  ],
  "i18nKeys": [
+  "board-view-activity-heatmap",
   "board-view-aging-wip",
+  "board-view-average-age",
   "board-view-bigboard",
   "board-view-blocker-analysis",
   "board-view-burndown",
@@ -212,10 +284,15 @@
   "board-view-chat",
   "board-view-column-sets",
   "board-view-control-chart",
+  "board-view-created-resolved",
   "board-view-cumulative-flow",
   "board-view-cycle-time",
   "board-view-dashboard",
+  "board-view-dependency-map",
+  "board-view-distribution",
+  "board-view-due-date-performance",
   "board-view-email",
+  "board-view-epic-progress",
   "board-view-flow-efficiency",
   "board-view-gantt",
   "board-view-gantt-dhtmlx",
@@ -226,21 +303,28 @@
   "board-view-map",
   "board-view-monte-carlo",
   "board-view-multiboard-cal",
+  "board-view-net-flow",
   "board-view-process-behavior",
   "board-view-product-backlog",
   "board-view-pulse",
+  "board-view-release-burndown",
   "board-view-roadmap",
+  "board-view-shop",
   "board-view-size-cycle-time",
   "board-view-sprint-report",
   "board-view-sprints",
   "board-view-stats",
   "board-view-table",
   "board-view-throughput-histogram",
+  "board-view-throughput-run",
   "board-view-time",
+  "board-view-time-in-list",
   "board-view-timeline",
   "board-view-velocity",
   "board-view-version-control",
+  "board-view-website",
   "board-view-wip-run",
+  "board-view-workload",
   "swimlanes"
  ]
 }

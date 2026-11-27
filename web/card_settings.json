@@ -23,6 +23,22 @@
    }
   },
   {
+   "key": "minicardMenu",
+   "icons": [
+    "fa-bars"
+   ],
+   "label": [
+    "cardDetailsActionsPopup-title"
+   ],
+   "labelSeparator": " ",
+   "minicard": {
+    "after": "collapse",
+    "kind": "board",
+    "field": "allowsMinicardMenu",
+    "default": true
+   }
+  },
+  {
    "key": "labelsAboveTitle",
    "icons": [
     "fa-arrow-up"
@@ -1195,6 +1211,94 @@
    }
   },
   {
+   "key": "blocked",
+   "icons": [
+    "fa-ban"
+   ],
+   "label": [
+    "card-blocked"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "dependencies",
+    "kind": "board",
+    "field": "allowsBlockedOnCard",
+    "default": false
+   },
+   "minicard": {
+    "after": "dependencies",
+    "kind": "board",
+    "field": "allowsBlockedOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "classOfService",
+   "icons": [
+    "fa-road"
+   ],
+   "label": [
+    "class-of-service"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "blocked",
+    "kind": "board",
+    "field": "allowsClassOfServiceOnCard",
+    "default": false
+   },
+   "minicard": {
+    "after": "blocked",
+    "kind": "board",
+    "field": "allowsClassOfServiceOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "moscow",
+   "icons": [
+    "fa-sort-amount-desc"
+   ],
+   "label": [
+    "moscow-priority"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "classOfService",
+    "kind": "board",
+    "field": "allowsMoscowOnCard",
+    "default": false
+   },
+   "minicard": {
+    "after": "classOfService",
+    "kind": "board",
+    "field": "allowsMoscowOnMinicard",
+    "default": false
+   }
+  },
+  {
+   "key": "wsjf",
+   "icons": [
+    "fa-balance-scale"
+   ],
+   "label": [
+    "wsjf-score"
+   ],
+   "labelSeparator": " ",
+   "card": {
+    "after": "moscow",
+    "kind": "board",
+    "field": "allowsWsjfOnCard",
+    "default": false
+   },
+   "minicard": {
+    "after": "moscow",
+    "kind": "board",
+    "field": "allowsWsjfOnMinicard",
+    "default": false
+   }
+  },
+  {
    "key": "scrumSprint",
    "icons": [
     "fa-repeat"
@@ -1358,9 +1462,14 @@
    "keys": [
     "cardNumber",
     "collapse",
+    "minicardMenu",
     "parentCard",
     "linkedCard",
     "dependencies",
+    "blocked",
+    "classOfService",
+    "moscow",
+    "wsjf",
     "cardSortingByNumber",
     "showLists",
     "listTitle",
@@ -1526,6 +1635,7 @@
   "attachment-count",
   "attachments",
   "card",
+  "card-blocked",
   "card-comments-on-minicard",
   "card-dependencies",
   "card-due",
@@ -1539,10 +1649,12 @@
   "card-show-lists",
   "card-sorting-by-number",
   "card-start",
+  "cardDetailsActionsPopup-title",
   "cardDrawingPopup-title",
   "checklist-count",
   "checklist-from-description",
   "checklists",
+  "class-of-service",
   "collapse",
   "comments",
   "cover-image",
@@ -1559,6 +1671,7 @@
   "list",
   "location",
   "members",
+  "moscow-priority",
   "number",
   "parent-card",
   "poker-question",
@@ -1582,6 +1695,7 @@
   "text-notes",
   "time",
   "title",
-  "vote-question"
+  "vote-question",
+  "wsjf-score"
  ]
 }
