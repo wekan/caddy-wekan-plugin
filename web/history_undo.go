@@ -219,7 +219,11 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 		if !ok || coll == "" {
 			return false
 		}
-		res, err := s.db.Collection(coll).UpdateOne(ctx, bson.M{"_id": eq(docString(row, "entityId"))}, bson.M{"$set": bson.M{field: value}})
+		filter := bson.M{"_id": eq(docString(row, "entityId"))}
+		if coll == "lists" && field == "wipLimit" {
+			filter["boardId"] = eq(docString(row, "boardId"))
+		}
+		res, err := s.db.Collection(coll).UpdateOne(ctx, filter, bson.M{"$set": bson.M{field: value}})
 		if err != nil || res.MatchedCount == 0 {
 			return false
 		}
@@ -449,6 +453,22 @@ func (s *Server) requireHistoryRowAccess(ctx context.Context, u *User, row map[s
 	hr := &historyReader{s: s, ctx: ctx, u: u, boards: map[string]*historyBoardScope{}}
 	if !hr.readable(row) {
 		return denied
+	}
+	if docString(row, "entityType") == "list" {
+		for _, side := range []string{"previousContent", "newContent"} {
+			content, _ := row[side].(map[string]any)
+			if docString(content, "field") == "wipLimit" {
+				list := s.findDoc(ctx, "lists", bson.M{"_id": eq(docString(row, "entityId")), "boardId": eq(docString(row, "boardId"))})
+				if list == nil {
+					return denied
+				}
+				board, err := s.boardFor(ctx, docString(row, "boardId"), u)
+				if err != nil || !board.AdminOf(u.ID) {
+					return denied
+				}
+				break
+			}
+		}
 	}
 	cardID := docString(row, "cardId")
 	if cardID == "" && docString(row, "entityType") == "card" {

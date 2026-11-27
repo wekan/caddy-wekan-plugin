@@ -659,14 +659,30 @@ func TestRESTListWIPHistory(t *testing.T) {
 	if code := call(t, "PUT", path, token, `{"wipLimit":{"value":3,"enabled":true,"soft":false}}`, nil); code != 200 {
 		t.Fatalf("WIP edit returned %d", code)
 	}
+	var id string
 	for _, row := range historyRows(t, w, board.ID) {
 		content, _ := row["newContent"].(map[string]any)
 		if row["entityId"] == board.List && row["group"] == "title" && content["field"] == "wipLimit" {
 			value, _ := content["value"].(map[string]any)
 			if historyNumber(value["value"]) == 3 && value["enabled"] == true && value["soft"] == false {
-				return
+				id = docString(row, "_id")
 			}
 		}
 	}
-	t.Fatal("expected the WIP limit in list History")
+	if id == "" {
+		t.Fatal("expected the WIP limit in list History")
+	}
+	if code := call(t, "PUT", path, token, `{"wipLimit":{"value":8,"enabled":false,"soft":true}}`, nil); code != 200 {
+		t.Fatalf("second WIP edit returned %d", code)
+	}
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	back := "/b/" + board.ID + "/history?list=" + board.List
+	response, _ := post(t, c, w.srv.URL+"/b/"+board.ID+"/history/restore", url.Values{"id": {id}, "back": {back}})
+	doc := w.s.findDoc(context.Background(), "lists", bson.M{"_id": eq(board.List)})
+	limit, _ := doc["wipLimit"].(map[string]any)
+	if response.StatusCode != http.StatusSeeOther || historyNumber(limit["value"]) != 3 ||
+		limit["enabled"] != true || limit["soft"] != false {
+		t.Fatalf("restore returned %d, WIP limit = %v", response.StatusCode, limit)
+	}
 }
