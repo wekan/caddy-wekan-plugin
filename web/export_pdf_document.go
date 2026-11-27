@@ -134,6 +134,30 @@ func len16(s string) int { return len(toU16(s)) }
 // slice16 is String.prototype.slice(a, b) on UTF-16 units.
 func slice16(s string, a, b int) string { return toU16(s).slice(a, b).str() }
 
+// pdfLineEnd keeps a UTF-16 pair together when a line is full.
+func pdfLineEnd(text u16s, start, width int) int {
+	end := min(start+max(1, width), len(text))
+	if end < len(text) && text[end-1] >= 0xD800 && text[end-1] <= 0xDBFF &&
+		text[end] >= 0xDC00 && text[end] <= 0xDFFF {
+		if end-start == 1 {
+			return end + 1
+		}
+		return end - 1
+	}
+	return end
+}
+
+func pdfLineChunks(text string, width int) []string {
+	var chunks []string
+	units := toU16(text)
+	for start := 0; start < len(units); {
+		end := pdfLineEnd(units, start, width)
+		chunks = append(chunks, units[start:end].str())
+		start = end
+	}
+	return chunks
+}
+
 // --- Windows-1252
 
 var cp1252High = map[rune]byte{'€': 0x80, '‚': 0x82, 'ƒ': 0x83, '„': 0x84, '…': 0x85, '†': 0x86, '‡': 0x87, 'ˆ': 0x88, '‰': 0x89,
@@ -328,10 +352,7 @@ func wrapLine(line string, width int) []string {
 			out = append(out, it)
 			continue
 		}
-		u := toU16(it)
-		for i := 0; i < len(u); i += width {
-			out = append(out, u.slice(i, i+width).str())
-		}
+		out = append(out, pdfLineChunks(it, width)...)
 	}
 	return out
 }
@@ -366,7 +387,8 @@ func pdfColumns(pairs [][]any) pdfLine {
 		text := head + pdfStr(pairAt(c, 1))
 		clipped := text
 		if len16(text) > room {
-			clipped = slice16(text, 0, room-1) + "…"
+			units := toU16(text)
+			clipped = units[:pdfLineEnd(units, 0, room-1)].str() + "…"
 		}
 		hl := min(len16(head), len16(clipped))
 		runs = append(runs, pdfRun{Text: slice16(clipped, 0, hl), Bold: true}, pdfRun{Text: slice16(clipped, hl, len16(clipped))})
@@ -419,13 +441,11 @@ func pdfColumnRows(pairs [][]any) []pdfLine {
 		if len16(head)+len16(body) <= room {
 			cs = append(cs, chunk{head + body, len16(head)})
 		} else {
-			hu, bu := toU16(head), toU16(body)
-			for off := 0; off < len(hu); off += room {
-				t := hu.slice(off, off+room).str()
-				cs = append(cs, chunk{t, len16(t)})
+			for _, text := range pdfLineChunks(head, room) {
+				cs = append(cs, chunk{text, len16(text)})
 			}
-			for off := 0; off < len(bu); off += room {
-				cs = append(cs, chunk{bu.slice(off, off+room).str(), 0})
+			for _, text := range pdfLineChunks(body, room) {
+				cs = append(cs, chunk{text, 0})
 			}
 		}
 		if len(cs) == 0 {
@@ -1215,15 +1235,15 @@ func wrapRichTextBlock(text, indent string) []pdfLine {
 				}
 				continue
 			}
-			rest := pdfRun{w.text, w.bold, w.italic}
-			for len16(rest.Text) > width {
+			parts := pdfLineChunks(w.text, width)
+			for _, part := range parts[:len(parts)-1] {
 				if length > 0 {
 					flush()
 				}
-				add(pdfRun{slice16(rest.Text, 0, width), rest.Bold, rest.Italic})
-				rest.Text = slice16(rest.Text, width, len16(rest.Text))
+				add(pdfRun{part, w.bold, w.italic})
 				flush()
 			}
+			rest := pdfRun{parts[len(parts)-1], w.bold, w.italic}
 			if rest.Text == "" {
 				continue
 			}

@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -163,5 +164,20 @@ func TestExportPDFUsesUnicodeFont(t *testing.T) {
 	glyph, err := program.face.GlyphIndex(nil, '日')
 	if err != nil || glyph == 0 {
 		t.Fatal("bundled Unifont is missing the Japanese glyph")
+	}
+}
+
+func TestPDFWrapKeepsSupplementaryCharacter(t *testing.T) {
+	before := strings.Repeat("a", pdfTextWidth-1)
+	text := before + "😀z"
+	if got := wrapLine(text, pdfTextWidth); !reflect.DeepEqual(got, []string{before, "😀z"}) {
+		t.Fatalf("wrapped plain text: %q", got)
+	}
+	rich := wrapRichTextBlock("**"+text+"**", "")
+	if len(rich) != 2 || !strings.Contains(string(buildExportPdfBuffer(rich)), "<D83DDE00>") {
+		t.Fatalf("wrapped rich text: %+v", rich)
+	}
+	if got := pdfLineChunks("😀z", 1); !reflect.DeepEqual(got, []string{"😀", "z"}) {
+		t.Fatalf("one-unit width: %q", got)
 	}
 }
