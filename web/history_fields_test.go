@@ -444,3 +444,29 @@ func TestAttachmentHistory(t *testing.T) {
 		t.Error("negative: an import recorded")
 	}
 }
+
+func TestRESTTimeCorrectionHistory(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	token := login(t, w, "ann")
+	board := newRESTBoard(t, w, token, "Time")
+	path := w.srv.URL + "/api/boards/" + board.ID + "/lists/" + board.List + "/cards/" + board.Card
+	for _, body := range []string{`{"spentTime":-1}`, `{"spentTime":"NaN"}`, `{"isOverTime":[]}`} {
+		if code := call(t, "PUT", path, token, body, nil); code != 400 {
+			t.Fatalf("invalid correction %s returned %d", body, code)
+		}
+	}
+	if code := call(t, "PUT", path, token, `{"spentTime":"1.5","isOverTime":true}`, nil); code != 200 {
+		t.Fatalf("correct time returned %d", code)
+	}
+	got := map[string]any{}
+	for _, row := range historyRows(t, w, board.ID) {
+		if row["group"] == "dates" {
+			content, _ := row["newContent"].(map[string]any)
+			got[docString(content, "field")] = content["value"]
+		}
+	}
+	if got["spentTime"] != 1.5 || got["isOvertime"] != true {
+		t.Fatalf("time history = %v", got)
+	}
+}

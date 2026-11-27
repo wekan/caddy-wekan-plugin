@@ -3,9 +3,11 @@ package web
 import (
 	"encoding/json"
 	"errors"
+	"math"
 	"mime"
 	"net"
 	"net/http"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -567,6 +569,30 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 	if err != nil {
 		apiError(w, parentStatus(err), err.Error())
 		return
+	}
+	if value, exists := req["spentTime"]; exists {
+		hours, ok := value.(float64)
+		if raw, isString := value.(string); isString {
+			var err error
+			hours, err = strconv.ParseFloat(strings.TrimSpace(raw), 64)
+			ok = err == nil
+		}
+		if !ok || math.IsNaN(hours) || math.IsInf(hours, 0) || hours < 0 {
+			apiError(w, http.StatusBadRequest, "Invalid spentTime")
+			return
+		}
+		set["spentTime"] = hours
+	}
+	if value, exists := req["isOverTime"]; exists {
+		switch value {
+		case true, "true":
+			set["isOvertime"] = true
+		case false, "false":
+			set["isOvertime"] = false
+		default:
+			apiError(w, http.StatusBadRequest, "Invalid isOverTime")
+			return
+		}
 	}
 	// The card's custom field values, as WeKan's PUT takes them: under
 	// assertFieldWrite - a change to a value the caller may not read or write
