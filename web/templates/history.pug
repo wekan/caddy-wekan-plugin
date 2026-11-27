@@ -19,6 +19,12 @@
     form.history-controls(method="get", action="{{.Action}}")
       if .CardID
         input(type="hidden", name="card", value="{{.CardID}}")
+      if .ListID
+        input(type="hidden", name="list", value="{{.ListID}}")
+      if .SwimlaneID
+        input(type="hidden", name="swimlane", value="{{.SwimlaneID}}")
+      if .Group
+        input(type="hidden", name="group", value="{{.Group}}")
       if .ActiveUser
         input(type="hidden", name="user", value="{{.ActiveUser}}")
       input.js-history-search(type="search", name="q", value="{{.Search}}", placeholder="{{t $.L `search`}}", aria-label="{{t $.L `search`}}")

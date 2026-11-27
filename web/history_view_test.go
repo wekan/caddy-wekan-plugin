@@ -44,6 +44,17 @@ func TestHistoryView(t *testing.T) {
 	if _, h := get(t, c, page+"?user="+ann.ID); strings.Count(h, "js-history-row") != 2 {
 		t.Error("a contributor's changes")
 	}
+	var placement Card
+	if err := w.db.Collection("cards").FindOne(ctx, bson.M{"_id": rb.Card}).Decode(&placement); err != nil {
+		t.Fatal(err)
+	}
+	for scope, id := range map[string]string{"list": placement.ListID, "swimlane": placement.SwimlaneID} {
+		res, h := get(t, c, page+"?"+scope+"="+id+"&q=banana")
+		if id == "" || res.StatusCode != http.StatusOK || strings.Count(h, "js-history-row") != 1 ||
+			!strings.Contains(h, `name="`+scope+`" value="`+id+`"`) {
+			t.Errorf("filtered %s History: %d", scope, res.StatusCode)
+		}
+	}
 	// The menus lead there.
 	if _, h := get(t, c, w.srv.URL+"/b/"+rb.ID+"/"+board.Slug+"/"+rb.Card); !strings.Contains(h, `href="/b/`+rb.ID+`/history"`) ||
 		!strings.Contains(h, `href="/b/`+rb.ID+`/history?card=`+rb.Card+`"`) {
@@ -52,8 +63,8 @@ func TestHistoryView(t *testing.T) {
 	// Restore the older row from the page: its value is the description again.
 	var first bson.M
 	_ = w.db.Collection("changeHistory").FindOne(ctx, bson.M{"boardId": rb.ID, "newContent.value": "First text"}).Decode(&first)
-	res, _ := post(t, c, w.srv.URL+"/b/"+rb.ID+"/history/restore", url.Values{"id": {docString(first, "_id")}, "back": {"/b/" + rb.ID + "/history"}})
-	if res.StatusCode != http.StatusSeeOther {
+	res, _ := post(t, c, w.srv.URL+"/b/"+rb.ID+"/history/restore", url.Values{"id": {docString(first, "_id")}, "back": {"/b/" + rb.ID + "/history?list=" + placement.ListID}})
+	if res.StatusCode != http.StatusSeeOther || res.Header.Get("Location") != "/b/"+rb.ID+"/history?list="+placement.ListID {
 		t.Fatalf("restore: %d", res.StatusCode)
 	}
 	var card bson.M

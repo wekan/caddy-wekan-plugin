@@ -1065,6 +1065,10 @@
     template.js-pop-over-template(data-pop="list-menu", data-title="{{t $.L `listActionPopup-title`}}")
       ul.pop-over-list
         li
+          a.js-open-list-history(href="/b/{{.Board.ID}}/history")
+            i.fa.fa-history
+            |  {{t $.L "history"}}
+        li
           a.js-add-card.list-header-plus-top(href="#")
             | ↑ {{t $.L "add-card-to-top-of-list"}}
         li
@@ -1155,6 +1159,10 @@
     //- #1173: a swimlane's Export and Import (swimlaneHeader.jade).
     template.js-pop-over-template(data-pop="swimlane-menu", data-title="{{t $.L `swimlaneActionPopup-title`}}")
       ul.pop-over-list
+        li
+          a.js-open-swimlane-history(href="/b/{{.Board.ID}}/history")
+            i.fa.fa-history
+            |  {{t $.L "history"}}
         li
           a.js-export-swimlane(href="#")
             i.fa.fa-upload

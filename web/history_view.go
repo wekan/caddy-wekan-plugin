@@ -163,6 +163,21 @@ func (s *Server) historyViewPage(w http.ResponseWriter, r *http.Request, u *User
 		req.Scope, req.ScopeID = "card", c.ID
 		back, backTitle = back+"/"+c.ID, c.Title
 	}
+	for _, scope := range []struct{ key, collection string }{{"list", "lists"}, {"swimlane", "swimlanes"}} {
+		id := q.Get(scope.key)
+		if id == "" {
+			continue
+		}
+		if req.Scope != "board" {
+			http.Error(w, "ambiguous history scope", http.StatusBadRequest)
+			return
+		}
+		if !validID(id) || s.findDoc(r.Context(), scope.collection, bson.M{"_id": eq(id), "boardId": eq(b.ID)}) == nil {
+			http.Error(w, "not found", http.StatusNotFound)
+			return
+		}
+		req.Scope, req.ScopeID = scope.key, id
+	}
 	s.renderHistory(w, r, u, req, "/b/"+b.ID+"/history", "/b/"+b.ID+"/history/restore", back, backTitle, cardID, b)
 }
 
@@ -180,7 +195,7 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 	}
 	link := func(mod func(url.Values)) string {
 		v := url.Values{}
-		for _, k := range []string{"card", "q", "user", "group"} {
+		for _, k := range []string{"card", "list", "swimlane", "q", "user", "group"} {
 			if q.Get(k) != "" {
 				v.Set(k, q.Get(k))
 			}
@@ -227,7 +242,7 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 			Link: link(func(v url.Values) { v.Set("user", id); v.Del("page") })})
 	}
 	data := map[string]any{"Title": tr(lang, "history"), "User": u, "Rows": rows, "Search": req.Search, "CardID": cardID,
-		"ActiveUser": req.UserID, "Contributors": cs, "AllLink": link(func(v url.Values) { v.Del("user"); v.Del("page") }),
+		"ListID": q.Get("list"), "SwimlaneID": q.Get("swimlane"), "Group": req.Group, "ActiveUser": req.UserID, "Contributors": cs, "AllLink": link(func(v url.Values) { v.Del("user"); v.Del("page") }),
 		"Page": pageN, "Pages": pages, "Action": base, "RestoreAction": restore,
 		"Self": link(func(url.Values) {}), "Back": back, "BackTitle": backTitle}
 	if b != nil {
@@ -249,14 +264,35 @@ func (s *Server) historyRestorePage(w http.ResponseWriter, r *http.Request, u *U
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
-	_ = r.ParseForm()
-	ids := r.Form["id"]
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "bad form", http.StatusBadRequest)
+		return
+	}
+	ids := r.PostForm["id"]
+	back := historyBack(b.ID, r.PostForm.Get("back"))
+	target, err := url.Parse(back)
+	if err != nil {
+		http.Error(w, "bad history scope", http.StatusBadRequest)
+		return
+	}
+	for _, id := range ids {
+		filter := bson.M{"_id": eq(id), "boardId": eq(b.ID)}
+		for _, scope := range []string{"card", "list", "swimlane"} {
+			if value := target.Query().Get(scope); value != "" {
+				filter[scope+"Id"] = eq(value)
+			}
+		}
+		if !validID(id) || s.findDoc(r.Context(), "changeHistory", filter) == nil {
+			http.Error(w, "history row outside scope", http.StatusForbidden)
+			return
+		}
+	}
 	raw, _ := jsonMarshalArgs(ids)
 	if _, err := s.methodHistoryRestore(r, u, raw); err != nil {
 		http.Error(w, err.Error(), http.StatusForbidden)
 		return
 	}
-	http.Redirect(w, r, historyBack(b.ID, r.FormValue("back")), http.StatusSeeOther)
+	http.Redirect(w, r, back, http.StatusSeeOther)
 }
 
 // historyBack is where a board's Restore goes back to: the board's own

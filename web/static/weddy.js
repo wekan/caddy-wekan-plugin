@@ -2058,6 +2058,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     menuLane = el.getAttribute('data-swimlane');
     openPopOver('swimlane-menu');
+    var history = document.querySelector('.js-pop-over .js-open-swimlane-history');
+    if (history) history.href += '?swimlane=' + encodeURIComponent(menuLane);
   });
   up.on('click', '.js-pop-over .js-export-swimlane, .js-pop-over .js-import-swimlane', function (event, el) {
     event.preventDefault();
@@ -4002,6 +4004,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     menuList = el.closest('.js-list');
     openPopOver('list-menu');
+    var history = document.querySelector('.js-pop-over .js-open-list-history');
+    if (history) history.href += '?list=' + encodeURIComponent(el.dataset.list);
     var w = document.querySelector('.js-pop-over .js-toggle-watch-list');
     if (w) w.textContent = menuList.dataset.watching ? w.dataset.unwatch : w.dataset.watch;
   });
