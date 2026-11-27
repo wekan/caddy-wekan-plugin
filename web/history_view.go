@@ -55,6 +55,10 @@ func historyViewLabel(lang string, row, content map[string]any) string {
 			field := docString(content, "field")
 			return tr(lang, "card-"+strings.TrimSuffix(field, "At"))
 		}
+	case "archived":
+		if docString(row, "group") == "lifecycle" {
+			return tr(lang, "archived")
+		}
 	case "wipLimit":
 		if entity == "list" {
 			return tr(lang, "edit-wip-limit")
@@ -165,7 +169,7 @@ func historySummary(lang string, row, content map[string]any) string {
 		return x
 	case bool:
 		switch docString(content, "field") {
-		case "dueComplete", "isOvertime", "isFinished", "hideCheckedChecklistItems", "hideAllChecklistItems":
+		case "dueComplete", "isOvertime", "isFinished", "hideCheckedChecklistItems", "hideAllChecklistItems", "archived":
 			if x {
 				return tr(lang, "yes")
 			}
