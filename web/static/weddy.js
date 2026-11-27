@@ -2103,7 +2103,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (!box || !box.getAttribute('data-sort-url') || box.getAttribute('data-drag') === 'off') return;
     var onHandle = !!event.target.closest('.checklistitem-handle');
     if (box.getAttribute('data-handles') === 'true' ? !onHandle : event.target.closest('button, a, textarea, input, form, .check-box-container')) return;
-    itemDrag = { item: item, box: box, x: event.clientX, y: event.clientY, started: false };
+    itemDrag = { item: item, box: box, target: box, x: event.clientX, y: event.clientY, started: false };
     // A refresh already on its way would replace the item under the pointer:
     // it is called off, and the board catches up after the drop.
     if (up.network.isBusy()) { up.fragment.abort('.board-wrapper'); stale = true; }
@@ -2128,22 +2128,27 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     }
     event.preventDefault();
     d.item.style.top = (event.clientY - d.offset) + 'px';
+    var hit = document.elementFromPoint(event.clientX, event.clientY);
+    var checklist = hit && hit.closest('.js-checklist');
+    var target = checklist && checklist.querySelector('.js-checklist-items');
+    if (target && target.closest('.card-checklist-items') === d.box.closest('.card-checklist-items') &&
+        target.getAttribute('data-sort-url') && target.getAttribute('data-drag') !== 'off') d.target = target;
     var before = null;
-    Array.prototype.some.call(d.box.querySelectorAll(':scope > .js-checklist-item'), function (el) {
+    Array.prototype.some.call(d.target.querySelectorAll(':scope > .js-checklist-item'), function (el) {
       if (el === d.item) return false;
       var r = el.getBoundingClientRect();
       if (event.clientY < r.top + r.height / 2) { before = el; return true; }
       return false;
     });
-    if (before) d.box.insertBefore(d.placeholder, before);
-    else d.box.appendChild(d.placeholder);
+    if (before) d.target.insertBefore(d.placeholder, before);
+    else d.target.appendChild(d.placeholder);
   });
   document.addEventListener('pointerup', function () {
     var d = itemDrag;
     itemDrag = null;
     if (d && !d.started && stale && dragging === 0) setTimeout(reloadBoard, 0);
     if (!d || !d.started) return;
-    d.box.insertBefore(d.item, d.placeholder);
+    d.target.insertBefore(d.item, d.placeholder);
     d.placeholder.remove();
     d.item.classList.remove('ui-sortable-helper');
     document.body.classList.remove('is-dragging-checklist-item');
@@ -2151,8 +2156,15 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     itemDragJustEnded = true;
     setTimeout(function () { itemDragJustEnded = false; }, 0);
     var body = new URLSearchParams();
-    d.box.querySelectorAll(':scope > .js-checklist-item').forEach(function (el) { body.append('item', el.getAttribute('data-item')); });
-    fetch(d.box.getAttribute('data-sort-url'), { method: 'POST', credentials: 'same-origin', body: body, headers: { 'X-Weddy-Page': pageId } })
+    d.target.querySelectorAll(':scope > .js-checklist-item').forEach(function (el) { body.append('item', el.getAttribute('data-item')); });
+    var moved = d.target !== d.box;
+    if (moved) {
+      body.set('from', d.box.closest('.js-checklist').getAttribute('data-checklist'));
+      body.set('moved', d.item.getAttribute('data-item'));
+    }
+    fetch(d.target.getAttribute('data-sort-url'), { method: 'POST', credentials: 'same-origin', body: body, headers: { 'X-Weddy-Page': pageId } })
+      .then(function (response) { if (moved || !response.ok) stale = true; })
+      .catch(function () { stale = true; })
       .finally(function () {
         dragging = Math.max(0, dragging - 1);
         if (dragging === 0 && stale) reloadBoard();

@@ -468,9 +468,18 @@ func TestChecklistItemsSort(t *testing.T) {
 			t.Errorf("negative: %v is not exactly this checklist's items: %d", bad, code)
 		}
 	}
+	resp, err := ann.PostForm(path, url.Values{"from": {"cl2"}, "moved": {"x"}, "item": {"c", "x", "a", "b"}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp.Body.Close()
+	if resp.StatusCode != http.StatusNoContent || order() != "cxab" {
+		t.Fatalf("move from another checklist: %d %s", resp.StatusCode, order())
+	}
+
 	wes := w.client(t)
 	body(t, w.signIn(t, wes, "wes", "pw"))
-	if code := post(wes, "a", "b", "c"); code != http.StatusForbidden || order() != "cab" {
+	if code := post(wes, "a", "b", "c", "x"); code != http.StatusForbidden || order() != "cxab" {
 		t.Errorf("negative: a Worker reorders nothing: %d", code)
 	}
 	// The page: sortable for the editor, with handles when they show them.

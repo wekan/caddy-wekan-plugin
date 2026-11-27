@@ -447,6 +447,20 @@ func (s *Server) sortChecklistItemsPage(w http.ResponseWriter, r *http.Request, 
 		http.Error(w, "bad form", http.StatusBadRequest)
 		return
 	}
+	if !s.boardAllows(r.Context(), b.ID, "allowsChecklistItemDragging") {
+		http.Error(w, "checklist item dragging is disabled", http.StatusForbidden)
+		return
+	}
+	sourceID, movedID := r.PostForm.Get("from"), r.PostForm.Get("moved")
+	if sourceID != "" || movedID != "" {
+		if !validID(sourceID) || !validID(movedID) || sourceID == clID ||
+			s.db.Collection("checklists").FindOne(r.Context(), bson.M{"_id": eq(sourceID), "cardId": eq(c.ID)}).Err() != nil ||
+			s.db.Collection("checklistItems").FindOne(r.Context(),
+				bson.M{"_id": eq(movedID), "checklistId": eq(sourceID), "cardId": eq(c.ID)}).Err() != nil {
+			http.Error(w, "not this card's checklist item", http.StatusBadRequest)
+			return
+		}
+	}
 	order := r.PostForm["item"]
 	cur, err := s.db.Collection("checklistItems").Find(r.Context(), bson.M{"checklistId": eq(clID), "cardId": eq(c.ID)})
 	if err != nil {
@@ -458,6 +472,9 @@ func (s *Server) sortChecklistItemsPage(w http.ResponseWriter, r *http.Request, 
 	have := map[string]bool{}
 	for _, it := range items {
 		have[docString(it, "_id")] = true
+	}
+	if movedID != "" {
+		have[movedID] = true
 	}
 	seen := map[string]bool{}
 	for _, id := range order {
@@ -472,9 +489,27 @@ func (s *Server) sortChecklistItemsPage(w http.ResponseWriter, r *http.Request, 
 		return
 	}
 	now := time.Now().UTC()
+	moveIndex := -1
 	for i, id := range order {
-		_, _ = s.entityUpdateOne(r.Context(), u.ID, "checklistItem", bson.M{"_id": eq(id), "checklistId": eq(clID)},
-			bson.M{"$set": bson.M{"sort": float64(i), "modifiedAt": now}})
+		if id == movedID {
+			moveIndex = i
+			continue
+		}
+		if _, err := s.entityUpdateOne(r.Context(), u.ID, "checklistItem",
+			bson.M{"_id": eq(id), "checklistId": eq(clID), "cardId": eq(c.ID)},
+			bson.M{"$set": bson.M{"sort": float64(i), "modifiedAt": now}}); err != nil {
+			http.Error(w, "could not sort checklist items", http.StatusInternalServerError)
+			return
+		}
+	}
+	if moveIndex >= 0 {
+		result, err := s.entityUpdateOne(r.Context(), u.ID, "checklistItem",
+			bson.M{"_id": eq(movedID), "checklistId": eq(sourceID), "cardId": eq(c.ID)},
+			bson.M{"$set": bson.M{"checklistId": clID, "sort": float64(moveIndex), "modifiedAt": now}})
+		if err != nil || result.MatchedCount != 1 {
+			http.Error(w, "checklist item changed before the drop", http.StatusConflict)
+			return
+		}
 	}
 	// The page that dropped the item shows the order already: other pages
 	// refresh, it does not - a refresh mid-interaction replaced the items.
