@@ -136,6 +136,12 @@ func TestWipLimitsAndRestore(t *testing.T) {
 	if !wip().Soft {
 		t.Fatal("soft")
 	}
+	if out := ann("changeHistory.undoLast", `["`+rb.ID+`"]`); out["error"] != nil || wip().Soft {
+		t.Fatalf("undo soft limit: %v %v", out, wip())
+	}
+	if out := ann("changeHistory.redoLast", `["`+rb.ID+`"]`); out["error"] != nil || !wip().Soft {
+		t.Fatalf("redo soft limit: %v %v", out, wip())
+	}
 	if _, html := get(t, annC, boardURL); strings.Contains(html, `data-pop="restore-card-`+archived+`"`) {
 		t.Error("negative: a soft limit asks for another list")
 	}

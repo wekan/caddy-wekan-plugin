@@ -227,9 +227,34 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 			if value != nil && !isObject {
 				return false
 			}
+			var expected map[string]any
+			if direction != "restore" {
+				side := "previousContent"
+				if direction == "undo" {
+					side = "newContent"
+				}
+				other, _ := row[side].(map[string]any)
+				if other != nil {
+					prior, ok := historyValue(other)
+					if !ok || other["field"] != field {
+						return false
+					}
+					expected, isObject = prior.(map[string]any)
+					if prior != nil && !isObject {
+						return false
+					}
+				}
+			}
 			set, unset := bson.M{}, bson.M{}
 			for _, key := range []string{"value", "enabled", "soft"} {
 				path := "wipLimit." + key
+				if direction != "restore" {
+					if item, exists := expected[key]; exists {
+						filter[path] = bson.M{"$eq": item, "$exists": true}
+					} else {
+						filter[path] = bson.M{"$exists": false}
+					}
+				}
 				if item, exists := snapshot[key]; exists {
 					set[path] = item
 				} else {
