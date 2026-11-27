@@ -271,6 +271,21 @@ func (s *Server) saveProfile(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	fail := func(err error) {
+		var me *methodError
+		if errors.As(err, &me) {
+			http.Redirect(w, r, "/profile?error="+url.QueryEscape(me.Code), http.StatusSeeOther)
+			return
+		}
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	// Edit Profile's username, when Admin Panel lets a user change it.
+	if name := r.FormValue("username"); r.Form.Has("username") && name != u.Username {
+		if err := s.setUsername(r.Context(), u, u.ID, name); err != nil {
+			fail(err)
+			return
+		}
+	}
 	// Edit Profile's address, when Admin Panel lets a user change it.
 	current := ""
 	if len(u.Emails) > 0 {
@@ -278,12 +293,7 @@ func (s *Server) saveProfile(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	if email := strings.TrimSpace(r.FormValue("email")); r.Form.Has("email") && email != current {
 		if err := s.setEmail(r.Context(), u, u.ID, email); err != nil {
-			var me *methodError
-			if errors.As(err, &me) {
-				http.Redirect(w, r, "/profile?error="+url.QueryEscape(me.Code), http.StatusSeeOther)
-				return
-			}
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			fail(err)
 			return
 		}
 	}
@@ -428,6 +438,28 @@ func (s *Server) accountSetting(ctx context.Context, id string) bool {
 	}
 	_ = s.db.Collection("accountSettings").FindOne(ctx, bson.M{"_id": eq(id)}).Decode(&doc)
 	return doc.On
+}
+
+// setUsername is WeKan's, as setEmail: a site admin renames any account, a
+// user their own only while Admin Panel / People / Login allows a username
+// change (accounts-allowUserNameChange). Anything else is not-authorized, so
+// Edit Profile never closes as if it saved; an empty name is invalid, and a
+// name somebody has is taken.
+func (s *Server) setUsername(ctx context.Context, actor *User, userID, username string) error {
+	if !actor.IsAdmin && (actor.ID != userID || !s.accountSetting(ctx, "accounts-allowUserNameChange")) {
+		return &methodError{"not-authorized", "not-authorized"}
+	}
+	if !validID(userID) {
+		return &methodError{"Match.Error", "a user is needed"}
+	}
+	if strings.TrimSpace(username) == "" || len(username) > 255 || strings.ContainsAny(username, "\x00\r\n") {
+		return &methodError{"invalid-username", "invalid-username"}
+	}
+	if s.db.Collection("users").FindOne(ctx, bson.M{"username": eq(username)}).Err() == nil {
+		return &methodError{"username-already-taken", "username-already-taken"}
+	}
+	_, err := s.db.Collection("users").UpdateOne(ctx, bson.M{"_id": eq(userID)}, bson.M{"$set": bson.M{"username": username}})
+	return err
 }
 
 // setEmail is WeKan's: a site admin sets anybody's address, a user their own

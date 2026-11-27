@@ -625,3 +625,81 @@ func TestVerificationMailAtSignUp(t *testing.T) {
 		t.Errorf("negative: no mail server, the sign-up still succeeds: %d", res.StatusCode)
 	}
 }
+
+// Edit Profile saves a user's own new username only while Admin Panel /
+// People / Login allows a username change (WeKan's setUsername): before
+// that the field is read-only and a save renames nothing; never another
+// user's, not a taken or an empty name. A site admin renames anybody.
+func TestProfileUsername(t *testing.T) {
+	w := newTestWeKan(t)
+	u := w.seedUser(t, "ann", "pw")
+	other := w.seedUser(t, "bob", "pw")
+	admin := w.seedUser(t, "root", "pw")
+	ctx := context.Background()
+	_, _ = w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": admin.ID}, bson.M{"$set": bson.M{"isAdmin": true}})
+	name := func(id string) string {
+		var d User
+		_ = w.db.Collection("users").FindOne(ctx, bson.M{"_id": id}).Decode(&d)
+		return d.Username
+	}
+	ann := w.client(t)
+	body(t, w.signIn(t, ann, "ann", "pw"))
+	_, html := get(t, ann, w.srv.URL+"/")
+	if i := strings.Index(html, "js-profile-username"); i < 0 || !strings.Contains(html[i:i+120], "readonly") || strings.Contains(html[i:i+120], `name="username"`) {
+		t.Fatal("the username is read-only while Admin Panel does not allow a change")
+	}
+	save := func(c *http.Client, username string) {
+		res, err := c.PostForm(w.srv.URL+"/profile", url.Values{"fullname": {"Ann"}, "initials": {"A"}, "username": {username}})
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+	}
+	save(ann, "annika")
+	if name(u.ID) != "ann" {
+		t.Fatal("negative: not renamed while Admin Panel does not allow it")
+	}
+	call := func(c *http.Client, args string) map[string]any {
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/setUsername", strings.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := c.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out map[string]any
+		_ = json.NewDecoder(res.Body).Decode(&out)
+		return out
+	}
+	if out := call(ann, `["annika","`+u.ID+`"]`); out["error"] != "not-authorized" {
+		t.Fatalf("negative: setUsername while not allowed: %v", out)
+	}
+	if res, _ := w.db.Collection("accountSettings").UpdateOne(ctx, bson.M{"_id": "accounts-allowUserNameChange"}, bson.M{"$set": bson.M{"booleanValue": true}}); res.MatchedCount != 1 {
+		t.Fatal("accounts-allowUserNameChange exists from the start")
+	}
+	if _, html := get(t, ann, w.srv.URL+"/"); !strings.Contains(html, `name="username"`) {
+		t.Fatal("editable when allowed")
+	}
+	save(ann, "annika")
+	if name(u.ID) != "annika" {
+		t.Fatalf("the user's own new username: %q", name(u.ID))
+	}
+	for _, c := range []struct{ args, want string }{
+		{`["robert","` + other.ID + `"]`, "not-authorized"},
+		{`["bob","` + u.ID + `"]`, "username-already-taken"},
+		{`["   ","` + u.ID + `"]`, "invalid-username"},
+	} {
+		if out := call(ann, c.args); out["error"] != c.want {
+			t.Errorf("negative: %s: %v", c.args, out)
+		}
+	}
+	if name(other.ID) != "bob" || name(u.ID) != "annika" {
+		t.Error("negative: nothing refused was written")
+	}
+	_, _ = w.db.Collection("accountSettings").UpdateOne(ctx, bson.M{"_id": "accounts-allowUserNameChange"}, bson.M{"$set": bson.M{"booleanValue": false}})
+	root := w.client(t)
+	body(t, w.signIn(t, root, "root", "pw"))
+	if out := call(root, `["robert","`+other.ID+`"]`); out["error"] != nil || name(other.ID) != "robert" {
+		t.Errorf("a site admin renames anybody: %v", out)
+	}
+}

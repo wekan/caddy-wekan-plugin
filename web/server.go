@@ -280,6 +280,7 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 		data["MayCreateBoard"] = u.IsAdmin || !s.tableSetting(r.Context(), "tableVisibilityMode-boardCreationAdminOnly")
 		data["PanelMenu"] = s.panelAllowed(r, u)
 		data["AllowEmailChange"] = s.accountSetting(r.Context(), "accounts-allowEmailChange")
+		data["AllowUsernameChange"] = s.accountSetting(r.Context(), "accounts-allowUserNameChange")
 		data["Email"] = ""
 		if len(u.Emails) > 0 {
 			data["Email"] = u.Emails[0].Address

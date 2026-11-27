@@ -202,7 +202,10 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-calendar-s
               textarea.js-profile-fullname(name="fullname", rows="2") {{.User.Profile.Fullname}}
             label
               | {{t $.L "username"}}
-              input.js-profile-username(type="text", value="{{.User.Username}}", readonly)
+              if .AllowUsernameChange
+                input.js-profile-username(type="text", name="username", value="{{.User.Username}}", required)
+              else
+                input.js-profile-username(type="text", value="{{.User.Username}}", readonly)
             label
               | {{t $.L "initials"}}
               input.js-profile-initials(type="text", name="initials", value="{{.User.Profile.Initials}}", maxlength="8")

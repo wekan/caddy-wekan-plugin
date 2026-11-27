@@ -61,6 +61,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"quitBoard":                         s.methodQuitBoard,
 		"/users/update":                     s.methodUpdateUser,
 		"setEmail":                          s.methodSetEmail,
+		"setUsername":                       s.methodSetUsername,
 		"rules.runButton":                   s.methodRunButton,
 		"setNotificationDelivery":           s.methodSetNotificationDelivery,
 		"lists.setRoleExceptions":           s.methodSetListExceptions,
@@ -687,6 +688,19 @@ func (s *Server) methodInsertComment(r *http.Request, u *User, args []json.RawMe
 		return nil, &methodError{"Match.Error", err.Error()}
 	}
 	return id, nil
+}
+
+// methodSetUsername is WeKan's setUsername(username, userId).
+func (s *Server) methodSetUsername(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	username, err := stringArg(args, 0)
+	if err != nil {
+		return nil, err
+	}
+	userID, err := stringArg(args, 1)
+	if err != nil {
+		return nil, err
+	}
+	return nil, s.setUsername(r.Context(), u, userID, username)
 }
 
 // methodSetEmail is WeKan's setEmail(email, userId).
