@@ -92,6 +92,19 @@ func TestRESTCardsAndUsers(t *testing.T) {
 		t.Fatalf("one deleteCard activity: %d", n)
 	}
 
+	var removed struct {
+		Previous struct {
+			Document struct {
+				Title string `bson:"title"`
+			} `bson:"document"`
+		} `bson:"previousContent"`
+	}
+	if err := w.db.Collection("changeHistory").FindOne(ctx, bson.M{"boardId": b.ID,
+		"entityId": c.ID, "group": "lifecycle", "changeType": "removed", "userId": u.ID,
+		"listId": l1.ID, "swimlaneId": sw.ID}).Decode(&removed); err != nil || removed.Previous.Document.Title != "Parent" {
+		t.Fatalf("deleted card history snapshot: %+v, %v", removed, err)
+	}
+
 	// Copy to position 0, with checklists.
 	src, _ := w.s.AddCard(ctx, b, u, l1.ID, sw.ID, "Source")
 	_, _ = w.db.Collection("checklists").InsertOne(ctx, bson.M{"_id": "srcChecklist001", "cardId": src.ID, "title": "Steps"})

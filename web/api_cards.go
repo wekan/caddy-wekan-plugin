@@ -70,6 +70,11 @@ func (s *Server) DeleteCard(ctx context.Context, b *Board, u *User, c *Card) err
 			Detail: "card " + c.ID + " left board " + b.ID + " before it was deleted; nothing removed"})
 		return errCardGone
 	}
+	snapshot := bson.M{"_id": c.ID, "boardId": b.ID, "title": c.Title, "listId": c.ListID, "swimlaneId": c.SwimlaneID}
+	row := s.historyLocate(ctx, "card", snapshot)
+	row.EntityType, row.EntityID, row.Group, row.ChangeType = "card", c.ID, "lifecycle", "removed"
+	row.UserID, row.PreviousContent = u.ID, bson.M{"document": snapshot}
+	s.recordHistory(ctx, row)
 	for _, coll := range []string{"checklistItems", "checklists", "card_comments"} {
 		if _, err := s.db.Collection(coll).DeleteMany(ctx, bson.M{"cardId": c.ID}); err != nil {
 			return err
