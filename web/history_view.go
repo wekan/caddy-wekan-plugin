@@ -222,7 +222,7 @@ func historySummary(lang string, row, content map[string]any) string {
 		return jsonNumberOrBool(x)
 	}
 	if docString(row, "group") == "position" {
-		return orDefault(docString(content, "lastMoveReason"), docString(content, "listId"))
+		return historyMoveSummary(docString(content, "listId"), docString(content, "lastMoveReason"))
 	}
 	if doc, ok := content["document"].(map[string]any); ok {
 		for _, key := range []string{"title", "text", "name", "description"} {
@@ -243,6 +243,16 @@ func historySummary(lang string, row, content map[string]any) string {
 		return tr(lang, "history-change-restored")
 	}
 	return ""
+}
+
+func historyMoveSummary(destination, reason string) string {
+	if destination == "" {
+		return reason
+	}
+	if reason == "" {
+		return destination
+	}
+	return destination + " — " + reason
 }
 
 // historyViewPage is GET /b/{board}/history[?card=]: the table.
@@ -333,13 +343,11 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 		summary := historySummary(lang, row, content)
 		if docString(row, "group") == "position" {
 			boardID, listID := docString(row, "boardId"), docString(content, "listId")
-			if validID(boardID) && validID(listID) {
+			destinationBoard := docString(content, "boardId")
+			if (destinationBoard == "" || destinationBoard == boardID) && validID(boardID) && validID(listID) {
 				list := s.findDoc(r.Context(), "lists", bson.M{"_id": eq(listID), "boardId": eq(boardID)})
 				if title := docString(list, "title"); title != "" {
-					summary = title
-					if reason := docString(content, "lastMoveReason"); reason != "" {
-						summary += " — " + reason
-					}
+					summary = historyMoveSummary(title, docString(content, "lastMoveReason"))
 				}
 			}
 		}

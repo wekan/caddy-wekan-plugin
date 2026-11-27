@@ -82,6 +82,14 @@ func TestHistoryView(t *testing.T) {
 	if title := docString(list, "title"); title == "" || !strings.Contains(moved, title+" — Ready for review") {
 		t.Error("expected the list name and move reason")
 	}
+	if _, err := w.db.Collection("changeHistory").UpdateOne(ctx, bson.M{"_id": "move-history"},
+		bson.M{"$set": bson.M{"newContent.boardId": other.ID}}); err != nil {
+		t.Fatal(err)
+	}
+	_, moved = get(t, c, page+"?card="+rb.Card+"&group=position")
+	if !strings.Contains(moved, placement.ListID+" — Ready for review") {
+		t.Fatal("expected the saved destination ID for a move to another board")
+	}
 	// The menus lead there.
 	if _, h := get(t, c, w.srv.URL+"/b/"+rb.ID+"/"+board.Slug+"/"+rb.Card); !strings.Contains(h, `href="/b/`+rb.ID+`/history"`) ||
 		!strings.Contains(h, `href="/b/`+rb.ID+`/history?card=`+rb.Card+`"`) {
@@ -248,7 +256,7 @@ func TestHistoryViewWipLimit(t *testing.T) {
 func TestHistoryViewMoveReason(t *testing.T) {
 	row := map[string]any{"entityType": "card", "group": "position"}
 	content := map[string]any{"listId": "destination", "lastMoveReason": "Ready for review"}
-	if got := historySummary("en", row, content); got != "Ready for review" {
+	if got := historySummary("en", row, content); got != "destination — Ready for review" {
 		t.Errorf("move summary = %q", got)
 	}
 	content["lastMoveReason"] = ""
