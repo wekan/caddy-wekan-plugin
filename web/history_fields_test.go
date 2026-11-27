@@ -535,12 +535,26 @@ func TestRESTDateClearHistory(t *testing.T) {
 	}
 }
 
-func TestRESTListTitleHistory(t *testing.T) {
+func TestRESTContainerTitleHistory(t *testing.T) {
+	for _, tc := range []struct{ scope, collection string }{
+		{"list", "lists"}, {"swimlane", "swimlanes"},
+	} {
+		t.Run(tc.scope, func(t *testing.T) {
+			testRESTContainerTitleHistory(t, tc.scope, tc.collection)
+		})
+	}
+}
+
+func testRESTContainerTitleHistory(t *testing.T, scope, collection string) {
 	w := newTestWeKan(t)
 	w.seedUser(t, "ann", "pw")
 	token := login(t, w, "ann")
 	board := newRESTBoard(t, w, token, "Lists")
-	path := w.srv.URL + "/api/boards/" + board.ID + "/lists/" + board.List
+	entityID := board.List
+	if scope == "swimlane" {
+		entityID = board.Swimlane
+	}
+	path := w.srv.URL + "/api/boards/" + board.ID + "/" + collection + "/" + entityID
 	for _, data := range []string{`{"title":"First list title"}`, `{"title":"Second list title"}`} {
 		if code := call(t, "PUT", path, token, data, nil); code != 200 {
 			t.Fatalf("rename returned %d", code)
@@ -549,7 +563,7 @@ func TestRESTListTitleHistory(t *testing.T) {
 	var id string
 	for _, row := range historyRows(t, w, board.ID) {
 		content, _ := row["newContent"].(map[string]any)
-		if row["entityType"] == "list" && row["entityId"] == board.List && content["value"] == "First list title" {
+		if row["entityType"] == scope && row["entityId"] == entityID && content["value"] == "First list title" {
 			id = docString(row, "_id")
 		}
 	}
@@ -558,7 +572,7 @@ func TestRESTListTitleHistory(t *testing.T) {
 	}
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
-	back := "/b/" + board.ID + "/history?list=" + board.List
+	back := "/b/" + board.ID + "/history?" + scope + "=" + entityID
 	_, html := get(t, c, w.srv.URL+back)
 	if !strings.Contains(html, "First list title") || !strings.Contains(html, "Second list title") {
 		t.Fatal("expected both titles in scoped History")
@@ -567,8 +581,8 @@ func TestRESTListTitleHistory(t *testing.T) {
 	if response.StatusCode != http.StatusSeeOther {
 		t.Fatalf("restore returned %d", response.StatusCode)
 	}
-	list := w.s.findDoc(context.Background(), "lists", bson.M{"_id": eq(board.List)})
-	if title := docString(list, "title"); title != "First list title" {
+	doc := w.s.findDoc(context.Background(), collection, bson.M{"_id": eq(entityID)})
+	if title := docString(doc, "title"); title != "First list title" {
 		t.Fatalf("restored title = %q", title)
 	}
 }
