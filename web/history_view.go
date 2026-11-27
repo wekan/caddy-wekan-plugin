@@ -327,7 +327,11 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 	data := map[string]any{"Title": tr(lang, "history"), "User": u, "Rows": rows, "Search": req.Search, "CardID": cardID,
 		"ListID": q.Get("list"), "SwimlaneID": q.Get("swimlane"), "Group": req.Group, "ActiveUser": req.UserID, "Contributors": cs, "AllLink": link(func(v url.Values) { v.Del("user"); v.Del("page") }),
 		"Page": pageN, "Pages": pages, "Action": base, "RestoreAction": restore,
-		"Self": link(func(url.Values) {}), "Back": back, "BackTitle": backTitle}
+		"Self": link(func(v url.Values) {
+			if pageN > 1 {
+				v.Set("page", strconv.FormatInt(pageN, 10))
+			}
+		}), "Back": back, "BackTitle": backTitle}
 	if b != nil {
 		data["Board"] = b
 	}

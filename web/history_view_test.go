@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -259,4 +260,19 @@ func TestHistoryViewLifecycleFilter(t *testing.T) {
 	if strings.Count(html, "js-history-row") != 1 || !strings.Contains(html, "Only lifecycle") || strings.Contains(html, "Other history") {
 		t.Fatal("expected only the lifecycle row")
 	}
+	for i := range 25 {
+		if _, err := w.db.Collection("changeHistory").InsertOne(ctx, bson.M{
+			"_id": fmt.Sprintf("description-%d", i), "boardId": board.ID, "userId": ann.ID,
+			"group": "description", "entityType": "card", "entityId": board.Card, "cardId": board.Card,
+			"changeType": "edited", "newContent": bson.M{"field": "description", "value": "Other history"},
+		}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	_, html = get(t, c, w.srv.URL+"/b/"+board.ID+"/history?group=description&page=2")
+	if strings.Count(html, "js-history-row") != 1 || !strings.Contains(html, "2 / 2") ||
+		!strings.Contains(html, `name="back" value="/b/`+board.ID+`/history?group=description&amp;page=2"`) {
+		t.Fatal("expected the restore form to return to the second page of the same group")
+	}
+
 }
