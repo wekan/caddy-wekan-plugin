@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
+	"slices"
 	"strconv"
 	"time"
 
@@ -337,6 +338,15 @@ func (s *Server) recordFieldChanges(ctx context.Context, userID, entity string, 
 		batch = fmt.Sprintf("edit-%s-%d", docString(after, "_id"), time.Now().UnixMilli())
 	}
 	for _, c := range changes {
+		// The list row retains the original selection after the retry marker
+		// has been cleared. Ordinary list edits never attach pending data.
+		if entity == "list" && c.Group == "lifecycle" && slices.Contains(fields, "archiveCascadeCards") {
+			if content, ok := c.NewContent.(map[string]any); ok && content["field"] == "archived" {
+				if cards, ok := after["archiveCascadeCards"].([]any); ok {
+					content["archiveCards"] = cards
+				}
+			}
+		}
 		row := where
 		row.EntityType, row.EntityID, row.Group, row.ChangeType = entity, docString(after, "_id"), c.Group, c.ChangeType
 		row.PreviousContent, row.NewContent, row.UserID, row.BatchID = c.PreviousContent, c.NewContent, userID, batch

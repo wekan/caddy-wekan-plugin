@@ -82,6 +82,11 @@ func TestRESTListsSwimlanesAndBoardMoves(t *testing.T) {
 			count("changeHistory", bson.M{"entityId": src.Card, "group": "lifecycle", "newContent.value": action.archive}) != 1 {
 			t.Fatalf("template list %s did not record its card state", action.name)
 		}
+		if count("changeHistory", bson.M{"boardId": src.ID, "entityId": src.List, "group": "lifecycle",
+			"newContent.value": action.archive, "newContent.archiveCards": bson.A{src.Card}}) != 1 {
+			t.Fatalf("template list %s did not keep the card selection in list History", action.name)
+		}
+
 	}
 
 	// A retry resumes a claimed list operation without duplicating the list row.
