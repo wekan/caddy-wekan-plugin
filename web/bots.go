@@ -451,6 +451,9 @@ func (s *Server) methodInsertIntegration(r *http.Request, u *User, args []json.R
 		!(b.AdminOf(u.ID) || u.IsAdmin) {
 		return nil, &methodError{"403", "Access denied"}
 	}
+	if s.refuseWebhookWrite(r, u, "ddp:integrations.insert", "Added a webhook to "+b.ID+" while webhooks are turned off.") {
+		return nil, webhooksOffError
+	}
 	if why := validateOutboundURL(ctx, str("url")); why != "" {
 		return nil, &methodError{"invalid-webhook-url", why}
 	}

@@ -102,6 +102,8 @@ var securityCategories = map[string]securityCategory{
 	"authz.card-copy-overrides":  {Category: "authz", Bleed: "CopyIdentityBleed", Severity: "high", CWE: "CWE-915"},
 	"transfer.sanitized":         {Category: "Import/export validation", Bleed: "ImportExportSanitization", Severity: "warning", NeverBlocks: true},
 	"transfer.limit":             {Category: "Import/export validation", Bleed: "ImportExportValidation", Severity: "medium", NeverBlocks: true},
+	// Turn off all webhooks: a webhook added or changed while it is on.
+	"authz.webhooks-disabled": {Category: "authz", Bleed: "Webhooks turned off", Severity: "medium", CWE: "CWE-284", NeverBlocks: true},
 }
 
 // identityFields make two events the same problem; the actor is not one of them.

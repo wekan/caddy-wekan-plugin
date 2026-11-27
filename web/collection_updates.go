@@ -66,6 +66,9 @@ func (s *Server) methodUpdateIntegration(r *http.Request, u *User, args []json.R
 	if !u.IsAdmin && (s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(boardID)}).Decode(&b) != nil || !b.AdminOf(u.ID)) {
 		return nil, accessDenied
 	}
+	if s.refuseWebhookWrite(r, u, "ddp:integrations.update", "Changed webhook "+id+" while webhooks are turned off.") {
+		return nil, webhooksOffError
+	}
 	set, ok := setOnly(args)
 	if !ok {
 		return nil, accessDenied

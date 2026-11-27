@@ -311,6 +311,10 @@ func (s *Server) webhookHiddenFields(ctx context.Context, p map[string]any) map[
 
 // deliverWebhook posts one body; a blocked address is recorded.
 func (s *Server) deliverWebhook(ctx context.Context, hook bson.M, body []byte) error {
+	// Turn off all webhooks: no request is built or sent (webhooks_switch.go).
+	if s.webhooksOff(ctx) {
+		return errWebhooksOff
+	}
 	target := docString(hook, "url")
 	u, err := url.Parse(target)
 	if err != nil || (u.Scheme != "http" && u.Scheme != "https") || u.Host == "" {
@@ -425,6 +429,9 @@ func (s *Server) sendActivityWebhooks(activity bson.M) {
 	go func() {
 		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 		defer cancel()
+		if s.webhooksOff(ctx) {
+			return // Turn off all webhooks: nothing queued or sent
+		}
 		description := "act-" + docString(activity, "activityType")
 		cur, err := s.db.Collection("integrations").Find(ctx, bson.M{
 			"boardId": bson.M{"$in": bson.A{queryText(boardID), "_global"}}, "enabled": true, "bot": bson.M{"$ne": true},

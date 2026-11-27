@@ -185,6 +185,9 @@ func webhookJobID(integrationID, eventID string) string {
 
 // enqueueWebhook is WeKan's webhookOutbox.enqueue: once per webhook and event.
 func (s *Server) enqueueWebhook(ctx context.Context, integrationID, eventID, groupKey string, body map[string]any, deliverAt time.Time) error {
+	if s.webhooksOff(ctx) {
+		return nil // Turn off all webhooks: nothing is queued
+	}
 	raw, err := json.Marshal(body)
 	if err != nil || len(raw) > 1<<20 {
 		return err
@@ -243,6 +246,9 @@ func webhookRetryDelay(attempts int) time.Duration {
 // drainWebhookIntegration is WeKan's drainIntegration: under the webhook's
 // lease, the earliest due group, up to 100 jobs, sent as one.
 func (s *Server) drainWebhookIntegration(ctx context.Context, integrationID string) {
+	if s.webhooksOff(ctx) {
+		return // Turn off all webhooks: the waiting jobs are kept, untouched
+	}
 	_ = s.withLease(ctx, "notificationWebhookLeases", "webhook:"+integrationID, func() error {
 		jobs := s.db.Collection("notificationWebhookJobs")
 		now := time.Now().UTC()
@@ -304,6 +310,9 @@ func (s *Server) drainWebhookIntegration(ctx context.Context, integrationID stri
 // drainWebhookQueue is WeKan's drain: the webhooks with due jobs, earliest
 // first, a hundred at a time.
 func (s *Server) drainWebhookQueue(ctx context.Context) {
+	if s.webhooksOff(ctx) {
+		return
+	}
 	cur, err := s.db.Collection("notificationWebhookJobs").Aggregate(ctx, bson.A{
 		bson.M{"$match": bson.M{"state": "pending", "nextAttemptAt": bson.M{"$lte": time.Now().UTC()}}},
 		// A group's key is a field of the jobs, not a value: a specification, not a filter.

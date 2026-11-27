@@ -92,6 +92,7 @@ var settingsScalarFields = map[string][]string{
 	"cardsLoading":                      {"string", "all", "lazy"},
 	"globalDateFormat":                  {"string", "YYYY-MM-DD", "DD-MM-YYYY", "MM-DD-YYYY", "YYYY-MM-DD-date-only", "DD-MM-YYYY-date-only", "MM-DD-YYYY-date-only"},
 	"oauthProvidersLoginStyle":          {"string", "popup", "redirect"},
+	"webhooksDisabled":                  {"bool"},
 }
 
 // settingsRequiredFields may be set, never unset.

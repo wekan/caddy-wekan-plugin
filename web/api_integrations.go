@@ -72,6 +72,10 @@ func (s *Server) apiAddIntegration(w http.ResponseWriter, r *http.Request, u *Us
 	if b == nil {
 		return
 	}
+	if s.refuseWebhookWrite(r, u, "rest:POST /api/boards/:boardId/integrations", "REST POST /api/boards/:boardId/integrations on board "+b.ID+" while webhooks are turned off.") {
+		webhooksOffAnswer(w)
+		return
+	}
 	var req struct {
 		URL string `json:"url"`
 	}
@@ -110,6 +114,10 @@ func stringList(v any) ([]string, bool) {
 func (s *Server) apiEditIntegration(w http.ResponseWriter, r *http.Request, u *User) {
 	b := s.apiBoardAdmin(w, r, u)
 	if b == nil {
+		return
+	}
+	if s.refuseWebhookWrite(r, u, "rest:PUT /api/boards/:boardId/integrations/:intId", "REST PUT /api/boards/:boardId/integrations/:intId on board "+b.ID+" while webhooks are turned off.") {
+		webhooksOffAnswer(w)
 		return
 	}
 	doc := s.integrationOf(w, r, b, bson.M{"_id": 1})
@@ -199,6 +207,14 @@ func (s *Server) apiIntegrationActivities(add bool) apiHandler {
 	return func(w http.ResponseWriter, r *http.Request, u *User) {
 		b := s.apiBoardAdmin(w, r, u)
 		if b == nil {
+			return
+		}
+		route := "DELETE /api/boards/:boardId/integrations/:intId/activities"
+		if add {
+			route = "POST /api/boards/:boardId/integrations/:intId/activities"
+		}
+		if s.refuseWebhookWrite(r, u, "rest:"+route, "REST "+route+" on board "+b.ID+" while webhooks are turned off.") {
+			webhooksOffAnswer(w)
 			return
 		}
 		doc := s.integrationOf(w, r, b, bson.M{"_id": 1})
