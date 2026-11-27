@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"compress/gzip"
 	"compress/zlib"
+	"crypto/sha256"
 	_ "embed"
 	"encoding/binary"
 	"fmt"
@@ -26,9 +27,8 @@ var bundledPDFUnifont []byte
 var bundledPDFUnifontUpper []byte
 
 type pdfFontProgram struct {
-	face       *sfnt.Font
-	compressed []byte
-	size       int
+	face *sfnt.Font
+	data []byte
 }
 
 var loadPDFUnifont = sync.OnceValues(func() (pdfFontProgram, error) { return parsePDFUnifont(bundledPDFUnifont) })
@@ -48,15 +48,7 @@ func parsePDFUnifont(data []byte) (pdfFontProgram, error) {
 	if err != nil {
 		return pdfFontProgram{}, err
 	}
-	var compressed bytes.Buffer
-	writer := zlib.NewWriter(&compressed)
-	if _, err := writer.Write(data); err != nil {
-		return pdfFontProgram{}, err
-	}
-	if err := writer.Close(); err != nil {
-		return pdfFontProgram{}, err
-	}
-	return pdfFontProgram{face, compressed.Bytes(), len(data)}, nil
+	return pdfFontProgram{face, data}, nil
 }
 
 type pdfUnicodeFont struct {
@@ -93,9 +85,19 @@ func pdfStream(properties string, data []byte) []byte {
 }
 
 func (f *pdfUnicodeFont) objects(add func([]byte) int) []byte {
-	unifont := f.program
-	program := add(pdfStream(fmt.Sprintf("/Filter /FlateDecode /Length1 %d", unifont.size), unifont.compressed))
-	descriptor := add([]byte(fmt.Sprintf("<< /Type /FontDescriptor /FontName /%s /Flags 4 /FontBBox [0 -125 1000 875] /ItalicAngle 0 /Ascent 875 /Descent -125 /CapHeight 750 /StemV 80 /FontFile2 %d 0 R >>", f.name, program)))
+	subset := subsetPDFTrueType(f.program.data, f.glyphs, f.program.face.NumGlyphs())
+	sum := sha256.Sum256(subset)
+	var tag [6]byte
+	for i := range tag {
+		tag[i] = 'A' + sum[i]%26
+	}
+	subsetName := string(tag[:]) + "+" + f.name
+	var compressed bytes.Buffer
+	writer := zlib.NewWriter(&compressed)
+	_, _ = writer.Write(subset)
+	_ = writer.Close()
+	program := add(pdfStream(fmt.Sprintf("/Filter /FlateDecode /Length1 %d", len(subset)), compressed.Bytes()))
+	descriptor := add([]byte(fmt.Sprintf("<< /Type /FontDescriptor /FontName /%s /Flags 4 /FontBBox [0 -125 1000 875] /ItalicAngle 0 /Ascent 875 /Descent -125 /CapHeight 750 /StemV 80 /FontFile2 %d 0 R >>", subsetName, program)))
 	glyphMap := make([]byte, (len(f.glyphs)+1)*2)
 	for i, glyph := range f.glyphs {
 		binary.BigEndian.PutUint16(glyphMap[(i+1)*2:], uint16(glyph))
@@ -105,7 +107,7 @@ func (f *pdfUnicodeFont) objects(add func([]byte) int) []byte {
 	for _, width := range f.widths {
 		fmt.Fprintf(&widths, " %d", width)
 	}
-	descendant := add([]byte(fmt.Sprintf("<< /Type /Font /Subtype /CIDFontType2 /BaseFont /%s /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> /FontDescriptor %d 0 R /CIDToGIDMap %d 0 R /W [1 [%s ]] >>", f.name, descriptor, mapID, widths.String())))
+	descendant := add([]byte(fmt.Sprintf("<< /Type /Font /Subtype /CIDFontType2 /BaseFont /%s /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> /FontDescriptor %d 0 R /CIDToGIDMap %d 0 R /W [1 [%s ]] >>", subsetName, descriptor, mapID, widths.String())))
 	var cmap strings.Builder
 	cmap.WriteString("/CIDInit /ProcSet findresource begin\n12 dict begin\nbegincmap\n/CIDSystemInfo << /Registry (Adobe) /Ordering (UCS) /Supplement 0 >> def\n/CMapName /WeddyUnicode def\n/CMapType 2 def\n1 begincodespacerange\n<0000> <FFFF>\nendcodespacerange\n")
 	for start := 0; start < len(f.runes); start += 100 {
@@ -122,7 +124,7 @@ func (f *pdfUnicodeFont) objects(add func([]byte) int) []byte {
 	}
 	cmap.WriteString("endcmap\nCMapName currentdict /CMap defineresource pop\nend\nend\n")
 	unicodeMap := add(pdfStream("", []byte(cmap.String())))
-	return []byte(fmt.Sprintf("<< /Type /Font /Subtype /Type0 /BaseFont /%s /Encoding /Identity-H /DescendantFonts [%d 0 R] /ToUnicode %d 0 R >>", f.name, descendant, unicodeMap))
+	return []byte(fmt.Sprintf("<< /Type /Font /Subtype /Type0 /BaseFont /%s /Encoding /Identity-H /DescendantFonts [%d 0 R] /ToUnicode %d 0 R >>", subsetName, descendant, unicodeMap))
 }
 
 func needsPDFUnicode(text string) bool {

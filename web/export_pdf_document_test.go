@@ -10,6 +10,9 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+
+	"golang.org/x/image/font/sfnt"
+	"golang.org/x/image/math/fixed"
 )
 
 // The PDF of every card document and of pdf-extra.json, as Node.js WeKan's
@@ -144,7 +147,7 @@ func TestExportPDFUsesUnicodeFont(t *testing.T) {
 		}
 	}
 	mixed := buildExportPdfBuffer([]pdfLine{pdfPlain("日😀本", false)})
-	for _, fragment := range []string{"/BaseFont /UnifontUpper", "/FS ", "<0001> <D83DDE00>", "/FS 10 Tf\n<0001> Tj\n/FU 10 Tf\n<0002> Tj"} {
+	for _, fragment := range []string{"+UnifontUpper", "/FS ", "<0001> <D83DDE00>", "/FS 10 Tf\n<0001> Tj\n/FU 10 Tf\n<0002> Tj"} {
 		if !bytes.Contains(mixed, []byte(fragment)) {
 			t.Errorf("mixed-plane PDF does not contain %q", fragment)
 		}
@@ -179,5 +182,45 @@ func TestPDFWrapKeepsSupplementaryCharacter(t *testing.T) {
 	}
 	if got := pdfLineChunks("😀z", 1); !reflect.DeepEqual(got, []string{"😀", "z"}) {
 		t.Fatalf("one-unit width: %q", got)
+	}
+}
+
+func TestExportPDFSubsetsOutlines(t *testing.T) {
+	for _, tc := range []struct {
+		load          func() (pdfFontProgram, error)
+		keep, discard rune
+	}{
+		{loadPDFUnifont, '日', '本'},
+		{loadPDFUnifontUpper, '😀', '😁'},
+	} {
+		program, err := tc.load()
+		if err != nil {
+			t.Fatal(err)
+		}
+		keep, _ := program.face.GlyphIndex(nil, tc.keep)
+		discard, _ := program.face.GlyphIndex(nil, tc.discard)
+		if keep == 0 || discard == 0 {
+			t.Fatal("test font lacks glyphs")
+		}
+		subset := subsetPDFTrueType(program.data, []sfnt.GlyphIndex{keep}, program.face.NumGlyphs())
+		if pdfFontChecksum(subset) != 0xB1B0AFBA || len(subset) >= len(program.data)/4 {
+			t.Fatalf("invalid subset size or checksum: %d bytes", len(subset))
+		}
+		font, err := sfnt.Parse(subset)
+		if err != nil {
+			t.Fatal(err)
+		}
+		got, err := font.LoadGlyph(nil, keep, fixed.I(16), nil)
+		want, originalErr := program.face.LoadGlyph(nil, keep, fixed.I(16), nil)
+		if err != nil || originalErr != nil || len(want) == 0 || !reflect.DeepEqual(got, want) {
+			t.Fatalf("kept outline differs for %U", tc.keep)
+		}
+		if got, err := font.LoadGlyph(nil, discard, fixed.I(16), nil); err != nil || len(got) != 0 {
+			t.Fatalf("unused outline still present for %U", tc.discard)
+		}
+	}
+	output := buildExportPdfBuffer([]pdfLine{pdfPlain("日本語😀", false)})
+	if len(output) > 500_000 {
+		t.Fatalf("short Unicode PDF is %d bytes", len(output))
 	}
 }

@@ -173,7 +173,7 @@ func TestCardPDFDetails(t *testing.T) {
 		t.Fatal(err)
 	}
 	unicode := pdf()
-	for _, want := range []string{"/FontFile2", "/ToUnicode", "<0001> <65E5>", "<0002> <672C>", "<0003> <8A9E>", "/BaseFont /UnifontUpper", "/FS ", "<0001> <D83DDE00>"} {
+	for _, want := range []string{"/FontFile2", "/ToUnicode", "<0001> <65E5>", "<0002> <672C>", "<0003> <8A9E>", "+UnifontUpper", "/FS ", "<0001> <D83DDE00>"} {
 		if !strings.Contains(unicode, want) {
 			t.Errorf("the Unicode card PDF lacks %q", want)
 		}
