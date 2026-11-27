@@ -261,8 +261,9 @@ func (s *Server) apiArchiveCard(archive bool) apiHandler {
 		}
 		card, list := r.PathValue("card"), r.PathValue("list")
 		var c Card
+		scope := bson.M{"_id": eq(card), "listId": eq(list), "boardId": b.ID, "archived": !archive, "deletedAt": nil}
 		if !validID(card) || !validID(list) || s.db.Collection("cards").FindOne(r.Context(),
-			bson.M{"_id": eq(card), "listId": eq(list), "boardId": b.ID, "archived": !archive}).Decode(&c) != nil {
+			scope).Decode(&c) != nil {
 			apiError(w, http.StatusNotFound, "Card not found")
 			return
 		}
@@ -274,8 +275,13 @@ func (s *Server) apiArchiveCard(archive bool) apiHandler {
 			update = bson.M{"$set": bson.M{"archived": false, "modifiedAt": now}, "$unset": bson.M{"archivedAt": ""}}
 			answer, kind = map[string]any{"_id": c.ID, "archived": false}, "restoredCard"
 		}
-		if _, err := s.cardsUpdateOne(r.Context(), u.ID, bson.M{"_id": c.ID}, update); err != nil {
+		result, err := s.cardsUpdateOne(r.Context(), u.ID, scope, update)
+		if err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		if result.MatchedCount == 0 {
+			apiError(w, http.StatusNotFound, "Card not found")
 			return
 		}
 		s.activity(r.Context(), u.ID, kind, bson.M{"boardId": b.ID, "cardId": c.ID, "listId": c.ListID, "swimlaneId": c.SwimlaneID})

@@ -283,16 +283,26 @@ func (s *Server) apiArchiveList(archive bool) apiHandler {
 		}
 		id := r.PathValue("list")
 		var l List
-		if !validID(id) || s.db.Collection("lists").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID, "archived": !archive}).Decode(&l) != nil {
+		scope := bson.M{"_id": eq(id), "boardId": b.ID, "archived": !archive, "deletedAt": nil}
+		if !validID(id) || s.db.Collection("lists").FindOne(r.Context(), scope).Decode(&l) != nil {
 			apiError(w, http.StatusNotFound, "List not found")
 			return
 		}
-		set := bson.M{"archived": archive}
+		now := time.Now().UTC()
+		set := bson.M{"archived": archive, "modifiedAt": now}
+		update := bson.M{"$set": set}
 		if archive {
-			set["archivedAt"] = time.Now().UTC()
+			set["archivedAt"] = now
+		} else {
+			update["$unset"] = bson.M{"archivedAt": ""}
 		}
-		if _, err := s.entityUpdateOne(r.Context(), u.ID, "list", bson.M{"_id": l.ID}, bson.M{"$set": set}); err != nil {
+		result, err := s.entityUpdateOne(r.Context(), u.ID, "list", scope, update)
+		if err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		if result.MatchedCount == 0 {
+			apiError(w, http.StatusNotFound, "List not found")
 			return
 		}
 		kind := "archivedList"

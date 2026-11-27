@@ -57,6 +57,15 @@ func TestRESTListsSwimlanesAndBoardMoves(t *testing.T) {
 	if count("lists", bson.M{"_id": src.List, "archived": false}) != 1 {
 		t.Fatal("restored")
 	}
+	for _, archive := range []bool{true, false} {
+		if n := count("changeHistory", bson.M{"boardId": src.ID, "entityId": src.List, "group": "lifecycle",
+			"previousContent.value": !archive, "newContent.field": "archived", "newContent.value": archive}); n != 1 {
+			t.Fatalf("list archive state %v: %d history rows", archive, n)
+		}
+	}
+	if n := count("lists", bson.M{"_id": src.List, "archivedAt": bson.M{"$exists": true}}); n != 0 {
+		t.Fatal("unarchive must clear the archived timestamp")
+	}
 
 	// A label on the card, a comment, and a checklist travel along.
 	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": src.ID}, bson.M{"$push": bson.M{"labels": bson.M{"_id": "lbl001", "name": "Bug", "color": "red"}}})
