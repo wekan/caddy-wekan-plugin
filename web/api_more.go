@@ -114,7 +114,7 @@ func (s *Server) apiRename(coll string) apiHandler {
 		if !ok {
 			return
 		}
-		if _, err := s.db.Collection(coll).UpdateOne(r.Context(), bson.M{"_id": doc["_id"]},
+		if _, err := s.entityUpdateOne(r.Context(), u.ID, strings.TrimSuffix(coll, "s"), bson.M{"_id": doc["_id"], "boardId": b.ID},
 			bson.M{"$set": bson.M{"title": title, "modifiedAt": time.Now().UTC()}}); err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return

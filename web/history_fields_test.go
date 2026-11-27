@@ -534,3 +534,41 @@ func TestRESTDateClearHistory(t *testing.T) {
 		t.Fatalf("restored due date = %v", card["dueAt"])
 	}
 }
+
+func TestRESTListTitleHistory(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	token := login(t, w, "ann")
+	board := newRESTBoard(t, w, token, "Lists")
+	path := w.srv.URL + "/api/boards/" + board.ID + "/lists/" + board.List
+	for _, data := range []string{`{"title":"First list title"}`, `{"title":"Second list title"}`} {
+		if code := call(t, "PUT", path, token, data, nil); code != 200 {
+			t.Fatalf("rename returned %d", code)
+		}
+	}
+	var id string
+	for _, row := range historyRows(t, w, board.ID) {
+		content, _ := row["newContent"].(map[string]any)
+		if row["entityType"] == "list" && row["entityId"] == board.List && content["value"] == "First list title" {
+			id = docString(row, "_id")
+		}
+	}
+	if id == "" {
+		t.Fatal("expected a History row for the rename")
+	}
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	back := "/b/" + board.ID + "/history?list=" + board.List
+	_, html := get(t, c, w.srv.URL+back)
+	if !strings.Contains(html, "First list title") || !strings.Contains(html, "Second list title") {
+		t.Fatal("expected both titles in scoped History")
+	}
+	response, _ := post(t, c, w.srv.URL+"/b/"+board.ID+"/history/restore", url.Values{"id": {id}, "back": {back}})
+	if response.StatusCode != http.StatusSeeOther {
+		t.Fatalf("restore returned %d", response.StatusCode)
+	}
+	list := w.s.findDoc(context.Background(), "lists", bson.M{"_id": eq(board.List)})
+	if title := docString(list, "title"); title != "First list title" {
+		t.Fatalf("restored title = %q", title)
+	}
+}
