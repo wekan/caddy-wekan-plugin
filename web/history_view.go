@@ -410,7 +410,14 @@ func (s *Server) memberHistoryRestorePage(w http.ResponseWriter, r *http.Request
 		http.Error(w, "bad form", http.StatusBadRequest)
 		return
 	}
-	raw, _ := jsonMarshalArgs(r.PostForm["id"])
+	ids := r.PostForm["id"]
+	for _, id := range ids {
+		if !validID(id) || s.findDoc(r.Context(), "changeHistory", bson.M{"_id": eq(id), "userId": eq(u.ID)}) == nil {
+			http.Error(w, "history row outside scope", http.StatusForbidden)
+			return
+		}
+	}
+	raw, _ := jsonMarshalArgs(ids)
 	if _, err := s.methodHistoryRestore(r, u, raw); err != nil {
 		http.Error(w, err.Error(), http.StatusForbidden)
 		return
