@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"net/http/httptest"
 	"net/url"
 	"strings"
 	"sync"
@@ -185,5 +186,46 @@ func TestArchiveHistoryReplay(t *testing.T) {
 			}
 			check(true)
 		})
+	}
+}
+
+func TestTemplateListArchiveGroupedHistory(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	user := w.seedUser(t, "ann", "pw")
+	token := login(t, w, "ann")
+	board := newRESTBoard(t, w, token, "Template archive")
+	if _, err := w.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": board.List},
+		bson.M{"$set": bson.M{"type": "template-list"}}); err != nil {
+		t.Fatal(err)
+	}
+	base := w.srv.URL + "/api/boards/" + board.ID + "/lists/" + board.List
+	assertState := func(archived bool) {
+		t.Helper()
+		for coll, id := range map[string]string{"lists": board.List, "cards": board.Card} {
+			if n, err := w.db.Collection(coll).CountDocuments(ctx, bson.M{"_id": id, "archived": archived}); err != nil || n != 1 {
+				t.Fatalf("%s archive state %v: %d, %v", coll, archived, n, err)
+			}
+		}
+	}
+	reverse := func(direction, key string) {
+		t.Helper()
+		out, err := w.s.reverseLast(httptest.NewRequest("POST", "/", nil), user, board.ID, direction, nil)
+		if err != nil || out[key] != true || out["entityId"] != board.List {
+			t.Fatalf("%s: %v %v", direction, out, err)
+		}
+	}
+	for _, test := range []struct {
+		path    string
+		archive bool
+	}{{"archive", true}, {"unarchive", false}} {
+		if code := call(t, "POST", base+"/"+test.path, token, "", nil); code != 200 {
+			t.Fatalf("%s: %d", test.path, code)
+		}
+		assertState(test.archive)
+		reverse("undo", "undone")
+		assertState(!test.archive)
+		reverse("redo", "redone")
+		assertState(test.archive)
 	}
 }

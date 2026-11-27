@@ -22,6 +22,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"maps"
 	"net/http"
 	"time"
 
@@ -234,6 +235,12 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 		}
 		filter := bson.M{"_id": eq(docString(row, "entityId"))}
 		update := bson.M{"$set": bson.M{field: value}}
+		if coll == "lists" && field == "archived" {
+			snapshot, _ := row["newContent"].(map[string]any)
+			if snapshot["archiveGrouped"] == true {
+				return s.replayTemplateListArchive(ctx, row, content, direction)
+			}
+		}
 		if field == "archived" {
 			archived, boolean := value.(bool)
 			if !boolean || docString(row, "group") != "lifecycle" {
@@ -364,7 +371,7 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 // historyStackTop is the row an undo or redo takes: the user's newest
 // change on the board, or most recently undone one.
 func (s *Server) historyStackTop(ctx context.Context, u *User, boardID, direction string) map[string]any {
-	filter := bson.M{"userId": eq(u.ID), "boardId": eq(boardID), "undone": direction == "redo", "isCheckpoint": bson.M{"$ne": true}, "superseded": bson.M{"$ne": true}}
+	filter := bson.M{"userId": eq(u.ID), "boardId": eq(boardID), "undone": direction == "redo", "isCheckpoint": bson.M{"$ne": true}, "superseded": bson.M{"$ne": true}, "newContent.archiveCascadeChild": bson.M{"$ne": true}}
 	sortBy := "createdAt"
 	if direction == "redo" {
 		sortBy = "undoneAt"
@@ -671,6 +678,11 @@ func (s *Server) methodHistoryRestore(r *http.Request, u *User, args []json.RawM
 		content := row["newContent"]
 		if content == nil {
 			content = row["previousContent"]
+		}
+		if snapshot, ok := content.(map[string]any); ok && snapshot["archiveCascadeChild"] == true {
+			copy := maps.Clone(snapshot)
+			delete(copy, "archiveCascadeChild")
+			content = copy
 		}
 		common := historyChange{BoardID: docString(row, "boardId"), SwimlaneID: row["swimlaneId"], ListID: row["listId"], CardID: row["cardId"],
 			EntityType: docString(row, "entityType"), EntityID: docString(row, "entityId"), Group: docString(row, "group"), ChangeType: "restored",

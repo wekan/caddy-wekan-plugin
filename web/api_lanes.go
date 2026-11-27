@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"errors"
 	"math"
 	"net/http"
 	"slices"
@@ -304,8 +305,10 @@ func (s *Server) templateListArchiveCards(ctx context.Context, boardID, listID s
 	return result, nil
 }
 
+type archiveCascadeChildKey struct{}
+
 // Resume only the cards selected when the template-list operation was claimed.
-func (s *Server) archiveTemplateListCards(ctx context.Context, userID, boardID, listID string, archive bool, now time.Time, ids []string) error {
+func (s *Server) archiveTemplateListCards(ctx context.Context, userID, boardID, listID string, archive bool, now time.Time, ids []string, replay string) error {
 	scope := bson.M{"boardId": boardID, "listId": listID, "archived": !archive, "deletedAt": nil}
 	update := archiveStateUpdate(archive, now)
 	for _, id := range ids {
@@ -314,8 +317,23 @@ func (s *Server) archiveTemplateListCards(ctx context.Context, userID, boardID, 
 			return err
 		}
 	}
-	_, err := s.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": listID, "boardId": boardID,
-		"archived": archive, "archiveCascadePending": archive}, bson.M{"$unset": bson.M{"archiveCascadePending": "", "archiveCascadeCards": ""}})
+	finish := bson.M{"_id": listID, "boardId": boardID, "archived": archive, "archiveCascadePending": archive,
+		"archiveCascadeReplay": nil}
+	if replay != "" {
+		finish["archiveCascadeReplay"] = replay
+		if len(ids) != 0 {
+			n, err := s.db.Collection("cards").CountDocuments(ctx, bson.M{"_id": bson.M{"$in": ids},
+				"boardId": boardID, "listId": listID, "archived": archive, "deletedAt": nil})
+			if err != nil {
+				return err
+			}
+			if n != int64(len(ids)) {
+				return errors.New("archive batch membership changed")
+			}
+		}
+	}
+	_, err := s.db.Collection("lists").UpdateOne(ctx, finish, bson.M{"$unset": bson.M{
+		"archiveCascadePending": "", "archiveCascadeCards": "", "archiveCascadeGrouped": "", "archiveCascadeReplay": ""}})
 	return err
 }
 
@@ -333,6 +351,8 @@ func (s *Server) apiArchiveList(archive bool) apiHandler {
 			Pending    *bool     `bson:"archiveCascadePending"`
 			ArchivedAt time.Time `bson:"archivedAt"`
 			Cards      *[]string `bson:"archiveCascadeCards"`
+			Grouped    bool      `bson:"archiveCascadeGrouped"`
+			Replay     string    `bson:"archiveCascadeReplay"`
 		}
 		ctx := r.Context()
 		scope := bson.M{"_id": eq(id), "boardId": b.ID, "deletedAt": nil}
@@ -341,7 +361,7 @@ func (s *Server) apiArchiveList(archive bool) apiHandler {
 			apiError(w, http.StatusNotFound, "List not found")
 			return
 		}
-		if l.Pending != nil && (l.Type != "template-list" || *l.Pending != archive || l.Archived != archive) {
+		if l.Replay != "" || l.Pending != nil && (l.Type != "template-list" || *l.Pending != archive || l.Archived != archive) {
 			apiError(w, http.StatusConflict, "Finish the pending list archive operation first")
 			return
 		}
@@ -372,6 +392,8 @@ func (s *Server) apiArchiveList(archive bool) apiHandler {
 			if l.Type == "template-list" {
 				update["$set"].(bson.M)["archiveCascadePending"] = archive
 				update["$set"].(bson.M)["archiveCascadeCards"] = *l.Cards
+				update["$set"].(bson.M)["archiveCascadeGrouped"] = true
+				l.Grouped = true
 			}
 			result, err := s.entityUpdateOne(ctx, u.ID, "list", scope, update)
 			if err != nil {
@@ -386,7 +408,8 @@ func (s *Server) apiArchiveList(archive bool) apiHandler {
 			now = l.ArchivedAt
 		}
 		if l.Type == "template-list" {
-			if err := s.archiveTemplateListCards(ctx, u.ID, b.ID, l.ID, archive, now, *l.Cards); err != nil {
+			ctx = context.WithValue(ctx, archiveCascadeChildKey{}, l.Grouped)
+			if err := s.archiveTemplateListCards(ctx, u.ID, b.ID, l.ID, archive, now, *l.Cards, ""); err != nil {
 				apiError(w, http.StatusInternalServerError, err.Error())
 				return
 			}

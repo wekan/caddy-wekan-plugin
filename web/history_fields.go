@@ -344,7 +344,15 @@ func (s *Server) recordFieldChanges(ctx context.Context, userID, entity string, 
 			if content, ok := c.NewContent.(map[string]any); ok && content["field"] == "archived" {
 				if cards, ok := after["archiveCascadeCards"].([]any); ok {
 					content["archiveCards"] = cards
+					if after["archiveCascadeGrouped"] == true {
+						content["archiveGrouped"] = true
+					}
 				}
+			}
+		}
+		if entity == "card" && c.Group == "lifecycle" && ctx.Value(archiveCascadeChildKey{}) == true {
+			if content, ok := c.NewContent.(map[string]any); ok && content["field"] == "archived" {
+				content["archiveCascadeChild"] = true
 			}
 		}
 		row := where
