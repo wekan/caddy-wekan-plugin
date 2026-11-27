@@ -237,11 +237,7 @@ func (s *Server) historyViewPage(w http.ResponseWriter, r *http.Request, u *User
 		return
 	}
 	q := r.URL.Query()
-	req := historyPageRequest{Scope: "board", ScopeID: b.ID, Search: q.Get("q"), UserID: q.Get("user")}
-	// A group of changes alone - the Scrum views open History at "scrum".
-	if g := q.Get("group"); historyGroupKeys[g] != "" {
-		req.Group = g
-	}
+	req := historyPageRequest{Scope: "board", ScopeID: b.ID, Search: q.Get("q"), UserID: q.Get("user"), Group: q.Get("group")}
 	back, backTitle := "/b/"+b.ID+"/"+b.Slug, b.Title
 	cardID := q.Get("card")
 	if cardID != "" {

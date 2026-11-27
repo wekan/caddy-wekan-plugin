@@ -231,3 +231,32 @@ func TestHistoryViewDocumentSummary(t *testing.T) {
 		}
 	}
 }
+
+func TestHistoryViewLifecycleFilter(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	board := newRESTBoard(t, w, login(t, w, "ann"), "History")
+	ctx := context.Background()
+	var ann User
+	if err := w.db.Collection("users").FindOne(ctx, bson.M{"username": "ann"}).Decode(&ann); err != nil {
+		t.Fatal(err)
+	}
+	for _, entry := range []struct{ group, field, summary string }{
+		{"description", "description", "Other history"},
+		{"lifecycle", "deletedAt", "Only lifecycle"},
+	} {
+		if _, err := w.db.Collection("changeHistory").InsertOne(ctx, bson.M{
+			"_id": entry.field, "boardId": board.ID, "userId": ann.ID, "group": entry.group,
+			"entityType": "card", "entityId": board.Card, "cardId": board.Card, "changeType": "edited",
+			"newContent": bson.M{"field": entry.field, "value": entry.summary},
+		}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	_, html := get(t, c, w.srv.URL+"/b/"+board.ID+"/history?group=lifecycle")
+	if strings.Count(html, "js-history-row") != 1 || !strings.Contains(html, "Only lifecycle") || strings.Contains(html, "Other history") {
+		t.Fatal("expected only the lifecycle row")
+	}
+}
