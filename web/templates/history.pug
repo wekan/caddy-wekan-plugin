@@ -49,7 +49,8 @@
               each row in .Rows
                 tr.js-history-row(data-id="{{.ID}}")
                   td.history-select
-                    input.js-history-select(type="checkbox", name="id", value="{{.ID}}", data-id="{{.ID}}", aria-label="{{.Type}}")
+                    if .Selectable
+                      input.js-history-select(type="checkbox", name="id", value="{{.ID}}", data-id="{{.ID}}", aria-label="{{.Type}}")
                   td.history-change
                     span.history-change-type {{.Type}}
                     if .Group

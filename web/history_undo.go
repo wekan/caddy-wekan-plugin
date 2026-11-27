@@ -502,6 +502,19 @@ func (s *Server) applyCardPosition(ctx context.Context, row, content map[string]
 	return true
 }
 
+func listWipHistoryRow(row map[string]any) bool {
+	if docString(row, "entityType") != "list" {
+		return false
+	}
+	for _, side := range []string{"previousContent", "newContent"} {
+		content, _ := row[side].(map[string]any)
+		if docString(content, "field") == "wipLimit" {
+			return true
+		}
+	}
+	return false
+}
+
 // requireHistoryRowAccess is WeKan's: a row the caller may read
 // (historyReadScope), its card one they may edit where it is NOW, and the
 // board on the row one they may write. A row's board is the one it was
@@ -513,20 +526,14 @@ func (s *Server) requireHistoryRowAccess(ctx context.Context, u *User, row map[s
 	if !hr.readable(row) {
 		return denied
 	}
-	if docString(row, "entityType") == "list" {
-		for _, side := range []string{"previousContent", "newContent"} {
-			content, _ := row[side].(map[string]any)
-			if docString(content, "field") == "wipLimit" {
-				list := s.findDoc(ctx, "lists", bson.M{"_id": eq(docString(row, "entityId")), "boardId": eq(docString(row, "boardId"))})
-				if list == nil {
-					return denied
-				}
-				board, err := s.boardFor(ctx, docString(row, "boardId"), u)
-				if err != nil || !board.AdminOf(u.ID) {
-					return denied
-				}
-				break
-			}
+	if listWipHistoryRow(row) {
+		list := s.findDoc(ctx, "lists", bson.M{"_id": eq(docString(row, "entityId")), "boardId": eq(docString(row, "boardId"))})
+		if list == nil {
+			return denied
+		}
+		board, err := s.boardFor(ctx, docString(row, "boardId"), u)
+		if err != nil || !board.AdminOf(u.ID) {
+			return denied
 		}
 	}
 	cardID := docString(row, "cardId")

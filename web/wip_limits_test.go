@@ -42,7 +42,7 @@ func TestWipLimitsAndRestore(t *testing.T) {
 		}
 	}
 	annC, ann := caller("ann")
-	_, bobCall := caller("bob")
+	bobC, bobCall := caller("bob")
 	wip := func() wipLimit {
 		var l wipList
 		_ = w.db.Collection("lists").FindOne(ctx, bson.M{"_id": rb.List}).Decode(&l)
@@ -70,6 +70,14 @@ func TestWipLimitsAndRestore(t *testing.T) {
 	ann("enableWipLimit", `["`+rb.List+`"]`)
 	if wl := wip(); !wl.Enabled || wl.Soft {
 		t.Fatalf("enabled, hard: %v", wl)
+	}
+
+	history := w.srv.URL + "/b/" + rb.ID + "/history?list=" + rb.List
+	_, adminHistory := get(t, annC, history)
+	_, memberHistory := get(t, bobC, history)
+	if !strings.Contains(adminHistory, "js-history-select") ||
+		!strings.Contains(memberHistory, "js-history-row") || strings.Contains(memberHistory, "js-history-select") {
+		t.Fatal("WIP history should be visible to members and selectable by the board admin")
 	}
 
 	// The list holds one card (rb.Card); archive a second, then the list is full.

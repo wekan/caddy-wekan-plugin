@@ -30,6 +30,7 @@ func historyTypeKey(t string) string {
 
 type historyViewRow struct {
 	ID, Type, Group, Summary, When string
+	Selectable                     bool
 }
 
 func historyViewContent(row map[string]any) map[string]any {
@@ -334,8 +335,17 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 				}
 			}
 		}
+		selectable := true
+		if listWipHistoryRow(row) {
+			board := b
+			boardID := docString(row, "boardId")
+			if board == nil || board.ID != boardID {
+				board, _ = s.boardFor(r.Context(), boardID, u)
+			}
+			selectable = board != nil && board.AdminOf(u.ID)
+		}
 		rows = append(rows, historyViewRow{ID: id, Type: tr(lang, historyTypeKey(changeType)),
-			Group: historyViewLabel(lang, row, content), Summary: summary, When: when})
+			Group: historyViewLabel(lang, row, content), Summary: summary, When: when, Selectable: selectable})
 	}
 	pageN, size, total := res["page"].(int64), res["pageSize"].(int64), res["total"].(int64)
 	pages := max(1, (total+size-1)/size)
