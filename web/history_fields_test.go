@@ -460,13 +460,30 @@ func TestRESTTimeCorrectionHistory(t *testing.T) {
 		t.Fatalf("correct time returned %d", code)
 	}
 	got := map[string]any{}
+	ids := map[string]string{}
 	for _, row := range historyRows(t, w, board.ID) {
 		if row["group"] == "dates" {
 			content, _ := row["newContent"].(map[string]any)
-			got[docString(content, "field")] = content["value"]
+			field := docString(content, "field")
+			got[field] = content["value"]
+			ids[field] = docString(row, "_id")
 		}
 	}
 	if got["spentTime"] != 1.5 || got["isOvertime"] != true {
 		t.Fatalf("time history = %v", got)
+	}
+	if code := call(t, "PUT", path, token, `{"spentTime":0,"isOverTime":false}`, nil); code != 200 {
+		t.Fatalf("clear time returned %d", code)
+	}
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	restore := w.srv.URL + "/b/" + board.ID + "/history/restore"
+	response, _ := post(t, c, restore, url.Values{"id": {ids["spentTime"], ids["isOvertime"]}})
+	if response.StatusCode != http.StatusSeeOther {
+		t.Fatalf("restore returned %d", response.StatusCode)
+	}
+	card := w.s.findDoc(context.Background(), "cards", bson.M{"_id": eq(board.Card)})
+	if card["spentTime"] != 1.5 || card["isOvertime"] != true {
+		t.Fatalf("restored values = %v, %v", card["spentTime"], card["isOvertime"])
 	}
 }
