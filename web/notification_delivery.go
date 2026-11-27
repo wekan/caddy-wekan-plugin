@@ -577,11 +577,18 @@ func (s *Server) boardNotificationsPage(w http.ResponseWriter, r *http.Request, 
 	}
 	var board bson.M
 	_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&board)
+	channels := deliveryChannels
+	var hooks []map[string]any
+	if s.webhooksOff(r.Context()) {
+		channels = deliveryMemberChannels
+	} else {
+		hooks = s.boardHookForms(r.Context(), b.ID, lang)
+	}
 	form := deliveryForm{Scope: "board", Action: "/b/" + b.ID + "/notifications", Views: deliveryViews(func(ch string) any {
 		return nestedField(board, "notificationDelivery", ch)
-	}, deliveryChannels, lang)}
+	}, channels, lang)}
 	s.render(w, r, "boardnotifications", http.StatusOK, map[string]any{"Title": tr(lang, "notifications"), "User": u, "Board": b,
-		"Delivery": form, "Hooks": s.boardHookForms(r.Context(), b.ID, lang), "Saved": r.URL.Query().Get("saved"), "Error": r.URL.Query().Get("error")})
+		"Delivery": form, "Hooks": hooks, "Saved": r.URL.Query().Get("saved"), "Error": r.URL.Query().Get("error")})
 }
 
 func (s *Server) saveBoardDelivery(w http.ResponseWriter, r *http.Request, u *User) {
@@ -604,9 +611,13 @@ func (s *Server) adminNotificationsPage(w http.ResponseWriter, r *http.Request, 
 	}
 	var set bson.M
 	_ = s.db.Collection("settings").FindOne(r.Context(), bson.M{}).Decode(&set)
+	channels := deliveryChannels
+	if set["webhooksDisabled"] == true {
+		channels = deliveryMemberChannels
+	}
 	form := deliveryForm{Scope: "admin", Action: "/admin/notifications", Views: deliveryViews(func(ch string) any {
 		return nestedField(set, "notificationDelivery", ch)
-	}, deliveryChannels, lang)}
+	}, channels, lang)}
 	s.render(w, r, "adminnotifications", http.StatusOK, map[string]any{"Title": tr(lang, "notifications"), "User": u,
 		"Delivery": form, "Saved": r.URL.Query().Get("saved"), "Error": r.URL.Query().Get("error")})
 }

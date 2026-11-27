@@ -427,6 +427,18 @@ func TestAdminAndHookDeliveryPages(t *testing.T) {
 	if !strings.Contains(res.Header.Get("Location"), "error=notification-delivery-invalid") || hook(hookID, "notificationDelivery", "email") != nil {
 		t.Errorf("negative: a webhook's form is its webhook channel: %s", res.Header.Get("Location"))
 	}
+	if _, err := w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"webhooksDisabled": true}}); err != nil {
+		t.Fatal(err)
+	}
+	for _, html := range []string{
+		getBody(t, sc, w.srv.URL+"/admin/notifications"),
+		getBody(t, ac, w.srv.URL+"/b/"+rb.ID+"/"+b.Slug+"/notifications"),
+	} {
+		if strings.Contains(html, `data-channel="webhook"`) || strings.Contains(html, `data-hook=`) ||
+			!strings.Contains(html, `data-channel="email"`) || !strings.Contains(html, `data-channel="tray"`) {
+			t.Fatal("the switch should hide webhook controls and leave email and tray available")
+		}
+	}
 }
 
 func getBody(t *testing.T, c *http.Client, u string) string {
