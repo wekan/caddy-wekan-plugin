@@ -803,7 +803,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   function openPopOver(name) {
     closePopOvers();
     var t = document.querySelector('template.js-pop-over-template[data-pop="' + name + '"]');
-    if (!t) return;
+    if (t) openPopOverTemplate(t);
+  }
+  function openPopOverTemplate(t) {
     var p = document.createElement('div');
     p.className = 'pop-over js-pop-over';
     p.setAttribute('role', 'dialog');
@@ -814,6 +816,95 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     document.body.appendChild(p);
     up.hello(p);
   }
+  up.compiler('body', async function () {
+    var root = document.documentElement;
+    var supported = root.dataset.browserLanguageTags;
+    if (!supported) return;
+    var language = await import('/static/browserLanguage.js');
+    var tags = new Map(supported.split(' ').map(function (tag) {
+      return [language.normalizeLanguageTag(tag), tag];
+    }));
+    var preferred = language.preferredLanguage(null, navigator, function (tag) {
+      return tags.get(language.normalizeLanguageTag(tag));
+    });
+    var known = (document.cookie.match(/(?:^|;\s*)weddy-language=([^;]*)/) || [])[1];
+    if (!preferred || preferred === known) return;
+    document.cookie = 'weddy-language=' + preferred + '; path=/; max-age=31536000; samesite=lax';
+    if (root.lang !== preferred && document.cookie.split('; ').includes('weddy-language=' + preferred)) {
+      window.location.reload();
+    }
+  });
+  // The plain language page is also the source of the member-menu popup.
+  up.on('click', '.js-change-language', async function (event, link) {
+    if (!link.closest('.js-pop-over')) return;
+    event.preventDefault();
+    try {
+      var response = await fetch(link.href);
+      if (!response.ok) return;
+      var page = new DOMParser().parseFromString(await response.text(), 'text/html');
+      var template = page.querySelector('template[data-pop="change-language"]');
+      if (!template || !link.isConnected) return;
+      var flags = await import('/static/languageFlags.js');
+      if (!link.isConnected) return;
+      template.content.querySelectorAll('.js-set-language').forEach(function (entry) {
+        var icons = flags.languageFlags(entry.dataset.language);
+        var parts = flags.languageLabelParts(entry.dataset.name, icons.country);
+        var label = document.createElement('span');
+        label.className = 'language-label';
+        var main = document.createElement('span');
+        main.className = 'language-main-line';
+        var flag = document.createElement('span');
+        flag.className = 'emoji-icon language-flags';
+        flag.dir = 'ltr';
+        flag.setAttribute('aria-hidden', 'true');
+        flag.textContent = icons.language;
+        var name = document.createElement('bdi');
+        name.className = 'language-name';
+        name.textContent = parts.languageName;
+        main.append(flag, name);
+        if (entry.dataset.rtl === 'true') {
+          var rtl = document.createElement('span');
+          rtl.className = 'language-rtl';
+          rtl.dir = 'ltr';
+          rtl.textContent = '(RTL)';
+          main.append(rtl);
+        }
+        label.append(main);
+        if (icons.country) {
+          var region = document.createElement('span');
+          region.className = 'language-region';
+          var country = document.createElement('span');
+          country.className = 'emoji-icon language-country-flag';
+          country.dir = 'ltr';
+          country.setAttribute('aria-hidden', 'true');
+          country.textContent = icons.country;
+          region.append('(', country);
+          if (parts.regionName) {
+            var regionName = document.createElement('bdi');
+            regionName.textContent = parts.regionName;
+            region.append('\u00a0', regionName);
+          }
+          region.append(')');
+          label.append(region);
+        }
+        entry.append(label);
+        if (entry.parentElement.classList.contains('active')) {
+          var check = document.createElement('i');
+          check.className = 'fa fa-check';
+          entry.append(check);
+        }
+      });
+      closePopOvers();
+      openPopOverTemplate(template);
+    } catch (err) {
+      if (link.isConnected) window.location.assign(link.href);
+    }
+  });
+  up.on('click', '.js-set-language', function (event, entry) {
+    event.preventDefault();
+    window.Meteor.callAsync('setLanguage', entry.dataset.language)
+      .then(function () { window.location.reload(); });
+  });
   // The sidebar stays as the user left it - open or not, its activities shown
   // or not - while the board reloads under it, as WeKan's does: kept for the tab.
   function sidebarState(key, value) {

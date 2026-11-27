@@ -40,10 +40,28 @@ func main() {
 		fmt.Fprintln(os.Stderr, "usage: go run ./cmd/sync-i18n /path/to/wekan")
 		os.Exit(2)
 	}
-	if err := run(os.Args[1], "web"); err != nil {
+	if err := sync(os.Args[1]); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
+}
+
+func sync(wekan string) error {
+	if err := run(wekan, "web"); err != nil {
+		return err
+	}
+	for _, name := range []string{"languageFlags.js", "browserLanguage.js"} {
+		src, err := os.ReadFile(filepath.Join(wekan, "imports", "i18n", name))
+		if err != nil {
+			return err
+		}
+		// browserLanguage.js is CommonJS in WeKan and loaded as a module here.
+		src = bytes.Replace(src, []byte("module.exports = {"), []byte("export {"), 1)
+		if err := os.WriteFile(filepath.Join("web", "static", name), src, 0o644); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // UsedKeys are the translation keys the files of dir/templates and dir/*.go use.
@@ -152,6 +170,9 @@ func run(wekan, dir string) error {
 		file := files[l.Tag]
 		if file == "" {
 			file = l.Tag + ".i18n.json"
+			if _, err := os.Stat(filepath.Join(data, file)); os.IsNotExist(err) {
+				file = l.Code + ".i18n.json"
+			}
 		}
 		if err := readJSON(filepath.Join(data, file), &all); err != nil {
 			continue // a language whose file is missing is not offered

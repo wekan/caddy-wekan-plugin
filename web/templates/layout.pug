@@ -1,5 +1,5 @@
 doctype html
-html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-calendar-system="{{if .User}}{{.DateSettings.Calendar}}{{end}}", data-start-day="{{if .User}}{{.DateSettings.StartDay}}{{end}}", data-date-format="{{if .User}}{{if .DateSettings.Override}}{{.DateSettings.Format}}{{end}}{{end}}")
+html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-browser-language-tags="{{.BrowserLanguageTags}}", data-calendar-system="{{if .User}}{{.DateSettings.Calendar}}{{end}}", data-start-day="{{if .User}}{{.DateSettings.StartDay}}{{end}}", data-date-format="{{if .User}}{{if .DateSettings.Override}}{{.DateSettings.Format}}{{end}}{{end}}")
   head
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width, initial-scale=1")
@@ -65,7 +65,7 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-calendar-s
           a.js-cloud-settings(href="/admin/people/cloud") {{t $.L "admin-panel"}} / {{t $.L "people"}} / {{t $.L "cloud"}}
         if .PanelMenu
           a.js-cloud-panel(href="/cloud") {{t $.L "cloud"}}
-        a.js-change-language(href="/language", title="{{t $.L `changeLanguagePopup-title`}}") {{.Lang.Name}}
+        a(href="/language", title="{{t $.L `changeLanguagePopup-title`}}") {{.Lang.Name}}
         #notifications.notifications
           a.notifications-drawer-toggle.js-toggle-notifications-drawer(href="#", class="{{if .Unread}}alert{{end}}", title="{{t $.L `notifications`}}", aria-label="{{t $.L `notifications`}}", data-unread="{{.Unread}}") 🔔
             span.notifications-count {{if .Unread}}{{.Unread}}{{end}}

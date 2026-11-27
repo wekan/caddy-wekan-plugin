@@ -102,6 +102,11 @@ func languageOf(r *http.Request, u *User) *Language {
 			return l
 		}
 	}
+	if preference, err := r.Cookie("weddy-language"); err == nil {
+		if l := translations.lookup(preference.Value); l != nil && langKey(l.Tag) == langKey(preference.Value) {
+			return l
+		}
+	}
 	for _, part := range strings.Split(r.Header.Get("Accept-Language"), ",") {
 		code, _, _ := strings.Cut(part, ";")
 		if l := translations.lookup(code); l != nil {

@@ -262,6 +262,13 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 	u, _ := data["User"].(*User)
 	lang := languageOf(r, u)
 	data["L"], data["Lang"] = lang.Tag, lang
+	if u == nil || translations.lookup(u.Profile.Language) == nil {
+		var tags []string
+		for _, language := range Languages() {
+			tags = append(tags, language.Tag)
+		}
+		data["BrowserLanguageTags"] = strings.Join(tags, " ")
+	}
 	data["TextPolicy"] = s.textPolicy(r.Context())
 	// The password fields' minlength: the enforced minimum, else the form's
 	// own 6 (WeKan's config/accounts.js password field) - the server refuses
@@ -402,8 +409,10 @@ func (s *Server) page(h pageHandler) http.HandlerFunc {
 // languagePage is WeKan's Change Language: every language, named in itself.
 func (s *Server) languagePage(w http.ResponseWriter, r *http.Request, u *User) {
 	lang := languageOf(r, u)
+	languages := slices.Clone(Languages())
+	sort.SliceStable(languages, func(i, j int) bool { return languages[i].Name < languages[j].Name })
 	s.render(w, r, "language", http.StatusOK, map[string]any{"Title": tr(lang.Tag, "changeLanguagePopup-title"),
-		"User": u, "Languages": Languages(), "Current": lang.Tag})
+		"User": u, "Languages": languages, "Current": lang.Tag})
 }
 
 // setLanguage keeps the choice in profile.language, as WeKan does - only a

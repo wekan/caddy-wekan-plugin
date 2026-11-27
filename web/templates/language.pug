@@ -5,3 +5,13 @@
       each l in .Languages
         li
           button.js-language(type="submit", name="language", value="{{.Code}}", lang="{{.Tag}}", dir="{{if .RTL}}rtl{{else}}ltr{{end}}", class="{{if eq .Tag $.Current}}is-active{{end}}") {{.Name}}
+
+template.js-pop-over-template(data-pop="change-language", data-popup="changeLanguagePopup", data-title="{{t $.L `changeLanguagePopup-title`}}")
+  .header
+    span.header-title {{t $.L "changeLanguagePopup-title"}}
+    a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
+  .content
+    ul.pop-over-list
+      each lang in .Languages
+        li(class="{{if eq .Tag $.Current}}active{{end}}")
+          a.js-set-language(href="#", data-language="{{.Tag}}", data-name="{{.Name}}", data-rtl="{{.RTL}}", dir="{{if $.Lang.RTL}}rtl{{else}}ltr{{end}}")

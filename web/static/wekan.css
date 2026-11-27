@@ -1253,3 +1253,114 @@ body.mobile-mode .board-canvas.shared-list-headers .js-swimlane .mobile-view > .
   background: #005377;
   color: #fff;
 }
+
+/* WeKan's popup.css for changeLanguagePopup: the whole window, the
+   languages in as many columns as fit, each with its flags and region. */
+.pop-over[data-popup='changeLanguagePopup'] .pop-over-list {
+  max-height: none;
+  overflow: visible;
+  height: auto;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  align-content: start;
+  column-gap: 4px;
+}
+.pop-over[data-popup='changeLanguagePopup'] .content {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.pop-over[data-popup='changeLanguagePopup'] .content.no-height {
+  min-height: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  visibility: hidden !important;
+}
+.pop-over[data-popup='changeLanguagePopup'] {
+  position: fixed !important;
+  bottom: 0 !important;
+  top: auto !important;
+  inset-inline-start: 0 !important;
+  inset-inline-end: 0 !important;
+  box-sizing: border-box;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  min-height: 300px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  margin: 0 !important;
+}
+.pop-over[data-popup='changeLanguagePopup'] .header {
+  flex-shrink: 0 !important;
+  height: auto !important;
+}
+.pop-over[data-popup='changeLanguagePopup'] .content-wrapper {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  height: auto !important;
+  width: 100% !important;
+}
+.pop-over[data-popup='changeLanguagePopup'] .content-container {
+  height: auto !important;
+  max-height: none !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+}
+.pop-over[data-popup='changeLanguagePopup'] .content {
+  height: auto !important;
+  max-height: none !important;
+  padding-bottom: 50px !important;
+  width: 100% !important;
+}
+.pop-over[data-popup='changeLanguagePopup'] .language-flags,
+.pop-over[data-popup='changeLanguagePopup'] .language-country-flag {
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  width: auto;
+}
+.pop-over[data-popup='changeLanguagePopup'] .language-label {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.35em;
+  white-space: nowrap;
+}
+.pop-over[data-popup='changeLanguagePopup'] .language-main-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25em;
+  flex: 0 0 auto;
+}
+.pop-over[data-popup='changeLanguagePopup'] .pop-over-list li > a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35em;
+  white-space: nowrap;
+  overflow-x: auto;
+  text-overflow: clip;
+  height: auto;
+}
+.pop-over[data-popup='changeLanguagePopup'] .pop-over-list li {
+  min-width: 0;
+}
+.pop-over[data-popup='changeLanguagePopup'] .language-region {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  unicode-bidi: isolate;
+}
+.pop-over[data-popup='changeLanguagePopup'] .language-rtl {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  unicode-bidi: isolate;
+}
