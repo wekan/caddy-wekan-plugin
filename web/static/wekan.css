@@ -1229,3 +1229,27 @@ body.mobile-mode .board-canvas .js-select-list.mobile-view {
 body.mobile-mode .board-canvas.shared-list-headers .js-swimlane .mobile-view > .list-header {
   display: flex !important;
 }
+
+/* WeKan's layouts.css .textcomplete-dropdown (#6704): the comment editor's
+   @ mention menu, on top of the card and its pop-overs. */
+.textcomplete-dropdown {
+  z-index: 100001 !important;
+  background: #fff;
+  color: #333;
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  max-height: 40vh;
+  overflow-y: auto;
+}
+.textcomplete-dropdown .textcomplete-item > span {
+  display: block;
+  padding: 4px 12px 4px 8px;
+  cursor: pointer;
+}
+.textcomplete-dropdown .textcomplete-item.active > span {
+  background: #005377;
+  color: #fff;
+}

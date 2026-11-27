@@ -7,7 +7,7 @@ h3.card-details-item-title.js-toggle-card-section(data-section="comments", role=
   if .CanComment
     .new-comment.js-new-comment
       form.js-new-comment-form(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/comments", up-submit, up-target=".board-wrapper")
-        textarea.editor.js-new-comment-input(name="comment", aria-label="{{t $.L `comment`}}", required)
+        textarea.editor.js-new-comment-input(name="comment", data-mentions="{{.CommentMentions}}", aria-label="{{t $.L `comment`}}", required)
         button.primary.confirm.js-add-comment(type="submit") {{t $.L "comment"}}
   each cm in .Comments
     .comment(data-id="{{.ID}}")

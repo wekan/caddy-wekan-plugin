@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"embed"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"html/template"
@@ -1075,6 +1076,17 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["LabelPalette"] = labelPalette
 			data["WatchingCard"] = slices.Contains(s.cardWatchers(r.Context(), c.ID), u.ID)
 			data["CanComment"] = s.canCommentIn(r.Context(), b, u, &c)
+			if data["CanComment"] == true {
+				members, _ := data["BoardMembers"].([]memberChoice)
+				mentions := make([]map[string]string, 0, len(members))
+				for _, member := range members {
+					if !member.LoginDisabled {
+						mentions = append(mentions, map[string]string{"u": member.Username, "f": member.Fullname})
+					}
+				}
+				encoded, _ := json.Marshal(mentions)
+				data["CommentMentions"] = string(encoded)
+			}
 			data["CardSections"] = cardSectionsOf(data, rawBoard, lang)
 		}
 	}
@@ -1083,8 +1095,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 
 // memberChoice is a board member in the card's members pop-over.
 type memberChoice struct {
-	ID, Username, Fullname string
-	Selected               bool
+	ID, Username, Fullname  string
+	Selected, LoginDisabled bool
 }
 
 // cardMemberChoices are the card's members, and every active board member with
@@ -1099,7 +1111,7 @@ func (s *Server) cardMemberChoices(ctx context.Context, b *Board, c *Card) ([]me
 		if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(m.UserID)}).Decode(&u) != nil {
 			continue
 		}
-		ch := memberChoice{ID: u.ID, Username: u.Username, Fullname: u.Profile.Fullname, Selected: slices.Contains(c.Members, u.ID)}
+		ch := memberChoice{ID: u.ID, Username: u.Username, Fullname: u.Profile.Fullname, Selected: slices.Contains(c.Members, u.ID), LoginDisabled: u.LoginDisabled}
 		board = append(board, ch)
 		if ch.Selected {
 			card = append(card, ch)

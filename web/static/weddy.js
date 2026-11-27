@@ -231,6 +231,88 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (button) button.click();
     else if (editor.form.requestSubmit) editor.form.requestSubmit();
   });
+  // WeKan's comment editor @ mention (client/components/main/editor.js,
+  // client/lib/textComplete.js, #6704): typing @ and part of a board
+  // member's username or full name - any case - opens .textcomplete-dropdown
+  // above the card; a click, Enter or Tab puts "@username (Full Name) " in
+  // place of what was typed, and Enter then does not send the comment.
+  var mention = null;
+  function mentionClose() {
+    if (mention) mention.menu.remove();
+    mention = null;
+  }
+  function mentionMembers(editor) {
+    try { return JSON.parse(editor.getAttribute('data-mentions') || '[]'); } catch (e) { return []; }
+  }
+  function mentionText(m) { return m.f ? '@' + m.u + ' (' + m.f + ') ' : '@' + m.u + ' '; }
+  function mentionPick(index) {
+    var at = mention, m = at && at.items[index];
+    if (!m) return;
+    var editor = at.editor, end = editor.selectionEnd, value = editor.value;
+    var start = end - at.typed.length;
+    editor.value = value.slice(0, start) + mentionText(m) + value.slice(end);
+    var caret = start + mentionText(m).length;
+    editor.setSelectionRange(caret, caret);
+    mentionClose();
+    editor.focus();
+    editor.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  function mentionActive(index) {
+    mention.active = index;
+    Array.prototype.forEach.call(mention.menu.children, function (li, i) { li.classList.toggle('active', i === index); });
+  }
+  function mentionUpdate(editor) {
+    var before = editor.value.slice(0, editor.selectionEnd);
+    var found = /(^|[^\w])(@([\w.-]*))$/.exec(before);
+    if (!found || editor.selectionStart !== editor.selectionEnd) return mentionClose();
+    var term = found[3].toLowerCase();
+    var items = mentionMembers(editor).filter(function (m) {
+      return String(m.u || '').toLowerCase().indexOf(term) > -1 || String(m.f || '').toLowerCase().indexOf(term) > -1;
+    });
+    mentionClose();
+    if (!items.length) return;
+    var menu = document.createElement('ul');
+    menu.className = 'dropdown-menu textcomplete-dropdown';
+    items.forEach(function (m, i) {
+      var li = document.createElement('li'), span = document.createElement('span');
+      li.className = 'textcomplete-item';
+      span.textContent = m.f ? m.f + ' (' + m.u + ')' : m.u;
+      li.appendChild(span);
+      // Pressing keeps the editor focused; the click then picks.
+      li.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      li.addEventListener('click', function (e) { e.preventDefault(); mentionPick(i); });
+      menu.appendChild(li);
+    });
+    var r = editor.getBoundingClientRect();
+    menu.style.position = 'fixed';
+    menu.style.left = Math.max(0, r.left) + 'px';
+    menu.style.top = Math.min(r.bottom, window.innerHeight - 40) + 'px';
+    document.body.appendChild(menu);
+    mention = { editor: editor, items: items, typed: found[2], menu: menu, active: 0 };
+    mentionActive(0);
+  }
+  document.addEventListener('input', function (event) {
+    var editor = event.target;
+    if (editor && editor.tagName === 'TEXTAREA' && editor.hasAttribute('data-mentions')) mentionUpdate(editor);
+  });
+  document.addEventListener('focusout', function (event) {
+    if (mention && event.target === mention.editor) mentionClose();
+  });
+  // Before weddy.js's submit on Enter and Escape: while the menu is open its
+  // keys are the menu's.
+  document.addEventListener('keydown', function (event) {
+    if (!mention || event.target !== mention.editor || event.isComposing) return;
+    var n = mention.items.length;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') mentionActive((mention.active + (event.key === 'ArrowDown' ? 1 : n - 1)) % n);
+    else if (event.key === 'Enter' || event.key === 'Tab') mentionPick(mention.active);
+    else if (event.key === 'Escape') mentionClose();
+    else return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }, true);
+  up.on('up:fragment:inserted', function () {
+    if (mention && !document.contains(mention.editor)) mentionClose();
+  });
   // WeKan's multilineTitles.creationTitles: the composer's text as one title,
   // or - "Many" chosen - one a line, blank lines left out.
   function creationTitles(value, separate) {
