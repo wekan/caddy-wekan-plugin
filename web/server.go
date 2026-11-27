@@ -336,6 +336,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}/rules", s.page(s.rulesPage))
 	m.HandleFunc("GET /b/{board}/{slug}/scrum", s.page(s.scrumPage))
 	m.HandleFunc("GET /b/{board}/{slug}/notifications", s.page(s.boardNotificationsPage))
+	m.HandleFunc("GET /b/{board}/{slug}/webhooks", s.page(s.boardWebhooksPage))
 	m.HandleFunc("POST /b/{board}/notifications", s.page(s.saveBoardDelivery))
 	m.HandleFunc("GET /b/{board}/{slug}/lists/{list}/permissions", s.page(s.listPermissionsPage))
 	m.HandleFunc("POST /b/{board}/lists/{list}/permissions", s.page(s.saveListPermissions))
@@ -1000,6 +1001,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	data["BoardDateFormats"] = boardFormats
 	data["IsBoardAdmin"] = b.AdminOf(u.ID)
+	data["ShowBoardWebhooks"] = b.AdminOf(u.ID) && !s.webhooksOff(r.Context())
 	data["CardSettings"] = s.cardSettingsPanes(r.Context(), b, u, lang)
 	data["CardSettingsSplit"] = cardSettingsSplitOf(u)
 	// Card's hamburger is every member's to read (WeKan's

@@ -409,6 +409,14 @@ func TestAdminAndHookDeliveryPages(t *testing.T) {
 	if !strings.Contains(page, `data-hook="`+hookID+`"`) || !strings.Contains(page, `/integrations/`+hookID+`/notifications`) || strings.Contains(page, foreignID) {
 		t.Error("the board's page has a form for each of its own webhooks, and no other board's")
 	}
+	boardURL := w.srv.URL + "/b/" + rb.ID + "/" + b.Slug
+	if html := getBody(t, ac, boardURL); !strings.Contains(html, "js-outgoing-webhooks") {
+		t.Fatal("board admin should see the webhook menu entry")
+	}
+	if res, html := get(t, ac, boardURL+"/webhooks"); res.StatusCode != http.StatusOK ||
+		!strings.Contains(html, hookID) || strings.Contains(html, foreignID) {
+		t.Fatal("board admin should see only their board's webhooks")
+	}
 	hook := func(id string, keys ...string) any {
 		var doc bson.M
 		_ = w.db.Collection("integrations").FindOne(ctx, bson.M{"_id": id}).Decode(&doc)
@@ -429,6 +437,12 @@ func TestAdminAndHookDeliveryPages(t *testing.T) {
 	}
 	if _, err := w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"webhooksDisabled": true}}); err != nil {
 		t.Fatal(err)
+	}
+	if html := getBody(t, ac, boardURL); strings.Contains(html, "js-outgoing-webhooks") {
+		t.Fatal("webhook menu entry should be hidden while webhooks are disabled")
+	}
+	if res, _ := get(t, ac, boardURL+"/webhooks"); res.StatusCode != http.StatusNotFound {
+		t.Fatal("the management page should also be hidden on direct navigation")
 	}
 	for _, html := range []string{
 		getBody(t, sc, w.srv.URL+"/admin/notifications"),

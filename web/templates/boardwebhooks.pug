@@ -1,0 +1,30 @@
+.setting-content.board-webhooks(data-integrations="/api/boards/{{.Board.ID}}/integrations")
+  h1
+    a.js-back-to-board(href="/b/{{.Board.ID}}/{{.Board.Slug}}") {{.Board.Title}}
+    |  - {{t $.L "outgoing-webhooks"}}
+  p.error.js-webhook-error(role="alert", hidden) {{t $.L "error"}}
+  each hook in .Hooks
+    form.js-board-hook(method="post", data-hook="{{.ID}}")
+      label
+        | {{t $.L "webhook-title"}}
+        input(type="text", name="title", value="{{.Title}}")
+      label
+        | {{t $.L "settings-group-url"}}
+        input(type="url", name="url", required, value="{{.URL}}")
+      label
+        | {{t $.L "webhook-token"}}
+        input(type="password", name="token", autocomplete="off")
+      label
+        if .Enabled
+          input(type="checkbox", name="enabled", checked)
+        else
+          input(type="checkbox", name="enabled")
+        | {{t $.L "webhooks-report-on"}}
+      button.primary(type="submit") {{t $.L "save"}}
+      button(type="submit", value="delete", formnovalidate) {{t $.L "delete"}}
+  form.js-board-hook(method="post")
+    label
+      | {{t $.L "settings-group-url"}}
+      input(type="url", name="url", required)
+    button.primary(type="submit") {{t $.L "add"}}
+  script(src="/static/board-webhooks.js", defer)
