@@ -149,15 +149,26 @@ func (hr *historyReader) readable(row map[string]any) bool {
 	return true
 }
 
+func historyScopeFilter(scope, id, boardID string) bson.M {
+	column := historyScopeColumn[scope]
+	direct := bson.M{column: eq(id)}
+	if scope != "list" && scope != "swimlane" {
+		return direct
+	}
+	return bson.M{"$or": bson.A{direct, bson.M{
+		column: bson.M{"$in": bson.A{nil, ""}}, "entityType": scope,
+		"entityId": eq(id), "boardId": eq(boardID),
+	}}}
+}
+
 func (s *Server) historyPage(r *http.Request, u *User, q historyPageRequest) (map[string]any, error) {
 	ctx := r.Context()
 	sel := bson.M{}
 	if q.Scope != "" {
-		col, ok := historyScopeColumn[q.Scope]
+		_, ok := historyScopeColumn[q.Scope]
 		if !ok || q.ScopeID == "" {
 			return nil, &methodError{"bad-scope", "changeHistory: unknown scope or no scopeId"}
 		}
-		sel[col] = eq(q.ScopeID)
 		boardID := q.ScopeID
 		if q.Scope != "board" {
 			var owner bson.M
@@ -169,6 +180,7 @@ func (s *Server) historyPage(r *http.Request, u *User, q historyPageRequest) (ma
 		if _, err := s.boardFor(ctx, boardID, u); err != nil {
 			return nil, &methodError{"not-authorized", "not-authorized"}
 		}
+		sel = historyScopeFilter(q.Scope, q.ScopeID, boardID)
 	} else if q.ScopeID != "" {
 		return nil, &methodError{"bad-scope", "changeHistory: scopeId without a scope"}
 	} else if q.UserID == "" {

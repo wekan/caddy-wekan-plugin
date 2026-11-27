@@ -382,10 +382,14 @@ func (s *Server) historyRestorePage(w http.ResponseWriter, r *http.Request, u *U
 	}
 	for _, id := range ids {
 		filter := bson.M{"_id": eq(id), "boardId": eq(b.ID)}
+		var scopes bson.A
 		for _, scope := range []string{"card", "list", "swimlane"} {
 			if value := target.Query().Get(scope); value != "" {
-				filter[scope+"Id"] = eq(value)
+				scopes = append(scopes, historyScopeFilter(scope, value, b.ID))
 			}
+		}
+		if len(scopes) != 0 {
+			filter["$and"] = scopes
 		}
 		if !validID(id) || s.findDoc(r.Context(), "changeHistory", filter) == nil {
 			http.Error(w, "history row outside scope", http.StatusForbidden)

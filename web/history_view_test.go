@@ -56,6 +56,19 @@ func TestHistoryView(t *testing.T) {
 			t.Errorf("filtered %s History: %d", scope, res.StatusCode)
 		}
 	}
+	for scope, id := range map[string]string{"list": placement.ListID, "swimlane": placement.SwimlaneID} {
+		if _, err := w.db.Collection("changeHistory").InsertOne(ctx, bson.M{
+			"_id": "legacy-" + scope, "boardId": rb.ID, "entityType": scope, "entityId": id,
+			"group": "title", "changeType": "edited", "userId": ann.ID,
+			"newContent": bson.M{"field": "title", "value": "Legacy " + scope},
+		}); err != nil {
+			t.Fatal(err)
+		}
+		_, h := get(t, c, page+"?"+scope+"="+id+"&q=Legacy")
+		if strings.Count(h, "js-history-row") != 1 || !strings.Contains(h, "Legacy "+scope) {
+			t.Errorf("expected the legacy %s row in its own history", scope)
+		}
+	}
 	// The menus lead there.
 	if _, h := get(t, c, w.srv.URL+"/b/"+rb.ID+"/"+board.Slug+"/"+rb.Card); !strings.Contains(h, `href="/b/`+rb.ID+`/history"`) ||
 		!strings.Contains(h, `href="/b/`+rb.ID+`/history?card=`+rb.Card+`"`) {
