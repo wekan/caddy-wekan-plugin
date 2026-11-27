@@ -142,6 +142,20 @@ func TestExportPDFUsesUnicodeFont(t *testing.T) {
 			t.Errorf("Unicode PDF does not contain %q", fragment)
 		}
 	}
+	mixed := buildExportPdfBuffer([]pdfLine{pdfPlain("日😀本", false)})
+	for _, fragment := range []string{"/BaseFont /UnifontUpper", "/FS ", "<0001> <D83DDE00>", "/FS 10 Tf\n<0001> Tj\n/FU 10 Tf\n<0002> Tj"} {
+		if !bytes.Contains(mixed, []byte(fragment)) {
+			t.Errorf("mixed-plane PDF does not contain %q", fragment)
+		}
+	}
+	upper, err := loadPDFUnifontUpper()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if glyph, err := upper.face.GlyphIndex(nil, '😀'); err != nil || glyph == 0 {
+		t.Fatal("bundled Unifont Upper is missing the supplementary glyph")
+	}
+
 	program, err := loadPDFUnifont()
 	if err != nil {
 		t.Fatal(err)
