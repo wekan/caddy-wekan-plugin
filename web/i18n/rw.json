@@ -1864,6 +1864,8 @@
   "time-adjustments": "amasaha — Δ — Izina ry'ukoresha",
   "title": "Umutwe",
   "title-alphabetically": "Umutwe (hakurikijwe inyuguti)",
+  "title-bracket-label": "Hindura [ikirango] kiri mu ntangiriro y'umutwe w'ikarita nshya kibe ikirango",
+  "title-bracket-label-description": "Iyo umutwe w'ikarita nshya utangiranye na [Inyandiko] igakurikirwa n'indi nyandiko, Inyandiko iba ikirango cy'ikarita (gihangwa niba ikibaho kidafite ikirango cy'iryo zina) kandi ikavanwa mu mutwe. Bizimye: umutwe uguma uko uri.",
   "today": "Uyu munsi",
   "toggle-header-icons-collapsed": "Gufunga/gufungura udushushondanga tw'umutwe",
   "tracking": "Gukurikirana",

@@ -1864,6 +1864,8 @@
   "time-adjustments": "Pòprawczi czasu wedle aùtora",
   "title": "Titel",
   "title-alphabetically": "nazwy (alfabetycznié)",
+  "title-bracket-label": "Zmieni [etikéta] na zôczątkù titla nowi kôrtë w etikétã",
+  "title-bracket-label-description": "Czej titel nowi kôrtë zaczinô sã òd [Tekst], a pò nim je wiele tekstu, Tekst stôwô sã etikétą kôrtë (je ùsôdzonô, jeżlë tôfla ni mô etikétë z tim mionã) ë je rëmniãti z titla. Wëłączoné: titel òstôwô taczi, jaczi je.",
   "today": "Dzysô",
   "toggle-header-icons-collapsed": "Zwiń/rozwiń ikony nagłówka",
   "tracking": "Slédzenié",

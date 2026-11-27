@@ -1864,6 +1864,8 @@
   "time-adjustments": "saat — Δ — Kullanıcı adı",
   "title": "Başlık",
   "title-alphabetically": "Başlık(Alfabetik)",
+  "title-bracket-label": "Yeni kart başlığının başındaki [etiket] ifadesini etikete dönüştür",
+  "title-bracket-label-description": "Yeni bir kartın başlığı [Metin] ile başlayıp ardından başka metin geldiğinde, Metin kartın etiketi olur (panoda bu adda etiket yoksa oluşturulur) ve başlıktan kaldırılır. Kapalı: başlık olduğu gibi korunur.",
   "today": "Bugün",
   "toggle-header-icons-collapsed": "Başlık simgelerini daralt/genişlet",
   "tracking": "Takip",

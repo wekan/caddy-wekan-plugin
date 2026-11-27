@@ -1864,6 +1864,8 @@
   "time-adjustments": "klukkustundir — Δ — Notandanafn",
   "title": "Titill",
   "title-alphabetically": "Heiti (í stafrófsröð)",
+  "title-bracket-label": "Breyta [merki] í upphafi titils nýs spjalds í merki",
+  "title-bracket-label-description": "Þegar titill nýs spjalds byrjar á [Texti] og meiri texti fylgir, verður Texti að merki spjaldsins (búið til ef taflan hefur ekkert merki með því nafni) og er fjarlægt úr titlinum. Af: titillinn helst óbreyttur.",
   "today": "Í dag",
   "toggle-header-icons-collapsed": "Fella saman/opna haustákn",
   "tracking": "Rakning",

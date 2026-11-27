@@ -1865,6 +1865,8 @@
   "time-adjustments": "heures — Δ — Nom d'utilisateur",
   "title": "Titre",
   "title-alphabetically": "Titre (Alphabétiquement)",
+  "title-bracket-label": "Transformer [étiquette] au début du titre d'une nouvelle carte en étiquette",
+  "title-bracket-label-description": "Lorsque le titre d'une nouvelle carte commence par [Texte] suivi d'autre texte, Texte devient une étiquette de la carte (créée si le tableau n'en a aucune portant ce nom) et est retiré du titre. Désactivé : le titre est conservé tel quel.",
   "today": "Aujourd'hui",
   "toggle-header-icons-collapsed": "Réduire/développer les icônes d'en-tête",
   "tracking": "Suivi",

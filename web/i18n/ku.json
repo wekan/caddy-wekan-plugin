@@ -1864,6 +1864,8 @@
   "time-adjustments": "saet — Δ — Navê bikarhêner",
   "title": "Sernav",
   "title-alphabetically": "Sernav (bi rêza alfabeyê)",
+  "title-bracket-label": "[etîket] li destpêka sernavê karta nû bike etîket",
+  "title-bracket-label-description": "Dema ku sernavê karteke nû bi [Nivîs] dest pê dike û pişt re nivîsa din tê, Nivîs dibe etîketa kartê (heke depo etîketeke bi wî navî tune be, tê afirandin) û ji sernavê tê rakirin. Girtî: sernav wekî xwe dimîne.",
   "today": "Îro",
   "toggle-header-icons-collapsed": "Îkonên sernavî berhev bike/fireh bike",
   "tracking": "Şopandin",

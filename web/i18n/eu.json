@@ -1864,6 +1864,8 @@
   "time-adjustments": "ordu — Δ — Erabiltzaile-izena",
   "title": "Izenburua",
   "title-alphabetically": "Izenburua (alfabetikoki)",
+  "title-bracket-label": "Bihurtu txartel berri baten izenburuaren hasierako [etiketa] etiketa",
+  "title-bracket-label-description": "Txartel berri baten izenburua [Testua] hitzarekin hasten denean eta ondoren testu gehiago dagoenean, Testua txartelaren etiketa bihurtzen da (sortu egiten da arbelak izen hori duen etiketarik ez badu) eta izenburutik kentzen da. Desaktibatuta: izenburua dagoen bezala mantentzen da.",
   "today": "Gaur",
   "toggle-header-icons-collapsed": "Tolestu/zabaldu goiburuko ikonoak",
   "tracking": "Jarraitzen",

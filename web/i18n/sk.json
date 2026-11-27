@@ -1864,6 +1864,8 @@
   "time-adjustments": "Úpravy času podľa autora",
   "title": "Názov",
   "title-alphabetically": "Názov (abecedne)",
+  "title-bracket-label": "Premeniť [štítok] na začiatku názvu novej karty na štítok",
+  "title-bracket-label-description": "Keď názov novej karty začína textom [Text], po ktorom nasleduje ďalší text, Text sa stane štítkom karty (vytvorí sa, ak nástenka nemá štítok s týmto názvom) a odstráni sa z názvu. Vypnuté: názov zostane taký, aký je.",
   "today": "Dnes",
   "toggle-header-icons-collapsed": "Zbaliť/rozbaliť ikony hlavičky",
   "tracking": "Pozorovanie",

@@ -88,6 +88,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"setBoardDragging":                  s.methodSetBoardDragging,
 		"setPassword":                       s.methodSetPassword,
 		"setBoardSettingsColumn":            s.methodSetBoardSettingsColumn,
+		"toggleTitleBracketLabel":           s.methodToggleTitleBracketLabel,
 		"toggleKeepAddCardFormOpen":         s.methodToggleKeepAddCardFormOpen,
 		"toggleHideFocusOutline":            s.methodToggleHideFocusOutline,
 		"toggleDesktopDragHandles":          s.methodToggleDesktopDragHandles,
@@ -736,6 +737,14 @@ func (s *Server) methodToggleCustomFieldsGrid(r *http.Request, u *User, args []j
 	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
 		bson.M{"$set": bson.M{"profile.customFieldsGrid": !u.Profile.CustomFieldsGrid}})
 	return nil, err
+}
+
+func (s *Server) methodToggleTitleBracketLabel(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	if len(args) != 0 {
+		return nil, &methodError{"Match.Error", "Expected no arguments"}
+	}
+	on := !u.Profile.TitleBracketLabel
+	return on, s.setProfileFields(r, u, bson.M{"profile.titleBracketLabel": on})
 }
 
 func (s *Server) methodToggleKeepAddCardFormOpen(r *http.Request, u *User, _ []json.RawMessage) (any, error) {

@@ -1864,6 +1864,8 @@
   "time-adjustments": "awanni — Δ — Sunan mai amfani",
   "title": "Take",
   "title-alphabetically": "Take (Bisa haruffa)",
+  "title-bracket-label": "Mayar da [alama] a farkon taken sabon kati zuwa alama",
+  "title-bracket-label-description": "Idan taken sabon kati ya fara da [Rubutu] sannan wani rubutu ya biyo baya, Rubutu zai zama alamar katin (za a ƙirƙira shi idan allon ba shi da alama mai wannan suna) kuma za a cire shi daga take. A kashe: take zai kasance yadda yake.",
   "today": "Yau",
   "toggle-header-icons-collapsed": "Rufe/buɗe alamomin kai",
   "tracking": "Bibiyar",

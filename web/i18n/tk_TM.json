@@ -1864,6 +1864,8 @@
   "time-adjustments": "sagat — Δ — Ulanyjy ady",
   "title": "Ady",
   "title-alphabetically": "Ady (Elipbiý boýunça)",
+  "title-bracket-label": "Täze kartyň adynyň başyndaky [bellik] sözüni bellige öwür",
+  "title-bracket-label-description": "Täze kartyň ady [Tekst] bilen başlanyp, yzyndan başga tekst gelse, Tekst kartyň belligi bolýar (tagtada şu atly bellik ýok bolsa, döredilýär) we atdan aýrylýar. Öçük: ady bolşy ýaly galýar.",
   "today": "Bu gün",
   "toggle-header-icons-collapsed": "Sözbaşy nyşanlaryny ýygnamak/giňeltmek",
   "tracking": "Gözlemek",

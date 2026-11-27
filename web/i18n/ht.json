@@ -1864,6 +1864,8 @@
   "time-adjustments": "Ajisteman tan selon otè",
   "title": "Tit",
   "title-alphabetically": "Tit (Selon alfabè)",
+  "title-bracket-label": "Transfòme [etikèt] nan kòmansman tit yon nouvo kat an yon etikèt",
+  "title-bracket-label-description": "Lè tit yon nouvo kat kòmanse ak [Tèks] epi plis tèks vin apre, Tèks vin yon etikèt kat la (yo kreye l si tablo a pa gen youn ak non sa a) epi yo retire l nan tit la. Etenn: tit la rete jan li ye a.",
   "today": "Jodi a",
   "toggle-header-icons-collapsed": "Redui/elaji ikòn antèt yo (soti nan bouton pou chanje ant mobil ak òdinatè rive nan notifikasyon yo)",
   "tracking": "Swivi",

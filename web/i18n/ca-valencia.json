@@ -1864,6 +1864,8 @@
   "time-adjustments": "hores — Δ — Nom d'usuari",
   "title": "Títol",
   "title-alphabetically": "Títol (alfabèticament)",
+  "title-bracket-label": "Convertix [etiqueta] a l'inici del títol d'una fitxa nova en una etiqueta",
+  "title-bracket-label-description": "Quan el títol d'una fitxa nova comença amb [Text] seguit de més text, Text es convertix en una etiqueta de la fitxa (es crea si el tauler no en té cap amb eixe nom) i s'elimina del títol. Desactivat: el títol es conserva tal com és.",
   "today": "Avui",
   "toggle-header-icons-collapsed": "Redueix/expandeix les icones de la capçalera",
   "tracking": "En seguiment",

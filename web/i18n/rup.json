@@ -1864,6 +1864,8 @@
   "time-adjustments": "Alãxiri di chiro dupã autor",
   "title": "Titlu",
   "title-alphabetically": "Titlu (alfabetic)",
+  "title-bracket-label": "Fã [etichetã] di la ahurhita a titlului a unei cartã nauã etichetã",
+  "title-bracket-label-description": "Cãndu titlul a unei cartã nauã ahurheashti cu [Text] shi dupã el yini altu text, Text s-fatsi etichetã a cartãljei (s-adarã ma s-nu ari tabela vãrã cu aestu numã) shi easte scos dit titlu. Astins: titlul armãne ashi cum easte.",
   "today": "Adzã",
   "toggle-header-icons-collapsed": "Adunã/discljidi iconili di caplu",
   "tracking": "Urmãrire",

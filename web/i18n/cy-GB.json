@@ -1864,6 +1864,8 @@
   "time-adjustments": "oriau — Δ — Enw defnyddiwr",
   "title": "Teitl",
   "title-alphabetically": "Teitl (Yn nhrefn yr wyddor)",
+  "title-bracket-label": "Troi [label] ar ddechrau teitl cerdyn newydd yn label",
+  "title-bracket-label-description": "Pan fydd teitl cerdyn newydd yn dechrau gyda [Testun] ac yna ragor o destun, daw Testun yn label ar y cerdyn (caiff ei greu os nad oes gan y bwrdd un o'r enw hwnnw) a chaiff ei dynnu o'r teitl. I ffwrdd: cedwir y teitl fel y mae.",
   "today": "Heddiw",
   "toggle-header-icons-collapsed": "Cau/agor eiconau'r pennawd",
   "tracking": "Olrhain",

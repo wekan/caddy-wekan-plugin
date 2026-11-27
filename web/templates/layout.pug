@@ -162,6 +162,11 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-browser-la
                   |  {{t $.L "keep-add-card-form-open"}}
                   i.fa.fa-check(aria-hidden="true")
               li
+                a.js-toggle-title-bracket-label(href="#", role="switch", aria-checked="{{.User.Profile.TitleBracketLabel}}", title="{{t $.L `title-bracket-label-description`}}")
+                  i.fa.fa-tag
+                  |  {{t $.L "title-bracket-label"}}
+                  i.fa.fa-check(aria-hidden="true")
+              li
                 a.js-toggle-submit-on-enter(href="#", title="{{t $.L `submit-on-enter-description`}}")
                   i.fa.fa-level-down
                   |  {{t $.L "submit-on-enter"}}

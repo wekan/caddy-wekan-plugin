@@ -1864,6 +1864,8 @@
   "time-adjustments": "valandų — Δ — Vartotojo vardas",
   "title": "Pavadinimas",
   "title-alphabetically": "Pavadinimas (abėcėlės tvarka)",
+  "title-bracket-label": "Paversti [etiketė] naujos kortelės pavadinimo pradžioje etikete",
+  "title-bracket-label-description": "Kai naujos kortelės pavadinimas prasideda [Tekstas], po kurio eina daugiau teksto, Tekstas tampa kortelės etikete (sukuriama, jei lentoje nėra tokio pavadinimo etiketės) ir pašalinamas iš pavadinimo. Išjungta: pavadinimas paliekamas toks, koks yra.",
   "today": "Šiandien",
   "toggle-header-icons-collapsed": "Suskleisti / išskleisti antraštės piktogramas",
   "tracking": "Stebėjimas",

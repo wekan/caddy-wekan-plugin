@@ -1864,6 +1864,8 @@
   "time-adjustments": "ሰዓታት — Δ — የተጠቃሚ ስም",
   "title": "ርዕስ",
   "title-alphabetically": "ርዕስ (በፊደል ቅደም ተከተል)",
+  "title-bracket-label": "በአዲስ ካርድ ርዕስ መጀመሪያ ያለውን [መለያ] ወደ መለያ ቀይር",
+  "title-bracket-label-description": "የአዲስ ካርድ ርዕስ በ[ጽሑፍ] ተጀምሮ ሌላ ጽሑፍ ከተከተለው፣ ጽሑፍ የካርዱ መለያ ይሆናል (ሰሌዳው በዚያ ስም መለያ ከሌለው ይፈጠራል) እና ከርዕሱ ይወገዳል። ጠፍቷል፦ ርዕሱ እንዳለ ይቆያል።",
   "today": "ዛሬ",
   "toggle-header-icons-collapsed": "የራስጌ አዶዎችን አሳንስ/አስፋ",
   "tracking": "ክትትል",

@@ -1864,6 +1864,8 @@
   "time-adjustments": "horas — Δ — Nombre d'usuario",
   "title": "Titol",
   "title-alphabetically": "Título (Alfabéticamente)",
+  "title-bracket-label": "Convertir [etiqueta] a l'inicio d'o titol d'una tarcheta nueva en una etiqueta",
+  "title-bracket-label-description": "Quan o titol d'una tarcheta nueva empecipia con [Texto] seguiu de mas texto, Texto se convierte en una etiqueta d'a tarcheta (se crea si o tablero no en tiene garra con ixe nombre) y se quita d'o titol. Desactivau: o titol se mantiene tal como ye.",
   "today": "Hue",
   "toggle-header-icons-collapsed": "Contrayer/expandir iconas de capitero",
   "tracking": "Siguiendo",

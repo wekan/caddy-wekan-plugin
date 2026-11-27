@@ -1864,6 +1864,8 @@
   "time-adjustments": "ore — Δ — Nomu di l'utenti",
   "title": "Titulu",
   "title-alphabetically": "Tìtulu (ordine alfabetico)",
+  "title-bracket-label": "Trasforma [etichetta] ô principiu dû titulu di na carta nova nta n'etichetta",
+  "title-bracket-label-description": "Quannu lu titulu di na carta nova accumincia cu [Testu] e poi veni autru testu, Testu addiventa n'etichetta dâ carta (criata si la tavula nun n'havi nudda cu ddu nomu) e veni livatu dû titulu. Astutatu: lu titulu resta comu è.",
   "today": "Oi",
   "toggle-header-icons-collapsed": "Struppiari/allarga li icuni dâ 'ntistazzioni",
   "tracking": "Munitoragghiu",

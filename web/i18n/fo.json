@@ -1864,6 +1864,8 @@
   "time-adjustments": "tímar — Δ — Brúkaranavn",
   "title": "Heiti",
   "title-alphabetically": "Heiti (stavrað)",
+  "title-bracket-label": "Ger [merki] í byrjanini av heitinum á nýggjum korti til eitt merki",
+  "title-bracket-label-description": "Tá ið heitið á nýggjum korti byrjar við [Tekst] og meiri tekstur fylgir eftir, verður Tekst eitt merki á kortinum (stovnað, um talvan ikki hevur eitt við tí navninum) og verður strikað úr heitinum. Sløkt: heitið verður verandi sum tað er.",
   "today": "Í dag",
   "toggle-header-icons-collapsed": "Fjal/vís yvirskriftartekn",
   "tracking": "Fylging",

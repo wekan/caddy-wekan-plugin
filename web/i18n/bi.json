@@ -1864,6 +1864,8 @@
   "time-adjustments": "Ol jenis blong taem folem man we i raetem",
   "title": "Taetol",
   "title-alphabetically": "Taetol (folem ABC)",
+  "title-bracket-label": "Tanem [mak] long stat blong taetol blong niu kad i kam wan mak",
+  "title-bracket-label-description": "Taem taetol blong wan niu kad i stat wetem [Tekis] mo i gat moa tekis biaen, Tekis i kam wan mak blong kad (oli mekem sapos bod i no gat mak wetem nem ia) mo oli tekemaot long taetol. Of: taetol i stap olsem we i stap.",
   "today": "Tede",
   "toggle-header-icons-collapsed": "Fasem/openem ol aekon blong hed",
   "tracking": "Folem wok",

@@ -1864,6 +1864,8 @@
   "time-adjustments": "Ku lulamisiwa ka nkarhi hi mutsari",
   "title": "Nhloko-mhaka",
   "title-alphabetically": "nhlokomhaka (mhaka)",
+  "title-bracket-label": "Hundzula [xikombiso] eku sunguleni ka nhloko-mhaka ya khadi lerintshwa xi va xikombiso",
+  "title-bracket-label-description": "Loko nhloko-mhaka ya khadi lerintshwa yi sungula hi [Tsalwa] kutani ku landzela tsalwa rin'wana, Tsalwa ri va xikombiso xa khadi (xi endliwa loko bodo yi nga ri na xikombiso xa vito rero) naswona ri susiwa eka yona. Ku timiwile: yi tshama yi ri tani hi laha yi nga xiswona.",
   "today": "Namuntlha",
   "toggle-header-icons-collapsed": "Pfumbeta/andlalata swifaniso swa nhloko",
   "tracking": "Ku landzelela",

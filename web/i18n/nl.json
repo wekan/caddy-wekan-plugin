@@ -1864,6 +1864,8 @@
   "time-adjustments": "uren — Δ — Gebruikersnaam",
   "title": "Titel",
   "title-alphabetically": "Titel (Alfabetisch)",
+  "title-bracket-label": "[markering] aan het begin van een nieuwe kaarttitel omzetten in een markering",
+  "title-bracket-label-description": "Als de titel van een nieuwe kaart begint met [Tekst] gevolgd door meer tekst, wordt Tekst een markering van de kaart (aangemaakt als het bord er geen met die naam heeft) en wordt het uit de titel verwijderd. Uit: de titel blijft zoals hij is.",
   "today": "Vandaag",
   "toggle-header-icons-collapsed": "Kop-iconen in-/uitklappen",
   "tracking": "Volgen",

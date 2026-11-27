@@ -1864,6 +1864,8 @@
   "time-adjustments": "godzin — Δ — Miano używŏcza",
   "title": "Tytuł",
   "title-alphabetically": "nazwy (alfabetycznie)",
+  "title-bracket-label": "Zmiyniej [etykieta] na poczōntku tytułu nowyj karty w etykieta",
+  "title-bracket-label-description": "Kej tytuł nowyj karty zaczyno sie ôd [Tekst], a po nim je jeszcze tekst, Tekst stowo sie etykietōm karty (je zrobiōno, jeźli tabula niy mo etykiety ô tym mianie) i je wyciepany z tytułu. Zastawiōne: tytuł ôstowo taki, jaki je.",
   "today": "Dzisiej",
   "toggle-header-icons-collapsed": "Zwiń/rozwiń ikōny nagōwka",
   "tracking": "Śledź",

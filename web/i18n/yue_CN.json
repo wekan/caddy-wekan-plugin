@@ -1864,6 +1864,8 @@
   "time-adjustments": "小時 — Δ — 使用者名稱",
   "title": "標題",
   "title-alphabetically": "標題（按字母順序）",
+  "title-bracket-label": "將新卡片標題開頭嘅 [標籤] 變成標籤",
+  "title-bracket-label-description": "當新卡片嘅標題以 [文字] 開頭，後面仲有其他文字嘅時候，文字會變成呢張卡片嘅標籤（如果看板冇呢個名嘅標籤就會新建），並且喺標題度刪走。關閉：標題保持原樣。",
   "today": "今天",
   "toggle-header-icons-collapsed": "收埋/展開頭部圖示",
   "tracking": "追蹤",

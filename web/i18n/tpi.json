@@ -1864,6 +1864,8 @@
   "time-adjustments": "Ol senis bilong taim long man i bin senisim",
   "title": "Het tok",
   "title-alphabetically": "Nem (Alphabetically)",
+  "title-bracket-label": "Senisim [mak] long stat bilong het tok bilong nupela kat i kamap mak",
+  "title-bracket-label-description": "Taim het tok bilong nupela kat i stat long [Tok] na moa tok i kam bihain, Tok i kamap mak bilong kat (ol i wokim sapos bot i no gat mak long dispela nem) na ol i rausim long het tok. Op: het tok i stap olsem em i stap.",
   "today": "Tude",
   "toggle-header-icons-collapsed": "Pasim/opim ol piksa bilong het",
   "tracking": "Bihainim wok",

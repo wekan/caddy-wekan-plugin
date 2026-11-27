@@ -1864,6 +1864,8 @@
   "time-adjustments": "Peuseusuai watèe lé ureueng tuléh",
   "title": "Judul",
   "title-alphabetically": "Judôl (meunurot abjad)",
+  "title-bracket-label": "Peugantoe [label] bak phôn judul kad barô jeut keu label",
+  "title-bracket-label-description": "Watèe judul kad barô geupeuphôn ngon [Haba] lheuh nyan na haba laén, Haba jeut keu label kad nyan (geupeugöt meunyo papan hana label ngon nan nyan) dan geupeugadoh nibak judul. Mate: judul teutap lagée nyan.",
   "today": "Uroe nyoe",
   "toggle-header-icons-collapsed": "Peusöm/peuleumah ikon kepala (mobile/desktop gantoe u peuneugah)",
   "tracking": "Peuturi",

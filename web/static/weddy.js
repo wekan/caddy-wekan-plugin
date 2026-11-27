@@ -601,6 +601,19 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       el.setAttribute('aria-checked', String(on));
     }, csFail).finally(function () { delete el.dataset.saving; });
   });
+  var titleBracketLabel;
+  up.compiler('.js-pop-over .js-toggle-title-bracket-label', function (el) {
+    if (titleBracketLabel !== undefined) el.setAttribute('aria-checked', String(titleBracketLabel));
+  });
+  up.on('click', '.js-pop-over .js-toggle-title-bracket-label', function (event, el) {
+    event.preventDefault();
+    if (el.dataset.saving) return;
+    el.dataset.saving = '1';
+    callAsync('toggleTitleBracketLabel').then(function (on) {
+      titleBracketLabel = on;
+      el.setAttribute('aria-checked', String(on));
+    }, csFail).finally(function () { delete el.dataset.saving; });
+  });
   up.on('click', '.js-pop-over .js-toggle-submit-on-enter', function (event) {
     event.preventDefault();
     var on = !submitOnEnter();

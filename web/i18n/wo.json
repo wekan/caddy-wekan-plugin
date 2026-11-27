@@ -1864,6 +1864,8 @@
   "time-adjustments": "waxtu — Δ — Turu jëfandikukat bi",
   "title": "Bopp",
   "title-alphabetically": "Titre (Alphabetically)",
+  "title-bracket-label": "Soppi [etiket] ci ndoorteelu boppu karta bu bees etiket",
+  "title-bracket-label-description": "Bu boppu karta bu bees tàmbalee ak [Mbind] te yeneen mbind topp ko, Mbind dina nekk etiketu karta bi (dañuy sos benn su tablo bi amul etiket bu tudd noonu) te dañu koy dindi ci bopp bi. Fey: bopp bi dina des ni mu mel.",
   "today": "Tey",
   "toggle-header-icons-collapsed": "Dëj/ubbi limi bindu bopp",
   "tracking": "Xeebi",

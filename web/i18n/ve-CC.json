@@ -1864,6 +1864,8 @@
   "time-adjustments": "Corezion del tenpo par autor",
   "title": "Titolo",
   "title-alphabetically": "Tìtoło (in òrdine ałfabètico)",
+  "title-bracket-label": "Trasforma [eticheta] al scomìnsio del tìtoło de na scheda nova in na eticheta",
+  "title-bracket-label-description": "Co el tìtoło de na scheda nova el scumìsia co [Testo] seguìo da altro testo, Testo el deventa na eticheta de ła scheda (creada se ła tołe no ła ghe ne ga nissuna co sto nome) e el vien cavà dal tìtoło. Destudà: el tìtoło el resta come che'l xe.",
   "today": "Ancuo",
   "toggle-header-icons-collapsed": "Strenzi/slarga łe icone de l'intestasion (canbio tełefonin/scritorio a łe notìfeghe)",
   "tracking": "Monitorajo",

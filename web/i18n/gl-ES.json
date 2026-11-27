@@ -1864,6 +1864,8 @@
   "time-adjustments": "horas — Δ — Nome de usuario",
   "title": "Título",
   "title-alphabetically": "Título (alfabeticamente)",
+  "title-bracket-label": "Converter [etiqueta] ao comezo do título dunha tarxeta nova nunha etiqueta",
+  "title-bracket-label-description": "Cando o título dunha tarxeta nova comeza por [Texto] seguido de máis texto, Texto convértese nunha etiqueta da tarxeta (créase se o taboleiro non ten ningunha con ese nome) e quítase do título. Desactivado: o título mantense tal como está.",
   "today": "Hoxe",
   "toggle-header-icons-collapsed": "Contraer/expandir iconas de cabeceira",
   "tracking": "Seguimento",

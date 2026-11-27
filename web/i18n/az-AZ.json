@@ -1864,6 +1864,8 @@
   "time-adjustments": "saat — Δ — İstifadəçi adı",
   "title": "Başlıq",
   "title-alphabetically": "Başlıq (Əlifba sırası ilə)",
+  "title-bracket-label": "Yeni kart başlığının əvvəlindəki [etiket] mətnini etiketə çevir",
+  "title-bracket-label-description": "Yeni kartın başlığı [Mətn] ilə başlayıb ardınca başqa mətn gəldikdə, Mətn kartın etiketi olur (lövhədə bu adda etiket yoxdursa, yaradılır) və başlıqdan silinir. Söndürülüb: başlıq olduğu kimi saxlanılır.",
   "today": "Bu gün",
   "toggle-header-icons-collapsed": "Başlıq nişanlarını yığ/aç",
   "tracking": "İzləmə",

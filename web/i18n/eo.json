@@ -1864,6 +1864,8 @@
   "time-adjustments": "horoj — Δ — Uzantnomo",
   "title": "Titolo",
   "title-alphabetically": "Titolo (alfabete)",
+  "title-bracket-label": "Igi [etikedo] ĉe la komenco de titolo de nova karto etikedo",
+  "title-bracket-label-description": "Kiam la titolo de nova karto komenciĝas per [Teksto] sekvata de plia teksto, Teksto fariĝas etikedo de la karto (kreita, se la tabulo ne havas etikedon kun tiu nomo) kaj estas forigita el la titolo. Malŝaltita: la titolo restas kia ĝi estas.",
   "today": "Hodiaŭ",
   "toggle-header-icons-collapsed": "Kunfaldi/malfaldi kap-piktogramojn",
   "tracking": "Spurado",

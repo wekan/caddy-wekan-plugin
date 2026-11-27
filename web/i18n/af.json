@@ -1864,6 +1864,8 @@
   "time-adjustments": "ure — Δ — Gebruikersnaam",
   "title": "Titel",
   "title-alphabetically": "Titel (alfabeties)",
+  "title-bracket-label": "Maak [etiket] aan die begin van 'n nuwe kaarttitel 'n etiket",
+  "title-bracket-label-description": "Wanneer 'n nuwe kaart se titel begin met [Teks] gevolg deur meer teks, word Teks 'n etiket van die kaart (geskep as die raad nog geen etiket met daardie naam het nie) en uit die titel verwyder. Af: die titel bly soos dit is.",
   "today": "Vandag",
   "toggle-header-icons-collapsed": "Vou/brei kopikone uit",
   "tracking": "Nasporing",

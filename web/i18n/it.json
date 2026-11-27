@@ -1864,6 +1864,8 @@
   "time-adjustments": "ore — Δ — Nome utente",
   "title": "Titolo",
   "title-alphabetically": "Titolo (ordine alfabetico)",
+  "title-bracket-label": "Trasforma [etichetta] all'inizio del titolo di una nuova scheda in un'etichetta",
+  "title-bracket-label-description": "Quando il titolo di una nuova scheda inizia con [Testo] seguito da altro testo, Testo diventa un'etichetta della scheda (creata se la bacheca non ne ha una con quel nome) e viene rimosso dal titolo. Disattivato: il titolo viene mantenuto così com'è.",
   "today": "Oggi",
   "toggle-header-icons-collapsed": "Comprimi/espandi le icone dell'intestazione",
   "tracking": "Monitoraggio",

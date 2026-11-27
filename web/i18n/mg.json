@@ -1864,6 +1864,8 @@
   "time-adjustments": "Fanitsiana ny fotoana araka ny mpanao azy",
   "title": "Lohateny",
   "title-alphabetically": "Lohateny (araka ny abidy)",
+  "title-bracket-label": "Avadiho ho marika ny [marika] eo am-piandohan'ny lohatenin'ny karatra vaovao",
+  "title-bracket-label-description": "Rehefa manomboka amin'ny [Soratra] ny lohatenin'ny karatra vaovao ary arahin'ny soratra hafa, dia lasa marika ho an'ny karatra ny Soratra (noforonina raha tsy manana marika mitondra io anarana io ny solaitra) ary esorina amin'ny lohateny. Maty: tazonina tahaka ny misy azy ny lohateny.",
   "today": "Androany",
   "toggle-header-icons-collapsed": "Aforitra/avelaro ny kisary eo amin’ny lohapejy (amin’ny finday/solosaina, hatramin’ny fampahafantarana)",
   "tracking": "Fanaraha-maso",

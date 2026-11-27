@@ -1864,6 +1864,8 @@
   "time-adjustments": "Correctiones temporis secundum auctorem",
   "title": "Titulus",
   "title-alphabetically": "Titulus (ordine alphabetico)",
+  "title-bracket-label": "Converte [titellus] in initio tituli chartae novae in titellum",
+  "title-bracket-label-description": "Cum titulus chartae novae incipit a [Textus] et alius textus sequitur, Textus fit titellus chartae (creatur si tabula nullum eo nomine habet) et e titulo removetur. Inactivum: titulus servatur ut est.",
   "today": "Hodie",
   "toggle-header-icons-collapsed": "Imagines capitis coartare/expandere",
   "tracking": "Observatio participationis",

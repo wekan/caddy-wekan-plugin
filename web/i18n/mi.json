@@ -1864,6 +1864,8 @@
   "time-adjustments": "ngā hāora — Δ — Ingoa kaiwhakamahi",
   "title": "Taitara",
   "title-alphabetically": "Taitara (Ā-Pū)",
+  "title-bracket-label": "Hurihia te [tapanga] i te tīmatanga o te taitara kāri hou hei tapanga",
+  "title-bracket-label-description": "Ina tīmata te taitara o tētahi kāri hou ki te [Kuputuhi] ā ka whai mai anō he kuputuhi, ka noho a Kuputuhi hei tapanga mō te kāri (ka waihangatia mēnā kāore he tapanga pērā te ingoa i te papa) ā ka tangohia i te taitara. Weto: ka waiho te taitara kia pērā tonu.",
   "today": "Āianei",
   "toggle-header-icons-collapsed": "Kōpiri/whakawhānui ngā ata pane",
   "tracking": "Aroturuki",

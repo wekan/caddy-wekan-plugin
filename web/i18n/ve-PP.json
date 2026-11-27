@@ -1864,6 +1864,8 @@
   "time-adjustments": "časud — Δ — Kävutajan nimi",
   "title": "Nimi",
   "title-alphabetically": "Nimi (kirjamišt)",
+  "title-bracket-label": "Muttä [znam] uden kartan nimen augotižes znamaks",
+  "title-bracket-label-description": "Konz uden kartan nimi augotase [Tekst]-sanaspäi i sen jäl'ghe om enamba tekstad, Tekst lugeb kartan znamaks (se sädas, ku laudal ei ole znamad mugoman nimenke) i se heittas nimespäi. Sambutadud: nimi jäb ičeze.",
   "today": "Tämbei",
   "toggle-header-icons-collapsed": "Sokou/phadzisa zwifanyiso zwa header",
   "tracking": "Kaceluz",

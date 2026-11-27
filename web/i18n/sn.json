@@ -1864,6 +1864,8 @@
   "time-adjustments": "Kugadziriswa kwenguva nemunyori",
   "title": "Musoro",
   "title-alphabetically": "Musoro (nekurongeka kwemavara)",
+  "title-bracket-label": "Shandura [reberu] pakutanga kwemusoro wekadhi nyowani kuita reberu",
+  "title-bracket-label-description": "Kana musoro wekadhi nyowani uchitanga ne [Mavara] uye mamwe mavara achitevera, Mavara anova reberu yekadhi (inogadzirwa kana bhodhi risina reberu yezita iroro) uye anobviswa mumusoro. Kudzimwa: musoro unoramba wakadaro.",
   "today": "Nhasi",
   "toggle-header-icons-collapsed": "Vhara/vhurudza zvifananidzo zvemusoro",
   "tracking": "Kutevera",

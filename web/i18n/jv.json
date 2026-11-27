@@ -1864,6 +1864,8 @@
   "time-adjustments": "jam — Δ — Jeneng panganggo",
   "title": "Irah-irahan",
   "title-alphabetically": "Judhul (Miturut Abjad)",
+  "title-bracket-label": "Owahi [label] ing wiwitan irah-irahan kertu anyar dadi label",
+  "title-bracket-label-description": "Yen irah-irahan kertu anyar diwiwiti karo [Teks] lan banjur ana teks liyane, Teks dadi label kertu (digawe yen papan durung duwe label kanthi jeneng kuwi) lan dibusak saka irah-irahan. Mati: irah-irahan tetep kaya asline.",
   "today": "Dina iki",
   "toggle-header-icons-collapsed": "Untal/wiyar ikon header",
   "tracking": "Pelacakan",

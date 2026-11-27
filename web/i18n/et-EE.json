@@ -1864,6 +1864,8 @@
   "time-adjustments": "tundi — Δ — Kasutajanimi",
   "title": "Pealkiri",
   "title-alphabetically": "Pealkiri (tähestikulises järjekorras)",
+  "title-bracket-label": "Muuda uue kaardi pealkirja alguses olev [märgis] märgiseks",
+  "title-bracket-label-description": "Kui uue kaardi pealkiri algab tekstiga [Tekst], millele järgneb veel teksti, saab Tekstist kaardi märgis (see luuakse, kui tahvlil sellise nimega märgist pole) ja see eemaldatakse pealkirjast. Väljas: pealkiri jääb nii, nagu see on.",
   "today": "Täna",
   "toggle-header-icons-collapsed": "Ahenda/laienda päise ikoonid",
   "tracking": "Jälgimine",

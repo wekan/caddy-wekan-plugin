@@ -1864,6 +1864,8 @@
   "time-adjustments": "Adattaziuns dal temp tenor autur",
   "title": "Titel",
   "title-alphabetically": "Titel (en urden alfabetic)",
+  "title-bracket-label": "Transfurmar [etichetta] al cumenzament dal titel d'ina nova carta en ina etichetta",
+  "title-bracket-label-description": "Sch'il titel d'ina nova carta cumenza cun [Text] suandà dad auter text, daventa Text ina etichetta da la carta (creada sche la tabella n'ha nagina cun quest num) ed è allontanà dal titel. Deactivà: il titel resta sco ch'el è.",
   "today": "Oz",
   "toggle-header-icons-collapsed": "Reducir/expander las iconas da l'entestaziun (midar tranter mobil/desktop per las notificaziuns)",
   "tracking": "Survegliaziun",

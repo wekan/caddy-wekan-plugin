@@ -1864,6 +1864,8 @@
   "time-adjustments": "Stonnen — Δ — Benotzernumm",
   "title": "Titel",
   "title-alphabetically": "Titel (alphabetesch)",
+  "title-bracket-label": "[Etikett] um Ufank vun engem neie Kaartentitel an eng Etikett ëmwandelen",
+  "title-bracket-label-description": "Wann den Titel vun enger neier Kaart mat [Text] ufänkt an duerno nach méi Text kënnt, gëtt Text eng Etikett vun der Kaart (se gëtt erstallt, wann d'Tafel keng mat deem Numm huet) an aus dem Titel ewechgeholl. Aus: den Titel bleift esou wéi en ass.",
   "today": "Haut",
   "toggle-header-icons-collapsed": "Header-Symboler zesummeklappen/opklappen",
   "tracking": "Verfollegen",

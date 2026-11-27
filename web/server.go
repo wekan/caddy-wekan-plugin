@@ -10,6 +10,7 @@ import (
 	"html/template"
 	"io/fs"
 	"log/slog"
+	"maps"
 	"net/http"
 	"net/url"
 	"path/filepath"
@@ -1581,11 +1582,15 @@ func (s *Server) AddCardWith(ctx context.Context, b *Board, u *User, listID, swi
 		Members: []string{}, Assignees: []string{}, LabelIDs: []string{}, CardNumber: number,
 		Type: "cardType-card", CreatedAt: time.Now().UTC(),
 		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": b.ID, "listId": eq(listID), "swimlaneId": eq(swimlaneID)})}
-	// The composer provides its final sort with no other extra fields.
-	// Insert it with the card so a separate sort write cannot fail afterward.
-	if sort, ok := extra["sort"].(float64); ok && len(extra) == 1 {
+	if sort, ok := extra["sort"].(float64); ok {
 		c.Sort = sort
-		extra = nil
+		extra = maps.Clone(extra)
+		delete(extra, "sort")
+	}
+	if labels, ok := extra["labelIds"].([]string); ok {
+		c.LabelIDs = labels
+		extra = maps.Clone(extra)
+		delete(extra, "labelIds")
 	}
 	if _, err := s.db.Collection("cards").InsertOne(ctx, c); err != nil {
 		return nil, err
@@ -1630,7 +1635,22 @@ func (s *Server) addCard(w http.ResponseWriter, r *http.Request, u *User) {
 		if atTop {
 			extra = bson.M{"sort": top + float64(i)}
 		}
-		if _, err := s.AddCardWith(ctx, b, u, listID, laneID, title, extra); err != nil {
+		var err error
+		if u.Profile.TitleBracketLabel {
+			var parsed, label string
+			parsed, label, err = s.quickAddLabel(ctx, b, u, title)
+			if label != "" {
+				title = parsed
+				if extra == nil {
+					extra = bson.M{}
+				}
+				extra["labelIds"] = []string{label}
+			}
+		}
+		if err == nil {
+			_, err = s.AddCardWith(ctx, b, u, listID, laneID, title, extra)
+		}
+		if err != nil {
 			if i > 0 {
 				w.Header().Set("X-Weddy-Cards-Saved", strconv.Itoa(i))
 				s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))

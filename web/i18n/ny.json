@@ -1864,6 +1864,8 @@
   "time-adjustments": "maola — Δ — Dzina logwiritsa ntchito",
   "title": "Mutu",
   "title-alphabetically": "Mutu (Motsatira zilembo)",
+  "title-bracket-label": "Sinthani [chilembo] koyambirira kwa mutu wa khadi latsopano kukhala chilembo",
+  "title-bracket-label-description": "Mutu wa khadi latsopano ukayamba ndi [Mawu] kenako n'kutsatiridwa ndi mawu ena, Mawu amakhala chilembo cha khadilo (chimapangidwa ngati bolodi lilibe chilembo cha dzina limenelo) ndipo amachotsedwa m'mutu. Kozimitsa: mutu umakhalabe momwe ulili.",
   "today": "Lero",
   "toggle-header-icons-collapsed": "Kufunga/kutsegula tizindilo ta mutu",
   "tracking": "Kutsatira",

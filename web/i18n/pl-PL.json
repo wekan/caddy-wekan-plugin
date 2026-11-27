@@ -1864,6 +1864,8 @@
   "time-adjustments": "godzin — Δ — Nazwa użytkownika",
   "title": "Tytuł",
   "title-alphabetically": "nazwy (alfabetycznie)",
+  "title-bracket-label": "Zamieniaj [etykieta] na początku tytułu nowej karty w etykietę",
+  "title-bracket-label-description": "Gdy tytuł nowej karty zaczyna się od [Tekst], po którym następuje dalszy tekst, Tekst staje się etykietą karty (zostaje utworzona, jeśli tablica nie ma etykiety o tej nazwie) i jest usuwany z tytułu. Wyłączone: tytuł pozostaje bez zmian.",
   "today": "Dzisiaj",
   "toggle-header-icons-collapsed": "Zwiń/rozwiń ikony nagłówka",
   "tracking": "Śledź",

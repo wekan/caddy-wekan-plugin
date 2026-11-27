@@ -1864,6 +1864,8 @@
   "time-adjustments": "ja — Δ — Nama Pengguna",
   "title": "Tajuk",
   "title-alphabetically": "Judul (mengikut abjad)",
+  "title-bracket-label": "Tukar [label] di awal tajuk kad baharu menjadi label",
+  "title-bracket-label-description": "Apabila tajuk kad baharu bermula dengan [Teks] diikuti teks lain, Teks menjadi label kad tersebut (dicipta jika papan tiada label dengan nama itu) dan dibuang daripada tajuk. Mati: tajuk dikekalkan seperti asal.",
   "today": "Hari Ini",
   "toggle-header-icons-collapsed": "Kuncupkan/kembangkan ikon pengepala",
   "tracking": "Jejak",

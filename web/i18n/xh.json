@@ -1864,6 +1864,8 @@
   "time-adjustments": "iiyure — Δ — Igama lomsebenzisi",
   "title": "Isihloko",
   "title-alphabetically": "Isihloko (Ngoonobumba)",
+  "title-bracket-label": "Guqula [ileyibhile] ekuqaleni kwesihloko sekhadi elitsha ibe yileyibhile",
+  "title-bracket-label-description": "Xa isihloko sekhadi elitsha siqala ngo-[Umbhalo] kulandele omnye umbhalo, uMbhalo uba yileyibhile yekhadi (iyenziwa ukuba ibhodi ayinayo ileyibhile enelo gama) kwaye ususwa kwisihloko. Kuvaliwe: isihloko sihlala sinjalo.",
   "today": "Namhlanje",
   "toggle-header-icons-collapsed": "Vala/vula imifanekiso yesihloko",
   "tracking": "Ukulandela umkhondo",

@@ -1864,6 +1864,8 @@
   "time-adjustments": "akunnerit — Δ — Atuisup aqqa",
   "title": "Qulequtaq",
   "title-alphabetically": "Qulequtaq (Alfabeti naapertorlugu)",
+  "title-bracket-label": "Kortsip nutaap qulequtaata aallartinnerani [nalunaaqutsersuut] nalunaaqutsersuutinngortiguk",
+  "title-bracket-label-description": "Kortsip nutaap qulequtaa [Allagaq] aallarteqqaarpat allagaqqaarlu malippat, Allagaq kortsimut nalunaaqutsersuutinngorpoq (pilersinneqassaaq ilisarnaammi taamatut ateqartumik nalunaaqutsersuuteqanngippat) qulequtamiillu peerneqarluni. Matuneqarpat: qulequtaq allanngortinneqanngilaq.",
   "today": "Ullumi",
   "toggle-header-icons-collapsed": "Nutserlugu ikoneqarfik ataaseerlugu/ammaqqullugu",
   "tracking": "Malinnaaneq",

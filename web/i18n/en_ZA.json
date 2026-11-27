@@ -1864,6 +1864,8 @@
   "time-adjustments": "hours — Δ — Username",
   "title": "Title",
   "title-alphabetically": "Title (Alphabetically)",
+  "title-bracket-label": "Turn [label] at the start of a new card title into a label",
+  "title-bracket-label-description": "When a new card's title starts with [Text] followed by more text, Text becomes a label of the card (created if the board has none by that name) and is removed from the title. Off: the title is kept as it is.",
   "today": "Today",
   "toggle-header-icons-collapsed": "Collapse/expand header icons (mobile/desktop toggle to notifications)",
   "tracking": "Tracking",

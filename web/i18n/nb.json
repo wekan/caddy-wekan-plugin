@@ -1864,6 +1864,8 @@
   "time-adjustments": "timer — Δ — Brukernavn",
   "title": "Tittel",
   "title-alphabetically": "Tittel (alfabetisk)",
+  "title-bracket-label": "Gjør [etikett] i starten av en ny korttittel til en etikett",
+  "title-bracket-label-description": "Når tittelen på et nytt kort starter med [Tekst] etterfulgt av mer tekst, blir Tekst en etikett på kortet (opprettes hvis tavlen ikke har en med det navnet) og fjernes fra tittelen. Av: tittelen beholdes som den er.",
   "today": "I dag",
   "toggle-header-icons-collapsed": "Slå sammen/utvid hode-ikoner",
   "tracking": "Sporing",

@@ -1864,6 +1864,8 @@
   "time-adjustments": "Časowe korektury po awtorje",
   "title": "Titul",
   "title-alphabetically": "Titul (alfabetisce)",
+  "title-bracket-label": "[etiketa] na spočatku titula noweje karty do etikety přetworić",
+  "title-bracket-label-description": "Hdyž so titul noweje karty z [Tekst] započina a dalši tekst sćěhuje, stanje so Tekst z etiketu karty (wutwori so, jeli tafla žanu etiketu z tym mjenom nima) a wotstroni so z titula. Wupinjene: titul wostanje, kaž je.",
   "today": "Dźensa",
   "toggle-header-icons-collapsed": "Symbole hłowoweje lajsty zwinyć/rozwinyć (mobilny/desktop přepinak k zdźělenkam)",
   "tracking": "Slědowanje",

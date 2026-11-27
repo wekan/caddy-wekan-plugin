@@ -1864,6 +1864,8 @@
   "time-adjustments": "小时 — Δ — 用户名",
   "title": "标题",
   "title-alphabetically": "标题（按字母顺序）",
+  "title-bracket-label": "将新卡片标题开头的 [标签] 转换为标签",
+  "title-bracket-label-description": "当新卡片的标题以 [文本] 开头且后面还有其他文字时，文本会成为该卡片的标签（如果看板中没有该名称的标签则会创建），并从标题中删除。关闭：标题保持原样。",
   "today": "今天",
   "toggle-header-icons-collapsed": "收起/展开标题图标",
   "tracking": "追踪",

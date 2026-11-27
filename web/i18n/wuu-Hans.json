@@ -1864,6 +1864,8 @@
   "time-adjustments": "按修改者分组个时间调整",
   "title": "标题",
   "title-alphabetically": "标题（按字母顺序）",
+  "title-bracket-label": "拿新卡片标题开头个 [标签] 变成标签",
+  "title-bracket-label-description": "新卡片个标题用 [文本] 开头、后头还有别个文字个辰光，文本会变成搿张卡片个标签（看板里向呒没搿个名字个标签就会新建），并且从标题里向拿脱。关脱：标题保持原样。",
   "today": "今朝",
   "toggle-header-icons-collapsed": "收起/展开标题图标",
   "tracking": "追踪",

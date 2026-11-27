@@ -1864,6 +1864,8 @@
   "time-adjustments": "Ditokiso tsa nako ho ya ka motho ya di entseng",
   "title": "Sehlooho",
   "title-alphabetically": "Sehlooho (Ka tatellano ya alfabeta)",
+  "title-bracket-label": "Fetola [leibole] qalong ya sehlooho sa karete e ntjha hore e be leibole",
+  "title-bracket-label-description": "Ha sehlooho sa karete e ntjha se qala ka [Mongolo] mme sa latelwa ke mongolo o mong, Mongolo o fetoha leibole ya karete (e a etswa haeba boto e se na leibole ya lebitso leo) mme o tloswa sehloohong. E timilwe: sehlooho se dula se le kamoo se leng kateng.",
   "today": "Kajeno",
   "toggle-header-icons-collapsed": "Kgutsufatsa/atolosa ditshwantsho tsa hlooho (fapoha ho ditsebiso mohaleng/komporong)",
   "tracking": "Ho latela",

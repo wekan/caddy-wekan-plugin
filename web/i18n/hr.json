@@ -1864,6 +1864,8 @@
   "time-adjustments": "sati — Δ — Korisničko ime",
   "title": "Naziv",
   "title-alphabetically": "Naslov (abecedno)",
+  "title-bracket-label": "Pretvori [oznaka] na početku naziva nove kartice u oznaku",
+  "title-bracket-label-description": "Kada naziv nove kartice počinje s [Tekst] nakon čega slijedi još teksta, Tekst postaje oznaka kartice (stvara se ako ploča nema oznaku tog imena) i uklanja se iz naziva. Isključeno: naziv ostaje kakav jest.",
   "today": "Danas",
   "toggle-header-icons-collapsed": "Sažmi/proširi ikone zaglavlja",
   "tracking": "Praćenje",

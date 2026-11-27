@@ -1864,6 +1864,8 @@
   "time-adjustments": "uairean — Δ — Ainm-cleachdaiche",
   "title": "Tiotal",
   "title-alphabetically": "Tiotal (a rèir na h-aibidil)",
+  "title-bracket-label": "Dèan leubail de [leubail] aig toiseach tiotal cairt ùir",
+  "title-bracket-label-description": "Nuair a thòisicheas tiotal cairt ùir le [Teacsa] agus barrachd teacsa às a dhèidh, thèid Teacsa na leubail aig a' chairt (cruthaichear i mur eil tè air a' bhòrd air a bheil an t-ainm sin) agus thèid a thoirt air falbh on tiotal. Dheth: cumar an tiotal mar a tha e.",
   "today": "An-diugh",
   "toggle-header-icons-collapsed": "Co-theannaich/leudaich ìomhaighean a’ bhanna-chinn (tionndaidh gu brathan air fòn-làimhe/deasg)",
   "tracking": "Tracadh",

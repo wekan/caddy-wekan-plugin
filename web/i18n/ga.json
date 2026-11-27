@@ -1864,6 +1864,8 @@
   "time-adjustments": "uaireanta — Δ — Ainm úsáideora",
   "title": "Teideal",
   "title-alphabetically": "Teideal (In Ord Aibítre)",
+  "title-bracket-label": "Iompaigh [lipéad] ag tús theideal cárta nua ina lipéad",
+  "title-bracket-label-description": "Nuair a thosaíonn teideal cárta nua le [Téacs] agus tuilleadh téacs ina dhiaidh, déantar lipéad den chárta de Théacs (cruthaítear é mura bhfuil lipéad leis an ainm sin ar an gclár) agus baintear den teideal é. As: coimeádtar an teideal mar atá.",
   "today": "Inniu",
   "toggle-header-icons-collapsed": "Laghdaigh/leathnaigh deilbhíní an cheanntásca (ar fhón póca/ríomhaire, go dtí na fógraí)",
   "tracking": "Rianú",

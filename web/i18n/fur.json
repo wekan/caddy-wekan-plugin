@@ -1864,6 +1864,8 @@
   "time-adjustments": "oris — Δ — Non utent",
   "title": "Titul",
   "title-alphabetically": "Titul (ordine alfabetico)",
+  "title-bracket-label": "Trasforme [etichete] al inizi dal titul di une gnove cjarte intune etichete",
+  "title-bracket-label-description": "Cuant che il titul di une gnove cjarte al scomence cun [Test] daûr dal quâl al ven altri test, Test al devente une etichete de cjarte (creade se la taule no 'nd à nissune cun chel non) e al ven gjavât dal titul. Distudât: il titul al reste come che al è.",
   "today": "Vuê",
   "toggle-header-icons-collapsed": "Strenç/slargjâ lis iconis da la intestazion",
   "tracking": "Monitorisggio",

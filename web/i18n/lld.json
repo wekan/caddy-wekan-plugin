@@ -1864,6 +1864,8 @@
   "time-adjustments": "Mudazions dl tëmp do autor",
   "title": "Titul",
   "title-alphabetically": "Titul (do l alfabet)",
+  "title-bracket-label": "Muda [eticheta] al scumenciamënt dl titul de na ciarta nueva te na eticheta",
+  "title-bracket-label-description": "Canche l titul de na ciarta nueva scumëncia cun [Test] y do iel mo d'autri test, Test doventa na eticheta dla ciarta (la vën creeda sce la tofla ne n'à degun cun chël inuem) y vën tëut ora dl titul. Destudà: l titul resta coche l ie.",
   "today": "Ncuei",
   "toggle-header-icons-collapsed": "Stlù/giaurì la icones dla testa (mudé mobil/desktop per la notificazions)",
   "tracking": "Tenì da ment",

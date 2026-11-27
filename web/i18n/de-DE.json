@@ -1869,6 +1869,8 @@
   "time-adjustments": "Stunden — Δ — Benutzername",
   "title": "Titel",
   "title-alphabetically": "Überschrift (alphabetisch)",
+  "title-bracket-label": "[Kennzeichnung] am Anfang eines neuen Kartentitels in eine Kennzeichnung umwandeln",
+  "title-bracket-label-description": "Wenn der Titel einer neuen Karte mit [Text] beginnt, gefolgt von weiterem Text, wird Text zu einer Kennzeichnung der Karte (sie wird erstellt, falls die Arbeitstafel noch keine mit diesem Namen hat) und aus dem Titel entfernt. Aus: Der Titel bleibt unverändert.",
   "today": "Heute",
   "toggle-header-icons-collapsed": "Kopfzeilen-Symbole ein-/ausblenden",
   "tracking": "Folgen",

@@ -1864,6 +1864,8 @@
   "time-adjustments": "Aghjustamenti di tempu per autore",
   "title": "Titulu",
   "title-alphabetically": "Titulu (in ordine alfabeticu)",
+  "title-bracket-label": "Trasfurmà [etichetta] à u principiu di u titulu di una carta nova in un'etichetta",
+  "title-bracket-label-description": "Quandu u titulu di una carta nova principia cù [Testu] seguitu da altru testu, Testu diventa un'etichetta di a carta (creata s'è a tavula ùn ne hà micca cù stu nome) è hè cacciatu da u titulu. Spentu: u titulu ferma cum'ellu hè.",
   "today": "Oghje",
   "toggle-header-icons-collapsed": "Riduce/espande l’icone di l’intestazione (passaghju mobile/urdinatore à e nutificazioni)",
   "tracking": "Seguitu",

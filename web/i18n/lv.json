@@ -1864,6 +1864,8 @@
   "time-adjustments": "stundas — Δ — Lietotājvārds",
   "title": "Nosaukums",
   "title-alphabetically": "Nosaukums (alfabēta secībā)",
+  "title-bracket-label": "Pārvērst [birka] jaunas kartiņas nosaukuma sākumā par birku",
+  "title-bracket-label-description": "Ja jaunas kartiņas nosaukums sākas ar [Teksts], kam seko vēl teksts, Teksts kļūst par kartiņas birku (tā tiek izveidota, ja dēlī nav birkas ar šādu nosaukumu) un tiek noņemts no nosaukuma. Izslēgts: nosaukums paliek nemainīts.",
   "today": "Šodien",
   "toggle-header-icons-collapsed": "Sakļaut/izvērst galvenes ikonas",
   "tracking": "Sekošana",

@@ -1864,6 +1864,8 @@
   "time-adjustments": "시간 — Δ — 아이디",
   "title": "제목",
   "title-alphabetically": "제목 (알파벳순)",
+  "title-bracket-label": "새 카드 제목 앞의 [라벨]을 라벨로 바꾸기",
+  "title-bracket-label-description": "새 카드의 제목이 [텍스트]로 시작하고 그 뒤에 다른 텍스트가 이어지면, 텍스트가 카드의 라벨이 되고(보드에 그 이름의 라벨이 없으면 새로 만듭니다) 제목에서 제거됩니다. 끄기: 제목이 그대로 유지됩니다.",
   "today": "오늘",
   "toggle-header-icons-collapsed": "헤더 아이콘 접기/펼치기",
   "tracking": "추적",

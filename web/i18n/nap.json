@@ -1864,6 +1864,8 @@
   "time-adjustments": "ore — Δ — Nomme 'e utente",
   "title": "Titolo",
   "title-alphabetically": "Tìtulo (ordene alfabetico)",
+  "title-bracket-label": "Fa addeventà [etichetta] 'o principio d''o titolo 'e na carta nova n'etichetta",
+  "title-bracket-label-description": "Quanno 'o titolo 'e na carta nova accummencia cu [Testo] e po' vene ato testo, Testo addeventa n'etichetta d''a carta (se crea si 'a tavula nun ne tene nisciuna cu chillu nomme) e se leva d''o titolo. Stutato: 'o titolo resta comm'è.",
   "today": "Ogge",
   "toggle-header-icons-collapsed": "Struje/scapizza ll'icone d''a 'ntestazione",
   "tracking": "Monitoraggio",

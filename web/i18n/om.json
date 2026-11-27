@@ -1864,6 +1864,8 @@
   "time-adjustments": "sa'aatii — Δ — Maqaa fayyadamaa",
   "title": "Mata-duree",
   "title-alphabetically": "Mata duree (Tartiiba qubeetiin)",
+  "title-bracket-label": "[mallattoo] jalqaba mata-duree kaardii haaraa irra jiru gara mallattootti jijjiiri",
+  "title-bracket-label-description": "Yeroo mata-dureen kaardii haaraa [Barruu] tiin jalqabee barruun biraa itti aanu, Barruun mallattoo kaardichaa ta'a (gabateen mallattoo maqaa sanaa yoo hin qabaanne ni uumama) mata-duree keessaas ni haqama. Dhaamsame: mata-dureen akkuma jirutti hafa.",
   "today": "Har'a",
   "toggle-header-icons-collapsed": "Suuraawwan mataduree cufuu/banuu",
   "tracking": "Hordoffii",

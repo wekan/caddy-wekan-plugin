@@ -1864,6 +1864,8 @@
   "time-adjustments": "oras — Δ — Nom d'utilisateur",
   "title": "Titulo",
   "title-alphabetically": "Titulo (Alpabetiko)",
+  "title-bracket-label": "Himoa nga label an [label] ha sinbagan han titulo han bag-o nga kard",
+  "title-bracket-label-description": "Kon an titulo han bag-o nga kard nagsisinbag ha [Teksto] nga sinusundan hin dugang nga teksto, an Teksto magigin label han kard (hihimoon kon waray label ha pisara nga may-ada hito nga ngaran) ngan kukuhaon tikang ha titulo. Patay: an titulo magpapabilin sugad hiton.",
   "today": "Yana nga Adlaw",
   "toggle-header-icons-collapsed": "Itago o ipakita an mga icon ha ulohan (pagbalhin ngadto ha mga pahibaro ha mobile o desktop)",
   "tracking": "Pagsubay",

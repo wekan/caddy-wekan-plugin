@@ -1864,6 +1864,8 @@
   "time-adjustments": "soat — Δ — Foydalanuvchi nomi",
   "title": "Sarlavha",
   "title-alphabetically": "Sarlavha (alifbo tartibida)",
+  "title-bracket-label": "Yangi karta sarlavhasi boshidagi [yorliq] so'zini yorliqqa aylantirish",
+  "title-bracket-label-description": "Yangi karta sarlavhasi [Matn] bilan boshlanib, undan keyin yana matn kelsa, Matn kartaning yorlig'iga aylanadi (taxtada shu nomli yorliq bo'lmasa, yaratiladi) va sarlavhadan olib tashlanadi. O'chiq: sarlavha qanday bo'lsa, shunday qoladi.",
   "today": "Bugun",
   "toggle-header-icons-collapsed": "Sarlavha belgilarini yig'ish/yoyish",
   "tracking": "Kuzatuv",

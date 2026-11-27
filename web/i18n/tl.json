@@ -1864,6 +1864,8 @@
   "time-adjustments": "mga oras — Δ — pangalan ng gumagamit",
   "title": "Pamagat",
   "title-alphabetically": "Pamagat (Alphabetically)",
+  "title-bracket-label": "Gawing etiketa ang [etiketa] sa simula ng pamagat ng bagong kard",
+  "title-bracket-label-description": "Kapag nagsisimula ang pamagat ng bagong kard sa [Teksto] na sinusundan pa ng ibang teksto, nagiging etiketa ng kard ang Teksto (ginagawa kung walang etiketa sa pisara na may ganoong pangalan) at inaalis sa pamagat. Naka-off: pinananatili ang pamagat gaya ng dati.",
   "today": "Ngayon",
   "toggle-header-icons-collapsed": "I-collapse/i-expand ang mga icon ng header",
   "tracking": "Pagsubaybay",

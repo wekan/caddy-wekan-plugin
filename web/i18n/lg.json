@@ -1864,6 +1864,8 @@
   "time-adjustments": "Enkyukakyuka z'ebiseera ng'omuwandiisi bw'ali",
   "title": "Omutwe",
   "title-alphabetically": "Mutwe (Alphabetically)",
+  "title-bracket-label": "Fuula [akabonero] ku ntandikwa y'omutwe gw'ekaadi empya okubeera akabonero",
+  "title-bracket-label-description": "Omutwe gw'ekaadi empya bwe gutandika ne [Ebigambo] era ne wabaawo ebigambo ebirala oluvannyuma, Ebigambo bifuuka akabonero k'ekaadi (kakolebwa singa olubaawo terulina kabonero ka linnya eryo) era biggibwa mu mutwe. Kiggale: omutwe gusigala nga bwe guli.",
   "today": "Leero",
   "toggle-header-icons-collapsed": "Sirika/anjula obubonero bw'omutwe",
   "tracking": "Okugoberera",

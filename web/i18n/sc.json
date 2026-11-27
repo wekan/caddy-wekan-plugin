@@ -1864,6 +1864,8 @@
   "time-adjustments": "Acontzos de su tempus pro autore",
   "title": "Tìtulu",
   "title-alphabetically": "Tìtulu (òrdine alfabèticu)",
+  "title-bracket-label": "Trasforma [eticheta] a su cumintzu de su tìtulu de una carta noa in un'eticheta",
+  "title-bracket-label-description": "Cando su tìtulu de una carta noa cumintzat cun [Testu] sighidu dae àteru testu, Testu diventat un'eticheta de sa carta (creada si sa tàula non nd'at peruna cun cussu nùmene) e benit bogadu dae su tìtulu. Disativadu: su tìtulu abarrat comente est.",
   "today": "Oe",
   "toggle-header-icons-collapsed": "Mìnima/ismànnia sas iconas de s'intestatzione (cuncàmbiu mòbile/iscrivania a sas notìficas)",
   "tracking": "Sighimentu",

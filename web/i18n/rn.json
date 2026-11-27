@@ -1864,6 +1864,8 @@
   "time-adjustments": "amasaha — Δ — Izina ry'ukoresha",
   "title": "Umutwe",
   "title-alphabetically": "Umutwe (Hakurikijwe indome)",
+  "title-bracket-label": "Hindura [ikimenyetso] kiri mu ntango y'umutwe w'ikarata nshasha kibe ikimenyetso",
+  "title-bracket-label-description": "Igihe umutwe w'ikarata nshasha utanguye na [Inyandiko] hagakurikira iyindi nyandiko, Inyandiko ihinduka ikimenyetso c'ikarata (kiraremwa nimba icapa kidafise ikimenyetso c'iryo zina) kandi ikurwa mu mutwe. Bihagaritswe: umutwe uguma uko uri.",
   "today": "Uyu musi",
   "toggle-header-icons-collapsed": "Gufunga/gufungura udushushanyo tw'umutwe",
   "tracking": "Gukurikirana",

@@ -1864,6 +1864,8 @@
   "time-adjustments": "amahora — Δ — Igama lomsebenzisi",
   "title": "Isihloko",
   "title-alphabetically": "Isihloko (Ngokwama-alfabhethi)",
+  "title-bracket-label": "Guqula [ilebula] ekuqaleni kwesihloko sekhadi elisha libe yilebula",
+  "title-bracket-label-description": "Uma isihloko sekhadi elisha siqala ngo-[Umbhalo] kulandele omunye umbhalo, uMbhalo uba yilebula lekhadi (liyakhiwa uma ibhodi lingenalo ilebula elinalelo gama) futhi ususwa esihlokweni. Kuvaliwe: isihloko sihlala sinjalo.",
   "today": "Namuhla",
   "toggle-header-icons-collapsed": "Goqa/nweba izithonjana zesihloko",
   "tracking": "Ukulandelela",

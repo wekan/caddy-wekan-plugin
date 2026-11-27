@@ -1864,6 +1864,8 @@
   "time-adjustments": "Tuntimuutokset tekijöittäin",
   "title": "Otsikko",
   "title-alphabetically": "Otsikko (Aakkosjärjestyksessä)",
+  "title-bracket-label": "Muuta uuden kortin otsikon alussa oleva [nimilappu] nimilapuksi",
+  "title-bracket-label-description": "Kun uuden kortin otsikko alkaa tekstillä [Teksti], jota seuraa muuta tekstiä, Tekstistä tulee kortin nimilappu (se luodaan, jos taululla ei ole sen nimistä nimilappua) ja se poistetaan otsikosta. Pois: otsikko säilyy sellaisenaan.",
   "today": "Tänään",
   "toggle-header-icons-collapsed": "Pienennä/laajenna otsikon kuvakkeet",
   "tracking": "Ilmoitukset",

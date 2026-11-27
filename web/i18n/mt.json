@@ -1864,6 +1864,8 @@
   "time-adjustments": "Aġġustamenti tal-ħin skont l-awtur",
   "title": "Titlu",
   "title-alphabetically": "Titlu (Alphabetically)",
+  "title-bracket-label": "Ibdel [tikketta] fil-bidu tat-titlu ta' karta ġdida f'tikketta",
+  "title-bracket-label-description": "Meta t-titlu ta' karta ġdida jibda b'[Test] segwit b'aktar test, Test isir tikketta tal-karta (tinħoloq jekk il-bord ma jkollux waħda b'dak l-isem) u jitneħħa mit-titlu. Mitfi: it-titlu jinżamm kif inhu.",
   "today": "Illum",
   "toggle-header-icons-collapsed": "Ġbid/wessa' l-ikoni tal-intestatura",
   "tracking": "Traċċar",

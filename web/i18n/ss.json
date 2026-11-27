@@ -1864,6 +1864,8 @@
   "time-adjustments": "ema-awa — Δ — Ligama lemsebentisi",
   "title": "Sihloko",
   "title-alphabetically": "Sihloko (Ngekulandzelana Kwetinhlavu)",
+  "title-bracket-label": "Shintja [ilebula] ekucaleni kwesihloko selikhadi lelisha libe yilebula",
+  "title-bracket-label-description": "Nangabe sihloko selikhadi lelisha sicala nga-[Umbhalo] bese kulandzela lomunye umbhalo, Umbhalo uba yilebula lelikhadi (liyakhiwa nangabe libhodi lingenalo lebula lelinalelo libito) futsi ususwa esihlokweni. Kucishiwe: sihloko sisala sinjalo.",
   "today": "Namuhla",
   "toggle-header-icons-collapsed": "Vala/vula timfanekiso tesihloko",
   "tracking": "Kulandzelela",

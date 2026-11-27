@@ -1864,6 +1864,8 @@
   "time-adjustments": "giờ — Δ — Tài khoản",
   "title": "Tiêu đề",
   "title-alphabetically": "Tiêu đề (theo thứ tự bảng chữ cái)",
+  "title-bracket-label": "Chuyển [nhãn] ở đầu tiêu đề thẻ mới thành nhãn",
+  "title-bracket-label-description": "Khi tiêu đề của thẻ mới bắt đầu bằng [Văn bản] và theo sau là nội dung khác, Văn bản trở thành nhãn của thẻ (được tạo nếu bảng chưa có nhãn nào mang tên đó) và bị xóa khỏi tiêu đề. Tắt: tiêu đề được giữ nguyên.",
   "today": "Hôm nay",
   "toggle-header-icons-collapsed": "Thu gọn/mở rộng biểu tượng tiêu đề",
   "tracking": "Đang theo dõi",

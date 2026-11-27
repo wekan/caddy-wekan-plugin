@@ -172,6 +172,7 @@ type User struct {
 		// SubmitOnEnter: Enter saves an editor and Shift+Enter is a new line
 		// (WeKan's profile.submitOnEnter); off, Ctrl/Cmd+Enter saves.
 		SubmitOnEnter       bool `bson:"submitOnEnter,omitempty" json:"submitOnEnter,omitempty"`
+		TitleBracketLabel   bool `bson:"titleBracketLabel,omitempty" json:"titleBracketLabel,omitempty"`
 		KeepAddCardFormOpen bool `bson:"keepAddCardFormOpen,omitempty" json:"keepAddCardFormOpen,omitempty"`
 		HideFocusOutline    bool `bson:"hideFocusOutline,omitempty" json:"hideFocusOutline,omitempty"`
 		// ShowDesktopDragHandles: drag by a handle, not the whole item

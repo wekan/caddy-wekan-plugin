@@ -1864,6 +1864,8 @@
   "time-adjustments": "時間 — Δ — ユーザー名",
   "title": "タイトル",
   "title-alphabetically": "タイトル（アルファベット順）",
+  "title-bracket-label": "新しいカードのタイトルの先頭にある [ラベル] をラベルに変換する",
+  "title-bracket-label-description": "新しいカードのタイトルが [テキスト] で始まり、その後に別の文字列が続く場合、テキストはカードのラベルになり（ボードにその名前のラベルがなければ作成されます）、タイトルから取り除かれます。オフ：タイトルはそのまま保持されます。",
   "today": "今日",
   "toggle-header-icons-collapsed": "ヘッダーアイコンの折りたたみ/展開",
   "tracking": "トラッキング",

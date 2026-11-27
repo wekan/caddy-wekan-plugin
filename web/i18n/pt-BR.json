@@ -1864,6 +1864,8 @@
   "time-adjustments": "horas — Δ — Nome de usuário",
   "title": "Título",
   "title-alphabetically": "Título (alfabeticamente)",
+  "title-bracket-label": "Transformar [etiqueta] no início do título de um cartão novo em etiqueta",
+  "title-bracket-label-description": "Quando o título de um cartão novo começa com [Texto] seguido de mais texto, Texto passa a ser uma etiqueta do cartão (criada se o quadro não tiver nenhuma com esse nome) e é removido do título. Desligado: o título é mantido como está.",
   "today": "Hoje",
   "toggle-header-icons-collapsed": "Recolher/expandir ícones do cabeçalho",
   "tracking": "Rastreamento",

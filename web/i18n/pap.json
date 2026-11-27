@@ -1864,6 +1864,8 @@
   "time-adjustments": "horas — Δ — Nòmber di usuario",
   "title": "Título",
   "title-alphabetically": "Título (Alfabéticamente)",
+  "title-bracket-label": "Kambia [etiketa] na kuminsamentu di título di un karchi nobo den un etiketa",
+  "title-bracket-label-description": "Ora título di un karchi nobo kuminsá ku [Teksto] sigui pa mas teksto, Teksto ta bira un etiketa di e karchi (e ta wòrdu krea si e tabla no tin niun ku e nòmber ei) i ta wòrdu kitá for di e título. Pagá: e título ta keda manera e ta.",
   "today": "Awe",
   "toggle-header-icons-collapsed": "Sera/habri ikononan di kabesera",
   "tracking": "Siguiendo",

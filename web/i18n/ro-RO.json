@@ -1864,6 +1864,8 @@
   "time-adjustments": "Ajustări de timp după autor",
   "title": "Titlu",
   "title-alphabetically": "Titlu (în ordine alfabetică)",
+  "title-bracket-label": "Transformă [etichetă] de la începutul titlului unui card nou în etichetă",
+  "title-bracket-label-description": "Când titlul unui card nou începe cu [Text] urmat de alt text, Text devine o etichetă a cardului (creată dacă panoul nu are niciuna cu acest nume) și este eliminat din titlu. Dezactivat: titlul este păstrat așa cum este.",
   "today": "Azi",
   "toggle-header-icons-collapsed": "Restrânge/extinde pictogramele din antet",
   "tracking": "Urmărire",

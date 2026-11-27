@@ -1864,6 +1864,8 @@
   "time-adjustments": "Tshanduko dza tshifhinga nga muṅwali",
   "title": "Ṱhoho",
   "title-alphabetically": "Ṱhoho (nga mutevhe wa aḽifabethe)",
+  "title-bracket-label": "Shandukisani [ḽeibuḽu] mathomoni a ṱhoho ya garaṱa ntswa i vhe ḽeibuḽu",
+  "title-bracket-label-description": "Musi ṱhoho ya khadi ḽiswa i tshi thoma nga [Maipfi] nahone ha tevhela maṅwe maipfi, Maipfi a vha ḽeibuḽu ya khadi (i a sikwa arali bodo i si na ḽeibuḽu ya eneo dzina) nahone a bviswa kha ṱhoho. Zwo dzimiwa: ṱhoho i dzula yo ralo.",
   "today": "Ṋamusi",
   "toggle-header-icons-collapsed": "Peta/ṱanḓavhudza zwiga zwa nṱha (founu/dekhisithopo i shandukela kha nḓivhadzo)",
   "tracking": "U tevhela",

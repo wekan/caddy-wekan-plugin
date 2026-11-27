@@ -1864,6 +1864,8 @@
   "time-adjustments": "amahora — Δ — Ibizo lomsebenzisi",
   "title": "Isihloko",
   "title-alphabetically": "Isihloko (Ngokulandelana kwezinhlamvu)",
+  "title-bracket-label": "Phendula [ilebula] ekuqaleni kwesihloko sekhadi elitsha libe yilebula",
+  "title-bracket-label-description": "Nxa isihloko sekhadi elitsha siqala ngo-[Umbhalo] kulandele omunye umbhalo, uMbhalo uba yilebula lekhadi (liyadalwa nxa ibhodi lingelalo lebula lelo bizo) njalo ususwa esihlokweni. Kuvaliwe: isihloko sihlala sinjalo.",
   "today": "Lamuhla",
   "toggle-header-icons-collapsed": "Vala/vula izithonjana zesihloko",
   "tracking": "Ukulandelela",
