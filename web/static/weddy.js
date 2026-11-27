@@ -1045,18 +1045,69 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   }
   up.compiler('#header', function () { headerHeight(); });
   window.addEventListener('resize', headerHeight);
+  var boardSearchId = null;
+  function showBoardSearch(sidebar, open) {
+    var search = sidebar.querySelector('.js-weddy-board-search');
+    if (!search) return;
+    search.classList.toggle('is-hidden', !open);
+    sidebar.querySelector('.js-board-sidebar-content').classList.toggle('is-hidden', open);
+    if (open) sidebar.classList.add('is-open');
+  }
+  up.on('click', '.js-open-search-view', function (event, button) {
+    var board = button.closest('.board-wrapper');
+    var sidebar = board.querySelector('.board-sidebar');
+    var search = sidebar.querySelector('.js-weddy-board-search');
+    if (!search) return;
+    event.preventDefault();
+    closePopOvers();
+    boardSearchId = board.dataset.board;
+    showBoardSearch(sidebar, true);
+    search.querySelector('input').focus();
+  });
+  up.on('click', '.js-weddy-board-search .js-back-home', function (event, back) {
+    event.preventDefault();
+    var sidebar = back.closest('.board-sidebar');
+    sidebar.querySelector('.js-close-sidebar').click();
+    sidebar.closest('.board-wrapper').querySelector('.js-open-search-view').focus();
+  });
+  up.on('submit', '.js-weddy-board-search .js-search-term-form', function (event, form) {
+    event.preventDefault();
+    var term = form.elements.searchTerm.value.trim().toLocaleLowerCase();
+    var sidebar = form.closest('.board-sidebar');
+    var results = sidebar.querySelector('.js-weddy-search-results');
+    results.replaceChildren();
+    if (!term) return;
+    sidebar.closest('.board-wrapper').querySelectorAll('.board-canvas .js-minicard').forEach(function (card) {
+      var title = card.querySelector('.minicard-title-text');
+      if (!title || !title.textContent.toLocaleLowerCase().includes(term)) return;
+      var item = document.createElement('li');
+      var link = document.createElement('a');
+      link.href = card.getAttribute('up-href');
+      link.textContent = title.textContent;
+      item.appendChild(link);
+      results.appendChild(item);
+    });
+  });
   up.on('click', '.js-toggle-page-sidebar', function (event) {
     event.preventDefault();
     var sb = document.querySelector('.board-sidebar');
     if (sb) {
       var open = sb.classList.toggle('is-open');
       sidebarState('open', open);
-      if (!open) { sidebarState('archives', false); sidebarState('filter', false); }
+      if (!open) {
+        boardSearchId = null;
+        showBoardSearch(sb, false);
+        sidebarState('archives', false);
+        sidebarState('filter', false);
+      }
     }
   });
   up.on('click', '.js-close-sidebar', function (event, el) {
     event.preventDefault();
-    el.closest('.board-sidebar').classList.remove('is-open');
+    var sidebar = el.closest('.board-sidebar');
+    boardSearchId = null;
+    showBoardSearch(sidebar, false);
+    sidebar.classList.remove('is-open');
     sidebarState('open', false);
     sidebarState('archives', false);
     sidebarState('filter', false);
@@ -3120,6 +3171,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     closePopOvers();
     var sb = document.querySelector('.board-sidebar');
     if (!sb) return;
+    boardSearchId = null;
+    showBoardSearch(sb, false);
     sb.classList.add('is-open');
     var view = sb.querySelector('.js-filter-view');
     if (view) view.classList.remove('is-hidden');
@@ -3195,6 +3248,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   var memberSearch = null;
   up.compiler('.board-sidebar', function (sb) {
     if (sidebarState('open')) sb.classList.add('is-open');
+    if (boardSearchId !== null && sb.closest('.board-wrapper').dataset.board === boardSearchId) {
+      showBoardSearch(sb, true);
+    }
     var filterView = sb.querySelector('.js-filter-view');
     if (filterView && sidebarState('filter')) filterView.classList.remove('is-hidden');
     var archives = sb.querySelector('.js-archives-view');

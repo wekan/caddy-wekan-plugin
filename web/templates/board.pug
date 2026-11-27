@@ -30,6 +30,9 @@
       span.board-header-btn-label {{t $.L "swimlanes"}}
     a.board-header-btn.js-watch-board(href="#", title="{{t $.L .WatchLevel}}")
       span.board-header-btn-label {{t $.L .WatchLevel}}
+    a.board-header-btn.js-open-search-view(href="#", title="{{t $.L `search`}}", aria-label="{{t $.L `search`}}")
+      i.fa.fa-search
+      span.board-header-btn-label {{t $.L "search"}}
     //- WeKan's boardHeader: the Filter, on while a filter is.
     if .FilterActive
       a.board-header-btn.js-open-filter-view.js-filter-active(href="#", title="{{t $.L `filter-on-desc`}}")
@@ -66,6 +69,12 @@
       p.warning.js-history-checkpoint-error(role="alert", hidden)
   .board-sidebar.sidebar
     a.sidebar-xmark.js-close-sidebar(href="#", aria-label="{{t $.L `close`}}") ✕
+    .sidebar-content.js-weddy-board-search.is-hidden
+      button.js-back-home(type="button") {{t $.L "back"}}
+      form.js-search-term-form
+        input(type="search", name="searchTerm", aria-label="{{t $.L `search`}}")
+        button(type="submit") {{t $.L "search"}}
+      ul.sidebar-list.js-weddy-search-results(aria-live="polite")
     .sidebar-content.js-board-sidebar-content
       if .Invited
         //- sidebar.jade: an invitation to this board, to accept or decline.
