@@ -487,3 +487,46 @@ func TestRESTTimeCorrectionHistory(t *testing.T) {
 		t.Fatalf("restored values = %v, %v", card["spentTime"], card["isOvertime"])
 	}
 }
+
+func TestRESTDateClearHistory(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	token := login(t, w, "ann")
+	board := newRESTBoard(t, w, token, "Dates")
+	path := w.srv.URL + "/api/boards/" + board.ID + "/lists/" + board.List + "/cards/" + board.Card
+	const date = "2027-01-01T10:00:00Z"
+	for _, data := range []string{`{"startAt":"` + date + `","dueAt":"` + date + `"}`, `{"dueAt":null}`} {
+		if code := call(t, "PUT", path, token, data, nil); code != 200 {
+			t.Fatalf("date edit returned %d", code)
+		}
+	}
+	var dueID string
+	var dates, clears int
+	for _, row := range historyRows(t, w, board.ID) {
+		if row["group"] != "dates" {
+			continue
+		}
+		dates++
+		content, _ := row["newContent"].(map[string]any)
+		prior, _ := row["previousContent"].(map[string]any)
+		switch {
+		case content["field"] == "dueAt" && content["value"] != nil:
+			dueID = docString(row, "_id")
+		case prior["field"] == "dueAt" && row["changeType"] == "removed" && content["value"] == nil:
+			clears++
+		}
+	}
+	if dates != 3 || clears != 1 || dueID == "" {
+		t.Fatalf("date rows = %d, cleared due dates = %d, original due row = %q", dates, clears, dueID)
+	}
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	response, _ := post(t, c, w.srv.URL+"/b/"+board.ID+"/history/restore", url.Values{"id": {dueID}})
+	if response.StatusCode != http.StatusSeeOther {
+		t.Fatalf("restore returned %d", response.StatusCode)
+	}
+	card := w.s.findDoc(context.Background(), "cards", bson.M{"_id": eq(board.Card)})
+	if got, ok := card["dueAt"].(time.Time); !ok || got.UTC().Format(time.RFC3339) != date {
+		t.Fatalf("restored due date = %v", card["dueAt"])
+	}
+}
