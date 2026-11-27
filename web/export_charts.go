@@ -176,19 +176,27 @@ func round2(v float64) float64 { return math.Round(v*100) / 100 }
 func sinceDays(a, b time.Time) float64 { return math.Max(0, b.Sub(a).Hours()/24) }
 
 // chartRows are a chart's table; ok false for one Weddy cannot compute yet.
+func (s *Server) chartCards(ctx context.Context, b *Board) ([]chartCard, error) {
+	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetProjection(bson.M{
+		"title": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "labelIds": 1,
+		"spentTime": 1, "isOvertime": 1, "archived": 1}))
+	if err != nil {
+		return nil, err
+	}
+	var cards []chartCard
+	err = cur.All(ctx, &cards)
+	return cards, err
+}
+
 func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]any, [][]any, bool) {
 	if slices.Contains(scrumCharts, key) {
 		// Their rows are the reader's (scrumChartRows, scrumDailyChartRows).
 		return nil, nil, true
 	}
-	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetProjection(bson.M{
-		"title": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "labelIds": 1,
-		"spentTime": 1, "isOvertime": 1, "archived": 1}))
+	cards, err := s.chartCards(ctx, b)
 	if err != nil {
 		return nil, nil, false
 	}
-	var cards []chartCard
-	_ = cur.All(ctx, &cards)
 	now := time.Now().UTC()
 	from := now
 	for _, c := range cards {
@@ -664,6 +672,40 @@ func (s *Server) timeAdjustments(ctx context.Context, b *Board, cards []chartCar
 	return entries
 }
 
+func (s *Server) timeReportUsers(ctx context.Context, ids bson.A) []bson.M {
+	users := []bson.M{}
+	if len(ids) > 0 {
+		if cur, err := s.db.Collection("users").Find(ctx, bson.M{"_id": dbIn(ids)}, options.Find().SetProjection(bson.M{"username": 1, "profile.fullname": 1})); err == nil {
+			_ = cur.All(ctx, &users)
+		}
+	}
+	return users
+}
+
+func timeReportNames(users []bson.M) func(string) string {
+	names := map[string]string{}
+	for _, u := range users {
+		id, _ := u["_id"].(string)
+		names[id], _ = u["username"].(string)
+		var full any
+		switch p := u["profile"].(type) {
+		case bson.M:
+			full = p["fullname"]
+		case bson.D:
+			full = docMap(p)["fullname"]
+		}
+		if f, _ := full.(string); f != "" {
+			names[id] = f
+		}
+	}
+	return func(id string) string {
+		if n := names[id]; n != "" {
+			return n
+		}
+		return id
+	}
+}
+
 func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now time.Time, lang string) [][]any {
 	active := []chartCard{}
 	for _, c := range cards {
@@ -674,21 +716,13 @@ func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now 
 	section := func(name string, rows [][]any) [][]any {
 		return append(append([][]any{{name, ""}}, rows...), []any{"", ""})
 	}
-	// Remaining: due minus now over the open cards with a due date.
-	ms := 0.0
-	for _, c := range active {
-		if _, done := c.done(); !done && !c.DueAt.IsZero() {
-			ms += float64(c.DueAt.Sub(now).Milliseconds())
-		}
-	}
-	hours := ms / 3600000
-	abs := math.Round(math.Abs(hours))
-	days, rest := math.Floor(abs/24), abs-math.Floor(abs/24)*24
+	left := remainingTime(active, now)
 	sign := ""
-	if hours < 0 && abs > 0 {
+	if left.Days < 0 || left.Hours < 0 {
 		sign = "-"
 	}
-	remaining := sign + strconv.FormatFloat(days, 'f', -1, 64) + " " + tr(lang, "days") + ", " + strconv.FormatFloat(rest, 'f', -1, 64) + " " + tr(lang, "hours")
+	remaining := sign + strconv.Itoa(absTimePart(left.Days)) + " " + tr(lang, "days") + ", " +
+		strconv.Itoa(absTimePart(left.Hours)) + " " + tr(lang, "hours")
 	label := tr(lang, "board-status-remaining-time-total")
 	rows := section(label, [][]any{{label, remaining}})
 	entries := s.timeAdjustments(ctx, b, cards)
@@ -706,36 +740,13 @@ func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now 
 			ids = append(ids, id)
 		}
 	}
-	users := []bson.M{}
-	if len(ids) > 0 {
-		if cur, err := s.db.Collection("users").Find(ctx, bson.M{"_id": dbIn(ids)}, options.Find().SetProjection(bson.M{"username": 1, "profile.fullname": 1})); err == nil {
-			_ = cur.All(ctx, &users)
-		}
-	}
-	// A chart export follows Admin Panel -> Anonymize export users too.
+	users := s.timeReportUsers(ctx, ids)
+	// Chart exports follow the Admin Panel's anonymization setting.
 	a := s.exportAnonymizer(ctx, b, users)
-	names := map[string]string{}
-	for _, u := range users {
-		a.user(u)
-		id, _ := u["_id"].(string)
-		names[id], _ = u["username"].(string)
-		var full any
-		switch p := u["profile"].(type) {
-		case bson.M:
-			full = p["fullname"]
-		case bson.D:
-			full = docMap(p)["fullname"]
-		}
-		if f, _ := full.(string); f != "" {
-			names[id] = f
-		}
+	for _, user := range users {
+		a.user(user)
 	}
-	nameOf := func(id string) string {
-		if n := names[id]; n != "" {
-			return n
-		}
-		return id
-	}
+	nameOf := timeReportNames(users)
 	sort.SliceStable(authors, func(i, j int) bool { return byAuthor[authors[i]] > byAuthor[authors[j]] })
 	adj := [][]any{}
 	for _, id := range authors {

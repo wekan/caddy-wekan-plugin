@@ -4,6 +4,7 @@ import (
 	"archive/zip"
 	"bytes"
 	"context"
+	"encoding/json"
 	"io"
 	"net/http"
 	"strings"
@@ -142,6 +143,56 @@ func TestExportCharts(t *testing.T) {
 	if code, _, data := get(base+"time/exportExcel", a); code != 200 ||
 		!strings.Contains(sheet(data), ">Removed task<") || !strings.Contains(sheet(data), ">7.25<") {
 		t.Fatalf("Time export loses the deleted card's correction: %d", code)
+	}
+	chartMethod := func(username string) (string, json.RawMessage) {
+		client := w.client(t)
+		body(t, w.signIn(t, client, username, "pw"))
+		args, _ := json.Marshal([]string{b.ID, "time"})
+		req, _ := http.NewRequest("POST", w.srv.URL+"/_methods/boardChartData", bytes.NewReader(args))
+		req.Header.Set("Content-Type", "application/json")
+		res, err := client.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var reply struct {
+			Error  string
+			Result json.RawMessage
+		}
+		if err := json.NewDecoder(res.Body).Decode(&reply); err != nil {
+			t.Fatal(err)
+		}
+		return reply.Error, reply.Result
+	}
+	if code, _ := chartMethod("bob"); code != "not-authorized" {
+		t.Fatalf("assigned-only Time report: %s", code)
+	}
+	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card}, bson.M{"$set": bson.M{"spentTime": 3.5}}); err != nil {
+		t.Fatal(err)
+	}
+	codeStr, dataJSON := chartMethod("ann")
+	var report struct {
+		Adjustments struct {
+			Entries []struct {
+				Title, Author string
+				Hours         float64
+			}
+		}
+		ByCard []struct {
+			Key   string
+			Hours float64
+		}
+		ByAssignee []struct {
+			Key   string
+			Hours float64
+		}
+	}
+	if err := json.Unmarshal(dataJSON, &report); err != nil || codeStr != "" ||
+		len(report.Adjustments.Entries) != 1 || report.Adjustments.Entries[0].Title != "Removed task" ||
+		report.Adjustments.Entries[0].Author != "BOB" || report.Adjustments.Entries[0].Hours != 7.25 ||
+		len(report.ByCard) != 1 || report.ByCard[0].Key != b.Card || report.ByCard[0].Hours != 3.5 ||
+		len(report.ByAssignee) != 1 || report.ByAssignee[0].Key != bob.ID || report.ByAssignee[0].Hours != 3.5 {
+		t.Fatalf("Time method: %s %s (%v)", codeStr, dataJSON, err)
 	}
 	// The Admin Panel switches hold here too.
 	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"anonymizeExportUsers": true}})

@@ -32,6 +32,7 @@ func (e *methodError) Error() string { return e.Code }
 
 func (s *Server) methods() map[string]methodFunc {
 	m := map[string]methodFunc{
+		"boardChartData":                    s.methodBoardChartData,
 		"setLanguage":                       s.methodSetLanguage,
 		"cards.pokerVote":                   s.methodPokerVote,
 		"setListCollapsedState":             s.methodSetListCollapsedState,
