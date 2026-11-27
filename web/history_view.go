@@ -413,7 +413,7 @@ func (s *Server) historyRestorePage(w http.ResponseWriter, r *http.Request, u *U
 		return
 	}
 	ids := r.PostForm["id"]
-	returnTo := historyBack("/b/"+b.ID+"/history", r.PostForm.Get("back"))
+	returnTo := historyBack("/b/"+b.ID+"/history", r.PostForm.Get("back"), "q", "group", "page", "card", "list", "swimlane", "user")
 	target, err := url.Parse(returnTo)
 	if err != nil {
 		http.Error(w, "bad history scope", http.StatusBadRequest)
@@ -444,12 +444,22 @@ func (s *Server) historyRestorePage(w http.ResponseWriter, r *http.Request, u *U
 }
 
 // historyBack keeps the query from the restore form on the current History route.
-func historyBack(page, back string) string {
-	rest, ok := strings.CutPrefix(back, page)
-	if !ok || rest != "" && !strings.HasPrefix(rest, "?") {
+func historyBack(page, back string, keys ...string) string {
+	target, err := url.Parse(back)
+	if err != nil || target.IsAbs() || target.Host != "" || target.Path != page {
 		return page
 	}
-	return page + rest
+	query := target.Query()
+	active := url.Values{}
+	for _, key := range keys {
+		if value := query.Get(key); value != "" {
+			active.Set(key, value)
+		}
+	}
+	if len(active) != 0 {
+		return page + "?" + active.Encode()
+	}
+	return page
 }
 
 // memberHistoryPage is Member Settings' History: one's own changes, on the
@@ -477,7 +487,7 @@ func (s *Server) memberHistoryRestorePage(w http.ResponseWriter, r *http.Request
 		http.Error(w, err.Error(), http.StatusForbidden)
 		return
 	}
-	http.Redirect(w, r, historyBack("/profile/history", r.PostForm.Get("back")), http.StatusSeeOther)
+	http.Redirect(w, r, historyBack("/profile/history", r.PostForm.Get("back"), "q", "group", "page"), http.StatusSeeOther)
 }
 
 func (s *Server) historyViewRoutes(m *http.ServeMux) {

@@ -90,8 +90,8 @@ func TestHistoryView(t *testing.T) {
 	// Restore the older row from the page: its value is the description again.
 	var first bson.M
 	_ = w.db.Collection("changeHistory").FindOne(ctx, bson.M{"boardId": rb.ID, "newContent.value": "First text"}).Decode(&first)
-	res, _ := post(t, c, w.srv.URL+"/b/"+rb.ID+"/history/restore", url.Values{"id": {docString(first, "_id")}, "back": {"/b/" + rb.ID + "/history?list=" + placement.ListID}})
-	if res.StatusCode != http.StatusSeeOther || res.Header.Get("Location") != "/b/"+rb.ID+"/history?list="+placement.ListID {
+	res, _ := post(t, c, w.srv.URL+"/b/"+rb.ID+"/history/restore", url.Values{"id": {docString(first, "_id")}, "back": {"/b/" + rb.ID + "/history?list=" + placement.ListID + "&q=First+text&page=2&group=description&ignored=1"}})
+	if res.StatusCode != http.StatusSeeOther || res.Header.Get("Location") != "/b/"+rb.ID+"/history?group=description&list="+placement.ListID+"&page=2&q=First+text" {
 		t.Fatalf("restore: %d", res.StatusCode)
 	}
 	var card bson.M
@@ -149,10 +149,11 @@ func TestMemberHistoryView(t *testing.T) {
 	var row bson.M
 	_ = w.db.Collection("changeHistory").FindOne(ctx, bson.M{"boardId": mine.ID, "newContent.value": "MINE-EDIT"}).Decode(&row)
 	_ = w.s.updateRecorded(ctx, ann.ID, "card", mine.Card, bson.M{"$set": bson.M{"title": "Later"}})
-	back := "/profile/history?q=MINE&page=2"
+	back := "/profile/history?q=MINE&page=2&group=title&user=other&list=ignored"
+	want := "/profile/history?group=title&page=2&q=MINE"
 	res, _ := post(t, c, w.srv.URL+"/profile/history/restore",
 		url.Values{"id": {docString(row, "_id")}, "back": {back}})
-	if res.StatusCode != http.StatusSeeOther || res.Header.Get("Location") != back {
+	if res.StatusCode != http.StatusSeeOther || res.Header.Get("Location") != want {
 		t.Fatalf("restore: %d, location %q", res.StatusCode, res.Header.Get("Location"))
 	}
 	var card bson.M
