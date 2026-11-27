@@ -109,6 +109,11 @@ func TestMemberHistoryView(t *testing.T) {
 	if !strings.Contains(h, "MINE-EDIT") || !strings.Contains(h, "LEFT-EDIT") || strings.Contains(h, "js-history-contributor") {
 		t.Fatal("both boards' changes, and no contributor list")
 	}
+	_, h = get(t, c, w.srv.URL+"/profile/history?q=MINE&user=other&list=ignored")
+	if !strings.Contains(h, `name="back" value="/profile/history?q=MINE"`) ||
+		strings.Contains(h, `name="user"`) || strings.Contains(h, `name="list"`) {
+		t.Error("member History forms should carry only the active search and page")
+	}
 	// Negative: once off a board, its changes are not shown.
 	setMember(t, w, left.ID, Member{UserID: ann.ID, IsActive: false})
 	if _, h := get(t, c, w.srv.URL+"/profile/history"); strings.Contains(h, "LEFT-EDIT") || !strings.Contains(h, "MINE-EDIT") {

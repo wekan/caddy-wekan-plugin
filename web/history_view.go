@@ -286,12 +286,23 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
+	filters := url.Values{}
+	if req.Search != "" {
+		filters.Set("q", req.Search)
+	}
+	if b != nil {
+		for key, value := range map[string]string{
+			"card": cardID, "list": q.Get("list"), "swimlane": q.Get("swimlane"), "user": req.UserID, "group": req.Group,
+		} {
+			if value != "" {
+				filters.Set(key, value)
+			}
+		}
+	}
 	link := func(mod func(url.Values)) string {
 		v := url.Values{}
-		for _, k := range []string{"card", "list", "swimlane", "q", "user", "group"} {
-			if q.Get(k) != "" {
-				v.Set(k, q.Get(k))
-			}
+		for key, values := range filters {
+			v.Set(key, values[0])
 		}
 		mod(v)
 		if len(v) == 0 {
@@ -332,7 +343,7 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 			Link: link(func(v url.Values) { v.Set("user", id); v.Del("page") })})
 	}
 	data := map[string]any{"Title": tr(lang, "history"), "User": u, "Rows": rows, "Search": req.Search, "CardID": cardID,
-		"ListID": q.Get("list"), "SwimlaneID": q.Get("swimlane"), "Group": req.Group, "ActiveUser": req.UserID, "Contributors": cs, "AllLink": link(func(v url.Values) { v.Del("user"); v.Del("page") }),
+		"ListID": filters.Get("list"), "SwimlaneID": filters.Get("swimlane"), "Group": filters.Get("group"), "ActiveUser": filters.Get("user"), "Contributors": cs, "AllLink": link(func(v url.Values) { v.Del("user"); v.Del("page") }),
 		"Page": pageN, "Pages": pages, "Action": base, "RestoreAction": restore,
 		"Self": link(func(v url.Values) {
 			if pageN > 1 {
