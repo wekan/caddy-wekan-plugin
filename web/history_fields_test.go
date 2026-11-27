@@ -586,3 +586,37 @@ func testRESTContainerTitleHistory(t *testing.T, scope, collection string) {
 		t.Fatalf("restored title = %q", title)
 	}
 }
+
+func TestRESTListColorHistory(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	token := login(t, w, "ann")
+	board := newRESTBoard(t, w, token, "List colors")
+	path := w.srv.URL + "/api/boards/" + board.ID + "/lists/" + board.List
+	if code := call(t, "PUT", path, token, `{"color":"#123"}`, nil); code != 400 {
+		t.Fatalf("invalid color returned %d", code)
+	}
+	for _, payload := range []string{`{"color":"red"}`, `{"color":"#00aaff"}`} {
+		if code := call(t, "PUT", path, token, payload, nil); code != 200 {
+			t.Fatalf("color edit returned %d", code)
+		}
+	}
+	var id string
+	for _, row := range historyRows(t, w, board.ID) {
+		content, _ := row["newContent"].(map[string]any)
+		if row["entityId"] == board.List && row["group"] == "title" && content["field"] == "color" && content["value"] == "red" {
+			id = docString(row, "_id")
+		}
+	}
+	if id == "" {
+		t.Fatal("expected a list color history entry")
+	}
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	back := "/b/" + board.ID + "/history?list=" + board.List
+	response, _ := post(t, c, w.srv.URL+"/b/"+board.ID+"/history/restore", url.Values{"id": {id}, "back": {back}})
+	row := w.s.findDoc(context.Background(), "lists", bson.M{"_id": eq(board.List)})
+	if response.StatusCode != http.StatusSeeOther || docString(row, "color") != "red" {
+		t.Fatalf("restore returned %d, color %q", response.StatusCode, docString(row, "color"))
+	}
+}

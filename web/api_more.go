@@ -110,12 +110,36 @@ func (s *Server) apiRename(coll string) apiHandler {
 		if doc == nil {
 			return
 		}
-		_, title, ok := titleOf(w, r)
-		if !ok {
+		var req map[string]any
+		if err := decodeJSON(r, &req); err != nil {
+			apiError(w, http.StatusBadRequest, err.Error())
 			return
 		}
+		set := bson.M{}
+		if raw, present := req["title"]; present {
+			title, _ := raw.(string)
+			title = strings.TrimSpace(title)
+			if title == "" || len(title) > 1000 {
+				apiError(w, http.StatusBadRequest, "a title is needed")
+				return
+			}
+			set["title"] = title
+		}
+		if raw, present := req["color"]; coll == "lists" && present {
+			color, ok := raw.(string)
+			if !ok || (!cardColors[color] && !hexColor.MatchString(color)) {
+				apiError(w, http.StatusBadRequest, "Invalid list color")
+				return
+			}
+			set["color"] = color
+		}
+		if len(set) == 0 {
+			apiError(w, http.StatusBadRequest, "a title is needed")
+			return
+		}
+		set["modifiedAt"] = time.Now().UTC()
 		if _, err := s.entityUpdateOne(r.Context(), u.ID, strings.TrimSuffix(coll, "s"), bson.M{"_id": doc["_id"], "boardId": b.ID},
-			bson.M{"$set": bson.M{"title": title, "modifiedAt": time.Now().UTC()}}); err != nil {
+			bson.M{"$set": set}); err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
