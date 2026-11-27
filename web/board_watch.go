@@ -31,12 +31,20 @@ const boardWatchEvery = 2 * time.Second
 // WeKan's page follows as reactively), "" when there is no board. The fields
 // are read in _id order, so the same ones always stamp the same.
 func (s *Server) boardStamp(ctx context.Context, id string) string {
+	return s.boardStampWithDateFormat(ctx, id, s.siteDateFormat(ctx))
+}
+
+func (s *Server) boardStampWithDateFormat(ctx context.Context, id string, date siteDateFormat) string {
 	raw, err := s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(id)}).Raw()
 	if err != nil {
 		return ""
 	}
 	h := sha256.New()
 	h.Write(raw)
+	// A site-level format change can redraw the cards of any open board.
+	if date.Enabled {
+		h.Write([]byte(date.Format))
+	}
 	if cur, err := s.db.Collection("customFields").Find(ctx, bson.M{"boardIds": eq(id)},
 		options.Find().SetSort(bson.D{{Key: "_id", Value: 1}})); err == nil {
 		for cur.Next(ctx) {
@@ -186,8 +194,13 @@ func (s *Server) runBoardWatch(stop chan struct{}) {
 // that does not show the board as it is: one baseline per page, so a page
 // drawn after a change is never told of it again.
 func (s *Server) watchBoardsOnce(ctx context.Context) {
-	for id, chans := range s.hub.openBoards() {
-		stamp := s.boardStamp(ctx, id)
+	boards := s.hub.openBoards()
+	if len(boards) == 0 {
+		return
+	}
+	date := s.siteDateFormat(ctx)
+	for id, chans := range boards {
+		stamp := s.boardStampWithDateFormat(ctx, id, date)
 		if stamp == "" {
 			continue
 		}

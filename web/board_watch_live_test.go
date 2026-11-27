@@ -185,3 +185,51 @@ func TestBoardStampFollowsCustomFields(t *testing.T) {
 		t.Fatal("another board's field changes nothing here")
 	}
 }
+
+func TestSiteDateFormatWatch(t *testing.T) {
+	w := newTestWeKan(t)
+	w.s.boardWatchOff.Store(true)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	first := newRESTBoard(t, w, login(t, w, "ann"), "First")
+	second := newRESTBoard(t, w, login(t, w, "ann"), "Second")
+	channels := map[string]chan string{}
+	for _, id := range []string{first.ID, second.ID} {
+		ch := w.s.hub.subscribe(id)
+		defer w.s.hub.unsubscribe(id, ch)
+		w.s.liveSince(ctx, id, w.s.boardStamp(ctx, id), ch)
+		channels[id] = ch
+	}
+	change := func(fields bson.M) {
+		t.Helper()
+		if _, err := w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": fields}); err != nil {
+			t.Fatal(err)
+		}
+		w.s.watchBoardsOnce(ctx)
+	}
+	check := func(want bool) {
+		t.Helper()
+		for id, ch := range channels {
+			select {
+			case event := <-ch:
+				if !want || event != "board-changed" {
+					t.Errorf("board %s: unexpected event %q", id, event)
+				}
+			default:
+				if want {
+					t.Errorf("board %s: missing date update", id)
+				}
+			}
+		}
+	}
+	change(bson.M{"globalDateFormat": "DD-MM-YYYY", "hideDateFormat": false})
+	check(false)
+	change(bson.M{"hideDateFormat": true})
+	check(true)
+	change(bson.M{"globalDateFormat": "MM-DD-YYYY"})
+	check(true)
+	change(bson.M{"hideDateFormat": false})
+	check(true)
+	w.s.watchBoardsOnce(ctx)
+	check(false)
+}

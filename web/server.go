@@ -896,7 +896,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	// cardsSortPopup's display order (board_sort.go).
 	cardSort := parseCardSort(r.URL.Query())
 	s.sortLaneCards(r.Context(), b, lanes, cardSort)
-	dateFormat := boardDateFormat(u, b, s.siteDateFormat(r.Context()))
+	siteDate := s.siteDateFormat(r.Context())
+	dateFormat := boardDateFormat(u, b, siteDate)
 	s.annotateMinicards(r.Context(), b, lanes, dateFormat)
 	s.annotateScrumMinicards(r.Context(), b, languageOf(r, u).Tag, lanes)
 	starred := slices.Contains(u.Profile.StarredBoards, b.ID)
@@ -989,7 +990,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		data["SubtaskPanel"] = s.subtaskPanelOf(r.Context(), b, u, rawB)
 	}
 	// The board as this page draws it, for its live connection (board_watch.go).
-	data["BoardStamp"] = s.boardStamp(r.Context(), b.ID)
+	data["BoardStamp"] = s.boardStampWithDateFormat(r.Context(), b.ID, siteDate)
 	data["UserStamp"] = s.userStamp(r.Context(), u.ID)
 	// The Calendar view: the same cards, on a calendar (calendar_view.go).
 	current := ""
