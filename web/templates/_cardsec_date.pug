@@ -10,9 +10,13 @@ each cd in .CardDates
       if $.CanSetDates
         a.js-edit-date.card-date(href="#", class="{{.Kind}}-date", title="{{t $.L .Label}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/dates/{{.Kind}}", data-date="{{.Date.ISO}}", data-default-time="{{.DefaultTime}}", data-title="{{t $.L .Title}}")
           time(datetime="{{.Date.ISO}}") {{.Date.Show $.DateFormat}}
+          if $.ShowWeekOfYear
+            b.card-date-iso-week {{isoDateWeek .Date.ISO}}
       else
         a.card-date(class="{{.Kind}}-date", title="{{t $.L .Label}}")
           time(datetime="{{.Date.ISO}}") {{.Date.Show $.DateFormat}}
+          if $.ShowWeekOfYear
+            b.card-date-iso-week {{isoDateWeek .Date.ISO}}
     else if $.CanSetDates
       a.card-label.add-label(href="#", class="js-{{.Kind}}-date", title="{{t $.L .Label}}", data-url="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/dates/{{.Kind}}", data-default-time="{{.DefaultTime}}", data-title="{{t $.L .Title}}")
         i.fa.fa-plus

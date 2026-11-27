@@ -1823,6 +1823,7 @@
   "show-on-public-board": "Megjelenítés nyilvános táblán",
   "show-parent-in-minicard": "Mutasd a szülőt a mini-kártyán:",
   "show-subtasks-field": "Részfeladatok mező megjelenítése",
+  "show-week-of-year": "Az év hetének megjelenítése (ISO 8601)",
   "showLabel-field-on-card": "Mutassa a Címkék nevét a mini Kártyákon is",
   "sidebar-close": "Oldalsáv bezárása",
   "sidebar-open": "Oldalsáv megnyitása",

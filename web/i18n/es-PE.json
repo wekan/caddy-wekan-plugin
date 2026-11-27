@@ -1818,6 +1818,7 @@
   "show-on-public-board": "Mostrar en tablero público",
   "show-parent-in-minicard": "Mostrar el padre en una minitarjeta:",
   "show-subtasks-field": "Mostrar campo de subtareas",
+  "show-week-of-year": "Mostrar semana del año (ISO 8601)",
   "showLabel-field-on-card": "Mostrar etiquetas de campos en la minitarjeta.",
   "sidebar-close": "Cerrar la barra lateral",
   "sidebar-open": "Abrir la barra lateral",

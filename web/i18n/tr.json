@@ -1818,6 +1818,7 @@
   "show-on-public-board": "Herkese açık panoda göster",
   "show-parent-in-minicard": "Mini kart içinde üst kartı göster",
   "show-subtasks-field": "Alt görevlerin alanını göster",
+  "show-week-of-year": "Yılın haftasını göster (ISO 8601)",
   "showLabel-field-on-card": "Minikard üzerindeki alan etiketini göster",
   "sidebar-close": "Kenar Çubuğunu Kapat",
   "sidebar-open": "Kenar Çubuğunu Aç",

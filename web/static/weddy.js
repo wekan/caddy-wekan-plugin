@@ -456,6 +456,22 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     openPopOverFrom('board-date-settings', 'board-menu');
   });
+  up.on('click', '.js-pop-over .js-show-week-of-year-toggle', function (event, button) {
+    if (button.disabled) return;
+    button.disabled = true;
+    callAsync('toggleShowWeekOfYear').then(function (show) {
+      var update = function (toggle) {
+        toggle.setAttribute('aria-checked', String(show));
+        var icon = toggle.querySelector('i');
+        icon.classList.toggle('fa-check', show);
+        icon.classList.toggle('fa-square-o', !show);
+      };
+      update(button);
+      var template = document.querySelector('template[data-pop="board-date-settings"]');
+      if (template) update(template.content.querySelector('.js-show-week-of-year-toggle'));
+      reloadBoard(true);
+    }, csFail).finally(function () { button.disabled = false; });
+  });
   up.on('submit', '.js-pop-over form.js-date-format-form[data-board]', function (event, form) {
     event.preventDefault();
     if (form.dataset.saving) return;

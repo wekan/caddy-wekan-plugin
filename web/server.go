@@ -166,7 +166,8 @@ func (s *Server) Close() error {
 }
 
 var funcs = template.FuncMap{
-	"memberName": func(u *User) string { return u.Name() },
+	"isoDateWeek": isoDateWeek,
+	"memberName":  func(u *User) string { return u.Name() },
 	// avatarURL is WeKan's avatarDisplayUrl, for a stored profile.avatarUrl.
 	"avatarURL": avatarDisplayURL,
 	"t":         tr,
@@ -952,6 +953,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	data["CanInvite"] = canInviteToBoard(u, b, s.inviteRoles(r))
 	data["SiteDate"] = siteDate
+	data["ShowWeekOfYear"] = u.showsWeekOfYear()
 	boardFormat := b.DateFormat
 	if !slices.Contains(dateFormats, boardFormat) {
 		boardFormat = dateFormats[0]

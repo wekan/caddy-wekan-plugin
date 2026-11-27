@@ -140,7 +140,8 @@ type User struct {
 		// DateFormat is WeKan's profile.dateFormat: YYYY-MM-DD and the rest.
 		DateFormat string `bson:"dateFormat,omitempty" json:"dateFormat,omitempty"`
 		// DateFormatOverride: the member's own format wins (dateFormatPolicy.js).
-		DateFormatOverride bool `bson:"dateFormatOverride,omitempty" json:"dateFormatOverride,omitempty"`
+		ShowWeekOfYear     *bool `bson:"showWeekOfYear,omitempty" json:"showWeekOfYear,omitempty"`
+		DateFormatOverride bool  `bson:"dateFormatOverride,omitempty" json:"dateFormatOverride,omitempty"`
 		// CalendarSystem is WeKan's profile.calendarSystem (#4335): how dates
 		// are drawn for the member - stored dates stay Gregorian.
 		CalendarSystem string `bson:"calendarSystem,omitempty" json:"calendarSystem,omitempty"`

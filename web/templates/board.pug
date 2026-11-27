@@ -386,6 +386,10 @@
                   option(value="{{.Value}}") {{.Name}}
             p.error.js-date-format-error(hidden)
             button.primary(type="submit") {{t $.L "save"}}
+          hr
+          button.js-show-week-of-year-toggle(type="button", role="switch", aria-checked="{{.ShowWeekOfYear}}")
+            i.fa(class="{{if .ShowWeekOfYear}}fa-check{{else}}fa-square-o{{end}}", aria-hidden="true")
+            span {{t $.L "show-week-of-year"}}
     template.js-pop-over-template(data-pop="board-list-settings", data-popup="boardListSettingsPopup", data-title="{{t $.L `list`}}")
       .header
         span.header-title {{t $.L "list"}}
@@ -1411,11 +1415,15 @@
                                         i.fa(class="{{.Icon}}")
                                         |  
                                         time(datetime="{{.ISO}}") {{.Text}}
+                                        if $.ShowWeekOfYear
+                                          b.card-date-iso-week {{isoDateWeek .ISO}}
                                     else
                                       span.badge(class="minicard-date minicard-date-{{.Kind}} date {{.Kind}}-date", title="{{t $.L .Title}}")
                                         i.fa(class="{{.Icon}}")
                                         |  
                                         time(datetime="{{.ISO}}") {{.Text}}
+                                        if $.ShowWeekOfYear
+                                          b.card-date-iso-week {{isoDateWeek .ISO}}
                             else if eq .Key "assignee"
                               //- WeKan's minicard assignees: an avatar each.
                               if $c.MinicardAssignees

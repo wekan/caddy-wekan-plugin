@@ -1818,6 +1818,7 @@
   "show-on-public-board": "མི་མང་པང་ལེབ་གུ་སྟོན།",
   "show-parent-in-minicard": "ཤོག་བྱང་ཆུང་བར་ཕ་ཤོག་སྟོན།",
   "show-subtasks-field": "ཡན་ལག་ལས་ཀའི་སྡེ་ཚན་སྟོན།",
+  "show-week-of-year": "ལོའི་བདུན་ཕྲག་སྟོན། (ISO 8601)",
   "showLabel-field-on-card": "ཤོག་བྱང་ཆུང་བར་སྡེ་ཚན་ཁ་བྱང་སྟོན།",
   "sidebar-close": "ཟུར་སྒྲོམ་ཁ་རྒྱག",
   "sidebar-open": "ཟུར་སྒྲོམ་ཁ་ཕྱེ།",

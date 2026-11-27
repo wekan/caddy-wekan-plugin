@@ -1818,6 +1818,7 @@
   "show-on-public-board": "Show on Public Board",
   "show-parent-in-minicard": "Show parent in minicard:",
   "show-subtasks-field": "Show subtasks field",
+  "show-week-of-year": "Show week of year (ISO 8601)",
   "showLabel-field-on-card": "Show field label on minicard",
   "sidebar-close": "Close Sidebar",
   "sidebar-open": "Open Sidebar",

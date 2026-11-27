@@ -1818,6 +1818,7 @@
   "show-on-public-board": "အများသုံးဘုတ်တွင် ပြပါ",
   "show-parent-in-minicard": "ကတ်ငယ်တွင် မိဘကို ပြရန်:",
   "show-subtasks-field": "လုပ်ငန်းခွဲအကွက် ပြရန်",
+  "show-week-of-year": "နှစ်၏အပတ် ပြရန် (ISO 8601)",
   "showLabel-field-on-card": "ကတ်ငယ်ပေါ်တွင် အကွက်အညွှန်း ပြရန်",
   "sidebar-close": "ဘေးဘား ပိတ်ရန်",
   "sidebar-open": "ဘေးဘား ဖွင့်ရန်",

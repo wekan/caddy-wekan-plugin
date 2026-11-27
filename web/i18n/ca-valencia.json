@@ -1818,6 +1818,7 @@
   "show-on-public-board": "Mostra al tauler públic",
   "show-parent-in-minicard": "Mostra els pares a la minifitxa:",
   "show-subtasks-field": "Mostra el camp de subtasques",
+  "show-week-of-year": "Mostra la setmana de l'any (ISO 8601)",
   "showLabel-field-on-card": "Mostra l'etiqueta del camp a la minifitxa",
   "sidebar-close": "Amaga barra lateral",
   "sidebar-open": "Mostra barra lateral",

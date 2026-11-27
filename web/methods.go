@@ -40,6 +40,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"setFixedListWidthEnabled":          s.methodSetFixedListWidthEnabled,
 		"setBoardAutoWidth":                 s.methodSetBoardAutoWidth,
 		"setBoardDateFormat":                s.methodSetBoardDateFormat,
+		"toggleShowWeekOfYear":              s.methodToggleShowWeekOfYear,
 		"changeDateFormat":                  s.methodChangeDateFormat,
 		"dismissBoardAnnouncement":          s.methodDismissBoardAnnouncement,
 		"changeStartDayOfWeek":              s.methodChangeStartDayOfWeek,

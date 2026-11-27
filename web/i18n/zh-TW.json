@@ -1818,6 +1818,7 @@
   "show-on-public-board": "在公開看板顯示",
   "show-parent-in-minicard": "顯示上一級卡片：",
   "show-subtasks-field": "顯示子工作項目欄位",
+  "show-week-of-year": "顯示年度週數 (ISO 8601)",
   "showLabel-field-on-card": "在迷你卡片中顯示欄位標籤",
   "sidebar-close": "關閉側邊欄",
   "sidebar-open": "開啟側邊欄",

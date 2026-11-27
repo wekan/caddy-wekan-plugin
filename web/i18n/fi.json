@@ -1818,6 +1818,7 @@
   "show-on-public-board": "Näytä julkisella taululla",
   "show-parent-in-minicard": "Näytä ylätehtävä minikortilla:",
   "show-subtasks-field": "Näytä alitehtävät kenttä",
+  "show-week-of-year": "Näytä vuoden viikko numero (ISO 8601)",
   "showLabel-field-on-card": "Näytä kentän nimilappu minikortilla",
   "sidebar-close": "Sulje sivupalkki",
   "sidebar-open": "Avaa sivupalkki",

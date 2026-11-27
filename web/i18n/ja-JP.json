@@ -1818,6 +1818,7 @@
   "show-on-public-board": "公開ボードに表示",
   "show-parent-in-minicard": "ミニカード上の親表示",
   "show-subtasks-field": "サブタスクフィールドを表示",
+  "show-week-of-year": "年内の暦週番号(ISO 8601準拠)",
   "showLabel-field-on-card": "ミニカード上のフィールドラベル表示",
   "sidebar-close": "サイドバーを閉じる",
   "sidebar-open": "サイドバーを開く",

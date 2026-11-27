@@ -1818,6 +1818,7 @@
   "show-on-public-board": "په عامه تخته کې ښکاره کړئ",
   "show-parent-in-minicard": "اصلي کارت په کوچني کارت کې وښيئ:",
   "show-subtasks-field": "د فرعي دندو ډګر وښيئ",
+  "show-week-of-year": "د کال اونۍ وښيئ (ISO 8601)",
   "showLabel-field-on-card": "د ډګر نښان پر کوچني کارت وښيئ",
   "sidebar-close": "اړخپټه وتړئ",
   "sidebar-open": "اړخپټه پرانيزئ",

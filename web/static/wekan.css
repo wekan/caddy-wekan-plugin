@@ -1450,3 +1450,5 @@ body.has-hide-focus-outline :is(a, button, input, select, textarea, summary, [ta
 .admin-appearance .materialCheckBox.is-checked::after {
   content: "✓";
 }
+
+.card-date-iso-week { margin-inline-start: 0.35em; }

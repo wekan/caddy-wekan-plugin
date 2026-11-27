@@ -1818,6 +1818,7 @@
   "show-on-public-board": "সর্বজনীন বোর্ডে দেখান",
   "show-parent-in-minicard": "মিনিকার্ডে মূল কার্ড দেখান:",
   "show-subtasks-field": "উপকাজের ক্ষেত্র দেখান",
+  "show-week-of-year": "বছরের সপ্তাহ দেখান (ISO 8601)",
   "showLabel-field-on-card": "মিনিকার্ডে ক্ষেত্রের লেবেল দেখান",
   "sidebar-close": "পার্শ্বদণ্ড বন্ধ করুন",
   "sidebar-open": "পার্শ্বদণ্ড খুলুন",

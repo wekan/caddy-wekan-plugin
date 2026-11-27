@@ -1818,6 +1818,7 @@
   "show-on-public-board": "공개 보드에 표시",
   "show-parent-in-minicard": "미니카드에 상위 항목 표시:",
   "show-subtasks-field": "하위할일 항목 보이기",
+  "show-week-of-year": "연중 주 표시 (ISO 8601)",
   "showLabel-field-on-card": "미니카드에 필드 이름 표시",
   "sidebar-close": "사이드바 닫기",
   "sidebar-open": "사이드바 열기",

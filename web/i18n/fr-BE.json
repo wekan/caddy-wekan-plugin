@@ -1819,6 +1819,7 @@
   "show-on-public-board": "Afficher sur tableau public",
   "show-parent-in-minicard": "Voir la carte parente dans la mini-carte :",
   "show-subtasks-field": "Afficher le champ des sous-tâches",
+  "show-week-of-year": "Afficher la semaine de l'année (ISO 8601)",
   "showLabel-field-on-card": "Indiquer l'étiquette du champ sur la mini-carte",
   "sidebar-close": "Fermer le panneau",
   "sidebar-open": "Ouvrir le panneau",

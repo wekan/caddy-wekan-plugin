@@ -1818,6 +1818,7 @@
   "show-on-public-board": "Hiển thị trên bảng công khai",
   "show-parent-in-minicard": "Hiện cha mẹ trong minicard:",
   "show-subtasks-field": "Hiển thị trường nhiệm vụ con",
+  "show-week-of-year": "Hiển thị tuần trong năm (ISO 8601)",
   "showLabel-field-on-card": "Hiển thị nhãn trường trên minicard",
   "sidebar-close": "Đóng Thanh bên",
   "sidebar-open": "Mở Thanh Bên",

@@ -1818,6 +1818,7 @@
   "show-on-public-board": "ⵙⵎⴰⵍ ⵅⴼ ⵜⴼⵍⵡⵉⵜ ⵜⴰⴳⴷⵓⴷⴰⵏⵜ",
   "show-parent-in-minicard": "ⵙⵙⴽⵏ ⴰⵎⴰⵔⴰⵡ ⴳ ⵜⴽⴰⵕⴹⴰ ⵜⴰⵎⵥⵢⴰⵏⵜ:",
   "show-subtasks-field": "ⵙⴽⵏ ⵉⴳⵔ ⵏ ⵜⵎⵙⴽⵉⵔⵉⵏ ⴷⴷⴰⵡ ⵏ ⵜⵎⵙⴽⵉⵔⵜ",
+  "show-week-of-year": "ⵙⴽⵏ ⵉⵎⴰⵍⴰⵙⵙ ⵏ ⵓⵙⴳⴳⵯⴰⵙ (ISO 8601)",
   "showLabel-field-on-card": "ⵙⴽⵏ ⴰⵔⵛⵓⵎ ⵏ ⵢⵉⴳⵔ ⵖⴼ ⵜⴽⴰⵕⴹⴰ ⵜⴰⵎⵥⵢⴰⵏⵜ",
   "sidebar-close": "ⵔⴳⵍ ⴰⴼⴳⴳⵓ ⵏ ⵜⴰⵎⴰ",
   "sidebar-open": "ⵕⵥⵎ ⴰⴼⴳⴳⵓ ⵏ ⵜⴰⵎⴰ",

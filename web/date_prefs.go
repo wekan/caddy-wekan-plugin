@@ -82,6 +82,27 @@ func (s *Server) setProfileFields(r *http.Request, u *User, set bson.M) error {
 	return err
 }
 
+func (u *User) showsWeekOfYear() bool {
+	return u != nil && (u.Profile.ShowWeekOfYear == nil || *u.Profile.ShowWeekOfYear)
+}
+
+func isoDateWeek(value string) int {
+	at, err := time.Parse(time.RFC3339Nano, value)
+	if err != nil {
+		return 0
+	}
+	_, week := at.In(time.Local).ISOWeek()
+	return week
+}
+
+func (s *Server) methodToggleShowWeekOfYear(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	if len(args) != 0 {
+		return nil, &methodError{"Match.Error", "Expected no arguments"}
+	}
+	show := !u.showsWeekOfYear()
+	return show, s.setProfileFields(r, u, bson.M{"profile.showWeekOfYear": show})
+}
+
 // methodChangeDateFormat is WeKan's changeDateFormat(format, override).
 func (s *Server) methodChangeDateFormat(r *http.Request, u *User, args []json.RawMessage) (any, error) {
 	format, err := stringArg(args, 0)

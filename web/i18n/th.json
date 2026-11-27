@@ -1818,6 +1818,7 @@
   "show-on-public-board": "แสดงบนบอร์ดสาธารณะ",
   "show-parent-in-minicard": "แสดงการ์ดแม่ในมินิการ์ด:",
   "show-subtasks-field": "แสดงฟิลด์งานย่อย",
+  "show-week-of-year": "แสดงสัปดาห์ของปี (ISO 8601)",
   "showLabel-field-on-card": "แสดงป้ายกำกับของฟิลด์บนมินิการ์ด",
   "sidebar-close": "ปิดแถบเลื่อน",
   "sidebar-open": "เปิดแถบเลื่อน",

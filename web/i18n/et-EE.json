@@ -1818,6 +1818,7 @@
   "show-on-public-board": "Näita avalikul tahvlil",
   "show-parent-in-minicard": "Näita vanemat minikaardil:",
   "show-subtasks-field": "Näita alamülesannete välja",
+  "show-week-of-year": "Näita aasta nädalat (ISO 8601)",
   "showLabel-field-on-card": "Välja sildi kuvamine minikaardil",
   "sidebar-close": "Sulge külgriba",
   "sidebar-open": "Avatud külgriba",

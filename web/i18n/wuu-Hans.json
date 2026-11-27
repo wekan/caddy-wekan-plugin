@@ -1818,6 +1818,7 @@
   "show-on-public-board": "勒公开看板浪显示",
   "show-parent-in-minicard": "勒迷你卡片浪显示父项：",
   "show-subtasks-field": "显示子任务字段",
+  "show-week-of-year": "显示一年里向个第几周（ISO 8601）",
   "showLabel-field-on-card": "勒迷你卡片浪显示字段标签",
   "sidebar-close": "关闭侧边栏",
   "sidebar-open": "打开侧边栏",

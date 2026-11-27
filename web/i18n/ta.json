@@ -1818,6 +1818,7 @@
   "show-on-public-board": "பொது பலகையில் காட்டு",
   "show-parent-in-minicard": "சிற்றட்டையில் மூல அட்டையைக் காட்டு:",
   "show-subtasks-field": "துணைப்பணிப் புலத்தைக் காட்டு",
+  "show-week-of-year": "ஆண்டின் வாரத்தைக் காட்டு (ISO 8601)",
   "showLabel-field-on-card": "சிற்றட்டையில் புலத்தின் லேபிளைக் காட்டு",
   "sidebar-close": "பக்கப்பட்டியை மூடு",
   "sidebar-open": "பக்கப்பட்டியைத் திற",
