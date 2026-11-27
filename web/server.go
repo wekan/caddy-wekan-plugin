@@ -1754,17 +1754,23 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	ping := time.NewTicker(25 * time.Second)
 	defer ping.Stop()
+	guestCanRead := func() bool {
+		if u != nil {
+			return true
+		}
+		_, err := s.boardFor(r.Context(), b.ID, nil)
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			fmt.Fprint(w, "event: board-unavailable\ndata: unavailable\n\n")
+			_ = rc.Flush()
+		}
+		return err == nil
+	}
 	for {
 		select {
 		case <-r.Context().Done():
 			return
 		case ev, open := <-ch:
-			if u == nil {
-				if _, err := s.boardFor(r.Context(), b.ID, nil); err != nil {
-					return
-				}
-			}
-			if !open {
+			if !open || !guestCanRead() {
 				return
 			}
 			// An event a page caused itself names that page (publishFrom), so
@@ -1777,6 +1783,9 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 			fmt.Fprintf(w, "event: %s\ndata: %s\n\n", name, data)
 			rc.Flush()
 		case <-ping.C:
+			if !guestCanRead() {
+				return
+			}
 			fmt.Fprint(w, ": ping\n\n")
 			rc.Flush()
 		}

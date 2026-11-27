@@ -632,6 +632,10 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         if (String(e.data || '').split(' ')[1] === pageId) return;
         reloadBoard();
       });
+      es.addEventListener('board-unavailable', function () {
+        es.close();
+        window.location.reload();
+      });
       live = { board: board, es: es, closing: null };
     }
     return function () {
