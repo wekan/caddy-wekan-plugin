@@ -330,8 +330,8 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /{$}", s.page(s.allBoards))
 	m.HandleFunc("GET /allboards/{section...}", s.page(s.allBoards))
 	m.HandleFunc("POST /boards", s.page(s.createBoard))
-	m.HandleFunc("GET /b/{board}/{slug}", s.page(s.boardPage))
-	m.HandleFunc("GET /b/{board}/{slug}/{card}", s.page(s.boardPage))
+	m.HandleFunc("GET /b/{board}/{slug}", s.publicBoardRead(s.boardPage))
+	m.HandleFunc("GET /b/{board}/{slug}/{card}", s.publicBoardRead(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/rules", s.page(s.rulesPage))
 	m.HandleFunc("GET /b/{board}/{slug}/scrum", s.page(s.scrumPage))
 	m.HandleFunc("GET /b/{board}/{slug}/notifications", s.page(s.boardNotificationsPage))
@@ -368,7 +368,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/cards/{card}/watch", s.page(s.watchCardPage))
 	m.HandleFunc("POST /b/{board}/watch", s.page(s.watchBoardPage))
 	m.HandleFunc("POST /b/{board}/move", s.page(s.moveCards))
-	m.HandleFunc("GET /b/{board}/live", s.page(s.live))
+	m.HandleFunc("GET /b/{board}/live", s.publicBoardRead(s.live))
 	m.HandleFunc("GET /language", s.page(s.languagePage))
 	s.notificationRoutes(m)
 	s.methodRoutes(m)
@@ -389,6 +389,16 @@ type pageHandler func(w http.ResponseWriter, r *http.Request, u *User)
 // page requires a signed-in user; others go to the sign-in page (or get 401 for
 // a script's request).
 func (s *Server) page(h pageHandler) http.HandlerFunc {
+	return s.pageWithGuest(h, false)
+}
+
+// publicBoardRead permits an absent session only on the board, card and live
+// GET routes. The handler must still authorize the board through boardFor.
+func (s *Server) publicBoardRead(h pageHandler) http.HandlerFunc {
+	return s.pageWithGuest(h, true)
+}
+
+func (s *Server) pageWithGuest(h pageHandler, allowGuest bool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if !sameOrigin(r) {
 			http.Error(w, "cross-site request refused", http.StatusForbidden)
@@ -396,6 +406,11 @@ func (s *Server) page(h pageHandler) http.HandlerFunc {
 		}
 		u := s.currentUser(r)
 		if u == nil {
+			if allowGuest && r.Method == http.MethodGet {
+				w.Header().Set("Cache-Control", "private, no-store")
+				h(w, r, nil)
+				return
+			}
 			if r.Method == http.MethodGet && r.Header.Get("Accept") != "text/event-stream" {
 				http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
 				return
@@ -733,6 +748,12 @@ func (s *Server) boardFor(ctx context.Context, id string, u *User) (*Board, erro
 	}
 	// #3249: an instance board is read by every signed-in user - u is one -
 	// and a public board by anybody; changing either still needs membership.
+	if u == nil {
+		if b.Permission == "public" && !b.Archived {
+			return &b, nil
+		}
+		return nil, mongo.ErrNoDocuments
+	}
 	if !b.MemberOf(u.ID) && b.Permission != "public" && b.Permission != "instance" {
 		return nil, mongo.ErrNoDocuments // not yours: as if it did not exist
 	}
@@ -848,6 +869,12 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		s.render(w, r, "notfound", http.StatusNotFound, map[string]any{"Title": tr(languageOf(r, u).Tag, "board-not-found"), "User": u})
 		return
 	}
+	viewer := u
+	guest := u == nil
+	if guest {
+		// The zero-value profile is used for display defaults only.
+		u = &User{}
+	}
 	lanes, _, err := s.boardData(r.Context(), b)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -856,11 +883,17 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	// The Filter sidebar's Advanced Filter: the typed one when it parses, else
 	// the last that did (?last=), as WeKan's sidebar keeps its last selector.
 	typed, applied := strings.TrimSpace(r.URL.Query().Get("advanced")), ""
-	if len(typed) > 2000 {
+	if guest {
+		typed = ""
+	} else if len(typed) > 2000 {
 		typed = typed[:2000]
 	}
 	var shown map[string]bool
-	for _, f := range []string{typed, strings.TrimSpace(r.URL.Query().Get("last"))} {
+	advancedFilters := []string{typed, strings.TrimSpace(r.URL.Query().Get("last"))}
+	if guest {
+		advancedFilters = nil
+	}
+	for _, f := range advancedFilters {
 		if f == "" {
 			continue
 		}
@@ -928,7 +961,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			ll.CanAdd = s.canAddCardIn(r.Context(), b, ll.ID, u)
 		}
 	}
-	data := map[string]any{"Title": b.Title, "User": u, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "CanSetBoardDates": canSetBoardDates(b, u), "Starred": starred, "Invited": invited,
+	data := map[string]any{"Title": b.Title, "User": viewer, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "CanSetBoardDates": canSetBoardDates(b, u), "Starred": starred, "Invited": invited,
 		"AdvancedFilter": typed, "AppliedFilter": applied, "FilterActive": applied != "" || cardFilter.active(),
 		"CardSort": cardSort, "CardSorts": cardSorts, "FilterText": cardFilter.Text, "FilterNoLabel": cardFilter.NoLabel, "FilterLabelAnd": cardFilter.And, "FilterLabels": cardFilter.sidebarLabels(b)}
 	// WeKan's sidebar: the board menu for a member who is not comment-only or a
@@ -953,7 +986,9 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	data["CanInvite"] = canInviteToBoard(u, b, s.inviteRoles(r))
 	data["SiteDate"] = siteDate
-	data["ShowWeekOfYear"] = u.showsWeekOfYear()
+	data["ShowWeekOfYear"] = viewer.showsWeekOfYear()
+	data["CardMaximized"] = u.Profile.CardMaximized
+	data["DesktopDragHandles"] = u.Profile.ShowDesktopDragHandles
 	boardFormat := b.DateFormat
 	if !slices.Contains(dateFormats, boardFormat) {
 		boardFormat = dateFormats[0]
@@ -991,9 +1026,9 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	// #6409: who may switch automatic width - the viewer in personal mode,
 	// else who may write the board.
 	data["AutoWidthOn"] = sizes.Auto
-	data["CanChangeAutoWidth"] = u != nil && (sizes.Personal || b.Writable(u, "write", nil))
+	data["CanChangeAutoWidth"] = !guest && (sizes.Personal || b.Writable(u, "write", nil))
 	data["CanResizeLists"] = sizes.canResize(b.Writable(u, "write", nil))
-	data["CanResizeLanes"] = !sizes.LaneLocked
+	data["CanResizeLanes"] = !guest && !sizes.LaneLocked
 	if b.MemberOf(u.ID) || u.IsAdmin { // not a write: what Card's hamburger shows
 		data["AskForMoveReason"] = rawB["askForMoveReason"] == true
 		data["CardDragRows"] = cardDragRowsOf(rawB, lang)
@@ -1023,7 +1058,9 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		data["CalendarMode"] = calendarModeData(b, lanes, lang)
 	case "multiboard-cal":
 		current = "multiboard-cal"
-		data["Calendar"] = s.multiboardCalendarData(r.Context(), u, cardFilter, lang)
+		if !guest {
+			data["Calendar"] = s.multiboardCalendarData(r.Context(), u, cardFilter, lang)
+		}
 	}
 	data["Views"] = s.boardViewEntries(b, lang, current)
 	// A stopped Scrum History operation blocks the board's Scrum writes
@@ -1046,7 +1083,12 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	}
 	if id := r.PathValue("card"); validID(id) {
 		var c Card
-		if err := s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}).Decode(&c); err == nil {
+		query := bson.M{"_id": eq(id), "boardId": b.ID}
+		if guest {
+			query["archived"] = false
+			query["deletedAt"] = nil
+		}
+		if err := s.db.Collection("cards").FindOne(r.Context(), query).Decode(&c); err == nil {
 			data["Card"] = c
 			// The card's Scrum fields, and their editor for whoever may change it.
 			if n := s.scrumNamesOf(r.Context(), b.ID); len(n.visibility) > 0 {
@@ -1717,6 +1759,11 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request, u *User) {
 		case <-r.Context().Done():
 			return
 		case ev, open := <-ch:
+			if u == nil {
+				if _, err := s.boardFor(r.Context(), b.ID, nil); err != nil {
+					return
+				}
+			}
 			if !open {
 				return
 			}

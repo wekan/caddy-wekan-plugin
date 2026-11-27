@@ -4,12 +4,13 @@
   .board-header
     h1.header-board-name.js-board-title {{.Board.Title}}
     //- WeKan's boardStarButton: the user's favorite, kept in their profile.
-    if .Starred
-      a.board-header-btn.js-star-board.is-active(href="#", title="{{t $.L `click-to-unstar`}}", data-star="{{t $.L `click-to-star`}}", data-unstar="{{t $.L `click-to-unstar`}}")
-        i.fa.fa-star
-    else
-      a.board-header-btn.js-star-board(href="#", title="{{t $.L `click-to-star`}}", data-star="{{t $.L `click-to-star`}}", data-unstar="{{t $.L `click-to-unstar`}}")
-        i.fa.fa-star-o
+    if .User
+      if .Starred
+        a.board-header-btn.js-star-board.is-active(href="#", title="{{t $.L `click-to-unstar`}}", data-star="{{t $.L `click-to-star`}}", data-unstar="{{t $.L `click-to-unstar`}}")
+          i.fa.fa-star
+      else
+        a.board-header-btn.js-star-board(href="#", title="{{t $.L `click-to-star`}}", data-star="{{t $.L `click-to-star`}}", data-unstar="{{t $.L `click-to-unstar`}}")
+          i.fa.fa-star-o
     //- WeKan's boardButtons: the board's button rules.
     each btn in .BoardButtons
       a.board-header-btn.js-run-board-button(href="#", data-rule-id="{{.ID}}", title="{{.Label}}")
@@ -221,7 +222,7 @@
       if .MenuOn
         h3
           a.board-header-btn.js-open-board-menu(href="#", title="{{t $.L `boardMenuPopup-title`}}") {{t $.L "boardMenuPopup-title"}}
-      if .Board.AdminOf .User.ID
+      if .IsBoardAdmin
         hr
         h3.activity-title.js-toggle-show-activities(role="button", tabindex="0", title="{{t $.L `activities`}}")
           i.fa.fa-caret-right
@@ -247,7 +248,7 @@
         p.js-restore-all-skipped {{.RestoreSkipped}}
   | {{template "_boardviews" .}}
   //- WeKan's boardAnnouncementPopup, for a board admin.
-  if .Board.AdminOf .User.ID
+  if .IsBoardAdmin
     template.js-pop-over-template(data-pop="board-announcement", data-popup="boardAnnouncementPopup", data-title="{{t $.L `board-announcement`}}")
       .header
         span.header-title {{t $.L "board-announcement"}}
@@ -296,7 +297,7 @@
           a.js-open-board-card-settings(href="#", data-pop="board-card-settings")
             i.fa.fa-id-card-o
             |  {{t $.L "card-settings"}}
-        if .Board.AdminOf .User.ID
+        if .IsBoardAdmin
           li
             a.js-open-board-date-settings(href="#")
               i.fa.fa-calendar
@@ -1070,7 +1071,7 @@
           a.js-import-list(href="#")
             i.fa.fa-download
             |  {{t $.L "import"}}
-        if .Board.AdminOf .User.ID
+        if .IsBoardAdmin
           li
             a.js-list-permissions(href="#", data-base="/b/{{.Board.ID}}/{{.Board.Slug}}")
               i.fa.fa-lock
@@ -1542,7 +1543,7 @@
                     input.list-name-input(type="text", name="title", aria-label="{{t $.L `add-list`}}", placeholder="{{t $.L `add-list`}}", required)
                     button.primary(type="submit") {{t $.L "add-list"}}
   if .Card
-    .card-details.js-card-details(data-card="{{.Card.ID}}", class="{{if .User.Profile.CardMaximized}}card-details-maximized{{end}} {{if .CardSides.Collapsed}}card-details-collapsed{{end}}")
+    .card-details.js-card-details(data-card="{{.Card.ID}}", class="{{if .CardMaximized}}card-details-maximized{{end}} {{if .CardSides.Collapsed}}card-details-collapsed{{end}}")
       //- Card colour, Show on Card: the header's colour.
       .card-details-header(class="{{.CardSides.ColorClass}}")
         //- WeKan's caret folding the card's details, the user's own, unless
@@ -1562,14 +1563,15 @@
           form.js-card-details-title.js-inlined-form.is-hidden(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/title", up-submit, up-target=".board-wrapper")
             textarea.js-edit-card-title(name="title", rows="2", dir="auto", aria-label="{{t $.L `title`}}", required) {{.Card.Title}}
             button.primary(type="submit") {{t $.L "save"}}
-        if .User.Profile.CardMaximized
+        if .CardMaximized
           a.js-minimize-card-details(href="#", title="{{t $.L `minimize-card`}}", aria-label="{{t $.L `minimize-card`}}") 🗗
         else
           a.js-maximize-card-details(href="#", title="{{t $.L `maximize-card`}}", aria-label="{{t $.L `maximize-card`}}") 🗖
         if .CanEdit
           a.card-details-menu.js-open-card-details-menu(href="#", title="{{t $.L `cardDetailsActionsPopup-title`}}", aria-label="{{t $.L `cardDetailsActionsPopup-title`}}") ☰
         a.js-close-card-details(href="/b/{{.Board.ID}}/{{.Board.Slug}}", aria-label="{{t $.L `close`}}", up-follow, up-target=".board-wrapper") ×
-      a.js-toggle-watch-card(href="/b/{{.Board.ID}}/cards/{{.Card.ID}}/watch", up-method="post", up-target=".board-wrapper", class="{{if .WatchingCard}}is-checked{{end}}") {{if .WatchingCard}}{{t $.L "watching"}} ✓{{else}}{{t $.L "watch"}}{{end}}
+      if .User
+        a.js-toggle-watch-card(href="/b/{{.Board.ID}}/cards/{{.Card.ID}}/watch", up-method="post", up-target=".board-wrapper", class="{{if .WatchingCard}}is-checked{{end}}") {{if .WatchingCard}}{{t $.L "watching"}} ✓{{else}}{{t $.L "watch"}}{{end}}
       //- WeKan's one section model (cardDetails.jade): Card Settings' sections
         in the Card pane's order, each headed with its icon and title, only those
         this card has something for (card_sections.go).
