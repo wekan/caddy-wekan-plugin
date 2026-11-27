@@ -1,0 +1,20 @@
+.setting-content.admin-appearance
+  .admin-panel-tabs
+    a.people(href="/admin/people") {{t $.L "people"}}
+    a.notifications(href="/admin/notifications") {{t $.L "notifications"}}
+    a.settings.is-active(href="/admin/settings/appearance") {{t $.L "layout"}}
+  h1 {{t $.L "layout"}}
+  h2 {{t $.L "date"}}
+  form.js-admin-date-format(data-setting="{{.SettingID}}")
+    button.js-toggle-site-date(type="button", role="switch", aria-checked="{{.DateEnabled}}")
+      span#global-date-format-enabled(class="materialCheckBox {{if .DateEnabled}}is-checked{{end}}", aria-hidden="true")
+      span {{t $.L "date-format-for-everyone"}}
+    label(for="global-date-format") {{t $.L "date-format"}}
+    select#global-date-format
+      each f in .DateFormats
+        if .Selected
+          option(value="{{.Value}}", selected) {{.Name}}
+        else
+          option(value="{{.Value}}") {{.Name}}
+    p.error.js-admin-date-error(role="alert", hidden)
+    button.js-visibility-date-save.primary(type="submit") {{t $.L "save"}}

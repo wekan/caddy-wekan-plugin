@@ -423,6 +423,29 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     event.preventDefault();
     openPopOverFrom('member-date-settings', 'member-menu');
   });
+  up.on('click', '.js-toggle-site-date', function (event, button) {
+    var enabled = button.getAttribute('aria-checked') !== 'true';
+    button.setAttribute('aria-checked', String(enabled));
+    button.querySelector('.materialCheckBox').classList.toggle('is-checked', enabled);
+  });
+  up.on('submit', 'form.js-admin-date-format', function (event, form) {
+    event.preventDefault();
+    var submit = form.querySelector('button[type="submit"]');
+    if (submit.disabled) return;
+    submit.disabled = true;
+    var error = form.querySelector('.js-admin-date-error');
+    error.hidden = true;
+    callAsync('/settings/update', { _id: form.dataset.setting }, { $set: {
+      hideDateFormat: form.querySelector('.js-toggle-site-date').getAttribute('aria-checked') === 'true',
+      globalDateFormat: form.querySelector('#global-date-format').value
+    } }).then(function (count) {
+      if (count === 1) return up.reload('.admin-appearance');
+      window.location.reload();
+    }).catch(function (e) {
+      error.textContent = e.reason || e.message;
+      error.hidden = false;
+    }).finally(function () { submit.disabled = false; });
+  });
   up.on('click', '.js-open-board-date-settings', function (event) {
     event.preventDefault();
     openPopOverFrom('board-date-settings', 'board-menu');
