@@ -495,6 +495,20 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var c = document.querySelector('.js-pop-over .js-submit-on-enter-check');
     if (c) c.hidden = !submitOnEnter();
   });
+  var desktopDragHandles;
+  up.compiler('.js-pop-over .js-toggle-desktop-drag-handles', function (el) {
+    if (desktopDragHandles !== undefined) el.setAttribute('aria-checked', String(desktopDragHandles));
+  });
+  up.on('click', '.js-pop-over .js-toggle-desktop-drag-handles', function (event, el) {
+    event.preventDefault();
+    if (el.dataset.saving) return;
+    el.dataset.saving = '1';
+    callAsync('toggleDesktopDragHandles').then(function (on) {
+      desktopDragHandles = on;
+      el.setAttribute('aria-checked', String(on));
+      reloadBoard(true);
+    }, csFail).finally(function () { delete el.dataset.saving; });
+  });
   up.on('click', '.js-pop-over .js-toggle-submit-on-enter', function (event) {
     event.preventDefault();
     var on = !submitOnEnter();

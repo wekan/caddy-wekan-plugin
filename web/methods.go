@@ -86,6 +86,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"setBoardDragging":                  s.methodSetBoardDragging,
 		"setPassword":                       s.methodSetPassword,
 		"setBoardSettingsColumn":            s.methodSetBoardSettingsColumn,
+		"toggleDesktopDragHandles":          s.methodToggleDesktopDragHandles,
 		"toggleSubmitOnEnter":               s.methodToggleSubmitOnEnter,
 		"toggleCustomFieldsGrid":            s.methodToggleCustomFieldsGrid,
 		"api.attachment.delete":             s.methodAttachmentDelete,
@@ -731,6 +732,14 @@ func (s *Server) methodToggleCustomFieldsGrid(r *http.Request, u *User, args []j
 	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
 		bson.M{"$set": bson.M{"profile.customFieldsGrid": !u.Profile.CustomFieldsGrid}})
 	return nil, err
+}
+
+// methodToggleDesktopDragHandles switches the member's own drag handles.
+func (s *Server) methodToggleDesktopDragHandles(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	on := !u.Profile.ShowDesktopDragHandles
+	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
+		bson.M{"$set": bson.M{"profile.showDesktopDragHandles": on}})
+	return on, err
 }
 
 // methodToggleSubmitOnEnter is WeKan's toggleSubmitOnEnter: the user's own

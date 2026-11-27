@@ -1806,6 +1806,7 @@
   "set-list-width-value": "リストの幅(ピクセル)",
   "settings": "設定",
   "shortName": "短縮名",
+  "show-desktop-drag-handles": "デスクトップへのドラッグハンドルを表示",
   "show-field-on-card": "このフィールドをカードに表示",
   "show-on-card": "カードに表示する項目",
   "show-on-minicard": "ミニカードを表示",

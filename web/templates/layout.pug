@@ -140,10 +140,15 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-browser-la
                 a.js-change-settings(href="#")
                   i.fa.fa-cog
                   |  {{t $.L "change-settings"}}
-        //- WeKan's changeSettingsPopup: what Weddy has of it.
-        template.js-pop-over-template(data-pop="change-settings", data-title="{{t $.L `changeSettingsPopup-title`}}")
+        //- WeKan's changeSettingsPopup.
+        template.js-pop-over-template(data-pop="change-settings", data-popup="changeSettingsPopup", data-title="{{t $.L `changeSettingsPopup-title`}}")
           .content
-            ul.pop-over-list
+            ul.pop-over-list.change-settings-list
+              li
+                a.js-toggle-desktop-drag-handles(href="#", role="switch", aria-checked="{{.User.Profile.ShowDesktopDragHandles}}")
+                  i.fa.fa-arrows
+                  |  {{t $.L "show-desktop-drag-handles"}}
+                  i.fa.fa-check(aria-hidden="true")
               li
                 a.js-toggle-submit-on-enter(href="#", title="{{t $.L `submit-on-enter-description`}}")
                   i.fa.fa-level-down
