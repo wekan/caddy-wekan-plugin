@@ -1460,3 +1460,25 @@ body.has-hide-focus-outline :is(a, button, input, select, textarea, summary, [ta
   outline: 3px solid var(--theme-accent, #01628c);
   outline-offset: -3px;
 }
+
+.history-table { padding: 12px; }
+.history-header, .history-nav, .history-controls, .history-pagination {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  margin-block-end: 8px;
+}
+.history-nav-item { padding: 4px 6px; border-radius: 4px; }
+.history-nav-item.is-active { background: rgba(128, 128, 128, .18); }
+.history-scroll { overflow: auto; }
+.history-rows { width: 100%; border-collapse: collapse; }
+.history-rows th, .history-rows td {
+  padding: 4px 6px; text-align: start; vertical-align: top;
+  border-block-end: 1px solid rgba(128, 128, 128, .2);
+}
+.history-content { overflow-wrap: anywhere; }
+.history-when { white-space: nowrap; }
+.history-group { font-size: .85em; }
+.history-pop-over {
+  position: fixed; inset: 10px; width: auto; max-width: none;
+  max-height: none; overflow: auto;
+}
+.history-pop-over > .close-btn { float: inline-end; margin: 8px; }

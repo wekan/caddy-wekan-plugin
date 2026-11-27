@@ -286,7 +286,7 @@
             i.fa.fa-archive
             |  {{t $.L "archived-items"}}
         li
-          a.js-open-history(href="/b/{{.Board.ID}}/history")
+          a.js-open-history(href="/b/{{.Board.ID}}/history", data-close="{{t $.L `close`}}")
             i.fa.fa-history
             |  {{t $.L "history"}}
         if .CanExport
@@ -1011,7 +1011,7 @@
               i.fa.fa-copy
               |  {{t $.L "copyCardPopup-title"}}
           li
-            a.js-open-card-history(href="/b/{{.Board.ID}}/history?card={{.Card.ID}}")
+            a.js-open-card-history(href="/b/{{.Board.ID}}/history?card={{.Card.ID}}", data-close="{{t $.L `close`}}")
               i.fa.fa-history
               |  {{t $.L "history"}}
           //- #1173: the card's Export and Import (cardDetails.jade).
@@ -1065,7 +1065,7 @@
     template.js-pop-over-template(data-pop="list-menu", data-title="{{t $.L `listActionPopup-title`}}")
       ul.pop-over-list
         li
-          a.js-open-list-history(href="/b/{{.Board.ID}}/history")
+          a.js-open-list-history(href="/b/{{.Board.ID}}/history", data-close="{{t $.L `close`}}")
             i.fa.fa-history
             |  {{t $.L "history"}}
         li
@@ -1160,7 +1160,7 @@
     template.js-pop-over-template(data-pop="swimlane-menu", data-title="{{t $.L `swimlaneActionPopup-title`}}")
       ul.pop-over-list
         li
-          a.js-open-swimlane-history(href="/b/{{.Board.ID}}/history")
+          a.js-open-swimlane-history(href="/b/{{.Board.ID}}/history", data-close="{{t $.L `close`}}")
             i.fa.fa-history
             |  {{t $.L "history"}}
         li

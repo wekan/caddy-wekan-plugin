@@ -5486,22 +5486,84 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       });
   });
 
-  // WeKan's Scrum views open the board's History in a pop-over, at its
-  // Scrum changes: the History page's own table, its Restore included.
-  up.on('click', '.js-scrum-history', function (event, el) {
-    event.preventDefault();
-    fetch(el.getAttribute('href'), { credentials: 'same-origin' }).then(function (r) { return r.text(); }).then(function (html) {
+  // The board and card menus use the History page inside a pop-over. Links
+  // retain their page URLs for opening in a new tab or without JavaScript.
+  function loadHistory(url, options) {
+    return fetch(url, Object.assign({ credentials: 'same-origin' }, options)).then(function (response) {
+      if (!response.ok) throw new Error(String(response.status));
+      return response.text();
+    }).then(function (html) {
       var table = new DOMParser().parseFromString(html, 'text/html').querySelector('.history-table');
-      if (!table) return;
-      closePopOvers();
-      var p = document.createElement('div');
-      p.className = 'pop-over js-pop-over';
-      p.setAttribute('role', 'dialog');
-      p.innerHTML = '<div class="header"><a class="close-btn js-close-pop-over" href="#">×</a></div><div class="content"></div>';
-      p.querySelector('.content').appendChild(document.importNode(table, true));
-      document.body.appendChild(p);
-      up.hello(p);
+      if (!table) throw new Error('History');
+      return document.importNode(table, true);
     });
+  }
+  var historyOpen = 0;
+  up.on('click', '.js-open-history, .js-open-card-history, .js-open-list-history, .js-open-swimlane-history, .js-scrum-history', function (event, el) {
+    if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    var request = ++historyOpen;
+    var url = el.href;
+    var menu = el.closest('.js-pop-over');
+    loadHistory(url).then(function (table) {
+      if (request !== historyOpen || (menu && !menu.isConnected)) return;
+      closePopOvers();
+      var pop = document.createElement('div');
+      pop.className = 'pop-over js-pop-over history-pop-over';
+      pop.setAttribute('role', 'dialog');
+      pop.setAttribute('data-popup', 'historyPopup');
+      pop.setAttribute('aria-label', el.getAttribute('aria-label') || el.textContent.trim());
+      var close = document.createElement('button');
+      close.type = 'button';
+      close.className = 'close-btn js-close-pop-over';
+      close.textContent = '×';
+      close.setAttribute('aria-label', el.dataset.close || 'Close');
+      pop.appendChild(close);
+      pop.appendChild(table);
+      document.body.appendChild(pop);
+      up.hello(pop);
+      close.focus();
+    }, function () {
+      if (request === historyOpen && (!menu || menu.isConnected)) location.assign(url);
+    });
+  });
+  function refreshHistory(pop, url, options) {
+    if (pop.getAttribute('aria-busy') === 'true') return;
+    pop.setAttribute('aria-busy', 'true');
+    var controls = pop.querySelectorAll('.history-table input:not(:disabled), .history-table button:not(:disabled)');
+    controls.forEach(function (control) { control.disabled = true; });
+    var warning = pop.querySelector('.js-history-warning');
+    if (warning) warning.remove();
+    loadHistory(url, options).then(function (table) {
+      if (!pop.isConnected) return;
+      pop.querySelector('.history-table').replaceWith(table);
+      up.hello(table);
+      table.querySelector('.js-history-search').focus();
+      if (options && options.method === 'POST') staleUnderPopOver = true;
+    }, function () {
+      if (!pop.isConnected) return;
+      var current = pop.querySelector('.history-table');
+      var warning = document.createElement('p');
+      warning.className = 'warning js-history-warning';
+      warning.setAttribute('role', 'alert');
+      warning.textContent = current.dataset.error;
+      current.prepend(warning);
+    }).finally(function () {
+      controls.forEach(function (control) { control.disabled = false; });
+      pop.removeAttribute('aria-busy');
+    });
+  }
+  up.on('click', '.history-pop-over .js-history-contributor, .history-pop-over .js-history-all, .history-pop-over .js-history-prev, .history-pop-over .js-history-next', function (event, el) {
+    if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    refreshHistory(el.closest('.history-pop-over'), el.href);
+  });
+  up.on('submit', '.history-pop-over .history-controls, .history-pop-over .js-history-restore-form', function (event, form) {
+    event.preventDefault();
+    var fields = new URLSearchParams(new FormData(form));
+    var pop = form.closest('.history-pop-over');
+    if (form.method === 'post') refreshHistory(pop, form.action, { method: 'POST', body: fields });
+    else refreshHistory(pop, form.action + '?' + fields.toString());
   });
 
   // The stopped Scrum History operation's notice: its board admin rolls it

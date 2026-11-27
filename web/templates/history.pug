@@ -2,7 +2,7 @@
   History view, a board's or a card's - changeHistory.page with a scope -
   searched, a page at a time, filtered by a contributor; the ticked rows
   restored at once (changeHistory.restore). Only what the viewer may read.
-.history-table
+.history-table(data-error="{{t $.L `error`}}")
   .history-header
     a.js-history-back(href="{{.Back}}") &larr; {{.BackTitle}}
     h2 {{t $.L "history"}}
