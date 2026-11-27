@@ -521,6 +521,10 @@ func TestRESTDateClearHistory(t *testing.T) {
 	}
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
+	_, html := get(t, c, w.srv.URL+"/b/"+board.ID+"/history?group=dates")
+	if !strings.Contains(html, `class="history-content">—</td>`) {
+		t.Fatal("cleared due date should display an empty value")
+	}
 	response, _ := post(t, c, w.srv.URL+"/b/"+board.ID+"/history/restore", url.Values{"id": {dueID}})
 	if response.StatusCode != http.StatusSeeOther {
 		t.Fatalf("restore returned %d", response.StatusCode)

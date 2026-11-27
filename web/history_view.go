@@ -149,6 +149,13 @@ func historySummary(lang string, row, content map[string]any) string {
 		}
 		return strings.Join(bits, " — ")
 	}
+	// An unset date has no new snapshot. The previous one identifies the field.
+	if docString(row, "group") == "dates" && docString(row, "changeType") == "removed" && row["newContent"] == nil {
+		switch docString(content, "field") {
+		case "receivedAt", "startAt", "dueAt", "endAt":
+			return "—"
+		}
+	}
 	v, has := content["value"]
 	switch {
 	case has && v == nil:
