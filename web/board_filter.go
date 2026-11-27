@@ -100,28 +100,34 @@ func (f boardFilter) labelSelector() bson.M {
 func (s *Server) boardFilterSelector(ctx context.Context, boardID string, f boardFilter) bson.M {
 	sel := bson.A{bson.M{"boardId": eq(boardID)}, f.labelSelector()}
 	if f.Text != "" {
-		rx := bson.Regex{Pattern: queryText(regexp.QuoteMeta(f.Text)), Options: "i"}
-		matched := bson.A{bson.M{"title": rx}, bson.M{"description": rx}}
-		var hits bson.A // card ids read from the database
-		for coll, field := range map[string]string{"card_comments": "text", "checklists": "title", "checklistItems": "title"} {
-			cur, err := s.db.Collection(coll).Find(ctx, bson.M{"boardId": eq(boardID), field: rx})
-			if err != nil {
-				continue
-			}
-			var rows []struct {
-				CardID string `bson:"cardId"`
-			}
-			_ = cur.All(ctx, &rows)
-			for _, r := range rows {
-				hits = append(hits, r.CardID)
-			}
-		}
-		if len(hits) > 0 {
-			matched = append(matched, bson.M{"_id": dbIn(hits)})
-		}
+		matched := s.boardTextMatches(ctx, boardID, f.Text)
 		sel = append(sel, bson.M{"$or": matched})
 	}
 	return bson.M{"$and": sel}
+}
+
+// boardTextMatches builds the alternatives shared by the filter and search.
+func (s *Server) boardTextMatches(ctx context.Context, boardID, text string) bson.A {
+	rx := bson.Regex{Pattern: queryText(regexp.QuoteMeta(text)), Options: "i"}
+	matched := bson.A{bson.M{"title": rx}, bson.M{"description": rx}}
+	var hits bson.A // card ids read from the database
+	for coll, field := range map[string]string{"card_comments": "text", "checklists": "title", "checklistItems": "title"} {
+		cur, err := s.db.Collection(coll).Find(ctx, bson.M{"boardId": eq(boardID), field: rx})
+		if err != nil {
+			continue
+		}
+		var rows []struct {
+			CardID string `bson:"cardId"`
+		}
+		_ = cur.All(ctx, &rows)
+		for _, r := range rows {
+			hits = append(hits, r.CardID)
+		}
+	}
+	if len(hits) > 0 {
+		matched = append(matched, bson.M{"_id": dbIn(hits)})
+	}
+	return matched
 }
 
 // boardFilterCardIDs returns the board's cards the filter matches.

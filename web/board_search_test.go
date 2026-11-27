@@ -43,6 +43,22 @@ func TestBoardSearchMatches(t *testing.T) {
 	insert("card_comments", bson.M{"_id": "searchComment", "boardId": board.ID, "cardId": "searchOther", "text": "Needle"})
 	insert("cards", bson.M{"_id": "searchArchive", "boardId": board.ID, "title": "Needle archive", "archived": true})
 	insert("cards", bson.M{"_id": "searchDeleted", "boardId": board.ID, "title": "Needle deleted", "archived": false, "deletedAt": time.Now()})
+	for _, def := range []bson.M{
+		{"_id": "searchText", "type": "text"},
+		{"_id": "searchSecret", "type": "text", "adminOnly": true},
+		{"_id": "searchNumber", "type": "number"},
+		{"_id": "searchCurrency", "type": "currency"},
+	} {
+		def["boardIds"] = bson.A{board.ID}
+		insert("customFields", def)
+	}
+	update("cards", board.Card, bson.M{"$set": bson.M{"customFields": bson.A{
+		bson.M{"_id": "searchText", "value": "Readable phrase"},
+		bson.M{"_id": "searchSecret", "value": "Restricted phrase"},
+		bson.M{"_id": "searchNumber", "value": 12.5},
+		bson.M{"_id": "searchCurrency", "value": 81.25},
+		bson.M{"_id": "searchUnknown", "value": "Unknown phrase"},
+	}}})
 	other := newRESTBoard(t, w, login(t, w, "ann"), "Other search fixture")
 	update("cards", other.Card, bson.M{"$set": bson.M{"title": "Needle on another board"}})
 	search := func(client *http.Client, term string, status int, want ...string) {
@@ -74,6 +90,13 @@ func TestBoardSearchMatches(t *testing.T) {
 	search(ownerClient, "NEEDLE", http.StatusOK, board.Card, "searchOther")
 	search(ownerClient, ".*", http.StatusOK)
 	search(assigneeClient, "needle", http.StatusOK, board.Card)
+	search(assigneeClient, "READABLE", http.StatusOK, board.Card)
+	search(assigneeClient, "12,5", http.StatusOK, board.Card)
+	search(assigneeClient, "81.25", http.StatusOK, board.Card)
+	search(assigneeClient, "12", http.StatusOK)
+	search(ownerClient, "Restricted", http.StatusOK, board.Card)
+	search(assigneeClient, "Restricted", http.StatusOK)
+	search(ownerClient, "Unknown", http.StatusOK)
 	search(w.client(t), "needle", http.StatusNotFound)
 	update("boards", board.ID, bson.M{"$set": bson.M{"permission": "public"}})
 	search(w.client(t), "needle", http.StatusOK, board.Card, "searchOther")
