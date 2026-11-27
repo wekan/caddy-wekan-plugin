@@ -18,6 +18,8 @@
           a.js-left-menu-item(href="/admin/problems/password-length", data-id="report-password-length")
             i.fa.fa-key
             |  {{t $.L "password-length-report-title"}}
+        li
+          a.js-left-menu-item(href="/admin/problems/webhooks", data-id="report-webhooks") {{t $.L "webhooks-report-title"}}
     .main-body
       h2.pane-title {{t $.L "recoveryReportTitle"}}
       //- WeKan's recovery events (report-recovery): what imports left out,

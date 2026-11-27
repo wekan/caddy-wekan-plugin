@@ -1,0 +1,74 @@
+.setting-content.admin-reports-content
+  .content-body
+    .side-menu
+      ul
+        li
+          a.js-left-menu-item(href="/admin/problems/security-report", data-id="report-security") {{t $.L "securityReportTitle"}}
+        li
+          a.js-left-menu-item(href="/admin/problems/recovery", data-id="report-recovery") {{t $.L "recoveryReportTitle"}}
+        li
+          a.js-left-menu-item(href="/admin/problems/password-length", data-id="report-password-length") {{t $.L "password-length-report-title"}}
+        li.active
+          a.js-left-menu-item(href="/admin/problems/webhooks", data-id="report-webhooks") {{t $.L "webhooks-report-title"}}
+    .main-body
+      h2.pane-title {{t $.L "webhooks-report-title"}}
+      p.quiet {{t $.L "webhooks-report-desc"}}
+      if .Off
+        p.quiet.js-webhooks-report-off {{t $.L "webhooks-disabled"}}
+      form.table-page-controls(method="get", action="/admin/problems/webhooks")
+        label
+          | {{t $.L "status"}}
+          select(name="filter")
+            each option in .Filters
+              if eq .Value $.Filter
+                option(value="{{.Value}}", selected) {{t $.L .Key}}
+              else
+                option(value="{{.Value}}") {{t $.L .Key}}
+        input(type="search", name="q", value="{{.Search}}", aria-label="{{t $.L `search`}}")
+        button(type="submit") {{t $.L "search"}}
+        span.table-page-total {{.Total}}
+      if .Rows
+        table.table-page-table
+          thead
+            tr
+              th {{t $.L "board"}}
+              th {{t $.L "owner"}}
+              th {{t $.L "webhook-title"}}
+              th {{t $.L "settings-group-url"}}
+              th {{t $.L "type"}}
+              th {{t $.L "status"}}
+              th {{t $.L "activities"}}
+              th {{t $.L "webhooks-report-token"}}
+              th {{t $.L "createdAt"}}
+          tbody
+            each row in .Rows
+              tr.js-webhooks-report-row(data-integration-id="{{.ID}}")
+                td
+                  if .BoardURL
+                    a.js-webhooks-report-board(href="{{.BoardURL}}") {{.Board}}
+                  else
+                    | {{.Board}}
+                td
+                  | {{.Owner}}
+                  if .FullName
+                    br
+                    span.quiet {{.FullName}}
+                td {{.Title}}
+                td {{.URL}}
+                td
+                  | {{t $.L .Type}}
+                  if .Mattermost
+                    br
+                    span.quiet Mattermost
+                td {{t $.L .Status}}
+                td {{.Activities}}
+                td
+                  if .TokenSet
+                    | {{t $.L "webhooks-report-token-set"}}
+                td.table-page-nowrap {{.Created}}
+      else
+        p.quiet {{t $.L "webhooks-report-no-results"}}
+      if .Prev
+        a(href="{{.Prev}}") {{t $.L "previous"}}
+      if .Next
+        a(href="{{.Next}}") {{t $.L "next"}}
