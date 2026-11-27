@@ -675,6 +675,10 @@ func TestRESTListWIPHistory(t *testing.T) {
 	if code := call(t, "PUT", path, token, `{"wipLimit":{"value":8,"enabled":false,"soft":true}}`, nil); code != 200 {
 		t.Fatalf("second WIP edit returned %d", code)
 	}
+	if _, err := w.db.Collection("lists").UpdateOne(context.Background(), bson.M{"_id": eq(board.List)},
+		bson.M{"$set": bson.M{"wipLimit.note": "Keep current metadata"}}); err != nil {
+		t.Fatal(err)
+	}
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
 	back := "/b/" + board.ID + "/history?list=" + board.List
@@ -682,7 +686,7 @@ func TestRESTListWIPHistory(t *testing.T) {
 	doc := w.s.findDoc(context.Background(), "lists", bson.M{"_id": eq(board.List)})
 	limit, _ := doc["wipLimit"].(map[string]any)
 	if response.StatusCode != http.StatusSeeOther || historyNumber(limit["value"]) != 3 ||
-		limit["enabled"] != true || limit["soft"] != false {
+		limit["enabled"] != true || limit["soft"] != false || limit["note"] != "Keep current metadata" {
 		t.Fatalf("restore returned %d, WIP limit = %v", response.StatusCode, limit)
 	}
 }

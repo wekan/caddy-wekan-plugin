@@ -220,10 +220,31 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 			return false
 		}
 		filter := bson.M{"_id": eq(docString(row, "entityId"))}
+		update := bson.M{"$set": bson.M{field: value}}
 		if coll == "lists" && field == "wipLimit" {
 			filter["boardId"] = eq(docString(row, "boardId"))
+			snapshot, isObject := value.(map[string]any)
+			if value != nil && !isObject {
+				return false
+			}
+			set, unset := bson.M{}, bson.M{}
+			for _, key := range []string{"value", "enabled", "soft"} {
+				path := "wipLimit." + key
+				if item, exists := snapshot[key]; exists {
+					set[path] = item
+				} else {
+					unset[path] = ""
+				}
+			}
+			update = bson.M{}
+			if len(set) != 0 {
+				update["$set"] = set
+			}
+			if len(unset) != 0 {
+				update["$unset"] = unset
+			}
 		}
-		res, err := s.db.Collection(coll).UpdateOne(ctx, filter, bson.M{"$set": bson.M{field: value}})
+		res, err := s.db.Collection(coll).UpdateOne(ctx, filter, update)
 		if err != nil || res.MatchedCount == 0 {
 			return false
 		}
