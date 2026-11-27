@@ -70,6 +70,18 @@ func TestHistoryView(t *testing.T) {
 			t.Errorf("expected the legacy %s row in its own history", scope)
 		}
 	}
+	if _, err := w.db.Collection("changeHistory").InsertOne(ctx, bson.M{
+		"_id": "move-history", "boardId": rb.ID, "entityType": "card", "entityId": rb.Card, "cardId": rb.Card,
+		"group": "position", "changeType": "moved", "userId": ann.ID,
+		"newContent": bson.M{"listId": placement.ListID, "lastMoveReason": "Ready for review"},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	list := w.s.findDoc(ctx, "lists", bson.M{"_id": eq(placement.ListID)})
+	_, moved := get(t, c, page+"?card="+rb.Card+"&group=position")
+	if title := docString(list, "title"); title == "" || !strings.Contains(moved, title+" — Ready for review") {
+		t.Error("expected the list name and move reason")
+	}
 	// The menus lead there.
 	if _, h := get(t, c, w.srv.URL+"/b/"+rb.ID+"/"+board.Slug+"/"+rb.Card); !strings.Contains(h, `href="/b/`+rb.ID+`/history"`) ||
 		!strings.Contains(h, `href="/b/`+rb.ID+`/history?card=`+rb.Card+`"`) {

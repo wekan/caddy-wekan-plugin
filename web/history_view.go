@@ -321,8 +321,21 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 			when = t.UTC().Format("2006-01-02 15:04")
 		}
 		content := historyViewContent(row)
+		summary := historySummary(lang, row, content)
+		if docString(row, "group") == "position" {
+			boardID, listID := docString(row, "boardId"), docString(content, "listId")
+			if validID(boardID) && validID(listID) {
+				list := s.findDoc(r.Context(), "lists", bson.M{"_id": eq(listID), "boardId": eq(boardID)})
+				if title := docString(list, "title"); title != "" {
+					summary = title
+					if reason := docString(content, "lastMoveReason"); reason != "" {
+						summary += " — " + reason
+					}
+				}
+			}
+		}
 		rows = append(rows, historyViewRow{ID: id, Type: tr(lang, historyTypeKey(changeType)),
-			Group: historyViewLabel(lang, row, content), Summary: historySummary(lang, row, content), When: when})
+			Group: historyViewLabel(lang, row, content), Summary: summary, When: when})
 	}
 	pageN, size, total := res["page"].(int64), res["pageSize"].(int64), res["total"].(int64)
 	pages := max(1, (total+size-1)/size)
