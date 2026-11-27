@@ -610,6 +610,23 @@ func TestRESTListColorHistory(t *testing.T) {
 	if doc := w.s.findDoc(context.Background(), "lists", bson.M{"_id": eq(board.List)}); docString(doc, "color") != "#00aaff" {
 		t.Fatal("optional color values should leave the list color intact")
 	}
+	for _, edit := range []struct {
+		body    string
+		starred bool
+	}{
+		{`{"starred":true}`, true},
+		{`{"starred":false}`, false},
+	} {
+		if code := call(t, "PUT", path, token, edit.body, nil); code != 200 {
+			t.Fatalf("starred edit returned %d", code)
+		}
+		if doc := w.s.findDoc(context.Background(), "lists", bson.M{"_id": eq(board.List)}); doc["starred"] != edit.starred {
+			t.Fatalf("expected starred = %v", edit.starred)
+		}
+	}
+	if code := call(t, "PUT", path, token, `{"starred":"invalid"}`, nil); code != 400 {
+		t.Fatalf("invalid starred value returned %d", code)
+	}
 	var id string
 	for _, row := range historyRows(t, w, board.ID) {
 		content, _ := row["newContent"].(map[string]any)

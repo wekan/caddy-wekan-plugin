@@ -133,6 +133,17 @@ func (s *Server) apiRename(coll string) apiHandler {
 			}
 			set["color"] = color
 		}
+		if raw, present := req["starred"]; coll == "lists" && present {
+			switch raw {
+			case true, "true":
+				set["starred"] = true
+			case false, "false":
+				set["starred"] = false
+			default:
+				apiError(w, http.StatusBadRequest, "Invalid starred value")
+				return
+			}
+		}
 		if len(set) == 0 {
 			if coll == "lists" {
 				writeJSON(w, http.StatusNotFound, map[string]string{"message": "Error"})
