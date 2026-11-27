@@ -179,3 +179,74 @@ func TestAttachmentSizeText(t *testing.T) {
 		}
 	}
 }
+
+// AssignedBleed's read siblings (WeKan's mayReadBoardAttachment): an
+// assigned-only member lists only their own cards' files, and gets neither
+// the info nor the bytes of another card's - each refusal in Problems; the
+// board's owner still lists and reads both.
+func TestAssignedOnlyAttachmentReads(t *testing.T) {
+	w := newTestWeKan(t)
+	w.s.FilesDir = t.TempDir()
+	u := w.seedUser(t, "ann", "pw")
+	am := w.seedUser(t, "amy", "pw")
+	ctx := context.Background()
+	b, _ := w.s.CreateBoard(ctx, u, "Reads")
+	_, _ = w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{"$push": bson.M{"members": bson.M{"userId": am.ID, "isActive": true, "isReadAssignedOnly": true}}})
+	l, _ := w.s.AddList(ctx, b, "L")
+	var sw Swimlane
+	_ = w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": b.ID}).Decode(&sw)
+	mine, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Mine")
+	hidden, _ := w.s.AddCard(ctx, b, u, l.ID, sw.ID, "Hidden")
+	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": mine.ID}, bson.M{"$set": bson.M{"assignees": bson.A{am.ID}}})
+	for id, c := range map[string]*Card{"aomine0001": mine, "aohidden01": hidden} {
+		_, _ = w.db.Collection("attachments").InsertOne(ctx, bson.M{"_id": id, "name": id + ".txt", "size": 1, "type": "text/plain", "userId": u.ID,
+			"meta": bson.M{"boardId": b.ID, "cardId": c.ID, "listId": l.ID, "swimlaneId": sw.ID}})
+	}
+	get := func(tok, path string) (int, string) {
+		req, _ := http.NewRequest("GET", w.srv.URL+path, nil)
+		req.Header.Set("Authorization", "Bearer "+tok)
+		res, err := w.srv.Client().Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return res.StatusCode, body(t, res)
+	}
+	amyTok, annTok := login(t, w, "amy"), login(t, w, "ann")
+	code, out := get(amyTok, "/api/attachment/list/"+b.ID)
+	if code != 200 || !strings.Contains(out, "aomine0001") || strings.Contains(out, "aohidden01") {
+		t.Errorf("an assigned-only member lists their own card's files only: %d %s", code, out)
+	}
+	if code, _ := get(amyTok, "/api/attachment/info/aomine0001"); code != 200 {
+		t.Errorf("their own card's info: %d", code)
+	}
+	for _, path := range []string{"/api/attachment/info/aohidden01", "/api/attachment/download/aohidden01"} {
+		if code, out := get(amyTok, path); code != http.StatusForbidden || strings.Contains(out, "aohidden01.txt") {
+			t.Errorf("negative: %s: %d %s", path, code, out)
+		}
+	}
+	if n, _ := w.db.Collection("eventlog").CountDocuments(ctx, bson.M{"bleed": "AssignedBleed", "source": "attachment-api:read"}); n < 1 {
+		t.Error("the refused reads are in Admin Panel -> Problems")
+	}
+	if code, out := get(annTok, "/api/attachment/list/"+b.ID); code != 200 || !strings.Contains(out, "aomine0001") || !strings.Contains(out, "aohidden01") {
+		t.Errorf("negative: the owner lists both: %d %s", code, out)
+	}
+	if code, _ := get(annTok, "/api/attachment/info/aohidden01"); code != 200 {
+		t.Errorf("negative: the owner reads the other card's info: %d", code)
+	}
+}
+
+// Negative, tree-wide: every REST read of one attachment asks whether an
+// assigned-only member may read it.
+func TestEveryAttachmentReadChecksAssignedOnly(t *testing.T) {
+	src, err := os.ReadFile("attachments.go")
+	if err != nil {
+		t.Fatal(err)
+	}
+	s := string(src)
+	for _, fn := range []string{"apiDownloadAttachment", "apiAttachmentInfo"} {
+		m := regexp.MustCompile(`(?s)func \(s \*Server\) ` + fn + `\(.*?\n}\n`).FindString(s)
+		if !strings.Contains(m, "assignedMayRead(") {
+			t.Errorf("%s reads without asking assignedMayRead", fn)
+		}
+	}
+}

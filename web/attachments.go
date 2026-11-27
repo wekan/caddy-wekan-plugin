@@ -476,6 +476,24 @@ func (s *Server) readableAttachment(w http.ResponseWriter, r *http.Request, u *U
 	return a, b
 }
 
+// assignedMayRead is WeKan's mayReadBoardAttachment: an assigned-only member
+// reads only the files of cards assigned to them - another card's is refused
+// and recorded (AssignedBleed, from source). Everyone else who reads the
+// board reads its files.
+func (s *Server) assignedMayRead(r *http.Request, u *User, b *Board, a *Attachment, source string) bool {
+	if u.IsAdmin || !assignedOnlyOn(b, u) {
+		return true
+	}
+	var c Card
+	if validID(a.Meta.CardID) && s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(a.Meta.CardID), "boardId": eq(b.ID)}).Decode(&c) == nil &&
+		slices.Contains(c.Assignees, u.ID) {
+		return true
+	}
+	s.recordSecurity(r, securityEvent{Key: "authz.assigned", Action: "blocked", Source: source, UserID: u.ID,
+		Detail: "Assigned-only member asked for an attachment of a card not assigned to them."})
+	return false
+}
+
 func attachmentJSON(a *Attachment) map[string]any {
 	return map[string]any{"attachmentId": a.ID, "fileName": a.Name, "fileSize": a.Size, "fileType": a.Type,
 		"storageBackend": "fs", "boardId": a.Meta.BoardID, "swimlaneId": a.Meta.SwimlaneID, "listId": a.Meta.ListID,
@@ -483,8 +501,12 @@ func attachmentJSON(a *Attachment) map[string]any {
 }
 
 func (s *Server) apiDownloadAttachment(w http.ResponseWriter, r *http.Request, u *User) {
-	a, _ := s.readableAttachment(w, r, u)
+	a, b := s.readableAttachment(w, r, u)
 	if a == nil {
+		return
+	}
+	if !s.assignedMayRead(r, u, b, a, "attachment-api:read") {
+		apiError(w, http.StatusForbidden, "You do not have permission to access this attachment")
 		return
 	}
 	data, err := s.readAttachmentBytes(r.Context(), a)
@@ -498,7 +520,11 @@ func (s *Server) apiDownloadAttachment(w http.ResponseWriter, r *http.Request, u
 }
 
 func (s *Server) apiAttachmentInfo(w http.ResponseWriter, r *http.Request, u *User) {
-	if a, _ := s.readableAttachment(w, r, u); a != nil {
+	if a, b := s.readableAttachment(w, r, u); a != nil {
+		if !s.assignedMayRead(r, u, b, a, "attachment-api:read") {
+			apiError(w, http.StatusForbidden, "You do not have permission to access this attachment")
+			return
+		}
 		out := attachmentJSON(a)
 		out["success"] = true
 		writeJSON(w, http.StatusOK, out)
@@ -525,12 +551,31 @@ func (s *Server) apiDeleteAttachment(w http.ResponseWriter, r *http.Request, u *
 	writeJSON(w, http.StatusOK, map[string]any{"success": true, "attachmentId": a.ID, "message": "Attachment deleted successfully"})
 }
 
+// apiListAttachments is WeKan's handleAttachmentList: whoever is on the board
+// (board.hasMember) - an assigned-only member too, who gets only the files of
+// the cards assigned to them.
 func (s *Server) apiListAttachments(w http.ResponseWriter, r *http.Request, u *User) {
-	b := s.apiBoardFor(w, r, u, false)
-	if b == nil {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil && u.IsAdmin && validID(r.PathValue("board")) {
+		var any Board // a site admin lists any board's, as before
+		if s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(r.PathValue("board"))}).Decode(&any) == nil {
+			b, err = &any, nil
+		}
+	}
+	if err != nil {
+		apiError(w, http.StatusForbidden, "You do not have permission to access this board")
 		return
 	}
 	filter := bson.M{"meta.boardId": b.ID, "deletedAt": nil}
+	if !u.IsAdmin && assignedOnlyOn(b, u) {
+		ids := []string{}
+		for _, c := range s.findDocs(r.Context(), "cards", bson.M{"boardId": eq(b.ID), "assignees": eq(u.ID)}) {
+			if id, ok := c["_id"].(string); ok {
+				ids = append(ids, id)
+			}
+		}
+		filter["meta.cardId"] = bson.M{"$in": ids}
+	}
 	for field, key := range map[string]string{"swimlane": "meta.swimlaneId", "list": "meta.listId", "card": "meta.cardId"} {
 		if v := r.PathValue(field); v != "" && v != "null" {
 			if !validID(v) {
