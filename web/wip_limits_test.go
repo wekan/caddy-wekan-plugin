@@ -51,11 +51,21 @@ func TestWipLimitsAndRestore(t *testing.T) {
 	if out := bobCall("applyWipLimit", `["`+rb.List+`",3]`); out["error"] != "not-authorized" {
 		t.Errorf("negative: a member who is not an admin: %v", out)
 	}
+	if _, err := w.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": eq(rb.List)},
+		bson.M{"$unset": bson.M{"wipLimit": ""}}); err != nil {
+		t.Fatal(err)
+	}
 	if out := ann("applyWipLimit", `["`+rb.List+`",0]`); out["error"] != nil || wip().Value != 1 {
 		t.Errorf("a limit under one is one: %v %v", out, wip())
 	}
 	if out := ann("applyWipLimit", `["`+rb.List+`","x"]`); out["error"] != "Match.Error" {
 		t.Errorf("negative: not a number: %v", out)
+	}
+	if out := ann("changeHistory.undoLast", `["`+rb.ID+`"]`); wip().Value != 0 {
+		t.Fatalf("undo first limit: %v %v", out, wip())
+	}
+	if out := ann("changeHistory.redoLast", `["`+rb.ID+`"]`); wip().Value != 1 {
+		t.Fatalf("redo first limit: %v %v", out, wip())
 	}
 	ann("enableWipLimit", `["`+rb.List+`"]`)
 	if wl := wip(); !wl.Enabled || wl.Soft {

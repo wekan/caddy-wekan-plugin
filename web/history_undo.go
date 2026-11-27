@@ -183,6 +183,19 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 		// A removal: restoring it puts back what it removed.
 		content, _ = row["previousContent"].(map[string]any)
 	}
+	if content == nil && docString(row, "entityType") == "list" && docString(row, "group") == "title" {
+		side := ""
+		switch {
+		case direction == "undo" && docString(row, "changeType") == "added":
+			side = "newContent"
+		case direction == "redo" && docString(row, "changeType") == "removed":
+			side = "previousContent"
+		}
+		other, _ := row[side].(map[string]any)
+		if docString(other, "field") == "wipLimit" {
+			content = map[string]any{"field": "wipLimit", "value": nil}
+		}
+	}
 	// An attachment's lifecycle: deleted or restored again (applyAttachmentContent).
 	if docString(row, "entityType") == "attachment" && docString(row, "group") == "lifecycle" && content != nil {
 		deleted, ok := content["deleted"].(bool)
