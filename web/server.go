@@ -39,10 +39,11 @@ var staticFiles embed.FS
 
 // Server is the WeKan of one domain.
 type Server struct {
-	db      *mongo.Database
-	release func() error
-	pages   map[string]*template.Template
-	hub     *hub
+	listArchiveMu sync.Mutex
+	db            *mongo.Database
+	release       func() error
+	pages         map[string]*template.Template
+	hub           *hub
 	// boardWatchOff stops the board watch's looks (board_watch.go), for a
 	// test that looks itself.
 	boardWatchOff atomic.Bool

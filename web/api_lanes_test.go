@@ -3,6 +3,7 @@ package web
 import (
 	"context"
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -65,6 +66,40 @@ func TestRESTListsSwimlanesAndBoardMoves(t *testing.T) {
 	}
 	if n := count("lists", bson.M{"_id": src.List, "archivedAt": bson.M{"$exists": true}}); n != 0 {
 		t.Fatal("unarchive must clear the archived timestamp")
+	}
+
+	if _, err := w.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": src.List}, bson.M{"$set": bson.M{"type": "template-list"}}); err != nil {
+		t.Fatal(err)
+	}
+	for _, action := range []struct {
+		name    string
+		archive bool
+	}{{"archive", true}, {"unarchive", false}} {
+		if code := call(t, "POST", list+"/"+action.name, a, "", nil); code != 200 {
+			t.Fatalf("template list %s: %d", action.name, code)
+		}
+		if count("cards", bson.M{"_id": src.Card, "archived": action.archive}) != 1 ||
+			count("changeHistory", bson.M{"entityId": src.Card, "group": "lifecycle", "newContent.value": action.archive}) != 1 {
+			t.Fatalf("template list %s did not record its card state", action.name)
+		}
+	}
+
+	// A retry resumes a claimed list operation without duplicating the list row.
+	listCollection := w.db.Collection("lists")
+	if _, err := listCollection.UpdateOne(ctx, bson.M{"_id": src.List},
+		bson.M{"$set": bson.M{"archived": true, "archivedAt": time.Now().UTC(), "archiveCascadePending": true}}); err != nil {
+		t.Fatal(err)
+	}
+	if code := call(t, "POST", list+"/unarchive", a, "", nil); code != 409 {
+		t.Fatalf("opposite transition with a pending cascade: %d", code)
+	}
+	if code := call(t, "POST", list+"/archive", a, "", nil); code != 200 ||
+		count("cards", bson.M{"_id": src.Card, "archived": true}) != 1 ||
+		count("lists", bson.M{"_id": src.List, "archiveCascadePending": bson.M{"$exists": true}}) != 0 {
+		t.Fatalf("template list archive retry: %d", code)
+	}
+	if code := call(t, "POST", list+"/unarchive", a, "", nil); code != 200 {
+		t.Fatalf("template list cleanup: %d", code)
 	}
 
 	// A label on the card, a comment, and a checklist travel along.

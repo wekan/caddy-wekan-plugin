@@ -275,35 +275,92 @@ func (s *Server) copyCardTo(r *http.Request, u *User, card bson.M, from, to *Boa
 	return id, nil
 }
 
+func archiveStateUpdate(archive bool, now time.Time) bson.M {
+	set := bson.M{"archived": archive, "modifiedAt": now}
+	if archive {
+		set["archivedAt"] = now
+		return bson.M{"$set": set}
+	}
+	return bson.M{"$set": set, "$unset": bson.M{"archivedAt": ""}}
+}
+
+// Resume a template-list operation from its claimed state if a card write
+// fails. Already processed cards are excluded by the current-state filter.
+func (s *Server) archiveTemplateListCards(ctx context.Context, userID, boardID, listID string, archive bool, now time.Time) error {
+	cards := s.db.Collection("cards")
+	scope := bson.M{"boardId": boardID, "listId": listID, "archived": !archive, "deletedAt": nil}
+	cur, err := cards.Find(ctx, scope, options.Find().SetProjection(bson.M{"_id": 1}))
+	if err != nil {
+		return err
+	}
+	var ids []struct {
+		ID string `bson:"_id"`
+	}
+	if err := cur.All(ctx, &ids); err != nil {
+		return err
+	}
+	update := archiveStateUpdate(archive, now)
+	for _, card := range ids {
+		scope["_id"] = eq(card.ID)
+		if _, err := s.cardsUpdateOne(ctx, userID, scope, update); err != nil {
+			return err
+		}
+	}
+	_, err = s.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": listID, "boardId": boardID,
+		"archived": archive, "archiveCascadePending": archive}, bson.M{"$unset": bson.M{"archiveCascadePending": ""}})
+	return err
+}
+
 func (s *Server) apiArchiveList(archive bool) apiHandler {
 	return func(w http.ResponseWriter, r *http.Request, u *User) {
 		b := s.apiBoardFor(w, r, u, true)
 		if b == nil {
 			return
 		}
+		s.listArchiveMu.Lock()
+		defer s.listArchiveMu.Unlock()
 		id := r.PathValue("list")
-		var l List
-		scope := bson.M{"_id": eq(id), "boardId": b.ID, "archived": !archive, "deletedAt": nil}
-		if !validID(id) || s.db.Collection("lists").FindOne(r.Context(), scope).Decode(&l) != nil {
+		var l struct {
+			List       `bson:",inline"`
+			Pending    *bool     `bson:"archiveCascadePending"`
+			ArchivedAt time.Time `bson:"archivedAt"`
+		}
+		ctx := r.Context()
+		scope := bson.M{"_id": eq(id), "boardId": b.ID, "deletedAt": nil}
+		if !validID(id) || s.db.Collection("lists").FindOne(ctx, scope).Decode(&l) != nil ||
+			(l.Pending == nil && l.Archived == archive) {
 			apiError(w, http.StatusNotFound, "List not found")
+			return
+		}
+		if l.Pending != nil && (l.Type != "template-list" || *l.Pending != archive || l.Archived != archive) {
+			apiError(w, http.StatusConflict, "Finish the pending list archive operation first")
 			return
 		}
 		now := time.Now().UTC()
-		set := bson.M{"archived": archive, "modifiedAt": now}
-		update := bson.M{"$set": set}
-		if archive {
-			set["archivedAt"] = now
-		} else {
-			update["$unset"] = bson.M{"archivedAt": ""}
+		if l.Pending == nil {
+			scope["archived"] = !archive
+			scope["archiveCascadePending"] = nil
+			update := archiveStateUpdate(archive, now)
+			if l.Type == "template-list" {
+				update["$set"].(bson.M)["archiveCascadePending"] = archive
+			}
+			result, err := s.entityUpdateOne(ctx, u.ID, "list", scope, update)
+			if err != nil {
+				apiError(w, http.StatusInternalServerError, err.Error())
+				return
+			}
+			if result.MatchedCount == 0 {
+				apiError(w, http.StatusNotFound, "List not found")
+				return
+			}
+		} else if archive && !l.ArchivedAt.IsZero() {
+			now = l.ArchivedAt
 		}
-		result, err := s.entityUpdateOne(r.Context(), u.ID, "list", scope, update)
-		if err != nil {
-			apiError(w, http.StatusInternalServerError, err.Error())
-			return
-		}
-		if result.MatchedCount == 0 {
-			apiError(w, http.StatusNotFound, "List not found")
-			return
+		if l.Type == "template-list" {
+			if err := s.archiveTemplateListCards(ctx, u.ID, b.ID, l.ID, archive, now); err != nil {
+				apiError(w, http.StatusInternalServerError, err.Error())
+				return
+			}
 		}
 		kind := "archivedList"
 		if !archive {

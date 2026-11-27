@@ -243,6 +243,9 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 			if coll != "swimlanes" {
 				filter["deletedAt"] = nil
 			}
+			if coll == "lists" {
+				filter["archiveCascadePending"] = nil
+			}
 			if direction != "restore" {
 				side := "previousContent"
 				if direction == "undo" {
