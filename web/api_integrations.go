@@ -67,6 +67,10 @@ func (s *Server) apiIntegration(w http.ResponseWriter, r *http.Request, u *User)
 	}
 }
 
+func validWebhookType(value string) bool {
+	return value == "outgoing-webhooks" || value == "bidirectional-webhooks"
+}
+
 func (s *Server) apiAddIntegration(w http.ResponseWriter, r *http.Request, u *User) {
 	b := s.apiBoardAdmin(w, r, u)
 	if b == nil {
@@ -77,9 +81,20 @@ func (s *Server) apiAddIntegration(w http.ResponseWriter, r *http.Request, u *Us
 		return
 	}
 	var req struct {
-		URL string `json:"url"`
+		URL   string `json:"url"`
+		Title string `json:"title"`
+		Token string `json:"token"`
+		Type  string `json:"type"`
 	}
-	_ = decodeJSON(r, &req)
+	if err := decodeJSON(r, &req); err != nil {
+		apiError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	req.Type = orDefault(req.Type, "outgoing-webhooks")
+	if !validWebhookType(req.Type) || len(req.Title) > 10000 || len(req.Token) > 10000 {
+		apiError(w, http.StatusBadRequest, "Invalid webhook fields")
+		return
+	}
 	if reason := validateOutboundURL(r.Context(), req.URL); reason != "" {
 		writeJSON(w, http.StatusBadRequest, map[string]any{"error": "invalid-webhook-url", "reason": reason})
 		return
@@ -87,7 +102,7 @@ func (s *Server) apiAddIntegration(w http.ResponseWriter, r *http.Request, u *Us
 	now := time.Now().UTC()
 	id := randomID()
 	if _, err := s.db.Collection("integrations").InsertOne(r.Context(), bson.M{"_id": id, "userId": u.ID, "boardId": b.ID,
-		"url": req.URL, "enabled": true, "type": "outgoing-webhooks", "activities": bson.A{"all"}, "createdAt": now, "modifiedAt": now}); err != nil {
+		"url": req.URL, "enabled": true, "type": req.Type, "title": req.Title, "token": req.Token, "activities": bson.A{"all"}, "createdAt": now, "modifiedAt": now}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -150,6 +165,14 @@ func (s *Server) apiEditIntegration(w http.ResponseWriter, r *http.Request, u *U
 			return
 		}
 		set["url"] = str
+	}
+	if v, ok := req["type"]; ok {
+		kind, _ := v.(string)
+		if !validWebhookType(kind) {
+			apiError(w, http.StatusBadRequest, "Invalid webhook type")
+			return
+		}
+		set["type"] = kind
 	}
 	if v, ok := req["activities"]; ok {
 		list, ok := stringList(v)

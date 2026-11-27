@@ -2,14 +2,36 @@ package web
 
 import (
 	"net/http"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 type boardWebhook struct {
-	ID, URL, Title string
-	Enabled        bool
+	ID, URL, Title                 string
+	Enabled, TwoWay, AllActivities bool
+	Groups                         []webhookGroupView
+}
+
+type webhookGroupView struct {
+	Label, Activities string
+	Checked           bool
+}
+
+// Same groups as WeKan's models/lib/notificationActivityGroups.js.
+var webhookActivityGroups = []struct{ key, names string }{
+	{"labels", "addedLabel removedLabel"},
+	{"members", "joinMember unjoinMember addBoardMember removeBoardMember"},
+	{"assignees", "joinAssignee unjoinAssignee"},
+	{"comments", "addComment editComment deleteComment"},
+	{"moves", "moveCard moveCardToOtherBoard moveCardBoard"},
+	{"dates", "a-dueAt a-endAt a-startAt a-receivedAt"},
+	{"checklists", "addChecklist addChecklistItem removeChecklist removeChecklistItem removedChecklistItem checkedItem uncheckedItem completeChecklist uncompleteChecklist"},
+	{"attachments", "addAttachment deleteAttachment"},
+	{"customFields", "setCustomField"},
+	{"archive", "archivedCard restoredCard archivedList archivedSwimlane deleteCard restoredList restoredSwimlane"},
+	{"created", "createCard createList createSwimlane addSubtask importCard importList"},
 }
 
 func (s *Server) boardWebhooksPage(w http.ResponseWriter, r *http.Request, u *User) {
@@ -19,7 +41,7 @@ func (s *Server) boardWebhooksPage(w http.ResponseWriter, r *http.Request, u *Us
 		http.NotFound(w, r)
 		return
 	}
-	fields := bson.M{"url": 1, "title": 1, "enabled": 1}
+	fields := bson.M{"url": 1, "title": 1, "enabled": 1, "type": 1, "activities": 1}
 	query := bson.M{"boardId": b.ID, "bot": bson.M{"$ne": true}}
 	cur, err := s.db.Collection("integrations").Find(ctx, query, options.Find().SetProjection(fields).SetSort(bson.D{{Key: "createdAt", Value: -1}, {Key: "_id", Value: 1}}))
 	if err != nil {
@@ -33,7 +55,26 @@ func (s *Server) boardWebhooksPage(w http.ResponseWriter, r *http.Request, u *Us
 	}
 	rows := make([]boardWebhook, 0, len(hooks))
 	for _, hook := range hooks {
-		rows = append(rows, boardWebhook{ID: docString(hook, "_id"), URL: docString(hook, "url"), Title: docString(hook, "title"), Enabled: hook["enabled"] != false})
+		row := boardWebhook{ID: docString(hook, "_id"), URL: docString(hook, "url"), Title: docString(hook, "title"),
+			Enabled: hook["enabled"] != false, TwoWay: hook["type"] == "bidirectional-webhooks"}
+		activities, hasActivities := hook["activities"].(bson.A)
+		selected := map[string]bool{}
+		for _, item := range activities {
+			if activity, ok := item.(string); ok {
+				selected[activity] = true
+			}
+		}
+		row.AllActivities = !hasActivities || selected["all"]
+		for _, group := range webhookActivityGroups {
+			descriptions := strings.Fields(group.names)
+			checked := !row.AllActivities
+			for i, name := range descriptions {
+				descriptions[i] = "act-" + name
+				checked = checked && selected[descriptions[i]]
+			}
+			row.Groups = append(row.Groups, webhookGroupView{"notification-activity-" + group.key, strings.Join(descriptions, " "), checked})
+		}
+		rows = append(rows, row)
 	}
 	w.Header().Set("Cache-Control", "private, no-store")
 	s.render(w, r, "boardwebhooks", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, "outgoing-webhooks"), "User": u, "Board": b, "Hooks": rows})

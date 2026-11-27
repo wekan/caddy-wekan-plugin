@@ -69,10 +69,15 @@ func TestRESTIntegrations(t *testing.T) {
 		t.Fatalf("negative: an internal address: %d %v", code, bad)
 	}
 	one := base + "/" + created.ID
-	call(t, "PUT", one, a, `{"title":"Chat","token":"tok","activities":["createCard"]}`, nil)
+	if code := call(t, "PUT", one, a, `{"title":"Chat","token":"tok","type":"bidirectional-webhooks","activities":["createCard"]}`, nil); code != 200 {
+		t.Fatalf("edit: %d", code)
+	}
+	if code := call(t, "PUT", one, a, `{"type":"unknown","title":"Rejected"}`, nil); code != 400 {
+		t.Fatalf("invalid type: %d", code)
+	}
 	var got map[string]any
 	call(t, "GET", one, a, "", &got)
-	if got["url"] != "https://chat.example/hooks/SECRET" || got["title"] != "Chat" || got["token"] != nil {
+	if got["url"] != "https://chat.example/hooks/SECRET" || got["title"] != "Chat" || got["type"] != "bidirectional-webhooks" || got["token"] != nil {
 		t.Fatalf("a board admin reads everything but the token: %v", got)
 	}
 	if code := call(t, "PUT", one, a, `{"url":"http://10.0.0.1/"}`, nil); code != 400 {

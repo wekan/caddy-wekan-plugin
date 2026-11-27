@@ -20,11 +20,46 @@
         else
           input(type="checkbox", name="enabled")
         | {{t $.L "webhooks-report-on"}}
+      label
+        | {{t $.L "type"}}
+        select(name="type")
+          if .TwoWay
+            option(value="outgoing-webhooks") {{t $.L "outgoing-webhooks"}}
+            option(value="bidirectional-webhooks", selected) {{t $.L "bidirectional-webhooks"}}
+          else
+            option(value="outgoing-webhooks", selected) {{t $.L "outgoing-webhooks"}}
+            option(value="bidirectional-webhooks") {{t $.L "bidirectional-webhooks"}}
+      fieldset.js-webhook-activities
+        legend {{t $.L "webhook-activities"}}
+        label
+          if .AllActivities
+            input(type="checkbox", name="allActivities", checked)
+          else
+            input(type="checkbox", name="allActivities")
+          | {{t $.L "webhook-activities-all"}}
+        each group in .Groups
+          label
+            if .Checked
+              input(type="checkbox", name="activityGroup", value="{{.Activities}}", checked)
+            else
+              input(type="checkbox", name="activityGroup", value="{{.Activities}}")
+            | {{t $.L .Label}}
       button.primary(type="submit") {{t $.L "save"}}
       button(type="submit", value="delete", formnovalidate) {{t $.L "delete"}}
   form.js-board-hook(method="post")
     label
       | {{t $.L "settings-group-url"}}
       input(type="url", name="url", required)
+    label
+      | {{t $.L "webhook-title"}}
+      input(type="text", name="title")
+    label
+      | {{t $.L "webhook-token"}}
+      input(type="password", name="token", autocomplete="off")
+    label
+      | {{t $.L "type"}}
+      select(name="type")
+        option(value="outgoing-webhooks") {{t $.L "outgoing-webhooks"}}
+        option(value="bidirectional-webhooks") {{t $.L "bidirectional-webhooks"}}
     button.primary(type="submit") {{t $.L "add"}}
   script(src="/static/board-webhooks.js", defer)
