@@ -161,8 +161,9 @@ func historySummary(lang string, row, content map[string]any) string {
 	case has && v == nil:
 		return "—"
 	case content["isDate"] == true:
-		if f, ok := v.(float64); ok {
-			return time.UnixMilli(int64(f)).UTC().Format("2006-01-02 15:04")
+		switch n := v.(type) {
+		case float64, int32, int64, int:
+			return time.UnixMilli(int64(historyNumber(n))).UTC().Format("2006-01-02 15:04")
 		}
 	}
 	switch x := v.(type) {
@@ -213,7 +214,7 @@ func historySummary(lang string, row, content map[string]any) string {
 			}
 		}
 		return strings.Join(parts, ", ")
-	case float64:
+	case float64, int32, int64, int:
 		return jsonNumberOrBool(x)
 	}
 	if d, ok := content["deleted"].(bool); ok {

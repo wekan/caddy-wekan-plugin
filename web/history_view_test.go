@@ -164,6 +164,7 @@ func TestHistoryViewCardFields(t *testing.T) {
 		{"dueAt", "dates", "card-due", "—", nil},
 		{"endAt", "dates", "card-end", "—", nil},
 		{"spentTime", "dates", "spent-time-hours", "0", float64(0)},
+		{"spentTime", "dates", "spent-time-hours", "2", int32(2)},
 		{"spentTime", "dates", "spent-time-hours", "1.5", float64(1.5)},
 		{"isOvertime", "dates", "overtime", "Kyllä", true},
 		{"isOvertime", "dates", "overtime", "Ei", false},
@@ -296,4 +297,12 @@ func TestHistoryViewLifecycleFilter(t *testing.T) {
 		t.Fatal("expected the restore form to return to the second page of the same group")
 	}
 
+}
+
+func TestHistoryViewIntegerDate(t *testing.T) {
+	row := map[string]any{"entityType": "card", "group": "dates"}
+	content := map[string]any{"field": "dueAt", "value": int64(1795815000000), "isDate": true}
+	if got := historySummary("en", row, content); got != "2026-11-27 21:30" {
+		t.Errorf("integer date summary = %q", got)
+	}
 }
