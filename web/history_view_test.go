@@ -219,3 +219,15 @@ func TestHistoryViewMoveReason(t *testing.T) {
 		t.Errorf("move summary without reason = %q", got)
 	}
 }
+
+func TestHistoryViewDocumentSummary(t *testing.T) {
+	for _, content := range []map[string]any{
+		{"description": "Previous description"},
+		{"document": map[string]any{"description": "Previous description"}},
+	} {
+		row := map[string]any{"entityType": "card", "previousContent": content}
+		if got := historySummary("en", row, historyViewContent(row)); got != "Previous description" {
+			t.Errorf("document summary = %q", got)
+		}
+	}
+}

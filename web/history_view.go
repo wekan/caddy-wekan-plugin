@@ -209,13 +209,6 @@ func historySummary(lang string, row, content map[string]any) string {
 	case float64:
 		return jsonNumberOrBool(x)
 	}
-	if doc, ok := content["document"].(map[string]any); ok {
-		for _, k := range []string{"title", "text", "name"} {
-			if s, ok := doc[k].(string); ok && s != "" {
-				return s
-			}
-		}
-	}
 	if d, ok := content["deleted"].(bool); ok {
 		if d {
 			return tr(lang, "history-change-removed")
@@ -224,6 +217,14 @@ func historySummary(lang string, row, content map[string]any) string {
 	}
 	if docString(row, "group") == "position" {
 		return orDefault(docString(content, "lastMoveReason"), docString(content, "listId"))
+	}
+	if doc, ok := content["document"].(map[string]any); ok {
+		content = doc
+	}
+	for _, key := range []string{"title", "description", "text", "name"} {
+		if value := docString(content, key); value != "" {
+			return value
+		}
 	}
 	return ""
 }
