@@ -1437,7 +1437,7 @@ body.has-hide-focus-outline :is(a, button, input, select, textarea, summary, [ta
   gap: 0.6rem;
   justify-items: start;
 }
-.admin-appearance .js-toggle-site-date {
+.admin-appearance button[role="switch"] {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1452,3 +1452,5 @@ body.has-hide-focus-outline :is(a, button, input, select, textarea, summary, [ta
 }
 
 .card-date-iso-week { margin-inline-start: 0.35em; }
+
+.header-bar .header-logo { height: 27px; width: auto; max-width: 100%; }

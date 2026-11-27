@@ -21,8 +21,9 @@ var dateFormats = []string{"YYYY-MM-DD", "DD-MM-YYYY", "MM-DD-YYYY",
 	"YYYY-MM-DD-date-only", "DD-MM-YYYY-date-only", "MM-DD-YYYY-date-only"}
 
 type siteDateFormat struct {
-	Format  string `bson:"globalDateFormat"`
-	Enabled bool   `bson:"hideDateFormat"`
+	HideLogo bool   `bson:"hideLogo"`
+	Format   string `bson:"globalDateFormat"`
+	Enabled  bool   `bson:"hideDateFormat"`
 }
 
 func (s *Server) siteDateFormat(ctx context.Context) siteDateFormat {

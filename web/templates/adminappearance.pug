@@ -4,8 +4,11 @@
     a.notifications(href="/admin/notifications") {{t $.L "notifications"}}
     a.settings.is-active(href="/admin/settings/appearance") {{t $.L "layout"}}
   h1 {{t $.L "layout"}}
-  h2 {{t $.L "date"}}
   form.js-admin-date-format(data-setting="{{.SettingID}}")
+    button.js-toggle-hide-logo(type="button", role="switch", aria-checked="{{.SiteDate.HideLogo}}")
+      span#hide-logo(class="materialCheckBox {{if .SiteDate.HideLogo}}is-checked{{end}}", aria-hidden="true")
+      span {{t $.L "hide-logo"}}
+    h2 {{t $.L "date"}}
     button.js-toggle-site-date(type="button", role="switch", aria-checked="{{.DateEnabled}}")
       span#global-date-format-enabled(class="materialCheckBox {{if .DateEnabled}}is-checked{{end}}", aria-hidden="true")
       span {{t $.L "date-format-for-everyone"}}

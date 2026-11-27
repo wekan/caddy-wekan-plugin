@@ -31,6 +31,6 @@ func (s *Server) adminAppearancePage(w http.ResponseWriter, r *http.Request, u *
 	lang := languageOf(r, u).Tag
 	s.render(w, r, "adminappearance", http.StatusOK, map[string]any{
 		"Title": tr(lang, "layout"), "User": u, "SettingID": settings.ID,
-		"DateEnabled": settings.Date.Enabled, "DateFormats": formats,
+		"DateEnabled": settings.Date.Enabled, "DateFormats": formats, "SiteDate": settings.Date,
 	})
 }

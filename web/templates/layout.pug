@@ -13,6 +13,8 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-browser-la
     if .User
       #header.header-bar
         a.header-all-boards.js-all-boards(href="/", up-follow) {{t $.L "all-boards"}}
+        if not .SiteDate.HideLogo
+          img.header-logo(src="/static/logo-header.png", alt="WeKan", height="27")
         if .Board
           //- WeKan's header quick access: Home, the toggle that collapses the
             header's icons, and the board's title, renamed by its admin; then

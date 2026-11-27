@@ -429,7 +429,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var label = input.form.querySelector('.js-member-date-format-enabled');
     if (label) label.textContent = input.checked ? label.dataset.enabled : label.dataset.disabled;
   });
-  up.on('click', '.js-toggle-site-date', function (event, button) {
+  up.on('click', '.admin-appearance button[role="switch"]', function (event, button) {
     var enabled = button.getAttribute('aria-checked') !== 'true';
     button.setAttribute('aria-checked', String(enabled));
     button.querySelector('.materialCheckBox').classList.toggle('is-checked', enabled);
@@ -442,10 +442,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var error = form.querySelector('.js-admin-date-error');
     error.hidden = true;
     callAsync('/settings/update', { _id: form.dataset.setting }, { $set: {
+      hideLogo: form.querySelector('.js-toggle-hide-logo').getAttribute('aria-checked') === 'true',
       hideDateFormat: form.querySelector('.js-toggle-site-date').getAttribute('aria-checked') === 'true',
       globalDateFormat: form.querySelector('#global-date-format').value
     } }).then(function (count) {
-      if (count === 1) return up.reload('.admin-appearance');
+      if (count === 1) return up.reload('#header, .admin-appearance');
       window.location.reload();
     }).catch(function (e) {
       error.textContent = e.reason || e.message;
