@@ -1937,5 +1937,8 @@
   "color-yellow": "dromodromo",
   "due-complete": "Sa oti ena gauna",
   "hideCheckedChecklistItems": "Vunitaka na ka digitaki ni lisi ni vakadinadina",
-  "hideAllChecklistItems": "Vunitaka na ka kece ni lisi ni vakadinadina"
+  "hideAllChecklistItems": "Vunitaka na ka kece ni lisi ni vakadinadina",
+  "edit-wip-limit": "Veisautaka na iYalayala WIP",
+  "enable-wip-limit": "Vakatara na iYalayala WIP",
+  "soft-wip-limit": "iYalayala WIP Vakamalua"
 }

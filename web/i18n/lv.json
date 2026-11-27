@@ -1937,5 +1937,8 @@
   "color-yellow": "dzeltens",
   "due-complete": "Termiņš pabeigts",
   "hideCheckedChecklistItems": "Paslēpt atzīmētos kontrolsaraksta vienumus",
-  "hideAllChecklistItems": "Paslēpt visus kontrolsaraksta vienumus"
+  "hideAllChecklistItems": "Paslēpt visus kontrolsaraksta vienumus",
+  "edit-wip-limit": "Labot WIP limitu",
+  "enable-wip-limit": "Ieslēgt WIP limitu",
+  "soft-wip-limit": "Maigais WIP limits"
 }

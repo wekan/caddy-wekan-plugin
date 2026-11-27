@@ -1937,5 +1937,8 @@
   "color-yellow": "kōwhai",
   "due-complete": "Kua oti te mea tika",
   "hideCheckedChecklistItems": "Huna ngā tūemi rārangi arowhai kua tohua",
-  "hideAllChecklistItems": "Huna ngā tūemi rārangi arowhai katoa"
+  "hideAllChecklistItems": "Huna ngā tūemi rārangi arowhai katoa",
+  "edit-wip-limit": "Whakatika Tepe WIP",
+  "enable-wip-limit": "Whakahohe Tepe WIP",
+  "soft-wip-limit": "Tepe WIP Ngāwari"
 }

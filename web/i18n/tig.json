@@ -1937,5 +1937,8 @@
   "color-yellow": "ቢጫይ",
   "due-complete": "መወዳእታ ተወዲኡ",
   "hideCheckedChecklistItems": "ምልክት ዝተገብረሎም ንጥልታት ናይ ምርመራ ዝርዝር ሕባእ",
-  "hideAllChecklistItems": "ኵሎም ንጥልታት ናይ ምርመራ ዝርዝር ሕባእ"
+  "hideAllChecklistItems": "ኵሎም ንጥልታት ናይ ምርመራ ዝርዝር ሕባእ",
+  "edit-wip-limit": "ደረት WIP አስነ",
+  "enable-wip-limit": "ደረት WIP ፍቐድ",
+  "soft-wip-limit": "ልስሉስ ደረት WIP"
 }

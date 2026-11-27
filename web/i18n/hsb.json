@@ -1937,5 +1937,8 @@
   "color-yellow": "žołta",
   "due-complete": "Termin dospěća dokónčeny",
   "hideCheckedChecklistItems": "Markěrowane zapiski kontrolneje lisćiny schować",
-  "hideAllChecklistItems": "Wšě zapiski kontrolneje lisćiny schować"
+  "hideAllChecklistItems": "Wšě zapiski kontrolneje lisćiny schować",
+  "edit-wip-limit": "WIP-limit wobdźěłać",
+  "enable-wip-limit": "WIP-limit zmóžnić",
+  "soft-wip-limit": "Mjechki WIP-limit"
 }

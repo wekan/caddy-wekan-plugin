@@ -1937,5 +1937,8 @@
   "color-yellow": "হলুদ",
   "due-complete": "নির্ধারিত কাজ সম্পূর্ণ",
   "hideCheckedChecklistItems": "চিহ্নিত যাচাইতালিকা আইটেম লুকান",
-  "hideAllChecklistItems": "যাচাইতালিকার সব আইটেম লুকান"
+  "hideAllChecklistItems": "যাচাইতালিকার সব আইটেম লুকান",
+  "edit-wip-limit": "WIP সীমা সম্পাদনা করুন",
+  "enable-wip-limit": "WIP সীমা চালু করুন",
+  "soft-wip-limit": "নমনীয় WIP সীমা"
 }

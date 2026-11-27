@@ -1937,5 +1937,8 @@
   "color-yellow": "melemele",
   "due-complete": "kue hoʻopau",
   "hideCheckedChecklistItems": "hūnā kaha ʻia papa kaha nā mea",
-  "hideAllChecklistItems": "hūnā a pau papa kaha nā mea"
+  "hideAllChecklistItems": "hūnā a pau papa kaha nā mea",
+  "edit-wip-limit": "hoʻoponopono WIP limika",
+  "enable-wip-limit": "hoʻā WIP limika",
+  "soft-wip-limit": "kopaka WIP limika"
 }

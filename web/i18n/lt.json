@@ -1937,5 +1937,8 @@
   "color-yellow": "geltona",
   "due-complete": "Terminas įvykdytas",
   "hideCheckedChecklistItems": "Slėpti pažymėtus kontrolinio sąrašo elementus",
-  "hideAllChecklistItems": "Slėpti visus kontrolinio sąrašo elementus"
+  "hideAllChecklistItems": "Slėpti visus kontrolinio sąrašo elementus",
+  "edit-wip-limit": "Redaguoti WIP limitą",
+  "enable-wip-limit": "Įgalinti WIP limitą",
+  "soft-wip-limit": "Minkštas WIP limitas"
 }

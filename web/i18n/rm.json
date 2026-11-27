@@ -1937,5 +1937,8 @@
   "color-yellow": "giallo",
   "due-complete": "Scadenza terminada",
   "hideCheckedChecklistItems": "Zuppentar ils elements marcads da la glista da controlla",
-  "hideAllChecklistItems": "Zuppentar tut ils elements da la glista da controlla"
+  "hideAllChecklistItems": "Zuppentar tut ils elements da la glista da controlla",
+  "edit-wip-limit": "Modifitgar la limita WIP",
+  "enable-wip-limit": "Activar la limita WIP",
+  "soft-wip-limit": "Limita WIP flexibla"
 }

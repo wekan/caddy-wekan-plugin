@@ -1937,5 +1937,8 @@
   "color-yellow": "giarnu",
   "due-complete": "Scadenza cumprita",
   "hideCheckedChecklistItems": "Ammuccia l'elimenti signati dâ lista di cuntrollu",
-  "hideAllChecklistItems": "Ammuccia l'elimenti dâ lista di cuntrollu"
+  "hideAllChecklistItems": "Ammuccia l'elimenti dâ lista di cuntrollu",
+  "edit-wip-limit": "Cancia limite Work In Progress",
+  "enable-wip-limit": "Attiva lu limiti Work In Progress",
+  "soft-wip-limit": "Limiti Work in progress lèggiu"
 }

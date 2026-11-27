@@ -1937,5 +1937,8 @@
   "color-yellow": "giel",
   "due-complete": "Ferfal foltôge",
   "hideCheckedChecklistItems": "Hide kontrolearre checklist items",
-  "hideAllChecklistItems": "Ferbergje alle checklist items"
+  "hideAllChecklistItems": "Ferbergje alle checklist items",
+  "edit-wip-limit": "WIP Limit bewurkje",
+  "enable-wip-limit": "WIP Limit ynskeakelje",
+  "soft-wip-limit": "Sêfte WIP-limyt"
 }

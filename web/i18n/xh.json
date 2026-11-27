@@ -1937,5 +1937,8 @@
   "color-yellow": "lubhelu",
   "due-complete": "Okumiselweyo kugqityiwe",
   "hideCheckedChecklistItems": "Fihla izinto zoluhlu olukhangelweyo",
-  "hideAllChecklistItems": "Fihla zonke izinto zoluhlu lokukhangela"
+  "hideAllChecklistItems": "Fihla zonke izinto zoluhlu lokukhangela",
+  "edit-wip-limit": "Hlela umda we-WIP",
+  "enable-wip-limit": "Vula i-WIP umda",
+  "soft-wip-limit": "Soft WIP umda"
 }

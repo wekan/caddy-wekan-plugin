@@ -1937,5 +1937,8 @@
   "color-yellow": "སེརཔོ།",
   "due-complete": "དུས་བཀག་ལེགས་གྲུབ།",
   "hideCheckedChecklistItems": "རྟགས་བཀོད་པའི་ཞིབ་ཐོའི་རྣམ་གྲངས་སྦས།",
-  "hideAllChecklistItems": "ཞིབ་ཐོའི་རྣམ་གྲངས་ཚང་མ་སྦས།"
+  "hideAllChecklistItems": "ཞིབ་ཐོའི་རྣམ་གྲངས་ཚང་མ་སྦས།",
+  "edit-wip-limit": "WIP ཚད་ཞུན་དག་འབད།",
+  "enable-wip-limit": "WIP ཚད་ལྕོགས་ཅན་བཟོ།",
+  "soft-wip-limit": "WIP ཚད་འཇམ་པོ།"
 }

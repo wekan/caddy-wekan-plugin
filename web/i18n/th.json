@@ -1937,5 +1937,8 @@
   "color-yellow": "เหลือง",
   "due-complete": "ครบกำหนดเสร็จสมบูรณ์",
   "hideCheckedChecklistItems": "ซ่อนรายการเช็คลิสต์ที่ทำเครื่องหมายแล้ว",
-  "hideAllChecklistItems": "ซ่อนรายการเช็คลิสต์ทั้งหมด"
+  "hideAllChecklistItems": "ซ่อนรายการเช็คลิสต์ทั้งหมด",
+  "edit-wip-limit": "แก้ไขขีดจำกัด WIP",
+  "enable-wip-limit": "เปิดใช้ขีดจำกัด WIP",
+  "soft-wip-limit": "ขีดจำกัด WIP แบบยืดหยุ่น"
 }

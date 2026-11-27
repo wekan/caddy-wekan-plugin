@@ -1937,5 +1937,8 @@
   "color-yellow": "aklama",
   "due-complete": "Wowu ŋkeke mamlɛ nu",
   "hideCheckedChecklistItems": "Ɣla ŋkuɖodzinudzesi ƒe nane siwo wode dzesi",
-  "hideAllChecklistItems": "Ɣla ŋkuɖodzinudzesi ƒe naneawo katã"
+  "hideAllChecklistItems": "Ɣla ŋkuɖodzinudzesi ƒe naneawo katã",
+  "edit-wip-limit": "Trɔ̃ WIP ƒe seƒoƒo",
+  "enable-wip-limit": "Na mɔ WIP ƒe seƒoƒo",
+  "soft-wip-limit": "WIP ƒe seƒoƒo bɔbɔe"
 }

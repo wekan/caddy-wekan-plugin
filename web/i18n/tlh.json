@@ -1940,5 +1940,8 @@
   "color-yellow": "SuD (#FFFF00)",
   "due-complete": "qaS rInpu'",
   "hideCheckedChecklistItems": "ghItlhHommey tetlhDaq rInbogh ghItlhHommey tISo'",
-  "hideAllChecklistItems": "ghItlhHommey tetlhDaq Hoch ghItlhHommey tISo'"
+  "hideAllChecklistItems": "ghItlhHommey tetlhDaq Hoch ghItlhHommey tISo'",
+  "edit-wip-limit": "WIP 'aqroS choH",
+  "enable-wip-limit": "WIP 'aqroS chu'",
+  "soft-wip-limit": "Qu'mey 'aqroS ghuH neH"
 }

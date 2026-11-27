@@ -1937,5 +1937,8 @@
   "color-yellow": "żółta",
   "due-complete": "Termin ukończony",
   "hideCheckedChecklistItems": "Ukryj zaznaczone pozycje checklisty",
-  "hideAllChecklistItems": "Ukryj wszystkie pozycje checklisty"
+  "hideAllChecklistItems": "Ukryj wszystkie pozycje checklisty",
+  "edit-wip-limit": "Zmień limit kart na liście",
+  "enable-wip-limit": "Włącz limit kart na liście",
+  "soft-wip-limit": "Pozwól na nadmiarowe karty na liście"
 }

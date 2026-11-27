@@ -1942,5 +1942,8 @@
   "color-yellow": "sárga",
   "due-complete": "Határidő teljesítve",
   "hideCheckedChecklistItems": "Kipipált ellenőrzőlista-elemek elrejtése",
-  "hideAllChecklistItems": "Az összes ellenőrzőlista-elem elrejtése"
+  "hideAllChecklistItems": "Az összes ellenőrzőlista-elem elrejtése",
+  "edit-wip-limit": "WIP korlát szerkesztése",
+  "enable-wip-limit": "WIP korlát engedélyezése",
+  "soft-wip-limit": "Gyenge WIP korlát"
 }

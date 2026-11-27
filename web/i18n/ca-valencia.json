@@ -1911,5 +1911,8 @@
   "zoom-in": "Amplia",
   "zoom-out": "Redueix",
   "hideCheckedChecklistItems": "Amaga els elements marcats de la llista de verificació",
-  "hideAllChecklistItems": "Amaga tots els elements de la llista de verificació"
+  "hideAllChecklistItems": "Amaga tots els elements de la llista de verificació",
+  "edit-wip-limit": "Edita el Límit de Treball en Progrés",
+  "enable-wip-limit": "Activa i Límit de Treball en Progrés",
+  "soft-wip-limit": "Límit Soft WIP"
 }

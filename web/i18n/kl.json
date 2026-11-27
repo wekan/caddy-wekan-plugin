@@ -1937,5 +1937,8 @@
   "color-yellow": "sungaartoq",
   "due-complete": "Killigititaq naammassivoq",
   "hideCheckedChecklistItems": "Misissuiffiusumi immikkoortut nalunaaqutserneqartut isertukkit",
-  "hideAllChecklistItems": "Misissuiffiusumi immikkoortut tamarmik isertukkit"
+  "hideAllChecklistItems": "Misissuiffiusumi immikkoortut tamarmik isertukkit",
+  "edit-wip-limit": "WIP-ip killissaa allanngortiguk",
+  "enable-wip-limit": "WIP-ip killissaa atulersiguk",
+  "soft-wip-limit": "WIP-ip killissaa mianersoqqussutaasoq"
 }

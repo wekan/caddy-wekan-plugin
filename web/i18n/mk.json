@@ -1937,5 +1937,8 @@
   "color-yellow": "жолта",
   "due-complete": "Рок завршен",
   "hideCheckedChecklistItems": "Сокриј ги означените ставки од списокот за проверка",
-  "hideAllChecklistItems": "Сокриј ги сите ставки од списокот за проверка"
+  "hideAllChecklistItems": "Сокриј ги сите ставки од списокот за проверка",
+  "edit-wip-limit": "Уреди го ограничувањето за работа во тек (WIP)",
+  "enable-wip-limit": "Овозможи ограничување за работа во тек (WIP)",
+  "soft-wip-limit": "\"Мек\" WIP лимит"
 }

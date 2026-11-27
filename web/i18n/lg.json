@@ -1937,5 +1937,8 @@
   "color-yellow": "kyenvu",
   "due-complete": "Olunaku olusembayo luwedde",
   "hideCheckedChecklistItems": "Kweka checked ebintu by'olukalala lw'okukebera",
-  "hideAllChecklistItems": "Kweka byonna ebintu by'olukalala lw'okukebera"
+  "hideAllChecklistItems": "Kweka byonna ebintu by'olukalala lw'okukebera",
+  "edit-wip-limit": "Kyusa WIP Limit",
+  "enable-wip-limit": "Sobozesa WIP Limit",
+  "soft-wip-limit": "Ekkomo eryangu ery'emirimu egikolebwa"
 }

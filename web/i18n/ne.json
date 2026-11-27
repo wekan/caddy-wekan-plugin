@@ -1937,5 +1937,8 @@
   "color-yellow": "पहेंलो",
   "due-complete": "अन्तिम मिति पूरा",
   "hideCheckedChecklistItems": "चिन्ह लगाइएका जाँचसूची वस्तुहरू लुकाउनुहोस्",
-  "hideAllChecklistItems": "सबै जाँचसूची वस्तुहरू लुकाउनुहोस्"
+  "hideAllChecklistItems": "सबै जाँचसूची वस्तुहरू लुकाउनुहोस्",
+  "edit-wip-limit": "WIP सीमा सम्पादन गर्नुहोस्",
+  "enable-wip-limit": "WIP सीमा सक्षम गर्नुहोस्",
+  "soft-wip-limit": "लचिलो WIP सीमा"
 }

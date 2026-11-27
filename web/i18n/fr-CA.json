@@ -1938,5 +1938,8 @@
   "color-yellow": "jaune",
   "due-complete": "Échéance terminée",
   "hideCheckedChecklistItems": "Cacher les éléments cochés de la check-list",
-  "hideAllChecklistItems": "Cacher tous les éléments de la check-list"
+  "hideAllChecklistItems": "Cacher tous les éléments de la check-list",
+  "edit-wip-limit": "Éditer la limite WIP",
+  "enable-wip-limit": "Activer la limite WIP",
+  "soft-wip-limit": "Limite WIP douce"
 }

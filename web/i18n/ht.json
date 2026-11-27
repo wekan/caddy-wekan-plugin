@@ -1937,5 +1937,8 @@
   "color-yellow": "jòn",
   "due-complete": "Limit fini",
   "hideCheckedChecklistItems": "Kache eleman lis verifikasyon ki tcheke yo",
-  "hideAllChecklistItems": "Kache tout eleman lis verifikasyon"
+  "hideAllChecklistItems": "Kache tout eleman lis verifikasyon",
+  "edit-wip-limit": "Modifye limit WIP",
+  "enable-wip-limit": "Aktive limit WIP",
+  "soft-wip-limit": "Limit WIP fleksib"
 }

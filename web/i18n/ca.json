@@ -1937,5 +1937,8 @@
   "color-yellow": "groc",
   "due-complete": "Venciment complet",
   "hideCheckedChecklistItems": "Amaga els elements marcats de la checklist",
-  "hideAllChecklistItems": "Amaga tots els elements de la checklist"
+  "hideAllChecklistItems": "Amaga tots els elements de la checklist",
+  "edit-wip-limit": "Edita el Límit de Treball en Progrés",
+  "enable-wip-limit": "Activa i Límit de Treball en Progrés",
+  "soft-wip-limit": "Límit Soft WIP"
 }

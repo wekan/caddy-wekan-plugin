@@ -1937,5 +1937,8 @@
   "color-yellow": "sa'yju",
   "due-complete": "Arange paha oñemohu'ã",
   "hideCheckedChecklistItems": "Eñomi ysaja ñehesa'ỹijo mba'e ojehechamava'ekue",
-  "hideAllChecklistItems": "Eñomi opaite ysaja ñehesa'ỹijo mba'e"
+  "hideAllChecklistItems": "Eñomi opaite ysaja ñehesa'ỹijo mba'e",
+  "edit-wip-limit": "Embosako'i WIP paha",
+  "enable-wip-limit": "Emyendy WIP paha",
+  "soft-wip-limit": "WIP paha kangy"
 }

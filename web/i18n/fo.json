@@ -1937,5 +1937,8 @@
   "color-yellow": "gult",
   "due-complete": "Freist liðug",
   "hideCheckedChecklistItems": "Fjal avhakað lið á kanningarlista",
-  "hideAllChecklistItems": "Fjal øll lið á kanningarlista"
+  "hideAllChecklistItems": "Fjal øll lið á kanningarlista",
+  "edit-wip-limit": "Broyt WIP-mark",
+  "enable-wip-limit": "Virkja WIP-mark",
+  "soft-wip-limit": "Bleytt WIP-mark"
 }

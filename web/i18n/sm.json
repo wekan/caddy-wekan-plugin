@@ -1937,5 +1937,8 @@
   "color-yellow": "samasama",
   "due-complete": "Ua mae'a le mea e tatau ai",
   "hideCheckedChecklistItems": "Nana mea ua siakiina o le lisi siaki",
-  "hideAllChecklistItems": "Nana mea uma o le lisi siaki"
+  "hideAllChecklistItems": "Nana mea uma o le lisi siaki",
+  "edit-wip-limit": "Teuteu le Tapulaa WIP",
+  "enable-wip-limit": "Faaola le Tapulaa WIP",
+  "soft-wip-limit": "Tapulaa WIP Faamalū"
 }

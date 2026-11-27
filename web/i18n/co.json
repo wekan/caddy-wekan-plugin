@@ -1937,5 +1937,8 @@
   "color-yellow": "ghjallu",
   "due-complete": "Scadenza compia",
   "hideCheckedChecklistItems": "Piattà l’elementi marcati di e liste di cuntrollu",
-  "hideAllChecklistItems": "Piattà tutti l’elementi di e liste di cuntrollu"
+  "hideAllChecklistItems": "Piattà tutti l’elementi di e liste di cuntrollu",
+  "edit-wip-limit": "Mudificà a limita WIP",
+  "enable-wip-limit": "Attivà a limita WIP",
+  "soft-wip-limit": "Limita WIP flessibile"
 }

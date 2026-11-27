@@ -1937,5 +1937,8 @@
   "color-yellow": "කහ",
   "due-complete": "නියමිත කාර්යය සම්පූර්ණයි",
   "hideCheckedChecklistItems": "සලකුණු කළ පිරික්සුම් ලැයිස්තු අයිතම සඟවන්න",
-  "hideAllChecklistItems": "සියලු පිරික්සුම් ලැයිස්තු අයිතම සඟවන්න"
+  "hideAllChecklistItems": "සියලු පිරික්සුම් ලැයිස්තු අයිතම සඟවන්න",
+  "edit-wip-limit": "WIP සීමාව සංස්කරණය කරන්න",
+  "enable-wip-limit": "WIP සීමාව සක්‍රිය කරන්න",
+  "soft-wip-limit": "මෘදු WIP සීමාව"
 }

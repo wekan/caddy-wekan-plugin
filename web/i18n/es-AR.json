@@ -1937,5 +1937,8 @@
   "color-yellow": "amarillo",
   "due-complete": "Vencimiento completado",
   "hideCheckedChecklistItems": "Ocultar elementos marcados de la lista de verificación",
-  "hideAllChecklistItems": "Ocultar todos los elementos de la lista de verificación"
+  "hideAllChecklistItems": "Ocultar todos los elementos de la lista de verificación",
+  "edit-wip-limit": "Editar Lìmite de TEP",
+  "enable-wip-limit": "Activar Límite TEP",
+  "soft-wip-limit": "Límite TEP suave"
 }

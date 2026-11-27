@@ -1937,5 +1937,8 @@
   "color-yellow": "njano",
   "due-complete": "Imekamilika kwa wakati",
   "hideCheckedChecklistItems": "Ficha vipengee vya orodha tiki",
-  "hideAllChecklistItems": "Ficha vitu vyote vya orodha hakiki"
+  "hideAllChecklistItems": "Ficha vitu vyote vya orodha hakiki",
+  "edit-wip-limit": "Badilisha Kikomo cha WIP",
+  "enable-wip-limit": "Washa Kikomo cha WIP",
+  "soft-wip-limit": "Kikomo Laini cha WIP"
 }

@@ -55,6 +55,10 @@ func historyViewLabel(lang string, row, content map[string]any) string {
 			field := docString(content, "field")
 			return tr(lang, "card-"+strings.TrimSuffix(field, "At"))
 		}
+	case "wipLimit":
+		if entity == "list" {
+			return tr(lang, "edit-wip-limit")
+		}
 	case "spentTime":
 		if entity == "card" {
 			return tr(lang, "spent-time-hours")
@@ -168,6 +172,26 @@ func historySummary(lang string, row, content map[string]any) string {
 			return tr(lang, "no")
 		}
 		return jsonNumberOrBool(x)
+	case map[string]any:
+		if docString(content, "field") == "wipLimit" && docString(row, "entityType") == "list" {
+			var parts []string
+			switch count := x["value"].(type) {
+			case float64, int32, int64, int:
+				parts = append(parts, jsonNumberOrBool(count))
+			}
+			for _, field := range []struct{ name, label string }{
+				{"enabled", "enable-wip-limit"}, {"soft", "soft-wip-limit"},
+			} {
+				if setting, ok := x[field.name].(bool); ok {
+					key := "no"
+					if setting {
+						key = "yes"
+					}
+					parts = append(parts, tr(lang, field.label)+": "+tr(lang, key))
+				}
+			}
+			return strings.Join(parts, " · ")
+		}
 	case []any:
 		parts := []string{}
 		for _, e := range x {

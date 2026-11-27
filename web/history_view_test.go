@@ -192,3 +192,16 @@ func TestHistoryViewChecklistSettings(t *testing.T) {
 		}
 	}
 }
+
+func TestHistoryViewWipLimit(t *testing.T) {
+	row := map[string]any{"entityType": "list", "group": "title"}
+	content := map[string]any{"field": "wipLimit", "value": map[string]any{
+		"value": int32(3), "enabled": true, "soft": false,
+	}}
+	if got := historyViewLabel("en", row, content); got != "Edit WIP Limit" {
+		t.Errorf("WIP label = %q", got)
+	}
+	if got := historySummary("en", row, content); got != "3 · Enable WIP Limit: Yes · Soft WIP Limit: No" {
+		t.Errorf("WIP summary = %q", got)
+	}
+}

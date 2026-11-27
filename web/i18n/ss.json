@@ -1937,5 +1937,8 @@
   "color-yellow": "phuti",
   "due-complete": "Lokufanele kuphelile",
   "hideCheckedChecklistItems": "Fihla tintfo teluhlu lwekuhlola letihloliwe",
-  "hideAllChecklistItems": "Fihla tonkhe tintfo teluhlu lwekuhlola"
+  "hideAllChecklistItems": "Fihla tonkhe tintfo teluhlu lwekuhlola",
+  "edit-wip-limit": "Hlela Umkhawulo we-WIP",
+  "enable-wip-limit": "Vumela Umkhawulo we-WIP",
+  "soft-wip-limit": "Umkhawulo Lotsambile we-WIP"
 }

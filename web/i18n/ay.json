@@ -1937,5 +1937,8 @@
   "color-yellow": "q'illu",
   "due-complete": "tukuyañ complete",
   "hideCheckedChecklistItems": "imantaña uñakipata uñakipañ lista items",
-  "hideAllChecklistItems": "imantaña taqi uñakipañ lista items"
+  "hideAllChecklistItems": "imantaña taqi uñakipañ lista items",
+  "edit-wip-limit": "askichaña WIP Limit",
+  "enable-wip-limit": "naktayaña WIP Limit",
+  "soft-wip-limit": "Llamp'u WIP tupu"
 }

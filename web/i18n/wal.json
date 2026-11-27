@@ -1937,5 +1937,8 @@
   "color-yellow": "baqqiya mera",
   "due-complete": "Wurssiyo wodiyan polettiis",
   "hideCheckedChecklistItems": "Malaatettida paccissiya mazgabaa issibata qotta",
-  "hideAllChecklistItems": "Paccissiya mazgabaa issibata ubbaa qotta"
+  "hideAllChecklistItems": "Paccissiya mazgabaa issibata ubbaa qotta",
+  "edit-wip-limit": "WIP gaxaa laamma",
+  "enable-wip-limit": "WIP gaxaa oottissa",
+  "soft-wip-limit": "Shemppiya WIP gaxaa"
 }

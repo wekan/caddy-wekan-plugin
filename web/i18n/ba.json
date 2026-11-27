@@ -1937,5 +1937,8 @@
   "color-yellow": "һары",
   "due-complete": "Тамамлау үтәлде",
   "hideCheckedChecklistItems": "Билдәләнгән тикшереү исемлеге элементтарын йәшерергә",
-  "hideAllChecklistItems": "Бөтә тикшереү исемлеге элементтарын йәшерергә"
+  "hideAllChecklistItems": "Бөтә тикшереү исемлеге элементтарын йәшерергә",
+  "edit-wip-limit": "WIP сикләүен үҙгәртергә",
+  "enable-wip-limit": "WIP сикләүен ҡабыҙырға",
+  "soft-wip-limit": "Йомшаҡ WIP сикләүе"
 }

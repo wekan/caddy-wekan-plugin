@@ -1937,5 +1937,8 @@
   "color-yellow": "黃色",
   "due-complete": "已完成",
   "hideCheckedChecklistItems": "隱藏已勾選的待辦清單項目",
-  "hideAllChecklistItems": "隱藏所有待辦清單項目"
+  "hideAllChecklistItems": "隱藏所有待辦清單項目",
+  "edit-wip-limit": "編輯 WIP 限制",
+  "enable-wip-limit": "啟用 WIP 限制",
+  "soft-wip-limit": "軟性 WIP 限制"
 }

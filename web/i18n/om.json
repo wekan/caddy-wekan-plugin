@@ -1937,5 +1937,8 @@
   "color-yellow": "keelloo",
   "due-complete": "Yeroon xumuraa guutame",
   "hideCheckedChecklistItems": "Galmeewwan tarree qorannoo mallatteeffaman dhoksi",
-  "hideAllChecklistItems": "Galmeewwan tarree qorannoo hunda dhoksi"
+  "hideAllChecklistItems": "Galmeewwan tarree qorannoo hunda dhoksi",
+  "edit-wip-limit": "Daangaa WIP Gulaali",
+  "enable-wip-limit": "Daangaa WIP Bani",
+  "soft-wip-limit": "Daangaa WIP Laafaa"
 }

@@ -1937,5 +1937,8 @@
   "color-yellow": "पीयर",
   "due-complete": "नियत काम पूरा",
   "hideCheckedChecklistItems": "जाँच कइल जाँच-सूची मद छिपाईं",
-  "hideAllChecklistItems": "सभ जाँच-सूची मद छिपाईं"
+  "hideAllChecklistItems": "सभ जाँच-सूची मद छिपाईं",
+  "edit-wip-limit": "चालू काम के सीमा संपादित करीं",
+  "enable-wip-limit": "चालू काम के सीमा चालू करीं",
+  "soft-wip-limit": "नरम चालू काम सीमा"
 }

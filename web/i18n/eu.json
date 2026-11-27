@@ -1937,5 +1937,8 @@
   "color-yellow": "horia",
   "due-complete": "Muga osatuta",
   "hideCheckedChecklistItems": "Ezkutatu egiaztatutako zerrendako elementuak",
-  "hideAllChecklistItems": "Ezkutatu kontrol-zerrendako elementu guztiak"
+  "hideAllChecklistItems": "Ezkutatu kontrol-zerrendako elementu guztiak",
+  "edit-wip-limit": "WIP muga editatu",
+  "enable-wip-limit": "WIP muga gaitu",
+  "soft-wip-limit": "WIP muga malgua"
 }

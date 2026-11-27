@@ -1937,5 +1937,8 @@
   "color-yellow": "q'illu",
   "due-complete": "Tukuy pacha hunt'asqa",
   "hideCheckedChecklistItems": "Chikunasqa qhawana sutisuyu kaqkunata pakay",
-  "hideAllChecklistItems": "Llapa qhawana sutisuyu kaqkunata pakay"
+  "hideAllChecklistItems": "Llapa qhawana sutisuyu kaqkunata pakay",
+  "edit-wip-limit": "WIP saywata allichay",
+  "enable-wip-limit": "WIP saywata hap'ichiy",
+  "soft-wip-limit": "Llamp'u WIP sayway"
 }

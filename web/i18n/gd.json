@@ -1937,5 +1937,8 @@
   "color-yellow": "buidhe",
   "due-complete": "Ri phàigheadh crìochnaichte",
   "hideCheckedChecklistItems": "Falaich nithean comharraichte na liosta-sgrùdaidh",
-  "hideAllChecklistItems": "Falaich gach nì air an liosta-sgrùdaidh"
+  "hideAllChecklistItems": "Falaich gach nì air an liosta-sgrùdaidh",
+  "edit-wip-limit": "Deasaich Crìoch WIP",
+  "enable-wip-limit": "Dèan Crìoch WIP Comasach",
+  "soft-wip-limit": "Crìoch Bhog WIP"
 }

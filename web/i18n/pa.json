@@ -1937,5 +1937,8 @@
   "color-yellow": "ਪੀਲਾ",
   "due-complete": "ਨਿਯਤ ਮਿਤੀ ਮੁਕੰਮਲ",
   "hideCheckedChecklistItems": "ਚੈੱਕ-ਲਿਸਟ ਆਈਟਮਾਂ ਨੂੰ ਲੁਕਾਓ",
-  "hideAllChecklistItems": "ਸਾਰੀਆਂ ਚੈੱਕਲਿਸਟ ਆਈਟਮਾਂ ਨੂੰ ਲੁਕਾਓ"
+  "hideAllChecklistItems": "ਸਾਰੀਆਂ ਚੈੱਕਲਿਸਟ ਆਈਟਮਾਂ ਨੂੰ ਲੁਕਾਓ",
+  "edit-wip-limit": "WIP ਸੀਮਾ ਦਾ ਸੰਪਾਦਨ ਕਰੋ",
+  "enable-wip-limit": "WIP ਸੀਮਾ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ",
+  "soft-wip-limit": "ਸਾਫਟ WIP ਸੀਮਾ"
 }

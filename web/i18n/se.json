@@ -1937,5 +1937,8 @@
   "color-yellow": "fiskat",
   "due-complete": "Mearreáigi ollašuvvan",
   "hideCheckedChecklistItems": "Čiega merkojuvvon dárkkistančuoggáid",
-  "hideAllChecklistItems": "Čiega buot dárkkistančuoggáid"
+  "hideAllChecklistItems": "Čiega buot dárkkistančuoggáid",
+  "edit-wip-limit": "Rievdat WIP-ráji",
+  "enable-wip-limit": "Bija WIP-ráji ala",
+  "soft-wip-limit": "Dipma WIP-rádji"
 }

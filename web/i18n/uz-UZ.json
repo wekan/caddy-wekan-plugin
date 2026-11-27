@@ -1937,5 +1937,8 @@
   "color-yellow": "sariq",
   "due-complete": "Muddat bajarildi",
   "hideCheckedChecklistItems": "Belgilangan nazorat roʻyxati elementlarini yashirish",
-  "hideAllChecklistItems": "Tekshirish roʻyxatining barcha elementlarini yashirish"
+  "hideAllChecklistItems": "Tekshirish roʻyxatining barcha elementlarini yashirish",
+  "edit-wip-limit": "WIP chegarasini tahrirlash",
+  "enable-wip-limit": "WIP chegarasini yoqing",
+  "soft-wip-limit": "Yumshoq WIP chegarasi"
 }

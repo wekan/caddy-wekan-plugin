@@ -1937,5 +1937,8 @@
   "color-yellow": "rumena",
   "due-complete": "Rok dokončan",
   "hideCheckedChecklistItems": "Skrij označene postavke kontrolnega seznama",
-  "hideAllChecklistItems": "Skrij vse postavke kontrolnega seznama"
+  "hideAllChecklistItems": "Skrij vse postavke kontrolnega seznama",
+  "edit-wip-limit": "Uredi omejitev št. kartic",
+  "enable-wip-limit": "Vklopi omejitev št. kartic",
+  "soft-wip-limit": "Omehčaj omejitev št. kartic"
 }

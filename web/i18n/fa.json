@@ -1937,5 +1937,8 @@
   "color-yellow": "زرد",
   "due-complete": "سررسید کامل",
   "hideCheckedChecklistItems": "پنهان کردن موارد انجام شده چک لیست",
-  "hideAllChecklistItems": "پنهان کردن همه موارد چک لیست"
+  "hideAllChecklistItems": "پنهان کردن همه موارد چک لیست",
+  "edit-wip-limit": "ویرایش محدودیت WIP",
+  "enable-wip-limit": "فعال کردن محدودیت WIP",
+  "soft-wip-limit": "محدودیت WIP نرم"
 }

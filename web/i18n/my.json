@@ -1937,5 +1937,8 @@
   "color-yellow": "အဝါ",
   "due-complete": "သတ်မှတ်ရက် ပြီးစီးသည်",
   "hideCheckedChecklistItems": "စစ်ဆေးပြီးသော စစ်ဆေးရန်စာရင်းအရာများ ဖျောက်ရန်",
-  "hideAllChecklistItems": "စစ်ဆေးရန်စာရင်းအရာအားလုံး ဖျောက်ရန်"
+  "hideAllChecklistItems": "စစ်ဆေးရန်စာရင်းအရာအားလုံး ဖျောက်ရန်",
+  "edit-wip-limit": "WIP ကန့်သတ်ချက် ပြင်ရန်",
+  "enable-wip-limit": "WIP ကန့်သတ်ချက် ဖွင့်ရန်",
+  "soft-wip-limit": "ပျော့ပျောင်းသော WIP ကန့်သတ်ချက်"
 }

@@ -1937,5 +1937,8 @@
   "color-yellow": "umuhondo",
   "due-complete": "Igihe ntarengwa carangiye",
   "hideCheckedChecklistItems": "Nyegeza ibintu vyasuzumwe vyo ku rutonde rwo kugenzura",
-  "hideAllChecklistItems": "Nyegeza ibintu vyose vyo ku rutonde rwo kugenzura"
+  "hideAllChecklistItems": "Nyegeza ibintu vyose vyo ku rutonde rwo kugenzura",
+  "edit-wip-limit": "Hindura urugero rwa WIP",
+  "enable-wip-limit": "Fungura urugero rwa WIP",
+  "soft-wip-limit": "Urugero rworoshe rwa WIP"
 }

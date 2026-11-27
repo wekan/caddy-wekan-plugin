@@ -1937,5 +1937,8 @@
   "color-yellow": "mavo",
   "due-complete": "Vita ny voatondro",
   "hideCheckedChecklistItems": "Afeno ny singa lisitra fanamarinana voamarika",
-  "hideAllChecklistItems": "Afeno ny singa lisitra fanamarinana rehetra"
+  "hideAllChecklistItems": "Afeno ny singa lisitra fanamarinana rehetra",
+  "edit-wip-limit": "Ovay ny fetra WIP",
+  "enable-wip-limit": "Alefaso ny fetra WIP",
+  "soft-wip-limit": "Fetra WIP malefaka"
 }

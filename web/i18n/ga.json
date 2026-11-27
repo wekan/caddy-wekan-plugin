@@ -1937,5 +1937,8 @@
   "color-yellow": "buí",
   "due-complete": "Dlite críochnaithe",
   "hideCheckedChecklistItems": "Folaigh míreanna ticáilte an tseicliosta",
-  "hideAllChecklistItems": "Folaigh gach mír seicliosta"
+  "hideAllChecklistItems": "Folaigh gach mír seicliosta",
+  "edit-wip-limit": "Cuir Teorainn WIP in Eagar",
+  "enable-wip-limit": "Cumasaigh Teorainn WIP",
+  "soft-wip-limit": "Teorainn Bhog WIP"
 }

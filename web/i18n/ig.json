@@ -1937,5 +1937,8 @@
   "color-yellow": "edo edo",
   "due-complete": "Njedebe emechara",
   "hideCheckedChecklistItems": "Zoo ihe ndetu elele anya",
-  "hideAllChecklistItems": "Zoo ihe ndepụta ndetu niile"
+  "hideAllChecklistItems": "Zoo ihe ndepụta ndetu niile",
+  "edit-wip-limit": "Dezie oke WIP",
+  "enable-wip-limit": "Kwado oke WIP",
+  "soft-wip-limit": "Oke WIP dị nro"
 }

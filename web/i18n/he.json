@@ -1937,5 +1937,8 @@
   "color-yellow": "צהוב",
   "due-complete": "היעד הושלם",
   "hideCheckedChecklistItems": "הסתרת פריטים שסומנו ברשימת הפריטים",
-  "hideAllChecklistItems": "הסתרת כל הפריטים ברשימת המטלות"
+  "hideAllChecklistItems": "הסתרת כל הפריטים ברשימת המטלות",
+  "edit-wip-limit": "עריכת מגבלת „בעבודה”",
+  "enable-wip-limit": "הפעלת מגבלת „בעבודה”",
+  "soft-wip-limit": "מגבלת „בעבודה” רכה"
 }

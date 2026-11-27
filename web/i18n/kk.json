@@ -1937,5 +1937,8 @@
   "color-yellow": "сары",
   "due-complete": "Мерзімі аяқталды",
   "hideCheckedChecklistItems": "Белгіленген тексеру тізімі тармақтарын жасыру",
-  "hideAllChecklistItems": "Тексеру тізімінің барлық тармақтарын жасыру"
+  "hideAllChecklistItems": "Тексеру тізімінің барлық тармақтарын жасыру",
+  "edit-wip-limit": "WIP шегін өзгерту",
+  "enable-wip-limit": "WIP шегін қосу",
+  "soft-wip-limit": "Жұмсақ WIP шегі"
 }

@@ -1937,5 +1937,8 @@
   "color-yellow": "grogu",
   "due-complete": "Iscadèntzia cumpletada",
   "hideCheckedChecklistItems": "Cua sos elementos marcados de sa lista de controllu",
-  "hideAllChecklistItems": "Cua totu sos elementos de sa lista de controllu"
+  "hideAllChecklistItems": "Cua totu sos elementos de sa lista de controllu",
+  "edit-wip-limit": "Modìfica su lìmite WIP",
+  "enable-wip-limit": "Ativa su lìmite WIP",
+  "soft-wip-limit": "Lìmite WIP lèbiu"
 }

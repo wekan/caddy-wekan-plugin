@@ -1937,5 +1937,8 @@
   "color-yellow": "κίτρινο",
   "due-complete": "Ολοκληρωμένη λήξη",
   "hideCheckedChecklistItems": "Απόκρυψη επιλεγμένων στοιχείων λίστας ελέγχου",
-  "hideAllChecklistItems": "Απόκρυψη όλων των στοιχείων λίστας ελέγχου"
+  "hideAllChecklistItems": "Απόκρυψη όλων των στοιχείων λίστας ελέγχου",
+  "edit-wip-limit": "Επεξεργασία ορίου WIP",
+  "enable-wip-limit": "Ενεργοποίηση ορίου WIP",
+  "soft-wip-limit": "Ήπιο όριο WIP"
 }

@@ -1937,5 +1937,8 @@
   "color-yellow": "amarelo",
   "due-complete": "Prazo concluído",
   "hideCheckedChecklistItems": "Esconder itens concluídos da lista de verificação",
-  "hideAllChecklistItems": "Esconder todos os itens da lista de verificação"
+  "hideAllChecklistItems": "Esconder todos os itens da lista de verificação",
+  "edit-wip-limit": "Editar o Limite WIP",
+  "enable-wip-limit": "Ativar Limite WIP",
+  "soft-wip-limit": "Limite Suave de WIP"
 }

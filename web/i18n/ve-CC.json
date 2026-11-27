@@ -1937,5 +1937,8 @@
   "color-yellow": "giallo",
   "due-complete": "Scadensa completà",
   "hideCheckedChecklistItems": "Scondi łe vozi segnà de ła lista de controło",
-  "hideAllChecklistItems": "Scondi tute łe vozi de ła lista de controło"
+  "hideAllChecklistItems": "Scondi tute łe vozi de ła lista de controło",
+  "edit-wip-limit": "Canbia el łimite WIP",
+  "enable-wip-limit": "Ativa el łimite WIP",
+  "soft-wip-limit": "Łimite WIP no vincołante"
 }

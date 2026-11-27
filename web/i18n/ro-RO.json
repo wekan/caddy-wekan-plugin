@@ -1937,5 +1937,8 @@
   "color-yellow": "galben",
   "due-complete": "Scadență finalizată",
   "hideCheckedChecklistItems": "Ascunde elementele bifate ale listelor de verificare",
-  "hideAllChecklistItems": "Ascunde toate elementele listelor de verificare"
+  "hideAllChecklistItems": "Ascunde toate elementele listelor de verificare",
+  "edit-wip-limit": "Modifică limita lucrărilor în curs",
+  "enable-wip-limit": "Activează limita lucrărilor în curs",
+  "soft-wip-limit": "Limită orientativă a lucrărilor în curs"
 }

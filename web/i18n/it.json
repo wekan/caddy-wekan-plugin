@@ -1937,5 +1937,8 @@
   "color-yellow": "giallo",
   "due-complete": "Scadenza completata",
   "hideCheckedChecklistItems": "Nascondi gli elementi della lista di controllo selezionati",
-  "hideAllChecklistItems": "Nascondi gli elementi della lista di controllo"
+  "hideAllChecklistItems": "Nascondi gli elementi della lista di controllo",
+  "edit-wip-limit": "Modifica limite Work In Progress",
+  "enable-wip-limit": "Attiva limite Work In Progress",
+  "soft-wip-limit": "Limite Work in progress soft"
 }

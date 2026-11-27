@@ -1937,5 +1937,8 @@
   "color-yellow": "سېرىق",
   "due-complete": "قەرەل تاماملاندى",
   "hideCheckedChecklistItems": "تەكشۈرۈلگەن تەكشۈرۈش تۈرلىرىنى يوشۇرۇش",
-  "hideAllChecklistItems": "بارلىق تەكشۈرۈش تۈرلىرىنى يوشۇرۇڭ"
+  "hideAllChecklistItems": "بارلىق تەكشۈرۈش تۈرلىرىنى يوشۇرۇڭ",
+  "edit-wip-limit": "WIP چەكلىمىسىنى تەھرىرلەڭ",
+  "enable-wip-limit": "WIP چەكلىمىسىنى قوزغىتىڭ",
+  "soft-wip-limit": "يۇمشاق WIP چەكلىمىسى"
 }

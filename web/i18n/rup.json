@@ -1937,5 +1937,8 @@
   "color-yellow": "galbin",
   "due-complete": "Limitã bitisitã",
   "hideCheckedChecklistItems": "Ascundi elementili bifati di lista di control",
-  "hideAllChecklistItems": "Ascundi tuti elementili di lista di control"
+  "hideAllChecklistItems": "Ascundi tuti elementili di lista di control",
+  "edit-wip-limit": "Alãxea limita di lucru tu progres (WIP)",
+  "enable-wip-limit": "Activeadzã limita di lucru tu progres (WIP)",
+  "soft-wip-limit": "Limitã flexibilã di lucru tu progres (WIP)"
 }

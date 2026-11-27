@@ -1937,5 +1937,8 @@
   "color-yellow": "шар",
   "due-complete": "Дуусах хугацаа биелсэн",
   "hideCheckedChecklistItems": "Тэмдэглэсэн чеклистийн зүйлсийг нуух",
-  "hideAllChecklistItems": "Бүх чеклистийн зүйлсийг нуух"
+  "hideAllChecklistItems": "Бүх чеклистийн зүйлсийг нуух",
+  "edit-wip-limit": "WIP хязгаарлалтыг өөрчлөх",
+  "enable-wip-limit": "WIP хязгаарыг идэвхжүүлэх",
+  "soft-wip-limit": "Зөөлөн WIP хязгаар"
 }

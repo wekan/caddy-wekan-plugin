@@ -1937,5 +1937,8 @@
   "color-yellow": "ophuzi",
   "due-complete": "Ukugcina kuphelele",
   "hideCheckedChecklistItems": "Fihla izinto zohlu lokuhlola ezihloliwe",
-  "hideAllChecklistItems": "Fihla zonke izinto zohlu lokuhlola"
+  "hideAllChecklistItems": "Fihla zonke izinto zohlu lokuhlola",
+  "edit-wip-limit": "Hlela umkhawulo we-WIP",
+  "enable-wip-limit": "Nika amandla umkhawulo we-WIP",
+  "soft-wip-limit": "I-Soft WIP Umkhawulo"
 }

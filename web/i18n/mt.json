@@ -1937,5 +1937,8 @@
   "color-yellow": "isfar",
   "due-complete": "Skadenza mmarkata bħala lesta",
   "hideCheckedChecklistItems": "Aħbi l-oġġetti mmarkati tal-lista ta’ verifika",
-  "hideAllChecklistItems": "Aħbi l-oġġetti kollha tal-lista ta’ verifika"
+  "hideAllChecklistItems": "Aħbi l-oġġetti kollha tal-lista ta’ verifika",
+  "edit-wip-limit": "Editja l-Limitu WIP",
+  "enable-wip-limit": "Attiva l-Limitu WIP",
+  "soft-wip-limit": "Limitu flessibbli tax-xogħol li għadu għaddej"
 }

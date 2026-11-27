@@ -1937,5 +1937,8 @@
   "color-yellow": "зард",
   "due-complete": "Муҳлат анҷом ёфт",
   "hideCheckedChecklistItems": "Пинҳон кардани бандҳои қайдшудаи рӯйхати санҷиш",
-  "hideAllChecklistItems": "Пинҳон кардани ҳамаи бандҳои рӯйхати санҷиш"
+  "hideAllChecklistItems": "Пинҳон кардани ҳамаи бандҳои рӯйхати санҷиш",
+  "edit-wip-limit": "Таҳрири ҳадди WIP",
+  "enable-wip-limit": "Фаъол кардани ҳадди WIP",
+  "soft-wip-limit": "Ҳадди нарми WIP"
 }

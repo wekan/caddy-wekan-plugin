@@ -1937,5 +1937,8 @@
   "color-yellow": "yelo",
   "due-complete": "Wok bilong de yu makim i pinis",
   "hideCheckedChecklistItems": "Haitim ol samting i gat mak tik long lis bilong sekim",
-  "hideAllChecklistItems": "Haitim olgeta samting long lis bilong sekim"
+  "hideAllChecklistItems": "Haitim olgeta samting long lis bilong sekim",
+  "edit-wip-limit": "Senisim mak bilong WIP",
+  "enable-wip-limit": "Larim mak bilong WIP i wok",
+  "soft-wip-limit": "Mak bilong WIP i givim tok lukaut tasol"
 }

@@ -1937,5 +1937,8 @@
   "color-yellow": "giel",
   "due-complete": "Ofgab erleedegt",
   "hideCheckedChecklistItems": "Ofgehaakt Elementer vun der Checklëscht verstoppen",
-  "hideAllChecklistItems": "Verberge all Checklisteneinträge"
+  "hideAllChecklistItems": "Verberge all Checklisteneinträge",
+  "edit-wip-limit": "WIP-Limit beaarbechten",
+  "enable-wip-limit": "WIP-Limit aschalten",
+  "soft-wip-limit": "Mëllt WIP-Limit"
 }

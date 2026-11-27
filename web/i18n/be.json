@@ -1937,5 +1937,8 @@
   "color-yellow": "жоўты",
   "due-complete": "Тэрмін завершаны",
   "hideCheckedChecklistItems": "Схаваць адзначаныя пункты кантрольнага спіса",
-  "hideAllChecklistItems": "Схаваць усе пункты кантрольнага спіса"
+  "hideAllChecklistItems": "Схаваць усе пункты кантрольнага спіса",
+  "edit-wip-limit": "Рэдагаваць ліміт WIP",
+  "enable-wip-limit": "Уключыць ліміт WIP",
+  "soft-wip-limit": "Мяккі ліміт WIP"
 }

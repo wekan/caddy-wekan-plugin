@@ -1938,5 +1938,8 @@
   "color-yellow": "жовтий",
   "due-complete": "Термін виконано",
   "hideCheckedChecklistItems": "Приховати відмічені елементи чек-листа",
-  "hideAllChecklistItems": "Приховати всі пункти чек-листа"
+  "hideAllChecklistItems": "Приховати всі пункти чек-листа",
+  "edit-wip-limit": "Редагувати ліміт WIP",
+  "enable-wip-limit": "Увімкнути ліміт WIP",
+  "soft-wip-limit": "М'який ліміт WIP"
 }

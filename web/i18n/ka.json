@@ -1937,5 +1937,8 @@
   "color-yellow": "ყვითელი",
   "due-complete": "ვადა დასრულებულია",
   "hideCheckedChecklistItems": "მონიშნული საკონტროლო სიის ელემენტების დამალვა",
-  "hideAllChecklistItems": "ყველა საკონტროლო სიის ელემენტის დამალვა"
+  "hideAllChecklistItems": "ყველა საკონტროლო სიის ელემენტის დამალვა",
+  "edit-wip-limit": "WIP ლიმიტის შესწორება",
+  "enable-wip-limit": "გავააქტიუროთ WIP ლიმიტი",
+  "soft-wip-limit": "მსუბუქი WIP  შეზღუდვა"
 }

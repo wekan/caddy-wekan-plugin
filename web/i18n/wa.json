@@ -1937,5 +1937,8 @@
   "color-yellow": "djaene",
   "due-complete": "Echeyance fwaite",
   "hideCheckedChecklistItems": "Catchî les cayets markés del djivêye di verifiaedje",
-  "hideAllChecklistItems": "Catchî tos les cayets del djivêye di verifiaedje"
+  "hideAllChecklistItems": "Catchî tos les cayets del djivêye di verifiaedje",
+  "edit-wip-limit": "Candjî l' limite WIP",
+  "enable-wip-limit": "Mete en alaedje li limite WIP",
+  "soft-wip-limit": "Limite WIP doûce"
 }

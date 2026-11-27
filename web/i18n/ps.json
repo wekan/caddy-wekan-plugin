@@ -1937,5 +1937,8 @@
   "color-yellow": "ژېړ",
   "due-complete": "ټاکلې نېټه بشپړه شوه",
   "hideCheckedChecklistItems": "نښه شوي د کتنليک توکي پټ کړئ",
-  "hideAllChecklistItems": "د کتنليک ټول توکي پټ کړئ"
+  "hideAllChecklistItems": "د کتنليک ټول توکي پټ کړئ",
+  "edit-wip-limit": "د WIP حد سم کړئ",
+  "enable-wip-limit": "د WIP حد چالان کړئ",
+  "soft-wip-limit": "نرم WIP حد"
 }

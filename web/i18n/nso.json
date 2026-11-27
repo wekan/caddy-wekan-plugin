@@ -1937,5 +1937,8 @@
   "color-yellow": "serolane",
   "due-complete": "Go swanela go phethilwe",
   "hideCheckedChecklistItems": "Fihla dilo tša lenaneo la go hlahloba tše di hlahlobilwego",
-  "hideAllChecklistItems": "Fihla dilo ka moka tša lenaneo la go hlahloba"
+  "hideAllChecklistItems": "Fihla dilo ka moka tša lenaneo la go hlahloba",
+  "edit-wip-limit": "Rulaganya moedi wa WIP",
+  "enable-wip-limit": "Dumelela moedi wa WIP",
+  "soft-wip-limit": "Moedi wa WIP wo bonolo"
 }

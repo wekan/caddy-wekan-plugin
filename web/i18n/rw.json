@@ -1937,5 +1937,8 @@
   "color-yellow": "umuhondo",
   "due-complete": "Igihe cyo kurangira cyujujwe",
   "hideCheckedChecklistItems": "Hisha ibyashyizweho akamenyetso ku rutonde rw'igenzura",
-  "hideAllChecklistItems": "Hisha ibiri ku rutonde rw'igenzura byose"
+  "hideAllChecklistItems": "Hisha ibiri ku rutonde rw'igenzura byose",
+  "edit-wip-limit": "Hindura Urugero rwa WIP",
+  "enable-wip-limit": "Koresha Urugero rwa WIP",
+  "soft-wip-limit": "Urugero rworoheje rwa WIP"
 }

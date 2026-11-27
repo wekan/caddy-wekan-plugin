@@ -1937,5 +1937,8 @@
   "color-yellow": "黄色",
   "due-complete": "到期已完成",
   "hideCheckedChecklistItems": "隐藏勾选的清单项",
-  "hideAllChecklistItems": "隐藏所有待办清单项目"
+  "hideAllChecklistItems": "隐藏所有待办清单项目",
+  "edit-wip-limit": "编辑最大任务数",
+  "enable-wip-limit": "启用最大任务数限制",
+  "soft-wip-limit": "最大任务数软限制"
 }

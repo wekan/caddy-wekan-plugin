@@ -1937,5 +1937,8 @@
   "color-yellow": "លឿង",
   "due-complete": "កំណត់បានបញ្ចប់",
   "hideCheckedChecklistItems": "លាក់ធាតុបញ្ជីត្រួតពិនិត្យ",
-  "hideAllChecklistItems": "លាក់ធាតុបញ្ជីត្រួតពិនិត្យទាំងអស់។"
+  "hideAllChecklistItems": "លាក់ធាតុបញ្ជីត្រួតពិនិត្យទាំងអស់។",
+  "edit-wip-limit": "កែសម្រួលដែនកំណត់ WIP",
+  "enable-wip-limit": "បើកការកំណត់ WIP",
+  "soft-wip-limit": "ដែនកំណត់ WIP ទន់"
 }

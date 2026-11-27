@@ -1937,5 +1937,8 @@
   "color-yellow": "żòłta",
   "due-complete": "Termin wëkònóny",
   "hideCheckedChecklistItems": "Zatacë zaznaczoné elementë lëstë kòntrólny",
-  "hideAllChecklistItems": "Zatacë wszëtczé elementë lëstë kòntrólny"
+  "hideAllChecklistItems": "Zatacë wszëtczé elementë lëstë kòntrólny",
+  "edit-wip-limit": "Editëjë ògrańczenié WIP",
+  "enable-wip-limit": "Włączë ògrańczenié WIP",
+  "soft-wip-limit": "Miãczczé ògrańczenié WIP"
 }

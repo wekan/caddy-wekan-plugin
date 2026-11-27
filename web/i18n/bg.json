@@ -1937,5 +1937,8 @@
   "color-yellow": "жълто",
   "due-complete": "Крайният срок е приключен",
   "hideCheckedChecklistItems": "Скриване на отметнатите елементи от чеклиста",
-  "hideAllChecklistItems": "Скриване на всички елементи от чеклиста"
+  "hideAllChecklistItems": "Скриване на всички елементи от чеклиста",
+  "edit-wip-limit": "Промени WIP лимита",
+  "enable-wip-limit": "Включи WIP лимита",
+  "soft-wip-limit": "\"Мек\" WIP лимит"
 }

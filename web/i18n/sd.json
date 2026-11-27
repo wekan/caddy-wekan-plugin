@@ -1937,5 +1937,8 @@
   "color-yellow": "پيلو",
   "due-complete": "مقرر ڪم مڪمل",
   "hideCheckedChecklistItems": "نشان لڳل جاچ فهرست جون شيون لڪايو",
-  "hideAllChecklistItems": "جاچ فهرست جون سڀ شيون لڪايو"
+  "hideAllChecklistItems": "جاچ فهرست جون سڀ شيون لڪايو",
+  "edit-wip-limit": "WIP حد سنواريو",
+  "enable-wip-limit": "WIP حد فعال ڪريو",
+  "soft-wip-limit": "نرم WIP حد"
 }

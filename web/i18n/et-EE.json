@@ -1937,5 +1937,8 @@
   "color-yellow": "kollane",
   "due-complete": "Tähtaeg lõpetatud",
   "hideCheckedChecklistItems": "Peida märgitud kontrollnimekirja objektid",
-  "hideAllChecklistItems": "Peida kõik kontrollnimekirja objektid"
+  "hideAllChecklistItems": "Peida kõik kontrollnimekirja objektid",
+  "edit-wip-limit": "Redigeeri WIP limiiti",
+  "enable-wip-limit": "WIP piirangu lubamine",
+  "soft-wip-limit": "Pehme WIP limiit"
 }

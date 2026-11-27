@@ -1937,5 +1937,8 @@
   "color-yellow": "gulur",
   "due-complete": "Skilum lokið",
   "hideCheckedChecklistItems": "Fela afgreidd gátlistaatriði",
-  "hideAllChecklistItems": "Fela öll gátlistaatriði"
+  "hideAllChecklistItems": "Fela öll gátlistaatriði",
+  "edit-wip-limit": "Breyta WIP-mörkum",
+  "enable-wip-limit": "Virkja WIP-mörk",
+  "soft-wip-limit": "Mjúk WIP-mörk"
 }

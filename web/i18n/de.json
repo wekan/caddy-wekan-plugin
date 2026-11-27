@@ -1942,5 +1942,8 @@
   "color-yellow": "gelb",
   "due-complete": "Fälligkeit erledigt",
   "hideCheckedChecklistItems": "Erledigte Checklisteneinträge ausblenden",
-  "hideAllChecklistItems": "Verberge alle Checklisteneinträge"
+  "hideAllChecklistItems": "Verberge alle Checklisteneinträge",
+  "edit-wip-limit": "WIP-Limit bearbeiten",
+  "enable-wip-limit": "WIP-Limit einschalten",
+  "soft-wip-limit": "Soft WIP-Limit"
 }

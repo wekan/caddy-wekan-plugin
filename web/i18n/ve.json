@@ -1937,5 +1937,8 @@
   "color-yellow": "ṱaḓa",
   "due-complete": "U fhelela ho fhela",
   "hideCheckedChecklistItems": "Dzumba zwithu zwo swayiwaho zwa mutevhe wa u sedza",
-  "hideAllChecklistItems": "Dzumba zwithu zwoṱhe zwa mutevhe wa u sedza"
+  "hideAllChecklistItems": "Dzumba zwithu zwoṱhe zwa mutevhe wa u sedza",
+  "edit-wip-limit": "Khwinisa mukano wa WIP",
+  "enable-wip-limit": "Tendela mukano wa WIP",
+  "soft-wip-limit": "Mukano wa WIP u sa kombetshedzi"
 }

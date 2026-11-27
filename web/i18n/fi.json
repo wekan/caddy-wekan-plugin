@@ -1937,5 +1937,8 @@
   "color-yellow": "keltainen",
   "due-complete": "Erääntyy",
   "hideCheckedChecklistItems": "Piilota ruksatut tarkistuslistan kohdat",
-  "hideAllChecklistItems": "Piilota kaikki tarkistuslistan kohdat"
+  "hideAllChecklistItems": "Piilota kaikki tarkistuslistan kohdat",
+  "edit-wip-limit": "Muokkaa WIP-rajaa",
+  "enable-wip-limit": "Ota käyttöön WIP-raja",
+  "soft-wip-limit": "Pehmeä WIP-raja"
 }

@@ -1937,5 +1937,8 @@
   "color-yellow": "melyn",
   "due-complete": "Wedi cwblhau erbyn y dyddiad",
   "hideCheckedChecklistItems": "Cuddio eitemau rhestr wirio wedi'u gwirio",
-  "hideAllChecklistItems": "Cuddio holl eitemau'r rhestr wirio"
+  "hideAllChecklistItems": "Cuddio holl eitemau'r rhestr wirio",
+  "edit-wip-limit": "Golygu Terfyn WIP",
+  "enable-wip-limit": "Galluogi Terfyn WIP",
+  "soft-wip-limit": "Terfyn WIP Meddal"
 }

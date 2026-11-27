@@ -1937,5 +1937,8 @@
   "color-yellow": "kuning",
   "due-complete": "Tenggat rampung",
   "hideCheckedChecklistItems": "Singidake item dhaptar priksa sing dicenthang",
-  "hideAllChecklistItems": "Singidake kabeh item dhaptar priksa"
+  "hideAllChecklistItems": "Singidake kabeh item dhaptar priksa",
+  "edit-wip-limit": "Owahi Wates WIP",
+  "enable-wip-limit": "Aktifake Wates WIP",
+  "soft-wip-limit": "Wates WIP Alus"
 }

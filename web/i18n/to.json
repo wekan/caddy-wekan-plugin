@@ -1937,5 +1937,8 @@
   "color-yellow": "lanu engeenga",
   "due-complete": "Kuo kakato ʻa e ngataʻanga",
   "hideCheckedChecklistItems": "Fakafufū ʻa e ngaahi meʻa ʻo e lisi sivi kuo maaka",
-  "hideAllChecklistItems": "Fakafufū ʻa e ngaahi meʻa kotoa ʻo e lisi sivi"
+  "hideAllChecklistItems": "Fakafufū ʻa e ngaahi meʻa kotoa ʻo e lisi sivi",
+  "edit-wip-limit": "Fakatonutonu ʻa e fakangatangata WIP",
+  "enable-wip-limit": "Fakaʻaongaʻi ʻa e fakangatangata WIP",
+  "soft-wip-limit": "Fakangatangata WIP ngaloku"
 }

@@ -1937,5 +1937,8 @@
   "color-yellow": "yelo",
   "due-complete": "Dedlaen i finis",
   "hideCheckedChecklistItems": "Haedem ol samting long jeklis we oli tikim",
-  "hideAllChecklistItems": "Haedem evri samting long jeklis"
+  "hideAllChecklistItems": "Haedem evri samting long jeklis",
+  "edit-wip-limit": "Jenisim Limit blong WIP",
+  "enable-wip-limit": "Mekem Limit blong WIP i wok",
+  "soft-wip-limit": "Limit blong wok we i stap gohed we i givim woning nomo"
 }

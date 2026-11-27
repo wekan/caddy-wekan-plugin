@@ -1937,5 +1937,8 @@
   "color-yellow": "पीला",
   "due-complete": "नियत पूर्ण",
   "hideCheckedChecklistItems": "चेक की गई चेकलिस्ट आइटम छिपाएं",
-  "hideAllChecklistItems": "सभी चेकलिस्ट आइटम छिपाएं"
+  "hideAllChecklistItems": "सभी चेकलिस्ट आइटम छिपाएं",
+  "edit-wip-limit": "संपादित करें WIP Limit",
+  "enable-wip-limit": "WIP सीमा सक्षम करें",
+  "soft-wip-limit": "नरम WIP सीमा"
 }

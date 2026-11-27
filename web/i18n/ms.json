@@ -1937,5 +1937,8 @@
   "color-yellow": "kuning",
   "due-complete": "Tarikh akhir selesai",
   "hideCheckedChecklistItems": "Sembunyikan item senarai semak yang ditanda",
-  "hideAllChecklistItems": "Sembunyikan semua item senarai semak"
+  "hideAllChecklistItems": "Sembunyikan semua item senarai semak",
+  "edit-wip-limit": "Ubah Had WIP",
+  "enable-wip-limit": "Hidupkan Had WIP",
+  "soft-wip-limit": "Ubah Had Lembut WIP"
 }

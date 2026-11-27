@@ -1937,5 +1937,8 @@
   "color-yellow": "oolo",
   "due-complete": "Keerol timmii",
   "hideCheckedChecklistItems": "Suuɗ geɗe doggol ƴeewtagol ƴeewtaaɗe",
-  "hideAllChecklistItems": "Suuɗ geɗe doggol ƴeewtagol fof"
+  "hideAllChecklistItems": "Suuɗ geɗe doggol ƴeewtagol fof",
+  "edit-wip-limit": "Taƴto keerol WIP",
+  "enable-wip-limit": "Hurmin keerol WIP",
+  "soft-wip-limit": "Keerol WIP hoyngol"
 }

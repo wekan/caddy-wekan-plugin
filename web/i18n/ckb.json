@@ -1937,5 +1937,8 @@
   "color-yellow": "زەرد",
   "due-complete": "کۆتایی تەواوە",
   "hideCheckedChecklistItems": "بڕگە نیشانەکراوەکانی لیستی پشکنین بشارەوە",
-  "hideAllChecklistItems": "هەموو بڕگەکانی لیستی پشکنین بشارەوە"
+  "hideAllChecklistItems": "هەموو بڕگەکانی لیستی پشکنین بشارەوە",
+  "edit-wip-limit": "دەستکاری سنووری WIP",
+  "enable-wip-limit": "سنووری WIP چالاک بکە",
+  "soft-wip-limit": "سنووری نەرمەی WIP"
 }

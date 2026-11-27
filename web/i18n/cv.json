@@ -1937,5 +1937,8 @@
   "color-yellow": "сарӑ",
   "due-complete": "Вӗҫленӳ пӗтнӗ",
   "hideCheckedChecklistItems": "Паллӑ тунӑ тӗрӗслев список пунктӗсене пытӑрас",
-  "hideAllChecklistItems": "Тӗрӗслев списокӗн пур пунктне пытӑрас"
+  "hideAllChecklistItems": "Тӗрӗслев списокӗн пур пунктне пытӑрас",
+  "edit-wip-limit": "WIP чиккине улӑштарас",
+  "enable-wip-limit": "WIP чиккине хутас",
+  "soft-wip-limit": "Ҫемҫе WIP чикки"
 }

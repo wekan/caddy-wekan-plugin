@@ -1937,5 +1937,8 @@
   "color-yellow": "flava",
   "due-complete": "Limdato plenumita",
   "hideCheckedChecklistItems": "Kaŝi markitajn kontrollistajn erojn",
-  "hideAllChecklistItems": "Kaŝi ĉiujn kontrollistajn erojn"
+  "hideAllChecklistItems": "Kaŝi ĉiujn kontrollistajn erojn",
+  "edit-wip-limit": "Redakti WIP-limon",
+  "enable-wip-limit": "Ŝalti WIP-limon",
+  "soft-wip-limit": "Milda WIP-limo"
 }

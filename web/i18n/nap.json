@@ -1937,5 +1937,8 @@
   "color-yellow": "giallo",
   "due-complete": "Scadenza cumpletata",
   "hideCheckedChecklistItems": "Annascunne 'e elemente d' 'a lista 'e cuntrollo selezionati",
-  "hideAllChecklistItems": "Annascunne 'e elemente d' 'a lista 'e cuntrollo"
+  "hideAllChecklistItems": "Annascunne 'e elemente d' 'a lista 'e cuntrollo",
+  "edit-wip-limit": "Cagna limite Work In Progress",
+  "enable-wip-limit": "Attiva 'o limite WIP",
+  "soft-wip-limit": "Limite WIP nun vincolante"
 }

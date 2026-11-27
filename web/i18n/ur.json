@@ -1937,5 +1937,8 @@
   "color-yellow": "پیلا",
   "due-complete": "مقررہ کام مکمل",
   "hideCheckedChecklistItems": "جانچ فہرست کے نشان زدہ اجزا چھپائیں",
-  "hideAllChecklistItems": "جانچ فہرست کے تمام اجزا چھپائیں"
+  "hideAllChecklistItems": "جانچ فہرست کے تمام اجزا چھپائیں",
+  "edit-wip-limit": "WIP حد میں ترمیم کریں",
+  "enable-wip-limit": "WIP حد فعال کریں",
+  "soft-wip-limit": "نرم WIP حد"
 }

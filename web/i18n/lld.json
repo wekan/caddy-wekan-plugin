@@ -1937,5 +1937,8 @@
   "color-yellow": "giallo",
   "due-complete": "Scadënza fenida",
   "hideCheckedChecklistItems": "Platé i elemënc marcei dla lista de control",
-  "hideAllChecklistItems": "Platé duc i elemënc dla lista de control"
+  "hideAllChecklistItems": "Platé duc i elemënc dla lista de control",
+  "edit-wip-limit": "Mudé l limit WIP",
+  "enable-wip-limit": "Ativé l limit di laures en curs (WIP)",
+  "soft-wip-limit": "Limit flescibel di laures en curs (WIP)"
 }

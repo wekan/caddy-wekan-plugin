@@ -1937,5 +1937,8 @@
   "color-yellow": "ಹಳದಿ",
   "due-complete": "ಕೊನೆಯ ದಿನಾಂಕ ಪೂರ್ಣಗೊಂಡಿದೆ",
   "hideCheckedChecklistItems": "ಗುರುತಿಸಿದ ಪರಿಶೀಲನಾ ಪಟ್ಟಿಯ ಅಂಶಗಳನ್ನು ಮರೆಮಾಡಿ",
-  "hideAllChecklistItems": "ಎಲ್ಲ ಪರಿಶೀಲನಾ ಪಟ್ಟಿಯ ಅಂಶಗಳನ್ನು ಮರೆಮಾಡಿ"
+  "hideAllChecklistItems": "ಎಲ್ಲ ಪರಿಶೀಲನಾ ಪಟ್ಟಿಯ ಅಂಶಗಳನ್ನು ಮರೆಮಾಡಿ",
+  "edit-wip-limit": "WIP ಮಿತಿ ಸಂಪಾದಿಸಿ",
+  "enable-wip-limit": "WIP ಮಿತಿ ಸಕ್ರಿಯಗೊಳಿಸಿ",
+  "soft-wip-limit": "ಮೃದು WIP ಮಿತಿ"
 }

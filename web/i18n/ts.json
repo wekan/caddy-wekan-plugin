@@ -1937,5 +1937,8 @@
   "color-yellow": "xitshopana",
   "due-complete": "fanele hetisa",
   "hideCheckedChecklistItems": "Fihla swilo swa nxaxamelo wo kambela leswi kamberiweke",
-  "hideAllChecklistItems": "fihla hinkwavo nxaxamelo wo kambela mhaka"
+  "hideAllChecklistItems": "fihla hinkwavo nxaxamelo wo kambela mhaka",
+  "edit-wip-limit": "Lulamisa Ndzilakano wa WIP",
+  "enable-wip-limit": "Pfula Ndzilakano wa WIP",
+  "soft-wip-limit": "Ndzelekano wo olova wa WIP"
 }

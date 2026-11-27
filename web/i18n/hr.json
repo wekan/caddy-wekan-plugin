@@ -1937,5 +1937,8 @@
   "color-yellow": "žuta",
   "due-complete": "Rok dovršen",
   "hideCheckedChecklistItems": "Sakrij označene stavke kontrolnog popisa",
-  "hideAllChecklistItems": "Sakrij sve stavke kontrolnog popisa"
+  "hideAllChecklistItems": "Sakrij sve stavke kontrolnog popisa",
+  "edit-wip-limit": "Uredi WIP ograničenje",
+  "enable-wip-limit": "Omogući WIP ograničenje",
+  "soft-wip-limit": "Meko WIP ograničenje"
 }

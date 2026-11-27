@@ -1937,5 +1937,8 @@
   "color-yellow": "हळदुवो",
   "due-complete": "निमाणें पुराय",
   "hideCheckedChecklistItems": "तपासिल्ले तपास वळेरी घटक लिपयात",
-  "hideAllChecklistItems": "सगळे तपास वळेरी घटक लिपयात"
+  "hideAllChecklistItems": "सगळे तपास वळेरी घटक लिपयात",
+  "edit-wip-limit": "WIP मर्यादा संपादित करात",
+  "enable-wip-limit": "WIP मर्यादा सक्षम करात",
+  "soft-wip-limit": "मृदू WIP मर्यादा"
 }

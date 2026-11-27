@@ -1937,5 +1937,8 @@
   "color-yellow": "sarı",
   "due-complete": "Bitiş tamamlandı",
   "hideCheckedChecklistItems": "İşaretlenen checklist öğelerini gizle",
-  "hideAllChecklistItems": "Tüm checklist öğelerini gizle"
+  "hideAllChecklistItems": "Tüm checklist öğelerini gizle",
+  "edit-wip-limit": "Devam Eden İş Sınırını Düzenle",
+  "enable-wip-limit": "Devam Eden İş Sınırını Aç",
+  "soft-wip-limit": "Zayıf Devam Eden İş Sınırı"
 }

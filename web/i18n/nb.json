@@ -1937,5 +1937,8 @@
   "color-yellow": "gul",
   "due-complete": "Forfall fullført",
   "hideCheckedChecklistItems": "Skjul avkryssede sjekklisteelementer",
-  "hideAllChecklistItems": "Skjul alle sjekklisteelementer"
+  "hideAllChecklistItems": "Skjul alle sjekklisteelementer",
+  "edit-wip-limit": "Endre WIP grense",
+  "enable-wip-limit": "Aktiver WIP-begrensning",
+  "soft-wip-limit": "Myk WIP-begrensning"
 }

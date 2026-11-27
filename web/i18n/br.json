@@ -1937,5 +1937,8 @@
   "color-yellow": "melen",
   "due-complete": "Termen peurechu",
   "hideCheckedChecklistItems": "Kuzhat elfennoù merket ar roll kontroll",
-  "hideAllChecklistItems": "Kuzhat holl elfennoù ar roll kontroll"
+  "hideAllChecklistItems": "Kuzhat holl elfennoù ar roll kontroll",
+  "edit-wip-limit": "Kemmañ ar vevenn WIP",
+  "enable-wip-limit": "Gweredekaat ar vevenn WIP",
+  "soft-wip-limit": "Lemit WIP lezher"
 }

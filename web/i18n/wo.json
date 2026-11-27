@@ -1937,5 +1937,8 @@
   "color-yellow": "mboq",
   "due-complete": "Àpp bu jeex",
   "hideCheckedChecklistItems": "Nëbb mbiri limu bu seetlu yi ñu màndargaal",
-  "hideAllChecklistItems": "Nëbb mbiri limu bu seetlu bi yépp"
+  "hideAllChecklistItems": "Nëbb mbiri limu bu seetlu bi yépp",
+  "edit-wip-limit": "Soppi WIP Limit",
+  "enable-wip-limit": "Moom WIP Limit",
+  "soft-wip-limit": "Kemu WIP bu nooy"
 }

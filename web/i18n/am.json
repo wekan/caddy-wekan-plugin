@@ -1937,5 +1937,8 @@
   "color-yellow": "ቢጫ",
   "due-complete": "ማለቂያው ተጠናቋል",
   "hideCheckedChecklistItems": "ምልክት የተደረገባቸውን የማረጋገጫ ዝርዝር ንጥሎች ደብቅ",
-  "hideAllChecklistItems": "ሁሉንም የማረጋገጫ ዝርዝር ንጥሎች ደብቅ"
+  "hideAllChecklistItems": "ሁሉንም የማረጋገጫ ዝርዝር ንጥሎች ደብቅ",
+  "edit-wip-limit": "የWIP ገደብን አርትዕ",
+  "enable-wip-limit": "የWIP ገደብን አንቃ",
+  "soft-wip-limit": "ለስላሳ የWIP ገደብ"
 }

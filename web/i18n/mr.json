@@ -1937,5 +1937,8 @@
   "color-yellow": "पिवळा",
   "due-complete": "देय पूर्ण",
   "hideCheckedChecklistItems": "निवडलेले तपासणीसूची घटक लपवा",
-  "hideAllChecklistItems": "सर्व तपासणीसूची घटक लपवा"
+  "hideAllChecklistItems": "सर्व तपासणीसूची घटक लपवा",
+  "edit-wip-limit": "WIP मर्यादा संपादित करा",
+  "enable-wip-limit": "WIP मर्यादा सक्षम करा",
+  "soft-wip-limit": "लवचिक WIP मर्यादा"
 }

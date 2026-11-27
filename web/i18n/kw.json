@@ -1937,5 +1937,8 @@
   "color-yellow": "melyn",
   "due-complete": "Termyn gorfenwys",
   "hideCheckedChecklistItems": "Kudha taklennow checkys an rol checkya",
-  "hideAllChecklistItems": "Kudha pub taklen an rol checkya"
+  "hideAllChecklistItems": "Kudha pub taklen an rol checkya",
+  "edit-wip-limit": "Chanjya fin WIP",
+  "enable-wip-limit": "Ena fin WIP",
+  "soft-wip-limit": "Fin WIP medhel"
 }

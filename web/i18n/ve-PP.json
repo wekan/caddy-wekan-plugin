@@ -1937,5 +1937,8 @@
   "color-yellow": "pakuine",
   "due-complete": "Srok val'miž",
   "hideCheckedChecklistItems": "Peitä kaik znamoitud kodvindlugetišen kohtad",
-  "hideAllChecklistItems": "Peitä kaik kodvindlugetišen kohtad"
+  "hideAllChecklistItems": "Peitä kaik kodvindlugetišen kohtad",
+  "edit-wip-limit": "Vajehta WIP-röunad",
+  "enable-wip-limit": "Avaida WIP-röun",
+  "soft-wip-limit": "Pehmed WIP-röun"
 }

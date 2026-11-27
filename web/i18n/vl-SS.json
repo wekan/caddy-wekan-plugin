@@ -1937,5 +1937,8 @@
   "color-yellow": "geel",
   "due-complete": "voltooid",
   "hideCheckedChecklistItems": "Verberg aangevinkte checklist items",
-  "hideAllChecklistItems": "Verberg alle checklist items"
+  "hideAllChecklistItems": "Verberg alle checklist items",
+  "edit-wip-limit": "Wijzig WIP limiet",
+  "enable-wip-limit": "Activeer WIP limiet",
+  "soft-wip-limit": "Zachte WIP limiet"
 }

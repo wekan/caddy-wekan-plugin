@@ -1937,5 +1937,8 @@
   "color-yellow": "dilaw",
   "due-complete": "Takda kumpletuhin",
   "hideCheckedChecklistItems": "Itago may tsek aytem ng tsek-listahanahans",
-  "hideAllChecklistItems": "Itago lahat aytem ng tsek-listahanahans"
+  "hideAllChecklistItems": "Itago lahat aytem ng tsek-listahanahans",
+  "edit-wip-limit": "I-edit WIP Limitasyon",
+  "enable-wip-limit": "Paganahin WIP Limitasyon",
+  "soft-wip-limit": "Soft WIP Limitasyon"
 }

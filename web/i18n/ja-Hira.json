@@ -1911,5 +1911,8 @@
   "zoom-in": "拡大",
   "zoom-out": "縮小",
   "hideCheckedChecklistItems": "チェック済みチェックリスト項目を非表示",
-  "hideAllChecklistItems": "すべてのチェックリスト項目を非表示"
+  "hideAllChecklistItems": "すべてのチェックリスト項目を非表示",
+  "edit-wip-limit": "仕掛中制限編集",
+  "enable-wip-limit": "仕掛中制限を有効化",
+  "soft-wip-limit": "警告のみの仕掛中制限"
 }

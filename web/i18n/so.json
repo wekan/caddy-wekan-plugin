@@ -1937,5 +1937,8 @@
   "color-yellow": "jaalle",
   "due-complete": "Waqtiga kama dambaysta ah waa la dhammaystiray",
   "hideCheckedChecklistItems": "Qari walxaha liiska hubinta ee la calaamadeeyey",
-  "hideAllChecklistItems": "Qari dhammaan walxaha liiska hubinta"
+  "hideAllChecklistItems": "Qari dhammaan walxaha liiska hubinta",
+  "edit-wip-limit": "Wax ka beddel Xadka WIP",
+  "enable-wip-limit": "Awood sii Xadka WIP",
+  "soft-wip-limit": "Xadka WIP Jilicsan"
 }

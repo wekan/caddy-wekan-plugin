@@ -1937,5 +1937,8 @@
   "color-yellow": "zâl",
   "due-complete": "Scadenza completeta",
   "hideCheckedChecklistItems": "Plate gli elementi de lista di controllo selezioneti",
-  "hideAllChecklistItems": "Plate gli elementi de lista di controllo"
+  "hideAllChecklistItems": "Plate gli elementi de lista di controllo",
+  "edit-wip-limit": "Modifiche limite Work In Progress",
+  "enable-wip-limit": "Abilite il limit WIP",
+  "soft-wip-limit": "Limit WIP morbit"
 }

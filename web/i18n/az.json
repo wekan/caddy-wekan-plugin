@@ -1937,5 +1937,8 @@
   "color-yellow": "sarı",
   "due-complete": "Son tarix tamamlandı",
   "hideCheckedChecklistItems": "Yoxlanmış yoxlama siyahısı elementlərini gizlədin",
-  "hideAllChecklistItems": "Bütün yoxlama siyahısı elementlərini gizlədin"
+  "hideAllChecklistItems": "Bütün yoxlama siyahısı elementlərini gizlədin",
+  "edit-wip-limit": "WIP Limitini redaktə edin",
+  "enable-wip-limit": "WIP Limitini aktivləşdirin",
+  "soft-wip-limit": "Yumşaq WIP Limiti"
 }

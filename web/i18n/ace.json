@@ -1937,5 +1937,8 @@
   "color-yellow": "kuneng",
   "due-complete": "Tempo seuleusoe",
   "hideCheckedChecklistItems": "Peusöm item checklist nyang ka geucek",
-  "hideAllChecklistItems": "Peusöm mandum item checklist"
+  "hideAllChecklistItems": "Peusöm mandum item checklist",
+  "edit-wip-limit": "Ubah Bataih WIP",
+  "enable-wip-limit": "Peuhidôp Bataih WIP",
+  "soft-wip-limit": "Bataih Leumoh WIP"
 }

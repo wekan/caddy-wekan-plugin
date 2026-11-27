@@ -1937,5 +1937,8 @@
   "color-yellow": "e verdhë",
   "due-complete": "Afati i përfunduar",
   "hideCheckedChecklistItems": "Fshih elementet e shënuara të listës së kontrollit",
-  "hideAllChecklistItems": "Fshih të gjithë elementet e listës së kontrollit"
+  "hideAllChecklistItems": "Fshih të gjithë elementet e listës së kontrollit",
+  "edit-wip-limit": "Redakto kufirin WIP",
+  "enable-wip-limit": "Aktivizo kufirin WIP",
+  "soft-wip-limit": "Kufiri i butë WIP"
 }

@@ -1937,5 +1937,8 @@
   "color-yellow": "ብጫ",
   "due-complete": "ገደብ ተዛዚሙ",
   "hideCheckedChecklistItems": "ምልክት ዝተገብረሎም ነገራት ዝርዝር መረጋገጺ ሕባእ",
-  "hideAllChecklistItems": "ኩሎም ነገራት ዝርዝር መረጋገጺ ሕባእ"
+  "hideAllChecklistItems": "ኩሎም ነገራት ዝርዝር መረጋገጺ ሕባእ",
+  "edit-wip-limit": "ደረት WIP ኣርም",
+  "enable-wip-limit": "ደረት WIP ኣኽእል",
+  "soft-wip-limit": "ልስሉስ ደረት WIP"
 }

@@ -1937,5 +1937,8 @@
   "color-yellow": "bwee",
   "due-complete": "Cooie cooilleenit",
   "hideCheckedChecklistItems": "Follee nheeghyn rolley scrutaghey scrutit",
-  "hideAllChecklistItems": "Follee dy chooilley nhee rolley scrutaghey"
+  "hideAllChecklistItems": "Follee dy chooilley nhee rolley scrutaghey",
+  "edit-wip-limit": "Reaghey yn eallagh WIP",
+  "enable-wip-limit": "Cur eallagh WIP er",
+  "soft-wip-limit": "Eallagh WIP bog"
 }

@@ -1937,5 +1937,8 @@
   "color-yellow": "serolwana",
   "due-complete": "Bofelo feditse",
   "hideCheckedChecklistItems": "Fitlha tlhatlhobilwe dilo tsa lenaane la tlhatlhobo",
-  "hideAllChecklistItems": "Fitlha tsotlhe dilo tsa lenaane la tlhatlhobo"
+  "hideAllChecklistItems": "Fitlha tsotlhe dilo tsa lenaane la tlhatlhobo",
+  "edit-wip-limit": "Fetola tekanyo ya WIP",
+  "enable-wip-limit": "Kgontsha tekanyo ya WIP",
+  "soft-wip-limit": "Tekanyo e e bonolo ya WIP"
 }
