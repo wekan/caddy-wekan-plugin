@@ -2927,9 +2927,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   // ... and only a choice made in it: an update the page was already waiting
   // for when the pop-over opened leaves it open.
   var closeAfterChoice = false;
-  // Card Settings is not such a pop-over: it stays open through its own
-  // changes, as WeKan's does (its forms' handlers send them themselves).
-  var choiceForm = function (form) { return !form.closest('.js-pop-over[data-popup="boardCardSettingsPopup"]'); };
+  // Card Settings and History manage their own form responses. Their submits
+  // must not arm the close-on-board-refresh handler for the next pop-over.
+  var choiceForm = function (form) {
+    return !form.closest('.js-pop-over[data-popup="boardCardSettingsPopup"], .history-pop-over');
+  };
   up.on('up:form:submit', '.js-pop-over form', function (event, form) { if (choiceForm(form)) closeAfterChoice = true; });
   up.on('submit', '.js-pop-over form', function (event, form) { if (choiceForm(form)) closeAfterChoice = true; });
   up.on('up:fragment:inserted', function (event, el) {
