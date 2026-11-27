@@ -509,6 +509,18 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       reloadBoard(true);
     }, csFail).finally(function () { delete el.dataset.saving; });
   });
+  up.compiler('.js-pop-over .js-toggle-hide-focus-outline', function (el) {
+    el.setAttribute('aria-checked', String(!document.body.classList.contains('has-hide-focus-outline')));
+  });
+  up.on('click', '.js-pop-over .js-toggle-hide-focus-outline', function (event, el) {
+    event.preventDefault();
+    if (el.dataset.saving) return;
+    el.dataset.saving = '1';
+    callAsync('toggleHideFocusOutline').then(function (hide) {
+      document.body.classList.toggle('has-hide-focus-outline', hide);
+      el.setAttribute('aria-checked', String(!hide));
+    }, csFail).finally(function () { delete el.dataset.saving; });
+  });
   up.on('click', '.js-pop-over .js-toggle-submit-on-enter', function (event) {
     event.preventDefault();
     var on = !submitOnEnter();

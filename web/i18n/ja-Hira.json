@@ -1808,6 +1808,7 @@
   "shortName": "短縮名",
   "show-desktop-drag-handles": "デスクトップへのドラッグハンドルを表示",
   "show-field-on-card": "このフィールドをカードに表示",
+  "show-focus-outline": "フォーカスの輪郭を表示",
   "show-on-card": "カードに表示する項目",
   "show-on-minicard": "ミニカードを表示",
   "show-on-private-board": "非公開ボードに表示",

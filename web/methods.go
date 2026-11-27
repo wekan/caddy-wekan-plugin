@@ -86,6 +86,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"setBoardDragging":                  s.methodSetBoardDragging,
 		"setPassword":                       s.methodSetPassword,
 		"setBoardSettingsColumn":            s.methodSetBoardSettingsColumn,
+		"toggleHideFocusOutline":            s.methodToggleHideFocusOutline,
 		"toggleDesktopDragHandles":          s.methodToggleDesktopDragHandles,
 		"toggleSubmitOnEnter":               s.methodToggleSubmitOnEnter,
 		"toggleCustomFieldsGrid":            s.methodToggleCustomFieldsGrid,
@@ -732,6 +733,13 @@ func (s *Server) methodToggleCustomFieldsGrid(r *http.Request, u *User, args []j
 	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
 		bson.M{"$set": bson.M{"profile.customFieldsGrid": !u.Profile.CustomFieldsGrid}})
 	return nil, err
+}
+
+func (s *Server) methodToggleHideFocusOutline(r *http.Request, u *User, _ []json.RawMessage) (any, error) {
+	hide := !u.Profile.HideFocusOutline
+	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
+		bson.M{"$set": bson.M{"profile.hideFocusOutline": hide}})
+	return hide, err
 }
 
 // methodToggleDesktopDragHandles switches the member's own drag handles.

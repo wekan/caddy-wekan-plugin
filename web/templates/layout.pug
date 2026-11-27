@@ -9,7 +9,7 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-browser-la
     script(src="/static/vendor/unpoly.min.js")
     script(src="/static/vendor/interact.min.js")
     script(src="/static/weddy.js")
-  body(data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}")
+  body(data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}", class="{{if .User}}{{if .User.Profile.HideFocusOutline}}has-hide-focus-outline{{end}}{{end}}")
     if .User
       #header.header-bar
         a.header-all-boards.js-all-boards(href="/", up-follow) {{t $.L "all-boards"}}
@@ -148,6 +148,11 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-browser-la
                 a.js-toggle-desktop-drag-handles(href="#", role="switch", aria-checked="{{.User.Profile.ShowDesktopDragHandles}}")
                   i.fa.fa-arrows
                   |  {{t $.L "show-desktop-drag-handles"}}
+                  i.fa.fa-check(aria-hidden="true")
+              li
+                a.js-toggle-hide-focus-outline(href="#", role="switch", aria-checked="{{if .User.Profile.HideFocusOutline}}false{{else}}true{{end}}")
+                  i.fa.fa-square-o
+                  |  {{t $.L "show-focus-outline"}}
                   i.fa.fa-check(aria-hidden="true")
               li
                 a.js-toggle-submit-on-enter(href="#", title="{{t $.L `submit-on-enter-description`}}")
