@@ -41,8 +41,21 @@ func (s *Server) boardWebhooksPage(w http.ResponseWriter, r *http.Request, u *Us
 		http.NotFound(w, r)
 		return
 	}
+	s.renderWebhookManagement(w, r, u, b.ID, b, "/api/boards/"+b.ID+"/integrations", "outgoing-webhooks")
+}
+
+func (s *Server) globalWebhooksPage(w http.ResponseWriter, r *http.Request, u *User) {
+	if !u.IsAdmin || s.webhooksOff(r.Context()) {
+		http.NotFound(w, r)
+		return
+	}
+	s.renderWebhookManagement(w, r, u, globalWebhookBoard, nil, "/api/admin/webhooks", "global-webhook")
+}
+
+func (s *Server) renderWebhookManagement(w http.ResponseWriter, r *http.Request, u *User, boardID string, b *Board, endpoint, titleKey string) {
+	ctx := r.Context()
 	fields := bson.M{"url": 1, "title": 1, "enabled": 1, "type": 1, "activities": 1}
-	query := bson.M{"boardId": b.ID, "bot": bson.M{"$ne": true}}
+	query := bson.M{"boardId": boardID, "bot": bson.M{"$ne": true}}
 	cur, err := s.db.Collection("integrations").Find(ctx, query, options.Find().SetProjection(fields).SetSort(bson.D{{Key: "createdAt", Value: -1}, {Key: "_id", Value: 1}}))
 	if err != nil {
 		http.Error(w, http.StatusText(500), 500)
@@ -77,5 +90,5 @@ func (s *Server) boardWebhooksPage(w http.ResponseWriter, r *http.Request, u *Us
 		rows = append(rows, row)
 	}
 	w.Header().Set("Cache-Control", "private, no-store")
-	s.render(w, r, "boardwebhooks", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, "outgoing-webhooks"), "User": u, "Board": b, "Hooks": rows})
+	s.render(w, r, "boardwebhooks", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, titleKey), "User": u, "Board": b, "Hooks": rows, "Endpoint": endpoint})
 }

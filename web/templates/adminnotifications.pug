@@ -5,6 +5,8 @@
   .admin-panel-tabs
     a.people(href="/admin/people") {{t $.L "people"}}
     a.notifications.is-active(href="/admin/notifications") {{t $.L "notifications"}}
+    if .ShowGlobalWebhooks
+      a.js-global-webhooks(href="/admin/settings/global-webhooks") {{t $.L "global-webhook"}}
   h1 {{t $.L "admin-panel"}} / {{t $.L "notifications"}}
   if .Saved
     p.cloud-saved.js-delivery-saved {{t $.L "cloud-saved"}}

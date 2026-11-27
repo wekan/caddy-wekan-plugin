@@ -19,6 +19,24 @@ func (s *Server) apiIntegrationRoutes(m *http.ServeMux) {
 	m.HandleFunc("DELETE "+base+"/{id}", s.api(s.apiDeleteIntegration))
 	m.HandleFunc("POST "+base+"/{id}/activities", s.api(s.apiIntegrationActivities(true)))
 	m.HandleFunc("DELETE "+base+"/{id}/activities", s.api(s.apiIntegrationActivities(false)))
+	global := "/api/admin/webhooks"
+	m.HandleFunc("POST "+global, s.api(s.globalWebhookWrite(s.addIntegration)))
+	m.HandleFunc("PUT "+global+"/{id}", s.api(s.globalWebhookWrite(s.editIntegration)))
+	m.HandleFunc("DELETE "+global+"/{id}", s.api(s.globalWebhookWrite(s.deleteIntegration)))
+}
+
+const globalWebhookBoard = "_global"
+
+type scopedWebhookWrite func(http.ResponseWriter, *http.Request, *User, string)
+
+func (s *Server) globalWebhookWrite(write scopedWebhookWrite) apiHandler {
+	return func(w http.ResponseWriter, r *http.Request, u *User) {
+		if !u.IsAdmin {
+			apiError(w, http.StatusForbidden, "Forbidden")
+			return
+		}
+		write(w, r, u, globalWebhookBoard)
+	}
 }
 
 // integrationFields is what a reader gets (HookUrlBleed, REST sibling): a board
@@ -49,9 +67,13 @@ func (s *Server) apiIntegrations(w http.ResponseWriter, r *http.Request, u *User
 // integrationOf is the board's integration of the request, with the fields
 // given, or 404 (#6862).
 func (s *Server) integrationOf(w http.ResponseWriter, r *http.Request, b *Board, fields bson.M) bson.M {
+	return s.integrationOfBoard(w, r, b.ID, fields)
+}
+
+func (s *Server) integrationOfBoard(w http.ResponseWriter, r *http.Request, boardID string, fields bson.M) bson.M {
 	id := r.PathValue("id")
 	var doc bson.M
-	if !validID(id) || s.db.Collection("integrations").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID},
+	if !validID(id) || s.db.Collection("integrations").FindOne(r.Context(), bson.M{"_id": eq(id), "boardId": boardID},
 		options.FindOne().SetProjection(fields)).Decode(&doc) != nil {
 		apiError(w, http.StatusNotFound, "Integration not found")
 		return nil
@@ -76,7 +98,15 @@ func (s *Server) apiAddIntegration(w http.ResponseWriter, r *http.Request, u *Us
 	if b == nil {
 		return
 	}
-	if s.refuseWebhookWrite(r, u, "rest:POST /api/boards/:boardId/integrations", "REST POST /api/boards/:boardId/integrations on board "+b.ID+" while webhooks are turned off.") {
+	s.addIntegration(w, r, u, b.ID)
+}
+
+func (s *Server) addIntegration(w http.ResponseWriter, r *http.Request, u *User, boardID string) {
+	source := "rest:POST /api/boards/:boardId/integrations"
+	if boardID == globalWebhookBoard {
+		source = "rest:POST /api/admin/webhooks"
+	}
+	if s.refuseWebhookWrite(r, u, source, source+" for "+boardID+" while webhooks are turned off.") {
 		webhooksOffAnswer(w)
 		return
 	}
@@ -101,7 +131,7 @@ func (s *Server) apiAddIntegration(w http.ResponseWriter, r *http.Request, u *Us
 	}
 	now := time.Now().UTC()
 	id := randomID()
-	if _, err := s.db.Collection("integrations").InsertOne(r.Context(), bson.M{"_id": id, "userId": u.ID, "boardId": b.ID,
+	if _, err := s.db.Collection("integrations").InsertOne(r.Context(), bson.M{"_id": id, "userId": u.ID, "boardId": boardID,
 		"url": req.URL, "enabled": true, "type": req.Type, "title": req.Title, "token": req.Token, "activities": bson.A{"all"}, "createdAt": now, "modifiedAt": now}); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -131,11 +161,19 @@ func (s *Server) apiEditIntegration(w http.ResponseWriter, r *http.Request, u *U
 	if b == nil {
 		return
 	}
-	if s.refuseWebhookWrite(r, u, "rest:PUT /api/boards/:boardId/integrations/:intId", "REST PUT /api/boards/:boardId/integrations/:intId on board "+b.ID+" while webhooks are turned off.") {
+	s.editIntegration(w, r, u, b.ID)
+}
+
+func (s *Server) editIntegration(w http.ResponseWriter, r *http.Request, u *User, boardID string) {
+	source := "rest:PUT /api/boards/:boardId/integrations/:intId"
+	if boardID == globalWebhookBoard {
+		source = "rest:PUT /api/admin/webhooks/:id"
+	}
+	if s.refuseWebhookWrite(r, u, source, source+" for "+boardID+" while webhooks are turned off.") {
 		webhooksOffAnswer(w)
 		return
 	}
-	doc := s.integrationOf(w, r, b, bson.M{"_id": 1})
+	doc := s.integrationOfBoard(w, r, boardID, bson.M{"_id": 1})
 	if doc == nil {
 		return
 	}
@@ -203,7 +241,7 @@ func (s *Server) apiEditIntegration(w http.ResponseWriter, r *http.Request, u *U
 		}
 	}
 	update["$set"] = set
-	if _, err := s.db.Collection("integrations").UpdateOne(r.Context(), bson.M{"_id": doc["_id"]}, update); err != nil {
+	if _, err := s.db.Collection("integrations").UpdateOne(r.Context(), bson.M{"_id": doc["_id"], "boardId": boardID}, update); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -215,9 +253,13 @@ func (s *Server) apiDeleteIntegration(w http.ResponseWriter, r *http.Request, u 
 	if b == nil {
 		return
 	}
+	s.deleteIntegration(w, r, u, b.ID)
+}
+
+func (s *Server) deleteIntegration(w http.ResponseWriter, r *http.Request, u *User, boardID string) {
 	id := r.PathValue("id")
 	if validID(id) {
-		if _, err := s.db.Collection("integrations").DeleteOne(r.Context(), bson.M{"_id": eq(id), "boardId": b.ID}); err != nil {
+		if _, err := s.db.Collection("integrations").DeleteOne(r.Context(), bson.M{"_id": eq(id), "boardId": boardID}); err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}

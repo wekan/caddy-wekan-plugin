@@ -612,14 +612,15 @@ func (s *Server) adminNotificationsPage(w http.ResponseWriter, r *http.Request, 
 	var set bson.M
 	_ = s.db.Collection("settings").FindOne(r.Context(), bson.M{}).Decode(&set)
 	channels := deliveryChannels
-	if set["webhooksDisabled"] == true {
+	webhooksOff := set["webhooksDisabled"] == true
+	if webhooksOff {
 		channels = deliveryMemberChannels
 	}
 	form := deliveryForm{Scope: "admin", Action: "/admin/notifications", Views: deliveryViews(func(ch string) any {
 		return nestedField(set, "notificationDelivery", ch)
 	}, channels, lang)}
 	s.render(w, r, "adminnotifications", http.StatusOK, map[string]any{"Title": tr(lang, "notifications"), "User": u,
-		"Delivery": form, "Saved": r.URL.Query().Get("saved"), "Error": r.URL.Query().Get("error")})
+		"Delivery": form, "ShowGlobalWebhooks": !webhooksOff, "Saved": r.URL.Query().Get("saved"), "Error": r.URL.Query().Get("error")})
 }
 
 // saveLevelDelivery saves one channel's form at a level, back to the page.
