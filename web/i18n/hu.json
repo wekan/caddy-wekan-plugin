@@ -990,6 +990,8 @@
   "changeSettingsPopup-title": "Beállítások megváltoztatása",
   "checklist": "Ellenőrzőlista",
   "checklist-count": "Ellenőrzőlista-elemek száma (0/0)",
+  "checklist-ding-sound": "Hang lejátszása, ha egy ellenőrzőlista-elem befejeződik",
+  "checklist-ding-sound-description": "Rövid csengőhangot játszik le, amikor bejelölsz egy ellenőrzőlista-elemet. Alapértelmezés szerint kikapcsolva.",
   "checklist-from-description": "Ellenőrzőlista a leírásból",
   "checklist-item-assignee": "Ki felelős ezért az elemért",
   "checklist-item-assignee-none": "Senki",

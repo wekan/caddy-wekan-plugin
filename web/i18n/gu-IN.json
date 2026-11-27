@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "સેટિંગ્સ બદલો",
   "checklist": "ચેકલિસ્ટ",
   "checklist-count": "ચેકલિસ્ટ આઇટમ ગણતરી (0/0)",
+  "checklist-ding-sound": "ચેકલિસ્ટ આઇટમ પૂર્ણ થાય ત્યારે ધ્વનિ વગાડો",
+  "checklist-ding-sound-description": "ચેકલિસ્ટ આઇટમ ચકાસતી વખતે ટૂંકો અવાજ વગાડો. મૂળભૂત રીતે બંધ.",
   "checklist-from-description": "વર્ણનમાંથી ચેકલિસ્ટ",
   "checklist-item-assignee": "આ આઇટમ માટે કોણ જવાબદાર છે",
   "checklist-item-assignee-none": "કોઈ નહીં",

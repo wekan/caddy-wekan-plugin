@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Tilpas indstillinger",
   "checklist": "Tjekliste",
   "checklist-count": "Antal tjeklisteelementer (0/0)",
+  "checklist-ding-sound": "Afspil en lyd, når et tjekliste-element markeres som udført",
+  "checklist-ding-sound-description": "Afspil en kort klokkelyd, når du markerer et tjeklisteelement. Slået fra som standard.",
   "checklist-from-description": "Tjekliste fra beskrivelse",
   "checklist-item-assignee": "Hvem er ansvarlig for dette punkt",
   "checklist-item-assignee-none": "Ingen",

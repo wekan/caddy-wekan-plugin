@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "सेटिङहरू परिवर्तन गर्नुहोस्",
   "checklist": "जाँचसूची",
   "checklist-count": "जाँचसूची वस्तु सङ्ख्या (0/0)",
+  "checklist-ding-sound": "चेकलिस्ट वस्तु पूरा हुँदा आवाज बजाउनुहोस्",
+  "checklist-ding-sound-description": "चेकलिस्ट वस्तु जाँच गर्दा छोटो आवाज बजाउँछ। पूर्वनिर्धारित रूपमा बन्द।",
   "checklist-from-description": "विवरणबाट जाँचसूची",
   "checklist-item-assignee": "यस वस्तुको जिम्मेवार को हो",
   "checklist-item-assignee-none": "कोही पनि होइन",

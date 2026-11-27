@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Candjî les apontiaedjes",
   "checklist": "Djivêye di verifiaedje",
   "checklist-count": "Nombe di cayets del djivêye di verifiaedje (0/0)",
+  "checklist-ding-sound": "Djouwer on son cwand on cayet del djivêye di verifiaedje est fini",
+  "checklist-ding-sound-description": "Djouwer on ptit son cwand vos markez on cayet del djivêye di verifiaedje. Distindou pa prémetou.",
   "checklist-from-description": "Djivêye di verifiaedje dispoy li discrijhaedje",
   "checklist-item-assignee": "Ki est responsåbe di ci cayet ci",
   "checklist-item-assignee-none": "Nouk",

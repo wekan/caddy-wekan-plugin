@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Cambiar la configuración",
   "checklist": "Lista de tareas",
   "checklist-count": "Recuento de elementos de checklist (0/0)",
+  "checklist-ding-sound": "Reproducir un sonido cuando se completa un elemento de la lista de verificación",
+  "checklist-ding-sound-description": "Reproduce un breve sonido al marcar un elemento de la lista de verificación. Desactivado de forma predeterminada.",
   "checklist-from-description": "Lista de verificación desde la descripción",
   "checklist-item-assignee": "Quién es responsable de este elemento",
   "checklist-item-assignee-none": "Nadie",

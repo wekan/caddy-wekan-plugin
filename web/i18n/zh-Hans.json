@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "更改设置",
   "checklist": "清单",
   "checklist-count": "清单项数量（0/0）",
+  "checklist-ding-sound": "勾选清单项目时播放声音",
+  "checklist-ding-sound-description": "勾选清单项目时播放一声短促的叮咚提示音。默认关闭。",
   "checklist-from-description": "从描述生成检查清单",
   "checklist-item-assignee": "谁负责此项目",
   "checklist-item-assignee-none": "无人",

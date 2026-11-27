@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Baguhin Mga setting",
   "checklist": "Tsek-listahan",
   "checklist-count": "aytem ng tsek-listahanahan bilang (0/0)",
+  "checklist-ding-sound": "Magpatugtog ng tunog kapag nakumpleto ang isang checklist item",
+  "checklist-ding-sound-description": "Nagpapatugtog ng maikling tunog kapag nilagyan mo ng tsek ang isang checklist item. Naka-off bilang default.",
   "checklist-from-description": "Checklist mula sa paglalarawan",
   "checklist-item-assignee": "Sino ang responsable sa item na ito",
   "checklist-item-assignee-none": "Walang sinuman",

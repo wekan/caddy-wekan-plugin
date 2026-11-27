@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Labɛnniw yɛlɛma",
   "checklist": "Sɛgɛsɛgɛli sɛbɛn",
   "checklist-count": "Lajɛli lisiti fɛn hakɛ (0/0)",
+  "checklist-ding-sound": "Kanfa mankan tuma min na checklist fɛn dafara",
+  "checklist-ding-sound-description": "Kanfa mankan surunman tuma min na i bɛ checklist fɛn sɛbɛn. A tɛ baara la ka bɔ a bɔyɔrɔ la.",
   "checklist-from-description": "Lisɛli ka bɔ ɲɛfɔli la",
   "checklist-item-assignee": "Jɔn de bɛ nin fɛn in kunna",
   "checklist-item-assignee-none": "Mɔgɔ si tɛ",

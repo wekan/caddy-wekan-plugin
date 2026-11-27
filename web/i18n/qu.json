@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Allichaykunata tikray",
   "checklist": "Qhawana sutisuyu",
   "checklist-count": "Qhawana sutisuyu imakunap yupaynin (0/0)",
+  "checklist-ding-sound": "Uyarichiy huk kunkata checklist ruway tukusqanmanta",
+  "checklist-ding-sound-description": "Huk kunka kunkata uyarichin checklist ruway señalasqaykipi. Manam kachkanchu ñawpaqmanta.",
   "checklist-from-description": "Qhawana siqi willakuymanta",
   "checklist-item-assignee": "Pitaq kay imapaq kamachiq",
   "checklist-item-assignee-none": "Mana pipas",

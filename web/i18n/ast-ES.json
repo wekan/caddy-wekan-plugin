@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Cambiar las preferencias",
   "checklist": "Llista de comprobación",
   "checklist-count": "Cuenta d'elementos del checklist (0/0)",
+  "checklist-ding-sound": "Sonar cuando se completa un elementu de llista de verificación",
+  "checklist-ding-sound-description": "Sonar un tonu curtiu cuando marques un elementu de llista de verificación. Desactiváu por defeutu.",
   "checklist-from-description": "Lista de verificación desde la descripción",
   "checklist-item-assignee": "Quién ye responsable d'esti elementu",
   "checklist-item-assignee-none": "Naide",

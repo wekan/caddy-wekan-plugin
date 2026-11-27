@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "cinca swiyimiso",
   "checklist": "Nxaxamelo wo kambela",
   "checklist-count": "Nhlayo ya swilo swa nxaxamelo wo kambela (0/0)",
+  "checklist-ding-sound": "Tlanga xivangelo loko nchumu wa checklist wu hetisiwile",
+  "checklist-ding-sound-description": "Yi tlanga xivangelo xitsongo loko u phasa nchumu wa checklist. Yi tiyimele hi ndlela ya ntumbuluko.",
   "checklist-from-description": "Nxaxamelo wo kambela ku suka eka nhlamuselo",
   "checklist-item-assignee": "I mani loyi a nga ni vutihlamuleri bya nchumu lowu",
   "checklist-item-assignee-none": "A nga kona",

@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Keisti nustatymus",
   "checklist": "Kontrolinis sąrašas",
   "checklist-count": "Kontrolinio sąrašo elementų skaičius (0/0)",
+  "checklist-ding-sound": "Groti garsą, kai patikros sąrašo elementas užbaigiamas",
+  "checklist-ding-sound-description": "Groja trumpą garsą, kai pažymite patikros sąrašo elementą. Pagal numatytuosius nustatymus išjungta.",
   "checklist-from-description": "Kontrolinis sąrašas iš aprašymo",
   "checklist-item-assignee": "Kas atsakingas už šį elementą",
   "checklist-item-assignee-none": "Niekas",

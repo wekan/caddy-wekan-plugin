@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Жөндөөлөрдү өзгөртүү",
   "checklist": "Текшерүү тизмеси",
   "checklist-count": "Текшерүү тизмесинин пункттар саны (0/0)",
+  "checklist-ding-sound": "Текшерүү тизмесиндеги пункт аяктаганда үн ойнотуу",
+  "checklist-ding-sound-description": "Текшерүү тизмесиндеги пунктту белгилегенде кыска үн ойнотот. Демейки боюнча өчүрүлгөн.",
   "checklist-from-description": "Сүрөттөмөдөн текшерүү тизмеси",
   "checklist-item-assignee": "Бул элемент үчүн ким жооптуу",
   "checklist-item-assignee-none": "Эч ким",

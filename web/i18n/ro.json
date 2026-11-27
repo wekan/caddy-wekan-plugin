@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Schimbă setările",
   "checklist": "Listă de verificare",
   "checklist-count": "Numărul de elemente din listele de verificare (0/0)",
+  "checklist-ding-sound": "Redă un sunet când un element din lista de verificare este finalizat",
+  "checklist-ding-sound-description": "Redă un sunet scurt când bifezi un element din lista de verificare. Dezactivat implicit.",
   "checklist-from-description": "Listă de verificare din descriere",
   "checklist-item-assignee": "Cine este responsabil pentru acest element",
   "checklist-item-assignee-none": "Nimeni",

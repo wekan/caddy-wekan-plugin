@@ -264,6 +264,8 @@
   "changePasswordPopup-title": "పాస్‌వర్డ్ మార్చండి",
   "changeSettingsPopup-title": "సెట్టింగ్‌లను మార్చండి",
   "checklist": "చెక్‌లిస్ట్",
+  "checklist-ding-sound": "చెక్‌లిస్ట్ అంశం పూర్తయినప్పుడు శబ్దం ప్లే చేయండి",
+  "checklist-ding-sound-description": "చెక్‌లిస్ట్ అంశాన్ని చెక్ చేసినప్పుడు చిన్న శబ్దాన్ని ప్లే చేస్తుంది. డిఫాల్ట్‌గా ఆఫ్‌లో ఉంది.",
   "checklist-item-assignee": "ఈ అంశానికి ఎవరు బాధ్యులు",
   "checklist-item-assignee-none": "ఎవరూ లేరు",
   "checklistActionsPopup-title": "చెక్‌లిస్ట్ చర్యలు",

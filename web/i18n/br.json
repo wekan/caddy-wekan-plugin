@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Kemmañ an arventennoù",
   "checklist": "Roll-gwiriañ",
   "checklist-count": "Niver an elfennoù roll-gwiriañ (0/0)",
+  "checklist-ding-sound": "Seniñ ur son pa vez echuet un elfenn eus roll gwiriañ",
+  "checklist-ding-sound-description": "Seniñ ur son berr pa vez merket un elfenn eus roll gwiriañ. Diweredekaet dre ziouer.",
   "checklist-from-description": "Roll-gwiriañ diwar an deskrivadur",
   "checklist-item-assignee": "Piv a zo e karg eus an elfenn-mañ",
   "checklist-item-assignee-none": "Den ebet",

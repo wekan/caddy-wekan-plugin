@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "เปลี่ยนการตั้งค่า",
   "checklist": "เช็คลิสต์",
   "checklist-count": "จำนวนรายการเช็คลิสต์ (0/0)",
+  "checklist-ding-sound": "เล่นเสียงเมื่อรายการเช็คลิสต์เสร็จสมบูรณ์",
+  "checklist-ding-sound-description": "เล่นเสียงติ๊งสั้น ๆ เมื่อคุณทำเครื่องหมายรายการเช็คลิสต์ ปิดอยู่โดยค่าเริ่มต้น",
   "checklist-from-description": "เช็กลิสต์จากคำอธิบาย",
   "checklist-item-assignee": "ใครเป็นผู้รับผิดชอบรายการนี้",
   "checklist-item-assignee-none": "ไม่มีใคร",

@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Alãxea sitãrli",
   "checklist": "Listã di verificari",
   "checklist-count": "Numirlu di elementi dit lista di verificari (0/0)",
+  "checklist-ding-sound": "Bati un son cãndu un element dit lista di verificari s-bitiseashti",
+  "checklist-ding-sound-description": "Bati un son scurtu cãndu bifedz un element dit lista di verificari. Dizactivat di ahurhitã.",
   "checklist-from-description": "Listã di verificari ditu discriptsii",
   "checklist-item-assignee": "Cine easti responsabil trã aestu lucru",
   "checklist-item-assignee-none": "Vãrnu",

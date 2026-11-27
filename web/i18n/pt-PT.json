@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Alterar as Configurações",
   "checklist": "Lista de verificação",
   "checklist-count": "Contagem de itens da lista de verificação (0/0)",
+  "checklist-ding-sound": "Reproduzir um som quando um item da lista de verificação for concluído",
+  "checklist-ding-sound-description": "Reproduz um som curto ao marcar um item da lista de verificação. Desativado por padrão.",
   "checklist-from-description": "Lista de verificação a partir da descrição",
   "checklist-item-assignee": "Quem é responsável por este item",
   "checklist-item-assignee-none": "Ninguém",

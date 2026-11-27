@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Càmbia sas impostatziones",
   "checklist": "Lista de controllu",
   "checklist-count": "Nùmeru de elementos de sa lista de controllu (0/0)",
+  "checklist-ding-sound": "Sona unu sonu cando un'elementu de sa lista de controllu si cumpletat",
+  "checklist-ding-sound-description": "Sonat unu sonu curtzu cando marcas un'elementu de sa lista de controllu. Disativadu in manera predefinida.",
   "checklist-from-description": "Lista de controllu dae sa descritzione",
   "checklist-item-assignee": "Chie est responsàbile de custu elementu",
   "checklist-item-assignee-none": "Nemos",

@@ -601,6 +601,44 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       el.setAttribute('aria-checked', String(on));
     }, csFail).finally(function () { delete el.dataset.saving; });
   });
+  up.compiler('.js-pop-over .js-toggle-checklist-ding-sound', function (el) {
+    el.setAttribute('aria-checked', String(document.body.dataset.checklistDingSound === 'true'));
+  });
+  up.on('click', '.js-pop-over .js-toggle-checklist-ding-sound', function (event, el) {
+    event.preventDefault();
+    if (el.dataset.saving) return;
+    el.dataset.saving = '1';
+    callAsync('toggleChecklistDingSound').then(function (on) {
+      document.body.dataset.checklistDingSound = String(on);
+      el.setAttribute('aria-checked', String(on));
+    }, csFail).finally(function () { delete el.dataset.saving; });
+  });
+  var checklistAudio;
+  document.addEventListener('submit', function (event) {
+    var form = event.target;
+    if (!form.matches('form.js-toggle-checklist-item')) return;
+    var item = form.closest('.js-checklist-item');
+    var Audio = window.AudioContext || window.webkitAudioContext;
+    if (!Audio || document.body.dataset.checklistDingSound !== 'true' ||
+        !item || item.getAttribute('aria-checked') === 'true') return;
+    try {
+      if (!checklistAudio) checklistAudio = new Audio();
+      if (checklistAudio.state === 'suspended') checklistAudio.resume().catch(function () {});
+      var now = checklistAudio.currentTime;
+      [[880, 0, 0.11], [1108.73, 0.08, 0.13]].forEach(function (note) {
+        var start = now + note[1], end = start + note[2];
+        var oscillator = checklistAudio.createOscillator(), gain = checklistAudio.createGain();
+        oscillator.frequency.setValueAtTime(note[0], start);
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.2, start + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, end);
+        oscillator.connect(gain);
+        gain.connect(checklistAudio.destination);
+        oscillator.start(start);
+        oscillator.stop(end);
+      });
+    } catch (err) { /* The checklist remains usable without audio. */ }
+  }, true);
   var titleBracketLabel;
   up.compiler('.js-pop-over .js-toggle-title-bracket-label', function (el) {
     if (titleBracketLabel !== undefined) el.setAttribute('aria-checked', String(titleBracketLabel));

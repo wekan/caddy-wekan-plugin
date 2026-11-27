@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Општа поставка картице",
   "checklist": "Контролна листа",
   "checklist-count": "Учинак",
+  "checklist-ding-sound": "Пусти звук када се ставка контролне листе заврши",
+  "checklist-ding-sound-description": "Пушта кратак звук када означите ставку контролне листе. Подразумевано искључено.",
   "checklist-from-description": "Контролна листа из описа",
   "checklist-item-assignee": "Ко је одговоран за ову ставку",
   "checklist-item-assignee-none": "Нико",

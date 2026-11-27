@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Yi Eto",
   "checklist": "Akojọ ayẹwo",
   "checklist-count": "Iye nkan akojọ ayẹwo (0/0)",
+  "checklist-ding-sound": "Mú ìró kan ṣiṣẹ́ nígbà tí ohun kan nínú àtòjọ àyẹ̀wò bá parí",
+  "checklist-ding-sound-description": "Ó máa ń mú ìró kúkúrú kan ṣiṣẹ́ nígbà tí o bá ṣàmì sí ohun kan nínú àtòjọ àyẹ̀wò. Ó ti pa dé láti ìbẹ̀rẹ̀pẹ̀pẹ̀.",
   "checklist-from-description": "Àkójọ àyẹ̀wò láti inú àpèjúwe",
   "checklist-item-assignee": "Ta ni o ni ojuṣe fun ohun yii",
   "checklist-item-assignee-none": "Ko si ẹnikan",

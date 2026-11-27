@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Canvia configuració",
   "checklist": "Llista de verificació",
   "checklist-count": "Recompte d'elements de la checklist (0/0)",
+  "checklist-ding-sound": "Reprodueix un so quan es completa un element de la llista de verificació",
+  "checklist-ding-sound-description": "Reprodueix un so breu quan marqueu un element de la llista de verificació. Desactivat per defecte.",
   "checklist-from-description": "Llista de comprovació des de la descripció",
   "checklist-item-assignee": "Qui és el responsable d'este element",
   "checklist-item-assignee-none": "Ningú",

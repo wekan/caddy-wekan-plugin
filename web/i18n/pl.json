@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Zmień ustawienia",
   "checklist": "Checklista",
   "checklist-count": "Liczba pozycji checklisty (0/0)",
+  "checklist-ding-sound": "Odtwórz dźwięk po ukończeniu elementu listy kontrolnej",
+  "checklist-ding-sound-description": "Odtwarza krótki dźwięk po zaznaczeniu elementu listy kontrolnej. Domyślnie wyłączone.",
   "checklist-from-description": "Lista kontrolna z opisu",
   "checklist-item-assignee": "Kto jest odpowiedzialny za ten element",
   "checklist-item-assignee-none": "Nikt",

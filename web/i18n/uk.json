@@ -986,6 +986,8 @@
   "changeSettingsPopup-title": "Змінити налаштування",
   "checklist": "Контрольний список",
   "checklist-count": "Кількість пунктів контрольного списку (0/0)",
+  "checklist-ding-sound": "Відтворювати звук при завершенні пункту контрольного списку",
+  "checklist-ding-sound-description": "Відтворює короткий звук при позначенні пункту контрольного списку. За замовчуванням вимкнено.",
   "checklist-from-description": "Чек-лист з опису",
   "checklist-item-assignee": "Хто відповідає за цей пункт",
   "checklist-item-assignee-none": "Ніхто",

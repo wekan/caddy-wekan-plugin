@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Hindura ibigenwa",
   "checklist": "Urutonde rwo kugenzura",
   "checklist-count": "Igitigiri c'ibintu ku rutonde rwo kugenzura (0/0)",
+  "checklist-ding-sound": "Cana amajwi igihe ikintu ca checklist kirangiye",
+  "checklist-ding-sound-description": "Icana ijwi rigufi igihe umenyesha ikintu ca checklist. Birazimye ku bwoko busanzwe.",
   "checklist-from-description": "Urutonde rw'isuzuma ruvuye mu nsobanuro",
   "checklist-item-assignee": "Ni nde ajejwe iki kintu",
   "checklist-item-assignee-none": "Nta n'umwe",

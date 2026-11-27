@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Αλλαγή Ρυθμίσεων",
   "checklist": "Check-list",
   "checklist-count": "Πλήθος στοιχείων λίστας ελέγχου (0/0)",
+  "checklist-ding-sound": "Αναπαραγωγή ήχου όταν ολοκληρώνεται ένα στοιχείο λίστας ελέγχου",
+  "checklist-ding-sound-description": "Αναπαράγει έναν σύντομο ήχο όταν επισημαίνετε ένα στοιχείο λίστας ελέγχου. Απενεργοποιημένο από προεπιλογή.",
   "checklist-from-description": "Λίστα ελέγχου από την περιγραφή",
   "checklist-item-assignee": "Ποιος είναι υπεύθυνος για αυτό το στοιχείο",
   "checklist-item-assignee-none": "Κανείς",

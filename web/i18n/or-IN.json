@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "ସେଟିଂସମୂହ ପରିବର୍ତ୍ତନ କରନ୍ତୁ",
   "checklist": "ଯାଞ୍ଚ ତାଲିକା",
   "checklist-count": "ଚେକଲିଷ୍ଟ ଆଇଟମ୍ ସଂଖ୍ୟା (0/0)",
+  "checklist-ding-sound": "ଚେକଲିଷ୍ଟ ଆଇଟମ୍ ସମାପ୍ତ ହେଲେ ଧ୍ୱନି ଚଲାନ୍ତୁ",
+  "checklist-ding-sound-description": "ଚେକଲିଷ୍ଟ ଆଇଟମ୍ ଚେକ୍ କରିବା ସମୟରେ ଏକ ଛୋଟ ଧ୍ୱନି ଚଲାଏ। ପୂର୍ବନିର୍ଧାରିତ ଭାବରେ ବନ୍ଦ।",
   "checklist-from-description": "ବିବରଣୀରୁ ଚେକଲିଷ୍ଟ",
   "checklist-item-assignee": "ଏହି ଆଇଟମ୍ ପାଇଁ କିଏ ଦାୟୀ",
   "checklist-item-assignee-none": "କେହି ନୁହେଁ",

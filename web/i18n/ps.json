@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "امستنې بدلې کړئ",
   "checklist": "کتنليک",
   "checklist-count": "د کتنليک د توکو شمېر (0/0)",
+  "checklist-ding-sound": "کله چې د چک لست توکی بشپړ شي غږ وغږئ",
+  "checklist-ding-sound-description": "کله چې تاسو د چک لست توکی نښه کړئ لنډ غږ غږوي. په تلواله توګه بند دی.",
   "checklist-from-description": "له تشریح څخه چک‌لیست",
   "checklist-item-assignee": "د دې توکي مسؤل څوک دی",
   "checklist-item-assignee-none": "هېڅوک نه",

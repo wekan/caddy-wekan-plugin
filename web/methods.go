@@ -90,6 +90,7 @@ func (s *Server) methods() map[string]methodFunc {
 		"setBoardSettingsColumn":            s.methodSetBoardSettingsColumn,
 		"toggleTitleBracketLabel":           s.methodToggleTitleBracketLabel,
 		"toggleKeepAddCardFormOpen":         s.methodToggleKeepAddCardFormOpen,
+		"toggleChecklistDingSound":          s.methodToggleChecklistDingSound,
 		"toggleHideFocusOutline":            s.methodToggleHideFocusOutline,
 		"toggleDesktopDragHandles":          s.methodToggleDesktopDragHandles,
 		"toggleSubmitOnEnter":               s.methodToggleSubmitOnEnter,
@@ -753,6 +754,14 @@ func (s *Server) methodToggleKeepAddCardFormOpen(r *http.Request, u *User, _ []j
 	_, err := s.db.Collection("users").UpdateOne(r.Context(), bson.M{"_id": eq(u.ID)},
 		bson.M{"$set": bson.M{"profile.keepAddCardFormOpen": on}})
 	return on, err
+}
+
+func (s *Server) methodToggleChecklistDingSound(r *http.Request, u *User, args []json.RawMessage) (any, error) {
+	if len(args) != 0 {
+		return nil, &methodError{"Match.Error", "Expected no arguments"}
+	}
+	on := !u.Profile.ChecklistDingSound
+	return on, s.setProfileFields(r, u, bson.M{"profile.checklistDingSound": on})
 }
 
 func (s *Server) methodToggleHideFocusOutline(r *http.Request, u *User, _ []json.RawMessage) (any, error) {

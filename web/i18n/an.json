@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Cambiar as preferencias",
   "checklist": "Lista de comprebación",
   "checklist-count": "Recuento d’elementos d’a lista de comprobación (0/0)",
+  "checklist-ding-sound": "Sonar quan se completa un elemento d'a lista de verificación",
+  "checklist-ding-sound-description": "Sonar un tono curto quan marcas un elemento d'a lista de verificación. Desactivau por defecto.",
   "checklist-from-description": "Lista de verificación dende a descripción",
   "checklist-item-assignee": "Quí ye responsable d'iste elemento",
   "checklist-item-assignee-none": "Dengún",

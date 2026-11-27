@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "პარამეტრების შეცვლა",
   "checklist": "საკონტროლო სია",
   "checklist-count": "საკონტროლო სიის ელემენტების რაოდენობა (0/0)",
+  "checklist-ding-sound": "ხმის დაკვრა, როცა საკონტროლო სიის ელემენტი დასრულდება",
+  "checklist-ding-sound-description": "დაკვრავს მოკლე ხმას, როცა საკონტროლო სიის ელემენტს მონიშნავთ. ნაგულისხმევად გამორთულია.",
   "checklist-from-description": "შემოწმების სია აღწერიდან",
   "checklist-item-assignee": "ვინ არის პასუხისმგებელი ამ ელემენტზე",
   "checklist-item-assignee-none": "არავინ",

@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Параметрлерді өзгерту",
   "checklist": "Тексеру тізімі",
   "checklist-count": "Тексеру тізімі тармақтарының саны (0/0)",
+  "checklist-ding-sound": "Тексеру тізімінің тармағы аяқталғанда дыбыс ойнату",
+  "checklist-ding-sound-description": "Тексеру тізімінің тармағын белгілегенде қысқа дыбыс ойнатады. Әдепкі бойынша сөндірулі.",
   "checklist-from-description": "Сипаттамадан тексеру тізімі",
   "checklist-item-assignee": "Бұл элементке кім жауапты",
   "checklist-item-assignee-none": "Ешкім",

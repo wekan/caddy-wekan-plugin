@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Chanjya settyansow",
   "checklist": "Rol checkya",
   "checklist-count": "Niver taklennow rol checkya (0/0)",
+  "checklist-ding-sound": "Gwari son pan yw elven checklist collenwys",
+  "checklist-ding-sound-description": "Gwari son cot pan verkyugh elven checklist. Diwedhrys dre dhefowt.",
   "checklist-from-description": "Rol checkya dhyworth an deskrifans",
   "checklist-item-assignee": "Piw yw kevrifus a'n tra ma",
   "checklist-item-assignee-none": "Nagonan",

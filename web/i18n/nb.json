@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Endre innstillinger",
   "checklist": "Sjekkliste",
   "checklist-count": "Antall sjekklisteelementer (0/0)",
+  "checklist-ding-sound": "Spill av en lyd når et sjekkliste-element fullføres",
+  "checklist-ding-sound-description": "Spiller av en kort ding-lyd når du haker av et sjekklisteelement. Skrudd av som standard.",
   "checklist-from-description": "Sjekkliste fra beskrivelsen",
   "checklist-item-assignee": "Hvem er ansvarlig for dette punktet",
   "checklist-item-assignee-none": "Ingen",

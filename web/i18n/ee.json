@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Trɔ̃ ɖoɖowo",
   "checklist": "Dodokpɔ xexlẽdzesi",
   "checklist-count": "Ŋkuɖodzinudzesi ƒe nane ƒe xexlẽme (0/0)",
+  "checklist-ding-sound": "Ƒo gbeɖiɖi ne checklist ƒe nu aɖe wu enu",
+  "checklist-ding-sound-description": "Ƒo gbeɖiɖi kpui ne ède dzesi checklist ƒe nu aɖe ŋu. Wonye tsotso le gɔmedzedze.",
   "checklist-from-description": "Dzesiwo tso numeɖeɖe me",
   "checklist-item-assignee": "Ame kae kpɔa nu sia dzi",
   "checklist-item-assignee-none": "Ame aɖeke o",

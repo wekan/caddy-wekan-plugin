@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Spremeni nastavitve",
   "checklist": "Kontrolni seznam",
   "checklist-count": "Število elementov kontrolnega seznama (0/0)",
+  "checklist-ding-sound": "Predvajaj zvok, ko je element kontrolnega seznama dokončan",
+  "checklist-ding-sound-description": "Predvaja kratek zvok, ko označite element kontrolnega seznama. Privzeto izklopljeno.",
   "checklist-from-description": "Kontrolni seznam iz opisa",
   "checklist-item-assignee": "Kdo je odgovoren za to postavko",
   "checklist-item-assignee-none": "Nihče",

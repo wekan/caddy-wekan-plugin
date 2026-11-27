@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Shintsha izilungiselelo",
   "checklist": "Uhlu lokuhlola",
   "checklist-count": "Inani lezinto zohlu lokuhlola (0/0)",
+  "checklist-ding-sound": "Dlala umsindo lapho into ye-checklist iqedwe",
+  "checklist-ding-sound-description": "Idlala umsindo omfishane lapho umaka into ye-checklist. Icishiwe ngokuzenzekelayo.",
   "checklist-from-description": "Uhlu lokuhlola oluvela encazelweni",
   "checklist-item-assignee": "Ubani onomthwalo walento",
   "checklist-item-assignee-none": "Akekho",

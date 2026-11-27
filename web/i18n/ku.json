@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Mîhengan biguherîne",
   "checklist": "Lîsteya kontrolê",
   "checklist-count": "Hejmara hêmanên lîsteya kontrolê (0/0)",
+  "checklist-ding-sound": "Dema hêmaneke checklistê temam dibe dengekî lêbide",
+  "checklist-ding-sound-description": "Dema hêmaneke checklistê nîşan dikî dengekî kurt lêbide. Bi eslê xwe girtî ye.",
   "checklist-from-description": "Lîsteya kontrolê ji danasînê",
   "checklist-item-assignee": "Kî ji vê hêmanê berpirsyar e",
   "checklist-item-assignee-none": "Tu kes",

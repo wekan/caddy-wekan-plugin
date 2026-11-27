@@ -988,6 +988,8 @@
   "changeSettingsPopup-title": "DuHmey choH",
   "checklist": "ghItlhHommey tetlh",
   "checklist-count": "tobtetlh Doch mI' (0/0)",
+  "checklist-ding-sound": "tobtetlh Doch rInDI' wab yIQoymoH",
+  "checklist-ding-sound-description": "tobtetlh Doch DaqIpDI', wab ngaj yIQoymoH. motlh chu'Ha'lu'.",
   "checklist-from-description": "Del tetlh",
   "checklist-item-assignee": "ta'vam 'ay' yepbogh 'Iv",
   "checklist-item-assignee-none": "pagh",

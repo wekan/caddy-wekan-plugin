@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "chinja marongero",
   "checklist": "Rondedzero yekuongorora",
   "checklist-count": "Nhamba yezvinhu zverondedzero yekuongorora (0/0)",
+  "checklist-ding-sound": "Ridza ruzha kana chinhu cherondedzero yekuongorora chapera",
+  "checklist-ding-sound-description": "Ridza ruzha rupfupi kana wamaka chinhu cherondedzero yekuongorora sechapera. Zvakadzimwa sezvakajairwa.",
   "checklist-from-description": "Rondedzero kubva patsananguro",
   "checklist-item-assignee": "Ndiani ane basa rechinhu ichi",
   "checklist-item-assignee-none": "Hapana munhu",

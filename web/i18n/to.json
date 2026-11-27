@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Liliu ʻa e ngaahi fokotuʻutuʻu",
   "checklist": "Lisi sivi",
   "checklist-count": "Lau ʻo e ngaahi meʻa ʻi he lisi sivi (0/0)",
+  "checklist-ding-sound": "Fakatangi ha leʻo ʻi he taimi ʻoku fakaʻosi ai ha fāsili checklist",
+  "checklist-ding-sound-description": "ʻOku fakatangi ha leʻo nounou ʻi hoʻo fakaʻilongaʻi ha fāsili checklist. Kuo tāmateʻi ʻi he founga makehe.",
   "checklist-from-description": "Lisi siviʻi mei he fakamatala",
   "checklist-item-assignee": "Ko hai ʻoku fatongia ki he meʻá ni",
   "checklist-item-assignee-none": "Ikai ha taha",

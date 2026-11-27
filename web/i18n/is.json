@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Breyta stillingum",
   "checklist": "Gátlisti",
   "checklist-count": "Fjöldi gátlistaatriða (0/0)",
+  "checklist-ding-sound": "Spila hljóð þegar verkefni í gátlista er lokið",
+  "checklist-ding-sound-description": "Spilar stutt hljóð þegar þú hakar við atriði í gátlista. Slökkt sjálfgefið.",
   "checklist-from-description": "Gátlisti úr lýsingu",
   "checklist-item-assignee": "Hver ber ábyrgð á þessu atriði",
   "checklist-item-assignee-none": "Enginn",

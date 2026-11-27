@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Změnit nastavení",
   "checklist": "Kontrolní seznam",
   "checklist-count": "Počet položek checklistu (0/0)",
+  "checklist-ding-sound": "Přehrát zvuk při dokončení položky seznamu úkolů",
+  "checklist-ding-sound-description": "Přehraje krátké cinknutí při zaškrtnutí položky seznamu úkolů. Ve výchozím nastavení vypnuto.",
   "checklist-from-description": "Kontrolní seznam z popisu",
   "checklist-item-assignee": "Kdo je za tuto položku zodpovědný",
   "checklist-item-assignee-none": "Nikdo",

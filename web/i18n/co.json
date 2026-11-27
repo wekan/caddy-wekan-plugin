@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Mudificà i paràmetri",
   "checklist": "Lista di cuntrollu",
   "checklist-count": "Numeru d’elementi di a lista di cuntrollu (0/0)",
+  "checklist-ding-sound": "Ghjucà un sonu quandu un elementu di a lista di verificazione hè cumpletatu",
+  "checklist-ding-sound-description": "Ghjucà un sonu cortu quandu marcate un elementu di a lista di verificazione. Disattivatu per difettu.",
   "checklist-from-description": "Lista di verificazione da a discrizzione",
   "checklist-item-assignee": "Quale hè rispunsevule di st'elementu",
   "checklist-item-assignee-none": "Nimu",

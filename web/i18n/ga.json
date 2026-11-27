@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Athraigh Socruithe",
   "checklist": "Seicliosta",
   "checklist-count": "Líon míreanna seicliosta (0/0)",
+  "checklist-ding-sound": "Seinn fuaim nuair a chríochnaítear mír seicliosta",
+  "checklist-ding-sound-description": "Seinneann sé fuaim ghairid nuair a sheiceálann tú mír seicliosta. Múchta de réir réamhshocraithe.",
   "checklist-from-description": "Seicliosta ón gcur síos",
   "checklist-item-assignee": "Cé atá freagrach as an mír seo",
   "checklist-item-assignee-none": "Níl aon duine",

@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Beddel Dejimaha",
   "checklist": "Liiska hubinta",
   "checklist-count": "Tirada qodobbada liiska hubinta (0/0)",
+  "checklist-ding-sound": "Ku ciyaar dhawaaq marka shay checklist ah dhammaado",
+  "checklist-ding-sound-description": "Ku ciyaarta dhawaaq gaaban marka aad calaamadeyso shay checklist ah. Wuu damanyahay si caadi ah.",
   "checklist-from-description": "Liis hubin oo ka yimid sharraxaadda",
   "checklist-item-assignee": "Yaa mas'uul ka ah sheygan",
   "checklist-item-assignee-none": "Qofna",

@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Thay đổi Cài đặt",
   "checklist": "Danh sách kiểm tra",
   "checklist-count": "Số lượng mục checklist (0/0)",
+  "checklist-ding-sound": "Phát âm thanh khi hoàn thành một mục trong danh sách kiểm tra",
+  "checklist-ding-sound-description": "Phát một âm thanh ngắn khi bạn đánh dấu hoàn thành một mục trong danh sách kiểm tra. Mặc định tắt.",
   "checklist-from-description": "Danh sách kiểm tra từ mô tả",
   "checklist-item-assignee": "Ai chịu trách nhiệm cho mục này",
   "checklist-item-assignee-none": "Không ai",

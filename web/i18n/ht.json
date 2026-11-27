@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Chanje paramèt",
   "checklist": "Lis verifikasyon",
   "checklist-count": "Kantite eleman lis verifikasyon (0/0)",
+  "checklist-ding-sound": "Jwe yon son lè yon eleman lis verifikasyon fini",
+  "checklist-ding-sound-description": "Jwe yon ti son kout lè ou tcheke yon eleman lis verifikasyon. Li dezaktive pa defo.",
   "checklist-from-description": "Lis verifikasyon nan deskripsyon",
   "checklist-item-assignee": "Ki moun ki responsab atik sa a",
   "checklist-item-assignee-none": "Pèsonn",

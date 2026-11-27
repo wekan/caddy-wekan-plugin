@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Change Settings",
   "checklist": "Checklist",
   "checklist-count": "Checklist item count (0/0)",
+  "checklist-ding-sound": "Play a sound when a checklist item is completed",
+  "checklist-ding-sound-description": "Play a short ding when you check off a checklist item. Off by default.",
   "checklist-from-description": "Checklist from description",
   "checklist-item-assignee": "Who is responsible for this item",
   "checklist-item-assignee-none": "Nobody",

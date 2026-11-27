@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Veisautaka na iTuvatuva",
   "checklist": "Lisi ni veidikevi",
   "checklist-count": "iWiliwili ni ka ni lisi ni vakadinadina (0/0)",
+  "checklist-ding-sound": "Vakayagataka na domo ni sa vakaoti na iulutaga ni checklist",
+  "checklist-ding-sound-description": "Vakayagataka e dua na domo lekaleka ni o sa vakadinadinataka na iulutaga ni checklist. E sega ni vakayagataki ena imatai ni ivakarau.",
   "checklist-from-description": "Lisi mai na vakamacala",
   "checklist-item-assignee": "O cei e qarava na ka oqo",
   "checklist-item-assignee-none": "Sega ni dua",

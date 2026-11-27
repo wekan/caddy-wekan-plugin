@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "ቅንብሮችን ቀይር",
   "checklist": "የማረጋገጫ ዝርዝር",
   "checklist-count": "የማረጋገጫ ዝርዝር ንጥሎች ብዛት (0/0)",
+  "checklist-ding-sound": "የማጣሪያ ዝርዝር ንጥል ሲጠናቀቅ ድምፅ አጫውት",
+  "checklist-ding-sound-description": "የማጣሪያ ዝርዝር ንጥል ሲያመልክቱ አጭር ድምፅ ያጫውቱ። ነባሪው ጠፍቷል።",
   "checklist-from-description": "ዝርዝር ከመግለጫ",
   "checklist-item-assignee": "ለዚህ ንጥል ኃላፊው ማን ነው",
   "checklist-item-assignee-none": "ማንም",

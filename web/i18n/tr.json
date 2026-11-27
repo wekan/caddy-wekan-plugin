@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Ayarları değiştir",
   "checklist": "Kontrol listesi",
   "checklist-count": "Checklist öğesi sayısı (0/0)",
+  "checklist-ding-sound": "Kontrol listesi öğesi tamamlandığında ses çal",
+  "checklist-ding-sound-description": "Bir kontrol listesi öğesini işaretlediğinizde kısa bir ding sesi çalar. Varsayılan olarak kapalıdır.",
   "checklist-from-description": "Açıklamadan kontrol listesi",
   "checklist-item-assignee": "Bu öğeden kim sorumlu",
   "checklist-item-assignee-none": "Hiç kimse",

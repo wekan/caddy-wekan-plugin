@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "تغيير الاعدادات",
   "checklist": "قائمة التحقق",
   "checklist-count": "عدد عناصر قائمة التحقق (0/0)",
+  "checklist-ding-sound": "شغّل صوت ملي كيتكمل عنصر ديال لائحة تاشيك",
+  "checklist-ding-sound-description": "شغّل نغمة قصيرة ملي تعلّم عنصر ديال لائحة تاشيك. راه مطفي من الأصل.",
   "checklist-from-description": "لائحة تحقق من الوصف",
   "checklist-item-assignee": "شكون المسؤول على هاد العنصر",
   "checklist-item-assignee-none": "حتى واحد",

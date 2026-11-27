@@ -9,7 +9,7 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-browser-la
     script(src="/static/vendor/unpoly.min.js")
     script(src="/static/vendor/interact.min.js")
     script(src="/static/weddy.js")
-  body(data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}", data-keep-add-card-form-open="{{if .User}}{{if .User.Profile.KeepAddCardFormOpen}}true{{end}}{{end}}", class="{{if .User}}{{if .User.Profile.HideFocusOutline}}has-hide-focus-outline{{end}}{{end}}")
+  body(data-checklist-ding-sound="{{if .User}}{{.User.Profile.ChecklistDingSound}}{{end}}", data-submit-on-enter="{{if .User}}{{if .User.Profile.SubmitOnEnter}}true{{end}}{{end}}", data-keep-add-card-form-open="{{if .User}}{{if .User.Profile.KeepAddCardFormOpen}}true{{end}}{{end}}", class="{{if .User}}{{if .User.Profile.HideFocusOutline}}has-hide-focus-outline{{end}}{{end}}")
     if .User
       #header.header-bar
         a.header-all-boards.js-all-boards(href="/", up-follow) {{t $.L "all-boards"}}
@@ -171,6 +171,11 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-browser-la
                   i.fa.fa-level-down
                   |  {{t $.L "submit-on-enter"}}
                   i.fa.fa-check.js-submit-on-enter-check(hidden)
+              li
+                a.js-toggle-checklist-ding-sound(href="#", role="switch", aria-checked="{{.User.Profile.ChecklistDingSound}}", title="{{t $.L `checklist-ding-sound-description`}}")
+                  i.fa.fa-bell
+                  |  {{t $.L "checklist-ding-sound"}}
+                  i.fa.fa-check(aria-hidden="true")
             //- Weddy applies each setting as it is clicked; Apply closes, as
               WeKan's js-apply-user-settings does after saving.
             button.primary.js-apply-user-settings(type="button") {{t $.L "apply"}}

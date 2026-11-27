@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Zmieni nastôwë",
   "checklist": "Kòntrolnô lësta",
   "checklist-count": "Lëczba elementów lëstë kòntrólny (0/0)",
+  "checklist-ding-sound": "Zagrôj zwãk czej element lëstë sprôwdzeniô òstanié zakùńczony",
+  "checklist-ding-sound-description": "Zagrôj krotczi zwãk czej zaznaczysz element lëstë sprôwdzeniô. Domëslno wëłączoné.",
   "checklist-from-description": "Lësta sprawdzeniô z òpisu",
   "checklist-item-assignee": "Chto òdpòwiôdô za ten element",
   "checklist-item-assignee-none": "Nikt",

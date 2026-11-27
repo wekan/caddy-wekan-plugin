@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Badilisha Mipangilio",
   "checklist": "Orodha ya ukaguzi",
   "checklist-count": "Idadi ya vipengee vya orodha ya ukaguzi (0/0)",
+  "checklist-ding-sound": "Cheza sauti wakati kipengele cha orodha ya ukaguzi kikamilika",
+  "checklist-ding-sound-description": "Hucheza sauti fupi unapotia alama kwenye kipengele cha orodha ya ukaguzi. Imezimwa kwa chaguo-msingi.",
   "checklist-from-description": "Orodha ya ukaguzi kutoka kwa maelezo",
   "checklist-item-assignee": "Nani anahusika na kipengee hiki",
   "checklist-item-assignee-none": "Hakuna mtu",

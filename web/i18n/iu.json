@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "ᐋᖅᑭᒋᐊᕐᓗᒋᑦ ᐋᖅᑭᒃᓯᒪᓂᖏᑦ",
   "checklist": "ᖃᐅᔨᓴᕈᑎ ᑎᑎᖅᑲᓕᐊᖅ",
   "checklist-count": "ᓇᓗᓇᐃᖅᓯᕕᐅᑉ ᐃᓗᓕᖏᑕ ᓈᓴᐅᑎᖓ (0/0)",
+  "checklist-ding-sound": "ᐊᐅᓚᔾᔭᐅᔾᔪᑎᖅ ᓂᐲᑦ ᓄᓇᖅᑳᖅᑖᖅᑎᑦᑎᔪᖅ ᑲᔪᓯᓕᖅᑯᓂ",
+  "checklist-ding-sound-description": "ᓄᑖᖅ ᓂᐲᑦ ᐊᐅᓚᔾᔭᐅᔾᔪᑎᖅ ᐅᓪᓗᒥᒥ ᓄᓇᖅᑳᖅᑖᖅᑎᑦᑎᕙᓪᓕᐊᔪᒥ. ᐊᓯᐊᒍᑦ ᐊᑯᓐᓂᐅᔪᖅ.",
   "checklist-from-description": "ᓇᓗᓇᐃᔭᐅᑦ ᓇᓗᓇᐃᖅᓯᒪᓂᕐᒥᑦ",
   "checklist-item-assignee": "ᑭᓇ ᑲᒪᔨᐅᕙ ᐅᓇ ᓴᓇᔭᕐᒥᒃ",
   "checklist-item-assignee-none": "ᑭᓇᑐᐃᓐᓇᖃᙱᑦᑐᖅ",

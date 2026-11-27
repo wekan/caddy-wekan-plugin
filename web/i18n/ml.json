@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "ക്രമീകരണങ്ങൾ മാറ്റുക",
   "checklist": "പരിശോധനാ പട്ടിക",
   "checklist-count": "ചെക്ക്‌ലിസ്റ്റ് ഇനങ്ങളുടെ എണ്ണം (0/0)",
+  "checklist-ding-sound": "ചെക്ക്‌ലിസ്റ്റ് ഇനം പൂർത്തിയാകുമ്പോൾ ശബ്ദം പ്ലേ ചെയ്യുക",
+  "checklist-ding-sound-description": "ചെക്ക്‌ലിസ്റ്റ് ഇനം ചെക്ക് ചെയ്യുമ്പോൾ ഒരു ചെറിയ ശബ്ദം പ്ലേ ചെയ്യുന്നു. സ്ഥിരസ്ഥിതിയായി ഓഫ്.",
   "checklist-from-description": "വിവരണത്തിൽ നിന്ന് ചെക്ക്‌ലിസ്റ്റ്",
   "checklist-item-assignee": "ഈ ഇനത്തിന്റെ ഉത്തരവാദി ആര്",
   "checklist-item-assignee-none": "ആരുമില്ല",

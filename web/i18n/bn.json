@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "সেটিংস পরিবর্তন করুন",
   "checklist": "চেকলিস্ট",
   "checklist-count": "যাচাইতালিকার আইটেম সংখ্যা (0/0)",
+  "checklist-ding-sound": "চেকলিস্ট আইটেম সম্পূর্ণ হলে শব্দ বাজান",
+  "checklist-ding-sound-description": "চেকলিস্ট আইটেম চেক করার সময় সংক্ষিপ্ত শব্দ বাজান। ডিফল্টভাবে বন্ধ।",
   "checklist-from-description": "বিবরণ থেকে চেকলিস্ট",
   "checklist-item-assignee": "এই আইটেমের জন্য কে দায়ী",
   "checklist-item-assignee-none": "কেউ না",

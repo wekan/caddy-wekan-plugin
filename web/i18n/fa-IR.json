@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "تغییر تنظیمات",
   "checklist": "چک‌لیست",
   "checklist-count": "شمار آیتم‌های چک‌لیست (0/0)",
+  "checklist-ding-sound": "هنگام تکمیل یک مورد چک‌لیست، صدا پخش شود",
+  "checklist-ding-sound-description": "با تیک زدن یک مورد چک‌لیست، صدای کوتاهی پخش می‌شود. به طور پیش‌فرض خاموش است.",
   "checklist-from-description": "چک‌لیست از توضیحات",
   "checklist-item-assignee": "چه کسی مسئول این مورد است",
   "checklist-item-assignee-none": "هیچ‌کس",

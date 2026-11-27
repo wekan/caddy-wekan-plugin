@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Изменить настройки",
   "checklist": "Чек-лист",
   "checklist-count": "Количество пунктов чек-листа (0/0)",
+  "checklist-ding-sound": "Воспроизводить звук при завершении пункта контрольного списка",
+  "checklist-ding-sound-description": "Воспроизводит короткий звук при отметке пункта контрольного списка. По умолчанию выключено.",
   "checklist-from-description": "Чек-лист из описания",
   "checklist-item-assignee": "Кто отвечает за этот пункт",
   "checklist-item-assignee-none": "Никто",

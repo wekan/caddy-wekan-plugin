@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "ترتیبات تبدیل کریں",
   "checklist": "چیک لسٹ",
   "checklist-count": "جانچ فہرست کے اجزا کی تعداد (0/0)",
+  "checklist-ding-sound": "چیک لسٹ آئٹم مکمل ہونے پر آواز چلائیں",
+  "checklist-ding-sound-description": "چیک لسٹ آئٹم کو چیک کرنے پر مختصر آواز چلاتا ہے۔ پہلے سے طے شدہ طور پر بند ہے۔",
   "checklist-from-description": "تفصیل سے چیک لسٹ",
   "checklist-item-assignee": "اس آئٹم کا ذمہ دار کون ہے",
   "checklist-item-assignee-none": "کوئی نہیں",

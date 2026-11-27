@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "ছেটিংছ সলনি কৰক",
   "checklist": "পৰীক্ষা তালিকা",
   "checklist-count": "পৰীক্ষা-তালিকাৰ বস্তু সংখ্যা (0/0)",
+  "checklist-ding-sound": "চেকলিষ্ট বস্তু সম্পূৰ্ণ হ'লে শব্দ বজাওক",
+  "checklist-ding-sound-description": "চেকলিষ্ট বস্তু চেক কৰাৰ সময়ত চুটি শব্দ বজাওক। অবিকল্পিতভাৱে অফ।",
   "checklist-from-description": "বিৱৰণৰ পৰা চেকলিষ্ট",
   "checklist-item-assignee": "এই বস্তুটোৰ বাবে কোন দায়বদ্ধ",
   "checklist-item-assignee-none": "কোনো নহয়",

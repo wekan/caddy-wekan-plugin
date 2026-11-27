@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "அமைப்புகளை மாற்று",
   "checklist": "சரிபார்ப்புப் பட்டியல்",
   "checklist-count": "சரிபார்ப்புப்பட்டியல் உருப்படி எண்ணிக்கை (0/0)",
+  "checklist-ding-sound": "சரிபார்ப்பு பட்டியல் உருப்படி முடிந்ததும் ஒலியை இயக்கு",
+  "checklist-ding-sound-description": "சரிபார்ப்பு பட்டியல் உருப்படியை சரிபார்க்கும்போது குறுகிய ஒலியை இயக்குகிறது. இயல்பாக முடக்கப்பட்டுள்ளது.",
   "checklist-from-description": "விவரத்திலிருந்து சரிபார்ப்புப் பட்டியல்",
   "checklist-item-assignee": "இந்த உருப்படிக்கு யார் பொறுப்பு",
   "checklist-item-assignee-none": "யாருமில்லை",

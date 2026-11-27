@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Tukar Tetapan",
   "checklist": "Senarai semak",
   "checklist-count": "Kiraan item checklist (0/0)",
+  "checklist-ding-sound": "Mainkan bunyi apabila item senarai semak selesai",
+  "checklist-ding-sound-description": "Memainkan bunyi ding pendek apabila anda menanda item senarai semak. Dimatikan secara lalai.",
   "checklist-from-description": "Senarai semak daripada keterangan",
   "checklist-item-assignee": "Siapa yang bertanggungjawab atas item ini",
   "checklist-item-assignee-none": "Tiada sesiapa",

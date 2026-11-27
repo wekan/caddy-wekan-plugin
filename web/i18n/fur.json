@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Modifiche impostazions",
   "checklist": "Liste di control",
   "checklist-count": "Numar di elements de liste di control (0/0)",
+  "checklist-ding-sound": "Sune un sun cuant che un element de liste di control al ven completât",
+  "checklist-ding-sound-description": "Sune un sun curt cuant che tu marchis un element de liste di control. Disativât in maniere predefinide.",
   "checklist-from-description": "Liste di control de descrizion",
   "checklist-item-assignee": "Cui isal responsabil di chest element",
   "checklist-item-assignee-none": "Nissun",

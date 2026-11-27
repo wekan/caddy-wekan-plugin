@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "ڕێکخستنەکان بگۆڕە",
   "checklist": "لیستی پشکنین",
   "checklist-count": "ژمارەی بڕگەکانی لیستی پشکنین (0/0)",
+  "checklist-ding-sound": "کاتێک بابەتێکی لیستی پشکنین تەواو دەبێت دەنگ لێبدە",
+  "checklist-ding-sound-description": "کاتێک بابەتێکی لیستی پشکنین دەپشکنیت دەنگێکی کورت لێبدە. بە بنەڕەت داخراوە.",
   "checklist-from-description": "لیستی پشکنین لە وەسفەوە",
   "checklist-item-assignee": "کێ بەرپرسیارە لەم بڕگەیە",
   "checklist-item-assignee-none": "هیچ کەس",

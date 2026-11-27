@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Vajehta valičused",
   "checklist": "Kodvindlugetiž",
   "checklist-count": "Kodvindlugetišen kohtiden lugu (0/0)",
+  "checklist-ding-sound": "Kulutoita än, konz kodvindlugetišen koht om loptud",
+  "checklist-ding-sound-description": "Kulutoita lühüd kilin, konz znamoičed kodvindlugetišen kohtan. Augotižešti kel'tud.",
   "checklist-from-description": "Kodvindnimikirj ümbrikirjutandaspäi",
   "checklist-item-assignee": "Ken vastab necen punktan täht",
   "checklist-item-assignee-none": "Ei ken",

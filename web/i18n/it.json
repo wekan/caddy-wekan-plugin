@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Modifica impostazioni",
   "checklist": "Lista di controllo",
   "checklist-count": "Conteggio elementi checklist (0/0)",
+  "checklist-ding-sound": "Riproduci un suono quando un elemento della lista di controllo viene completato",
+  "checklist-ding-sound-description": "Riproduce un breve suono quando selezioni un elemento della lista di controllo. Disattivato per impostazione predefinita.",
   "checklist-from-description": "Checklist dalla descrizione",
   "checklist-item-assignee": "Chi è responsabile di questo elemento",
   "checklist-item-assignee-none": "Nessuno",

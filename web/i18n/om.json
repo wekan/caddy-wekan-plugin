@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Qindaa'inoota Jijjiiri",
   "checklist": "Tarree qorannoo",
   "checklist-count": "Lakkoofsa galmee tarree qorannoo (0/0)",
+  "checklist-ding-sound": "Sagalee taphachiisi yeroo tarreeffamni ilaalchaa xumurame",
+  "checklist-ding-sound-description": "Sagalee gabaabaa taphachiisa yeroo tarreeffama ilaalchaa mallatteessitu. Kan dhaabbii duraan dhaamsame.",
   "checklist-from-description": "Tarree mirkaneessaa ibsa irraa",
   "checklist-item-assignee": "Wanta kanaaf eenyutu itti gaafatamaa dha",
   "checklist-item-assignee-none": "Namni hin jiru",

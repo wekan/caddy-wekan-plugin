@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "設定の変更",
   "checklist": "チェックリスト",
   "checklist-count": "チェックリスト項目数(0/0)",
+  "checklist-ding-sound": "チェックリストの項目を完了したときに音を再生する",
+  "checklist-ding-sound-description": "チェックリストの項目にチェックを入れたときに短い「チーン」という音を再生します。デフォルトではオフです。",
   "checklist-from-description": "説明からチェックリスト",
   "checklist-item-assignee": "この項目の担当者",
   "checklist-item-assignee-none": "なし",

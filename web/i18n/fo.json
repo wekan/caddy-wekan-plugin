@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Broyt stillingar",
   "checklist": "Eftirkanningarlisti",
   "checklist-count": "Tal av liðum á kanningarlista (0/0)",
+  "checklist-ding-sound": "Spæl ein ljóð tá ein checklist-lutur verður liðugur",
+  "checklist-ding-sound-description": "Spælur eitt stutt ljóð, tá tú merkir ein checklist-lut sum liðugan. Sløkt sum sjálvvirkjandi.",
   "checklist-from-description": "Kanningarlisti úr lýsingini",
   "checklist-item-assignee": "Hvør hevur ábyrgdina av hesum liði",
   "checklist-item-assignee-none": "Eingin",

@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Midar ils parameters",
   "checklist": "Glista da controlla",
   "checklist-count": "Dumber d’elements da la glista da controlla (0/0)",
+  "checklist-ding-sound": "Sunar in tun cur ch'in element da la glista da controlla vegn cumplettà",
+  "checklist-ding-sound-description": "Sunar in tun curt cur ch'in element da la glista da controlla vegn marcà. Deactivà tenor standard.",
   "checklist-from-description": "Glista da controlla da la descripziun",
   "checklist-item-assignee": "Tgi ch'è responsabel per quest element",
   "checklist-item-assignee-none": "Nagin",

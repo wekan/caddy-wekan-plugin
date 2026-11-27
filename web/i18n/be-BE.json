@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Змяніць налады",
   "checklist": "Кантрольны спіс",
   "checklist-count": "Колькасць пунктаў кантрольнага спіса (0/0)",
+  "checklist-ding-sound": "Прайграваць гук пры выкананні пункта спіса",
+  "checklist-ding-sound-description": "Прайграваць кароткі гук пры адзначэнні пункта спіса задач. Па змаўчанні выключана.",
   "checklist-from-description": "Чэк-ліст з апісання",
   "checklist-item-assignee": "Хто адказны за гэты пункт",
   "checklist-item-assignee-none": "Ніхто",

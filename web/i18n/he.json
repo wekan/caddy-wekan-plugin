@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "שינוי הגדרות",
   "checklist": "רשימת מטלות",
   "checklist-count": "מספר פריטי רשימת מטלות (0/0)",
+  "checklist-ding-sound": "השמע צליל כאשר פריט ברשימת המשימות מסומן כהושלם",
+  "checklist-ding-sound-description": "משמיע צליל קצר כאשר אתם מסמנים פריט ברשימת המשימות. כבוי כברירת מחדל.",
   "checklist-from-description": "רשימת בדיקה מהתיאור",
   "checklist-item-assignee": "מי אחראי על פריט זה",
   "checklist-item-assignee-none": "אף אחד",

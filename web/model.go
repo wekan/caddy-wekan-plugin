@@ -174,6 +174,7 @@ type User struct {
 		SubmitOnEnter       bool `bson:"submitOnEnter,omitempty" json:"submitOnEnter,omitempty"`
 		TitleBracketLabel   bool `bson:"titleBracketLabel,omitempty" json:"titleBracketLabel,omitempty"`
 		KeepAddCardFormOpen bool `bson:"keepAddCardFormOpen,omitempty" json:"keepAddCardFormOpen,omitempty"`
+		ChecklistDingSound  bool `bson:"checklistDingSound,omitempty" json:"checklistDingSound,omitempty"`
 		HideFocusOutline    bool `bson:"hideFocusOutline,omitempty" json:"hideFocusOutline,omitempty"`
 		// ShowDesktopDragHandles: drag by a handle, not the whole item
 		// (WeKan's profile.showDesktopDragHandles).

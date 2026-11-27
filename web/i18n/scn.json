@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Cancia mpustazzzioni",
   "checklist": "Lista di cuntrollu",
   "checklist-count": "Cuntu dî elimenti dâ lista di cuntrollu (0/0)",
+  "checklist-ding-sound": "Sona un sonu quannu un elementu dâ lista di cuntrollu è cumplitatu",
+  "checklist-ding-sound-description": "Sona un sonu curtu quannu marchi un elementu dâ lista di cuntrollu. Disattivatu pi difettu.",
   "checklist-from-description": "Lista di cuntrollu dâ discrizzioni",
   "checklist-item-assignee": "Cu è rispunsàbbili di st'elementu",
   "checklist-item-assignee-none": "Nuddu",

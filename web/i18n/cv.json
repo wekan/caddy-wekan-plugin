@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Ӗнерлевсене улӑштарас",
   "checklist": "Тӗрӗслев списокӗ",
   "checklist-count": "Тӗрӗслев список пунктӗсен хисепӗ (0/0)",
+  "checklist-ding-sound": "Тӗрӗслев списокӗн пункчӗ пӗтнӗ чух сасӑ ярса пар",
+  "checklist-ding-sound-description": "Тӗрӗслев списокӗн пунктне паллӑ тунӑ чух кӗске сасӑ ярса пар. Тытӑмра сӳнтернӗ.",
   "checklist-from-description": "Ҫырса кӑтартнинчен тӗрӗслев списокӗ",
   "checklist-item-assignee": "Ку пункт валли кам яваплӑ",
   "checklist-item-assignee-none": "Никам та",

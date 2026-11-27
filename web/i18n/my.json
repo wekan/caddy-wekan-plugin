@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "ဆက်တင်များ ပြောင်းရန်",
   "checklist": "စစ်ဆေးရန်စာရင်း",
   "checklist-count": "စစ်ဆေးစာရင်းအချက် အရေအတွက် (0/0)",
+  "checklist-ding-sound": "စစ်ဆေးရေးစာရင်း အချက်အလက်ပြီးစီးသောအခါ အသံဖွင့်ပါ",
+  "checklist-ding-sound-description": "စစ်ဆေးရေးစာရင်း အချက်အလက်ကို အမှန်ခြစ်သောအခါ တိုတောင်းသောအသံကို ဖွင့်ပါသည်။ မူရင်းအနေဖြင့် ပိတ်ထားသည်။",
   "checklist-from-description": "ဖော်ပြချက်မှ စစ်ဆေးစာရင်း",
   "checklist-item-assignee": "ဤအရာအတွက် မည်သူတာဝန်ရှိသနည်း",
   "checklist-item-assignee-none": "မည်သူမျှမရှိ",

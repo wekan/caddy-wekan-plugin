@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Canbia łe inpostasion",
   "checklist": "Lista de controło",
   "checklist-count": "Conta de łe vozi de ła lista de controło (0/0)",
+  "checklist-ding-sound": "Sona un son co na voze de ła lista de controło ła xe finìa",
+  "checklist-ding-sound-description": "Sona un \"din\" curto co te segni na voze de ła lista de controło. Destacà de predefinìo.",
   "checklist-from-description": "Lista de controło da ła descrision",
   "checklist-item-assignee": "Chi xe responsabiłe de sto elemento",
   "checklist-item-assignee-none": "Nisuni",

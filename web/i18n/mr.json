@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "सेटिंग्ज बदला",
   "checklist": "तपासणी यादी",
   "checklist-count": "तपासणीसूची घटक संख्या (0/0)",
+  "checklist-ding-sound": "चेकलिस्ट आयटम पूर्ण झाल्यावर आवाज वाजवा",
+  "checklist-ding-sound-description": "चेकलिस्ट आयटम तपासताना एक छोटा आवाज वाजवते. डीफॉल्टनुसार बंद.",
   "checklist-from-description": "वर्णनातून चेकलिस्ट",
   "checklist-item-assignee": "या घटकासाठी कोण जबाबदार आहे",
   "checklist-item-assignee-none": "कोणीही नाही",

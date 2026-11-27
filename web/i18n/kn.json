@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಿ",
   "checklist": "ಪರಿಶೀಲನಾ ಪಟ್ಟಿ",
   "checklist-count": "ಪರಿಶೀಲನಾ ಪಟ್ಟಿಯ ಅಂಶಗಳ ಸಂಖ್ಯೆ (0/0)",
+  "checklist-ding-sound": "ಪರಿಶೀಲನಾ ಪಟ್ಟಿ ಐಟಂ ಪೂರ್ಣಗೊಂಡಾಗ ಧ್ವನಿಯನ್ನು ಪ್ಲೇ ಮಾಡಿ",
+  "checklist-ding-sound-description": "ಪರಿಶೀಲನಾ ಪಟ್ಟಿ ಐಟಂ ಅನ್ನು ಗುರುತಿಸಿದಾಗ ಸಣ್ಣ ಧ್ವನಿಯನ್ನು ಪ್ಲೇ ಮಾಡುತ್ತದೆ. ಡೀಫಾಲ್ಟ್ ಆಗಿ ಆಫ್ ಆಗಿದೆ.",
   "checklist-from-description": "ವಿವರಣೆಯಿಂದ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ",
   "checklist-item-assignee": "ಈ ಅಂಶಕ್ಕೆ ಯಾರು ಜವಾಬ್ದಾರರು",
   "checklist-item-assignee-none": "ಯಾರೂ ಇಲ್ಲ",

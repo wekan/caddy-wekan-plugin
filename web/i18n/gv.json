@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Caghlaa reighyn",
   "checklist": "Rolley scrutaghey",
   "checklist-count": "Earroo nheeghyn rolley scrutaghey (0/0)",
+  "checklist-ding-sound": "Cloie sheean tra ta reih-lettyrn checklist jeant",
+  "checklist-ding-sound-description": "Cloie sheean giare tra t'ou cur cross er reih-lettyr checklist. Ass jeh liorish daanjys.",
   "checklist-from-description": "Rolley veih yn coontey",
   "checklist-item-assignee": "Quoi ta currit da'n red shoh",
   "checklist-item-assignee-none": "Gyn peiagh",

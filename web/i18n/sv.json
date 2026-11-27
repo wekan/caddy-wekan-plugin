@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Ändra inställningar",
   "checklist": "Checklista",
   "checklist-count": "Antal checklistobjekt (0/0)",
+  "checklist-ding-sound": "Spela upp ett ljud när en checklisteobjekt slutförs",
+  "checklist-ding-sound-description": "Spelar upp ett kort pling-ljud när du bockar av ett checklisteobjekt. Avstängt som standard.",
   "checklist-from-description": "Checklista från beskrivningen",
   "checklist-item-assignee": "Vem är ansvarig för denna punkt",
   "checklist-item-assignee-none": "Ingen",

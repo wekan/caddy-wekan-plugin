@@ -985,6 +985,8 @@
   "changeSettingsPopup-title": "Verander instellings",
   "checklist": "Kontrolelys",
   "checklist-count": "Kontrolelys-itemtelling (0/0)",
+  "checklist-ding-sound": "Speel 'n klank wanneer 'n kontrolelys-item voltooi word",
+  "checklist-ding-sound-description": "Speel 'n kort klokkie wanneer jy 'n kontrolelysitem afmerk. Standaard af.",
   "checklist-from-description": "Kontrolelys uit beskrywing",
   "checklist-item-assignee": "Wie is verantwoordelik vir hierdie item",
   "checklist-item-assignee-none": "Niemand",
