@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Kweka byonna ebintu by'olukalala lw'okukebera",
   "edit-wip-limit": "Kyusa WIP Limit",
   "enable-wip-limit": "Sobozesa WIP Limit",
-  "soft-wip-limit": "Ekkomo eryangu ery'emirimu egikolebwa"
+  "soft-wip-limit": "Ekkomo eryangu ery'emirimu egikolebwa",
+  "move-reason": "Simbula ekaadi — Ennyonyola"
 }

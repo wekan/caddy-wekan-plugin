@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Skryť všetky položky checklistu",
   "edit-wip-limit": "Upraviť WIP limit",
   "enable-wip-limit": "Povoliť WIP limit",
-  "soft-wip-limit": "Mierny WIP limit"
+  "soft-wip-limit": "Mierny WIP limit",
+  "move-reason": "Dôvod presunu (nepovinné)"
 }

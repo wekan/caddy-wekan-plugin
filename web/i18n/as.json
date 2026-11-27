@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "সকলো চেকলিষ্ট বস্তু লুকুৱাওক",
   "edit-wip-limit": "WIP সীমা সম্পাদনা কৰক",
   "enable-wip-limit": "WIP সীমা সক্ষম কৰক",
-  "soft-wip-limit": "কোমল WIP সীমা"
+  "soft-wip-limit": "কোমল WIP সীমা",
+  "move-reason": "কাৰ্ড স্থানান্তৰ কৰক — বিৱৰণ"
 }

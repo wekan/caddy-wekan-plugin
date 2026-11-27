@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Ascunde toate elementele listelor de verificare",
   "edit-wip-limit": "Modifică limita lucrărilor în curs",
   "enable-wip-limit": "Activează limita lucrărilor în curs",
-  "soft-wip-limit": "Limită orientativă a lucrărilor în curs"
+  "soft-wip-limit": "Limită orientativă a lucrărilor în curs",
+  "move-reason": "Motivul mutării (opțional)"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Hisha ibiri ku rutonde rw'igenzura byose",
   "edit-wip-limit": "Hindura Urugero rwa WIP",
   "enable-wip-limit": "Koresha Urugero rwa WIP",
-  "soft-wip-limit": "Urugero rworoheje rwa WIP"
+  "soft-wip-limit": "Urugero rworoheje rwa WIP",
+  "move-reason": "Kwimura ikarita — Ibisobanuro"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Hemû hêmanên lîsteya kontrolê veşêre",
   "edit-wip-limit": "Sînorê WIP biguherîne",
   "enable-wip-limit": "Sînorê WIP çalak bike",
-  "soft-wip-limit": "Sînorê nerm ê WIP"
+  "soft-wip-limit": "Sînorê nerm ê WIP",
+  "move-reason": "Kartê bar bike — Danasîn"
 }

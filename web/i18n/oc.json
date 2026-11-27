@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Amagar totes los elements de la lista de contraròtle",
   "edit-wip-limit": "Modificar la WIP limit",
   "enable-wip-limit": "Activar la WIP limit",
-  "soft-wip-limit": "Leugièr WIP limit"
+  "soft-wip-limit": "Leugièr WIP limit",
+  "move-reason": "Bolegar la carta — Descripcion"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Galmeewwan tarree qorannoo hunda dhoksi",
   "edit-wip-limit": "Daangaa WIP Gulaali",
   "enable-wip-limit": "Daangaa WIP Bani",
-  "soft-wip-limit": "Daangaa WIP Laafaa"
+  "soft-wip-limit": "Daangaa WIP Laafaa",
+  "move-reason": "Kaardii jijjiiri — Ibsa"
 }

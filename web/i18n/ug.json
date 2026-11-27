@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "بارلىق تەكشۈرۈش تۈرلىرىنى يوشۇرۇڭ",
   "edit-wip-limit": "WIP چەكلىمىسىنى تەھرىرلەڭ",
   "enable-wip-limit": "WIP چەكلىمىسىنى قوزغىتىڭ",
-  "soft-wip-limit": "يۇمشاق WIP چەكلىمىسى"
+  "soft-wip-limit": "يۇمشاق WIP چەكلىمىسى",
+  "move-reason": "كارتا يۆتكەش — چۈشەندۈرۈش"
 }

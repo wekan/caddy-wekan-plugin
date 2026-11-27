@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Ocultar totz os elementos de la lista de verificación",
   "edit-wip-limit": "Cambiar el límite d'o trabajo en proceso",
   "enable-wip-limit": "Habilitar el límite d'o trabajo en proceso",
-  "soft-wip-limit": "Límite d'o trabajo en proceso flexible"
+  "soft-wip-limit": "Límite d'o trabajo en proceso flexible",
+  "move-reason": "Mover a tarcheta — Descripción"
 }

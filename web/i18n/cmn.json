@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "隐藏所有清单项目",
   "edit-wip-limit": "编辑在制品限制",
   "enable-wip-limit": "启用 WIP 限制",
-  "soft-wip-limit": "软在制品限制"
+  "soft-wip-limit": "软在制品限制",
+  "move-reason": "移动卡 — 描述"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Dölj alla objekt i checklistan",
   "edit-wip-limit": "Redigera WIP-gräns",
   "enable-wip-limit": "Aktivera WIP-gräns",
-  "soft-wip-limit": "Mjuk WIP-gräns"
+  "soft-wip-limit": "Mjuk WIP-gräns",
+  "move-reason": "Flytta kort — Beskrivning"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Sakrij sve stavke kontrolne liste",
   "edit-wip-limit": "Uredi WIP ograničenje",
   "enable-wip-limit": "Uključi WIP ograničenje",
-  "soft-wip-limit": "Meko WIP ograničenje"
+  "soft-wip-limit": "Meko WIP ograničenje",
+  "move-reason": "Premjesti karticu — Opis"
 }

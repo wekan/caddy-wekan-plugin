@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Catchî tos les cayets del djivêye di verifiaedje",
   "edit-wip-limit": "Candjî l' limite WIP",
   "enable-wip-limit": "Mete en alaedje li limite WIP",
-  "soft-wip-limit": "Limite WIP doûce"
+  "soft-wip-limit": "Limite WIP doûce",
+  "move-reason": "Råjhon do bodjaedje (optèn)"
 }

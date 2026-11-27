@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "جانچ فہرست کے تمام اجزا چھپائیں",
   "edit-wip-limit": "WIP حد میں ترمیم کریں",
   "enable-wip-limit": "WIP حد فعال کریں",
-  "soft-wip-limit": "نرم WIP حد"
+  "soft-wip-limit": "نرم WIP حد",
+  "move-reason": "منتقلی کی وجہ (اختیاری)"
 }

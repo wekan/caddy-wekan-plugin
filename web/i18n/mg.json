@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Afeno ny singa lisitra fanamarinana rehetra",
   "edit-wip-limit": "Ovay ny fetra WIP",
   "enable-wip-limit": "Alefaso ny fetra WIP",
-  "soft-wip-limit": "Fetra WIP malefaka"
+  "soft-wip-limit": "Fetra WIP malefaka",
+  "move-reason": "Antony famindrana (tsy voatery)"
 }

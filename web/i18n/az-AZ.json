@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Bütün yoxlama siyahısı elementlərini gizlədin",
   "edit-wip-limit": "WIP Limitini redaktə edin",
   "enable-wip-limit": "WIP Limitini aktivləşdirin",
-  "soft-wip-limit": "Yumşaq WIP Limiti"
+  "soft-wip-limit": "Yumşaq WIP Limiti",
+  "move-reason": "Kartı köçürün — Təsvir"
 }

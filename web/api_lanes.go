@@ -186,13 +186,18 @@ func (s *Server) crossBoardFields(ctx context.Context, u *User, card bson.M, fro
 
 // moveCardTo moves a card to a list and swimlane of another board, on top of
 // the list, and its comments, checklists and attachments with it (#6793).
-func (s *Server) moveCardTo(ctx context.Context, u *User, card bson.M, from, to *Board, swimlaneID, listID string) error {
+func (s *Server) moveCardTo(ctx context.Context, u *User, card bson.M, from, to *Board, swimlaneID, listID string, reasons ...string) error {
 	set, err := s.crossBoardFields(ctx, u, card, from, to)
 	if err != nil {
 		return err
 	}
 	set["boardId"], set["swimlaneId"], set["listId"] = to.ID, swimlaneID, listID
 	set["sort"], set["modifiedAt"] = s.topSort(ctx, to.ID, listID), time.Now().UTC()
+	reason := ""
+	if len(reasons) != 0 {
+		reason = reasons[0]
+		set["lastMoveReason"] = reason
+	}
 	// Its sprint and releases linked by name there, the rest of the board's
 	// own dropped (movedScrumMetadata), never pointing at the board left.
 	for k, v := range movedScrum(plain(card).(map[string]any), to.ID, s.scrumPlanningPair(ctx, from.ID, to.ID)) {
@@ -209,7 +214,7 @@ func (s *Server) moveCardTo(ctx context.Context, u *User, card bson.M, from, to 
 		bson.M{"$set": bson.M{"meta.boardId": to.ID, "meta.swimlaneId": swimlaneID, "meta.listId": listID}})
 	title, _ := card["title"].(string)
 	s.activity(ctx, u.ID, "moveCard", bson.M{"boardId": to.ID, "cardId": id, "cardTitle": title, "listId": listID, // inserted, not a filter
-		"swimlaneId": swimlaneID, "oldBoardId": from.ID, "oldListId": card["listId"], "oldSwimlaneId": card["swimlaneId"]})
+		"swimlaneId": swimlaneID, "oldBoardId": from.ID, "oldListId": card["listId"], "oldSwimlaneId": card["swimlaneId"], "moveReason": reason})
 	return nil
 }
 

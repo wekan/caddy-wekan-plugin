@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "ყველა საკონტროლო სიის ელემენტის დამალვა",
   "edit-wip-limit": "WIP ლიმიტის შესწორება",
   "enable-wip-limit": "გავააქტიუროთ WIP ლიმიტი",
-  "soft-wip-limit": "მსუბუქი WIP  შეზღუდვა"
+  "soft-wip-limit": "მსუბუქი WIP  შეზღუდვა",
+  "move-reason": "ბარათის გადატანა — აღწერა"
 }

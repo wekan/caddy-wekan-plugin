@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Sembunyikan semua item checklist",
   "edit-wip-limit": "Sunting Batas WIP",
   "enable-wip-limit": "Aktifkan Batas WIP",
-  "soft-wip-limit": "Batas WIP Lunak"
+  "soft-wip-limit": "Batas WIP Lunak",
+  "move-reason": "Pindahkan kartu — Deskripsi"
 }

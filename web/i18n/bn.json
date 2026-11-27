@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "যাচাইতালিকার সব আইটেম লুকান",
   "edit-wip-limit": "WIP সীমা সম্পাদনা করুন",
   "enable-wip-limit": "WIP সীমা চালু করুন",
-  "soft-wip-limit": "নমনীয় WIP সীমা"
+  "soft-wip-limit": "নমনীয় WIP সীমা",
+  "move-reason": "কার্ড সরান — বিবরণ"
 }

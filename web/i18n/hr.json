@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Sakrij sve stavke kontrolnog popisa",
   "edit-wip-limit": "Uredi WIP ograničenje",
   "enable-wip-limit": "Omogući WIP ograničenje",
-  "soft-wip-limit": "Meko WIP ograničenje"
+  "soft-wip-limit": "Meko WIP ograničenje",
+  "move-reason": "Razlog premještanja (neobvezno)"
 }

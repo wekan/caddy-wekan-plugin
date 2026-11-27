@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Barlag sanawynyň ähli elementlerini gizläň",
   "edit-wip-limit": "WIP çäklendirmesini redaktirläň",
   "enable-wip-limit": "WIP çäklendirmesini açyň",
-  "soft-wip-limit": "WIP ýumşak çäk"
+  "soft-wip-limit": "WIP ýumşak çäk",
+  "move-reason": "Kart göçüriň — Düşündiriş"
 }

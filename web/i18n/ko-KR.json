@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "모든 확인목록 항목 숨기기",
   "edit-wip-limit": "WIP 제한 변경",
   "enable-wip-limit": "WIP 제한 활성화",
-  "soft-wip-limit": "원만한 WIP 제한"
+  "soft-wip-limit": "원만한 WIP 제한",
+  "move-reason": "카드 이동 — 설명"
 }

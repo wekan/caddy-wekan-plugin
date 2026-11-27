@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Kache tout eleman lis verifikasyon",
   "edit-wip-limit": "Modifye limit WIP",
   "enable-wip-limit": "Aktive limit WIP",
-  "soft-wip-limit": "Limit WIP fleksib"
+  "soft-wip-limit": "Limit WIP fleksib",
+  "move-reason": "Rezon deplasman an (opsyonèl)"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Ẩn tất cả các mục checklist",
   "edit-wip-limit": "Chỉnh sửa giới hạn WIP",
   "enable-wip-limit": "Bật giới hạn WIP",
-  "soft-wip-limit": "Giới hạn Soft WIP"
+  "soft-wip-limit": "Giới hạn Soft WIP",
+  "move-reason": "Di chuyển Thẻ — Mô tả"
 }

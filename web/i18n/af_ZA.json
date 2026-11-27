@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Versteek alle kontrolelys-items",
   "edit-wip-limit": "Wysig WIP-limiet",
   "enable-wip-limit": "Aktiveer WIP-limiet",
-  "soft-wip-limit": "Sagte WIP-limiet"
+  "soft-wip-limit": "Sagte WIP-limiet",
+  "move-reason": "Beweeg kaart — Beskrywing"
 }

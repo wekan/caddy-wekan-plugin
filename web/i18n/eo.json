@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Kaŝi ĉiujn kontrollistajn erojn",
   "edit-wip-limit": "Redakti WIP-limon",
   "enable-wip-limit": "Ŝalti WIP-limon",
-  "soft-wip-limit": "Milda WIP-limo"
+  "soft-wip-limit": "Milda WIP-limo",
+  "move-reason": "Movi karton — Priskribo"
 }

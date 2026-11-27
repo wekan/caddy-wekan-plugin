@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Kuzhat holl elfennoù ar roll kontroll",
   "edit-wip-limit": "Kemmañ ar vevenn WIP",
   "enable-wip-limit": "Gweredekaat ar vevenn WIP",
-  "soft-wip-limit": "Lemit WIP lezher"
+  "soft-wip-limit": "Lemit WIP lezher",
+  "move-reason": "Dilec’hiañ ar gartenn — Deskrivadur"
 }

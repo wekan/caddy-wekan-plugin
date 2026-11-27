@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "ሁሉንም የማረጋገጫ ዝርዝር ንጥሎች ደብቅ",
   "edit-wip-limit": "የWIP ገደብን አርትዕ",
   "enable-wip-limit": "የWIP ገደብን አንቃ",
-  "soft-wip-limit": "ለስላሳ የWIP ገደብ"
+  "soft-wip-limit": "ለስላሳ የWIP ገደብ",
+  "move-reason": "ካርድ አንቀሳቅስ — መግለጫ"
 }

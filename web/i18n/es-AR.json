@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Ocultar todos los elementos de la lista de verificación",
   "edit-wip-limit": "Editar Lìmite de TEP",
   "enable-wip-limit": "Activar Límite TEP",
-  "soft-wip-limit": "Límite TEP suave"
+  "soft-wip-limit": "Límite TEP suave",
+  "move-reason": "Mover Tarjeta — Descripción"
 }

@@ -1945,5 +1945,6 @@
   "hideAllChecklistItems": "Az összes ellenőrzőlista-elem elrejtése",
   "edit-wip-limit": "WIP korlát szerkesztése",
   "enable-wip-limit": "WIP korlát engedélyezése",
-  "soft-wip-limit": "Gyenge WIP korlát"
+  "soft-wip-limit": "Gyenge WIP korlát",
+  "move-reason": "Kártya áthelyezése — Leírás"
 }

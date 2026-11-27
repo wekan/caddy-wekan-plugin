@@ -370,7 +370,7 @@ func TestMoveAndCopyCardPopups(t *testing.T) {
 	c, _ := w.s.AddCard(ctx, b, u, la.ID, sw(b.ID), "Alpha")
 	ann := w.client(t)
 	body(t, w.signIn(t, ann, "ann", "pw"))
-	if _, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID); !strings.Contains(html, "js-move-card") || !strings.Contains(html, ">1. A</option>") {
+	if _, html := get(t, ann, w.srv.URL+"/b/"+b.ID+"/"+b.Slug+"/"+c.ID); !strings.Contains(html, `id="move-card-reason"`) || !strings.Contains(html, "js-move-card") || !strings.Contains(html, ">1. A</option>") {
 		t.Fatal("Move and Copy, with the board's lists numbered")
 	}
 	post := func(cl *http.Client, verb string, v url.Values) int {
@@ -386,8 +386,24 @@ func TestMoveAndCopyCardPopups(t *testing.T) {
 		_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": id}).Decode(&x)
 		return x
 	}
-	if code := post(ann, "move-to", url.Values{"boardId": {b.ID}, "listId": {lb.ID}, "swimlaneId": {sw(b.ID)}}); code != http.StatusSeeOther || where(c.ID).ListID != lb.ID {
+	if code := post(ann, "move-to", url.Values{"boardId": {b.ID}, "listId": {lb.ID}, "swimlaneId": {sw(b.ID)}, "reason": {"Ready for review"}}); code != http.StatusSeeOther || where(c.ID).ListID != lb.ID {
 		t.Fatalf("moved within the board: %d", code)
+	}
+	if current := w.s.findDoc(ctx, "cards", bson.M{"_id": eq(c.ID)}); current["lastMoveReason"] != "Ready for review" {
+		t.Fatal("expected the move reason on the card")
+	}
+	var positionRows int
+	for _, row := range historyRows(t, w, b.ID) {
+		if row["entityId"] == c.ID && row["group"] == "position" {
+			positionRows++
+			content, _ := row["newContent"].(map[string]any)
+			if content["lastMoveReason"] != "Ready for review" {
+				t.Fatal("expected the reason in the position snapshot")
+			}
+		}
+	}
+	if positionRows != 1 {
+		t.Fatalf("position rows = %d", positionRows)
 	}
 	if code := post(ann, "move-to", url.Values{"boardId": {foreign.ID}, "listId": {lf.ID}}); code != http.StatusForbidden {
 		t.Fatalf("negative: a board not theirs to change: %d", code)

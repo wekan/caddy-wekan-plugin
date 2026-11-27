@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Folaigh gach mír seicliosta",
   "edit-wip-limit": "Cuir Teorainn WIP in Eagar",
   "enable-wip-limit": "Cumasaigh Teorainn WIP",
-  "soft-wip-limit": "Teorainn Bhog WIP"
+  "soft-wip-limit": "Teorainn Bhog WIP",
+  "move-reason": "Cúis leis an mbogadh (roghnach)"
 }

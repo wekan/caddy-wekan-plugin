@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Pata dintho tsohle tsa lenane la tlhahlobo",
   "edit-wip-limit": "Hlophisa moedi wa WIP",
   "enable-wip-limit": "Bulela moedi wa WIP",
-  "soft-wip-limit": "Moedi o bonolo wa WIP"
+  "soft-wip-limit": "Moedi o bonolo wa WIP",
+  "move-reason": "Lebaka la ho suthisa (boikhethelo)"
 }

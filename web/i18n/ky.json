@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Текшерүү тизмесинин бардык пункттарын жашыруу",
   "edit-wip-limit": "WIP чегин өзгөртүү",
   "enable-wip-limit": "WIP чегин иштетүү",
-  "soft-wip-limit": "Жумшак WIP чеги"
+  "soft-wip-limit": "Жумшак WIP чеги",
+  "move-reason": "Карточканы жылдыруу — Сүрөттөмө"
 }

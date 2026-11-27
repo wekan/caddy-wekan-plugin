@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Esconder todos os itens da lista de verificação",
   "edit-wip-limit": "Editar Limite WIP",
   "enable-wip-limit": "Habilitar Limite WIP",
-  "soft-wip-limit": "Limite de WIP"
+  "soft-wip-limit": "Limite de WIP",
+  "move-reason": "Mover Cartão — Descrição"
 }

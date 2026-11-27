@@ -1941,5 +1941,6 @@
   "hideAllChecklistItems": "Приховати всі пункти чек-листа",
   "edit-wip-limit": "Редагувати ліміт WIP",
   "enable-wip-limit": "Увімкнути ліміт WIP",
-  "soft-wip-limit": "М'який ліміт WIP"
+  "soft-wip-limit": "М'який ліміт WIP",
+  "move-reason": "Перемістити картку — Опис"
 }

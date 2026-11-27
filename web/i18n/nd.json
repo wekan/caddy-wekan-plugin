@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Fihla zonke izinto zohlu lokuhlola",
   "edit-wip-limit": "Hlela umkhawulo we-WIP",
   "enable-wip-limit": "Vumela umkhawulo we-WIP",
-  "soft-wip-limit": "Umkhawulo othambileyo we-WIP"
+  "soft-wip-limit": "Umkhawulo othambileyo we-WIP",
+  "move-reason": "Thuthela ikhadi — Incazelo"
 }

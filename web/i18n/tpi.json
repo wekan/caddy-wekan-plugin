@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Haitim olgeta samting long lis bilong sekim",
   "edit-wip-limit": "Senisim mak bilong WIP",
   "enable-wip-limit": "Larim mak bilong WIP i wok",
-  "soft-wip-limit": "Mak bilong WIP i givim tok lukaut tasol"
+  "soft-wip-limit": "Mak bilong WIP i givim tok lukaut tasol",
+  "move-reason": "As bilong muvim (i no mas putim)"
 }

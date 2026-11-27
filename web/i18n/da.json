@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Skjul alle tjeklisteelementer",
   "edit-wip-limit": "Redigér WIP-begrænsning",
   "enable-wip-limit": "Slå WIP-begrænsning til",
-  "soft-wip-limit": "Blød WIP-begrænsning"
+  "soft-wip-limit": "Blød WIP-begrænsning",
+  "move-reason": "Flyt kort — Beskrivelse"
 }

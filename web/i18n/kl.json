@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Misissuiffiusumi immikkoortut tamarmik isertukkit",
   "edit-wip-limit": "WIP-ip killissaa allanngortiguk",
   "enable-wip-limit": "WIP-ip killissaa atulersiguk",
-  "soft-wip-limit": "WIP-ip killissaa mianersoqqussutaasoq"
+  "soft-wip-limit": "WIP-ip killissaa mianersoqqussutaasoq",
+  "move-reason": "Kortsi nuuguk — Nassuiaat"
 }

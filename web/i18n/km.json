@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "លាក់ធាតុបញ្ជីត្រួតពិនិត្យទាំងអស់។",
   "edit-wip-limit": "កែសម្រួលដែនកំណត់ WIP",
   "enable-wip-limit": "បើកការកំណត់ WIP",
-  "soft-wip-limit": "ដែនកំណត់ WIP ទន់"
+  "soft-wip-limit": "ដែនកំណត់ WIP ទន់",
+  "move-reason": "ផ្លាស់ទីកាត — ការពិពណ៌នា"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "پنهان کردن همه موارد چک لیست",
   "edit-wip-limit": "ویرایش محدودیت WIP",
   "enable-wip-limit": "فعال کردن محدودیت WIP",
-  "soft-wip-limit": "محدودیت WIP نرم"
+  "soft-wip-limit": "محدودیت WIP نرم",
+  "move-reason": "حرکت کارت — توضیحات"
 }

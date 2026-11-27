@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Anubrir tolos elementos de la llista de comprobación",
   "edit-wip-limit": "Editar la llende del trabayu en cursu",
   "enable-wip-limit": "Activar la llende del trabayu en cursu",
-  "soft-wip-limit": "Llende flexible del trabayu en cursu"
+  "soft-wip-limit": "Llende flexible del trabayu en cursu",
+  "move-reason": "Mover la tarjeta — Descripción"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Fitlha tsotlhe dilo tsa lenaane la tlhatlhobo",
   "edit-wip-limit": "Fetola tekanyo ya WIP",
   "enable-wip-limit": "Kgontsha tekanyo ya WIP",
-  "soft-wip-limit": "Tekanyo e e bonolo ya WIP"
+  "soft-wip-limit": "Tekanyo e e bonolo ya WIP",
+  "move-reason": "Suthisa karata — Tlhaloso"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "ซ่อนรายการเช็คลิสต์ทั้งหมด",
   "edit-wip-limit": "แก้ไขขีดจำกัด WIP",
   "enable-wip-limit": "เปิดใช้ขีดจำกัด WIP",
-  "soft-wip-limit": "ขีดจำกัด WIP แบบยืดหยุ่น"
+  "soft-wip-limit": "ขีดจำกัด WIP แบบยืดหยุ่น",
+  "move-reason": "ย้ายการ์ด — คำอธิบาย"
 }

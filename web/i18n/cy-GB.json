@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Cuddio holl eitemau'r rhestr wirio",
   "edit-wip-limit": "Golygu Terfyn WIP",
   "enable-wip-limit": "Galluogi Terfyn WIP",
-  "soft-wip-limit": "Terfyn WIP Meddal"
+  "soft-wip-limit": "Terfyn WIP Meddal",
+  "move-reason": "Cerdyn Symud — Disgrifiad"
 }

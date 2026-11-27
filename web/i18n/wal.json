@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Paccissiya mazgabaa issibata ubbaa qotta",
   "edit-wip-limit": "WIP gaxaa laamma",
   "enable-wip-limit": "WIP gaxaa oottissa",
-  "soft-wip-limit": "Shemppiya WIP gaxaa"
+  "soft-wip-limit": "Shemppiya WIP gaxaa",
+  "move-reason": "Kaardiyaa laammissa — Qonccissuwaa"
 }

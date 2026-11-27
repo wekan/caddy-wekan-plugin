@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Peitä kaik kodvindlugetišen kohtad",
   "edit-wip-limit": "Vajehta WIP-röunad",
   "enable-wip-limit": "Avaida WIP-röun",
-  "soft-wip-limit": "Pehmed WIP-röun"
+  "soft-wip-limit": "Pehmed WIP-röun",
+  "move-reason": "Sirdä kart — Kirjutuz"
 }

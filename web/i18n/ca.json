@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Amaga tots els elements de la checklist",
   "edit-wip-limit": "Edita el Límit de Treball en Progrés",
   "enable-wip-limit": "Activa i Límit de Treball en Progrés",
-  "soft-wip-limit": "Límit Soft WIP"
+  "soft-wip-limit": "Límit Soft WIP",
+  "move-reason": "Moure fitxa — Descripció"
 }

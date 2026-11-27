@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Slėpti visus kontrolinio sąrašo elementus",
   "edit-wip-limit": "Redaguoti WIP limitą",
   "enable-wip-limit": "Įgalinti WIP limitą",
-  "soft-wip-limit": "Minkštas WIP limitas"
+  "soft-wip-limit": "Minkštas WIP limitas",
+  "move-reason": "Perkelti kortelę — Aprašymas"
 }

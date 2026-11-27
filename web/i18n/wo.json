@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Nëbb mbiri limu bu seetlu bi yépp",
   "edit-wip-limit": "Soppi WIP Limit",
   "enable-wip-limit": "Moom WIP Limit",
-  "soft-wip-limit": "Kemu WIP bu nooy"
+  "soft-wip-limit": "Kemu WIP bu nooy",
+  "move-reason": "Yóbbu karta — Melokaan"
 }

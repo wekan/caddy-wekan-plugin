@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "إخفاء جميع عناصر قائمة التحقق",
   "edit-wip-limit": "تعديل حد العمل الجاري (WIP)",
   "enable-wip-limit": "تفعيل حد العمل الجاري (WIP)",
-  "soft-wip-limit": "حد العمل الجاري المرن (WIP)"
+  "soft-wip-limit": "حد العمل الجاري المرن (WIP)",
+  "move-reason": "نقل البطاقة — وصف"
 }

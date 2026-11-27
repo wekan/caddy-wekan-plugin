@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "ᏂᎦᏛ ᏗᎪᏪᎵ ᎢᎦᏛ ᏗᏍᎦᏍᏗ",
   "edit-wip-limit": "WIP ᎢᎦᎢ ᎦᏁᏟᏴᏍᏗ",
   "enable-wip-limit": "WIP ᎢᎦᎢ ᎤᏍᏚᎢᏍᏗ",
-  "soft-wip-limit": "ᎤᏍᏗ WIP ᎢᎦᎢ"
+  "soft-wip-limit": "ᎤᏍᏗ WIP ᎢᎦᎢ",
+  "move-reason": "ᎪᏪᎵ ᎯᏘᏅᏍᏓ — ᎧᏃᎮᏗ"
 }

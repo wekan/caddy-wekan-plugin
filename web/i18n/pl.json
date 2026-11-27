@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Ukryj wszystkie pozycje checklisty",
   "edit-wip-limit": "Zmień limit kart na liście",
   "enable-wip-limit": "Włącz limit kart na liście",
-  "soft-wip-limit": "Pozwól na nadmiarowe karty na liście"
+  "soft-wip-limit": "Pozwól na nadmiarowe karty na liście",
+  "move-reason": "Przenieś kartę — Opis"
 }

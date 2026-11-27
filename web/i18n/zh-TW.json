@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "隱藏所有待辦清單項目",
   "edit-wip-limit": "編輯 WIP 限制",
   "enable-wip-limit": "啟用 WIP 限制",
-  "soft-wip-limit": "軟性 WIP 限制"
+  "soft-wip-limit": "軟性 WIP 限制",
+  "move-reason": "移動卡片 — 描述"
 }

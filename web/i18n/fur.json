@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Plate gli elementi de lista di controllo",
   "edit-wip-limit": "Modifiche limite Work In Progress",
   "enable-wip-limit": "Abilite il limit WIP",
-  "soft-wip-limit": "Limit WIP morbit"
+  "soft-wip-limit": "Limit WIP morbit",
+  "move-reason": "Sposte la cjarte — Descrizion"
 }

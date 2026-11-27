@@ -142,16 +142,21 @@ func (s *Server) moveCardToPage(w http.ResponseWriter, r *http.Request, u *User)
 		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
 		return
 	}
+	reason := strings.TrimSpace(r.PostForm.Get("reason"))
+	if len(reason) > 4096 || strings.ContainsRune(reason, 0) {
+		http.Error(w, "Invalid move reason", http.StatusBadRequest)
+		return
+	}
 	ctx := r.Context()
 	if to.ID == b.ID {
-		if err := s.MoveCards(ctx, b, u, []Move{{CardID: c.ID, ListID: listID, SwimlaneID: swimlaneID, Sort: s.topSort(ctx, b.ID, listID)}}); err != nil {
+		if err := s.MoveCards(ctx, b, u, []Move{{CardID: c.ID, ListID: listID, SwimlaneID: swimlaneID, Sort: s.topSort(ctx, b.ID, listID), reason: &reason}}); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 	} else if s.refuseInList(ctx, to, listID, u, "moveCard", "list-locked:move-into") {
 		http.Error(w, "your role cannot add cards to that list", http.StatusForbidden)
 		return
-	} else if err := s.moveCardTo(ctx, u, raw, b, to, swimlaneID, listID); err != nil {
+	} else if err := s.moveCardTo(ctx, u, raw, b, to, swimlaneID, listID, reason); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}

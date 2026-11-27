@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Fela öll gátlistaatriði",
   "edit-wip-limit": "Breyta WIP-mörkum",
   "enable-wip-limit": "Virkja WIP-mörk",
-  "soft-wip-limit": "Mjúk WIP-mörk"
+  "soft-wip-limit": "Mjúk WIP-mörk",
+  "move-reason": "Færa spjald — Lýsing"
 }

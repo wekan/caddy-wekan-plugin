@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Falaich gach nì air an liosta-sgrùdaidh",
   "edit-wip-limit": "Deasaich Crìoch WIP",
   "enable-wip-limit": "Dèan Crìoch WIP Comasach",
-  "soft-wip-limit": "Crìoch Bhog WIP"
+  "soft-wip-limit": "Crìoch Bhog WIP",
+  "move-reason": "Adhbhar a’ ghluasaid (roghainneil)"
 }

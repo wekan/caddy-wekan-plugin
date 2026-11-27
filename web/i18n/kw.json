@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Kudha pub taklen an rol checkya",
   "edit-wip-limit": "Chanjya fin WIP",
   "enable-wip-limit": "Ena fin WIP",
-  "soft-wip-limit": "Fin WIP medhel"
+  "soft-wip-limit": "Fin WIP medhel",
+  "move-reason": "Gwaya an garten — Deskrifans"
 }

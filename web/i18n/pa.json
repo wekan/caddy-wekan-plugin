@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "ਸਾਰੀਆਂ ਚੈੱਕਲਿਸਟ ਆਈਟਮਾਂ ਨੂੰ ਲੁਕਾਓ",
   "edit-wip-limit": "WIP ਸੀਮਾ ਦਾ ਸੰਪਾਦਨ ਕਰੋ",
   "enable-wip-limit": "WIP ਸੀਮਾ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ",
-  "soft-wip-limit": "ਸਾਫਟ WIP ਸੀਮਾ"
+  "soft-wip-limit": "ਸਾਫਟ WIP ਸੀਮਾ",
+  "move-reason": "ਮੂਵ ਕਾਰਡ — ਵਰਣਨ"
 }

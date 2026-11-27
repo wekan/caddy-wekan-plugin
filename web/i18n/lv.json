@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Paslēpt visus kontrolsaraksta vienumus",
   "edit-wip-limit": "Labot WIP limitu",
   "enable-wip-limit": "Ieslēgt WIP limitu",
-  "soft-wip-limit": "Maigais WIP limits"
+  "soft-wip-limit": "Maigais WIP limits",
+  "move-reason": "Pārvietot kartiņu — Apraksts"
 }

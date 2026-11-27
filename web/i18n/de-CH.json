@@ -1945,5 +1945,6 @@
   "hideAllChecklistItems": "Verberge alle Checklisteneinträge",
   "edit-wip-limit": "WIP-Limit bearbeiten",
   "enable-wip-limit": "WIP-Limit einschalten",
-  "soft-wip-limit": "Soft WIP-Limit"
+  "soft-wip-limit": "Soft WIP-Limit",
+  "move-reason": "Karte verschieben — Beschreibung"
 }

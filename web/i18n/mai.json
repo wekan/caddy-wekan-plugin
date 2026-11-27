@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "सभ जाँचसूची मद नुकाउ",
   "edit-wip-limit": "WIP सीमा संपादित करू",
   "enable-wip-limit": "WIP सीमा सक्षम करू",
-  "soft-wip-limit": "नरम WIP सीमा"
+  "soft-wip-limit": "नरम WIP सीमा",
+  "move-reason": "कार्ड घसकाउ — विवरण"
 }

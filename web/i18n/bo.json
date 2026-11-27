@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "ཞིབ་ཐོའི་རྣམ་གྲངས་ཚང་མ་སྦས།",
   "edit-wip-limit": "WIP ཚད་རྩོམ་སྒྲིག",
   "enable-wip-limit": "WIP ཚད་སྤྱོད་ཐུབ་བཟོ།",
-  "soft-wip-limit": "མཉེན་པའི་ WIP ཚད།"
+  "soft-wip-limit": "མཉེན་པའི་ WIP ཚད།",
+  "move-reason": "ཤོག་བྱང་སྤོ་བ། — འགྲེལ་བཤད།"
 }

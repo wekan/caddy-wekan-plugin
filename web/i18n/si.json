@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "සියලු පිරික්සුම් ලැයිස්තු අයිතම සඟවන්න",
   "edit-wip-limit": "WIP සීමාව සංස්කරණය කරන්න",
   "enable-wip-limit": "WIP සීමාව සක්‍රිය කරන්න",
-  "soft-wip-limit": "මෘදු WIP සීමාව"
+  "soft-wip-limit": "මෘදු WIP සීමාව",
+  "move-reason": "කාඩ්පත ගෙනයන්න — විස්තරය"
 }

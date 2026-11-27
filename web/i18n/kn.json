@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "ಎಲ್ಲ ಪರಿಶೀಲನಾ ಪಟ್ಟಿಯ ಅಂಶಗಳನ್ನು ಮರೆಮಾಡಿ",
   "edit-wip-limit": "WIP ಮಿತಿ ಸಂಪಾದಿಸಿ",
   "enable-wip-limit": "WIP ಮಿತಿ ಸಕ್ರಿಯಗೊಳಿಸಿ",
-  "soft-wip-limit": "ಮೃದು WIP ಮಿತಿ"
+  "soft-wip-limit": "ಮೃದು WIP ಮಿತಿ",
+  "move-reason": "ಕಾರ್ಡ್ ಸರಿಸಿ — ವಿವರಣೆ"
 }

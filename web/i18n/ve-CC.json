@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Scondi tute łe vozi de ła lista de controło",
   "edit-wip-limit": "Canbia el łimite WIP",
   "enable-wip-limit": "Ativa el łimite WIP",
-  "soft-wip-limit": "Łimite WIP no vincołante"
+  "soft-wip-limit": "Łimite WIP no vincołante",
+  "move-reason": "Motivo del spostamento (facoltativo)"
 }

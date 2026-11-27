@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "د کتنليک ټول توکي پټ کړئ",
   "edit-wip-limit": "د WIP حد سم کړئ",
   "enable-wip-limit": "د WIP حد چالان کړئ",
-  "soft-wip-limit": "نرم WIP حد"
+  "soft-wip-limit": "نرم WIP حد",
+  "move-reason": "کارت لېږدول — تشريح"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Dzumba zwithu zwoṱhe zwa mutevhe wa u sedza",
   "edit-wip-limit": "Khwinisa mukano wa WIP",
   "enable-wip-limit": "Tendela mukano wa WIP",
-  "soft-wip-limit": "Mukano wa WIP u sa kombetshedzi"
+  "soft-wip-limit": "Mukano wa WIP u sa kombetshedzi",
+  "move-reason": "Tshiitisi tsha u pfulusa (a zwi kombetshedzwi)"
 }

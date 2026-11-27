@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "הסתרת כל הפריטים ברשימת המטלות",
   "edit-wip-limit": "עריכת מגבלת „בעבודה”",
   "enable-wip-limit": "הפעלת מגבלת „בעבודה”",
-  "soft-wip-limit": "מגבלת „בעבודה” רכה"
+  "soft-wip-limit": "מגבלת „בעבודה” רכה",
+  "move-reason": "העברת כרטיס — תיאור"
 }

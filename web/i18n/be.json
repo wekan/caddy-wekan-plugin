@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Схаваць усе пункты кантрольнага спіса",
   "edit-wip-limit": "Рэдагаваць ліміт WIP",
   "enable-wip-limit": "Уключыць ліміт WIP",
-  "soft-wip-limit": "Мяккі ліміт WIP"
+  "soft-wip-limit": "Мяккі ліміт WIP",
+  "move-reason": "Перамясціць картку — Апісанне"
 }

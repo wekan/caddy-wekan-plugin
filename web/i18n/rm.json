@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Zuppentar tut ils elements da la glista da controlla",
   "edit-wip-limit": "Modifitgar la limita WIP",
   "enable-wip-limit": "Activar la limita WIP",
-  "soft-wip-limit": "Limita WIP flexibla"
+  "soft-wip-limit": "Limita WIP flexibla",
+  "move-reason": "Motiv dal spustament (facultativ)"
 }

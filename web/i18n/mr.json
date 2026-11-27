@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "सर्व तपासणीसूची घटक लपवा",
   "edit-wip-limit": "WIP मर्यादा संपादित करा",
   "enable-wip-limit": "WIP मर्यादा सक्षम करा",
-  "soft-wip-limit": "लवचिक WIP मर्यादा"
+  "soft-wip-limit": "लवचिक WIP मर्यादा",
+  "move-reason": "कार्ड हलवा — वर्णन"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Verberge all Checklisteneinträge",
   "edit-wip-limit": "WIP-Limit beaarbechten",
   "enable-wip-limit": "WIP-Limit aschalten",
-  "soft-wip-limit": "Mëllt WIP-Limit"
+  "soft-wip-limit": "Mëllt WIP-Limit",
+  "move-reason": "Kaart réckelen — Beschreiwung"
 }

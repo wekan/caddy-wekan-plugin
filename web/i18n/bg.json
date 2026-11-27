@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Скриване на всички елементи от чеклиста",
   "edit-wip-limit": "Промени WIP лимита",
   "enable-wip-limit": "Включи WIP лимита",
-  "soft-wip-limit": "\"Мек\" WIP лимит"
+  "soft-wip-limit": "\"Мек\" WIP лимит",
+  "move-reason": "Премести картата — Описание"
 }

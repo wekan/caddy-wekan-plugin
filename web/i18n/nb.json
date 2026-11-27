@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Skjul alle sjekklisteelementer",
   "edit-wip-limit": "Endre WIP grense",
   "enable-wip-limit": "Aktiver WIP-begrensning",
-  "soft-wip-limit": "Myk WIP-begrensning"
+  "soft-wip-limit": "Myk WIP-begrensning",
+  "move-reason": "Flytt Kort — Beskrivelse"
 }

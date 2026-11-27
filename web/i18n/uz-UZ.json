@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Tekshirish roʻyxatining barcha elementlarini yashirish",
   "edit-wip-limit": "WIP chegarasini tahrirlash",
   "enable-wip-limit": "WIP chegarasini yoqing",
-  "soft-wip-limit": "Yumshoq WIP chegarasi"
+  "soft-wip-limit": "Yumshoq WIP chegarasi",
+  "move-reason": "Kartani ko'chirish — Tavsif"
 }

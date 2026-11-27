@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Agochar todos os elementos da lista de verificación",
   "edit-wip-limit": "Editar o límite WIP",
   "enable-wip-limit": "Activar o límite WIP",
-  "soft-wip-limit": "Límite WIP flexible"
+  "soft-wip-limit": "Límite WIP flexible",
+  "move-reason": "Mover tarxeta — Descrición"
 }

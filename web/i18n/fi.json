@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Piilota kaikki tarkistuslistan kohdat",
   "edit-wip-limit": "Muokkaa WIP-rajaa",
   "enable-wip-limit": "Ota käyttöön WIP-raja",
-  "soft-wip-limit": "Pehmeä WIP-raja"
+  "soft-wip-limit": "Pehmeä WIP-raja",
+  "move-reason": "Siirron syy (valinnainen)"
 }

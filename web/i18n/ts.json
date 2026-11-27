@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "fihla hinkwavo nxaxamelo wo kambela mhaka",
   "edit-wip-limit": "Lulamisa Ndzilakano wa WIP",
   "enable-wip-limit": "Pfula Ndzilakano wa WIP",
-  "soft-wip-limit": "Ndzelekano wo olova wa WIP"
+  "soft-wip-limit": "Ndzelekano wo olova wa WIP",
+  "move-reason": "Rhurhisa khadi — Nhlamuselo"
 }

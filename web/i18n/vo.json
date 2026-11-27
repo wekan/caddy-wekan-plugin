@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Klänedön notetis valik kontrolaliseda",
   "edit-wip-limit": "Redakön miedi WIP",
   "enable-wip-limit": "Aktivükön miedi WIP",
-  "soft-wip-limit": "Mied WIP molik"
+  "soft-wip-limit": "Mied WIP molik",
+  "move-reason": "Kod mufa (no zesüdik)"
 }

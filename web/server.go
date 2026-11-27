@@ -1695,6 +1695,7 @@ type Move struct {
 	ListID     string  `json:"listId"`
 	SwimlaneID string  `json:"swimlaneId"`
 	Sort       float64 `json:"sort"`
+	reason     *string
 }
 
 // MoveCards moves many cards at once - MultiDrag: every finger its own card - each
@@ -1722,8 +1723,13 @@ func (s *Server) MoveCards(ctx context.Context, b *Board, u *User, moves []Move)
 			old.ListID != m.ListID && s.refuseInList(ctx, b, m.ListID, u, "moveCard", "list-locked:move-into")) {
 			return errForbidden
 		}
-		res, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": eq(m.CardID), "boardId": b.ID},
-			bson.M{"$set": bson.M{"listId": m.ListID, "swimlaneId": m.SwimlaneID, "sort": m.Sort, "modifiedAt": time.Now().UTC()}})
+		set := bson.M{"listId": m.ListID, "swimlaneId": m.SwimlaneID, "sort": m.Sort, "modifiedAt": time.Now().UTC()}
+		reason := ""
+		if m.reason != nil {
+			reason = *m.reason
+			set["lastMoveReason"] = reason
+		}
+		res, err := s.cardsUpdateOne(ctx, u.ID, bson.M{"_id": eq(m.CardID), "boardId": b.ID}, bson.M{"$set": set})
 		if err != nil {
 			return err
 		}
@@ -1734,7 +1740,7 @@ func (s *Server) MoveCards(ctx context.Context, b *Board, u *User, moves []Move)
 			s.activity(ctx, u.ID, "moveCard", bson.M{"boardId": b.ID, "cardId": old.ID, "cardTitle": old.Title,
 				"oldListId": old.ListID, "listId": m.ListID, "listName": s.titleOfID(ctx, "lists", m.ListID),
 				"oldSwimlaneId": old.SwimlaneID, "swimlaneId": m.SwimlaneID, "swimlaneName": s.titleOfID(ctx, "swimlanes", m.SwimlaneID),
-				"moveReason": ""})
+				"moveReason": reason})
 		}
 	}
 	return nil

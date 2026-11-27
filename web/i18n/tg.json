@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Пинҳон кардани ҳамаи бандҳои рӯйхати санҷиш",
   "edit-wip-limit": "Таҳрири ҳадди WIP",
   "enable-wip-limit": "Фаъол кардани ҳадди WIP",
-  "soft-wip-limit": "Ҳадди нарми WIP"
+  "soft-wip-limit": "Ҳадди нарми WIP",
+  "move-reason": "Кортро кӯчонидан — Тавсиф"
 }

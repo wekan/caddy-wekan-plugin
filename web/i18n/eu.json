@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Ezkutatu kontrol-zerrendako elementu guztiak",
   "edit-wip-limit": "WIP muga editatu",
   "enable-wip-limit": "WIP muga gaitu",
-  "soft-wip-limit": "WIP muga malgua"
+  "soft-wip-limit": "WIP muga malgua",
+  "move-reason": "Lekuz aldatu txartela — Deskripzioa"
 }

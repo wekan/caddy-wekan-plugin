@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Skonde tur e elementos di e lista di chèk",
   "edit-wip-limit": "Kambia e límite di e trabaho den proseso",
   "enable-wip-limit": "Habilitá e límite di e trabaho den proseso",
-  "soft-wip-limit": "Límite di e trabaho den proseso flexible"
+  "soft-wip-limit": "Límite di e trabaho den proseso flexible",
+  "move-reason": "Move e karchi — Deskripshon"
 }

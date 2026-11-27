@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Tüm checklist öğelerini gizle",
   "edit-wip-limit": "Devam Eden İş Sınırını Düzenle",
   "enable-wip-limit": "Devam Eden İş Sınırını Aç",
-  "soft-wip-limit": "Zayıf Devam Eden İş Sınırı"
+  "soft-wip-limit": "Zayıf Devam Eden İş Sınırı",
+  "move-reason": "Kartı taşı — Açıklama"
 }

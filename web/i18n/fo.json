@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Fjal øll lið á kanningarlista",
   "edit-wip-limit": "Broyt WIP-mark",
   "enable-wip-limit": "Virkja WIP-mark",
-  "soft-wip-limit": "Bleytt WIP-mark"
+  "soft-wip-limit": "Bleytt WIP-mark",
+  "move-reason": "Flyt kortið — Lýsing"
 }

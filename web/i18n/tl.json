@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Itago lahat aytem ng tsek-listahanahans",
   "edit-wip-limit": "I-edit WIP Limitasyon",
   "enable-wip-limit": "Paganahin WIP Limitasyon",
-  "soft-wip-limit": "Soft WIP Limitasyon"
+  "soft-wip-limit": "Soft WIP Limitasyon",
+  "move-reason": "Ilipat ang kard — Paglalarawan"
 }

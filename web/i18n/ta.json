@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "அனைத்துச் சரிபார்ப்புப் பட்டியல் உருப்படிகளையும் மறை",
   "edit-wip-limit": "WIP வரம்பைத் திருத்து",
   "enable-wip-limit": "WIP வரம்பை இயக்கு",
-  "soft-wip-limit": "மென் WIP வரம்பு"
+  "soft-wip-limit": "மென் WIP வரம்பு",
+  "move-reason": "அட்டையை நகர்த்து — விவரம்"
 }

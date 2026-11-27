@@ -1941,5 +1941,6 @@
   "hideAllChecklistItems": "Cacher tous les éléments de la check-list",
   "edit-wip-limit": "Éditer la limite WIP",
   "enable-wip-limit": "Activer la limite WIP",
-  "soft-wip-limit": "Limite WIP douce"
+  "soft-wip-limit": "Limite WIP douce",
+  "move-reason": "Déplacer la carte — Texte descriptif"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Шалгалтын жагсаалтын бүхы зүйлнүүдые нюуха",
   "edit-wip-limit": "WIP хизаар заһаха",
   "enable-wip-limit": "WIP хизаар асааха",
-  "soft-wip-limit": "Зөөлэн WIP хизаар"
+  "soft-wip-limit": "Зөөлэн WIP хизаар",
+  "move-reason": "Карточко зөөхэ — Тайлбари"
 }

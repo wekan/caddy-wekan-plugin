@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "सभ जाँच-सूची मद छिपाईं",
   "edit-wip-limit": "चालू काम के सीमा संपादित करीं",
   "enable-wip-limit": "चालू काम के सीमा चालू करीं",
-  "soft-wip-limit": "नरम चालू काम सीमा"
+  "soft-wip-limit": "नरम चालू काम सीमा",
+  "move-reason": "कार्ड ले जाईं — विवरण"
 }

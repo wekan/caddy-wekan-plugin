@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Xiquintlaati mochtin tlanextiliztocatlahtolli tlamantli",
   "edit-wip-limit": "Xicpatla WIP nepantlaliztli",
   "enable-wip-limit": "Xicpatlahua WIP nepantlaliztli",
-  "soft-wip-limit": "Yolic WIP nepantlaliztli"
+  "soft-wip-limit": "Yolic WIP nepantlaliztli",
+  "move-reason": "Xicolini amatlapalli — Tlahtolli"
 }

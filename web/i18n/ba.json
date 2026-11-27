@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Бөтә тикшереү исемлеге элементтарын йәшерергә",
   "edit-wip-limit": "WIP сикләүен үҙгәртергә",
   "enable-wip-limit": "WIP сикләүен ҡабыҙырға",
-  "soft-wip-limit": "Йомшаҡ WIP сикләүе"
+  "soft-wip-limit": "Йомшаҡ WIP сикләүе",
+  "move-reason": "Карточканы күсереү — Тасуирлама"
 }

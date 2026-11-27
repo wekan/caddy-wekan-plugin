@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Hide all checklist items",
   "edit-wip-limit": "Edit WIP Limit",
   "enable-wip-limit": "Enable WIP Limit",
-  "soft-wip-limit": "Soft WIP Limit"
+  "soft-wip-limit": "Soft WIP Limit",
+  "move-reason": "Move Card — Description"
 }

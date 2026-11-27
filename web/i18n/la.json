@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Cela omnes res indicis probationis",
   "edit-wip-limit": "Muta limitem WIP",
   "enable-wip-limit": "Activa limitem WIP",
-  "soft-wip-limit": "Limes WIP flexibilis"
+  "soft-wip-limit": "Limes WIP flexibilis",
+  "move-reason": "Chartam move — Descriptio"
 }

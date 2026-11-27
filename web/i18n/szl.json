@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Skryj wszyskie pozycje checklisty",
   "edit-wip-limit": "Zmiyn limit kart na liście",
   "enable-wip-limit": "Załōncz limit kart na liście",
-  "soft-wip-limit": "Miynkki limit WIP"
+  "soft-wip-limit": "Miynkki limit WIP",
+  "move-reason": "Przeniyś karta — Ôpis"
 }

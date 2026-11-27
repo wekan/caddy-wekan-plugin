@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Тексеру тізімінің барлық тармақтарын жасыру",
   "edit-wip-limit": "WIP шегін өзгерту",
   "enable-wip-limit": "WIP шегін қосу",
-  "soft-wip-limit": "Жұмсақ WIP шегі"
+  "soft-wip-limit": "Жұмсақ WIP шегі",
+  "move-reason": "Карточканы жылжыту — Сипаттама"
 }

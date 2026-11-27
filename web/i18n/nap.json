@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Annascunne 'e elemente d' 'a lista 'e cuntrollo",
   "edit-wip-limit": "Cagna limite Work In Progress",
   "enable-wip-limit": "Attiva 'o limite WIP",
-  "soft-wip-limit": "Limite WIP nun vincolante"
+  "soft-wip-limit": "Limite WIP nun vincolante",
+  "move-reason": "Sposta 'a carta — Descrizzione"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Cua totu sos elementos de sa lista de controllu",
   "edit-wip-limit": "Modìfica su lìmite WIP",
   "enable-wip-limit": "Ativa su lìmite WIP",
-  "soft-wip-limit": "Lìmite WIP lèbiu"
+  "soft-wip-limit": "Lìmite WIP lèbiu",
+  "move-reason": "Resone de su tramudu (optzionale)"
 }

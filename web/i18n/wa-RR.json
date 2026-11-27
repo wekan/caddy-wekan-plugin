@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Itago an ngatanan nga item han checklist",
   "edit-wip-limit": "I-edit an WIP Limit",
   "enable-wip-limit": "I-enable an WIP Limit",
-  "soft-wip-limit": "Diri istrikto nga utlanan han nagpapadayon nga buruhaton"
+  "soft-wip-limit": "Diri istrikto nga utlanan han nagpapadayon nga buruhaton",
+  "move-reason": "Ibalhin an Card — Deskripsyon"
 }

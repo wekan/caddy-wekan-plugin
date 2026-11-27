@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Тӗрӗслев списокӗн пур пунктне пытӑрас",
   "edit-wip-limit": "WIP чиккине улӑштарас",
   "enable-wip-limit": "WIP чиккине хутас",
-  "soft-wip-limit": "Ҫемҫе WIP чикки"
+  "soft-wip-limit": "Ҫемҫе WIP чикки",
+  "move-reason": "Карточкӑна куҫарас — Ӑнлантару"
 }

@@ -841,6 +841,8 @@
           button.primary.wide(type="submit") {{t $.L "create"}}
       template.js-pop-over-template(data-pop="move-card", data-title="{{t $.L `moveCardPopup-title`}}")
         form.js-card-target(method="post", action="/b/{{.Board.ID}}/cards/{{.Card.ID}}/move-to", up-submit, up-target=".board-wrapper", up-history="true")
+          label(for="move-card-reason") {{t $.L "move-reason"}}
+          input#move-card-reason(name="reason", maxlength="1000")
           label {{t $.L "boards"}}
           select.js-select-boards(name="boardId")
             each tb in .TargetBoards

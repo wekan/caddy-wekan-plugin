@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "તમામ ચેકલિસ્ટ વસ્તુઓ છુપાવો",
   "edit-wip-limit": "WIP મર્યાદા સંપાદિત કરો",
   "enable-wip-limit": "WIP મર્યાદા સક્ષમ કરો",
-  "soft-wip-limit": "સોફ્ટ WIP મર્યાદા"
+  "soft-wip-limit": "સોફ્ટ WIP મર્યાદા",
+  "move-reason": "કાર્ડ ખસેડો — વર્ણન"
 }

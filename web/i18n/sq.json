@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Fshih të gjithë elementet e listës së kontrollit",
   "edit-wip-limit": "Redakto kufirin WIP",
   "enable-wip-limit": "Aktivizo kufirin WIP",
-  "soft-wip-limit": "Kufiri i butë WIP"
+  "soft-wip-limit": "Kufiri i butë WIP",
+  "move-reason": "Zhvendos kartën — Përshkrimi"
 }

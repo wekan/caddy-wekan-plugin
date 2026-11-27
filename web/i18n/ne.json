@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "सबै जाँचसूची वस्तुहरू लुकाउनुहोस्",
   "edit-wip-limit": "WIP सीमा सम्पादन गर्नुहोस्",
   "enable-wip-limit": "WIP सीमा सक्षम गर्नुहोस्",
-  "soft-wip-limit": "लचिलो WIP सीमा"
+  "soft-wip-limit": "लचिलो WIP सीमा",
+  "move-reason": "कार्ड सार्नुहोस् — विवरण"
 }

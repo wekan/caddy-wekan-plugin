@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Haedem evri samting long jeklis",
   "edit-wip-limit": "Jenisim Limit blong WIP",
   "enable-wip-limit": "Mekem Limit blong WIP i wok",
-  "soft-wip-limit": "Limit blong wok we i stap gohed we i givim woning nomo"
+  "soft-wip-limit": "Limit blong wok we i stap gohed we i givim woning nomo",
+  "move-reason": "Muvum kad — Stori"
 }

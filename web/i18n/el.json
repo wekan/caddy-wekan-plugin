@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Απόκρυψη όλων των στοιχείων λίστας ελέγχου",
   "edit-wip-limit": "Επεξεργασία ορίου WIP",
   "enable-wip-limit": "Ενεργοποίηση ορίου WIP",
-  "soft-wip-limit": "Ήπιο όριο WIP"
+  "soft-wip-limit": "Ήπιο όριο WIP",
+  "move-reason": "Μετακίνηση Κάρτας — Περιγραφή"
 }

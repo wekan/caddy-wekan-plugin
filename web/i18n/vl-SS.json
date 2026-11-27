@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Verberg alle checklist items",
   "edit-wip-limit": "Wijzig WIP limiet",
   "enable-wip-limit": "Activeer WIP limiet",
-  "soft-wip-limit": "Zachte WIP limiet"
+  "soft-wip-limit": "Zachte WIP limiet",
+  "move-reason": "Verplaats kaart — Beschrijving"
 }

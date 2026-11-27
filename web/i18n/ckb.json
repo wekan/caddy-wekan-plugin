@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "هەموو بڕگەکانی لیستی پشکنین بشارەوە",
   "edit-wip-limit": "دەستکاری سنووری WIP",
   "enable-wip-limit": "سنووری WIP چالاک بکە",
-  "soft-wip-limit": "سنووری نەرمەی WIP"
+  "soft-wip-limit": "سنووری نەرمەی WIP",
+  "move-reason": "گواستنەوەی کارت — وەسف"
 }

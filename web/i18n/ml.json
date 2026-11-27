@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "എല്ലാ ചെക്ക്‌ലിസ്റ്റ് ഇനങ്ങളും മറയ്ക്കുക",
   "edit-wip-limit": "WIP പരിധി തിരുത്തുക",
   "enable-wip-limit": "WIP പരിധി പ്രവർത്തനക്ഷമമാക്കുക",
-  "soft-wip-limit": "മൃദു WIP പരിധി"
+  "soft-wip-limit": "മൃദു WIP പരിധി",
+  "move-reason": "കാർഡ് നീക്കുക — വിവരണം"
 }

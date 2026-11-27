@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Skrij vse postavke kontrolnega seznama",
   "edit-wip-limit": "Uredi omejitev št. kartic",
   "enable-wip-limit": "Vklopi omejitev št. kartic",
-  "soft-wip-limit": "Omehčaj omejitev št. kartic"
+  "soft-wip-limit": "Omehčaj omejitev št. kartic",
+  "move-reason": "Premakni kartico — Opis"
 }

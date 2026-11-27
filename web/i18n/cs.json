@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Skrýt všechny položky checklistu",
   "edit-wip-limit": "Upravit WIP Limit",
   "enable-wip-limit": "Povolit WIP Limit",
-  "soft-wip-limit": "Mírný WIP limit"
+  "soft-wip-limit": "Mírný WIP limit",
+  "move-reason": "Přesunout kartu — Popis"
 }

@@ -1940,5 +1940,6 @@
   "hideAllChecklistItems": "Թաքցնել ստուգաթերթի բոլոր կետերը",
   "edit-wip-limit": "Խմբագրել WIP սահմանաչափը",
   "enable-wip-limit": "Միացնել WIP սահմանաչափը",
-  "soft-wip-limit": "Փափուկ WIP սահմանաչափ"
+  "soft-wip-limit": "Փափուկ WIP սահմանաչափ",
+  "move-reason": "Տեղափոխել քարտը — Նկարագրություն"
 }
