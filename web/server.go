@@ -896,7 +896,8 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	// cardsSortPopup's display order (board_sort.go).
 	cardSort := parseCardSort(r.URL.Query())
 	s.sortLaneCards(r.Context(), b, lanes, cardSort)
-	s.annotateMinicards(r.Context(), b, lanes, u.Profile.DateFormat)
+	dateFormat := boardDateFormat(u, b, s.siteDateFormat(r.Context()))
+	s.annotateMinicards(r.Context(), b, lanes, dateFormat)
 	s.annotateScrumMinicards(r.Context(), b, languageOf(r, u).Tag, lanes)
 	starred := slices.Contains(u.Profile.StarredBoards, b.ID)
 	invited := slices.Contains(u.Profile.InvitedBoards, b.ID)
@@ -1048,7 +1049,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			// The board's Draggable setting of checklist items (DRAG_SETTINGS).
 			data["ItemDragOff"] = !s.boardAllows(r.Context(), b.ID, "allowsChecklistItemDragging")
 			data["ChecklistDue"] = s.boardAllows(r.Context(), b.ID, "allowsChecklistDueDate")
-			data["DateFormat"] = u.Profile.DateFormat
+			data["DateFormat"] = dateFormat
 			var rawCard, rawBoard bson.M
 			_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(c.ID)}).Decode(&rawCard)
 			_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&rawBoard)
@@ -1068,7 +1069,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			// a board that allows custom fields (canShowCustomFieldsOnCard).
 			if b.WritableIn(r.Context(), s, u, "write", &c) && rawBoardAllows(rawBoard, "allowsCustomFields") {
 				data["CardFieldsShown"] = true
-				data["CardFields"], data["BoardFields"] = s.cardCustomFields(r.Context(), b, u, rawCard, u.Profile.DateFormat)
+				data["CardFields"], data["BoardFields"] = s.cardCustomFields(r.Context(), b, u, rawCard, dateFormat)
 			}
 			data["CardActivities"] = s.activityRows(r.Context(), b, bson.M{"boardId": b.ID, "cardId": c.ID}, lang, 100)
 			data["CardMembers"], data["BoardMembers"] = s.cardMemberChoices(r.Context(), b, &c)

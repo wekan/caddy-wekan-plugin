@@ -364,7 +364,9 @@ type Board struct {
 
 	// SharedListHeaders is Board Settings / Swimlane / One shared list header
 	// row (#2805, #6902): every swimlane shows every list of the board.
-	SharedListHeaders bool `bson:"sharedListHeaders,omitempty" json:"sharedListHeaders,omitempty"`
+	SharedListHeaders  bool   `bson:"sharedListHeaders,omitempty" json:"sharedListHeaders,omitempty"`
+	DateFormat         string `bson:"dateFormat,omitempty" json:"dateFormat,omitempty"`
+	DateFormatOverride bool   `bson:"dateFormatOverride,omitempty" json:"dateFormatOverride,omitempty"`
 }
 
 // AdminOf reports whether userID is an active board admin.

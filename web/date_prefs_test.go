@@ -2,8 +2,10 @@ package web
 
 import (
 	"context"
+	"regexp"
 	"strings"
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -82,4 +84,78 @@ func TestMemberDateSettings(t *testing.T) {
 	if h := body(t, res); !strings.Contains(h, `data-calendar-system="gregorian"`) || !strings.Contains(h, `data-start-day="1"`) || strings.Contains(h, "<script>\"") {
 		t.Fatal("negative: an unknown calendar or day falls back to Gregorian and Monday")
 	}
+}
+
+func TestBoardDateFormatCascade(t *testing.T) {
+	u := new(User)
+	b := &Board{DateFormat: "DD-MM-YYYY-date-only"}
+	u.Profile.DateFormat = "MM-DD-YYYY"
+	site := siteDateFormat{Format: "DD-MM-YYYY"}
+	check := func(label, want string) {
+		t.Helper()
+		if got := boardDateFormat(u, b, site); got != want {
+			t.Errorf("%s: got %q, want %q", label, got, want)
+		}
+	}
+	check("unchecked choices", "YYYY-MM-DD")
+	site.Enabled = true
+	check("site", "DD-MM-YYYY")
+	b.DateFormatOverride = true
+	check("board", "DD-MM-YYYY-date-only")
+	u.Profile.DateFormatOverride = true
+	check("member", "MM-DD-YYYY")
+	u.Profile.DateFormat = "invalid"
+	check("invalid member", "DD-MM-YYYY-date-only")
+	if got := boardDateFormat(nil, b, site); got != b.DateFormat {
+		t.Errorf("guest: got %q, want %q", got, b.DateFormat)
+	}
+}
+
+func TestBoardDateFormatRendering(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	u := w.seedUser(t, "ann", "pw")
+	client := w.client(t)
+	body(t, w.signIn(t, client, "ann", "pw"))
+	board, err := w.s.CreateBoard(ctx, u, "Dates")
+	if err != nil {
+		t.Fatal(err)
+	}
+	list, err := w.s.AddList(ctx, board, "List")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var lane Swimlane
+	if err := w.db.Collection("swimlanes").FindOne(ctx, bson.M{"boardId": board.ID}).Decode(&lane); err != nil {
+		t.Fatal(err)
+	}
+	card, err := w.s.AddCard(ctx, board, u, list.ID, lane.ID, "Dated card")
+	if err != nil {
+		t.Fatal(err)
+	}
+	set := func(coll string, query, values bson.M) {
+		t.Helper()
+		if _, err := w.db.Collection(coll).UpdateOne(ctx, query, bson.M{"$set": values}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	at := time.Date(2026, 3, 21, 12, 0, 0, 0, time.UTC)
+	set("cards", bson.M{"_id": card.ID}, bson.M{"dueAt": at})
+	set("settings", bson.M{}, bson.M{"globalDateFormat": "DD-MM-YYYY-date-only", "hideDateFormat": true})
+	set("users", bson.M{"_id": u.ID}, bson.M{"profile.dateFormat": "MM-DD-YYYY", "profile.dateFormatOverride": false})
+	boardURL := w.srv.URL + "/b/" + board.ID + "/" + board.Slug
+	assertDate := func(url, want string) {
+		t.Helper()
+		_, html := get(t, client, url)
+		if !regexp.MustCompile(`<time datetime="` + at.Format("2006-01-02T15:04:05") + `(?:\.000)?Z">` + want + `</time>`).MatchString(html) {
+			t.Fatalf("wanted rendered date %q with the unchanged datetime at %s, got %q", want, url,
+				regexp.MustCompile(`<time[^>]*>[^<]*</time>`).FindAllString(html, -1))
+		}
+	}
+	assertDate(boardURL, "21-03-2026")
+	assertDate(boardURL+"/"+card.ID, "21-03-2026")
+	set("boards", bson.M{"_id": board.ID}, bson.M{"dateFormat": "YYYY-MM-DD-date-only", "dateFormatOverride": true})
+	assertDate(boardURL, "2026-03-21")
+	set("users", bson.M{"_id": u.ID}, bson.M{"profile.dateFormat": "MM-DD-YYYY-date-only", "profile.dateFormatOverride": true})
+	assertDate(boardURL, "03-21-2026")
 }

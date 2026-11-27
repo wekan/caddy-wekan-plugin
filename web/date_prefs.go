@@ -1,6 +1,7 @@
 package web
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"slices"
@@ -17,6 +18,31 @@ import (
 // dateFormats is WeKan's models/lib/dateFormatPolicy.js DATE_FORMATS.
 var dateFormats = []string{"YYYY-MM-DD", "DD-MM-YYYY", "MM-DD-YYYY",
 	"YYYY-MM-DD-date-only", "DD-MM-YYYY-date-only", "MM-DD-YYYY-date-only"}
+
+type siteDateFormat struct {
+	Format  string `bson:"globalDateFormat"`
+	Enabled bool   `bson:"hideDateFormat"`
+}
+
+func (s *Server) siteDateFormat(ctx context.Context) siteDateFormat {
+	var site siteDateFormat
+	_ = s.db.Collection("settings").FindOne(ctx, bson.M{}).Decode(&site)
+	return site
+}
+
+// boardDateFormat applies WeKan's member, board, instance, default order.
+func boardDateFormat(u *User, b *Board, site siteDateFormat) string {
+	if u != nil && u.Profile.DateFormatOverride && slices.Contains(dateFormats, u.Profile.DateFormat) {
+		return u.Profile.DateFormat
+	}
+	if b.DateFormatOverride && slices.Contains(dateFormats, b.DateFormat) {
+		return b.DateFormat
+	}
+	if site.Enabled && slices.Contains(dateFormats, site.Format) {
+		return site.Format
+	}
+	return dateFormats[0]
+}
 
 // calendarSystemIDs is WeKan's imports/lib/calendarSystems.js
 // CALENDAR_SYSTEM_IDS: the profile names, and Intl's for the rest.
