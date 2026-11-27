@@ -126,3 +126,29 @@ func TestMemberHistoryView(t *testing.T) {
 		t.Errorf("restored: %v", card["title"])
 	}
 }
+
+func TestHistoryViewCardFields(t *testing.T) {
+	for _, tc := range []struct {
+		field, group, label, summary string
+		value                        any
+	}{
+		{"color", "title", "card-settings-card-color", "punainen", "red"},
+		{"color", "title", "card-settings-card-color", "#decade", "#decade"},
+		{"dueComplete", "dates", "due-complete", "Kyllä", true},
+		{"dueComplete", "dates", "due-complete", "Ei", false},
+		{"dueComplete", "dates", "due-complete", "—", nil},
+		{"title", "title", "title", "red", "red"},
+	} {
+		for _, version := range []string{"newContent", "previousContent"} {
+			row := map[string]any{"entityType": "card", "group": tc.group,
+				version: map[string]any{"field": tc.field, "value": tc.value}}
+			content := historyViewContent(row)
+			if got := historyViewLabel("fi", row, content); got != tr("fi", tc.label) {
+				t.Errorf("%s %s %v label = %q, want %q", version, tc.field, tc.value, got, tr("fi", tc.label))
+			}
+			if got := historySummary("fi", row, content); got != tc.summary {
+				t.Errorf("%s %s %v summary = %q, want %q", version, tc.field, tc.value, got, tc.summary)
+			}
+		}
+	}
+}

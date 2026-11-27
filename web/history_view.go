@@ -32,12 +32,31 @@ type historyViewRow struct {
 	ID, Type, Group, Summary, When string
 }
 
-// historySummary is summarise: the row's content as one line of text.
-func historySummary(lang string, row map[string]any) string {
+func historyViewContent(row map[string]any) map[string]any {
 	content, _ := row["newContent"].(map[string]any)
 	if content == nil {
 		content, _ = row["previousContent"].(map[string]any)
 	}
+	return content
+}
+
+func historyViewLabel(lang string, row, content map[string]any) string {
+	if docString(row, "entityType") == "card" {
+		switch docString(content, "field") {
+		case "color":
+			return tr(lang, "card-settings-card-color")
+		case "dueComplete":
+			return tr(lang, "due-complete")
+		}
+	}
+	if k := historyGroupKeys[docString(row, "group")]; k != "" {
+		return tr(lang, k)
+	}
+	return ""
+}
+
+// historySummary is summarise: the row's content as one line of text.
+func historySummary(lang string, row, content map[string]any) string {
 	if content == nil {
 		return ""
 	}
@@ -106,7 +125,21 @@ func historySummary(lang string, row map[string]any) string {
 	}
 	switch x := v.(type) {
 	case string:
+		if content["field"] == "color" {
+			key := "color-" + x
+			if label := tr(lang, key); label != key {
+				return label
+			}
+		}
 		return x
+	case bool:
+		if content["field"] == "dueComplete" {
+			if x {
+				return tr(lang, "yes")
+			}
+			return tr(lang, "no")
+		}
+		return jsonNumberOrBool(x)
 	case []any:
 		parts := []string{}
 		for _, e := range x {
@@ -117,7 +150,7 @@ func historySummary(lang string, row map[string]any) string {
 			}
 		}
 		return strings.Join(parts, ", ")
-	case float64, bool:
+	case float64:
 		return jsonNumberOrBool(x)
 	}
 	if doc, ok := content["document"].(map[string]any); ok {
@@ -213,12 +246,9 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 		if t, ok := row["createdAt"].(time.Time); ok {
 			when = t.UTC().Format("2006-01-02 15:04")
 		}
-		group := ""
-		if k := historyGroupKeys[docString(row, "group")]; k != "" {
-			group = tr(lang, k)
-		}
+		content := historyViewContent(row)
 		rows = append(rows, historyViewRow{ID: id, Type: tr(lang, historyTypeKey(changeType)),
-			Group: group, Summary: historySummary(lang, row), When: when})
+			Group: historyViewLabel(lang, row, content), Summary: historySummary(lang, row, content), When: when})
 	}
 	pageN, size, total := res["page"].(int64), res["pageSize"].(int64), res["total"].(int64)
 	pages := max(1, (total+size-1)/size)
