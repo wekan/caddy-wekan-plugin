@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Leathnaigh seicliosta",
   "export": "Easpórtáil",
+  "export-board-without-archive": "gan míreanna cartlannaithe",
   "export-board-without-attachments": "gan cheangaltáin",
   "export-card-attachment-uploaded-at": "Uaslódáilte Ar",
   "export-card-attachment-uploaded-by": "Uaslódáilte Ag",

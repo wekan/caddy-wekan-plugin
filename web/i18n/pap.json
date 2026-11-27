@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Expandir e lista di tareas",
   "export": "Eksportá",
+  "export-board-without-archive": "sin elementonan archivá",
   "export-board-without-attachments": "sin adhuntos",
   "export-card-attachment-uploaded-at": "Subido e",
   "export-card-attachment-uploaded-by": "Subido pa",

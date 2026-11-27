@@ -67,7 +67,7 @@ func (s *Server) apiExport(w http.ResponseWriter, r *http.Request) {
 	}
 	q := r.URL.Query()
 	out, err := s.exportBoardWith(r.Context(), &b, exportDocOptions{WithoutFiles: q.Get("attachments") == "false",
-		Want: exportWanted(q.Get("fields")), Scope: exportScopeOf(q), r: r})
+		Want: exportWanted(q.Get("fields")), Scope: exportScopeOf(q), ExcludeArchived: q.Get("archived") == "false", r: r})
 	if err != nil {
 		apiError(w, http.StatusInternalServerError, "Export failed")
 		return
@@ -108,10 +108,11 @@ func (sc exportScope) scoped() bool {
 // exportDocOptions are an export's: without the files, its selection (nil
 // is all), its scope, and the request it answers.
 type exportDocOptions struct {
-	WithoutFiles bool
-	Want         exportWant
-	Scope        exportScope
-	r            *http.Request
+	WithoutFiles    bool
+	ExcludeArchived bool
+	Want            exportWant
+	Scope           exportScope
+	r               *http.Request
 }
 
 // exportBoardWith is the streaming exporter's document (models/exporter.js):
@@ -196,9 +197,35 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, o exportDocOptions) (b
 			cardSel["listId"] = eq(sc.ListID)
 		}
 	}
+	byBoard := bson.M{"boardId": b.ID}
+	archivedContainers := bson.M{}
+	if o.ExcludeArchived {
+		for collection, field := range map[string]string{"lists": "listId", "swimlanes": "swimlaneId"} {
+			rows, err := all(collection, bson.M{"boardId": b.ID, "archived": true})
+			if err != nil {
+				return nil, err
+			}
+			ids := bson.A{}
+			for _, row := range rows {
+				ids = append(ids, row["_id"])
+			}
+			if len(ids) > 0 {
+				archivedContainers[field] = bson.M{"$nin": ids}
+			}
+		}
+	}
+	keepLiveCards := func(selector bson.M) {
+		if o.ExcludeArchived {
+			selector["archived"] = bson.M{"$ne": true}
+			if len(archivedContainers) > 0 {
+				selector["$and"] = bson.A{archivedContainers}
+			}
+		}
+	}
+	keepLiveCards(cardSel)
 	scoped := sc.scoped()
 	var scopedIDs bson.A
-	if scoped {
+	if scoped || o.ExcludeArchived {
 		ids, err := all("cards", cardSel)
 		if err != nil {
 			return nil, err
@@ -212,7 +239,9 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, o exportDocOptions) (b
 	case !want.has("attachments"):
 		attSel = none
 	case scoped:
-		attSel = bson.M{"meta.cardId": dbIn(scopedIDs), "deletedAt": nil}
+		attSel["meta.cardId"] = dbIn(scopedIDs)
+	case o.ExcludeArchived:
+		attSel["$or"] = bson.A{bson.M{"meta.cardId": dbIn(scopedIDs)}, bson.M{"meta.cardId": bson.M{"$in": bson.A{"", nil}}}}
 	}
 	atts, err := all("attachments", attSel)
 	if err != nil {
@@ -237,7 +266,6 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, o exportDocOptions) (b
 	}
 	result["attachments"] = exported
 
-	byBoard := bson.M{"boardId": b.ID}
 	// A scoped export carries the lists and swimlanes its cards are in.
 	listSel, laneSel := byBoard, byBoard
 	if scoped {
@@ -257,6 +285,12 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, o exportDocOptions) (b
 			laneIDs = append(laneIDs, sc.SwimlaneID)
 		}
 		listSel, laneSel = bson.M{"boardId": b.ID, "_id": dbIn(listIDs)}, bson.M{"boardId": b.ID, "_id": dbIn(laneIDs)}
+	}
+	if o.ExcludeArchived {
+		if !scoped {
+			listSel, laneSel = bson.M{"boardId": b.ID}, bson.M{"boardId": b.ID}
+		}
+		listSel["archived"], laneSel["archived"] = bson.M{"$ne": true}, bson.M{"$ne": true}
 	}
 	lists, err := all("lists", listSel, "boardId")
 	if err != nil {
@@ -293,7 +327,7 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, o exportDocOptions) (b
 			}
 			return out
 		}
-		t, losses, err := s.exportScrumTransfer(ctx, b.ID, idsOf(cards), idsOf(lists), idsOf(swimlanes), scoped, want.has("custom-fields"))
+		t, losses, err := s.exportScrumTransfer(ctx, b.ID, idsOf(cards), idsOf(lists), idsOf(swimlanes), scoped || o.ExcludeArchived, want.has("custom-fields"))
 		if err != nil {
 			return nil, err
 		}
@@ -321,6 +355,10 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, o exportDocOptions) (b
 	actSel := bson.M{"$or": bson.A{byBoard, bson.M{"cardId": inCards}}}
 	if scoped {
 		actSel = bson.M{"cardId": inCards}
+	} else if o.ExcludeArchived {
+		actSel = bson.M{"boardId": b.ID, "$or": bson.A{
+			bson.M{"cardId": inCards}, bson.M{"cardId": bson.M{"$in": bson.A{"", nil}}},
+		}}
 	}
 	activities, err := all("activities", pick("activities", actSel), "boardId")
 	if err != nil {
@@ -349,7 +387,9 @@ func (s *Server) boardDocs(ctx context.Context, b *Board, o exportDocOptions) (b
 		return nil, err
 	}
 	// #3626: a subtask under any of its parents.
-	subtasks, err := all("cards", pick("subtasks", bson.M{"boardId": b.ID, "$or": bson.A{bson.M{"parentId": inCards}, bson.M{"parentIds": inCards}}}))
+	subtaskSel := bson.M{"boardId": b.ID, "$or": bson.A{bson.M{"parentId": inCards}, bson.M{"parentIds": inCards}}}
+	keepLiveCards(subtaskSel)
+	subtasks, err := all("cards", pick("subtasks", subtaskSel))
 	if err != nil {
 		return nil, err
 	}

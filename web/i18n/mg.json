@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Velaro ny lisitra fanamarinana",
   "export": "Hamoaka",
+  "export-board-without-archive": "tsy misy zavatra voatahiry",
   "export-board-without-attachments": "tsy misy rakitra miaraka",
   "export-card-attachment-uploaded-at": "Nampakarina tamin'ny",
   "export-card-attachment-uploaded-by": "Nampiakarin'i",

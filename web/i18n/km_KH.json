@@ -1161,6 +1161,7 @@
   "excel-font": "អារីល",
   "expand-checklist": "ពន្លាបញ្ជីត្រួតពិនិត្យ",
   "export": "នាំចេញ",
+  "export-board-without-archive": "គ្មានធាតុដែលបានទុកក្នុងប័ណ្ណសារ",
   "export-board-without-attachments": "គ្មានឯកសារភ្ជាប់",
   "export-card-attachment-uploaded-at": "បង្ហោះនៅ",
   "export-card-attachment-uploaded-by": "បង្ហោះដោយ",

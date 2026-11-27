@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Víðka kanningarlista",
   "export": "Útflyt",
+  "export-board-without-archive": "uttan goymdar lutir",
   "export-board-without-attachments": "uttan viðheft",
   "export-card-attachment-uploaded-at": "Lagt upp tann",
   "export-card-attachment-uploaded-by": "Lagt upp av",

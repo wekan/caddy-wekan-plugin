@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Stækka gátlista",
   "export": "Flytja út",
+  "export-board-without-archive": "án atriða í safni",
   "export-board-without-attachments": "án viðhengja",
   "export-card-attachment-uploaded-at": "Hlaðið upp þann",
   "export-card-attachment-uploaded-by": "Hlaðið upp af",

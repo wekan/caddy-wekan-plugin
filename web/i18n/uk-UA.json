@@ -1162,6 +1162,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Розгорнути контрольний список",
   "export": "Експортувати",
+  "export-board-without-archive": "без архівованих елементів",
   "export-board-without-attachments": "без вкладень",
   "export-card-attachment-uploaded-at": "Завантажено",
   "export-card-attachment-uploaded-by": "Завантажив",

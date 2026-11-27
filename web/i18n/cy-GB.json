@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Ehangu'r rhestr wirio",
   "export": "Allforio",
+  "export-board-without-archive": "heb eitemau wedi'u harchifo",
   "export-board-without-attachments": "heb ymlyniadau",
   "export-card-attachment-uploaded-at": "Wedi'i uwchlwytho yn",
   "export-card-attachment-uploaded-by": "Uwchlwythwyd Gan",

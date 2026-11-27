@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "جانچ فہرست پھیلائیں",
   "export": "برآمد کریں",
+  "export-board-without-archive": "محفوظ شدہ اشیاء کے بغیر",
   "export-board-without-attachments": "منسلکات کے بغیر",
   "export-card-attachment-uploaded-at": "اپ لوڈ کا وقت",
   "export-card-attachment-uploaded-by": "اپ لوڈ کنندہ",

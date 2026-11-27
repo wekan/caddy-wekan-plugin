@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "チェックリストを展開する",
   "export": "エクスポート",
+  "export-board-without-archive": "アーカイブ済みアイテムなし",
   "export-board-without-attachments": "添付ファイルなし",
   "export-card-attachment-uploaded-at": "アップロード日時",
   "export-card-attachment-uploaded-by": "アップロード者",

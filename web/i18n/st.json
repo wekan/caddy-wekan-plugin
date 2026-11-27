@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Atolosa lenane la tlhahlobo",
   "export": "Ntsha",
+  "export-board-without-archive": "ntle le dintho tse bolokiloeng",
   "export-board-without-attachments": "ntle le diphuthelwana",
   "export-card-attachment-uploaded-at": "E kentswe ka",
   "export-card-attachment-uploaded-by": "E kentswe ke",

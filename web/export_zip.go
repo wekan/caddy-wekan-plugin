@@ -62,7 +62,7 @@ func (s *Server) apiExportZip(w http.ResponseWriter, r *http.Request) {
 	}
 	// The same scope and selection as the JSON export (models/importZip.js).
 	q := r.URL.Query()
-	doc, err := s.exportBoardWith(r.Context(), &b, exportDocOptions{WithoutFiles: true, Want: exportWanted(q.Get("fields")), Scope: exportScopeOf(q), r: r})
+	doc, err := s.exportBoardWith(r.Context(), &b, exportDocOptions{WithoutFiles: true, Want: exportWanted(q.Get("fields")), Scope: exportScopeOf(q), ExcludeArchived: q.Get("archived") == "false", r: r})
 	if err != nil {
 		apiError(w, http.StatusInternalServerError, "Export failed")
 		return

@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Extinde lista de verificare",
   "export": "Exportă",
+  "export-board-without-archive": "fără elemente arhivate",
   "export-board-without-attachments": "fără atașamente",
   "export-card-attachment-uploaded-at": "Încărcat la",
   "export-card-attachment-uploaded-by": "Încărcat de",

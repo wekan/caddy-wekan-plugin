@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "I-expand an checklist",
   "export": "Pag-eksport",
+  "export-board-without-archive": "waray mga naka-arkibo nga butang",
   "export-board-without-attachments": "waray mga attachment",
   "export-card-attachment-uploaded-at": "Gin-upload han",
   "export-card-attachment-uploaded-by": "Gin-upload ni",

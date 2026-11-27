@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Текшерүү тизмесин жайуу",
   "export": "Экспорттоо",
+  "export-board-without-archive": "архивделген элементтерсиз",
   "export-board-without-attachments": "тиркемелерсиз",
   "export-card-attachment-uploaded-at": "Жүктөлгөн убакыт",
   "export-card-attachment-uploaded-by": "Жүктөгөн",

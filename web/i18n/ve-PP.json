@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Vula uhlu lokuhlola",
   "export": "Ve",
+  "export-board-without-archive": "ilma arhivaha sirttud elementaid",
   "export-board-without-attachments": "ilma ličtusita",
   "export-card-attachment-uploaded-at": "Ladind aig",
   "export-card-attachment-uploaded-by": "Ladinai",

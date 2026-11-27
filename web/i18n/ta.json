@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "சரிபார்ப்புப் பட்டியலை விரிவாக்கு",
   "export": "ஏற்றுமதி செய்",
+  "export-board-without-archive": "காப்பகப்படுத்தப்பட்ட உருப்படிகள் இல்லாமல்",
   "export-board-without-attachments": "இணைப்புகள் இல்லாமல்",
   "export-card-attachment-uploaded-at": "பதிவேற்றிய தேதி",
   "export-card-attachment-uploaded-by": "பதிவேற்றியவர்",

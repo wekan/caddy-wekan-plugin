@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "mhaka nxaxamelo wo kambela",
   "export": "Humesa",
+  "export-board-without-archive": "handle ka swilo leswi hlayisiweke",
   "export-board-without-attachments": "mhaka swikhomanisiwa",
   "export-card-attachment-uploaded-at": "Yi khandziyisiwile hi",
   "export-card-attachment-uploaded-by": "mhaka hi",

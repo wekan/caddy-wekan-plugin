@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "توسيع قائمة التحقق",
   "export": "تصدير",
+  "export-board-without-archive": "بدون العناصر المأرشفة",
   "export-board-without-attachments": "بدون مرفقات",
   "export-card-attachment-uploaded-at": "تاريخ الرفع",
   "export-card-attachment-uploaded-by": "رفعه",

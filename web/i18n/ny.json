@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Futukulani mndandanda wowunika",
   "export": "Tulutsani",
+  "export-board-without-archive": "popanda zinthu zosungidwa",
   "export-board-without-attachments": "popanda zolumikizidwa",
   "export-card-attachment-uploaded-at": "Yakwezedwa pa",
   "export-card-attachment-uploaded-by": "Yakwezedwa ndi",

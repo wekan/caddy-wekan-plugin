@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "체크리스트 펴기",
   "export": "내보내기",
+  "export-board-without-archive": "보관된 항목 제외",
   "export-board-without-attachments": "첨부 파일 제외",
   "export-card-attachment-uploaded-at": "업로드한 시각",
   "export-card-attachment-uploaded-by": "업로드한 사람",

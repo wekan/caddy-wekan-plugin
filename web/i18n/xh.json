@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Yandisa uluhlu lokukhangela",
   "export": "Thumela ngaphandle",
+  "export-board-without-archive": "ngaphandle kwezinto ezigciniweyo",
   "export-board-without-attachments": "ngaphandle kweziqhoboshelo",
   "export-card-attachment-uploaded-at": "ilayishiwe ngo",
   "export-card-attachment-uploaded-by": "Ilayishwe Ngu",

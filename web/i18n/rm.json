@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Extender la glista da controlla",
   "export": "Exportar",
+  "export-board-without-archive": "senza elements archivads",
   "export-board-without-attachments": "senza agiuntas",
   "export-card-attachment-uploaded-at": "Chargià ils",
   "export-card-attachment-uploaded-by": "Chargià da",

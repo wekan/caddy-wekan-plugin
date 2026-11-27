@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Разгъване на чеклиста",
   "export": "Експортиране",
+  "export-board-without-archive": "без архивирани елементи",
   "export-board-without-attachments": "без прикачени файлове",
   "export-card-attachment-uploaded-at": "Качено на",
   "export-card-attachment-uploaded-by": "Качено от",

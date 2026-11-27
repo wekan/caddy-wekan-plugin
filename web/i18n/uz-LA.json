@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Tekshirish roʻyxatini yoyish",
   "export": "Eksport qilish",
+  "export-board-without-archive": "arxivlangan elementlarsiz",
   "export-board-without-attachments": "biriktirmalarsiz",
   "export-card-attachment-uploaded-at": "Yuklangan",
   "export-card-attachment-uploaded-by": "Yuklangan",

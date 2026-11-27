@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "စစ်ဆေးရန်စာရင်း ဖြန့်ရန်",
   "export": "ထုတ်ယူရန်",
+  "export-board-without-archive": "မှတ်တမ်းတင်ထားသောအရာများမပါဘဲ",
   "export-board-without-attachments": "ပူးတွဲဖိုင်များမပါဘဲ",
   "export-card-attachment-uploaded-at": "တင်သည့်အချိန်",
   "export-card-attachment-uploaded-by": "တင်သူ",

@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Kontrolnu lisćinu rozwinyć",
   "export": "Eksportować",
+  "export-board-without-archive": "bjez archiwowanych elementow",
   "export-board-without-attachments": "bjez přiwěškow",
   "export-card-attachment-uploaded-at": "Nahraty dnja",
   "export-card-attachment-uploaded-by": "Nahraty wot",

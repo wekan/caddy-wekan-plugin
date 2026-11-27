@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Ontvou kontrolelys",
   "export": "Voer uit",
+  "export-board-without-archive": "sonder geargiveerde items",
   "export-board-without-attachments": "sonder aanhangsels",
   "export-card-attachment-uploaded-at": "Opgelaai by",
   "export-card-attachment-uploaded-by": "Opgelaai deur",

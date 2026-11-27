@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Тӗрӗслев списокне сарӑлтарас",
   "export": "Экспортлас",
+  "export-board-without-archive": "архивланӑ элементсӑр",
   "export-board-without-attachments": "хушӑннисӗр",
   "export-card-attachment-uploaded-at": "Хӑҫан тиенӗ",
   "export-card-attachment-uploaded-by": "Кам тиенӗ",

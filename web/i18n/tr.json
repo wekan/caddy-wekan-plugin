@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Kontrol listesini genişlet",
   "export": "Dışa aktar",
+  "export-board-without-archive": "arşivlenmiş öğeler olmadan",
   "export-board-without-attachments": "eklentiler olmadan",
   "export-card-attachment-uploaded-at": "Yüklenme Zamanı",
   "export-card-attachment-uploaded-by": "Yükleyen",

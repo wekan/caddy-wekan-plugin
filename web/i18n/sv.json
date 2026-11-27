@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Expandera checklistan",
   "export": "Exportera",
+  "export-board-without-archive": "utan arkiverade objekt",
   "export-board-without-attachments": "utan bilagor",
   "export-card-attachment-uploaded-at": "Uppladdat den",
   "export-card-attachment-uploaded-by": "Uppladdat av",

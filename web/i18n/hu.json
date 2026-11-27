@@ -1166,6 +1166,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Ellenőrzőlista kibontása",
   "export": "Exportálás",
+  "export-board-without-archive": "archivált elemek nélkül",
   "export-board-without-attachments": "mellékletek nélkül",
   "export-card-attachment-uploaded-at": "Feltöltve",
   "export-card-attachment-uploaded-by": "Feltöltötte",

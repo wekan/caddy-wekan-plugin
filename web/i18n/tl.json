@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Expand tsek-listahanahan",
   "export": "I-export",
+  "export-board-without-archive": "nang walang mga naka-archive na item",
   "export-board-without-attachments": "nang walang kalakips",
   "export-card-attachment-uploaded-at": "Nag-upload Sa",
   "export-card-attachment-uploaded-by": "Nag-upload Ni",

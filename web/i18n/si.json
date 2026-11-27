@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "පිරික්සුම් ලැයිස්තුව දිගහරින්න",
   "export": "නිර්යාත කරන්න",
+  "export-board-without-archive": "සංරක්ෂිත අයිතම නොමැතිව",
   "export-board-without-attachments": "ඇමුණුම් නොමැතිව",
   "export-card-attachment-uploaded-at": "උඩුගත කළ වේලාව",
   "export-card-attachment-uploaded-by": "උඩුගත කළේ",

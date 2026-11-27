@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Opim lis bilong sekim olgeta",
   "export": "Salim i go aut",
+  "export-board-without-archive": "Na i no gat ol samting i stap long akaiv",
   "export-board-without-attachments": "Na i no gat ol fail i pas",
   "export-card-attachment-uploaded-at": "Taim i salim i go antap",
   "export-card-attachment-uploaded-by": "Man i bin salim i go antap",

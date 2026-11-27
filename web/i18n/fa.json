@@ -1161,6 +1161,7 @@
   "excel-font": "اِریال",
   "expand-checklist": "باز کردن چک‌لیست",
   "export": "برون‌بری",
+  "export-board-without-archive": "بدون موارد بایگانی شده",
   "export-board-without-attachments": "بدون ضمیمه‌ها",
   "export-card-attachment-uploaded-at": "بارگذاری‌شده در",
   "export-card-attachment-uploaded-by": "بارگذاری‌شده توسط",

@@ -79,6 +79,37 @@ func TestExportZip(t *testing.T) {
 	if c := doc["cards"].([]any)[0].(map[string]any); c["description"] != "kept" {
 		t.Fatalf("the export boundary applies: %v", c["description"])
 	}
+	if _, err := w.db.Collection("cards").UpdateOne(context.Background(),
+		bson.M{"_id": b.Card}, bson.M{"$set": bson.M{"archived": true}}); err != nil {
+		t.Fatal(err)
+	}
+	res, body = get(url+"?archived=false", a)
+	if res.StatusCode != http.StatusOK {
+		t.Fatalf("live ZIP: %d", res.StatusCode)
+	}
+	zr, err = zip.NewReader(bytes.NewReader(body), int64(len(body)))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(zr.File) != 1 || zr.File[0].Name != "wekan.json" {
+		t.Fatalf("live ZIP includes archived files: %v", len(zr.File))
+	}
+	rc, err := zr.File[0].Open()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer rc.Close()
+	var live struct {
+		Cards       []any
+		Attachments []any
+	}
+	if err := json.NewDecoder(rc).Decode(&live); err != nil {
+		t.Fatal(err)
+	}
+	if len(live.Cards) != 0 || len(live.Attachments) != 0 {
+		t.Fatalf("live ZIP includes archived records: %+v", live)
+	}
+
 	if res, _ = get(url, bt); res.StatusCode != 403 {
 		t.Fatalf("negative: a non-member: %d", res.StatusCode)
 	}

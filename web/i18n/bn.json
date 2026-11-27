@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "যাচাইতালিকা প্রসারিত করুন",
   "export": "রপ্তানি",
+  "export-board-without-archive": "সংরক্ষিত আইটেম ছাড়া",
   "export-board-without-attachments": "সংযুক্তি ছাড়া",
   "export-card-attachment-uploaded-at": "আপলোডের সময়",
   "export-card-attachment-uploaded-by": "আপলোড করেছেন",

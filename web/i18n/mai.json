@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "जाँचसूची पसारू",
   "export": "निर्यात करू",
+  "export-board-without-archive": "संग्रहित वस्तु बिना",
   "export-board-without-attachments": "संलग्नक बिना",
   "export-card-attachment-uploaded-at": "अपलोड समय",
   "export-card-attachment-uploaded-by": "अपलोड करनिहार",

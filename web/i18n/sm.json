@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Faalautele le lisi siaki",
   "export": "Auina atu",
+  "export-board-without-archive": "e aunoa ma mea ua teuina",
   "export-board-without-attachments": "e aunoa ma faapipii",
   "export-card-attachment-uploaded-at": "Na tuu i luga i le",
   "export-card-attachment-uploaded-by": "Na tuu i luga e",

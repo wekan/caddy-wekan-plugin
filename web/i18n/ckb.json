@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "لیستی پشکنین بڵاوبکەرەوە",
   "export": "هەناردەکردنی",
+  "export-board-without-archive": "بێ بڕگە ئەرشیفکراوەکان",
   "export-board-without-attachments": "بێ هاوپێچەکان",
   "export-card-attachment-uploaded-at": "بارکراوە لە",
   "export-card-attachment-uploaded-by": "بارکراوە لەلایەن",

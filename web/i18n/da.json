@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Udvid tjekliste",
   "export": "Eksportér",
+  "export-board-without-archive": "uden arkiverede elementer",
   "export-board-without-attachments": "uden vedhæftninger",
   "export-card-attachment-uploaded-at": "Uploaded d.",
   "export-card-attachment-uploaded-by": "Uploadet af",

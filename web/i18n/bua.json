@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Шалгалтын жагсаалта дэлгэхэ",
   "export": "Экспортлохо",
+  "export-board-without-archive": "хадагалагдаһан зүйлнүүдгүй",
   "export-board-without-attachments": "хабсаргалтануудгүй",
   "export-card-attachment-uploaded-at": "Ашаалагдаһан саг",
   "export-card-attachment-uploaded-by": "Ашаалһан хүн",

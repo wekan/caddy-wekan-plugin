@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "کتنليک وغځوئ",
   "export": "صادرول",
+  "export-board-without-archive": "له ارشيف شويو توکو پرته",
   "export-board-without-attachments": "له ضميمو پرته",
   "export-card-attachment-uploaded-at": "د پورته کولو وخت",
   "export-card-attachment-uploaded-by": "پورته کوونکی",

@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Expandir la llista de verificació",
   "export": "Exporta",
+  "export-board-without-archive": "sense elements arxivats",
   "export-board-without-attachments": "sense adjunts",
   "export-card-attachment-uploaded-at": "Pujat el",
   "export-card-attachment-uploaded-by": "Pujat per",

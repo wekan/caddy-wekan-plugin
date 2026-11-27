@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Nwebisa luhlu lwekuhlola",
   "export": "Tfumela",
+  "export-board-without-archive": "ngaphandle kwetintfo letigciniwe",
   "export-board-without-attachments": "ngaphandle kwalokunamatsiselwe",
   "export-card-attachment-uploaded-at": "Kulayishwe Nga",
   "export-card-attachment-uploaded-by": "Kulayishwe Ngu",

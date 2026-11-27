@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Tambanudza rondedzero yekuongorora",
   "export": "Buritsa",
+  "export-board-without-archive": "pasina zvinhu zvakachengetwa",
   "export-board-without-attachments": "pasina zvinamatidzwa",
   "export-card-attachment-uploaded-at": "Yakaiswa pa",
   "export-card-attachment-uploaded-by": "Yakaiswa na",

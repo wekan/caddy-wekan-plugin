@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "展开清单",
   "export": "导出",
+  "export-board-without-archive": "不含已归档项目",
   "export-board-without-attachments": "不含附件",
   "export-card-attachment-uploaded-at": "上传时间",
   "export-card-attachment-uploaded-by": "上传者",

@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "جاچ فهرست پکيڙيو",
   "export": "برآمد ڪريو",
+  "export-board-without-archive": "آرڪائيو ٿيل شين کان سواءِ",
   "export-board-without-attachments": "منسلڪن کان سواءِ",
   "export-card-attachment-uploaded-at": "هن وقت چاڙهيل",
   "export-card-attachment-uploaded-by": "هن پاران چاڙهيل",

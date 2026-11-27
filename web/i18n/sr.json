@@ -1161,6 +1161,7 @@
   "excel-font": "Arial словни лик",
   "expand-checklist": "Рашири контролну листу",
   "export": "Извези",
+  "export-board-without-archive": "без архивираних ставки",
   "export-board-without-attachments": "без прилога",
   "export-card-attachment-uploaded-at": "Отпремљено",
   "export-card-attachment-uploaded-by": "Отпремио",

@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Astenn ar roll gwiriañ",
   "export": "Ezporzhiañ",
+  "export-board-without-archive": "hep an elfennoù diellet",
   "export-board-without-attachments": "hep stagadennoù",
   "export-card-attachment-uploaded-at": "Enkarget d’an",
   "export-card-attachment-uploaded-by": "Enkarget gant",

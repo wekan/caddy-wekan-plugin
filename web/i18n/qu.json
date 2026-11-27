@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Qhawana sutisuyuta mast'ay",
   "export": "Hurquy",
+  "export-board-without-archive": "mana waqaychasqa imakunawan",
   "export-board-without-attachments": "mana watasqakunawan",
   "export-card-attachment-uploaded-at": "Hayk'aq wichichisqa",
   "export-card-attachment-uploaded-by": "Pi wichichirqa",

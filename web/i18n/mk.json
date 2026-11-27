@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Прошири го списокот со задачи",
   "export": "Извези",
+  "export-board-without-archive": "без архивирани ставки",
   "export-board-without-attachments": "без прилози",
   "export-card-attachment-uploaded-at": "Прикачено на",
   "export-card-attachment-uploaded-by": "Прикачено од",

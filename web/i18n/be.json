@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Разгарнуць кантрольны спіс",
   "export": "Экспартаваць",
+  "export-board-without-archive": "без заархіваваных элементаў",
   "export-board-without-attachments": "без укладанняў",
   "export-card-attachment-uploaded-at": "Загружана калі",
   "export-card-attachment-uploaded-by": "Загружана кім",

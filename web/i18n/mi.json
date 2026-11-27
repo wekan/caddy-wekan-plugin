@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Whakaroha rārangi arowhai",
   "export": "Kaweatu",
+  "export-board-without-archive": "kāore he tūemi kua purangatia",
   "export-board-without-attachments": "kāore he āpitihanga",
   "export-card-attachment-uploaded-at": "Wā Tukuatu",
   "export-card-attachment-uploaded-by": "Nā Wai i Tukuatu",

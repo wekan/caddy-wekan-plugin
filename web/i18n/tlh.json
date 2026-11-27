@@ -1164,6 +1164,7 @@
   "excel-font": "Arial",
   "expand-checklist": "tI'ghach tetlh yIpoSmoH",
   "export": "yIngeH",
+  "export-board-without-archive": "polmeH DaqDaq Dochmey Hutlh",
   "export-board-without-attachments": "rarDochmey Hutlh",
   "export-card-attachment-uploaded-at": "lI'lu'pu'bogh poH",
   "export-card-attachment-uploaded-by": "lI'pu'bogh lo'wI'",

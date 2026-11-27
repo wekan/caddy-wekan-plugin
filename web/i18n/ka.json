@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "საკონტროლო სიის გაშლა",
   "export": "Ექსპორტი",
+  "export-board-without-archive": "დაარქივებული ელემენტების გარეშე",
   "export-board-without-attachments": "დანართების გარეშე",
   "export-card-attachment-uploaded-at": "ატვირთვის დრო",
   "export-card-attachment-uploaded-by": "ატვირთა",

@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Desplegar la lista de verificacion",
   "export": "Exportar",
+  "export-board-without-archive": "sens los elements archivats",
   "export-board-without-attachments": "sens pèças jonchas",
   "export-card-attachment-uploaded-at": "Telecargat a",
   "export-card-attachment-uploaded-by": "Telecargat per",

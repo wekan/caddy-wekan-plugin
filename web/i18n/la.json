@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Expande indicem probationis",
   "export": "Exporta",
+  "export-board-without-archive": "sine rebus in tabulario",
   "export-board-without-attachments": "sine adiunctis",
   "export-card-attachment-uploaded-at": "Quando fasciculus immissus est",
   "export-card-attachment-uploaded-by": "A quo fasciculus immissus est",

@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "የማረጋገጫ ዝርዝሩን ዘርጋ",
   "export": "ላክ",
+  "export-board-without-archive": "ያለ ማህደር ንጥሎች",
   "export-board-without-attachments": "ያለ አባሪዎች",
   "export-card-attachment-uploaded-at": "የተሰቀለበት ጊዜ",
   "export-card-attachment-uploaded-by": "የሰቀለው",

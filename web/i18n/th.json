@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "ขยายเช็คลิสต์",
   "export": "ส่งออก",
+  "export-board-without-archive": "โดยไม่มีรายการที่เก็บถาวร",
   "export-board-without-attachments": "โดยไม่มีไฟล์แนบ",
   "export-card-attachment-uploaded-at": "อัปโหลดเมื่อ",
   "export-card-attachment-uploaded-by": "อัปโหลดโดย",

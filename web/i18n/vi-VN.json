@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Mở rộng danh sách kiểm tra",
   "export": "Xuất",
+  "export-board-without-archive": "không có mục đã lưu trữ",
   "export-board-without-attachments": "không có tập tin đính kèm",
   "export-card-attachment-uploaded-at": "Tải lên lúc",
   "export-card-attachment-uploaded-by": "Tải lên bởi",

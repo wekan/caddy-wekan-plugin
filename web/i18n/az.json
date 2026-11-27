@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Yoxlama siyahısını aç",
   "export": "Ixrac et",
+  "export-board-without-archive": "arxivləşdirilmiş elementlər olmadan",
   "export-board-without-attachments": "qoşmalar olmadan",
   "export-card-attachment-uploaded-at": "Yüklənib",
   "export-card-attachment-uploaded-by": "Yüklədi",

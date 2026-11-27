@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Кушодани рӯйхати санҷиш",
   "export": "Содир кардан",
+  "export-board-without-archive": "бе ҷузъҳои бойгонишуда",
   "export-board-without-attachments": "бе замимаҳо",
   "export-card-attachment-uploaded-at": "Вақти воридшавӣ",
   "export-card-attachment-uploaded-by": "Воридкунанда",

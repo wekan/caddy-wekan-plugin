@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Izvērst kontrolsarakstu",
   "export": "Eksportēt",
+  "export-board-without-archive": "bez arhivētiem vienumiem",
   "export-board-without-attachments": "bez pielikumiem",
   "export-card-attachment-uploaded-at": "Augšuplādēts",
   "export-card-attachment-uploaded-by": "Augšuplādēja",

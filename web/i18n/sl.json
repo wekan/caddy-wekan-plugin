@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Razširi kontrolni seznam",
   "export": "Izvozi",
+  "export-board-without-archive": "brez arhiviranih elementov",
   "export-board-without-attachments": "brez priponk",
   "export-card-attachment-uploaded-at": "Naloženo",
   "export-card-attachment-uploaded-by": "Naložil",

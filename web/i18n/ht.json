@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Deplwaye lis verifikasyon",
   "export": "Ekspòte",
+  "export-board-without-archive": "san eleman achive",
   "export-board-without-attachments": "san pyès atache",
   "export-card-attachment-uploaded-at": "Voye nan dat",
   "export-card-attachment-uploaded-by": "Voye pa",

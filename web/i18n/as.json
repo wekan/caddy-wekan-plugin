@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "চেকলিষ্ট প্ৰসাৰিত কৰক",
   "export": "ৰপ্তানি কৰক",
+  "export-board-without-archive": "আৰ্কাইভ কৰা বস্তু অবিহনে",
   "export-board-without-attachments": "সংলগ্নক অবিহনে",
   "export-card-attachment-uploaded-at": "আপল'ডৰ সময়",
   "export-card-attachment-uploaded-by": "আপল'ড কৰোঁতা",

@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "ചെക്ക്‌ലിസ്റ്റ് വികസിപ്പിക്കുക",
   "export": "കയറ്റുമതി ചെയ്യുക",
+  "export-board-without-archive": "ശേഖരിച്ച ഇനങ്ങളില്ലാതെ",
   "export-board-without-attachments": "അറ്റാച്ച്മെന്റുകളില്ലാതെ",
   "export-card-attachment-uploaded-at": "അപ്‌ലോഡ് ചെയ്ത സമയം",
   "export-card-attachment-uploaded-by": "അപ്‌ലോഡ് ചെയ്തത്",

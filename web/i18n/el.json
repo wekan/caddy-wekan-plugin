@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Ανάπτυξη λίστας ελέγχου",
   "export": "Εξαγωγή",
+  "export-board-without-archive": "χωρίς αρχειοθετημένα στοιχεία",
   "export-board-without-attachments": "χωρίς συνημμένα",
   "export-card-attachment-uploaded-at": "Μεταφορτώθηκε στις",
   "export-card-attachment-uploaded-by": "Μεταφορτώθηκε από",

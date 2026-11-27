@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Развернуть чек-лист",
   "export": "Экспортировать",
+  "export-board-without-archive": "без архивированных элементов",
   "export-board-without-attachments": "без вложений",
   "export-card-attachment-uploaded-at": "Когда загружено",
   "export-card-attachment-uploaded-by": "Кем загружено",

@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Чеклистийг дэлгэх",
   "export": "Экспортлох",
+  "export-board-without-archive": "архивлагдсан зүйлсгүйгээр",
   "export-board-without-attachments": "хавсралтгүйгээр",
   "export-card-attachment-uploaded-at": "Байршуулсан огноо",
   "export-card-attachment-uploaded-by": "Байршуулсан",

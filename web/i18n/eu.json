@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Zabaldu kontrol-zerrenda",
   "export": "Esportatu",
+  "export-board-without-archive": "gordetako elementurik gabe",
   "export-board-without-attachments": "eranskinik gabe",
   "export-card-attachment-uploaded-at": "Igotze-data",
   "export-card-attachment-uploaded-by": "Igotzailea",

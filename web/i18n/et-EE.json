@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Laienda kontrollnimekiri",
   "export": "Ekspordi",
+  "export-board-without-archive": "ilma arhiveeritud üksusteta",
   "export-board-without-attachments": "ilma manusteta",
   "export-card-attachment-uploaded-at": "Üleslaadimise aeg",
   "export-card-attachment-uploaded-by": "Üles laadinud",

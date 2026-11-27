@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "ཞིབ་ཐོ་རྒྱ་སྐྱེད།",
   "export": "ཕྱིར་འདྲེན།",
+  "export-board-without-archive": "ཡིག་མཛོད་དུ་བཞག་པའི་རྣམ་གྲངས་མེད་པ།",
   "export-board-without-attachments": "ཟུར་སྦྱར་མེད་པ།",
   "export-card-attachment-uploaded-at": "ཡར་འཇུག་དུས་ཚོད།",
   "export-card-attachment-uploaded-by": "ཡར་འཇུག་བྱེད་མཁན།",

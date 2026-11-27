@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Zgjero listën e kontrollit",
   "export": "Eksporto",
+  "export-board-without-archive": "pa artikujt e arkivuar",
   "export-board-without-attachments": "pa bashkëngjitje",
   "export-card-attachment-uploaded-at": "Ngarkuar më",
   "export-card-attachment-uploaded-by": "Ngarkuar nga",

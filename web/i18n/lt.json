@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Išskleisti kontrolinį sąrašą",
   "export": "Eksportuoti",
+  "export-board-without-archive": "be suarchyvuotų elementų",
   "export-board-without-attachments": "be priedų",
   "export-card-attachment-uploaded-at": "Įkelta į",
   "export-card-attachment-uploaded-by": "Įkėlė",

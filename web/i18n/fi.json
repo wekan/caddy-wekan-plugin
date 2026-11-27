@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Suurenna tarkistuslista",
   "export": "Vie",
+  "export-board-without-archive": "ilman arkistoituja kohteita",
   "export-board-without-attachments": "ilman liitetiedostoja",
   "export-card-attachment-uploaded-at": "Upattu",
   "export-card-attachment-uploaded-by": "Uppaaja",

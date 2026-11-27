@@ -1161,6 +1161,7 @@
   "excel-font": "Arial",
   "expand-checklist": "Expand checklist",
   "export": "Export",
+  "export-board-without-archive": "without archived items",
   "export-board-without-attachments": "without attachments",
   "export-card-attachment-uploaded-at": "Uploaded At",
   "export-card-attachment-uploaded-by": "Uploaded By",
