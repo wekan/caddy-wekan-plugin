@@ -1824,9 +1824,27 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     openFieldEditor(form);
     // Opened while an earlier save was on its way: the board that save draws
     // opens it again, rather than taking it away (03-cards-operations, the
-    // checkbox's square then its row, in a slow run).
-    if (up.network.isBusy()) reopenEditor = form.getAttribute('action');
+    // checkbox's square then its row, in a slow run) - with what was chosen
+    // in it meanwhile, not the value saved before.
+    if (up.network.isBusy()) reopenEditor = { action: form.getAttribute('action'), form: form };
   });
+  // What was done in an open editor, onto the same editor drawn again: the
+  // editor may have opened on a board drawn before the last save, so a box
+  // the user turned over is turned over from the value drawn now, and a text
+  // the user changed is kept; anything untouched shows the new value.
+  function carryEditorValues(from, to) {
+    var a = from.querySelectorAll('input:not([type=hidden]), textarea, select');
+    var b = to.querySelectorAll('input:not([type=hidden]), textarea, select');
+    for (var i = 0; i < a.length && i < b.length; i++) {
+      if (a[i].type === 'checkbox' || a[i].type === 'radio') {
+        if (a[i].checked !== a[i].defaultChecked) {
+          b[i].checked = !b[i].defaultChecked;
+          b[i].dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      } else if (a[i].tagName === 'SELECT' ? a[i].selectedIndex !== Array.prototype.findIndex.call(a[i].options, function (o) { return o.defaultSelected; })
+                 : a[i].value !== a[i].defaultValue) b[i].value = a[i].value;
+    }
+  }
   function openFieldEditor(form) {
     form.closest('.js-card-details').querySelectorAll('.card-details-item-customfield .js-inlined-form').forEach(function (f) { if (f !== form) closeInlinedForm(f); });
     var body = form.querySelector(':scope > template.js-inlined-form-body');
@@ -1838,12 +1856,15 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   var reopenEditor = null;
   up.on('up:fragment:inserted', function (event, el) {
     if (!reopenEditor || !el || !el.matches || !el.matches('.board-wrapper')) return;
-    var action = reopenEditor;
+    var open = reopenEditor;
     reopenEditor = null;
     var form = Array.prototype.find.call(el.querySelectorAll('.card-details-item-customfield form.js-inlined-form'), function (f) {
-      return f.getAttribute('action') === action;
+      return f.getAttribute('action') === open.action;
     });
-    if (form && form.classList.contains('is-hidden')) openFieldEditor(form);
+    if (form && form.classList.contains('is-hidden')) {
+      openFieldEditor(form);
+      carryEditorValues(open.form, form);
+    }
   });
   // An editor closed, or sent, needs no reopening.
   up.on('up:form:submit', function () { reopenEditor = null; });
