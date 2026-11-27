@@ -1256,7 +1256,7 @@
           |  {{.Announcement}}
           a.js-close-board-announcement(href="#", aria-label="{{t $.L `close`}}", title="{{t $.L `close`}}")
             i.fa.fa-times-thin(aria-hidden="true") ×
-  .board-canvas#board-canvas
+  .board-canvas#board-canvas(class="{{if .Board.SharedListHeaders}}shared-list-headers{{end}}")
     //- WeKan's calendarView: the board's cards on a calendar - the same cards
       the board shows, the Filter's too (calendar_view.go, weddy.js).
     if .CalendarMode
@@ -1278,7 +1278,7 @@
       each sw in .Lanes
         //- A folded swimlane (WeKan's collapseSwimlane) keeps its header, and
           shows nothing of its lists: it is no .js-swimlane, and has no id.
-        .swimlane(id="{{if not .Collapsed}}swimlane-{{.ID}}{{end}}", data-swimlane="{{.ID}}", class="{{if .Collapsed}}swimlane-collapsed{{else}}js-swimlane{{end}}", style="{{if and .Height (not .Collapsed)}}--swimlane-height:{{.Height}}px;height:{{.Height}}px;{{end}}")
+        .swimlane(id="{{if not .Collapsed}}swimlane-{{.ID}}{{end}}", data-swimlane="{{.ID}}", class="{{if .Collapsed}}swimlane-collapsed{{else}}js-swimlane{{end}}{{if .First}} is-first-swimlane{{end}}", style="{{if and .Height (not .Collapsed)}}--swimlane-height:{{.Height}}px;height:{{.Height}}px;{{end}}")
           //- WeKan's swimlane resize handle: the user's own height of it.
           if and $.CanResizeLanes (not .Collapsed)
             .swimlane-resize-handle.js-swimlane-resize-handle.nodragscroll

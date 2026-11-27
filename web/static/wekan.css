@@ -1188,3 +1188,16 @@ html[dir='rtl'] .pop-over > button.js-date-popup-resize > span {
 #header-quick-access .mobile-mode-toggle {
   display: inline-flex;
 }
+
+/* #6902, One shared list header row (WeKan's swimlanes.css): the first
+   swimlane's list headers are the row, the others show none - !important, as
+   the list headers' own rules are - and each swimlane is its own sideways
+   scroll, so weddy.js keeps the rows together. */
+.board-canvas.shared-list-headers .js-swimlane:not(.is-first-swimlane) .list-header {
+  display: none !important;
+}
+.board-canvas.shared-list-headers .js-swimlane {
+  overflow-x: auto;
+  overflow-y: visible;
+  max-width: 100%;
+}

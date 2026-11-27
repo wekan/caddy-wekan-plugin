@@ -769,6 +769,9 @@ type lane struct {
 	Collapsed bool
 	// Height is the user's own height of it in pixels, or 0 (resize.go).
 	Height int
+	// First: the board's first swimlane, whose list headers are the shared
+	// row when the board has one (#6902).
+	First bool
 }
 
 type laneList struct {
@@ -801,10 +804,13 @@ func (s *Server) boardData(ctx context.Context, b *Board) ([]lane, []List, error
 		return nil, nil, err
 	}
 	out := make([]lane, 0, len(swimlanes))
-	for _, sw := range swimlanes {
-		l := lane{Swimlane: sw}
+	for i, sw := range swimlanes {
+		l := lane{Swimlane: sw, First: i == 0}
 		for _, li := range lists {
-			if li.SwimlaneID != "" && li.SwimlaneID != sw.ID {
+			// #6902, One shared list header row: every swimlane shows every
+			// list of the board, each with the cards of the swimlane it is
+			// shown in; nothing is written to a list.
+			if !b.SharedListHeaders && li.SwimlaneID != "" && li.SwimlaneID != sw.ID {
 				continue
 			}
 			ll := laneList{List: li, Lane: sw.ID}

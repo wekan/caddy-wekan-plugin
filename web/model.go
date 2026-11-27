@@ -359,6 +359,10 @@ type Board struct {
 	// AllowsDueCompleteOnMinicard is Card Settings' "Show at Minicard" of
 	// "Mark as complete": off unless set.
 	AllowsDueCompleteOnMinicard bool `bson:"allowsDueCompleteOnMinicard,omitempty" json:"allowsDueCompleteOnMinicard,omitempty"`
+
+	// SharedListHeaders is Board Settings / Swimlane / One shared list header
+	// row (#2805, #6902): every swimlane shows every list of the board.
+	SharedListHeaders bool `bson:"sharedListHeaders,omitempty" json:"sharedListHeaders,omitempty"`
 }
 
 // AdminOf reports whether userID is an active board admin.
