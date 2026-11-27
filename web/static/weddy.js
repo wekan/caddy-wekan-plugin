@@ -2340,11 +2340,55 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   function applyMobileMode(toggle, on) {
     document.body.classList.toggle('mobile-mode', on);
     document.body.classList.toggle('desktop-mode', !on);
+    document.querySelectorAll('.board-canvas').forEach(renderMobileLists);
     if (!toggle) return;
     toggle.classList.toggle('mobile-active', on);
     toggle.classList.toggle('desktop-active', !on);
     toggle.innerHTML = on ? '<i class="mobile-icon"><i class="fa fa-mobile"></i></i>' : '<i class="desktop-icon"><i class="fa fa-desktop"></i></i>';
   }
+  var currentMobileList;
+  function renderMobileLists(canvas) {
+    var mobile = document.body.classList.contains('mobile-mode');
+    var board = canvas.closest('.board-wrapper').dataset.board;
+    canvas.querySelectorAll('.js-select-list').forEach(function (row) {
+      var list = row.nextElementSibling;
+      var selected = mobile && currentMobileList &&
+        currentMobileList.board === board &&
+        currentMobileList.list === row.dataset.list && currentMobileList.lane === row.dataset.swimlane;
+      var id = 'js-list-' + row.dataset.list;
+      if (mobile && !selected) {
+        list.removeAttribute('id');
+        row.id = id;
+      } else {
+        row.removeAttribute('id');
+        list.id = id;
+      }
+      list.classList.toggle('mobile-list-open', !!selected);
+      list.classList.toggle('mobile-view', mobile);
+    });
+    canvas.querySelectorAll('.js-lists').forEach(function (group) {
+      group.classList.toggle('mobile-list-selected', !!group.querySelector('.mobile-list-open'));
+    });
+  }
+  up.compiler('.board-canvas', renderMobileLists);
+  up.on('click', '.js-select-list', function (event, row) {
+    event.preventDefault();
+    currentMobileList = {
+      board: row.closest('.board-wrapper').dataset.board,
+      list: row.dataset.list,
+      lane: row.dataset.swimlane
+    };
+    renderMobileLists(row.closest('.board-canvas'));
+  });
+  up.on('click', '.js-close-mobile-list', function (event, button) {
+    var canvas = button.closest('.board-canvas');
+    var id = 'js-list-' + currentMobileList.list;
+    var group = button.closest('.js-lists');
+    currentMobileList = null;
+    renderMobileLists(canvas);
+    var row = Array.from(group.querySelectorAll('.js-select-list')).find(function (item) { return item.id === id; });
+    if (row) row.focus();
+  });
   up.compiler('.js-mobile-mode-toggle', function (toggle) { applyMobileMode(toggle, mobileModeOn(toggle)); });
   up.on('click', '.js-mobile-mode-toggle', function (event, toggle) {
     event.preventDefault();

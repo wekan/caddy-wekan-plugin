@@ -1302,7 +1302,11 @@
                 i.fa.fa-plus
           if not .Collapsed
             .list-group.js-lists
+              button.js-close-mobile-list(type="button") {{t $.L "back"}}
               each li in .Lists
+                a.mini-list.js-select-list.mobile-view(href="#", data-list="{{.ID}}", data-swimlane="{{.Lane}}")
+                  span.list-header
+                    span.list-header-name {{.Title}}
                 .list.js-list(id="js-list-{{.ID}}", data-list="{{.ID}}", data-swimlane="{{.Lane}}", data-watching="{{if watching $.User .Watchers}}1{{end}}", class="{{if .Collapsed}}list-collapsed{{end}} {{if $.AutoWidthOn}}list-auto-width{{end}}", style="{{if and .Width (not .Collapsed)}}--list-width:{{.Width}}px;{{end}}")
                   .list-header
                     if $.CanEdit

@@ -1201,3 +1201,31 @@ html[dir='rtl'] .pop-over > button.js-date-popup-resize > span {
   overflow-y: visible;
   max-width: 100%;
 }
+
+/* Mobile swimlanes show compact rows until a list in that lane is opened. */
+.board-canvas .js-close-mobile-list,
+.board-canvas .js-select-list.mobile-view {
+  display: none;
+}
+body.mobile-mode .board-canvas .js-lists {
+  flex-direction: column;
+  align-items: stretch;
+}
+body.mobile-mode .board-canvas .js-lists.mobile-list-selected > .js-close-mobile-list,
+body.mobile-mode .board-canvas .js-lists > .js-select-list.mobile-view {
+  display: block;
+}
+body.mobile-mode .board-canvas .js-lists.mobile-list-selected > .js-select-list.mobile-view,
+body.mobile-mode .board-canvas .js-lists > .js-list:not(.mobile-list-open),
+body.mobile-mode .board-canvas .js-lists > .js-list-composer {
+  display: none;
+}
+
+body.mobile-mode .board-canvas .js-select-list.mobile-view {
+  background: var(--list-bg, #ebecf0);
+  color: inherit;
+  border-radius: 4px;
+}
+body.mobile-mode .board-canvas.shared-list-headers .js-swimlane .mobile-view > .list-header {
+  display: flex !important;
+}
