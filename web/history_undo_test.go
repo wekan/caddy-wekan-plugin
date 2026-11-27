@@ -147,3 +147,43 @@ func TestListDeleteUndoRedo(t *testing.T) {
 		t.Error("each reversal is recorded as a checkpoint")
 	}
 }
+
+func TestArchiveHistoryReplay(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	board := newRESTBoard(t, w, login(t, w, "ann"), "Archive history")
+	for _, item := range []struct{ entity, id string }{
+		{"card", board.Card}, {"list", board.List}, {"swimlane", board.Swimlane},
+	} {
+		t.Run(item.entity, func(t *testing.T) {
+			coll := w.db.Collection(historyCollections[item.entity])
+			row := map[string]any{"entityType": item.entity, "entityId": item.id, "boardId": board.ID, "group": "lifecycle",
+				"previousContent": map[string]any{"field": "archived", "value": false},
+				"newContent":      map[string]any{"field": "archived", "value": true}}
+			check := func(archived bool) {
+				t.Helper()
+				var doc bson.M
+				if err := coll.FindOne(ctx, bson.M{"_id": item.id}).Decode(&doc); err != nil ||
+					doc["archived"] != archived || (doc["archivedAt"] != nil) != archived {
+					t.Fatalf("archive status %v and timestamp: %+v, %v", archived, doc, err)
+				}
+			}
+			if w.s.applyHistoryRow(ctx, row, "undo") {
+				t.Fatal("undo accepted a stale archive state")
+			}
+			if !w.s.applyHistoryRow(ctx, row, "redo") {
+				t.Fatal("redo did not archive")
+			}
+			check(true)
+			if !w.s.applyHistoryRow(ctx, row, "undo") {
+				t.Fatal("undo did not unarchive")
+			}
+			check(false)
+			if !w.s.applyHistoryRow(ctx, row, "restore") {
+				t.Fatal("restore did not archive")
+			}
+			check(true)
+		})
+	}
+}

@@ -234,6 +234,36 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 		}
 		filter := bson.M{"_id": eq(docString(row, "entityId"))}
 		update := bson.M{"$set": bson.M{field: value}}
+		if field == "archived" {
+			archived, boolean := value.(bool)
+			if !boolean || docString(row, "group") != "lifecycle" {
+				return false
+			}
+			filter["boardId"] = eq(docString(row, "boardId"))
+			if coll != "swimlanes" {
+				filter["deletedAt"] = nil
+			}
+			if direction != "restore" {
+				side := "previousContent"
+				if direction == "undo" {
+					side = "newContent"
+				}
+				expected, _ := row[side].(map[string]any)
+				state, valid := expected["value"].(bool)
+				if !valid || expected["field"] != field {
+					return false
+				}
+				filter["archived"] = state
+			}
+			now := time.Now().UTC()
+			set := bson.M{"archived": archived, "modifiedAt": now}
+			update = bson.M{"$set": set}
+			if archived {
+				set["archivedAt"] = now
+			} else {
+				update["$unset"] = bson.M{"archivedAt": ""}
+			}
+		}
 		if coll == "lists" && field == "wipLimit" {
 			filter["boardId"] = eq(docString(row, "boardId"))
 			snapshot, isObject := value.(map[string]any)
