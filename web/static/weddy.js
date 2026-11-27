@@ -3355,7 +3355,14 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var list = owner.dataset.list, lane = owner.dataset.swimlane;
     var position = form.querySelector('.js-card-position').value;
     form.dataset.saving = '1';
-    up.submit(form, { target: '.board-wrapper', submitButton: event.submitter }).then(function (result) {
+    var failedResponse;
+    up.submit(form, {
+      target: '.board-wrapper',
+      submitButton: event.submitter,
+      onLoaded: function (loaded) {
+        if (!loaded.response.ok) failedResponse = loaded.response;
+      }
+    }).then(function (result) {
       if (!keepOpen) return;
       var next = result.fragment;
       if (!next || next === wrapper || next.dataset.board !== board) return;
@@ -3364,9 +3371,18 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       });
       openComposer(target, position);
     }, function (error) {
-      if (error.response && error.response.ok === false) {
-        window.alert(error.response.text.trim());
+      var response = failedResponse || error.response;
+      if (!response || response.ok !== false) return;
+      var saved = Number(response.header('X-Weddy-Cards-Saved'));
+      if (saved > 0 && form.isConnected) {
+        var title = form.elements.title;
+        title.value = title.value.split(/\r\n?|\n/).map(function (line) {
+          // Match Go's strings.TrimSpace, including the next-line character.
+          return line.replace(/^[\p{White_Space}]+|[\p{White_Space}]+$/gu, '');
+        }).filter(Boolean).slice(saved).join('\n');
+        title.focus();
       }
+      window.alert(response.text.trim());
     }).finally(function () { delete form.dataset.saving; });
   }, true);
   // Multi-Selection: on, the sidebar shows what to do with the selection;

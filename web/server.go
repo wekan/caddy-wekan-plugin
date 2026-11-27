@@ -1521,6 +1521,12 @@ func (s *Server) AddCardWith(ctx context.Context, b *Board, u *User, listID, swi
 		Members: []string{}, Assignees: []string{}, LabelIDs: []string{}, CardNumber: number,
 		Type: "cardType-card", CreatedAt: time.Now().UTC(),
 		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": b.ID, "listId": eq(listID), "swimlaneId": eq(swimlaneID)})}
+	// The composer provides its final sort with no other extra fields.
+	// Insert it with the card so a separate sort write cannot fail afterward.
+	if sort, ok := extra["sort"].(float64); ok && len(extra) == 1 {
+		c.Sort = sort
+		extra = nil
+	}
 	if _, err := s.db.Collection("cards").InsertOne(ctx, c); err != nil {
 		return nil, err
 	}
@@ -1566,6 +1572,7 @@ func (s *Server) addCard(w http.ResponseWriter, r *http.Request, u *User) {
 		}
 		if _, err := s.AddCardWith(ctx, b, u, listID, laneID, title, extra); err != nil {
 			if i > 0 {
+				w.Header().Set("X-Weddy-Cards-Saved", strconv.Itoa(i))
 				s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 				err = fmt.Errorf("%d cards saved before the error: %w", i, err)
 			}
