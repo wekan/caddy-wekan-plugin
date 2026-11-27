@@ -219,7 +219,7 @@ func historySummary(lang string, row, content map[string]any) string {
 		return tr(lang, "history-change-restored")
 	}
 	if docString(row, "group") == "position" {
-		return docString(content, "listId")
+		return orDefault(docString(content, "lastMoveReason"), docString(content, "listId"))
 	}
 	return ""
 }

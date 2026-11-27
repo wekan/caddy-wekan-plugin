@@ -205,3 +205,15 @@ func TestHistoryViewWipLimit(t *testing.T) {
 		t.Errorf("WIP summary = %q", got)
 	}
 }
+
+func TestHistoryViewMoveReason(t *testing.T) {
+	row := map[string]any{"entityType": "card", "group": "position"}
+	content := map[string]any{"listId": "destination", "lastMoveReason": "Ready for review"}
+	if got := historySummary("en", row, content); got != "Ready for review" {
+		t.Errorf("move summary = %q", got)
+	}
+	content["lastMoveReason"] = ""
+	if got := historySummary("en", row, content); got != "destination" {
+		t.Errorf("move summary without reason = %q", got)
+	}
+}
