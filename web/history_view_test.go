@@ -152,3 +152,16 @@ func TestHistoryViewCardFields(t *testing.T) {
 		}
 	}
 }
+
+func TestHistoryViewContainerColors(t *testing.T) {
+	for _, entity := range []string{"list", "swimlane"} {
+		content := map[string]any{"field": "color", "value": "red"}
+		row := map[string]any{"entityType": entity, "group": "title", "newContent": content}
+		if got, want := historyViewLabel("fi", row, content), tr("fi", entity); got != want {
+			t.Errorf("%s label = %q, want %q", entity, got, want)
+		}
+		if got := historySummary("fi", row, content); got != "punainen" {
+			t.Errorf("%s color = %q, want punainen", entity, got)
+		}
+	}
+}

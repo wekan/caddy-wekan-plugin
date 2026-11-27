@@ -41,11 +41,17 @@ func historyViewContent(row map[string]any) map[string]any {
 }
 
 func historyViewLabel(lang string, row, content map[string]any) string {
-	if docString(row, "entityType") == "card" {
-		switch docString(content, "field") {
-		case "color":
+	entity := docString(row, "entityType")
+	switch docString(content, "field") {
+	case "color":
+		switch entity {
+		case "card":
 			return tr(lang, "card-settings-card-color")
-		case "dueComplete":
+		case "list", "swimlane":
+			return tr(lang, entity)
+		}
+	case "dueComplete":
+		if entity == "card" {
 			return tr(lang, "due-complete")
 		}
 	}
