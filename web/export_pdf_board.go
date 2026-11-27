@@ -347,7 +347,7 @@ func (s *Server) pdfExport(ctx context.Context, b *Board, o excelCardOptions, on
 		for _, c := range cards {
 			lines = append(lines, cardLines(c, listByID[cdString(cdGet(c, "listId"))], laneByID[cdString(cdGet(c, "swimlaneId"))])...)
 		}
-		return buildPdfBuffer(lines)
+		return buildExportPdfBuffer(lines)
 	}
 	// _boardHeaderLines.
 	firstTitle := func(rows []any) string {
@@ -435,5 +435,5 @@ func (s *Server) pdfExport(ctx context.Context, b *Board, o excelCardOptions, on
 			}
 		}
 	}
-	return buildPdfBuffer(lines)
+	return buildExportPdfBuffer(lines)
 }

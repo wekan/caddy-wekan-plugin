@@ -130,3 +130,24 @@ func TestPdfDocumentIsWeKans(t *testing.T) {
 		t.Error("negative: not a picture the PDF draws")
 	}
 }
+
+func TestExportPDFUsesUnicodeFont(t *testing.T) {
+	baseline := []pdfLine{pdfPlain("Latin only", false)}
+	if !bytes.Equal(buildExportPdfBuffer(baseline), buildPdfBuffer(baseline)) {
+		t.Fatal("WinAnsi-only exports changed")
+	}
+	output := buildExportPdfBuffer([]pdfLine{pdfPlain("日本語", false)})
+	for _, fragment := range []string{"/FontFile2", "/ToUnicode", "/FU ", "<0001> <65E5>", "<0002> <672C>", "<0003> <8A9E>", "<000100020003> Tj"} {
+		if !bytes.Contains(output, []byte(fragment)) {
+			t.Errorf("Unicode PDF does not contain %q", fragment)
+		}
+	}
+	program, err := loadPDFUnifont()
+	if err != nil {
+		t.Fatal(err)
+	}
+	glyph, err := program.face.GlyphIndex(nil, '日')
+	if err != nil || glyph == 0 {
+		t.Fatal("bundled Unifont is missing the Japanese glyph")
+	}
+}

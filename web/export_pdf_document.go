@@ -868,6 +868,26 @@ func jsNum(f float64) string { return jsNumber(f) }
 
 // buildPdfBuffer is buildPdfBuffer: the lines as a PDF.
 func buildPdfBuffer(lines []pdfLine) []byte {
+	return buildPdfBufferWithFont(lines, nil)
+}
+
+func buildExportPdfBuffer(lines []pdfLine) []byte {
+	for _, line := range lines {
+		needsFont := needsPDFUnicode(line.Text)
+		for _, run := range line.Runs {
+			needsFont = needsFont || needsPDFUnicode(run.Text)
+		}
+		if needsFont {
+			if program, err := loadPDFUnifont(); err == nil {
+				return buildPdfBufferWithFont(lines, &pdfUnicodeFont{face: program.face, characters: make(map[rune]uint16)})
+			}
+			break
+		}
+	}
+	return buildPdfBuffer(lines)
+}
+
+func buildPdfBufferWithFont(lines []pdfLine, unicodeFont *pdfUnicodeFont) []byte {
 	for i := range lines {
 		if lines[i].IsString {
 			lines[i] = pdfPlain(lines[i].Text, false)
@@ -881,6 +901,12 @@ func buildPdfBuffer(lines []pdfLine) []byte {
 	boldID := add([]byte("<< /Type /Font /Subtype /Type1 /BaseFont /Courier-Bold /Encoding /WinAnsiEncoding >>"))
 	italicID := add([]byte("<< /Type /Font /Subtype /Type1 /BaseFont /Courier-Oblique /Encoding /WinAnsiEncoding >>"))
 	boldItalicID := add([]byte("<< /Type /Font /Subtype /Type1 /BaseFont /Courier-BoldOblique /Encoding /WinAnsiEncoding >>"))
+	unicodeID := 0
+	unicodeResource := ""
+	if unicodeFont != nil {
+		unicodeID = add(nil)
+		unicodeResource = " /FU " + strconv.Itoa(unicodeID) + " 0 R"
+	}
 	fontFor := func(bold, italic bool) string {
 		switch {
 		case bold && italic:
@@ -940,9 +966,18 @@ func buildPdfBuffer(lines []pdfLine) []byte {
 			"1 0 0 1 "+strconv.Itoa(pdfMargin)+" "+strconv.Itoa(pdfPageHeight-pdfMargin-pdfFontSize)+" Tm"), "\n"))
 		cur := "F1"
 		draw := func(t string, bold, italic bool) {
-			if w := fontFor(bold, italic); w != cur {
+			w := fontFor(bold, italic)
+			useUnicode := unicodeFont != nil && needsPDFUnicode(t)
+			if useUnicode {
+				w = "FU"
+			}
+			if w != cur {
 				text.WriteString("\n/" + w + " " + strconv.Itoa(pdfFontSize) + " Tf")
 				cur = w
+			}
+			if useUnicode {
+				text.WriteString("\n<" + unicodeFont.encode(t) + "> Tj")
+				return
 			}
 			text.WriteString("\n(")
 			text.Write(escapePdfText(encodeWinAnsi(t)))
@@ -975,8 +1010,12 @@ func buildPdfBuffer(lines []pdfLine) []byte {
 			xo = append(xo, "/"+e.name+" "+strconv.Itoa(e.id)+" 0 R")
 		}
 		pageIDs = append(pageIDs, add([]byte("<< /Type /Page /Parent "+strconv.Itoa(pagesID)+" 0 R /MediaBox [0 0 "+strconv.Itoa(pdfPageWidth)+" "+strconv.Itoa(pdfPageHeight)+"] "+
-			"/Resources << /Font << /F1 "+strconv.Itoa(fontID)+" 0 R /F2 "+strconv.Itoa(boldID)+" 0 R /F3 "+strconv.Itoa(italicID)+" 0 R /F4 "+strconv.Itoa(boldItalicID)+" 0 R >> "+
+			"/Resources << /Font << /F1 "+strconv.Itoa(fontID)+" 0 R /F2 "+strconv.Itoa(boldID)+" 0 R /F3 "+strconv.Itoa(italicID)+" 0 R /F4 "+strconv.Itoa(boldItalicID)+" 0 R"+unicodeResource+" >> "+
 			"/XObject << "+strings.Join(xo, " ")+" >> >> /Contents "+strconv.Itoa(contentID)+" 0 R >>")))
+	}
+	if unicodeID != 0 {
+		fontObject := unicodeFont.objects(add)
+		objects[unicodeID-1] = fontObject
 	}
 	objects[catalogID-1] = []byte("<< /Type /Catalog /Pages " + strconv.Itoa(pagesID) + " 0 R >>")
 	kids := make([]string, len(pageIDs))

@@ -169,6 +169,15 @@ func TestCardPDFDetails(t *testing.T) {
 			t.Errorf("the card's PDF has %q", want)
 		}
 	}
+	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card}, bson.M{"$set": bson.M{"title": "日本語"}}); err != nil {
+		t.Fatal(err)
+	}
+	unicode := pdf()
+	for _, want := range []string{"/FontFile2", "/ToUnicode", "<0001> <65E5>", "<0002> <672C>", "<0003> <8A9E>"} {
+		if !strings.Contains(unicode, want) {
+			t.Errorf("the Unicode card PDF lacks %q", want)
+		}
+	}
 	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"anonymizeExportUsers": true}})
 	if got := pdf(); strings.Contains(strings.ToLower(got), "annreal") {
 		t.Error("negative: anonymized, the commenter is not named")
