@@ -141,6 +141,10 @@ func TestHistoryViewCardFields(t *testing.T) {
 		{"startAt", "dates", "card-start", "—", nil},
 		{"dueAt", "dates", "card-due", "—", nil},
 		{"endAt", "dates", "card-end", "—", nil},
+		{"spentTime", "dates", "spent-time-hours", "0", float64(0)},
+		{"spentTime", "dates", "spent-time-hours", "1.5", float64(1.5)},
+		{"isOvertime", "dates", "overtime", "Kyllä", true},
+		{"isOvertime", "dates", "overtime", "Ei", false},
 		{"title", "title", "title", "red", "red"},
 	} {
 		for _, version := range []string{"newContent", "previousContent"} {

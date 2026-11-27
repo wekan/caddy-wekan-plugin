@@ -55,6 +55,14 @@ func historyViewLabel(lang string, row, content map[string]any) string {
 			field := docString(content, "field")
 			return tr(lang, "card-"+strings.TrimSuffix(field, "At"))
 		}
+	case "spentTime":
+		if entity == "card" {
+			return tr(lang, "spent-time-hours")
+		}
+	case "isOvertime":
+		if entity == "card" {
+			return tr(lang, "overtime")
+		}
 	case "dueComplete":
 		if entity == "card" {
 			return tr(lang, "due-complete")
@@ -144,7 +152,7 @@ func historySummary(lang string, row, content map[string]any) string {
 		}
 		return x
 	case bool:
-		if content["field"] == "dueComplete" {
+		if field := docString(content, "field"); field == "dueComplete" || field == "isOvertime" {
 			if x {
 				return tr(lang, "yes")
 			}
