@@ -371,6 +371,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/cards/{card}/watch", s.page(s.watchCardPage))
 	m.HandleFunc("POST /b/{board}/watch", s.page(s.watchBoardPage))
 	m.HandleFunc("POST /b/{board}/move", s.page(s.moveCards))
+	m.HandleFunc("GET /b/{board}/search/matches", s.publicBoardRead(s.boardSearchMatches))
 	m.HandleFunc("GET /b/{board}/live", s.publicBoardRead(s.live))
 	m.HandleFunc("GET /language", s.page(s.languagePage))
 	s.notificationRoutes(m)

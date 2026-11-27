@@ -1049,6 +1049,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   var boardSearchTerm = '';
   var boardSearchCard = null;
   var boardSearchDirection = 1;
+  var boardSearchMatches = [];
+  var boardSearchRequest = 0;
   function showBoardSearch(sidebar, open) {
     var search = sidebar.querySelector('.js-weddy-board-search');
     if (!search) return;
@@ -1058,6 +1060,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     else {
       boardSearchTerm = '';
       boardSearchCard = null;
+      boardSearchMatches = [];
+      boardSearchRequest++;
       search.querySelector('form').reset();
       renderBoardSearch(search, 0);
     }
@@ -1072,6 +1076,8 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     if (boardSearchId !== board.dataset.board) {
       boardSearchTerm = '';
       boardSearchCard = null;
+      boardSearchMatches = [];
+      boardSearchRequest++;
     }
     boardSearchId = board.dataset.board;
     showBoardSearch(sidebar, true);
@@ -1089,17 +1095,35 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   up.on('submit', '.js-weddy-board-search .js-search-term-form', function (event, form) {
     event.preventDefault();
     var term = form.elements.searchTerm.value.trim();
-    if (term !== boardSearchTerm) boardSearchCard = null;
-    boardSearchTerm = term;
-    renderBoardSearch(form.closest('.js-weddy-board-search'), boardSearchDirection);
+    var direction = boardSearchDirection;
     boardSearchDirection = 1;
+    var search = form.closest('.js-weddy-board-search');
+    if (term === boardSearchTerm) {
+      renderBoardSearch(search, direction);
+      return;
+    }
+    boardSearchTerm = term;
+    boardSearchCard = null;
+    boardSearchMatches = [];
+    var request = ++boardSearchRequest;
+    renderBoardSearch(search, 0);
+    if (!term) return;
+    var board = boardSearchId;
+    fetch('/b/' + encodeURIComponent(board) + '/search/matches?q=' + encodeURIComponent(term))
+      .then(function (response) { return response.ok ? response.json() : []; })
+      .then(function (matches) {
+        if (request !== boardSearchRequest || board !== boardSearchId) return;
+        var current = document.querySelector('.js-weddy-board-search');
+        if (!current || current.closest('.board-wrapper').dataset.board !== board) return;
+        boardSearchMatches = matches;
+        renderBoardSearch(current, direction);
+      }).catch(function () { /* A failed request leaves the board available. */ });
   });
   up.on('click', '.js-weddy-search-step', function (event, button) {
     renderBoardSearch(button.closest('.js-weddy-board-search'), Number(button.dataset.direction));
   });
   function renderBoardSearch(search, direction) {
     var board = search.closest('.board-wrapper');
-    var term = boardSearchTerm.toLocaleLowerCase();
     var results = search.querySelector('.js-weddy-search-results');
     var counter = search.querySelector('.search-step');
     var cards = [];
@@ -1108,18 +1132,18 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     board.querySelectorAll('.board-canvas .is-search-highlight').forEach(function (card) {
       card.classList.remove('is-search-highlight');
     });
-    if (!term) return;
+    var matchedIds = new Set(boardSearchMatches.map(function (match) { return match.id; }));
     board.querySelectorAll('.board-canvas .js-minicard').forEach(function (card) {
-      var title = card.querySelector('.minicard-title-text');
-      if (!title || !title.textContent.toLocaleLowerCase().includes(term)) return;
-      cards.push(card);
+      if (matchedIds.has(card.dataset.cardId)) cards.push(card);
+    });
+    boardSearchMatches.forEach(function (match) {
       var item = document.createElement('li');
       var link = document.createElement('a');
       var name = document.createElement('span');
       link.className = 'minicard-wrapper js-minicard js-board-search-card';
-      link.href = card.getAttribute('up-href');
+      link.href = match.url;
       name.className = 'minicard-title';
-      name.textContent = title.textContent;
+      name.textContent = match.title;
       link.appendChild(name);
       item.appendChild(link);
       results.appendChild(item);

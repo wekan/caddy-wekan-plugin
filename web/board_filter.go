@@ -96,8 +96,8 @@ func (f boardFilter) labelSelector() bson.M {
 	return bson.M{"$and": all}
 }
 
-// cardIDs are the board's cards the filter matches.
-func (s *Server) boardFilterCardIDs(ctx context.Context, boardID string, f boardFilter) map[string]bool {
+// boardFilterSelector matches a board's cards by labels and searchable text.
+func (s *Server) boardFilterSelector(ctx context.Context, boardID string, f boardFilter) bson.M {
 	sel := bson.A{bson.M{"boardId": eq(boardID)}, f.labelSelector()}
 	if f.Text != "" {
 		rx := bson.Regex{Pattern: queryText(regexp.QuoteMeta(f.Text)), Options: "i"}
@@ -121,8 +121,13 @@ func (s *Server) boardFilterCardIDs(ctx context.Context, boardID string, f board
 		}
 		sel = append(sel, bson.M{"$or": matched})
 	}
+	return bson.M{"$and": sel}
+}
+
+// boardFilterCardIDs returns the board's cards the filter matches.
+func (s *Server) boardFilterCardIDs(ctx context.Context, boardID string, f boardFilter) map[string]bool {
 	out := map[string]bool{}
-	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"$and": sel})
+	cur, err := s.db.Collection("cards").Find(ctx, s.boardFilterSelector(ctx, boardID, f))
 	if err != nil {
 		return out
 	}
