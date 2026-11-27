@@ -1865,6 +1865,7 @@
   "text-notes": "Shënime Teksti",
   "thursday": "E enjte",
   "time": "Ora",
+  "time-adjustment-note": "Ndryshimet në orët e regjistruara, të grupuara sipas personit që redakton totalin. Këto nuk janë seanca pune individuale. Vlerat negative janë korrigjime. Koha e mëparshme e paregjistruar nuk mund t’i atribuohet asnjë personi.",
   "time-adjustments": "orë — Δ — Emri i përdoruesit",
   "title": "Titulli",
   "title-alphabetically": "Titulli (alfabetikisht)",

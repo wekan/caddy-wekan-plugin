@@ -1865,6 +1865,7 @@
   "text-notes": "Notas de texto",
   "thursday": "Jueves",
   "time": "Hora",
+  "time-adjustment-note": "Cambios en as horas rechistradas, agrupaus seguntes a persona que modifica o total. No son sesions de treballo individuals. Os valors negativos son correccions. O tiempo anterior no rechistrau no se puede atribuir a denguna persona.",
   "time-adjustments": "horas — Δ — Nombre d'usuario",
   "title": "Titol",
   "title-alphabetically": "Título (Alfabéticamente)",

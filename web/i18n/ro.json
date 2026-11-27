@@ -1865,6 +1865,7 @@
   "text-notes": "Notițe text",
   "thursday": "Joi",
   "time": "Timp",
+  "time-adjustment-note": "Modificări ale orelor înregistrate, grupate după persoana care editează totalul. Acestea nu sunt sesiuni de lucru individuale. Valorile negative sunt corecții. Timpul anterior neînregistrat nu poate fi atribuit unei persoane.",
   "time-adjustments": "Ajustări de timp după autor",
   "title": "Titlu",
   "title-alphabetically": "Titlu (în ordine alfabetică)",

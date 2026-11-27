@@ -1865,6 +1865,7 @@
   "text-notes": "Tekstimuistiinpanot",
   "thursday": "Torstai",
   "time": "Aika",
+  "time-adjustment-note": "Kirjattujen tuntien muutokset summan muokkaajan mukaan. Nämä eivät ole yksittäisiä työjaksoja. Negatiiviset luvut ovat korjauksia. Aiemman kirjaamattoman ajan tekijää ei voida päätellä.",
   "time-adjustments": "Tuntimuutokset tekijöittäin",
   "title": "Otsikko",
   "title-alphabetically": "Otsikko (Aakkosjärjestyksessä)",

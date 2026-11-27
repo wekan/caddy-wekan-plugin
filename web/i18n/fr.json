@@ -1866,6 +1866,7 @@
   "text-notes": "Notes textuelles",
   "thursday": "Jeudi",
   "time": "Temps",
+  "time-adjustment-note": "Modifications des heures enregistrées, regroupées par personne ayant modifié le total. Il ne s’agit pas de sessions de travail individuelles. Les valeurs négatives sont des corrections. Le temps antérieur non enregistré ne peut être attribué à personne.",
   "time-adjustments": "heures — Δ — Nom d'utilisateur",
   "title": "Titre",
   "title-alphabetically": "Titre (Alphabétiquement)",

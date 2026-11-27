@@ -1865,6 +1865,7 @@
   "text-notes": "Noti tat-Test",
   "thursday": "Il-Ħamis",
   "time": "Ħin",
+  "time-adjustment-note": "Bidliet fis-sigħat irreġistrati, miġbura skont il-persuna li teditja t-total. Dawn mhumiex sessjonijiet individwali ta’ xogħol. Valuri negattivi huma korrezzjonijiet. Ħin preċedenti mhux irreġistrat ma jistax jiġi attribwit.",
   "time-adjustments": "Aġġustamenti tal-ħin skont l-awtur",
   "title": "Titlu",
   "title-alphabetically": "Titlu (Alphabetically)",

@@ -1865,6 +1865,7 @@
   "text-notes": "Ghi chú văn bản",
   "thursday": "Thứ năm",
   "time": "Thời gian",
+  "time-adjustment-note": "Các thay đổi về số giờ đã ghi nhận, được nhóm theo người chỉnh sửa tổng số giờ. Đây không phải là các phiên làm việc riêng lẻ. Giá trị âm là các lần điều chỉnh. Thời gian trước đây chưa được ghi nhận không thể quy cho bất kỳ ai.",
   "time-adjustments": "giờ — Δ — Tài khoản",
   "title": "Tiêu đề",
   "title-alphabetically": "Tiêu đề (theo thứ tự bảng chữ cái)",

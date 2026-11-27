@@ -1865,6 +1865,7 @@
   "text-notes": "Tekstaj Notoj",
   "thursday": "Ĵaŭdo",
   "time": "Tempo",
+  "time-adjustment-note": "Ŝanĝoj de registritaj horoj, grupigitaj laŭ la persono redaktanta la sumon. Ĉi tiuj ne estas apartaj laborseancoj. Negativaj valoroj estas korektoj. Antaŭa neregistrita tempo ne povas esti atribuita al iu persono.",
   "time-adjustments": "horoj — Δ — Uzantnomo",
   "title": "Titolo",
   "title-alphabetically": "Titolo (alfabete)",

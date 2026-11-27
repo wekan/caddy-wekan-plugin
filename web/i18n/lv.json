@@ -1865,6 +1865,7 @@
   "text-notes": "Teksta piezīmes",
   "thursday": "Ceturtdiena",
   "time": "Laiks",
+  "time-adjustment-note": "Reģistrēto stundu izmaiņas, sagrupētas pēc personas, kura rediģē kopējo skaitu. Tās nav atsevišķas darba sesijas. Negatīvās vērtības ir labojumi. Iepriekš nereģistrēto laiku nevar attiecināt uz kādu personu.",
   "time-adjustments": "stundas — Δ — Lietotājvārds",
   "title": "Nosaukums",
   "title-alphabetically": "Nosaukums (alfabēta secībā)",

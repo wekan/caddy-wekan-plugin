@@ -1870,6 +1870,7 @@
   "text-notes": "Textnotizen",
   "thursday": "Donnerstag",
   "time": "Zeit",
+  "time-adjustment-note": "Änderungen an erfassten Stunden, gruppiert nach der Person, die die Gesamtsumme bearbeitet. Dies sind keine einzelnen Arbeitssitzungen. Negative Werte sind Korrekturen. Zuvor nicht erfasste Zeit kann keiner Person zugeordnet werden.",
   "time-adjustments": "Stunden — Δ — Benutzername",
   "title": "Titel",
   "title-alphabetically": "Überschrift (alphabetisch)",

@@ -1865,6 +1865,7 @@
   "text-notes": "Nota Teks",
   "thursday": "Khamis",
   "time": "Masa",
+  "time-adjustment-note": "Perubahan pada jam yang direkodkan, dikumpulkan mengikut orang yang menyunting jumlah keseluruhan. Ini bukan sesi kerja individu. Nilai negatif ialah pembetulan. Masa terdahulu yang tidak direkodkan tidak dapat dikaitkan dengan sesiapa.",
   "time-adjustments": "ja — Δ — Nama Pengguna",
   "title": "Tajuk",
   "title-alphabetically": "Judul (mengikut abjad)",

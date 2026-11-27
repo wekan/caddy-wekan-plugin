@@ -1076,6 +1076,31 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		view = storedCalendarView(u, b.ID)
 	}
 	switch view {
+	case "time":
+		current = "time"
+		cards, err := s.chartCards(r.Context(), b)
+		if err != nil {
+			http.Error(w, "Could not load Time report", http.StatusInternalServerError)
+			return
+		}
+		limited := assignedOnlyOn(b, u)
+		visible := make([]chartCard, 0, len(cards))
+		var total float64
+		for _, card := range cards {
+			if (shown != nil && !shown[card.ID]) || (limited && !slices.Contains(card.Assignees, u.ID)) {
+				continue
+			}
+			visible = append(visible, card)
+			if !card.Archived {
+				total += card.SpentTime
+			}
+		}
+		page := map[string]any{"Total": round2(total), "Full": !limited && !guest}
+		if !limited && !guest {
+			page["Report"] = s.boardTimeReport(r.Context(), b, visible, cards)
+			page["Export"] = !s.exportDisabled(r.Context()) && s.fieldExportAllowed(r.Context(), b, u)
+		}
+		data["Time"] = page
 	case "cal":
 		current = "cal"
 		data["Calendar"] = calendarData(b, lanes, lang)

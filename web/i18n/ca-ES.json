@@ -1865,6 +1865,7 @@
   "text-notes": "Notes de text",
   "thursday": "dijous",
   "time": "Hora",
+  "time-adjustment-note": "Canvis en les hores registrades, agrupats per la persona que modifica el total. No són sessions de treball individuals. Els valors negatius són correccions. El temps anterior no registrat no es pot atribuir a cap persona.",
   "time-adjustments": "hores — Δ — Nom d'usuari",
   "title": "Títol",
   "title-alphabetically": "Títol (alfabèticament)",

@@ -1865,6 +1865,7 @@
   "text-notes": "Tekstnotatir",
   "thursday": "Hósdagur",
   "time": "Tíð",
+  "time-adjustment-note": "Broytingar í skrásettum tímum, bólkaðar eftir tí persóni, sum broytir samlaða talið. Hetta eru ikki einstakar arbeiðsløtur. Negativ virði eru rættingar. Tíð, sum ikki varð skrásett áður, kann ikki knýtast at nøkrum persóni.",
   "time-adjustments": "tímar — Δ — Brúkaranavn",
   "title": "Heiti",
   "title-alphabetically": "Heiti (stavrað)",

@@ -1865,6 +1865,7 @@
   "text-notes": "Textnotizen",
   "thursday": "Donneschdeg",
   "time": "Zäit",
+  "time-adjustment-note": "Ännerunge vun den erfaasste Stonnen, gruppéiert no der Persoun, déi den Total ännert. Dëst si keng eenzel Aarbechtssessiounen. Negativ Wäerter si Korrekturen. Zäit, déi virdrun net erfaasst gouf, kann kenger Persoun zougeuerdent ginn.",
   "time-adjustments": "Stonnen — Δ — Benotzernumm",
   "title": "Titel",
   "title-alphabetically": "Titel (alphabetesch)",

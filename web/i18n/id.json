@@ -1865,6 +1865,7 @@
   "text-notes": "Catatan Teks",
   "thursday": "Kamis",
   "time": "Waktu",
+  "time-adjustment-note": "Perubahan pada jam yang tercatat, dikelompokkan berdasarkan orang yang menyunting totalnya. Ini bukan sesi kerja individual. Nilai negatif adalah koreksi. Waktu sebelumnya yang tidak tercatat tidak dapat dikaitkan dengan seseorang.",
   "time-adjustments": "m — Δ — Nama Pengguna",
   "title": "Judul",
   "title-alphabetically": "Judul (Urutan Abjad)",

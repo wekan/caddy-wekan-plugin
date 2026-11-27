@@ -1865,6 +1865,7 @@
   "text-notes": "Tekstnotysjes",
   "thursday": "tongersdei",
   "time": "Tiid",
+  "time-adjustment-note": "Feroarings oan registrearre oeren, groepearre neffens de persoan dy't it totaal bewurket. Dit binne gjin aparte wurksesjes. Negative wearden binne korreksjes. Eardere net-registrearre tiid kin net oan immen taskreaun wurde.",
   "time-adjustments": "oeren — Δ — Brûkersnamme",
   "title": "Titel",
   "title-alphabetically": "Titel (alfabetisch)",

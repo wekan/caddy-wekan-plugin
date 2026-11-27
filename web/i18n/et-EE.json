@@ -1865,6 +1865,7 @@
   "text-notes": "Tekstimärkmed",
   "thursday": "Neljapäev",
   "time": "Aeg",
+  "time-adjustment-note": "Kirjapandud tundide muudatused, rühmitatuna kogusummat muutnud isiku järgi. Need ei ole eraldi tööseansid. Negatiivsed väärtused on parandused. Varem kirjapanemata aega ei saa ühelegi isikule omistada.",
   "time-adjustments": "tundi — Δ — Kasutajanimi",
   "title": "Pealkiri",
   "title-alphabetically": "Pealkiri (tähestikulises järjekorras)",

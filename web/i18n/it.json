@@ -1865,6 +1865,7 @@
   "text-notes": "Note di testo",
   "thursday": "Giovedì",
   "time": "Ora",
+  "time-adjustment-note": "Modifiche alle ore registrate, raggruppate per persona che modifica il totale. Non si tratta di singole sessioni di lavoro. I valori negativi sono correzioni. Il tempo precedente non registrato non può essere attribuito a nessuno.",
   "time-adjustments": "ore — Δ — Nome utente",
   "title": "Titolo",
   "title-alphabetically": "Titolo (ordine alfabetico)",

@@ -1324,7 +1324,70 @@
   .board-canvas#board-canvas(data-search-reveal="{{.SearchReveal}}", class="{{if .Board.SharedListHeaders}}shared-list-headers{{end}}")
     //- WeKan's calendarView: the board's cards on a calendar - the same cards
       the board shows, the Filter's too (calendar_view.go, weddy.js).
-    if .CalendarMode
+    if .Time
+      section.time-view
+        h2 {{t $.L "board-view-time"}}
+        p {{t $.L "spent-time-hours"}} {{.Time.Total}}
+        if .Time.Full
+          if .Time.Export
+            button.js-export-chart(type="button", data-chart-key="time", data-board="{{.Board.ID}}") {{t $.L "export"}}
+          p {{t $.L "board-status-remaining-time-total"}} {{.Time.Report.remaining.TotalHours}} {{t $.L "hours"}}
+          if .Time.Report.byAssignee
+            section.stats-view-section
+              h3 {{t $.L "assignees"}}
+              table.stats-view-table.chart-data-table
+                thead
+                  tr
+                    th {{t $.L "name"}}
+                    th {{t $.L "hours"}}
+                tbody
+                  each row in .Time.Report.byAssignee
+                    tr
+                      td {{if eq .Key "__no_assignee__"}}{{t $.L "no-assignee"}}{{else}}{{.Label}}{{end}}
+                      td {{.Hours}}
+          if .Time.Report.byCard
+            section.stats-view-section
+              h3 {{t $.L "card"}}
+              table.stats-view-table.chart-data-table
+                thead
+                  tr
+                    th {{t $.L "name"}}
+                    th {{t $.L "hours"}}
+                tbody
+                  each row in .Time.Report.byCard
+                    tr
+                      td {{.Title}}{{if .IsOvertime}} ({{t $.L "overtime"}}){{end}}
+                      td {{.Hours}}
+          section.stats-view-section.time-adjustments
+            h3 {{t $.L "time-adjustments"}}
+            p {{t $.L "time-adjustment-note"}}
+            table.stats-view-table.chart-data-table
+              thead
+                tr
+                  th {{t $.L "username"}}
+                  th {{t $.L "hours"}}
+              tbody
+                each row in .Time.Report.adjustments.groups
+                  tr
+                    td {{.Label}}
+                    td {{.Hours}}
+            table.stats-view-table.chart-data-table
+              thead
+                tr
+                  th {{t $.L "date"}}
+                  th {{t $.L "card"}}
+                  th {{t $.L "username"}}
+                  th Δ {{t $.L "hours"}}
+                  th {{t $.L "hours"}}
+              tbody
+                each row in .Time.Report.adjustments.entries
+                  tr
+                    td {{.at.Format "2006-01-02 15:04"}}
+                    td {{.title}}
+                    td {{.author}}
+                    td {{.hours}}
+                    td {{.total}}
+    else if .CalendarMode
       //- WeKan's calendarModeView (#3194): weddy.js draws the month or week.
       .calendar-mode-view.js-calendar-mode-view(data-cards="{{.CalendarMode.Cards}}", data-labels="{{.CalendarMode.Labels}}", data-first-day="1")
         .calendar-mode-toolbar

@@ -1865,6 +1865,7 @@
   "text-notes": "Notatki tekstowe",
   "thursday": "Czwartek",
   "time": "Czas",
+  "time-adjustment-note": "Zmiany zarejestrowanych godzin, pogrupowane według osoby edytującej łączny czas. Nie są to pojedyncze sesje pracy. Wartości ujemne są korektami. Wcześniejszego niezarejestrowanego czasu nie można przypisać żadnej osobie.",
   "time-adjustments": "godzin — Δ — Nazwa użytkownika",
   "title": "Tytuł",
   "title-alphabetically": "nazwy (alfabetycznie)",

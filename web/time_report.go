@@ -1,6 +1,7 @@
 package web
 
 import (
+	"context"
 	"encoding/json"
 	"math"
 	"net/http"
@@ -61,7 +62,11 @@ func (s *Server) methodBoardChartData(r *http.Request, u *User, args []json.RawM
 	if err != nil {
 		return nil, err
 	}
-	changes := s.timeAdjustments(ctx, board, cards)
+	return s.boardTimeReport(ctx, board, cards, cards), nil
+}
+
+func (s *Server) boardTimeReport(ctx context.Context, board *Board, cards, titleCards []chartCard) map[string]any {
+	changes := s.timeAdjustments(ctx, board, titleCards)
 	ids := bson.A{}
 	for _, change := range changes {
 		ids = append(ids, change.user)
@@ -143,5 +148,5 @@ func (s *Server) methodBoardChartData(r *http.Request, u *User, args []json.RawM
 		byAssignee[i].Hours = round2(byAssignee[i].Hours)
 	}
 	return map[string]any{"adjustments": map[string]any{"entries": entries, "groups": groups},
-		"byCard": byCard, "byAssignee": byAssignee, "remaining": remainingTime(cards, time.Now())}, nil
+		"byCard": byCard, "byAssignee": byAssignee, "remaining": remainingTime(cards, time.Now())}
 }

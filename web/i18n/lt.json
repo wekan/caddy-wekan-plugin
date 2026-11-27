@@ -1865,6 +1865,7 @@
   "text-notes": "Tekstinės pastabos",
   "thursday": "ketvirtadienis",
   "time": "Laikas",
+  "time-adjustment-note": "Užregistruotų valandų pakeitimai, sugrupuoti pagal bendrą sumą redaguojantį asmenį. Tai nėra atskiri darbo seansai. Neigiamos reikšmės yra pataisymai. Ankstesnio neužregistruoto laiko negalima priskirti jokiam asmeniui.",
   "time-adjustments": "valandų — Δ — Vartotojo vardas",
   "title": "Pavadinimas",
   "title-alphabetically": "Pavadinimas (abėcėlės tvarka)",

@@ -1865,6 +1865,7 @@
   "text-notes": "Textaminnismiðar",
   "thursday": "Fimmtudagur",
   "time": "Tími",
+  "time-adjustment-note": "Breytingar á skráðum klukkustundum, flokkaðar eftir þeim sem breytir heildinni. Þetta eru ekki einstakar vinnulotur. Neikvæð gildi eru leiðréttingar. Ekki er hægt að eigna neinum tíma sem var ekki skráður áður.",
   "time-adjustments": "klukkustundir — Δ — Notandanafn",
   "title": "Titill",
   "title-alphabetically": "Heiti (í stafrófsröð)",

@@ -1865,6 +1865,7 @@
   "text-notes": "Cathetan Teks",
   "thursday": "Kemis",
   "time": "Wektu",
+  "time-adjustment-note": "Owah-owahan jam sing dicathet, diklompokake miturut wong sing nyunting gunggung wektu. Iki dudu sesi kerja siji-siji. Nilai negatif iku koreksi. Wektu sadurunge sing ora dicathet ora bisa digandhengake karo sapa wae.",
   "time-adjustments": "jam — Δ — Jeneng panganggo",
   "title": "Irah-irahan",
   "title-alphabetically": "Judhul (Miturut Abjad)",

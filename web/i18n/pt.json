@@ -1865,6 +1865,7 @@
   "text-notes": "Notas de texto",
   "thursday": "Quinta-feira",
   "time": "Tempo",
+  "time-adjustment-note": "Alterações nas horas registadas, agrupadas pela pessoa que altera o total. Não são sessões de trabalho individuais. Os valores negativos são correções. O tempo anterior não registado não pode ser atribuído a ninguém.",
   "time-adjustments": "horas — Δ — Nome de utilizador",
   "title": "Título",
   "title-alphabetically": "Título (Alfabeticamente)",

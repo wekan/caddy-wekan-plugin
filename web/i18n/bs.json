@@ -1865,6 +1865,7 @@
   "text-notes": "Tekstualne bilješke",
   "thursday": "Četvrtak",
   "time": "Vrijeme",
+  "time-adjustment-note": "Promjene evidentiranih sati, grupisane prema osobi koja uređuje ukupan iznos. To nisu pojedinačne radne sesije. Negativne vrijednosti su ispravke. Ranije neevidentirano vrijeme ne može se pripisati nijednoj osobi.",
   "time-adjustments": "sati — Δ — Korisničko ime",
   "title": "Naslov",
   "title-alphabetically": "Naslov (abecednim redom)",

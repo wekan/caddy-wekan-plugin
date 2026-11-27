@@ -1865,6 +1865,7 @@
   "text-notes": "Nodiadau Testun",
   "thursday": "dydd Iau",
   "time": "Amser",
+  "time-adjustment-note": "Newidiadau i'r oriau a gofnodwyd, wedi'u grwpio yn ôl y person sy'n golygu'r cyfanswm. Nid sesiynau gwaith unigol yw'r rhain. Cywiriadau yw gwerthoedd negyddol. Ni ellir priodoli amser blaenorol na chafodd ei gofnodi i unrhyw berson.",
   "time-adjustments": "oriau — Δ — Enw defnyddiwr",
   "title": "Teitl",
   "title-alphabetically": "Teitl (Yn nhrefn yr wyddor)",

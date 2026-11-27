@@ -1865,6 +1865,7 @@
   "text-notes": "Textanteckningar",
   "thursday": "Torsdag",
   "time": "Tid",
+  "time-adjustment-note": "Ändringar av registrerade timmar, grupperade efter personen som ändrar totalsumman. Detta är inte enskilda arbetspass. Negativa värden är korrigeringar. Tid som inte registrerats tidigare kan inte tillskrivas någon.",
   "time-adjustments": "timmar — Δ — Användarnamn",
   "title": "Titel",
   "title-alphabetically": "Titel (Alfabetisk)",

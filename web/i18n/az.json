@@ -1865,6 +1865,7 @@
   "text-notes": "Mətn Qeydləri",
   "thursday": "cümə axşamı",
   "time": "Vaxt",
+  "time-adjustment-note": "Qeydə alınmış saatlardakı dəyişikliklər ümumi məbləği redaktə edən şəxsə görə qruplaşdırılır. Bunlar ayrı-ayrı iş sessiyaları deyil. Mənfi dəyərlər düzəlişlərdir. Əvvəllər qeydə alınmamış vaxtı hər hansı şəxsə aid etmək mümkün deyil.",
   "time-adjustments": "saat — Δ — İstifadəçi adı",
   "title": "Başlıq",
   "title-alphabetically": "Başlıq (Əlifba sırası ilə)",

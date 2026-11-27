@@ -1865,6 +1865,7 @@
   "text-notes": "Notae Textuum",
   "thursday": "Dies Iovis",
   "time": "Tempus",
+  "time-adjustment-note": "Mutationes horarum notarum secundum eum qui summam mutat ordinatae. Hae non sunt singulae sessiones laboris. Numeri negativi emendationes indicant. Tempus antea non notatum nulli homini attribui potest.",
   "time-adjustments": "Correctiones temporis secundum auctorem",
   "title": "Titulus",
   "title-alphabetically": "Titulus (ordine alphabetico)",

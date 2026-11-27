@@ -1865,6 +1865,7 @@
   "text-notes": "Testu-oharrak",
   "thursday": "Osteguna",
   "time": "Ordua",
+  "time-adjustment-note": "Erregistratutako orduen aldaketak, guztizkoa editatzen duen pertsonaren arabera taldekatuta. Ez dira banakako lan-saioak. Balio negatiboak zuzenketak dira. Aurretik erregistratu gabeko denbora ezin zaio inori egotzi.",
   "time-adjustments": "ordu — Δ — Erabiltzaile-izena",
   "title": "Izenburua",
   "title-alphabetically": "Izenburua (alfabetikoki)",

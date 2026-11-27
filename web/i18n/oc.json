@@ -1865,6 +1865,7 @@
   "text-notes": "Nòtas de tèxte",
   "thursday": "Dijòus",
   "time": "Orodatatge",
+  "time-adjustment-note": "Cambiaments de las oras enregistradas, gropats segon la persona que modifica lo total. Son pas de sesilhas de trabalh individualas. Las valors negativas son de correccions. Lo temps anterior pas enregistrat pòt pas èsser atribuït a degun.",
   "time-adjustments": "oras — Δ — Nom d’utilizaire",
   "title": "Títol",
   "title-alphabetically": "Títol (Alfabeticament)",

@@ -1865,6 +1865,7 @@
   "text-notes": "文字笔记",
   "thursday": "礼拜四",
   "time": "时间",
+  "time-adjustment-note": "记录小时数个改动，按修改总数个人分组。搿些勿是单独个工作时段。负数是修正。以前呒没记录个时间归勿到具体个人。",
   "time-adjustments": "按修改者分组个时间调整",
   "title": "标题",
   "title-alphabetically": "标题（按字母顺序）",

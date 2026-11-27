@@ -1865,6 +1865,7 @@
   "text-notes": "Tekstnotities",
   "thursday": "Donderdag",
   "time": "Tijd",
+  "time-adjustment-note": "Wijzigingen in geregistreerde uren, gegroepeerd op de persoon die het totaal aanpast. Dit zijn geen afzonderlijke werksessies. Negatieve waarden zijn correcties. Eerdere niet-geregistreerde tijd kan niet aan iemand worden toegeschreven.",
   "time-adjustments": "uren — Δ — Gebruikersnaam",
   "title": "Titel",
   "title-alphabetically": "Titel (Alfabetisch)",

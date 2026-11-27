@@ -1865,6 +1865,7 @@
   "text-notes": "Tekstnoter",
   "thursday": "Torsdag",
   "time": "Tid",
+  "time-adjustment-note": "Ændringer i registrerede timer, grupperet efter den person, der ændrer det samlede antal. Dette er ikke individuelle arbejdsperioder. Negative værdier er rettelser. Tid, der ikke tidligere er registreret, kan ikke tilskrives nogen.",
   "time-adjustments": "timer — Δ — Brugernavn",
   "title": "Titel",
   "title-alphabetically": "Titel (alfabetisk)",

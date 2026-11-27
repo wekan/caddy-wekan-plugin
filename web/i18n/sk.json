@@ -1865,6 +1865,7 @@
   "text-notes": "Textové poznámky",
   "thursday": "štvrtok",
   "time": "Čas",
+  "time-adjustment-note": "Zmeny zaznamenaných hodín zoskupené podľa osoby, ktorá upravila celkový čas. Nie sú to jednotlivé pracovné úseky. Záporné hodnoty sú opravy. Skorší nezaznamenaný čas nemožno priradiť.",
   "time-adjustments": "Úpravy času podľa autora",
   "title": "Názov",
   "title-alphabetically": "Názov (abecedne)",

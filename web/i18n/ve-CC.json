@@ -1865,6 +1865,7 @@
   "text-notes": "Note de testo",
   "thursday": "Giovedì",
   "time": "Ora",
+  "time-adjustment-note": "Canbiamenti a le ore registrade, ragrupà par la persona che modifica el totale. No le xe session de lavoro singole. I valori negativi i xe corezion. El tenpo de prima no registrà no se pol atribuirlo.",
   "time-adjustments": "Corezion del tenpo par autor",
   "title": "Titolo",
   "title-alphabetically": "Tìtoło (in òrdine ałfabètico)",

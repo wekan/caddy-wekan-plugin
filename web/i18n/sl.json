@@ -1865,6 +1865,7 @@
   "text-notes": "Besedilne opombe",
   "thursday": "Četrtek",
   "time": "Čas",
+  "time-adjustment-note": "Spremembe zabeleženih ur, združene po osebi, ki ureja skupno število. To niso posamezne delovne seje. Negativne vrednosti so popravki. Prejšnjega nezabeleženega časa ni mogoče pripisati osebi.",
   "time-adjustments": "ure — Δ — Up. ime",
   "title": "Naslov",
   "title-alphabetically": "Naslov (po abecedi)",

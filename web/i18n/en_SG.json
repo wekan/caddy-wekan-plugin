@@ -1865,6 +1865,7 @@
   "text-notes": "Text Notes",
   "thursday": "Thursday",
   "time": "Time",
+  "time-adjustment-note": "Changes to recorded hours, grouped by the person editing the total. These are not individual work sessions. Negative values are corrections. Earlier unrecorded time cannot be attributed.",
   "time-adjustments": "hours — Δ — Username",
   "title": "Title",
   "title-alphabetically": "Title (Alphabetically)",
