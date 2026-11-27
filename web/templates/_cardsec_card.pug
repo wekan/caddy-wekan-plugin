@@ -7,7 +7,7 @@
       summary
         each li in $.Lists
           if eq .ID $.Card.ListID
-            | {{.Title}}
+            | {{viewer .Title $.TextPolicy}}
       .card-details-list-options(role="listbox", aria-label="{{t $.L `list`}}")
         each li in $.Lists
           form(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/move-to", up-submit, up-target=".board-wrapper")
