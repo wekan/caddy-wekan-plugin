@@ -921,13 +921,34 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			shown = ids
 		}
 	}
+	// A search can draw one readable card through the display filter and
+	// temporarily unfold its lane and list without changing saved folds.
+	revealID := r.URL.Query().Get("searchReveal")
+	revealLane, revealList := "", ""
+	if validID(revealID) {
+		restricted := viewer != nil && !viewer.IsAdmin && assignedOnlyOn(b, viewer)
+	findReveal:
+		for _, lane := range lanes {
+			for _, list := range lane.Lists {
+				for _, card := range list.Cards {
+					if card.ID == revealID && (!restricted || slices.Contains(card.Assignees, viewer.ID)) {
+						revealLane, revealList = lane.ID, list.ID
+						break findReveal
+					}
+				}
+			}
+		}
+	}
+	if revealList == "" {
+		revealID = ""
+	}
 	if shown != nil {
 		for i := range lanes {
 			for j := range lanes[i].Lists {
 				ll := &lanes[i].Lists[j]
 				kept := ll.Cards[:0]
 				for _, c := range ll.Cards {
-					if shown[c.ID] {
+					if shown[c.ID] || c.ID == revealID {
 						kept = append(kept, c)
 					}
 				}
@@ -947,7 +968,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	folded := s.collapsedLists(r.Context(), u.ID, b.ID)
 	folds := s.foldsOf(r.Context(), u.ID, b.ID)
 	for i := range lanes {
-		lanes[i].Collapsed = folds.Swimlanes[lanes[i].ID]
+		lanes[i].Collapsed = folds.Swimlanes[lanes[i].ID] && lanes[i].ID != revealLane
 		for j := range lanes[i].Lists {
 			ll := &lanes[i].Lists[j]
 			for k := range ll.Cards {
@@ -961,12 +982,12 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			if !ok {
 				v = folded[ll.ID]
 			}
-			ll.Collapsed = v
+			ll.Collapsed = v && (ll.ID != revealList || ll.Lane != revealLane)
 			ll.CanAdd = s.canAddCardIn(r.Context(), b, ll.ID, u)
 		}
 	}
 	data := map[string]any{"Title": b.Title, "User": viewer, "Board": b, "Lanes": lanes, "CanEdit": b.Writable(u, "write", nil), "CanSetBoardDates": canSetBoardDates(b, u), "Starred": starred, "Invited": invited,
-		"AdvancedFilter": typed, "AppliedFilter": applied, "FilterActive": applied != "" || cardFilter.active(),
+		"SearchReveal": revealID, "AdvancedFilter": typed, "AppliedFilter": applied, "FilterActive": applied != "" || cardFilter.active(),
 		"CardSort": cardSort, "CardSorts": cardSorts, "FilterText": cardFilter.Text, "FilterNoLabel": cardFilter.NoLabel, "FilterLabelAnd": cardFilter.And, "FilterLabels": cardFilter.sidebarLabels(b)}
 	// WeKan's sidebar: the board menu for a member who is not comment-only or a
 	// worker; its Export for whoever may export the board (models/lib/exportAccess.js).

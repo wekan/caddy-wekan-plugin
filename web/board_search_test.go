@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/url"
 	"slices"
+	"strings"
 	"testing"
 	"time"
 
@@ -39,7 +40,7 @@ func TestBoardSearchMatches(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	insert("cards", bson.M{"_id": "searchOther", "boardId": board.ID, "title": "Comment match", "archived": false})
+	insert("cards", bson.M{"_id": "searchOther", "boardId": board.ID, "listId": board.List, "swimlaneId": board.Swimlane, "title": "Comment match", "archived": false})
 	insert("card_comments", bson.M{"_id": "searchComment", "boardId": board.ID, "cardId": "searchOther", "text": "Needle"})
 	insert("cards", bson.M{"_id": "searchArchive", "boardId": board.ID, "title": "Needle archive", "archived": true})
 	insert("cards", bson.M{"_id": "searchDeleted", "boardId": board.ID, "title": "Needle deleted", "archived": false, "deletedAt": time.Now()})
@@ -97,6 +98,24 @@ func TestBoardSearchMatches(t *testing.T) {
 	search(ownerClient, "Restricted", http.StatusOK, board.Card)
 	search(assigneeClient, "Restricted", http.StatusOK)
 	search(ownerClient, "Unknown", http.StatusOK)
+	for _, tc := range []struct {
+		client *http.Client
+		id     string
+		want   bool
+	}{
+		{ownerClient, board.Card, true},
+		{ownerClient, "searchOther", true},
+		{assigneeClient, board.Card, true},
+		{assigneeClient, "searchOther", false},
+		{ownerClient, other.Card, false},
+	} {
+		query := url.Values{"text": {"definitely absent"}, "searchReveal": {tc.id}}
+		res, html := get(t, tc.client, w.srv.URL+"/b/"+board.ID+"/search-fixture?"+query.Encode())
+		shown := strings.Contains(html, `data-card-id="`+tc.id+`"`)
+		if res.StatusCode != http.StatusOK || shown != tc.want {
+			t.Errorf("reveal %s: got status %d, card present %t, want %t", tc.id, res.StatusCode, shown, tc.want)
+		}
+	}
 	search(w.client(t), "needle", http.StatusNotFound)
 	update("boards", board.ID, bson.M{"$set": bson.M{"permission": "public"}})
 	search(w.client(t), "needle", http.StatusOK, board.Card, "searchOther")

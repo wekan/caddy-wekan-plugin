@@ -1051,6 +1051,32 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   var boardSearchDirection = 1;
   var boardSearchMatches = [];
   var boardSearchRequest = 0;
+  var boardSearchRedraw = null;
+
+  function drawBoardSearchCanvas(board, id) {
+    var canvas = board.querySelector('.board-canvas');
+    if (!canvas || (!boardSearchRedraw && canvas.dataset.searchReveal === id)) return;
+    if (boardSearchRedraw && boardSearchRedraw.id === id) return;
+    var url = new URL(window.location.href);
+    url.searchParams.delete('searchReveal');
+    if (id) url.searchParams.set('searchReveal', id);
+    var redraw = { id: id };
+    boardSearchRedraw = redraw;
+    Promise.resolve(up.render({
+      url: url.pathname + url.search, target: '.board-canvas',
+      history: false, cache: false, focus: 'keep', scroll: false,
+    })).then(function () {
+      if (boardSearchRedraw !== redraw) return;
+      var current = document.querySelector('.js-weddy-board-search');
+      if (boardSearchId && current && current.closest('.board-wrapper') === board) {
+        renderBoardSearch(current, 0);
+        var selected = board.querySelector('.board-canvas .is-search-highlight');
+        if (selected) selected.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
+    }).catch(function () { /* Sidebar links are still available. */ }).finally(function () {
+      if (boardSearchRedraw === redraw) boardSearchRedraw = null;
+    });
+  }
   function showBoardSearch(sidebar, open) {
     var search = sidebar.querySelector('.js-weddy-board-search');
     if (!search) return;
@@ -1064,6 +1090,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       boardSearchRequest++;
       search.querySelector('form').reset();
       renderBoardSearch(search, 0);
+      drawBoardSearchCanvas(sidebar.closest('.board-wrapper'), '');
     }
   }
   up.on('click', '.js-open-search-view', function (event, button) {
@@ -1107,7 +1134,10 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     boardSearchMatches = [];
     var request = ++boardSearchRequest;
     renderBoardSearch(search, 0);
-    if (!term) return;
+    if (!term) {
+      drawBoardSearchCanvas(search.closest('.board-wrapper'), '');
+      return;
+    }
     var board = boardSearchId;
     fetch('/b/' + encodeURIComponent(board) + '/search/matches?q=' + encodeURIComponent(term))
       .then(function (response) { return response.ok ? response.json() : []; })
@@ -1117,6 +1147,7 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
         if (!current || current.closest('.board-wrapper').dataset.board !== board) return;
         boardSearchMatches = matches;
         renderBoardSearch(current, direction);
+        if (!matches.length) drawBoardSearchCanvas(current.closest('.board-wrapper'), '');
       }).catch(function () { /* A failed request leaves the board available. */ });
   });
   up.on('click', '.js-weddy-search-step', function (event, button) {
@@ -1126,15 +1157,14 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var board = search.closest('.board-wrapper');
     var results = search.querySelector('.js-weddy-search-results');
     var counter = search.querySelector('.search-step');
-    var cards = [];
+    var cards = new Map();
     results.replaceChildren();
     counter.classList.add('is-hidden');
     board.querySelectorAll('.board-canvas .is-search-highlight').forEach(function (card) {
       card.classList.remove('is-search-highlight');
     });
-    var matchedIds = new Set(boardSearchMatches.map(function (match) { return match.id; }));
     board.querySelectorAll('.board-canvas .js-minicard').forEach(function (card) {
-      if (matchedIds.has(card.dataset.cardId)) cards.push(card);
+      cards.set(card.dataset.cardId, card);
     });
     boardSearchMatches.forEach(function (match) {
       var item = document.createElement('li');
@@ -1148,21 +1178,25 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       item.appendChild(link);
       results.appendChild(item);
     });
-    if (!cards.length) {
-      boardSearchCard = null;
-      return;
-    }
-    var index = cards.findIndex(function (card) { return card.dataset.cardId === boardSearchCard; });
+    if (!boardSearchMatches.length) return;
+    var index = boardSearchMatches.findIndex(function (match) { return match.id === boardSearchCard; });
+    var count = boardSearchMatches.length;
     if (direction) {
-      index = index < 0 ? (direction > 0 ? 0 : cards.length - 1) : (index + direction + cards.length) % cards.length;
+      index = index < 0 ? (direction > 0 ? 0 : count - 1) : (index + direction + count) % count;
     }
     if (index < 0) return;
-    var selected = cards[index];
-    boardSearchCard = selected.dataset.cardId;
-    selected.classList.add('is-search-highlight');
-    if (direction) selected.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    boardSearchCard = boardSearchMatches[index].id;
+    var selected = cards.get(boardSearchCard);
+    if (selected) selected.classList.add('is-search-highlight');
+    if (direction) {
+      var canvas = board.querySelector('.board-canvas');
+      var needsReveal = !selected || selected.closest('.list-collapsed') ||
+        (canvas && canvas.dataset.searchReveal === boardSearchCard);
+      drawBoardSearchCanvas(board, needsReveal ? boardSearchCard : '');
+      if (selected && !boardSearchRedraw) selected.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    }
     var caption = counter.querySelector('.js-search-step-count');
-    caption.textContent = caption.dataset.caption.replace('%s', String(index + 1)).replace('%s', String(cards.length));
+    caption.textContent = caption.dataset.caption.replace('%s', String(index + 1)).replace('%s', String(count));
     counter.classList.remove('is-hidden');
   }
   up.on('click', '.js-toggle-page-sidebar', function (event) {

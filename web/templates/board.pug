@@ -1309,7 +1309,7 @@
           |  {{.Announcement}}
           a.js-close-board-announcement(href="#", aria-label="{{t $.L `close`}}", title="{{t $.L `close`}}")
             i.fa.fa-times-thin(aria-hidden="true") ×
-  .board-canvas#board-canvas(class="{{if .Board.SharedListHeaders}}shared-list-headers{{end}}")
+  .board-canvas#board-canvas(data-search-reveal="{{.SearchReveal}}", class="{{if .Board.SharedListHeaders}}shared-list-headers{{end}}")
     //- WeKan's calendarView: the board's cards on a calendar - the same cards
       the board shows, the Filter's too (calendar_view.go, weddy.js).
     if .CalendarMode
