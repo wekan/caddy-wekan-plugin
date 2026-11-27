@@ -34,7 +34,7 @@ func TestHistoryBack(t *testing.T) {
 		"/\\evil.example":             page,
 		" " + page:                    page,
 	} {
-		if got := historyBack("B1", back); got != want {
+		if got := historyBack(page, back); got != want {
 			t.Errorf("historyBack(%q) = %q, want %q", back, got, want)
 		}
 	}

@@ -118,8 +118,11 @@ func TestMemberHistoryView(t *testing.T) {
 	var row bson.M
 	_ = w.db.Collection("changeHistory").FindOne(ctx, bson.M{"boardId": mine.ID, "newContent.value": "MINE-EDIT"}).Decode(&row)
 	_ = w.s.updateRecorded(ctx, ann.ID, "card", mine.Card, bson.M{"$set": bson.M{"title": "Later"}})
-	if res, _ := post(t, c, w.srv.URL+"/profile/history/restore", url.Values{"id": {docString(row, "_id")}}); res.StatusCode != http.StatusSeeOther {
-		t.Fatalf("restore: %d", res.StatusCode)
+	back := "/profile/history?q=MINE&page=2"
+	res, _ := post(t, c, w.srv.URL+"/profile/history/restore",
+		url.Values{"id": {docString(row, "_id")}, "back": {back}})
+	if res.StatusCode != http.StatusSeeOther || res.Header.Get("Location") != back {
+		t.Fatalf("restore: %d, location %q", res.StatusCode, res.Header.Get("Location"))
 	}
 	var card bson.M
 	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": mine.Card}).Decode(&card)

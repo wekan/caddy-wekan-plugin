@@ -356,8 +356,8 @@ func (s *Server) historyRestorePage(w http.ResponseWriter, r *http.Request, u *U
 		return
 	}
 	ids := r.PostForm["id"]
-	back := historyBack(b.ID, r.PostForm.Get("back"))
-	target, err := url.Parse(back)
+	returnTo := historyBack("/b/"+b.ID+"/history", r.PostForm.Get("back"))
+	target, err := url.Parse(returnTo)
 	if err != nil {
 		http.Error(w, "bad history scope", http.StatusBadRequest)
 		return
@@ -379,15 +379,11 @@ func (s *Server) historyRestorePage(w http.ResponseWriter, r *http.Request, u *U
 		http.Error(w, err.Error(), http.StatusForbidden)
 		return
 	}
-	http.Redirect(w, r, back, http.StatusSeeOther)
+	http.Redirect(w, r, returnTo, http.StatusSeeOther)
 }
 
-// historyBack is where a board's Restore goes back to: the board's own
-// History page, with the query the page had (its search, its page) - never
-// anywhere else. The address is made here, from "/b/", the board's id and
-// "/history"; only a query is taken from the form (code scanning #162).
-func historyBack(boardID, back string) string {
-	page := "/b/" + boardID + "/history"
+// historyBack keeps the query from the restore form on the current History route.
+func historyBack(page, back string) string {
 	rest, ok := strings.CutPrefix(back, page)
 	if !ok || rest != "" && !strings.HasPrefix(rest, "?") {
 		return page
@@ -403,13 +399,16 @@ func (s *Server) memberHistoryPage(w http.ResponseWriter, r *http.Request, u *Us
 }
 
 func (s *Server) memberHistoryRestorePage(w http.ResponseWriter, r *http.Request, u *User) {
-	_ = r.ParseForm()
-	raw, _ := jsonMarshalArgs(r.Form["id"])
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "bad form", http.StatusBadRequest)
+		return
+	}
+	raw, _ := jsonMarshalArgs(r.PostForm["id"])
 	if _, err := s.methodHistoryRestore(r, u, raw); err != nil {
 		http.Error(w, err.Error(), http.StatusForbidden)
 		return
 	}
-	http.Redirect(w, r, "/profile/history", http.StatusSeeOther)
+	http.Redirect(w, r, historyBack("/profile/history", r.PostForm.Get("back")), http.StatusSeeOther)
 }
 
 func (s *Server) historyViewRoutes(m *http.ServeMux) {
