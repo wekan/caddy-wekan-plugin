@@ -280,6 +280,9 @@ func (s *Server) render(w http.ResponseWriter, r *http.Request, page string, sta
 	}
 	if u != nil {
 		data["DateSettings"] = dateSettingsOf(u, lang.Tag)
+		if _, ok := data["SiteDate"]; !ok {
+			data["SiteDate"] = s.siteDateFormat(r.Context())
+		}
 		data["Unread"] = s.unreadNotifications(r.Context(), u.ID)
 		data["Drawer"] = s.drawerGroups(r.Context(), u, s.drawerItems(r.Context(), u, lang.Tag), lang.Tag)
 		data["CloudMenu"] = s.cloudOn() && u.IsAdmin

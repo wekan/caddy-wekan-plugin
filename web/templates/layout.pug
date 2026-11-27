@@ -170,8 +170,9 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-browser-la
         //- WeKan's memberDateSettingsPopup (dateFormatSettings.jade): the
           member's date format, first day of the week and calendar (#4335).
         if .User
-          template.js-pop-over-template(data-pop="member-date-settings", data-title="{{t $.L `date-format`}}")
+          template.js-pop-over-template(data-pop="member-date-settings", data-popup="memberDateSettingsPopup", data-title="{{t $.L `date-format`}}")
             .content
+              | {{template "_date_format_status" .}}
               form.js-date-format-form
                 strong.js-member-date-format-heading {{t $.L "memberMenuPopup-title"}}: {{t $.L "date-format"}}
                 label.flex
@@ -179,7 +180,11 @@ html(lang="{{.L}}", dir="{{if .Lang.RTL}}rtl{{else}}ltr{{end}}", data-browser-la
                     input.js-date-format-override(type="checkbox", checked)
                   else
                     input.js-date-format-override(type="checkbox")
-                  span.js-member-date-format-enabled {{t $.L "date-format"}}
+                  span.js-member-date-format-enabled(data-enabled="{{t $.L `r-rule-enabled`}}", data-disabled="{{t $.L `r-rule-disabled`}}")
+                    if .DateSettings.Override
+                      | {{t $.L "r-rule-enabled"}}
+                    else
+                      | {{t $.L "r-rule-disabled"}}
                 select.js-date-format-select(aria-label="{{t $.L `date-format`}}")
                   each o in .DateSettings.Formats
                     if .Selected

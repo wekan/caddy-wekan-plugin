@@ -1,0 +1,14 @@
+.date-format-inherited
+  p.js-global-date-format-status
+    strong {{t $.L "date-format-for-everyone"}}
+    if .SiteDate.Enabled
+      |  {{t $.L "r-rule-enabled"}}: {{.SiteDate.Format}}
+    else
+      |  {{t $.L "r-rule-disabled"}}
+  if .BoardDateFormats
+    p.js-board-date-format-status
+      strong {{t $.L "board"}}: {{t $.L "date-format"}}
+      if .Board.DateFormatOverride
+        |  {{t $.L "r-rule-enabled"}}: {{.Board.DateFormat}}
+      else
+        |  {{t $.L "r-rule-disabled"}}

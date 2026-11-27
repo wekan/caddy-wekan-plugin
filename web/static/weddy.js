@@ -421,7 +421,13 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
   }
   up.on('click', '.js-member-date-settings', function (event) {
     event.preventDefault();
-    openPopOverFrom('member-date-settings', 'member-menu');
+    var popup = openPopOverFrom('member-date-settings', 'member-menu');
+    var live = document.querySelector('template.js-board-date-format-status-template');
+    if (popup && live) popup.querySelector('.date-format-inherited').replaceWith(live.content.cloneNode(true));
+  });
+  up.on('change', '.js-pop-over .js-date-format-override', function (event, input) {
+    var label = input.form.querySelector('.js-member-date-format-enabled');
+    if (label) label.textContent = input.checked ? label.dataset.enabled : label.dataset.disabled;
   });
   up.on('click', '.js-toggle-site-date', function (event, button) {
     var enabled = button.getAttribute('aria-checked') !== 'true';
@@ -491,10 +497,13 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
           pick('#calendar-system', system);
           var box = tpl.content.querySelector('.js-date-format-override');
           if (box) { if (override) box.setAttribute('checked', ''); else box.removeAttribute('checked'); }
+          var label = tpl.content.querySelector('.js-member-date-format-enabled');
+          if (label) label.textContent = override ? label.dataset.enabled : label.dataset.disabled;
         }
         html.setAttribute('data-calendar-system', system);
         html.setAttribute('data-start-day', String(day));
         if (override) html.setAttribute('data-date-format', format);
+        else html.removeAttribute('data-date-format');
         // The page draws again with the saved settings; the pop-over goes back.
         // Where to go back to is read now: the board drawn again closes the
         // pop-over.
