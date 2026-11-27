@@ -125,12 +125,12 @@ func TestRESTListsSwimlanesAndBoardMoves(t *testing.T) {
 	if code := call(t, "PUT", card, a, `{"newBoardId":"`+dest.ID+`","newSwimlaneId":"`+dest.Swimlane+`","newListId":"`+hidden.List+`"}`, nil); code != 404 {
 		t.Fatalf("negative: a list of a third board: %d", code)
 	}
-	if code := call(t, "PUT", card, a, `{"title":"Moved","newBoardId":"`+dest.ID+`","newSwimlaneId":"`+dest.Swimlane+`","newListId":"`+dest.List+`"}`, nil); code != 200 {
+	if code := call(t, "PUT", card, a, `{"title":"Moved","moveReason":"Awaiting delivery","newBoardId":"`+dest.ID+`","newSwimlaneId":"`+dest.Swimlane+`","newListId":"`+dest.List+`"}`, nil); code != 200 {
 		t.Fatalf("move a card to another board: %d", code)
 	}
 	var moved bson.M
 	_ = w.db.Collection("cards").FindOne(ctx, bson.M{"_id": src.Card}).Decode(&moved)
-	if moved["boardId"] != dest.ID || moved["listId"] != dest.List || moved["title"] != "Moved" ||
+	if moved["boardId"] != dest.ID || moved["listId"] != dest.List || moved["title"] != "Moved" || moved["lastMoveReason"] != "Awaiting delivery" ||
 		count("card_comments", bson.M{"cardId": src.Card, "boardId": dest.ID}) != 1 {
 		t.Fatalf("moved with its comment: %v", moved)
 	}

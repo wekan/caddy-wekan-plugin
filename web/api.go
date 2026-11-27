@@ -655,13 +655,19 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 			return
 		}
 	}
+	reason, _ := req["moveReason"].(string)
+	reason = strings.TrimSpace(reason)
+	if len(reason) > 4096 || strings.ContainsRune(reason, 0) {
+		apiError(w, http.StatusBadRequest, "Invalid move reason")
+		return
+	}
 	listID, hasList := req["listId"].(string)
 	swimlaneID, hasSwimlane := req["swimlaneId"].(string)
 	if moveTo != nil {
 		hasList, hasSwimlane = false, false
 	}
 	if hasList || hasSwimlane {
-		m := Move{CardID: c.ID, ListID: c.ListID, SwimlaneID: c.SwimlaneID, Sort: c.Sort}
+		m := Move{CardID: c.ID, ListID: c.ListID, SwimlaneID: c.SwimlaneID, Sort: c.Sort, reason: &reason}
 		if hasList {
 			m.ListID = listID
 		}
@@ -689,7 +695,7 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 	if moveTo != nil {
 		var raw bson.M
 		_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": c.ID}).Decode(&raw)
-		if err := s.moveCardTo(r.Context(), u, raw, b, moveTo, newSwimlane, newList); err != nil {
+		if err := s.moveCardTo(r.Context(), u, raw, b, moveTo, newSwimlane, newList, reason); err != nil {
 			apiError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
