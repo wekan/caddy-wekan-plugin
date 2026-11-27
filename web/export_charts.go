@@ -588,6 +588,82 @@ func (s *Server) flowRows(ctx context.Context, b *Board, key string, from, now t
 // timeRows are WeKan's Time export (#812, #1121): the remaining time until
 // due of the open cards, the time adjustments by author (from WeKan's change
 // history), then the hours by assignee and by card - archived cards left out.
+type timeAdjustment struct {
+	card, user, title string
+	at                time.Time
+	delta, sum        float64
+}
+
+func (s *Server) timeAdjustments(ctx context.Context, b *Board, cards []chartCard) []timeAdjustment {
+	var history []struct {
+		UserID   string    `bson:"userId"`
+		Restored string    `bson:"restoredByUserId"`
+		EntityID string    `bson:"entityId"`
+		At       time.Time `bson:"createdAt"`
+		Prev     bson.M    `bson:"previousContent"`
+		New      bson.M    `bson:"newContent"`
+	}
+	if cur, err := s.db.Collection("changeHistory").Find(ctx, bson.M{"boardId": b.ID, "entityType": "card",
+		"$or": bson.A{bson.M{"newContent.field": "spentTime"}, bson.M{"previousContent.field": "spentTime"}}}); err == nil {
+		_ = cur.All(ctx, &history)
+	}
+	num := func(m bson.M) (float64, bool) {
+		switch v := m["value"].(type) {
+		case nil:
+			return 0, true
+		case float64:
+			return v, true
+		case int32:
+			return float64(v), true
+		case int64:
+			return float64(v), true
+		}
+		return 0, false
+	}
+	titles := make(map[string]string, len(cards))
+	for _, card := range cards {
+		titles[card.ID] = card.Title
+	}
+	entries := []timeAdjustment{}
+	for _, h := range history {
+		if h.Restored != "" && h.UserID != h.Restored {
+			continue
+		}
+		f, _ := h.New["field"].(string)
+		if f == "" {
+			f, _ = h.Prev["field"].(string)
+		}
+		before, ok1 := num(h.Prev)
+		after, ok2 := num(h.New)
+		if f != "spentTime" || !ok1 || !ok2 || after == before || math.IsNaN(before) || math.IsNaN(after) || math.IsInf(before, 0) || math.IsInf(after, 0) {
+			continue
+		}
+		title, found := titles[h.EntityID]
+		if !found {
+			var row struct {
+				Previous struct {
+					Document struct {
+						Title string `bson:"title"`
+					} `bson:"document"`
+				} `bson:"previousContent"`
+			}
+			if err := s.db.Collection("changeHistory").FindOne(ctx, bson.M{
+				"boardId": b.ID, "entityType": "card", "entityId": h.EntityID, "group": "lifecycle",
+				"newContent": nil, "previousContent.document._id": h.EntityID, "previousContent.document.boardId": b.ID,
+			}, options.FindOne().SetSort(bson.D{{Key: "createdAt", Value: -1}})).Decode(&row); err == nil {
+				title = row.Previous.Document.Title
+			}
+			titles[h.EntityID] = title
+		}
+		if title == "" {
+			title = h.EntityID
+		}
+		entries = append(entries, timeAdjustment{h.EntityID, h.UserID, title, h.At, after - before, after})
+	}
+	sort.SliceStable(entries, func(i, j int) bool { return entries[i].at.After(entries[j].at) })
+	return entries
+}
+
 func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now time.Time, lang string) [][]any {
 	active := []chartCard{}
 	for _, c := range cards {
@@ -615,59 +691,15 @@ func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now 
 	remaining := sign + strconv.FormatFloat(days, 'f', -1, 64) + " " + tr(lang, "days") + ", " + strconv.FormatFloat(rest, 'f', -1, 64) + " " + tr(lang, "hours")
 	label := tr(lang, "board-status-remaining-time-total")
 	rows := section(label, [][]any{{label, remaining}})
-	// Adjustments by author.
-	var history []struct {
-		UserID   string    `bson:"userId"`
-		Restored string    `bson:"restoredByUserId"`
-		EntityID string    `bson:"entityId"`
-		At       time.Time `bson:"createdAt"`
-		Prev     bson.M    `bson:"previousContent"`
-		New      bson.M    `bson:"newContent"`
-	}
-	if cur, err := s.db.Collection("changeHistory").Find(ctx, bson.M{"boardId": b.ID, "entityType": "card",
-		"$or": bson.A{bson.M{"newContent.field": "spentTime"}, bson.M{"previousContent.field": "spentTime"}}}); err == nil {
-		_ = cur.All(ctx, &history)
-	}
-	num := func(m bson.M) (float64, bool) {
-		switch v := m["value"].(type) {
-		case nil:
-			return 0, true
-		case float64:
-			return v, true
-		case int32:
-			return float64(v), true
-		case int64:
-			return float64(v), true
-		}
-		return 0, false
-	}
-	type adjustment struct {
-		card, user string
-		at         time.Time
-		delta, sum float64
-	}
-	entries := []adjustment{}
+	entries := s.timeAdjustments(ctx, b, cards)
 	byAuthor, authors := map[string]float64{}, []string{}
 	ids := bson.A{}
-	for _, h := range history {
-		if h.Restored != "" && h.UserID != h.Restored {
-			continue
+	for _, entry := range entries {
+		if _, seen := byAuthor[entry.user]; !seen {
+			authors = append(authors, entry.user)
+			ids = append(ids, entry.user)
 		}
-		f, _ := h.New["field"].(string)
-		if f == "" {
-			f, _ = h.Prev["field"].(string)
-		}
-		before, ok1 := num(h.Prev)
-		after, ok2 := num(h.New)
-		if f != "spentTime" || !ok1 || !ok2 || after == before {
-			continue
-		}
-		if _, seen := byAuthor[h.UserID]; !seen {
-			authors = append(authors, h.UserID)
-			ids = append(ids, h.UserID)
-		}
-		byAuthor[h.UserID] += after - before
-		entries = append(entries, adjustment{h.EntityID, h.UserID, h.At, after - before, after})
+		byAuthor[entry.user] += entry.delta
 	}
 	for _, c := range active {
 		for _, id := range c.Assignees {
@@ -758,14 +790,9 @@ func (s *Server) timeRows(ctx context.Context, b *Board, cards []chartCard, now 
 	rows = append(rows, section(tr(lang, "card"), byCard)...)
 	// flowDetailRows: every adjustment, the newest first.
 	if len(entries) > 0 {
-		sort.SliceStable(entries, func(i, j int) bool { return entries[i].at.After(entries[j].at) })
 		rows = append(rows, []any{}, []any{tr(lang, "date"), tr(lang, "card"), tr(lang, "username"), "Δ " + tr(lang, "hours"), tr(lang, "hours")})
 		for _, e := range entries {
-			title := s.titleOfID(ctx, "cards", e.card)
-			if title == "" {
-				title = e.card
-			}
-			rows = append(rows, []any{e.at, a.text(title), nameOf(e.user), e.delta, e.sum})
+			rows = append(rows, []any{e.at, a.text(e.title), nameOf(e.user), e.delta, e.sum})
 		}
 	}
 	return rows

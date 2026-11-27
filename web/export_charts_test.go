@@ -127,6 +127,22 @@ func TestExportCharts(t *testing.T) {
 	if code, _, _ = get(base+"scrumVelocity/exportExcel", bt); code != 200 {
 		t.Errorf("assigned-only Scrum velocity: %d", code)
 	}
+	removedID := randomID()
+	for _, row := range []bson.M{
+		{"_id": randomID(), "boardId": b.ID, "entityType": "card", "entityId": removedID, "createdAt": created,
+			"userId": bob.ID, "newContent": bson.M{"field": "spentTime", "value": 7.25}},
+		{"_id": randomID(), "boardId": b.ID, "entityType": "card", "entityId": removedID, "group": "lifecycle",
+			"createdAt": created.Add(time.Hour), "newContent": nil,
+			"previousContent": bson.M{"document": bson.M{"_id": removedID, "boardId": b.ID, "title": "Removed task"}}},
+	} {
+		if _, err := w.db.Collection("changeHistory").InsertOne(ctx, row); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if code, _, data := get(base+"time/exportExcel", a); code != 200 ||
+		!strings.Contains(sheet(data), ">Removed task<") || !strings.Contains(sheet(data), ">7.25<") {
+		t.Fatalf("Time export loses the deleted card's correction: %d", code)
+	}
 	// The Admin Panel switches hold here too.
 	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"anonymizeExportUsers": true}})
 	if _, _, data = get(base+"dashboard/exportExcel", a); strings.Contains(sheet(data), "BOB") {
