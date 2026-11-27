@@ -1462,6 +1462,14 @@
                         //- WeKan's addCardForm: the composer drawn as a minicard.
                         .minicard.minicard-composer.js-composer
                           textarea.minicard-composer-textarea.js-card-title(name="title", dir="auto", aria-label="{{t $.L `title`}}", required)
+                        fieldset.multiline-title-choice
+                          legend {{t $.L "add-many-lines-as"}}
+                          label
+                            input.js-multiline-title-mode(type="radio", name="titleMode", value="one", checked)
+                            |  1 {{t $.L "card"}}
+                          label
+                            input.js-multiline-title-mode(type="radio", name="titleMode", value="separate")
+                            |  {{tv $.L "many-items" "items" (t $.L "cards")}}
                         .add-controls.clearfix
                           button.primary.confirm(type="submit") {{t $.L "add-card"}}
                           a.js-close-inlined-form(href="#", aria-label="{{t $.L `close`}}") ×

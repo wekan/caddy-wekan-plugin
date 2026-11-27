@@ -1551,15 +1551,27 @@ func (s *Server) addCard(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
 		return
 	}
-	top := s.topSort(ctx, b.ID, r.FormValue("listId"))
-	c, err := s.AddCard(ctx, b, u, r.FormValue("listId"), r.FormValue("swimlaneId"), r.FormValue("title"))
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	listID, laneID := r.FormValue("listId"), r.FormValue("swimlaneId")
+	titles := creationTitles(r.FormValue("title"), r.FormValue("titleMode") == "separate")
+	if len(titles) == 0 {
+		http.Error(w, "a card needs a title", http.StatusBadRequest)
 		return
 	}
-	// Add Card to Top of List: before the list's first card; otherwise last.
-	if r.FormValue("position") == "top" {
-		_, _ = s.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": c.ID}, bson.M{"$set": bson.M{"sort": top}})
+	atTop := r.FormValue("position") == "top"
+	top := s.topSort(ctx, b.ID, listID) - float64(len(titles)-1)
+	for i, title := range titles {
+		var extra bson.M
+		if atTop {
+			extra = bson.M{"sort": top + float64(i)}
+		}
+		if _, err := s.AddCardWith(ctx, b, u, listID, laneID, title, extra); err != nil {
+			if i > 0 {
+				s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+				err = fmt.Errorf("%d cards saved before the error: %w", i, err)
+			}
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
 	}
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
 	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
