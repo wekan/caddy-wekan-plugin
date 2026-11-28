@@ -366,7 +366,7 @@ func parseJira(data any) (jsObject, error) {
 		task.set("description", jiraDescription(jsGet(fields, "description")))
 		task.set("column_name", column)
 		task.set("swimlane_name", "Default")
-		for _, date := range [][2]string{{"duedate", "date_due"}, {"created", "date_creation"}, {"resolutiondate", "date_end"}} {
+		for _, date := range [][2]string{{"duedate", "date_due"}, {"created", "date_creation"}, {"updated", "date_modification"}, {"resolutiondate", "date_end"}} {
 			value, defined := jsLookup(fields, date[0])
 			task.setDefined(date[1], jiraImportDate(value), defined)
 		}

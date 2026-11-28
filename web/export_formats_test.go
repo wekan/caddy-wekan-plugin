@@ -586,7 +586,7 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 		}
 	}
 	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": board.Card}, bson.M{"$set": bson.M{
-		"spentTime": 1.5, "endAt": releaseDate, "customFields": bson.A{bson.M{"_id": id, "value": 0},
+		"spentTime": 1.5, "endAt": releaseDate, "modifiedAt": releaseDate, "customFields": bson.A{bson.M{"_id": id, "value": 0},
 			bson.M{"_id": "original", "value": 2}, bson.M{"_id": "remaining", "value": 0}},
 	}}); err != nil {
 		t.Fatal(err)
@@ -602,6 +602,10 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 		}
 		if selection != "dates" && fields["resolutiondate"] != nil {
 			t.Errorf("unselected Jira resolution date: %v", fields["resolutiondate"])
+		}
+		if selection == "dates" && fields["updated"] != "2026-10-10T00:00:00.000Z" ||
+			selection != "dates" && fields["updated"] != nil {
+			t.Errorf("Jira updated date for %s: %v", selection, fields["updated"])
 		}
 		actual := fields["timetracking"]
 		if expected == nil && actual == nil {

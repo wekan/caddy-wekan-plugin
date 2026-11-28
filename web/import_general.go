@@ -412,6 +412,9 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 			if len(scrum) > 0 {
 				card["scrum"] = scrum
 			}
+			if modified, ok := importedDate(jsGet(task, "date_modification")); ok {
+				card["modifiedAt"] = modified
+			}
 			if spent, ok := jsGet(task, "spentTime").(float64); ok {
 				card["spentTime"] = spent
 			}
