@@ -182,12 +182,15 @@ func TestShopBoardView(t *testing.T) {
 	}
 	form["quote"] = []string{quote[1]}
 	for attempt := 0; attempt < 2; attempt++ {
-		guest.Jar.SetCookies(res.Request.URL, []*http.Cookie{cookie})
 		if res, page = post(t, guest, orderURL, form); res.StatusCode != http.StatusCreated || !strings.Contains(page, "https://pay.example.test/order?number=") ||
 			!strings.Contains(page, "amount=25.00&amp;currency=EUR&amp;reference=RF") ||
 			!strings.Contains(page, "Shop test recipient") || !strings.Contains(page, "Account fixture") || !strings.Contains(page, "Pay at pickup") || !strings.Contains(page, "https://paypal.me/TestSeller/25.00EUR") {
 			t.Fatalf("order submission: %d %s", res.StatusCode, page)
 		}
+	}
+	form["note"] = []string{"mismatched retry"}
+	if res, _ = post(t, guest, orderURL, form); res.StatusCode != http.StatusConflict {
+		t.Fatalf("mismatched order replay exposed a receipt: %d", res.StatusCode)
 	}
 	if count, err := w.db.Collection("cards").CountDocuments(ctx, bson.M{"boardId": orders.ID, "title": bson.M{"$regex": "^Order "}}); err != nil || count != 1 {
 		t.Fatalf("order card count: %d %v", count, err)

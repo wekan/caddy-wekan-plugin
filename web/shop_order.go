@@ -148,6 +148,64 @@ func shopManualInstructions(settings bson.M, lang string) []shopInstructions {
 	return instructions
 }
 
+type shopReceipt struct {
+	Total, Reference, Payment, PayPal string
+	Instructions                      []shopInstructions
+}
+
+func shopOrderID(board, nonce string) string {
+	digest := sha256.Sum256([]byte(board + ":" + nonce))
+	return hex.EncodeToString(digest[:16])
+}
+
+func shopSubmissionDigest(r *http.Request, u *User) string {
+	userID := ""
+	if u != nil {
+		userID = u.ID
+	}
+	fields := []string{userID}
+	for _, key := range []string{"quote", "name", "email", "phone", "address", "note", "acceptTerms"} {
+		fields = append(fields, r.PostForm.Get(key))
+	}
+	raw, _ := json.Marshal(fields)
+	return fmt.Sprintf("%x", sha256.Sum256(raw))
+}
+
+func (s *Server) showShopReceipt(w http.ResponseWriter, r *http.Request, shop *Board, u *User, id string, receipt shopReceipt) {
+	lang := languageOf(r, u).Tag
+	message := strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id)
+	if receipt.Payment != "" || receipt.PayPal != "" || receipt.Reference != "" || len(receipt.Instructions) > 0 {
+		s.render(w, r, "shop_order", http.StatusCreated, map[string]any{
+			"Title": shop.Title, "User": u, "Total": receipt.Total, "Payment": receipt.Payment,
+			"Reference": receipt.Reference, "Instructions": receipt.Instructions, "PayPal": receipt.PayPal,
+			"Message": message, "Shop": shopLocation(shop, "", ""),
+		})
+		return
+	}
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.WriteHeader(http.StatusCreated)
+	fmt.Fprintln(w, message)
+}
+
+func (s *Server) replayShopReceipt(w http.ResponseWriter, r *http.Request, shop *Board, u *User) bool {
+	nonce := r.PostForm.Get("id")
+	if !validID(nonce) {
+		return false
+	}
+	id := shopOrderID(shop.ID, nonce)
+	var saved struct {
+		Receipt shopReceipt `bson:"shopReceipt"`
+	}
+	err := s.db.Collection("cards").FindOne(r.Context(), bson.M{
+		"_id": eq(id), "shopSubmissionDigest": eq(shopSubmissionDigest(r, u)), "deletedAt": nil,
+	}).Decode(&saved)
+	if err != nil || saved.Receipt.Total == "" {
+		return false
+	}
+	s.showShopReceipt(w, r, shop, u, id, saved.Receipt)
+	return true
+}
+
 func (s *Server) submitShopOrder(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "private, no-store")
 	if !sameOrigin(r) {
@@ -163,6 +221,9 @@ func (s *Server) submitShopOrder(w http.ResponseWriter, r *http.Request) {
 	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
 	if err != nil {
 		http.NotFound(w, r)
+		return
+	}
+	if s.replayShopReceipt(w, r, b, u) {
 		return
 	}
 	lanes, _, err := s.boardData(r.Context(), b)
@@ -229,8 +290,7 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		return
 	}
 
-	digest := sha256.Sum256([]byte(shop.ID + ":" + nonce))
-	id := hex.EncodeToString(digest[:16])
+	id := shopOrderID(shop.ID, nonce)
 	userID := ""
 	if u != nil {
 		userID = u.ID
@@ -260,32 +320,32 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		Members: []string{}, Assignees: []string{}, LabelIDs: []string{}, CardNumber: number, CreatedAt: time.Now().UTC(),
 		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": eq(boardID), "listId": eq(listID), "swimlaneId": eq(swimlane)})}
 	reference := shopReference(card.CreatedAt.Year(), number, strOf(settings["referenceType"]))
-	order := struct {
-		Card      `bson:",inline"`
-		Reference string `bson:"shopPaymentReference"`
-	}{card, reference}
-	_, err = s.db.Collection("cards").InsertOne(ctx, order)
-	created := err == nil
-	if mongo.IsDuplicateKeyError(err) {
-		var existing = order
-		existing.Reference = ""
-		err = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(id), "boardId": eq(boardID)}).Decode(&existing)
-		if err == nil && existing.Description != card.Description {
-			http.Error(w, "Order already submitted", http.StatusConflict)
-			return
-		}
-		reference = existing.Reference
-	}
-	if err != nil {
-		http.Error(w, "Could not save order", http.StatusServiceUnavailable)
-		return
-	}
 	amount, currency, _ := strings.Cut(total, " ")
 	_, method := shopMethod(shopPaymentMethods(settings), "link")
 	_, paypalMethod := shopMethod(shopPaymentMethods(settings), "paypal")
 	paypal := shopPayPalURL(strOf(paypalMethod["user"]), amount, currency)
 	instructions := shopManualInstructions(settings, lang)
 	payment := shopPaymentURL(strOf(method["url"]), amount, currency, id, reference)
+	receipt := shopReceipt{Total: total, Reference: reference, Payment: payment, PayPal: paypal, Instructions: instructions}
+	order := struct {
+		Card      `bson:",inline"`
+		Reference string      `bson:"shopPaymentReference"`
+		Receipt   shopReceipt `bson:"shopReceipt"`
+		Digest    string      `bson:"shopSubmissionDigest"`
+	}{card, reference, receipt, shopSubmissionDigest(r, u)}
+	_, err = s.db.Collection("cards").InsertOne(ctx, order)
+	created := err == nil
+	if mongo.IsDuplicateKeyError(err) {
+		if s.replayShopReceipt(w, r, shop, u) {
+			return
+		}
+		http.Error(w, "Order already submitted", http.StatusConflict)
+		return
+	}
+	if err != nil {
+		http.Error(w, "Could not save order", http.StatusServiceUnavailable)
+		return
+	}
 	if created && settings["confirmationEmail"] != false {
 		shopName := strOf(settings["title"])
 		if shopName == "" {
@@ -321,18 +381,7 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	}
 	s.hub.publishFrom(boardID, "board-changed", "")
 	http.SetCookie(w, &http.Cookie{Name: shopCartCookie(shop.ID), Path: "/b/" + shop.ID + "/", MaxAge: -1, HttpOnly: true})
-	if payment != "" || paypal != "" || reference != "" || len(instructions) > 0 {
-		s.render(w, r, "shop_order", http.StatusCreated, map[string]any{
-			"Title": shop.Title, "User": u, "Total": total, "Payment": payment, "Reference": reference,
-			"Instructions": instructions, "PayPal": paypal,
-			"Message": strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id),
-			"Shop":    shopLocation(shop, "", ""),
-		})
-		return
-	}
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	w.WriteHeader(http.StatusCreated)
-	fmt.Fprintln(w, strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id))
+	s.showShopReceipt(w, r, shop, u, id, receipt)
 }
 
 func (s *Server) shopOrderSwimlane(ctx context.Context, boardID, listID string) (string, error) {
