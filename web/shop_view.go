@@ -183,11 +183,29 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 	}
 	data["CartURL"] = shopCartLocation(b)
 	data["CartAction"] = "/b/" + b.ID + "/" + b.Slug + "/shop/cart"
-	if r.URL.Query().Get("cart") == "1" {
+	checkout := r.URL.Query().Get("checkout") == "1"
+	if checkout || r.URL.Query().Get("cart") == "1" {
 		w.Header().Set("Cache-Control", "private, no-store")
 		data["Cart"], data["CartLines"], data["CartTotal"] = true, nil, ""
 		lines, total := shopCartQuote(products, readShopCart(r, b.ID), currency)
 		data["CartLines"], data["CartTotal"] = lines, total
+		canReview := len(lines) > 0 && shopOrderDestinationAvailable(r.Context(), s, b.ID, settings)
+		for _, line := range lines {
+			if line.Unavailable {
+				canReview = false
+			}
+		}
+		if canReview {
+			if u == nil && settings["guestCheckout"] != true {
+				data["CheckoutLogin"] = true
+			} else {
+				data["CheckoutURL"] = shopLocation(b, "", "") + "&checkout=1"
+				if checkout {
+					data["CheckoutReview"] = true
+					data["TermsURL"] = shopTermsURL(strOf(settings["termsUrl"]))
+				}
+			}
+		}
 		s.render(w, r, "shop", http.StatusOK, data)
 		return
 	}

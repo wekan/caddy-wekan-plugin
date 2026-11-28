@@ -20,7 +20,18 @@
               a(href="{{.URL}}") {{.Name}}
         p
           a(href="{{.CartURL}}") {{t $.L "shop-cart"}}
-        if .Cart
+        if .CheckoutReview
+          section.shop-checkout-review
+            h2 {{t $.L "shop-checkout"}}
+            ul
+              each line in .CartLines
+                li {{.Title}} · {{.Quantity}} × {{.Unit}} · {{.Total}}
+            p.shop-price {{.CartTotal}}
+            if .TermsURL
+              p
+                a(href="{{.TermsURL}}", rel="noopener noreferrer") {{t $.L "shop-terms-url"}}
+            a(href="{{.CartURL}}") {{t $.L "shop-cart"}}
+        else if .Cart
           if .CartLines
             ul
               each line in .CartLines
@@ -43,6 +54,12 @@
             p.shop-price {{.CartTotal}}
           else
             p {{t $.L "shop-cart-empty"}}
+          if .CheckoutURL
+            p
+              a(href="{{.CheckoutURL}}") {{t $.L "shop-checkout"}}
+          else if .CheckoutLogin
+            p
+              a(href="/sign-in") {{t $.L "shop-login-to-order"}}
           a(href="{{.Home}}") {{t $.L "shop-continue"}}
         else if .Product
           article.shop-product

@@ -64,6 +64,15 @@ func (s *Server) shopOrderLists(r *http.Request, source *Board, u *User, setting
 	return out, nil
 }
 
+func shopTermsURL(terms string) string {
+	link, err := url.ParseRequestURI(terms)
+	if err != nil || link.Hostname() == "" || link.User != nil ||
+		(link.Scheme != "https" && link.Scheme != "http") || utf16Len(terms) > 2000 {
+		return ""
+	}
+	return terms
+}
+
 func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *User) {
 	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
 	if err != nil || !(u.IsAdmin || b.AdminOf(u.ID)) {
@@ -175,13 +184,9 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 				return
 			}
 			terms := strings.TrimSpace(r.PostForm.Get("termsUrl"))
-			if terms != "" {
-				link, err := url.ParseRequestURI(terms)
-				if err != nil || link.Hostname() == "" || link.User != nil ||
-					(link.Scheme != "https" && link.Scheme != "http") || utf16Len(terms) > 2000 {
-					http.Error(w, "Invalid Shop terms URL", http.StatusBadRequest)
-					return
-				}
+			if terms != "" && shopTermsURL(terms) == "" {
+				http.Error(w, "Invalid Shop terms URL", http.StatusBadRequest)
+				return
 			}
 			set["shopSettings.ordersListId"], set["shopSettings.ordersBoardId"] = orderList, orderBoard
 			set["shopSettings.termsUrl"] = terms

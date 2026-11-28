@@ -1,11 +1,14 @@
 package web
 
 import (
+	"context"
 	"encoding/base64"
 	"encoding/json"
 	"net/http"
 	"sort"
 	"strconv"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 type shopCartLine struct {
@@ -117,4 +120,22 @@ func shopCartQuote(products []shopProduct, quantities map[string]int, currency s
 		lines = append(lines, line)
 	}
 	return lines, shopMoney(sum, digits, currency)
+}
+
+func shopOrderDestinationAvailable(ctx context.Context, s *Server, sourceBoard string, settings bson.M) bool {
+	boardID, listID := strOf(settings["ordersBoardId"]), strOf(settings["ordersListId"])
+	if boardID == "" {
+		boardID = sourceBoard
+	}
+	if !validID(boardID) || !validID(listID) {
+		return false
+	}
+	if err := s.db.Collection("boards").FindOne(ctx, bson.M{
+		"_id": eq(boardID), "permission": "private", "archived": bson.M{"$ne": true}, "deletedAt": nil,
+	}).Err(); err != nil {
+		return false
+	}
+	return s.db.Collection("lists").FindOne(ctx, bson.M{
+		"_id": eq(listID), "boardId": eq(boardID), "archived": bson.M{"$ne": true}, "deletedAt": nil,
+	}).Err() == nil
 }

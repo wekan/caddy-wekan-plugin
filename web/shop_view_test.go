@@ -82,6 +82,28 @@ func TestShopBoardView(t *testing.T) {
 		!strings.Contains(page, "Listed product") || res.Header.Get("Cache-Control") != "private, no-store" {
 		t.Fatalf("cart from shop product: %d %s", res.StatusCode, page)
 	}
+	orders := newRESTBoard(t, w, login(t, w, "ann"), "Order destination")
+	update("boards", b.ID, bson.M{"shopSettings.ordersBoardId": orders.ID,
+		"shopSettings.ordersListId": orders.List, "shopSettings.termsUrl": "https://example.test/terms"})
+	checkoutURL := url + "?view=shop&checkout=1"
+	res, page = get(t, guest, checkoutURL)
+	if res.StatusCode != http.StatusOK || strings.Contains(page, "shop-checkout-review") ||
+		!strings.Contains(page, tr("en", "shop-login-to-order")) {
+		t.Fatalf("guest checkout must be enabled: %d %s", res.StatusCode, page)
+	}
+	update("boards", b.ID, bson.M{"shopSettings.guestCheckout": true})
+	res, page = get(t, guest, checkoutURL)
+	if res.StatusCode != http.StatusOK || !strings.Contains(page, "shop-checkout-review") ||
+		!strings.Contains(page, "25.00 EUR") || !strings.Contains(page, "https://example.test/terms") ||
+		strings.Contains(page, "Order destination") {
+		t.Fatalf("checkout review: %d %s", res.StatusCode, page)
+	}
+	update("boards", orders.ID, bson.M{"permission": "public"})
+	res, page = get(t, guest, checkoutURL)
+	if res.StatusCode != http.StatusOK || strings.Contains(page, "shop-checkout-review") {
+		t.Fatalf("checkout to a public destination: %d", res.StatusCode)
+	}
+
 	update("cards", b.Card, bson.M{"customFields": bson.A{
 		bson.M{"_id": priceID, "value": "13"}, bson.M{"_id": stockID, "value": 3},
 	}})
