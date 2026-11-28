@@ -249,7 +249,7 @@ func TestImportJira(t *testing.T) {
 	w.seedUser(t, "ann", "pw")
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
-	const payload = `{"board":{"name":"Jira migration"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
+	const payload = `{"board":{"name":"Jira migration"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
 	res, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {payload}})
 	if err != nil {
 		t.Fatal(err)
@@ -272,6 +272,21 @@ func TestImportJira(t *testing.T) {
 	if got := asM(card["scrum"])["issueType"]; got != "Bug" {
 		t.Fatalf("Jira issue type: %v", got)
 	}
+	first := strOf(asM(card["scrum"])["releaseId"])
+	ids, _ := asM(card["scrum"])["releaseIds"].(bson.A)
+	if len(ids) != 2 || ids[0] != first {
+		t.Fatalf("Jira release links: %v", asM(card["scrum"]))
+	}
+	var release bson.M
+	if err := w.db.Collection("scrumReleases").FindOne(ctx, bson.M{"_id": first, "boardId": board.ID}).Decode(&release); err != nil {
+		t.Fatal(err)
+	}
+	if release["name"] != "Released" || release["notes"] != "Notes" || release["state"] != "released" ||
+		asM(release["provenance"])["recordId"] != "50" ||
+		release["releasedAt"] != bson.NewDateTimeFromTime(time.Date(2026, 10, 10, 0, 0, 0, 0, time.UTC)) {
+		t.Fatalf("Jira release: %v", release)
+	}
+
 	var list bson.M
 	if err := w.db.Collection("lists").FindOne(ctx, bson.M{"boardId": board.ID}).Decode(&list); err != nil {
 		t.Fatal(err)

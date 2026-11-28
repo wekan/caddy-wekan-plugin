@@ -69,6 +69,7 @@ func jsOr(vs ...any) any {
 var allowedColors = append([]string{"white"}, labelPalette...)
 
 type generalImport struct {
+	jiraReleases map[string]string
 	// losses are the creator's own, beside the parser's: fields, watchers,
 	// attachments and links that did not come over (WeKan's this.losses).
 	losses        []any
@@ -243,6 +244,11 @@ func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source str
 			return nil, err
 		}
 	}
+	if source == "jira" {
+		if err := g.importJiraReleases(b.ID, doc); err != nil {
+			return nil, err
+		}
+	}
 	if err := g.cards(b, tasks, columns); err != nil {
 		return nil, err
 	}
@@ -363,8 +369,25 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 			card["customFields"] = values
 		}
 		if g.source == "jira" {
+			scrum := bson.M{}
 			if issueType, ok := jsGet(task, "jira_issue_type").(string); ok {
-				card["scrum"] = bson.M{"issueType": issueType}
+				scrum["issueType"] = issueType
+			}
+			refs, _ := jsGet(task, "jira_release_refs").([]string)
+			ids := bson.A{}
+			for _, ref := range refs {
+				if id := g.jiraReleases[ref]; id != "" {
+					ids = append(ids, id)
+				}
+			}
+			if len(ids) > 0 {
+				scrum["releaseId"] = ids[0]
+			}
+			if len(ids) > 1 {
+				scrum["releaseIds"] = ids
+			}
+			if len(scrum) > 0 {
+				card["scrum"] = scrum
 			}
 			if spent, ok := jsGet(task, "spentTime").(float64); ok {
 				card["spentTime"] = spent

@@ -985,3 +985,33 @@ func (g *generalImport) taigaSprints(boardID string, doc any) error {
 	}
 	return nil
 }
+
+func (g *generalImport) importJiraReleases(boardID string, doc any) error {
+	releases, _ := jsGet(doc, "jira_releases").([]any)
+	if len(releases) == 0 {
+		return nil
+	}
+	g.jiraReleases = make(map[string]string, len(releases))
+	for _, release := range releases {
+		sourceID := strOf(jsGet(release, "id"))
+		id := randomID()
+		state := strOf(jsGet(release, "state"))
+		row := bson.M{"_id": id, "boardId": boardID, "name": jsGet(release, "name"), "state": state,
+			"notes": jsGet(release, "notes"), "revision": int32(1), "incarnation": randomID(),
+			"createdBy": g.u.ID, "updatedBy": g.u.ID, "createdAt": g.now, "updatedAt": g.now,
+			"provenance": bson.M{"system": "jira", "recordId": sourceID}}
+		if date, ok := importedDate(jsGet(release, "date")); ok {
+			row["plannedEnd"] = date
+			if state == "released" {
+				row["releasedAt"] = date
+			}
+		}
+		if _, err := g.s.db.Collection("scrumReleases").InsertOne(g.ctx, row); err != nil {
+			return err
+		}
+		g.jiraReleases[sourceID] = id
+	}
+	_, err := g.s.db.Collection("boards").UpdateOne(g.ctx, bson.M{"_id": eq(boardID)},
+		bson.M{"$set": bson.M{"scrum.enabled": true}})
+	return err
+}

@@ -112,6 +112,8 @@ func parseJira(data any) (jsObject, error) {
 	}
 	tasks, columns, losses := []any{}, []any{}, []any{}
 	seen := map[string]bool{}
+	releases := []any{}
+	seenReleases := map[string]bool{}
 	categories := map[string]string{}
 	byKey, byID := map[string]string{}, map[string]string{}
 	epicField := jiraPlanningField(data, "com.pyxis.greenhopper.jira:gh-epic-link", "Epic Link")
@@ -193,6 +195,36 @@ func parseJira(data any) (jsObject, error) {
 		requester, defined := jsOrDefined(jsGet(fields, "reporter"), "displayName", "name", "emailAddress")
 		task.setDefined("requested_by", requester, defined)
 		task.set("tags", jsOr(jsGet(fields, "labels"), []any{}))
+		versions, _ := jsGet(fields, "fixVersions").([]any)
+		releaseRefs := []string{}
+		cardReleases := map[string]bool{}
+		for _, version := range versions {
+			id := jiraIssueID(jsGet(version, "id"))
+			name := strings.TrimSpace(strOf(jsGet(version, "name")))
+			if id == "" || name == "" {
+				continue
+			}
+			if !seenReleases[id] {
+				seenReleases[id] = true
+				state := "planned"
+				if jsGet(version, "released") == true {
+					state = "released"
+				}
+				releases = append(releases, jsObject{{"id", id}, {"name", jsSlice16(name, 200)},
+					{"state", state}, {"notes", strOf(jsGet(version, "description"))},
+					{"date", jiraImportDate(jsGet(version, "releaseDate"))}})
+			}
+			if !cardReleases[id] {
+				cardReleases[id] = true
+				releaseRefs = append(releaseRefs, id)
+			}
+		}
+		if len(releaseRefs) > maxCardReleases {
+			return nil, errors.New("too many Jira fix versions on one issue")
+		}
+		if len(releaseRefs) > 0 {
+			task.set("jira_release_refs", releaseRefs)
+		}
 		comments, incomplete := jiraImportComments(fields)
 		if len(comments) > 0 {
 			task.set("comments", comments)
@@ -235,6 +267,6 @@ func parseJira(data any) (jsObject, error) {
 	}
 	return jsObject{
 		{"board", jsObject{{"name", jsOr(jsGet(jsGet(data, "board"), "name"), "Imported Jira Board")}}},
-		{"columns", columns}, {"swimlanes", []any{jsObject{{"name", "Default"}}}}, {"tasks", tasks}, {"unsupported", losses},
+		{"columns", columns}, {"swimlanes", []any{jsObject{{"name", "Default"}}}}, {"tasks", tasks}, {"unsupported", losses}, {"jira_releases", releases},
 	}, nil
 }
