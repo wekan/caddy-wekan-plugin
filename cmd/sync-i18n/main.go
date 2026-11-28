@@ -17,11 +17,11 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
-	"strings"
+
+	"github.com/wekan/caddy-wekan-plugin/internal/i18nkeys"
 )
 
 var (
-	useRe  = regexp.MustCompile("(?:\\btv? \\$?\\.L |\\btr(?:Vars)?\\([^;\"]*?, |\\bmsg\\()[\"`]([A-Za-z0-9_.-]+)[\"`]")
 	langRe = regexp.MustCompile(`\["([^"]+)", "[^"]*", "([^"]+)", "((?:[^"\\]|\\.)*)", (true|false)\]`)
 	// loadRe is languages.js's loader table: the file of each tag, which is
 	// not always <tag>.i18n.json - or-IN is or_IN, ca-valencia ca@valencia.
@@ -64,67 +64,8 @@ func sync(wekan string) error {
 	return nil
 }
 
-// UsedKeys are the translation keys the files of dir/templates and dir/*.go use.
-func UsedKeys(dir string) ([]string, error) {
-	var files []string
-	for _, pat := range []string{"templates/*.pug", "*.go"} {
-		m, err := filepath.Glob(filepath.Join(dir, pat))
-		if err != nil {
-			return nil, err
-		}
-		files = append(files, m...)
-	}
-	set := map[string]bool{}
-	for _, f := range files {
-		if strings.HasSuffix(f, "_test.go") {
-			continue
-		}
-		b, err := os.ReadFile(f)
-		if err != nil {
-			return nil, err
-		}
-		for _, m := range useRe.FindAllSubmatch(b, -1) {
-			set[string(m[1])] = true
-		}
-	}
-	// The Rules Blocks view's Blockly messages: WeKan's own translations of
-	// them, named by the mapping the page uses (blockly_message_keys.json).
-	if b, err := os.ReadFile(filepath.Join(dir, "blockly_message_keys.json")); err == nil {
-		var mapping map[string]string
-		if err := json.Unmarshal(b, &mapping); err != nil {
-			return nil, fmt.Errorf("blockly_message_keys.json: %w", err)
-		}
-		for _, k := range mapping {
-			set[k] = true
-		}
-	}
-	// Board Settings / Card's rows and sections, and Board Settings / Board
-	// View's views: their names, from WeKan's tables (card_settings.json,
-	// board_views.json, made by cmd/card-settings and cmd/board-views).
-	for _, table := range []string{"card_settings.json", "board_views.json"} {
-		if b, err := os.ReadFile(filepath.Join(dir, table)); err == nil {
-			name := table
-			var keys struct {
-				I18nKeys []string `json:"i18nKeys"`
-			}
-			if err := json.Unmarshal(b, &keys); err != nil {
-				return nil, fmt.Errorf("%s: %w", name, err)
-			}
-			for _, k := range keys.I18nKeys {
-				set[k] = true
-			}
-		}
-	}
-	keys := make([]string, 0, len(set))
-	for k := range set {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
-	return keys, nil
-}
-
 func run(wekan, dir string) error {
-	keys, err := UsedKeys(dir)
+	keys, err := i18nkeys.UsedKeys(dir)
 	if err != nil {
 		return err
 	}
@@ -179,7 +120,8 @@ func run(wekan, dir string) error {
 		}
 		sub := map[string]string{}
 		for _, k := range keys {
-			if v, ok := all[k]; ok && v != "" {
+			// English also records intentionally empty source strings.
+			if v, ok := all[k]; ok && (v != "" || l.Tag == "en") {
 				sub[k] = v
 			}
 		}

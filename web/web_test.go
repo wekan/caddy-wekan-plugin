@@ -13,7 +13,6 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"os"
-	"path/filepath"
 	"regexp"
 	"slices"
 	"strings"
@@ -27,6 +26,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/wekan/caddy-ferretdb-plugin/store"
+	"github.com/wekan/caddy-wekan-plugin/internal/i18nkeys"
 )
 
 // testWeKan is a Go WeKan over a fresh embedded FerretDB, served by httptest.
@@ -487,24 +487,21 @@ func TestTranslatedPages(t *testing.T) {
 // Every translation key a page or the code uses is in the copied translations:
 // cmd/sync-i18n was run after the last change.
 func TestTranslationsAreSynced(t *testing.T) {
-	re := regexp.MustCompile("(?:\\bt \\$?\\.L |\\btr\\([^;\"]*?, |\\bmsg\\()[\"`]([A-Za-z0-9_.-]+)[\"`]")
+	keys, err := i18nkeys.UsedKeys(".")
+	if err != nil {
+		t.Fatal(err)
+	}
 	en := map[string]string{}
 	b, err := os.ReadFile("i18n/en.json")
 	if err != nil {
 		t.Fatal(err)
 	}
-	_ = json.Unmarshal(b, &en)
-	files, _ := filepath.Glob("templates/*.pug")
-	gofiles, _ := filepath.Glob("*.go")
-	for _, f := range append(files, gofiles...) {
-		if strings.HasSuffix(f, "_test.go") {
-			continue
-		}
-		src, _ := os.ReadFile(f)
-		for _, m := range re.FindAllSubmatch(src, -1) {
-			if en[string(m[1])] == "" {
-				t.Errorf("%s uses %q: run go run ./cmd/sync-i18n /path/to/wekan", f, m[1])
-			}
+	if err := json.Unmarshal(b, &en); err != nil {
+		t.Fatal(err)
+	}
+	for _, key := range keys {
+		if _, ok := en[key]; !ok {
+			t.Errorf("missing %q: run go run ./cmd/sync-i18n /path/to/wekan", key)
 		}
 	}
 }

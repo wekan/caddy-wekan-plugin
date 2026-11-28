@@ -79,7 +79,10 @@ func historyViewLabel(lang string, row, content map[string]any) string {
 		}
 	case "hideCheckedChecklistItems", "hideAllChecklistItems":
 		if entity == "checklist" {
-			return tr(lang, docString(content, "field"))
+			if docString(content, "field") == "hideCheckedChecklistItems" {
+				return tr(lang, "hideCheckedChecklistItems")
+			}
+			return tr(lang, "hideAllChecklistItems")
 		}
 	case "dueComplete":
 		if entity == "card" {
@@ -196,7 +199,7 @@ func historySummary(lang string, row, content map[string]any) string {
 				parts = append(parts, jsonNumberOrBool(count))
 			}
 			for _, field := range []struct{ name, label string }{
-				{"enabled", "enable-wip-limit"}, {"soft", "soft-wip-limit"},
+				{"enabled", msg("enable-wip-limit")}, {"soft", msg("soft-wip-limit")},
 			} {
 				if setting, ok := x[field.name].(bool); ok {
 					key := "no"
