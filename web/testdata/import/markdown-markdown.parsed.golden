@@ -17,19 +17,62 @@
   ],
   "tasks": [
     {
-      "title": "Write   spec now",
+      "title": "Write spec now :H :Plant.Pumps ;b ,-y",
       "description": "line one\nline \"two\" <b>",
       "column_name": "To Do",
       "swimlane_name": "Default",
-      "tags": []
+      "tags": [
+        "priority",
+        "web-dev",
+        "project",
+        "big-deal",
+        "p2",
+        "a",
+        "Bug",
+        "x-"
+      ],
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "a & b",
+              "done": true
+            },
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
+      ]
     },
     {
-      "title": "-minus first",
+      "title": "-minus first :B 't-do",
       "description": "first\nsecond",
       "column_name": "Done",
       "swimlane_name": "Default",
       "tags": [
-        "done"
+        "done",
+        "priority",
+        "raw",
+        "won"
+      ],
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "one",
+              "done": false
+            },
+            {
+              "title": "Item",
+              "done": true
+            }
+          ]
+        }
       ]
     }
   ],

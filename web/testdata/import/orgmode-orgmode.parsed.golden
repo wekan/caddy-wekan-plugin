@@ -123,6 +123,13 @@
       "column_name": "Backlog",
       "swimlane_name": "Default",
       "tags": []
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "Backlog",
+      "swimlane_name": "Default",
+      "tags": []
     }
   ],
   "warnings": [],

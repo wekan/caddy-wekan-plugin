@@ -4,6 +4,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // The sources whose file is text, not JSON - WeKan's check(board, String):
@@ -62,6 +63,58 @@ var (
 	mdHeading = jsRegexp(`^#{1,6}\s`)
 )
 
+var (
+	mdTag         = jsRegexp(`(^|\s)#([A-Za-z][\w/-]*)`)
+	mdDue         = jsRegexp(`@\{(\d{4}-\d{2}-\d{2})\}|📅\s*(\d{4}-\d{2}-\d{2})|\bdue:(\d{4}-\d{2}-\d{2})`)
+	mdTime        = regexp.MustCompile(`@@\{(\d{1,2}):(\d{2})\}`)
+	mdSpace       = jsRegexp(`\s+`)
+	mdItem        = jsRegexp(`^\s+[-*+]\s+\[([ xX])\]\s+(.+?)\s*$`)
+	mdEscapedItem = jsRegexp(`^\\[-*+]\s+\[`)
+)
+
+func markdownCardLine(text string, done bool) (title string, tags []any, due string, invalid string) {
+	tags = []any{}
+	seen := map[string]bool{}
+	if done {
+		tags = append(tags, "done")
+		seen["done"] = true
+	}
+	if day := mdDue.FindStringSubmatch(text); day != nil {
+		iso := day[1] + day[2] + day[3]
+		hour, minute := "00", "00"
+		clock := mdTime.FindStringSubmatch(text)
+		if clock != nil {
+			hour, minute = clock[1], clock[2]
+			if len(hour) == 1 {
+				hour = "0" + hour
+			}
+		}
+		if date, err := time.Parse("2006-01-02T15:04", iso+"T"+hour+":"+minute); err == nil {
+			due = date.Format("2006-01-02T15:04:05.000Z")
+		} else {
+			invalid = day[0]
+		}
+		text = strings.Replace(text, day[0], " ", 1)
+		if clock != nil {
+			text = strings.Replace(text, clock[0], " ", 1)
+		}
+	}
+	var body strings.Builder
+	last := 0
+	for _, match := range mdTag.FindAllStringSubmatchIndex(text, -1) {
+		body.WriteString(text[last:match[2]])
+		body.WriteString(text[match[2]:match[3]])
+		tag := text[match[4]:match[5]]
+		if !seen[tag] {
+			tags = append(tags, tag)
+			seen[tag] = true
+		}
+		last = match[1]
+	}
+	body.WriteString(text[last:])
+	return jsTrim(mdSpace.ReplaceAllString(body.String(), " ")), tags, due, invalid
+}
+
 // parseMarkdownKanban is WeKan's: "# Board", "## List", "- [ ] card" with
 // indented lines as its description.
 func parseMarkdownKanban(text string) (jsObject, error) {
@@ -80,25 +133,46 @@ func parseMarkdownKanban(text string) (jsObject, error) {
 		}
 		if m := mdTask.FindStringSubmatch(line); m != nil {
 			t := jsObject{}
-			t.set("title", m[2])
+			title, tags, due, invalid := markdownCardLine(m[2], strings.EqualFold(m[1], "x"))
+			if title == "" {
+				title = m[2]
+			}
+			if invalid != "" {
+				unsupported = append(unsupported, importUnsupportedObj("/"+strconv.Itoa(n), invalid+" is not a date"))
+			}
+			t.set("title", title)
 			t.set("description", "")
 			t.set("column_name", currentList)
 			t.set("swimlane_name", "Default")
-			tags := []any{}
-			if strings.ToLower(m[1]) == "x" {
-				tags = append(tags, "done")
-			}
 			t.set("tags", tags)
+			if due != "" {
+				t.set("date_due", due)
+			}
 			tasks = append(tasks, t)
 			current = t
 			continue
 		}
+		if item := mdItem.FindStringSubmatch(line); current != nil && item != nil {
+			entry := jsObject{{"title", item[2]}, {"done", strings.EqualFold(item[1], "x")}}
+			if lists, ok := jsGet(current, "checklists").([]any); ok {
+				checklist := lists[0].(jsObject)
+				checklist.set("items", append(jsGet(checklist, "items").([]any), entry))
+			} else {
+				current.set("checklists", []any{jsObject{{"title", "Checklist"}, {"items", []any{entry}}}})
+				tasks[len(tasks)-1] = current
+			}
+			continue
+		}
 		if current != nil && mdIndent.MatchString(line) {
+			body := jsTrim(line)
+			if mdEscapedItem.MatchString(body) {
+				body = body[1:]
+			}
 			d := jsGet(current, "description").(string)
 			if d != "" {
-				d += "\n" + jsTrim(line)
+				d += "\n" + body
 			} else {
-				d = jsTrim(line)
+				d = body
 			}
 			// current is the task in tasks: set it there.
 			for k, kv := range current {

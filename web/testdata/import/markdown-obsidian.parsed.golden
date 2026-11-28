@@ -43,34 +43,81 @@
       "tags": []
     },
     {
-      "title": "Write spec now #priority:H #web-dev #project:Plant.Pumps #@home #big-deal #p2 #a;b #Bug #x-,-y @{2026-11-20} @@{10:00} 🛫 2026-11-10",
-      "description": "line one\nline \"two\" <b>\n- [x] a & b\n- [ ] c",
+      "title": "Write spec now :H :Plant.Pumps #@home ;b ,-y 🛫 2026-11-10",
+      "description": "line one\nline \"two\" <b>",
       "column_name": "To Do (3)",
       "swimlane_name": "Default",
-      "tags": []
-    },
-    {
-      "title": "-minus first #priority:B #raw #won't-do #=SUM(1) ✅ 2026-11-05",
-      "description": "first\nsecond\n- [ ]   one\n- [x]",
-      "column_name": "Done",
-      "swimlane_name": "Default",
       "tags": [
-        "done"
+        "priority",
+        "web-dev",
+        "project",
+        "big-deal",
+        "p2",
+        "a",
+        "Bug",
+        "x-"
+      ],
+      "date_due": "2026-11-20T10:00:00.000Z",
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "a & b",
+              "done": true
+            },
+            {
+              "title": "c",
+              "done": false
+            }
+          ]
+        }
       ]
     },
     {
-      "title": "multi line title @{2026-12-24} @@{18:30}",
+      "title": "-minus first :B 't-do #=SUM(1) ✅ 2026-11-05",
+      "description": "first\nsecond",
+      "column_name": "Done",
+      "swimlane_name": "Default",
+      "tags": [
+        "done",
+        "priority",
+        "raw",
+        "won"
+      ],
+      "checklists": [
+        {
+          "title": "Checklist",
+          "items": [
+            {
+              "title": "one",
+              "done": false
+            },
+            {
+              "title": " ",
+              "done": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "multi line title",
       "description": "",
       "column_name": "Archived list",
       "swimlane_name": "Default",
-      "tags": []
+      "tags": [],
+      "date_due": "2026-12-24T18:30:00.000Z"
     },
     {
-      "title": "No list item #p1 @{2026-11-12} 🛫 2026-11-11",
+      "title": "No list item 🛫 2026-11-11",
       "description": "",
       "column_name": "Started",
       "swimlane_name": "Default",
-      "tags": []
+      "tags": [
+        "p1"
+      ],
+      "date_due": "2026-11-12T00:00:00.000Z"
     },
     {
       "title": "Backlogged",
