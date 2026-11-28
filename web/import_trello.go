@@ -9,7 +9,6 @@ import (
 	"io"
 	"math"
 	"net/http"
-	"net/url"
 	"path"
 	"sort"
 	"strconv"
@@ -408,19 +407,23 @@ func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *Use
 		return
 	}
 	selected := map[string]string{}
-	if raw := r.Header.Get("X-WeKan-Trello-Members"); raw != "" {
-		decoded, err := url.PathUnescape(raw)
-		if err != nil || len(raw) > 8192 || json.Unmarshal([]byte(decoded), &selected) != nil {
+	if raw := r.FormValue("membersMapping"); raw != "" {
+		if len(raw) > maxImportForm || json.Unmarshal([]byte(raw), &selected) != nil || selected == nil {
 			fail(http.StatusBadRequest)
 			return
 		}
 	}
+	validated := map[string]bool{}
 	for _, username := range selected {
+		if validated[username] {
+			continue
+		}
 		if username == "" || s.db.Collection("users").FindOne(r.Context(),
 			bson.M{"username": eq(username), "loginDisabled": bson.M{"$ne": true}}).Err() != nil {
 			fail(http.StatusBadRequest)
 			return
 		}
+		validated[username] = true
 	}
 	if s.mayCreateBoard(r.Context(), u, "board", "importBoard") != nil {
 		fail(http.StatusForbidden)

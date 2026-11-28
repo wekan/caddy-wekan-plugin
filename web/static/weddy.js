@@ -5851,11 +5851,21 @@ if (!window.Blaze) {
     var url = new URL(form.action);
     if (preview) url.searchParams.set('preview', '1');
     var headers = { 'X-Requested-With': 'XMLHttpRequest' };
-    if (values) headers['X-WeKan-Trello-Members'] = encodeURIComponent(JSON.stringify(values));
     var raw = form.dataset.trelloMapping === 'raw';
     var file = form.querySelector('.js-import-zip-file').files[0];
-    var body = raw ? (file || form.querySelector('textarea').value) : new FormData(form);
-    if (raw) headers['Content-Type'] = file ? 'application/zip' : 'application/json';
+    var text = form.querySelector('textarea').value;
+    var body;
+    if (!raw || values) {
+      body = new FormData(form);
+      if (raw) {
+        if (file) body.set('file', file);
+        else body.set('text', text);
+      }
+      if (values) body.set('membersMapping', JSON.stringify(values));
+    } else {
+      body = file || text;
+      headers['Content-Type'] = file ? 'application/zip' : 'application/json';
+    }
     return fetch(url, { method: 'POST', headers: headers, body: body }).then(function (response) {
       if (!response.ok) throw new Error('Trello import failed');
       if (preview || raw) return response.json();
