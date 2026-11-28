@@ -616,6 +616,32 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 		}
 	}
 
+	var user bson.M
+	if err := w.db.Collection("users").FindOne(ctx, bson.M{"username": "ann"}).Decode(&user); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := w.db.Collection("users").UpdateOne(ctx, bson.M{"_id": user["_id"]},
+		bson.M{"$set": bson.M{"profile.fullname": "Jira Reviewer"}}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := w.db.Collection("card_comments").InsertOne(ctx, bson.M{
+		"_id": randomID(), "boardId": board.ID, "cardId": board.Card, "userId": user["_id"], "text": "Review",
+	}); err != nil {
+		t.Fatal(err)
+	}
+	for _, selection := range []string{"comments,people", "comments"} {
+		doc := download(admin, selection, 200)
+		comments := doc.Issues[0].Fields["comment"].(map[string]any)["comments"].([]any)
+		author := comments[0].(map[string]any)["author"].(map[string]any)
+		expected := map[string]any{}
+		if selection == "comments,people" {
+			expected = map[string]any{"name": "ann", "displayName": "Jira Reviewer"}
+		}
+		if !reflect.DeepEqual(author, expected) {
+			t.Errorf("Jira comment author with %s: %v", selection, author)
+		}
+	}
+
 	download(reader, "custom-fields", 403)
 }
 

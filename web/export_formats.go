@@ -82,9 +82,10 @@ type extDependency struct {
 }
 
 type extComment struct {
-	Text   string `json:"text"`
-	Author string `json:"author,omitempty"`
-	Date   string `json:"date,omitempty"`
+	DisplayName string `json:"-"`
+	Text        string `json:"text"`
+	Author      string `json:"author,omitempty"`
+	Date        string `json:"date,omitempty"`
 }
 
 // extItem is a card as WeKan's collect() gathers it and the formatters read
@@ -344,10 +345,14 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 	anon := s.exportAnonymizer(ctx, b, users)
 	anon.cards(cards)
 	anon.comments(comments)
-	username := map[string]string{}
+	username, displayName := map[string]string{}, map[string]string{}
 	for _, u := range users {
 		anon.user(u)
-		username[strOf(u["_id"])] = strOf(u["username"])
+		id := strOf(u["_id"])
+		username[id] = strOf(u["username"])
+		if format == "jira" && want.has("people") {
+			displayName[id] = strOf(asM(u["profile"])["fullname"])
+		}
 	}
 	var exportFields *fieldReader
 	var jiraTimeIds [2]string
@@ -427,7 +432,12 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		}
 		for _, cm := range comments {
 			if strOf(cm["cardId"]) == id {
-				it.Comments = append(it.Comments, extComment{Text: strOf(cm["text"]), Author: username[strOf(cm["userId"])], Date: isoDate(cm["createdAt"])})
+				id := strOf(cm["userId"])
+				comment := extComment{Text: strOf(cm["text"]), Author: username[id], DisplayName: displayName[id], Date: isoDate(cm["createdAt"])}
+				if format == "jira" && !want.has("people") {
+					comment.Author = ""
+				}
+				it.Comments = append(it.Comments, comment)
 			}
 		}
 		for _, cl := range checklists {

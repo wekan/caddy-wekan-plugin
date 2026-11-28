@@ -257,6 +257,7 @@ func formatJira(d extBoard) any {
 			for _, c := range i.Comments {
 				author := jsObject{}
 				author.set("name", jsOptional(c.Author))
+				author.set("displayName", jsOptional(c.DisplayName))
 				o := jsObject{}
 				o.set("body", c.Text)
 				o.set("author", author)
