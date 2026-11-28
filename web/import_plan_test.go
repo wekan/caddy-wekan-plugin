@@ -123,7 +123,7 @@ func TestImportParsersAreWeKans(t *testing.T) {
 						for i, raw := range member.Value.([]any) {
 							task := jsObject{}
 							for _, field := range raw.(jsObject) {
-								if field.Key != "taiga_milestone" {
+								if field.Key != "taiga_milestone" && field.Key != "taiga_backlog_rank" {
 									task = append(task, field)
 								}
 							}

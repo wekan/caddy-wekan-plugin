@@ -34,7 +34,7 @@ func validImportShape(source string, v any) bool {
 	switch source {
 	case "kanboard":
 		return arrayAt(v, "tasks")
-	case "github", "gitlab", "gitea", "forgejo":
+	case "github", "gitlab", "gitea", "forgejo", "jira":
 		return isArr || arrayAt(v, "issues")
 	case "deck":
 		return arrayAt(v, "stacks") || arrayAt(jsGet(v, "board"), "stacks")

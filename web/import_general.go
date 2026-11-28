@@ -352,6 +352,11 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 		if len(values) > 0 {
 			card["customFields"] = values
 		}
+		if g.source == "jira" {
+			if spent, ok := jsGet(task, "spentTime").(float64); ok {
+				card["spentTime"] = spent
+			}
+		}
 		if g.source == "taiga" {
 			if jsGet(task, "blocked") == true {
 				card["flow"] = bson.M{"blocked": true, "blockedReason": importText(jsGet(task, "blocked_reason"))}

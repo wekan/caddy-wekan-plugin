@@ -242,3 +242,31 @@ func TestImportMarkdown(t *testing.T) {
 		t.Errorf("the done card's label: %v", b.Labels)
 	}
 }
+
+func TestImportJira(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	const payload = `{"board":{"name":"Jira migration"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","status":{"name":"Doing"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"]}}]}`
+	res, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {payload}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer res.Body.Close()
+	if res.StatusCode != http.StatusSeeOther || !strings.HasPrefix(res.Header.Get("Location"), "/b/") {
+		t.Fatalf("Jira import: %d %s", res.StatusCode, res.Header.Get("Location"))
+	}
+	var board Board
+	if err := w.db.Collection("boards").FindOne(ctx, bson.M{"title": "Jira migration"}).Decode(&board); err != nil {
+		t.Fatal(err)
+	}
+	var card bson.M
+	if err := w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": board.ID}).Decode(&card); err != nil {
+		t.Fatal(err)
+	}
+	if card["title"] != "[TEST-1] Sample issue" || card["description"] != "Jira description" || card["spentTime"] != float64(0) {
+		t.Fatalf("Jira card: %v", card)
+	}
+}
