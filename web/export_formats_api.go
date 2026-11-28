@@ -2,7 +2,9 @@ package web
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
+	"strings"
 )
 
 // The issue trackers' and boards' JSON - NextCloud Deck, Kanboard,
@@ -412,6 +414,48 @@ type trelloLabel struct {
 	Color string `json:"color"`
 }
 
+var trelloISODate = regexp.MustCompile(`^\d{4}-\d{2}-\d{2}(T|$)`)
+
+func trelloFieldType(value any) string {
+	if cdIsNumber(value) {
+		return "number"
+	}
+	switch v := value.(type) {
+	case bool:
+		return "checkbox"
+	case string:
+		if trelloISODate.MatchString(v) {
+			if _, ok := jsParseDate(v); ok {
+				return "date"
+			}
+		}
+	}
+	return "text"
+}
+
+func trelloFieldValue(kind string, value any) jsObject {
+	switch kind {
+	case "checkbox":
+		return jsObject{{"checked", cdString(value)}}
+	case "number":
+		return jsObject{{"number", cdString(value)}}
+	case "date":
+		stamp, _ := jsParseDate(value.(string))
+		return jsObject{{"date", stamp.UTC().Format("2006-01-02T15:04:05.000Z")}}
+	default:
+		if array, ok := value.([]any); ok {
+			parts := make([]string, len(array))
+			for i, item := range array {
+				if item != nil {
+					parts[i] = cdString(item)
+				}
+			}
+			return jsObject{{"text", strings.Join(parts, ", ")}}
+		}
+		return jsObject{{"text", cdString(value)}}
+	}
+}
+
 func formatTrello(d extBoard) any {
 	const epoch = "1970-01-01T00:00:00.000Z"
 	firstDate := func(values ...string) string {
@@ -421,6 +465,31 @@ func formatTrello(d extBoard) any {
 			}
 		}
 		return epoch
+	}
+	type trelloField struct{ id, name, kind string }
+	fields := []trelloField{}
+	fieldIndices := map[string]int{}
+	for _, card := range d.Items {
+		for _, field := range card.CustomFields {
+			kind := trelloFieldType(field.Value)
+			if index, exists := fieldIndices[field.Key]; exists {
+				if fields[index].kind != kind {
+					fields[index].kind = "text"
+				}
+			} else {
+				boardID := d.Board.ID
+				if boardID == "" {
+					boardID = "board"
+				}
+				fieldIndices[field.Key] = len(fields)
+				fields = append(fields, trelloField{fmt.Sprintf("%s-field-%d", boardID, len(fields)+1), field.Key, kind})
+			}
+		}
+	}
+	definitions := []any{}
+	for n, field := range fields {
+		definitions = append(definitions, jsObject{{"id", field.id}, {"idModel", d.Board.ID}, {"modelType", "board"},
+			{"name", field.name}, {"type", field.kind}, {"pos", n + 1}, {"display", jsObject{{"cardFront", true}}}})
 	}
 	members, lists, cards, checklists, actions := []any{}, []any{}, []any{}, []any{}, []any{}
 	labels := []trelloLabel{}
@@ -473,9 +542,16 @@ func formatTrello(d extBoard) any {
 		if item.StartAt != "" {
 			card.set("start", item.StartAt)
 		}
+		values := []any{}
+		for _, field := range fields {
+			if value := jsGet(item.CustomFields, field.name); value != nil {
+				values = append(values, jsObject{{"id", item.CardID + "-" + field.id}, {"idCustomField", field.id},
+					{"idModel", item.CardID}, {"modelType", "card"}, {"value", trelloFieldValue(field.kind, value)}})
+			}
+		}
 		card = append(card, jsObject{{"dueComplete", item.DueComplete}, {"closed", item.Archived},
 			{"idLabels", append([]string{}, item.LabelIDs...)}, {"idMembers", cardMembers},
-			{"idChecklists", checkIDs}, {"customFieldItems", []any{}}}...)
+			{"idChecklists", checkIDs}, {"customFieldItems", values}}...)
 		cards = append(cards, card)
 		commentIndex := 0
 		for _, comment := range item.Comments {
@@ -497,7 +573,7 @@ func formatTrello(d extBoard) any {
 		}
 	}
 	return jsObject{{"name", d.Board.Title}, {"prefs", jsObject{{"background", "blue"}, {"permissionLevel", "private"}}},
-		{"members", members}, {"customFields", []any{}}, {"labels", labels}, {"lists", lists}, {"cards", cards},
+		{"members", members}, {"customFields", definitions}, {"labels", labels}, {"lists", lists}, {"cards", cards},
 		{"checklists", checklists}, {"actions", actions}}
 }
 

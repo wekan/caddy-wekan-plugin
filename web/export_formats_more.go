@@ -322,10 +322,11 @@ var orgRepeaters = map[string]string{"daily": "+1d", "weekly": "+1w", "monthly":
 
 var orgPropertySeparators = regexp.MustCompile(`[\s\p{Z}\x{FEFF}:]+`)
 
-func (fr *fieldReader) orgExportFields(card map[string]any) jsObject {
+func (fr *fieldReader) externalFieldValues(card map[string]any) jsObject {
 	type property struct {
-		name, value string
-		order       float64
+		name  string
+		value any
+		order float64
 	}
 	properties := []property{}
 	for _, field := range fieldValues(card) {
@@ -336,22 +337,23 @@ func (fr *fieldReader) orgExportFields(card map[string]any) jsObject {
 		}
 		def := fr.defs[id]
 		options := cdList(cdGet(plain(def["settings"]), "dropdownItems"))
-		optionName := func(id any) string {
-			key := cdString(id)
-			for _, option := range options {
-				if cdGet(option, "_id") == key {
-					return cdOr(cdGet(option, "name"))
+		optionValue := func(id any) any {
+			if key, ok := id.(string); ok {
+				for _, option := range options {
+					if cdGet(option, "_id") == key {
+						return cdOr(cdGet(option, "name"))
+					}
 				}
 			}
-			return key
+			return id
 		}
-		text := optionName(value)
+		resolved := optionValue(value)
 		if strOf(def["type"]) == "dropdownMultiSelect" {
 			var names []string
 			for _, id := range cdList(value) {
-				names = append(names, optionName(id))
+				names = append(names, cdString(optionValue(id)))
 			}
-			text = strings.Join(names, ", ")
+			resolved = strings.Join(names, ", ")
 		}
 		order := float64(0)
 		switch n := def["sort"].(type) {
@@ -364,7 +366,7 @@ func (fr *fieldReader) orgExportFields(card map[string]any) jsObject {
 		default:
 			order = math.Inf(1)
 		}
-		properties = append(properties, property{strOf(def["name"]), text, order})
+		properties = append(properties, property{strOf(def["name"]), resolved, order})
 	}
 	sort.SliceStable(properties, func(i, j int) bool {
 		a, b := properties[i], properties[j]

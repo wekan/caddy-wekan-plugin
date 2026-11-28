@@ -326,9 +326,9 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		anon.user(u)
 		username[strOf(u["_id"])] = strOf(u["username"])
 	}
-	var orgFields *fieldReader
-	if format == "orgmode" && want.has("custom-fields") {
-		orgFields = s.fieldReaderFor(ctx, b, u)
+	var exportFields *fieldReader
+	if (format == "orgmode" || format == "trello") && want.has("custom-fields") {
+		exportFields = s.fieldReaderFor(ctx, b, u)
 	}
 	for _, c := range cards {
 		id := strOf(c["_id"])
@@ -403,8 +403,8 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		if want.has("dates") {
 			it.Recurrence = strOf(c["recurrenceInterval"])
 		}
-		if orgFields != nil {
-			it.CustomFields = orgFields.orgExportFields(c)
+		if exportFields != nil {
+			it.CustomFields = exportFields.externalFieldValues(c)
 		}
 		// What the selection leaves out: collect()'s want() and gateItem().
 		// dueComplete stays, as WeKan's does - it is read from the card's
