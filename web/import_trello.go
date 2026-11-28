@@ -3,11 +3,14 @@ package web
 import (
 	"archive/zip"
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"io"
 	"math"
 	"net/http"
+	"path"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -168,65 +171,130 @@ func trelloImport(raw []byte) (map[string]any, error) {
 	return out, nil
 }
 
-func trelloImportArchive(raw []byte) (map[string]any, func(bson.M) io.ReadCloser, error) {
+type trelloArchiveBoard struct {
+	doc   map[string]any
+	files func(bson.M) io.ReadCloser
+}
+
+func trelloImportArchive(raw []byte) ([]trelloArchiveBoard, error) {
 	archive, err := zip.NewReader(bytes.NewReader(raw), int64(len(raw)))
 	if err != nil || len(archive.File) > 10000 {
-		return nil, nil, errTrelloDocument
+		return nil, errTrelloDocument
 	}
 	entries := map[string]*zip.File{}
+	var names []string
 	for _, file := range archive.File {
-		if file.Name != "board.json" && !strings.HasPrefix(file.Name, "attachments/") {
+		name := strings.TrimSuffix(file.Name, "/")
+		if name == "." || name == ".." || strings.HasPrefix(name, "../") || name == "" ||
+			path.IsAbs(name) || path.Clean(name) != name || strings.ContainsAny(name, "\\:\x00") {
+			return nil, errTrelloDocument
+		}
+		if file.FileInfo().IsDir() {
 			continue
 		}
-		leaf := strings.TrimPrefix(file.Name, "attachments/")
-		if leaf == "" && file.FileInfo().IsDir() {
-			continue
+		if !file.Mode().IsRegular() || entries[name] != nil {
+			return nil, errTrelloDocument
 		}
-		if !file.Mode().IsRegular() || leaf == "." || leaf == ".." ||
-			strings.ContainsAny(leaf, "/\\:\x00") || entries[file.Name] != nil {
-			return nil, nil, errTrelloDocument
+		entries[name] = file
+		if strings.HasSuffix(strings.ToLower(name), ".json") && !strings.Contains("/"+path.Dir(name)+"/", "/attachments/") {
+			names = append(names, name)
 		}
-		entries[file.Name] = file
 	}
-	entry := entries["board.json"]
-	if entry == nil {
-		return nil, nil, errTrelloDocument
+	sort.Strings(names)
+	type candidate struct {
+		name string
+		doc  map[string]any
 	}
-	jsonBytes, err := readBounded(entry, maxImportForm)
-	if err != nil {
-		return nil, nil, err
-	}
-	doc, err := trelloImport(jsonBytes)
-	if err != nil {
-		return nil, nil, err
-	}
+	var candidates []candidate
+	perDirectory := map[string]int{}
 	var usedBytes int64
-	readAttachment := func(row bson.M) io.ReadCloser {
-		name := str(row, "name")
-		path := "attachments/" + str(row, "_id") + "_" + name
-		file := entries[path]
-		if file == nil {
-			path = "attachments/" + name
-			file = entries[path]
+	for _, name := range names {
+		remaining := int64(maxImportForm) - usedBytes
+		if remaining <= 0 || entries[name].UncompressedSize64 > uint64(remaining) {
+			return nil, errTooLarge
 		}
-		if file == nil {
-			return nil
-		}
-		delete(entries, path)
-		limit := min(int64(MaxAttachmentBytes), int64(maxImportForm)-usedBytes)
-		if limit <= 0 || file.UncompressedSize64 > uint64(limit) {
-			return nil
-		}
-		content, err := readBounded(file, limit)
+		jsonBytes, err := readBounded(entries[name], remaining)
 		if err != nil {
-			// The bound is charged even when a stream disagrees with its header.
-			usedBytes += limit
-			return nil
+			return nil, err
 		}
-		usedBytes += int64(len(content))
-		return io.NopCloser(bytes.NewReader(content))
+		usedBytes += int64(len(jsonBytes))
+		doc, err := trelloImport(jsonBytes)
+		if err != nil {
+			if path.Base(name) == "board.json" {
+				return nil, err
+			}
+			continue
+		}
+		candidates = append(candidates, candidate{name, doc})
+		perDirectory[path.Dir(name)]++
 	}
-	return doc, readAttachment, nil
+	if len(candidates) == 0 {
+		return nil, errTrelloDocument
+	}
+
+	scopesOf := func(board candidate) []string {
+		dir := path.Dir(board.name)
+		stem := strings.TrimSuffix(board.name, path.Ext(board.name))
+		var scopes []string
+		if path.Base(board.name) != "board.json" {
+			scopes = append(scopes, path.Join(stem, "attachments"), stem)
+		}
+		if perDirectory[dir] == 1 && (dir != "." || len(candidates) == 1) {
+			scopes = append(scopes, path.Join(dir, "attachments"))
+			if dir != "." {
+				scopes = append(scopes, dir)
+			}
+		}
+		return scopes
+	}
+	scopeOwners := map[string]int{}
+	for _, board := range candidates {
+		for _, scope := range scopesOf(board) {
+			scopeOwners[scope]++
+		}
+	}
+	boards := make([]trelloArchiveBoard, 0, len(candidates))
+	for _, board := range candidates {
+		scopes := scopesOf(board)
+		boards = append(boards, trelloArchiveBoard{board.doc, func(row bson.M) io.ReadCloser {
+			var file *zip.File
+			var member string
+			for _, leaf := range []string{str(row, "_id") + "_" + str(row, "name"), str(row, "name")} {
+				if leaf == "" || leaf == "." || leaf == ".." || strings.ContainsAny(leaf, "/\\:\x00") {
+					continue
+				}
+				for _, scope := range scopes {
+					if scopeOwners[scope] != 1 {
+						continue
+					}
+					member = path.Join(scope, leaf)
+					file = entries[member]
+					if file != nil {
+						break
+					}
+				}
+				if file != nil {
+					break
+				}
+			}
+			if file == nil {
+				return nil
+			}
+			delete(entries, member)
+			limit := min(int64(MaxAttachmentBytes), int64(maxImportForm)-usedBytes)
+			if limit <= 0 || file.UncompressedSize64 > uint64(limit) {
+				return nil
+			}
+			content, err := readBounded(file, limit)
+			if err != nil {
+				usedBytes += limit
+				return nil
+			}
+			usedBytes += int64(len(content))
+			return io.NopCloser(bytes.NewReader(content))
+		}})
+	}
+	return boards, nil
 }
 
 func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *User) {
@@ -242,7 +310,7 @@ func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *Use
 	}
 	defer r.MultipartForm.RemoveAll()
 	var doc map[string]any
-	var attachments func(bson.M) io.ReadCloser
+	var boards []trelloArchiveBoard
 	var err error
 	if file, header, openErr := r.FormFile("file"); openErr == nil {
 		defer file.Close()
@@ -253,7 +321,7 @@ func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *Use
 			return
 		}
 		if strings.HasSuffix(strings.ToLower(header.Filename), ".zip") || bytes.HasPrefix(raw, []byte("PK\x03\x04")) {
-			doc, attachments, err = trelloImportArchive(raw)
+			boards, err = trelloImportArchive(raw)
 		} else {
 			doc, err = trelloImport(raw)
 		}
@@ -264,14 +332,24 @@ func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *Use
 		fail(http.StatusBadRequest)
 		return
 	}
-	id, err := s.importBoardWith(r, u, doc, nil, importOptions{Files: attachments})
-	if errors.Is(err, errBoardCreation) {
-		fail(http.StatusForbidden)
-		return
+	if len(boards) == 0 {
+		boards = []trelloArchiveBoard{{doc: doc}}
 	}
-	if err != nil {
-		fail(http.StatusInternalServerError)
-		return
+	created := []string{}
+	for _, board := range boards {
+		id, err := s.importBoardWith(r, u, board.doc, nil, importOptions{Files: board.files})
+		if err != nil {
+			for _, previous := range created {
+				s.deleteBoardData(context.WithoutCancel(r.Context()), previous)
+			}
+			if errors.Is(err, errBoardCreation) {
+				fail(http.StatusForbidden)
+			} else {
+				fail(http.StatusInternalServerError)
+			}
+			return
+		}
+		created = append(created, id)
 	}
-	http.Redirect(w, r, "/b/"+id+"/"+slugify(str(doc, "title")), http.StatusSeeOther)
+	http.Redirect(w, r, "/b/"+created[0]+"/"+slugify(str(boards[0].doc, "title")), http.StatusSeeOther)
 }
