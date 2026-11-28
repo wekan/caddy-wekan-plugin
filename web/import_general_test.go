@@ -249,7 +249,7 @@ func TestImportJira(t *testing.T) {
 	w.seedUser(t, "ann", "pw")
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
-	const payload = `{"board":{"name":"Jira migration"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
+	const payload = `{"board":{"name":"Jira migration"},"names":{"customfield_10020":"Rank"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","customfield_10020":"0|abc:","status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
 	res, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {payload}})
 	if err != nil {
 		t.Fatal(err)
@@ -272,6 +272,10 @@ func TestImportJira(t *testing.T) {
 	if got := asM(card["scrum"])["issueType"]; got != "Bug" {
 		t.Fatalf("Jira issue type: %v", got)
 	}
+	if got, ok := toFloat(asM(card["scrum"])["backlogRank"]); !ok || got != 1 {
+		t.Fatalf("Jira backlog rank: %v", asM(card["scrum"]))
+	}
+
 	first := strOf(asM(card["scrum"])["releaseId"])
 	ids, _ := asM(card["scrum"])["releaseIds"].(bson.A)
 	if len(ids) != 2 || ids[0] != first {
@@ -365,5 +369,28 @@ func TestJiraImportEpicAndInvalidParent(t *testing.T) {
 	losses, _ := jsGet(doc, "unsupported").([]any)
 	if len(losses) != 1 || !strings.Contains(strOf(jsGet(losses[0], "reason")), "MISSING") {
 		t.Fatalf("Jira missing parent: %v", losses)
+	}
+}
+
+func TestJiraImportRankOrder(t *testing.T) {
+	input, err := decodeJS([]byte(`{"names":{"customfield_10021":"Rank"},"schema":{
+		"customfield_10020":{"custom":"com.pyxis.greenhopper.jira:gh-lexo-rank"}},"issues":[
+		{"fields":{"customfield_10020":"0|b:","customfield_10021":"0|a:"}},
+		{"fields":{"customfield_10020":"0|a:","customfield_10021":"0|b:"}},
+		{"fields":{"customfield_10020":"0|a:"}},
+		{"fields":{"customfield_10021":"0|a:"}}
+	]}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	doc, err := parseJira(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	tasks := importTasks(doc)
+	for i, expected := range []any{3, 1, 2, nil} {
+		if actual := jsGet(tasks[i], "jira_backlog_rank"); actual != expected {
+			t.Errorf("issue %d: rank %v, want %v", i, actual, expected)
+		}
 	}
 }

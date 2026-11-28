@@ -3,6 +3,7 @@ package web
 import (
 	"errors"
 	"math"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -116,6 +117,12 @@ func parseJira(data any) (jsObject, error) {
 	seenReleases := map[string]bool{}
 	categories := map[string]string{}
 	byKey, byID := map[string]string{}, map[string]string{}
+	type rankedIssue struct {
+		index int
+		rank  string
+	}
+	var ranked []rankedIssue
+	rankField := jiraPlanningField(data, "com.pyxis.greenhopper.jira:gh-lexo-rank", "Rank")
 	epicField := jiraPlanningField(data, "com.pyxis.greenhopper.jira:gh-epic-link", "Epic Link")
 	for index, issue := range issues {
 		if _, ok := issue.(jsObject); !ok {
@@ -233,7 +240,16 @@ func parseJira(data any) (jsObject, error) {
 			losses = append(losses, importUnsupportedObj("/issues/"+strconv.Itoa(index)+"/fields/comment",
 				"the Jira export contains only part of this issue's comments"))
 		}
+		if rank := strOf(jsGet(fields, rankField)); rankField != "" && rank != "" {
+			ranked = append(ranked, rankedIssue{index, rank})
+		}
 		tasks = append(tasks, task)
+	}
+	sort.SliceStable(ranked, func(i, j int) bool { return ranked[i].rank < ranked[j].rank })
+	for i, issue := range ranked {
+		task := tasks[issue.index].(jsObject)
+		task.set("jira_backlog_rank", i+1)
+		tasks[issue.index] = task
 	}
 	for i, issue := range issues {
 		fields := jsGet(issue, "fields")

@@ -373,6 +373,9 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 			if issueType, ok := jsGet(task, "jira_issue_type").(string); ok {
 				scrum["issueType"] = issueType
 			}
+			if rank, ok := jsGet(task, "jira_backlog_rank").(int); ok {
+				scrum["backlogRank"] = rank
+			}
 			refs, _ := jsGet(task, "jira_release_refs").([]string)
 			ids := bson.A{}
 			for _, ref := range refs {
