@@ -785,12 +785,19 @@ func parseTaiga(input any) (jsObject, error) {
 	}
 
 	var sprints []any
+	seenMilestones := map[string]bool{}
 	for i, milestone := range taigaList(jsGet(dump, "milestones")) {
 		name := jsTrim(taigaStr(jsGet(milestone, "name")))
+		path := "/milestones/" + strconv.Itoa(i)
 		if name == "" {
+			lost(path, "sprint without a name skipped")
 			continue
 		}
-		path := "/milestones/" + strconv.Itoa(i)
+		if seenMilestones[name] {
+			lost(path, "duplicate sprint "+strconv.Quote(name)+" skipped")
+			continue
+		}
+		seenMilestones[name] = true
 		if jsGet(milestone, "closed") == true {
 			lost(path, "closed sprint \""+name+"\" is not imported: the export has no commitment or close snapshot; its items stay in the backlog")
 			continue
