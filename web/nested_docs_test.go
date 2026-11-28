@@ -36,7 +36,7 @@ func TestExportKeepsStoredWipLimit(t *testing.T) {
 	b, _ := w.s.CreateBoard(ctx, u, "WIP")
 	l, _ := w.s.AddList(ctx, b, "Doing")
 	_, _ = w.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": l.ID}, bson.M{"$set": bson.M{"wipLimit": bson.M{"enabled": true, "value": 3}}})
-	out := w.s.collectExternal(ctx, b, "markdown", exportWant{})
+	out := w.s.collectExternal(ctx, b, nil, "markdown", exportWant{})
 	for _, x := range out.Lists {
 		if x.ID == l.ID {
 			if x.WipLimit == nil || !x.WipLimit.Enabled || x.WipLimit.Value != 3 {

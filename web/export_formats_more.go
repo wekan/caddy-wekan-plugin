@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -319,6 +320,68 @@ func orgTag(s string) string {
 // formatOrgMode is WeKan's: a TODO outline, the lists as headings.
 var orgRepeaters = map[string]string{"daily": "+1d", "weekly": "+1w", "monthly": "+1m"}
 
+var orgPropertySeparators = regexp.MustCompile(`[\s\p{Z}\x{FEFF}:]+`)
+
+func (fr *fieldReader) orgExportFields(card map[string]any) jsObject {
+	type property struct {
+		name, value string
+		order       float64
+	}
+	properties := []property{}
+	for _, field := range fieldValues(card) {
+		id := docString(field, "_id")
+		value := field["value"]
+		if !fr.mayRead(id) || value == nil {
+			continue
+		}
+		def := fr.defs[id]
+		options := cdList(cdGet(plain(def["settings"]), "dropdownItems"))
+		optionName := func(id any) string {
+			key := cdString(id)
+			for _, option := range options {
+				if cdGet(option, "_id") == key {
+					return cdOr(cdGet(option, "name"))
+				}
+			}
+			return key
+		}
+		text := optionName(value)
+		if strOf(def["type"]) == "dropdownMultiSelect" {
+			var names []string
+			for _, id := range cdList(value) {
+				names = append(names, optionName(id))
+			}
+			text = strings.Join(names, ", ")
+		}
+		order := float64(0)
+		switch n := def["sort"].(type) {
+		case int32:
+			order = float64(n)
+		case int64:
+			order = float64(n)
+		case float64:
+			order = n
+		default:
+			order = math.Inf(1)
+		}
+		properties = append(properties, property{strOf(def["name"]), text, order})
+	}
+	sort.SliceStable(properties, func(i, j int) bool {
+		a, b := properties[i], properties[j]
+		if a.order != b.order {
+			return a.order < b.order
+		}
+		return a.name < b.name
+	})
+	out := jsObject{}
+	for _, entry := range properties {
+		if entry.value != "" {
+			out.set(entry.name, entry.value)
+		}
+	}
+	return jsOrder(out)
+}
+
 func formatOrgMode(d extBoard) string {
 	out := []string{"#+TITLE: " + orgOneLine(d.Board.Title), "#+TODO: TODO | DONE", ""}
 	titles := d.listTitles()
@@ -395,8 +458,25 @@ func formatOrgMode(d extBoard) string {
 			if len(planning) > 0 {
 				out = append(out, "   "+strings.Join(planning, " "))
 			}
+			var properties []string
 			if i.CreatedAt != "" {
-				out = append(out, "   :PROPERTIES:", "   :CREATED:  "+orgStamp(i.CreatedAt, false), "   :END:")
+				properties = append(properties, "   :CREATED:  "+orgStamp(i.CreatedAt, false))
+			}
+			for _, field := range i.CustomFields {
+				name := orgPropertySeparators.ReplaceAllString(jsTrim(field.Key), "_")
+				value := orgOneLine(cdString(field.Value))
+				switch strings.ToUpper(name) {
+				case "", "CREATED", "ID", "CUSTOM_ID":
+					continue
+				}
+				if value != "" {
+					properties = append(properties, "   :"+name+": "+value)
+				}
+			}
+			if len(properties) > 0 {
+				out = append(out, "   :PROPERTIES:")
+				out = append(out, properties...)
+				out = append(out, "   :END:")
 			}
 			if i.Description != "" {
 				for _, l := range jsLines(i.Description) {

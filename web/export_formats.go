@@ -94,6 +94,7 @@ type extComment struct {
 // includes is here, but custom fields (WeKan lets them out only after its
 // admin-only check) and Scrum fields (Weddy has no sprints yet).
 type extItem struct {
+	CustomFields  jsObject        `json:"-"`
 	CardID        string          `json:"cardId"`
 	ListID        string          `json:"listId"`
 	Title         string          `json:"title"`
@@ -201,7 +202,7 @@ func parseISO(s string) time.Time {
 //
 // want is the export's ?fields= selection (exportWanted): a section left out
 // is not read, and gateItem's description, labels and due date are emptied.
-func (s *Server) collectExternal(ctx context.Context, b *Board, format string, want exportWant) extBoard {
+func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format string, want exportWant) extBoard {
 	var out extBoard
 	out.Board.ID, out.Board.Title, out.Board.Labels = b.ID, b.Title, b.Labels
 	var bdoc bson.M
@@ -312,6 +313,10 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, format string, w
 		anon.user(u)
 		username[strOf(u["_id"])] = strOf(u["username"])
 	}
+	var orgFields *fieldReader
+	if format == "orgmode" && want.has("custom-fields") {
+		orgFields = s.fieldReaderFor(ctx, b, u)
+	}
 	for _, c := range cards {
 		id := strOf(c["_id"])
 		it := extItem{CardID: id, ListID: strOf(c["listId"]), Title: strOf(c["title"]), Description: strOf(c["description"]),
@@ -384,6 +389,9 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, format string, w
 		}
 		if want.has("dates") {
 			it.Recurrence = strOf(c["recurrenceInterval"])
+		}
+		if orgFields != nil {
+			it.CustomFields = orgFields.orgExportFields(c)
 		}
 		// What the selection leaves out: collect()'s want() and gateItem().
 		// dueComplete stays, as WeKan's does - it is read from the card's
@@ -683,8 +691,8 @@ func formatTodoTxt(d extBoard) string {
 }
 
 // externalExport is a board in one of the formats.
-func (s *Server) externalExport(ctx context.Context, b *Board, format string, want exportWant) []byte {
-	d := s.collectExternal(ctx, b, format, want)
+func (s *Server) externalExport(ctx context.Context, b *Board, u *User, format string, want exportWant) []byte {
+	d := s.collectExternal(ctx, b, u, format, want)
 	switch format {
 	case "markdown":
 		return []byte(formatMarkdownKanban(d))
@@ -808,10 +816,15 @@ func (s *Server) apiExportFormat(format string) http.HandlerFunc {
 		if !ok {
 			return
 		}
+		u, valid := s.exportUser(r)
+		if !valid {
+			apiError(w, http.StatusUnauthorized, "Invalid token")
+			return
+		}
 		ext := externalFormats[format]
 		w.Header().Set("Content-Type", exportContentType(ext))
 		w.Header().Set("Content-Disposition", `attachment; filename="export-board-`+b.ID+`.`+ext[0]+`"`)
 		w.Header().Set("Cache-Control", "no-store")
-		_, _ = w.Write(s.externalExport(r.Context(), b, format, exportWanted(r.URL.Query().Get("fields"))))
+		_, _ = w.Write(s.externalExport(r.Context(), b, u, format, exportWanted(r.URL.Query().Get("fields"))))
 	}
 }
