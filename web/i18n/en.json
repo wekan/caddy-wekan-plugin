@@ -170,6 +170,8 @@
   "billing-currency": "Currency",
   "billing-field-details": "Instructions",
   "billing-method-bank-transfer": "Bank transfer",
+  "billing-method-cash": "Cash",
+  "billing-method-cheque": "Cheque",
   "billing-method-link": "Payment link (card, wallet, online payment)",
   "billing-phone": "Phone",
   "billing-reference": "Reference",

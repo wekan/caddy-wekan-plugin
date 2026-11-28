@@ -170,6 +170,8 @@
   "billing-currency": "Muneta",
   "billing-field-details": "Struzzioni",
   "billing-method-bank-transfer": "Bunìficu bancariu",
+  "billing-method-cash": "Cuntanti",
+  "billing-method-cheque": "Assegnu",
   "billing-method-link": "Liami di pagamentu (carta, purtafogghiu, pagamentu online)",
   "billing-phone": "Telèfunu",
   "billing-reference": "Rifirimentu",

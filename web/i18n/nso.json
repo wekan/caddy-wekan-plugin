@@ -170,6 +170,8 @@
   "billing-currency": "Seripa sa tšhelete",
   "billing-field-details": "Ditaelo",
   "billing-method-bank-transfer": "Phetišetšo ya panka",
+  "billing-method-cash": "Kheše",
+  "billing-method-cheque": "Tšheke",
   "billing-method-link": "Lehlakanyo la tefo (karata, sepatšhe, tefo ya inthanete)",
   "billing-phone": "Mogala",
   "billing-reference": "Tšupetšo",

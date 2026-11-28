@@ -170,6 +170,8 @@
   "billing-currency": "สกุลเงิน",
   "billing-field-details": "คำแนะนำ",
   "billing-method-bank-transfer": "โอนเงินผ่านธนาคาร",
+  "billing-method-cash": "เงินสด",
+  "billing-method-cheque": "เช็ค",
   "billing-method-link": "ลิงก์ชำระเงิน (บัตร, วอลเล็ต, ชำระออนไลน์)",
   "billing-phone": "โทรศัพท์",
   "billing-reference": "เลขอ้างอิง",

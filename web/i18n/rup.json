@@ -170,6 +170,8 @@
   "billing-currency": "Pareadz",
   "billing-field-details": "Instructsiuni",
   "billing-method-bank-transfer": "Pitricire prit bancã",
+  "billing-method-cash": "Pãradz tu mãnã",
+  "billing-method-cheque": "Cec",
   "billing-method-link": "Ligãturã di plãtiri (cartã, portofel, plãtiri online)",
   "billing-phone": "Telefon",
   "billing-reference": "Referintsã",

@@ -170,6 +170,8 @@
   "billing-currency": "நாணயம்",
   "billing-field-details": "அறிவுறுத்தல்கள்",
   "billing-method-bank-transfer": "வங்கிப் பரிமாற்றம்",
+  "billing-method-cash": "ரொக்கம்",
+  "billing-method-cheque": "காசோலை",
   "billing-method-link": "கட்டண இணைப்பு (அட்டை, பணப்பை, இணையக் கட்டணம்)",
   "billing-phone": "தொலைபேசி",
   "billing-reference": "குறிப்பு எண்",

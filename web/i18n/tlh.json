@@ -170,6 +170,8 @@
   "billing-currency": "Huch Segh",
   "billing-field-details": "ra'mey",
   "billing-method-bank-transfer": "Huch qach Huch lup",
+  "billing-method-cash": "ghopDaq Huch",
+  "billing-method-cheque": "Huch ghItlh",
   "billing-method-link": "DIlmeH rar ('echletHom, Huch buq, Internet DIl)",
   "billing-phone": "ghogh HablI'",
   "billing-reference": "ngoq",

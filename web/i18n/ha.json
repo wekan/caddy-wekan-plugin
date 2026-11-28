@@ -170,6 +170,8 @@
   "billing-currency": "Kuɗin ƙasa",
   "billing-field-details": "Umarni",
   "billing-method-bank-transfer": "Canja kuɗi ta banki",
+  "billing-method-cash": "Kuɗi hannu",
+  "billing-method-cheque": "Cak",
   "billing-method-link": "Mahaɗin biya (kati, walat, biya ta intanet)",
   "billing-phone": "Waya",
   "billing-reference": "Lambar shaida",

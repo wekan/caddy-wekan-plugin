@@ -170,6 +170,8 @@
   "billing-currency": "دراو",
   "billing-field-details": "ڕێنماییەکان",
   "billing-method-bank-transfer": "گواستنەوەی بانکی",
+  "billing-method-cash": "پارەی نەختینە",
+  "billing-method-cheque": "چەک",
   "billing-method-link": "بەستەری پارەدان (کارت، جزدان، پارەدانی ئۆنلاین)",
   "billing-phone": "تەلەفۆن",
   "billing-reference": "ئاماژە",

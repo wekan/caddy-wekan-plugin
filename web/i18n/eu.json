@@ -170,6 +170,8 @@
   "billing-currency": "Moneta",
   "billing-field-details": "Jarraibideak",
   "billing-method-bank-transfer": "Banku-transferentzia",
+  "billing-method-cash": "Eskudirua",
+  "billing-method-cheque": "Txekea",
   "billing-method-link": "Ordainketa-esteka (txartela, zorroa, lineako ordainketa)",
   "billing-phone": "Telefonoa",
   "billing-reference": "Erreferentzia",

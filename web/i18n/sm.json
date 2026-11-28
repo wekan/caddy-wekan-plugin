@@ -170,6 +170,8 @@
   "billing-currency": "Tupe",
   "billing-field-details": "Faatonuga",
   "billing-method-bank-transfer": "Fesiitaiga a le faletupe",
+  "billing-method-cash": "Tupe i lima",
+  "billing-method-cheque": "Siaki",
   "billing-method-link": "Sootaga totogi (kata, atotupe, totogi i luga o le initaneti)",
   "billing-phone": "Telefoni",
   "billing-reference": "Faasino",

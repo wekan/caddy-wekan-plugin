@@ -81,16 +81,18 @@
         label
           | {{t $.L "billing-method-link"}}
           input(type="text", name="paymentLink", maxlength="2000", value="{{.PaymentLink}}")
-      fieldset
-        legend {{t $.L "billing-method-bank-transfer"}}
-        p
-          label
-            | {{t $.L "name"}}
-            input(type="text", name="bankName", maxlength="200", value="{{.BankName}}")
-        p
-          label
-            | {{t $.L "billing-field-details"}}
-            textarea(name="bankDetails", maxlength="2000", rows="4") {{.BankDetails}}
+      each method in .ManualMethods
+        fieldset
+          legend {{t $.L .Label}}
+          if eq .Field "bankDetails"
+            p
+              label
+                | {{t $.L "name"}}
+                input(type="text", name="bankName", maxlength="200", value="{{.Name}}")
+          p
+            label
+              | {{t $.L "billing-field-details"}}
+              textarea(name="{{.Field}}", maxlength="2000", rows="4") {{.Details}}
       p
         label
           | <input type="checkbox" name="publicDefault" value="1" {{if .PublicDefault}}checked{{end}}>

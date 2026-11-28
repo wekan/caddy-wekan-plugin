@@ -170,6 +170,8 @@
   "billing-currency": "통화",
   "billing-field-details": "안내",
   "billing-method-bank-transfer": "계좌 이체",
+  "billing-method-cash": "현금",
+  "billing-method-cheque": "수표",
   "billing-method-link": "결제 링크 (카드, 지갑, 온라인 결제)",
   "billing-phone": "전화",
   "billing-reference": "참조",

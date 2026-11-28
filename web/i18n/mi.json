@@ -170,6 +170,8 @@
   "billing-currency": "Moni ā-motu",
   "billing-field-details": "Tohutohu",
   "billing-method-bank-transfer": "Whakawhiti pēke",
+  "billing-method-cash": "Moni ā-ringa",
+  "billing-method-cheque": "Haki",
   "billing-method-link": "Hono utu (kāri, pūkoro, utu ā-ipurangi)",
   "billing-phone": "Waea",
   "billing-reference": "Tohutoro",

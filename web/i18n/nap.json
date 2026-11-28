@@ -170,6 +170,8 @@
   "billing-currency": "Moneta",
   "billing-field-details": "Istruzziune",
   "billing-method-bank-transfer": "Bonifico bancario",
+  "billing-method-cash": "Cuntante",
+  "billing-method-cheque": "Assegno",
   "billing-method-link": "Link 'e pagamento (carta, portafoglio, pagamento online)",
   "billing-phone": "Telefono",
   "billing-reference": "Riferimento",

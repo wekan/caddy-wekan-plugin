@@ -170,6 +170,8 @@
   "billing-currency": "Gjaldoyra",
   "billing-field-details": "Leiðbeiningar",
   "billing-method-bank-transfer": "Bankaflyting",
+  "billing-method-cash": "Kontant",
+  "billing-method-cheque": "Sjekk",
   "billing-method-link": "Gjaldsleinkja (kort, lumma, netgjald)",
   "billing-phone": "Telefon",
   "billing-reference": "Tilvísing",

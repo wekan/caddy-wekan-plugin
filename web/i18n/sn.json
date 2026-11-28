@@ -170,6 +170,8 @@
   "billing-currency": "Mhando yemari",
   "billing-field-details": "Mirayiridzo",
   "billing-method-bank-transfer": "Kutumira kubhangi",
+  "billing-method-cash": "Mari yemuruoko",
+  "billing-method-cheque": "Cheki",
   "billing-method-link": "Chinongedzo chekubhadhara (kadhi, chikwama, kubhadhara paIndaneti)",
   "billing-phone": "Runhare",
   "billing-reference": "Chirevo",

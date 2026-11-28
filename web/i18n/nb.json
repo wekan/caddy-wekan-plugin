@@ -170,6 +170,8 @@
   "billing-currency": "Valuta",
   "billing-field-details": "Instruksjoner",
   "billing-method-bank-transfer": "Bankoverføring",
+  "billing-method-cash": "Kontant",
+  "billing-method-cheque": "Sjekk",
   "billing-method-link": "Betalingslenke (kort, lommebok, nettbetaling)",
   "billing-phone": "Telefon",
   "billing-reference": "Referanse",

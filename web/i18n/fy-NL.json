@@ -170,6 +170,8 @@
   "billing-currency": "Faluta",
   "billing-field-details": "Ynstruksjes",
   "billing-method-bank-transfer": "Bankoerskriuwing",
+  "billing-method-cash": "Kontant",
+  "billing-method-cheque": "Sjek",
   "billing-method-link": "Betelkeppeling (kaart, wallet, online betelling)",
   "billing-phone": "Telefoan",
   "billing-reference": "Referinsje",

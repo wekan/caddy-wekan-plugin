@@ -170,6 +170,8 @@
   "billing-currency": "Valuta",
   "billing-field-details": "Navodila",
   "billing-method-bank-transfer": "Bančno nakazilo",
+  "billing-method-cash": "Gotovina",
+  "billing-method-cheque": "Ček",
   "billing-method-link": "Povezava za plačilo (kartica, denarnica, spletno plačilo)",
   "billing-phone": "Telefon",
   "billing-reference": "Sklic",

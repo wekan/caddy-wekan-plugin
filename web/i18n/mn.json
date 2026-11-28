@@ -170,6 +170,8 @@
   "billing-currency": "Валют",
   "billing-field-details": "Заавар",
   "billing-method-bank-transfer": "Банкны шилжүүлэг",
+  "billing-method-cash": "Бэлэн мөнгө",
+  "billing-method-cheque": "Чек",
   "billing-method-link": "Төлбөрийн холбоос (карт, хэтэвч, онлайн төлбөр)",
   "billing-phone": "Утас",
   "billing-reference": "Лавлагаа",

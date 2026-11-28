@@ -170,6 +170,8 @@
   "billing-currency": "Валюта",
   "billing-field-details": "Инструкции",
   "billing-method-bank-transfer": "Банковский перевод",
+  "billing-method-cash": "Наличные",
+  "billing-method-cheque": "Чек",
   "billing-method-link": "Ссылка на оплату (карта, кошелёк, онлайн-оплата)",
   "billing-phone": "Телефон",
   "billing-reference": "Ссылка",

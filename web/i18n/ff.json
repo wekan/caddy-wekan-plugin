@@ -170,6 +170,8 @@
   "billing-currency": "Kaalis",
   "billing-field-details": "Kuulal",
   "billing-method-bank-transfer": "Yolnde banke",
+  "billing-method-cash": "Kaalis juuɗe",
+  "billing-method-cheque": "Ceek",
   "billing-method-link": "Jokkol yoɓgol (kartal, boto, yoɓgol e lasli)",
   "billing-phone": "Telefoon",
   "billing-reference": "Tontorde",

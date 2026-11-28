@@ -170,6 +170,8 @@
   "billing-currency": "اسعار",
   "billing-field-details": "لارښوونې",
   "billing-method-bank-transfer": "بانکي لېږد",
+  "billing-method-cash": "نغدې پیسې",
+  "billing-method-cheque": "چک",
   "billing-method-link": "د تادیې لینک (کارت، بټوه، آنلاین تادیه)",
   "billing-phone": "تلیفون",
   "billing-reference": "حواله",

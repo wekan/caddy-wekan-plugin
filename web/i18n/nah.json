@@ -170,6 +170,8 @@
   "billing-currency": "Tomin tlamantli",
   "billing-field-details": "Tlanahuatiliztli",
   "billing-method-bank-transfer": "Tomin mopanahuia tomincalpan",
+  "billing-method-cash": "Tomin ipan ma",
+  "billing-method-cheque": "Amatomin",
   "billing-method-link": "Tlaxtlahuil-ilpitl (tarjeta, tomintlatlatiloni, tlaxtlahuilli ipan red)",
   "billing-phone": "Teponaztli",
   "billing-reference": "Tlanahuatilli",

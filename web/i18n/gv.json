@@ -170,6 +170,8 @@
   "billing-currency": "Argid",
   "billing-field-details": "Saraghyn",
   "billing-method-bank-transfer": "Aistyrey banc",
+  "billing-method-cash": "Argid laue",
+  "billing-method-cheque": "Seck",
   "billing-method-link": "Kiangley eeckee (kaart, sporran, eeckey er-linney)",
   "billing-phone": "Chellvane",
   "billing-reference": "Imraa",

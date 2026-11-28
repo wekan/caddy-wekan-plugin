@@ -170,6 +170,8 @@
   "billing-currency": "Waluta",
   "billing-field-details": "Instrukcyje",
   "billing-method-bank-transfer": "Przelew bankowy",
+  "billing-method-cash": "Gotōwka",
+  "billing-method-cheque": "Czek",
   "billing-method-link": "Link do płatności (karta, portfel, płatność online)",
   "billing-phone": "Telefōn",
   "billing-reference": "Ôdniesiyni",

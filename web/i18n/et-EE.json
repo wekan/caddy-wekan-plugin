@@ -170,6 +170,8 @@
   "billing-currency": "Valuuta",
   "billing-field-details": "Juhised",
   "billing-method-bank-transfer": "Pangaülekanne",
+  "billing-method-cash": "Sularaha",
+  "billing-method-cheque": "Tšekk",
   "billing-method-link": "Maksmise link (kaart, rahakott, veebimakse)",
   "billing-phone": "Telefon",
   "billing-reference": "Viitenumber",

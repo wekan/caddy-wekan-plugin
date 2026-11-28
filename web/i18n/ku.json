@@ -170,6 +170,8 @@
   "billing-currency": "Dirav",
   "billing-field-details": "Rêwerz",
   "billing-method-bank-transfer": "Veguhastina bankê",
+  "billing-method-cash": "Pereyê nexd",
+  "billing-method-cheque": "Çek",
   "billing-method-link": "Girêdana dayînê (kart, cuzdan, dayîna serhêl)",
   "billing-phone": "Telefon",
   "billing-reference": "Referans",

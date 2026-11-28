@@ -170,6 +170,8 @@
   "billing-currency": "Manoye",
   "billing-field-details": "Instruccions",
   "billing-method-bank-transfer": "Viermint al bance",
+  "billing-method-cash": "Liquide",
+  "billing-method-cheque": "Tcheke",
   "billing-method-link": "Loyén di payemint (cåte, poite-manoye, payemint so l' rantoele)",
   "billing-phone": "Telefone",
   "billing-reference": "Referince",

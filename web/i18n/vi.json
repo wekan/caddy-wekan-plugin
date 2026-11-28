@@ -170,6 +170,8 @@
   "billing-currency": "Tiền tệ",
   "billing-field-details": "Hướng dẫn",
   "billing-method-bank-transfer": "Chuyển khoản ngân hàng",
+  "billing-method-cash": "Tiền mặt",
+  "billing-method-cheque": "Séc",
   "billing-method-link": "Liên kết thanh toán (thẻ, ví, thanh toán trực tuyến)",
   "billing-phone": "Điện thoại",
   "billing-reference": "Tham chiếu",

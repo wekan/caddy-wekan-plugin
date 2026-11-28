@@ -170,6 +170,8 @@
   "billing-currency": "Valūta",
   "billing-field-details": "Norādījumi",
   "billing-method-bank-transfer": "Bankas pārskaitījums",
+  "billing-method-cash": "Skaidra nauda",
+  "billing-method-cheque": "Čeks",
   "billing-method-link": "Maksājuma saite (karte, maks, tiešsaistes maksājums)",
   "billing-phone": "Tālrunis",
   "billing-reference": "Atsauce",

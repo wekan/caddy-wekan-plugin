@@ -170,6 +170,8 @@
   "billing-currency": "Ilavo",
   "billing-field-details": "Ivakaro",
   "billing-method-bank-transfer": "Veisau ilavo ena baqe",
+  "billing-method-cash": "Ilavo vakaivola",
+  "billing-method-cheque": "Seki",
   "billing-method-link": "Isema ni saumi (kadi, kato ni ilavo, saumi e na initaneti)",
   "billing-phone": "Talevoni",
   "billing-reference": "Ivakamacala",

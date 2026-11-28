@@ -170,6 +170,8 @@
   "billing-currency": "Wari suguya",
   "billing-field-details": "Ladilikanw",
   "billing-method-bank-transfer": "Banki wari ci",
+  "billing-method-cash": "Wari bɔlɔ",
+  "billing-method-cheque": "Seki",
   "billing-method-link": "Sarali sira (karti, wari bɔrɔ, ɛntɛrinɛti sarali)",
   "billing-phone": "Telefɔni",
   "billing-reference": "Taamasiyɛn",

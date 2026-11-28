@@ -170,6 +170,8 @@
   "billing-currency": "Para birimi",
   "billing-field-details": "Talimatlar",
   "billing-method-bank-transfer": "Banka havalesi",
+  "billing-method-cash": "Nakit",
+  "billing-method-cheque": "Çek",
   "billing-method-link": "Ödeme bağlantısı (kart, cüzdan, çevrimiçi ödeme)",
   "billing-phone": "Telefon",
   "billing-reference": "Referans",

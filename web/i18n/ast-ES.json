@@ -170,6 +170,8 @@
   "billing-currency": "Moneda",
   "billing-field-details": "Instrucciones",
   "billing-method-bank-transfer": "Tresferencia bancaria",
+  "billing-method-cash": "Efectivu",
+  "billing-method-cheque": "Talón",
   "billing-method-link": "Enllaz de pagu (tarxeta, cartera, pagu en llinia)",
   "billing-phone": "Teléfonu",
   "billing-reference": "Referencia",

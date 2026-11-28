@@ -167,6 +167,8 @@
   "billing-currency": "కరెన్సీ",
   "billing-field-details": "సూచనలు",
   "billing-method-bank-transfer": "బ్యాంక్ బదిలీ",
+  "billing-method-cash": "నగదు",
+  "billing-method-cheque": "చెక్కు",
   "billing-method-link": "చెల్లింపు లింక్ (కార్డ్, వాలెట్, ఆన్‌లైన్ చెల్లింపు)",
   "billing-phone": "ఫోన్",
   "billing-reference": "సూచన",

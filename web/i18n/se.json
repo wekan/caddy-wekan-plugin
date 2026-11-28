@@ -170,6 +170,8 @@
   "billing-currency": "Valuhtta",
   "billing-field-details": "Rávagat",
   "billing-method-bank-transfer": "Bánkosirdin",
+  "billing-method-cash": "Ruhta (seađdelat)",
+  "billing-method-cheque": "Šekka",
   "billing-method-link": "Máksoliŋka (kortta, lompa, neahttamáksu)",
   "billing-phone": "Telefovdna",
   "billing-reference": "Čujuhus",

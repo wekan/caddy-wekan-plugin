@@ -170,6 +170,8 @@
   "billing-currency": "וואַלוטע",
   "billing-field-details": "אָנווייַזונגען",
   "billing-method-bank-transfer": "באַנק־איבערפֿיר",
+  "billing-method-cash": "מזומנים",
+  "billing-method-cheque": "טשעק",
   "billing-method-link": "צאָל־לינק (קאָרט, בייַטל, אָנליין־צאָלונג)",
   "billing-phone": "טעלעפֿאָן",
   "billing-reference": "רעפֿערענץ",

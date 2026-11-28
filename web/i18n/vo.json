@@ -170,6 +170,8 @@
   "billing-currency": "Monasot",
   "billing-field-details": "Nunods",
   "billing-method-bank-transfer": "Lovepol banka",
+  "billing-method-cash": "Moned",
+  "billing-method-cheque": "Bankapenäd",
   "billing-method-link": "Yüm pelama (kad, monasäk, pelam su lien)",
   "billing-phone": "Telefon",
   "billing-reference": "Tefot",

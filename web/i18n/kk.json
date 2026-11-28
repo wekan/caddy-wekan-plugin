@@ -170,6 +170,8 @@
   "billing-currency": "Валюта",
   "billing-field-details": "Нұсқаулар",
   "billing-method-bank-transfer": "Банктік аударым",
+  "billing-method-cash": "Қолма-қол ақша",
+  "billing-method-cheque": "Чек",
   "billing-method-link": "Төлем сілтемесі (карта, әмиян, онлайн төлем)",
   "billing-phone": "Телефон",
   "billing-reference": "Сілтеме",

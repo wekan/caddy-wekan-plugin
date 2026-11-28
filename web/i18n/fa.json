@@ -170,6 +170,8 @@
   "billing-currency": "واحد پول",
   "billing-field-details": "دستورالعمل‌ها",
   "billing-method-bank-transfer": "انتقال بانکی",
+  "billing-method-cash": "نقدی",
+  "billing-method-cheque": "چک",
   "billing-method-link": "پیوند پرداخت (کارت، کیف پول، پرداخت آنلاین)",
   "billing-phone": "تلفن",
   "billing-reference": "مرجع",

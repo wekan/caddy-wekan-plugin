@@ -170,6 +170,8 @@
   "billing-currency": "کرنسی",
   "billing-field-details": "ہدایات",
   "billing-method-bank-transfer": "بینک منتقلی",
+  "billing-method-cash": "نقد",
+  "billing-method-cheque": "چیک",
   "billing-method-link": "ادایگی لِنک (کارڈ، بٹوہٕ، آن لائن ادایگی)",
   "billing-phone": "فون",
   "billing-reference": "حوالہٕ",

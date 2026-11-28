@@ -170,6 +170,8 @@
   "billing-currency": "Miishsha dumaa",
   "billing-field-details": "Kaalettaa",
   "billing-method-bank-transfer": "Baankiyaan sayssiyoogaa",
+  "billing-method-cash": "Kushen miishsha",
+  "billing-method-cheque": "Cheekiyaa",
   "billing-method-link": "Qanxxiyo gaytaa (kaardiyaa, korsiyaa, interneetiyan qanxxiyoogaa)",
   "billing-phone": "Silkkiyaa",
   "billing-reference": "Maarakiyaa",

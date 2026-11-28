@@ -170,6 +170,8 @@
   "billing-currency": "Aningaasat suussusaat",
   "billing-field-details": "Ilitsersuutit",
   "billing-method-bank-transfer": "Aningaaserivikkut nuussineq",
+  "billing-method-cash": "Aningaasat ilumut",
+  "billing-method-cheque": "Sek",
   "billing-method-link": "Akiliinissamut link (kort, aningaasivik, internetikkut akiliineq)",
   "billing-phone": "Oqarasuaat",
   "billing-reference": "Innersuussut",

@@ -170,6 +170,8 @@
   "billing-currency": "Mata wang",
   "billing-field-details": "Arahan",
   "billing-method-bank-transfer": "Pindahan bank",
+  "billing-method-cash": "Tunai",
+  "billing-method-cheque": "Cek",
   "billing-method-link": "Pautan pembayaran (kad, dompet, pembayaran dalam talian)",
   "billing-phone": "Telefon",
   "billing-reference": "Rujukan",

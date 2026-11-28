@@ -170,6 +170,8 @@
   "billing-currency": "Moneta",
   "billing-field-details": "Praecepta",
   "billing-method-bank-transfer": "Translatio argentaria",
+  "billing-method-cash": "Pecunia numerata",
+  "billing-method-cheque": "Syngrapha argentaria",
   "billing-method-link": "Nexus solutionis (charta, crumena, solutio interretialis)",
   "billing-phone": "Telephonum",
   "billing-reference": "Referentia",

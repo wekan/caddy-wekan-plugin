@@ -170,6 +170,8 @@
   "billing-currency": "Pénznem",
   "billing-field-details": "Útmutatás",
   "billing-method-bank-transfer": "Banki átutalás",
+  "billing-method-cash": "Készpénz",
+  "billing-method-cheque": "Csekk",
   "billing-method-link": "Fizetési hivatkozás (kártya, pénztárca, online fizetés)",
   "billing-phone": "Telefon",
   "billing-reference": "Hivatkozás",

@@ -170,6 +170,8 @@
   "billing-currency": "Viru",
   "billing-field-details": "Tembiapoukapy",
   "billing-method-bank-transfer": "Viru ñemondo banco rupi",
+  "billing-method-cash": "Viru pope",
+  "billing-method-cheque": "Cheque kuatia",
   "billing-method-link": "Jehepyme'ẽ juajuha (kuatia'i, viru ryru, ñandutípe jehepyme'ẽ)",
   "billing-phone": "Pumbyry",
   "billing-reference": "Jehechaukarã",

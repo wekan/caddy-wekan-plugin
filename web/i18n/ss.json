@@ -170,6 +170,8 @@
   "billing-currency": "Luhlobo lwemali",
   "billing-field-details": "Ticondziso",
   "billing-method-bank-transfer": "Kutfumela ngelibhange",
+  "billing-method-cash": "Imali lesandleni",
+  "billing-method-cheque": "Lisheke",
   "billing-method-link": "Lisebenta lekukhokha (likhadi, sikhwama, kukhokha ku-inthanethi)",
   "billing-phone": "Lucingo",
   "billing-reference": "Inkhomba",

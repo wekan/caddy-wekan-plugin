@@ -170,6 +170,8 @@
   "billing-currency": "Měna",
   "billing-field-details": "Pokiwy",
   "billing-method-bank-transfer": "Bankowe přepokazanje",
+  "billing-method-cash": "Hotowe pjenjezy",
+  "billing-method-cheque": "Šek",
   "billing-method-link": "Płaćenski wotkaz (karta, wallet, online-płaćenje)",
   "billing-phone": "Telefon",
   "billing-reference": "Referenca",

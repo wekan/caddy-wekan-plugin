@@ -170,6 +170,8 @@
   "billing-currency": "Ifaranga",
   "billing-field-details": "Amabwirizwa",
   "billing-method-bank-transfer": "Kurungika biciye kuri banki",
+  "billing-method-cash": "Amafaranga mu ntoke",
+  "billing-method-cheque": "Seki",
   "billing-method-link": "Umurongo wo kuriha (ikarita, agasaho, kuriha kuri interineti)",
   "billing-phone": "Terefone",
   "billing-reference": "Indango",

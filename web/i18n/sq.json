@@ -170,6 +170,8 @@
   "billing-currency": "Monedha",
   "billing-field-details": "Udhëzime",
   "billing-method-bank-transfer": "Transfertë bankare",
+  "billing-method-cash": "Para në dorë",
+  "billing-method-cheque": "Çek",
   "billing-method-link": "Lidhje pagese (kartë, portofol, pagesë në internet)",
   "billing-phone": "Telefoni",
   "billing-reference": "Referenca",

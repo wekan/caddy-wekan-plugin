@@ -170,6 +170,8 @@
   "billing-currency": "Νόμισμα",
   "billing-field-details": "Οδηγίες",
   "billing-method-bank-transfer": "Τραπεζική μεταφορά",
+  "billing-method-cash": "Μετρητά",
+  "billing-method-cheque": "Επιταγή",
   "billing-method-link": "Σύνδεσμος πληρωμής (κάρτα, πορτοφόλι, ηλεκτρονική πληρωμή)",
   "billing-phone": "Τηλέφωνο",
   "billing-reference": "Αναφορά",

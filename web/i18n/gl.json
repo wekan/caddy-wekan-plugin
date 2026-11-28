@@ -170,6 +170,8 @@
   "billing-currency": "Moeda",
   "billing-field-details": "Instrucións",
   "billing-method-bank-transfer": "Transferencia bancaria",
+  "billing-method-cash": "Efectivo",
+  "billing-method-cheque": "Pagamento con cheque",
   "billing-method-link": "Ligazón de pagamento (tarxeta, carteira, pagamento en liña)",
   "billing-phone": "Teléfono",
   "billing-reference": "Referencia",

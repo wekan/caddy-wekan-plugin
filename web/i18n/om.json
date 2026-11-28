@@ -170,6 +170,8 @@
   "billing-currency": "Sharafa",
   "billing-field-details": "Qajeelfama",
   "billing-method-bank-transfer": "Dabarsa baankii",
+  "billing-method-cash": "Maallaqa harkaa",
+  "billing-method-cheque": "Cheekii",
   "billing-method-link": "Hidhaa kaffaltii (kaardii, korojoo, kaffaltii interneetii)",
   "billing-phone": "Bilbila",
   "billing-reference": "Wabii",

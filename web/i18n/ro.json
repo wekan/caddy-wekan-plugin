@@ -170,6 +170,8 @@
   "billing-currency": "Monedă",
   "billing-field-details": "Instrucțiuni",
   "billing-method-bank-transfer": "Transfer bancar",
+  "billing-method-cash": "Numerar",
+  "billing-method-cheque": "Cec",
   "billing-method-link": "Link de plată (card, portofel, plată online)",
   "billing-phone": "Telefon",
   "billing-reference": "Referință",

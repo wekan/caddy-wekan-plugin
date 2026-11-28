@@ -170,6 +170,8 @@
   "billing-currency": "Qullqi laya",
   "billing-field-details": "Yachachiykuna",
   "billing-method-bank-transfer": "Qullqi wasi apachiy",
+  "billing-method-cash": "Makipi qullqi",
+  "billing-method-cheque": "Chiki",
   "billing-method-link": "Pagana t'inki (tarjeta, qullqi waqaycha, internetpi pagay)",
   "billing-phone": "Telefono",
   "billing-reference": "Rikuchiy",

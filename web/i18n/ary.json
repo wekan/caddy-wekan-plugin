@@ -170,6 +170,8 @@
   "billing-currency": "العملة",
   "billing-field-details": "التعليمات",
   "billing-method-bank-transfer": "تحويل بنكي",
+  "billing-method-cash": "كاش",
+  "billing-method-cheque": "شيك",
   "billing-method-link": "رابط الخلاص (كارطة، بزطام، خلاص فالأنترنيت)",
   "billing-phone": "التيليفون",
   "billing-reference": "المرجع",

@@ -170,6 +170,8 @@
   "billing-currency": "Valuta",
   "billing-field-details": "Istruzions",
   "billing-method-bank-transfer": "Bonifich bancar",
+  "billing-method-cash": "Contanc",
+  "billing-method-cheque": "Assegn",
   "billing-method-link": "Colegamënt de paiament (chertina, portafoi, paiament online)",
   "billing-phone": "Telefon",
   "billing-reference": "Referënza",

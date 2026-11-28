@@ -170,6 +170,8 @@
   "billing-currency": "Валюта",
   "billing-field-details": "Інструкцыі",
   "billing-method-bank-transfer": "Банкаўскі пераказ",
+  "billing-method-cash": "Наяўныя",
+  "billing-method-cheque": "Чэк",
   "billing-method-link": "Спасылка на аплату (картка, кашалёк, анлайн-аплата)",
   "billing-phone": "Тэлефон",
   "billing-reference": "Спасылка",

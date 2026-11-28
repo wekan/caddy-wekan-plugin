@@ -170,6 +170,8 @@
   "billing-currency": "Валюта",
   "billing-field-details": "Інструкції",
   "billing-method-bank-transfer": "Банківський переказ",
+  "billing-method-cash": "Готівка",
+  "billing-method-cheque": "Чек",
   "billing-method-link": "Посилання на оплату (картка, гаманець, онлайн-оплата)",
   "billing-phone": "Телефон",
   "billing-reference": "Довідковий номер",

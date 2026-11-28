@@ -170,6 +170,8 @@
   "billing-currency": "মুদ্ৰা",
   "billing-field-details": "নিৰ্দেশনা",
   "billing-method-bank-transfer": "বেংক ট্ৰান্সফাৰ",
+  "billing-method-cash": "নগদ",
+  "billing-method-cheque": "চেক",
   "billing-method-link": "পৰিশোধ লিংক (কাৰ্ড, ৱালেট, অনলাইন পৰিশোধ)",
   "billing-phone": "ফোন",
   "billing-reference": "প্ৰসংগ",

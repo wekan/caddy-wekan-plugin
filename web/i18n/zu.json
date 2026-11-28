@@ -170,6 +170,8 @@
   "billing-currency": "Uhlobo lwemali",
   "billing-field-details": "Imiyalelo",
   "billing-method-bank-transfer": "Ukudlulisela ebhange",
+  "billing-method-cash": "Imali esandleni",
+  "billing-method-cheque": "Isheke",
   "billing-method-link": "Isixhumanisi sokukhokha (ikhadi, isikhwama sedijithali, ukukhokha ku-inthanethi)",
   "billing-phone": "Ucingo",
   "billing-reference": "Inkomba",

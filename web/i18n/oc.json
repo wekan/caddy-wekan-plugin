@@ -170,6 +170,8 @@
   "billing-currency": "Moneda",
   "billing-field-details": "Instruccions",
   "billing-method-bank-transfer": "Virament bancari",
+  "billing-method-cash": "Espècias",
+  "billing-method-cheque": "Chèc",
   "billing-method-link": "Ligam de pagament (carta, portafuèlha, pagament en linha)",
   "billing-phone": "Telefòn",
   "billing-reference": "Referéncia",

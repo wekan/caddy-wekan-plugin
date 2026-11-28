@@ -170,6 +170,8 @@
   "billing-currency": "Արժույթ",
   "billing-field-details": "Ցուցումներ",
   "billing-method-bank-transfer": "Բանկային փոխանցում",
+  "billing-method-cash": "Կանխիկ",
+  "billing-method-cheque": "Չեկ",
   "billing-method-link": "Վճարման հղում (քարտ, դրամապանակ, առցանց վճարում)",
   "billing-phone": "Հեռախոս",
   "billing-reference": "Հղում",

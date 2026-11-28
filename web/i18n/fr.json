@@ -170,6 +170,8 @@
   "billing-currency": "Devise",
   "billing-field-details": "Consignes",
   "billing-method-bank-transfer": "Virement bancaire",
+  "billing-method-cash": "Espèces",
+  "billing-method-cheque": "Chèque",
   "billing-method-link": "Lien de paiement (carte, portefeuille, paiement en ligne)",
   "billing-phone": "Téléphone",
   "billing-reference": "Référence",

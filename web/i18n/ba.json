@@ -170,6 +170,8 @@
   "billing-currency": "Валюта",
   "billing-field-details": "Күрһәтмәләр",
   "billing-method-bank-transfer": "Банк күсереме",
+  "billing-method-cash": "Ҡулдағы аҡса",
+  "billing-method-cheque": "Чек",
   "billing-method-link": "Түләү URL-ы (карта, янсыҡ, онлайн түләү)",
   "billing-phone": "Телефон",
   "billing-reference": "Һылтанма",

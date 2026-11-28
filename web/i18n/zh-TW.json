@@ -170,6 +170,8 @@
   "billing-currency": "貨幣",
   "billing-field-details": "說明",
   "billing-method-bank-transfer": "銀行轉帳",
+  "billing-method-cash": "現金",
+  "billing-method-cheque": "支票",
   "billing-method-link": "付款連結（信用卡、錢包、線上付款）",
   "billing-phone": "電話",
   "billing-reference": "參考編號",

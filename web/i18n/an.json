@@ -170,6 +170,8 @@
   "billing-currency": "Moneda",
   "billing-field-details": "Instruccions",
   "billing-method-bank-transfer": "Transferencia bancaria",
+  "billing-method-cash": "Efectivo",
+  "billing-method-cheque": "Talón",
   "billing-method-link": "Vinclo de pago (tarcheta, cartera, pago en linia)",
   "billing-phone": "Telefono",
   "billing-reference": "Referencia",

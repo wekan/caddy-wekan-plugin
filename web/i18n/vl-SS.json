@@ -170,6 +170,8 @@
   "billing-currency": "Munteenheid",
   "billing-field-details": "Instructies",
   "billing-method-bank-transfer": "Overschrijving",
+  "billing-method-cash": "Contant",
+  "billing-method-cheque": "Cheque (papier)",
   "billing-method-link": "Betaallink (kaart, wallet, online betaling)",
   "billing-phone": "Telefoon",
   "billing-reference": "Referentie",

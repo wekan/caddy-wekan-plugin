@@ -170,6 +170,8 @@
   "billing-currency": "ⵜⴰⴷⵔⵉⵎⵜ",
   "billing-field-details": "ⵜⵉⵏⵎⵍⴰ",
   "billing-method-bank-transfer": "ⴰⵙⵎⵓⵜⵜⵉ ⵙ ⵜⴱⴰⵏⴽⴰ",
+  "billing-method-cash": "ⵉⴷⵔⵉⵎⵏ ⵙ ⵓⴼⵓⵙ",
+  "billing-method-cheque": "ⴰⵛⵉⴽ",
   "billing-method-link": "ⴰⵙⵖⵏ ⵏ ⵓⵅⵍⵍⵚ (ⵜⴰⴽⴰⵔⴹⴰ, ⵜⴰⵇⵕⴰⴱⵜ, ⴰⵅⵍⵍⵚ ⵖⴼ ⵓⵥⵟⵟⴰ)",
   "billing-phone": "ⵜⵉⵍⵉⴼⵓⵏ",
   "billing-reference": "ⴰⵙⵖⵏ",

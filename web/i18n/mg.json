@@ -170,6 +170,8 @@
   "billing-currency": "Vola ampiasaina",
   "billing-field-details": "Toromarika",
   "billing-method-bank-transfer": "Famindrana amin'ny banky",
+  "billing-method-cash": "Vola an-tanana",
+  "billing-method-cheque": "Seky",
   "billing-method-link": "Rohy fandoavana (karatra, kitapom-bola, fandoavana an-tserasera)",
   "billing-phone": "Telefaona",
   "billing-reference": "Fanondroana",

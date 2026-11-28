@@ -170,6 +170,8 @@
   "billing-currency": "Валюта",
   "billing-field-details": "Көрсөтмөлөр",
   "billing-method-bank-transfer": "Банктык которуу",
+  "billing-method-cash": "Накталай акча",
+  "billing-method-cheque": "Чек",
   "billing-method-link": "Төлөм шилтемеси (карта, капчык, онлайн төлөм)",
   "billing-phone": "Телефон",
   "billing-reference": "Шилтеме",

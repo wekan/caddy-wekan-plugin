@@ -170,6 +170,8 @@
   "billing-currency": "Valuto",
   "billing-field-details": "Instrukcioj",
   "billing-method-bank-transfer": "Banka ĝiro",
+  "billing-method-cash": "Kontanta mono",
+  "billing-method-cheque": "Ĉeko",
   "billing-method-link": "Pagligilo (karto, monujo, reta pago)",
   "billing-phone": "Telefono",
   "billing-reference": "Referenco",

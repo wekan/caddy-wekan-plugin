@@ -170,6 +170,8 @@
   "billing-currency": "Airgeadra",
   "billing-field-details": "Treoracha",
   "billing-method-bank-transfer": "Aistriú bainc",
+  "billing-method-cash": "Airgead tirim",
+  "billing-method-cheque": "Seic",
   "billing-method-link": "Nasc íocaíochta (cárta, sparán, íocaíocht ar líne)",
   "billing-phone": "Fón",
   "billing-reference": "Tagairt",

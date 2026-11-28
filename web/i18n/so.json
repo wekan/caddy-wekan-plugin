@@ -170,6 +170,8 @@
   "billing-currency": "Lacagta",
   "billing-field-details": "Tilmaamo",
   "billing-method-bank-transfer": "Wareejin bangi",
+  "billing-method-cash": "Lacag caddaan ah",
+  "billing-method-cheque": "Jeeg",
   "billing-method-link": "Xiriirka lacag bixinta (kaar, boorso, lacag bixin onlayn)",
   "billing-phone": "Telefoon",
   "billing-reference": "Tixraac",

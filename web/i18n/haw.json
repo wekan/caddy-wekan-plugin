@@ -170,6 +170,8 @@
   "billing-currency": "Kālā",
   "billing-field-details": "Nā kuhikuhi",
   "billing-method-bank-transfer": "Hoʻoneʻe panakō",
+  "billing-method-cash": "Kālā kuʻike",
+  "billing-method-cheque": "Pila kīkoʻo",
   "billing-method-link": "Loulou uku (kāleka, ʻeke kālā, uku pūnaewele)",
   "billing-phone": "Kelepona",
   "billing-reference": "Kuhikuhi",

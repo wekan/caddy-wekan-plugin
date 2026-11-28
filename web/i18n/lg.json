@@ -170,6 +170,8 @@
   "billing-currency": "Ensimbi",
   "billing-field-details": "Ebiragiro",
   "billing-method-bank-transfer": "Okusindika ssente mu bbanka",
+  "billing-method-cash": "Ssente enkalu",
+  "billing-method-cheque": "Ceeke",
   "billing-method-link": "Link y'okusasula (kaadi, waleti, okusasula ku mutimbagano)",
   "billing-phone": "Essimu",
   "billing-reference": "Ekijuliziddwa",

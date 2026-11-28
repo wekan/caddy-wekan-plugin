@@ -170,6 +170,8 @@
   "billing-currency": "Mtundu wa ndalama",
   "billing-field-details": "Malangizo",
   "billing-method-bank-transfer": "Kutumiza ndalama ku banki",
+  "billing-method-cash": "Ndalama m'manja",
+  "billing-method-cheque": "Cheke",
   "billing-method-link": "Ulalo wolipirira (khadi, chikwama, malipiro a pa intaneti)",
   "billing-phone": "Foni",
   "billing-reference": "Chizindikiro",

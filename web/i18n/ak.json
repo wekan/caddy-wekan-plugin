@@ -170,6 +170,8 @@
   "billing-currency": "Sika ahorow",
   "billing-field-details": "Akwankyerɛ",
   "billing-method-bank-transfer": "Sikakorabea mu sika soma",
+  "billing-method-cash": "Sika ankasa",
+  "billing-method-cheque": "Kyɛk",
   "billing-method-link": "Ka tua link (kaad, sika kotoku, intanɛt so tua)",
   "billing-phone": "Fon",
   "billing-reference": "Nsɛm a ɛkyerɛ",

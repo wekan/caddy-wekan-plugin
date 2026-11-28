@@ -170,6 +170,8 @@
   "billing-currency": "Muxaka wa mali",
   "billing-field-details": "Swiletelo",
   "billing-method-bank-transfer": "Ku rhumela hi bangi",
+  "billing-method-cash": "Mali ya le voko",
+  "billing-method-cheque": "Xeke",
   "billing-method-link": "Xihlanganisi xa ntsengo (khadi, sakwana, ntsengo wa inthanete)",
   "billing-phone": "Riqingho",
   "billing-reference": "Xikombo",

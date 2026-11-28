@@ -170,6 +170,8 @@
   "billing-currency": "Měna",
   "billing-field-details": "Pokyny",
   "billing-method-bank-transfer": "Bankovní převod",
+  "billing-method-cash": "Hotovost",
+  "billing-method-cheque": "Šek",
   "billing-method-link": "Platební odkaz (karta, peněženka, online platba)",
   "billing-phone": "Telefon",
   "billing-reference": "Referenční číslo",

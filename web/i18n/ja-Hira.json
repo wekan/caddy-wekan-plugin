@@ -170,6 +170,8 @@
   "billing-currency": "つうか",
   "billing-field-details": "しじ",
   "billing-method-bank-transfer": "ぎんこう ふりこみ",
+  "billing-method-cash": "げんきん",
+  "billing-method-cheque": "こぎって",
   "billing-method-link": "しはらい リンク（カード、ウォレット、オンライン けっさい）",
   "billing-phone": "でんわ",
   "billing-reference": "さんしょう",

@@ -170,6 +170,8 @@
   "billing-currency": "پۇل بىرلىكى",
   "billing-field-details": "كۆرسەتمىلەر",
   "billing-method-bank-transfer": "بانكا ئارقىلىق يۆتكەش",
+  "billing-method-cash": "نەق پۇل",
+  "billing-method-cheque": "چەك",
   "billing-method-link": "پۇل تۆلەش ئۇلانمىسى (كارتا، ھەميان، توردا تۆلەش)",
   "billing-phone": "تېلېفون",
   "billing-reference": "پايدىلىنىش نومۇرى",

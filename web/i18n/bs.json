@@ -170,6 +170,8 @@
   "billing-currency": "Valuta",
   "billing-field-details": "Uputstva",
   "billing-method-bank-transfer": "Bankovni transfer",
+  "billing-method-cash": "Gotovina",
+  "billing-method-cheque": "Ček",
   "billing-method-link": "Link za plaćanje (kartica, novčanik, online plaćanje)",
   "billing-phone": "Telefon",
   "billing-reference": "Poziv na broj",

@@ -170,6 +170,8 @@
   "billing-currency": "ባጤራ",
   "billing-field-details": "መምርሒታት",
   "billing-method-bank-transfer": "ናይ ባንኪ ምትሕልላፍ",
+  "billing-method-cash": "ጥረ ገንዘብ",
+  "billing-method-cheque": "ቸክ",
   "billing-method-link": "መላግቦ ክፍሊት (ካርድ፡ ቦርሳ፡ ናይ መስመር ክፍሊት)",
   "billing-phone": "ተሌፎን",
   "billing-reference": "መወከሲ",

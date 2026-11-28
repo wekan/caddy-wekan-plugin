@@ -170,6 +170,8 @@
   "billing-currency": "ምንዛሪ",
   "billing-field-details": "መመሪያዎች",
   "billing-method-bank-transfer": "የባንክ ዝውውር",
+  "billing-method-cash": "ጥሬ ገንዘብ",
+  "billing-method-cheque": "ቼክ",
   "billing-method-link": "የክፍያ አገናኝ (ካርድ፣ ዋሌት፣ የመስመር ላይ ክፍያ)",
   "billing-phone": "ስልክ",
   "billing-reference": "ማጣቀሻ",

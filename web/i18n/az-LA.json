@@ -170,6 +170,8 @@
   "billing-currency": "Valyuta",
   "billing-field-details": "Təlimatlar",
   "billing-method-bank-transfer": "Bank köçürməsi",
+  "billing-method-cash": "Nağd",
+  "billing-method-cheque": "Çek",
   "billing-method-link": "Ödəniş linki (kart, pul kisəsi, onlayn ödəniş)",
   "billing-phone": "Telefon",
   "billing-reference": "İstinad",

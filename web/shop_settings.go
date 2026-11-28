@@ -127,7 +127,12 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		return
 	}
 	linkIndex, linkMethod := shopMethod(shopPaymentMethods(settings), "link")
-	_, bankMethod := shopMethod(shopPaymentMethods(settings), "bank-transfer")
+	var manual []map[string]string
+	for _, option := range shopManualMethods {
+		_, stored := shopMethod(shopPaymentMethods(settings), option.Kind)
+		manual = append(manual, map[string]string{"Label": option.Label, "Field": option.Field,
+			"Name": strOf(stored["name"]), "Details": strOf(stored["details"])})
+	}
 	reference := strOf(settings["referenceType"])
 	if reference == "" {
 		reference = "rf"
@@ -242,24 +247,34 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 			}
 			set["shopSettings.paymentMethods"] = methods
 		}
-		if r.PostForm.Has("bankDetails") {
-			name, validName := shopContactField(r.PostForm.Get("bankName"), 200, false)
-			details, validDetails := shopContactField(r.PostForm.Get("bankDetails"), 2000, true)
-			if !validName || !validDetails || (name == "") != (details == "") {
-				http.Error(w, "Invalid Shop bank transfer instructions", http.StatusBadRequest)
+		for _, option := range shopManualMethods {
+			if !r.PostForm.Has(option.Field) {
+				continue
+			}
+			name, validName := "", true
+			if option.Kind == "bank-transfer" {
+				name, validName = shopContactField(r.PostForm.Get("bankName"), 200, false)
+			}
+			details, validDetails := shopContactField(r.PostForm.Get(option.Field), 2000, true)
+			if !validName || !validDetails || (option.Kind == "bank-transfer" && (name == "") != (details == "")) {
+				http.Error(w, "Invalid Shop payment instructions", http.StatusBadRequest)
 				return
 			}
 			methods, updated := set["shopSettings.paymentMethods"].(bson.A)
 			if !updated {
 				methods = slices.Clone(shopPaymentMethods(settings))
 			}
-			index, _ := shopMethod(methods, "bank-transfer")
+			index, _ := shopMethod(methods, option.Kind)
+			method := bson.M{"type": option.Kind, "details": details}
+			if option.Kind == "bank-transfer" {
+				method["name"] = name
+			}
 			switch {
 			case details == "" && index >= 0:
 				methods = slices.Delete(methods, index, index+1)
 			case details != "" && index >= 0:
 				entry := asM(methods[index])
-				entry["method"] = bson.M{"type": "bank-transfer", "name": name, "details": details}
+				entry["method"] = method
 				methods[index] = entry
 			case details != "":
 				if len(methods) >= 20 {
@@ -267,7 +282,7 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 					return
 				}
 				methods = append(methods, bson.M{"id": randomID(), "enabled": true,
-					"method": bson.M{"type": "bank-transfer", "name": name, "details": details}})
+					"method": method})
 			}
 			set["shopSettings.paymentMethods"] = methods
 		}
@@ -309,8 +324,8 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		"Title": b.Title, "Board": b, "User": u, "Settings": settings, "Currency": currency,
 		"Pickers": pickers, "Lists": listOptions, "Labels": labelOptions, "OrderLists": orderLists,
 		"ConfirmationEmail": settings["confirmationEmail"] != false,
-		"BankName":          strOf(bankMethod["name"]), "BankDetails": strOf(bankMethod["details"]),
-		"References": references, "PaymentLink": strOf(linkMethod["url"]),
+		"ManualMethods":     manual,
+		"References":        references, "PaymentLink": strOf(linkMethod["url"]),
 		"DecrementStock":   settings["decrementStock"] != false,
 		"PricesIncludeVAT": settings["pricesIncludeVat"] != false, "VATPercent": float64(shopVATRate(settings)) / 100,
 		"PublicDefault": st.defaultView("public") == "board-view-shop", "Shop": shopLocation(b, "", ""),

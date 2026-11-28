@@ -170,6 +170,8 @@
   "billing-currency": "Валюта",
   "billing-field-details": "Ыйыылар",
   "billing-method-bank-transfer": "Баан көһөрүүтэ",
+  "billing-method-cash": "Харчы",
+  "billing-method-cheque": "Чиэк",
   "billing-method-link": "Төлөбүр сигэтэ (каарта, кошелек, онлайн төлөбүр)",
   "billing-phone": "Төлөпүөн",
   "billing-reference": "Сигэ",

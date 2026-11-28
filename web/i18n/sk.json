@@ -170,6 +170,8 @@
   "billing-currency": "Mena",
   "billing-field-details": "Pokyny",
   "billing-method-bank-transfer": "Bankový prevod",
+  "billing-method-cash": "Hotovosť",
+  "billing-method-cheque": "Šek",
   "billing-method-link": "Platobný odkaz (karta, peňaženka, online platba)",
   "billing-phone": "Telefón",
   "billing-reference": "Referencia",

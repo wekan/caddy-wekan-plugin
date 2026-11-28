@@ -170,6 +170,8 @@
   "billing-currency": "Valuutta",
   "billing-field-details": "Ohjeet",
   "billing-method-bank-transfer": "Tilisiirto",
+  "billing-method-cash": "Käteinen",
+  "billing-method-cheque": "Šekki",
   "billing-method-link": "Maksulinkki (kortti, lompakko, verkkomaksu)",
   "billing-phone": "Puhelin",
   "billing-reference": "Viite",

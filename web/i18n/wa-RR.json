@@ -170,6 +170,8 @@
   "billing-currency": "Kwarta",
   "billing-field-details": "Mga instruksyon",
   "billing-method-bank-transfer": "Pagbalhin ha bangko",
+  "billing-method-cash": "Kwarta nga kash",
+  "billing-method-cheque": "Tseke",
   "billing-method-link": "Link han pagbayad (kard, wallet, online nga pagbayad)",
   "billing-phone": "Telepono",
   "billing-reference": "Reperensya",

@@ -170,6 +170,8 @@
   "billing-currency": "Muneda",
   "billing-field-details": "Istrutziones",
   "billing-method-bank-transfer": "Bonìficu bancàriu",
+  "billing-method-cash": "Dinare in contantes",
+  "billing-method-cheque": "Assegnu",
   "billing-method-link": "Ligàmene de pagamentu (carta, portafògiu, pagamentu in lìnia)",
   "billing-phone": "Telèfonu",
   "billing-reference": "Referèntzia",

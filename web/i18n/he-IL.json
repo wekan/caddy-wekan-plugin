@@ -170,6 +170,8 @@
   "billing-currency": "מטבע",
   "billing-field-details": "הוראות",
   "billing-method-bank-transfer": "העברה בנקאית",
+  "billing-method-cash": "מזומן",
+  "billing-method-cheque": "המחאה",
   "billing-method-link": "קישור לתשלום (כרטיס, ארנק, תשלום מקוון)",
   "billing-phone": "טלפון",
   "billing-reference": "אסמכתה",

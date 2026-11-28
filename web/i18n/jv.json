@@ -170,6 +170,8 @@
   "billing-currency": "Mata uang",
   "billing-field-details": "Pitunjuk",
   "billing-method-bank-transfer": "Transfer bank",
+  "billing-method-cash": "Dhuwit kontan",
+  "billing-method-cheque": "Cek",
   "billing-method-link": "Pranala pambayaran (kertu, dompet, pambayaran daring)",
   "billing-phone": "Telpon",
   "billing-reference": "Referensi",

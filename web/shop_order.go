@@ -119,6 +119,25 @@ func shopMethod(methods bson.A, kind string) (int, bson.M) {
 	return -1, nil
 }
 
+var shopManualMethods = []struct{ Kind, Label, Field string }{
+	{"bank-transfer", msg("billing-method-bank-transfer"), "bankDetails"},
+	{"cash", msg("billing-method-cash"), "cashDetails"},
+	{"cheque", msg("billing-method-cheque"), "chequeDetails"},
+}
+
+type shopInstructions struct{ Label, Name, Details string }
+
+func shopManualInstructions(settings bson.M, lang string) []shopInstructions {
+	var instructions []shopInstructions
+	for _, option := range shopManualMethods {
+		_, method := shopMethod(shopPaymentMethods(settings), option.Kind)
+		if details := strOf(method["details"]); details != "" {
+			instructions = append(instructions, shopInstructions{tr(lang, option.Label), strOf(method["name"]), details})
+		}
+	}
+	return instructions
+}
+
 func (s *Server) submitShopOrder(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "private, no-store")
 	if !sameOrigin(r) {
@@ -253,8 +272,7 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	}
 	amount, currency, _ := strings.Cut(total, " ")
 	_, method := shopMethod(shopPaymentMethods(settings), "link")
-	_, bank := shopMethod(shopPaymentMethods(settings), "bank-transfer")
-	bankName, bankDetails := strOf(bank["name"]), strOf(bank["details"])
+	instructions := shopManualInstructions(settings, lang)
 	payment := shopPaymentURL(strOf(method["url"]), amount, currency, id, reference)
 	if created && settings["confirmationEmail"] != false {
 		shopName := strOf(settings["title"])
@@ -272,10 +290,12 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		if reference != "" {
 			fmt.Fprintln(&receipt, tr(lang, msg("billing-reference")), reference)
 		}
-		if bankDetails != "" {
-			fmt.Fprintln(&receipt, tr(lang, msg("billing-method-bank-transfer")))
-			fmt.Fprintln(&receipt, bankName)
-			fmt.Fprintln(&receipt, bankDetails)
+		for _, method := range instructions {
+			fmt.Fprintln(&receipt, method.Label)
+			if method.Name != "" {
+				fmt.Fprintln(&receipt, method.Name)
+			}
+			fmt.Fprintln(&receipt, method.Details)
 		}
 		if payment != "" {
 			fmt.Fprintln(&receipt, tr(lang, msg("shop-email-pay")), payment)
@@ -286,12 +306,12 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	}
 	s.hub.publishFrom(boardID, "board-changed", "")
 	http.SetCookie(w, &http.Cookie{Name: shopCartCookie(shop.ID), Path: "/b/" + shop.ID + "/", MaxAge: -1, HttpOnly: true})
-	if payment != "" || reference != "" || bankDetails != "" {
+	if payment != "" || reference != "" || len(instructions) > 0 {
 		s.render(w, r, "shop_order", http.StatusCreated, map[string]any{
 			"Title": shop.Title, "User": u, "Total": total, "Payment": payment, "Reference": reference,
-			"BankName": bankName, "BankDetails": bankDetails,
-			"Message": strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id),
-			"Shop":    shopLocation(shop, "", ""),
+			"Instructions": instructions,
+			"Message":      strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id),
+			"Shop":         shopLocation(shop, "", ""),
 		})
 		return
 	}

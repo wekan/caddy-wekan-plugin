@@ -170,6 +170,8 @@
   "billing-currency": "ਮੁਦਰਾ",
   "billing-field-details": "ਹਦਾਇਤਾਂ",
   "billing-method-bank-transfer": "ਬੈਂਕ ਟ੍ਰਾਂਸਫਰ",
+  "billing-method-cash": "ਨਕਦ",
+  "billing-method-cheque": "ਚੈੱਕ",
   "billing-method-link": "ਭੁਗਤਾਨ ਲਿੰਕ (ਕਾਰਡ, ਵਾਲੇਟ, ਔਨਲਾਈਨ ਭੁਗਤਾਨ)",
   "billing-phone": "ਫ਼ੋਨ",
   "billing-reference": "ਹਵਾਲਾ",
