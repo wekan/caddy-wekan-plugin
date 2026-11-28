@@ -34,6 +34,32 @@ func formatJira(d extBoard) any {
 			names.set(key, field.Key)
 		}
 	}
+	versions := map[string]jsObject{}
+	for _, release := range d.Releases {
+		id, name := strOf(release["_id"]), strOf(release["name"])
+		if id == "" || jsTrim(name) == "" {
+			continue
+		}
+		exportID := id
+		if source := asM(release["provenance"]); strOf(source["system"]) == "jira" {
+			if record := strOf(source["recordId"]); record != "" {
+				exportID = record
+			}
+		}
+		version := jsObject{{"id", exportID}, {"name", name}, {"released", strOf(release["state"]) == "released"}}
+		date := isoDate(release["plannedEnd"])
+		if date == "" {
+			date = isoDate(release["releasedAt"])
+		}
+		if date != "" {
+			version.set("releaseDate", date[:10])
+		}
+		if notes := strOf(release["notes"]); notes != "" {
+			version.set("description", notes)
+		}
+		versions[id] = version
+	}
+	categories := map[string]string{"todo": "new", "doing": "indeterminate", "done": "done"}
 	issues := []any{}
 	for _, i := range d.Items {
 		status := jsObject{}
@@ -41,7 +67,22 @@ func formatJira(d extBoard) any {
 		f := jsObject{}
 		f.set("summary", i.Title)
 		f.set("description", i.Description)
+		if category := categories[i.JiraStatusCategory]; category != "" {
+			status.set("statusCategory", jsObject{{"key", category}})
+		}
 		f.set("status", status)
+		if i.JiraIssueType != "" {
+			f.set("issuetype", jsObject{{"name", i.JiraIssueType}})
+		}
+		fixVersions := []jsObject{}
+		for _, id := range i.JiraReleaseIDs {
+			if version, ok := versions[id]; ok {
+				fixVersions = append(fixVersions, version)
+			}
+		}
+		if len(fixVersions) != 0 {
+			f.set("fixVersions", fixVersions)
+		}
 		labels := append([]string{}, i.Labels...)
 		f.set("labels", labels)
 		f.set("duedate", jsOptional(i.DueAt))

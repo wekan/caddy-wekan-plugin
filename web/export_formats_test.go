@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"reflect"
 	"regexp"
 	"slices"
 	"strconv"
@@ -481,7 +482,7 @@ func TestTaigaMilestones(t *testing.T) {
 	}
 }
 
-func TestJiraExportCustomFields(t *testing.T) {
+func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 	w := newTestWeKan(t)
 	w.seedUser(t, "ann", "pw")
 	bob := w.seedUser(t, "bob", "pw")
@@ -497,6 +498,22 @@ func TestJiraExportCustomFields(t *testing.T) {
 	}
 	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": board.Card},
 		bson.M{"$set": bson.M{"customFields": bson.A{bson.M{"_id": id, "value": 0}}}}); err != nil {
+		t.Fatal(err)
+	}
+	releaseID := randomID()
+	releaseDate := time.Date(2026, 10, 10, 0, 0, 0, 0, time.UTC)
+	if _, err := w.db.Collection("scrumReleases").InsertOne(ctx, bson.M{
+		"_id": releaseID, "boardId": board.ID, "name": "Version 1", "state": "released", "plannedEnd": releaseDate,
+		"provenance": bson.M{"system": "jira", "recordId": "10050"},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": board.Card},
+		bson.M{"$set": bson.M{"scrum": bson.M{"releaseIds": bson.A{releaseID}, "issueType": "Bug"}}}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := w.db.Collection("lists").UpdateOne(ctx, bson.M{"_id": board.List},
+		bson.M{"$set": bson.M{"scrum": bson.M{"category": "doing"}}}); err != nil {
 		t.Fatal(err)
 	}
 	type jiraDoc struct {
@@ -534,6 +551,18 @@ func TestJiraExportCustomFields(t *testing.T) {
 	omitted := download(admin, "description", 200)
 	if _, exists := omitted.Issues[0].Fields[key]; exists || len(omitted.Names) != 0 {
 		t.Fatalf("unselected field: %+v", omitted)
+	}
+	planning := download(admin, "scrum", 200).Issues[0].Fields
+	wantStatus := map[string]any{"name": "L", "statusCategory": map[string]any{"key": "indeterminate"}}
+	wantReleases := []any{map[string]any{"id": "10050", "name": "Version 1", "released": true, "releaseDate": "2026-10-10"}}
+	if !reflect.DeepEqual(planning["status"], wantStatus) || !reflect.DeepEqual(planning["fixVersions"], wantReleases) ||
+		!reflect.DeepEqual(planning["issuetype"], map[string]any{"name": "Bug"}) {
+		t.Fatalf("Jira planning: %+v", planning)
+	}
+	for _, field := range []string{"fixVersions", "issuetype"} {
+		if _, exists := omitted.Issues[0].Fields[field]; exists {
+			t.Fatalf("unselected planning field %s: %+v", field, omitted)
+		}
 	}
 	download(reader, "custom-fields", 403)
 }

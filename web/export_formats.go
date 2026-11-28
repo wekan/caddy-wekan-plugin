@@ -124,8 +124,10 @@ type extItem struct {
 	Checklists    []extChecklist  `json:"checklists,omitempty"`
 	// Timetracking is what WeKan's collect() gives the Jira export: the time
 	// spent in seconds (models/lib/jiraTimeTracking.js).
-	Timetracking        jsObject `json:"timetracking,omitempty"`
-	SprintID, ReleaseID string   `json:"-"`
+	Timetracking                      jsObject `json:"timetracking,omitempty"`
+	SprintID, ReleaseID               string   `json:"-"`
+	JiraReleaseIDs                    []string `json:"-"`
+	JiraIssueType, JiraStatusCategory string   `json:"-"`
 }
 
 type extWipLimit struct {
@@ -218,6 +220,9 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 			out.Releases = s.findDocs(ctx, "scrumReleases", filter, options.Find().SetSort(bson.D{{Key: "plannedEnd", Value: 1}, {Key: "name", Value: 1}, {Key: "_id", Value: 1}}))
 		}
 	}
+	if format == "jira" && want.has("scrum") {
+		out.Releases = s.findDocs(ctx, "scrumReleases", bson.M{"boardId": eq(b.ID)}, nil)
+	}
 	var bdoc bson.M
 	if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(b.ID)}).Decode(&bdoc) == nil {
 		out.Board.CreatedAt, out.Board.ModifiedAt = isoDate(bdoc["createdAt"]), isoDate(bdoc["modifiedAt"])
@@ -226,6 +231,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 	out.Lists, out.Swimlanes = []extNamed{}, []extNamed{}
 	sorted := options.Find().SetSort(bson.D{{Key: "sort", Value: 1}})
 	listTitle, laneTitle := map[string]string{}, map[string]string{}
+	listCategories := map[string]string{}
 	for coll, dst := range map[string]*[]extNamed{"lists": &out.Lists, "swimlanes": &out.Swimlanes} {
 		filter := bson.M{"boardId": b.ID, "archived": false}
 		if (format == "trello" || format == "trellozip") && coll == "lists" {
@@ -237,6 +243,9 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 			_ = cur.All(ctx, &docs)
 			for _, d := range docs {
 				x := extNamed{Archived: d["archived"] == true, ID: strOf(d["_id"]), Title: strOf(d["title"]), Color: strOf(d["color"])}
+				if coll == "lists" && format == "jira" && want.has("scrum") {
+					listCategories[x.ID] = strOf(asM(d["scrum"])["category"])
+				}
 				if w := asM(d["wipLimit"]); len(w) > 0 { // stored: decoded as bson.D
 					v, _ := plain(w["value"]).(float64)
 					if n, ok := plain(w["value"]).(int32); ok {
@@ -352,6 +361,11 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 			if ids := cardReleaseIds(c["scrum"]); len(ids) > 0 {
 				it.ReleaseID = ids[0]
 			}
+		}
+		if format == "jira" && want.has("scrum") {
+			it.JiraIssueType = strOf(asM(c["scrum"])["issueType"])
+			it.JiraStatusCategory = listCategories[it.ListID]
+			it.JiraReleaseIDs = cardReleaseIds(c["scrum"])
 		}
 		if it.SwimlaneTitle == "" {
 			it.SwimlaneTitle = "Default"
