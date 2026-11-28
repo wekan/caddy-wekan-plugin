@@ -556,3 +556,20 @@ func TestJiraImportAttachmentReport(t *testing.T) {
 		t.Fatalf("missing Jira attachment explanation: %s", report)
 	}
 }
+
+func TestJiraImportCommentPageOffset(t *testing.T) {
+	input, err := decodeJS([]byte(`{"issues":[{"fields":{"summary":"Issue","comment":{"startAt":10,
+		"comments":[{"body":"Available comment"}]}}}]}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	doc, err := parseJira(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	losses, _ := jsGet(doc, "unsupported").([]any)
+	comments, _ := jsGet(importTasks(doc)[0], "comments").([]any)
+	if len(losses) != 1 || len(comments) != 1 || jsGet(comments[0], "text") != "Available comment" {
+		t.Fatalf("Jira comment page: %v", doc)
+	}
+}

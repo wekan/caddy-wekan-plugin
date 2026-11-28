@@ -73,7 +73,8 @@ func jiraImportComments(fields any) ([]any, bool) {
 			{"authorName", strOf(jsGet(person, "displayName"))}, {"date", jiraImportDate(jsGet(item, "created"))}})
 	}
 	total, _ := jsGet(commentPage, "total").(float64)
-	return comments, total > float64(len(items))
+	start, _ := jsGet(commentPage, "startAt").(float64)
+	return comments, start > 0 || total > float64(len(items))
 }
 
 func jiraPlanningField(data any, schemaType, displayName string) string {
