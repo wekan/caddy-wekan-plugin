@@ -171,6 +171,20 @@ func TestTimeInListRows(t *testing.T) {
 	}
 }
 
+func TestWorkloadRows(t *testing.T) {
+	rows := []chartCard{
+		{ListID: "list", Assignees: []string{"A"}, Members: []string{"B"}},
+		{ListID: "list", Members: []string{"A", "B"}},
+		{ListID: "missing"},
+		{ListID: "list", Members: []string{"C"}, ArchivedAt: time.Now()},
+	}
+	headers, table := workloadRows(rows, []List{{ID: "list", Title: "To do"}}, func(id string) string { return id }, "en")
+	if !reflect.DeepEqual(headers, []any{"Person", "Open", "To do"}) ||
+		!reflect.DeepEqual(table, [][]any{{"A", 2, 2}, {"B", 1, 1}, {"-", 1, 0}}) {
+		t.Fatalf("workload: %v / %v", headers, table)
+	}
+}
+
 func TestExportCharts(t *testing.T) {
 	w := newTestWeKan(t)
 	w.seedUser(t, "ann", "pw")
@@ -381,10 +395,23 @@ func TestExportCharts(t *testing.T) {
 		len(report.ByAssignee) != 1 || report.ByAssignee[0].Key != bob.ID || report.ByAssignee[0].Hours != 3.5 {
 		t.Fatalf("Time method: %s %s (%v)", codeStr, dataJSON, err)
 	}
+	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card}, bson.M{
+		"$unset": bson.M{"endAt": ""},
+		"$set":   bson.M{"assignees": bson.A{bob.ID, "unresolved-fixture"}},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if code, _, data = get(base+"workload/exportExcel", a); code != 200 || !strings.Contains(sheet(data), ">BOB<") {
+		t.Fatalf("workload export: %d %s", code, sheet(data))
+	}
 	// The Admin Panel switches hold here too.
 	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"anonymizeExportUsers": true}})
 	if _, _, data = get(base+"dashboard/exportExcel", a); strings.Contains(sheet(data), "BOB") {
 		t.Error("negative: an anonymized dashboard names nobody")
+	}
+	if code, _, data = get(base+"workload/exportExcel", a); code != 200 ||
+		strings.Contains(sheet(data), "BOB") || strings.Contains(sheet(data), "unresolved-fixture") {
+		t.Fatalf("anonymized workload: %d %s", code, sheet(data))
 	}
 	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"disableAllExport": true}})
 	if code, _, _ = get(base+"dashboard/exportExcel", a); code != 403 {

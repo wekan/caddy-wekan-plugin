@@ -23,6 +23,7 @@ import (
 
 // chartTitles are WeKan's chart keys and their titles' translation keys.
 var chartTitles = map[string]string{
+	"workload":           msg("board-view-workload"),
 	"timeInList":         msg("board-view-time-in-list"),
 	"activityHeatmap":    msg("board-view-activity-heatmap"),
 	"distribution":       msg("board-view-distribution"),
@@ -159,6 +160,7 @@ type chartCard struct {
 	DueAt      time.Time `bson:"dueAt"`
 	EndAt      time.Time `bson:"endAt"`
 	ArchivedAt time.Time `bson:"archivedAt"`
+	Members    []string  `bson:"members"`
 	Assignees  []string  `bson:"assignees"`
 	LabelIDs   []string  `bson:"labelIds"`
 	SpentTime  float64   `bson:"spentTime"`
@@ -192,7 +194,7 @@ func sinceDays(a, b time.Time) float64 { return math.Max(0, b.Sub(a).Hours()/24)
 // chartRows are a chart's table; ok false for one Weddy cannot compute yet.
 func (s *Server) chartCards(ctx context.Context, b *Board) ([]chartCard, error) {
 	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetProjection(bson.M{
-		"title": 1, "scrum.releaseId": 1, "scrum.releaseIds": 1, "parentId": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "labelIds": 1,
+		"title": 1, "scrum.releaseId": 1, "scrum.releaseIds": 1, "parentId": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "members": 1, "labelIds": 1,
 		"spentTime": 1, "isOvertime": 1, "archived": 1}))
 	if err != nil {
 		return nil, err
@@ -215,6 +217,10 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 		return nil, nil, false
 	}
 	now := time.Now().UTC()
+	if key == "workload" {
+		_, exporting := ctx.Value(exportLangKey{}).(string)
+		return s.workloadReport(ctx, b, cards, lang, exporting)
+	}
 	if key == "timeInList" {
 		return s.timeInListReport(ctx, b.ID, cards, now, lang)
 	}

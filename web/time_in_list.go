@@ -21,14 +21,20 @@ type chartListMove struct {
 	} `bson:"newContent"`
 }
 
-func (s *Server) timeInListReport(ctx context.Context, boardID string, cards []chartCard, now time.Time, lang string) ([]any, [][]any, bool) {
+func (s *Server) chartLists(ctx context.Context, boardID string) ([]List, error) {
 	listCursor, err := s.db.Collection("lists").Find(ctx, bson.M{"boardId": eq(boardID), "archived": bson.M{"$ne": true}},
 		options.Find().SetProjection(bson.M{"title": 1}).SetSort(bson.D{{Key: "sort", Value: 1}, {Key: "_id", Value: 1}}))
 	if err != nil {
-		return nil, nil, false
+		return nil, err
 	}
 	var lists []List
-	if err := listCursor.All(ctx, &lists); err != nil {
+	err = listCursor.All(ctx, &lists)
+	return lists, err
+}
+
+func (s *Server) timeInListReport(ctx context.Context, boardID string, cards []chartCard, now time.Time, lang string) ([]any, [][]any, bool) {
+	lists, err := s.chartLists(ctx, boardID)
+	if err != nil {
 		return nil, nil, false
 	}
 	historyCursor, err := s.db.Collection("changeHistory").Find(ctx, bson.M{
