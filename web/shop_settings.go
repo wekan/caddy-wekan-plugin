@@ -193,6 +193,7 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 			set["shopSettings.termsUrl"] = terms
 			set["shopSettings.guestCheckout"] = r.PostForm.Get("guestCheckout") == "1"
 			set["shopSettings.decrementStock"] = r.PostForm.Get("decrementStock") == "1"
+			set["shopSettings.confirmationEmail"] = r.PostForm.Get("confirmationEmail") == "1"
 		}
 		if r.PostForm.Has("vatPercent") {
 			rate, ok := shopNumber(r.PostForm.Get("vatPercent"))
@@ -232,8 +233,9 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 	s.render(w, r, "shop_settings", http.StatusOK, map[string]any{
 		"Title": b.Title, "Board": b, "User": u, "Settings": settings, "Currency": currency,
 		"Pickers": pickers, "Lists": listOptions, "Labels": labelOptions, "OrderLists": orderLists,
-		"DecrementStock":   settings["decrementStock"] != false,
-		"PricesIncludeVAT": settings["pricesIncludeVat"] != false, "VATPercent": float64(shopVATRate(settings)) / 100,
+		"ConfirmationEmail": settings["confirmationEmail"] != false,
+		"DecrementStock":    settings["decrementStock"] != false,
+		"PricesIncludeVAT":  settings["pricesIncludeVat"] != false, "VATPercent": float64(shopVATRate(settings)) / 100,
 		"PublicDefault": st.defaultView("public") == "board-view-shop", "Shop": shopLocation(b, "", ""),
 	})
 }

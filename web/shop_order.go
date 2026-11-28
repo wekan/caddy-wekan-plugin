@@ -138,6 +138,7 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		Members: []string{}, Assignees: []string{}, LabelIDs: []string{}, CardNumber: number, CreatedAt: time.Now().UTC(),
 		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": eq(boardID), "listId": eq(listID), "swimlaneId": eq(swimlane)})}
 	_, err = s.db.Collection("cards").InsertOne(ctx, card)
+	created := err == nil
 	if mongo.IsDuplicateKeyError(err) {
 		var existing Card
 		err = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(id), "boardId": eq(boardID)}).Decode(&existing)
@@ -149,6 +150,23 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	if err != nil {
 		http.Error(w, "Could not save order", http.StatusServiceUnavailable)
 		return
+	}
+	if created && settings["confirmationEmail"] != false {
+		shopName := strOf(settings["title"])
+		if shopName == "" {
+			shopName = shop.Title
+		}
+		shopName = strings.Join(strings.Fields(shopName), " ")
+		subject := strings.NewReplacer("__number__", id, "__shop__", shopName).Replace(tr(lang, msg("shop-email-subject")))
+		var receipt strings.Builder
+		fmt.Fprintln(&receipt, strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id))
+		for _, line := range lines {
+			fmt.Fprintf(&receipt, "%s × %d — %s\n", line.Title, line.Quantity, line.Total)
+		}
+		fmt.Fprintln(&receipt, total)
+		if err := s.sendMail(ctx, r.Host, mailMessage{To: []string{email}, Subject: subject, Text: receipt.String()}); err != nil && !errors.Is(err, errNoMail) {
+			s.log.Warn("Shop confirmation delivery failed", "order", id)
+		}
 	}
 	s.hub.publishFrom(boardID, "board-changed", "")
 	http.SetCookie(w, &http.Cookie{Name: shopCartCookie(shop.ID), Path: "/b/" + shop.ID + "/", MaxAge: -1, HttpOnly: true})

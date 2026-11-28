@@ -64,6 +64,10 @@
             |  {{t $.L "shop-decrement-stock"}}
         p
           label
+            | <input type="checkbox" name="confirmationEmail" value="1" {{if .ConfirmationEmail}}checked{{end}}>
+            |  {{t $.L "shop-confirmation-email"}}
+        p
+          label
             | {{t $.L "shop-terms-url"}}
             input(type="url", name="termsUrl", maxlength="2000", value="{{.Settings.termsUrl}}")
 

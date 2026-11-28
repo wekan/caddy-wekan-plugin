@@ -42,6 +42,9 @@ func TestShopTaxTotals(t *testing.T) {
 }
 
 func TestShopBoardView(t *testing.T) {
+	sink := newSMTPSink(t)
+	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
+	t.Setenv("MAIL_FROM", "orders@example.test")
 	w := newTestWeKan(t)
 	ctx := context.Background()
 	w.seedUser(t, "ann", "pw")
@@ -149,6 +152,11 @@ func TestShopBoardView(t *testing.T) {
 	}
 	if count, err := w.db.Collection("cards").CountDocuments(ctx, bson.M{"boardId": orders.ID, "title": bson.M{"$regex": "^Order "}}); err != nil || count != 1 {
 		t.Fatalf("order card count: %d %v", count, err)
+	}
+	messages := sink.messages()
+	if len(messages) != 1 || !strings.Contains(messages[0], "test@example.test") ||
+		!strings.Contains(messages[0], "25.00 EUR") || strings.Contains(messages[0], "Delivery Lane") {
+		t.Fatalf("expected one order receipt containing the total, without the address: %d messages", len(messages))
 	}
 	var saved Card
 	if err := w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": orders.ID,
