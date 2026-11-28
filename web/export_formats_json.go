@@ -190,6 +190,7 @@ type zkItem struct {
 	CreatedAt   string        `json:"created_at,omitempty"`
 	ParentID    string        `json:"parent_id,omitempty"`
 	Assignees   []string      `json:"assignees,omitempty"`
+	Fields      jsObject      `json:"fields,omitempty"`
 	Checklists  []zkChecklist `json:"checklists,omitempty"`
 	Comments    []extComment  `json:"comments,omitempty"`
 }
@@ -213,7 +214,7 @@ func formatZenkit(d extBoard) []byte {
 	}
 	for _, i := range d.Items {
 		it := zkItem{ID: i.CardID, Title: i.Title, Description: i.Description, StageName: i.ListTitle, Due: i.DueAt,
-			Tags: append([]string{}, i.Labels...), Start: i.StartAt, CreatedAt: i.CreatedAt, ParentID: i.ParentCardID}
+			Tags: append([]string{}, i.Labels...), Start: i.StartAt, CreatedAt: i.CreatedAt, ParentID: i.ParentCardID, Fields: i.CustomFields}
 		for _, p := range append([]string{i.Owner}, i.Assignees...) {
 			if p != "" {
 				it.Assignees = append(it.Assignees, p)
