@@ -26,6 +26,9 @@
     },
     {
       "title": "Backlog"
+    },
+    {
+      "title": "Imported"
     }
   ],
   "swimlanes": [
@@ -39,7 +42,18 @@
       "description": "line one\n\nline \"two\" <b>",
       "column_name": "To Do",
       "swimlane_name": "Default",
-      "tags": [],
+      "tags": [
+        "priority:H",
+        "web  dev",
+        "project:Plant.Pumps",
+        "@home",
+        "big deal",
+        "p2",
+        "a;b",
+        "Bug",
+        "x   y"
+      ],
+      "date_creation": "2026-11-01T08:00:00.000Z",
       "checklists": [
         {
           "title": "Steps",
@@ -62,8 +76,13 @@
       "column_name": "Done",
       "swimlane_name": "Default",
       "tags": [
-        "done"
+        "done",
+        "priority:B",
+        "raw",
+        "won't do",
+        "=SUM(1)"
       ],
+      "date_creation": "2026-11-02T00:00:00.000Z",
       "checklists": [
         {
           "title": "-minus first",
@@ -103,12 +122,21 @@
       "description": "",
       "column_name": "Started",
       "swimlane_name": "Default",
-      "tags": []
+      "tags": [
+        "p1"
+      ]
     },
     {
       "title": "Backlogged",
       "description": "",
       "column_name": "Backlog",
+      "swimlane_name": "Default",
+      "tags": []
+    },
+    {
+      "title": "Orphan of an archived list",
+      "description": "",
+      "column_name": "Imported",
       "swimlane_name": "Default",
       "tags": []
     }

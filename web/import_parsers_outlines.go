@@ -4,10 +4,13 @@ import (
 	"bytes"
 	"encoding/xml"
 	"errors"
+	"fmt"
 	"io"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // OPML and Leo outlines, text sources as Node.js WeKan's opmlOutline.js and
@@ -22,11 +25,12 @@ func init() {
 // xmlNode is htmlparser2's DOM, as much as the outlines read: an element with
 // its attributes and children, or text.
 type xmlNode struct {
-	name     string
-	attrs    map[string]string
-	children []*xmlNode
-	text     string
-	isText   bool
+	name      string
+	attrs     map[string]string
+	attrOrder []string
+	children  []*xmlNode
+	text      string
+	isText    bool
 }
 
 // parseXMLTree reads XML leniently - an undefined entity or an unclosed tag
@@ -51,7 +55,11 @@ func parseXMLTree(text string) *xmlNode {
 		case xml.StartElement:
 			n := &xmlNode{name: xmlName(t.Name), attrs: map[string]string{}}
 			for _, a := range t.Attr {
-				n.attrs[xmlName(a.Name)] = a.Value
+				name := xmlName(a.Name)
+				if _, exists := n.attrs[name]; !exists {
+					n.attrOrder = append(n.attrOrder, name)
+					n.attrs[name] = a.Value
+				}
 			}
 			top.children = append(top.children, n)
 			stack = append(stack, n)
@@ -150,6 +158,8 @@ func (n *xmlNode) findTag(name string) *xmlNode {
 
 type outlineNode struct {
 	text, note string
+	xml        *xmlNode
+	path       string
 	done       bool
 	children   []*outlineNode
 }
@@ -164,7 +174,7 @@ func outlineDescendants(n *outlineNode) []*outlineNode {
 }
 
 // outlineTasks is the list / card / checklist mapping both outlines share.
-func outlineTasks(roots []*outlineNode, fallbackCard string, looseTitle func(*outlineNode) string) []any {
+func outlineTasks(roots []*outlineNode, fallbackCard string, looseTitle func(*outlineNode) string, addCardFields func(*jsObject, *outlineNode)) []any {
 	tasks := []any{}
 	for _, list := range roots {
 		for _, card := range list.children {
@@ -222,6 +232,9 @@ func outlineTasks(roots []*outlineNode, fallbackCard string, looseTitle func(*ou
 				tags = append(tags, "done")
 			}
 			t.set("tags", tags)
+			if addCardFields != nil {
+				addCardFields(&t, card)
+			}
 			if len(checklists) > 0 {
 				t.set("checklists", checklists)
 			}
@@ -269,14 +282,9 @@ func parseOpml(text string) (jsObject, error) {
 		if !has {
 			t = o.attrs["title"]
 		}
-		n := &outlineNode{text: jsTrim(t), note: o.attrs["_note"]}
+		n := &outlineNode{text: jsTrim(t), note: o.attrs["_note"], xml: o, path: at}
 		for _, k := range []string{"_complete", "complete"} {
 			n.done = n.done || strings.ToLower(o.attrs[k]) == "true"
-		}
-		for _, name := range []string{"url", "htmlUrl", "xmlUrl"} {
-			if o.attrs[name] != "" {
-				unsupported = append(unsupported, importUnsupportedObj(at+"/@"+name, "OPML "+name+" has no WeKan field"))
-			}
 		}
 		var kids []*xmlNode
 		for _, c := range o.elements() {
@@ -312,17 +320,75 @@ func parseOpml(text string) (jsObject, error) {
 		}
 		roots = append(roots, r)
 	}
-	for li, r := range roots {
-		if jsTrim(r.note) != "" {
-			unsupported = append(unsupported, importUnsupportedObj("/outline/"+strconv.Itoa(li+1)+"/@_note", "a list note has no WeKan field"))
+	drawing := []string{"type", "isComment", "isBreakpoint"}
+	links := []string{"url", "htmlUrl", "xmlUrl"}
+	readFields := append([]string{"text", "title", "_note", "_complete", "complete", "created", "category"}, links...)
+	reportRest := func(node *outlineNode, kept ...string) {
+		for _, name := range node.xml.attrOrder {
+			if slices.Contains(kept, name) || slices.Contains(drawing, name) || jsTrim(node.xml.attrs[name]) == "" {
+				continue
+			}
+			unsupported = append(unsupported, importUnsupportedObj(node.path+"/@"+name, fmt.Sprintf("OPML %s of \"%s\" has no WeKan field", name, node.text)))
 		}
 	}
-	tasks := outlineTasks(roots, "Imported item", func(c *outlineNode) string {
-		if c.text == "" {
-			return "Checklist"
+	addFields := func(task *jsObject, card *outlineNode) {
+		for _, item := range outlineDescendants(card) {
+			reportRest(item, "text", "title", "_complete", "complete")
 		}
-		return c.text
-	})
+		attrs := card.xml.attrs
+		description := []string{}
+		if card.note != "" {
+			description = append(description, card.note)
+		}
+		for _, field := range links {
+			if link := jsTrim(attrs[field]); link != "" && !strings.Contains(card.note, link) {
+				description = append(description, link)
+			}
+		}
+		task.set("description", strings.Join(description, "\n\n"))
+		tags := jsGet(*task, "tags").([]any)
+		for _, category := range strings.Split(attrs["category"], ",") {
+			name := jsTrim(strings.TrimLeft(jsTrim(category), "/"))
+			if name != "" && !slices.Contains(tags, any(name)) {
+				tags = append(tags, name)
+			}
+		}
+		task.set("tags", tags)
+		if created := attrs["created"]; created != "" {
+			if date, ok := parseOpmlDate(created); ok {
+				task.set("date_creation", date.Format("2006-01-02T15:04:05.000Z"))
+			} else {
+				unsupported = append(unsupported, importUnsupportedObj(card.path+"/@created", fmt.Sprintf("OPML created \"%s\" is not a date", created)))
+			}
+		}
+		custom := jsObject{}
+		for _, name := range card.xml.attrOrder {
+			if slices.Contains(readFields, name) || slices.Contains(drawing, name) {
+				continue
+			}
+			if value := jsTrim(attrs[name]); value != "" {
+				custom.set(strings.TrimPrefix(name, "_"), value)
+			}
+		}
+		if len(custom) > 0 {
+			task.set("custom_fields", custom)
+		}
+	}
+
+	tasks := []any{}
+	for _, list := range roots {
+		if jsTrim(list.note) != "" {
+			unsupported = append(unsupported, importUnsupportedObj(list.path+"/@_note", "a list note has no WeKan field"))
+		}
+		reportRest(list, "text", "title", "_note")
+		tasks = append(tasks, outlineTasks([]*outlineNode{list}, "Imported item", func(card *outlineNode) string {
+			if card.text == "" {
+				return "Checklist"
+			}
+			return card.text
+		}, addFields)...)
+	}
+
 	name := "Imported OPML outline"
 	if head := opml.child("head"); head != nil {
 		if t := jsTrim(head.child("title").textOf()); t != "" {
@@ -330,6 +396,19 @@ func parseOpml(text string) (jsObject, error) {
 		}
 	}
 	return importDoc(name, outlineColumns(roots), tasks, []any{}, unsupported), nil
+}
+
+func parseOpmlDate(value string) (time.Time, bool) {
+	value = jsTrim(value)
+	if date, ok := jsParseDate(value); ok {
+		return date, true
+	}
+	for _, layout := range []string{time.RFC822Z, time.RFC822, "Mon, 2 Jan 2006 15:04:05 -0700", "2 Jan 2006 15:04:05 -0700"} {
+		if date, err := time.Parse(layout, value); err == nil {
+			return date.UTC(), true
+		}
+	}
+	return time.Time{}, false
 }
 
 var leoMarked = regexp.MustCompile(`M`)
@@ -420,7 +499,7 @@ func parseLeo(text string) (jsObject, error) {
 			unsupported = append(unsupported, importUnsupportedObj(r.text, "list body text has no WeKan field"))
 		}
 	}
-	tasks := outlineTasks(roots, "Imported node", func(c *outlineNode) string { return c.text })
+	tasks := outlineTasks(roots, "Imported node", func(c *outlineNode) string { return c.text }, nil)
 	name := "Imported Leo outline"
 	if h := leo.child("leo_header"); h != nil && h.attrs["wekan_board"] != "" {
 		name = h.attrs["wekan_board"]

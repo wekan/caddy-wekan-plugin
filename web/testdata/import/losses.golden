@@ -34,7 +34,7 @@
   "nullboard-nullboard": "nullboard: 1 not imported, 0 warning(s). /lists/4/title a second Nullboard list \"To Do\" is imported as \"To Do (2)\"",
   "kanri-kanri-edge": "kanri: 11 not imported, 0 warning(s). / Kanri app settings (activeTheme, colors) belong to the app, not to a board, and are not imported; /boards/0/background Kanri background image \"/home/u/pic.png\" is a file on the computer that exported it and is not imported; /boards/0/columns/0/cards/0/isDueDateCounterRelative Kanri shows this due date as a countdown; WeKan shows the date; /boards/0/columns/0/cards/0/tags Kanri tag \"bad\" color \"nope\" is not a color WeKan can show; /boards/0/columns/0/cards/1/dueDate Kanri due date \"not a date\" is not a date; /boards/0/columns/0/cards/1/color Kanri card color \"magenta-ish\" is not a color WeKan can show; /boards/0/columns/0/cards/3 a Kanri card that is not an object is not imported; /boards/0/columns/1/title Kanri has two columns named \"Todo\"; this one is imported as \"Todo (2)\"; /boards/0/columns/2 a Kanri column that is not an object is not imported; /boards/0/globalTags Kanri tags no card uses are not imported: unused; /boards/2 a Kanri board that is not an object is not imported",
   "kanri-kanri": "kanri: 1 not imported, 0 warning(s). /columns/4/title Kanri has two columns named \"To Do\"; this one is imported as \"To Do (2)\"",
-  "opml-opml-edge": "opml: 2 not imported, 0 warning(s). /outline/1/1/@url OPML url has no WeKan field; /outline/1/@_note a list note has no WeKan field",
+  "opml-opml-edge": "opml: 1 not imported, 0 warning(s). /outline/1/@_note a list note has no WeKan field",
   "opml-opml": null,
   "leo-leo-edge": "leo: 1 not imported, 0 warning(s). List one list body text has no WeKan field",
   "leo-leo": null,

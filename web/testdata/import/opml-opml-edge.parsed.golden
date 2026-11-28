@@ -18,7 +18,7 @@
   "tasks": [
     {
       "title": "Titled card",
-      "description": "line1\nline2",
+      "description": "line1\nline2\n\nhttps://x.example",
       "column_name": "List A",
       "swimlane_name": "Default",
       "tags": [
@@ -70,10 +70,6 @@
   ],
   "warnings": [],
   "unsupported": [
-    {
-      "path": "/outline/1/1/@url",
-      "reason": "OPML url has no WeKan field"
-    },
     {
       "path": "/outline/1/@_note",
       "reason": "a list note has no WeKan field"
