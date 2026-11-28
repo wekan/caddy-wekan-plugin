@@ -18,12 +18,13 @@ import (
 )
 
 // Code scanning #162: a Restore goes back to the board's own History page,
-// with the page's query, never anywhere else.
+// with the supported query filters, never anywhere else.
 func TestHistoryBack(t *testing.T) {
 	page := "/b/B1/history"
 	for back, want := range map[string]string{
 		page:                          page,
-		page + "?page=2&q=a%20b":      page + "?page=2&q=a%20b",
+		page + "?page=2&q=a%20b":      page + "?page=2&q=a+b",
+		page + "?page=2&ignored=1":    page + "?page=2",
 		"":                            page,
 		"//evil.example/b/B1/history": page,
 		"https://evil.example/":       page,
@@ -34,7 +35,7 @@ func TestHistoryBack(t *testing.T) {
 		"/\\evil.example":             page,
 		" " + page:                    page,
 	} {
-		if got := historyBack(page, back); got != want {
+		if got := historyBack(page, back, "q", "group", "page", "card", "list", "swimlane", "user"); got != want {
 			t.Errorf("historyBack(%q) = %q, want %q", back, got, want)
 		}
 	}
