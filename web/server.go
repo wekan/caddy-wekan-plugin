@@ -519,6 +519,7 @@ func (s *Server) signIn(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	s.reportAccountEvent("login", u.ID, r.RemoteAddr)
 	setSessionCookie(w, token, expires)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

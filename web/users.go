@@ -155,6 +155,7 @@ func (s *Server) CreateUser(ctx context.Context, username, email, password strin
 	if _, err := s.db.Collection("users").InsertOne(ctx, u); err != nil {
 		return nil, err
 	}
+	s.reportAccountEvent("register", u["_id"].(string), "")
 	return &User{ID: u["_id"].(string), Username: username, IsAdmin: admin}, nil
 }
 
@@ -234,6 +235,7 @@ func (s *Server) signUp(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	s.reportAccountEvent("login", u.ID, r.RemoteAddr)
 	setSessionCookie(w, token, expires)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

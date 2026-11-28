@@ -2,10 +2,13 @@ package web
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
+	"net/http/httptest"
 	"net/url"
 	"strings"
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -95,5 +98,68 @@ func TestGlobalWebhookManagement(t *testing.T) {
 	}
 	if status := call(t, "DELETE", base+"/"+created.ID, siteToken, "", nil); status != http.StatusOK {
 		t.Fatalf("cleanup status: %d", status)
+	}
+}
+
+func TestAccountWebhookDelivery(t *testing.T) {
+	oldLoopback := webhookAllowLoopbackForTests
+	webhookAllowLoopbackForTests = true
+	t.Cleanup(func() { webhookAllowLoopbackForTests = oldLoopback })
+	w := newTestWeKan(t)
+	w.seedUser(t, "accountfixture", "example-password")
+	type event struct {
+		Token string
+		Body  map[string]string
+	}
+	events := make(chan event, 8)
+	receiver := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var body map[string]string
+		if r.Method != http.MethodPost || json.NewDecoder(r.Body).Decode(&body) != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		events <- event{r.Header.Get("X-Wekan-Token"), body}
+		w.WriteHeader(http.StatusNoContent)
+	}))
+	defer receiver.Close()
+	settings := w.db.Collection("settings")
+	ctx := context.Background()
+	if _, err := settings.UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{
+		"webhooksDisabled": false, "accountWebhook": accountWebhook{
+			URL: receiver.URL, Token: "test-event-token", OnLogin: true, OnRegister: true,
+		},
+	}}, options.UpdateOne().SetUpsert(true)); err != nil {
+		t.Fatal(err)
+	}
+	c := w.client(t)
+	w.signIn(t, c, "accountfixture", "example-password")
+	select {
+	case got := <-events:
+		if got.Token != "test-event-token" || got.Body["event"] != "login" ||
+			got.Body["username"] != "accountfixture" || got.Body["at"] == "" || len(got.Body) != 3 {
+			t.Fatalf("login payload: %v", got.Body)
+		}
+	case <-time.After(5 * time.Second):
+		t.Fatal("login webhook was not delivered")
+	}
+	if _, err := settings.UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{
+		"accountWebhook.fields": bson.A{"email", "authMethod"}, "accountWebhook.onLogin": false,
+	}}); err != nil {
+		t.Fatal(err)
+	}
+	if res, _ := post(t, c, w.srv.URL+"/sign-up", url.Values{
+		"username": {"newfixture"}, "email": {"fixture@example.test"},
+		"password": {"example-password"}, "password2": {"example-password"},
+	}); res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("signup failed: %d", res.StatusCode)
+	}
+	select {
+	case got := <-events:
+		if got.Body["event"] != "register" || got.Body["email"] != "fixture@example.test" ||
+			got.Body["authMethod"] != "password" || len(got.Body) != 5 {
+			t.Fatalf("signup payload: %v", got.Body)
+		}
+	case <-time.After(5 * time.Second):
+		t.Fatal("signup webhook was not delivered")
 	}
 }

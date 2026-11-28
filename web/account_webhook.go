@@ -2,15 +2,19 @@ package web
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"net"
 	"net/http"
 	"net/url"
 	"slices"
 	"strings"
+	"time"
 	"unicode"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 type accountWebhook struct {
@@ -90,4 +94,51 @@ func (s *Server) saveAccountWebhook(w http.ResponseWriter, r *http.Request, u *U
 		return
 	}
 	http.Redirect(w, r, "/admin/settings/global-webhooks", http.StatusSeeOther)
+}
+
+func (s *Server) reportAccountEvent(event, userID, remote string) {
+	at := time.Now().UTC().Format(time.RFC3339Nano)
+	go func() {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		if s.webhooksOff(ctx) {
+			return
+		}
+		config, err := s.readAccountWebhook(ctx)
+		if err != nil || config.URL == "" || (event == "login" && !config.OnLogin) || (event == "register" && !config.OnRegister) {
+			return
+		}
+		var user struct {
+			Username string `bson:"username"`
+			Method   string `bson:"authenticationMethod"`
+			Profile  struct {
+				Fullname string `bson:"fullname"`
+			} `bson:"profile"`
+			Emails []struct {
+				Address string `bson:"address"`
+			} `bson:"emails"`
+		}
+		if err := s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(userID)},
+			options.FindOne().SetProjection(bson.M{"username": 1, "authenticationMethod": 1, "profile.fullname": 1, "emails.address": 1})).Decode(&user); err != nil {
+			return
+		}
+		body := map[string]string{"event": event, "username": user.Username, "at": at}
+		ip, _, _ := net.SplitHostPort(remote)
+		fields := map[string]string{"ip": ip, "authMethod": user.Method, "fullname": user.Profile.Fullname}
+		if len(user.Emails) > 0 {
+			fields["email"] = user.Emails[0].Address
+		}
+		for _, name := range config.Fields {
+			if value := fields[name]; value != "" {
+				body[name] = value
+			}
+		}
+		raw, err := json.Marshal(body)
+		if err == nil {
+			err = s.deliverWebhook(ctx, bson.M{"_id": "accountWebhook", "url": config.URL, "token": config.Token}, raw)
+		}
+		if err != nil && !errors.Is(err, errWebhooksOff) {
+			s.log.Warn("Account webhook delivery failed", "event", event)
+		}
+	}()
 }

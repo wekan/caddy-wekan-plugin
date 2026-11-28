@@ -224,6 +224,7 @@ func (s *Server) apiLogin(w http.ResponseWriter, r *http.Request) {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+	s.reportAccountEvent("login", u.ID, r.RemoteAddr)
 	writeJSON(w, http.StatusOK, map[string]any{"id": u.ID, "token": token, "tokenExpires": expires})
 }
 

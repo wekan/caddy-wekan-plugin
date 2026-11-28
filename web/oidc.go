@@ -167,6 +167,7 @@ func (s *Server) oidcCallback(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	s.reportAccountEvent("login", u.ID, r.RemoteAddr)
 	setSessionCookie(w, token, expires)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
@@ -289,5 +290,6 @@ func (s *Server) oidcUser(ctx context.Context, claims map[string]any) (*User, er
 	if _, err := s.db.Collection("users").InsertOne(ctx, doc); err != nil {
 		return nil, err
 	}
+	s.reportAccountEvent("register", newID, "")
 	return &User{ID: newID, Username: username, IsAdmin: first}, nil
 }
