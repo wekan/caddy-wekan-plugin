@@ -127,6 +127,17 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		return
 	}
 	linkIndex, linkMethod := shopLinkMethod(settings)
+	reference := strOf(settings["referenceType"])
+	if reference == "" {
+		reference = "rf"
+	}
+	var references []shopOption
+	for _, option := range []struct{ ID, Label string }{
+		{"rf", msg("billing-reference-rf")}, {"fi", msg("billing-reference-fi")}, {"be", msg("billing-reference-be")},
+		{"no", msg("billing-reference-no")}, {"se", msg("billing-reference-se")}, {"none", msg("billing-reference-none")},
+	} {
+		references = append(references, shopOption{option.ID, option.Label, option.ID == reference})
+	}
 	st := boardViewStateOf(doc)
 	if r.Method == http.MethodPost {
 		r.Body = http.MaxBytesReader(w, r.Body, 32<<10)
@@ -230,6 +241,14 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 			}
 			set["shopSettings.paymentMethods"] = methods
 		}
+		if r.PostForm.Has("referenceType") {
+			id := r.PostForm.Get("referenceType")
+			if !valid(references, id) {
+				http.Error(w, "Invalid Shop reference type", http.StatusBadRequest)
+				return
+			}
+			set["shopSettings.referenceType"] = id
+		}
 		filter := bson.M{"_id": eq(b.ID)}
 		if r.PostForm.Get("publicDefault") == "1" {
 			set["defaultPublicBoardView"] = "board-view-shop"
@@ -260,9 +279,9 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		"Title": b.Title, "Board": b, "User": u, "Settings": settings, "Currency": currency,
 		"Pickers": pickers, "Lists": listOptions, "Labels": labelOptions, "OrderLists": orderLists,
 		"ConfirmationEmail": settings["confirmationEmail"] != false,
-		"PaymentLink":       strOf(linkMethod["url"]),
-		"DecrementStock":    settings["decrementStock"] != false,
-		"PricesIncludeVAT":  settings["pricesIncludeVat"] != false, "VATPercent": float64(shopVATRate(settings)) / 100,
+		"References":        references, "PaymentLink": strOf(linkMethod["url"]),
+		"DecrementStock":   settings["decrementStock"] != false,
+		"PricesIncludeVAT": settings["pricesIncludeVat"] != false, "VATPercent": float64(shopVATRate(settings)) / 100,
 		"PublicDefault": st.defaultView("public") == "board-view-shop", "Shop": shopLocation(b, "", ""),
 	})
 }

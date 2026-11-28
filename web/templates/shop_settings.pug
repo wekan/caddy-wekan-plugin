@@ -73,6 +73,12 @@
 
       p
         label
+          | {{t $.L "billing-reference"}}
+          select(name="referenceType")
+            each option in .References
+              | <option value="{{.ID}}" {{if .Selected}}selected{{end}}>{{t $.L .Name}}</option>
+      p
+        label
           | {{t $.L "billing-method-link"}}
           input(type="text", name="paymentLink", maxlength="2000", value="{{.PaymentLink}}")
       p

@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/mail"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 	"unicode"
@@ -27,19 +28,79 @@ func shopOrderQuote(board string, lines []shopCartLine, total int64, currency st
 	return fmt.Sprintf("%x", sha256.Sum256(encoded))
 }
 
-func shopPaymentURL(template, amount, currency, number string) string {
+func shopPaymentURL(template, amount, currency, number string, references ...string) string {
 	if !strings.HasPrefix(template, "https://") || utf16Len(template) > 2000 ||
 		strings.ContainsAny(template, " \t\r\n<>\"'") {
 		return ""
 	}
+	reference := ""
+	if len(references) > 0 {
+		reference = references[0]
+	}
 	value := strings.NewReplacer("{amount}", url.QueryEscape(amount), "{currency}", url.QueryEscape(currency),
-		"{number}", url.QueryEscape(number), "{reference}", "").Replace(template)
+		"{number}", url.QueryEscape(number), "{reference}", url.QueryEscape(reference)).Replace(template)
 	link, err := url.Parse(value)
 	if err != nil || link.Scheme != "https" || link.Hostname() == "" || link.User != nil ||
 		strings.ContainsAny(link.Host, "{}") {
 		return ""
 	}
 	return value
+}
+
+func shopReference(year int, number int64, kind string) string {
+	base := fmt.Sprintf("%04d%05d", year, number)
+	mod97 := func(value string) int {
+		remainder := 0
+		for _, digit := range value {
+			remainder = (remainder*10 + int(digit-'0')) % 97
+		}
+		return remainder
+	}
+	luhn := func(value string) string {
+		sum := 0
+		for i := len(value) - 1; i >= 0; i-- {
+			digit := int(value[i] - '0')
+			if (len(value)-1-i)%2 == 0 {
+				digit *= 2
+				if digit > 9 {
+					digit -= 9
+				}
+			}
+			sum += digit
+		}
+		return value + strconv.Itoa((10-sum%10)%10)
+	}
+	switch kind {
+	case "none":
+		return ""
+	case "be":
+		if len(base) > 10 {
+			return ""
+		}
+		ten := strings.Repeat("0", 10-len(base)) + base
+		check := mod97(ten)
+		if check == 0 {
+			check = 97
+		}
+		return fmt.Sprintf("+++%s/%s/%s%02d+++", ten[:3], ten[3:7], ten[7:], check)
+	case "no":
+		return luhn(base)
+	case "se":
+		return luhn(base + strconv.Itoa((len(base)+2)%10))
+	}
+	if len(base) > 19 {
+		return ""
+	}
+	weights := [3]int{7, 3, 1}
+	sum := 0
+	for i := len(base) - 1; i >= 0; i-- {
+		sum += int(base[i]-'0') * weights[(len(base)-1-i)%3]
+	}
+	finnish := base + strconv.Itoa((10-sum%10)%10)
+	if kind == "fi" {
+		return finnish
+	}
+	return fmt.Sprintf("RF%02d%s", 98-mod97(finnish+"271500"), finnish)
 }
 
 func shopPaymentMethods(settings bson.M) bson.A {
@@ -169,15 +230,22 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		Title: "Order " + id, Description: description.String(), Type: "cardType-card",
 		Members: []string{}, Assignees: []string{}, LabelIDs: []string{}, CardNumber: number, CreatedAt: time.Now().UTC(),
 		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": eq(boardID), "listId": eq(listID), "swimlaneId": eq(swimlane)})}
-	_, err = s.db.Collection("cards").InsertOne(ctx, card)
+	reference := shopReference(card.CreatedAt.Year(), number, strOf(settings["referenceType"]))
+	order := struct {
+		Card      `bson:",inline"`
+		Reference string `bson:"shopPaymentReference"`
+	}{card, reference}
+	_, err = s.db.Collection("cards").InsertOne(ctx, order)
 	created := err == nil
 	if mongo.IsDuplicateKeyError(err) {
-		var existing Card
+		var existing = order
+		existing.Reference = ""
 		err = s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(id), "boardId": eq(boardID)}).Decode(&existing)
 		if err == nil && existing.Description != card.Description {
 			http.Error(w, "Order already submitted", http.StatusConflict)
 			return
 		}
+		reference = existing.Reference
 	}
 	if err != nil {
 		http.Error(w, "Could not save order", http.StatusServiceUnavailable)
@@ -185,7 +253,7 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	}
 	amount, currency, _ := strings.Cut(total, " ")
 	_, method := shopLinkMethod(settings)
-	payment := shopPaymentURL(strOf(method["url"]), amount, currency, id)
+	payment := shopPaymentURL(strOf(method["url"]), amount, currency, id, reference)
 	if created && settings["confirmationEmail"] != false {
 		shopName := strOf(settings["title"])
 		if shopName == "" {
@@ -199,6 +267,9 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 			fmt.Fprintf(&receipt, "%s × %d — %s\n", line.Title, line.Quantity, line.Total)
 		}
 		fmt.Fprintln(&receipt, total)
+		if reference != "" {
+			fmt.Fprintln(&receipt, tr(lang, msg("billing-reference")), reference)
+		}
 		if payment != "" {
 			fmt.Fprintln(&receipt, tr(lang, msg("shop-email-pay")), payment)
 		}
@@ -208,9 +279,9 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	}
 	s.hub.publishFrom(boardID, "board-changed", "")
 	http.SetCookie(w, &http.Cookie{Name: shopCartCookie(shop.ID), Path: "/b/" + shop.ID + "/", MaxAge: -1, HttpOnly: true})
-	if payment != "" {
+	if payment != "" || reference != "" {
 		s.render(w, r, "shop_order", http.StatusCreated, map[string]any{
-			"Title": shop.Title, "User": u, "Total": total, "Payment": payment,
+			"Title": shop.Title, "User": u, "Total": total, "Payment": payment, "Reference": reference,
 			"Message": strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id),
 			"Shop":    shopLocation(shop, "", ""),
 		})

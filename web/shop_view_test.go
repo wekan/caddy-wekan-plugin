@@ -53,6 +53,18 @@ func TestShopPaymentURL(t *testing.T) {
 	}
 }
 
+func TestShopReference(t *testing.T) {
+	// These values match WeKan's paymentReference(2026, 42, kind).
+	for kind, want := range map[string]string{
+		"rf": "RF242026000422", "fi": "2026000422", "be": "+++020/2600/04222+++",
+		"no": "2026000428", "se": "20260004211", "none": "",
+	} {
+		if got := shopReference(2026, 42, kind); got != want {
+			t.Errorf("%s reference: got %q, want %q", kind, got, want)
+		}
+	}
+}
+
 func TestShopBoardView(t *testing.T) {
 	sink := newSMTPSink(t)
 	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
@@ -131,7 +143,7 @@ func TestShopBoardView(t *testing.T) {
 	}
 	update("boards", b.ID, bson.M{"shopSettings.decrementStock": false,
 		"shopSettings.paymentMethods": bson.A{bson.M{"id": "link", "enabled": true,
-			"method": bson.M{"type": "link", "url": "https://pay.example.test/order?number={number}&amount={amount}&currency={currency}"}}},
+			"method": bson.M{"type": "link", "url": "https://pay.example.test/order?number={number}&amount={amount}&currency={currency}&reference={reference}"}}},
 	})
 	res, page = get(t, guest, checkoutURL)
 	nonce := regexp.MustCompile(`name="id" value="([A-Za-z0-9_-]+)"`).FindStringSubmatch(page)
@@ -162,7 +174,7 @@ func TestShopBoardView(t *testing.T) {
 	for attempt := 0; attempt < 2; attempt++ {
 		guest.Jar.SetCookies(res.Request.URL, []*http.Cookie{cookie})
 		if res, page = post(t, guest, orderURL, form); res.StatusCode != http.StatusCreated || !strings.Contains(page, "https://pay.example.test/order?number=") ||
-			!strings.Contains(page, "amount=25.00&amp;currency=EUR") {
+			!strings.Contains(page, "amount=25.00&amp;currency=EUR&amp;reference=RF") {
 			t.Fatalf("order submission: %d %s", res.StatusCode, page)
 		}
 	}
