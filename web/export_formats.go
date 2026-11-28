@@ -108,6 +108,7 @@ type extItem struct {
 	StartAt       string          `json:"startAt,omitempty"`
 	EndAt         string          `json:"endAt,omitempty"`
 	CreatedAt     string          `json:"createdAt,omitempty"`
+	Recurrence    string          `json:"recurrence,omitempty"`
 	Owner         string          `json:"owner,omitempty"`
 	Assignees     []string        `json:"assignees,omitempty"`
 	Creator       string          `json:"creator,omitempty"`
@@ -380,6 +381,9 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, format string, w
 				}
 			}
 			it.Checklists = append(it.Checklists, x)
+		}
+		if want.has("dates") {
+			it.Recurrence = strOf(c["recurrenceInterval"])
 		}
 		// What the selection leaves out: collect()'s want() and gateItem().
 		// dueComplete stays, as WeKan's does - it is read from the card's

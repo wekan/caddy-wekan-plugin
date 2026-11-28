@@ -317,6 +317,8 @@ func orgTag(s string) string {
 }
 
 // formatOrgMode is WeKan's: a TODO outline, the lists as headings.
+var orgRepeaters = map[string]string{"daily": "+1d", "weekly": "+1w", "monthly": "+1m"}
+
 func formatOrgMode(d extBoard) string {
 	out := []string{"#+TITLE: " + orgOneLine(d.Board.Title), "#+TODO: TODO | DONE", ""}
 	titles := d.listTitles()
@@ -325,12 +327,21 @@ func formatOrgMode(d extBoard) string {
 			titles = append(titles, i.ListTitle)
 		}
 	}
+	// A card whose active list is unavailable still becomes a heading.
+	for _, item := range d.Items {
+		if item.ListTitle == "" && !contains(titles, "") {
+			titles = append(titles, "")
+			break
+		}
+	}
 	for _, lt := range titles {
 		h := orgOneLine(lt)
 		if h == "" {
 			h = "List"
 		}
-		out = append(out, "* "+h)
+		if lt != "" || contains(d.listTitles(), "") {
+			out = append(out, "* "+h)
+		}
 		for _, i := range d.Items {
 			if i.ListTitle != lt {
 				continue
@@ -370,7 +381,13 @@ func formatOrgMode(d extBoard) string {
 				planning = append(planning, "SCHEDULED: "+orgStamp(i.StartAt, true))
 			}
 			if i.DueAt != "" {
-				planning = append(planning, "DEADLINE: "+orgStamp(i.DueAt, true))
+				deadline := orgStamp(i.DueAt, true)
+				if !done && deadline != "" {
+					if repeat := orgRepeaters[i.Recurrence]; repeat != "" {
+						deadline = strings.TrimSuffix(deadline, ">") + " " + repeat + ">"
+					}
+				}
+				planning = append(planning, "DEADLINE: "+deadline)
 			}
 			if done && i.EndAt != "" {
 				planning = append(planning, "CLOSED: "+orgStamp(i.EndAt, false))
