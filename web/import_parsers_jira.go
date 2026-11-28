@@ -517,6 +517,8 @@ func parseJira(data any) (jsObject, error) {
 		task.set("jira_backlog_rank", i+1)
 		tasks[issue.index] = task
 	}
+	seenLinks := map[[2]string]bool{}
+
 	for i, issue := range issues {
 		fields := jsGet(issue, "fields")
 		parent, direct := jsGet(fields, "parent").(jsObject)
@@ -538,6 +540,64 @@ func parseJira(data any) (jsObject, error) {
 		} else if target != "" {
 			losses = append(losses, importUnsupportedObj("/issues/"+strconv.Itoa(i)+"/fields/"+field,
 				"parent "+strconv.Quote(target)+" is not part of this import"))
+		}
+		if raw := jsGet(fields, "issuelinks"); raw != nil {
+			task := tasks[i].(jsObject)
+			sourceRef := strOf(jsGet(task, "ref"))
+			path := "/issues/" + strconv.Itoa(i) + "/fields/issuelinks"
+			links, ok := raw.([]any)
+			if !ok {
+				losses = append(losses, importUnsupportedObj(path, "invalid Jira issue links"))
+			}
+			var deps []any
+			for n, link := range links {
+				linkPath := path + "/" + strconv.Itoa(n)
+				outward, inward := jsGet(link, "outwardIssue"), jsGet(link, "inwardIssue")
+				if (outward == nil) == (inward == nil) {
+					losses = append(losses, importUnsupportedObj(linkPath, "invalid Jira issue link direction"))
+					continue
+				}
+				target := outward
+				if inward != nil {
+					target = inward
+				}
+				targetRef := jsOr(byID[jiraIssueID(jsGet(target, "id"))], byKey[strOf(jsGet(target, "key"))]).(string)
+				if targetRef == "" || targetRef == sourceRef {
+					losses = append(losses, importUnsupportedObj(linkPath, "linked issue is outside this import or is the same issue"))
+					continue
+				}
+				pair := [2]string{sourceRef, targetRef}
+				if seenLinks[pair] || seenLinks[[2]string{targetRef, sourceRef}] {
+					continue
+				}
+				seenLinks[pair] = true
+				kind := "related-to"
+				switch name := strings.ToLower(strings.TrimSpace(strOf(jsGet(jsGet(link, "type"), "name")))); name {
+				case "blocks":
+					kind = "blocks"
+					if inward != nil {
+						kind = "is-blocked-by"
+					}
+				case "duplicate", "duplicates":
+					kind = "duplicates"
+					if inward != nil {
+						kind = "is-duplicated-by"
+					}
+				case "fixes":
+					kind = "fixes"
+					if inward != nil {
+						kind = "is-fixed-by"
+					}
+				case "relates":
+				default:
+					losses = append(losses, importUnsupportedObj(linkPath, "unrecognized Jira link type imported as related-to"))
+				}
+				deps = append(deps, jsObject{{"ref", targetRef}, {"type", kind}})
+			}
+			if len(deps) > 0 {
+				task.set("dependencies", deps)
+				tasks[i] = task
+			}
 		}
 	}
 	for i, raw := range columns {

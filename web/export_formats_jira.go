@@ -293,6 +293,29 @@ func formatJira(d extBoard) any {
 			p.set("key", k)
 			f.set("parent", p)
 		}
+		var links []jsObject
+		for _, dependency := range i.Dependencies {
+			target := keys[dependency.CardID]
+			if target == "" || dependency.CardID == i.CardID {
+				continue
+			}
+			name, direction := "Relates", "outwardIssue"
+			switch dependency.Type {
+			case "blocks", "is-blocked-by":
+				name = "Blocks"
+			case "duplicates", "is-duplicated-by":
+				name = "Duplicate"
+			case "fixes", "is-fixed-by":
+				name = "Fixes"
+			}
+			if dependency.Type == "is-blocked-by" || dependency.Type == "is-duplicated-by" || dependency.Type == "is-fixed-by" {
+				direction = "inwardIssue"
+			}
+			links = append(links, jsObject{{"type", jsObject{{"name", name}}}, {direction, jsObject{{"key", target}}}})
+		}
+		if len(links) > 0 {
+			f.set("issuelinks", links)
+		}
 		if entries := checklistEntries(i); len(entries) > 0 {
 			subs := []any{}
 			for _, x := range entries {

@@ -483,6 +483,41 @@ func TestTaigaMilestones(t *testing.T) {
 	}
 }
 
+func TestJiraExportDependencyRoundTrip(t *testing.T) {
+	board := extBoard{Items: []extItem{
+		{CardID: "a", Dependencies: []extDependency{
+			{CardID: "b", Type: "is-blocked-by"},
+			{CardID: "c", Type: "duplicates"},
+			{CardID: "d", Type: "is-fixed-by"},
+			{CardID: "outside", Type: "blocks"},
+		}},
+		{CardID: "b", Dependencies: []extDependency{{CardID: "a", Type: "blocks"}}},
+		{CardID: "c"},
+		{CardID: "d"},
+	}}
+	encoded := jsJSON(formatJira(board), "")
+	if bytes.Contains(encoded, []byte("outside")) {
+		t.Fatalf("export references an issue outside the export: %s", encoded)
+	}
+	source, err := decodeJS(encoded)
+	if err != nil {
+		t.Fatal(err)
+	}
+	parsed, err := parseJira(source)
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan := planImportedLinks(importTasks(parsed))
+	want := []importDepLink{{Index: 0, Deps: []importDep{
+		{Target: 1, Type: "is-blocked-by"},
+		{Target: 2, Type: "duplicates"},
+		{Target: 3, Type: "is-fixed-by"},
+	}}}
+	if !reflect.DeepEqual(plan.Dependencies, want) {
+		t.Fatalf("round-trip Jira links: %#v", plan.Dependencies)
+	}
+}
+
 func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 	w := newTestWeKan(t)
 	w.seedUser(t, "ann", "pw")
