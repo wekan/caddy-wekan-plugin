@@ -249,7 +249,7 @@ func TestImportJira(t *testing.T) {
 	w.seedUser(t, "ann", "pw")
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
-	const payload = `{"board":{"name":"Jira migration"},"names":{"customfield_10020":"Rank","customfield_10022":"Sprint"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","customfield_10020":"0|abc:","customfield_10022":{"id":7,"name":"Future sprint","state":"future"},"status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0,"originalEstimateSeconds":7200},"timeestimate":0,"labels":["jira"],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
+	const payload = `{"board":{"name":"Jira migration"},"wekanScrumMapping":{"estimateFieldId":"customfield_10016","estimateUnit":"points"},"names":{"customfield_10020":"Rank","customfield_10022":"Sprint"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","customfield_10016":0,"customfield_10020":"0|abc:","customfield_10022":{"id":7,"name":"Future sprint","state":"future"},"status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0,"originalEstimateSeconds":7200},"timeestimate":0,"labels":["jira"],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
 	res, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {payload}})
 	if err != nil {
 		t.Fatal(err)
@@ -314,6 +314,26 @@ func TestImportJira(t *testing.T) {
 		}
 		definitions.defs[strOf(field["_id"])] = field
 	}
+	var mapped bson.M
+	if err := w.db.Collection("customFields").FindOne(ctx, bson.M{"boardIds": board.ID,
+		"settings.jiraEstimateFieldId": "customfield_10016"}).Decode(&mapped); err != nil {
+		t.Fatal(err)
+	}
+	var savedBoard bson.M
+	if err := w.db.Collection("boards").FindOne(ctx, bson.M{"_id": board.ID}).Decode(&savedBoard); err != nil {
+		t.Fatal(err)
+	}
+	scrumSettings := asM(savedBoard["scrum"])
+	if scrumSettings["estimateCustomFieldId"] != mapped["_id"] || scrumSettings["estimateUnit"] != "points" ||
+		scrumSettings["enabled"] != true {
+		t.Fatalf("Jira estimate settings: %v", scrumSettings)
+	}
+	definitions.defs[strOf(mapped["_id"])] = mapped
+	mapping := definitions.jiraEstimateMapping()
+	if mapping == nil || jsGet(mapping.value(card), "customfield_10016") != float64(0) {
+		t.Fatalf("Jira mapped zero: %v", card)
+	}
+
 	tracking := jsObject{}
 	jiraTimeEstimates(card, definitions.jiraTimeEstimateIds(), &tracking)
 	if jsGet(tracking, "originalEstimateSeconds") != float64(7200) ||
@@ -435,5 +455,27 @@ func TestJiraImportLegacySprint(t *testing.T) {
 	if len(sprints) != 1 || jsGet(sprints[0], "name") != "Active, sprint" || len(losses) != 2 ||
 		jsGet(importTasks(doc)[0], "jira_sprint") != "8" {
 		t.Fatalf("Jira sprint import: %v", doc)
+	}
+}
+
+func TestJiraImportEstimateDiscovery(t *testing.T) {
+	input, err := decodeJS([]byte(`{"schema":{"customfield_10016":{"type":"number","custom":"com.pyxis.greenhopper.jira:jsw-story-points"}},"issues":[{"fields":{"customfield_10016":null}},{"fields":{}}]}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	doc, err := parseJira(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if mapping := jsGet(doc, "jira_estimate_mapping"); jsGet(mapping, "key") != "customfield_10016" ||
+		jsGet(mapping, "unit") != "points" {
+		t.Fatalf("discovered estimate: %v", mapping)
+	}
+	tasks := importTasks(doc)
+	if value, present := jsLookup(tasks[0], "jira_estimate"); !present || value != nil {
+		t.Fatalf("explicit null estimate: %v", tasks[0])
+	}
+	if _, present := jsLookup(tasks[1], "jira_estimate"); present {
+		t.Fatalf("absent estimate: %v", tasks[1])
 	}
 }

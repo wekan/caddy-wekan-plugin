@@ -1028,3 +1028,24 @@ func (g *generalImport) importJiraReleases(boardID string, doc any) error {
 		bson.M{"$set": bson.M{"scrum.enabled": true}})
 	return err
 }
+
+func (g *generalImport) importJiraEstimate(boardID string, mapping any) error {
+	key := strOf(jsGet(mapping, "key"))
+	if key == "" {
+		return nil
+	}
+	id := randomID()
+	unit := strOf(jsGet(mapping, "unit"))
+	field := bson.M{"_id": id, "boardIds": bson.A{boardID}, "name": jsGet(mapping, "name"), "type": "number",
+		"settings": bson.M{"jiraEstimateFieldId": key, "jiraEstimateUnit": unit}, "createdAt": g.now}
+	if _, err := g.s.db.Collection("customFields").InsertOne(g.ctx, field); err != nil {
+		return err
+	}
+	_, err := g.s.db.Collection("boards").UpdateOne(g.ctx, bson.M{"_id": eq(boardID)}, bson.M{"$set": bson.M{
+		"scrum.estimateSource": "customField", "scrum.estimateCustomFieldId": id, "scrum.estimateUnit": unit,
+	}})
+	if err == nil {
+		g.jiraEstimateField = id
+	}
+	return err
+}

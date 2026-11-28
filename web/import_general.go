@@ -69,7 +69,8 @@ func jsOr(vs ...any) any {
 var allowedColors = append([]string{"white"}, labelPalette...)
 
 type generalImport struct {
-	jiraReleases map[string]string
+	jiraEstimateField string
+	jiraReleases      map[string]string
 	// losses are the creator's own, beside the parser's: fields, watchers,
 	// attachments and links that did not come over (WeKan's this.losses).
 	losses        []any
@@ -245,6 +246,9 @@ func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source str
 		}
 	}
 	if source == "jira" {
+		if err := g.importJiraEstimate(b.ID, jsGet(doc, "jira_estimate_mapping")); err != nil {
+			return nil, err
+		}
 		if err := g.importJiraReleases(b.ID, doc); err != nil {
 			return nil, err
 		}
@@ -372,6 +376,11 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 		var values bson.A
 		for _, v := range importedCustomFieldValues(task, fields.Fields) {
 			values = append(values, bson.M{"_id": fieldIDs[v.Name], "value": v.Value}) // inserted, not a filter
+		}
+		if g.jiraEstimateField != "" {
+			if value, present := jsLookup(task, "jira_estimate"); present {
+				values = append(values, bson.M{"_id": g.jiraEstimateField, "value": value})
+			}
 		}
 		if len(values) > 0 {
 			card["customFields"] = values

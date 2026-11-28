@@ -162,6 +162,52 @@ func jiraImportTime(fields any, nested, flat string) (hours float64, present boo
 	return seconds / 3600, true, nil
 }
 
+func jiraImportEstimate(data any) (*jiraEstimateMapping, error) {
+	schema, _ := jsGet(data, "schema").(jsObject)
+	var mapping jiraEstimateMapping
+	mapping.unit = "points"
+	if raw, present := jsLookup(data, "wekanScrumMapping"); present {
+		config, ok := raw.(jsObject)
+		if !ok {
+			return nil, errors.New("invalid Jira estimate mapping")
+		}
+		for _, field := range config {
+			if field.Key != "estimateFieldId" && field.Key != "estimateUnit" {
+				return nil, errors.New("invalid Jira estimate mapping")
+			}
+		}
+		mapping.key = strOf(jsGet(config, "estimateFieldId"))
+		if !jiraEstimateKey.MatchString(mapping.key) {
+			return nil, errors.New("invalid Jira estimate field ID")
+		}
+		if value, present := jsLookup(config, "estimateUnit"); present {
+			unit, ok := value.(string)
+			mapping.unit = strings.TrimSpace(unit)
+			if !ok || mapping.unit == "" || utf16Len(unit) > 80 || strings.ContainsRune(unit, 0) {
+				return nil, errors.New("invalid Jira estimate unit")
+			}
+		}
+	} else {
+		for _, field := range schema {
+			if !jiraEstimateKey.MatchString(field.Key) || jsGet(field.Value, "type") != "number" ||
+				jsGet(field.Value, "custom") != "com.pyxis.greenhopper.jira:jsw-story-points" {
+				continue
+			}
+			if mapping.key != "" {
+				return nil, nil
+			}
+			mapping.key = field.Key
+		}
+	}
+	if mapping.key == "" {
+		return nil, nil
+	}
+	if field, present := jsLookup(schema, mapping.key); present && jsGet(field, "type") != "number" {
+		return nil, errors.New("Jira estimate field schema must be numeric")
+	}
+	return &mapping, nil
+}
+
 func parseJira(data any) (jsObject, error) {
 	issues, ok := data.([]any)
 	if !ok {
@@ -170,6 +216,11 @@ func parseJira(data any) (jsObject, error) {
 	if !ok {
 		return nil, errors.New("invalid Jira issue export")
 	}
+	estimate, err := jiraImportEstimate(data)
+	if err != nil {
+		return nil, err
+	}
+	estimateSeen := false
 	tasks, columns, losses := []any{}, []any{}, []any{}
 	seen := map[string]bool{}
 	releases, sprints := []any{}, []any{}
@@ -238,6 +289,18 @@ func parseJira(data any) (jsObject, error) {
 				return nil, errors.New("invalid Jira issue type")
 			}
 			task.set("jira_issue_type", issueType)
+		}
+		if estimate != nil {
+			if value, present := jsLookup(fields, estimate.key); present {
+				estimateSeen = true
+				if value != nil {
+					number, ok := value.(float64)
+					if !ok || !(number >= 0 && number <= 1e12) {
+						return nil, errors.New("invalid Jira estimate value")
+					}
+				}
+				task.set("jira_estimate", value)
+			}
 		}
 		spent, present, err := jiraImportTime(fields, "timeSpentSeconds", "timespent")
 		if err != nil {
@@ -387,8 +450,16 @@ func parseJira(data any) (jsObject, error) {
 			columns[i] = column
 		}
 	}
-	return jsObject{
+	out := jsObject{
 		{"board", jsObject{{"name", jsOr(jsGet(jsGet(data, "board"), "name"), "Imported Jira Board")}}},
 		{"columns", columns}, {"swimlanes", []any{jsObject{{"name", "Default"}}}}, {"tasks", tasks}, {"unsupported", losses}, {"jira_releases", releases}, {"jira_sprints", sprints},
-	}, nil
+	}
+	if estimate != nil {
+		if !estimateSeen && jsGet(jsGet(jsGet(data, "schema"), estimate.key), "type") != "number" {
+			return nil, errors.New("Jira estimate field is absent from the imported issues")
+		}
+		name := jsOr(strOf(jsGet(jsGet(data, "names"), estimate.key)), estimate.key)
+		out.set("jira_estimate_mapping", jsObject{{"key", estimate.key}, {"unit", estimate.unit}, {"name", name}})
+	}
+	return out, nil
 }
