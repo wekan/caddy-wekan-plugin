@@ -11,6 +11,7 @@ import (
 	"net/mail"
 	"strings"
 	"time"
+	"unicode"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
@@ -31,7 +32,7 @@ func (s *Server) submitShopOrder(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		return
 	}
-	r.Body = http.MaxBytesReader(w, r.Body, 8192)
+	r.Body = http.MaxBytesReader(w, r.Body, 32<<10)
 	if r.ParseForm() != nil {
 		http.Error(w, "Invalid order", http.StatusBadRequest)
 		return
@@ -50,17 +51,40 @@ func (s *Server) submitShopOrder(w http.ResponseWriter, r *http.Request) {
 	s.boardShop(w, r, b, u, lanes)
 }
 
+func shopContactField(value string, limit int, multiline bool) (string, bool) {
+	value = strings.TrimSpace(strings.ReplaceAll(value, "\r\n", "\n"))
+	if utf16Len(value) > limit {
+		return "", false
+	}
+	for _, character := range value {
+		if unicode.IsControl(character) && !(multiline && character == '\n') {
+			return "", false
+		}
+	}
+	return value, true
+}
+
+func writeShopOrderText(builder *strings.Builder, value string) {
+	for _, line := range strings.Split(value, "\n") {
+		fmt.Fprintln(builder, "    "+line)
+	}
+}
+
 func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Board, u *User, settings bson.M, lines []shopCartLine, total, quote string) {
 	lang := languageOf(r, u).Tag
 	if r.PostForm.Get("quote") != quote {
 		http.Error(w, tr(lang, msg("shop-price-changed")), http.StatusConflict)
 		return
 	}
-	name, email := strings.TrimSpace(r.PostForm.Get("name")), strings.TrimSpace(r.PostForm.Get("email"))
+	name, validName := shopContactField(r.PostForm.Get("name"), 100, false)
+	email, validEmail := shopContactField(r.PostForm.Get("email"), 254, false)
+	phone, validPhone := shopContactField(r.PostForm.Get("phone"), 40, false)
+	delivery, validDelivery := shopContactField(r.PostForm.Get("address"), 500, true)
+	note, validNote := shopContactField(r.PostForm.Get("note"), 1000, true)
 	address, err := mail.ParseAddress(email)
 	nonce := r.PostForm.Get("id")
-	if !validID(nonce) || name == "" || utf16Len(name) > 100 || utf16Len(email) > 254 ||
-		strings.ContainsAny(name, "\r\n") || err != nil || address.Address != email ||
+	if !validID(nonce) || !validName || !validEmail || !validPhone || !validDelivery || !validNote ||
+		name == "" || err != nil || address.Address != email ||
 		(shopTermsURL(strOf(settings["termsUrl"])) != "" && r.PostForm.Get("acceptTerms") != "1") {
 		http.Error(w, "Invalid order details", http.StatusBadRequest)
 		return
@@ -90,7 +114,16 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		userID = u.ID
 	}
 	var description strings.Builder
-	fmt.Fprintf(&description, "%s\n%s\n\n", name, email)
+	for _, entry := range []struct{ label, value string }{
+		{msg("name"), name}, {msg("email"), email}, {msg("billing-phone"), phone},
+		{msg("billing-address"), delivery}, {msg("shop-note"), note},
+	} {
+		if entry.value != "" {
+			fmt.Fprintf(&description, "%s\n\n", tr(lang, entry.label))
+			writeShopOrderText(&description, entry.value)
+			description.WriteByte('\n')
+		}
+	}
 	for _, line := range lines {
 		fmt.Fprintf(&description, "- %s × %d — %s\n", line.Title, line.Quantity, line.Total)
 	}

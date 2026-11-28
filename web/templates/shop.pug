@@ -45,6 +45,18 @@
                   label
                     | {{t $.L "email"}}
                     input(type="email", name="email", maxlength="254", required)
+                p
+                  label
+                    | {{t $.L "billing-phone"}}
+                    input(type="tel", name="phone", maxlength="40", autocomplete="tel")
+                p
+                  label
+                    | {{t $.L "billing-address"}}
+                    textarea(name="address", maxlength="500", rows="3", autocomplete="street-address")
+                p
+                  label
+                    | {{t $.L "shop-note"}}
+                    textarea(name="note", maxlength="1000", rows="3")
                 if .TermsURL
                   label
                     input(type="checkbox", name="acceptTerms", value="1", required)

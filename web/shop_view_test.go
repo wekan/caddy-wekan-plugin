@@ -132,6 +132,9 @@ func TestShopBoardView(t *testing.T) {
 	}
 	cookie.Path = "/b/" + b.ID + "/"
 	form := map[string][]string{"id": {nonce[1]}, "quote": {quote[1]}, "name": {"Test customer"}, "email": {"test@example.test"}, "acceptTerms": {"1"}}
+	form["phone"] = []string{"+358 123"}
+	form["address"] = []string{"1 Delivery Lane\r\nSecond floor"}
+	form["note"] = []string{"![literal](https://example.test/image.png)"}
 	orderURL := url + "/shop/order"
 	form["quote"] = []string{"stale"}
 	if res, _ = post(t, guest, orderURL, form); res.StatusCode != http.StatusConflict {
@@ -146,6 +149,19 @@ func TestShopBoardView(t *testing.T) {
 	}
 	if count, err := w.db.Collection("cards").CountDocuments(ctx, bson.M{"boardId": orders.ID, "title": bson.M{"$regex": "^Order "}}); err != nil || count != 1 {
 		t.Fatalf("order card count: %d %v", count, err)
+	}
+	var saved Card
+	if err := w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": orders.ID,
+		"title": bson.M{"$regex": "^Order "}}).Decode(&saved); err != nil {
+		t.Fatal(err)
+	}
+	for _, text := range []string{"+358 123", "    1 Delivery Lane\n    Second floor", "    ![literal]"} {
+		if !strings.Contains(saved.Description, text) {
+			t.Fatalf("order lost contact data %q", text)
+		}
+	}
+	if strings.Contains(string(viewer(saved.Description)), "<img") {
+		t.Fatal("buyer text rendered a remote image")
 	}
 	guest.Jar.SetCookies(res.Request.URL, []*http.Cookie{cookie})
 
