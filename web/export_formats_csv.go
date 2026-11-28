@@ -579,6 +579,8 @@ func spaceAroundCommas(s string) string {
 	return b.String()
 }
 
+var pivotalExportPriority = jsRegexp(`(?i)^p[0-3] - \S.*$`)
+
 func formatPivotalCsv(d extBoard) string {
 	owners := func(i extItem) []string {
 		p := uniqueNonEmpty(append([]string{i.Owner}, i.Assignees...))
@@ -666,7 +668,21 @@ func formatPivotalCsv(d extBoard) string {
 		if requested == "" {
 			requested = i.Creator
 		}
-		row := []string{title, strings.Join(rest, ", "), typ, "", "", state, monthDayYear(i.CreatedAt), accepted, deadline, requested, i.Description}
+		points := ""
+		raw := jsGet(i.CustomFields, "Story points")
+		if raw == nil {
+			raw = jsGet(i.CustomFields, "Estimate")
+		}
+		if raw != nil {
+			if fraction, ok := jsToNumber(raw); ok && !isInf(fraction) {
+				points = jsNumber(fraction)
+			}
+		}
+		priority := jsOrString(jsGet(i.CustomFields, "Priority"))
+		if !pivotalExportPriority.MatchString(priority) {
+			priority = ""
+		}
+		row := []string{title, strings.Join(rest, ", "), typ, points, priority, state, monthDayYear(i.CreatedAt), accepted, deadline, requested, i.Description}
 		owned := owners(i)
 		row = append(append(row, owned...), repeatCells("", nOwners-len(owned))...)
 		said := comments(i)
