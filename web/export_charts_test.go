@@ -185,6 +185,30 @@ func TestWorkloadRows(t *testing.T) {
 	}
 }
 
+func TestDependencyMapRows(t *testing.T) {
+	cards := []chartCard{
+		{ID: "a", Title: "A", Dependencies: bson.A{bson.D{{Key: "cardId", Value: "b"}, {Key: "type", Value: "is-blocked-by"}}, "done", "outside"}},
+		{ID: "b", Title: "B", Dependencies: bson.A{"c"}},
+		{ID: "c", Title: "C"},
+		{ID: "done", Title: "Done card", EndAt: time.Now(), Dependencies: bson.A{"a"}},
+	}
+	headers, rows := dependencyMapRows(cards, "en")
+	if headers[4] != "Blocked chain" || !reflect.DeepEqual(rows, [][]any{
+		{"A", "is-blocked-by", "B", "Open", 2}, {"A", "related-to", "Done card", "Done", 2},
+		{"B", "related-to", "C", "Open", 1},
+	}) {
+		t.Fatalf("dependency map: %v / %v", headers, rows)
+	}
+	bars := weeklyFlowBars(rows, 4, "dependencyMap")
+	if len(bars) != 2 || bars[0].Label != "A" || bars[0].Value != 2 {
+		t.Fatalf("dependency map bars: %v", bars)
+	}
+	cards[2].Dependencies = bson.A{"a"}
+	if _, cyclic := dependencyMapRows(cards, "en"); len(cyclic) != 4 {
+		t.Fatalf("dependency cycle stopped reporting: %v", cyclic)
+	}
+}
+
 func TestExportCharts(t *testing.T) {
 	w := newTestWeKan(t)
 	w.seedUser(t, "ann", "pw")
@@ -276,6 +300,20 @@ func TestExportCharts(t *testing.T) {
 		"createdAt":       created.Add(24 * time.Hour),
 		"previousContent": bson.M{"listId": b.List}, "newContent": bson.M{"listId": "unlisted"},
 	}); err != nil {
+		t.Fatal(err)
+	}
+	depID := randomID()
+	if _, err := w.db.Collection("cards").InsertOne(ctx, bson.M{
+		"_id": depID, "boardId": b.ID, "title": "Dependency fixture",
+		"cardDependencies": bson.A{bson.M{"cardId": b.Card, "type": "blocks"}},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if code, _, data := get(base+"dependencyMap/exportExcel", a); code != 200 ||
+		!strings.Contains(sheet(data), ">Dependency fixture<") || !strings.Contains(sheet(data), ">Blocked chain<") {
+		t.Fatalf("dependency map export: %d %s", code, sheet(data))
+	}
+	if _, err := w.db.Collection("cards").DeleteOne(ctx, bson.M{"_id": depID}); err != nil {
 		t.Fatal(err)
 	}
 	if code, _, data := get(base+"timeInList/exportExcel", a); code != 200 ||

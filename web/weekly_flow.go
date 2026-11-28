@@ -13,6 +13,7 @@ type weeklyFlowView struct {
 }
 
 var weeklyFlowViews = []weeklyFlowView{
+	{"dependency-map", "dependencyMap", "board-view-dependency-map", "fa-share-alt", 4},
 	{"workload", "workload", "board-view-workload", "fa-user-circle", 1},
 	{"time-in-list", "timeInList", "board-view-time-in-list", "fa-hourglass-o", 2},
 	{"activity-heatmap", "activityHeatmap", "board-view-activity-heatmap", "fa-th", 0},
@@ -171,7 +172,21 @@ func weeklyFlowBars(rows [][]any, column int, key string) []weeklyFlowBar {
 	if key == "dueDatePerformance" || key == "epicProgress" {
 		scale = 100
 	}
-	if key == "epicProgress" || key == "distribution" || key == "workload" {
+	if key == "dependencyMap" {
+		distinct := make([][]any, 0, min(len(rows), 24))
+		seen := map[string]bool{}
+		for _, row := range rows {
+			label := row[0].(string)
+			if !seen[label] {
+				distinct = append(distinct, row)
+				seen[label] = true
+			}
+			if len(distinct) == 24 {
+				break
+			}
+		}
+		rows = distinct
+	} else if key == "epicProgress" || key == "distribution" || key == "workload" {
 		rows = rows[:min(len(rows), 24)]
 	} else if key != "releaseBurndown" && key != "timeInList" {
 		rows = rows[max(0, len(rows)-24):]
