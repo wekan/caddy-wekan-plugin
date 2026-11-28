@@ -210,12 +210,22 @@ func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source str
 		g.laneIDs = append(g.laneIDs, id)
 	}
 	columns := importNames(doc, "columns", []string{"title", "name"}, []string{"column_name", "column"}, "Imported")
+	jiraCategories := map[string]string{}
+	if source == "jira" {
+		sourceColumns, _ := jsGet(doc, "columns").([]any)
+		for _, column := range sourceColumns {
+			jiraCategories[strOf(jsGet(column, "title"))] = strOf(jsGet(column, "jira_category"))
+		}
+	}
 	for n, name := range columns {
 		id := randomID()
 		list := bson.M{"_id": id, "archived": false, "boardId": b.ID, "createdAt": g.now, "title": name, "sort": float64(n), // inserted, not a filter
 			"type": "list", "swimlaneId": ""}
 		if limit := columnLimit(doc, name); limit > 0 {
 			list["wipLimit"] = bson.M{"value": limit, "enabled": true, "soft": false}
+		}
+		if category := jiraCategories[name]; category != "" {
+			list["scrum"] = bson.M{"category": category}
 		}
 		if _, err := s.db.Collection("lists").InsertOne(ctx, list); err != nil {
 			return nil, err
@@ -353,6 +363,9 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 			card["customFields"] = values
 		}
 		if g.source == "jira" {
+			if issueType, ok := jsGet(task, "jira_issue_type").(string); ok {
+				card["scrum"] = bson.M{"issueType": issueType}
+			}
 			if spent, ok := jsGet(task, "spentTime").(float64); ok {
 				card["spentTime"] = spent
 			}

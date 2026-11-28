@@ -55,6 +55,7 @@ func parseJira(data any) (jsObject, error) {
 	}
 	tasks, columns := []any{}, []any{}
 	seen := map[string]bool{}
+	categories := map[string]string{}
 	for _, issue := range issues {
 		if _, ok := issue.(jsObject); !ok {
 			return nil, errors.New("invalid Jira issue")
@@ -72,7 +73,30 @@ func parseJira(data any) (jsObject, error) {
 			seen[column] = true
 			columns = append(columns, jsObject{{"title", column}})
 		}
+		category := strOf(jsGet(jsGet(jsGet(fields, "status"), "statusCategory"), "key"))
+		switch category {
+		case "new":
+			category = "todo"
+		case "indeterminate":
+			category = "doing"
+		case "done":
+		default:
+			category = ""
+		}
+		if category != "" {
+			if previous := categories[column]; previous != "" && previous != category {
+				return nil, errors.New("Jira statuses with the same name have conflicting Scrum categories")
+			}
+			categories[column] = category
+		}
 		task := jsObject{}
+		if raw := jsGet(jsGet(fields, "issuetype"), "name"); raw != nil {
+			issueType, ok := raw.(string)
+			if !ok || utf16Len(issueType) > 100 || strings.ContainsRune(issueType, 0) {
+				return nil, errors.New("invalid Jira issue type")
+			}
+			task.set("jira_issue_type", issueType)
+		}
 		spent := jsGet(jsGet(fields, "timetracking"), "timeSpentSeconds")
 		if spent == nil {
 			spent = jsGet(fields, "timespent")
@@ -97,6 +121,13 @@ func parseJira(data any) (jsObject, error) {
 		task.setDefined("requested_by", requester, defined)
 		task.set("tags", jsOr(jsGet(fields, "labels"), []any{}))
 		tasks = append(tasks, task)
+	}
+	for i, raw := range columns {
+		column := raw.(jsObject)
+		if category := categories[strOf(jsGet(column, "title"))]; category != "" {
+			column.set("jira_category", category)
+			columns[i] = column
+		}
 	}
 	return jsObject{
 		{"board", jsObject{{"name", jsOr(jsGet(jsGet(data, "board"), "name"), "Imported Jira Board")}}},

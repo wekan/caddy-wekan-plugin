@@ -249,7 +249,7 @@ func TestImportJira(t *testing.T) {
 	w.seedUser(t, "ann", "pw")
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
-	const payload = `{"board":{"name":"Jira migration"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","status":{"name":"Doing"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"]}}]}`
+	const payload = `{"board":{"name":"Jira migration"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"]}}]}`
 	res, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {payload}})
 	if err != nil {
 		t.Fatal(err)
@@ -269,4 +269,24 @@ func TestImportJira(t *testing.T) {
 	if card["title"] != "[TEST-1] Sample issue" || card["description"] != "Jira description" || card["spentTime"] != float64(0) {
 		t.Fatalf("Jira card: %v", card)
 	}
+	if got := asM(card["scrum"])["issueType"]; got != "Bug" {
+		t.Fatalf("Jira issue type: %v", got)
+	}
+	var list bson.M
+	if err := w.db.Collection("lists").FindOne(ctx, bson.M{"boardId": board.ID}).Decode(&list); err != nil {
+		t.Fatal(err)
+	}
+	if got := asM(list["scrum"])["category"]; got != "doing" {
+		t.Fatalf("Jira status category: %v", got)
+	}
+	conflict := strings.TrimSuffix(payload, "]}") + `,{"key":"TEST-2","fields":{"summary":"Conflict","status":{"name":"Doing","statusCategory":{"key":"done"}}}}]}`
+	rejected, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {conflict}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer rejected.Body.Close()
+	if rejected.StatusCode != http.StatusBadRequest {
+		t.Fatalf("conflicting Jira categories: %d", rejected.StatusCode)
+	}
+
 }
