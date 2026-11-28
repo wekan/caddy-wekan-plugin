@@ -15,3 +15,9 @@ h3.card-details-item-title.js-toggle-card-section(data-section="comments", role=
       .comment-text
         .viewer {{.Text}}
       time.activity-time(datetime="{{.ISO}}") {{.Display}}
+      if and $.CanModifyCard $.User (eq $.User.ID .UserID)
+        details.js-edit-comment
+          summary {{t $.L "edit"}}
+          form(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/comments/{{.ID}}/edit", up-submit, up-target=".board-wrapper")
+            textarea(name="comment", aria-label="{{t $.L `comment`}}", required) {{.Text}}
+            button(type="submit") {{t $.L "save"}}

@@ -209,8 +209,8 @@ func (s *Server) activityRows(ctx context.Context, b *Board, filter bson.M, lang
 
 // commentRow is a card's comment as the card details show it.
 type commentRow struct {
-	ID, User, Text string
-	At             time.Time
+	ID, User, Text, UserID string
+	At                     time.Time
 }
 
 func (c commentRow) ISO() string     { return c.At.UTC().Format(time.RFC3339) }
@@ -237,7 +237,7 @@ func (s *Server) cardComments(ctx context.Context, b *Board, cardID string) []co
 		if s.db.Collection("users").FindOne(ctx, bson.M{"_id": eq(d.UserID)}).Decode(&u) == nil {
 			name = u.Name()
 		}
-		out = append(out, commentRow{ID: d.ID, User: name, Text: d.Text, At: d.CreatedAt})
+		out = append(out, commentRow{ID: d.ID, User: name, Text: d.Text, UserID: d.UserID, At: d.CreatedAt})
 	}
 	return out
 }

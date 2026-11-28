@@ -375,6 +375,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/swimlanes", s.page(s.addSwimlanePage))
 	m.HandleFunc("POST /b/{board}/cards", s.page(s.addCard))
 	m.HandleFunc("POST /b/{board}/cards/{card}/comments", s.page(s.addCommentPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/comments/{comment}/edit", s.page(s.editCommentPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/members/{user}", s.page(s.toggleCardMemberPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/vote", s.page(s.votePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/poker", s.page(s.pokerPage))

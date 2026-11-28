@@ -221,17 +221,58 @@ func (s *Server) apiEditComment(w http.ResponseWriter, r *http.Request, u *User)
 	if !s.mayChangeComment(w, r, u, b, cm, "edit") {
 		return
 	}
-	if _, err := s.entityUpdateOne(r.Context(), u.ID, "comment", bson.M{"_id": cm["_id"]},
-		bson.M{"$set": bson.M{"text": text, "modifiedAt": time.Now().UTC()}}); err != nil {
+	if err := s.saveCommentEdit(r, b, u, cm, text); err != nil {
 		apiError(w, http.StatusInternalServerError, err.Error())
 		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{"_id": cm["_id"]})
+}
+
+func (s *Server) saveCommentEdit(r *http.Request, b *Board, u *User, cm bson.M, text string) error {
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "comment", bson.M{"_id": cm["_id"], "boardId": b.ID, "cardId": cm["cardId"]},
+		bson.M{"$set": bson.M{"text": text, "modifiedAt": time.Now().UTC()}}); err != nil {
+		return err
 	}
 	var c Card
 	_ = s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(idString(cm["cardId"]))}).Decode(&c)
 	s.activity(r.Context(), u.ID, "editComment", bson.M{"boardId": b.ID, "cardId": c.ID, "commentId": cm["_id"],
 		"commentText": text, "listId": c.ListID, "swimlaneId": c.SwimlaneID})
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
-	writeJSON(w, http.StatusOK, map[string]any{"_id": cm["_id"]})
+	return nil
+}
+
+func (s *Server) editCommentPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+	cm := s.commentOf(w, r, b)
+	if cm == nil {
+		return
+	}
+	var c Card
+	if s.db.Collection("cards").FindOne(r.Context(), bson.M{"_id": eq(idString(cm["cardId"])), "boardId": b.ID, "deletedAt": nil}).Decode(&c) != nil {
+		http.NotFound(w, r)
+		return
+	}
+	if !b.WritableIn(r.Context(), s, u, "write", &c) {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+	if !s.mayChangeComment(w, r, u, b, cm, "edit") {
+		return
+	}
+	text := strings.TrimSpace(r.PostFormValue("comment"))
+	if text == "" || len(text) > 100000 || strings.ContainsRune(text, 0) {
+		http.Error(w, "Invalid comment", http.StatusBadRequest)
+		return
+	}
+	if err := s.saveCommentEdit(r, b, u, cm, text); err != nil {
+		http.Error(w, "Could not edit comment", http.StatusInternalServerError)
+		return
+	}
+	s.backToCard(w, r, b, &c)
 }
 
 func (s *Server) apiDeleteComment(w http.ResponseWriter, r *http.Request, u *User) {
