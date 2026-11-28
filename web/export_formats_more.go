@@ -652,8 +652,6 @@ func formatKanri(d extBoard, now time.Time) []byte {
 		}
 		return t
 	}
-	var usedOrder []string
-	used := map[string]kanriTag{}
 	columns := []kanriColumn{}
 	at := map[string]int{}
 	for _, l := range d.Lists {
@@ -661,12 +659,12 @@ func formatKanri(d extBoard, now time.Time) []byte {
 		columns = append(columns, kanriColumn{ID: l.ID, Title: l.Title, Cards: []kanriCard{}})
 	}
 	for _, i := range d.Items {
-		n, ok := at[i.ListID]
+		key := i.ListID
+		if key == "" {
+			key = "no-list"
+		}
+		n, ok := at[key]
 		if !ok {
-			key := i.ListID
-			if key == "" {
-				key = "no-list"
-			}
 			title := i.ListTitle
 			if title == "" {
 				title = "Untitled"
@@ -679,10 +677,6 @@ func formatKanri(d extBoard, now time.Time) []byte {
 		for _, id := range i.LabelIDs {
 			if l, ok := labels[id]; ok {
 				t := tagFor(l)
-				if _, seen := used[t.ID]; !seen {
-					usedOrder = append(usedOrder, t.ID)
-				}
-				used[t.ID] = t
 				tags = append(tags, t)
 			}
 		}
@@ -730,8 +724,16 @@ func formatKanri(d extBoard, now time.Time) []byte {
 		title = "WeKan board"
 	}
 	global := []kanriTag{}
-	for _, k := range usedOrder {
-		global = append(global, used[k])
+	seen := map[string]bool{}
+	for _, column := range columns {
+		for _, card := range column.Cards {
+			for _, tag := range card.Tags {
+				if !seen[tag.ID] {
+					seen[tag.ID] = true
+					global = append(global, tag)
+				}
+			}
+		}
 	}
 	return jsJSON(kanriBoard{ID: id, Title: title, Columns: columns, GlobalTags: global, LastEdited: edited, CreatedAt: created}, "")
 }

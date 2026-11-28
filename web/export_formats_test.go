@@ -395,3 +395,33 @@ func TestExportFieldsSelection(t *testing.T) {
 		t.Errorf("fields=comments,people: just those: %+v", it)
 	}
 }
+
+func TestKanriGroupsUnlistedCardsAndOrdersGlobalTagsByColumn(t *testing.T) {
+	var board extBoard
+	board.Lists = []extNamed{{ID: "early", Title: "Early"}, {ID: "late", Title: "Late"}}
+	board.Board.Labels = []Label{{ID: "a", Name: "A"}, {ID: "b", Name: "B"}}
+	board.Items = []extItem{
+		{CardID: "first", ListID: "late", LabelIDs: []string{"b"}},
+		{CardID: "second", ListID: "early", LabelIDs: []string{"a"}},
+		{CardID: "unlisted-one"},
+		{CardID: "unlisted-two"},
+	}
+
+	var result kanriBoard
+	if err := json.Unmarshal(formatKanri(board, time.Unix(1000, 0)), &result); err != nil {
+		t.Fatal(err)
+	}
+	if len(result.Columns) != 3 || result.Columns[2].ID != "no-list" {
+		t.Fatalf("expected one fallback column: %+v", result.Columns)
+	}
+	var ids []string
+	for _, card := range result.Columns[2].Cards {
+		ids = append(ids, card.ID)
+	}
+	if !slices.Equal(ids, []string{"unlisted-one", "unlisted-two"}) {
+		t.Fatalf("unexpected fallback cards: %v", ids)
+	}
+	if len(result.GlobalTags) != 2 || result.GlobalTags[0].ID != "a" || result.GlobalTags[1].ID != "b" {
+		t.Fatalf("unexpected global tag order: %+v", result.GlobalTags)
+	}
+}
