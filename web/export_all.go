@@ -214,17 +214,17 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func massSheetNames(titles []string) []string {
-	used := map[string]bool{}
+	used := map[string]bool{"history": true}
 	names := make([]string, len(titles))
 	for i, title := range titles {
 		clean := strings.Map(func(r rune) rune {
-			if strings.ContainsRune(`\/?*[]:`, r) {
+			if unicode.IsControl(r) || strings.ContainsRune(`\/?*[]:`, r) {
 				return ' '
 			}
 			return r
 		}, title)
 		base := jsTrim(strings.Trim(jsTrim(mdSpace.ReplaceAllString(clean, " ")), "'"))
-		base = jsTrim(jsSlice16(base, 31))
+		base = strings.TrimRightFunc(jsSlice16(base, 31), func(r rune) bool { return r == '\'' || jsSpace(r) })
 		if base == "" {
 			base = "Board"
 		}

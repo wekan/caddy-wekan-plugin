@@ -130,3 +130,12 @@ func TestExportAllBoards(t *testing.T) {
 		t.Fatalf("negative: only boards that may not be exported: %d", code)
 	}
 }
+
+func TestMassSheetNames(t *testing.T) {
+	prefix := strings.Repeat("a", 30)
+	got := massSheetNames([]string{"History", "history", prefix + "'remainder", "Sheet\x01name"})
+	want := []string{"History (2)", "history (3)", prefix, "Sheet name"}
+	if strings.Join(got, "|") != strings.Join(want, "|") {
+		t.Fatalf("worksheet names: got %q, want %q", got, want)
+	}
+}
