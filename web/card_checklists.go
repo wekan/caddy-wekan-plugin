@@ -25,11 +25,11 @@ type cardChecklistItem struct {
 }
 
 type cardChecklist struct {
-	ItemsFiltered bool
-	ID, Title     string
-	Percent       int
-	Items         []cardChecklistItem
-	Due           dueDate
+	HideChecked, HideAll bool
+	ID, Title            string
+	Percent              int
+	Items                []cardChecklistItem
+	Due                  dueDate
 }
 
 // dueDate is a dueAt as the date badge (dateBadgeBody) shows it: the
@@ -85,7 +85,7 @@ func (s *Server) cardChecklists(ctx context.Context, cardID string) []cardCheckl
 		c := cardChecklist{ID: docString(cl, "_id"), Title: docString(cl, "title"), Due: dueDateOf(cl["dueAt"])}
 		hideChecked, _ := cl["hideCheckedChecklistItems"].(bool)
 		hideAll, _ := cl["hideAllChecklistItems"].(bool)
-		c.ItemsFiltered = hideChecked || hideAll
+		c.HideChecked, c.HideAll = hideChecked, hideAll
 		ic, err := s.db.Collection("checklistItems").Find(ctx, bson.M{"checklistId": eq(c.ID), "cardId": eq(cardID)}, options.Find().SetSort(bson.D{{Key: "sort", Value: 1}}))
 		if err == nil {
 			var items []bson.M

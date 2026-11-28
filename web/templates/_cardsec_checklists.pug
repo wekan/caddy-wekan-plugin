@@ -31,6 +31,9 @@ if or .Checklists .CanModifyCard
               h4.title
                 | {{viewer .Title $.TextPolicy}}
           if $.CanModifyCard
+            form.js-checklist-visibility(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/visibility", up-submit, up-target=".board-wrapper")
+              button(type="submit", name="hideCheckedChecklistItems", value="{{not .HideChecked}}", aria-pressed="{{.HideChecked}}") {{t $.L "hideCheckedChecklistItems"}}
+              button(type="submit", name="hideAllChecklistItems", value="{{not .HideAll}}", aria-pressed="{{.HideAll}}") {{t $.L "hideAllChecklistItems"}}
             form.js-edit-checklist-title.js-inlined-form.is-hidden(method="post", action="/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/title", up-submit, up-target=".board-wrapper")
               //- Its fields are on the page only while it is open (WeKan's inlinedForm).
               template.js-inlined-form-body
@@ -50,7 +53,7 @@ if or .Checklists .CanModifyCard
               .checklist-progress-text {{.Percent}}%
               .checklist-progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="{{.Percent}}", aria-label="{{.Title}}")
                 .checklist-progress(style="width:{{.Percent}}%")
-          .checklist-items.js-checklist-items(data-sort-url="{{if and $.CanModifyCard (not .ItemsFiltered)}}/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items/sort{{end}}", data-handles="{{if $.DesktopDragHandles}}true{{end}}", data-drag="{{if $.ItemDragOff}}off{{end}}")
+          .checklist-items.js-checklist-items(data-sort-url="{{if and $.CanModifyCard (not .HideChecked) (not .HideAll)}}/b/{{$.Board.ID}}/cards/{{$.Card.ID}}/checklists/{{.ID}}/items/sort{{end}}", data-handles="{{if $.DesktopDragHandles}}true{{end}}", data-drag="{{if $.ItemDragOff}}off{{end}}")
             each it in .Items
               .js-checklist-item.checklist-item(data-item="{{.ID}}", class="{{if .Finished}}is-checked{{end}}", role="checkbox", aria-checked="{{if .Finished}}true{{else}}false{{end}}", aria-readonly="{{if $.CanCheckItems}}false{{else}}true{{end}}", tabindex="{{if $.CanCheckItems}}0{{else}}-1{{end}}")
                 if $.CanEdit

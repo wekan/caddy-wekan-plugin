@@ -26,6 +26,7 @@ func (s *Server) registerChecklistWrites(m *http.ServeMux) {
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items", s.page(s.addChecklistItemPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/toggle", s.page(s.toggleChecklistItemPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/delete", s.page(s.deleteChecklistPage))
+	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/visibility", s.page(s.checklistVisibilityPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/title", s.page(s.renameChecklistPage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/title", s.page(s.checklistItemTitlePage))
 	m.HandleFunc("POST /b/{board}/cards/{card}/checklists/{checklist}/items/{item}/delete", s.page(s.deleteChecklistItemPage))
@@ -233,6 +234,37 @@ func (s *Server) renameChecklistPage(w http.ResponseWriter, r *http.Request, u *
 	}
 	if _, err := s.entityUpdateOne(r.Context(), u.ID, "checklist", bson.M{"_id": eq(docString(cl, "_id")), "cardId": eq(c.ID)},
 		bson.M{"$set": bson.M{"title": title, "modifiedAt": time.Now().UTC()}}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	s.backToCard(w, r, b, c)
+}
+
+func (s *Server) checklistVisibilityPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, c, cl, ok := s.checklistTarget(w, r, u, true)
+	if !ok {
+		return
+	}
+	if !b.WritableIn(r.Context(), s, u, "write", c) {
+		http.Error(w, "your role on this board cannot change it", http.StatusForbidden)
+		return
+	}
+	set := bson.M{}
+	for _, field := range []string{"hideCheckedChecklistItems", "hideAllChecklistItems"} {
+		switch r.PostFormValue(field) {
+		case "true":
+			set[field] = true
+		case "false":
+			set[field] = false
+		}
+	}
+	if len(set) != 1 {
+		http.Error(w, "invalid checklist visibility", http.StatusBadRequest)
+		return
+	}
+	set["modifiedAt"] = time.Now().UTC()
+	if _, err := s.entityUpdateOne(r.Context(), u.ID, "checklist",
+		bson.M{"_id": eq(docString(cl, "_id")), "cardId": eq(c.ID)}, bson.M{"$set": set}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
