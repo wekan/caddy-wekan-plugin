@@ -710,32 +710,15 @@ func formatAsana(d extBoard) any {
 		Data []asanaTask `json:"data"`
 	}
 	out := asanaDoc{Data: []asanaTask{}}
-	exported := map[string]bool{}
-	for _, item := range d.Items {
-		exported[item.CardID] = true
-	}
-	blockers := map[string][]asanaGID{}
-	addBlocker := func(waiting, blocking string) {
-		edge := asanaGID{GID: blocking}
-		if waiting != blocking && exported[waiting] && exported[blocking] && !slices.Contains(blockers[waiting], edge) {
-			blockers[waiting] = append(blockers[waiting], edge)
-		}
-	}
-	for _, item := range d.Items {
-		for _, dep := range item.Dependencies {
-			switch dep.Type {
-			case "blocks":
-				addBlocker(dep.CardID, item.CardID)
-			case "is-blocked-by":
-				addBlocker(item.CardID, dep.CardID)
-			}
-		}
-	}
+	blockers := externalBlockers(d.Items)
 
 	for _, i := range d.Items {
 		closed := isClosedList(i.ListTitle)
-		a := asanaTask{Dependencies: blockers[i.CardID], GID: i.CardID, Name: i.Title, Notes: i.Description, Completed: closed, DueOn: i.DueAt, StartOn: i.StartAt,
+		a := asanaTask{GID: i.CardID, Name: i.Title, Notes: i.Description, Completed: closed, DueOn: i.DueAt, StartOn: i.StartAt,
 			CreatedAt: i.CreatedAt, Memberships: []asanaSection{{Section: asanaSectionName{Name: i.ListTitle}}}, Tags: []ghLabel{}}
+		for _, id := range blockers[i.CardID] {
+			a.Dependencies = append(a.Dependencies, asanaGID{GID: id})
+		}
 		if i.SpentTime > 0 && i.SpentTime <= 9007199254740991.0/60 {
 			a.TimeMinutes = jsRound(i.SpentTime * 60)
 		}
@@ -776,4 +759,29 @@ func formatAsana(d extBoard) any {
 		out.Data = append(out.Data, a)
 	}
 	return out
+}
+
+func externalBlockers(items []extItem) map[string][]string {
+	exported := map[string]bool{}
+	for _, item := range items {
+		exported[item.CardID] = true
+	}
+	blockers := map[string][]string{}
+	addBlocker := func(waiting, blocking string) {
+		if waiting != blocking && exported[waiting] && exported[blocking] && !slices.Contains(blockers[waiting], blocking) {
+			blockers[waiting] = append(blockers[waiting], blocking)
+		}
+	}
+	for _, item := range items {
+		for _, dep := range item.Dependencies {
+			switch dep.Type {
+			case "blocks":
+				addBlocker(dep.CardID, item.CardID)
+			case "is-blocked-by":
+				addBlocker(item.CardID, dep.CardID)
+			}
+		}
+	}
+
+	return blockers
 }

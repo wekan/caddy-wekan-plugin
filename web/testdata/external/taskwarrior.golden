@@ -17,6 +17,9 @@
       "Bug",
       "x_,_y"
     ],
+    "depends": [
+      "5b1158c8-283f-405d-9b7b-cb825d257e3f"
+    ],
     "annotations": [
       {
         "entry": "20261102T093000Z",
@@ -50,6 +53,9 @@
     "status": "completed",
     "description": "multi line title",
     "due": "20261224T183000Z",
+    "depends": [
+      "5b1158c8-283f-405d-9b7b-cb825d257e3f"
+    ],
     "annotations": [
       {
         "entry": "20261104T000000Z",

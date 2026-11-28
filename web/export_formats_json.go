@@ -103,6 +103,8 @@ type twTask struct {
 	Project          string         `json:"project,omitempty"`
 	Priority         string         `json:"priority,omitempty"`
 	Tags             []string       `json:"tags,omitempty"`
+	Recurrence       string         `json:"recur,omitempty"`
+	Depends          []string       `json:"depends,omitempty"`
 	Annotations      []twAnnotation `json:"annotations,omitempty"`
 	WekanList        string         `json:"wekanlist,omitempty"`
 	WekanDescription string         `json:"wekandescription,omitempty"`
@@ -111,6 +113,7 @@ type twTask struct {
 // formatTaskwarrior is taskwarriorFormat.js: `task import` JSON.
 func formatTaskwarrior(d extBoard) string {
 	tasks := []twTask{}
+	blockers := externalBlockers(d.Items)
 	for _, i := range d.Items {
 		done := isClosedList(i.ListTitle)
 		var priority, project string
@@ -144,6 +147,12 @@ func formatTaskwarrior(d extBoard) string {
 			Project: project, Priority: priority, Tags: tags, WekanList: i.ListTitle, WekanDescription: i.Description}
 		if done {
 			t.End = compactDate(i.EndAt)
+		}
+		if !done {
+			t.Recurrence = i.Recurrence
+		}
+		for _, id := range blockers[i.CardID] {
+			t.Depends = append(t.Depends, taskwarriorUUID(id))
 		}
 		for _, c := range i.Comments {
 			if jsTrim(c.Text) == "" {

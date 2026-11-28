@@ -53,6 +53,12 @@
         {
           "text": "no author"
         }
+      ],
+      "dependencies": [
+        {
+          "ref": "5b1158c8-283f-405d-9b7b-cb825d257e3f",
+          "type": "is-blocked-by"
+        }
       ]
     },
     {
@@ -83,6 +89,12 @@
         {
           "text": "orphan",
           "date": "2026-11-04T00:00:00.000Z"
+        }
+      ],
+      "dependencies": [
+        {
+          "ref": "5b1158c8-283f-405d-9b7b-cb825d257e3f",
+          "type": "is-blocked-by"
         }
       ]
     },
