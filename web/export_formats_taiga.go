@@ -554,7 +554,11 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			s.set("from_task_ref", nil)
 			s.set("ref", jsGet(rest, "ref"))
 			s.set("is_closed", closedStatus[status])
-			s.set("backlog_order", jsGet(rest, "ref"))
+			backlogOrder := jsGet(rest, "ref")
+			if it.BacklogRank != nil {
+				backlogOrder = *it.BacklogRank
+			}
+			s.set("backlog_order", backlogOrder)
 			s.set("sprint_order", jsGet(rest, "ref"))
 			s.set("kanban_order", kanbanOrder[status])
 			s.set("subject", jsGet(rest, "subject"))

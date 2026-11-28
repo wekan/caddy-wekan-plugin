@@ -95,6 +95,7 @@ type extComment struct {
 // includes is here, but custom fields (WeKan lets them out only after its
 // admin-only check) and Scrum fields (Weddy has no sprints yet).
 type extItem struct {
+	BacklogRank   *float64        `json:"-"`
 	Blocked       bool            `json:"-"`
 	BlockedReason string          `json:"-"`
 	Archived      bool            `json:"archived,omitempty"`
@@ -364,7 +365,13 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 			StartAt: isoDate(c["startAt"]), EndAt: isoDate(c["endAt"]), CreatedAt: isoDate(c["createdAt"]),
 			Creator: username[strOf(c["userId"])], RequestedBy: strOf(c["requestedBy"]), ParentCardID: strOf(c["parentId"])}
 		if (format == "gitlab" || format == "taiga") && want.has("scrum") {
-			it.SprintID = strOf(asM(c["scrum"])["sprintId"])
+			scrum := asM(c["scrum"])
+			it.SprintID = strOf(scrum["sprintId"])
+			if format == "taiga" {
+				if rank, ok := toFloat(scrum["backlogRank"]); ok && rank >= 0 && rank <= 1e12 {
+					it.BacklogRank = &rank
+				}
+			}
 			if ids := cardReleaseIds(c["scrum"]); len(ids) > 0 {
 				it.ReleaseID = ids[0]
 			}
