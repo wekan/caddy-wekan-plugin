@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"math"
 	"regexp"
 	"strconv"
@@ -385,11 +386,32 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 		}
 		return taigaUniq(names)
 	}
+	fieldText := func(it extItem, name string) string {
+		switch value := jsGet(it.CustomFields, name).(type) {
+		case string:
+			return value
+		case bool:
+			return strconv.FormatBool(value)
+		case int, int32, int64, float64:
+			return fmt.Sprint(value)
+		}
+		return ""
+	}
+	fieldFlag := func(it extItem, name string) bool {
+		switch strings.ToLower(fieldText(it, name)) {
+		case "true", "yes", "1":
+			return true
+		}
+		return false
+	}
 	attributeDefs := map[string]jsObject{}
 	attributes := func(it extItem, kind string) jsObject {
 		values, defs := jsObject{}, attributeDefs[kind]
 		for _, field := range it.CustomFields {
-			if field.Key == "Blocked" || kind == "story" && field.Key == "Story points" {
+			if field.Key == "Blocked" || kind == "story" && field.Key == "Story points" ||
+				(kind == "epic" || kind == "story") && (field.Key == "Client requirement" || field.Key == "Team requirement") ||
+				kind != "epic" && field.Key == "Due date reason" ||
+				kind == "task" && (field.Key == "Task status" || field.Key == "Iocaine") {
 				continue
 			}
 			fieldType := "text"
@@ -482,8 +504,8 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			e.set("status", jsOr(it.ListTitle, "New"))
 			e.set("epics_order", float64(len(epicsOut)+1))
 			e.set("color", jsOr(taigaHexOf(it.Color), taigaStatusColor))
-			e.set("client_requirement", false)
-			e.set("team_requirement", false)
+			e.set("client_requirement", fieldFlag(it, "Client requirement"))
+			e.set("team_requirement", fieldFlag(it, "Team requirement"))
 			e.set("tags", plainTags(it))
 			related := []any{}
 			for _, child := range all {
@@ -537,8 +559,8 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			s.set("kanban_order", kanbanOrder[status])
 			s.set("subject", jsGet(rest, "subject"))
 			s.set("description", jsGet(rest, "description"))
-			s.set("client_requirement", false)
-			s.set("team_requirement", false)
+			s.set("client_requirement", fieldFlag(it, "Client requirement"))
+			s.set("team_requirement", fieldFlag(it, "Team requirement"))
 			s.set("external_reference", nil)
 			s.set("tribe_gig", nil)
 			s.set("version", 1.0)
@@ -546,7 +568,7 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			s.set("is_blocked", jsGet(rest, "is_blocked"))
 			s.set("tags", plainTags(it))
 			s.set("due_date", taigaDateTimeText(it.DueAt))
-			s.set("due_date_reason", "")
+			s.set("due_date_reason", fieldText(it, "Due date reason"))
 			s.set("attachments", []any{})
 			s.set("history", jsGet(rest, "history"))
 			s.set("custom_attributes_values", jsGet(rest, "custom_attributes_values"))
@@ -594,7 +616,7 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			}
 			o.set("tags", tags)
 			o.set("due_date", taigaDateTimeText(it.DueAt))
-			o.set("due_date_reason", "")
+			o.set("due_date_reason", fieldText(it, "Due date reason"))
 			issuesOut = append(issuesOut, o)
 		}
 	}
@@ -627,6 +649,9 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 		if it.EndAt != "" {
 			status = "Closed"
 		}
+		if custom := fieldText(it, "Task status"); custom != "" {
+			status = custom
+		}
 		f.set("status", status)
 		f.set("user_story", storyRef)
 		milestone := sprintNames[it.SprintID]
@@ -643,14 +668,14 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 		f.set("us_order", order)
 		f.set("taskboard_order", order)
 		f.set("description", jsGet(rest, "description"))
-		f.set("is_iocaine", false)
+		f.set("is_iocaine", fieldFlag(it, "Iocaine"))
 		f.set("external_reference", nil)
 		f.set("version", 1.0)
 		f.set("blocked_note", jsGet(rest, "blocked_note"))
 		f.set("is_blocked", jsGet(rest, "is_blocked"))
 		f.set("tags", plainTags(it))
 		f.set("due_date", taigaDateTimeText(it.DueAt))
-		f.set("due_date_reason", "")
+		f.set("due_date_reason", fieldText(it, "Due date reason"))
 		f.set("attachments", []any{})
 		f.set("history", jsGet(rest, "history"))
 		f.set("watchers", []any{})
