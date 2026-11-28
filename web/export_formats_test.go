@@ -435,6 +435,7 @@ func TestTaigaMilestones(t *testing.T) {
 	board.Sprints = []map[string]any{
 		{"_id": "omit", "name": "Undated"},
 		{"_id": "first", "name": "Sprint", "state": "closed",
+			"provenance":   map[string]any{"system": "taiga", "recordId": "original-sprint"},
 			"plannedStart": time.Date(2024, 2, 15, 0, 0, 0, 0, time.UTC),
 			"plannedEnd":   time.Date(2024, 2, 29, 0, 0, 0, 0, time.UTC)},
 		{"_id": "second", "name": "Sprint", "state": "planned",
@@ -470,7 +471,7 @@ func TestTaigaMilestones(t *testing.T) {
 	if !saved.Backlog || len(saved.Milestones) != 2 {
 		t.Fatalf("expected two milestones and backlog enabled: %+v", saved)
 	}
-	if first := saved.Milestones[0]; first.Name != "Sprint" || !first.Closed || first.Start != "2024-02-15" || first.End != "2024-02-29" {
+	if first := saved.Milestones[0]; first.Name != "Sprint" || first.Slug != "original-sprint" || !first.Closed || first.Start != "2024-02-15" || first.End != "2024-02-29" {
 		t.Fatalf("closed milestone: %+v", first)
 	}
 	if second := saved.Milestones[1]; second.Name != "Sprint (2)" || second.Slug != "sprint-2" || second.Closed {

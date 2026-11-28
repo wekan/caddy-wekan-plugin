@@ -327,10 +327,18 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 		}
 		name := taigaUniqueName(strOf(sprint["name"]), usedSprintNames)
 		sprintNames[strOf(sprint["_id"])] = name
+		provenance := asM(sprint["provenance"])
+		slug := strOf(provenance["recordId"])
+		if strOf(provenance["system"]) != "taiga" || slug == "" || len(slug) > 50 ||
+			taigaSlug(slug, nil) != slug || milestoneSlugs[slug] {
+			slug = taigaSlug(name, milestoneSlugs)
+		} else {
+			milestoneSlugs[slug] = true
+		}
 		milestones = append(milestones, jsObject{
 			{"name", name}, {"owner", nil}, {"created_date", nowText}, {"modified_date", nowText},
 			{"estimated_start", start[:10]}, {"estimated_finish", end[:10]},
-			{"slug", taigaSlug(name, milestoneSlugs)}, {"closed", strOf(sprint["state"]) == "closed"},
+			{"slug", slug}, {"closed", strOf(sprint["state"]) == "closed"},
 			{"disponibility", 0}, {"order", len(milestones) + 1}, {"watchers", []any{}},
 		})
 	}
