@@ -957,21 +957,29 @@ func (s *Server) importScrumTransfer(ctx context.Context, export map[string]any,
 	return err
 }
 
-// taigaSprints creates planning records on the newly imported board.
-func (g *generalImport) taigaSprints(boardID string, doc any) error {
+// importExternalSprints creates planning records on the newly imported board.
+func (g *generalImport) importExternalSprints(boardID string, doc any) error {
 	g.sprints = map[string]string{}
-	sprints, _ := jsGet(doc, "taiga_sprints").([]any)
+	sprints, _ := jsGet(doc, g.source+"_sprints").([]any)
 	for _, sprint := range sprints {
 		name, _ := jsGet(sprint, "name").(string)
-		if name == "" || g.sprints[name] != "" {
+		recordID := strOf(jsGet(sprint, "recordId"))
+		ref := name
+		if g.source == "jira" {
+			ref = recordID
+		}
+		if ref == "" || name == "" || g.sprints[ref] != "" {
 			continue
 		}
 		id := randomID()
 		row := bson.M{"_id": id, "boardId": boardID, "name": name, "state": "planned",
 			"revision": int32(1), "incarnation": randomID(), "createdBy": g.u.ID,
 			"updatedBy": g.u.ID, "createdAt": g.now, "updatedAt": g.now}
-		if recordID, _ := jsGet(sprint, "recordId").(string); recordID != "" {
-			row["provenance"] = bson.M{"system": "taiga", "recordId": recordID}
+		if recordID != "" {
+			row["provenance"] = bson.M{"system": g.source, "recordId": recordID}
+		}
+		if g.source == "jira" {
+			row["goal"] = strOf(jsGet(sprint, "goal"))
 		}
 		for _, key := range []string{"plannedStart", "plannedEnd"} {
 			if at, ok := importedDate(jsGet(sprint, key)); ok {
@@ -981,7 +989,12 @@ func (g *generalImport) taigaSprints(boardID string, doc any) error {
 		if _, err := g.s.db.Collection("scrumSprints").InsertOne(g.ctx, row); err != nil {
 			return err
 		}
-		g.sprints[name] = id
+		g.sprints[ref] = id
+	}
+	if g.source == "jira" && len(g.sprints) > 0 {
+		_, err := g.s.db.Collection("boards").UpdateOne(g.ctx, bson.M{"_id": eq(boardID)},
+			bson.M{"$set": bson.M{"scrum.enabled": true}})
+		return err
 	}
 	return nil
 }

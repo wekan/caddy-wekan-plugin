@@ -239,8 +239,8 @@ func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source str
 			g.order = append(g.order, id)
 		}
 	}
-	if source == "taiga" {
-		if err := g.taigaSprints(b.ID, doc); err != nil {
+	if source == "taiga" || source == "jira" {
+		if err := g.importExternalSprints(b.ID, doc); err != nil {
 			return nil, err
 		}
 	}
@@ -370,6 +370,9 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 		}
 		if g.source == "jira" {
 			scrum := bson.M{}
+			if id := g.sprints[strOf(jsGet(task, "jira_sprint"))]; id != "" {
+				scrum["sprintId"] = id
+			}
 			if issueType, ok := jsGet(task, "jira_issue_type").(string); ok {
 				scrum["issueType"] = issueType
 			}

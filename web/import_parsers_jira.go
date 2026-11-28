@@ -3,6 +3,7 @@ package web
 import (
 	"errors"
 	"math"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -103,6 +104,44 @@ func jiraIssueID(value any) string {
 	return ""
 }
 
+var jiraSprintSeparator = regexp.MustCompile(`,[a-zA-Z]+=`)
+var jiraSprintID = regexp.MustCompile(`^[0-9]+$`)
+
+func jiraSprintRecord(raw any) jsObject {
+	if text, ok := raw.(string); ok {
+		text = strings.TrimSpace(text)
+		start := strings.IndexByte(text, '[')
+		if start < 0 || !strings.HasSuffix(text, "]") {
+			return nil
+		}
+		body := text[start+1 : len(text)-1]
+		legacy := jsObject{}
+		offset := 0
+		for _, match := range jiraSprintSeparator.FindAllStringIndex(body, -1) {
+			if key, value, ok := strings.Cut(body[offset:match[0]], "="); ok {
+				legacy.set(key, value)
+			}
+			offset = match[0] + 1
+		}
+		if key, value, ok := strings.Cut(body[offset:], "="); ok {
+			legacy.set(key, value)
+		}
+		raw = legacy
+	}
+	id := jiraIssueID(jsGet(raw, "id"))
+	name := strings.TrimSpace(strOf(jsGet(raw, "name")))
+	state := strings.ToLower(strOf(jsGet(raw, "state")))
+	if !jiraSprintID.MatchString(id) || name == "" || (state != "future" && state != "active" && state != "closed") {
+		return nil
+	}
+	goal := strOf(jsGet(raw, "goal"))
+	if goal == "<null>" {
+		goal = ""
+	}
+	return jsObject{{"recordId", id}, {"name", jsSlice16(name, 200)}, {"state", state}, {"goal", goal},
+		{"plannedStart", jiraImportDate(jsGet(raw, "startDate"))}, {"plannedEnd", jiraImportDate(jsGet(raw, "endDate"))}}
+}
+
 func parseJira(data any) (jsObject, error) {
 	issues, ok := data.([]any)
 	if !ok {
@@ -113,7 +152,8 @@ func parseJira(data any) (jsObject, error) {
 	}
 	tasks, columns, losses := []any{}, []any{}, []any{}
 	seen := map[string]bool{}
-	releases := []any{}
+	releases, sprints := []any{}, []any{}
+	sprintStates := map[string]string{}
 	seenReleases := map[string]bool{}
 	categories := map[string]string{}
 	byKey, byID := map[string]string{}, map[string]string{}
@@ -123,6 +163,7 @@ func parseJira(data any) (jsObject, error) {
 	}
 	var ranked []rankedIssue
 	rankField := jiraPlanningField(data, "com.pyxis.greenhopper.jira:gh-lexo-rank", "Rank")
+	sprintField := jiraPlanningField(data, "com.pyxis.greenhopper.jira:gh-sprint", "Sprint")
 	epicField := jiraPlanningField(data, "com.pyxis.greenhopper.jira:gh-epic-link", "Epic Link")
 	for index, issue := range issues {
 		if _, ok := issue.(jsObject); !ok {
@@ -202,6 +243,42 @@ func parseJira(data any) (jsObject, error) {
 		requester, defined := jsOrDefined(jsGet(fields, "reporter"), "displayName", "name", "emailAddress")
 		task.setDefined("requested_by", requester, defined)
 		task.set("tags", jsOr(jsGet(fields, "labels"), []any{}))
+		if sprintField != "" {
+			raw := jsGet(fields, sprintField)
+			listed, ok := raw.([]any)
+			if !ok && raw != nil {
+				listed = []any{raw}
+			}
+			selected := ""
+			path := "/issues/" + strconv.Itoa(index) + "/fields/" + sprintField
+			for _, entry := range listed {
+				record := jiraSprintRecord(entry)
+				if record == nil {
+					losses = append(losses, importUnsupportedObj(path, "unrecognized Jira sprint skipped"))
+					continue
+				}
+				id := strOf(jsGet(record, "recordId"))
+				state := strOf(jsGet(record, "state"))
+				if sprintStates[id] == "" {
+					sprintStates[id] = state
+					switch state {
+					case "closed":
+						losses = append(losses, importUnsupportedObj(path, "closed Jira sprint "+id+" skipped because no close snapshot is available"))
+					default:
+						sprints = append(sprints, record)
+						if state == "active" {
+							losses = append(losses, importUnsupportedObj(path, "active Jira sprint "+id+" imported as planned"))
+						}
+					}
+				}
+				if state != "closed" && sprintStates[id] != "closed" {
+					selected = id
+				}
+			}
+			if selected != "" {
+				task.set("jira_sprint", selected)
+			}
+		}
 		versions, _ := jsGet(fields, "fixVersions").([]any)
 		releaseRefs := []string{}
 		cardReleases := map[string]bool{}
@@ -283,6 +360,6 @@ func parseJira(data any) (jsObject, error) {
 	}
 	return jsObject{
 		{"board", jsObject{{"name", jsOr(jsGet(jsGet(data, "board"), "name"), "Imported Jira Board")}}},
-		{"columns", columns}, {"swimlanes", []any{jsObject{{"name", "Default"}}}}, {"tasks", tasks}, {"unsupported", losses}, {"jira_releases", releases},
+		{"columns", columns}, {"swimlanes", []any{jsObject{{"name", "Default"}}}}, {"tasks", tasks}, {"unsupported", losses}, {"jira_releases", releases}, {"jira_sprints", sprints},
 	}, nil
 }

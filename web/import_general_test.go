@@ -249,7 +249,7 @@ func TestImportJira(t *testing.T) {
 	w.seedUser(t, "ann", "pw")
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
-	const payload = `{"board":{"name":"Jira migration"},"names":{"customfield_10020":"Rank"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","customfield_10020":"0|abc:","status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
+	const payload = `{"board":{"name":"Jira migration"},"names":{"customfield_10020":"Rank","customfield_10022":"Sprint"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","customfield_10020":"0|abc:","customfield_10022":{"id":7,"name":"Future sprint","state":"future"},"status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
 	res, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {payload}})
 	if err != nil {
 		t.Fatal(err)
@@ -274,6 +274,14 @@ func TestImportJira(t *testing.T) {
 	}
 	if got, ok := toFloat(asM(card["scrum"])["backlogRank"]); !ok || got != 1 {
 		t.Fatalf("Jira backlog rank: %v", asM(card["scrum"]))
+	}
+
+	var sprint bson.M
+	if err := w.db.Collection("scrumSprints").FindOne(ctx, bson.M{"_id": asM(card["scrum"])["sprintId"], "boardId": board.ID}).Decode(&sprint); err != nil {
+		t.Fatal(err)
+	}
+	if sprint["name"] != "Future sprint" || sprint["state"] != "planned" || asM(sprint["provenance"])["recordId"] != "7" {
+		t.Fatalf("Jira sprint: %v", sprint)
 	}
 
 	first := strOf(asM(card["scrum"])["releaseId"])
@@ -392,5 +400,25 @@ func TestJiraImportRankOrder(t *testing.T) {
 		if actual := jsGet(tasks[i], "jira_backlog_rank"); actual != expected {
 			t.Errorf("issue %d: rank %v, want %v", i, actual, expected)
 		}
+	}
+}
+
+func TestJiraImportLegacySprint(t *testing.T) {
+	input, err := decodeJS([]byte(`{"schema":{"customfield_10022":{"custom":"com.pyxis.greenhopper.jira:gh-sprint"}},
+		"issues":[{"fields":{"customfield_10022":[
+			"Sprint@1[id=8,state=ACTIVE,name=Active, sprint,startDate=2026-10-10]",
+			{"id":9,"name":"Closed","state":"closed"}]}}]}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	doc, err := parseJira(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	sprints, _ := jsGet(doc, "jira_sprints").([]any)
+	losses, _ := jsGet(doc, "unsupported").([]any)
+	if len(sprints) != 1 || jsGet(sprints[0], "name") != "Active, sprint" || len(losses) != 2 ||
+		jsGet(importTasks(doc)[0], "jira_sprint") != "8" {
+		t.Fatalf("Jira sprint import: %v", doc)
 	}
 }
