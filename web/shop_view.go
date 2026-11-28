@@ -21,6 +21,9 @@ type shopProduct struct {
 	Card
 	Price, SKU, URL, Image string
 	SoldOut                bool
+	Stock                  int
+	Minor                  int64
+	Digits                 int
 	listSort               float64
 }
 
@@ -49,10 +52,10 @@ func shopNumber(value any) (float64, bool) {
 	return n, ok && !math.IsNaN(n) && !math.IsInf(n, 0)
 }
 
-func shopPrice(value any, currency string) string {
+func shopMinor(value any, currency string) (int64, int, bool) {
 	price, ok := shopNumber(value)
 	if !ok || price < 0 || price > 1e9 {
-		return ""
+		return 0, 0, false
 	}
 	digits := 2
 	switch currency {
@@ -68,9 +71,13 @@ func shopPrice(value any, currency string) string {
 	factor := math.Pow10(digits)
 	minor := math.Round(price * factor)
 	if minor > 9007199254740991 {
-		return ""
+		return 0, 0, false
 	}
-	amount := strconv.FormatInt(int64(minor), 10)
+	return int64(minor), digits, true
+}
+
+func shopMoney(minor int64, digits int, currency string) string {
+	amount := strconv.FormatInt(minor, 10)
 	if digits > 0 {
 		if padding := digits + 1 - len(amount); padding > 0 {
 			amount = strings.Repeat("0", padding) + amount
@@ -79,6 +86,14 @@ func shopPrice(value any, currency string) string {
 		amount = amount[:at] + "." + amount[at:]
 	}
 	return amount + " " + currency
+}
+
+func shopPrice(value any, currency string) string {
+	minor, digits, ok := shopMinor(value, currency)
+	if !ok {
+		return ""
+	}
+	return shopMoney(minor, digits, currency)
 }
 
 func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *User, lanes []lane) {
@@ -145,8 +160,8 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 						fields[id] = field["value"]
 					}
 				}
-				price := shopPrice(fields[priceID], currency)
-				if price == "" {
+				minor, digits, ok := shopMinor(fields[priceID], currency)
+				if !ok {
 					continue
 				}
 				stock, tracked := shopNumber(fields[stockID])
@@ -154,13 +169,27 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 				if n, ok := toFloat(fields[skuID]); ok {
 					sku = strconv.FormatFloat(n, 'f', -1, 64)
 				}
-				products = append(products, shopProduct{Card: card, Price: price, SKU: sku,
-					SoldOut: tracked && stock < 1, listSort: list.Sort})
+				available := 999
+				if tracked {
+					available = int(max(0, min(999, math.Floor(stock))))
+				}
+				products = append(products, shopProduct{Card: card, Price: shopMoney(minor, digits, currency), SKU: sku,
+					Minor: minor, Digits: digits, Stock: available, SoldOut: available == 0, listSort: list.Sort})
 				for _, id := range card.LabelIDs {
 					usedLabels[id] = true
 				}
 			}
 		}
+	}
+	data["CartURL"] = shopCartLocation(b)
+	data["CartAction"] = "/b/" + b.ID + "/" + b.Slug + "/shop/cart"
+	if r.URL.Query().Get("cart") == "1" {
+		w.Header().Set("Cache-Control", "private, no-store")
+		data["Cart"], data["CartLines"], data["CartTotal"] = true, nil, ""
+		lines, total := shopCartQuote(products, readShopCart(r, b.ID), currency)
+		data["CartLines"], data["CartTotal"] = lines, total
+		s.render(w, r, "shop", http.StatusOK, data)
+		return
 	}
 	sort.SliceStable(products, func(i, j int) bool {
 		a, b := products[i], products[j]

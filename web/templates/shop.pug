@@ -18,7 +18,33 @@
             a(href="{{.Home}}") {{t $.L "shop-all-categories"}}
             each category in .Categories
               a(href="{{.URL}}") {{.Name}}
-        if .Product
+        p
+          a(href="{{.CartURL}}") {{t $.L "shop-cart"}}
+        if .Cart
+          if .CartLines
+            ul
+              each line in .CartLines
+                li
+                  if .Unavailable
+                    p {{t $.L "shop-sold-out"}}
+                  if .Title
+                    strong {{.Title}}
+                    p {{.Unit}} {{.Total}}
+                  form(method="post", action="{{$.CartAction}}")
+                    input(type="hidden", name="product", value="{{.ID}}")
+                    label
+                      | {{t $.L "shop-quantity"}}
+                      input(type="number", name="quantity", min="0", max="999", value="{{.Quantity}}", required)
+                    button(type="submit") {{t $.L "save"}}
+                  form(method="post", action="{{$.CartAction}}")
+                    input(type="hidden", name="product", value="{{.ID}}")
+                    input(type="hidden", name="quantity", value="0")
+                    button(type="submit") {{t $.L "delete"}}
+            p.shop-price {{.CartTotal}}
+          else
+            p {{t $.L "shop-cart-empty"}}
+          a(href="{{.Home}}") {{t $.L "shop-continue"}}
+        else if .Product
           article.shop-product
             h2 {{.Product.Title}}
             if .Product.Image
@@ -28,6 +54,14 @@
               p {{.Product.SKU}}
             if .Product.SoldOut
               p {{t $.L "shop-sold-out"}}
+            else
+              form(method="post", action="{{$.CartAction}}")
+                input(type="hidden", name="product", value="{{.Product.ID}}")
+                input(type="hidden", name="add", value="1")
+                label
+                  | {{t $.L "shop-quantity"}}
+                  input(type="number", name="quantity", min="1", max="{{.Product.Stock}}", value="1", required)
+                button(type="submit") {{t $.L "shop-add-to-cart"}}
             .viewer {{.Description}}
         else if .Products
           .shop-products

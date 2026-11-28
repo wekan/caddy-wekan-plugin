@@ -68,6 +68,36 @@ func TestShopBoardView(t *testing.T) {
 		strings.Contains(page, "private-sku-fixture") || !strings.Contains(page, tr("en", "shop-sold-out")) {
 		t.Fatalf("shop product: %d %s", res.StatusCode, page)
 	}
+	update("cards", b.Card, bson.M{"customFields": bson.A{
+		bson.M{"_id": priceID, "value": "12,50"}, bson.M{"_id": stockID, "value": 3},
+	}})
+	cartAction := url + "/shop/cart"
+	cartForm := map[string][]string{"product": {b.Card}, "quantity": {"2"}, "add": {"1"}}
+	res, _ = post(t, guest, cartAction, cartForm)
+	if res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("cart update: %d", res.StatusCode)
+	}
+	res, page = get(t, guest, url+"?view=shop&cart=1")
+	if res.StatusCode != http.StatusOK || !strings.Contains(page, "25.00 EUR") ||
+		!strings.Contains(page, "Listed product") || res.Header.Get("Cache-Control") != "private, no-store" {
+		t.Fatalf("cart from shop product: %d %s", res.StatusCode, page)
+	}
+	update("cards", b.Card, bson.M{"customFields": bson.A{
+		bson.M{"_id": priceID, "value": "13"}, bson.M{"_id": stockID, "value": 3},
+	}})
+	res, page = get(t, guest, url+"?view=shop&cart=1")
+	if res.StatusCode != http.StatusOK || !strings.Contains(page, "26.00 EUR") || strings.Contains(page, "25.00 EUR") {
+		t.Fatalf("cart did not use current product price: %d", res.StatusCode)
+	}
+	res, _ = post(t, guest, cartAction, map[string][]string{"product": {b.Card}, "quantity": {"0"}})
+	if res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("cart remove: %d", res.StatusCode)
+	}
+	res, page = get(t, guest, url+"?view=shop&cart=1")
+	if res.StatusCode != http.StatusOK || !strings.Contains(page, tr("en", "shop-cart-empty")) {
+		t.Fatalf("cart item removed: %d", res.StatusCode)
+	}
+
 	update("customFields", priceID, bson.M{"adminOnly": true})
 	res, page = get(t, guest, url)
 	if res.StatusCode != http.StatusOK || strings.Contains(page, "12.50 EUR") || strings.Contains(page, "Listed product") {

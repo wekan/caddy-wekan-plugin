@@ -335,6 +335,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}", s.publicBoardRead(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/{card}", s.publicBoardRead(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/rules", s.page(s.rulesPage))
+	m.HandleFunc("POST /b/{board}/{slug}/shop/cart", s.updateShopCart)
 	m.HandleFunc("GET /b/{board}/{slug}/shop/settings", s.page(s.shopSettingsPage))
 	m.HandleFunc("POST /b/{board}/{slug}/shop/settings", s.page(s.shopSettingsPage))
 	m.HandleFunc("GET /b/{board}/{slug}/scrum", s.page(s.scrumPage))
