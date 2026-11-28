@@ -1268,6 +1268,20 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var t = document.querySelector('.js-pop-over .js-new-board-title');
     if (t) t.focus();
   });
+  up.on('change', '.js-csv-mapping #csv-map-list', function (event, select) {
+    var listName = select.form.querySelector('.csv-mapping-list-name');
+    listName.classList.toggle('js-csv-mapping-list-missing', select.value === '');
+    listName.hidden = select.value !== '';
+  });
+  up.on('submit', '.js-csv-mapping', function (event, form) {
+    var warning = form.querySelector('.js-csv-mapping-error');
+    var listName = form.querySelector('.js-csv-map-list-name');
+    var detail = form.querySelector('#csv-map-title').value === '' ? warning.dataset.titleRequired :
+      form.querySelector('#csv-map-list').value === '' && !listName.value.trim() ? warning.dataset.listRequired : '';
+    warning.textContent = detail;
+    warning.hidden = !detail;
+    if (detail) event.preventDefault();
+  });
   // WeKan's Popup.open(name) and Popup.close(), for what opens a pop-over by
   // its WeKan name: the Weddy pop-over whose template has that data-popup.
   if (!window.Popup) {

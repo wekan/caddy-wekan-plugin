@@ -76,6 +76,7 @@
                 label.flex
                   input.js-csv-map-custom-column(type="checkbox", name="custom", value="{{.Index}}")
                   span {{.Text}}
+      p.warning.js-csv-mapping-error(role="alert", hidden, data-title-required="{{t $.L `csv-mapping-title-required`}}", data-list-required="{{t $.L `csv-mapping-list-required`}}")
       button.primary.wide.js-csv-mapping-import(type="submit") {{t $.L "import"}}
   else
     form(method="post", action="/import/{{.Source}}", enctype="multipart/form-data")
@@ -129,4 +130,4 @@
         input.primary.wide(type="submit", value="{{t $.L `import`}}")
         button.primary.wide.js-import-without-mapping(type="submit", name="skipMapping", value="1") {{t $.L "import-without-mapping-members"}}
       else
-        input.primary.wide(type="submit", value="{{t $.L `import`}}")
+        input.primary.wide(type="submit", class="{{if eq .Source `csv`}}js-import-without-mapping{{end}}", value="{{t $.L `import`}}")
