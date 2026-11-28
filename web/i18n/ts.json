@@ -168,6 +168,8 @@
   "billing-address": "Adirese",
   "billing-amount": "Ntsengo",
   "billing-currency": "Muxaka wa mali",
+  "billing-field-details": "Swiletelo",
+  "billing-method-bank-transfer": "Ku rhumela hi bangi",
   "billing-method-link": "Xihlanganisi xa ntsengo (khadi, sakwana, ntsengo wa inthanete)",
   "billing-phone": "Riqingho",
   "billing-reference": "Xikombo",

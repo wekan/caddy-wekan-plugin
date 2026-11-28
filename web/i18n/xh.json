@@ -168,6 +168,8 @@
   "billing-address": "Idilesi",
   "billing-amount": "Isixa",
   "billing-currency": "Uhlobo lwemali",
+  "billing-field-details": "Imiyalelo",
+  "billing-method-bank-transfer": "Ukudlulisela ebhankini",
   "billing-method-link": "Ikhonkco lokuhlawula (ikhadi, isipaji sedijithali, ukuhlawula kwi-intanethi)",
   "billing-phone": "Umnxeba",
   "billing-reference": "Isalathiso",

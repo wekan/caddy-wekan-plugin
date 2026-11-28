@@ -168,6 +168,8 @@
   "billing-address": "Najugaq",
   "billing-amount": "Aningaasat",
   "billing-currency": "Aningaasat suussusaat",
+  "billing-field-details": "Ilitsersuutit",
+  "billing-method-bank-transfer": "Aningaaserivikkut nuussineq",
   "billing-method-link": "Akiliinissamut link (kort, aningaasivik, internetikkut akiliineq)",
   "billing-phone": "Oqarasuaat",
   "billing-reference": "Innersuussut",

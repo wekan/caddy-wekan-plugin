@@ -168,6 +168,8 @@
   "billing-address": "Heimilisfang",
   "billing-amount": "Upphæð",
   "billing-currency": "Gjaldmiðill",
+  "billing-field-details": "Leiðbeiningar",
+  "billing-method-bank-transfer": "Millifærsla",
   "billing-method-link": "Greiðslutengill (kort, veski, netgreiðsla)",
   "billing-phone": "Sími",
   "billing-reference": "Tilvísun",

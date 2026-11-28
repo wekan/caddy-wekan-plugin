@@ -168,6 +168,8 @@
   "billing-address": "വിലാസം",
   "billing-amount": "തുക",
   "billing-currency": "കറൻസി",
+  "billing-field-details": "നിർദ്ദേശങ്ങൾ",
+  "billing-method-bank-transfer": "ബാങ്ക് ട്രാൻസ്ഫർ",
   "billing-method-link": "പേയ്മെന്റ് ലിങ്ക് (കാർഡ്, വാലറ്റ്, ഓൺലൈൻ പേയ്മെന്റ്)",
   "billing-phone": "ഫോൺ",
   "billing-reference": "റഫറൻസ്",

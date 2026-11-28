@@ -168,6 +168,8 @@
   "billing-address": "Helbidea",
   "billing-amount": "Zenbatekoa",
   "billing-currency": "Moneta",
+  "billing-field-details": "Jarraibideak",
+  "billing-method-bank-transfer": "Banku-transferentzia",
   "billing-method-link": "Ordainketa-esteka (txartela, zorroa, lineako ordainketa)",
   "billing-phone": "Telefonoa",
   "billing-reference": "Erreferentzia",

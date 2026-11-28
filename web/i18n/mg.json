@@ -168,6 +168,8 @@
   "billing-address": "Adiresy",
   "billing-amount": "Vola",
   "billing-currency": "Vola ampiasaina",
+  "billing-field-details": "Toromarika",
+  "billing-method-bank-transfer": "Famindrana amin'ny banky",
   "billing-method-link": "Rohy fandoavana (karatra, kitapom-bola, fandoavana an-tserasera)",
   "billing-phone": "Telefaona",
   "billing-reference": "Fanondroana",

@@ -168,6 +168,8 @@
   "billing-address": "Direición",
   "billing-amount": "Importe",
   "billing-currency": "Moneda",
+  "billing-field-details": "Instrucciones",
+  "billing-method-bank-transfer": "Tresferencia bancaria",
   "billing-method-link": "Enllaz de pagu (tarxeta, cartera, pagu en llinia)",
   "billing-phone": "Teléfonu",
   "billing-reference": "Referencia",

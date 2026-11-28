@@ -168,6 +168,8 @@
   "billing-address": "Adreesị",
   "billing-amount": "Ego",
   "billing-currency": "Ego mba",
+  "billing-field-details": "Ntuziaka",
+  "billing-method-bank-transfer": "Mbufe ego n'ụlọ akụ",
   "billing-method-link": "Njikọ ịkwụ ụgwọ (kaadị, obere akpa ego, ịkwụ ụgwọ n'ịntanetị)",
   "billing-phone": "Ekwentị",
   "billing-reference": "Ntụaka",

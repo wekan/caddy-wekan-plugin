@@ -168,6 +168,8 @@
   "billing-address": "地址",
   "billing-amount": "金额",
   "billing-currency": "货币",
+  "billing-field-details": "说明",
+  "billing-method-bank-transfer": "银行转账",
   "billing-method-link": "付款链接（银行卡、钱包、在线支付）",
   "billing-phone": "电话",
   "billing-reference": "参考号",

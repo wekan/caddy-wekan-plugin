@@ -168,6 +168,8 @@
   "billing-address": "Adress",
   "billing-amount": "Betrag",
   "billing-currency": "Wärung",
+  "billing-field-details": "Instruktiounen",
+  "billing-method-bank-transfer": "Iwwerweisung",
   "billing-method-link": "Bezuellink (Kaart, Wallet, Online-Bezuelung)",
   "billing-phone": "Telefon",
   "billing-reference": "Referenz",

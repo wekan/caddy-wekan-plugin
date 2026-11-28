@@ -168,6 +168,8 @@
   "billing-address": "Adressa",
   "billing-amount": "Import",
   "billing-currency": "Valuta",
+  "billing-field-details": "Instrucziuns",
+  "billing-method-bank-transfer": "Transfer bancar",
   "billing-method-link": "Link da pajament (carta, portafegl, pajament online)",
   "billing-phone": "Telefon",
   "billing-reference": "Referenza",

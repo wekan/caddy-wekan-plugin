@@ -168,6 +168,8 @@
   "billing-address": "Adresas",
   "billing-amount": "Suma",
   "billing-currency": "Valiuta",
+  "billing-field-details": "Nurodymai",
+  "billing-method-bank-transfer": "Banko pavedimas",
   "billing-method-link": "Mokėjimo nuoroda (kortelė, piniginė, mokėjimas internetu)",
   "billing-phone": "Telefonas",
   "billing-reference": "Nuoroda",

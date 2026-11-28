@@ -168,6 +168,8 @@
   "billing-address": "Manzil",
   "billing-amount": "Summa",
   "billing-currency": "Valyuta",
+  "billing-field-details": "Koʻrsatmalar",
+  "billing-method-bank-transfer": "Bank oʻtkazmasi",
   "billing-method-link": "Toʻlov havolasi (karta, hamyon, onlayn toʻlov)",
   "billing-phone": "Telefon",
   "billing-reference": "Maʼlumotnoma raqami",

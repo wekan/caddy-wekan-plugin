@@ -168,6 +168,8 @@
   "billing-address": "Адреса",
   "billing-amount": "Износ",
   "billing-currency": "Валута",
+  "billing-field-details": "Упутства",
+  "billing-method-bank-transfer": "Банковни пренос",
   "billing-method-link": "Веза за плаћање (картица, новчаник, плаћање на мрежи)",
   "billing-phone": "Телефон",
   "billing-reference": "Позив на број",

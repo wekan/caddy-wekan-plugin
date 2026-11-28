@@ -168,6 +168,8 @@
   "billing-address": "Ñiiɓirde",
   "billing-amount": "Limoore kaalis",
   "billing-currency": "Kaalis",
+  "billing-field-details": "Kuulal",
+  "billing-method-bank-transfer": "Yolnde banke",
   "billing-method-link": "Jokkol yoɓgol (kartal, boto, yoɓgol e lasli)",
   "billing-phone": "Telefoon",
   "billing-reference": "Tontorde",

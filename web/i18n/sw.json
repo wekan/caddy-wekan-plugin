@@ -168,6 +168,8 @@
   "billing-address": "Anwani",
   "billing-amount": "Kiasi",
   "billing-currency": "Sarafu",
+  "billing-field-details": "Maelekezo",
+  "billing-method-bank-transfer": "Uhamisho wa benki",
   "billing-method-link": "Kiungo cha malipo (kadi, pochi, malipo mtandaoni)",
   "billing-phone": "Simu",
   "billing-reference": "Marejeleo",

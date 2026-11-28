@@ -168,6 +168,8 @@
   "billing-address": "Adrees",
   "billing-amount": "Limu xaalis",
   "billing-currency": "Xeetu xaalis",
+  "billing-field-details": "Ndigal yi",
+  "billing-method-bank-transfer": "Yónnee ci bànk",
   "billing-method-link": "Lëkkalekaay fey (kart, bóorse, fey ci internet)",
   "billing-phone": "Telefon",
   "billing-reference": "Màndarga",

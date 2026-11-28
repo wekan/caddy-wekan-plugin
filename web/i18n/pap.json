@@ -168,6 +168,8 @@
   "billing-address": "Adrès",
   "billing-amount": "Suma",
   "billing-currency": "Moneda",
+  "billing-field-details": "Instrukshon",
+  "billing-method-bank-transfer": "Transferensia bankario",
   "billing-method-link": "Link di pago (karchi, portamoneda, pago online)",
   "billing-phone": "Telefòn",
   "billing-reference": "Referensia",

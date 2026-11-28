@@ -168,6 +168,8 @@
   "billing-address": "ଠିକଣା",
   "billing-amount": "ରାଶି",
   "billing-currency": "ମୁଦ୍ରା",
+  "billing-field-details": "ନିର୍ଦ୍ଦେଶାବଳୀ",
+  "billing-method-bank-transfer": "ବ୍ୟାଙ୍କ ସ୍ଥାନାନ୍ତର",
   "billing-method-link": "ଦେୟ ଲିଙ୍କ (କାର୍ଡ, ୱାଲେଟ, ଅନଲାଇନ ଦେୟ)",
   "billing-phone": "ଫୋନ",
   "billing-reference": "ସନ୍ଦର୍ଭ",

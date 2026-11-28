@@ -168,6 +168,8 @@
   "billing-address": "Adresse",
   "billing-amount": "Montant",
   "billing-currency": "Devise",
+  "billing-field-details": "Consignes",
+  "billing-method-bank-transfer": "Virement bancaire",
   "billing-method-link": "Lien de paiement (carte, portefeuille, paiement en ligne)",
   "billing-phone": "Téléphone",
   "billing-reference": "Référence",

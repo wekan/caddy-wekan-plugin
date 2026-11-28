@@ -168,6 +168,8 @@
   "billing-address": "Seòladh",
   "billing-amount": "Suim",
   "billing-currency": "Airgeadra",
+  "billing-field-details": "Stiùireadh",
+  "billing-method-bank-transfer": "Gluasad banca",
   "billing-method-link": "Ceangal pàighidh (cairt, sporan, pàigheadh air loidhne)",
   "billing-phone": "Fòn",
   "billing-reference": "Iomradh",

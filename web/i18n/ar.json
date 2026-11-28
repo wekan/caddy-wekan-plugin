@@ -168,6 +168,8 @@
   "billing-address": "العنوان",
   "billing-amount": "المبلغ",
   "billing-currency": "العملة",
+  "billing-field-details": "التعليمات",
+  "billing-method-bank-transfer": "تحويل بنكي",
   "billing-method-link": "رابط دفع (بطاقة، محفظة، دفع عبر الإنترنت)",
   "billing-phone": "الهاتف",
   "billing-reference": "المرجع",

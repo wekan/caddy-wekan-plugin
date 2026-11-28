@@ -168,6 +168,8 @@
   "billing-address": "Endereço",
   "billing-amount": "Valor",
   "billing-currency": "Moeda",
+  "billing-field-details": "Instruções",
+  "billing-method-bank-transfer": "Transferência bancária",
   "billing-method-link": "Link de pagamento (cartão, carteira, pagamento online)",
   "billing-phone": "Telefone",
   "billing-reference": "Referência",

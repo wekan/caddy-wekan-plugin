@@ -168,6 +168,8 @@
   "billing-address": "पत्ता",
   "billing-amount": "रक्कम",
   "billing-currency": "चलन",
+  "billing-field-details": "सूचना",
+  "billing-method-bank-transfer": "बँक हस्तांतरण",
   "billing-method-link": "देयक दुवा (कार्ड, वॉलेट, ऑनलाइन देयक)",
   "billing-phone": "फोन",
   "billing-reference": "संदर्भ",

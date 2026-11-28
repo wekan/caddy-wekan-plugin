@@ -168,6 +168,8 @@
   "billing-address": "Aadress",
   "billing-amount": "Summa",
   "billing-currency": "Valuuta",
+  "billing-field-details": "Juhised",
+  "billing-method-bank-transfer": "Pangaülekanne",
   "billing-method-link": "Maksmise link (kaart, rahakott, veebimakse)",
   "billing-phone": "Telefon",
   "billing-reference": "Viitenumber",

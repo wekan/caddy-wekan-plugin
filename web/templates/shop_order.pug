@@ -7,4 +7,9 @@
     if .Payment
       p
         a(href="{{.Payment}}", rel="noopener noreferrer") {{t $.L "billing-method-link"}}
+    if .BankDetails
+      section
+        h2 {{t $.L "billing-method-bank-transfer"}}
+        p {{.BankName}}
+        pre {{.BankDetails}}
     a(href="{{.Shop}}") {{t $.L "shop-continue"}}

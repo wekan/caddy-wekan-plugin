@@ -168,6 +168,8 @@
   "billing-address": "منزیل",
   "billing-amount": "سوممه",
   "billing-currency": "والیوته",
+  "billing-field-details": "کۉرستمهلر",
+  "billing-method-bank-transfer": "بانک اۉتکزمهسی",
   "billing-method-link": "تۉلاو حوالهسی (کارته، همیان، آنلاین تۉلاو)",
   "billing-phone": "تېلېفون",
   "billing-reference": "معلوماتنامه رقمی",

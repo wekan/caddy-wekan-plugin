@@ -168,6 +168,8 @@
   "billing-address": "Адрес",
   "billing-amount": "Сумма",
   "billing-currency": "Валюта",
+  "billing-field-details": "Күрсәтмәләр",
+  "billing-method-bank-transfer": "Банк күчерүе",
   "billing-method-link": "Түләү сылтамасы (карта, янчык, онлайн түләү)",
   "billing-phone": "Телефон",
   "billing-reference": "Сылтама",

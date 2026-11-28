@@ -168,6 +168,8 @@
   "billing-address": "Utjawi",
   "billing-amount": "Qullqi jakhu",
   "billing-currency": "Qullqi kasta",
+  "billing-field-details": "Yatichawinaka",
+  "billing-method-bank-transfer": "Banco tuqi apayaña",
   "billing-method-link": "Payllañ link (tarjeta, qullqi wayaqa, internet payllawi)",
   "billing-phone": "Telefono",
   "billing-reference": "Uñacht'awi",

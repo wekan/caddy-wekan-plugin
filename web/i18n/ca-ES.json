@@ -168,6 +168,8 @@
   "billing-address": "Adreça",
   "billing-amount": "Import",
   "billing-currency": "Moneda",
+  "billing-field-details": "Instruccions",
+  "billing-method-bank-transfer": "Transferència bancària",
   "billing-method-link": "Enllaç de pagament (targeta, moneder, pagament en línia)",
   "billing-phone": "Telèfon",
   "billing-reference": "Referència",

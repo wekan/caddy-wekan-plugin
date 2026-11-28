@@ -168,6 +168,8 @@
   "billing-address": "Adrès",
   "billing-amount": "Kantite lajan",
   "billing-currency": "Lajan",
+  "billing-field-details": "Enstriksyon",
+  "billing-method-bank-transfer": "Transfè labank",
   "billing-method-link": "Lyen pèman (kat, bous, pèman sou entènèt)",
   "billing-phone": "Telefòn",
   "billing-reference": "Referans",

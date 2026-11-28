@@ -126,7 +126,8 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		http.Error(w, "Could not load private order lists", http.StatusInternalServerError)
 		return
 	}
-	linkIndex, linkMethod := shopLinkMethod(settings)
+	linkIndex, linkMethod := shopMethod(shopPaymentMethods(settings), "link")
+	_, bankMethod := shopMethod(shopPaymentMethods(settings), "bank-transfer")
 	reference := strOf(settings["referenceType"])
 	if reference == "" {
 		reference = "rf"
@@ -241,6 +242,35 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 			}
 			set["shopSettings.paymentMethods"] = methods
 		}
+		if r.PostForm.Has("bankDetails") {
+			name, validName := shopContactField(r.PostForm.Get("bankName"), 200, false)
+			details, validDetails := shopContactField(r.PostForm.Get("bankDetails"), 2000, true)
+			if !validName || !validDetails || (name == "") != (details == "") {
+				http.Error(w, "Invalid Shop bank transfer instructions", http.StatusBadRequest)
+				return
+			}
+			methods, updated := set["shopSettings.paymentMethods"].(bson.A)
+			if !updated {
+				methods = slices.Clone(shopPaymentMethods(settings))
+			}
+			index, _ := shopMethod(methods, "bank-transfer")
+			switch {
+			case details == "" && index >= 0:
+				methods = slices.Delete(methods, index, index+1)
+			case details != "" && index >= 0:
+				entry := asM(methods[index])
+				entry["method"] = bson.M{"type": "bank-transfer", "name": name, "details": details}
+				methods[index] = entry
+			case details != "":
+				if len(methods) >= 20 {
+					http.Error(w, "Too many Shop payment methods", http.StatusBadRequest)
+					return
+				}
+				methods = append(methods, bson.M{"id": randomID(), "enabled": true,
+					"method": bson.M{"type": "bank-transfer", "name": name, "details": details}})
+			}
+			set["shopSettings.paymentMethods"] = methods
+		}
 		if r.PostForm.Has("referenceType") {
 			id := r.PostForm.Get("referenceType")
 			if !valid(references, id) {
@@ -279,7 +309,8 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		"Title": b.Title, "Board": b, "User": u, "Settings": settings, "Currency": currency,
 		"Pickers": pickers, "Lists": listOptions, "Labels": labelOptions, "OrderLists": orderLists,
 		"ConfirmationEmail": settings["confirmationEmail"] != false,
-		"References":        references, "PaymentLink": strOf(linkMethod["url"]),
+		"BankName":          strOf(bankMethod["name"]), "BankDetails": strOf(bankMethod["details"]),
+		"References": references, "PaymentLink": strOf(linkMethod["url"]),
 		"DecrementStock":   settings["decrementStock"] != false,
 		"PricesIncludeVAT": settings["pricesIncludeVat"] != false, "VATPercent": float64(shopVATRate(settings)) / 100,
 		"PublicDefault": st.defaultView("public") == "board-view-shop", "Shop": shopLocation(b, "", ""),

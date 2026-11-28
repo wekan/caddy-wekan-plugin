@@ -168,6 +168,8 @@
   "billing-address": "Adres",
   "billing-amount": "Summ",
   "billing-currency": "Valüt",
+  "billing-field-details": "Ohjandused",
+  "billing-method-bank-transfer": "Bankan siird",
   "billing-method-link": "Maksandan kosketuz (kart, kukaro, maks internetas)",
   "billing-phone": "Telefon",
   "billing-reference": "Ozutez",

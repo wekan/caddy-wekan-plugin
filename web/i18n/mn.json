@@ -168,6 +168,8 @@
   "billing-address": "Хаяг",
   "billing-amount": "Дүн",
   "billing-currency": "Валют",
+  "billing-field-details": "Заавар",
+  "billing-method-bank-transfer": "Банкны шилжүүлэг",
   "billing-method-link": "Төлбөрийн холбоос (карт, хэтэвч, онлайн төлбөр)",
   "billing-phone": "Утас",
   "billing-reference": "Лавлагаа",

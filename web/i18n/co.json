@@ -168,6 +168,8 @@
   "billing-address": "Indirizzu",
   "billing-amount": "Muntante",
   "billing-currency": "Muneta",
+  "billing-field-details": "Istruzzioni",
+  "billing-method-bank-transfer": "Bonificu bancariu",
   "billing-method-link": "Ligame di pagamentu (carta, portafogliu, pagamentu in linea)",
   "billing-phone": "Telefonu",
   "billing-reference": "Riferenza",

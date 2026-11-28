@@ -168,6 +168,8 @@
   "billing-address": "Aterese",
   "billing-amount": "Chelete",
   "billing-currency": "Mofuta wa chelete",
+  "billing-field-details": "Ditaelo",
+  "billing-method-bank-transfer": "Phetisetso ka banka",
   "billing-method-link": "Sehokelo sa tefo (karete, sepache, tefo inthaneteng)",
   "billing-phone": "Mohala",
   "billing-reference": "Tshupiso",

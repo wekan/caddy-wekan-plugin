@@ -168,6 +168,8 @@
   "billing-address": "Ḓiresi",
   "billing-amount": "Tshelede",
   "billing-currency": "Lushaka lwa tshelede",
+  "billing-field-details": "Ndaela",
+  "billing-method-bank-transfer": "U rumela nga bannga",
   "billing-method-link": "Vhukwamani ha mbadelo (khadi, tshikwama, mbadelo ya inthanethe)",
   "billing-phone": "Luṱingo",
   "billing-reference": "Tsumbo",

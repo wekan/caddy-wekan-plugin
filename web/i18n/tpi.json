@@ -168,6 +168,8 @@
   "billing-address": "Adres",
   "billing-amount": "Hamas mani",
   "billing-currency": "Kain mani",
+  "billing-field-details": "Ol tok bilong mekim",
+  "billing-method-bank-transfer": "Salim mani long beng",
   "billing-method-link": "Link bilong pei (kat, wolet, pei long intanet)",
   "billing-phone": "Telefon",
   "billing-reference": "Mak bilong painim",

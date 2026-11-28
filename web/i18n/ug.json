@@ -168,6 +168,8 @@
   "billing-address": "ئادرېس",
   "billing-amount": "سومما",
   "billing-currency": "پۇل بىرلىكى",
+  "billing-field-details": "كۆرسەتمىلەر",
+  "billing-method-bank-transfer": "بانكا ئارقىلىق يۆتكەش",
   "billing-method-link": "پۇل تۆلەش ئۇلانمىسى (كارتا، ھەميان، توردا تۆلەش)",
   "billing-phone": "تېلېفون",
   "billing-reference": "پايدىلىنىش نومۇرى",

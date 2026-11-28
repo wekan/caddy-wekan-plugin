@@ -168,6 +168,8 @@
   "billing-address": "Adres",
   "billing-amount": "Tutar",
   "billing-currency": "Para birimi",
+  "billing-field-details": "Talimatlar",
+  "billing-method-bank-transfer": "Banka havalesi",
   "billing-method-link": "Ödeme bağlantısı (kart, cüzdan, çevrimiçi ödeme)",
   "billing-phone": "Telefon",
   "billing-reference": "Referans",

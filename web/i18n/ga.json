@@ -168,6 +168,8 @@
   "billing-address": "Seoladh",
   "billing-amount": "Méid",
   "billing-currency": "Airgeadra",
+  "billing-field-details": "Treoracha",
+  "billing-method-bank-transfer": "Aistriú bainc",
   "billing-method-link": "Nasc íocaíochta (cárta, sparán, íocaíocht ar líne)",
   "billing-phone": "Fón",
   "billing-reference": "Tagairt",

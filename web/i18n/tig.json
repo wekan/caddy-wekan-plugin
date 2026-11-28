@@ -168,6 +168,8 @@
   "billing-address": "አድራሻ",
   "billing-amount": "ምጠን",
   "billing-currency": "ባጤራ",
+  "billing-field-details": "መምርሕ",
+  "billing-method-bank-transfer": "ሕልፈት ባንክ",
   "billing-method-link": "መላግቦ ክፍሊት (ወረቀት ካርድ፡ ቦርሳ፡ ክፍሊት ብመስመር)",
   "billing-phone": "ተለፎን",
   "billing-reference": "መወከሲ",

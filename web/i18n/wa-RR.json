@@ -168,6 +168,8 @@
   "billing-address": "Adres",
   "billing-amount": "Kantidad",
   "billing-currency": "Kwarta",
+  "billing-field-details": "Mga instruksyon",
+  "billing-method-bank-transfer": "Pagbalhin ha bangko",
   "billing-method-link": "Link han pagbayad (kard, wallet, online nga pagbayad)",
   "billing-phone": "Telepono",
   "billing-reference": "Reperensya",

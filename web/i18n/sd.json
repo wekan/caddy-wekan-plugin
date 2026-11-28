@@ -168,6 +168,8 @@
   "billing-address": "پتو",
   "billing-amount": "رقم",
   "billing-currency": "ڪرنسي",
+  "billing-field-details": "هدايتون",
+  "billing-method-bank-transfer": "بئنڪ منتقلي",
   "billing-method-link": "ادائگي جي لنڪ (ڪارڊ، واليٽ، آن لائن ادائگي)",
   "billing-phone": "فون",
   "billing-reference": "حوالو",

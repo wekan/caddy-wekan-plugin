@@ -168,6 +168,8 @@
   "billing-address": "ලිපිනය",
   "billing-amount": "මුදල",
   "billing-currency": "මුදල් වර්ගය",
+  "billing-field-details": "උපදෙස්",
+  "billing-method-bank-transfer": "බැංකු මාරුව",
   "billing-method-link": "ගෙවීම් සබැඳිය (කාඩ්පත, පසුම්බිය, මාර්ගගත ගෙවීම)",
   "billing-phone": "දුරකථනය",
   "billing-reference": "යොමුව",

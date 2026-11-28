@@ -168,6 +168,8 @@
   "billing-address": "Wahi noho",
   "billing-amount": "Huina kālā",
   "billing-currency": "Kālā",
+  "billing-field-details": "Nā kuhikuhi",
+  "billing-method-bank-transfer": "Hoʻoneʻe panakō",
   "billing-method-link": "Loulou uku (kāleka, ʻeke kālā, uku pūnaewele)",
   "billing-phone": "Kelepona",
   "billing-reference": "Kuhikuhi",

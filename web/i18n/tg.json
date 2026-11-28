@@ -168,6 +168,8 @@
   "billing-address": "Суроға",
   "billing-amount": "Маблағ",
   "billing-currency": "Асъор",
+  "billing-field-details": "Дастурҳо",
+  "billing-method-bank-transfer": "Интиқоли бонкӣ",
   "billing-method-link": "Пайванди пардохт (корт, ҳамён, пардохти онлайн)",
   "billing-phone": "Телефон",
   "billing-reference": "Истинод",

@@ -168,6 +168,8 @@
   "billing-address": "მისამართი",
   "billing-amount": "თანხა",
   "billing-currency": "ვალუტა",
+  "billing-field-details": "ინსტრუქციები",
+  "billing-method-bank-transfer": "საბანკო გადარიცხვა",
   "billing-method-link": "გადახდის ბმული (ბარათი, საფულე, ონლაინ გადახდა)",
   "billing-phone": "ტელეფონი",
   "billing-reference": "მითითება",

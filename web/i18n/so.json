@@ -168,6 +168,8 @@
   "billing-address": "Cinwaan",
   "billing-amount": "Qadarka",
   "billing-currency": "Lacagta",
+  "billing-field-details": "Tilmaamo",
+  "billing-method-bank-transfer": "Wareejin bangi",
   "billing-method-link": "Xiriirka lacag bixinta (kaar, boorso, lacag bixin onlayn)",
   "billing-phone": "Telefoon",
   "billing-reference": "Tixraac",

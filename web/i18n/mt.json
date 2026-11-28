@@ -168,6 +168,8 @@
   "billing-address": "Indirizz",
   "billing-amount": "Ammont",
   "billing-currency": "Munita",
+  "billing-field-details": "Istruzzjonijiet",
+  "billing-method-bank-transfer": "Trasferiment bankarju",
   "billing-method-link": "Link tal-ħlas (karta, kartiera, ħlas online)",
   "billing-phone": "Telefon",
   "billing-reference": "Referenza",

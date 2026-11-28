@@ -168,6 +168,8 @@
   "billing-address": "ناونیشان",
   "billing-amount": "بڕ",
   "billing-currency": "دراو",
+  "billing-field-details": "ڕێنماییەکان",
+  "billing-method-bank-transfer": "گواستنەوەی بانکی",
   "billing-method-link": "بەستەری پارەدان (کارت، جزدان، پارەدانی ئۆنلاین)",
   "billing-phone": "تەلەفۆن",
   "billing-reference": "ئاماژە",

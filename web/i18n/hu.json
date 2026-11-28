@@ -168,6 +168,8 @@
   "billing-address": "Cím",
   "billing-amount": "Összeg",
   "billing-currency": "Pénznem",
+  "billing-field-details": "Útmutatás",
+  "billing-method-bank-transfer": "Banki átutalás",
   "billing-method-link": "Fizetési hivatkozás (kártya, pénztárca, online fizetés)",
   "billing-phone": "Telefon",
   "billing-reference": "Hivatkozás",

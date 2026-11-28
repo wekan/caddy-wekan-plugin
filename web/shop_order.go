@@ -108,11 +108,11 @@ func shopPaymentMethods(settings bson.M) bson.A {
 	return methods
 }
 
-func shopLinkMethod(settings bson.M) (int, bson.M) {
-	for i, raw := range shopPaymentMethods(settings) {
+func shopMethod(methods bson.A, kind string) (int, bson.M) {
+	for i, raw := range methods {
 		entry := asM(raw)
 		method := asM(entry["method"])
-		if method["type"] == "link" && entry["enabled"] != false {
+		if method["type"] == kind && entry["enabled"] != false {
 			return i, method
 		}
 	}
@@ -252,7 +252,9 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		return
 	}
 	amount, currency, _ := strings.Cut(total, " ")
-	_, method := shopLinkMethod(settings)
+	_, method := shopMethod(shopPaymentMethods(settings), "link")
+	_, bank := shopMethod(shopPaymentMethods(settings), "bank-transfer")
+	bankName, bankDetails := strOf(bank["name"]), strOf(bank["details"])
 	payment := shopPaymentURL(strOf(method["url"]), amount, currency, id, reference)
 	if created && settings["confirmationEmail"] != false {
 		shopName := strOf(settings["title"])
@@ -270,6 +272,11 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		if reference != "" {
 			fmt.Fprintln(&receipt, tr(lang, msg("billing-reference")), reference)
 		}
+		if bankDetails != "" {
+			fmt.Fprintln(&receipt, tr(lang, msg("billing-method-bank-transfer")))
+			fmt.Fprintln(&receipt, bankName)
+			fmt.Fprintln(&receipt, bankDetails)
+		}
 		if payment != "" {
 			fmt.Fprintln(&receipt, tr(lang, msg("shop-email-pay")), payment)
 		}
@@ -279,9 +286,10 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	}
 	s.hub.publishFrom(boardID, "board-changed", "")
 	http.SetCookie(w, &http.Cookie{Name: shopCartCookie(shop.ID), Path: "/b/" + shop.ID + "/", MaxAge: -1, HttpOnly: true})
-	if payment != "" || reference != "" {
+	if payment != "" || reference != "" || bankDetails != "" {
 		s.render(w, r, "shop_order", http.StatusCreated, map[string]any{
 			"Title": shop.Title, "User": u, "Total": total, "Payment": payment, "Reference": reference,
+			"BankName": bankName, "BankDetails": bankDetails,
 			"Message": strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id),
 			"Shop":    shopLocation(shop, "", ""),
 		})

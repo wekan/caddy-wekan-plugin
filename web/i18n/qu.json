@@ -168,6 +168,8 @@
   "billing-address": "Tiyana",
   "billing-amount": "Hayk'a",
   "billing-currency": "Qullqi laya",
+  "billing-field-details": "Yachachiykuna",
+  "billing-method-bank-transfer": "Qullqi wasi apachiy",
   "billing-method-link": "Pagana t'inki (tarjeta, qullqi waqaycha, internetpi pagay)",
   "billing-phone": "Telefono",
   "billing-reference": "Rikuchiy",

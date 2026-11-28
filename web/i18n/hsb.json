@@ -168,6 +168,8 @@
   "billing-address": "Adresa",
   "billing-amount": "Suma",
   "billing-currency": "Měna",
+  "billing-field-details": "Pokiwy",
+  "billing-method-bank-transfer": "Bankowe přepokazanje",
   "billing-method-link": "Płaćenski wotkaz (karta, wallet, online-płaćenje)",
   "billing-phone": "Telefon",
   "billing-reference": "Referenca",

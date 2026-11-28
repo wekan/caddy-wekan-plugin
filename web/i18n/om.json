@@ -168,6 +168,8 @@
   "billing-address": "Teessoo",
   "billing-amount": "Hanga maallaqaa",
   "billing-currency": "Sharafa",
+  "billing-field-details": "Qajeelfama",
+  "billing-method-bank-transfer": "Dabarsa baankii",
   "billing-method-link": "Hidhaa kaffaltii (kaardii, korojoo, kaffaltii interneetii)",
   "billing-phone": "Bilbila",
   "billing-reference": "Wabii",

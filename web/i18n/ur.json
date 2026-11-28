@@ -168,6 +168,8 @@
   "billing-address": "پتہ",
   "billing-amount": "رقم",
   "billing-currency": "کرنسی",
+  "billing-field-details": "ہدایات",
+  "billing-method-bank-transfer": "بینک ٹرانسفر",
   "billing-method-link": "ادائیگی کا لنک (کارڈ، والیٹ، آن لائن ادائیگی)",
   "billing-phone": "فون",
   "billing-reference": "حوالہ",

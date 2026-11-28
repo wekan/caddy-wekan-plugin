@@ -168,6 +168,8 @@
   "billing-address": "Adres",
   "billing-amount": "Bedrach",
   "billing-currency": "Faluta",
+  "billing-field-details": "Ynstruksjes",
+  "billing-method-bank-transfer": "Bankoerskriuwing",
   "billing-method-link": "Betelkeppeling (kaart, wallet, online betelling)",
   "billing-phone": "Telefoan",
   "billing-reference": "Referinsje",

@@ -168,6 +168,8 @@
   "billing-address": "អាសយដ្ឋាន",
   "billing-amount": "ចំនួនទឹកប្រាក់",
   "billing-currency": "រូបិយប័ណ្ណ",
+  "billing-field-details": "សេចក្ដីណែនាំ",
+  "billing-method-bank-transfer": "ការផ្ទេរប្រាក់តាមធនាគារ",
   "billing-method-link": "តំណបង់ប្រាក់ (កាត, កាបូប, ការបង់ប្រាក់អនឡាញ)",
   "billing-phone": "ទូរសព្ទ",
   "billing-reference": "ឯកសារយោង",

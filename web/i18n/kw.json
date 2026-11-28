@@ -168,6 +168,8 @@
   "billing-address": "Trigva",
   "billing-amount": "Sommen",
   "billing-currency": "Mona",
+  "billing-field-details": "Gwiryansow",
+  "billing-method-bank-transfer": "Treuslamm arghantti",
   "billing-method-link": "Kevren tyli (kartenn, sagh, tyli warlinen)",
   "billing-phone": "Pellgowser",
   "billing-reference": "Kampoel",

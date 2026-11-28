@@ -168,6 +168,8 @@
   "billing-address": "Ünvan",
   "billing-amount": "Məbləğ",
   "billing-currency": "Valyuta",
+  "billing-field-details": "Təlimatlar",
+  "billing-method-bank-transfer": "Bank köçürməsi",
   "billing-method-link": "Ödəniş linki (kart, pul kisəsi, onlayn ödəniş)",
   "billing-phone": "Telefon",
   "billing-reference": "İstinad",

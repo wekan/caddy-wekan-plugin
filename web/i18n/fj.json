@@ -168,6 +168,8 @@
   "billing-address": "Tikotiko",
   "billing-amount": "Iwiliwili ni ilavo",
   "billing-currency": "Ilavo",
+  "billing-field-details": "Ivakaro",
+  "billing-method-bank-transfer": "Veisau ilavo ena baqe",
   "billing-method-link": "Isema ni saumi (kadi, kato ni ilavo, saumi e na initaneti)",
   "billing-phone": "Talevoni",
   "billing-reference": "Ivakamacala",

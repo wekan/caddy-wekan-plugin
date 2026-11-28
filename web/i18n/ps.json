@@ -168,6 +168,8 @@
   "billing-address": "پته",
   "billing-amount": "مقدار",
   "billing-currency": "اسعار",
+  "billing-field-details": "لارښوونې",
+  "billing-method-bank-transfer": "بانکي لېږد",
   "billing-method-link": "د تادیې لینک (کارت، بټوه، آنلاین تادیه)",
   "billing-phone": "تلیفون",
   "billing-reference": "حواله",

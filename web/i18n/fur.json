@@ -168,6 +168,8 @@
   "billing-address": "Direzion",
   "billing-amount": "Impuart",
   "billing-currency": "Monede",
+  "billing-field-details": "Istruzions",
+  "billing-method-bank-transfer": "Bonific bancjari",
   "billing-method-link": "Leam di paiament (cjarte, portafoi, paiament in linie)",
   "billing-phone": "Telefon",
   "billing-reference": "Riferiment",

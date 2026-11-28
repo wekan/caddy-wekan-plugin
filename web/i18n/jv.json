@@ -168,6 +168,8 @@
   "billing-address": "Alamat",
   "billing-amount": "Jumlah",
   "billing-currency": "Mata uang",
+  "billing-field-details": "Pitunjuk",
+  "billing-method-bank-transfer": "Transfer bank",
   "billing-method-link": "Pranala pambayaran (kertu, dompet, pambayaran daring)",
   "billing-phone": "Telpon",
   "billing-reference": "Referensi",

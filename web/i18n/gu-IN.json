@@ -168,6 +168,8 @@
   "billing-address": "સરનામું",
   "billing-amount": "રકમ",
   "billing-currency": "ચલણ",
+  "billing-field-details": "સૂચનાઓ",
+  "billing-method-bank-transfer": "બેંક ટ્રાન્સફર",
   "billing-method-link": "ચુકવણી લિંક (કાર્ડ, વૉલેટ, ઓનલાઇન ચુકવણી)",
   "billing-phone": "ફોન",
   "billing-reference": "સંદર્ભ",

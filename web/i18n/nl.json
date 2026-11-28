@@ -168,6 +168,8 @@
   "billing-address": "Adres",
   "billing-amount": "Bedrag",
   "billing-currency": "Valuta",
+  "billing-field-details": "Instructies",
+  "billing-method-bank-transfer": "Bankoverschrijving",
   "billing-method-link": "Betaallink (kaart, wallet, online betaling)",
   "billing-phone": "Telefoon",
   "billing-reference": "Referentie",

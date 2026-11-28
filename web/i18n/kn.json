@@ -168,6 +168,8 @@
   "billing-address": "ವಿಳಾಸ",
   "billing-amount": "ಮೊತ್ತ",
   "billing-currency": "ಕರೆನ್ಸಿ",
+  "billing-field-details": "ಸೂಚನೆಗಳು",
+  "billing-method-bank-transfer": "ಬ್ಯಾಂಕ್ ವರ್ಗಾವಣೆ",
   "billing-method-link": "ಪಾವತಿ ಲಿಂಕ್ (ಕಾರ್ಡ್, ವಾಲೆಟ್, ಆನ್‌ಲೈನ್ ಪಾವತಿ)",
   "billing-phone": "ಫೋನ್",
   "billing-reference": "ಉಲ್ಲೇಖ",

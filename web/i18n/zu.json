@@ -168,6 +168,8 @@
   "billing-address": "Ikheli",
   "billing-amount": "Inani lemali",
   "billing-currency": "Uhlobo lwemali",
+  "billing-field-details": "Imiyalelo",
+  "billing-method-bank-transfer": "Ukudlulisela ebhange",
   "billing-method-link": "Isixhumanisi sokukhokha (ikhadi, isikhwama sedijithali, ukukhokha ku-inthanethi)",
   "billing-phone": "Ucingo",
   "billing-reference": "Inkomba",

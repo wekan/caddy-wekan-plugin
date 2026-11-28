@@ -168,6 +168,8 @@
   "billing-address": "Naslov",
   "billing-amount": "Znesek",
   "billing-currency": "Valuta",
+  "billing-field-details": "Navodila",
+  "billing-method-bank-transfer": "Bančno nakazilo",
   "billing-method-link": "Povezava za plačilo (kartica, denarnica, spletno plačilo)",
   "billing-phone": "Telefon",
   "billing-reference": "Sklic",

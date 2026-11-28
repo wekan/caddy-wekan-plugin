@@ -168,6 +168,8 @@
   "billing-address": "Adresa",
   "billing-amount": "Kwòta",
   "billing-currency": "Waluta",
+  "billing-field-details": "Instrukcje",
+  "billing-method-bank-transfer": "Przelew bankòwi",
   "billing-method-link": "Lënk płacënkù (kôrta, pòrtfel, płacënk online)",
   "billing-phone": "Telefón",
   "billing-reference": "Referencjô",

@@ -168,6 +168,8 @@
   "billing-address": "ཁ་བྱང་།",
   "billing-amount": "དངུལ་གྲངས།",
   "billing-currency": "དངུལ་ལོར།",
+  "billing-field-details": "ལམ་སྟོན།",
+  "billing-method-bank-transfer": "དངུལ་ཁང་བརྒྱུད་སྤོ་སྒྱུར།",
   "billing-method-link": "དངུལ་སྤྲོད་འབྲེལ་ཐག (ཁཱ་ཌ། དངུལ་ཁུག དྲ་ཐོག་སྤྲོད།)",
   "billing-phone": "ཁ་པར།",
   "billing-reference": "ལུང་འདྲེན།",

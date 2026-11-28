@@ -168,6 +168,8 @@
   "billing-address": "Адрас",
   "billing-amount": "Сума",
   "billing-currency": "Валюта",
+  "billing-field-details": "Інструкцыі",
+  "billing-method-bank-transfer": "Банкаўскі пераказ",
   "billing-method-link": "Спасылка на аплату (картка, кашалёк, анлайн-аплата)",
   "billing-phone": "Тэлефон",
   "billing-reference": "Спасылка",

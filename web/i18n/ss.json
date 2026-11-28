@@ -168,6 +168,8 @@
   "billing-address": "Likheli",
   "billing-amount": "Imali",
   "billing-currency": "Luhlobo lwemali",
+  "billing-field-details": "Ticondziso",
+  "billing-method-bank-transfer": "Kutfumela ngelibhange",
   "billing-method-link": "Lisebenta lekukhokha (likhadi, sikhwama, kukhokha ku-inthanethi)",
   "billing-phone": "Lucingo",
   "billing-reference": "Inkhomba",

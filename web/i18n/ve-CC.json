@@ -168,6 +168,8 @@
   "billing-address": "Indiriso",
   "billing-amount": "Inporto",
   "billing-currency": "Moneda",
+  "billing-field-details": "Istrusion",
+  "billing-method-bank-transfer": "Bonìfego bancario",
   "billing-method-link": "Link de pagamento (carta, portafòjo, pagamento online)",
   "billing-phone": "Tełèfono",
   "billing-reference": "Riferimento",

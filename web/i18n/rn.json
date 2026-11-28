@@ -168,6 +168,8 @@
   "billing-address": "Aderese",
   "billing-amount": "Amafaranga",
   "billing-currency": "Ifaranga",
+  "billing-field-details": "Amabwirizwa",
+  "billing-method-bank-transfer": "Kurungika biciye kuri banki",
   "billing-method-link": "Umurongo wo kuriha (ikarita, agasaho, kuriha kuri interineti)",
   "billing-phone": "Terefone",
   "billing-reference": "Indango",

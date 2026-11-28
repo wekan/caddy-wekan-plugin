@@ -168,6 +168,8 @@
   "billing-address": "Adreza",
   "billing-amount": "Importe",
   "billing-currency": "Moneda",
+  "billing-field-details": "Instruccions",
+  "billing-method-bank-transfer": "Transferencia bancaria",
   "billing-method-link": "Vinclo de pago (tarcheta, cartera, pago en linia)",
   "billing-phone": "Telefono",
   "billing-reference": "Referencia",

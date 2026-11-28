@@ -168,6 +168,8 @@
   "billing-address": "पता",
   "billing-amount": "राशि",
   "billing-currency": "मुद्रा",
+  "billing-field-details": "निर्देश",
+  "billing-method-bank-transfer": "बैंक अंतरण",
   "billing-method-link": "भुगतान लिंक (कार्ड, वॉलेट, ऑनलाइन भुगतान)",
   "billing-phone": "फ़ोन",
   "billing-reference": "संदर्भ",

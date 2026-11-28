@@ -168,6 +168,8 @@
   "billing-address": "Daq",
   "billing-amount": "Huch mI'",
   "billing-currency": "Huch Segh",
+  "billing-field-details": "ra'mey",
+  "billing-method-bank-transfer": "Huch qach Huch lup",
   "billing-method-link": "DIlmeH rar ('echletHom, Huch buq, Internet DIl)",
   "billing-phone": "ghogh HablI'",
   "billing-reference": "ngoq",

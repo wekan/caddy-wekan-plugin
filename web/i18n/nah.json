@@ -168,6 +168,8 @@
   "billing-address": "Ichan ohtli",
   "billing-amount": "Tomin",
   "billing-currency": "Tomin tlamantli",
+  "billing-field-details": "Tlanahuatiliztli",
+  "billing-method-bank-transfer": "Tomin mopanahuia tomincalpan",
   "billing-method-link": "Tlaxtlahuil-ilpitl (tarjeta, tomintlatlatiloni, tlaxtlahuilli ipan red)",
   "billing-phone": "Teponaztli",
   "billing-reference": "Tlanahuatilli",

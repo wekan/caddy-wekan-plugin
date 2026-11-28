@@ -168,6 +168,8 @@
   "billing-address": "Čujuhus",
   "billing-amount": "Supmi",
   "billing-currency": "Valuhtta",
+  "billing-field-details": "Rávagat",
+  "billing-method-bank-transfer": "Bánkosirdin",
   "billing-method-link": "Máksoliŋka (kortta, lompa, neahttamáksu)",
   "billing-phone": "Telefovdna",
   "billing-reference": "Čujuhus",

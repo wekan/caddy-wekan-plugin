@@ -168,6 +168,8 @@
   "billing-address": "Salgy",
   "billing-amount": "Möçber",
   "billing-currency": "Pul birligi",
+  "billing-field-details": "Görkezmeler",
+  "billing-method-bank-transfer": "Bank geçirimi",
   "billing-method-link": "Töleg baglanyşygy (kart, gapjyk, onlaýn töleg)",
   "billing-phone": "Telefon",
   "billing-reference": "Salgylanma",

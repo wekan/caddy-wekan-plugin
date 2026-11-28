@@ -168,6 +168,8 @@
   "billing-address": "Chomlec'h",
   "billing-amount": "Sammad",
   "billing-currency": "Moneiz",
+  "billing-field-details": "Kemennadurioù",
+  "billing-method-bank-transfer": "Treuzkas bank",
   "billing-method-link": "Liamm paeañ (kartenn, yalc'h, paeañ enlinenn)",
   "billing-phone": "Pellgomz",
   "billing-reference": "Daveenn",

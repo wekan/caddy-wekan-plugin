@@ -168,6 +168,8 @@
   "billing-address": "Adresã",
   "billing-amount": "Sumã",
   "billing-currency": "Pareadz",
+  "billing-field-details": "Instructsiuni",
+  "billing-method-bank-transfer": "Pitricire prit bancã",
   "billing-method-link": "Ligãturã di plãtiri (cartã, portofel, plãtiri online)",
   "billing-phone": "Telefon",
   "billing-reference": "Referintsã",

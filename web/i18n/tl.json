@@ -168,6 +168,8 @@
   "billing-address": "Tirahan",
   "billing-amount": "Halaga",
   "billing-currency": "Salapi",
+  "billing-field-details": "Mga tagubilin",
+  "billing-method-bank-transfer": "Paglilipat sa bangko",
   "billing-method-link": "Link ng pagbabayad (kard, wallet, bayad online)",
   "billing-phone": "Telepono",
   "billing-reference": "Sanggunian",

@@ -168,6 +168,8 @@
   "billing-address": "Kero",
   "billing-amount": "Mari",
   "billing-currency": "Mhando yemari",
+  "billing-field-details": "Mirayiridzo",
+  "billing-method-bank-transfer": "Kutumira kubhangi",
   "billing-method-link": "Chinongedzo chekubhadhara (kadhi, chikwama, kubhadhara paIndaneti)",
   "billing-phone": "Runhare",
   "billing-reference": "Chirevo",

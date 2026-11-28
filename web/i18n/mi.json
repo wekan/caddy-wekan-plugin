@@ -168,6 +168,8 @@
   "billing-address": "Wāhitau",
   "billing-amount": "Moni",
   "billing-currency": "Moni ā-motu",
+  "billing-field-details": "Tohutohu",
+  "billing-method-bank-transfer": "Whakawhiti pēke",
   "billing-method-link": "Hono utu (kāri, pūkoro, utu ā-ipurangi)",
   "billing-phone": "Waea",
   "billing-reference": "Tohutoro",

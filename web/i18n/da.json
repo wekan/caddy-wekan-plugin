@@ -168,6 +168,8 @@
   "billing-address": "Adresse",
   "billing-amount": "Beløb",
   "billing-currency": "Valuta",
+  "billing-field-details": "Instruktioner",
+  "billing-method-bank-transfer": "Bankoverførsel",
   "billing-method-link": "Betalingslink (kort, wallet, onlinebetaling)",
   "billing-phone": "Telefon",
   "billing-reference": "Henvisning",

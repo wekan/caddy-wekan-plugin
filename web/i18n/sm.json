@@ -168,6 +168,8 @@
   "billing-address": "Tuatusi",
   "billing-amount": "Aofaiga",
   "billing-currency": "Tupe",
+  "billing-field-details": "Faatonuga",
+  "billing-method-bank-transfer": "Fesiitaiga a le faletupe",
   "billing-method-link": "Sootaga totogi (kata, atotupe, totogi i luga o le initaneti)",
   "billing-phone": "Telefoni",
   "billing-reference": "Faasino",

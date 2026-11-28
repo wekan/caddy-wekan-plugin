@@ -168,6 +168,8 @@
   "billing-address": "Indiritzu",
   "billing-amount": "Importu",
   "billing-currency": "Muneda",
+  "billing-field-details": "Istrutziones",
+  "billing-method-bank-transfer": "Bonìficu bancàriu",
   "billing-method-link": "Ligàmene de pagamentu (carta, portafògiu, pagamentu in lìnia)",
   "billing-phone": "Telèfonu",
   "billing-reference": "Referèntzia",

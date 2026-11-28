@@ -168,6 +168,8 @@
   "billing-address": "Հասցե",
   "billing-amount": "Գումար",
   "billing-currency": "Արժույթ",
+  "billing-field-details": "Ցուցումներ",
+  "billing-method-bank-transfer": "Բանկային փոխանցում",
   "billing-method-link": "Վճարման հղում (քարտ, դրամապանակ, առցանց վճարում)",
   "billing-phone": "Հեռախոս",
   "billing-reference": "Հղում",

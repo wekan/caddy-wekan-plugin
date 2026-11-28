@@ -168,6 +168,8 @@
   "billing-address": "Adresa",
   "billing-amount": "Iznos",
   "billing-currency": "Valuta",
+  "billing-field-details": "Upute",
+  "billing-method-bank-transfer": "Bankovna doznaka",
   "billing-method-link": "Poveznica za plaćanje (kartica, novčanik, online plaćanje)",
   "billing-phone": "Telefon",
   "billing-reference": "Poziv na broj",

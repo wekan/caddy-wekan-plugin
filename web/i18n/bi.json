@@ -168,6 +168,8 @@
   "billing-address": "Adres",
   "billing-amount": "Hamas mane",
   "billing-currency": "Kaen mane",
+  "billing-field-details": "Ol instraksen",
+  "billing-method-bank-transfer": "Bank transfa",
   "billing-method-link": "Link blong pem (kad, walet, pem long intanet)",
   "billing-phone": "Fon",
   "billing-reference": "Referens",

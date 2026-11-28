@@ -168,6 +168,8 @@
   "billing-address": "Alamat",
   "billing-amount": "Jumlah wang",
   "billing-currency": "Mata wang",
+  "billing-field-details": "Arahan",
+  "billing-method-bank-transfer": "Pindahan bank",
   "billing-method-link": "Pautan pembayaran (kad, dompet, pembayaran dalam talian)",
   "billing-phone": "Telefon",
   "billing-reference": "Rujukan",

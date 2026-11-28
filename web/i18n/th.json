@@ -168,6 +168,8 @@
   "billing-address": "ที่อยู่",
   "billing-amount": "จำนวนเงิน",
   "billing-currency": "สกุลเงิน",
+  "billing-field-details": "คำแนะนำ",
+  "billing-method-bank-transfer": "โอนเงินผ่านธนาคาร",
   "billing-method-link": "ลิงก์ชำระเงิน (บัตร, วอลเล็ต, ชำระออนไลน์)",
   "billing-phone": "โทรศัพท์",
   "billing-reference": "เลขอ้างอิง",

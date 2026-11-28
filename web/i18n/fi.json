@@ -168,6 +168,8 @@
   "billing-address": "Osoite",
   "billing-amount": "Summa",
   "billing-currency": "Valuutta",
+  "billing-field-details": "Ohjeet",
+  "billing-method-bank-transfer": "Tilisiirto",
   "billing-method-link": "Maksulinkki (kortti, lompakko, verkkomaksu)",
   "billing-phone": "Puhelin",
   "billing-reference": "Viite",
