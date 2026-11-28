@@ -26,7 +26,9 @@ func (s *Server) exportAllRoutes(m *http.ServeMux) {
 var massExportFormats = func() map[string]string {
 	m := map[string]string{"wekan": "json", "csv": "csv", "scsv": "csv", "tsv": "tsv"}
 	for f, ext := range externalFormats {
-		m[f] = ext[0]
+		if f != "trellozip" {
+			m[f] = ext[0]
+		}
 	}
 	return m
 }()

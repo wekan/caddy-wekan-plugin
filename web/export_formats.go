@@ -41,6 +41,7 @@ var externalFormats = map[string][2]string{
 	"forgejo":           {"json", "application/json"},
 	"gitlab":            {"json", "application/json"},
 	"trello":            {"json", "application/json"},
+	"trellozip":         {"zip", "application/zip"},
 	"asana":             {"json", "application/json"},
 	"jira":              {"json", "application/json"},
 	"taiga":             {"json", "application/json"},
@@ -218,7 +219,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 	listTitle, laneTitle := map[string]string{}, map[string]string{}
 	for coll, dst := range map[string]*[]extNamed{"lists": &out.Lists, "swimlanes": &out.Swimlanes} {
 		filter := bson.M{"boardId": b.ID, "archived": false}
-		if format == "trello" && coll == "lists" {
+		if (format == "trello" || format == "trellozip") && coll == "lists" {
 			delete(filter, "archived")
 			filter["deletedAt"] = nil
 		}
@@ -253,7 +254,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 	}
 	var cards []bson.M
 	cardFilter := bson.M{"boardId": b.ID, "archived": false}
-	if format == "trello" {
+	if format == "trello" || format == "trellozip" {
 		delete(cardFilter, "archived")
 		cardFilter["deletedAt"] = nil
 	}
@@ -327,7 +328,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		username[strOf(u["_id"])] = strOf(u["username"])
 	}
 	var exportFields *fieldReader
-	if (format == "orgmode" || format == "trello") && want.has("custom-fields") {
+	if (format == "orgmode" || format == "trello" || format == "trellozip") && want.has("custom-fields") {
 		exportFields = s.fieldReaderFor(ctx, b, u)
 	}
 	for _, c := range cards {
@@ -412,7 +413,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		if !want.has("dates") {
 			// Jira's time spent is a date section too (jiraTimeTrackingExport).
 			it.StartAt, it.EndAt, it.CreatedAt, it.ModifiedAt, it.SpentTime, it.DueAt, it.Timetracking = "", "", "", "", 0, "", nil
-			if format == "trello" {
+			if format == "trello" || format == "trellozip" {
 				it.DueComplete = false
 			}
 		}
@@ -784,7 +785,11 @@ func (s *Server) externalExport(ctx context.Context, b *Board, u *User, format s
 
 func (s *Server) exportFormatRoutes(m *http.ServeMux) {
 	for f := range externalFormats {
-		m.HandleFunc("GET /api/boards/{board}/export/"+f, s.exportable(s.apiExportFormat(f)))
+		handler := s.apiExportFormat(f)
+		if f == "trellozip" {
+			handler = s.apiExportTrelloZip
+		}
+		m.HandleFunc("GET /api/boards/{board}/export/"+f, s.exportable(handler))
 	}
 }
 
@@ -805,7 +810,7 @@ var exportTools = func() []exportTool {
 		{"superproductivity", "Super Productivity", "fa-check-circle-o"}, {"vikunja", "Vikunja", "fa-file-archive-o"},
 		{"wrike", "Wrike", "fa-table"}, {"wrikeworkflow", "Wrike workflow", "fa-sitemap"}, {"teamwork", "Teamwork.com", "fa-table"},
 		{"businessmap", "Businessmap (Kanbanize)", "fa-table"}, {"quire", "Quire", "fa-sitemap"}, {"notion", "Notion", "fa-table"},
-		{"trello", "Trello", "fa-upload"}, {"jira", "Jira", "fa-upload"}, {"deck", "NextCloud Deck", "fa-upload"},
+		{"trello", "Trello", "fa-upload"}, {"trellozip", "Trello (.zip)", "fa-upload"}, {"jira", "Jira", "fa-upload"}, {"deck", "NextCloud Deck", "fa-upload"},
 		{"openproject", "OpenProject", "fa-upload"}, {"github", "GitHub", "fa-upload"}, {"gitlab", "GitLab", "fa-upload"},
 		{"gitea", "Gitea", "fa-upload"}, {"forgejo", "Forgejo", "fa-upload"}, {"asana", "Asana", "fa-upload"},
 		{"zenkit", "Zenkit", "fa-upload"}, {"taiga", "Taiga", "fa-upload"}}

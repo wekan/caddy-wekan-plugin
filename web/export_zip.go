@@ -127,3 +127,67 @@ func (s *Server) liveAttachments(r *http.Request, boardID string) []Attachment {
 	}
 	return out
 }
+
+// apiExportTrelloZip writes attachment entries only for cards in the exported
+// document. The document carries metadata for entries successfully written.
+func (s *Server) apiExportTrelloZip(w http.ResponseWriter, r *http.Request) {
+	board, _, ok := s.exportReader(w, r, false)
+	if !ok {
+		return
+	}
+	user, valid := s.exportUser(r)
+	if !valid {
+		apiError(w, http.StatusUnauthorized, "Invalid token")
+		return
+	}
+	ctx := r.Context()
+	query := r.URL.Query()
+	want := exportWanted(query.Get("fields"))
+	doc := formatTrello(s.collectExternal(ctx, board, user, "trellozip", want))
+	cards := jsGet(doc, "cards").([]any)
+	byCard := map[string]int{}
+	for index, value := range cards {
+		card := value.(jsObject)
+		byCard[cdString(jsGet(card, "id"))] = index
+		card.set("attachments", []any{})
+		cards[index] = card
+	}
+
+	w.Header().Set("Content-Type", "application/zip")
+	w.Header().Set("Content-Disposition", `attachment; filename="trello.zip"`)
+	w.Header().Set("Cache-Control", "private, no-store")
+	archive := zip.NewWriter(w)
+	defer archive.Close()
+	if want.has("attachments") && query.Get("attachments") != "false" {
+		for _, attachment := range s.liveAttachments(r, board.ID) {
+			index, included := byCard[attachment.Meta.CardID]
+			if !included || !validID(attachment.ID) {
+				continue
+			}
+			input, err := s.openAttachment(ctx, &attachment)
+			if err != nil {
+				continue
+			}
+			name := attachment.Name
+			if name == "" {
+				name = attachment.ID
+			}
+			name = strings.NewReplacer("/", "_", "\\", "_", ":", "_", "\x00", "_").Replace(name)
+			file, err := archive.Create("attachments/" + attachment.ID + "_" + name)
+			if err == nil {
+				_, err = io.Copy(file, input)
+			}
+			input.Close()
+			if err != nil {
+				continue
+			}
+			card := cards[index].(jsObject)
+			refs := jsGet(card, "attachments").([]any)
+			card.set("attachments", append(refs, jsObject{{"id", attachment.ID}, {"name", name},
+				{"fileName", name}, {"bytes", attachment.Size}, {"mimeType", attachment.Type}, {"isUpload", true}}))
+		}
+	}
+	if file, err := archive.Create("board.json"); err == nil {
+		_, _ = file.Write(jsJSON(doc, ""))
+	}
+}
