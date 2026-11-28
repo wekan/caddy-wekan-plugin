@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"sort"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -19,6 +20,21 @@ func TestUniqueFileNames(t *testing.T) {
 	got := uniqueFileNames([]string{"My Board!", "my board", "", "../x"}, "csv")
 	if strings.Join(got, ",") != "My-Board.csv,my-board-2.csv,board.csv,x.csv" {
 		t.Fatalf("unique, safe names: %v", got)
+	}
+}
+
+func TestMassBoardIDsAndSkippedReport(t *testing.T) {
+	input := []string{" board1 ", "board1", "../invalid"}
+	for i := 2; i <= maxMassExportBoards+1; i++ {
+		input = append(input, "board"+strconv.Itoa(i))
+	}
+	got := massBoardIDs(strings.Join(input, ","))
+	if len(got) != maxMassExportBoards || got[0] != "board1" ||
+		got[len(got)-1] != "board"+strconv.Itoa(maxMassExportBoards) {
+		t.Fatalf("invalid board selection: ids=%q count=%d", got, len(got))
+	}
+	if got := skippedBoardLine(" Board\r\nname\u2028example ", "board1", "Export failed"); got != "Board  name example (board1): Export failed" {
+		t.Fatalf("unexpected report line: %q", got)
 	}
 }
 

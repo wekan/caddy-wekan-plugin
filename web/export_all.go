@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"net/http"
 	"regexp"
-	"slices"
 	"strconv"
 	"strings"
+	"unicode"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -74,6 +74,34 @@ func uniqueFileNames(titles []string, ext string) []string {
 	return out
 }
 
+// massBoardIDs keeps the first valid occurrence of each requested ID.
+func massBoardIDs(value string) []string {
+	ids := []string{}
+	seen := map[string]bool{}
+	for part := range strings.SplitSeq(value, ",") {
+		id := strings.TrimSpace(part)
+		if !massBoardID.MatchString(id) || seen[id] {
+			continue
+		}
+		seen[id] = true
+		ids = append(ids, id)
+		if len(ids) == maxMassExportBoards {
+			break
+		}
+	}
+	return ids
+}
+
+func skippedBoardLine(title, id, reason string) string {
+	title = strings.Map(func(r rune) rune {
+		if unicode.IsControl(r) || unicode.Is(unicode.Zl, r) || unicode.Is(unicode.Zp, r) {
+			return ' '
+		}
+		return r
+	}, title)
+	return strings.TrimSpace(title) + " (" + id + "): " + reason
+}
+
 func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 	format := r.PathValue("format")
 	ext, known := massExportFormats[format]
@@ -90,13 +118,7 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 	filter := bson.M{"archived": false, "type": "board", "members": bson.M{"$elemMatch": bson.M{"userId": u.ID, "isActive": true}}}
 	query := r.URL.Query()
 	if v := query.Get("boardIds"); v != "" {
-		ids := []string{}
-		for _, id := range strings.Split(v, ",") {
-			if id = strings.TrimSpace(id); massBoardID.MatchString(id) && !slices.Contains(ids, id) {
-				ids = append(ids, id)
-			}
-		}
-		in, _ := inIDs(ids)
+		in, _ := inIDs(massBoardIDs(v))
 		filter["_id"] = in
 	}
 	cur, err := s.db.Collection("boards").Find(ctx, filter, options.Find().SetSort(bson.D{{Key: "title", Value: 1}}).SetLimit(maxMassExportBoards))
@@ -109,12 +131,12 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 	ok2, skipped := []Board{}, []string{}
 	for _, b := range boards {
 		if m := b.member(u.ID); m == nil || m.AssignedOnly() {
-			skipped = append(skipped, b.Title+" ("+b.ID+"): not exportable by this user")
+			skipped = append(skipped, skippedBoardLine(b.Title, b.ID, "not exportable by this user"))
 			continue
 		}
 		// assertFieldExport: left out and named in skipped.txt (exportAllBoards.js).
 		if !s.fieldExportAllowed(ctx, &b, u) {
-			skipped = append(skipped, b.Title+" ("+b.ID+"): "+errFieldExport)
+			skipped = append(skipped, skippedBoardLine(b.Title, b.ID, errFieldExport))
 			continue
 		}
 		ok2 = append(ok2, b)
@@ -167,7 +189,7 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 				data, err = json.Marshal(jsDates(doc))
 			}
 			if err != nil {
-				skipped = append(skipped, b.Title+" ("+b.ID+"): Export failed")
+				skipped = append(skipped, skippedBoardLine(b.Title, b.ID, "Export failed"))
 				continue
 			}
 		case "csv", "scsv", "tsv":
