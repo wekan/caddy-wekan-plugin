@@ -79,7 +79,7 @@
       p.warning.js-csv-mapping-error(role="alert", hidden, data-title-required="{{t $.L `csv-mapping-title-required`}}", data-list-required="{{t $.L `csv-mapping-list-required`}}")
       button.primary.wide.js-csv-mapping-import(type="submit") {{t $.L "import"}}
   else
-    form(method="post", action="/import/{{.Source}}", enctype="multipart/form-data")
+    form(method="post", action="/import/{{.Source}}", enctype="multipart/form-data", data-trello-mapping="{{if eq .Source `trello`}}multipart{{end}}")
       if ne .Source "trello"
         p: label(for="import-textarea") {{.Instruction}}
       p.import-file-row
@@ -128,6 +128,9 @@
       //- WeKan's "Import" - with "map", the members-mapping step first - and
         its "Import without mapping members".
       if eq .Source "trello"
+        button.js-trello-people(type="button") {{t $.L "import-map-members"}}
+        .js-trello-mapping-fields(hidden, data-username="{{t $.L `username`}}")
+        p.warning.js-trello-mapping-error(hidden, role="alert") {{t $.L "import-scoped-failed"}}
         button.primary.wide.js-import-without-mapping(type="submit") {{t $.L "import"}}
       else if .General
         input.primary.wide(type="submit", value="{{t $.L `import`}}")

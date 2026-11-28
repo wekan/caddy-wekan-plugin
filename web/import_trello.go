@@ -9,6 +9,7 @@ import (
 	"io"
 	"math"
 	"net/http"
+	"net/url"
 	"path"
 	"sort"
 	"strconv"
@@ -325,7 +326,7 @@ func trelloImportArchive(raw []byte) ([]trelloArchiveBoard, error) {
 	return boards, nil
 }
 
-func (s *Server) trelloPeople(ctx context.Context, doc map[string]any, user *User, mode string) (map[string]string, []string) {
+func (s *Server) trelloPeople(ctx context.Context, doc map[string]any, user *User, mode string, selected map[string]string) (map[string]string, []string) {
 	mapping := map[string]string{}
 	var missing []importPerson
 	for _, person := range docsOf(doc, "members") {
@@ -334,9 +335,13 @@ func (s *Server) trelloPeople(ctx context.Context, doc map[string]any, user *Use
 			mapping[id] = user.ID
 			continue
 		}
-		if mode == "map" && username != "" {
+		targetName := username
+		if name, ok := selected[id]; ok {
+			targetName = name
+		}
+		if mode == "map" && targetName != "" {
 			var target User
-			if s.db.Collection("users").FindOne(ctx, bson.M{"username": eq(username), "loginDisabled": bson.M{"$ne": true}}).Decode(&target) == nil {
+			if s.db.Collection("users").FindOne(ctx, bson.M{"username": eq(targetName), "loginDisabled": bson.M{"$ne": true}}).Decode(&target) == nil {
 				mapping[id] = target.ID
 				continue
 			}
@@ -387,6 +392,36 @@ func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *Use
 	if len(boards) == 0 {
 		boards = []trelloArchiveBoard{{doc: doc}}
 	}
+	if r.URL.Query().Get("preview") == "1" {
+		people := []any{}
+		seen := map[string]bool{}
+		for _, board := range boards {
+			for _, person := range docsOf(board.doc, "members") {
+				key := str(person, "userId")
+				if !seen[key] {
+					seen[key] = true
+					people = append(people, map[string]string{"id": key, "username": str(person, "username"), "name": str(person, "fullName")})
+				}
+			}
+		}
+		writeJSON(w, http.StatusOK, map[string]any{"people": people})
+		return
+	}
+	selected := map[string]string{}
+	if raw := r.Header.Get("X-WeKan-Trello-Members"); raw != "" {
+		decoded, err := url.PathUnescape(raw)
+		if err != nil || len(raw) > 8192 || json.Unmarshal([]byte(decoded), &selected) != nil {
+			fail(http.StatusBadRequest)
+			return
+		}
+	}
+	for _, username := range selected {
+		if username == "" || s.db.Collection("users").FindOne(r.Context(),
+			bson.M{"username": eq(username), "loginDisabled": bson.M{"$ne": true}}).Err() != nil {
+			fail(http.StatusBadRequest)
+			return
+		}
+	}
 	if s.mayCreateBoard(r.Context(), u, "board", "importBoard") != nil {
 		fail(http.StatusForbidden)
 		return
@@ -398,7 +433,7 @@ func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *Use
 	created := []string{}
 	var placeholders bson.A
 	for _, board := range boards {
-		mapping, made := s.trelloPeople(r.Context(), board.doc, u, mode)
+		mapping, made := s.trelloPeople(r.Context(), board.doc, u, mode, selected)
 		for _, id := range made {
 			placeholders = append(placeholders, id)
 		}

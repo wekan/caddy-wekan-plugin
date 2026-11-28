@@ -5843,3 +5843,84 @@ if (!window.Blaze) {
     },
   };
 }
+
+(function () {
+  'use strict';
+
+  function trelloMappingRequest(form, preview, values) {
+    var url = new URL(form.action);
+    if (preview) url.searchParams.set('preview', '1');
+    var headers = { 'X-Requested-With': 'XMLHttpRequest' };
+    if (values) headers['X-WeKan-Trello-Members'] = encodeURIComponent(JSON.stringify(values));
+    var raw = form.dataset.trelloMapping === 'raw';
+    var file = form.querySelector('.js-import-zip-file').files[0];
+    var body = raw ? (file || form.querySelector('textarea').value) : new FormData(form);
+    if (raw) headers['Content-Type'] = file ? 'application/zip' : 'application/json';
+    return fetch(url, { method: 'POST', headers: headers, body: body }).then(function (response) {
+      if (!response.ok) throw new Error('Trello import failed');
+      if (preview || raw) return response.json();
+      if (!response.redirected) throw new Error('Missing Trello board');
+      return { url: response.url };
+    });
+  }
+
+  document.addEventListener('click', function (event) {
+    var button = event.target.closest('.js-trello-people');
+    if (!button) return;
+    var form = button.form;
+    var fields = form.querySelector('.js-trello-mapping-fields');
+    var warning = form.querySelector('.js-trello-mapping-error');
+    var fileInput = form.querySelector('.js-import-zip-file');
+    var textInput = form.querySelector('textarea');
+    var source = fileInput.files[0] || textInput.value;
+    button.disabled = true;
+    warning.hidden = true;
+    trelloMappingRequest(form, true).then(function (result) {
+      if (source !== (fileInput.files[0] || textInput.value)) return;
+      fields.replaceChildren();
+      result.people.forEach(function (person) {
+        var label = document.createElement('label');
+        var input = document.createElement('input');
+        var name = person.name || person.username || person.id;
+        label.textContent = name + ' ';
+        input.type = 'text';
+        input.className = 'js-trello-member-username';
+        input.dataset.personId = person.id;
+        input.placeholder = fields.dataset.username;
+        label.appendChild(input);
+        fields.appendChild(label);
+      });
+      fields.hidden = false;
+    }).catch(function () { warning.hidden = false; }).finally(function () { button.disabled = false; });
+  });
+
+  document.addEventListener('input', function (event) {
+    if (!event.target.matches('.js-import-zip-file, #import-textarea')) return;
+    var form = event.target.closest('form[data-trello-mapping]');
+    if (!form || !form.dataset.trelloMapping) return;
+    var fields = form.querySelector('.js-trello-mapping-fields');
+    fields.replaceChildren();
+    fields.hidden = true;
+  });
+
+  document.addEventListener('submit', function (event) {
+    var form = event.target;
+    if (!form.dataset.trelloMapping) return;
+    var values = Object.create(null);
+    form.querySelectorAll('.js-trello-member-username').forEach(function (input) {
+      if (input.value.trim()) values[input.dataset.personId] = input.value.trim();
+    });
+    if (Object.keys(values).length === 0) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    var warning = form.querySelector('.js-trello-mapping-error');
+    var submit = form.querySelector('.js-import-without-mapping');
+    warning.hidden = true;
+    submit.disabled = true;
+    trelloMappingRequest(form, false, values).then(function (result) {
+      if (result.url) location.assign(result.url);
+      else if (result._id) location.assign('/b/' + encodeURIComponent(result._id) + '/board');
+      else throw new Error('Missing Trello board');
+    }).catch(function () { warning.hidden = false; }).finally(function () { submit.disabled = false; });
+  }, true);
+})();
