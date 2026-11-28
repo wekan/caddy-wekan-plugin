@@ -181,9 +181,11 @@ func (s *Server) minicardChecklists(ctx context.Context, b *Board, cardIDs bson.
 		return out
 	}
 	var lists []struct {
-		ID     string `bson:"_id"`
-		CardID string `bson:"cardId"`
-		Title  string `bson:"title"`
+		ID          string `bson:"_id"`
+		CardID      string `bson:"cardId"`
+		Title       string `bson:"title"`
+		HideChecked bool   `bson:"hideCheckedChecklistItems"`
+		HideAll     bool   `bson:"hideAllChecklistItems"`
 	}
 	if cur, err := s.db.Collection("checklists").Find(ctx, bson.M{"cardId": dbIn(cardIDs), "showChecklistAtMinicard": true},
 		options.Find().SetSort(bson.D{{Key: "sort", Value: 1}})); err == nil {
@@ -193,8 +195,12 @@ func (s *Server) minicardChecklists(ctx context.Context, b *Board, cardIDs bson.
 		return out
 	}
 	ids := bson.A{}
+	hideChecked := make(map[string]bool, len(lists))
 	for _, l := range lists {
-		ids = append(ids, l.ID)
+		if !l.HideAll {
+			ids = append(ids, l.ID)
+			hideChecked[l.ID] = l.HideChecked
+		}
 	}
 	var items []struct {
 		ID          string `bson:"_id"`
@@ -208,6 +214,9 @@ func (s *Server) minicardChecklists(ctx context.Context, b *Board, cardIDs bson.
 	}
 	byList := map[string][]minicardChecklistItem{}
 	for _, it := range items {
+		if it.IsFinished && hideChecked[it.ChecklistID] {
+			continue
+		}
 		byList[it.ChecklistID] = append(byList[it.ChecklistID], minicardChecklistItem{it.ID, it.Title, it.IsFinished})
 	}
 	for _, l := range lists {
