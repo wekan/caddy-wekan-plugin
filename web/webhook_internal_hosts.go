@@ -81,8 +81,12 @@ func (s *Server) readWebhookInternalHosts(ctx context.Context) ([]string, error)
 }
 
 func (s *Server) saveWebhookInternalHosts(w http.ResponseWriter, r *http.Request, u *User) {
-	if !u.IsAdmin || s.webhooksOff(r.Context()) {
+	if !u.IsAdmin {
 		http.NotFound(w, r)
+		return
+	}
+	if s.refuseWebhookWrite(r, u, "saveWebhookInternalHosts", "Changed webhook internal destinations while webhooks are turned off.") {
+		webhooksOffAnswer(w)
 		return
 	}
 	r.Body = http.MaxBytesReader(w, r.Body, 64<<10)

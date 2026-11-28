@@ -53,8 +53,12 @@ func (s *Server) readAccountWebhook(ctx context.Context) (accountWebhook, error)
 
 func (s *Server) saveAccountWebhook(w http.ResponseWriter, r *http.Request, u *User) {
 	ctx := r.Context()
-	if !u.IsAdmin || s.webhooksOff(ctx) {
+	if !u.IsAdmin {
 		http.NotFound(w, r)
+		return
+	}
+	if s.refuseWebhookWrite(r, u, "saveAccountWebhook", "Changed the login and registration webhook while webhooks are turned off.") {
+		webhooksOffAnswer(w)
 		return
 	}
 	r.Body = http.MaxBytesReader(w, r.Body, 16<<10)

@@ -108,6 +108,23 @@ func TestGlobalWebhookManagement(t *testing.T) {
 	if res, _ := get(t, site, page); res.StatusCode != http.StatusNotFound {
 		t.Fatalf("disabled page status: %d", res.StatusCode)
 	}
+	for endpoint, form := range map[string]url.Values{
+		"account":  {"url": {"https://changed.example/accounts"}, "token": {"different"}},
+		"internal": {"hosts": {"different.example"}},
+	} {
+		if res, page := post(t, site, page+"/"+endpoint, form); res.StatusCode != http.StatusForbidden ||
+			!strings.Contains(page, "webhooks-disabled") {
+			t.Fatalf("disabled %s settings write: %d", endpoint, res.StatusCode)
+		}
+	}
+	unchanged, err := w.s.readAccountWebhook(ctx)
+	if err != nil || unchanged.URL != account.URL || unchanged.Token != account.Token {
+		t.Fatal("disabled account webhook edit changed stored settings")
+	}
+	unchangedHosts, err := w.s.readWebhookInternalHosts(ctx)
+	if err != nil || strings.Join(unchangedHosts, ",") != strings.Join(hosts, ",") {
+		t.Fatal("disabled internal destinations edit changed stored settings")
+	}
 	if html := getBody(t, site, adminNotifications); strings.Contains(html, "js-global-webhooks") {
 		t.Fatal("Global Webhooks navigation should be hidden")
 	}
