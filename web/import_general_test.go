@@ -249,7 +249,7 @@ func TestImportJira(t *testing.T) {
 	w.seedUser(t, "ann", "pw")
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
-	const payload = `{"board":{"name":"Jira migration"},"wekanScrumMapping":{"estimateFieldId":"customfield_10016","estimateUnit":"points"},"names":{"customfield_10020":"Rank","customfield_10022":"Sprint"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","customfield_10016":0,"customfield_10020":"0|abc:","customfield_10022":{"id":7,"name":"Future sprint","state":"future"},"status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0,"originalEstimateSeconds":7200},"timeestimate":0,"labels":["jira"],"subtasks":[{"key":"SUB-1","fields":{"summary":"Done item","status":{"statusCategory":{"key":"done"}}}},{"fields":{"summary":"Open item"}}],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
+	const payload = `{"board":{"name":"Jira migration"},"wekanScrumMapping":{"estimateFieldId":"customfield_10016","estimateUnit":"points"},"names":{"customfield_10020":"Rank","customfield_10022":"Sprint","customfield_10023":"Flag","customfield_10024":"Flag"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","customfield_10016":0,"customfield_10023":false,"customfield_10024":{"value":"Choice"},"customfield_10020":"0|abc:","customfield_10022":{"id":7,"name":"Future sprint","state":"future"},"status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0,"originalEstimateSeconds":7200},"timeestimate":0,"labels":["jira"],"subtasks":[{"key":"SUB-1","fields":{"summary":"Done item","status":{"statusCategory":{"key":"done"}}}},{"fields":{"summary":"Open item"}}],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
 	res, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {payload}})
 	if err != nil {
 		t.Fatal(err)
@@ -314,6 +314,22 @@ func TestImportJira(t *testing.T) {
 		}
 		definitions.defs[strOf(field["_id"])] = field
 	}
+	for name, expected := range map[string]any{"Flag": false, "Flag (2)": "Choice"} {
+		var field bson.M
+		if err := w.db.Collection("customFields").FindOne(ctx, bson.M{"boardIds": board.ID, "name": name}).Decode(&field); err != nil {
+			t.Fatal(err)
+		}
+		found := false
+		for _, assignment := range fieldValues(card) {
+			if assignment["_id"] == field["_id"] && assignment["value"] == expected {
+				found = true
+			}
+		}
+		if !found {
+			t.Fatalf("Jira custom field %s: %v", name, card["customFields"])
+		}
+	}
+
 	var mapped bson.M
 	if err := w.db.Collection("customFields").FindOne(ctx, bson.M{"boardIds": board.ID,
 		"settings.jiraEstimateFieldId": "customfield_10016"}).Decode(&mapped); err != nil {

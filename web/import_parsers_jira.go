@@ -236,6 +236,14 @@ func parseJira(data any) (jsObject, error) {
 	rankField := jiraPlanningField(data, "com.pyxis.greenhopper.jira:gh-lexo-rank", "Rank")
 	sprintField := jiraPlanningField(data, "com.pyxis.greenhopper.jira:gh-sprint", "Sprint")
 	epicField := jiraPlanningField(data, "com.pyxis.greenhopper.jira:gh-epic-link", "Epic Link")
+	names := jsGet(data, "names")
+	fieldNames, usedNames := map[string]string{}, map[string]bool{}
+	for _, estimate := range jiraImportTimeEstimates {
+		usedNames[estimate.name] = true
+	}
+	if estimate != nil {
+		usedNames[fieldName(jsOr(strOf(jsGet(names, estimate.key)), estimate.key).(string))] = true
+	}
 	for index, issue := range issues {
 		if _, ok := issue.(jsObject); !ok {
 			return nil, errors.New("invalid Jira issue")
@@ -309,18 +317,48 @@ func parseJira(data any) (jsObject, error) {
 		if present {
 			task.set("spentTime", spent)
 		}
-		estimates := jsObject{}
+		customFields := jsObject{}
 		for _, estimate := range jiraImportTimeEstimates {
 			hours, present, err := jiraImportTime(fields, estimate.nested, estimate.flat)
 			if err != nil {
 				return nil, err
 			}
 			if present {
-				estimates.set(estimate.name, hours)
+				customFields.set(estimate.name, hours)
 			}
 		}
-		if len(estimates) > 0 {
-			task.set("custom_fields", estimates)
+		for _, field := range fields.(jsObject) {
+			id := field.Key
+			if !jiraEstimateKey.MatchString(id) || id == sprintField || id == rankField || id == epicField ||
+				(estimate != nil && id == estimate.key) {
+				continue
+			}
+			value := field.Value
+			if object, ok := value.(jsObject); ok {
+				value = jsGet(object, "value")
+			}
+			switch value.(type) {
+			case string, bool, float64:
+			default:
+				continue
+			}
+			name := fieldNames[id]
+			if name == "" {
+				name = fieldName(strOf(jsGet(names, id)))
+				if name == "" {
+					name = id
+				}
+				base := name
+				for n := 2; usedNames[name]; n++ {
+					suffix := " (" + strconv.Itoa(n) + ")"
+					name = jsSlice16(base, maxCustomFieldNameRunes-len(suffix)) + suffix
+				}
+				fieldNames[id], usedNames[name] = name, true
+			}
+			customFields.set(name, value)
+		}
+		if len(customFields) > 0 {
+			task.set("custom_fields", customFields)
 		}
 		task.set("externalId", key)
 		task.set("ref", ref)
