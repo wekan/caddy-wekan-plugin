@@ -829,7 +829,22 @@ func formatRedmineCsv(d extBoard) string {
 			ids[i.CardID] = true
 		}
 	}
-	rows := [][]string{redmineColumns}
+	columns := append([]string{}, redmineColumns...)
+	reserved := map[string]bool{}
+	for _, label := range redmineColumns {
+		reserved[strings.ToLower(label)] = true
+	}
+	for _, label := range []string{"#", "ID", "Related issues", "Parent ID", "Updated", "Done ratio", "Created on", "Closed on"} {
+		reserved[strings.ToLower(label)] = true
+	}
+	for _, item := range d.Items {
+		for _, field := range item.CustomFields {
+			if !reserved[strings.ToLower(field.Key)] && !contains(columns, field.Key) {
+				columns = append(columns, field.Key)
+			}
+		}
+	}
+	rows := [][]string{columns}
 	for _, i := range d.Items {
 		relations := map[string][]string{}
 		for _, dep := range i.Dependencies {
@@ -876,15 +891,36 @@ func formatRedmineCsv(d extBoard) string {
 		if i.ParentCardID != "" && ids[i.ParentCardID] {
 			parent = i.ParentCardID
 		}
+		fields := i.CustomFields
+		numeric := func(key string, whole bool) string {
+			raw := jsGet(fields, key)
+			if raw == nil || raw == "" {
+				return ""
+			}
+			value, ok := jsToNumber(raw)
+			if !ok || isInf(value) {
+				return ""
+			}
+			if whole {
+				return jsNumber(jsRound(value))
+			}
+			return jsToFixed2(value)
+		}
 		v := map[string]string{"Unique ID": i.CardID, "Project": project, "Tracker": tracker, "Status": status, "Subject": subject,
 			"Description": i.Description, "Author": author, "Assignee": i.Owner, "Start date": obsidianDay(i.StartAt),
 			"Due date": obsidianDay(i.DueAt), "Spent time": spent, "Created": minute(i.CreatedAt), "Closed": minute(i.EndAt),
-			"Parent task": parent}
+			"Parent task": parent, "Priority": jsOrString(jsGet(fields, "Priority")), "Category": jsOrString(jsGet(fields, "Category")),
+			"Target version": jsOrString(jsGet(fields, "Target version")), "Estimated time": numeric("Estimated time", false), "% Done": numeric("% Done", true)}
 		for _, name := range redmineRelations {
 			v[name] = strings.Join(relations[name], ", ")
 		}
-		cells := make([]string, len(redmineColumns))
-		for k, c := range redmineColumns {
+		for _, label := range columns[len(redmineColumns):] {
+			if value := jsGet(fields, label); value != nil {
+				v[label] = jsStr(value)
+			}
+		}
+		cells := make([]string, len(columns))
+		for k, c := range columns {
 			cells[k] = v[c]
 		}
 		rows = append(rows, cells)
