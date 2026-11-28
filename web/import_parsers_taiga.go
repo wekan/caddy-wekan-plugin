@@ -413,7 +413,31 @@ func parseTaiga(input any) (jsObject, error) {
 		}
 		return jsOrder(fields)
 	}
-	cardPlanning := func(item any, out *jsObject) {
+	var sprints []any
+	seenMilestones := map[string]bool{}
+	for i, milestone := range taigaList(jsGet(dump, "milestones")) {
+		name := jsTrim(taigaStr(jsGet(milestone, "name")))
+		path := "/milestones/" + strconv.Itoa(i)
+		if name == "" {
+			lost(path, "sprint without a name skipped")
+			continue
+		}
+		if seenMilestones[name] {
+			lost(path, "duplicate sprint "+strconv.Quote(name)+" skipped")
+			continue
+		}
+		seenMilestones[name] = true
+		if jsGet(milestone, "closed") == true {
+			lost(path, "closed sprint \""+name+"\" is not imported: the export has no commitment or close snapshot; its items stay in the backlog")
+			continue
+		}
+		sprint := jsObject{}
+		sprint.set("name", name)
+		sprint.set("plannedStart", date(jsGetOrUndef(milestone, "estimated_start"), path+"/estimated_start"))
+		sprint.set("plannedEnd", date(jsGetOrUndef(milestone, "estimated_finish"), path+"/estimated_finish"))
+		sprints = append(sprints, sprint)
+	}
+	cardPlanning := func(item any, out *jsObject, path string) {
 		if jsGet(item, "is_blocked") == true {
 			out.set("blocked", true)
 			if reason := jsTrim(taigaStr(jsGet(item, "blocked_note"))); reason != "" {
@@ -421,7 +445,11 @@ func parseTaiga(input any) (jsObject, error) {
 			}
 		}
 		if milestone := jsTrim(taigaStr(jsGet(item, "milestone"))); milestone != "" {
-			out.set("taiga_milestone", milestone)
+			if !seenMilestones[milestone] {
+				lost(path+"/milestone", "unknown sprint "+strconv.Quote(milestone)+"; the card stays in the backlog")
+			} else {
+				out.set("taiga_milestone", milestone)
+			}
 		}
 	}
 	owner := func(item any, out jsObject) jsObject {
@@ -569,7 +597,7 @@ func parseTaiga(input any) (jsObject, error) {
 		}
 		extra.set("Client requirement", trueOrUndef(jsGet(story, "client_requirement")))
 		extra.set("Team requirement", trueOrUndef(jsGet(story, "team_requirement")))
-		cardPlanning(story, &t)
+		cardPlanning(story, &t, at)
 		t.set("custom_fields", customFields(story, extra))
 		t = owner(story, t)
 		if ref != "" {
@@ -623,7 +651,7 @@ func parseTaiga(input any) (jsObject, error) {
 			extra.set("Task status", s)
 		}
 		extra.set("Iocaine", trueOrUndef(jsGet(item, "is_iocaine")))
-		cardPlanning(item, &t)
+		cardPlanning(item, &t, at)
 		t.set("custom_fields", customFields(item, extra))
 		tasks = append(tasks, owner(item, t))
 	}
@@ -671,7 +699,7 @@ func parseTaiga(input any) (jsObject, error) {
 		extra := jsObject{}
 		extra.set("Client requirement", trueOrUndef(jsGet(epic, "client_requirement")))
 		extra.set("Team requirement", trueOrUndef(jsGet(epic, "team_requirement")))
-		cardPlanning(epic, &t)
+		cardPlanning(epic, &t, at)
 		t.set("custom_fields", customFields(epic, extra))
 		tasks = append(tasks, owner(epic, t))
 	}
@@ -717,7 +745,7 @@ func parseTaiga(input any) (jsObject, error) {
 		setIf(&t, "date_end", date(jsGetOrUndef(issue, "finished_date"), at+"/finished_date"))
 		setIf(&t, "date_due", date(jsGetOrUndef(issue, "due_date"), at+"/due_date"))
 		t.set("comments", comments(issue, at))
-		cardPlanning(issue, &t)
+		cardPlanning(issue, &t, at)
 		t.set("custom_fields", customFields(issue, nil))
 		tasks = append(tasks, owner(issue, t))
 	}
@@ -784,30 +812,6 @@ func parseTaiga(input any) (jsObject, error) {
 		tasks[story.index] = task
 	}
 
-	var sprints []any
-	seenMilestones := map[string]bool{}
-	for i, milestone := range taigaList(jsGet(dump, "milestones")) {
-		name := jsTrim(taigaStr(jsGet(milestone, "name")))
-		path := "/milestones/" + strconv.Itoa(i)
-		if name == "" {
-			lost(path, "sprint without a name skipped")
-			continue
-		}
-		if seenMilestones[name] {
-			lost(path, "duplicate sprint "+strconv.Quote(name)+" skipped")
-			continue
-		}
-		seenMilestones[name] = true
-		if jsGet(milestone, "closed") == true {
-			lost(path, "closed sprint \""+name+"\" is not imported: the export has no commitment or close snapshot; its items stay in the backlog")
-			continue
-		}
-		sprint := jsObject{}
-		sprint.set("name", name)
-		sprint.set("plannedStart", date(jsGetOrUndef(milestone, "estimated_start"), path+"/estimated_start"))
-		sprint.set("plannedEnd", date(jsGetOrUndef(milestone, "estimated_finish"), path+"/estimated_finish"))
-		sprints = append(sprints, sprint)
-	}
 	if len(sprints) > 0 {
 		out.set("taiga_sprints", sprints)
 	}

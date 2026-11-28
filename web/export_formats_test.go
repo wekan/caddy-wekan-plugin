@@ -611,3 +611,19 @@ func TestTaigaCustomAttributes(t *testing.T) {
 		t.Fatalf("story definitions: %v, task definitions: %v", storyDefs, taskDefs)
 	}
 }
+
+func TestTaigaUnknownMilestone(t *testing.T) {
+	dump := jsObject{{"user_stories", []any{jsObject{
+		{"ref", float64(1)}, {"subject", "Story"}, {"milestone", "Missing sprint"},
+	}}}}
+	parsed, err := parseTaiga(dump)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, loss := range jsGet(parsed, "unsupported").([]any) {
+		if jsGet(loss, "path") == "/user_stories/0/milestone" {
+			return
+		}
+	}
+	t.Fatalf("missing milestone was not reported: %v", parsed)
+}
