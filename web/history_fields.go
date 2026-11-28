@@ -246,6 +246,15 @@ func diffHistoryFields(entity string, before, after map[string]any, fields []str
 				a, ha = []any{}, true
 			}
 		}
+		if entity == "checklist" && (f == "hideCheckedChecklistItems" || f == "hideAllChecklistItems") {
+			// Older checklists omit flags whose effective value is false.
+			if !hb || b == nil {
+				b, hb = false, true
+			}
+			if !ha || a == nil {
+				a, ha = false, true
+			}
+		}
 		b, a = plain(b), plain(a)
 		if !historyChanged(b, hb, a, ha) {
 			continue
