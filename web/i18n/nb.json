@@ -1978,6 +1978,7 @@
   "webhook-activities": "Send denne webhooken:",
   "webhook-activities-all": "All aktivitet",
   "webhook-hide-identity": "Utelat navnet mitt fra utgående webhooks",
+  "webhook-internal-hosts": "Interne mål",
   "webhook-payload-description": "Hva utgående webhooks (Rocket.Chat, Slack, ...) sender. Standard beholder den arvede innstillingen; hvis ingenting er angitt, sender webhooks det de alltid har sendt.",
   "webhook-payload-field-actor": "Hvem som gjorde det",
   "webhook-payload-field-details": "Detaljer: kommentar, beskrivelse, verdier og datoer",

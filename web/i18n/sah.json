@@ -1978,6 +1978,7 @@
   "webhook-activities": "Бу webhook-у ыыт:",
   "webhook-activities-all": "Ханнык баҕарар дьайыы",
   "webhook-hide-identity": "Тахсар webhook-тарга аатым суох буоллун",
+  "webhook-internal-hosts": "Иһинээҕи тиийэр сирдэр",
   "webhook-payload-description": "Тахсар webhook-тар (Rocket.Chat, Slack, ...) тугу ыыталларын. Анаан этиллибэтэх утумнаах туруоруутун хаалларар; туох да туруоруллубатах буоллаҕына, webhook-тар урукку курдук ыыталлар.",
   "webhook-payload-field-actor": "Ким оҥорбута",
   "webhook-payload-field-details": "Сиһилии: быһаарыы, ойуулааһын, суолталар уонна күннэр",

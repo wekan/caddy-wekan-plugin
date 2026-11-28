@@ -1978,6 +1978,7 @@
   "webhook-activities": "Odoslať tento webhook:",
   "webhook-activities-all": "Každá aktivita",
   "webhook-hide-identity": "Vynechať moje meno z odchádzajúcich webhookov",
+  "webhook-internal-hosts": "Interné ciele",
   "webhook-payload-description": "Čo odosielajú odchádzajúce webhooky (Rocket.Chat, Slack, ...). Predvolená voľba zachová zdedené nastavenie; ak nie je nič nastavené, webhooky odosielajú to, čo doteraz.",
   "webhook-payload-field-actor": "Kto to vykonal",
   "webhook-payload-field-details": "Podrobnosti: komentár, popis, hodnoty a dátumy",

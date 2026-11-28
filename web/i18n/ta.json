@@ -1978,6 +1978,7 @@
   "webhook-activities": "இந்த webhook-ஐ அனுப்பு:",
   "webhook-activities-all": "ஒவ்வொரு செயல்பாடும்",
   "webhook-hide-identity": "வெளிச்செல்லும் webhook-களில் எனது பெயரைச் சேர்க்க வேண்டாம்",
+  "webhook-internal-hosts": "உள் இலக்குகள்",
   "webhook-payload-description": "வெளிச்செல்லும் webhook-கள் (Rocket.Chat, Slack, ...) அனுப்பும் தரவு. இயல்புநிலை மேல்நிலையிலிருந்து பெறப்பட்ட அமைப்பை வைத்திருக்கும்; எதுவும் அமைக்கப்படாவிட்டால் webhook-கள் வழக்கமாக அனுப்புவதையே அனுப்பும்.",
   "webhook-payload-field-actor": "செய்தவர்",
   "webhook-payload-field-details": "விவரங்கள்: கருத்து, விளக்கம், மதிப்புகள் மற்றும் தேதிகள்",

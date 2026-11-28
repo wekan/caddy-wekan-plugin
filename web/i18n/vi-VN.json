@@ -1978,6 +1978,7 @@
   "webhook-activities": "Gửi webhook này:",
   "webhook-activities-all": "Mọi hoạt động",
   "webhook-hide-identity": "Không đưa tên tôi vào các webhook gửi đi",
+  "webhook-internal-hosts": "Đích nội bộ",
   "webhook-payload-description": "Nội dung các webhook gửi đi (Rocket.Chat, Slack, ...) gửi. Mặc định giữ nguyên thiết lập kế thừa; nếu chưa thiết lập gì, webhook gửi nội dung như trước đây.",
   "webhook-payload-field-actor": "Người thực hiện",
   "webhook-payload-field-details": "Chi tiết: bình luận, mô tả, giá trị và ngày tháng",

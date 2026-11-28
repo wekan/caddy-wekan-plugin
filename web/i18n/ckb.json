@@ -1978,6 +1978,7 @@
   "webhook-activities": "ئەم Webhook ـە بنێرە:",
   "webhook-activities-all": "هەموو چالاکییەک",
   "webhook-hide-identity": "ناوەکەم لە webhook ـە دەرچووەکاندا دامەنێ",
+  "webhook-internal-hosts": "مەبەستە ناوخۆییەکان",
   "webhook-payload-description": "ئەوەی webhook ـە دەرچووەکان دەینێرن (Rocket.Chat، Slack، ...). بنەڕەت ڕێکخستنی بۆماوە دەپارێزێت؛ ئەگەر هیچ دیاری نەکرابێت، webhook ـەکان ئەوە دەنێرن کە هەمیشە ناردوویانە.",
   "webhook-payload-field-actor": "کێ کردی",
   "webhook-payload-field-details": "وردەکاری: لێدوان، وەسف، بەها و بەروارەکان",

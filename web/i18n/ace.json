@@ -1978,6 +1978,7 @@
   "webhook-activities": "Kirém webhook nyoe:",
   "webhook-activities-all": "Bandum aktivitas",
   "webhook-hide-identity": "Bek peurôh nan lôn lam webhook keuluwa",
+  "webhook-internal-hosts": "Tujuan dalam",
   "webhook-payload-description": "Peue nyang geukirém le webhook keuluwa (Rocket.Chat, Slack, ...). Bawaan geupeutheun peuatôran nyang geuwarèh; meunyoe hana nyang geuatô, webhook geukirém lagee biasa.",
   "webhook-payload-field-actor": "Soe nyang peugöt",
   "webhook-payload-field-details": "Rincian: komen, deskripsi, nilai ngon tanggal",

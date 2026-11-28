@@ -1978,6 +1978,7 @@
   "webhook-activities": "Aika wannan webhook:",
   "webhook-activities-all": "Kowane aiki",
   "webhook-hide-identity": "Kada a sa sunana a webhook masu fita",
+  "webhook-internal-hosts": "Wuraren zuwa na ciki",
   "webhook-payload-description": "Abin da webhook masu fita (Rocket.Chat, Slack, ...) ke aikawa. Tsoho yana kiyaye saitin da aka gada; idan ba a saita komai ba, webhook suna aika abin da suka saba aikawa.",
   "webhook-payload-field-actor": "Wanda ya yi",
   "webhook-payload-field-details": "Cikakkun bayanai: sharhi, bayani, ƙimomi da kwanaki",

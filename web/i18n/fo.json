@@ -1978,6 +1978,7 @@
   "webhook-activities": "Send henda webhook:",
   "webhook-activities-all": "Alt virksemi",
   "webhook-hide-identity": "Lat navn mítt vera uttan fyri útgangandi webhooks",
+  "webhook-internal-hosts": "Innanhýsis mál",
   "webhook-payload-description": "Tað, sum útgangandi webhooks (Rocket.Chat, Slack, ...) senda. Sjálvvirði varðveitir arvaðu stillingina; um einki er sett, senda webhooks tað, tey altíð hava sent.",
   "webhook-payload-field-actor": "Hvør gjørdi tað",
   "webhook-payload-field-details": "Smálutir: viðmerking, lýsing, virði og dagfestingar",

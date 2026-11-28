@@ -1978,6 +1978,7 @@
   "webhook-activities": "Dësen Webhook schécken:",
   "webhook-activities-all": "All Aktivitéit",
   "webhook-hide-identity": "Mäin Numm aus erausgoende Webhooks eraushalen",
+  "webhook-internal-hosts": "Intern Ziler",
   "webhook-payload-description": "Wat erausgoend Webhooks (Rocket.Chat, Slack, ...) schécken. Standard behält déi geierfte Astellung; ouni Astellung schécken Webhooks dat, wat se ëmmer geschéckt hunn.",
   "webhook-payload-field-actor": "Wien et gemaach huet",
   "webhook-payload-field-details": "Detailer: Kommentar, Beschreiwung, Wäerter an Datumer",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Sanem webhook ia:",
   "webhook-activities-all": "Evri wok",
   "webhook-hide-identity": "No putum nem blong mi long ol webhook we i go aot",
+  "webhook-internal-hosts": "Ol ples insaed",
   "webhook-payload-description": "Wanem ol webhook we i go aot (Rocket.Chat, Slack, ...) oli sendem. Defolt i kipim seting we i kam long antap; sapos i no gat seting, ol webhook oli sendem samting we oli stap sendem oltaem.",
   "webhook-payload-field-actor": "Hu i mekem",
   "webhook-payload-field-details": "Ol smol samting: toktok, stori, valiu mo deit",

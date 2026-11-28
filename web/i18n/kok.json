@@ -1978,6 +1978,7 @@
   "webhook-activities": "हो वेबहूक धाडात:",
   "webhook-activities-all": "दरेक कारवाय",
   "webhook-hide-identity": "भायर वचपी वेबहूकांतल्यान म्हजें नांव काडचें",
+  "webhook-internal-hosts": "भितरलीं थळां",
   "webhook-payload-description": "भायर वचपी वेबहूक (Rocket.Chat, Slack, ...) कितें धाडटात. डिफॉल्ट वारसो मेळिल्ली मांडावळ दवरता; कांयच मांडूंक ना जाल्यार, वेबहूक सदांच धाडटात तेंच धाडटात.",
   "webhook-payload-field-actor": "कोणें केलें",
   "webhook-payload-field-details": "तपशील: टिप्पणी, विवरण, मोलां आनी तारखो",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Unviar esti webhook:",
   "webhook-activities-all": "Cada actividá",
   "webhook-hide-identity": "Dexar el mio nome fuera de los webhooks salientes",
+  "webhook-internal-hosts": "Destinos internos",
   "webhook-payload-description": "Lo que unvien los webhooks salientes (Rocket.Chat, Slack, ...). Predetermináu caltién l'axuste heredáu; ensin nada configurao, los webhooks unvien lo que siempres unviaron.",
   "webhook-payload-field-actor": "Quién lo fizo",
   "webhook-payload-field-details": "Detalles: comentariu, descripción, valores y feches",

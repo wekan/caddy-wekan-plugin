@@ -1978,6 +1978,7 @@
   "webhook-activities": "Tfumela le-webhook:",
   "webhook-activities-all": "Wonkhe umsebenti",
   "webhook-hide-identity": "Ungalifaki libito lami kuma-webhook laphumako",
+  "webhook-internal-hosts": "Tindzawo tangekhatsi",
   "webhook-payload-description": "Loko lokutfunyelwa ngema-webhook laphumako (Rocket.Chat, Slack, ...). Lokumisiwe kugcina silungiselelo lesitfolwe njengelifa; nangabe kute lokusetiwe, ema-webhook atfumela loko lebekasolo atfumela kona.",
   "webhook-payload-field-actor": "Ngubani lokwentile",
   "webhook-payload-field-details": "Imininingwane: umbono, inchazelo, emanani nemalanga",

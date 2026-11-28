@@ -55,6 +55,24 @@ func TestGlobalWebhookManagement(t *testing.T) {
 	if _, err := w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"webhooksDisabled": false}}, options.UpdateOne().SetUpsert(true)); err != nil {
 		t.Fatal(err)
 	}
+	internalForm := url.Values{"hosts": {"Node-Red.Lan:01880, node-red.lan:1880\n[fd00:0::3]:443"}}
+	if res, _ := post(t, member, page+"/internal", internalForm); res.StatusCode != http.StatusNotFound {
+		t.Fatalf("member changed internal destinations: %d", res.StatusCode)
+	}
+	if res, _ := post(t, site, page+"/internal", internalForm); res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("save internal destinations: %d", res.StatusCode)
+	}
+	internalForm.Set("hosts", "valid.lan, https://not-a-host.example/path")
+	if res, _ := post(t, site, page+"/internal", internalForm); res.StatusCode != http.StatusBadRequest {
+		t.Fatalf("accepted a URL as an internal host: %d", res.StatusCode)
+	}
+	hosts, err := w.s.readWebhookInternalHosts(ctx)
+	if err != nil || strings.Join(hosts, ",") != "node-red.lan:1880,[fd00::3]:443" {
+		t.Fatalf("internal allowlist: %v, %v", hosts, err)
+	}
+	if res, body := get(t, site, page); res.StatusCode != http.StatusOK || !strings.Contains(body, "node-red.lan:1880") {
+		t.Fatalf("internal destinations missing on reload: %d", res.StatusCode)
+	}
 	accountForm := url.Values{"url": {"https://hooks.example/accounts"}, "token": {"account-secret-fixture"},
 		"onLogin": {"1"}, "fields": {"email", "authMethod", "password"}}
 	if res, _ := post(t, member, page+"/account", accountForm); res.StatusCode != http.StatusNotFound {

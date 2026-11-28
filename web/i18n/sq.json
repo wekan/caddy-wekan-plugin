@@ -1978,6 +1978,7 @@
   "webhook-activities": "Dërgo këtë webhook:",
   "webhook-activities-all": "Çdo aktivitet",
   "webhook-hide-identity": "Mos e përfshi emrin tim në webhook-et dalëse",
+  "webhook-internal-hosts": "Destinacione të brendshme",
   "webhook-payload-description": "Çfarë dërgojnë webhook-et dalëse (Rocket.Chat, Slack, ...). Parazgjedhja ruan cilësimin e trashëguar; kur nuk është caktuar asgjë, webhook-et dërgojnë atë që kanë dërguar gjithmonë.",
   "webhook-payload-field-actor": "Kush e bëri",
   "webhook-payload-field-details": "Hollësi: komenti, përshkrimi, vlerat dhe datat",

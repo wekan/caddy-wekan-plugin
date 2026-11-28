@@ -1978,6 +1978,7 @@
   "webhook-activities": "Bu webhook-u göndər:",
   "webhook-activities-all": "Hər fəaliyyət",
   "webhook-hide-identity": "Gedən webhook-larda adımı göstərməyin",
+  "webhook-internal-hosts": "Daxili təyinatlar",
   "webhook-payload-description": "Gedən webhook-ların (Rocket.Chat, Slack, ...) göndərdiyi məlumatlar. Standart seçim miras alınmış parametri saxlayır; heç nə təyin edilməyibsə, webhook-lar əvvəlki məlumatları göndərir.",
   "webhook-payload-field-actor": "Bunu edən şəxs",
   "webhook-payload-field-details": "Təfərrüatlar: şərh, təsvir, dəyərlər və tarixlər",

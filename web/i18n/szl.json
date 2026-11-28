@@ -1978,6 +1978,7 @@
   "webhook-activities": "Posyłej tyn webhook:",
   "webhook-activities-all": "Kożdŏ aktywność",
   "webhook-hide-identity": "Niy dŏwej mojigo mianŏ do wychodzōncych webhookōw",
+  "webhook-internal-hosts": "Wnōntrzne cyle",
   "webhook-payload-description": "Co wysyłajōm wychodzōnce webhooki (Rocket.Chat, Slack, ...). Wychodny ôstŏwiŏ dziedziczōne sztelōnki; bez sztelōnkōw webhooki wysyłajōm to, co zawdy.",
   "webhook-payload-field-actor": "Fto to zrobiōł",
   "webhook-payload-field-details": "Szczegōły: kōmyntŏrz, ôpis, werty i datumy",

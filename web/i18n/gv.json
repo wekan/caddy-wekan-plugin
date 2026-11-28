@@ -1978,6 +1978,7 @@
   "webhook-activities": "Cur yn webhook shoh:",
   "webhook-activities-all": "Dy chooilley obbragh",
   "webhook-hide-identity": "Faag m'ennym magh ass webhooks magh",
+  "webhook-internal-hosts": "Kione-raaidyn sthie",
   "webhook-payload-description": "Ny ta webhooks magh (Rocket.Chat, Slack, ...) cur. Ta Cadjin freayll y reaghey eiyrit; my nel nhee erbee soit, ta webhooks cur ny t'ad er chur rieau.",
   "webhook-payload-field-actor": "Quoi ren eh",
   "webhook-payload-field-details": "Mynphoyntyn: cooish, coontey, feeuidyn as laaghyn",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Kirim webhook ini:",
   "webhook-activities-all": "Setiap aktivitas",
   "webhook-hide-identity": "Jangan sertakan nama saya dalam webhook keluar",
+  "webhook-internal-hosts": "Tujuan internal",
   "webhook-payload-description": "Isi yang dikirim webhook keluar (Rocket.Chat, Slack, ...). Pilihan Bawaan mempertahankan pengaturan yang diwarisi; jika tidak ada pengaturan, webhook mengirim isi yang sama seperti sebelumnya.",
   "webhook-payload-field-actor": "Orang yang melakukan tindakan",
   "webhook-payload-field-details": "Rincian: komentar, deskripsi, nilai, dan tanggal",

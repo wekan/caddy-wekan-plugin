@@ -1978,6 +1978,7 @@
   "webhook-activities": "ଏହି ୱେବ୍ ହକ୍ ପଠାନ୍ତୁ:",
   "webhook-activities-all": "ପ୍ରତ୍ୟେକ କାର୍ଯ୍ୟକଳାପ",
   "webhook-hide-identity": "ବାହାରକୁ ଯାଉଥିବା ୱେବହୁକରୁ ମୋ ନାମ ବାଦ ଦିଅନ୍ତୁ",
+  "webhook-internal-hosts": "ଆଭ୍ୟନ୍ତରୀଣ ଗନ୍ତବ୍ୟସ୍ଥଳ",
   "webhook-payload-description": "ବାହାରକୁ ଯାଉଥିବା ୱେବହୁକ୍ (Rocket.Chat, Slack, ...) କ'ଣ ପଠାନ୍ତି। ଡିଫଲ୍ଟ ଉତ୍ତରାଧିକାରୀ ସେଟିଂ ରଖେ; କିଛି ସେଟ୍ ନହେଲେ, ୱେବହୁକ୍ ସବୁବେଳେ ଯାହା ପଠାଉଥିଲେ ତାହା ପଠାନ୍ତି।",
   "webhook-payload-field-actor": "କିଏ କଲେ",
   "webhook-payload-field-details": "ବିବରଣୀ: ମନ୍ତବ୍ୟ, ବର୍ଣ୍ଣନା, ମୂଲ୍ୟ ଏବଂ ତାରିଖ",

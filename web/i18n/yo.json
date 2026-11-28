@@ -1978,6 +1978,7 @@
   "webhook-activities": "Fi webhook yìí ránṣẹ́:",
   "webhook-activities-all": "Gbogbo iṣẹ́-ṣiṣe",
   "webhook-hide-identity": "Fi orukọ mi silẹ kuro ninu awọn webhook ti njade",
+  "webhook-internal-hosts": "Àwọn ibi tí a ń lọ nínú",
   "webhook-payload-description": "Ohun ti awọn webhook ti njade (Rocket.Chat, Slack, ...) fi ranṣẹ. Aiyipada pa eto ti a jogun mọ; nigbati ko si ohun ti a ṣeto, awọn webhook fi ohun ti wọn ti n fi ranṣẹ nigbagbogbo ranṣẹ.",
   "webhook-payload-field-actor": "Ẹni ti o ṣe e",
   "webhook-payload-field-details": "Awọn alaye: ọrọìwòye, apejuwe, awọn iye ati awọn ọjọ",

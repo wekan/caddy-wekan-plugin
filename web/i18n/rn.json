@@ -1978,6 +1978,7 @@
   "webhook-activities": "Rungika iyi webhook:",
   "webhook-activities-all": "Igikorwa cose",
   "webhook-hide-identity": "Ntushire izina ryanje muri webhooks zisohoka",
+  "webhook-internal-hosts": "Aho bija imbere",
   "webhook-payload-description": "Ivyo webhooks zisohoka (Rocket.Chat, Slack, ...) zirungika. Default igumana ikigenwa carazwe; iyo ata na kimwe gishizweho, webhooks zirungika ivyo zama zirungika.",
   "webhook-payload-field-actor": "Uwabikoze",
   "webhook-payload-field-details": "Ibisobanuro: iciyumviro, insiguro, uduciro n'amatariki",

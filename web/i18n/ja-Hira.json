@@ -1978,6 +1978,7 @@
   "webhook-activities": "このWebフックを送信:",
   "webhook-activities-all": "すべてのアクティビティ",
   "webhook-hide-identity": "そうしんする うぇぶふっくに じぶんの なまえを ふくめない",
+  "webhook-internal-hosts": "内部の宛先",
   "webhook-payload-description": "そうしんする うぇぶふっく（Rocket.Chat、Slackなど）の ないようです。「きてい」は ひきついだ せっていを たもちます。なにも せっていされていなければ、これまでと おなじ ないようを そうしんします。",
   "webhook-payload-field-actor": "そうさした ひと",
   "webhook-payload-field-details": "しょうさい: こめんと、せつめい、あたい、ひづけ",

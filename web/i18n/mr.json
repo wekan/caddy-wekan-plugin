@@ -1978,6 +1978,7 @@
   "webhook-activities": "हा वेबहुक पाठवा:",
   "webhook-activities-all": "प्रत्येक क्रिया",
   "webhook-hide-identity": "बाहेर जाणाऱ्या वेबहुकमधून माझे नाव वगळा",
+  "webhook-internal-hosts": "अंतर्गत गंतव्ये",
   "webhook-payload-description": "बाहेर जाणारे वेबहुक (Rocket.Chat, Slack, ...) काय पाठवतात. पूर्वनिर्धारित पर्याय वरच्या स्तरावरून मिळालेली सेटिंग कायम ठेवतो; काहीही ठरवलेले नसल्यास वेबहुक पूर्वीप्रमाणेच डेटा पाठवतात.",
   "webhook-payload-field-actor": "कृती कोणी केली",
   "webhook-payload-field-details": "तपशील: टिप्पणी, वर्णन, मूल्ये व तारखा",

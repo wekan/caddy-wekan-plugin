@@ -1978,6 +1978,7 @@
   "webhook-activities": "Mande chest webhook:",
   "webhook-activities-all": "Ogni ativitât",
   "webhook-hide-identity": "Lasse fûr il gno non dai webhook in jessude",
+  "webhook-internal-hosts": "Destinazions internis",
   "webhook-payload-description": "Ce che a mandin i webhook in jessude (Rocket.Chat, Slack, ...). Predefinît al ten la impostazion ereditade; cence nissune impostazion, i webhook a mandin ce che a àn simpri mandât.",
   "webhook-payload-field-actor": "Cui che lu à fat",
   "webhook-payload-field-details": "Detais: coment, descrizion, valôrs e datis",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Αποστολή αυτού του webhook:",
   "webhook-activities-all": "Κάθε δραστηριότητα",
   "webhook-hide-identity": "Παράλειψη του ονόματός μου από τα εξερχόμενα webhook",
+  "webhook-internal-hosts": "Εσωτερικοί προορισμοί",
   "webhook-payload-description": "Τι στέλνουν τα εξερχόμενα webhook (Rocket.Chat, Slack, ...). Η επιλογή Προεπιλογή διατηρεί την κληρονομημένη ρύθμιση· αν δεν έχει οριστεί τίποτα, τα webhook στέλνουν ό,τι έστελναν μέχρι τώρα.",
   "webhook-payload-field-actor": "Ποιος έκανε την ενέργεια",
   "webhook-payload-field-details": "Λεπτομέρειες: σχόλιο, περιγραφή, τιμές και ημερομηνίες",

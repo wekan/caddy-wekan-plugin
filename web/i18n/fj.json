@@ -1978,6 +1978,7 @@
   "webhook-activities": "Vakauta na webhook oqo:",
   "webhook-activities-all": "Veika kece e caka",
   "webhook-hide-identity": "Kua ni okata na yacaqu ena webhook e vakauta yani",
+  "webhook-internal-hosts": "Vanua e loma",
   "webhook-payload-description": "Na ka e vakauta yani na webhook (Rocket.Chat, Slack, ...). Na Default e maroroya na ituvatuva e taurivaki; ke sega ni vakatulewataki e dua na ka, na webhook e vakauta na ka era vakauta tiko ena veigauna kece.",
   "webhook-payload-field-actor": "O cei e cakava",
   "webhook-payload-field-details": "Ivakamacala: vakasama, ivakamacala, ivakarau kei na siga",

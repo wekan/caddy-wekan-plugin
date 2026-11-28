@@ -1978,6 +1978,7 @@
   "webhook-activities": "ई वेबहुक पठाउ:",
   "webhook-activities-all": "प्रत्येक गतिविधि",
   "webhook-hide-identity": "बाहर जायबला वेबहुक सँ हमर नाम हटा दिअ",
+  "webhook-internal-hosts": "आन्तरिक गन्तव्य",
   "webhook-payload-description": "बाहर जायबला वेबहुक (Rocket.Chat, Slack, ...) की पठबैत अछि। डिफ़ॉल्ट विरासत मे भेटल सेटिंग रखैत अछि; किछु सेट नहि हो तँ वेबहुक ओहिना पठबैत अछि जेना सदति पठबैत छल।",
   "webhook-payload-field-actor": "के कएलक",
   "webhook-payload-field-details": "विवरण: टिप्पणी, विवरण, मान आ तिथि",

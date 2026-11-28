@@ -1978,6 +1978,7 @@
   "webhook-activities": "Stuur hierdie webhook:",
   "webhook-activities-all": "Elke aktiwiteit",
   "webhook-hide-identity": "Laat my naam uit uitgaande webhake weg",
+  "webhook-internal-hosts": "Interne bestemmings",
   "webhook-payload-description": "Wat uitgaande webhake (Rocket.Chat, Slack, ...) stuur. Verstek behou die oorgeërfde instelling; as niks ingestel is nie, stuur webhake wat hulle nog altyd gestuur het.",
   "webhook-payload-field-actor": "Wie dit gedoen het",
   "webhook-payload-field-details": "Besonderhede: opmerking, beskrywing, waardes en datums",

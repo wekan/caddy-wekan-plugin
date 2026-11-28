@@ -1978,6 +1978,7 @@
   "webhook-activities": "このWebフックを送信:",
   "webhook-activities-all": "すべてのアクティビティ",
   "webhook-hide-identity": "送信Webhookに自分の名前を含めない",
+  "webhook-internal-hosts": "内部の宛先",
   "webhook-payload-description": "送信Webhook（Rocket.Chat、Slackなど）で送る内容です。「既定」は継承した設定を維持します。何も設定されていなければ、これまでと同じ内容を送信します。",
   "webhook-payload-field-actor": "操作した人",
   "webhook-payload-field-details": "詳細: コメント、説明、値、日付",

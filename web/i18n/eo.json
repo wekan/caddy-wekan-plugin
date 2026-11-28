@@ -1978,6 +1978,7 @@
   "webhook-activities": "Sendi ĉi tiun retkroĉilon:",
   "webhook-activities-all": "Ĉiu aktivaĵo",
   "webhook-hide-identity": "Forlasi mian nomon el elirantaj rethokoj",
+  "webhook-internal-hosts": "Internaj celoj",
   "webhook-payload-description": "Kion elirantaj rethokoj (Rocket.Chat, Slack, ...) sendas. Defaŭlto konservas la hereditan agordon; sen agordo, rethokoj sendas tion, kion ili ĉiam sendis.",
   "webhook-payload-field-actor": "Kiu faris tion",
   "webhook-payload-field-details": "Detaloj: komento, priskribo, valoroj kaj datoj",

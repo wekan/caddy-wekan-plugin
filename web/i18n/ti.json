@@ -1978,6 +1978,7 @@
   "webhook-activities": "እዚ webhook ስደድ፦",
   "webhook-activities-all": "ነፍሲ ወከፍ ንጥፈት",
   "webhook-hide-identity": "ስመይ ካብ ወጻኢ webhooks ኣውጽእ",
+  "webhook-internal-hosts": "ውሽጣዊ መዕለቢታት",
   "webhook-payload-description": "ወጻኢ webhooks (Rocket.Chat፡ Slack፡ ...) ዝሰዱዎ። ነባሪ እቲ ዝተወርሰ ቅንብር ይሕዝ፤ ዋላ ሓንቲ እንተዘይተቐሚጡ፡ webhooks ከምቲ ኩሉ ግዜ ዝሰዱዎ ይሰዱ።",
   "webhook-payload-field-actor": "መን ገይርዎ",
   "webhook-payload-field-details": "ዝርዝራት፦ ርእይቶ፡ መግለጺ፡ ዋጋታትን ዕለታትን",

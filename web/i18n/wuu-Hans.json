@@ -1978,6 +1978,7 @@
   "webhook-activities": "发送此 Webhook：",
   "webhook-activities-all": "所有活动",
   "webhook-hide-identity": "传出 webhook 里向勿带我个名字",
+  "webhook-internal-hosts": "内部目标",
   "webhook-payload-description": "传出 webhook（Rocket.Chat、Slack 等）发啥内容。默认会保留继承来个设置；啥也呒没设个辰光，webhook 还是发原先个内容。",
   "webhook-payload-field-actor": "啥人做个",
   "webhook-payload-field-details": "详情：评论、描述、值搭日期",

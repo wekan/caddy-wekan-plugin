@@ -1978,6 +1978,7 @@
   "webhook-activities": "Энэ webhook эльгээхэ:",
   "webhook-activities-all": "Ажал бүхэн",
   "webhook-hide-identity": "Гарадаг webhook-уудһаа минии нэрые гаргаха",
+  "webhook-internal-hosts": "Дотоодын хүрэх газарнууд",
   "webhook-payload-description": "Гарадаг webhook-ууд (Rocket.Chat, Slack, ...) юу эльгээдэг бэ. Стандарт удамшаһан тохируулга хадагална; юуншье тохируулагдаагүй һаа, webhook-ууд урдынхяа эльгээнэ.",
   "webhook-payload-field-actor": "Хэн хэбэ",
   "webhook-payload-field-details": "Дэлгэрэнгы: тайлбари, тодорхойлго, утганууд болон үдэрнүүд",

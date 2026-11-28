@@ -1978,6 +1978,7 @@
   "webhook-activities": "Xictitlani inin webhook:",
   "webhook-activities-all": "Nochi tequitiliztli",
   "webhook-hide-identity": "Amo xictlali notocayo ipan webhooks tlen quizah",
+  "webhook-internal-hosts": "Tlen calitic campa ahci",
   "webhook-payload-description": "Tlen quititlaniah webhooks tlen quizah (Rocket.Chat, Slack, ...). Default quipia tlaahxitiliztli tlen mocahuilia; intla amo tlen motlalia, webhooks quititlaniah tlen mochipa oquititlanqueh.",
   "webhook-payload-field-actor": "Aquin oquichiuh",
   "webhook-payload-field-details": "Tlamantli: tlahtolpehualiztli, tlahtolli, tlapoualli ihuan tonalli",

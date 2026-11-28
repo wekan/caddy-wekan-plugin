@@ -1978,6 +1978,7 @@
   "webhook-activities": "Soma webhook yi:",
   "webhook-activities-all": "Adwuma biara",
   "webhook-hide-identity": "Mfa me din nka webhooks a ɛfiri adi ho",
+  "webhook-internal-hosts": "Nhyehyɛe a ɛwɔ mu a wɔma kwan",
   "webhook-payload-description": "Deɛ webhooks a ɛfiri adi (Rocket.Chat, Slack, ...) mena. Default kura nhyehyɛeɛ a wɔanya; sɛ wɔanhyehyɛ biribiara a, webhooks mena deɛ wɔmena daa no.",
   "webhook-payload-field-actor": "Nea ɔyɛeɛ",
   "webhook-payload-field-details": "Nkyerɛkyerɛmu: nsusuiɛ, nkyerɛkyerɛmu, botaeɛ ne nna",

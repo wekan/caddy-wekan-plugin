@@ -1978,6 +1978,7 @@
   "webhook-activities": "Ҫак webhook-а яр:",
   "webhook-activities-all": "Кашни ӗҫ",
   "webhook-hide-identity": "Тухакан webhook-сенче манӑн ята ан кӑтартӑр",
+  "webhook-internal-hosts": "Шалти вырӑнсем",
   "webhook-payload-description": "Тухакан webhook-сем (Rocket.Chat, Slack, ...) мӗн яраҫҫӗ. Йӑлана кӗнӗ лартӑм еткерленӗ ӗнерлеве упрать; нимӗн те лартман пулсан, webhook-сем яланхи пекех яраҫҫӗ.",
   "webhook-payload-field-actor": "Кам тунӑ",
   "webhook-payload-field-details": "Тӗплӗнрех: хушса калани, ӑнлантару, пӗлтерӗшсем тата кунсем",

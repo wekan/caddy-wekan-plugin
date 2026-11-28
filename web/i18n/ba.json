@@ -1978,6 +1978,7 @@
   "webhook-activities": "Был веб-хукты ебәрергә:",
   "webhook-activities-all": "Һәр эшмәкәрлек",
   "webhook-hide-identity": "Сығыусы вебхуктарҙа минең исемде күрһәтмәҫкә",
+  "webhook-internal-hosts": "Эске йүнәлештәр",
   "webhook-payload-description": "Сығыусы вебхуктар (Rocket.Chat, Slack, ...) нимә ебәрә. Ғәҙәттәгесә мираҫ итеп алынған көйләүҙе һаҡлай; бер нәмә лә ҡуйылмаһа, вебхуктар һәр ваҡыттағыса ебәрә.",
   "webhook-payload-field-actor": "Кем эшләне",
   "webhook-payload-field-details": "Ентеклелек: аңлатма, тасуирлама, ҡиммәттәр һәм көндәр",

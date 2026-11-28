@@ -1978,6 +1978,7 @@
   "webhook-activities": "Ninviar iste webhook:",
   "webhook-activities-all": "Cada actividat",
   "webhook-hide-identity": "No meter o mío nombre en os webhooks salients",
+  "webhook-internal-hosts": "Destins internos",
   "webhook-payload-description": "Que ninvian os webhooks salients (Rocket.Chat, Slack, ...). Por defecto se conserva a configuración heredada; si no i hai cosa configurada, os webhooks ninvian o que siempre han ninviau.",
   "webhook-payload-field-actor": "Qui lo fació",
   "webhook-payload-field-details": "Detalles: comentario, descripción, valors y calendatas",

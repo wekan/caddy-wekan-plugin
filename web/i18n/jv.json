@@ -1978,6 +1978,7 @@
   "webhook-activities": "Kirim webhook iki:",
   "webhook-activities-all": "Saben kegiyatan",
   "webhook-hide-identity": "Aja nyebutake jenengku ing webhook metu",
+  "webhook-internal-hosts": "Tujuan internal",
   "webhook-payload-description": "Apa sing dikirim webhook metu (Rocket.Chat, Slack, ...). Gawan nganggo setelan warisan; yen ora ana sing disetel, webhook ngirim kaya biyasane.",
   "webhook-payload-field-actor": "Sapa sing nindakake",
   "webhook-payload-field-details": "Rincian: komentar, katrangan, rega lan tanggal",

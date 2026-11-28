@@ -1978,6 +1978,7 @@
   "webhook-activities": "بۇ Webhook نى ئەۋەتىش:",
   "webhook-activities-all": "ھەر بىر پائالىيەت",
   "webhook-hide-identity": "چىقىش webhook لىرىدا ئىسمىمنى كۆرسەتمەسلىك",
+  "webhook-internal-hosts": "ئىچكى نىشانلار",
   "webhook-payload-description": "چىقىش webhook لىرى (Rocket.Chat، Slack، ...) ئەۋەتىدىغان نەرسە. سۈكۈتتىكى ۋارىسلىق قىلىنغان تەڭشەكنى ساقلايدۇ؛ ھېچنېمە تەڭشەلمىسە، webhook لار ھەمىشە ئەۋەتىدىغىنىنى ئەۋەتىدۇ.",
   "webhook-payload-field-actor": "كىم قىلدى",
   "webhook-payload-field-details": "تەپسىلات: باھا، چۈشەندۈرۈش، قىممەت ۋە چېسلا",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Sūtīt šo webhook:",
   "webhook-activities-all": "Katra darbība",
   "webhook-hide-identity": "Neiekļaut manu vārdu izejošajās tīmekļa aizķerēs",
+  "webhook-internal-hosts": "Iekšējie galamērķi",
   "webhook-payload-description": "Ko nosūta izejošās tīmekļa aizķeres (Rocket.Chat, Slack, ...). Noklusējums saglabā mantoto iestatījumu; ja nekas nav iestatīts, tīmekļa aizķeres nosūta to, ko vienmēr ir sūtījušas.",
   "webhook-payload-field-actor": "Kas to izdarīja",
   "webhook-payload-field-details": "Sīkāka informācija: komentārs, apraksts, vērtības un datumi",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "یہِ ویب ہُک سوزیو:",
   "webhook-activities-all": "پرٛتھ سرگرمی",
   "webhook-hide-identity": "نیبر گژھن وٲلین webhooks منٛزٕ میون ناو کڈِو",
+  "webhook-internal-hosts": "اندرونی منزلہٕ",
   "webhook-payload-description": "نیبر گژھن وٲلۍ webhooks (Rocket.Chat، Slack، ...) کیاہ سوزان چھِ۔ ڈیفالٹ چھُ وراثتی ترتیب رَٹان؛ کینٛہہ نہٕ ترتیب آسنہٕ پؠٹھ چھِ webhooks سُے سوزان یُس ہمیشہ سوزان آسۍ۔",
   "webhook-payload-field-actor": "یہ کٔمۍ کوٚر",
   "webhook-payload-field-details": "تفصیل: تبصرٕ، تفصیل، قدرٕ تہٕ تٲریخ",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Ин вебҳукро фиристед:",
   "webhook-activities-all": "Ҳар фаъолият",
   "webhook-hide-identity": "Номи маро дар вебҳукҳои бурунсамт нагузоред",
+  "webhook-internal-hosts": "Самтҳои дохилӣ",
   "webhook-payload-description": "Вебҳукҳои бурунсамт (Rocket.Chat, Slack, ...) чӣ мефиристанд. Пешфарз танзими меросиро нигоҳ медорад; агар ҳеҷ чиз танзим нашуда бошад, вебҳукҳо ҳамон чизеро мефиристанд, ки ҳамеша мефиристоданд.",
   "webhook-payload-field-actor": "Кӣ кард",
   "webhook-payload-field-details": "Тафсилот: шарҳ, тавсиф, қиматҳо ва санаҳо",

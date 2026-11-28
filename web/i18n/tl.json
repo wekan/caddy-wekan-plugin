@@ -1978,6 +1978,7 @@
   "webhook-activities": "Ipadala ang webhook na ito:",
   "webhook-activities-all": "Bawat aktibidad",
   "webhook-hide-identity": "Huwag isama ang aking pangalan sa mga papalabas na webhook",
+  "webhook-internal-hosts": "Mga panloob na destinasyon",
   "webhook-payload-description": "Ang ipinapadala ng mga papalabas na webhook (Rocket.Chat, Slack, ...). Pinapanatili ng Default ang minanang setting; kung walang nakatakda, ipinapadala ng mga webhook ang dati na nilang ipinapadala.",
   "webhook-payload-field-actor": "Sino ang gumawa nito",
   "webhook-payload-field-details": "Mga detalye: komento, paglalarawan, halaga at petsa",

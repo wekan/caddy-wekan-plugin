@@ -1978,6 +1978,7 @@
   "webhook-activities": "এই webhook পঠিয়াওক:",
   "webhook-activities-all": "প্ৰতিটো কাৰ্যকলাপ",
   "webhook-hide-identity": "বহিৰ্গামী ৱেবহুকত মোৰ নাম বাদ দিয়ক",
+  "webhook-internal-hosts": "আভ্যন্তৰীণ গন্তব্যস্থান",
   "webhook-payload-description": "বহিৰ্গামী ৱেবহুকসমূহে (Rocket.Chat, Slack, ...) কি পঠায়। Default-এ উত্তৰাধিকাৰসূত্ৰে পোৱা ছেটিং ৰাখে; একো ছেট কৰা নাথাকিলে, ৱেবহুকসমূহে সদায় যি পঠাইছিল তাকেই পঠায়।",
   "webhook-payload-field-actor": "কোনে কৰিলে",
   "webhook-payload-field-details": "বিৱৰণ: মন্তব্য, বিৱৰণ, মান আৰু তাৰিখ",

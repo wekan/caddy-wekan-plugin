@@ -1978,6 +1978,7 @@
   "webhook-activities": "Oigenda nece webhook:",
   "webhook-activities-all": "Kaik tegendad",
   "webhook-hide-identity": "Jätkat minun nimi lähtijoišpäi webhookoišpäi",
+  "webhook-internal-hosts": "Südäižed sihtkohtad",
   "webhook-payload-description": "Midä lähtijad webhookad (Rocket.Chat, Slack, ...) oigendadas. Augotižjärgeline kaičeb perittud valičusen; ku nimidä ei ole märitud, webhookad oigendadas sidä, midä aigemba.",
   "webhook-payload-field-actor": "Ken tegi sen",
   "webhook-payload-field-details": "Detalid: sel'genzoituz, kirjutuz, znamoičendad i päivmärad",

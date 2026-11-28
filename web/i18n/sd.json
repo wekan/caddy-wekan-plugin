@@ -1978,6 +1978,7 @@
   "webhook-activities": "هي ويب هُڪ موڪليو:",
   "webhook-activities-all": "هر سرگرمي",
   "webhook-hide-identity": "ٻاهر ويندڙ webhooks مان منهنجو نالو ڪڍي ڇڏيو",
+  "webhook-internal-hosts": "اندروني منزلون",
   "webhook-payload-description": "ٻاهر ويندڙ webhooks (Rocket.Chat، Slack، ...) ڇا موڪلين ٿا. ڊيفالٽ ورثي ۾ مليل سيٽنگ رکي ٿو؛ جڏهن ڪجهه به سيٽ نه هجي، webhooks اهو ئي موڪلين ٿا جيڪو هميشه موڪليندا رهيا آهن.",
   "webhook-payload-field-actor": "اهو ڪنهن ڪيو",
   "webhook-payload-field-details": "تفصيل: تبصرو، وضاحت، قدر ۽ تاريخون",

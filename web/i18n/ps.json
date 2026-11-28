@@ -1978,6 +1978,7 @@
   "webhook-activities": "دا وېب‌هوک ولېږئ:",
   "webhook-activities-all": "هر فعالیت",
   "webhook-hide-identity": "زما نوم له وتونکو ویب‌هوکونو څخه لرې وساتئ",
+  "webhook-internal-hosts": "داخلي منزلونه",
   "webhook-payload-description": "هغه څه چې وتونکي ویب‌هوکونه (Rocket.Chat، Slack، ...) لېږي. Default میراثي امستنه ساتي؛ که هېڅ نه وي ټاکل شوي، ویب‌هوکونه هغه څه لېږي چې تل یې لېږل.",
   "webhook-payload-field-actor": "چا وکړ",
   "webhook-payload-field-details": "جزئيات: تبصره، تشريح، ارزښتونه او نېټې",

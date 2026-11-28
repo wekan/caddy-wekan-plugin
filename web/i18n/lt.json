@@ -1978,6 +1978,7 @@
   "webhook-activities": "Siųsti šį webhook:",
   "webhook-activities-all": "Kiekviena veikla",
   "webhook-hide-identity": "Nesiųsti mano vardo per išeinančius webhook",
+  "webhook-internal-hosts": "Vidinės paskirties vietos",
   "webhook-payload-description": "Ką siunčia išeinantys webhook (Rocket.Chat, Slack ir kt.). Numatytoji parinktis išlaiko paveldėtą nuostatą; jei nieko nenustatyta, webhook siunčia tuos pačius duomenis kaip anksčiau.",
   "webhook-payload-field-actor": "Kas atliko veiksmą",
   "webhook-payload-field-details": "Išsami informacija: komentaras, aprašymas, reikšmės ir datos",

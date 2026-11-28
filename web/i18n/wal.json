@@ -1978,6 +1978,7 @@
   "webhook-activities": "Ha webhook kiitta:",
   "webhook-activities-all": "Oosuwaa ubbaa",
   "webhook-hide-identity": "Kare biya webhook-ta giddoppe ta sunttaa kessa",
+  "webhook-internal-hosts": "Giddo baana bessaa",
   "webhook-payload-description": "Kare biya webhook-ti (Rocket.Chat, Slack, ...) kiittiyoobaa. Default laattida giigissuwaa naagees; aybikka wottibeennaba, webhook-ti ubba wode kiittiyoobaa kiittoosona.",
   "webhook-payload-field-actor": "Oottidaagee oonee",
   "webhook-payload-field-details": "Tuggota: qofaa, qonccissuwaa, wagatanne gallassata",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Webhook una nassiuguk:",
   "webhook-activities-all": "Suliaq tamarmi",
   "webhook-hide-identity": "Webhook-ini anisuni aqqa ilanngutinnagu",
+  "webhook-internal-hosts": "Iluaniittut anngutassat",
   "webhook-payload-description": "Webhook-it anisut (Rocket.Chat, Slack, ...) suut nassiuttarneraat. Nalinginnaasoq aaqqissuussaaneq kingornutaq atuartuarpaa; aaqqissuussaqanngippat webhook-it nassiussartakkatik nassiuttuarpaat.",
   "webhook-payload-field-actor": "Kina taamaaliorpa",
   "webhook-payload-field-details": "Paasissutissat: oqaaseqaat, nassuiaat, naleqarnerit ulluillu",

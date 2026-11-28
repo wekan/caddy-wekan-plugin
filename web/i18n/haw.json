@@ -1978,6 +1978,7 @@
   "webhook-activities": "Hoʻouna i kēia wepahooka:",
   "webhook-activities-all": "Nā hana a pau",
   "webhook-hide-identity": "Mai hoʻokomo i koʻu inoa ma nā webhook puka",
+  "webhook-internal-hosts": "Nā wahi hoʻouna kūloko",
   "webhook-payload-description": "Nā mea e hoʻouna ʻia e nā webhook puka (Rocket.Chat, Slack, ...). Mālama ke koho paʻamau i ka hoʻonohonoho i hoʻoilina ʻia; inā ʻaʻohe mea i hoʻonohonoho ʻia, hoʻouna nā webhook i nā mea e like me ka wā ma mua.",
   "webhook-payload-field-actor": "Ka mea nāna i hana",
   "webhook-payload-field-details": "Nā kikoʻī: manaʻo, wehewehe, waiwai a me nā lā",

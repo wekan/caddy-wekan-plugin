@@ -1978,6 +1978,7 @@
   "webhook-activities": "Manna stu webhook:",
   "webhook-activities-all": "Ogne attività",
   "webhook-hide-identity": "Nun mettere 'o nomme mio int'e webhook 'e jesce",
+  "webhook-internal-hosts": "Destinazziune interne",
   "webhook-payload-description": "Chello ca mannano 'e webhook 'e jesce (Rocket.Chat, Slack, ...). Predefinito mantene 'a mpustazione ereditata; si nun ce sta niente mpustato, 'e webhook mannano chello ca hanno sempe mannato.",
   "webhook-payload-field-actor": "Chi ll'ha fatto",
   "webhook-payload-field-details": "Dettaglie: commiento, descrizzione, valure e date",

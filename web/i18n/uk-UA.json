@@ -1979,6 +1979,7 @@
   "webhook-activities": "Надсилати цей вебхук:",
   "webhook-activities-all": "Кожна дія",
   "webhook-hide-identity": "Не включати моє ім’я до вихідних вебхуків",
+  "webhook-internal-hosts": "Внутрішні адреси призначення",
   "webhook-payload-description": "Що надсилають вихідні вебхуки (Rocket.Chat, Slack, ...). Варіант За замовчуванням зберігає успадковане налаштування; якщо нічого не задано, вебхуки надсилають ті самі дані, що й раніше.",
   "webhook-payload-field-actor": "Хто виконав дію",
   "webhook-payload-field-details": "Подробиці: коментар, опис, значення й дати",

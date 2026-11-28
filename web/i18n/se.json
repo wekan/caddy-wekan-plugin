@@ -1978,6 +1978,7 @@
   "webhook-activities": "Sádde dán webhook:",
   "webhook-activities-all": "Juohke doaibma",
   "webhook-hide-identity": "Ale bija mu nama olggos manni webhookaide",
+  "webhook-internal-hosts": "Siskkáldas ulbmilat",
   "webhook-payload-description": "Maid olggos manni webhookat (Rocket.Chat, Slack, ...) sáddejit. Standárda bisuha árbejuvvon heivehusa; go mihkkege ii leat biddjon, webhookat sáddejit dan maid álo leat sáddemin.",
   "webhook-payload-field-actor": "Gii dagai dan",
   "webhook-payload-field-details": "Bienat: kommeanta, válddahus, árvvut ja dáhtonat",

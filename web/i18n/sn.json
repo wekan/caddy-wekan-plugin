@@ -1978,6 +1978,7 @@
   "webhook-activities": "Tumira webhook iyi:",
   "webhook-activities-all": "Chiitiko chese",
   "webhook-hide-identity": "Usaisa zita rangu mumawebhook anobuda",
+  "webhook-internal-hosts": "Nzvimbo dzemukati",
   "webhook-payload-description": "Zvinotumirwa nemawebhook anobuda (Rocket.Chat, Slack, ...). Zvakamisikidzwa zvinochengeta marongero akagarwa nhaka; kana pasina chakaiswa, mawebhook anotumira zvaagara achitumira.",
   "webhook-payload-field-actor": "Akazviita",
   "webhook-payload-field-details": "Ruzivo: mhinduro, tsanangudzo, kukosha nemazuva",

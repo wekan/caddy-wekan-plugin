@@ -1245,6 +1245,7 @@
   "webhook-activities": "ఈ వెబ్‌హుక్‌ను పంపు:",
   "webhook-activities-all": "ప్రతి కార్యాచరణ",
   "webhook-hide-identity": "బయటకు వెళ్ళే వెబ్‌హుక్‌లలో నా పేరును చేర్చవద్దు",
+  "webhook-internal-hosts": "అంతర్గత గమ్యస్థానాలు",
   "webhook-payload-description": "బయటకు వెళ్ళే వెబ్‌హుక్‌లు (Rocket.Chat, Slack, ...) ఏమి పంపుతాయి. డిఫాల్ట్ వారసత్వ సెట్టింగ్‌ను ఉంచుతుంది; ఏమీ సెట్ చేయకపోతే, వెబ్‌హుక్‌లు ఎప్పటిలాగే పంపుతాయి.",
   "webhook-payload-field-actor": "ఎవరు చేశారు",
   "webhook-payload-field-details": "వివరాలు: వ్యాఖ్య, వివరణ, విలువలు మరియు తేదీలు",

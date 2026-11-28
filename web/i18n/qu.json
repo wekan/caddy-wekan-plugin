@@ -1978,6 +1978,7 @@
   "webhook-activities": "Kay webhook-ta kachay:",
   "webhook-activities-all": "Sapa ruray",
   "webhook-hide-identity": "Lluqsiq webhookkunapi sutiyta ama churaychu",
+  "webhook-internal-hosts": "Ukhu chayanankuna",
   "webhook-payload-description": "Lluqsiq webhookkuna (Rocket.Chat, Slack, ...) imatachus apachinku. Ñawpaqmanta nisqaqa herenciasqa allichayta waqaychan; mana imapas churasqa kaptinqa, webhookkunaqa wiñaypas apachisqankutam apachinku.",
   "webhook-payload-field-actor": "Pim ruwarqa",
   "webhook-payload-field-details": "Sapaq kaqkuna: rimay, willakuy, chanikuna, pachakuna",

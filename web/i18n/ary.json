@@ -1978,6 +1978,7 @@
   "webhook-activities": "صيفط هاد الويب هوك:",
   "webhook-activities-all": "كل نشاط",
   "webhook-hide-identity": "ما تحطش سميتي فالـwebhooks الخارجين",
+  "webhook-internal-hosts": "الوجهات الداخلية",
   "webhook-payload-description": "شنو كيصيفطو الـwebhooks الخارجين (Rocket.Chat، Slack، ...). الافتراضي كيخلي الإعداد الموروث؛ إلا ما تدار والو، الـwebhooks كيصيفطو داكشي اللي ديما كيصيفطو.",
   "webhook-payload-field-actor": "شكون دارها",
   "webhook-payload-field-details": "التفاصيل: تعليق، وصف، قيم وتواريخ",

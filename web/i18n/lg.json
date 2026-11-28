@@ -1978,6 +1978,7 @@
   "webhook-activities": "Weereza webhook eno:",
   "webhook-activities-all": "Buli kikolwa",
   "webhook-hide-identity": "Erinnya lyange lireke ebweru wa webhooks ezifuluma",
+  "webhook-internal-hosts": "Ebifo eby'omunda",
   "webhook-payload-description": "Ebyo webhooks ezifuluma (Rocket.Chat, Slack, ...) bye ziweereza. Ekisookerwako kikuuma entegeka esikiddwa; nga tewali kiteekeddwawo, webhooks ziweereza bye zibadde ziweereza bulijjo.",
   "webhook-payload-field-actor": "Ani eyakikola",
   "webhook-payload-field-details": "Ebikwata ku nsonga: endowooza, ennyonyola, emiwendo n'ennaku",

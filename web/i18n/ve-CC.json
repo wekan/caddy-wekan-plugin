@@ -1978,6 +1978,7 @@
   "webhook-activities": "Manda sto webhook:",
   "webhook-activities-all": "Ogni atività",
   "webhook-hide-identity": "Łasa fora el me nome dai webhook in uscita",
+  "webhook-internal-hosts": "Destinasion interne",
   "webhook-payload-description": "Cosa che i webhook in uscita (Rocket.Chat, Slack, ...) i manda. Predefinìo el tien l'inpostasion ereditada; sensa gnente inpostà, i webhook i manda cuel che i ga senpre mandà.",
   "webhook-payload-field-actor": "Chi che ło ga fato",
   "webhook-payload-field-details": "Detaji: comento, descrision, vałori e date",

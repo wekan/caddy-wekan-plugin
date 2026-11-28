@@ -1978,6 +1978,7 @@
   "webhook-activities": "Pitreadzi aestu webhook:",
   "webhook-activities-all": "Tutã activitatea",
   "webhook-hide-identity": "Scoati numa a mea dit webhook-urli di ishiri",
+  "webhook-internal-hosts": "Destinații di nãuntru",
   "webhook-payload-description": "Tsi pitrec webhook-urli di ishiri (Rocket.Chat, Slack, ...). Predefinit tsãni sitarea mushtinitã; fãrã tsiva bãgat, webhook-urli pitrec tsi pitricurã totna.",
   "webhook-payload-field-actor": "Cari u featsi",
   "webhook-payload-field-details": "Detalii: comentariu, discriiri, valori shi dati",

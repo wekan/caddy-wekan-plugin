@@ -1978,6 +1978,7 @@
   "webhook-activities": "Tuma webhook hii:",
   "webhook-activities-all": "Kila shughuli",
   "webhook-hide-identity": "Usijumuishe jina langu katika webhooks zinazotoka",
+  "webhook-internal-hosts": "Maeneo ya ndani",
   "webhook-payload-description": "Kinachotumwa na webhooks zinazotoka (Rocket.Chat, Slack, ...). Chaguomsingi huhifadhi mpangilio uliorithiwa; bila mpangilio wowote, webhooks hutuma kile ambacho zimekuwa zikituma.",
   "webhook-payload-field-actor": "Aliyefanya kitendo",
   "webhook-payload-field-details": "Maelezo: maoni, ufafanuzi, thamani na tarehe",

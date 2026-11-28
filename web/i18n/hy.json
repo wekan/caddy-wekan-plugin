@@ -1978,6 +1978,7 @@
   "webhook-activities": "Ուղարկել այս վեբհուկը՝",
   "webhook-activities-all": "Յուրաքանչյուր գործողություն",
   "webhook-hide-identity": "Չներառել իմ անունը ելքային webhook-ներում",
+  "webhook-internal-hosts": "Ներքին նպատակակետեր",
   "webhook-payload-description": "Ինչ են ուղարկում ելքային webhook-ները (Rocket.Chat, Slack, ...)։ Լռելյայնը պահպանում է ժառանգված կարգավորումը. եթե ոչինչ սահմանված չէ, webhook-ներն ուղարկում են այն, ինչ միշտ ուղարկել են։",
   "webhook-payload-field-actor": "Ով է դա արել",
   "webhook-payload-field-details": "Մանրամասներ՝ մեկնաբանություն, նկարագրություն, արժեքներ և ամսաթվեր",

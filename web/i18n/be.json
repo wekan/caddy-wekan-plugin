@@ -1978,6 +1978,7 @@
   "webhook-activities": "Адпраўляць гэты вэб-хук:",
   "webhook-activities-all": "Кожная дзейнасць",
   "webhook-hide-identity": "Не ўключаць маё імя ў выходныя вэб-хукі",
+  "webhook-internal-hosts": "Унутраныя адрасы прызначэння",
   "webhook-payload-description": "Што адпраўляюць выходныя вэб-хукі (Rocket.Chat, Slack, ...). Прадвызначанае значэнне захоўвае ўспадкаваную наладу; калі нічога не наладжана, вэб-хукі адпраўляюць тое, што адпраўлялі заўсёды.",
   "webhook-payload-field-actor": "Хто гэта зрабіў",
   "webhook-payload-field-details": "Падрабязнасці: каментарый, апісанне, значэнні і даты",

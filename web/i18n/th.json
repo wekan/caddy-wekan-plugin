@@ -1978,6 +1978,7 @@
   "webhook-activities": "ส่ง Webhook นี้:",
   "webhook-activities-all": "ทุกกิจกรรม",
   "webhook-hide-identity": "ไม่ใส่ชื่อของฉันในเว็บฮุกขาออก",
+  "webhook-internal-hosts": "ปลายทางภายใน",
   "webhook-payload-description": "ข้อมูลที่เว็บฮุกขาออก (Rocket.Chat, Slack, ...) ส่ง ค่าเริ่มต้นจะคงการตั้งค่าที่สืบทอดมาไว้ หากไม่ได้ตั้งค่าอะไร เว็บฮุกจะส่งข้อมูลเหมือนที่เคยส่ง",
   "webhook-payload-field-actor": "ผู้ที่ดำเนินการ",
   "webhook-payload-field-details": "รายละเอียด: ความคิดเห็น คำอธิบาย ค่า และวันที่",

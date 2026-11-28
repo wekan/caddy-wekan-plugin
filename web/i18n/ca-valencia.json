@@ -1978,6 +1978,7 @@
   "webhook-activities": "Envia este webhook:",
   "webhook-activities-all": "Tota l'activitat",
   "webhook-hide-identity": "Omet el meu nom dels webhooks d’eixida",
+  "webhook-internal-hosts": "Destinacions internes",
   "webhook-payload-description": "Què envien els webhooks d’eixida (Rocket.Chat, Slack, ...). L’opció Per defecte conserva la configuració heretada; si no hi ha res configurat, els webhooks envien el mateix que fins ara.",
   "webhook-payload-field-actor": "Qui ha fet l’acció",
   "webhook-payload-field-details": "Detalls: comentari, descripció, valors i dates",

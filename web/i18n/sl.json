@@ -1978,6 +1978,7 @@
   "webhook-activities": "Pošlji ta spletni vmesnik (webhook):",
   "webhook-activities-all": "Vsaka aktivnost",
   "webhook-hide-identity": "Izpusti moje ime iz odhodnih webhookov",
+  "webhook-internal-hosts": "Notranji cilji",
   "webhook-payload-description": "Kaj pošiljajo odhodni webhooki (Rocket.Chat, Slack, ...). Privzeto ohrani podedovano nastavitev; če ni nastavljeno nič, webhooki pošiljajo to, kar so vedno pošiljali.",
   "webhook-payload-field-actor": "Kdo je to naredil",
   "webhook-payload-field-details": "Podrobnosti: komentar, opis, vrednosti in datumi",

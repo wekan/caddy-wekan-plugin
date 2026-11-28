@@ -1978,6 +1978,7 @@
   "webhook-activities": "Vê webhookê bişîne:",
   "webhook-activities-all": "Her çalakî",
   "webhook-hide-identity": "Navê min ji webhookên derketî derxe",
+  "webhook-internal-hosts": "Armancên navxweyî",
   "webhook-payload-description": "Tiştê ku webhookên derketî (Rocket.Chat, Slack, ...) dişînin. Pêşdanasîn mîhenga mîraskirî diparêze; heke tiştek nehatibe danîn, webhook tiştê ku her tim şandine dişînin.",
   "webhook-payload-field-actor": "Kê kir",
   "webhook-payload-field-details": "Hûrgulî: şîrove, danasîn, nirx û dîrok",

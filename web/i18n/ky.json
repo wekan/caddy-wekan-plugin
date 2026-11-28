@@ -1978,6 +1978,7 @@
   "webhook-activities": "Бул вебхукту жөнөтүү:",
   "webhook-activities-all": "Ар бир аракет",
   "webhook-hide-identity": "Чыгуучу webhooks'та менин атымды көрсөтпөө",
+  "webhook-internal-hosts": "Ички багыттар",
   "webhook-payload-description": "Чыгуучу webhooks (Rocket.Chat, Slack, ...) эмне жөнөтөт. Демейки мурасталган жөндөөнү сактайт; эч нерсе коюлбаса, webhooks дайыма жөнөткөнүн жөнөтөт.",
   "webhook-payload-field-actor": "Ким жасады",
   "webhook-payload-field-details": "Чоо-жайы: комментарий, сүрөттөмө, маанилер жана күндөр",

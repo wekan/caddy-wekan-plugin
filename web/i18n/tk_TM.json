@@ -1978,6 +1978,7 @@
   "webhook-activities": "Bu webhook-y iber:",
   "webhook-activities-all": "Her bir hereket",
   "webhook-hide-identity": "Adymy çykýan webhook-lardan aýyr",
+  "webhook-internal-hosts": "Içerki barmaly ýerler",
   "webhook-payload-description": "Çykýan webhook-laryň (Rocket.Chat, Slack, ...) iberýän zatlary. Deslapky miras alnan sazlamany saklaýar; hiç zat sazlanmasa, webhook-lar elmydama iberýän zatlaryny iberýär.",
   "webhook-payload-field-actor": "Kim etdi",
   "webhook-payload-field-details": "Jikme-jiklikler: teswir, düşündiriş, bahalar we seneler",

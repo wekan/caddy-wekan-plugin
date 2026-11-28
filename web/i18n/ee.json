@@ -1978,6 +1978,7 @@
   "webhook-activities": "Ɖo webhook sia ɖa:",
   "webhook-activities-all": "Dɔwɔwɔ ɖesiaɖe",
   "webhook-hide-identity": "Mègatsɔ nye ŋkɔ de webhook siwo yia egodo me o",
+  "webhook-internal-hosts": "Teƒe siwo le eme",
   "webhook-payload-description": "Nusi webhook siwo yia egodo (Rocket.Chat, Slack, ...) ɖona. Default léa ɖoɖo si wonyi la ɖe asi; ne woɖo naneke o la, webhookwo ɖoa nusi wole ɖoɖom ɣesiaɣi.",
   "webhook-payload-field-actor": "Ame si wɔe",
   "webhook-payload-field-details": "Nyatakakawo: nyaŋuɖoɖo, numeɖeɖe, asixɔxɔwo kple ŋkekewo",

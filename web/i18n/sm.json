@@ -1978,6 +1978,7 @@
   "webhook-activities": "Auina atu lenei webhook:",
   "webhook-activities-all": "Gaoioiga uma",
   "webhook-hide-identity": "Aua le aofia lou igoa i webhooks e auina atu",
+  "webhook-internal-hosts": "Nofoaga i totonu",
   "webhook-payload-description": "O mea e auina atu e webhooks i fafo (Rocket.Chat, Slack, ...). O le Masani e teu pea le faatulagaga tuufaasolo; afai e leai se mea ua seti, e auina atu e webhooks mea sa latou auina atu i taimi uma.",
   "webhook-payload-field-actor": "O ai na faia",
   "webhook-payload-field-details": "Auiliiliga: faamatalaga, faamatalaga o le pepa, tau ma aso",

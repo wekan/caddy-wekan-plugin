@@ -8,6 +8,13 @@
   p.error.js-webhook-error(role="alert", hidden) {{t $.L "error"}}
   if .AccountWebhook
     section
+      h2 {{t $.L "webhook-internal-hosts"}}
+      form(method="post", action="/admin/settings/global-webhooks/internal")
+        label
+          | {{t $.L "webhook-internal-hosts"}}
+          textarea(name="hosts", rows="5", maxlength="16000") {{.InternalHosts}}
+        button(type="submit") {{t $.L "save"}}
+    section
       h2 {{t $.L "account-webhook"}}
       form(method="post", action="/admin/settings/global-webhooks/account")
         label

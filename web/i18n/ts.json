@@ -1978,6 +1978,7 @@
   "webhook-activities": "Rhumela webhook leyi:",
   "webhook-activities-all": "Ntirho wun'wana ni wun'wana",
   "webhook-hide-identity": "U nga katsi vito ra mina eka ti-webhook leti humaka",
+  "webhook-internal-hosts": "Tindhawu ta le ndzeni",
   "webhook-payload-description": "Leswi ti-webhook leti humaka (Rocket.Chat, Slack, ...) ti swi rhumelaka. Ntolovelo wu hlayisa ku veka loku dyondzeriweke; loko ku hava lexi vekiweke, ti-webhook ti rhumela leswi ti tshameke ti swi rhumela.",
   "webhook-payload-field-actor": "I mani a swi endleke",
   "webhook-payload-field-details": "Vuxokoxoko: mbulavulo, nhlamuselo, mimpimo na masiku",

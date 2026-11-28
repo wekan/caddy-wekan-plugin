@@ -1978,6 +1978,7 @@
   "webhook-activities": "Deze webhook versturen:",
   "webhook-activities-all": "Elke activiteit",
   "webhook-hide-identity": "Mijn naam weglaten uit uitgaande webhooks",
+  "webhook-internal-hosts": "Interne bestemmiengn",
   "webhook-payload-description": "Wat uitgaande webhooks (Rocket.Chat, Slack, ...) versturen. Standaard behoudt de overgenomen instelling; als niets ingesteld is, versturen webhooks wat ze altijd al verstuurden.",
   "webhook-payload-field-actor": "Wie het deed",
   "webhook-payload-field-details": "Details: aantekening, beschrijving, waarden en datums",

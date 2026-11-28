@@ -1978,6 +1978,7 @@
   "webhook-activities": "Nin webhook ci:",
   "webhook-activities-all": "Baara bɛɛ",
   "webhook-hide-identity": "Ne tɔgɔ to kɛnɛ ma webhook bɔtaw la",
+  "webhook-internal-hosts": "Kɔnɔnafɛ yɔrɔw",
   "webhook-payload-description": "Webhook bɔtaw (Rocket.Chat, Slack, ...) bɛ min ci. Default bɛ labɛn ciyɛnnen mara; ni foyi ma sigi, webhookw bɛ u ka ci kɔrɔw ci.",
   "webhook-payload-field-actor": "Mɔgɔ min y'a kɛ",
   "webhook-payload-field-details": "Kunnafoni kɛrɛnkɛrɛnnenw: hakilina, ɲɛfɔli, hakɛw ani donw",

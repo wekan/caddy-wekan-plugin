@@ -1978,6 +1978,7 @@
   "webhook-activities": "Lähetä tämä webkoukku:",
   "webhook-activities-all": "Kaikki toiminta",
   "webhook-hide-identity": "Jätä nimeni pois lähtevistä webhookeista",
+  "webhook-internal-hosts": "Sisäiset kohteet",
   "webhook-payload-description": "Mitä lähtevät webhookit (Rocket.Chat, Slack, ...) lähettävät. Oletus säilyttää perityn asetuksen; jos mitään ei ole asetettu, webhookit lähettävät saman sisällön kuin ennenkin.",
   "webhook-payload-field-actor": "Kuka teki sen",
   "webhook-payload-field-details": "Tiedot: kommentti, kuvaus, arvot ja päivämäärät",

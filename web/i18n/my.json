@@ -1978,6 +1978,7 @@
   "webhook-activities": "ဤ webhook ကို ပို့ရန်:",
   "webhook-activities-all": "လှုပ်ရှားမှုတိုင်း",
   "webhook-hide-identity": "အပြင်ထွက် webhook များတွင် ကျွန်ုပ်၏အမည်ကို ချန်ထားရန်",
+  "webhook-internal-hosts": "အတွင်းပိုင်း ဦးတည်ရာများ",
   "webhook-payload-description": "အပြင်ထွက် webhook များ (Rocket.Chat၊ Slack၊ ...) ပို့သည့်အရာ။ မူလသည် အမွေဆက်ခံထားသော ဆက်တင်ကို ထိန်းထားသည်၊ ဘာမှမသတ်မှတ်ထားလျှင် webhook များသည် အမြဲပို့သည့်အရာကို ပို့သည်။",
   "webhook-payload-field-actor": "မည်သူ ပြုလုပ်ခဲ့သနည်း",
   "webhook-payload-field-details": "အသေးစိတ်- မှတ်ချက်၊ ဖော်ပြချက်၊ တန်ဖိုးများနှင့် ရက်စွဲများ",

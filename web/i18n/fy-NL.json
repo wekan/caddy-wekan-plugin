@@ -1978,6 +1978,7 @@
   "webhook-activities": "Dizze webhook ferstjoere:",
   "webhook-activities-all": "Elke aktiviteit",
   "webhook-hide-identity": "Myn namme út útgeande webhooks weilitte",
+  "webhook-internal-hosts": "Ynterne bestimmingen",
   "webhook-payload-description": "Wat útgeande webhooks (Rocket.Chat, Slack, ...) stjoere. Standert hâldt de erfde ynstelling; as neat ynsteld is, stjoere webhooks wat se altyd stjoerd hawwe.",
   "webhook-payload-field-actor": "Wa't it dien hat",
   "webhook-payload-field-details": "Details: kommentaar, beskriuwing, wearden en datums",

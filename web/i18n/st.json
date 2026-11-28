@@ -1978,6 +1978,7 @@
   "webhook-activities": "Romela webhook ena:",
   "webhook-activities-all": "Ketsahalo e nngwe le e nngwe",
   "webhook-hide-identity": "Se kenye lebitso la ka ho diwebhook tse tswang",
+  "webhook-internal-hosts": "Dibaka tsa ka hare",
   "webhook-payload-description": "Seo diwebhook tse tswang (Rocket.Chat, Slack, ...) di se romelang. Kgetho ya kamehla e boloka peakanyo e futsitsweng; ha ho sa behwa letho, diwebhook di romela seo di neng di se romela kamehla.",
   "webhook-payload-field-actor": "Ya entseng ketso",
   "webhook-payload-field-details": "Dintlha: tshwaelo, tlhaloso, boleng le matsatsi",

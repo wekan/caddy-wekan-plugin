@@ -1978,6 +1978,7 @@
   "webhook-activities": "Hunc webhook mitte:",
   "webhook-activities-all": "Omnis actio",
   "webhook-hide-identity": "Nomen meum e webhook exeuntibus omitte",
+  "webhook-internal-hosts": "Destinationes internae",
   "webhook-payload-description": "Quae webhook exeuntia (Rocket.Chat, Slack, ...) mittunt. Electio praedefinita optionem hereditatam servat; si nihil definitum est, webhook eadem mittunt quae semper miserunt.",
   "webhook-payload-field-actor": "Quis fecit",
   "webhook-payload-field-details": "Singula: commentarium, descriptio, valores et dies",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Kas ar webhook-mañ:",
   "webhook-activities-all": "Pep oberiantiz",
   "webhook-hide-identity": "Lezel va anv er-maez eus ar webhookoù o vont kuit",
+  "webhook-internal-hosts": "Palioù diabarzh",
   "webhook-payload-description": "Ar pezh a gas ar webhookoù o vont kuit (Rocket.Chat, Slack, ...). Dre ziouer e vez miret an arventenn hêrezhet; ma n'eus netra termenet, ar webhookoù a gas ar pezh o deus kaset bepred.",
   "webhook-payload-field-actor": "Piv en deus graet",
   "webhook-payload-field-details": "Munudoù: evezhiadenn, deskrivadur, talvoudoù ha deiziadoù",

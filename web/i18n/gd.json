@@ -1978,6 +1978,7 @@
   "webhook-activities": "Cuir an Webhook seo:",
   "webhook-activities-all": "Gach gnìomhachd",
   "webhook-hide-identity": "Fàg m’ ainm a-mach à webhooks a thèid a-mach",
+  "webhook-internal-hosts": "Cinn-uidhean a-staigh",
   "webhook-payload-description": "Na chuireas webhooks a-mach (Rocket.Chat, Slack, ...). Cumaidh Bun-roghainn an roghainn a fhuaireadh mar dhìleab; mur eil dad suidhichte, cuiridh webhooks na chuir iad a-riamh.",
   "webhook-payload-field-actor": "Cò rinn e",
   "webhook-payload-field-details": "Mion-fhiosrachadh: beachd, tuairisgeul, luachan agus cinn-là",

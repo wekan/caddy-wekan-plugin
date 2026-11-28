@@ -1978,6 +1978,7 @@
   "webhook-activities": "Manda e webhook aki:",
   "webhook-activities-all": "Tur aktividat",
   "webhook-hide-identity": "No inkluí mi nòmber den webhooknan saliente",
+  "webhook-internal-hosts": "Destinonan interno",
   "webhook-payload-description": "Loke webhooknan saliente (Rocket.Chat, Slack, ...) ta manda. E opcion predeterminá ta warda e konfigurashon heredá; si no tin nada konfigurá, webhooknan ta manda loke nan semper a manda.",
   "webhook-payload-field-actor": "Ken a hasi esaki",
   "webhook-payload-field-details": "Detayenan: komentario, deskripshon, balornan i fechanan",

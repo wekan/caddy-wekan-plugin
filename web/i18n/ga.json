@@ -1978,6 +1978,7 @@
   "webhook-activities": "Seol an webhook seo:",
   "webhook-activities-all": "Gach gníomhaíocht",
   "webhook-hide-identity": "Fág m’ainm as webhooks amach",
+  "webhook-internal-hosts": "Cinn scríbe inmheánacha",
   "webhook-payload-description": "An méid a sheolann webhooks amach (Rocket.Chat, Slack, ...). Coinníonn Réamhshocrú an socrú oidhreachta; mura bhfuil aon rud socraithe, seolann webhooks an méid a sheol siad riamh.",
   "webhook-payload-field-actor": "Cé a rinne é",
   "webhook-payload-field-details": "Sonraí: nóta tráchta, cur síos, luachanna agus dátaí",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "이 웹훅 보내기:",
   "webhook-activities-all": "모든 활동",
   "webhook-hide-identity": "발신 웹훅에서 내 이름 제외",
+  "webhook-internal-hosts": "내부 대상",
   "webhook-payload-description": "발신 웹훅(Rocket.Chat, Slack 등)이 전송할 내용입니다. 기본값은 상속된 설정을 유지합니다. 아무것도 설정하지 않으면 웹훅은 이전과 같은 내용을 전송합니다.",
   "webhook-payload-field-actor": "작업한 사람",
   "webhook-payload-field-details": "세부 정보: 댓글, 설명, 값 및 날짜",

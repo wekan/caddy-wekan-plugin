@@ -1979,6 +1979,7 @@
   "webhook-activities": "Envoyer ce webhook :",
   "webhook-activities-all": "Toute activité",
   "webhook-hide-identity": "Omettre mon nom des webhooks sortants",
+  "webhook-internal-hosts": "Destinations internes",
   "webhook-payload-description": "Ce qu’envoient les webhooks sortants (Rocket.Chat, Slack, ...). L’option Par défaut conserve le réglage hérité ; si rien n’est défini, les webhooks envoient ce qu’ils ont toujours envoyé.",
   "webhook-payload-field-actor": "Qui a effectué l’action",
   "webhook-payload-field-details": "Détails : commentaire, description, valeurs et dates",

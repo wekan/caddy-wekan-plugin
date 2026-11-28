@@ -1978,6 +1978,7 @@
   "webhook-activities": "Dir webhook-kan:",
   "webhook-activities-all": "Dhaqdhaqaaq kasta",
   "webhook-hide-identity": "Magacayga ha ku darin webhook-yada baxaya",
+  "webhook-internal-hosts": "Meelaha gudaha",
   "webhook-payload-description": "Waxa ay webhook-yada baxaya (Rocket.Chat, Slack, ...) diraan. Caadiga wuxuu hayaa dejinta la dhaxlay; haddii aan waxba la dejin, webhook-yadu waxay diraan wixii ay had iyo jeer diri jireen.",
   "webhook-payload-field-actor": "Cidda sameysay",
   "webhook-payload-field-details": "Faahfaahin: faallo, sharaxaad, qiimayaal iyo taariikho",

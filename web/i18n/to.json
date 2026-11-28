@@ -1978,6 +1978,7 @@
   "webhook-activities": "Fekau ʻa e webhook ni:",
   "webhook-activities-all": "Ngāue kotoa pē",
   "webhook-hide-identity": "Tuku ke ʻoua naʻa kau hoku hingoa ʻi he ngaahi webhook ki tuʻa",
+  "webhook-internal-hosts": "Ngaahi feituʻu ʻi loto",
   "webhook-payload-description": "Ko e meʻa ʻoku ʻave ʻe he ngaahi webhook ki tuʻa (Rocket.Chat, Slack, ...). ʻOku tauhi ʻe he Default ʻa e fokotuʻutuʻu kuo tukufakaholo; kapau ʻoku ʻikai ha meʻa kuo fokotuʻu, ʻoku ʻave ʻe he ngaahi webhook ʻa e meʻa ʻoku nau ʻave maʻu pē.",
   "webhook-payload-field-actor": "Ko hai naʻa ne fai ia",
   "webhook-payload-field-details": "Ngaahi fakaikiiki: fakamatala, fakamatala fakaikiiki, ngaahi mahuʻinga mo e ʻaho",

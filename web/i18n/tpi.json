@@ -1978,6 +1978,7 @@
   "webhook-activities": "Salim dispela webhuk:",
   "webhook-activities-all": "Olgeta wok",
   "webhook-hide-identity": "No ken putim nem bilong mi long ol webhook i go aut",
+  "webhook-internal-hosts": "Ol ples insait",
   "webhook-payload-description": "Wanem samting ol webhook i go aut (Rocket.Chat, Slack, ...) i salim. Pasin olsem i stap i holim seting i kam long antap; sapos i no gat seting, ol webhook i salim samting ol i save salim oltaim.",
   "webhook-payload-field-actor": "Husat i mekim",
   "webhook-payload-field-details": "Ol liklik samting: tok, stori, namba na de",

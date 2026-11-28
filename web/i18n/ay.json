@@ -1978,6 +1978,7 @@
   "webhook-activities": "Aka webhook apayaña:",
   "webhook-activities-all": "Taqi luratanaka",
   "webhook-hide-identity": "Mistki uka webhooks ukanakat sutix apaqaña",
+  "webhook-internal-hosts": "Manqha purinañanaka",
   "webhook-payload-description": "Mistki uka webhooks (Rocket.Chat, Slack, ...) kuns apayapxi. Default ukax herencia wakichäwi imi; jan kunas uchatäki ukhax, webhooks ukanakax kunjamatix sapüru apayapki ukhamaw apayapxi.",
   "webhook-payload-field-actor": "Khitis luri",
   "webhook-payload-field-details": "Juk'amp yatiyäwi: amuyt'awi, qhanañchäwi, chaninaka ukat urunaka",

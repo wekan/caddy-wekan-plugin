@@ -1978,6 +1978,7 @@
   "webhook-activities": "Bidali webhook hau:",
   "webhook-activities-all": "Jarduera oro",
   "webhook-hide-identity": "Ez sartu nire izena irteerako webhook-etan",
+  "webhook-internal-hosts": "Barneko helmugak",
   "webhook-payload-description": "Irteerako webhook-ek (Rocket.Chat, Slack, ...) bidaltzen dutena. Lehenetsiak heredatutako ezarpena mantentzen du; ezer ezarrita ez badago, webhook-ek betikoa bidaltzen dute.",
   "webhook-payload-field-actor": "Nork egin duen",
   "webhook-payload-field-details": "Xehetasunak: iruzkina, deskribapena, balioak eta datak",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Ipadara ini nga webhook:",
   "webhook-activities-all": "Kada aktibidad",
   "webhook-hide-identity": "Ayaw iupod an akon ngaran ha mga outgoing webhook",
+  "webhook-internal-hosts": "Mga sulod nga destinasyon",
   "webhook-payload-description": "An ginpapadara han mga outgoing webhook (Rocket.Chat, Slack, ...). An Default naghihibilin han napanunod nga setting; kon waray gin-set, an mga webhook nagpapadara han ira permi ginpapadara.",
   "webhook-payload-field-actor": "Hin-o an naghimo",
   "webhook-payload-field-details": "Mga detalye: komento, deskripsyon, mga bili ngan petsa",

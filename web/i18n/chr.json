@@ -1978,6 +1978,7 @@
   "webhook-activities": "ᎯᎠ webhook ᏫᏅᏍᏓ:",
   "webhook-activities-all": "ᏂᎦᏛ ᏗᎦᎸᏫᏍᏓᏁᏗ",
   "webhook-hide-identity": "ᏓᏄᎪᏍᎩ webhooks ᏓᏓᏁᎸ ᏓᏆᏙᎥ ᎯᎲᏍᏓ",
+  "webhook-internal-hosts": "ᎭᏫᏂ ᏭᎶᏒᏍᏗ",
   "webhook-payload-description": "ᎦᏙ ᏓᏅᏍᏗᏍᎪ ᏓᏄᎪᏍᎩ webhooks (Rocket.Chat, Slack, ...). ᎤᏙᎯᏳ ᎤᏂᏍᏗ ᏗᎦᏟᏌᏅ ᎦᏍᏆᏂᎪᏗ; ᎢᏳᏃ Ꮭ ᎪᎱᏍᏗ ᏱᎦᏟᏌᏅ, webhooks ᏂᎪᎯᎸ ᏥᏓᏅᏍᏗᏍᎪ ᎾᏍᎩ ᏓᏅᏍᏗᏍᎪ.",
   "webhook-payload-field-actor": "ᎦᎪ ᏄᏛᏁᎸ",
   "webhook-payload-field-details": "ᏂᎦᏛ ᎧᏃᎮᏛ: ᎧᏁᏨᎯ, ᎧᏃᎮᏗ, ᏗᎦᎸᏉᏗ ᎠᎴ ᎢᎦ",

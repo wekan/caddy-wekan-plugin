@@ -1978,6 +1978,7 @@
   "webhook-activities": "Ibgħat dan il-webhook:",
   "webhook-activities-all": "Kull attività",
   "webhook-hide-identity": "Ħalli ismi barra mill-webhooks ħerġin",
+  "webhook-internal-hosts": "Destinazzjonijiet interni",
   "webhook-payload-description": "Dak li jibagħtu l-webhooks ħerġin (Rocket.Chat, Slack, ...). Predefinit iżomm l-issettjar li ntiret; jekk ma jkun issettjat xejn, il-webhooks jibagħtu dak li dejjem bagħtu.",
   "webhook-payload-field-actor": "Min għamilha",
   "webhook-payload-field-details": "Dettalji: kumment, deskrizzjoni, valuri u dati",

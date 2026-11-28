@@ -1978,6 +1978,7 @@
   "webhook-activities": "Tumizani webhook iyi:",
   "webhook-activities-all": "Zochitika zonse",
   "webhook-hide-identity": "Musaike dzina langa mu ma webhook otuluka",
+  "webhook-internal-hosts": "Malo amkati",
   "webhook-payload-description": "Zomwe ma webhook otuluka (Rocket.Chat, Slack, ...) amatumiza. Zosasintha zimasunga zokonda zolandiridwa; ngati palibe chokhazikitsidwa, ma webhook amatumiza zomwe akhala akutumiza nthawi zonse.",
   "webhook-payload-field-actor": "Amene anachita",
   "webhook-payload-field-details": "Tsatanetsatane: ndemanga, kufotokoza, mitengo ndi masiku",

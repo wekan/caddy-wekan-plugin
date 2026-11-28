@@ -1978,6 +1978,7 @@
   "webhook-activities": "Sedön webhook at:",
   "webhook-activities-all": "Dunot alik",
   "webhook-hide-identity": "Moükön nemi oba de webhooks segolöl",
+  "webhook-internal-hosts": "Zeils ninik",
   "webhook-payload-description": "Utos, keli webhooks segolöl (Rocket.Chat, Slack, ...) sedons. Stabik kipon väli pegerön; if nos pesäton, webhooks sedons utosi, keli ai esedons.",
   "webhook-payload-field-actor": "Kim edunon osi",
   "webhook-payload-field-details": "Pats: noet, bepenam, völads e däts",

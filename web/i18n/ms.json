@@ -1978,6 +1978,7 @@
   "webhook-activities": "Hantar cangkuk web ini:",
   "webhook-activities-all": "Setiap aktiviti",
   "webhook-hide-identity": "Jangan sertakan nama saya dalam webhook keluar",
+  "webhook-internal-hosts": "Destinasi dalaman",
   "webhook-payload-description": "Kandungan yang dihantar oleh webhook keluar (Rocket.Chat, Slack, ...). Pilihan Lalai mengekalkan tetapan yang diwarisi; jika tiada tetapan, webhook menghantar kandungan yang sama seperti sebelumnya.",
   "webhook-payload-field-actor": "Orang yang melakukan tindakan",
   "webhook-payload-field-details": "Butiran: komen, penerangan, nilai dan tarikh",

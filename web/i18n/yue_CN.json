@@ -1978,6 +1978,7 @@
   "webhook-activities": "發送呢個網路鉤子：",
   "webhook-activities-all": "所有活動",
   "webhook-hide-identity": "對外 webhooks 唔好包括我個名",
+  "webhook-internal-hosts": "內部目的地",
   "webhook-payload-description": "對外 webhooks（Rocket.Chat、Slack ...）會傳送嘅嘢。預設會沿用繼承嘅設定；乜都冇設定嘅話，webhooks 會照舊傳送一向傳送嘅嘢。",
   "webhook-payload-field-actor": "邊個做嘅",
   "webhook-payload-field-details": "詳情：評論、描述、數值同日期",

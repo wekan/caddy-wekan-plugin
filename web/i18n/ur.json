@@ -1978,6 +1978,7 @@
   "webhook-activities": "یہ ویب ہُک بھیجیں:",
   "webhook-activities-all": "ہر سرگرمی",
   "webhook-hide-identity": "باہر جانے والے ویب ہُک میں میرا نام شامل نہ کریں",
+  "webhook-internal-hosts": "اندرونی منزلیں",
   "webhook-payload-description": "باہر جانے والے ویب ہُک (Rocket.Chat، Slack، ...) جو ڈیٹا بھیجتے ہیں۔ طے شدہ انتخاب وراثت میں ملی ترتیب برقرار رکھتا ہے؛ کچھ بھی مقرر نہ ہو تو ویب ہُک وہی بھیجتے ہیں جو پہلے بھیجتے تھے۔",
   "webhook-payload-field-actor": "عمل کرنے والا",
   "webhook-payload-field-details": "تفصیلات: تبصرہ، وضاحت، قدریں اور تاریخیں",

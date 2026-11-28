@@ -1978,6 +1978,7 @@
   "webhook-activities": "Webhook kana ergi:",
   "webhook-activities-all": "Sochii hunda",
   "webhook-hide-identity": "Maqaa koo webhook-iiwwan ala ergaman keessaa baasi",
+  "webhook-internal-hosts": "Bakkeewwan keessoo",
   "webhook-payload-description": "Webhook-iiwwan ala ergaman (Rocket.Chat, Slack, ...) maal akka ergan. Durtiin qindaa'ina dhaalame eega; homtuu yoo hin qindaa'in, webhook-iiwwan waan yeroo hunda ergan ergu.",
   "webhook-payload-field-actor": "Eenyu akka hojjete",
   "webhook-payload-field-details": "Bal'ina: yaada, ibsa, gatiiwwan fi guyyaawwan",

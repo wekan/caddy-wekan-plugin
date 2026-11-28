@@ -1978,6 +1978,7 @@
   "webhook-activities": "ផ្ញើ Webhook នេះ៖",
   "webhook-activities-all": "សកម្មភាពទាំងអស់",
   "webhook-hide-identity": "កុំដាក់ឈ្មោះខ្ញុំនៅក្នុង webhook ចេញ",
+  "webhook-internal-hosts": "គោលដៅខាងក្នុង",
   "webhook-payload-description": "អ្វីដែល webhook ចេញ (Rocket.Chat, Slack, ...) ផ្ញើ។ លំនាំដើមរក្សាការកំណត់ដែលទទួលមរតក។ បើគ្មានអ្វីកំណត់ទេ webhook ផ្ញើដូចដែលវាតែងតែផ្ញើ។",
   "webhook-payload-field-actor": "អ្នកណាធ្វើវា",
   "webhook-payload-field-details": "ព័ត៌មានលម្អិត៖ មតិយោបល់ ការពិពណ៌នា តម្លៃ និងកាលបរិច្ឆេទ",

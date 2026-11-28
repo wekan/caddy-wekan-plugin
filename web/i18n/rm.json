@@ -1978,6 +1978,7 @@
   "webhook-activities": "Trametter quest webhook:",
   "webhook-activities-all": "Mintga activitad",
   "webhook-hide-identity": "Betg menziunar mes num en webhooks sortints",
+  "webhook-internal-hosts": "Destinaziuns internas",
   "webhook-payload-description": "Tge che webhooks sortints (Rocket.Chat, Slack, ...) tramettan. Standard mantegna il parameter ertà; sche nagut è definì, tramettan webhooks quai ch'els han adina tramess.",
   "webhook-payload-field-actor": "Tgi che l'ha fatg",
   "webhook-payload-field-details": "Detagls: commentari, descripziun, valurs e datas",

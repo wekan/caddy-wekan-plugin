@@ -1978,6 +1978,7 @@
   "webhook-activities": "Evoyî ci webhook ci :",
   "webhook-activities-all": "Totes les accions",
   "webhook-hide-identity": "Leyî m' no foû des webhooks k' evoyèt",
+  "webhook-internal-hosts": "Destinåcions dvins",
   "webhook-payload-description": "Çou ki les webhooks k' evoyèt (Rocket.Chat, Slack, ...) evoyèt. Prémetou wåde l' apontiaedje erité; sins rén d' defini, les webhooks evoyèt çou k' il ont todi evoyî.",
   "webhook-payload-field-actor": "Kî l' a fwait",
   "webhook-payload-field-details": "Detays: rimåke, discrijhaedje, valixhances eyet dates",

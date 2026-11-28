@@ -1978,6 +1978,7 @@
   "webhook-activities": "Энэ webhook-ийг илгээх:",
   "webhook-activities-all": "Бүх үйл ажиллагаа",
   "webhook-hide-identity": "Гарах webhook-уудад миний нэрийг оруулахгүй",
+  "webhook-internal-hosts": "Дотоод хаягууд",
   "webhook-payload-description": "Гарах webhook-ууд (Rocket.Chat, Slack, ...) юу илгээх. Анхдагч нь өвлөгдсөн тохиргоог хадгална; юу ч тохируулаагүй бол webhook-ууд урьдын адил илгээнэ.",
   "webhook-payload-field-actor": "Хэн хийсэн",
   "webhook-payload-field-details": "Дэлгэрэнгүй: сэтгэгдэл, тайлбар, утга, огноо",

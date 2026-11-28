@@ -1978,6 +1978,7 @@
   "webhook-activities": "Бу вебхукны җибәрү:",
   "webhook-activities-all": "Һәр эшчәнлек",
   "webhook-hide-identity": "Чыгыш webhook'ларда минем исемне күрсәтмәскә",
+  "webhook-internal-hosts": "Эчке юнәлешләр",
   "webhook-payload-description": "Чыгыш webhook'лар (Rocket.Chat, Slack, ...) нәрсә җибәрә. Килешү буенча мирас итеп алынган көйләү саклана; берни дә куелмаса, webhook'лар элеккечә җибәрә.",
   "webhook-payload-field-actor": "Кем эшләде",
   "webhook-payload-field-details": "Тулырак: аңлатма, тасвирлама, кыйммәтләр һәм көннәр",

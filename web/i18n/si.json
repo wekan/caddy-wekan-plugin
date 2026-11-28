@@ -1978,6 +1978,7 @@
   "webhook-activities": "මෙම වෙබ්හුක් එක යවන්න:",
   "webhook-activities-all": "සෑම ක්‍රියාකාරකමක්ම",
   "webhook-hide-identity": "පිටතට යන webhooks වලින් මගේ නම ඉවත් කරන්න",
+  "webhook-internal-hosts": "අභ්‍යන්තර ගමනාන්ත",
   "webhook-payload-description": "පිටතට යන webhooks (Rocket.Chat, Slack, ...) යවන දේ. පෙරනිමිය උරුම වූ සැකසුම තබා ගනී; කිසිවක් සකසා නැති විට, webhooks සැමවිටම යැවූ දේ යවයි.",
   "webhook-payload-field-actor": "එය කළේ කවුද",
   "webhook-payload-field-details": "විස්තර: අදහස, විස්තරය, අගයන් සහ දින",

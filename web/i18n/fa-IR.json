@@ -1978,6 +1978,7 @@
   "webhook-activities": "این وب‌هوک را ارسال کن:",
   "webhook-activities-all": "هر فعالیت",
   "webhook-hide-identity": "نام من در وب‌هوک‌های خروجی نیاید",
+  "webhook-internal-hosts": "مقصدهای داخلی",
   "webhook-payload-description": "آنچه وب‌هوک‌های خروجی (Rocket.Chat، Slack، ...) می‌فرستند. گزینه پیش‌فرض، تنظیم به‌ارث‌رسیده را نگه می‌دارد؛ اگر چیزی تنظیم نشده باشد، وب‌هوک‌ها همان چیزی را می‌فرستند که همیشه می‌فرستادند.",
   "webhook-payload-field-actor": "چه کسی انجام داد",
   "webhook-payload-field-details": "جزئیات: نظر، توضیح، مقدارها و تاریخ‌ها",

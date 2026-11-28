@@ -1978,6 +1978,7 @@
   "webhook-activities": "Wësélôj ten webhook:",
   "webhook-activities-all": "Kòżdô aktiwnota",
   "webhook-hide-identity": "Nie dôwôj mòjégò miona do wëchòdzącëch webhooków",
+  "webhook-internal-hosts": "Bënowé cële",
   "webhook-payload-description": "Co sélają wëchòdzącé webhooczi (Rocket.Chat, Slack, ...). Domëslné zachòwùje dzedziczoné nastôwë; bez nastôwów webhooczi sélają to, co wiedno.",
   "webhook-payload-field-actor": "Chto to zrobił",
   "webhook-payload-field-details": "Szczególe: kòmentôrz, òpisënk, wôrtnotë i datumë",

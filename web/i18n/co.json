@@ -1978,6 +1978,7 @@
   "webhook-activities": "Mandà stu webhook:",
   "webhook-activities-all": "Ogni attività",
   "webhook-hide-identity": "Ùn mette micca u mo nome in i webhook di surtita",
+  "webhook-internal-hosts": "Destinazioni interne",
   "webhook-payload-description": "Ciò chì i webhook di surtita (Rocket.Chat, Slack, ...) mandanu. U valore predefinitu cunserva u paràmetru ereditatu; s'ellu ùn hè definitu nunda, i webhook mandanu ciò ch'elli anu sempre mandatu.",
   "webhook-payload-field-actor": "Quale l'hà fattu",
   "webhook-payload-field-details": "Dettagli: cummentu, discrizzione, valori è date",

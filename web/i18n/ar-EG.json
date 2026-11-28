@@ -1978,6 +1978,7 @@
   "webhook-activities": "ابعت الـ webhook ده:",
   "webhook-activities-all": "كل نشاط",
   "webhook-hide-identity": "عدم تضمين اسمي في خطافات الويب الصادرة",
+  "webhook-internal-hosts": "الوجهات الداخلية",
   "webhook-payload-description": "ما ترسله خطافات الويب الصادرة (Rocket.Chat وSlack و...). يحافظ الخيار الافتراضي على الإعداد الموروث؛ وإذا لم يُضبط شيء، ترسل خطافات الويب ما كانت ترسله دائمًا.",
   "webhook-payload-field-actor": "من قام بالإجراء",
   "webhook-payload-field-details": "التفاصيل: التعليق والوصف والقيم والتواريخ",

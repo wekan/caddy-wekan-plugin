@@ -1978,6 +1978,7 @@
   "webhook-activities": "Anfon y webhook hwn:",
   "webhook-activities-all": "Pob gweithgaredd",
   "webhook-hide-identity": "Gadael fy enw allan o fachau gwe sy'n mynd allan",
+  "webhook-internal-hosts": "Cyrchfannau mewnol",
   "webhook-payload-description": "Yr hyn y mae bachau gwe sy'n mynd allan (Rocket.Chat, Slack, ...) yn ei anfon. Mae Rhagosodiad yn cadw'r gosodiad a etifeddwyd; heb ddim wedi'i osod, mae bachau gwe yn anfon yr hyn y maent wedi'i anfon erioed.",
   "webhook-payload-field-actor": "Pwy a'i gwnaeth",
   "webhook-payload-field-details": "Manylion: sylw, disgrifiad, gwerthoedd a dyddiadau",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Осы вебхукты жіберу:",
   "webhook-activities-all": "Әрбір әрекет",
   "webhook-hide-identity": "Шығыс webhook-тарда атымды көрсетпеу",
+  "webhook-internal-hosts": "Ішкі бағыттар",
   "webhook-payload-description": "Шығыс webhook-тар (Rocket.Chat, Slack, ...) не жібереді. Әдепкі мән мұраланған баптауды сақтайды; ештеңе бапталмаса, webhook-тар әрқашан жібергенін жібереді.",
   "webhook-payload-field-actor": "Кім жасады",
   "webhook-payload-field-details": "Толығырақ: пікір, сипаттама, мәндер және күндер",

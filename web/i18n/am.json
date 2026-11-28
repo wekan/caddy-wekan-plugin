@@ -1978,6 +1978,7 @@
   "webhook-activities": "ይህን Webhook ላክ፦",
   "webhook-activities-all": "እያንዳንዱ እንቅስቃሴ",
   "webhook-hide-identity": "ስሜን ከወጪ webhooks ውስጥ አስወጣ",
+  "webhook-internal-hosts": "የውስጥ መድረሻዎች",
   "webhook-payload-description": "ወጪ webhooks (Rocket.Chat፣ Slack፣ ...) የሚልኩት። ነባሪ የተወረሰውን ቅንብር ይይዛል፤ ምንም ካልተቀናበረ webhooks ሁልጊዜ የሚልኩትን ይልካሉ።",
   "webhook-payload-field-actor": "ማን እንዳደረገው",
   "webhook-payload-field-details": "ዝርዝሮች፦ አስተያየት፣ መግለጫ፣ እሴቶች እና ቀኖች",

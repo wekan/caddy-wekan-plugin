@@ -1978,6 +1978,7 @@
   "webhook-activities": "Tutón webhook pósłać:",
   "webhook-activities-all": "Kóžda aktiwita",
   "webhook-hide-identity": "Moje mjeno z wuchadźacych webhookow wuwostajić",
+  "webhook-internal-hosts": "Interne cile",
   "webhook-payload-description": "Štož wuchadźace webhooki (Rocket.Chat, Slack, ...) sćelu. Standard wobchowa zdźědźene nastajenje; bjez nastajenja sćelu webhooki to, štož su přeco słali.",
   "webhook-payload-field-actor": "Štó je to činił",
   "webhook-payload-field-details": "Podrobnosće: komentar, wopisanje, hódnoty a daty",

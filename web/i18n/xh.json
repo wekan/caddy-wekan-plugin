@@ -1978,6 +1978,7 @@
   "webhook-activities": "Thumela le webhook:",
   "webhook-activities-all": "Wonke umsebenzi",
   "webhook-hide-identity": "Shiya igama lam ngaphandle kwii-webhook eziphumayo",
+  "webhook-internal-hosts": "Iindawo zangaphakathi",
   "webhook-payload-description": "Izinto ezithunyelwa zii-webhook eziphumayo (Rocket.Chat, Slack, ...). Ukhetho olumiselweyo lugcina useto oluzuzwe kwelinye inqanaba; xa kungekho nto isetiweyo, ii-webhook zithumela oko bezisoloko zikuthumela.",
   "webhook-payload-field-actor": "Ngubani owenze oko",
   "webhook-payload-field-details": "Iinkcukacha: izimvo, inkcazelo, amaxabiso nemihla",

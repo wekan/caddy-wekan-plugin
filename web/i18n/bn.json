@@ -1978,6 +1978,7 @@
   "webhook-activities": "এই webhook পাঠান:",
   "webhook-activities-all": "প্রতিটি কার্যকলাপ",
   "webhook-hide-identity": "বহির্গামী ওয়েবহুক থেকে আমার নাম বাদ দিন",
+  "webhook-internal-hosts": "অভ্যন্তরীণ গন্তব্য",
   "webhook-payload-description": "বহির্গামী ওয়েবহুক (Rocket.Chat, Slack, ...) যা পাঠায়। পূর্বনির্ধারিত বিকল্প ওপরের স্তর থেকে পাওয়া সেটিং বজায় রাখে; কিছুই নির্ধারিত না থাকলে ওয়েবহুক আগের মতোই তথ্য পাঠায়।",
   "webhook-payload-field-actor": "কে কাজটি করেছেন",
   "webhook-payload-field-details": "বিস্তারিত: মন্তব্য, বিবরণ, মান ও তারিখ",

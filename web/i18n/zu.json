@@ -1978,6 +1978,7 @@
   "webhook-activities": "Thumela le-webhook:",
   "webhook-activities-all": "Wonke umsebenzi",
   "webhook-hide-identity": "Ungafaki igama lami kuma-webhook aphumayo",
+  "webhook-internal-hosts": "Izindawo zangaphakathi",
   "webhook-payload-description": "Okuthunyelwa ama-webhook aphumayo (Rocket.Chat, Slack, ...). Okuzenzakalelayo kugcina isilungiselelo esizuzwe kwelinye izinga; uma kungasethiwe lutho, ama-webhook athumela lokho abelokhu ekuthumela.",
   "webhook-payload-field-actor": "Ubani owenze lokho",
   "webhook-payload-field-details": "Imininingwane: ukuphawula, incazelo, amanani nezinsuku",

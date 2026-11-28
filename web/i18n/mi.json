@@ -1978,6 +1978,7 @@
   "webhook-activities": "Tukuna tēnei webhook:",
   "webhook-activities-all": "Ia mahi katoa",
   "webhook-hide-identity": "Waiho tōku ingoa i waho o ngā webhook puta",
+  "webhook-internal-hosts": "Ngā ūnga ā-roto",
   "webhook-payload-description": "Ngā mea ka tukuna e ngā webhook puta (Rocket.Chat, Slack, ...). Ka pupuri te Taunoa i te tautuhinga i riro iho; ki te kore he mea i tautuhia, ka tukuna e ngā webhook ngā mea i tukuna e rātou i ngā wā katoa.",
   "webhook-payload-field-actor": "Nā wai i mahi",
   "webhook-payload-field-details": "Ngā taipitopito: kōrero, whakaahuatanga, uara me ngā rā",

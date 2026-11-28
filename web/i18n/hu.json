@@ -1983,6 +1983,7 @@
   "webhook-activities": "Ennek a webhuroknak a küldése:",
   "webhook-activities-all": "Minden tevékenység",
   "webhook-hide-identity": "Nevem kihagyása a kimenő webhookokból",
+  "webhook-internal-hosts": "Belső célpontok",
   "webhook-payload-description": "A kimenő webhookok (Rocket.Chat, Slack, ...) által küldött adatok. Az Alapértelmezett lehetőség megőrzi az örökölt beállítást; ha semmi nincs beállítva, a webhookok az eddig megszokott adatokat küldik.",
   "webhook-payload-field-actor": "Ki végezte a műveletet",
   "webhook-payload-field-details": "Részletek: megjegyzés, leírás, értékek és dátumok",

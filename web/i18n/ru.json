@@ -1978,6 +1978,7 @@
   "webhook-activities": "Отправлять этот веб-хук:",
   "webhook-activities-all": "Любое действие",
   "webhook-hide-identity": "Не включать моё имя в исходящие вебхуки",
+  "webhook-internal-hosts": "Внутренние адреса назначения",
   "webhook-payload-description": "Что отправляют исходящие вебхуки (Rocket.Chat, Slack, ...). Вариант По умолчанию сохраняет унаследованную настройку; если ничего не задано, вебхуки отправляют те же данные, что и раньше.",
   "webhook-payload-field-actor": "Кто выполнил действие",
   "webhook-payload-field-details": "Подробности: комментарий, описание, значения и даты",

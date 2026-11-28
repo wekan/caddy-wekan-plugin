@@ -1978,6 +1978,7 @@
   "webhook-activities": "Mannari stu webhook:",
   "webhook-activities-all": "Tutti l'attivitati",
   "webhook-hide-identity": "Lassa fora lu me nomu dî webhook n'uscita",
+  "webhook-internal-hosts": "Distinazzioni interni",
   "webhook-payload-description": "Chiddu ca mannanu li webhook n'uscita (Rocket.Chat, Slack, ...). Lu pridifinitu teni la mpustazzioni ereditata; si nun c'è nenti, li webhook mannanu chiddu ca hannu sempri mannatu.",
   "webhook-payload-field-actor": "Cu lu fici",
   "webhook-payload-field-details": "Dittagghi: cummentu, discrizzioni, valuri e dati",

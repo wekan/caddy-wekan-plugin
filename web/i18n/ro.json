@@ -1978,6 +1978,7 @@
   "webhook-activities": "Trimite acest webhook:",
   "webhook-activities-all": "Fiecare activitate",
   "webhook-hide-identity": "Omite numele meu din webhookurile de ieșire",
+  "webhook-internal-hosts": "Destinații interne",
   "webhook-payload-description": "Ce trimit webhookurile de ieșire (Rocket.Chat, Slack, ...). Opțiunea Implicit păstrează setarea moștenită; dacă nu este setat nimic, webhookurile trimit aceleași date ca până acum.",
   "webhook-payload-field-actor": "Cine a efectuat acțiunea",
   "webhook-payload-field-details": "Detalii: comentariu, descriere, valori și date",

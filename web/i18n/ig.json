@@ -1978,6 +1978,7 @@
   "webhook-activities": "Ziga webhook a:",
   "webhook-activities-all": "Ọrụ ọ bụla",
   "webhook-hide-identity": "E tinyela aha m na webhook na-apụ apụ",
+  "webhook-internal-hosts": "Ebe ime ime",
   "webhook-payload-description": "Ihe webhook na-apụ apụ (Rocket.Chat, Slack, ...) na-eziga. Nhọrọ ndabara na-edobe ntọala e ketara; ọ bụrụ na e debeghị ihe ọ bụla, webhook na-eziga ihe ha na-ezigabu.",
   "webhook-payload-field-actor": "Onye mere ya",
   "webhook-payload-field-details": "Nkọwa zuru ezu: ozi nkọwa, nkọwa ọdịnaya, uru na ụbọchị",

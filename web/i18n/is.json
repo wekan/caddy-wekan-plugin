@@ -1978,6 +1978,7 @@
   "webhook-activities": "Senda þessa vefkrækju:",
   "webhook-activities-all": "Öll virkni",
   "webhook-hide-identity": "Sleppa nafninu mínu í útfarandi vefkrækjum",
+  "webhook-internal-hosts": "Innri áfangastaðir",
   "webhook-payload-description": "Það sem útfarandi vefkrækjur (Rocket.Chat, Slack, ...) senda. Sjálfgefið heldur erfðu stillingunni; ef ekkert er stillt senda vefkrækjur það sem þær hafa alltaf sent.",
   "webhook-payload-field-actor": "Hver gerði það",
   "webhook-payload-field-details": "Nánar: athugasemd, lýsing, gildi og dagsetningar",

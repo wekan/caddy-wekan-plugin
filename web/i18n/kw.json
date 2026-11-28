@@ -1978,6 +1978,7 @@
   "webhook-activities": "Danvon an webhook ma:",
   "webhook-activities-all": "Pub gwrythres",
   "webhook-hide-identity": "Gesa ow hanow yn-mes a webhookow ow mos dhe-ves",
+  "webhook-internal-hosts": "Penn-fordhow a-ji",
   "webhook-payload-description": "An pyth a dhannvon webhookow ow mos dhe-ves (Rocket.Chat, Slack, ...). Defowt a with an settyans eryes; heb tra settys, webhookow a dhannvon an pyth a dhannvonsons pupprys.",
   "webhook-payload-field-actor": "Piw a'n gwrug",
   "webhook-payload-field-details": "Manylyon: kampoellyans, deskrifans, talvosogethow ha dedhyasow",

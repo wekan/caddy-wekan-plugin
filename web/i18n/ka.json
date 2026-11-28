@@ -1978,6 +1978,7 @@
   "webhook-activities": "ამ webhook-ის გაგზავნა:",
   "webhook-activities-all": "ყველა აქტივობა",
   "webhook-hide-identity": "ჩემი სახელი გამავალ webhook-ებში არ ჩაირთოს",
+  "webhook-internal-hosts": "შიდა დანიშნულების ადგილები",
   "webhook-payload-description": "რას აგზავნის გამავალი webhook-ები (Rocket.Chat, Slack, ...). ნაგულისხმევი მემკვიდრეობით მიღებულ პარამეტრს ინარჩუნებს; თუ არაფერია დაყენებული, webhook-ები იმას აგზავნის, რასაც ყოველთვის აგზავნიდა.",
   "webhook-payload-field-actor": "ვინ გააკეთა",
   "webhook-payload-field-details": "დეტალები: კომენტარი, აღწერა, მნიშვნელობები და თარიღები",

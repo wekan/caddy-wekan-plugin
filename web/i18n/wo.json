@@ -1978,6 +1978,7 @@
   "webhook-activities": "Yónne webhook bii:",
   "webhook-activities-all": "Bépp jëf",
   "webhook-hide-identity": "Bul boole sama tur ci webhook yu génn yi",
+  "webhook-internal-hosts": "Fu ñuy yónnee ci biir",
   "webhook-payload-description": "Li webhook yu génn yi (Rocket.Chat, Slack, ...) di yónne. Default dafay denc jekkal bi ñu donn; bu ñu jekkalul dara, webhook yi dañuy yónne li ñu daan yónne.",
   "webhook-payload-field-actor": "Ki ko def",
   "webhook-payload-field-details": "Leeral: xalaat, melokaan, njëg ak bis",

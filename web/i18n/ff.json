@@ -1978,6 +1978,7 @@
   "webhook-activities": "Neldu ndee webhook:",
   "webhook-activities-all": "Golle fof",
   "webhook-hide-identity": "Ittu innde am e webhooks yaltooɗi",
+  "webhook-internal-hosts": "Nokkuuje nder",
   "webhook-payload-description": "Ko webhooks yaltooɗi (Rocket.Chat, Slack, ...) neldata. Sakkitiiɗo ina reena teeltol ronaangol; so hay huunde teelaaka, webhooks ina nelda ko ɗi neldatnoo sahaa fof.",
   "webhook-payload-field-actor": "Moye waɗi ɗum",
   "webhook-payload-field-details": "Ciggol: yowre, cifagol, keɓe e ñalɗi",

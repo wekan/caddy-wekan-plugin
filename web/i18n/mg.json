@@ -1978,6 +1978,7 @@
   "webhook-activities": "Alefaso ity webhook ity:",
   "webhook-activities-all": "Hetsika rehetra",
   "webhook-hide-identity": "Aza ampidirina ao amin’ny webhook mivoaka ny anarako",
+  "webhook-internal-hosts": "Toerana anatiny",
   "webhook-payload-description": "Izay alefan’ny webhook mivoaka (Rocket.Chat, Slack, ...). Ny safidy mahazatra dia mitazona ny fikirakirana nolovaina; raha tsy misy napetraka, ny webhook dia mandefa izay nalefany hatramin’izay.",
   "webhook-payload-field-actor": "Izay nanao izany",
   "webhook-payload-field-details": "Antsipiriany: fanehoan-kevitra, famaritana, sanda ary daty",

@@ -97,6 +97,12 @@ func (s *Server) renderWebhookManagement(w http.ResponseWriter, r *http.Request,
 			http.Error(w, "Could not load account webhook settings", http.StatusInternalServerError)
 			return
 		}
+		hosts, err := s.readWebhookInternalHosts(ctx)
+		if err != nil {
+			http.Error(w, "Could not load internal destinations", http.StatusInternalServerError)
+			return
+		}
+		data["InternalHosts"] = strings.Join(hosts, "\n")
 		data["AccountWebhook"] = accountWebhookForm(account)
 	}
 	s.render(w, r, "boardwebhooks", http.StatusOK, data)

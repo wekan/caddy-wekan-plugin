@@ -1978,6 +1978,7 @@
   "webhook-activities": "Испрати го овој webhook:",
   "webhook-activities-all": "Секоја активност",
   "webhook-hide-identity": "Изостави го моето име од излезните веб-куки",
+  "webhook-internal-hosts": "Внатрешни одредишта",
   "webhook-payload-description": "Што испраќаат излезните веб-куки (Rocket.Chat, Slack, ...). Стандардното ја задржува наследената поставка; ако ништо не е поставено, веб-куките го испраќаат тоа што го испраќале и досега.",
   "webhook-payload-field-actor": "Кој го направил тоа",
   "webhook-payload-field-details": "Детали: коментар, опис, вредности и датуми",

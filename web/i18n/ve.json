@@ -1978,6 +1978,7 @@
   "webhook-activities": "Rumelani webhook iyi:",
   "webhook-activities-all": "Nyito iṅwe na iṅwe",
   "webhook-hide-identity": "Ni songo katela dzina ḽanga kha webhook dzi bvelaho nnḓa",
+  "webhook-internal-hosts": "Fhethu ha nga ngomu",
   "webhook-payload-description": "Zwine webhook dzi bvelaho nnḓa (Rocket.Chat, Slack, ...) dza rumela. Ya u thoma i vhulunga nzudzanyo yo nangiwaho; arali hu si na zwo vhewaho, webhook dzi rumela zwine dza dzula dzi tshi zwi rumela.",
   "webhook-payload-field-actor": "Ndi nnyi o zwi itaho",
   "webhook-payload-field-details": "Zwidodombedzwa: muhumbulo, ṱhaluso, ndeme na maḓuvha",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "यो वेबहुक पठाउनुहोस्:",
   "webhook-activities-all": "हरेक गतिविधि",
   "webhook-hide-identity": "बाहिर जाने वेबहुकबाट मेरो नाम हटाउनुहोस्",
+  "webhook-internal-hosts": "आन्तरिक गन्तव्यहरू",
   "webhook-payload-description": "बाहिर जाने वेबहुकहरू (Rocket.Chat, Slack, ...) ले पठाउने डेटा। पूर्वनिर्धारित विकल्पले माथिल्लो तहबाट आएको सेटिङ कायम राख्छ; केही सेट नभएमा वेबहुकहरूले पहिलेकै डेटा पठाउँछन्।",
   "webhook-payload-field-actor": "काम गर्ने व्यक्ति",
   "webhook-payload-field-details": "विवरण: टिप्पणी, वर्णन, मान र मितिहरू",

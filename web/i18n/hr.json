@@ -1978,6 +1978,7 @@
   "webhook-activities": "Pošalji ovaj webhook:",
   "webhook-activities-all": "Svaka aktivnost",
   "webhook-hide-identity": "Izostavi moje ime iz odlaznih webhookova",
+  "webhook-internal-hosts": "Interna odredišta",
   "webhook-payload-description": "Što šalju odlazni webhookovi (Rocket.Chat, Slack, ...). Zadano zadržava naslijeđenu postavku; ako ništa nije postavljeno, webhookovi šalju ono što su uvijek slali.",
   "webhook-payload-field-actor": "Tko je to učinio",
   "webhook-payload-field-details": "Pojedinosti: komentar, opis, vrijednosti i datumi",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Mandé chësc webhook:",
   "webhook-activities-all": "Uni ativité",
   "webhook-hide-identity": "Lascé fora mi inom dai webhook in uscita",
+  "webhook-internal-hosts": "Destinazions internes",
   "webhook-payload-description": "Ci che i webhook in uscita (Rocket.Chat, Slack, ...) mana. Predefinì tëgn la impostaziun ereditada; zënza impostaziun mana i webhook ci che ai à dagnora maná.",
   "webhook-payload-field-actor": "Chi che l'à fat",
   "webhook-payload-field-details": "Detais: comënt, descrizion, valurs y dates",

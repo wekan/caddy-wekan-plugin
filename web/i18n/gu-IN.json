@@ -1978,6 +1978,7 @@
   "webhook-activities": "આ વેબહૂક મોકલો:",
   "webhook-activities-all": "દરેક પ્રવૃત્તિ",
   "webhook-hide-identity": "બહાર જતા વેબહુકમાં મારું નામ ન મોકલો",
+  "webhook-internal-hosts": "આંતરિક ગંતવ્યો",
   "webhook-payload-description": "બહાર જતા વેબહુક (Rocket.Chat, Slack, ...) શું મોકલે છે. મૂળભૂત વિકલ્પ વારસામાં મળેલી ગોઠવણી જાળવે છે; કંઈ સેટ ન કરેલું હોય તો વેબહુક પહેલાં જે મોકલતા હતા તે જ મોકલે છે.",
   "webhook-payload-field-actor": "કોણે કર્યું",
   "webhook-payload-field-details": "વિગતો: ટિપ્પણી, વર્ણન, મૂલ્યો અને તારીખો",

@@ -1978,6 +1978,7 @@
   "webhook-activities": "Emondo ko webhook:",
   "webhook-activities-all": "Opaite tembiapo",
   "webhook-hide-identity": "Ani emoĩ che réra webhook osẽvape",
+  "webhook-internal-hosts": "Ñeʼẽmondoha ryepypegua",
   "webhook-payload-description": "Mba'épa ombou webhook osẽva (Rocket.Chat, Slack, ...). Default oñongatu ñemboheko oñeñemoheredáva; ndaipóriramo mba'eve, webhook ombou ombou meme va'ekue.",
   "webhook-payload-field-actor": "Mávapa ojapo",
   "webhook-payload-field-details": "Mba'emimi: je'epy, ñemombe'u, mba'epy ha ára",
