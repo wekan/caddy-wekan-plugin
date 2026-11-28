@@ -1,0 +1,44 @@
+.wrapper
+  .website-view.shop-view
+    header.website-header
+      h1
+        a(href="{{.Home}}") {{.Title}}
+      a.board-header-btn.js-toggle-board-view(href="#", title="{{t $.L `board-view-shop`}}")
+        i.fa.fa-shopping-cart
+        span.board-header-btn-label {{t $.L "board-view-shop"}}
+      | {{template "_boardviews" .}}
+    main.website-main
+      if .Enabled
+        if .Intro
+          .viewer {{.Intro}}
+        if .Categories
+          nav.website-nav(aria-label="{{t $.L `shop-all-categories`}}")
+            a(href="{{.Home}}") {{t $.L "shop-all-categories"}}
+            each category in .Categories
+              a(href="{{.URL}}") {{.Name}}
+        if .Product
+          article.shop-product
+            h2 {{.Product.Title}}
+            if .Product.Image
+              img(src="{{.Product.Image}}", alt="{{.Product.Title}}")
+            p.shop-price {{.Product.Price}}
+            if .Product.SKU
+              p {{.Product.SKU}}
+            if .Product.SoldOut
+              p {{t $.L "shop-sold-out"}}
+            .viewer {{.Description}}
+        else if .Products
+          .shop-products
+            each product in .Products
+              article.shop-product
+                if .Image
+                  img(src="{{.Image}}", alt="", loading="lazy")
+                h2
+                  a(href="{{.URL}}") {{.Title}}
+                p.shop-price {{.Price}}
+                if .SoldOut
+                  p {{t $.L "shop-sold-out"}}
+        else
+          p {{t $.L "shop-empty"}}
+      else
+        p {{t $.L "shop-closed"}}

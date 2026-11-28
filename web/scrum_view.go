@@ -317,6 +317,9 @@ func (s *Server) boardViewEntries(b *Board, lang, current string) []map[string]a
 	out = append(out, map[string]any{"Class": "js-open-website-view", "Icon": "fa-globe",
 		"Label": tr(lang, msg("board-view-website")), "URL": websiteLocation(b, ""), "Current": current == "website"})
 
+	out = append(out, map[string]any{"Class": "js-open-shop-view", "Icon": "fa-shopping-cart",
+		"Label": tr(lang, msg("board-view-shop")), "URL": shopLocation(b, "", ""), "Current": current == "shop"})
+
 	for _, report := range weeklyFlowViews {
 		out = append(out, map[string]any{"Class": "js-open-" + report.slug + "-view", "Icon": report.icon,
 			"Label": tr(lang, report.title), "URL": "/b/" + b.ID + "/" + b.Slug + "?view=" + report.slug,

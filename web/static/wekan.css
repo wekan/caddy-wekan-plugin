@@ -1505,3 +1505,17 @@ body.has-hide-focus-outline :is(a, button, input, select, textarea, summary, [ta
   max-width: 100%;
   height: auto;
 }
+
+.shop-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 1rem;
+}
+.shop-product img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.shop-price {
+  font-weight: 600;
+}

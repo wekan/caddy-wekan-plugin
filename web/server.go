@@ -887,8 +887,12 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	if s.websiteRequested(r, b) {
+	switch s.requestedContentView(r, b) {
+	case "website":
 		s.boardWebsite(w, r, b, viewer, lanes, lists)
+		return
+	case "shop":
+		s.boardShop(w, r, b, viewer, lanes)
 		return
 	}
 	// The Filter sidebar's Advanced Filter: the typed one when it parses, else

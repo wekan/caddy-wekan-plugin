@@ -31,10 +31,10 @@ func websiteLocation(b *Board, page string) string {
 	return "/b/" + b.ID + "/" + b.Slug + "?" + params.Encode()
 }
 
-func (s *Server) websiteRequested(r *http.Request, b *Board) bool {
+func (s *Server) requestedContentView(r *http.Request, b *Board) string {
 	view := r.URL.Query().Get("view")
 	if view != "" || r.PathValue("card") != "" {
-		return view == "website"
+		return view
 	}
 	side := "private"
 	if b.Permission == "public" {
@@ -43,7 +43,7 @@ func (s *Server) websiteRequested(r *http.Request, b *Board) bool {
 	var doc bson.M
 	_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)},
 		options.FindOne().SetProjection(bson.M{defaultField(side): 1})).Decode(&doc)
-	return boardViewStateOf(doc).defaultView(side) == "board-view-website"
+	return strings.TrimPrefix(boardViewStateOf(doc).defaultView(side), "board-view-")
 }
 
 func (s *Server) boardWebsite(w http.ResponseWriter, r *http.Request, b *Board, u *User, lanes []lane, lists []List) {
