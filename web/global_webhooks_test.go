@@ -3,6 +3,7 @@ package web
 import (
 	"context"
 	"net/http"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -47,6 +48,34 @@ func TestGlobalWebhookManagement(t *testing.T) {
 	if res, html := get(t, site, page); res.StatusCode != http.StatusOK ||
 		!strings.Contains(html, "Updated global activity") || strings.Contains(html, "example-private-token") {
 		t.Fatal("expected the global webhook form without its stored token")
+	}
+	if _, err := w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"webhooksDisabled": false}}, options.UpdateOne().SetUpsert(true)); err != nil {
+		t.Fatal(err)
+	}
+	accountForm := url.Values{"url": {"https://hooks.example/accounts"}, "token": {"account-secret-fixture"},
+		"onLogin": {"1"}, "fields": {"email", "authMethod", "password"}}
+	if res, _ := post(t, member, page+"/account", accountForm); res.StatusCode != http.StatusNotFound {
+		t.Fatalf("member changed account webhook: %d", res.StatusCode)
+	}
+	if res, _ := post(t, site, page+"/account", accountForm); res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("save account webhook: %d", res.StatusCode)
+	}
+	accountForm.Del("token")
+	if res, _ := post(t, site, page+"/account", accountForm); res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("edit account webhook: %d", res.StatusCode)
+	}
+	account, err := w.s.readAccountWebhook(ctx)
+	if err != nil || !account.OnLogin || account.OnRegister || strings.Join(account.Fields, ",") != "email,authMethod" ||
+		account.Token != "account-secret-fixture" {
+		t.Fatalf("unexpected account webhook settings: %v", err)
+	}
+	if res, html := get(t, site, page); res.StatusCode != http.StatusOK ||
+		!strings.Contains(html, "https://hooks.example/accounts") || strings.Contains(html, "account-secret-fixture") {
+		t.Fatalf("account form omitted settings or exposed its token: %d", res.StatusCode)
+	}
+	accountForm.Set("url", "file:///tmp/account")
+	if res, _ := post(t, site, page+"/account", accountForm); res.StatusCode != http.StatusBadRequest {
+		t.Fatalf("accepted a non-HTTP account webhook: %d", res.StatusCode)
 	}
 	adminNotifications := w.srv.URL + "/admin/notifications"
 	if html := getBody(t, site, adminNotifications); !strings.Contains(html, "js-global-webhooks") {

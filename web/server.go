@@ -342,6 +342,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}/scrum", s.page(s.scrumPage))
 	m.HandleFunc("GET /b/{board}/{slug}/notifications", s.page(s.boardNotificationsPage))
 	m.HandleFunc("GET /b/{board}/{slug}/webhooks", s.page(s.boardWebhooksPage))
+	m.HandleFunc("POST /admin/settings/global-webhooks/account", s.page(s.saveAccountWebhook))
 	m.HandleFunc("GET /admin/settings/global-webhooks", s.page(s.globalWebhooksPage))
 	m.HandleFunc("POST /b/{board}/notifications", s.page(s.saveBoardDelivery))
 	m.HandleFunc("GET /b/{board}/{slug}/lists/{list}/permissions", s.page(s.listPermissionsPage))

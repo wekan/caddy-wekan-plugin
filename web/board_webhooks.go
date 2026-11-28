@@ -90,5 +90,14 @@ func (s *Server) renderWebhookManagement(w http.ResponseWriter, r *http.Request,
 		rows = append(rows, row)
 	}
 	w.Header().Set("Cache-Control", "private, no-store")
-	s.render(w, r, "boardwebhooks", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, titleKey), "User": u, "Board": b, "Hooks": rows, "Endpoint": endpoint})
+	data := map[string]any{"Title": tr(languageOf(r, u).Tag, titleKey), "User": u, "Board": b, "Hooks": rows, "Endpoint": endpoint}
+	if b == nil {
+		account, err := s.readAccountWebhook(ctx)
+		if err != nil {
+			http.Error(w, "Could not load account webhook settings", http.StatusInternalServerError)
+			return
+		}
+		data["AccountWebhook"] = accountWebhookForm(account)
+	}
+	s.render(w, r, "boardwebhooks", http.StatusOK, data)
 }
