@@ -137,6 +137,22 @@ func TestDistributionRows(t *testing.T) {
 	}
 }
 
+func TestActivityHeatmapTable(t *testing.T) {
+	var grid [7][24]int
+	addHeatmapActivity(&grid, time.Date(2026, 11, 24, 0, 30, 0, 0, time.FixedZone("EET", 7200)))
+	addHeatmapActivity(&grid, time.Date(2026, 11, 29, 23, 59, 0, 0, time.UTC))
+	headers, rows := heatmapTable(grid, "en")
+	if len(headers) != 25 || headers[1] != "00" || headers[24] != "23" ||
+		len(rows) != 7 || rows[0][0] != "Monday" || rows[0][23] != 1 ||
+		rows[6][0] != "Sunday" || rows[6][24] != 1 {
+		t.Fatalf("activity heatmap: %v / %v", headers, rows)
+	}
+	bars := weeklyFlowBars(rows, 0, "activityHeatmap")
+	if bars[0].Value != 1 || bars[1].Value != 0 || bars[6].Value != 1 {
+		t.Fatalf("activity heatmap bars: %v", bars)
+	}
+}
+
 func TestExportCharts(t *testing.T) {
 	w := newTestWeKan(t)
 	w.seedUser(t, "ann", "pw")
@@ -201,6 +217,23 @@ func TestExportCharts(t *testing.T) {
 		if code != 200 || !strings.Contains(sheet(data), want) {
 			t.Errorf("%s: %d, wants %s: %s", chart, code, want, sheet(data))
 		}
+	}
+	activities := w.db.Collection("activities")
+	if _, err := activities.DeleteMany(ctx, bson.M{"boardId": b.ID}); err != nil {
+		t.Fatal(err)
+	}
+	monday := mondayUTC(time.Now().AddDate(0, 0, -7))
+	if _, err := activities.InsertMany(ctx, []any{
+		bson.M{"boardId": b.ID, "createdAt": monday},
+		bson.M{"boardId": b.ID, "createdAt": monday.AddDate(0, 0, -371)},
+		bson.M{"boardId": "other-board", "createdAt": monday},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if code, _, data := get(base+"activityHeatmap/exportExcel", a); code != 200 ||
+		!strings.Contains(sheet(data), ">Monday<") || !strings.Contains(sheet(data), ">23<") ||
+		!strings.Contains(sheet(data), `r="B3"><v>1</v>`) {
+		t.Fatalf("activity heatmap export: %d %s", code, sheet(data))
 	}
 	if code, _, data := get(base+"distribution/exportExcel", a); code != 200 ||
 		!strings.Contains(sheet(data), ">Share %<") || !strings.Contains(sheet(data), `r="C3"><v>1</v>`) {

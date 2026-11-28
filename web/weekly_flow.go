@@ -13,6 +13,7 @@ type weeklyFlowView struct {
 }
 
 var weeklyFlowViews = []weeklyFlowView{
+	{"activity-heatmap", "activityHeatmap", "board-view-activity-heatmap", "fa-th", 0},
 	{"distribution", "distribution", "board-view-distribution", "fa-pie-chart", 1},
 	{"release-burndown", "releaseBurndown", "board-view-release-burndown", "fa-flag", 3},
 	{"epic-progress", "epicProgress", "board-view-epic-progress", "fa-sitemap", 4},
@@ -175,6 +176,12 @@ func weeklyFlowBars(rows [][]any, column int, key string) []weeklyFlowBar {
 	}
 	for _, row := range rows {
 		value, _ := toFloat(row[column])
+		if key == "activityHeatmap" {
+			for _, cell := range row[1:] {
+				count, _ := toFloat(cell)
+				value += count
+			}
+		}
 		if key == "dueDatePerformance" {
 			late, _ := toFloat(row[2])
 			if total := value + late; total > 0 {

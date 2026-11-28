@@ -23,6 +23,7 @@ import (
 
 // chartTitles are WeKan's chart keys and their titles' translation keys.
 var chartTitles = map[string]string{
+	"activityHeatmap":    msg("board-view-activity-heatmap"),
 	"distribution":       msg("board-view-distribution"),
 	"releaseBurndown":    msg("board-view-release-burndown"),
 	"epicProgress":       msg("board-view-epic-progress"),
@@ -204,6 +205,9 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 	if slices.Contains(scrumCharts, key) {
 		// Their rows are the reader's (scrumChartRows, scrumDailyChartRows).
 		return nil, nil, true
+	}
+	if key == "activityHeatmap" {
+		return s.activityHeatmapRows(ctx, b.ID, time.Now().UTC(), lang)
 	}
 	cards, err := s.chartCards(ctx, b)
 	if err != nil {
