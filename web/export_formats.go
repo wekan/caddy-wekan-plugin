@@ -529,14 +529,20 @@ var opmlAttr = strings.NewReplacer("&", "&amp;", "<", "&lt;", ">", "&gt;", `"`, 
 // formatOpml is opmlOutlineFormat.js: the lists, their cards with their
 // descriptions as notes, and checklists below them.
 func formatOpml(d extBoard) string {
-	var outline func(text, note string, done bool, kids []func(string) string, indent string) string
-	outline = func(text, note string, done bool, kids []func(string) string, indent string) string {
+	var outline func(text, note string, done bool, created, category string, kids []func(string) string, indent string) string
+	outline = func(text, note string, done bool, created, category string, kids []func(string) string, indent string) string {
 		attrs := `text="` + opmlAttr.Replace(text) + `"`
 		if note != "" {
 			attrs += ` _note="` + opmlAttr.Replace(note) + `"`
 		}
 		if done {
 			attrs += ` _complete="true"`
+		}
+		if created != "" {
+			attrs += ` created="` + opmlAttr.Replace(created) + `"`
+		}
+		if category != "" {
+			attrs += ` category="` + opmlAttr.Replace(category) + `"`
 		}
 		if len(kids) == 0 {
 			return indent + "<outline " + attrs + "/>"
@@ -553,6 +559,12 @@ func formatOpml(d extBoard) string {
 			titles = append(titles, i.ListTitle)
 		}
 	}
+	for _, item := range d.Items {
+		if item.ListTitle == "" && !contains(titles, "") {
+			titles = append(titles, "")
+			break
+		}
+	}
 	body := []string{}
 	for _, t := range titles {
 		var kids []func(string) string
@@ -564,13 +576,25 @@ func formatOpml(d extBoard) string {
 			for _, c := range i.Checklists {
 				var its []func(string) string
 				for _, x := range c.Items {
-					its = append(its, func(ind string) string { return outline(x.Title, "", x.Done, nil, ind) })
+					its = append(its, func(ind string) string { return outline(x.Title, "", x.Done, "", "", nil, ind) })
 				}
-				cks = append(cks, func(ind string) string { return outline(c.Title, "", false, its, ind) })
+				cks = append(cks, func(ind string) string { return outline(c.Title, "", false, "", "", its, ind) })
 			}
-			kids = append(kids, func(ind string) string { return outline(i.Title, i.Description, isClosedList(i.ListTitle), cks, ind) })
+			kids = append(kids, func(ind string) string {
+				created := ""
+				if at, ok := jsParseDate(i.CreatedAt); ok {
+					created = at.UTC().Format("Mon, 02 Jan 2006 15:04:05 GMT")
+				}
+				var categories []string
+				for _, label := range i.Labels {
+					if category := jsTrim(strings.ReplaceAll(label, ",", " ")); label != "done" && category != "" {
+						categories = append(categories, category)
+					}
+				}
+				return outline(i.Title, i.Description, isClosedList(i.ListTitle), created, strings.Join(categories, ","), cks, ind)
+			})
 		}
-		body = append(body, outline(t, "", false, kids, "    "))
+		body = append(body, outline(t, "", false, "", "", kids, "    "))
 	}
 	return strings.Join(append(append([]string{`<?xml version="1.0" encoding="UTF-8"?>`, `<opml version="2.0">`, "  <head>",
 		"    <title>" + opmlAttr.Replace(d.Board.Title) + "</title>", "  </head>", "  <body>"}, body...), "  </body>", "</opml>", ""), "\n")
