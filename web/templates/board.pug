@@ -306,6 +306,11 @@
             a.js-open-board-view-settings(href="#", title="{{t $.L `board-view`}}")
               i.fa.fa-eye
               |  {{t $.L "board-view"}}
+        if .IsBoardAdmin
+          li
+            a(href="/b/{{.Board.ID}}/{{.Board.Slug}}/shop/settings")
+              i.fa.fa-shopping-cart
+              |  {{t $.L "board-view-shop"}}
         li
           a.js-open-board-card-settings(href="#", data-pop="board-card-settings")
             i.fa.fa-id-card-o

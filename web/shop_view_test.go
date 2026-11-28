@@ -3,6 +3,7 @@ package web
 import (
 	"context"
 	"net/http"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -71,5 +72,59 @@ func TestShopBoardView(t *testing.T) {
 	res, page = get(t, guest, url)
 	if res.StatusCode != http.StatusOK || strings.Contains(page, "12.50 EUR") || strings.Contains(page, "Listed product") {
 		t.Fatalf("restricted price field leaked: %d", res.StatusCode)
+	}
+}
+
+func TestShopSettingsEditor(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	b := newRESTBoard(t, w, login(t, w, "ann"), "Shop config")
+	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true})
+	price := randomID()
+	if _, err := w.db.Collection("customFields").InsertOne(ctx, bson.M{
+		"_id": price, "name": "Catalog price", "type": "number", "boardIds": bson.A{b.ID},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": b.ID}, bson.M{
+		"$set": bson.M{"shopSettings.guestCheckout": true},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	annClient, bobClient := w.client(t), w.client(t)
+	w.signIn(t, annClient, "ann", "pw")
+	w.signIn(t, bobClient, "bob", "pw")
+	address := w.srv.URL + "/b/" + b.ID + "/shop-config/shop/settings"
+	form := url.Values{"title": {"New catalog"}, "currency": {"kwd"}, "priceFieldId": {price},
+		"enabled": {"1"}, "publicDefault": {"1"}, "saleListIds": {b.List}}
+	if res, _ := post(t, bobClient, address, form); res.StatusCode != http.StatusForbidden {
+		t.Fatalf("member entered the editor: %d", res.StatusCode)
+	}
+	res, page := get(t, annClient, address)
+	if res.StatusCode != http.StatusOK || !strings.Contains(page, "Catalog price") || !strings.Contains(page, `name="enabled"`) {
+		t.Fatalf("shop settings form: %d %s", res.StatusCode, page)
+	}
+	if res, _ := post(t, annClient, address, form); res.StatusCode != http.StatusOK && res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("shop settings save: %d", res.StatusCode)
+	}
+	res, page = get(t, annClient, address)
+	if res.StatusCode != http.StatusOK || !strings.Contains(page, "New catalog") ||
+		!strings.Contains(page, `value="1" checked`) || !strings.Contains(page, `value="`+price+`" selected`) {
+		t.Fatalf("shop settings reload: %d %s", res.StatusCode, page)
+	}
+	form.Set("priceFieldId", "foreign")
+	if res, _ := post(t, annClient, address, form); res.StatusCode != http.StatusBadRequest {
+		t.Fatalf("accepted a foreign custom field: %d", res.StatusCode)
+	}
+	var board bson.M
+	if err := w.db.Collection("boards").FindOne(ctx, bson.M{"_id": b.ID}).Decode(&board); err != nil {
+		t.Fatal(err)
+	}
+	settings := asM(board["shopSettings"])
+	if settings["guestCheckout"] != true || settings["priceFieldId"] != price || settings["currency"] != "KWD" ||
+		boardViewStateOf(board).defaultView("public") != "board-view-shop" {
+		t.Fatalf("shop settings persistence: %v", board)
 	}
 }

@@ -1,0 +1,46 @@
+.wrapper
+  main.website-view
+    h1 {{t $.L "board-view-shop"}} · {{.Board.Title}}
+    form(method="post")
+      p
+        label
+          | <input type="checkbox" name="enabled" value="1" {{if eq .Settings.enabled true}}checked{{end}}>
+          |  {{t $.L "shop-open"}}
+      p
+        label
+          | {{t $.L "title"}}
+          input(type="text", name="title", maxlength="200", value="{{.Settings.title}}")
+      p
+        label
+          | {{t $.L "shop-intro"}}
+          textarea(name="intro", maxlength="5000", rows="4") {{.Settings.intro}}
+      p
+        label
+          | {{t $.L "billing-currency"}}
+          input(type="text", name="currency", maxlength="3", pattern="[A-Za-z]{3}", value="{{.Currency}}", required)
+      each picker in .Pickers
+        p
+          label
+            | {{t $.L .Label}}
+            select(name="{{.Key}}")
+              option(value="") {{t $.L "shop-not-chosen"}}
+              each option in .Options
+                | <option value="{{.ID}}" {{if .Selected}}selected{{end}}> {{.Name}}</option>
+      fieldset
+        legend {{t $.L "shop-sale-lists"}}
+        each list in .Lists
+          label
+            | <input type="checkbox" name="saleListIds" value="{{.ID}}" {{if .Selected}}checked{{end}}>
+            |  {{.Name}}
+      fieldset
+        legend {{t $.L "shop-category-labels"}}
+        each label in .Labels
+          label
+            | <input type="checkbox" name="categoryLabelIds" value="{{.ID}}" {{if .Selected}}checked{{end}}>
+            |  {{.Name}}
+      p
+        label
+          | <input type="checkbox" name="publicDefault" value="1" {{if .PublicDefault}}checked{{end}}>
+          |  {{t $.L "shop-show-on-public"}}
+      button(type="submit") {{t $.L "save"}}
+      a(href="{{.Shop}}") {{t $.L "cancel"}}

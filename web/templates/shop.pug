@@ -7,6 +7,8 @@
         i.fa.fa-shopping-cart
         span.board-header-btn-label {{t $.L "board-view-shop"}}
       | {{template "_boardviews" .}}
+      if .SettingsURL
+        a(href="{{.SettingsURL}}") {{t $.L "settings"}}
     main.website-main
       if .Enabled
         if .Intro

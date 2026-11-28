@@ -94,6 +94,9 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 	}
 	data := map[string]any{"Title": title, "Board": b, "User": u, "Home": shopLocation(b, "", ""),
 		"Views": s.boardViewEntries(b, lang, "shop"), "Enabled": settings["enabled"] == true}
+	if u != nil && (u.IsAdmin || b.AdminOf(u.ID)) {
+		data["SettingsURL"] = "/b/" + b.ID + "/" + b.Slug + "/shop/settings"
+	}
 	if settings["enabled"] != true {
 		s.render(w, r, "shop", http.StatusOK, data)
 		return
