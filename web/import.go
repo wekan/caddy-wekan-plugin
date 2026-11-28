@@ -156,9 +156,10 @@ func (s *Server) ImportBoard(r *http.Request, u *User, export map[string]any, ma
 // one; Files, where an attachment's bytes are when the export does not carry
 // them (a .zip import).
 type importOptions struct {
-	Into   *Board
-	Files  func(attachment bson.M) io.ReadCloser
-	Counts map[string]int // what was imported, by collection, when given
+	Into            *Board
+	Files           func(attachment bson.M) io.ReadCloser
+	Counts          map[string]int // what was imported, by collection, when given
+	InactiveMembers bool
 }
 
 func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any, mapping map[string]string, opts importOptions) (string, error) {
@@ -259,12 +260,15 @@ func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any
 	board["labels"] = labels
 	members := bson.A{bson.M{"userId": u.ID, "isAdmin": true, "isActive": true}}
 	if ms, ok := export["members"].([]any); ok {
+		seen := map[string]bool{u.ID: true}
 		for _, e := range ms {
 			m, _ := e.(map[string]any)
 			old, _ := m["userId"].(string)
-			if n, ok := users[old]; ok && n != u.ID {
+			if n, ok := users[old]; ok && !seen[n] {
+				seen[n] = true
 				isAdmin, _ := m["isAdmin"].(bool)
-				members = append(members, bson.M{"userId": n, "isActive": true, "isAdmin": isAdmin}) // inserted, not a filter
+				active := !opts.InactiveMembers
+				members = append(members, bson.M{"userId": n, "isActive": active, "isAdmin": active && isAdmin}) // inserted, not a filter
 			}
 		}
 	}

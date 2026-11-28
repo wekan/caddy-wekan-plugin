@@ -66,6 +66,17 @@ func trelloImport(raw []byte) (map[string]any, error) {
 		rows, _ := out[key].([]any)
 		out[key] = append(rows, row)
 	}
+	knownPeople := map[string]bool{}
+	addPerson := func(id, username, name string) {
+		if id == "" || knownPeople[id] {
+			return
+		}
+		knownPeople[id] = true
+		add("members", map[string]any{"userId": id, "username": username, "fullName": name})
+	}
+	for _, person := range docsOf(input, "members") {
+		addPerson(str(person, "id"), str(person, "username"), str(person, "fullName"))
+	}
 	for _, value := range lists {
 		list, ok := value.(map[string]any)
 		if !ok || str(list, "id") == "" {
@@ -116,6 +127,14 @@ func trelloImport(raw []byte) (map[string]any, error) {
 				row[to] = at.UTC().Format("2006-01-02T15:04:05.000Z")
 			}
 		}
+		assignees := []any{}
+		for _, member := range cdList(card["idMembers"]) {
+			if id, ok := member.(string); ok && id != "" {
+				assignees = append(assignees, id)
+				addPerson(id, "", id)
+			}
+		}
+		row["assignees"] = assignees
 		custom := []any{}
 		used := map[string]bool{}
 		for _, item := range docsOf(card, "customFieldItems") {
@@ -162,7 +181,16 @@ func trelloImport(raw []byte) (map[string]any, error) {
 		}
 		data, _ := action["data"].(map[string]any)
 		card, _ := data["card"].(map[string]any)
-		row := map[string]any{"cardId": str(card, "id"), "text": str(data, "text")}
+		person := asM(action["memberCreator"])
+		author := str(action, "idMemberCreator")
+		if author == "" {
+			author = str(person, "username")
+		}
+		if author == "" {
+			author = str(person, "fullName")
+		}
+		addPerson(author, str(person, "username"), str(person, "fullName"))
+		row := map[string]any{"cardId": str(card, "id"), "text": str(data, "text"), "userId": author}
 		if at, valid := jsParseDate(str(action, "date")); valid {
 			row["createdAt"] = at.UTC().Format("2006-01-02T15:04:05.000Z")
 		}
@@ -297,6 +325,30 @@ func trelloImportArchive(raw []byte) ([]trelloArchiveBoard, error) {
 	return boards, nil
 }
 
+func (s *Server) trelloPeople(ctx context.Context, doc map[string]any, user *User, mode string) (map[string]string, []string) {
+	mapping := map[string]string{}
+	var missing []importPerson
+	for _, person := range docsOf(doc, "members") {
+		id, username, name := str(person, "userId"), str(person, "username"), str(person, "fullName")
+		if mode == "me" {
+			mapping[id] = user.ID
+			continue
+		}
+		if mode == "map" && username != "" {
+			var target User
+			if s.db.Collection("users").FindOne(ctx, bson.M{"username": eq(username), "loginDisabled": bson.M{"$ne": true}}).Decode(&target) == nil {
+				mapping[id] = target.ID
+				continue
+			}
+		}
+		if name == "" {
+			name = username
+		}
+		missing = append(missing, importPerson{key: id, name: name})
+	}
+	return mapping, s.importPlaceholders(ctx, missing, mapping, "trello")
+}
+
 func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *User) {
 	data := s.importData(r, u, "trello")
 	fail := func(status int) {
@@ -335,12 +387,28 @@ func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *Use
 	if len(boards) == 0 {
 		boards = []trelloArchiveBoard{{doc: doc}}
 	}
+	if s.mayCreateBoard(r.Context(), u, "board", "importBoard") != nil {
+		fail(http.StatusForbidden)
+		return
+	}
+	mode := importMembersMode(r.FormValue("membersMode"))
+	if r.FormValue("membersMode") == "" {
+		mode = "map"
+	}
 	created := []string{}
+	var placeholders bson.A
 	for _, board := range boards {
-		id, err := s.importBoardWith(r, u, board.doc, nil, importOptions{Files: board.files})
+		mapping, made := s.trelloPeople(r.Context(), board.doc, u, mode)
+		for _, id := range made {
+			placeholders = append(placeholders, id)
+		}
+		id, err := s.importBoardWith(r, u, board.doc, mapping, importOptions{Files: board.files, InactiveMembers: true})
 		if err != nil {
 			for _, previous := range created {
 				s.deleteBoardData(context.WithoutCancel(r.Context()), previous)
+			}
+			if len(placeholders) > 0 {
+				_, _ = s.db.Collection("users").DeleteMany(context.WithoutCancel(r.Context()), bson.M{"_id": dbIn(placeholders)})
 			}
 			if errors.Is(err, errBoardCreation) {
 				fail(http.StatusForbidden)
