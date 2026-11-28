@@ -335,6 +335,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}", s.publicBoardRead(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/{card}", s.publicBoardRead(s.boardPage))
 	m.HandleFunc("GET /b/{board}/{slug}/rules", s.page(s.rulesPage))
+	m.HandleFunc("POST /b/{board}/{slug}/shop/order", s.submitShopOrder)
 	m.HandleFunc("POST /b/{board}/{slug}/shop/cart", s.updateShopCart)
 	m.HandleFunc("GET /b/{board}/{slug}/shop/settings", s.page(s.shopSettingsPage))
 	m.HandleFunc("POST /b/{board}/{slug}/shop/settings", s.page(s.shopSettingsPage))
@@ -810,8 +811,17 @@ func (s *Server) visibilityPage(w http.ResponseWriter, r *http.Request, u *User)
 			return
 		}
 	}
-	if _, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"permission": perm, "modifiedAt": time.Now().UTC()}}); err != nil {
+	filter := bson.M{"_id": b.ID}
+	if perm != "private" {
+		filter["shopOrderPrivacy"] = bson.M{"$ne": true}
+	}
+	result, err := s.db.Collection("boards").UpdateOne(r.Context(), filter, bson.M{"$set": bson.M{"permission": perm, "modifiedAt": time.Now().UTC()}})
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if result.MatchedCount == 0 {
+		http.Error(w, tr(languageOf(r, u).Tag, msg("shop-orders-private")), http.StatusConflict)
 		return
 	}
 	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))

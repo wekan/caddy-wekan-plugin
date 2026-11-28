@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strings"
 	"testing"
 
@@ -113,6 +114,41 @@ func TestShopBoardView(t *testing.T) {
 		strings.Contains(page, "Order destination") {
 		t.Fatalf("checkout review: %d %s", res.StatusCode, page)
 	}
+	update("boards", b.ID, bson.M{"shopSettings.decrementStock": false})
+	res, page = get(t, guest, checkoutURL)
+	nonce := regexp.MustCompile(`name="id" value="([A-Za-z0-9_-]+)"`).FindStringSubmatch(page)
+	quote := regexp.MustCompile(`name="quote" value="([0-9a-f]+)"`).FindStringSubmatch(page)
+	if res.StatusCode != http.StatusOK || len(nonce) != 2 || len(quote) != 2 {
+		t.Fatalf("order form: %d %s", res.StatusCode, page)
+	}
+	var cookie *http.Cookie
+	for _, candidate := range guest.Jar.Cookies(res.Request.URL) {
+		if candidate.Name == shopCartCookie(b.ID) {
+			cookie = candidate
+		}
+	}
+	if cookie == nil {
+		t.Fatal("missing cart cookie")
+	}
+	cookie.Path = "/b/" + b.ID + "/"
+	form := map[string][]string{"id": {nonce[1]}, "quote": {quote[1]}, "name": {"Test customer"}, "email": {"test@example.test"}, "acceptTerms": {"1"}}
+	orderURL := url + "/shop/order"
+	form["quote"] = []string{"stale"}
+	if res, _ = post(t, guest, orderURL, form); res.StatusCode != http.StatusConflict {
+		t.Fatalf("accepted a stale quote: %d", res.StatusCode)
+	}
+	form["quote"] = []string{quote[1]}
+	for attempt := 0; attempt < 2; attempt++ {
+		guest.Jar.SetCookies(res.Request.URL, []*http.Cookie{cookie})
+		if res, page = post(t, guest, orderURL, form); res.StatusCode != http.StatusCreated {
+			t.Fatalf("order submission: %d %s", res.StatusCode, page)
+		}
+	}
+	if count, err := w.db.Collection("cards").CountDocuments(ctx, bson.M{"boardId": orders.ID, "title": bson.M{"$regex": "^Order "}}); err != nil || count != 1 {
+		t.Fatalf("order card count: %d %v", count, err)
+	}
+	guest.Jar.SetCookies(res.Request.URL, []*http.Cookie{cookie})
+
 	update("boards", orders.ID, bson.M{"permission": "public"})
 	res, page = get(t, guest, checkoutURL)
 	if res.StatusCode != http.StatusOK || strings.Contains(page, "shop-checkout-review") {
@@ -251,5 +287,12 @@ func TestShopDestinationVisibility(t *testing.T) {
 	set(target.ID, bson.M{"enabled": false, "ordersListId": target.List})
 	if res, _ := post(t, c, address, url.Values{"visibility": {"public"}}); res.StatusCode != http.StatusSeeOther {
 		t.Fatalf("unused destination could not change visibility: %d", res.StatusCode)
+	}
+	if _, err := w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": target.ID},
+		bson.M{"$set": bson.M{"permission": "private", "shopOrderPrivacy": true}}); err != nil {
+		t.Fatal(err)
+	}
+	if res, _ := post(t, c, address, url.Values{"visibility": {"instance"}}); res.StatusCode != http.StatusConflict {
+		t.Fatalf("previous order destination became visible after its shop closed: %d", res.StatusCode)
 	}
 }

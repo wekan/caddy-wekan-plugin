@@ -121,6 +121,10 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 		data["SettingsURL"] = "/b/" + b.ID + "/" + b.Slug + "/shop/settings"
 	}
 	if settings["enabled"] != true {
+		if r.Method == http.MethodPost {
+			http.Error(w, "Order unavailable", http.StatusConflict)
+			return
+		}
 		s.render(w, r, "shop", http.StatusOK, data)
 		return
 	}
@@ -138,6 +142,10 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 	}
 	priceID, skuID, stockID := strOf(settings["priceFieldId"]), strOf(settings["skuFieldId"]), strOf(settings["stockFieldId"])
 	if !allowedFields[priceID] {
+		if r.Method == http.MethodPost {
+			http.Error(w, "Order unavailable", http.StatusConflict)
+			return
+		}
 		s.render(w, r, "shop", http.StatusOK, data)
 		return
 	}
@@ -191,7 +199,7 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 	}
 	data["CartURL"] = shopCartLocation(b)
 	data["CartAction"] = "/b/" + b.ID + "/" + b.Slug + "/shop/cart"
-	checkout := r.URL.Query().Get("checkout") == "1"
+	checkout := r.Method == http.MethodPost || r.URL.Query().Get("checkout") == "1"
 	if checkout || r.URL.Query().Get("cart") == "1" {
 		w.Header().Set("Cache-Control", "private, no-store")
 		data["Cart"], data["CartLines"], data["CartTotal"] = true, nil, ""
@@ -208,6 +216,16 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 				canReview = false
 			}
 		}
+		mayOrder := canReview && (u != nil || settings["guestCheckout"] == true) && settings["decrementStock"] == false
+		quote := shopOrderQuote(b.ID, lines, total, currency, settings)
+		if r.Method == http.MethodPost {
+			if !mayOrder {
+				http.Error(w, "Order unavailable", http.StatusConflict)
+				return
+			}
+			s.saveShopOrder(w, r, b, u, settings, lines, data["CartTotal"].(string), quote)
+			return
+		}
 		if canReview {
 			if u == nil && settings["guestCheckout"] != true {
 				data["CheckoutLogin"] = true
@@ -215,6 +233,10 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 				data["CheckoutURL"] = shopLocation(b, "", "") + "&checkout=1"
 				if checkout {
 					data["CheckoutReview"] = true
+					if mayOrder {
+						data["OrderAction"] = "/b/" + b.ID + "/" + b.Slug + "/shop/order"
+						data["OrderID"], data["Quote"] = randomID(), quote
+					}
 					data["TermsURL"] = shopTermsURL(strOf(settings["termsUrl"]))
 				}
 			}

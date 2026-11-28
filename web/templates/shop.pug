@@ -33,6 +33,25 @@
             if .TermsURL
               p
                 a(href="{{.TermsURL}}", rel="noopener noreferrer") {{t $.L "shop-terms-url"}}
+            if .OrderAction
+              form(method="post", action="{{.OrderAction}}")
+                input(type="hidden", name="id", value="{{.OrderID}}")
+                input(type="hidden", name="quote", value="{{.Quote}}")
+                p
+                  label
+                    | {{t $.L "name"}}
+                    input(type="text", name="name", maxlength="100", required)
+                p
+                  label
+                    | {{t $.L "email"}}
+                    input(type="email", name="email", maxlength="254", required)
+                if .TermsURL
+                  label
+                    input(type="checkbox", name="acceptTerms", value="1", required)
+                    |  {{t $.L "shop-accept-terms"}}
+                p
+                  button(type="submit") {{t $.L "shop-place-order"}}
+
             a(href="{{.CartURL}}") {{t $.L "shop-cart"}}
         else if .Cart
           if .CartLines
