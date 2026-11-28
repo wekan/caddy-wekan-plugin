@@ -738,7 +738,16 @@ func formatQuireCsv(d extBoard) string {
 		if i.ParentCardID != "" {
 			parent = numbers[i.ParentCardID]
 		}
-		row := []string{"#" + strconv.Itoa(k+1), parent, name, status, monthDayYear(i.EndAt), "Medium", monthDayYear(i.StartAt), monthDayYear(i.DueAt)}
+		priority := "Medium"
+		switch strings.ToLower(jsOrString(jsGet(i.CustomFields, "Priority"))) {
+		case "low":
+			priority = "Low"
+		case "high":
+			priority = "High"
+		case "urgent":
+			priority = "Urgent"
+		}
+		row := []string{"#" + strconv.Itoa(k+1), parent, name, status, monthDayYear(i.EndAt), priority, monthDayYear(i.StartAt), monthDayYear(i.DueAt)}
 		w, t := who(i), tags(i)
 		row = append(append(row, w...), repeatCells("", nWho-len(w))...)
 		row = append(append(row, t...), repeatCells("", nTags-len(t))...)
