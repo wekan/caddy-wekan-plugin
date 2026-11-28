@@ -454,6 +454,11 @@ var closedList = regexp.MustCompile(`(?i)done|closed|complete|archiv|finished`)
 
 func isClosedList(title string) bool { return closedList.MatchString(title) }
 
+var markdownSpaces = regexp.MustCompile(`[\s\p{Z}\x{FEFF}]+`)
+var markdownTagSeparators = regexp.MustCompile(`[\s\p{Z}\x{FEFF}#]+`)
+var markdownTagStart = regexp.MustCompile(`^[A-Za-z]`)
+var markdownChecklistText = regexp.MustCompile(`^([\s\p{Z}\x{FEFF}]*)([-*+][\s\p{Z}\x{FEFF}]+\[)`)
+
 // formatMarkdownKanban is markdownKanbanFormat.js.
 func formatMarkdownKanban(d extBoard) string {
 	title := d.Board.Title
@@ -477,10 +482,39 @@ func formatMarkdownKanban(d extBoard) string {
 			if isClosedList(i.ListTitle) {
 				box = "x"
 			}
-			lines = append(lines, "- ["+box+"] "+i.Title)
+			task := "- [" + box + "] " + i.Title
+			for _, label := range i.Labels {
+				if label == "done" {
+					continue
+				}
+				tag := markdownTagSeparators.ReplaceAllString(jsTrim(label), "-")
+				if markdownTagStart.MatchString(tag) {
+					task += " #" + tag
+				}
+			}
+			if due, ok := jsParseDate(i.DueAt); ok {
+				task += " @{" + due.UTC().Format("2006-01-02") + "}"
+				if clock := due.UTC().Format("15:04"); clock != "00:00" {
+					task += " @@{" + clock + "}"
+				}
+			}
+			lines = append(lines, task)
 			for _, dl := range strings.Split(i.Description, "\n") {
 				if dl != "" {
-					lines = append(lines, "  "+dl)
+					lines = append(lines, "  "+markdownChecklistText.ReplaceAllString(dl, `${1}\${2}`))
+				}
+			}
+			for _, checklist := range i.Checklists {
+				for _, entry := range checklist.Items {
+					box := " "
+					if entry.Done {
+						box = "x"
+					}
+					title := strings.TrimSpace(markdownSpaces.ReplaceAllString(entry.Title, " "))
+					if title == "" {
+						title = "Item"
+					}
+					lines = append(lines, "  - ["+box+"] "+title)
 				}
 			}
 		}

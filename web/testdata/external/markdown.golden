@@ -2,12 +2,16 @@
 
 ## To Do
 
-- [ ] Write   spec now
+- [ ] Write   spec now #priority:H #web-dev #project:Plant.Pumps #big-deal #p2 #a;b #Bug #x-,-y @{2026-11-20} @@{10:00}
   line one
   line "two" <b>
+  - [x] a & b
+  - [ ] c
 
 ## Done
 
-- [x] -minus first
+- [x] -minus first #priority:B #raw #won't-do
   first
   second  
+  - [ ] one
+  - [x] Item
