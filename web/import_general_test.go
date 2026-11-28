@@ -396,7 +396,7 @@ func TestImportJira(t *testing.T) {
 	}
 
 	withChild := strings.TrimSuffix(strings.Replace(payload, `"key":"TEST-1"`, `"key":"TEST-1","id":10001`, 1), "]}") +
-		`,{"key":"TEST-CHILD","fields":{"summary":"Child","parent":{"id":"10001"}}}]}`
+		`,{"key":"TEST-CHILD","fields":{"summary":"Child","parent":{"id":"10001"},"status":{"name":"Done","statusCategory":{"key":"done"}},"created":"2026-10-10T12:30:00.000+0200","resolutiondate":"2026-10-11T12:30:00.000+0200","duedate":"2026-10-12"}}]}`
 	imported, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {withChild}})
 	if err != nil {
 		t.Fatal(err)
@@ -414,6 +414,13 @@ func TestImportJira(t *testing.T) {
 	}
 	if child["parentId"] != parent["_id"] {
 		t.Fatalf("Jira parent link: %v", child)
+	}
+
+	if child["createdAt"] != bson.NewDateTimeFromTime(at) ||
+		child["endAt"] != bson.NewDateTimeFromTime(at.AddDate(0, 0, 1)) ||
+		child["dueAt"] != bson.NewDateTimeFromTime(time.Date(2026, 10, 12, 0, 0, 0, 0, time.UTC)) ||
+		child["dueComplete"] != true {
+		t.Fatalf("Jira dates and completion: %v", child)
 	}
 
 	conflict := strings.TrimSuffix(payload, "]}") + `,{"key":"TEST-2","fields":{"summary":"Conflict","status":{"name":"Doing","statusCategory":{"key":"done"}}}}]}`
