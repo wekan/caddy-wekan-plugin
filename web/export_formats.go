@@ -335,7 +335,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		username[strOf(u["_id"])] = strOf(u["username"])
 	}
 	var exportFields *fieldReader
-	if (format == "orgmode" || format == "trello" || format == "trellozip" || format == "asana" || format == "zenkit" || format == "linear" || format == "quire" || format == "pivotal" || format == "redmine") && want.has("custom-fields") {
+	if (format == "orgmode" || format == "trello" || format == "trellozip" || format == "asana" || format == "zenkit" || format == "linear" || format == "quire" || format == "pivotal" || format == "redmine" || format == "clickup") && want.has("custom-fields") {
 		exportFields = s.fieldReaderFor(ctx, b, u)
 	}
 	for _, c := range cards {

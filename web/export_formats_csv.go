@@ -503,7 +503,15 @@ func formatClickUpCsv(d extBoard) string {
 			children[i.ParentCardID] = append(children[i.ParentCardID], i.CardID)
 		}
 	}
-	rows := [][]string{clickupColumns}
+	columns := append([]string{}, clickupColumns...)
+	for _, item := range d.Items {
+		for _, field := range item.CustomFields {
+			if !contains(columns, field.Key) && !contains([]string{"Custom ID", "Folder", "Time Estimate (hours)"}, field.Key) {
+				columns = append(columns, field.Key)
+			}
+		}
+	}
+	rows := [][]string{columns}
 	for _, i := range d.Items {
 		name := jsTrim(i.Title)
 		if name == "" {
@@ -525,15 +533,42 @@ func formatClickUpCsv(d extBoard) string {
 		for _, x := range checklistEntries(i) {
 			checklist = append(checklist, strings.ReplaceAll(x.Title, ",", " "))
 		}
-		v := map[string]string{"Task ID": i.CardID, "Task Type": "Task", "Task Name": name, "Task Content": i.Description, "Status": status,
+		fields := i.CustomFields
+		milliseconds := func(hours float64) string {
+			if hours > 0 && hours <= 9007199254740991.0/3600000 {
+				return jsNumber(jsRound(hours * 3600000))
+			}
+			return ""
+		}
+		priority := strings.ToLower(jsOrString(jsGet(fields, "Priority")))
+		switch priority {
+		case "1":
+			priority = "urgent"
+		case "2":
+			priority = "high"
+		case "3":
+			priority = "normal"
+		case "4":
+			priority = "low"
+		case "urgent", "high", "normal", "low":
+		default:
+			priority = ""
+		}
+		estimate, _ := jsToNumber(jsGet(fields, "Time Estimate (hours)"))
+		v := map[string]string{"Task ID": i.CardID, "Task Type": jsOrString(jsOr(jsGet(fields, "Task Type"), "Task")), "Task Custom ID": jsOrString(jsGet(fields, "Custom ID")), "Task Name": name, "Task Content": i.Description, "Status": status,
 			"Date created": clickupMillis(i.CreatedAt), "Date created Text": isoDate(parseISO(i.CreatedAt)),
 			"Due date": clickupMillis(i.DueAt), "Due date Text": isoDate(parseISO(i.DueAt)),
 			"Start date": clickupMillis(i.StartAt), "Start date Text": isoDate(parseISO(i.StartAt)),
 			"Parent ID": parent, "Subtask IDs": clickupBracket(children[i.CardID]), "Attachments": "[]",
 			"Assignees": clickupBracket(people(i)), "Tags": clickupBracket(i.Labels), "List Name": list,
-			"Space Name": d.Board.Title, "Checklist": strings.Join(checklist, ",")}
-		cells := make([]string, len(clickupColumns))
-		for k, c := range clickupColumns {
+			"Space Name": d.Board.Title, "Priority": priority, "Folder Name/Path": jsOrString(jsGet(fields, "Folder")), "Time Estimated": milliseconds(estimate), "Time Spent": milliseconds(i.SpentTime), "Checklist": strings.Join(checklist, ",")}
+		for _, field := range columns[len(clickupColumns):] {
+			if value := jsGet(fields, field); value != nil {
+				v[field] = jsStr(value)
+			}
+		}
+		cells := make([]string, len(columns))
+		for k, c := range columns {
 			cells[k] = v[c]
 		}
 		rows = append(rows, cells)
