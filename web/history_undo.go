@@ -197,6 +197,10 @@ func (s *Server) applyHistoryRow(ctx context.Context, row map[string]any, direct
 			content = map[string]any{"field": "wipLimit", "value": nil}
 		}
 	}
+	if direction == "restore" && docString(row, "entityType") == "comment" && docString(row, "group") == "comments" &&
+		docString(row, "changeType") == "removed" {
+		return s.restoreRemovedComment(ctx, row, content)
+	}
 	// An attachment's lifecycle: deleted or restored again (applyAttachmentContent).
 	if docString(row, "entityType") == "attachment" && docString(row, "group") == "lifecycle" && content != nil {
 		deleted, ok := content["deleted"].(bool)
@@ -560,6 +564,33 @@ func listWipHistoryRow(row map[string]any) bool {
 // board on the row one they may write. A row's board is the one it was
 // recorded on; a card moved since to a board the caller cannot reach is not
 // written through History.
+func (s *Server) restoreRemovedComment(ctx context.Context, row, content map[string]any) bool {
+	doc, ok := content["document"].(map[string]any)
+	if !ok {
+		return false
+	}
+	id, boardID, cardID := docString(row, "entityId"), docString(row, "boardId"), docString(row, "cardId")
+	author, text := docString(doc, "userId"), docString(doc, "text")
+	if !validID(id) || !validID(cardID) || author == "" || text == "" ||
+		docString(doc, "_id") != id || docString(doc, "boardId") != boardID || docString(doc, "cardId") != cardID {
+		return false
+	}
+	if s.db.Collection("cards").FindOne(ctx, bson.M{"_id": eq(cardID), "boardId": boardID, "deletedAt": nil}).Err() != nil {
+		return false
+	}
+	restored := bson.M{"_id": id, "boardId": boardID, "cardId": cardID, "userId": author, "text": text}
+	if parent := docString(doc, "parentId"); parent != "" {
+		restored["parentId"] = parent
+	}
+	for _, field := range []string{"createdAt", "modifiedAt"} {
+		if stamp, err := time.Parse(time.RFC3339Nano, docString(doc, field)); err == nil {
+			restored[field] = stamp.UTC()
+		}
+	}
+	_, err := s.db.Collection("card_comments").InsertOne(ctx, restored)
+	return err == nil
+}
+
 func (s *Server) requireHistoryRowAccess(ctx context.Context, u *User, row map[string]any) error {
 	denied := &methodError{"not-authorized", "This history entry is outside your current access."}
 	hr := &historyReader{s: s, ctx: ctx, u: u, boards: map[string]*historyBoardScope{}}
@@ -658,6 +689,17 @@ func (s *Server) methodHistoryRestore(r *http.Request, u *User, args []json.RawM
 			}
 			restored++
 			continue
+		}
+		if docString(row, "entityType") == "comment" && docString(row, "changeType") == "removed" {
+			content, _ := row["previousContent"].(map[string]any)
+			comment, _ := content["document"].(map[string]any)
+			if docString(comment, "userId") != u.ID {
+				board, err := s.boardFor(ctx, docString(row, "boardId"), u)
+				raw := s.findDoc(ctx, "boards", bson.M{"_id": eq(docString(row, "boardId"))})
+				if err != nil || !board.AdminOf(u.ID) || raw["restrictCommentEditing"] == true {
+					return nil, &methodError{"not-authorized", "You cannot restore this comment."}
+				}
+			}
 		}
 		displaced := s.currentHistoryContent(ctx, row)
 		applied := false
