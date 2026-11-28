@@ -1,6 +1,7 @@
 package web
 
 import (
+	"cmp"
 	"math"
 	"slices"
 	"time"
@@ -12,6 +13,7 @@ type weeklyFlowView struct {
 }
 
 var weeklyFlowViews = []weeklyFlowView{
+	{"epic-progress", "epicProgress", "board-view-epic-progress", "fa-sitemap", 4},
 	{"created-resolved", "createdResolved", "board-view-created-resolved", "fa-exchange", 3},
 	{"net-flow", "netFlow", "board-view-net-flow", "fa-balance-scale", 3},
 	{"average-age", "averageAge", "board-view-average-age", "fa-birthday-cake", 2},
@@ -154,19 +156,24 @@ func weeklyFlowHeaders(lang string, columns ...string) []any {
 }
 
 type weeklyFlowBar struct {
-	Week                  string
+	Label                 string
 	Value, Magnitude, Max float64
 }
 
-func weeklyFlowBars(rows [][]any, column int, percentage bool) []weeklyFlowBar {
+func weeklyFlowBars(rows [][]any, column int, key string) []weeklyFlowBar {
 	bars := make([]weeklyFlowBar, 0, min(len(rows), 24))
 	scale := 1.0
-	if percentage {
+	if key == "dueDatePerformance" || key == "epicProgress" {
 		scale = 100
 	}
-	for _, row := range rows[max(0, len(rows)-24):] {
+	if key == "epicProgress" {
+		rows = rows[:min(len(rows), 24)]
+	} else {
+		rows = rows[max(0, len(rows)-24):]
+	}
+	for _, row := range rows {
 		value, _ := toFloat(row[column])
-		if percentage {
+		if key == "dueDatePerformance" {
 			late, _ := toFloat(row[2])
 			if total := value + late; total > 0 {
 				value = math.Round(value/total*1000) / 10
@@ -174,10 +181,44 @@ func weeklyFlowBars(rows [][]any, column int, percentage bool) []weeklyFlowBar {
 		}
 		magnitude := max(value, -value)
 		scale = max(scale, magnitude)
-		bars = append(bars, weeklyFlowBar{Week: row[0].(string), Value: value, Magnitude: magnitude})
+		bars = append(bars, weeklyFlowBar{Label: row[0].(string), Value: value, Magnitude: magnitude})
 	}
 	for i := range bars {
 		bars[i].Max = scale
 	}
 	return bars
+}
+
+func epicProgressRows(cards []chartCard, lang string) ([]any, [][]any) {
+	titles := make(map[string]string, len(cards))
+	for _, card := range cards {
+		titles[card.ID] = card.Title
+	}
+	type counts struct{ total, done int }
+	byParent := map[string]counts{}
+	var parents []string
+	for _, card := range cards {
+		if _, exists := titles[card.ParentID]; !exists || card.ParentID == "" {
+			continue
+		}
+		total, seen := byParent[card.ParentID]
+		if !seen {
+			parents = append(parents, card.ParentID)
+		}
+		total.total++
+		if _, done := card.done(); done {
+			total.done++
+		}
+		byParent[card.ParentID] = total
+	}
+	rows := make([][]any, 0, len(parents))
+	for _, parent := range parents {
+		total := byParent[parent]
+		ratio := math.Round(float64(total.done)/float64(total.total)*1000) / 10
+		rows = append(rows, []any{titles[parent], total.total, total.done, total.total - total.done, ratio})
+	}
+	slices.SortStableFunc(rows, func(a, b []any) int {
+		return cmp.Compare(a[4].(float64), b[4].(float64))
+	})
+	return weeklyFlowHeaders(lang, "card", "subtasks", "done", "open", "progress"), rows
 }

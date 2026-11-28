@@ -23,6 +23,7 @@ import (
 
 // chartTitles are WeKan's chart keys and their titles' translation keys.
 var chartTitles = map[string]string{
+	"epicProgress":       msg("board-view-epic-progress"),
 	"dueDatePerformance": msg("board-view-due-date-performance"),
 	"createdResolved":    msg("board-view-created-resolved"), "netFlow": msg("board-view-net-flow"),
 	"averageAge": msg("board-view-average-age"), "throughputRun": msg("board-view-throughput-run"),
@@ -146,6 +147,7 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 type chartCard struct {
 	ID         string    `bson:"_id"`
 	Title      string    `bson:"title"`
+	ParentID   string    `bson:"parentId"`
 	ListID     string    `bson:"listId"`
 	CreatedAt  time.Time `bson:"createdAt"`
 	StartAt    time.Time `bson:"startAt"`
@@ -185,7 +187,7 @@ func sinceDays(a, b time.Time) float64 { return math.Max(0, b.Sub(a).Hours()/24)
 // chartRows are a chart's table; ok false for one Weddy cannot compute yet.
 func (s *Server) chartCards(ctx context.Context, b *Board) ([]chartCard, error) {
 	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetProjection(bson.M{
-		"title": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "labelIds": 1,
+		"title": 1, "parentId": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "labelIds": 1,
 		"spentTime": 1, "isOvertime": 1, "archived": 1}))
 	if err != nil {
 		return nil, err
@@ -205,6 +207,10 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 		return nil, nil, false
 	}
 	now := time.Now().UTC()
+	if key == "epicProgress" {
+		headers, rows := epicProgressRows(cards, lang)
+		return headers, rows, true
+	}
 	if isWeeklyFlow(key) {
 		headers, rows := weeklyFlowRows(cards, now, key, lang)
 		return headers, rows, true

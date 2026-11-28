@@ -1336,11 +1336,12 @@
         h2 {{.WeeklyFlow.Title}}
         if .WeeklyFlow.Export
           button.js-export-chart(type="button", data-chart-key="{{.WeeklyFlow.ChartKey}}", data-board="{{.Board.ID}}") {{t $.L "export"}}
-        ul.weekly-flow-bars
-          each bar in .WeeklyFlow.Bars
-            li
-              span {{.Week}} {{.Value}}{{if $.WeeklyFlow.Percentage}}%{{end}}
-              meter(min="0", max="{{.Max}}", value="{{.Magnitude}}", aria-hidden="true")
+        if .WeeklyFlow.Bars
+          ul.weekly-flow-bars
+            each bar in .WeeklyFlow.Bars
+              li
+                span {{.Label}} {{.Value}}{{if $.WeeklyFlow.Percentage}}%{{end}}
+                meter(min="0", max="{{.Max}}", value="{{.Magnitude}}", aria-hidden="true")
         table.stats-view-table.chart-data-table
           thead
             tr

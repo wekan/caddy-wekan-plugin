@@ -1133,9 +1133,9 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			return
 		}
 		current = report.slug
-		percentage := report.key == "dueDatePerformance"
+		percentage := report.key == "dueDatePerformance" || report.key == "epicProgress"
 		data["WeeklyFlow"] = map[string]any{
-			"Title": tr(lang, report.title), "ChartKey": report.key, "Headers": headers, "Rows": rows, "Bars": weeklyFlowBars(rows, report.column, percentage), "Percentage": percentage,
+			"Title": tr(lang, report.title), "ChartKey": report.key, "Headers": headers, "Rows": rows, "Bars": weeklyFlowBars(rows, report.column, report.key), "Percentage": percentage,
 			"Export": !s.exportDisabled(r.Context()) && s.fieldExportAllowed(r.Context(), b, u),
 		}
 		break

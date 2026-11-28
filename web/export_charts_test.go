@@ -45,7 +45,7 @@ func TestWeeklyFlowRows(t *testing.T) {
 	}) {
 		t.Fatalf("weekly flow rows: %v / %v", created, net)
 	}
-	if bars := weeklyFlowBars(net, 3, false); len(bars) != 24 || bars[22].Value != -1 || bars[22].Magnitude != 1 {
+	if bars := weeklyFlowBars(net, 3, "netFlow"); len(bars) != 24 || bars[22].Value != -1 || bars[22].Magnitude != 1 {
 		t.Fatalf("weekly flow bars: %v", bars)
 	}
 }
@@ -80,9 +80,28 @@ func TestWeeklyDueDatePerformance(t *testing.T) {
 	if !reflect.DeepEqual(rows, [][]any{{"2026-11-23", 1, 1, 1, 1.5}}) {
 		t.Fatalf("due date performance: %v", rows)
 	}
-	bars := weeklyFlowBars(rows, 1, true)
+	bars := weeklyFlowBars(rows, 1, "dueDatePerformance")
 	if len(bars) != 1 || bars[0].Value != 50 || bars[0].Max != 100 {
 		t.Fatalf("on-time percentage: %v", bars)
+	}
+}
+
+func TestEpicProgressRows(t *testing.T) {
+	at := time.Date(2026, 11, 25, 12, 0, 0, 0, time.UTC)
+	cards := []chartCard{
+		{ID: "P", Title: "Epic"}, {ID: "Q", Title: "Open epic"},
+		{ParentID: "P", EndAt: at}, {ParentID: "P", ArchivedAt: at}, {ParentID: "P"},
+		{ParentID: "Q"}, {ParentID: "missing", EndAt: at},
+	}
+	_, rows := epicProgressRows(cards, "en")
+	if !reflect.DeepEqual(rows, [][]any{
+		{"Open epic", 1, 0, 1, 0.0}, {"Epic", 3, 2, 1, 66.7},
+	}) {
+		t.Fatalf("epic progress: %v", rows)
+	}
+	bars := weeklyFlowBars(rows, 4, "epicProgress")
+	if len(bars) != 2 || bars[1].Label != "Epic" || bars[1].Value != 66.7 || bars[1].Max != 100 {
+		t.Fatalf("epic progress bars: %v", bars)
 	}
 }
 
