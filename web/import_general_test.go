@@ -249,7 +249,7 @@ func TestImportJira(t *testing.T) {
 	w.seedUser(t, "ann", "pw")
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
-	const payload = `{"board":{"name":"Jira migration"},"names":{"customfield_10020":"Rank","customfield_10022":"Sprint"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","customfield_10020":"0|abc:","customfield_10022":{"id":7,"name":"Future sprint","state":"future"},"status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
+	const payload = `{"board":{"name":"Jira migration"},"names":{"customfield_10020":"Rank","customfield_10022":"Sprint"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","customfield_10020":"0|abc:","customfield_10022":{"id":7,"name":"Future sprint","state":"future"},"status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0,"originalEstimateSeconds":7200},"timeestimate":0,"labels":["jira"],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
 	res, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {payload}})
 	if err != nil {
 		t.Fatal(err)
@@ -306,6 +306,21 @@ func TestImportJira(t *testing.T) {
 	if got := asM(list["scrum"])["category"]; got != "doing" {
 		t.Fatalf("Jira status category: %v", got)
 	}
+	definitions := fieldReader{boardID: board.ID, admin: true, defs: map[string]bson.M{}}
+	for _, estimate := range jiraImportTimeEstimates {
+		var field bson.M
+		if err := w.db.Collection("customFields").FindOne(ctx, bson.M{"boardIds": board.ID, "name": estimate.name}).Decode(&field); err != nil {
+			t.Fatal(err)
+		}
+		definitions.defs[strOf(field["_id"])] = field
+	}
+	tracking := jsObject{}
+	jiraTimeEstimates(card, definitions.jiraTimeEstimateIds(), &tracking)
+	if jsGet(tracking, "originalEstimateSeconds") != float64(7200) ||
+		jsGet(tracking, "remainingEstimateSeconds") != float64(0) {
+		t.Fatalf("re-exported Jira time estimates: %v", tracking)
+	}
+
 	var comment bson.M
 	if err := w.db.Collection("card_comments").FindOne(ctx, bson.M{"cardId": card["_id"]}).Decode(&comment); err != nil {
 		t.Fatal(err)

@@ -142,6 +142,26 @@ func jiraSprintRecord(raw any) jsObject {
 		{"plannedStart", jiraImportDate(jsGet(raw, "startDate"))}, {"plannedEnd", jiraImportDate(jsGet(raw, "endDate"))}}
 }
 
+var jiraImportTimeEstimates = [...]struct{ kind, name, nested, flat string }{
+	{"original", "Jira original estimate (hours)", "originalEstimateSeconds", "timeoriginalestimate"},
+	{"remaining", "Jira remaining estimate (hours)", "remainingEstimateSeconds", "timeestimate"},
+}
+
+func jiraImportTime(fields any, nested, flat string) (hours float64, present bool, err error) {
+	raw := jsGet(jsGet(fields, "timetracking"), nested)
+	if raw == nil {
+		raw = jsGet(fields, flat)
+	}
+	if raw == nil {
+		return 0, false, nil
+	}
+	seconds, ok := raw.(float64)
+	if !ok || !(seconds >= 0 && seconds <= 9007199254740991) || math.Trunc(seconds) != seconds {
+		return 0, false, errors.New("invalid Jira " + nested)
+	}
+	return seconds / 3600, true, nil
+}
+
 func parseJira(data any) (jsObject, error) {
 	issues, ok := data.([]any)
 	if !ok {
@@ -219,16 +239,25 @@ func parseJira(data any) (jsObject, error) {
 			}
 			task.set("jira_issue_type", issueType)
 		}
-		spent := jsGet(jsGet(fields, "timetracking"), "timeSpentSeconds")
-		if spent == nil {
-			spent = jsGet(fields, "timespent")
+		spent, present, err := jiraImportTime(fields, "timeSpentSeconds", "timespent")
+		if err != nil {
+			return nil, err
 		}
-		if spent != nil {
-			value, ok := spent.(float64)
-			if !ok || !(value >= 0 && value <= 9007199254740991) || math.Trunc(value) != value {
-				return nil, errors.New("invalid Jira timeSpentSeconds")
+		if present {
+			task.set("spentTime", spent)
+		}
+		estimates := jsObject{}
+		for _, estimate := range jiraImportTimeEstimates {
+			hours, present, err := jiraImportTime(fields, estimate.nested, estimate.flat)
+			if err != nil {
+				return nil, err
 			}
-			task.set("spentTime", value/3600)
+			if present {
+				estimates.set(estimate.name, hours)
+			}
+		}
+		if len(estimates) > 0 {
+			task.set("custom_fields", estimates)
 		}
 		task.set("externalId", key)
 		task.set("ref", ref)

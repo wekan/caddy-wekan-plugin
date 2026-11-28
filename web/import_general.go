@@ -295,8 +295,16 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 	fieldIDs := map[string]string{}
 	for _, f := range fields.Fields {
 		id := randomID()
+		settings := bson.M{}
+		if g.source == "jira" && f.Type == "number" {
+			for _, estimate := range jiraImportTimeEstimates {
+				if f.Name == estimate.name {
+					settings["jiraTimeField"] = estimate.kind
+				}
+			}
+		}
 		if _, err := s.db.Collection("customFields").InsertOne(ctx, bson.M{"_id": id, "boardIds": bson.A{b.ID}, "name": f.Name, // inserted, not a filter
-			"type": f.Type, "settings": bson.M{}, "showOnCard": false, "automaticallyOnCard": false, "alwaysOnCard": false,
+			"type": f.Type, "settings": settings, "showOnCard": false, "automaticallyOnCard": false, "alwaysOnCard": false,
 			"showLabelOnMiniCard": false, "createdAt": g.now}); err != nil {
 			return err
 		}
