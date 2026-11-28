@@ -64,9 +64,10 @@ type deckCard struct {
 	Title         string        `json:"title"`
 	Description   string        `json:"description"`
 	Duedate       string        `json:"duedate,omitempty"`
+	Timetracking  jsObject      `json:"timetracking,omitempty"`
 	Labels        []deckTitle   `json:"labels"`
 	CreatedAt     string        `json:"createdAt,omitempty"`
-	Done          string        `json:"done,omitempty"`
+	Done          any           `json:"done,omitempty"`
 	AssignedUsers []deckUser    `json:"assignedUsers,omitempty"`
 	Owner         *deckUID      `json:"owner,omitempty"`
 	Comments      []deckComment `json:"comments,omitempty"`
@@ -86,10 +87,20 @@ func formatDeck(d extBoard) any {
 	for _, l := range d.Lists {
 		st := deckStack{Title: l.Title, Cards: []deckCard{}}
 		for _, i := range d.Items {
-			if i.ListTitle != l.Title {
+			matches := i.ListTitle == l.Title
+			if l.ID != "" && i.ListID != "" {
+				matches = i.ListID == l.ID
+			}
+			if !matches {
 				continue
 			}
-			c := deckCard{Title: i.Title, Description: i.Description, Duedate: i.DueAt, Labels: []deckTitle{}, CreatedAt: i.CreatedAt, Done: i.EndAt}
+			c := deckCard{Title: i.Title, Description: i.Description, Duedate: i.DueAt,
+				Timetracking: i.Timetracking, Labels: []deckTitle{}, CreatedAt: i.CreatedAt}
+			if i.EndAt != "" {
+				c.Done = i.EndAt
+			} else if i.DueComplete {
+				c.Done = true
+			}
 			for _, n := range i.Labels {
 				c.Labels = append(c.Labels, deckTitle{Title: n})
 			}

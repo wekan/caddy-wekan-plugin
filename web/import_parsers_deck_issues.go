@@ -117,8 +117,19 @@ func parseNextcloudDeck(data any) (jsObject, error) {
 	if acl, ok := jsGet(board, "acl").([]any); ok && len(acl) > 0 {
 		unsupported = append(unsupported, importUnsupportedObj("/acl", strconv.Itoa(len(acl))+" sharing rule(s): board access is granted in WeKan, not by an import"))
 	}
+	stackCounts := map[string]int{}
+	for _, stack := range stacks {
+		if title, ok := jsGet(stack, "title").(string); ok && title != "" {
+			stackCounts[title]++
+		}
+	}
+	position := -1
 	tasks := []any{}
 	for _, stack := range stacks {
+		title, _ := jsGet(stack, "title").(string)
+		if title != "" {
+			position++
+		}
 		stackIndex := indexOfItem(all, stack)
 		cards, _ := jsGet(stack, "cards").([]any)
 		live := sortByOrder(filterLive(cards))
@@ -225,6 +236,9 @@ func parseNextcloudDeck(data any) (jsObject, error) {
 				comments = append(comments, cm)
 			}
 			t.set("comments", comments)
+			if stackCounts[title] > 1 {
+				t.set("_deckColumn", position)
+			}
 			tasks = append(tasks, t)
 		}
 	}

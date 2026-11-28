@@ -32,6 +32,7 @@
       "swimlane_name": "Default",
       "date_due": "2026-11-20T10:00:00.000Z",
       "date_creation": "2026-11-01T08:00:00.000Z",
+      "due_complete": true,
       "archived": false,
       "owner_username": "alice",
       "assignees": [
@@ -66,6 +67,29 @@
           "text": "no author"
         }
       ]
+    },
+    {
+      "title": "No list item",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "date_due": "2026-11-12T00:00:00.000Z",
+      "archived": false,
+      "assignees": [],
+      "tags": [
+        "p1"
+      ],
+      "comments": []
+    },
+    {
+      "title": "Backlogged",
+      "description": "",
+      "column_name": "To Do",
+      "swimlane_name": "Default",
+      "archived": false,
+      "assignees": [],
+      "tags": [],
+      "comments": []
     },
     {
       "title": "-minus first",

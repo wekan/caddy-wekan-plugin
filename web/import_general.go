@@ -71,19 +71,20 @@ var allowedColors = append([]string{"white"}, labelPalette...)
 type generalImport struct {
 	// losses are the creator's own, beside the parser's: fields, watchers,
 	// attachments and links that did not come over (WeKan's this.losses).
-	losses  []any
-	s       *Server
-	ctx     context.Context
-	u       *User
-	source  string
-	now     time.Time
-	members map[string]string
-	lists   map[string]string
-	order   []string // list names in order
-	lanes   map[string]string
-	laneIDs []string
-	sprints map[string]string
-	auth    *importAttachmentAuth // the sign-in for the files
+	losses        []any
+	s             *Server
+	ctx           context.Context
+	u             *User
+	source        string
+	now           time.Time
+	members       map[string]string
+	lists         map[string]string
+	order         []string // list names in order
+	lanes         map[string]string
+	laneIDs       []string
+	sprints       map[string]string
+	auth          *importAttachmentAuth // the sign-in for the files
+	deckColumnIDs []string
 }
 
 func importTasks(doc any) []any {
@@ -219,6 +220,9 @@ func (s *Server) importGeneral(ctx context.Context, u *User, doc any, source str
 		if _, err := s.db.Collection("lists").InsertOne(ctx, list); err != nil {
 			return nil, err
 		}
+		if source == "deck" {
+			g.deckColumnIDs = append(g.deckColumnIDs, id)
+		}
 		if _, dup := g.lists[name]; !dup {
 			g.lists[name] = id
 			g.order = append(g.order, id)
@@ -307,6 +311,11 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 			card["createdAt"] = g.now
 		}
 		card["listId"] = g.lists[column]
+		if g.source == "deck" {
+			if index, ok := jsGet(task, "_deckColumn").(int); ok && index >= 0 && index < len(g.deckColumnIDs) {
+				card["listId"] = g.deckColumnIDs[index]
+			}
+		}
 		if card["listId"] == "" && len(g.order) > 0 {
 			card["listId"] = g.order[0]
 		}
