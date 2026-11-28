@@ -581,11 +581,16 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 
 func TestTaigaCustomAttributes(t *testing.T) {
 	board := extBoard{Items: []extItem{
-		{CardID: "story", Title: "Story", CustomFields: jsObject{{"Estimate", int32(0)}, {"Ready", false}, {"Story points", int32(0)}}},
-		{CardID: "task", Title: "Task", ParentCardID: "story", CustomFields: jsObject{{"Estimate", "unknown"}}},
+		{CardID: "story", Title: "Story", CustomFields: jsObject{{"Estimate", int32(0)}, {"Ready", false}, {"Story points", int32(0)}, {"Blocked", "Legacy reason"}}},
+		{CardID: "task", Title: "Task", ParentCardID: "story", Blocked: true, BlockedReason: "Native reason", CustomFields: jsObject{{"Estimate", "unknown"}}},
 	}}
 	dump := formatTaiga(board, time.Date(2024, 4, 1, 0, 0, 0, 0, time.UTC))
 	story := jsGet(dump, "user_stories").([]any)[0]
+	task := jsGet(dump, "tasks").([]any)[0]
+	if jsGet(story, "is_blocked") != true || jsGet(story, "blocked_note") != "Legacy reason" ||
+		jsGet(task, "is_blocked") != true || jsGet(task, "blocked_note") != "Native reason" {
+		t.Fatalf("blocked stories or tasks: %v, %v", story, task)
+	}
 	values := jsGet(story, "custom_attributes_values")
 	if jsGet(values, "Estimate") != int32(0) || jsGet(values, "Ready") != false {
 		t.Fatalf("story attributes: %v", values)

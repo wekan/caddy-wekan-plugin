@@ -389,7 +389,7 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 	attributes := func(it extItem, kind string) jsObject {
 		values, defs := jsObject{}, attributeDefs[kind]
 		for _, field := range it.CustomFields {
-			if kind == "story" && field.Key == "Story points" {
+			if field.Key == "Blocked" || kind == "story" && field.Key == "Story points" {
 				continue
 			}
 			fieldType := "text"
@@ -451,8 +451,20 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			o.set("description", strings.Join(parts, "\n\n"))
 		}
 		o.set("version", 1.0)
-		o.set("blocked_note", "")
-		o.set("is_blocked", false)
+		note, blocked := it.BlockedReason, it.Blocked
+		if !blocked {
+			switch value := jsGet(it.CustomFields, "Blocked").(type) {
+			case bool:
+				blocked = value
+			case string:
+				blocked = value != "" && value != "false"
+				if blocked && value != "Blocked" && value != "true" {
+					note = value
+				}
+			}
+		}
+		o.set("blocked_note", note)
+		o.set("is_blocked", blocked)
 		o.set("attachments", []any{})
 		o.set("history", taigaHistory(it.Comments, now))
 		o.set("watchers", []any{})
@@ -530,8 +542,8 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			s.set("external_reference", nil)
 			s.set("tribe_gig", nil)
 			s.set("version", 1.0)
-			s.set("blocked_note", "")
-			s.set("is_blocked", false)
+			s.set("blocked_note", jsGet(rest, "blocked_note"))
+			s.set("is_blocked", jsGet(rest, "is_blocked"))
 			s.set("tags", plainTags(it))
 			s.set("due_date", taigaDateTimeText(it.DueAt))
 			s.set("due_date_reason", "")
@@ -634,8 +646,8 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 		f.set("is_iocaine", false)
 		f.set("external_reference", nil)
 		f.set("version", 1.0)
-		f.set("blocked_note", "")
-		f.set("is_blocked", false)
+		f.set("blocked_note", jsGet(rest, "blocked_note"))
+		f.set("is_blocked", jsGet(rest, "is_blocked"))
 		f.set("tags", plainTags(it))
 		f.set("due_date", taigaDateTimeText(it.DueAt))
 		f.set("due_date_reason", "")

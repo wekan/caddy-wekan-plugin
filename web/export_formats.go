@@ -95,6 +95,8 @@ type extComment struct {
 // includes is here, but custom fields (WeKan lets them out only after its
 // admin-only check) and Scrum fields (Weddy has no sprints yet).
 type extItem struct {
+	Blocked       bool            `json:"-"`
+	BlockedReason string          `json:"-"`
 	Archived      bool            `json:"archived,omitempty"`
 	ModifiedAt    string          `json:"modifiedAt,omitempty"`
 	CustomFields  jsObject        `json:"-"`
@@ -437,6 +439,13 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		}
 		if want.has("dates") {
 			it.Recurrence = strOf(c["recurrenceInterval"])
+		}
+		if format == "taiga" {
+			flow := asM(c["flow"])
+			it.Blocked = flow["blocked"] == true
+			if it.Blocked {
+				it.BlockedReason = strOf(flow["blockedReason"])
+			}
 		}
 		if exportFields != nil {
 			it.CustomFields = exportFields.externalFieldValues(c)
