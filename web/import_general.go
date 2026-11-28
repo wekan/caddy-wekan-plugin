@@ -356,8 +356,15 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 			if jsGet(task, "blocked") == true {
 				card["flow"] = bson.M{"blocked": true, "blockedReason": importText(jsGet(task, "blocked_reason"))}
 			}
+			scrum := bson.M{}
 			if name, _ := jsGet(task, "taiga_milestone").(string); g.sprints[name] != "" {
-				card["scrum"] = bson.M{"sprintId": g.sprints[name]}
+				scrum["sprintId"] = g.sprints[name]
+			}
+			if rank, ok := toFloat(jsGet(task, "taiga_backlog_rank")); ok && rank >= 1 && rank <= 50000 {
+				scrum["backlogRank"] = rank
+			}
+			if len(scrum) > 0 {
+				card["scrum"] = scrum
 			}
 		}
 		if _, err := s.db.Collection("cards").InsertOne(ctx, card); err != nil {

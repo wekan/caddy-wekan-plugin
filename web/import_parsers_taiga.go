@@ -5,6 +5,7 @@ import (
 	"errors"
 	"math"
 	"regexp"
+	"sort"
 	"strconv"
 	"time"
 )
@@ -486,6 +487,11 @@ func parseTaiga(input any) (jsObject, error) {
 			epicsOfStory[key] = append(epicsOfStory[key], "epic-"+ref)
 		}
 	}
+	type rankedStory struct {
+		index int
+		order float64
+	}
+	var ranked []rankedStory
 	tasks := []any{}
 	// User stories, in kanban order.
 	storyByRef := map[string]jsObject{}
@@ -552,6 +558,9 @@ func parseTaiga(input any) (jsObject, error) {
 		setIf(&t, "date_end", date(jsGetOrUndef(story, "finish_date"), at+"/finish_date"))
 		setIf(&t, "date_due", date(jsGetOrUndef(story, "due_date"), at+"/due_date"))
 		t.set("comments", comments(story, at))
+		if order, ok := taigaNum(jsGet(story, "backlog_order")); ok {
+			ranked = append(ranked, rankedStory{len(tasks), order})
+		}
 		extra := jsObject{}
 		if p, ok := storyPoints(story); ok {
 			extra.set("Story points", p)
@@ -768,6 +777,13 @@ func parseTaiga(input any) (jsObject, error) {
 	out.set("columns", cols)
 	out.set("swimlanes", lanes)
 	out.set("tasks", tasks)
+	sort.SliceStable(ranked, func(i, j int) bool { return ranked[i].order < ranked[j].order })
+	for i, story := range ranked {
+		task := tasks[story.index].(jsObject)
+		task.set("taiga_backlog_rank", i+1)
+		tasks[story.index] = task
+	}
+
 	var sprints []any
 	for i, milestone := range taigaList(jsGet(dump, "milestones")) {
 		name := jsTrim(taigaStr(jsGet(milestone, "name")))
