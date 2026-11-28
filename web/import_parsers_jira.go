@@ -402,6 +402,8 @@ func parseJira(data any) (jsObject, error) {
 				listed = []any{raw}
 			}
 			selected := ""
+			first := ""
+			multiple := false
 			path := "/issues/" + strconv.Itoa(index) + "/fields/" + sprintField
 			for _, entry := range listed {
 				record := jiraSprintRecord(entry)
@@ -424,8 +426,15 @@ func parseJira(data any) (jsObject, error) {
 					}
 				}
 				if state != "closed" && sprintStates[id] != "closed" {
+					if first == "" {
+						first = id
+					}
+					multiple = multiple || id != first
 					selected = id
 				}
+			}
+			if multiple {
+				losses = append(losses, importUnsupportedObj(path, "multiple Jira sprint assignments; kept sprint "+selected))
 			}
 			if selected != "" {
 				task.set("jira_sprint", selected)

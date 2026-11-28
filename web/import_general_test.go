@@ -496,6 +496,7 @@ func TestJiraImportRankOrder(t *testing.T) {
 func TestJiraImportLegacySprint(t *testing.T) {
 	input, err := decodeJS([]byte(`{"schema":{"customfield_10022":{"custom":"com.pyxis.greenhopper.jira:gh-sprint"}},
 		"issues":[{"fields":{"customfield_10022":[
+			{"id":7,"name":"Future","state":"future"},
 			"Sprint@1[id=8,state=ACTIVE,name=Active, sprint,startDate=2026-10-10]",
 			{"id":9,"name":"Closed","state":"closed"}]}}]}`))
 	if err != nil {
@@ -507,7 +508,8 @@ func TestJiraImportLegacySprint(t *testing.T) {
 	}
 	sprints, _ := jsGet(doc, "jira_sprints").([]any)
 	losses, _ := jsGet(doc, "unsupported").([]any)
-	if len(sprints) != 1 || jsGet(sprints[0], "name") != "Active, sprint" || len(losses) != 2 ||
+	if len(sprints) != 2 || jsGet(sprints[1], "name") != "Active, sprint" || len(losses) != 3 ||
+		jsGet(losses[2], "reason") != "multiple Jira sprint assignments; kept sprint 8" ||
 		jsGet(importTasks(doc)[0], "jira_sprint") != "8" {
 		t.Fatalf("Jira sprint import: %v", doc)
 	}
