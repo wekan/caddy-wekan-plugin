@@ -3,7 +3,16 @@
     .warning {{t $.L .Error}}
   //- WeKan's loss report: what an import that completed with warnings could
     not bring over, before its board opens.
-  if .Report
+  if .ManyResults
+    .js-import-many-results
+      ul
+        each file in .ManyResults
+          if .URL
+            li.is-imported: a(href="{{.URL}}") {{.Name}}
+          else
+            li.is-failed {{.Name}}
+      a.js-import-many-all-boards(href="/") {{t $.L "all-boards"}}
+  else if .Report
     .import-report.js-import-report
       h2 {{t $.L "import-report-heading"}}
       p {{t $.L "import-report-description"}}
@@ -85,6 +94,10 @@
       p.import-file-row
         label(for="import-file") {{t $.L "import-file-label"}}
         input.js-import-file(id="import-file", type="file", name="file", accept="{{.Accept}}", class="{{if eq .Source `trello`}}js-import-zip-file{{end}}")
+      if eq .Source "markdown"
+        p.import-file-row
+          label(for="markdown-files") {{t $.L "import-board-c"}}
+          input.js-import-many-files(id="markdown-files", type="file", name="markdownFiles", accept=".md,.markdown,.zip", multiple)
       if .Paste
         textarea.js-import-json(id="import-textarea", name="text", rows="10", aria-label="{{t $.L `import-file-label`}}")
       //- WeKan's "People in the file": each mapped to an existing user (the

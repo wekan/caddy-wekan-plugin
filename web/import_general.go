@@ -430,6 +430,18 @@ func (s *Server) importGeneralPage(w http.ResponseWriter, r *http.Request, u *Us
 		data["Error"] = code
 		s.render(w, r, "import", http.StatusBadRequest, data)
 	}
+	if source == "markdown" && strings.HasPrefix(r.Header.Get("Content-Type"), "multipart/form-data") {
+		if err := r.ParseMultipartForm(1 << 20); err != nil {
+			fail("error-json-malformed")
+			return
+		}
+		defer r.MultipartForm.RemoveAll()
+		if files := r.MultipartForm.File["markdownFiles"]; len(files) > 0 {
+			data["ManyResults"] = s.importMarkdownFiles(r, u, files, limit)
+			s.render(w, r, "import", http.StatusOK, data)
+			return
+		}
+	}
 	var raw []byte
 	if f, _, err := r.FormFile("file"); err == nil {
 		defer f.Close()
