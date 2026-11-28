@@ -88,7 +88,8 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 	}
 	ctx := r.Context()
 	filter := bson.M{"archived": false, "type": "board", "members": bson.M{"$elemMatch": bson.M{"userId": u.ID, "isActive": true}}}
-	if v := r.URL.Query().Get("boardIds"); v != "" {
+	query := r.URL.Query()
+	if v := query.Get("boardIds"); v != "" {
 		ids := []string{}
 		for _, id := range strings.Split(v, ",") {
 			if id = strings.TrimSpace(id); massBoardID.MatchString(id) && !slices.Contains(ids, id) {
@@ -151,25 +152,36 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "no-store")
 	zw := zip.NewWriter(w)
 	defer zw.Close()
+	want := exportWanted(query.Get("fields"))
 	for i := range ok2 {
 		b := &ok2[i]
-		f, err := zw.Create(names[i])
-		if err != nil {
-			continue
-		}
+		var data []byte
 		switch format {
 		case "wekan":
-			doc, err := s.exportBoard(ctx, b, r.URL.Query().Get("attachments") == "false")
+			doc, err := s.exportBoardWith(ctx, b, exportDocOptions{
+				WithoutFiles: query.Get("attachments") == "false",
+				Want:         want,
+				r:            r,
+			})
+			if err == nil {
+				data, err = json.Marshal(jsDates(doc))
+			}
 			if err != nil {
-				skipped = append(skipped, b.Title+" ("+b.ID+"): "+err.Error())
+				skipped = append(skipped, b.Title+" ("+b.ID+"): Export failed")
 				continue
 			}
-			_ = json.NewEncoder(f).Encode(doc)
 		case "csv", "scsv", "tsv":
 			delim := map[string]string{"csv": ",", "scsv": ";", "tsv": "\t"}[format]
-			_, _ = f.Write(s.boardCSV(ctx, b, delim, exportWanted(r.URL.Query().Get("fields"))))
+			data = s.boardCSV(ctx, b, delim, want)
 		default:
-			_, _ = f.Write(s.externalExport(ctx, b, u, format, exportWanted(r.URL.Query().Get("fields"))))
+			data = s.externalExport(ctx, b, u, format, want)
+		}
+		f, err := zw.Create(names[i])
+		if err != nil {
+			return
+		}
+		if _, err = f.Write(data); err != nil {
+			return
 		}
 	}
 	if len(skipped) > 0 {

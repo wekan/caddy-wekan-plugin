@@ -3,11 +3,16 @@ package web
 import (
 	"archive/zip"
 	"bytes"
+	"context"
+	"encoding/json"
 	"io"
 	"net/http"
 	"sort"
 	"strings"
 	"testing"
+	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 func TestUniqueFileNames(t *testing.T) {
@@ -22,7 +27,15 @@ func TestExportAllBoards(t *testing.T) {
 	ann := w.seedUser(t, "ann", "pw")
 	w.seedUser(t, "bob", "pw")
 	a, bt := login(t, w, "ann"), login(t, w, "bob")
-	newRESTBoard(t, w, a, "Alpha")
+	alpha := newRESTBoard(t, w, a, "Alpha")
+	if _, err := w.db.Collection("cards").UpdateOne(context.Background(), bson.M{"_id": alpha.Card},
+		bson.M{"$set": bson.M{"dueAt": time.Date(2026, 10, 10, 0, 0, 0, 0, time.UTC)}}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := w.db.Collection("card_comments").InsertOne(context.Background(),
+		bson.M{"_id": randomID(), "cardId": alpha.Card, "boardId": alpha.ID, "text": "draft comment"}); err != nil {
+		t.Fatal(err)
+	}
 	beta := newRESTBoard(t, w, a, "Beta")
 	newRESTBoard(t, w, bt, "Bob's own")
 	setMember(t, w, beta.ID, Member{UserID: ann.ID, IsActive: true, IsReadAssignedOnly: true})
@@ -70,8 +83,22 @@ func TestExportAllBoards(t *testing.T) {
 		t.Fatal("negative: never another user's board")
 	}
 	code, body = get(w.srv.URL+"/api/export-all-boards/wekan?authToken="+a, "")
-	if got = files(body); code != 200 || !strings.Contains(got["Alpha.json"], "wekan-board-1.0.0") {
+	if got = files(body); code != 200 || !strings.Contains(got["Alpha.json"], "wekan-board-1.0.0") || !strings.Contains(got["Alpha.json"], "draft comment") {
 		t.Fatalf("wekan: %d %v", code, got)
+	}
+	code, body = get(w.srv.URL+"/api/export-all-boards/wekan?fields=dates", a)
+	if code != 200 {
+		t.Fatalf("selected WeKan export: %d %s", code, body)
+	}
+	var doc struct{ Cards, Comments []map[string]any }
+	if err := json.Unmarshal([]byte(files(body)["Alpha.json"]), &doc); err != nil {
+		t.Fatal(err)
+	}
+	if len(doc.Cards) != 1 || doc.Cards[0]["dueAt"] != "2026-10-10T00:00:00.000Z" {
+		t.Fatalf("selected date: %+v", doc.Cards)
+	}
+	if doc.Comments == nil || len(doc.Comments) != 0 {
+		t.Fatalf("expected an empty comments array: %+v", doc.Comments)
 	}
 	code, body = get(w.srv.URL+"/api/export-all-boards/scsv", a)
 	if got = files(body); !strings.Contains(got["Alpha.csv"], `"Title";"Description"`) {

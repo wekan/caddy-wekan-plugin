@@ -78,12 +78,6 @@ func (s *Server) apiExport(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, jsDates(out))
 }
 
-// exportBoard is WeKan's Exporter.build: the board and everything of it, each
-// without its boardId, the users it names with only their public fields.
-func (s *Server) exportBoard(ctx context.Context, b *Board, withoutFiles bool) (any, error) {
-	return s.exportBoardWith(ctx, b, exportDocOptions{WithoutFiles: withoutFiles})
-}
-
 // exportScope is parseExportScope: which cards an export is about - a
 // swimlane's, a list's, one card or the card of one checklist - each id
 // only when it is one.
