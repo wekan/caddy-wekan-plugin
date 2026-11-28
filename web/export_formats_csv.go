@@ -43,10 +43,10 @@ func formatLeo(d extBoard) string {
 	next := 0
 	var bodies []string
 	type kid func(indent string) string
-	var node func(headline, body string, marked bool, kids []kid, indent string) string
-	node = func(headline, body string, marked bool, kids []kid, indent string) string {
+	var node func(headline, body, stamp string, marked bool, kids []kid, indent string) string
+	node = func(headline, body, stamp string, marked bool, kids []kid, indent string) string {
 		next++
-		gnx := "wekan.1." + strconv.Itoa(next)
+		gnx := "wekan." + stamp + "." + strconv.Itoa(next)
 		if body != "" {
 			bodies = append(bodies, `<t tx="`+gnx+`">`+leoEscape.Replace(body)+"</t>")
 		}
@@ -65,7 +65,12 @@ func formatLeo(d extBoard) string {
 		return open + "\n" + strings.Join(parts, "\n") + "\n" + indent + "</v>"
 	}
 	var vnodes []string
+	seen := map[string]bool{}
 	for _, l := range d.Lists {
+		if seen[l.Title] {
+			continue
+		}
+		seen[l.Title] = true
 		var cards []kid
 		for _, i := range d.Items {
 			if i.ListTitle != l.Title {
@@ -80,15 +85,19 @@ func formatLeo(d extBoard) string {
 						var xs []kid
 						for _, x := range c.Items {
 							x := x
-							xs = append(xs, func(in string) string { return node(x.Title, "", x.Done, nil, in) })
+							xs = append(xs, func(in string) string { return node(x.Title, "", "1", x.Done, nil, in) })
 						}
-						return node(c.Title, "", false, xs, ind)
+						return node(c.Title, "", "1", false, xs, ind)
 					})
 				}
-				return node(i.Title, i.Description, isClosedList(i.ListTitle), cls, indent)
+				stamp := "1"
+				if created := parseISO(i.CreatedAt); !created.IsZero() {
+					stamp = created.Format("20060102150405")
+				}
+				return node(i.Title, i.Description, stamp, isClosedList(i.ListTitle), cls, indent)
 			})
 		}
-		vnodes = append(vnodes, node(l.Title, "", false, cards, ""))
+		vnodes = append(vnodes, node(l.Title, "", "1", false, cards, ""))
 	}
 	lines := []string{`<?xml version="1.0" encoding="utf-8"?>`, `<leo_file xmlns:leo="http://leoeditor.com/namespaces/leo-python-editor/1.1">`,
 		`<leo_header file_format="2" wekan_board="` + leoEscape.Replace(d.Board.Title) + `"/>`, "<vnodes>"}

@@ -412,6 +412,7 @@ func parseOpmlDate(value string) (time.Time, bool) {
 }
 
 var leoMarked = regexp.MustCompile(`M`)
+var leoTimestamp = regexp.MustCompile(`^[^.]*\.(\d{14})(?:\.\d+)?$`)
 
 func parseLeo(text string) (jsObject, error) {
 	if len(text) > 16<<20 {
@@ -460,7 +461,7 @@ func parseLeo(text string) (jsObject, error) {
 		if _, seen := headlines[gnx]; vh != nil && gnx != "" && !seen {
 			headlines[gnx] = headline{jsTrim(vh.textOf()), leoMarked.MatchString(v.attrs["a"])}
 		}
-		n := &outlineNode{text: jsTrim(vh.textOf()), note: bodies[gnx], done: leoMarked.MatchString(v.attrs["a"])}
+		n := &outlineNode{text: jsTrim(vh.textOf()), note: bodies[gnx], xml: v, done: leoMarked.MatchString(v.attrs["a"])}
 		if first, ok := headlines[gnx]; vh == nil && ok {
 			n.text, n.done = first.text, first.marked
 		}
@@ -499,7 +500,13 @@ func parseLeo(text string) (jsObject, error) {
 			unsupported = append(unsupported, importUnsupportedObj(r.text, "list body text has no WeKan field"))
 		}
 	}
-	tasks := outlineTasks(roots, "Imported node", func(c *outlineNode) string { return c.text }, nil)
+	tasks := outlineTasks(roots, "Imported node", func(c *outlineNode) string { return c.text }, func(task *jsObject, card *outlineNode) {
+		if parts := leoTimestamp.FindStringSubmatch(card.xml.attrs["t"]); parts != nil {
+			if timestamp, err := time.Parse("20060102150405", parts[1]); err == nil {
+				task.set("date_creation", timestamp.Format("2006-01-02T15:04:05.000Z"))
+			}
+		}
+	})
 	name := "Imported Leo outline"
 	if h := leo.child("leo_header"); h != nil && h.attrs["wekan_board"] != "" {
 		name = h.attrs["wekan_board"]

@@ -31,6 +31,7 @@
       "column_name": "To Do",
       "swimlane_name": "Default",
       "tags": [],
+      "date_creation": "2026-11-01T08:00:00.000Z",
       "checklists": [
         {
           "title": "Steps",
@@ -55,6 +56,7 @@
       "tags": [
         "done"
       ],
+      "date_creation": "2026-11-02T00:00:00.000Z",
       "checklists": [
         {
           "title": "-minus first",
