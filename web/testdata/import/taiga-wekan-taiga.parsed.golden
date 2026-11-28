@@ -77,10 +77,11 @@
           "date": "2024-03-01T11:00:00.000Z"
         }
       ],
+      "blocked": true,
+      "blocked_reason": "Waiting for the brand guide",
       "custom_fields": {
         "Audience": "Customers",
         "Words": 800,
-        "Blocked": "Waiting for the brand guide",
         "Due date reason": "Launch",
         "Story points": 5
       },

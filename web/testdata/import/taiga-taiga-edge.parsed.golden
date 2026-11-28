@@ -93,11 +93,11 @@
           "authorName": "Bob"
         }
       ],
+      "blocked": true,
       "custom_fields": {
         "7": "seven",
         "Size": "L",
         "Zero": 0,
-        "Blocked": "Blocked",
         "Due date reason": "vendor",
         "Story points": 8,
         "Client requirement": true

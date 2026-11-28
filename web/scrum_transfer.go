@@ -956,3 +956,29 @@ func (s *Server) importScrumTransfer(ctx context.Context, export map[string]any,
 	_, err = s.db.Collection("scrumSprints").UpdateMany(ctx, bson.M{"boardId": eq(boardID), "_id": dbIn(sprintIDs)}, bson.M{"$unset": bson.M{"scrumImportPending": ""}})
 	return err
 }
+
+// taigaSprints creates planning records on the newly imported board.
+func (g *generalImport) taigaSprints(boardID string, doc any) error {
+	g.sprints = map[string]string{}
+	sprints, _ := jsGet(doc, "taiga_sprints").([]any)
+	for _, sprint := range sprints {
+		name, _ := jsGet(sprint, "name").(string)
+		if name == "" || g.sprints[name] != "" {
+			continue
+		}
+		id := randomID()
+		row := bson.M{"_id": id, "boardId": boardID, "name": name, "state": "planned",
+			"revision": int32(1), "incarnation": randomID(), "createdBy": g.u.ID,
+			"updatedBy": g.u.ID, "createdAt": g.now, "updatedAt": g.now}
+		for _, key := range []string{"plannedStart", "plannedEnd"} {
+			if at, ok := importedDate(jsGet(sprint, key)); ok {
+				row[key] = at
+			}
+		}
+		if _, err := g.s.db.Collection("scrumSprints").InsertOne(g.ctx, row); err != nil {
+			return err
+		}
+		g.sprints[name] = id
+	}
+	return nil
+}

@@ -111,8 +111,37 @@ func TestImportParsersAreWeKans(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			// Weddy has no sprints yet: WeKan's Scrum planning of a source
-			// (scrumTransfer, scrumLosses) is not read, and not compared.
+			// Compare the shared parser document. Taiga's Sprint records and
+			// card links are exercised by the full board import audit.
+			if kv.Key == "taiga" {
+				projected := jsObject{}
+				for _, member := range got {
+					switch member.Key {
+					case "taiga_sprints":
+						continue
+					case "tasks":
+						for i, raw := range member.Value.([]any) {
+							task := jsObject{}
+							for _, field := range raw.(jsObject) {
+								if field.Key != "taiga_milestone" {
+									task = append(task, field)
+								}
+							}
+							member.Value.([]any)[i] = task
+						}
+					case "unsupported":
+						losses := []any{}
+						for _, loss := range member.Value.([]any) {
+							if !strings.HasPrefix(importText(jsGet(loss, "path")), "/milestones/") {
+								losses = append(losses, loss)
+							}
+						}
+						member.Value = losses
+					}
+					projected = append(projected, member)
+				}
+				got = projected
+			}
 			if w, err := decodeJS(want); err == nil {
 				if obj, ok := w.(jsObject); ok {
 					kept := jsObject{}

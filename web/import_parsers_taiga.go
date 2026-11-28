@@ -412,14 +412,18 @@ func parseTaiga(input any) (jsObject, error) {
 		}
 		return jsOrder(fields)
 	}
-	owner := func(item any, out jsObject) jsObject {
+	cardPlanning := func(item any, out *jsObject) {
 		if jsGet(item, "is_blocked") == true {
-			out.set("taiga_blocked", true)
-			out.set("taiga_blocked_reason", jsTrim(taigaStr(jsGet(item, "blocked_note"))))
+			out.set("blocked", true)
+			if reason := jsTrim(taigaStr(jsGet(item, "blocked_note"))); reason != "" {
+				out.set("blocked_reason", reason)
+			}
 		}
 		if milestone := jsTrim(taigaStr(jsGet(item, "milestone"))); milestone != "" {
 			out.set("taiga_milestone", milestone)
 		}
+	}
+	owner := func(item any, out jsObject) jsObject {
 		names := []string{taigaPerson(jsGet(item, "assigned_to"))}
 		for _, u := range taigaList(jsGet(item, "assigned_users")) {
 			names = append(names, taigaPerson(u))
@@ -556,6 +560,7 @@ func parseTaiga(input any) (jsObject, error) {
 		}
 		extra.set("Client requirement", trueOrUndef(jsGet(story, "client_requirement")))
 		extra.set("Team requirement", trueOrUndef(jsGet(story, "team_requirement")))
+		cardPlanning(story, &t)
 		t.set("custom_fields", customFields(story, extra))
 		t = owner(story, t)
 		if ref != "" {
@@ -609,6 +614,7 @@ func parseTaiga(input any) (jsObject, error) {
 			extra.set("Task status", s)
 		}
 		extra.set("Iocaine", trueOrUndef(jsGet(item, "is_iocaine")))
+		cardPlanning(item, &t)
 		t.set("custom_fields", customFields(item, extra))
 		tasks = append(tasks, owner(item, t))
 	}
@@ -656,6 +662,7 @@ func parseTaiga(input any) (jsObject, error) {
 		extra := jsObject{}
 		extra.set("Client requirement", trueOrUndef(jsGet(epic, "client_requirement")))
 		extra.set("Team requirement", trueOrUndef(jsGet(epic, "team_requirement")))
+		cardPlanning(epic, &t)
 		t.set("custom_fields", customFields(epic, extra))
 		tasks = append(tasks, owner(epic, t))
 	}
@@ -701,6 +708,7 @@ func parseTaiga(input any) (jsObject, error) {
 		setIf(&t, "date_end", date(jsGetOrUndef(issue, "finished_date"), at+"/finished_date"))
 		setIf(&t, "date_due", date(jsGetOrUndef(issue, "due_date"), at+"/due_date"))
 		t.set("comments", comments(issue, at))
+		cardPlanning(issue, &t)
 		t.set("custom_fields", customFields(issue, nil))
 		tasks = append(tasks, owner(issue, t))
 	}
@@ -768,7 +776,7 @@ func parseTaiga(input any) (jsObject, error) {
 		}
 		path := "/milestones/" + strconv.Itoa(i)
 		if jsGet(milestone, "closed") == true {
-			lost(path, "closed milestone is not imported")
+			lost(path, "closed sprint \""+name+"\" is not imported: the export has no commitment or close snapshot; its items stay in the backlog")
 			continue
 		}
 		sprint := jsObject{}

@@ -266,31 +266,6 @@ func importedPeople(tasks []any) []string {
 	return out
 }
 
-func (g *generalImport) taigaSprints(boardID string, doc any) error {
-	g.sprints = map[string]string{}
-	sprints, _ := jsGet(doc, "taiga_sprints").([]any)
-	for _, sprint := range sprints {
-		name, _ := jsGet(sprint, "name").(string)
-		if name == "" || g.sprints[name] != "" {
-			continue
-		}
-		id := randomID()
-		row := bson.M{"_id": id, "boardId": boardID, "name": name, "state": "planned",
-			"revision": int32(1), "incarnation": randomID(), "createdBy": g.u.ID,
-			"updatedBy": g.u.ID, "createdAt": g.now, "updatedAt": g.now}
-		for _, key := range []string{"plannedStart", "plannedEnd"} {
-			if at, ok := importedDate(jsGet(sprint, key)); ok {
-				row[key] = at
-			}
-		}
-		if _, err := g.s.db.Collection("scrumSprints").InsertOne(g.ctx, row); err != nil {
-			return err
-		}
-		g.sprints[name] = id
-	}
-	return nil
-}
-
 func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 	s, ctx := g.s, g.ctx
 	fields := planImportedCustomFields(tasks)
@@ -369,8 +344,8 @@ func (g *generalImport) cards(b *Board, tasks []any, columns []string) error {
 			card["customFields"] = values
 		}
 		if g.source == "taiga" {
-			if jsGet(task, "taiga_blocked") == true {
-				card["flow"] = bson.M{"blocked": true, "blockedReason": jsGet(task, "taiga_blocked_reason")}
+			if jsGet(task, "blocked") == true {
+				card["flow"] = bson.M{"blocked": true, "blockedReason": importText(jsGet(task, "blocked_reason"))}
 			}
 			if name, _ := jsGet(task, "taiga_milestone").(string); g.sprints[name] != "" {
 				card["scrum"] = bson.M{"sprintId": g.sprints[name]}
