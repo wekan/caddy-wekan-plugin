@@ -123,6 +123,20 @@ func TestReleaseBurndownRows(t *testing.T) {
 	}
 }
 
+func TestDistributionRows(t *testing.T) {
+	at := time.Date(2026, 11, 25, 12, 0, 0, 0, time.UTC)
+	cards := []chartCard{
+		{LabelIDs: []string{"a", "b"}}, {LabelIDs: []string{"a"}},
+		{LabelIDs: []string{"missing"}, ArchivedAt: at}, {},
+	}
+	headers, rows := distributionRows(cards, []Label{{ID: "a", Name: "Project"}, {ID: "b", Color: "green"}}, "en")
+	if headers[3] != "Share %" || !reflect.DeepEqual(rows, [][]any{
+		{"Project", 2, 0, 50.0}, {"green", 1, 0, 25.0}, {"-", 1, 0, 25.0}, {"missing", 0, 1, 0.0},
+	}) {
+		t.Fatalf("distribution: %v / %v", headers, rows)
+	}
+}
+
 func TestExportCharts(t *testing.T) {
 	w := newTestWeKan(t)
 	w.seedUser(t, "ann", "pw")
@@ -187,6 +201,10 @@ func TestExportCharts(t *testing.T) {
 		if code != 200 || !strings.Contains(sheet(data), want) {
 			t.Errorf("%s: %d, wants %s: %s", chart, code, want, sheet(data))
 		}
+	}
+	if code, _, data := get(base+"distribution/exportExcel", a); code != 200 ||
+		!strings.Contains(sheet(data), ">Share %<") || !strings.Contains(sheet(data), `r="C3"><v>1</v>`) {
+		t.Fatalf("distribution export: %d %s", code, sheet(data))
 	}
 	if code, _, data := get(base+"releaseBurndown/exportExcel", a); code != 200 ||
 		!strings.Contains(sheet(data), ">Projected finish<") || !strings.Contains(sheet(data), ">Release fixture<") || !strings.Contains(sheet(data), `r="C3"><v>1</v>`) {

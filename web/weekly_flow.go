@@ -13,6 +13,7 @@ type weeklyFlowView struct {
 }
 
 var weeklyFlowViews = []weeklyFlowView{
+	{"distribution", "distribution", "board-view-distribution", "fa-pie-chart", 1},
 	{"release-burndown", "releaseBurndown", "board-view-release-burndown", "fa-flag", 3},
 	{"epic-progress", "epicProgress", "board-view-epic-progress", "fa-sitemap", 4},
 	{"created-resolved", "createdResolved", "board-view-created-resolved", "fa-exchange", 3},
@@ -167,7 +168,7 @@ func weeklyFlowBars(rows [][]any, column int, key string) []weeklyFlowBar {
 	if key == "dueDatePerformance" || key == "epicProgress" {
 		scale = 100
 	}
-	if key == "epicProgress" {
+	if key == "epicProgress" || key == "distribution" {
 		rows = rows[:min(len(rows), 24)]
 	} else if key != "releaseBurndown" {
 		rows = rows[max(0, len(rows)-24):]
@@ -267,4 +268,57 @@ func releaseBurndownRows(cards []chartCard, releases []chartRelease, now time.Ti
 		rows = append(rows, []any{name, total.total, total.done, left, finish})
 	}
 	return weeklyFlowHeaders(lang, msg("scrum-release"), msg("cards"), msg("done"), msg("report-remaining"), msg("report-projected-finish")), rows
+}
+
+func distributionRows(cards []chartCard, labels []Label, lang string) ([]any, [][]any) {
+	names := make(map[string]string, len(labels))
+	for _, label := range labels {
+		name := label.Name
+		if name == "" {
+			name = label.Color
+		}
+		if name != "" {
+			names[label.ID] = name
+		}
+	}
+	type counts struct{ open, done int }
+	groups := map[string]counts{}
+	var order []string
+	totalOpen := 0
+	for _, card := range cards {
+		ids := card.LabelIDs
+		if len(ids) == 0 {
+			ids = []string{""}
+		}
+		_, done := card.done()
+		for _, id := range ids {
+			name := names[id]
+			if id == "" {
+				name = "-"
+			} else if name == "" {
+				name = id
+			}
+			group, exists := groups[name]
+			if !exists {
+				order = append(order, name)
+			}
+			if done {
+				group.done++
+			} else {
+				group.open++
+				totalOpen++
+			}
+			groups[name] = group
+		}
+	}
+	rows := make([][]any, 0, len(order))
+	for _, name := range order {
+		group := groups[name]
+		share := math.Round(float64(group.open)/float64(max(1, totalOpen))*1000) / 10
+		rows = append(rows, []any{name, group.open, group.done, share})
+	}
+	slices.SortStableFunc(rows, func(a, b []any) int {
+		return cmp.Compare(b[1].(int), a[1].(int))
+	})
+	return weeklyFlowHeaders(lang, msg("labels"), msg("open"), msg("done"), msg("report-share")), rows
 }

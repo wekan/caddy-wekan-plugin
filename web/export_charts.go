@@ -23,6 +23,7 @@ import (
 
 // chartTitles are WeKan's chart keys and their titles' translation keys.
 var chartTitles = map[string]string{
+	"distribution":       msg("board-view-distribution"),
 	"releaseBurndown":    msg("board-view-release-burndown"),
 	"epicProgress":       msg("board-view-epic-progress"),
 	"dueDatePerformance": msg("board-view-due-date-performance"),
@@ -220,6 +221,10 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 			return nil, nil, false
 		}
 		headers, rows := releaseBurndownRows(cards, releases, now, lang)
+		return headers, rows, true
+	}
+	if key == "distribution" {
+		headers, rows := distributionRows(cards, b.Labels, lang)
 		return headers, rows, true
 	}
 	if key == "epicProgress" {
