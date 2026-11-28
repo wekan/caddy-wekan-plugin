@@ -284,9 +284,26 @@ func formatLinearCsv(d extBoard) string {
 		if i.DueAt != "" {
 			due = isoDate(parseISO(i.DueAt))[:10]
 		}
+		fields := i.CustomFields
+		priority := jsOrString(jsGet(fields, "Priority"))
+		switch priority {
+		case "Urgent", "High", "Medium", "Low":
+		default:
+			priority = "No priority"
+		}
+		estimate := ""
+		if raw := jsGet(fields, "Estimate"); raw != nil && raw != "" {
+			if number, ok := jsToNumber(raw); ok && !isInf(number) {
+				estimate = jsStr(raw)
+			}
+		}
+		completed, canceled := isoDate(parseISO(i.EndAt)), ""
+		if value := jsGet(fields, "Canceled"); value == true || value == "true" {
+			canceled, completed = completed, ""
+		}
 		v := map[string]string{"ID": i.CardID, "Team": team, "Title": title, "Description": i.Description, "Status": status,
-			"Priority": "No priority", "Creator": creator, "Assignee": i.Owner, "Labels": strings.Join(labels, ", "),
-			"Created": isoDate(parseISO(i.CreatedAt)), "Started": isoDate(parseISO(i.StartAt)), "Completed": isoDate(parseISO(i.EndAt)),
+			"Priority": priority, "Estimate": estimate, "Project": jsOrString(jsGet(fields, "Project")), "Cycle Name": jsOrString(jsGet(fields, "Cycle")), "Creator": creator, "Assignee": i.Owner, "Labels": strings.Join(labels, ", "),
+			"Created": isoDate(parseISO(i.CreatedAt)), "Started": isoDate(parseISO(i.StartAt)), "Completed": completed, "Canceled": canceled,
 			"Due Date": due, "Parent issue": i.ParentCardID}
 		cells := make([]string, len(linearColumns))
 		for k, c := range linearColumns {
