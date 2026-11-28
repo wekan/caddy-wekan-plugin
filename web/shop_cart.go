@@ -89,7 +89,7 @@ func (s *Server) updateShopCart(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, shopCartLocation(b), http.StatusSeeOther)
 }
 
-func shopCartQuote(products []shopProduct, quantities map[string]int, currency string) ([]shopCartLine, string) {
+func shopCartQuote(products []shopProduct, quantities map[string]int, currency string) ([]shopCartLine, int64, int) {
 	byID := make(map[string]shopProduct, len(products))
 	for _, product := range products {
 		byID[product.ID] = product
@@ -120,7 +120,20 @@ func shopCartQuote(products []shopProduct, quantities map[string]int, currency s
 		}
 		lines = append(lines, line)
 	}
-	return lines, shopMoney(sum, digits, currency)
+	return lines, sum, digits
+}
+
+func shopTaxTotals(sum int64, rate int64, included bool) (net, vat, total int64) {
+	denominator := int64(10000)
+	if included {
+		denominator += rate
+	}
+	// Split the product so even the largest supported catalog total fits.
+	vat = (sum/denominator)*rate + ((sum%denominator)*rate+denominator/2)/denominator
+	if included {
+		return sum - vat, vat, sum
+	}
+	return sum, vat, sum + vat
 }
 
 func shopOrderDestinationAvailable(ctx context.Context, s *Server, sourceBoard string, settings bson.M) bool {

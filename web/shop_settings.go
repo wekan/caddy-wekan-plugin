@@ -1,6 +1,7 @@
 package web
 
 import (
+	"math"
 	"net/http"
 	"net/url"
 	"slices"
@@ -193,6 +194,15 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 			set["shopSettings.guestCheckout"] = r.PostForm.Get("guestCheckout") == "1"
 			set["shopSettings.decrementStock"] = r.PostForm.Get("decrementStock") == "1"
 		}
+		if r.PostForm.Has("vatPercent") {
+			rate, ok := shopNumber(r.PostForm.Get("vatPercent"))
+			if !ok || rate < 0 || rate > 100 {
+				http.Error(w, "Invalid Shop VAT rate", http.StatusBadRequest)
+				return
+			}
+			set["shopSettings.vatPercent"] = math.Round(rate*100) / 100
+			set["shopSettings.pricesIncludeVat"] = r.PostForm.Get("pricesIncludeVat") == "1"
+		}
 		filter := bson.M{"_id": eq(b.ID)}
 		if r.PostForm.Get("publicDefault") == "1" {
 			set["defaultPublicBoardView"] = "board-view-shop"
@@ -222,7 +232,8 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 	s.render(w, r, "shop_settings", http.StatusOK, map[string]any{
 		"Title": b.Title, "Board": b, "User": u, "Settings": settings, "Currency": currency,
 		"Pickers": pickers, "Lists": listOptions, "Labels": labelOptions, "OrderLists": orderLists,
-		"DecrementStock": settings["decrementStock"] != false,
-		"PublicDefault":  st.defaultView("public") == "board-view-shop", "Shop": shopLocation(b, "", ""),
+		"DecrementStock":   settings["decrementStock"] != false,
+		"PricesIncludeVAT": settings["pricesIncludeVat"] != false, "VATPercent": float64(shopVATRate(settings)) / 100,
+		"PublicDefault": st.defaultView("public") == "board-view-shop", "Shop": shopLocation(b, "", ""),
 	})
 }

@@ -96,6 +96,14 @@ func shopPrice(value any, currency string) string {
 	return shopMoney(minor, digits, currency)
 }
 
+func shopVATRate(settings bson.M) int64 {
+	rate, ok := shopNumber(settings["vatPercent"])
+	if !ok || rate < 0 || rate > 100 {
+		return 0
+	}
+	return int64(math.Round(rate * 100))
+}
+
 func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *User, lanes []lane) {
 	ctx := r.Context()
 	lang := languageOf(r, u).Tag
@@ -187,9 +195,14 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 	if checkout || r.URL.Query().Get("cart") == "1" {
 		w.Header().Set("Cache-Control", "private, no-store")
 		data["Cart"], data["CartLines"], data["CartTotal"] = true, nil, ""
-		lines, total := shopCartQuote(products, readShopCart(r, b.ID), currency)
-		data["CartLines"], data["CartTotal"] = lines, total
-		canReview := len(lines) > 0 && shopOrderDestinationAvailable(r.Context(), s, b.ID, settings)
+		lines, sum, digits := shopCartQuote(products, readShopCart(r, b.ID), currency)
+		rate := shopVATRate(settings)
+		net, vat, total := shopTaxTotals(sum, rate, settings["pricesIncludeVat"] != false)
+		data["CartLines"], data["CartTotal"] = lines, shopMoney(total, digits, currency)
+		if rate > 0 {
+			data["TaxNet"], data["TaxVAT"] = shopMoney(net, digits, currency), shopMoney(vat, digits, currency)
+		}
+		canReview := len(lines) > 0 && total <= 9007199254740991 && shopOrderDestinationAvailable(r.Context(), s, b.ID, settings)
 		for _, line := range lines {
 			if line.Unavailable {
 				canReview = false

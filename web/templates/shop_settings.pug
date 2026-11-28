@@ -18,6 +18,15 @@
         label
           | {{t $.L "billing-currency"}}
           input(type="text", name="currency", maxlength="3", pattern="[A-Za-z]{3}", value="{{.Currency}}", required)
+      p
+        label
+          | {{t $.L "billing-vat"}} (%)
+          input(type="number", name="vatPercent", min="0", max="100", step="0.01", value="{{.VATPercent}}", required)
+      p
+        label
+          | <input type="checkbox" name="pricesIncludeVat" value="1" {{if .PricesIncludeVAT}}checked{{end}}>
+          |  {{t $.L "shop-prices-include-vat"}}
+
       each picker in .Pickers
         p
           label

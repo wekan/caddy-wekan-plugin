@@ -26,7 +26,10 @@
             ul
               each line in .CartLines
                 li {{.Title}} · {{.Quantity}} × {{.Unit}} · {{.Total}}
-            p.shop-price {{.CartTotal}}
+            if .TaxVAT
+              p {{t $.L "billing-amount"}} {{.TaxNet}}
+              p {{t $.L "billing-vat"}} {{.TaxVAT}}
+            p.shop-price {{t $.L "billing-total"}} {{.CartTotal}}
             if .TermsURL
               p
                 a(href="{{.TermsURL}}", rel="noopener noreferrer") {{t $.L "shop-terms-url"}}
@@ -51,7 +54,10 @@
                     input(type="hidden", name="product", value="{{.ID}}")
                     input(type="hidden", name="quantity", value="0")
                     button(type="submit") {{t $.L "delete"}}
-            p.shop-price {{.CartTotal}}
+            if .TaxVAT
+              p {{t $.L "billing-amount"}} {{.TaxNet}}
+              p {{t $.L "billing-vat"}} {{.TaxVAT}}
+            p.shop-price {{t $.L "billing-total"}} {{.CartTotal}}
           else
             p {{t $.L "shop-cart-empty"}}
           if .CheckoutURL

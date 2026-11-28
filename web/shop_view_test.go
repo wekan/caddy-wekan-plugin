@@ -25,6 +25,21 @@ func TestShopPrice(t *testing.T) {
 	}
 }
 
+func TestShopTaxTotals(t *testing.T) {
+	net, vat, total := shopTaxTotals(1000, 2550, false)
+	if net != 1000 || vat != 255 || total != 1255 {
+		t.Fatalf("tax-exclusive total: %d %d %d", net, vat, total)
+	}
+	net, vat, total = shopTaxTotals(1255, 2550, true)
+	if net != 1000 || vat != 255 || total != 1255 {
+		t.Fatalf("tax-inclusive total: %d %d %d", net, vat, total)
+	}
+	_, vat, total = shopTaxTotals(2, 2500, false)
+	if vat != 1 || total != 3 {
+		t.Fatalf("minor-unit rounding: %d %d", vat, total)
+	}
+}
+
 func TestShopBoardView(t *testing.T) {
 	w := newTestWeKan(t)
 	ctx := context.Background()
@@ -110,6 +125,11 @@ func TestShopBoardView(t *testing.T) {
 	res, page = get(t, guest, url+"?view=shop&cart=1")
 	if res.StatusCode != http.StatusOK || !strings.Contains(page, "26.00 EUR") || strings.Contains(page, "25.00 EUR") {
 		t.Fatalf("cart did not use current product price: %d", res.StatusCode)
+	}
+	update("boards", b.ID, bson.M{"shopSettings.vatPercent": 25.5, "shopSettings.pricesIncludeVat": false})
+	res, page = get(t, guest, url+"?view=shop&cart=1")
+	if res.StatusCode != http.StatusOK || !strings.Contains(page, "6.63 EUR") || !strings.Contains(page, "32.63 EUR") {
+		t.Fatalf("cart VAT total: %d %s", res.StatusCode, page)
 	}
 	res, _ = post(t, guest, cartAction, map[string][]string{"product": {b.Card}, "quantity": {"0"}})
 	if res.StatusCode != http.StatusSeeOther {
