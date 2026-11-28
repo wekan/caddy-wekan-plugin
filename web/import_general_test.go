@@ -249,7 +249,7 @@ func TestImportJira(t *testing.T) {
 	w.seedUser(t, "ann", "pw")
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
-	const payload = `{"board":{"name":"Jira migration"},"wekanScrumMapping":{"estimateFieldId":"customfield_10016","estimateUnit":"points"},"names":{"customfield_10020":"Rank","customfield_10022":"Sprint","customfield_10023":"Flag","customfield_10024":"Flag"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","customfield_10016":0,"customfield_10023":false,"customfield_10024":{"value":"Choice"},"customfield_10020":"0|abc:","customfield_10022":{"id":7,"name":"Future sprint","state":"future"},"status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0,"originalEstimateSeconds":7200},"timeestimate":0,"labels":["jira"],"subtasks":[{"key":"SUB-1","fields":{"summary":"Done item","status":{"statusCategory":{"key":"done"}}}},{"fields":{"summary":"Open item"}}],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
+	const payload = `{"board":{"name":"Jira migration"},"wekanScrumMapping":{"estimateFieldId":"customfield_10016","estimateUnit":"points"},"names":{"customfield_10020":"Rank","customfield_10022":"Sprint","customfield_10023":"Flag","customfield_10024":"Flag"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","customfield_10016":0,"customfield_10023":false,"customfield_10024":{"value":"Choice"},"customfield_10020":"0|abc:","customfield_10022":{"id":7,"name":"Future sprint","state":"future"},"status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0,"originalEstimateSeconds":7200},"timeestimate":0,"labels":["jira","UI"],"priority":{"name":"High"},"components":[{"name":"UI"},{"name":"Backend"}],"subtasks":[{"key":"SUB-1","fields":{"summary":"Done item","status":{"statusCategory":{"key":"done"}}}},{"fields":{"summary":"Open item"}}],"fixVersions":[{"id":"50","name":"Released","released":true,"releaseDate":"2026-10-10","description":"Notes"},{"id":"51","name":"Planned"},{"id":"50","name":"Duplicate"}],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
 	res, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {payload}})
 	if err != nil {
 		t.Fatal(err)
@@ -262,6 +262,16 @@ func TestImportJira(t *testing.T) {
 	if err := w.db.Collection("boards").FindOne(ctx, bson.M{"title": "Jira migration"}).Decode(&board); err != nil {
 		t.Fatal(err)
 	}
+	labels := map[string]bool{}
+	for _, label := range board.Labels {
+		labels[label.Name] = true
+	}
+	for _, name := range []string{"UI", "Backend", "priority:High", "jira"} {
+		if !labels[name] {
+			t.Fatalf("missing Jira label %q: %v", name, labels)
+		}
+	}
+
 	var card bson.M
 	if err := w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": board.ID}).Decode(&card); err != nil {
 		t.Fatal(err)

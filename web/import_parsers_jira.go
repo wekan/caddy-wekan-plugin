@@ -377,7 +377,23 @@ func parseJira(data any) (jsObject, error) {
 		task.setDefined("owner_username", owner, defined)
 		requester, defined := jsOrDefined(jsGet(fields, "reporter"), "displayName", "name", "emailAddress")
 		task.setDefined("requested_by", requester, defined)
-		task.set("tags", jsOr(jsGet(fields, "labels"), []any{}))
+		tags := []any{}
+		labels, _ := jsGet(fields, "labels").([]any)
+		for _, label := range labels {
+			if name := strOf(label); name != "" {
+				tags = append(tags, name)
+			}
+		}
+		if priority := strOf(jsGet(jsGet(fields, "priority"), "name")); priority != "" {
+			tags = append(tags, "priority:"+priority)
+		}
+		components, _ := jsGet(fields, "components").([]any)
+		for _, component := range components {
+			if name := strOf(jsGet(component, "name")); name != "" {
+				tags = append(tags, name)
+			}
+		}
+		task.set("tags", jsUniq(tags))
 		if sprintField != "" {
 			raw := jsGet(fields, sprintField)
 			listed, ok := raw.([]any)
