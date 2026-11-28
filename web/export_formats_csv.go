@@ -414,9 +414,20 @@ func formatTickTickCsv(d extBoard, now time.Time) string {
 		if i.ParentCardID != "" {
 			parent = ids[i.ParentCardID]
 		}
-		v := map[string]string{"List Name": listName, "Title": title, "Kind": kind, "Tags": strings.Join(tags, ", "),
+		priority := map[string]string{"Low": "1", "Medium": "3", "High": "5"}[jsOrString(jsGet(i.CustomFields, "Priority"))]
+		if priority == "" {
+			priority = "0"
+		}
+		repeat := ""
+		if i.EndAt == "" {
+			switch i.Recurrence {
+			case "daily", "weekly", "monthly":
+				repeat = "RRULE:FREQ=" + strings.ToUpper(i.Recurrence) + ";INTERVAL=1"
+			}
+		}
+		v := map[string]string{"Folder Name": jsOrString(jsGet(i.CustomFields, "Folder")), "List Name": listName, "Title": title, "Kind": kind, "Tags": strings.Join(tags, ", "),
 			"Content": strings.Join(content, "\n"), "Is Check list": check, "Start Date": ticktickStamp(i.StartAt),
-			"Due Date": ticktickStamp(i.DueAt), "Priority": "0", "Status": status, "Created Time": ticktickStamp(i.CreatedAt),
+			"Due Date": ticktickStamp(i.DueAt), "Priority": priority, "Repeat": repeat, "Status": status, "Created Time": ticktickStamp(i.CreatedAt),
 			"Order": strconv.FormatInt(int64(k)*1099511627776, 10), "Timezone": "UTC", "Is Floating": "false",
 			"Column Name": column, "Column Order": strconv.Itoa(columnOrder), "View Mode": "kanban", "taskId": taskID,
 			"parentId": parent, "projectKind": "TASK"}
