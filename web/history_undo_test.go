@@ -229,3 +229,96 @@ func TestTemplateListArchiveGroupedHistory(t *testing.T) {
 		assertState(test.archive)
 	}
 }
+
+func TestRESTCustomFieldHistoryReplay(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	token := login(t, w, "ann")
+	board := newRESTBoard(t, w, token, "Custom field history")
+	base := w.srv.URL + "/api/boards/" + board.ID
+	var field struct {
+		ID string `json:"_id"`
+	}
+	call(t, "POST", base+"/custom-fields", token,
+		`{"name":"Replay text","type":"text"}`, &field)
+	if field.ID == "" {
+		t.Fatal("missing custom field ID")
+	}
+	// The REST value route edits an existing card field. Seed its empty value.
+	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": board.Card},
+		bson.M{"$set": bson.M{"customFields": bson.A{bson.M{"_id": field.ID, "value": nil}}}}); err != nil {
+		t.Fatal(err)
+	}
+	client := w.client(t)
+	body(t, w.signIn(t, client, "ann", "pw"))
+	replay := func(method string, args any, key string, want any) {
+		t.Helper()
+		payload, err := json.Marshal(args)
+		if err != nil {
+			t.Fatal(err)
+		}
+		res, err := client.Post(w.srv.URL+"/_methods/changeHistory."+method,
+			"application/json", strings.NewReader(string(payload)))
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		var out struct {
+			Result map[string]any
+			Error  any
+		}
+		if err := json.NewDecoder(res.Body).Decode(&out); err != nil ||
+			res.StatusCode != http.StatusOK || out.Error != nil || out.Result[key] != want {
+			t.Fatalf("%s: HTTP %d, %#v, %v", method, res.StatusCode, out, err)
+		}
+	}
+	value := func(want any) {
+		t.Helper()
+		var stored struct {
+			Fields []struct {
+				ID    string `bson:"_id"`
+				Value any
+			} `bson:"customFields"`
+		}
+		if err := w.db.Collection("cards").FindOne(ctx, bson.M{"_id": board.Card}).Decode(&stored); err != nil {
+			t.Fatal(err)
+		}
+		for _, f := range stored.Fields {
+			if f.ID == field.ID && f.Value == want {
+				return
+			}
+		}
+		t.Fatalf("custom fields %+v, wanted %q = %#v", stored.Fields, field.ID, want)
+	}
+	endpoint := base + "/lists/" + board.List + "/cards/" + board.Card + "/customFields/" + field.ID
+	const first = "First line\n日本語"
+	previous := any(nil)
+	args := []string{board.ID}
+	value(previous)
+	for _, text := range []string{first, "Second value"} {
+		payload, err := json.Marshal(map[string]string{"value": text})
+		if err != nil {
+			t.Fatal(err)
+		}
+		var reply map[string]any
+		call(t, "POST", endpoint, token, string(payload), &reply)
+		value(text)
+		replay("undoLast", args, "undone", true)
+		value(previous)
+		replay("redoLast", args, "redone", true)
+		value(text)
+		previous = text
+	}
+
+	for _, row := range historyRows(t, w, board.ID) {
+		content, _ := row["newContent"].(map[string]any)
+		if row["group"] == "customFields" && strings.Contains(canonical(content), "First line") &&
+			row["changeType"] == "edited" {
+			replay("restore", [][]string{{docString(row, "_id")}}, "restored", float64(1))
+			value(first)
+			return
+		}
+	}
+	t.Fatal("missing first custom-field edit in History")
+}
