@@ -433,6 +433,11 @@ func parseTaiga(input any) (jsObject, error) {
 		}
 		sprint := jsObject{}
 		sprint.set("name", name)
+		recordID := jsTrim(taigaStr(jsGet(milestone, "slug")))
+		if recordID == "" {
+			recordID = name
+		}
+		sprint.set("recordId", recordID)
 		sprint.set("plannedStart", date(jsGetOrUndef(milestone, "estimated_start"), path+"/estimated_start"))
 		sprint.set("plannedEnd", date(jsGetOrUndef(milestone, "estimated_finish"), path+"/estimated_finish"))
 		sprints = append(sprints, sprint)

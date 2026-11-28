@@ -970,6 +970,9 @@ func (g *generalImport) taigaSprints(boardID string, doc any) error {
 		row := bson.M{"_id": id, "boardId": boardID, "name": name, "state": "planned",
 			"revision": int32(1), "incarnation": randomID(), "createdBy": g.u.ID,
 			"updatedBy": g.u.ID, "createdAt": g.now, "updatedAt": g.now}
+		if recordID, _ := jsGet(sprint, "recordId").(string); recordID != "" {
+			row["provenance"] = bson.M{"system": "taiga", "recordId": recordID}
+		}
 		for _, key := range []string{"plannedStart", "plannedEnd"} {
 			if at, ok := importedDate(jsGet(sprint, key)); ok {
 				row[key] = at
