@@ -2,7 +2,9 @@ package web
 
 import (
 	"net/http"
+	"net/url"
 	"slices"
+	"sort"
 	"strings"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -17,6 +19,49 @@ type shopFieldPicker struct {
 	Key, Label string
 	Types      []string
 	Options    []shopOption
+}
+
+type shopOrderList struct {
+	shopOption
+	BoardID string
+}
+
+func (s *Server) shopOrderLists(r *http.Request, source *Board, u *User, settings bson.M) ([]shopOrderList, error) {
+	ctx := r.Context()
+	filter := bson.M{"permission": "private", "archived": bson.M{"$ne": true}, "deletedAt": nil}
+	if !u.IsAdmin {
+		filter["members.userId"] = eq(u.ID)
+	}
+	cursor, err := s.db.Collection("boards").Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	var boards []Board
+	if err := cursor.All(ctx, &boards); err != nil {
+		return nil, err
+	}
+	orderBoard := strOf(settings["ordersBoardId"])
+	if orderBoard == "" {
+		orderBoard = source.ID
+	}
+	var out []shopOrderList
+	for _, board := range boards {
+		if !u.IsAdmin && !board.AdminOf(u.ID) {
+			continue
+		}
+		lists, err := s.chartLists(ctx, board.ID)
+		if err != nil {
+			return nil, err
+		}
+		for _, list := range lists {
+			out = append(out, shopOrderList{
+				shopOption: shopOption{list.ID, board.Title + " / " + list.Title, orderBoard == board.ID && settings["ordersListId"] == list.ID},
+				BoardID:    board.ID,
+			})
+		}
+	}
+	sort.SliceStable(out, func(i, j int) bool { return out[i].Name < out[j].Name })
+	return out, nil
 }
 
 func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *User) {
@@ -66,6 +111,11 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		}
 		labelOptions = append(labelOptions, shopOption{label.ID, name, slices.Contains(categories, label.ID)})
 	}
+	orderLists, err := s.shopOrderLists(r, b, u, settings)
+	if err != nil {
+		http.Error(w, "Could not load private order lists", http.StatusInternalServerError)
+		return
+	}
 	st := boardViewStateOf(doc)
 	if r.Method == http.MethodPost {
 		r.Body = http.MaxBytesReader(w, r.Body, 32<<10)
@@ -106,6 +156,38 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 			}
 			set["shopSettings."+key] = ids
 		}
+		if r.PostForm.Has("ordersListId") {
+			orderList, orderBoard := r.PostForm.Get("ordersListId"), ""
+			if orderList != "" {
+				for _, option := range orderLists {
+					if option.ID == orderList {
+						orderBoard = option.BoardID
+						break
+					}
+				}
+				if orderBoard == "" {
+					http.Error(w, "Invalid private Shop order list", http.StatusBadRequest)
+					return
+				}
+			}
+			if orderBoard == b.ID && slices.Contains(set["shopSettings.saleListIds"].([]string), orderList) {
+				http.Error(w, "The order list cannot also be on sale", http.StatusBadRequest)
+				return
+			}
+			terms := strings.TrimSpace(r.PostForm.Get("termsUrl"))
+			if terms != "" {
+				link, err := url.ParseRequestURI(terms)
+				if err != nil || link.Hostname() == "" || link.User != nil ||
+					(link.Scheme != "https" && link.Scheme != "http") || utf16Len(terms) > 2000 {
+					http.Error(w, "Invalid Shop terms URL", http.StatusBadRequest)
+					return
+				}
+			}
+			set["shopSettings.ordersListId"], set["shopSettings.ordersBoardId"] = orderList, orderBoard
+			set["shopSettings.termsUrl"] = terms
+			set["shopSettings.guestCheckout"] = r.PostForm.Get("guestCheckout") == "1"
+			set["shopSettings.decrementStock"] = r.PostForm.Get("decrementStock") == "1"
+		}
 		filter := bson.M{"_id": eq(b.ID)}
 		if r.PostForm.Get("publicDefault") == "1" {
 			set["defaultPublicBoardView"] = "board-view-shop"
@@ -134,7 +216,8 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 	}
 	s.render(w, r, "shop_settings", http.StatusOK, map[string]any{
 		"Title": b.Title, "Board": b, "User": u, "Settings": settings, "Currency": currency,
-		"Pickers": pickers, "Lists": listOptions, "Labels": labelOptions,
-		"PublicDefault": st.defaultView("public") == "board-view-shop", "Shop": shopLocation(b, "", ""),
+		"Pickers": pickers, "Lists": listOptions, "Labels": labelOptions, "OrderLists": orderLists,
+		"DecrementStock": settings["decrementStock"] != false,
+		"PublicDefault":  st.defaultView("public") == "board-view-shop", "Shop": shopLocation(b, "", ""),
 	})
 }

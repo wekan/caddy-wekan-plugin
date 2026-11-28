@@ -38,6 +38,26 @@
           label
             | <input type="checkbox" name="categoryLabelIds" value="{{.ID}}" {{if .Selected}}checked{{end}}>
             |  {{.Name}}
+      fieldset
+        legend {{t $.L "shop-orders-list"}}
+        p {{t $.L "shop-orders-private"}}
+        select(name="ordersListId", aria-label="{{t $.L `shop-orders-list`}}")
+          option(value="") {{t $.L "shop-not-chosen"}}
+          each destination in .OrderLists
+            | <option value="{{.ID}}" {{if .Selected}}selected{{end}}>{{.Name}}</option>
+        p
+          label
+            | <input type="checkbox" name="guestCheckout" value="1" {{if eq .Settings.guestCheckout true}}checked{{end}}>
+            |  {{t $.L "shop-guest-checkout"}}
+        p
+          label
+            | <input type="checkbox" name="decrementStock" value="1" {{if .DecrementStock}}checked{{end}}>
+            |  {{t $.L "shop-decrement-stock"}}
+        p
+          label
+            | {{t $.L "shop-terms-url"}}
+            input(type="url", name="termsUrl", maxlength="2000", value="{{.Settings.termsUrl}}")
+
       p
         label
           | <input type="checkbox" name="publicDefault" value="1" {{if .PublicDefault}}checked{{end}}>

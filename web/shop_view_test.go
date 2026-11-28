@@ -82,6 +82,12 @@ func TestShopSettingsEditor(t *testing.T) {
 	bob := w.seedUser(t, "bob", "pw")
 	b := newRESTBoard(t, w, login(t, w, "ann"), "Shop config")
 	setMember(t, w, b.ID, Member{UserID: bob.ID, IsActive: true})
+	orders := newRESTBoard(t, w, login(t, w, "ann"), "Private orders")
+	public := newRESTBoard(t, w, login(t, w, "ann"), "Public destination")
+	if _, err := w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": public.ID},
+		bson.M{"$set": bson.M{"permission": "public"}}); err != nil {
+		t.Fatal(err)
+	}
 	price := randomID()
 	if _, err := w.db.Collection("customFields").InsertOne(ctx, bson.M{
 		"_id": price, "name": "Catalog price", "type": "number", "boardIds": bson.A{b.ID},
@@ -98,7 +104,8 @@ func TestShopSettingsEditor(t *testing.T) {
 	w.signIn(t, bobClient, "bob", "pw")
 	address := w.srv.URL + "/b/" + b.ID + "/shop-config/shop/settings"
 	form := url.Values{"title": {"New catalog"}, "currency": {"kwd"}, "priceFieldId": {price},
-		"enabled": {"1"}, "publicDefault": {"1"}, "saleListIds": {b.List}}
+		"enabled": {"1"}, "publicDefault": {"1"}, "saleListIds": {b.List},
+		"ordersListId": {orders.List}, "guestCheckout": {"1"}, "decrementStock": {"1"}, "termsUrl": {"https://example.test/terms"}}
 	if res, _ := post(t, bobClient, address, form); res.StatusCode != http.StatusForbidden {
 		t.Fatalf("member entered the editor: %d", res.StatusCode)
 	}
@@ -114,6 +121,16 @@ func TestShopSettingsEditor(t *testing.T) {
 		!strings.Contains(page, `value="1" checked`) || !strings.Contains(page, `value="`+price+`" selected`) {
 		t.Fatalf("shop settings reload: %d %s", res.StatusCode, page)
 	}
+	form.Set("ordersListId", public.List)
+	if res, _ := post(t, annClient, address, form); res.StatusCode != http.StatusBadRequest {
+		t.Fatalf("accepted a public order destination: %d", res.StatusCode)
+	}
+	form.Set("ordersListId", orders.List)
+	form.Set("termsUrl", "javascript:alert(1)")
+	if res, _ := post(t, annClient, address, form); res.StatusCode != http.StatusBadRequest {
+		t.Fatalf("accepted unsafe terms URL: %d", res.StatusCode)
+	}
+	form.Set("termsUrl", "https://example.test/terms")
 	form.Set("priceFieldId", "foreign")
 	if res, _ := post(t, annClient, address, form); res.StatusCode != http.StatusBadRequest {
 		t.Fatalf("accepted a foreign custom field: %d", res.StatusCode)
@@ -124,6 +141,8 @@ func TestShopSettingsEditor(t *testing.T) {
 	}
 	settings := asM(board["shopSettings"])
 	if settings["guestCheckout"] != true || settings["priceFieldId"] != price || settings["currency"] != "KWD" ||
+		settings["ordersListId"] != orders.List || settings["ordersBoardId"] != orders.ID || settings["decrementStock"] != true ||
+		settings["termsUrl"] != "https://example.test/terms" ||
 		boardViewStateOf(board).defaultView("public") != "board-view-shop" {
 		t.Fatalf("shop settings persistence: %v", board)
 	}

@@ -22,7 +22,7 @@ type chartListMove struct {
 }
 
 func (s *Server) chartLists(ctx context.Context, boardID string) ([]List, error) {
-	listCursor, err := s.db.Collection("lists").Find(ctx, bson.M{"boardId": eq(boardID), "archived": bson.M{"$ne": true}},
+	listCursor, err := s.db.Collection("lists").Find(ctx, bson.M{"boardId": eq(boardID), "archived": bson.M{"$ne": true}, "deletedAt": nil},
 		options.Find().SetProjection(bson.M{"title": 1}).SetSort(bson.D{{Key: "sort", Value: 1}, {Key: "_id", Value: 1}}))
 	if err != nil {
 		return nil, err
