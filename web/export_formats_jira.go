@@ -213,6 +213,7 @@ func formatJira(d extBoard) any {
 		labels := append([]string{}, i.Labels...)
 		f.set("labels", labels)
 		f.set("duedate", jsOptional(i.DueAt))
+		f.set("resolutiondate", jsOptional(i.EndAt))
 		if len(i.Timetracking) > 0 {
 			f.set("timetracking", i.Timetracking)
 		}
