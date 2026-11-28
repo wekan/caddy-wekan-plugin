@@ -23,6 +23,7 @@ import (
 
 // chartTitles are WeKan's chart keys and their titles' translation keys.
 var chartTitles = map[string]string{
+	"releaseBurndown":    msg("board-view-release-burndown"),
 	"epicProgress":       msg("board-view-epic-progress"),
 	"dueDatePerformance": msg("board-view-due-date-performance"),
 	"createdResolved":    msg("board-view-created-resolved"), "netFlow": msg("board-view-net-flow"),
@@ -147,6 +148,7 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 type chartCard struct {
 	ID         string    `bson:"_id"`
 	Title      string    `bson:"title"`
+	Scrum      bson.M    `bson:"scrum"`
 	ParentID   string    `bson:"parentId"`
 	ListID     string    `bson:"listId"`
 	CreatedAt  time.Time `bson:"createdAt"`
@@ -187,7 +189,7 @@ func sinceDays(a, b time.Time) float64 { return math.Max(0, b.Sub(a).Hours()/24)
 // chartRows are a chart's table; ok false for one Weddy cannot compute yet.
 func (s *Server) chartCards(ctx context.Context, b *Board) ([]chartCard, error) {
 	cur, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID}, options.Find().SetProjection(bson.M{
-		"title": 1, "parentId": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "labelIds": 1,
+		"title": 1, "scrum.releaseId": 1, "scrum.releaseIds": 1, "parentId": 1, "listId": 1, "createdAt": 1, "startAt": 1, "dueAt": 1, "endAt": 1, "archivedAt": 1, "assignees": 1, "labelIds": 1,
 		"spentTime": 1, "isOvertime": 1, "archived": 1}))
 	if err != nil {
 		return nil, err
@@ -207,6 +209,19 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 		return nil, nil, false
 	}
 	now := time.Now().UTC()
+	if key == "releaseBurndown" {
+		cursor, err := s.db.Collection("scrumReleases").Find(ctx, bson.M{"boardId": eq(b.ID)},
+			options.Find().SetProjection(bson.M{"name": 1}).SetSort(bson.D{{Key: "name", Value: 1}, {Key: "_id", Value: 1}}))
+		if err != nil {
+			return nil, nil, false
+		}
+		var releases []chartRelease
+		if err := cursor.All(ctx, &releases); err != nil {
+			return nil, nil, false
+		}
+		headers, rows := releaseBurndownRows(cards, releases, now, lang)
+		return headers, rows, true
+	}
 	if key == "epicProgress" {
 		headers, rows := epicProgressRows(cards, lang)
 		return headers, rows, true

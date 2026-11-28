@@ -105,6 +105,24 @@ func TestEpicProgressRows(t *testing.T) {
 	}
 }
 
+func TestReleaseBurndownRows(t *testing.T) {
+	now := time.Date(2026, 11, 25, 12, 0, 0, 0, time.UTC)
+	cards := []chartCard{
+		{Scrum: bson.M{"releaseIds": bson.A{"R", "S", "R"}}, EndAt: now},
+		{Scrum: bson.M{"releaseId": "R"}},
+		{ArchivedAt: now},
+	}
+	releases := []chartRelease{{ID: "R", Name: "Next"}, {ID: "S"}}
+	_, rows := releaseBurndownRows(cards, releases, now, "en")
+	if !reflect.DeepEqual(rows, [][]any{{"Next", 2, 1, 1, "2026-12-09"}, {"S", 1, 1, 0, ""}}) {
+		t.Fatalf("release burndown: %v", rows)
+	}
+	_, rows = releaseBurndownRows(cards[1:2], releases[:1], now, "en")
+	if rows[0][4] != "-" {
+		t.Fatalf("projection without completion history: %v", rows)
+	}
+}
+
 func TestExportCharts(t *testing.T) {
 	w := newTestWeKan(t)
 	w.seedUser(t, "ann", "pw")
@@ -115,6 +133,13 @@ func TestExportCharts(t *testing.T) {
 	created := time.Now().UTC().AddDate(0, 0, -3)
 	_, _ = w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card}, bson.M{"$set": bson.M{
 		"createdAt": created, "endAt": created.Add(48 * time.Hour), "assignees": bson.A{bob.ID}}})
+	if _, err := w.db.Collection("scrumReleases").InsertOne(ctx, bson.M{"_id": "release-fixture", "name": "Release fixture", "boardId": b.ID}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": b.Card},
+		bson.M{"$set": bson.M{"scrum.releaseIds": bson.A{"release-fixture"}}}); err != nil {
+		t.Fatal(err)
+	}
 	get := func(url, token string) (int, string, []byte) {
 		req, _ := http.NewRequest("GET", w.srv.URL+url, nil)
 		if token != "" {
@@ -162,6 +187,10 @@ func TestExportCharts(t *testing.T) {
 		if code != 200 || !strings.Contains(sheet(data), want) {
 			t.Errorf("%s: %d, wants %s: %s", chart, code, want, sheet(data))
 		}
+	}
+	if code, _, data := get(base+"releaseBurndown/exportExcel", a); code != 200 ||
+		!strings.Contains(sheet(data), ">Projected finish<") || !strings.Contains(sheet(data), ">Release fixture<") || !strings.Contains(sheet(data), `r="C3"><v>1</v>`) {
+		t.Fatalf("release burndown export: %d %s", code, sheet(data))
 	}
 	if code, typ, data = get(base+"dashboard/exportPDF", a); code != 200 || typ != "application/pdf" || !bytes.HasPrefix(data, []byte("%PDF")) {
 		t.Fatalf("pdf: %d %s", code, typ)

@@ -13,6 +13,7 @@ type weeklyFlowView struct {
 }
 
 var weeklyFlowViews = []weeklyFlowView{
+	{"release-burndown", "releaseBurndown", "board-view-release-burndown", "fa-flag", 3},
 	{"epic-progress", "epicProgress", "board-view-epic-progress", "fa-sitemap", 4},
 	{"created-resolved", "createdResolved", "board-view-created-resolved", "fa-exchange", 3},
 	{"net-flow", "netFlow", "board-view-net-flow", "fa-balance-scale", 3},
@@ -63,7 +64,7 @@ func weeklyFlowRows(cards []chartCard, now time.Time, key, lang string) ([]any, 
 			}
 			rows = append(rows, []any{dayOf(week), open, age})
 		}
-		return weeklyFlowHeaders(lang, "week", "open", "report-average-age"), rows
+		return weeklyFlowHeaders(lang, msg("week"), msg("open"), msg("report-average-age")), rows
 	}
 	type totals struct {
 		created, resolved, onTime, late, noDue int
@@ -114,7 +115,7 @@ func weeklyFlowRows(cards []chartCard, now time.Time, key, lang string) ([]any, 
 			}
 			rows = append(rows, []any{dayOf(week), total.onTime, total.late, total.noDue, average})
 		}
-		return weeklyFlowHeaders(lang, "week", "report-on-time", "report-late", "report-no-due-date", "report-average-days-late"), rows
+		return weeklyFlowHeaders(lang, msg("week"), msg("report-on-time"), msg("report-late"), msg("report-no-due-date"), msg("report-average-days-late")), rows
 	}
 	if key == "throughputRun" {
 		var samples []int
@@ -128,11 +129,11 @@ func weeklyFlowRows(cards []chartCard, now time.Time, key, lang string) ([]any, 
 		for i, count := range samples {
 			rows = append(rows, []any{dayOf(start.AddDate(0, 0, i*7)), count, median})
 		}
-		return weeklyFlowHeaders(lang, "week", "done", "report-median"), rows
+		return weeklyFlowHeaders(lang, msg("week"), msg("done"), msg("report-median")), rows
 	}
-	columns := []string{"week", "report-created", "resolved", "open"}
+	columns := []string{msg("week"), msg("report-created"), msg("resolved"), msg("open")}
 	if key == "netFlow" {
-		columns = []string{"week", "report-arrivals", "report-departures", "report-net"}
+		columns = []string{msg("week"), msg("report-arrivals"), msg("report-departures"), msg("report-net")}
 	}
 	var rows [][]any
 	for week := start; !week.After(end); week = week.AddDate(0, 0, 7) {
@@ -168,7 +169,7 @@ func weeklyFlowBars(rows [][]any, column int, key string) []weeklyFlowBar {
 	}
 	if key == "epicProgress" {
 		rows = rows[:min(len(rows), 24)]
-	} else {
+	} else if key != "releaseBurndown" {
 		rows = rows[max(0, len(rows)-24):]
 	}
 	for _, row := range rows {
@@ -220,5 +221,50 @@ func epicProgressRows(cards []chartCard, lang string) ([]any, [][]any) {
 	slices.SortStableFunc(rows, func(a, b []any) int {
 		return cmp.Compare(a[4].(float64), b[4].(float64))
 	})
-	return weeklyFlowHeaders(lang, "card", "subtasks", "done", "open", "progress"), rows
+	return weeklyFlowHeaders(lang, msg("card"), msg("subtasks"), msg("done"), msg("open"), msg("progress")), rows
+}
+
+type chartRelease struct {
+	ID   string `bson:"_id"`
+	Name string `bson:"name"`
+}
+
+func releaseBurndownRows(cards []chartCard, releases []chartRelease, now time.Time, lang string) ([]any, [][]any) {
+	type counts struct{ total, done int }
+	byRelease := make(map[string]counts, len(releases))
+	recent := 0
+	since := now.AddDate(0, 0, -28)
+	for _, card := range cards {
+		at, done := card.done()
+		if done && !at.Before(since) {
+			recent++
+		}
+		for _, id := range cardReleaseIds(card.Scrum) {
+			total := byRelease[id]
+			total.total++
+			if done {
+				total.done++
+			}
+			byRelease[id] = total
+		}
+	}
+	rows := make([][]any, 0, len(releases))
+	for _, release := range releases {
+		name := release.Name
+		if name == "" {
+			name = release.ID
+		}
+		total := byRelease[release.ID]
+		left := total.total - total.done
+		finish := ""
+		if left > 0 {
+			finish = "-"
+			if recent > 0 {
+				weeks := int(math.Ceil(float64(left) * 4 / float64(recent)))
+				finish = dayOf(now.AddDate(0, 0, weeks*7))
+			}
+		}
+		rows = append(rows, []any{name, total.total, total.done, left, finish})
+	}
+	return weeklyFlowHeaders(lang, msg("scrum-release"), msg("cards"), msg("done"), msg("report-remaining"), msg("report-projected-finish")), rows
 }

@@ -35,7 +35,7 @@ func TestGuestBoardPage(t *testing.T) {
 			for _, report := range weeklyFlowViews {
 				response, page := get(t, guest, url+"?view="+report.slug)
 				if response.StatusCode != http.StatusOK || !strings.Contains(page, "weekly-flow-view") ||
-					!strings.Contains(page, "js-open-"+report.slug+"-view") || (report.key != "epicProgress" && !strings.Contains(page, "<meter")) {
+					!strings.Contains(page, "js-open-"+report.slug+"-view") || ((report.key != "epicProgress" && report.key != "releaseBurndown") && !strings.Contains(page, "<meter")) {
 					t.Fatalf("weekly report %s: %d", report.slug, response.StatusCode)
 				}
 			}
