@@ -228,7 +228,7 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 				http.Error(w, "Order unavailable", http.StatusConflict)
 				return
 			}
-			s.saveShopOrder(w, r, b, u, settings, lines, receipt, quote)
+			s.saveShopOrder(w, r, b, u, settings, lines, receipt, shopOrderRecord{Currency: currency, NetMinor: net, VATMinor: vat, TotalMinor: total}, quote)
 			return
 		}
 		if canReview {

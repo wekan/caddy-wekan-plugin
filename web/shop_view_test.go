@@ -144,7 +144,8 @@ func TestShopBoardView(t *testing.T) {
 	if strings.Contains(page, `name="quote"`) {
 		t.Fatal("checkout accepted a tracked product before stock updates were available")
 	}
-	update("cards", b.Card, bson.M{"customFields": bson.A{bson.M{"_id": priceID, "value": "12,50"}}})
+	update("customFields", skuID, bson.M{"adminOnly": false})
+	update("cards", b.Card, bson.M{"customFields": bson.A{bson.M{"_id": priceID, "value": "12,50"}, bson.M{"_id": skuID, "value": "TEST-SKU"}}})
 	update("boards", b.ID, bson.M{
 		"shopSettings.vatPercent": 25,
 		"shopSettings.paymentMethods": bson.A{
@@ -202,10 +203,23 @@ func TestShopBoardView(t *testing.T) {
 		!strings.Contains(messages[0], "Pay <online>") || !strings.Contains(messages[0], "Account fixture") || !strings.Contains(messages[0], "Pay at pickup") || !strings.Contains(messages[0], "Present your voucher") || !strings.Contains(messages[0], "https://paypal.me/TestSeller/25.00EUR") || !strings.Contains(messages[0], "20.00 EUR") || !strings.Contains(messages[0], " 5.00 EUR") || !strings.Contains(messages[0], "25.00 EUR") || strings.Contains(messages[0], "Delivery Lane") {
 		t.Fatalf("expected one order receipt containing the total, without the address: %d messages", len(messages))
 	}
-	var saved Card
+	var saved struct {
+		Card      `bson:",inline"`
+		Order     shopOrderRecord `bson:"shopOrder"`
+		Reference string          `bson:"shopPaymentReference"`
+	}
 	if err := w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": orders.ID,
 		"title": bson.M{"$regex": "^Order "}}).Decode(&saved); err != nil {
 		t.Fatal(err)
+	}
+	if saved.Order.Currency != "EUR" || saved.Order.NetMinor != 2000 || saved.Order.VATMinor != 500 ||
+		saved.Order.TotalMinor != 2500 || len(saved.Order.Lines) != 1 {
+		t.Fatalf("incorrect saved amounts: %+v", saved.Order)
+	}
+	line := saved.Order.Lines[0]
+	if line.CardID != b.Card || line.Title != "Listed product" || line.SKU != "TEST-SKU" || line.Quantity != 2 || line.UnitMinor != 1250 || line.LineMinor != 2500 ||
+		saved.Reference == "" || !strings.Contains(saved.Description, saved.Reference) {
+		t.Fatalf("incorrect saved line or reference: %+v, %q", line, saved.Reference)
 	}
 	for _, text := range []string{" 20.00 EUR", " 5.00 EUR", " 25.00 EUR", "+358 123", "    1 Delivery Lane\n    Second floor", "    ![literal]"} {
 		if !strings.Contains(saved.Description, text) {

@@ -13,9 +13,10 @@ import (
 )
 
 type shopCartLine struct {
-	ID, Title, Unit, Total    string
-	Quantity, Stock           int
-	Unavailable, StockTracked bool
+	ID, Title, Unit, Total, SKU string
+	UnitMinor, LineMinor        int64
+	Quantity, Stock             int
+	Unavailable, StockTracked   bool
 }
 
 func shopCartLocation(b *Board) string {
@@ -106,7 +107,7 @@ func shopCartQuote(products []shopProduct, quantities map[string]int, currency s
 		qty := quantities[id]
 		product, live := byID[id]
 		line := shopCartLine{ID: id, Quantity: qty, Stock: product.Stock,
-			Unavailable: !live || qty > product.Stock, StockTracked: product.StockTracked, Title: product.Title, Unit: product.Price}
+			Unavailable: !live || qty > product.Stock, StockTracked: product.StockTracked, Title: product.Title, Unit: product.Price, SKU: product.SKU}
 		if live {
 			if qty < 1 || product.Minor > (9007199254740991-sum)/int64(qty) {
 				line.Unavailable = true
@@ -115,6 +116,7 @@ func shopCartQuote(products []shopProduct, quantities map[string]int, currency s
 			if !line.Unavailable {
 				total := int64(qty) * product.Minor
 				line.Total = shopMoney(total, digits, currency)
+				line.UnitMinor, line.LineMinor = product.Minor, total
 				sum += total
 			}
 		}

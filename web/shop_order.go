@@ -23,7 +23,7 @@ import (
 func shopOrderQuote(board string, lines []shopCartLine, total int64, currency string, settings bson.M) string {
 	values := make([][]any, 0, len(lines))
 	for _, line := range lines {
-		values = append(values, []any{line.ID, line.Title, line.Quantity, line.Unit})
+		values = append(values, []any{line.ID, line.Title, line.SKU, line.Quantity, line.Unit})
 	}
 	encoded, _ := json.Marshal([]any{board, values, total, currency, settings["ordersBoardId"], settings["ordersListId"], settings["termsUrl"], settings["vatPercent"], settings["pricesIncludeVat"]})
 	return fmt.Sprintf("%x", sha256.Sum256(encoded))
@@ -153,6 +153,23 @@ func shopManualInstructions(settings bson.M, lang string) []shopInstructions {
 	return instructions
 }
 
+type shopOrderLine struct {
+	CardID    string `bson:"cardId"`
+	Title     string `bson:"title"`
+	SKU       string `bson:"sku"`
+	Quantity  int    `bson:"quantity"`
+	UnitMinor int64  `bson:"unitMinor"`
+	LineMinor int64  `bson:"lineMinor"`
+}
+
+type shopOrderRecord struct {
+	Currency   string          `bson:"currency"`
+	NetMinor   int64           `bson:"netMinor"`
+	VATMinor   int64           `bson:"vatMinor"`
+	TotalMinor int64           `bson:"totalMinor"`
+	Lines      []shopOrderLine `bson:"lines"`
+}
+
 type shopReceipt struct {
 	Total, Reference, Payment, PayPal string
 	PaymentLabel                      string
@@ -268,7 +285,7 @@ func writeShopOrderText(builder *strings.Builder, value string) {
 	}
 }
 
-func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Board, u *User, settings bson.M, lines []shopCartLine, receipt shopReceipt, quote string) {
+func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Board, u *User, settings bson.M, lines []shopCartLine, receipt shopReceipt, record shopOrderRecord, quote string) {
 	total := receipt.Total
 	lang := languageOf(r, u).Tag
 	if r.PostForm.Get("quote") != quote {
@@ -337,6 +354,9 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		Members: []string{}, Assignees: []string{}, LabelIDs: []string{}, CardNumber: number, CreatedAt: time.Now().UTC(),
 		Sort: s.nextSort(ctx, "cards", bson.M{"boardId": eq(boardID), "listId": eq(listID), "swimlaneId": eq(swimlane)})}
 	reference := shopReference(card.CreatedAt.Year(), number, strOf(settings["referenceType"]))
+	if reference != "" {
+		card.Description += tr(lang, msg("billing-reference")) + ": " + reference + "\n"
+	}
 	amount, currency, _ := strings.Cut(total, " ")
 	_, method := shopMethod(shopPaymentMethods(settings), "link")
 	_, paypalMethod := shopMethod(shopPaymentMethods(settings), "paypal")
@@ -346,12 +366,20 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	receipt.Reference = reference
 	receipt.Payment, receipt.PaymentLabel = payment, strOf(method["label"])
 	receipt.PayPal, receipt.Instructions = paypal, instructions
+	record.Lines = make([]shopOrderLine, 0, len(lines))
+	for _, line := range lines {
+		record.Lines = append(record.Lines, shopOrderLine{
+			CardID: line.ID, Title: line.Title, SKU: line.SKU, Quantity: line.Quantity,
+			UnitMinor: line.UnitMinor, LineMinor: line.LineMinor,
+		})
+	}
 	order := struct {
 		Card      `bson:",inline"`
-		Reference string      `bson:"shopPaymentReference"`
-		Receipt   shopReceipt `bson:"shopReceipt"`
-		Digest    string      `bson:"shopSubmissionDigest"`
-	}{card, reference, receipt, shopSubmissionDigest(r, u)}
+		Reference string          `bson:"shopPaymentReference"`
+		Receipt   shopReceipt     `bson:"shopReceipt"`
+		Digest    string          `bson:"shopSubmissionDigest"`
+		Order     shopOrderRecord `bson:"shopOrder"`
+	}{card, reference, receipt, shopSubmissionDigest(r, u), record}
 	_, err = s.db.Collection("cards").InsertOne(ctx, order)
 	created := err == nil
 	if mongo.IsDuplicateKeyError(err) {
