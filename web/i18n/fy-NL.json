@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP Limit bewurkje",
   "enable-wip-limit": "WIP Limit ynskeakelje",
   "soft-wip-limit": "Sêfte WIP-limyt",
-  "move-reason": "Kaart ferpleatse — Beskriuwing"
+  "move-reason": "Kaart ferpleatse — Beskriuwing",
+  "auto-archive-days": "Argivearje kaarten nei safolle dagen sûnder aktiviteit",
+  "auto-archive-off": "Ut",
+  "auto-archive-hint": "Wurdt elk oere kontrolearre. In kaart telt as aktyf as er wizige wurdt; sjabloanen wurde nea argivearre. Lit leech om dit út te skeakeljen."
 }

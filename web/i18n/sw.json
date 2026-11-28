@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Badilisha Kikomo cha WIP",
   "enable-wip-limit": "Washa Kikomo cha WIP",
   "soft-wip-limit": "Kikomo Laini cha WIP",
-  "move-reason": "Hamisha Kadi — Maelezo"
+  "move-reason": "Hamisha Kadi — Maelezo",
+  "auto-archive-days": "Weka kadi kwenye kumbukumbu baada ya siku hizi bila shughuli",
+  "auto-archive-off": "Imezimwa",
+  "auto-archive-hint": "Huangaliwa kila saa. Kadi huhesabiwa kuwa hai kila inapobadilishwa; violezo haviwekwi kamwe kwenye kumbukumbu. Acha tupu ili kuzima."
 }

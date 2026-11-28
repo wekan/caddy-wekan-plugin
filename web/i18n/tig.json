@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "ደረት WIP አስነ",
   "enable-wip-limit": "ደረት WIP ፍቐድ",
   "soft-wip-limit": "ልስሉስ ደረት WIP",
-  "move-reason": "ወረቀት ካርድ ኣንቀሳቕስ — ዋስፎ"
+  "move-reason": "ወረቀት ካርድ ኣንቀሳቕስ — ዋስፎ",
+  "auto-archive-days": "ካርዳት ምን ለእሊ ዕደት አምዕል ብላ ሐረከት ሐልፈው እት መሕፈዝ አትሐዞም",
+  "auto-archive-off": "ዐጡል",
+  "auto-archive-hint": "እት ኩል ሰዐት ይትፈተሽ። ወረቀት ካርድ ወቅት ለትቀየር ሐረከት ብታ ተትሐሰብ፤ ሞደላት እት መሕፈዝ አበደን ኢትትሐዝ። ምስል ትዐጥሎ ፋርግ ሕድጎ።"
 }

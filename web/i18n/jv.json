@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Owahi Wates WIP",
   "enable-wip-limit": "Aktifake Wates WIP",
   "soft-wip-limit": "Wates WIP Alus",
-  "move-reason": "Pindhah kertu — Katrangan"
+  "move-reason": "Pindhah kertu — Katrangan",
+  "auto-archive-days": "Arsipake kertu sawise ora ana kegiatan nganti pirang dina iki",
+  "auto-archive-off": "Mati",
+  "auto-archive-hint": "Dipriksa saben jam. Kertu dianggep aktif saben ana owah-owahan; cithakan ora tau diarsipake. Kosongake kanggo mateni."
 }

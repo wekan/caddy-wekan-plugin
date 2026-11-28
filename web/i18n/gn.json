@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Embosako'i WIP paha",
   "enable-wip-limit": "Emyendy WIP paha",
   "soft-wip-limit": "WIP paha kangy",
-  "move-reason": "Emyanda kuatia'i — Ñemombe'u"
+  "move-reason": "Emyanda kuatia'i — Ñemombe'u",
+  "auto-archive-days": "Emondo kuatia'i ñongatuhápe ohasa rire ko'ã ára tembiapo'ỹre",
+  "auto-archive-off": "Ogue",
+  "auto-archive-hint": "Ojehecha aravo jave. Kuatia'i oñemoambue jave ojeipapáma omba'apóva ramo; ta'ãngarã araka'eve ndojeguerahái ñongatuhápe. Eheja nandi embogue hag̃ua."
 }

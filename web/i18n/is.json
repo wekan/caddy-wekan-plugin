@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Breyta WIP-mörkum",
   "enable-wip-limit": "Virkja WIP-mörk",
   "soft-wip-limit": "Mjúk WIP-mörk",
-  "move-reason": "Færa spjald — Lýsing"
+  "move-reason": "Færa spjald — Lýsing",
+  "auto-archive-days": "Setja spjöld í safn eftir þennan fjölda daga án virkni",
+  "auto-archive-off": "Slökkt",
+  "auto-archive-hint": "Athugað á klukkustundar fresti. Spjald telst virkt í hvert sinn sem því er breytt; sniðmát eru aldrei sett í safn. Hafðu reitinn auðan til að slökkva."
 }

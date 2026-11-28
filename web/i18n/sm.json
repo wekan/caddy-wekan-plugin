@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Teuteu le Tapulaa WIP",
   "enable-wip-limit": "Faaola le Tapulaa WIP",
   "soft-wip-limit": "Tapulaa WIP Faamalū",
-  "move-reason": "Sii le pepa — Faamatalaga"
+  "move-reason": "Sii le pepa — Faamatalaga",
+  "auto-archive-days": "Teu pepa pe a mavae le aofaʻi lenei o aso e leai se gaoioiga",
+  "auto-archive-off": "Tape",
+  "auto-archive-hint": "E siaki i itula taʻitasi. E faitauina le pepa o loo galue i taimi uma e suia ai; e lē teuina lava mamanu. Tuʻu le avanoa e leai se mea e tape ai."
 }

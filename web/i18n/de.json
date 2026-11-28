@@ -1947,5 +1947,8 @@
   "edit-wip-limit": "WIP-Limit bearbeiten",
   "enable-wip-limit": "WIP-Limit einschalten",
   "soft-wip-limit": "Soft WIP-Limit",
-  "move-reason": "Karte verschieben — Beschreibung"
+  "move-reason": "Karte verschieben — Beschreibung",
+  "auto-archive-days": "Karten nach so vielen Tagen ohne Aktivität archivieren",
+  "auto-archive-off": "Aus",
+  "auto-archive-hint": "Wird stündlich geprüft. Jede Änderung einer Karte zählt als Aktivität; Vorlagen werden nie archiviert. Zum Ausschalten leer lassen."
 }

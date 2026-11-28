@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Khwinisa mukano wa WIP",
   "enable-wip-limit": "Tendela mukano wa WIP",
   "soft-wip-limit": "Mukano wa WIP u sa kombetshedzi",
-  "move-reason": "Tshiitisi tsha u pfulusa (a zwi kombetshedzwi)"
+  "move-reason": "Tshiitisi tsha u pfulusa (a zwi kombetshedzwi)",
+  "auto-archive-days": "Isani garaṱa fhethu ha u vhulunga nga murahu ha maḓuvha mangafha hu si na mushumo",
+  "auto-archive-off": "Zwo dzimwa",
+  "auto-archive-hint": "Hu ṱolwa awara iṅwe na iṅwe. Garaṱa i dzhiiwa sa ine ya khou shumiswa musi i tshi shandulwa; themphuleithi a dzi iswi fhethu ha u vhulunga na luthihi. Siyani hu si na tshithu u zwi dzima."
 }

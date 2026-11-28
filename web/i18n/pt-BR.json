@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Editar Limite WIP",
   "enable-wip-limit": "Habilitar Limite WIP",
   "soft-wip-limit": "Limite de WIP",
-  "move-reason": "Mover Cartão — Descrição"
+  "move-reason": "Mover Cartão — Descrição",
+  "auto-archive-days": "Arquivar cartões após este número de dias sem atividade",
+  "auto-archive-off": "Desativado",
+  "auto-archive-hint": "Verificado a cada hora. Qualquer alteração em um cartão conta como atividade; os modelos nunca são arquivados. Deixe vazio para desativar."
 }

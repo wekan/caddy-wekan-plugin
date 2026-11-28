@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Veisautaka na iYalayala WIP",
   "enable-wip-limit": "Vakatara na iYalayala WIP",
   "soft-wip-limit": "iYalayala WIP Vakamalua",
-  "move-reason": "Toso na kadi — Vakamacala"
+  "move-reason": "Toso na kadi — Vakamacala",
+  "auto-archive-days": "Maroroya na kadi ni sa oti na iwiliwili ni siga oqo ka sega ni dua na cakacaka",
+  "auto-archive-off": "Boko",
+  "auto-archive-hint": "E dikevi ena veiauwa. E okati me cakacaka tiko na kadi ena veigauna e veisautaki kina; e sega ni maroroi vakadua na ivakarau vakarautaki. Laiva me lala me bokoci kina oqo."
 }

@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Upravit WIP Limit",
   "enable-wip-limit": "Povolit WIP Limit",
   "soft-wip-limit": "Mírný WIP limit",
-  "move-reason": "Přesunout kartu — Popis"
+  "move-reason": "Přesunout kartu — Popis",
+  "auto-archive-days": "Archivovat karty po tomto počtu dní bez aktivity",
+  "auto-archive-off": "Vypnuto",
+  "auto-archive-hint": "Kontroluje se každou hodinu. Každá změna karty se počítá jako aktivita; šablony se nikdy nearchivují. Pro vypnutí ponechte prázdné."
 }

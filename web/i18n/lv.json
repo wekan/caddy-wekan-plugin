@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Labot WIP limitu",
   "enable-wip-limit": "Ieslēgt WIP limitu",
   "soft-wip-limit": "Maigais WIP limits",
-  "move-reason": "Pārvietot kartiņu — Apraksts"
+  "move-reason": "Pārvietot kartiņu — Apraksts",
+  "auto-archive-days": "Arhivēt kartiņas pēc šāda dienu skaita bez aktivitātes",
+  "auto-archive-off": "Izslēgts",
+  "auto-archive-hint": "Pārbaude notiek katru stundu. Kartiņa tiek uzskatīta par aktīvu ikreiz, kad tā tiek mainīta; veidnes nekad netiek arhivētas. Atstājiet tukšu, lai izslēgtu."
 }

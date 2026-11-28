@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Cambiar el límite d'o trabajo en proceso",
   "enable-wip-limit": "Habilitar el límite d'o trabajo en proceso",
   "soft-wip-limit": "Límite d'o trabajo en proceso flexible",
-  "move-reason": "Mover a tarcheta — Descripción"
+  "move-reason": "Mover a tarcheta — Descripción",
+  "auto-archive-days": "Archivar as tarchetas dimpués d'iste numero de días sin actividat",
+  "auto-archive-off": "Desactivau",
+  "auto-archive-hint": "Se compreba cada hora. Una tarcheta cuenta como activa quan se cambia; as plantillas nunca no s'archivan. Deixa-lo vuedo ta desactivar-lo."
 }

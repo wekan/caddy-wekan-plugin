@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Ubah Bataih WIP",
   "enable-wip-limit": "Peuhidôp Bataih WIP",
   "soft-wip-limit": "Bataih Leumoh WIP",
-  "move-reason": "Sabab pinah (hana wajéb)"
+  "move-reason": "Sabab pinah (hana wajéb)",
+  "auto-archive-days": "Keubah kad bak arsip lheueh uroe saboh bilangan nyoe hana keugiatan",
+  "auto-archive-off": "Matê",
+  "auto-archive-hint": "Dipeureksa tiep jeum. Kartu dianggab na keugiatan meunyo diubah; klise hana tom dipeusimpan bak arsip. Peubiyeu soh keu peumatê."
 }

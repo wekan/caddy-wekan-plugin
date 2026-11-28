@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Ovay ny fetra WIP",
   "enable-wip-limit": "Alefaso ny fetra WIP",
   "soft-wip-limit": "Fetra WIP malefaka",
-  "move-reason": "Antony famindrana (tsy voatery)"
+  "move-reason": "Antony famindrana (tsy voatery)",
+  "auto-archive-days": "Alefaso any amin'ny arisiva ny karatra rehefa tsy misy hetsika mandritra ny isan'ny andro voafaritra",
+  "auto-archive-off": "Tsy mandeha",
+  "auto-archive-hint": "Hamarinina isan'ora. Heverina ho mavitrika ny karatra isaky ny ovaina; tsy alefa any amin'ny arisiva mihitsy ny môdely. Avelao ho banga mba hampitsaharana azy."
 }

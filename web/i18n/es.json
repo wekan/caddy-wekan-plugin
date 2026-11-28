@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Cambiar el límite del trabajo en proceso",
   "enable-wip-limit": "Habilitar el límite del trabajo en proceso",
   "soft-wip-limit": "Límite del trabajo en proceso flexible",
-  "move-reason": "Mover la tarjeta — Descripción"
+  "move-reason": "Mover la tarjeta — Descripción",
+  "auto-archive-days": "Archivar tarjetas después de este número de días sin actividad",
+  "auto-archive-off": "Desactivado",
+  "auto-archive-hint": "Se comprueba cada hora. Cualquier cambio en una tarjeta cuenta como actividad; las plantillas nunca se archivan. Déjalo vacío para desactivarlo."
 }

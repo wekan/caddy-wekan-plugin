@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Chanjya fin WIP",
   "enable-wip-limit": "Ena fin WIP",
   "soft-wip-limit": "Fin WIP medhel",
-  "move-reason": "Gwaya an garten — Deskrifans"
+  "move-reason": "Gwaya an garten — Deskrifans",
+  "auto-archive-days": "Gwaya kartennow dhe'n kovskrifva wosa an niver ma a dhedhyow heb aktivita",
+  "auto-archive-off": "Marow",
+  "auto-archive-hint": "Gwirys pub eur. Karten yw gweythresek pan vo hi chanjys; patronyow ny vydh byth gwayys dhe'n kovskrifva. Gesewgh an maes gwag rag y dhiskweredha."
 }

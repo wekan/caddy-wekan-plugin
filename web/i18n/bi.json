@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Jenisim Limit blong WIP",
   "enable-wip-limit": "Mekem Limit blong WIP i wok",
   "soft-wip-limit": "Limit blong wok we i stap gohed we i givim woning nomo",
-  "move-reason": "Muvum kad — Stori"
+  "move-reason": "Muvum kad — Stori",
+  "auto-archive-days": "Putum ol kad long stoa afta long namba blong dei ia we i no gat jenis",
+  "auto-archive-off": "Of",
+  "auto-archive-hint": "Hem i jekem evri aoa. Taem wan kad i jenis, hem i kaont olsem kad we i gat aktiviti; ol templet oli neva go long stoa. Livim bokis i emti blong stopem hem."
 }

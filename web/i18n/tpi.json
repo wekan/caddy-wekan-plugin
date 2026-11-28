@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Senisim mak bilong WIP",
   "enable-wip-limit": "Larim mak bilong WIP i wok",
   "soft-wip-limit": "Mak bilong WIP i givim tok lukaut tasol",
-  "move-reason": "As bilong muvim (i no mas putim)"
+  "move-reason": "As bilong muvim (i no mas putim)",
+  "auto-archive-days": "Putim ol kat long stua bihain long dispela hamas de i no gat senis",
+  "auto-archive-off": "Pas",
+  "auto-archive-hint": "Em i sekim olgeta aua. Taim wanpela kat i senis, em i kaun olsem kat i gat wok; em i no save putim ol templet long stua. Larim bokis i stap nating bilong stopim dispela."
 }

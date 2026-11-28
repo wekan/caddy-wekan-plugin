@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Modifitgar la limita WIP",
   "enable-wip-limit": "Activar la limita WIP",
   "soft-wip-limit": "Limita WIP flexibla",
-  "move-reason": "Motiv dal spustament (facultativ)"
+  "move-reason": "Motiv dal spustament (facultativ)",
+  "auto-archive-days": "Archivar cartas suenter quest dumber da dis senza activitad",
+  "auto-archive-off": "Deactivà",
+  "auto-archive-hint": "Vegn controllà mintga ura. Ina carta vala sco activa mintga giada ch’ella vegn midada; models na vegnan mai archivads. Laschar vid per deactivar."
 }

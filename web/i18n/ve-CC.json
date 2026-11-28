@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Canbia el łimite WIP",
   "enable-wip-limit": "Ativa el łimite WIP",
   "soft-wip-limit": "Łimite WIP no vincołante",
-  "move-reason": "Motivo del spostamento (facoltativo)"
+  "move-reason": "Motivo del spostamento (facoltativo)",
+  "auto-archive-days": "Sposta łe schede inte l’archivio dopo sti dì sensa atività",
+  "auto-archive-off": "Desativà",
+  "auto-archive-hint": "Controłà ogni ora. Na scheda ła xe considerà ativa ogni volta che ła vien canbià; i modełi no i vien mai archiviài. Lassa vodo par desativar."
 }

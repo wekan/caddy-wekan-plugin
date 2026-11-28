@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Sesa WIP anohyeto",
   "enable-wip-limit": "Sɔ WIP anohyeto no",
   "soft-wip-limit": "Adwuma a ɛrekɔ so dodow ano a wubetumi atra",
-  "move-reason": "Fa kaad no kɔ baabi — Nkyerɛkyerɛmu"
+  "move-reason": "Fa kaad no kɔ baabi — Nkyerɛkyerɛmu",
+  "auto-archive-days": "Fa kaad kɔ adekorabea bere a ayɛ nna dodow yi a dwumadi biara nni so",
+  "auto-archive-off": "Adum",
+  "auto-archive-hint": "Wɔhwɛ mu dɔnhwere biara. Sɛ wɔsesa kaad bi a, wɔbu no sɛ ɛreyɛ adwuma; wɔmfa nhwɛsoɔ nkɔ adekorabea da. Gya hɔ kwa na adum."
 }

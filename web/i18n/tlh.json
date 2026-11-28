@@ -1945,5 +1945,8 @@
   "edit-wip-limit": "WIP 'aqroS choH",
   "enable-wip-limit": "WIP 'aqroS chu'",
   "soft-wip-limit": "Qu'mey 'aqroS ghuH neH",
-  "move-reason": "'echletHom vIHmoH — QIjmeH De'"
+  "move-reason": "'echletHom vIHmoH — QIjmeH De'",
+  "auto-archive-days": "choHbe'taHvIS 'echletHom, rInDI' jajmeyvam, polmeH DaqDaq yIvIHmoH",
+  "auto-archive-off": "Qotlhlu'",
+  "auto-archive-hint": "Hoch rep nuDlu'. 'echletHom choHlu'DI', vangtaH 'e' qellu'; not chenmoHmeH ghantoHmey polmeH DaqDaq vIHmoHlu'. DaQotlhmeH, chImmoH."
 }

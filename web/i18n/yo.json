@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Ṣatunkọ WIP iye to",
   "enable-wip-limit": "Mu Iwọn WIP ṣiṣẹ",
   "soft-wip-limit": "Asọ WIP iye to",
-  "move-reason": "Gbe Kaadi — Apejuwe"
+  "move-reason": "Gbe Kaadi — Apejuwe",
+  "auto-archive-days": "Fi àwọn káàdì sí ibi ìpamọ́ lẹ́yìn iye ọjọ́ yìí láìsí ìgbésẹ̀ kankan",
+  "auto-archive-off": "Pípa",
+  "auto-archive-hint": "A máa ń ṣàyẹ̀wò ní gbogbo wákàtí. Káàdì kan ní ìgbésẹ̀ nígbàkigbà tí a bá yí i padà; a kì í fi àwọn àwòṣe sí ibi ìpamọ́ láé. Fi sílẹ̀ ní òfo láti pa á."
 }

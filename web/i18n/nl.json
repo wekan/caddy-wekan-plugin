@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Wijzig WIP limiet",
   "enable-wip-limit": "Activeer WIP limiet",
   "soft-wip-limit": "Zachte WIP limiet",
-  "move-reason": "Verplaats kaart — Beschrijving"
+  "move-reason": "Verplaats kaart — Beschrijving",
+  "auto-archive-days": "Archiveer kaarten na dit aantal dagen zonder activiteit",
+  "auto-archive-off": "Uit",
+  "auto-archive-hint": "Wordt elk uur gecontroleerd. Elke wijziging aan een kaart telt als activiteit; sjablonen worden nooit gearchiveerd. Laat leeg om dit uit te schakelen."
 }

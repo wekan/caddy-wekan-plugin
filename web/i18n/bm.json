@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP dantigɛ yɛlɛma",
   "enable-wip-limit": "WIP dantigɛ da",
   "soft-wip-limit": "WIP dantigɛ nɔgɔman",
-  "move-reason": "Karti bila yɔrɔ wɛrɛ — Ɲɛfɔli"
+  "move-reason": "Karti bila yɔrɔ wɛrɛ — Ɲɛfɔli",
+  "auto-archive-days": "Karti bila marayɔrɔ la ni don hakɛ nin tɛmɛna kɛwaleya tɛ a kan",
+  "auto-archive-off": "A dabɔlen",
+  "auto-archive-hint": "A bɛ lajɛ lɛrɛ o lɛrɛ. Ni karti yɛlɛmana, a bɛ jate i n’a fɔ kɛwaleya bɛ a kan; misaliw tɛ bila marayɔrɔ la abada. A to lankolon walasa k’a dabɔ."
 }

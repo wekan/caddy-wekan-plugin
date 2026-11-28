@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Uredi omejitev št. kartic",
   "enable-wip-limit": "Vklopi omejitev št. kartic",
   "soft-wip-limit": "Omehčaj omejitev št. kartic",
-  "move-reason": "Premakni kartico — Opis"
+  "move-reason": "Premakni kartico — Opis",
+  "auto-archive-days": "Arhiviraj kartice po toliko dneh brez dejavnosti",
+  "auto-archive-off": "Izklopljeno",
+  "auto-archive-hint": "Preverjanje poteka vsako uro. Kartica se šteje za dejavno ob vsaki spremembi; predloge se nikoli ne arhivirajo. Za izklop pustite prazno."
 }

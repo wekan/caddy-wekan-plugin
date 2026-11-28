@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Ubah Had WIP",
   "enable-wip-limit": "Hidupkan Had WIP",
   "soft-wip-limit": "Ubah Had Lembut WIP",
-  "move-reason": "Pindah Kad — Penerangan"
+  "move-reason": "Pindah Kad — Penerangan",
+  "auto-archive-days": "Arkibkan kad selepas bilangan hari tanpa aktiviti ini",
+  "auto-archive-off": "Dimatikan",
+  "auto-archive-hint": "Disemak setiap jam. Kad dianggap aktif setiap kali diubah; templat tidak pernah diarkibkan. Biarkan kosong untuk mematikannya."
 }

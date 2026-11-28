@@ -1285,6 +1285,36 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       },
     };
   }
+  // Save this board setting on change without replacing the open menu.
+  var autoArchiveWrites = new Map();
+  up.on('change', '.js-auto-archive-days', function (event, input) {
+    var form = input.form;
+    var previous = autoArchiveWrites.get(form.action) || Promise.resolve();
+    var warning = form.querySelector('.js-auto-archive-error');
+    var value = input.valueAsNumber;
+    var days = Number.isInteger(value) && value >= 1 && value <= 3650 ? String(value) : '';
+    input.value = days;
+    warning.hidden = true;
+    var write = previous.then(function () {
+      return fetch(form.action, {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: new URLSearchParams({ days: days })
+      }).then(function (response) {
+        if (!response.ok) throw new Error('Could not save');
+        input.defaultValue = days;
+      }).catch(function () {
+        if (autoArchiveWrites.get(form.action) === write) {
+          input.value = input.defaultValue;
+          warning.hidden = false;
+        }
+      });
+    });
+    autoArchiveWrites.set(form.action, write);
+    write.then(function () {
+      if (autoArchiveWrites.get(form.action) === write) autoArchiveWrites.delete(form.action);
+    });
+  });
   // Board Settings / Swimlane and List (WeKan's boardSwimlaneSettingsPopup,
   // boardListSettingsPopup).
   up.on('click', '.js-open-board-swimlane-settings', function (event) { event.preventDefault(); openPopOver('board-swimlane-settings'); });

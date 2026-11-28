@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Wax ka beddel Xadka WIP",
   "enable-wip-limit": "Awood sii Xadka WIP",
   "soft-wip-limit": "Xadka WIP Jilicsan",
-  "move-reason": "U wareeji kaarka — Sharaxaad"
+  "move-reason": "U wareeji kaarka — Sharaxaad",
+  "auto-archive-days": "Kaararka kaydi marka maalmahan oo dhan aan wax laga beddelin",
+  "auto-archive-off": "Dansan",
+  "auto-archive-hint": "Saacad kasta ayaa la hubiyaa. Kaarka waxaa loo tixgeliyaa mid firfircoon mar kasta oo wax laga beddelo; qaababka diyaarka ah waligood lama kaydiyo. Meesha bannaan ka dhig si aad u damiso."
 }

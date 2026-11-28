@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Redakön miedi WIP",
   "enable-wip-limit": "Aktivükön miedi WIP",
   "soft-wip-limit": "Mied WIP molik",
-  "move-reason": "Kod mufa (no zesüdik)"
+  "move-reason": "Kod mufa (no zesüdik)",
+  "auto-archive-days": "Ragivön kadis pos delanum at nen dunöf",
+  "auto-archive-off": "Deaktivüköl",
+  "auto-archive-hint": "Pacekon a düp. Kad pakonsidon jäfik ven pavotükon; rots neai paragivons. Dakipön vagik ad deaktivükön."
 }

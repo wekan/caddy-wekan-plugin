@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Xicpatla WIP nepantlaliztli",
   "enable-wip-limit": "Xicpatlahua WIP nepantlaliztli",
   "soft-wip-limit": "Yolic WIP nepantlaliztli",
-  "move-reason": "Xicolini amatlapalli — Tlahtolli"
+  "move-reason": "Xicolini amatlapalli — Tlahtolli",
+  "auto-archive-days": "Xiquinhuica amatlapaltin pixcalco ihcuac panohqueh inin quezqui tonaltin huan amo itlah mochihua",
+  "auto-archive-off": "Amo tequiti",
+  "auto-archive-hint": "Moitta cece hora. Ihcuac mopatla amatlapalli, motlapohua quen tequiti; neixcuitiltin ayic mohuicah pixcalco. Xiccahua amo itlah ipan inic amo ma tequiti."
 }

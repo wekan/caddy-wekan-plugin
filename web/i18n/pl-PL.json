@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Zmień limit kart na liście",
   "enable-wip-limit": "Włącz limit kart na liście",
   "soft-wip-limit": "Pozwól na nadmiarowe karty na liście",
-  "move-reason": "Przenieś kartę — Opis"
+  "move-reason": "Przenieś kartę — Opis",
+  "auto-archive-days": "Archiwizuj karty po tylu dniach bez aktywności",
+  "auto-archive-off": "Wyłączone",
+  "auto-archive-hint": "Sprawdzane co godzinę. Każda zmiana karty jest uznawana za aktywność; szablony nigdy nie są archiwizowane. Pozostaw puste, aby wyłączyć."
 }

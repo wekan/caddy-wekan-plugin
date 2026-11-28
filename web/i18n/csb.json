@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Editëjë ògrańczenié WIP",
   "enable-wip-limit": "Włączë ògrańczenié WIP",
   "soft-wip-limit": "Miãczczé ògrańczenié WIP",
-  "move-reason": "Przeniesc kôrtã — Òpisënk"
+  "move-reason": "Przeniesc kôrtã — Òpisënk",
+  "auto-archive-days": "Archiwizùjë kôrtë pò telë dniach bez aktiwnoscë",
+  "auto-archive-off": "Wëłączoné",
+  "auto-archive-hint": "Sprôwdzóné kòżdą gòdzënã. Kôrta je aktiwnô, czedë je zmieniwónô; szablónë nigdë nie są archiwizowóné. Òstawi pùsté, żebë wëłączëc."
 }

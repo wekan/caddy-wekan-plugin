@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Rulaganya moedi wa WIP",
   "enable-wip-limit": "Dumelela moedi wa WIP",
   "soft-wip-limit": "Moedi wa WIP wo bonolo",
-  "move-reason": "Šuthiša karata — Tlhalošo"
+  "move-reason": "Šuthiša karata — Tlhalošo",
+  "auto-archive-days": "Iša dikarata polokelong ka morago ga palo ye ya matšatši di sa šome",
+  "auto-archive-off": "E timilwe",
+  "auto-archive-hint": "E lekolwa iri ye nngwe le ye nngwe. Karata e tšewa e šoma nako le nako ge e fetolwa; dithempleite ga di išwe polokelong le ka mohla. Tlogela lefelo le se na selo go tima se."
 }

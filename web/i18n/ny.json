@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Sinthani Malire a WIP",
   "enable-wip-limit": "Yatsani Malire a WIP",
   "soft-wip-limit": "Malire Ofewa a WIP",
-  "move-reason": "Sunthirani khadi — Kufotokoza"
+  "move-reason": "Sunthirani khadi — Kufotokoza",
+  "auto-archive-days": "Sungani makhadi ku malo osungira patatha masiku ochuluka chonchi opanda zochitika",
+  "auto-archive-off": "Yazimitsidwa",
+  "auto-archive-hint": "Zimayang'aniridwa ola lililonse. Khadi limaonedwa kuti likugwira ntchito nthawi iliyonse likasinthidwa; ma template sasungidwa konse ku malo osungira. Siyani malo opanda kanthu kuti muzimitse izi."
 }

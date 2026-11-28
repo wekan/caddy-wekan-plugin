@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "I-edit an WIP Limit",
   "enable-wip-limit": "I-enable an WIP Limit",
   "soft-wip-limit": "Diri istrikto nga utlanan han nagpapadayon nga buruhaton",
-  "move-reason": "Ibalhin an Card — Deskripsyon"
+  "move-reason": "Ibalhin an Card — Deskripsyon",
+  "auto-archive-days": "Ibalhin an mga kard ngadto ha arkibo katapos hini kadamo nga adlaw nga waray aktibidad",
+  "auto-archive-off": "Nakapalong",
+  "auto-archive-hint": "Ginsususi kada oras. An kard gin-iihap nga aktibo kada pagbag-o hini; an mga padron diri gud iginbabalhin ngadto ha arkibo. Bayai nga waray sulod basi mapalong ini."
 }

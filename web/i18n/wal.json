@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP gaxaa laamma",
   "enable-wip-limit": "WIP gaxaa oottissa",
   "soft-wip-limit": "Shemppiya WIP gaxaa",
-  "move-reason": "Kaardiyaa laammissa — Qonccissuwaa"
+  "move-reason": "Kaardiyaa laammissa — Qonccissuwaa",
+  "auto-archive-days": "Ha qoodan de’iya gallassatun oosoi baynna kaardeta naago sohuwaa efa",
+  "auto-archive-off": "To’ettida",
+  "auto-archive-hint": "Saatiyaa ubban be’ettana. Kaardiyaa laammiyo wode oosoi de’iyagaadan qoodettana; leemisuwatu mulekka naago sohuwaa efettokkona. To’ana mala mela agga."
 }

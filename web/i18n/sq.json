@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Redakto kufirin WIP",
   "enable-wip-limit": "Aktivizo kufirin WIP",
   "soft-wip-limit": "Kufiri i butë WIP",
-  "move-reason": "Zhvendos kartën — Përshkrimi"
+  "move-reason": "Zhvendos kartën — Përshkrimi",
+  "auto-archive-days": "Arkivo kartat pas kaq ditësh pa veprimtari",
+  "auto-archive-off": "Çaktivizuar",
+  "auto-archive-hint": "Kontrollohet çdo orë. Një kartë quhet aktive sa herë ndryshohet; shabllonet nuk arkivohen kurrë. Lëre bosh për ta çaktivizuar."
 }

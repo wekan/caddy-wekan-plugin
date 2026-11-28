@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP-limit wobdźěłać",
   "enable-wip-limit": "WIP-limit zmóžnić",
   "soft-wip-limit": "Mjechki WIP-limit",
-  "move-reason": "Přičina přesunjenja (opcionalna)"
+  "move-reason": "Přičina přesunjenja (opcionalna)",
+  "auto-archive-days": "Karty po tak wjele dnjach bjez aktiwity archiwować",
+  "auto-archive-off": "Wupinjene",
+  "auto-archive-hint": "Přepruwuje so kóždu hodźinu. Karta so při kóždej změnje jako aktiwna liči; předłohi so ženje njearchiwuja. Wostajće polo prózdne, zo byšće funkciju wupinył."
 }

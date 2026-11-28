@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Whakatika Tepe WIP",
   "enable-wip-limit": "Whakahohe Tepe WIP",
   "soft-wip-limit": "Tepe WIP Ngāwari",
-  "move-reason": "Nekehia te kāri — Whakaahuatanga"
+  "move-reason": "Nekehia te kāri — Whakaahuatanga",
+  "auto-archive-days": "Purangatia ngā kāri i muri i ēnei rā kāore he mahi",
+  "auto-archive-off": "Weto",
+  "auto-archive-hint": "Ka tirohia ia hāora. Ka kiia he hohe te kāri ina panonitia; kāore rawa ngā tātauira e purangatia. Waiho kia pātea hei whakaweto."
 }

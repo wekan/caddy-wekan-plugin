@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Modifică limita lucrărilor în curs",
   "enable-wip-limit": "Activează limita lucrărilor în curs",
   "soft-wip-limit": "Limită orientativă a lucrărilor în curs",
-  "move-reason": "Motivul mutării (opțional)"
+  "move-reason": "Motivul mutării (opțional)",
+  "auto-archive-days": "Arhivează cardurile după acest număr de zile fără activitate",
+  "auto-archive-off": "Dezactivat",
+  "auto-archive-hint": "Se verifică în fiecare oră. Orice modificare a unui card este considerată activitate; șabloanele nu sunt niciodată arhivate. Lăsați necompletat pentru dezactivare."
 }

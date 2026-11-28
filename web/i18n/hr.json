@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Uredi WIP ograničenje",
   "enable-wip-limit": "Omogući WIP ograničenje",
   "soft-wip-limit": "Meko WIP ograničenje",
-  "move-reason": "Razlog premještanja (neobvezno)"
+  "move-reason": "Razlog premještanja (neobvezno)",
+  "auto-archive-days": "Arhiviraj kartice nakon ovoliko dana bez aktivnosti",
+  "auto-archive-off": "Isključeno",
+  "auto-archive-hint": "Provjerava se svakog sata. Kartica se smatra aktivnom pri svakoj promjeni; predlošci se nikada ne arhiviraju. Za isključivanje ostavite prazno."
 }

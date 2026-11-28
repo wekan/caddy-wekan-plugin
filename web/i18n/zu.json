@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Hlela umkhawulo we-WIP",
   "enable-wip-limit": "Nika amandla umkhawulo we-WIP",
   "soft-wip-limit": "I-Soft WIP Umkhawulo",
-  "move-reason": "Hambisa Ikhadi — Incazelo"
+  "move-reason": "Hambisa Ikhadi — Incazelo",
+  "auto-archive-days": "Faka amakhadi kungobo yomlando ngemva kwalesi sibalo sezinsuku engasebenzi",
+  "auto-archive-off": "Kuvaliwe",
+  "auto-archive-hint": "Kuhlolwa njalo ngehora. Ikhadi libhekwa njengelisebenzayo njalo lapho lishintshwa; izifanekiso azifakwa neze kungobo yomlando. Shiya kungenalutho ukuze ukuvale."
 }

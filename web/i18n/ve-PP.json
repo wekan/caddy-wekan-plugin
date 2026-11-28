@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Vajehta WIP-röunad",
   "enable-wip-limit": "Avaida WIP-röun",
   "soft-wip-limit": "Pehmed WIP-röun",
-  "move-reason": "Sirdä kart — Kirjutuz"
+  "move-reason": "Sirdä kart — Kirjutuz",
+  "auto-archive-days": "Sirdä kartad arhivaha, konz ne oma olend ninda äi päiväd tegendoita",
+  "auto-archive-off": "Väljas",
+  "auto-archive-hint": "Tarkastadas joga čas. Kart lugedas aktivizeks joga kerd, konz se toižetadas; viliteziš ei nikonz sirdeta arhivaha. Jätä tühjaks, miše panda päs väl'lä."
 }

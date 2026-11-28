@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Redigeeri WIP limiiti",
   "enable-wip-limit": "WIP piirangu lubamine",
   "soft-wip-limit": "Pehme WIP limiit",
-  "move-reason": "Liikumiskaart — Kirjeldus"
+  "move-reason": "Liikumiskaart — Kirjeldus",
+  "auto-archive-days": "Arhiveeri kaardid pärast nii mitut tegevuseta päeva",
+  "auto-archive-off": "Väljas",
+  "auto-archive-hint": "Kontrollitakse iga tund. Kaardi iga muudatus loetakse tegevuseks; malle ei arhiveerita kunagi. Väljalülitamiseks jäta tühjaks."
 }

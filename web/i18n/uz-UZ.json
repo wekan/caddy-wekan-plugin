@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP chegarasini tahrirlash",
   "enable-wip-limit": "WIP chegarasini yoqing",
   "soft-wip-limit": "Yumshoq WIP chegarasi",
-  "move-reason": "Kartani ko'chirish — Tavsif"
+  "move-reason": "Kartani ko'chirish — Tavsif",
+  "auto-archive-days": "Shuncha kun faoliyatsiz qolgan kartalarni arxivlash",
+  "auto-archive-off": "Oʻchirilgan",
+  "auto-archive-hint": "Har soatda tekshiriladi. Karta har safar oʻzgartirilganda faol hisoblanadi; shablonlar hech qachon arxivlanmaydi. Oʻchirish uchun boʻsh qoldiring."
 }

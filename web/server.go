@@ -354,6 +354,7 @@ func (s *Server) routes() {
 	s.cardDateRoutes(m)
 	s.cardCustomFieldRoutes(m)
 	s.boardAnnouncementRoutes(m)
+	m.HandleFunc("POST /b/{board}/auto-archive", s.page(s.saveAutoArchiveDays))
 	m.HandleFunc("POST /b/{board}/cards/{card}/complete", s.page(s.cardCompletePage))
 	m.HandleFunc("POST /b/{board}/title", s.page(s.renameBoardPage))
 	m.HandleFunc("POST /b/{board}/restore", s.page(s.restoreBoardPage))
@@ -1032,6 +1033,9 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 	// cardSettingsInlinePanel: what is not a field), a board admin's to change.
 	var rawB bson.M
 	_ = s.db.Collection("boards").FindOne(r.Context(), bson.M{"_id": eq(b.ID)}).Decode(&rawB)
+	if days := autoArchiveDays(rawB["autoArchiveInactiveDays"]); days > 0 {
+		data["AutoArchiveDays"] = days
+	}
 	data["SettingsAdmin"] = b.AdminOf(u.ID) || u.IsAdmin
 	// Swimlane and list resizing (resize.go): the sizes, and the handles for
 	// whoever may use them - a list's for who may change the board, a

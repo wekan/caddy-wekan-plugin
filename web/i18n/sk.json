@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Upraviť WIP limit",
   "enable-wip-limit": "Povoliť WIP limit",
   "soft-wip-limit": "Mierny WIP limit",
-  "move-reason": "Dôvod presunu (nepovinné)"
+  "move-reason": "Dôvod presunu (nepovinné)",
+  "auto-archive-days": "Archivovať karty po tomto počte dní bez aktivity",
+  "auto-archive-off": "Vypnuté",
+  "auto-archive-hint": "Kontroluje sa každú hodinu. Každá zmena karty sa počíta ako aktivita; šablóny sa nikdy nearchivujú. Na vypnutie ponechajte prázdne."
 }

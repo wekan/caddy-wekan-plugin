@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Sînorê WIP biguherîne",
   "enable-wip-limit": "Sînorê WIP çalak bike",
   "soft-wip-limit": "Sînorê nerm ê WIP",
-  "move-reason": "Kartê bar bike — Danasîn"
+  "move-reason": "Kartê bar bike — Danasîn",
+  "auto-archive-days": "Piştî evqas rojan bê çalakî kartan arşîv bike",
+  "auto-archive-off": "Girtî",
+  "auto-archive-hint": "Her saet tê kontrolkirin. Dema ku kart tê guhertin, çalak tê hesibandin; şablon tu carî nayên arşîvkirin. Ji bo neçalakkirinê vala bihêle."
 }

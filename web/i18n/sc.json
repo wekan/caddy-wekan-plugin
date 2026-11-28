@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Modìfica su lìmite WIP",
   "enable-wip-limit": "Ativa su lìmite WIP",
   "soft-wip-limit": "Lìmite WIP lèbiu",
-  "move-reason": "Resone de su tramudu (optzionale)"
+  "move-reason": "Resone de su tramudu (optzionale)",
+  "auto-archive-days": "Archìvia is cartas a pustis de custu nùmeru de dies sena atividade",
+  "auto-archive-off": "Disativadu",
+  "auto-archive-hint": "Verificadu cada ora. Una carta est cunsiderada ativa cada borta chi est modificada; is modellos non sunt archiviados mai. Lassa bòidu pro disativare."
 }

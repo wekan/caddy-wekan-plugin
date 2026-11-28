@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Cancia limite Work In Progress",
   "enable-wip-limit": "Attiva lu limiti Work In Progress",
   "soft-wip-limit": "Limiti Work in progress lèggiu",
-  "move-reason": "Spusta la carta — Discrizzioni"
+  "move-reason": "Spusta la carta — Discrizzioni",
+  "auto-archive-days": "Archivia li carti doppu stu nùmmaru di jorna senza attività",
+  "auto-archive-off": "Disattivatu",
+  "auto-archive-hint": "Virificatu ogni ura. Na carta veni cunzidirata attiva ogni vota chi veni canciata; li mudelli nun vennu archiviati mai. Lassa vacanti pi disattivari."
 }

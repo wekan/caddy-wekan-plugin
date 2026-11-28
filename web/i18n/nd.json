@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Hlela umkhawulo we-WIP",
   "enable-wip-limit": "Vumela umkhawulo we-WIP",
   "soft-wip-limit": "Umkhawulo othambileyo we-WIP",
-  "move-reason": "Thuthela ikhadi — Incazelo"
+  "move-reason": "Thuthela ikhadi — Incazelo",
+  "auto-archive-days": "Yisa amakhadi esiphaleni ngemva kwalenani lezinsuku engasebenzi",
+  "auto-archive-off": "Kuvaliwe",
+  "auto-archive-hint": "Kuhlolwa ihola ngalinye. Ikhadi lithathwa njengelisebenzayo njalo lapho liguqulwa; amathemplethi kawayiswa esiphaleni loba nini. Tshiya kungelalutho ukuze uvale lokhu."
 }

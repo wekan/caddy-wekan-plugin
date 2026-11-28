@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Devam Eden İş Sınırını Düzenle",
   "enable-wip-limit": "Devam Eden İş Sınırını Aç",
   "soft-wip-limit": "Zayıf Devam Eden İş Sınırı",
-  "move-reason": "Kartı taşı — Açıklama"
+  "move-reason": "Kartı taşı — Açıklama",
+  "auto-archive-days": "Bu kadar gün etkinlik olmadığında kartları arşivle",
+  "auto-archive-off": "Kapalı",
+  "auto-archive-hint": "Her saat kontrol edilir. Karttaki her değişiklik etkinlik sayılır; şablonlar asla arşivlenmez. Kapatmak için boş bırakın."
 }

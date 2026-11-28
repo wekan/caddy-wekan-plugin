@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Mudé l limit WIP",
   "enable-wip-limit": "Ativé l limit di laures en curs (WIP)",
   "soft-wip-limit": "Limit flescibel di laures en curs (WIP)",
-  "move-reason": "Rejon dl spustamënt (sce te ues)"
+  "move-reason": "Rejon dl spustamënt (sce te ues)",
+  "auto-archive-days": "Sposté la ciartes tl archif do tanc dis zënza ativité",
+  "auto-archive-off": "Desativà",
+  "auto-archive-hint": "Cuntrolé vigni ëura. Na ciarta ie ativa vigni iede che la vën mudeda; i modiei ne vën mai spostei tl archif. Lascié l ciamp vueit per desativé."
 }

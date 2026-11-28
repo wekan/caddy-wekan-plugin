@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Muta limitem WIP",
   "enable-wip-limit": "Activa limitem WIP",
   "soft-wip-limit": "Limes WIP flexibilis",
-  "move-reason": "Chartam move — Descriptio"
+  "move-reason": "Chartam move — Descriptio",
+  "auto-archive-days": "Chartas post tot dies sine actione in tabularium move",
+  "auto-archive-off": "Inactivum",
+  "auto-archive-hint": "Singulis horis examinatur. Charta activa habetur quoties mutatur; exemplaria numquam in tabularium moventur. Vacuum relinque ut hoc inactives."
 }

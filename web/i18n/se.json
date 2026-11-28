@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Rievdat WIP-ráji",
   "enable-wip-limit": "Bija WIP-ráji ala",
   "soft-wip-limit": "Dipma WIP-rádji",
-  "move-reason": "Sirdde goartta — Válddahus"
+  "move-reason": "Sirdde goartta — Válddahus",
+  "auto-archive-days": "Sirdde goarttaid vuorkái go leat leamaš ná galle beaivvi doaimma haga",
+  "auto-archive-off": "Eret",
+  "auto-archive-hint": "Dárkkistuvvo juohke diimmu. Goartta rehkenasto aktiivan juohke háve go dat rievdaduvvo; mállet eai goassege sirddu vuorkái. Guođe guorusin jus háliidat bidjat dán eret."
 }

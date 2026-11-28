@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Gadzirisa muganhu weWIP",
   "enable-wip-limit": "Batidza muganhu weWIP",
   "soft-wip-limit": "Muganho unoyambira wemabasa ari kuitwa",
-  "move-reason": "Fambisa kadhi — Tsanangudzo"
+  "move-reason": "Fambisa kadhi — Tsanangudzo",
+  "auto-archive-days": "Chengeta makadhi mudura mushure memazuva akawanda kudai pasina chiitiko",
+  "auto-archive-off": "Zvakadzimwa",
+  "auto-archive-hint": "Zvinotariswa awa imwe neimwe. Kadhi rinoverengwa seriri kushanda pese parinochinjwa; matemplate haambochengetwi mudura. Siya pasina chinhu kuti uzvidzime."
 }

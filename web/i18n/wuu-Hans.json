@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "编辑在制品限制",
   "enable-wip-limit": "启用 WIP 限制",
   "soft-wip-limit": "软在制品限制",
-  "move-reason": "移动原因（可选）"
+  "move-reason": "移动原因（可选）",
+  "auto-archive-days": "卡片呒没活动超过搿能多天以后移到存档里",
+  "auto-archive-off": "关脱",
+  "auto-archive-hint": "每个钟头检查一趟。卡片只要改动过就算有活动；模板绝勿会移到存档里。留空就好关脱搿项功能。"
 }

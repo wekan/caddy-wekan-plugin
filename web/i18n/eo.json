@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Redakti WIP-limon",
   "enable-wip-limit": "Ŝalti WIP-limon",
   "soft-wip-limit": "Milda WIP-limo",
-  "move-reason": "Movi karton — Priskribo"
+  "move-reason": "Movi karton — Priskribo",
+  "auto-archive-days": "Arkivi kartojn post ĉi tiu nombro da tagoj sen aktiveco",
+  "auto-archive-off": "Malŝaltita",
+  "auto-archive-hint": "Kontrolata ĉiuhore. Karto estas konsiderata aktiva ĉiufoje kiam ĝi ŝanĝiĝas; ŝablonoj neniam estas arkivataj. Lasu malplena por malŝalti."
 }

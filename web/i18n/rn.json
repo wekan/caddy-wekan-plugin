@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Hindura urugero rwa WIP",
   "enable-wip-limit": "Fungura urugero rwa WIP",
   "soft-wip-limit": "Urugero rworoshe rwa WIP",
-  "move-reason": "Kwimura ikarata — Insiguro"
+  "move-reason": "Kwimura ikarata — Insiguro",
+  "auto-archive-days": "Shira amakarata mu bubiko inyuma y'iyi misi ata gikorwa",
+  "auto-archive-off": "Birazimye",
+  "auto-archive-hint": "Bisuzumwa buri saha. Ikarata ifatwa nk'iriko irakoreshwa igihe cose ihinduwe; inyandikorugero ntizigera zishirwa mu bubiko. Hasige ubusa kugira ngo ubizimye."
 }

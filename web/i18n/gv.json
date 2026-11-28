@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Reaghey yn eallagh WIP",
   "enable-wip-limit": "Cur eallagh WIP er",
   "soft-wip-limit": "Eallagh WIP bog",
-  "move-reason": "Gleashagh y kaart — Coontey"
+  "move-reason": "Gleashagh y kaart — Coontey",
+  "auto-archive-days": "Cur kaartyn 'sy tashtey lurg yn earroo shoh dy laghyn gyn obbraghey",
+  "auto-archive-off": "Dooit",
+  "auto-archive-hint": "Scrutit dagh oor. Ta kaart coontit myr bio tra t'eh caghlaait; cha bee sampleyryn currit 'sy tashtey dy bragh. Faag follym dy chur eh ass."
 }

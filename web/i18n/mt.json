@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Editja l-Limitu WIP",
   "enable-wip-limit": "Attiva l-Limitu WIP",
   "soft-wip-limit": "Limitu flessibbli tax-xogħol li għadu għaddej",
-  "move-reason": "Mexxi l-karta — Deskrizzjoni"
+  "move-reason": "Mexxi l-karta — Deskrizzjoni",
+  "auto-archive-days": "Arkivja l-karti wara dan in-numru ta’ jiem mingħajr attività",
+  "auto-archive-off": "Mitfi",
+  "auto-archive-hint": "Jiġi ċċekkjat kull siegħa. Karta titqies attiva kull meta tinbidel; il-mudelli qatt ma jiġu arkivjati. Ħalli vojt biex titfi din il-funzjoni."
 }

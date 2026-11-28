@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP-Limit beaarbechten",
   "enable-wip-limit": "WIP-Limit aschalten",
   "soft-wip-limit": "Mëllt WIP-Limit",
-  "move-reason": "Kaart réckelen — Beschreiwung"
+  "move-reason": "Kaart réckelen — Beschreiwung",
+  "auto-archive-days": "Kaarten no esou vill Deeg ouni Aktivitéit archivéieren",
+  "auto-archive-off": "Aus",
+  "auto-archive-hint": "Gëtt all Stonn iwwerpréift. Eng Kaart zielt als aktiv, wann se geännert gëtt; Virlage ginn ni archivéiert. Eidel loossen, fir dëst auszeschalten."
 }

@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Endre WIP grense",
   "enable-wip-limit": "Aktiver WIP-begrensning",
   "soft-wip-limit": "Myk WIP-begrensning",
-  "move-reason": "Flytt Kort — Beskrivelse"
+  "move-reason": "Flytt Kort — Beskrivelse",
+  "auto-archive-days": "Arkiver kort etter så mange dager uten aktivitet",
+  "auto-archive-off": "Av",
+  "auto-archive-hint": "Kontrolleres hver time. Enhver endring av et kort regnes som aktivitet; maler arkiveres aldri. La feltet stå tomt for å slå av."
 }

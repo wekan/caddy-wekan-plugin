@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Kemmañ ar vevenn WIP",
   "enable-wip-limit": "Gweredekaat ar vevenn WIP",
   "soft-wip-limit": "Lemit WIP lezher",
-  "move-reason": "Dilec’hiañ ar gartenn — Deskrivadur"
+  "move-reason": "Dilec’hiañ ar gartenn — Deskrivadur",
+  "auto-archive-days": "Diellaouiñ ar c'hartennoù goude an niver-mañ a zevezhioù hep obererezh",
+  "auto-archive-off": "Diweredekaet",
+  "auto-archive-hint": "Gwiriet bep eur. Ur gartenn zo oberiant pa vez cheñchet; ne vez ket diellaouet ar patromoù morse. Lezit goullo evit diweredekaat."
 }

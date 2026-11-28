@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP ᎢᎦᎢ ᎦᏁᏟᏴᏍᏗ",
   "enable-wip-limit": "WIP ᎢᎦᎢ ᎤᏍᏚᎢᏍᏗ",
   "soft-wip-limit": "ᎤᏍᏗ WIP ᎢᎦᎢ",
-  "move-reason": "ᎪᏪᎵ ᎯᏘᏅᏍᏓ — ᎧᏃᎮᏗ"
+  "move-reason": "ᎪᏪᎵ ᎯᏘᏅᏍᏓ — ᎧᏃᎮᏗ",
+  "auto-archive-days": "ᎪᏪᎵ ᎠᏍᏆᏂᎪᏙᏗᏱ ᎯᏘᏅᏍᏓ ᎯᎠ ᎢᎦ ᎢᎦᎢ ᎥᏝ ᎦᎵᏬᎩ ᏱᎩ",
+  "auto-archive-off": "ᎠᏍᏚᎢᏓ",
+  "auto-archive-hint": "ᏑᎵᏱᎶᎢ ᏂᎦᏓ ᎠᎦᏛᎲᏍᎦ. ᎪᏪᎵ ᎦᎵᏬᎩ ᎨᏎᏍᏗ ᎢᏳᏃ ᎠᏓᏁᏟᏴᏍᎦ; ᎠᏟᎶᏍᏔᏅ ᎥᏝ ᎢᏳᏍᏗ ᎠᏍᏆᏂᎪᏙᏗᏱ ᏱᎨᎦᏅᎦ. ᎤᏏᏫ ᎯᎨᏎᏍᏓ ᎾᏍᎩ ᎠᏍᏚᎢᏍᏗ."
 }

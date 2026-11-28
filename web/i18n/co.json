@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Mudificà a limita WIP",
   "enable-wip-limit": "Attivà a limita WIP",
   "soft-wip-limit": "Limita WIP flessibile",
-  "move-reason": "Ragione di u spustamentu (facultativa)"
+  "move-reason": "Ragione di u spustamentu (facultativa)",
+  "auto-archive-days": "Archivià e carte dopu à stu numeru di ghjorni senza attività",
+  "auto-archive-off": "Disattivatu",
+  "auto-archive-hint": "Verificatu ogni ora. Una carta hè cunsiderata attiva ogni volta ch'ella hè mudificata; i mudelli ùn sò mai archiviati. Lascià viotu per disattivà."
 }

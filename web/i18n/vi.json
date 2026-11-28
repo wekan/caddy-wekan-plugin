@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Chỉnh sửa giới hạn WIP",
   "enable-wip-limit": "Bật giới hạn WIP",
   "soft-wip-limit": "Giới hạn Soft WIP",
-  "move-reason": "Di chuyển Thẻ — Mô tả"
+  "move-reason": "Di chuyển Thẻ — Mô tả",
+  "auto-archive-days": "Lưu trữ thẻ sau số ngày không có hoạt động này",
+  "auto-archive-off": "Tắt",
+  "auto-archive-hint": "Kiểm tra mỗi giờ. Thẻ được tính là có hoạt động mỗi khi được thay đổi; thẻ mẫu không bao giờ bị lưu trữ. Để trống để tắt."
 }

@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Cuir Teorainn WIP in Eagar",
   "enable-wip-limit": "Cumasaigh Teorainn WIP",
   "soft-wip-limit": "Teorainn Bhog WIP",
-  "move-reason": "Cúis leis an mbogadh (roghnach)"
+  "move-reason": "Cúis leis an mbogadh (roghnach)",
+  "auto-archive-days": "Cartlannaigh cártaí tar éis an oiread seo laethanta gan ghníomhaíocht",
+  "auto-archive-off": "Múchta",
+  "auto-archive-hint": "Seiceáiltear gach uair an chloig é. Meastar cárta a bheith gníomhach nuair a athraítear é; ní chartlannaítear teimpléid riamh. Fág folamh chun é a mhúchadh."
 }

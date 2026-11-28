@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Kyusa WIP Limit",
   "enable-wip-limit": "Sobozesa WIP Limit",
   "soft-wip-limit": "Ekkomo eryangu ery'emirimu egikolebwa",
-  "move-reason": "Simbula ekaadi — Ennyonyola"
+  "move-reason": "Simbula ekaadi — Ennyonyola",
+  "auto-archive-days": "Twala kaadi mu tterekero oluvannyuma lw’ennaku zino nga tewali kikolebwako",
+  "auto-archive-off": "Kizikiddwa",
+  "auto-archive-hint": "Kikeberwa buli ssaawa. Kaadi ebalibwa ng’eriko ekikolebwa buli lw’ekyusibwa; ebyokulabirako tebitwalibwa mu tterekero n’akatono. Lekawo nga wereere okukizikiza."
 }

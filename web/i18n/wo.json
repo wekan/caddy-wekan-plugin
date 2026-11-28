@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Soppi WIP Limit",
   "enable-wip-limit": "Moom WIP Limit",
   "soft-wip-limit": "Kemu WIP bu nooy",
-  "move-reason": "Yóbbu karta — Melokaan"
+  "move-reason": "Yóbbu karta — Melokaan",
+  "auto-archive-days": "Yóbbu karta yi ci àrsiw bi gannaaw limu fan yii te amul yëngu",
+  "auto-archive-off": "Suux",
+  "auto-archive-hint": "Dañu koy seet waxtu wu nekk. Karta bu ñu soppi dañu koy jàppe ni mu ngi yëngu; duñu yóbbu royuwaay yi ci àrsiw bi mukk. Bayyil wàll wi deful dara ngir suuxal ko."
 }

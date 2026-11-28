@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Modificar la WIP limit",
   "enable-wip-limit": "Activar la WIP limit",
   "soft-wip-limit": "Leugièr WIP limit",
-  "move-reason": "Bolegar la carta — Descripcion"
+  "move-reason": "Bolegar la carta — Descripcion",
+  "auto-archive-days": "Archivar las cartas aprèp aqueste nombre de jorns sens activitat",
+  "auto-archive-off": "Desactivat",
+  "auto-archive-hint": "Verificat cada ora. Una carta es considerada activa quand es modificada ; los modèls son pas jamai archivats. Daissatz void per desactivar."
 }

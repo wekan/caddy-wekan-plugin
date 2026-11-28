@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Kambia e límite di e trabaho den proseso",
   "enable-wip-limit": "Habilitá e límite di e trabaho den proseso",
   "soft-wip-limit": "Límite di e trabaho den proseso flexible",
-  "move-reason": "Move e karchi — Deskripshon"
+  "move-reason": "Move e karchi — Deskripshon",
+  "auto-archive-days": "Archiva karchinan despues di e kantidat aki di dia sin aktividat",
+  "auto-archive-off": "Pagá",
+  "auto-archive-hint": "Ta kontrolá kada ora. Un karchi ta konta komo aktivo kada biaha ku e ta wordu kambiá; plantianan nunka ta wordu archivá. Laga e vak bashi pa desaktivá esaki."
 }

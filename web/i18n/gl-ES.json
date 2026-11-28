@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Editar o límite WIP",
   "enable-wip-limit": "Activar o límite WIP",
   "soft-wip-limit": "Límite WIP flexible",
-  "move-reason": "Mover tarxeta — Descrición"
+  "move-reason": "Mover tarxeta — Descrición",
+  "auto-archive-days": "Arquivar tarxetas despois deste número de días sen actividade",
+  "auto-archive-off": "Desactivado",
+  "auto-archive-hint": "Compróbase cada hora. Calquera cambio nunha tarxeta conta como actividade; os modelos nunca se arquivan. Déixao baleiro para desactivalo."
 }

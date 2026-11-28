@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "የWIP ገደብን አርትዕ",
   "enable-wip-limit": "የWIP ገደብን አንቃ",
   "soft-wip-limit": "ለስላሳ የWIP ገደብ",
-  "move-reason": "ካርድ አንቀሳቅስ — መግለጫ"
+  "move-reason": "ካርድ አንቀሳቅስ — መግለጫ",
+  "auto-archive-days": "ለዚህ ያህል ቀናት እንቅስቃሴ የሌላቸውን ካርዶች ወደ መዝገብ አንቀሳቅስ",
+  "auto-archive-off": "ጠፍቷል",
+  "auto-archive-hint": "በየሰዓቱ ይመረመራል። ካርድ በተቀየረ ቁጥር ንቁ እንደሆነ ይቆጠራል፤ አብነቶች ወደ መዝገብ አይንቀሳቀሱም። ለማጥፋት ባዶ ይተዉት።"
 }

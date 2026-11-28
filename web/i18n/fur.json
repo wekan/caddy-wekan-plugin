@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Modifiche limite Work In Progress",
   "enable-wip-limit": "Abilite il limit WIP",
   "soft-wip-limit": "Limit WIP morbit",
-  "move-reason": "Sposte la cjarte — Descrizion"
+  "move-reason": "Sposte la cjarte — Descrizion",
+  "auto-archive-days": "Archive lis cjartis dopo chest numar di dîs cence ativitât",
+  "auto-archive-off": "Disativât",
+  "auto-archive-hint": "Controlât ogni ore. Une cjarte e je considerade ative ogni volte che e ven modificade; i modei no vegnin mai archiviâts. Lasse vueit par disativâ."
 }

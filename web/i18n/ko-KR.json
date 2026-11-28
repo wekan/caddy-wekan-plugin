@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP 제한 변경",
   "enable-wip-limit": "WIP 제한 활성화",
   "soft-wip-limit": "원만한 WIP 제한",
-  "move-reason": "카드 이동 — 설명"
+  "move-reason": "카드 이동 — 설명",
+  "auto-archive-days": "이 일수 동안 활동이 없는 카드를 보관",
+  "auto-archive-off": "꺼짐",
+  "auto-archive-hint": "매시간 확인합니다. 카드가 변경될 때마다 활동으로 간주하며, 템플릿은 보관하지 않습니다. 끄려면 비워 두세요."
 }

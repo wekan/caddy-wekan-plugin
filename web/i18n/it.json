@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Modifica limite Work In Progress",
   "enable-wip-limit": "Attiva limite Work In Progress",
   "soft-wip-limit": "Limite Work in progress soft",
-  "move-reason": "Sposta scheda — Descrizione"
+  "move-reason": "Sposta scheda — Descrizione",
+  "auto-archive-days": "Archivia le schede dopo questo numero di giorni senza attività",
+  "auto-archive-off": "Disattivato",
+  "auto-archive-hint": "Controllo ogni ora. Ogni modifica a una scheda conta come attività; i modelli non vengono mai archiviati. Lascia vuoto per disattivare."
 }

@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP Limitini redaktə edin",
   "enable-wip-limit": "WIP Limitini aktivləşdirin",
   "soft-wip-limit": "Yumşaq WIP Limiti",
-  "move-reason": "Kartı köçürün — Təsvir"
+  "move-reason": "Kartı köçürün — Təsvir",
+  "auto-archive-days": "Bu qədər gün fəaliyyətsiz qalan kartları arxivləşdir",
+  "auto-archive-off": "Söndürülüb",
+  "auto-archive-hint": "Hər saat yoxlanılır. Kart hər dəfə dəyişdirildikdə aktiv sayılır; şablonlar heç vaxt arxivləşdirilmir. Söndürmək üçün boş saxlayın."
 }

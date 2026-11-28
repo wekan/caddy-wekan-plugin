@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Daangaa WIP Gulaali",
   "enable-wip-limit": "Daangaa WIP Bani",
   "soft-wip-limit": "Daangaa WIP Laafaa",
-  "move-reason": "Kaardii jijjiiri — Ibsa"
+  "move-reason": "Kaardii jijjiiri — Ibsa",
+  "auto-archive-days": "Kaardiiwwan guyyaa hanganaaf sochii malee turan gara kuusaatti galchi",
+  "auto-archive-off": "Dhaameera",
+  "auto-archive-hint": "Sa'aatii hunda ni sakatta'ama. Kaardiin yeroo jijjiiramu hunda akka sochii qabuutti lakkaa'ama; unkaaleen qophaa'an matumaa gara kuusaatti hin galan. Dhaamsuuf duwwaa dhiisi."
 }

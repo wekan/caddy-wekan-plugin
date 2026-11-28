@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "仕掛中制限編集",
   "enable-wip-limit": "仕掛中制限を有効化",
   "soft-wip-limit": "警告のみの仕掛中制限",
-  "move-reason": "カードの移動 — 詳細"
+  "move-reason": "カードの移動 — 詳細",
+  "auto-archive-days": "この日数の間活動がないカードをアーカイブする",
+  "auto-archive-off": "無効",
+  "auto-archive-hint": "毎時間確認します。カードへの変更はすべて活動として扱われます。テンプレートはアーカイブされません。無効にするには空欄にしてください。"
 }

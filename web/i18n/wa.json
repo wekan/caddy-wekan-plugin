@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Candjî l' limite WIP",
   "enable-wip-limit": "Mete en alaedje li limite WIP",
   "soft-wip-limit": "Limite WIP doûce",
-  "move-reason": "Råjhon do bodjaedje (optèn)"
+  "move-reason": "Råjhon do bodjaedje (optèn)",
+  "auto-archive-days": "Mete les cåtes el årtchive après tant d’ djoûs sins activité",
+  "auto-archive-off": "Dismetou",
+  "auto-archive-hint": "Verifyî a tchaeke eure. Ene cåte est contêye come active a tchaeke candjmint; les modeles ni sont måy metous el årtchive. Leyîz l’ tchamp vude po dismete çoula."
 }

@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Deasaich Crìoch WIP",
   "enable-wip-limit": "Dèan Crìoch WIP Comasach",
   "soft-wip-limit": "Crìoch Bhog WIP",
-  "move-reason": "Adhbhar a’ ghluasaid (roghainneil)"
+  "move-reason": "Adhbhar a’ ghluasaid (roghainneil)",
+  "auto-archive-days": "Tasglannaich cairtean às dèidh na h-uimhir seo de làithean gun ghnìomhachd",
+  "auto-archive-off": "Dheth",
+  "auto-archive-hint": "Thèid seo a sgrùdadh gach uair a thìde. Tha cairt gnìomhach uair sam bith a thèid atharrachadh oirre; cha tèid teamplaidean a thasglannadh gu bràth. Fàg bàn gus a chur dheth."
 }

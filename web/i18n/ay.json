@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "askichaña WIP Limit",
   "enable-wip-limit": "naktayaña WIP Limit",
   "soft-wip-limit": "Llamp'u WIP tupu",
-  "move-reason": "Karta apaña — Qhananchawi"
+  "move-reason": "Karta apaña — Qhananchawi",
+  "auto-archive-days": "Aka qhawqha urunaka jan unxtkaspa kartanaka imañaru apaña",
+  "auto-archive-off": "Jiwata",
+  "auto-archive-hint": "Sapa urasana uñakipata. Karta mayjt'ayata ukhaxa lurawini sasina jakthapitawa; uñtawinakaxa janipuniw imañaru apatakiti. Jiwayañatakixa ch'usaq jaytama."
 }

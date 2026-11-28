@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Taƴto keerol WIP",
   "enable-wip-limit": "Hurmin keerol WIP",
   "soft-wip-limit": "Keerol WIP hoyngol",
-  "move-reason": "Eggin kartal — Sifaa"
+  "move-reason": "Eggin kartal — Sifaa",
+  "auto-archive-days": "Eggin karte e mooftirde caggal balɗe keewɗe hono ɗee tawa alaa golle",
+  "auto-archive-off": "Ñifaa",
+  "auto-archive-hint": "Ƴeewteetee waktu kala. Kartal ina limoore e golle kala nde ngal waylaa; mbaadi njuɓɓudi mbaɗaaka e mooftirde hay sahaa. Accu meho ngam ñifde ɗum."
 }

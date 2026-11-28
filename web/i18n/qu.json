@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP saywata allichay",
   "enable-wip-limit": "WIP saywata hap'ichiy",
   "soft-wip-limit": "Llamp'u WIP sayway",
-  "move-reason": "Kartata astay — Willakuy"
+  "move-reason": "Kartata astay — Willakuy",
+  "auto-archive-days": "Kay yupay p'unchawkuna mana kuyuriptin kartakunata waqaychanaman apay",
+  "auto-archive-off": "Wañuchisqa",
+  "auto-archive-hint": "Sapa uram qhawakun. Kartata hukmanyachaptinku, kuyurichisqa hina yupakun; plantillakunaqa manam hayk'aqpas waqaychanaman apakunchu. Wañuchinaykipaq ch'usaqta saqiy."
 }

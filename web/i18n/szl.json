@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Zmiyn limit kart na liście",
   "enable-wip-limit": "Załōncz limit kart na liście",
   "soft-wip-limit": "Miynkki limit WIP",
-  "move-reason": "Przeniyś karta — Ôpis"
+  "move-reason": "Przeniyś karta — Ôpis",
+  "auto-archive-days": "Archiwizuj karty po tela dniach bez aktywności",
+  "auto-archive-off": "Wyłōnczōne",
+  "auto-archive-hint": "Sprawdzane co godzina. Karta liczy sie jako aktywnŏ przi kożdyj zmianie; szablōny nigdy niy sōm archiwizowane. Ôstŏw prōżne pole, coby to wyłōnczyć."
 }

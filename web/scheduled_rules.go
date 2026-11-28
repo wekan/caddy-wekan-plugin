@@ -328,7 +328,11 @@ func (s *Server) runScheduledRules(stop <-chan struct{}) {
 			return
 		case <-time.After(time.Until(next)):
 			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
-			s.scanScheduledRules(ctx, time.Now())
+			now := time.Now()
+			s.scanScheduledRules(ctx, now)
+			if now.Minute() == 0 {
+				s.scanInactiveCards(ctx, now)
+			}
 			cancel()
 		}
 	}

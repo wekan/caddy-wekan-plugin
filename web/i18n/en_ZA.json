@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Edit WIP Limit",
   "enable-wip-limit": "Enable WIP Limit",
   "soft-wip-limit": "Soft WIP Limit",
-  "move-reason": "Move Card — Description"
+  "move-reason": "Move Card — Description",
+  "auto-archive-days": "Archive cards after this many days without activity",
+  "auto-archive-off": "Off",
+  "auto-archive-hint": "Checked every hour. A card counts as active whenever it is changed; templates are never archived. Leave empty to turn it off."
 }

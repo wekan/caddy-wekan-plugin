@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "ደረት WIP ኣርም",
   "enable-wip-limit": "ደረት WIP ኣኽእል",
   "soft-wip-limit": "ልስሉስ ደረት WIP",
-  "move-reason": "ካርድ ኣንቀሳቕስ — መግለጺ"
+  "move-reason": "ካርድ ኣንቀሳቕስ — መግለጺ",
+  "auto-archive-days": "ንኽንድዚ መዓልታት ብዘይ ንጥፈት ዝጸንሑ ካርዳት ናብ መዝገብ ኣግዕዝ",
+  "auto-archive-off": "ጠፊኡ",
+  "auto-archive-hint": "ኣብ ነፍሲ ወከፍ ሰዓት ይምርመር። ካርድ ኣብ ዝተቐየረሉ እዋን ንጡፍ ተባሂሉ ይቝጸር፤ ሞዴላት ፈጺሞም ናብ መዝገብ ኣይግዕዙን። ንምጥፋእ ጥራይ ግደፎ።"
 }

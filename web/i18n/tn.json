@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Fetola tekanyo ya WIP",
   "enable-wip-limit": "Kgontsha tekanyo ya WIP",
   "soft-wip-limit": "Tekanyo e e bonolo ya WIP",
-  "move-reason": "Suthisa karata — Tlhaloso"
+  "move-reason": "Suthisa karata — Tlhaloso",
+  "auto-archive-days": "Isa dikarata kwa polokelong morago ga palo eno ya malatsi di sa dire",
+  "auto-archive-off": "E timilwe",
+  "auto-archive-hint": "E tlhatlhobiwa ura nngwe le nngwe. Karata e tsewa e dira nako le nako fa e fetolwa; dithempleite ga di isiwe kwa polokelong le ka motlha. Tlogela lefelo le lolea go tima seno."
 }

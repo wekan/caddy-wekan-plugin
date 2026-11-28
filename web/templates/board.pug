@@ -234,7 +234,7 @@
               i.fa.fa-plus
       if .MenuOn
         h3
-          a.board-header-btn.js-open-board-menu(href="#", title="{{t $.L `boardMenuPopup-title`}}") {{t $.L "boardMenuPopup-title"}}
+          a.board-header-btn.js-open-board-menu.js-board-info-on-my-boards(href="#", title="{{t $.L `boardMenuPopup-title`}}") {{t $.L "boardMenuPopup-title"}}
       if .IsBoardAdmin
         hr
         h3.activity-title.js-toggle-show-activities(role="button", tabindex="0", title="{{t $.L `activities`}}")
@@ -275,7 +275,7 @@
             .materialCheckBox(class="{{if .AnnouncementEnabled}}is-checked{{end}}")
             span {{t $.L "board-announcement-enabled"}}
           button.primary.wide.js-board-announcement-save(type="submit") {{t $.L "save"}}
-  template.js-pop-over-template(data-pop="board-menu", data-title="{{t $.L `boardMenuPopup-title`}}")
+  template.js-pop-over-template(data-pop="board-menu", data-popup="boardInfoOnMyBoardsPopup", data-title="{{t $.L `boardMenuPopup-title`}}")
     .header
       span.header-title {{t $.L "boardMenuPopup-title"}}
       a.close-btn.js-close-pop-over(href="#", aria-label="{{t $.L `close`}}") ×
@@ -311,6 +311,13 @@
             i.fa.fa-id-card-o
             |  {{t $.L "card-settings"}}
         if .IsBoardAdmin
+          li
+            form(method="post", action="/b/{{.Board.ID}}/auto-archive", up-submit, up-target=".board-wrapper")
+              label(for="auto-archive-days") {{t $.L "auto-archive-days"}}
+              input.js-auto-archive-days#auto-archive-days(type="number", min="1", max="3650", name="days", value="{{with .AutoArchiveDays}}{{.}}{{end}}", placeholder="{{t $.L `auto-archive-off`}}", aria-describedby="auto-archive-hint")
+              p.quiet#auto-archive-hint {{t $.L "auto-archive-hint"}}
+              p.warning.js-auto-archive-error(role="alert", hidden) {{t $.L "server-error"}}
+              button(type="submit") {{t $.L "save"}}
           li
             a.js-open-board-date-settings(href="#")
               i.fa.fa-calendar

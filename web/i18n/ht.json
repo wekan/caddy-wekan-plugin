@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Modifye limit WIP",
   "enable-wip-limit": "Aktive limit WIP",
   "soft-wip-limit": "Limit WIP fleksib",
-  "move-reason": "Rezon deplasman an (opsyonèl)"
+  "move-reason": "Rezon deplasman an (opsyonèl)",
+  "auto-archive-days": "Mete kat yo nan achiv apre kantite jou sa a san aktivite",
+  "auto-archive-off": "Dezaktive",
+  "auto-archive-hint": "Yo verifye sa chak èdtan. Yon kat konsidere kòm aktif chak fwa yo modifye li; yo pa janm mete modèl yo nan achiv. Kite sa vid pou dezaktive li."
 }

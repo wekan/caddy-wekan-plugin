@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Hindura Urugero rwa WIP",
   "enable-wip-limit": "Koresha Urugero rwa WIP",
   "soft-wip-limit": "Urugero rworoheje rwa WIP",
-  "move-reason": "Kwimura ikarita — Ibisobanuro"
+  "move-reason": "Kwimura ikarita — Ibisobanuro",
+  "auto-archive-days": "Shyira amakarita mu bubiko nyuma y'iyi minsi nta gikorwa",
+  "auto-archive-off": "Birazimye",
+  "auto-archive-hint": "Bigenzurwa buri saha. Ikarita ifatwa nk'ikora igihe cyose ihinduwe; inyandikorugero ntizigera zishyirwa mu bubiko. Hasige ubusa kugira ngo ubizimye."
 }

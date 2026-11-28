@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Wysig WIP-limiet",
   "enable-wip-limit": "Aktiveer WIP-limiet",
   "soft-wip-limit": "Sagte WIP-limiet",
-  "move-reason": "Beweeg kaart — Beskrywing"
+  "move-reason": "Beweeg kaart — Beskrywing",
+  "auto-archive-days": "Argiveer kaarte ná soveel dae sonder aktiwiteit",
+  "auto-archive-off": "Af",
+  "auto-archive-hint": "Word elke uur nagegaan. 'n Kaart tel as aktief wanneer dit verander word; sjablone word nooit geargiveer nie. Laat leeg om dit af te skakel."
 }

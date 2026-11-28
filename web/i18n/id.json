@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Sunting Batas WIP",
   "enable-wip-limit": "Aktifkan Batas WIP",
   "soft-wip-limit": "Batas WIP Lunak",
-  "move-reason": "Pindahkan kartu — Deskripsi"
+  "move-reason": "Pindahkan kartu — Deskripsi",
+  "auto-archive-days": "Arsipkan kartu setelah tidak ada aktivitas selama jumlah hari ini",
+  "auto-archive-off": "Nonaktif",
+  "auto-archive-hint": "Diperiksa setiap jam. Setiap perubahan pada kartu dihitung sebagai aktivitas; templat tidak pernah diarsipkan. Biarkan kosong untuk menonaktifkan."
 }

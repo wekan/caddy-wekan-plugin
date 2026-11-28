@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Hlela umda we-WIP",
   "enable-wip-limit": "Vula i-WIP umda",
   "soft-wip-limit": "Soft WIP umda",
-  "move-reason": "Hambisa iKhadi — Inkcazo"
+  "move-reason": "Hambisa iKhadi — Inkcazo",
+  "auto-archive-days": "Faka amakhadi kwindawo yogcino emva kweli nani leentsuku engenamsebenzi",
+  "auto-archive-off": "Kucinyiwe",
+  "auto-archive-hint": "Kujongwa rhoqo ngeyure. Ikhadi lithathwa njengelisebenzayo nanini na litshintshwa; iitempleyithi azifakwa kwindawo yogcino nanini na. Shiya kungenanto ukuze ucime oku."
 }

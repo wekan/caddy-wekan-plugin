@@ -1947,5 +1947,8 @@
   "edit-wip-limit": "WIP korlát szerkesztése",
   "enable-wip-limit": "WIP korlát engedélyezése",
   "soft-wip-limit": "Gyenge WIP korlát",
-  "move-reason": "Kártya áthelyezése — Leírás"
+  "move-reason": "Kártya áthelyezése — Leírás",
+  "auto-archive-days": "Kártyák archiválása ennyi napnyi tétlenség után",
+  "auto-archive-off": "Kikapcsolva",
+  "auto-archive-hint": "Ellenőrzés óránként. A kártya minden módosítása tevékenységnek számít; a sablonok soha nem kerülnek archiválásra. A kikapcsoláshoz hagyja üresen."
 }

@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Redigér WIP-begrænsning",
   "enable-wip-limit": "Slå WIP-begrænsning til",
   "soft-wip-limit": "Blød WIP-begrænsning",
-  "move-reason": "Flyt kort — Beskrivelse"
+  "move-reason": "Flyt kort — Beskrivelse",
+  "auto-archive-days": "Arkivér kort efter så mange dage uden aktivitet",
+  "auto-archive-off": "Fra",
+  "auto-archive-hint": "Kontrolleres hver time. Enhver ændring af et kort tæller som aktivitet; skabeloner arkiveres aldrig. Lad feltet være tomt for at slå funktionen fra."
 }

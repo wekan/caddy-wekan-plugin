@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Edita el Límit de Treball en Progrés",
   "enable-wip-limit": "Activa i Límit de Treball en Progrés",
   "soft-wip-limit": "Límit Soft WIP",
-  "move-reason": "Moure fitxa — Descripció"
+  "move-reason": "Moure fitxa — Descripció",
+  "auto-archive-days": "Arxiva les fitxes després d'aquest nombre de dies sense activitat",
+  "auto-archive-off": "Desactivat",
+  "auto-archive-hint": "Es comprova cada hora. Una fitxa es considera activa sempre que es modifica; les plantilles no s'arxiven mai. Deixeu-ho buit per desactivar-ho."
 }

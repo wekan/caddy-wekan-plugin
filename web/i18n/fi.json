@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Muokkaa WIP-rajaa",
   "enable-wip-limit": "Ota käyttöön WIP-raja",
   "soft-wip-limit": "Pehmeä WIP-raja",
-  "move-reason": "Siirron syy (valinnainen)"
+  "move-reason": "Siirron syy (valinnainen)",
+  "auto-archive-days": "Arkistoi kortit näin monen toimettoman päivän jälkeen",
+  "auto-archive-off": "Pois käytöstä",
+  "auto-archive-hint": "Tarkistetaan tunnin välein. Jokainen kortin muutos lasketaan toiminnaksi; mallikortteja ei koskaan arkistoida. Poista toiminto käytöstä jättämällä kenttä tyhjäksi."
 }

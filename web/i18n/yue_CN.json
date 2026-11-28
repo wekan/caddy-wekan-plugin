@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "編輯在製品限制",
   "enable-wip-limit": "啟用 WIP 限制",
   "soft-wip-limit": "軟在製品限制",
-  "move-reason": "移動卡 — 描述"
+  "move-reason": "移動卡 — 描述",
+  "auto-archive-days": "卡片冇活動達到以下日數就移至存檔",
+  "auto-archive-off": "關閉",
+  "auto-archive-hint": "每小時檢查一次。卡片有任何改動都算有活動；範本永遠唔會移至存檔。留空就會關閉。"
 }

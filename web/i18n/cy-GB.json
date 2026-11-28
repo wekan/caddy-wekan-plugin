@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Golygu Terfyn WIP",
   "enable-wip-limit": "Galluogi Terfyn WIP",
   "soft-wip-limit": "Terfyn WIP Meddal",
-  "move-reason": "Cerdyn Symud — Disgrifiad"
+  "move-reason": "Cerdyn Symud — Disgrifiad",
+  "auto-archive-days": "Archifo cardiau ar ôl y nifer hwn o ddiwrnodau heb weithgaredd",
+  "auto-archive-off": "I ffwrdd",
+  "auto-archive-hint": "Gwirir bob awr. Mae cerdyn yn cyfrif fel un gweithredol pryd bynnag y caiff ei newid; ni archifir templedi byth. Gadewch yn wag i'w ddiffodd."
 }

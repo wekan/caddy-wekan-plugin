@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Fakatonutonu ʻa e fakangatangata WIP",
   "enable-wip-limit": "Fakaʻaongaʻi ʻa e fakangatangata WIP",
   "soft-wip-limit": "Fakangatangata WIP ngaloku",
-  "move-reason": "Hiki ʻa e kaati — Fakamatala"
+  "move-reason": "Hiki ʻa e kaati — Fakamatala",
+  "auto-archive-days": "Hiki ʻa e ngaahi kaati ki he tukuʻanga hili ʻa e lahi ko ʻeni ʻo e ngaahi ʻaho taʻengāue",
+  "auto-archive-off": "Tamateʻi",
+  "auto-archive-hint": "ʻOku vakaiʻi ʻi he houa kotoa pē. ʻOku lau ʻa e kaati ʻoku ngāue ʻi he taimi kotoa ʻoku liliu ai; ʻoku ʻikai ʻaupito hiki ʻa e ngaahi sīpinga ki he tukuʻanga. Tuku ke ʻataʻatā ke tamateʻi."
 }

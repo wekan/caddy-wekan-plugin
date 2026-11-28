@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "I-edit WIP Limitasyon",
   "enable-wip-limit": "Paganahin WIP Limitasyon",
   "soft-wip-limit": "Soft WIP Limitasyon",
-  "move-reason": "Ilipat ang kard — Paglalarawan"
+  "move-reason": "Ilipat ang kard — Paglalarawan",
+  "auto-archive-days": "Ilipat sa archive ang mga kard pagkatapos ng ganitong bilang ng araw na walang aktibidad",
+  "auto-archive-off": "Naka-off",
+  "auto-archive-hint": "Sinusuri bawat oras. Itinuturing na aktibo ang kard sa tuwing binabago ito; hindi kailanman inililipat sa archive ang mga template. Iwanang walang laman upang i-off."
 }

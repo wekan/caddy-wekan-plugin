@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP-ip killissaa allanngortiguk",
   "enable-wip-limit": "WIP-ip killissaa atulersiguk",
   "soft-wip-limit": "WIP-ip killissaa mianersoqqussutaasoq",
-  "move-reason": "Kortsi nuuguk — Nassuiaat"
+  "move-reason": "Kortsi nuuguk — Nassuiaat",
+  "auto-archive-days": "Kortit ulluni taama amerlatigisuni allanngortinneqanngitsut toqqorsivimmut nuukkit",
+  "auto-archive-off": "Atorunnaarsitaq",
+  "auto-archive-hint": "Nalunaaquttap akunneri tamaasa misissorneqartarpoq. Korti allanngortinneqaraangat atorneqarsimasutut naatsorsuunneqartarpoq; ilusilersuutit qaquguluunniit toqqorsivimmut nuunneqanngillat. Atorunnaarsinniarlugu imaqanngitsuutiguk."
 }

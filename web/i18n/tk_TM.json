@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP çäklendirmesini redaktirläň",
   "enable-wip-limit": "WIP çäklendirmesini açyň",
   "soft-wip-limit": "WIP ýumşak çäk",
-  "move-reason": "Kart göçüriň — Düşündiriş"
+  "move-reason": "Kart göçüriň — Düşündiriş",
+  "auto-archive-days": "Işjeňliksiz şu kadar gün geçenden soň kartlary arhiwläň",
+  "auto-archive-off": "Öçürilen",
+  "auto-archive-hint": "Her sagatda barlanýar. Kart her gezek üýtgedilende işjeň hasaplanýar; şablonlar hiç wagt arhiwlenmeýär. Öçürmek üçin boş goýuň."
 }

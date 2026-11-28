@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Gyara iyakar WIP",
   "enable-wip-limit": "Kunna iyakar WIP",
   "soft-wip-limit": "Iyakacin WIP mai laushi",
-  "move-reason": "Matsar da kati — Bayani"
+  "move-reason": "Matsar da kati — Bayani",
+  "auto-archive-days": "Matsar da katuna zuwa ma’ajiya bayan wannan adadin kwanaki ba tare da aiki ba",
+  "auto-archive-off": "A kashe",
+  "auto-archive-hint": "Ana dubawa kowane awa. Ana ɗaukar kati a matsayin mai aiki duk lokacin da aka canza shi; ba a taɓa matsar da samfura zuwa ma’ajiya ba. Bar filin babu komai don kashewa."
 }

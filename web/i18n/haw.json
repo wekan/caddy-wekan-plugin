@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "hoʻoponopono WIP limika",
   "enable-wip-limit": "hoʻā WIP limika",
   "soft-wip-limit": "kopaka WIP limika",
-  "move-reason": "Hoʻoneʻe i ke kāleka — Wehewehe"
+  "move-reason": "Hoʻoneʻe i ke kāleka — Wehewehe",
+  "auto-archive-days": "E waiho i nā kāleka ma ka waihona ma hope o kēia helu o nā lā me ka hana ʻole",
+  "auto-archive-off": "Pio",
+  "auto-archive-hint": "Nānā ʻia i kēlā me kēia hola. Manaʻo ʻia he kāleka hana ke hoʻololi ʻia; ʻaʻole loa e waiho ʻia nā anakuhi ma ka waihona. E waiho hakahaka no ka hoʻopio ʻana."
 }

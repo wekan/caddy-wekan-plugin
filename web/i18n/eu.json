@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "WIP muga editatu",
   "enable-wip-limit": "WIP muga gaitu",
   "soft-wip-limit": "WIP muga malgua",
-  "move-reason": "Lekuz aldatu txartela — Deskripzioa"
+  "move-reason": "Lekuz aldatu txartela — Deskripzioa",
+  "auto-archive-days": "Artxibatu txartelak jarduerarik gabeko egun kopuru honen ondoren",
+  "auto-archive-off": "Desaktibatuta",
+  "auto-archive-hint": "Orduro egiaztatzen da. Txartel bat aktibotzat hartzen da aldatzen den bakoitzean; txantiloiak ez dira inoiz artxibatzen. Utzi hutsik desaktibatzeko."
 }

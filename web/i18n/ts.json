@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Lulamisa Ndzilakano wa WIP",
   "enable-wip-limit": "Pfula Ndzilakano wa WIP",
   "soft-wip-limit": "Ndzelekano wo olova wa WIP",
-  "move-reason": "Rhurhisa khadi — Nhlamuselo"
+  "move-reason": "Rhurhisa khadi — Nhlamuselo",
+  "auto-archive-days": "Yisa makhadi eka vuhlayiselo bya swa khale endzhaku ka nhlayo leyi ya masiku ma nga tirhi",
+  "auto-archive-off": "Swi timiwile",
+  "auto-archive-hint": "Swi kamberiwa awara yin’wana ni yin’wana. Khadi ri tekiwa ri tirha nkarhi wun’wana ni wun’wana loko ri cinciwa; tithempleyiti a ti yisiwi eka vuhlayiselo bya swa khale nikatsongo. Siya ndhawu yi nga ri na xilo leswaku u tima leswi."
 }

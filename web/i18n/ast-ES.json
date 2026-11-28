@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Editar la llende del trabayu en cursu",
   "enable-wip-limit": "Activar la llende del trabayu en cursu",
   "soft-wip-limit": "Llende flexible del trabayu en cursu",
-  "move-reason": "Mover la tarjeta — Descripción"
+  "move-reason": "Mover la tarjeta — Descripción",
+  "auto-archive-days": "Archivar les tarxetes dempués d'esti númberu de díes ensin actividá",
+  "auto-archive-off": "Desactivao",
+  "auto-archive-hint": "Compruébase cada hora. Una tarxeta cuenta como activa cuando se camuda; les plantíes nunca s'archiven. Déxalo balero pa desactivalo."
 }

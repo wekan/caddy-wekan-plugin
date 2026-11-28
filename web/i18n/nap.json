@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Cagna limite Work In Progress",
   "enable-wip-limit": "Attiva 'o limite WIP",
   "soft-wip-limit": "Limite WIP nun vincolante",
-  "move-reason": "Sposta 'a carta — Descrizzione"
+  "move-reason": "Sposta 'a carta — Descrizzione",
+  "auto-archive-days": "Archivia 'e carte doppo stu nummero 'e juorne senza attività",
+  "auto-archive-off": "Stutato",
+  "auto-archive-hint": "Cuntrullato ogne ora. Na carta è attiva quanno vene cagnata; 'e mudelle nun songo archiviate maje. Lassa vacante pe stutà."
 }

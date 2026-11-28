@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Hlophisa moedi wa WIP",
   "enable-wip-limit": "Bulela moedi wa WIP",
   "soft-wip-limit": "Moedi o bonolo wa WIP",
-  "move-reason": "Lebaka la ho suthisa (boikhethelo)"
+  "move-reason": "Lebaka la ho suthisa (boikhethelo)",
+  "auto-archive-days": "Isa dikarete polokelong ka mora palo ena ya matsatsi di sa sebetse",
+  "auto-archive-off": "E timme",
+  "auto-archive-hint": "E hlahlojwa hora le hora. Karete e nkuwa e sebetsa nako le nako ha e fetolwa; dithempleite ha di iswe polokelong le ka mohla. Siya sebaka se se na letho ho tima sena."
 }

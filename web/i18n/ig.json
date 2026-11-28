@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Dezie oke WIP",
   "enable-wip-limit": "Kwado oke WIP",
   "soft-wip-limit": "Oke WIP dị nro",
-  "move-reason": "Bugharịa Kaadị — Nkọwa"
+  "move-reason": "Bugharịa Kaadị — Nkọwa",
+  "auto-archive-days": "Tinye kaadị nʼebe nchekwa mgbe ụbọchị ole a gafere na-enweghị ọrụ",
+  "auto-archive-off": "Gbanyụrụ",
+  "auto-archive-hint": "A na-enyocha kwa elekere. A na-agụ kaadị dị ka nke na-arụ ọrụ mgbe ọ bụla a gbanwere ya; a naghị etinye ndebiri nʼebe nchekwa. Hapụ ya efu iji gbanyụọ ya."
 }

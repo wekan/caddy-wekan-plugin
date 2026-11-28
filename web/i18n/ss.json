@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Hlela Umkhawulo we-WIP",
   "enable-wip-limit": "Vumela Umkhawulo we-WIP",
   "soft-wip-limit": "Umkhawulo Lotsambile we-WIP",
-  "move-reason": "Khweshisa likhadi — Inchazelo"
+  "move-reason": "Khweshisa likhadi — Inchazelo",
+  "auto-archive-days": "Yisa emakhadi esigcinweni ngemuva kwalelinani lemalanga angasebenti",
+  "auto-archive-off": "Kucishiwe",
+  "auto-archive-hint": "Kuhlolwa njalo ngelihora. Likhadi libalwa njengalelisebentako njalo nalishintjwa; emathemplethi awayiswa esigcinweni nanini. Shiya kunganalutfo kuze ucishe loku."
 }

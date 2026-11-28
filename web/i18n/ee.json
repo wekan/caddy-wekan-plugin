@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Trɔ̃ WIP ƒe seƒoƒo",
   "enable-wip-limit": "Na mɔ WIP ƒe seƒoƒo",
   "soft-wip-limit": "WIP ƒe seƒoƒo bɔbɔe",
-  "move-reason": "Ʋu agbalẽvi la — Numeɖeɖe"
+  "move-reason": "Ʋu agbalẽvi la — Numeɖeɖe",
+  "auto-archive-days": "Ʋu agbalẽviwo yi dzraɖoƒe ne ŋkeke siawo va yi dɔwɔwɔ aɖeke manɔmee",
+  "auto-archive-off": "Tsi",
+  "auto-archive-hint": "Wokpɔnɛ gaƒoƒo ɖe sia ɖe. Wobua agbalẽvi be ele dɔ wɔm ɣesiaɣi si wotrɔe; womeʋua kpɔɖeŋuwo yi dzraɖoƒe gbeɖe o. Gae ɖi gbɔlo be nàtsii."
 }

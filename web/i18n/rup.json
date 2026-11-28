@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Alãxea limita di lucru tu progres (WIP)",
   "enable-wip-limit": "Activeadzã limita di lucru tu progres (WIP)",
   "soft-wip-limit": "Limitã flexibilã di lucru tu progres (WIP)",
-  "move-reason": "Itia a mutariljei (cu vreari)"
+  "move-reason": "Itia a mutariljei (cu vreari)",
+  "auto-archive-days": "Mutã cartili tu arhivã dupã atãnti dzãli fãrã activitati",
+  "auto-archive-off": "Dizactivat",
+  "auto-archive-hint": "S-verificã cafi orã. Carta s-numirã activã cafi oarã cãndu s-alãxeashti; modelili nu s-mutã vãrnãoarã tu arhivã. Lasã cãmpul gol ca s-dizactiveadzã."
 }

@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Redigera WIP-gräns",
   "enable-wip-limit": "Aktivera WIP-gräns",
   "soft-wip-limit": "Mjuk WIP-gräns",
-  "move-reason": "Flytta kort — Beskrivning"
+  "move-reason": "Flytta kort — Beskrivning",
+  "auto-archive-days": "Arkivera kort efter så här många dagar utan aktivitet",
+  "auto-archive-off": "Av",
+  "auto-archive-hint": "Kontrolleras varje timme. Varje ändring av ett kort räknas som aktivitet; mallar arkiveras aldrig. Lämna tomt för att stänga av."
 }

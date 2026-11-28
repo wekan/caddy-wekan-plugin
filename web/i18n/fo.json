@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "Broyt WIP-mark",
   "enable-wip-limit": "Virkja WIP-mark",
   "soft-wip-limit": "Bleytt WIP-mark",
-  "move-reason": "Flyt kortið — Lýsing"
+  "move-reason": "Flyt kortið — Lýsing",
+  "auto-archive-days": "Flyt kort í goymslu eftir so nógvar dagar uttan virksemi",
+  "auto-archive-off": "Sløkt",
+  "auto-archive-hint": "Verður kannað hvønn tíma. Eitt kort verður roknað sum virkið, hvørja ferð tað verður broytt; formar verða ongantíð fluttir í goymslu. Lat teigin vera tóman fyri at sløkkja."
 }

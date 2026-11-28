@@ -1942,5 +1942,8 @@
   "edit-wip-limit": "编辑在制品限制",
   "enable-wip-limit": "启用 WIP 限制",
   "soft-wip-limit": "软在制品限制",
-  "move-reason": "移动卡 — 描述"
+  "move-reason": "移动卡 — 描述",
+  "auto-archive-days": "卡片连续此天数没有活动后归档",
+  "auto-archive-off": "关闭",
+  "auto-archive-hint": "每小时检查一次。卡片的任何更改都算作活动；模板永远不会被归档。留空即可关闭。"
 }
