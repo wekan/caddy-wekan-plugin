@@ -991,6 +991,18 @@ func formatNotionCsv(d extBoard) string {
 	if len(lanes) > 1 {
 		columns = append(columns, "Swimlane")
 	}
+	reserved := map[string]bool{"swimlane": true, "__proto__": true, "constructor": true, "prototype": true}
+	for _, column := range columns {
+		reserved[strings.ToLower(column)] = true
+	}
+	firstCustom := len(columns)
+	for _, item := range d.Items {
+		for _, field := range item.CustomFields {
+			if !reserved[strings.ToLower(field.Key)] && !contains(columns, field.Key) {
+				columns = append(columns, field.Key)
+			}
+		}
+	}
 	usDate := func(iso string) string {
 		if t := parseISO(iso); !t.IsZero() {
 			return t.Format("01/02/2006")
@@ -1016,6 +1028,15 @@ func formatNotionCsv(d extBoard) string {
 		v := map[string]string{"Name": name, "Status": i.ListTitle, "Assignee": strings.Join(uniqueNonEmpty(who), ", "),
 			"Tags": strings.Join(tags, ", "), "Start": usDate(i.StartAt), "Due": usDate(i.DueAt), "Description": i.Description,
 			"Swimlane": lane(i)}
+		for _, name := range columns[firstCustom:] {
+			switch value := jsGet(i.CustomFields, name).(type) {
+			case nil:
+			case bool:
+				v[name] = map[bool]string{true: "Yes", false: "No"}[value]
+			default:
+				v[name] = jsStr(value)
+			}
+		}
 		cells := make([]string, len(columns))
 		for k, c := range columns {
 			cells[k] = v[c]
