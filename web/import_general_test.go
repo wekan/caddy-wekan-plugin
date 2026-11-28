@@ -296,6 +296,27 @@ func TestImportJira(t *testing.T) {
 		t.Fatalf("Jira comment author: %v", author)
 	}
 
+	withChild := strings.TrimSuffix(strings.Replace(payload, `"key":"TEST-1"`, `"key":"TEST-1","id":10001`, 1), "]}") +
+		`,{"key":"TEST-CHILD","fields":{"summary":"Child","parent":{"id":"10001"}}}]}`
+	imported, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {withChild}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer imported.Body.Close()
+	if imported.StatusCode != http.StatusSeeOther || !strings.HasPrefix(imported.Header.Get("Location"), "/b/") {
+		t.Fatalf("Jira parent import: %d %s", imported.StatusCode, imported.Header.Get("Location"))
+	}
+	resultBoard := strings.Split(imported.Header.Get("Location"), "/")[2]
+	var parent, child bson.M
+	for title, row := range map[string]*bson.M{"[TEST-1] Sample issue": &parent, "[TEST-CHILD] Child": &child} {
+		if err := w.db.Collection("cards").FindOne(ctx, bson.M{"boardId": resultBoard, "title": title}).Decode(row); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if child["parentId"] != parent["_id"] {
+		t.Fatalf("Jira parent link: %v", child)
+	}
+
 	conflict := strings.TrimSuffix(payload, "]}") + `,{"key":"TEST-2","fields":{"summary":"Conflict","status":{"name":"Doing","statusCategory":{"key":"done"}}}}]}`
 	rejected, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {conflict}})
 	if err != nil {
@@ -306,4 +327,28 @@ func TestImportJira(t *testing.T) {
 		t.Fatalf("conflicting Jira categories: %d", rejected.StatusCode)
 	}
 
+}
+
+func TestJiraImportEpicAndInvalidParent(t *testing.T) {
+	input, err := decodeJS([]byte(`{"names":{"customfield_10014":"Epic Link"},"issues":[
+		{"key":"EPIC-1","fields":{"summary":"Epic"}},
+		{"key":"TASK-1","fields":{"summary":"Child","customfield_10014":"EPIC-1"}},
+		{"key":"TASK-2","fields":{"summary":"Missing parent","parent":{"key":"MISSING"},"customfield_10014":"EPIC-1"}},
+		{"key":"TASK-3","fields":{"summary":"Self","parent":{"key":"TASK-3"}}}
+	]}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	doc, err := parseJira(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	links := planImportedLinks(importTasks(doc))
+	if len(links.Parents) != 1 || links.Parents[0].Index != 1 || links.Parents[0].Parent != 0 || len(links.Unsupported) != 1 {
+		t.Fatalf("Jira hierarchy: %+v", links)
+	}
+	losses, _ := jsGet(doc, "unsupported").([]any)
+	if len(losses) != 1 || !strings.Contains(strOf(jsGet(losses[0], "reason")), "MISSING") {
+		t.Fatalf("Jira missing parent: %v", losses)
+	}
 }

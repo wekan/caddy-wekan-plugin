@@ -74,6 +74,34 @@ func jiraImportComments(fields any) ([]any, bool) {
 	return comments, total > float64(len(items))
 }
 
+func jiraPlanningField(data any, schemaType, displayName string) string {
+	if schema, ok := jsGet(data, "schema").(jsObject); ok {
+		for _, field := range schema {
+			if jiraEstimateKey.MatchString(field.Key) && jsGet(field.Value, "custom") == schemaType {
+				return field.Key
+			}
+		}
+	}
+	if names, ok := jsGet(data, "names").(jsObject); ok {
+		for _, field := range names {
+			if jiraEstimateKey.MatchString(field.Key) && strings.EqualFold(strings.TrimSpace(strOf(field.Value)), displayName) {
+				return field.Key
+			}
+		}
+	}
+	return ""
+}
+
+func jiraIssueID(value any) string {
+	switch id := value.(type) {
+	case string:
+		return id
+	case float64:
+		return jsNumber(id)
+	}
+	return ""
+}
+
 func parseJira(data any) (jsObject, error) {
 	issues, ok := data.([]any)
 	if !ok {
@@ -85,6 +113,8 @@ func parseJira(data any) (jsObject, error) {
 	tasks, columns, losses := []any{}, []any{}, []any{}
 	seen := map[string]bool{}
 	categories := map[string]string{}
+	byKey, byID := map[string]string{}, map[string]string{}
+	epicField := jiraPlanningField(data, "com.pyxis.greenhopper.jira:gh-epic-link", "Epic Link")
 	for index, issue := range issues {
 		if _, ok := issue.(jsObject); !ok {
 			return nil, errors.New("invalid Jira issue")
@@ -94,6 +124,19 @@ func parseJira(data any) (jsObject, error) {
 			return nil, errors.New("invalid Jira issue fields")
 		}
 		key, title := strOf(jsGet(issue, "key")), strOf(jsGet(fields, "summary"))
+		ref := strconv.Itoa(index + 1)
+		if key != "" {
+			if byKey[key] != "" {
+				return nil, errors.New("duplicate Jira issue key")
+			}
+			byKey[key] = ref
+		}
+		if id := jiraIssueID(jsGet(issue, "id")); id != "" {
+			if byID[id] != "" {
+				return nil, errors.New("duplicate Jira issue ID")
+			}
+			byID[id] = ref
+		}
 		if key != "" {
 			title = strings.TrimSpace("[" + key + "] " + title)
 		}
@@ -138,6 +181,7 @@ func parseJira(data any) (jsObject, error) {
 			task.set("spentTime", value/3600)
 		}
 		task.set("externalId", key)
+		task.set("ref", ref)
 		task.set("title", jsOr(title, "Imported issue"))
 		task.set("description", jiraDescription(jsGet(fields, "description")))
 		task.set("column_name", column)
@@ -158,6 +202,29 @@ func parseJira(data any) (jsObject, error) {
 				"the Jira export contains only part of this issue's comments"))
 		}
 		tasks = append(tasks, task)
+	}
+	for i, issue := range issues {
+		fields := jsGet(issue, "fields")
+		parent, direct := jsGet(fields, "parent").(jsObject)
+		field, target, ref := "parent", "", ""
+		if direct {
+			key := strOf(jsGet(parent, "key"))
+			id := jiraIssueID(jsGet(parent, "id"))
+			target = jsOr(key, id).(string)
+			ref = jsOr(byID[id], byKey[key]).(string)
+		} else if epicField != "" {
+			field = epicField
+			target = strOf(jsGet(fields, epicField))
+			ref = byKey[target]
+		}
+		if ref != "" {
+			task := tasks[i].(jsObject)
+			task.set("parent_ref", ref)
+			tasks[i] = task
+		} else if target != "" {
+			losses = append(losses, importUnsupportedObj("/issues/"+strconv.Itoa(i)+"/fields/"+field,
+				"parent "+strconv.Quote(target)+" is not part of this import"))
+		}
 	}
 	for i, raw := range columns {
 		column := raw.(jsObject)
