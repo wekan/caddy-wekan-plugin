@@ -1134,7 +1134,7 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		}
 		current = report.slug
 		data["WeeklyFlow"] = map[string]any{
-			"Title": tr(lang, report.title), "ChartKey": report.key, "Headers": headers, "Rows": rows, "Bars": weeklyFlowBars(rows),
+			"Title": tr(lang, report.title), "ChartKey": report.key, "Headers": headers, "Rows": rows, "Bars": weeklyFlowBars(rows, report.column),
 			"Export": !s.exportDisabled(r.Context()) && s.fieldExportAllowed(r.Context(), b, u),
 		}
 		break

@@ -45,8 +45,26 @@ func TestWeeklyFlowRows(t *testing.T) {
 	}) {
 		t.Fatalf("weekly flow rows: %v / %v", created, net)
 	}
-	if bars := weeklyFlowBars(net); len(bars) != 24 || bars[22].Value != -1 || bars[22].Magnitude != 1 {
+	if bars := weeklyFlowBars(net, 3); len(bars) != 24 || bars[22].Value != -1 || bars[22].Magnitude != 1 {
 		t.Fatalf("weekly flow bars: %v", bars)
+	}
+}
+
+func TestWeeklyAgeAndThroughput(t *testing.T) {
+	now := time.Date(2026, 11, 25, 12, 0, 0, 0, time.UTC)
+	cards := []chartCard{
+		{CreatedAt: now.AddDate(0, 0, -7), EndAt: now.AddDate(0, 0, -2)},
+		{CreatedAt: now.AddDate(0, 0, -2)},
+		{CreatedAt: now, ArchivedAt: now},
+	}
+	_, age := weeklyFlowRows(cards, now, "averageAge", "en")
+	_, run := weeklyFlowRows(cards, now, "throughputRun", "en")
+	if !reflect.DeepEqual(age, [][]any{
+		{"2026-11-16", 1, 4.5}, {"2026-11-23", 1, 2.0},
+	}) || !reflect.DeepEqual(run, [][]any{
+		{"2026-11-16", 0, 1.0}, {"2026-11-23", 2, 1.0},
+	}) {
+		t.Fatalf("average age and throughput: %v / %v", age, run)
 	}
 }
 
@@ -101,6 +119,7 @@ func TestExportCharts(t *testing.T) {
 		t.Fatalf("burndown rows: %s", s)
 	}
 	for chart, want := range map[string]string{"burnup": ">Total<", "leadTime": ">C<", "cycleTime": ">C<", "controlChart": ">StdDev<",
+		"averageAge": ">" + dayOf(mondayUTC(created)) + "<", "throughputRun": ">" + dayOf(mondayUTC(created)) + "<",
 		"throughputHistogram": ">1<", "gantt": ">C<", "pulse": ">" + dayOf(time.Now()) + "<", "dashboard": ">BOB<", "scrumVelocity": "<row r=\"2\">"} {
 		code, _, data := get(base+chart+"/exportExcel", a)
 		if code != 200 || !strings.Contains(sheet(data), want) {

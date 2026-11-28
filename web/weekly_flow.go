@@ -1,10 +1,25 @@
 package web
 
-import "time"
+import (
+	"math"
+	"slices"
+	"time"
+)
 
-var weeklyFlowViews = []struct{ slug, key, title, icon string }{
-	{"created-resolved", "createdResolved", "board-view-created-resolved", "fa-exchange"},
-	{"net-flow", "netFlow", "board-view-net-flow", "fa-balance-scale"},
+type weeklyFlowView struct {
+	slug, key, title, icon string
+	column                 int
+}
+
+var weeklyFlowViews = []weeklyFlowView{
+	{"created-resolved", "createdResolved", "board-view-created-resolved", "fa-exchange", 3},
+	{"net-flow", "netFlow", "board-view-net-flow", "fa-balance-scale", 3},
+	{"average-age", "averageAge", "board-view-average-age", "fa-birthday-cake", 2},
+	{"throughput-run", "throughputRun", "board-view-throughput-run", "fa-line-chart", 1},
+}
+
+func isWeeklyFlow(key string) bool {
+	return slices.ContainsFunc(weeklyFlowViews, func(report weeklyFlowView) bool { return report.key == key })
 }
 
 func mondayUTC(at time.Time) time.Time {
@@ -23,6 +38,29 @@ func weeklyFlowRows(cards []chartCard, now time.Time, key, lang string) ([]any, 
 	start, end := mondayUTC(first), mondayUTC(now)
 	if limit := end.AddDate(0, 0, -52*7); start.Before(limit) {
 		start = limit
+	}
+	if key == "averageAge" {
+		var rows [][]any
+		for week := start; !week.After(end); week = week.AddDate(0, 0, 7) {
+			at := week.AddDate(0, 0, 7)
+			if at.After(now) {
+				at = now
+			}
+			open, age := 0, 0.0
+			for _, card := range cards {
+				done, finished := card.done()
+				if card.CreatedAt.IsZero() || card.CreatedAt.After(at) || (finished && !done.After(at)) {
+					continue
+				}
+				open++
+				age += float64(at.UnixMilli()-card.CreatedAt.UnixMilli()) / 86400000
+			}
+			if open > 0 {
+				age = math.Round(age/float64(open)*10) / 10
+			}
+			rows = append(rows, []any{dayOf(week), open, age})
+		}
+		return weeklyFlowHeaders(lang, "week", "open", "report-average-age"), rows
 	}
 	type totals struct{ created, resolved int }
 	counts := map[time.Time]totals{}
@@ -49,13 +87,23 @@ func weeklyFlowRows(cards []chartCard, now time.Time, key, lang string) ([]any, 
 			}
 		}
 	}
+	if key == "throughputRun" {
+		var samples []int
+		for week := start; !week.After(end); week = week.AddDate(0, 0, 7) {
+			samples = append(samples, counts[week].resolved)
+		}
+		sorted := slices.Clone(samples)
+		slices.Sort(sorted)
+		median := float64(sorted[(len(sorted)-1)/2]+sorted[len(sorted)/2]) / 2
+		rows := make([][]any, 0, len(samples))
+		for i, count := range samples {
+			rows = append(rows, []any{dayOf(start.AddDate(0, 0, i*7)), count, median})
+		}
+		return weeklyFlowHeaders(lang, "week", "done", "report-median"), rows
+	}
 	columns := []string{"week", "report-created", "resolved", "open"}
 	if key == "netFlow" {
 		columns = []string{"week", "report-arrivals", "report-departures", "report-net"}
-	}
-	headers := make([]any, len(columns))
-	for i, column := range columns {
-		headers[i] = tr(lang, column)
 	}
 	var rows [][]any
 	for week := start; !week.After(end); week = week.AddDate(0, 0, 7) {
@@ -67,19 +115,27 @@ func weeklyFlowRows(cards []chartCard, now time.Time, key, lang string) ([]any, 
 		}
 		rows = append(rows, []any{dayOf(week), total.created, total.resolved, value})
 	}
-	return headers, rows
+	return weeklyFlowHeaders(lang, columns...), rows
+}
+
+func weeklyFlowHeaders(lang string, columns ...string) []any {
+	headers := make([]any, len(columns))
+	for i, column := range columns {
+		headers[i] = tr(lang, column)
+	}
+	return headers
 }
 
 type weeklyFlowBar struct {
 	Week                  string
-	Value, Magnitude, Max int
+	Value, Magnitude, Max float64
 }
 
-func weeklyFlowBars(rows [][]any) []weeklyFlowBar {
+func weeklyFlowBars(rows [][]any, column int) []weeklyFlowBar {
 	bars := make([]weeklyFlowBar, 0, min(len(rows), 24))
-	scale := 1
+	scale := 1.0
 	for _, row := range rows[max(0, len(rows)-24):] {
-		value := row[3].(int)
+		value, _ := toFloat(row[column])
 		magnitude := max(value, -value)
 		scale = max(scale, magnitude)
 		bars = append(bars, weeklyFlowBar{Week: row[0].(string), Value: value, Magnitude: magnitude})

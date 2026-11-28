@@ -24,6 +24,7 @@ import (
 // chartTitles are WeKan's chart keys and their titles' translation keys.
 var chartTitles = map[string]string{
 	"createdResolved": msg("board-view-created-resolved"), "netFlow": msg("board-view-net-flow"),
+	"averageAge": msg("board-view-average-age"), "throughputRun": msg("board-view-throughput-run"),
 	"dashboard": msg("board-view-dashboard"), "burndown": msg("board-view-burndown"), "burnup": msg("board-view-burnup"),
 	"cumulativeFlow": msg("board-view-cumulative-flow"), "controlChart": msg("board-view-control-chart"),
 	"cycleTime": msg("board-view-cycle-time"), "flowEfficiency": msg("board-view-flow-efficiency"),
@@ -70,7 +71,7 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 				return
 			}
 		}
-		if (key == "createdResolved" || key == "netFlow") && u != nil && assignedOnlyOn(&b, u) {
+		if isWeeklyFlow(key) && u != nil && assignedOnlyOn(&b, u) {
 			http.Error(w, "Unauthorized", http.StatusForbidden)
 			return
 		}
@@ -203,7 +204,7 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 		return nil, nil, false
 	}
 	now := time.Now().UTC()
-	if key == "createdResolved" || key == "netFlow" {
+	if isWeeklyFlow(key) {
 		headers, rows := weeklyFlowRows(cards, now, key, lang)
 		return headers, rows, true
 	}
