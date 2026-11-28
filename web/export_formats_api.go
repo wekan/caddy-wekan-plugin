@@ -3,6 +3,7 @@ package web
 import (
 	"fmt"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -685,20 +686,23 @@ type asanaSection struct {
 }
 
 type asanaTask struct {
-	GID         string         `json:"gid"`
-	Name        string         `json:"name"`
-	Notes       string         `json:"notes"`
-	Completed   bool           `json:"completed"`
-	CompletedAt string         `json:"completed_at,omitempty"`
-	DueOn       string         `json:"due_on,omitempty"`
-	StartOn     string         `json:"start_on,omitempty"`
-	CreatedAt   string         `json:"created_at,omitempty"`
-	Assignee    *asanaName     `json:"assignee,omitempty"`
-	Parent      *asanaGID      `json:"parent,omitempty"`
-	Memberships []asanaSection `json:"memberships"`
-	Tags        []ghLabel      `json:"tags"`
-	Subtasks    []asanaSubtask `json:"subtasks,omitempty"`
-	Stories     []asanaStory   `json:"stories,omitempty"`
+	Dependencies []asanaGID     `json:"dependencies,omitempty"`
+	GID          string         `json:"gid"`
+	Name         string         `json:"name"`
+	Notes        string         `json:"notes"`
+	Completed    bool           `json:"completed"`
+	CompletedAt  string         `json:"completed_at,omitempty"`
+	DueOn        string         `json:"due_on,omitempty"`
+	TimeMinutes  float64        `json:"actual_time_minutes,omitempty"`
+	StartOn      string         `json:"start_on,omitempty"`
+	CreatedAt    string         `json:"created_at,omitempty"`
+	Assignee     *asanaName     `json:"assignee,omitempty"`
+	Parent       *asanaGID      `json:"parent,omitempty"`
+	Memberships  []asanaSection `json:"memberships"`
+	Tags         []ghLabel      `json:"tags"`
+	CustomFields []jsObject     `json:"custom_fields,omitempty"`
+	Subtasks     []asanaSubtask `json:"subtasks,omitempty"`
+	Stories      []asanaStory   `json:"stories,omitempty"`
 }
 
 func formatAsana(d extBoard) any {
@@ -706,10 +710,51 @@ func formatAsana(d extBoard) any {
 		Data []asanaTask `json:"data"`
 	}
 	out := asanaDoc{Data: []asanaTask{}}
+	exported := map[string]bool{}
+	for _, item := range d.Items {
+		exported[item.CardID] = true
+	}
+	blockers := map[string][]asanaGID{}
+	addBlocker := func(waiting, blocking string) {
+		edge := asanaGID{GID: blocking}
+		if waiting != blocking && exported[waiting] && exported[blocking] && !slices.Contains(blockers[waiting], edge) {
+			blockers[waiting] = append(blockers[waiting], edge)
+		}
+	}
+	for _, item := range d.Items {
+		for _, dep := range item.Dependencies {
+			switch dep.Type {
+			case "blocks":
+				addBlocker(dep.CardID, item.CardID)
+			case "is-blocked-by":
+				addBlocker(item.CardID, dep.CardID)
+			}
+		}
+	}
+
 	for _, i := range d.Items {
 		closed := isClosedList(i.ListTitle)
-		a := asanaTask{GID: i.CardID, Name: i.Title, Notes: i.Description, Completed: closed, DueOn: i.DueAt, StartOn: i.StartAt,
+		a := asanaTask{Dependencies: blockers[i.CardID], GID: i.CardID, Name: i.Title, Notes: i.Description, Completed: closed, DueOn: i.DueAt, StartOn: i.StartAt,
 			CreatedAt: i.CreatedAt, Memberships: []asanaSection{{Section: asanaSectionName{Name: i.ListTitle}}}, Tags: []ghLabel{}}
+		if i.SpentTime > 0 && i.SpentTime <= 9007199254740991.0/60 {
+			a.TimeMinutes = jsRound(i.SpentTime * 60)
+		}
+		for _, field := range i.CustomFields {
+			entry := jsObject{{"name", field.Key}}
+			switch value := field.Value.(type) {
+			case float64, int, int32, int64:
+				entry.set("number_value", value)
+			case []any:
+				parts := make([]string, len(value))
+				for n, part := range value {
+					parts[n] = fmt.Sprint(part)
+				}
+				entry.set("text_value", strings.Join(parts, ", "))
+			default:
+				entry.set("text_value", fmt.Sprint(value))
+			}
+			a.CustomFields = append(a.CustomFields, entry)
+		}
 		if closed {
 			a.CompletedAt = i.EndAt
 		}
