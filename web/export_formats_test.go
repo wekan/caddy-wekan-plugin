@@ -574,7 +574,7 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 	both := download(admin, "scrum,custom-fields", 200)
 	if both.WekanScrumMapping["estimateFieldId"] != key || both.WekanScrumMapping["estimateUnit"] != "hours" ||
 		both.Schema[key]["type"] != "number" || both.Issues[0].Fields[key] != float64(0) ||
-		both.Names["customfield_90002"] != "Budget" {
+		both.Names[key] != "Budget" || len(both.Names) != 1 {
 		t.Fatalf("estimate mapping must preserve zero and reserve the Jira ID: %+v", both)
 	}
 	for _, kind := range []string{"original", "remaining"} {
@@ -596,7 +596,11 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 		"custom-fields": {"originalEstimateSeconds": float64(7200), "remainingEstimateSeconds": float64(0)},
 		"description":   nil,
 	} {
-		fields := download(admin, selection, 200).Issues[0].Fields
+		doc := download(admin, selection, 200)
+		fields := doc.Issues[0].Fields
+		if selection == "custom-fields" && len(doc.Names) != 1 {
+			t.Errorf("Jira time fields duplicated in names: %v", doc.Names)
+		}
 		if selection == "dates" && fields["resolutiondate"] != "2026-10-10T00:00:00.000Z" {
 			t.Errorf("Jira resolution date: %v", fields["resolutiondate"])
 		}

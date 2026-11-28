@@ -26,7 +26,7 @@ func jsOptional(s string) any {
 }
 
 type jiraEstimateMapping struct {
-	key, unit, localID string
+	key, unit, localID, name string
 }
 
 var jiraEstimateKey = regexp.MustCompile(`^customfield_[0-9]{1,20}$`)
@@ -50,7 +50,7 @@ func (fr *fieldReader) jiraEstimateMapping() *jiraEstimateMapping {
 				return nil
 			}
 		}
-		match = &jiraEstimateMapping{key, unit, id}
+		match = &jiraEstimateMapping{key: key, unit: unit, localID: id, name: strOf(definition["name"])}
 	}
 	return match
 }
@@ -284,6 +284,9 @@ func formatJira(d extBoard) any {
 	out := jsObject{}
 	out.set("board", board)
 	if mapping := d.JiraEstimate; mapping != nil {
+		if mapping.name != "" {
+			names.set(mapping.key, mapping.name)
+		}
 		out.set("wekanScrumMapping", jsObject{{"estimateFieldId", mapping.key}, {"estimateUnit", mapping.unit}})
 		out.set("schema", jsObject{{mapping.key, jsObject{{"type", "number"}}}})
 	}

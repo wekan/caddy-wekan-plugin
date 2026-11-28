@@ -356,12 +356,22 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 	}
 	var exportFields *fieldReader
 	var jiraTimeIds [2]string
+	var nativeJiraFields map[string]bool
 	if (format == "orgmode" || format == "trello" || format == "trellozip" || format == "asana" || format == "zenkit" || format == "linear" || format == "quire" || format == "pivotal" || format == "redmine" || format == "clickup" || format == "ticktick" || format == "notion" || format == "jira" || format == "taiga") && want.has("custom-fields") {
 		exportFields = s.fieldReaderFor(ctx, b, u)
 		if format == "jira" {
 			jiraTimeIds = exportFields.jiraTimeEstimateIds()
 			if want.has("scrum") {
 				out.JiraEstimate = exportFields.jiraEstimateMapping()
+			}
+			nativeJiraFields = map[string]bool{}
+			for _, id := range jiraTimeIds {
+				if id != "" {
+					nativeJiraFields[id] = true
+				}
+			}
+			if out.JiraEstimate != nil {
+				nativeJiraFields[out.JiraEstimate.localID] = true
 			}
 		}
 	}
@@ -463,7 +473,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 			}
 		}
 		if exportFields != nil {
-			it.CustomFields = exportFields.externalFieldValues(c)
+			it.CustomFields = exportFields.externalFieldValues(c, nativeJiraFields)
 			if format == "jira" {
 				jiraTimeEstimates(c, jiraTimeIds, &it.Timetracking)
 			}

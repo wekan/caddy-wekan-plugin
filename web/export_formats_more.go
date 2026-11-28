@@ -322,7 +322,7 @@ var orgRepeaters = map[string]string{"daily": "+1d", "weekly": "+1w", "monthly":
 
 var orgPropertySeparators = regexp.MustCompile(`[\s\p{Z}\x{FEFF}:]+`)
 
-func (fr *fieldReader) externalFieldValues(card map[string]any) jsObject {
+func (fr *fieldReader) externalFieldValues(card map[string]any, excluded map[string]bool) jsObject {
 	type property struct {
 		name  string
 		value any
@@ -332,7 +332,7 @@ func (fr *fieldReader) externalFieldValues(card map[string]any) jsObject {
 	for _, field := range fieldValues(card) {
 		id := docString(field, "_id")
 		value := field["value"]
-		if !fr.mayRead(id) || value == nil {
+		if excluded[id] || !fr.mayRead(id) || value == nil {
 			continue
 		}
 		def := fr.defs[id]
