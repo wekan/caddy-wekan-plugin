@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/mail"
+	"net/url"
 	"strings"
 	"time"
 	"unicode"
@@ -24,6 +25,37 @@ func shopOrderQuote(board string, lines []shopCartLine, total int64, currency st
 	}
 	encoded, _ := json.Marshal([]any{board, values, total, currency, settings["ordersBoardId"], settings["ordersListId"], settings["termsUrl"], settings["vatPercent"], settings["pricesIncludeVat"]})
 	return fmt.Sprintf("%x", sha256.Sum256(encoded))
+}
+
+func shopPaymentURL(template, amount, currency, number string) string {
+	if !strings.HasPrefix(template, "https://") || utf16Len(template) > 2000 ||
+		strings.ContainsAny(template, " \t\r\n<>\"'") {
+		return ""
+	}
+	value := strings.NewReplacer("{amount}", url.QueryEscape(amount), "{currency}", url.QueryEscape(currency),
+		"{number}", url.QueryEscape(number), "{reference}", "").Replace(template)
+	link, err := url.Parse(value)
+	if err != nil || link.Scheme != "https" || link.Hostname() == "" || link.User != nil ||
+		strings.ContainsAny(link.Host, "{}") {
+		return ""
+	}
+	return value
+}
+
+func shopPaymentMethods(settings bson.M) bson.A {
+	methods, _ := settings["paymentMethods"].(bson.A)
+	return methods
+}
+
+func shopLinkMethod(settings bson.M) (int, bson.M) {
+	for i, raw := range shopPaymentMethods(settings) {
+		entry := asM(raw)
+		method := asM(entry["method"])
+		if method["type"] == "link" && entry["enabled"] != false {
+			return i, method
+		}
+	}
+	return -1, nil
 }
 
 func (s *Server) submitShopOrder(w http.ResponseWriter, r *http.Request) {
@@ -151,6 +183,9 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		http.Error(w, "Could not save order", http.StatusServiceUnavailable)
 		return
 	}
+	amount, currency, _ := strings.Cut(total, " ")
+	_, method := shopLinkMethod(settings)
+	payment := shopPaymentURL(strOf(method["url"]), amount, currency, id)
 	if created && settings["confirmationEmail"] != false {
 		shopName := strOf(settings["title"])
 		if shopName == "" {
@@ -164,12 +199,23 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 			fmt.Fprintf(&receipt, "%s × %d — %s\n", line.Title, line.Quantity, line.Total)
 		}
 		fmt.Fprintln(&receipt, total)
+		if payment != "" {
+			fmt.Fprintln(&receipt, tr(lang, msg("shop-email-pay")), payment)
+		}
 		if err := s.sendMail(ctx, r.Host, mailMessage{To: []string{email}, Subject: subject, Text: receipt.String()}); err != nil && !errors.Is(err, errNoMail) {
 			s.log.Warn("Shop confirmation delivery failed", "order", id)
 		}
 	}
 	s.hub.publishFrom(boardID, "board-changed", "")
 	http.SetCookie(w, &http.Cookie{Name: shopCartCookie(shop.ID), Path: "/b/" + shop.ID + "/", MaxAge: -1, HttpOnly: true})
+	if payment != "" {
+		s.render(w, r, "shop_order", http.StatusCreated, map[string]any{
+			"Title": shop.Title, "User": u, "Total": total, "Payment": payment,
+			"Message": strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id),
+			"Shop":    shopLocation(shop, "", ""),
+		})
+		return
+	}
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	w.WriteHeader(http.StatusCreated)
 	fmt.Fprintln(w, strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id))

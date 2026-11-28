@@ -126,6 +126,7 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		http.Error(w, "Could not load private order lists", http.StatusInternalServerError)
 		return
 	}
+	linkIndex, linkMethod := shopLinkMethod(settings)
 	st := boardViewStateOf(doc)
 	if r.Method == http.MethodPost {
 		r.Body = http.MaxBytesReader(w, r.Body, 32<<10)
@@ -204,6 +205,31 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 			set["shopSettings.vatPercent"] = math.Round(rate*100) / 100
 			set["shopSettings.pricesIncludeVat"] = r.PostForm.Get("pricesIncludeVat") == "1"
 		}
+		if r.PostForm.Has("paymentLink") {
+			link := strings.TrimSpace(r.PostForm.Get("paymentLink"))
+			if link != "" && shopPaymentURL(link, "1", "EUR", "order") == "" {
+				http.Error(w, "Invalid Shop payment link", http.StatusBadRequest)
+				return
+			}
+			methods := slices.Clone(shopPaymentMethods(settings))
+			if linkIndex >= 0 {
+				if link == "" {
+					methods = slices.Delete(methods, linkIndex, linkIndex+1)
+				} else {
+					entry := asM(methods[linkIndex])
+					entry["method"] = bson.M{"type": "link", "url": link, "label": strOf(linkMethod["label"])}
+					methods[linkIndex] = entry
+				}
+			} else if link != "" {
+				if len(methods) >= 20 {
+					http.Error(w, "Too many Shop payment methods", http.StatusBadRequest)
+					return
+				}
+				methods = append(methods, bson.M{"id": randomID(), "enabled": true,
+					"method": bson.M{"type": "link", "url": link}})
+			}
+			set["shopSettings.paymentMethods"] = methods
+		}
 		filter := bson.M{"_id": eq(b.ID)}
 		if r.PostForm.Get("publicDefault") == "1" {
 			set["defaultPublicBoardView"] = "board-view-shop"
@@ -234,6 +260,7 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		"Title": b.Title, "Board": b, "User": u, "Settings": settings, "Currency": currency,
 		"Pickers": pickers, "Lists": listOptions, "Labels": labelOptions, "OrderLists": orderLists,
 		"ConfirmationEmail": settings["confirmationEmail"] != false,
+		"PaymentLink":       strOf(linkMethod["url"]),
 		"DecrementStock":    settings["decrementStock"] != false,
 		"PricesIncludeVAT":  settings["pricesIncludeVat"] != false, "VATPercent": float64(shopVATRate(settings)) / 100,
 		"PublicDefault": st.defaultView("public") == "board-view-shop", "Shop": shopLocation(b, "", ""),

@@ -1,0 +1,7 @@
+.wrapper
+  main.website-view
+    h1 {{.Message}}
+    p {{t $.L "billing-total"}} {{.Total}}
+    p
+      a(href="{{.Payment}}", rel="noopener noreferrer") {{t $.L "billing-method-link"}}
+    a(href="{{.Shop}}") {{t $.L "shop-continue"}}

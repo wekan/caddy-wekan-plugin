@@ -41,6 +41,18 @@ func TestShopTaxTotals(t *testing.T) {
 	}
 }
 
+func TestShopPaymentURL(t *testing.T) {
+	if got := shopPaymentURL("https://pay.example.test/invoice?a={amount}&c={currency}&n={number}", "1.25", "EUR", "x&y"); got !=
+		"https://pay.example.test/invoice?a=1.25&c=EUR&n=x%26y" {
+		t.Fatalf("payment link expansion: %q", got)
+	}
+	for _, link := range []string{"http://example.test/", "https://unsafe@example.test/", "https://", "https://example.test/\""} {
+		if got := shopPaymentURL(link, "1", "EUR", "order"); got != "" {
+			t.Errorf("invalid payment link accepted: %q", got)
+		}
+	}
+}
+
 func TestShopBoardView(t *testing.T) {
 	sink := newSMTPSink(t)
 	t.Setenv("MAIL_URL", "smtp://"+sink.ln.Addr().String())
@@ -117,7 +129,10 @@ func TestShopBoardView(t *testing.T) {
 		strings.Contains(page, "Order destination") {
 		t.Fatalf("checkout review: %d %s", res.StatusCode, page)
 	}
-	update("boards", b.ID, bson.M{"shopSettings.decrementStock": false})
+	update("boards", b.ID, bson.M{"shopSettings.decrementStock": false,
+		"shopSettings.paymentMethods": bson.A{bson.M{"id": "link", "enabled": true,
+			"method": bson.M{"type": "link", "url": "https://pay.example.test/order?number={number}&amount={amount}&currency={currency}"}}},
+	})
 	res, page = get(t, guest, checkoutURL)
 	nonce := regexp.MustCompile(`name="id" value="([A-Za-z0-9_-]+)"`).FindStringSubmatch(page)
 	quote := regexp.MustCompile(`name="quote" value="([0-9a-f]+)"`).FindStringSubmatch(page)
@@ -146,7 +161,8 @@ func TestShopBoardView(t *testing.T) {
 	form["quote"] = []string{quote[1]}
 	for attempt := 0; attempt < 2; attempt++ {
 		guest.Jar.SetCookies(res.Request.URL, []*http.Cookie{cookie})
-		if res, page = post(t, guest, orderURL, form); res.StatusCode != http.StatusCreated {
+		if res, page = post(t, guest, orderURL, form); res.StatusCode != http.StatusCreated || !strings.Contains(page, "https://pay.example.test/order?number=") ||
+			!strings.Contains(page, "amount=25.00&amp;currency=EUR") {
 			t.Fatalf("order submission: %d %s", res.StatusCode, page)
 		}
 	}
