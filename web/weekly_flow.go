@@ -16,6 +16,7 @@ var weeklyFlowViews = []weeklyFlowView{
 	{"net-flow", "netFlow", "board-view-net-flow", "fa-balance-scale", 3},
 	{"average-age", "averageAge", "board-view-average-age", "fa-birthday-cake", 2},
 	{"throughput-run", "throughputRun", "board-view-throughput-run", "fa-line-chart", 1},
+	{"due-date-performance", "dueDatePerformance", "board-view-due-date-performance", "fa-calendar-check-o", 1},
 }
 
 func isWeeklyFlow(key string) bool {
@@ -62,7 +63,10 @@ func weeklyFlowRows(cards []chartCard, now time.Time, key, lang string) ([]any, 
 		}
 		return weeklyFlowHeaders(lang, "week", "open", "report-average-age"), rows
 	}
-	type totals struct{ created, resolved int }
+	type totals struct {
+		created, resolved, onTime, late, noDue int
+		daysLate                               float64
+	}
 	counts := map[time.Time]totals{}
 	open := 0
 	for _, card := range cards {
@@ -83,9 +87,32 @@ func weeklyFlowRows(cards []chartCard, now time.Time, key, lang string) ([]any, 
 			if !week.Before(start) && !week.After(end) {
 				total := counts[week]
 				total.resolved++
+				if key == "dueDatePerformance" {
+					switch {
+					case card.DueAt.IsZero():
+						total.noDue++
+					case done.After(card.DueAt):
+						total.late++
+						total.daysLate += float64(done.UnixMilli()-card.DueAt.UnixMilli()) / 86400000
+					default:
+						total.onTime++
+					}
+				}
 				counts[week] = total
 			}
 		}
+	}
+	if key == "dueDatePerformance" {
+		var rows [][]any
+		for week := start; !week.After(end); week = week.AddDate(0, 0, 7) {
+			total := counts[week]
+			average := 0.0
+			if total.late > 0 {
+				average = math.Round(total.daysLate/float64(total.late)*10) / 10
+			}
+			rows = append(rows, []any{dayOf(week), total.onTime, total.late, total.noDue, average})
+		}
+		return weeklyFlowHeaders(lang, "week", "report-on-time", "report-late", "report-no-due-date", "report-average-days-late"), rows
 	}
 	if key == "throughputRun" {
 		var samples []int
@@ -131,11 +158,20 @@ type weeklyFlowBar struct {
 	Value, Magnitude, Max float64
 }
 
-func weeklyFlowBars(rows [][]any, column int) []weeklyFlowBar {
+func weeklyFlowBars(rows [][]any, column int, percentage bool) []weeklyFlowBar {
 	bars := make([]weeklyFlowBar, 0, min(len(rows), 24))
 	scale := 1.0
+	if percentage {
+		scale = 100
+	}
 	for _, row := range rows[max(0, len(rows)-24):] {
 		value, _ := toFloat(row[column])
+		if percentage {
+			late, _ := toFloat(row[2])
+			if total := value + late; total > 0 {
+				value = math.Round(value/total*1000) / 10
+			}
+		}
 		magnitude := max(value, -value)
 		scale = max(scale, magnitude)
 		bars = append(bars, weeklyFlowBar{Week: row[0].(string), Value: value, Magnitude: magnitude})

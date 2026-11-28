@@ -1339,7 +1339,7 @@
         ul.weekly-flow-bars
           each bar in .WeeklyFlow.Bars
             li
-              span {{.Week}} {{.Value}}
+              span {{.Week}} {{.Value}}{{if $.WeeklyFlow.Percentage}}%{{end}}
               meter(min="0", max="{{.Max}}", value="{{.Magnitude}}", aria-hidden="true")
         table.stats-view-table.chart-data-table
           thead

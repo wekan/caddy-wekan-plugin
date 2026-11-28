@@ -23,7 +23,8 @@ import (
 
 // chartTitles are WeKan's chart keys and their titles' translation keys.
 var chartTitles = map[string]string{
-	"createdResolved": msg("board-view-created-resolved"), "netFlow": msg("board-view-net-flow"),
+	"dueDatePerformance": msg("board-view-due-date-performance"),
+	"createdResolved":    msg("board-view-created-resolved"), "netFlow": msg("board-view-net-flow"),
 	"averageAge": msg("board-view-average-age"), "throughputRun": msg("board-view-throughput-run"),
 	"dashboard": msg("board-view-dashboard"), "burndown": msg("board-view-burndown"), "burnup": msg("board-view-burnup"),
 	"cumulativeFlow": msg("board-view-cumulative-flow"), "controlChart": msg("board-view-control-chart"),
