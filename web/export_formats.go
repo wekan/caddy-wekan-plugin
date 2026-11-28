@@ -94,6 +94,8 @@ type extComment struct {
 // includes is here, but custom fields (WeKan lets them out only after its
 // admin-only check) and Scrum fields (Weddy has no sprints yet).
 type extItem struct {
+	Archived      bool            `json:"archived,omitempty"`
+	ModifiedAt    string          `json:"modifiedAt,omitempty"`
 	CustomFields  jsObject        `json:"-"`
 	CardID        string          `json:"cardId"`
 	ListID        string          `json:"listId"`
@@ -130,6 +132,7 @@ type extWipLimit struct {
 }
 
 type extNamed struct {
+	Archived bool         `json:"archived,omitempty"`
 	ID       string       `json:"_id"`
 	Title    string       `json:"title"`
 	WipLimit *extWipLimit `json:"wipLimit,omitempty"`
@@ -214,11 +217,16 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 	sorted := options.Find().SetSort(bson.D{{Key: "sort", Value: 1}})
 	listTitle, laneTitle := map[string]string{}, map[string]string{}
 	for coll, dst := range map[string]*[]extNamed{"lists": &out.Lists, "swimlanes": &out.Swimlanes} {
-		if cur, err := s.db.Collection(coll).Find(ctx, bson.M{"boardId": b.ID, "archived": false}, sorted); err == nil {
+		filter := bson.M{"boardId": b.ID, "archived": false}
+		if format == "trello" && coll == "lists" {
+			delete(filter, "archived")
+			filter["deletedAt"] = nil
+		}
+		if cur, err := s.db.Collection(coll).Find(ctx, filter, sorted); err == nil {
 			var docs []bson.M
 			_ = cur.All(ctx, &docs)
 			for _, d := range docs {
-				x := extNamed{ID: strOf(d["_id"]), Title: strOf(d["title"]), Color: strOf(d["color"])}
+				x := extNamed{Archived: d["archived"] == true, ID: strOf(d["_id"]), Title: strOf(d["title"]), Color: strOf(d["color"])}
 				if w := asM(d["wipLimit"]); len(w) > 0 { // stored: decoded as bson.D
 					v, _ := plain(w["value"]).(float64)
 					if n, ok := plain(w["value"]).(int32); ok {
@@ -244,7 +252,12 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		labels[l.ID] = l.Name
 	}
 	var cards []bson.M
-	if cur, err := s.db.Collection("cards").Find(ctx, bson.M{"boardId": b.ID, "archived": false}, sorted); err == nil {
+	cardFilter := bson.M{"boardId": b.ID, "archived": false}
+	if format == "trello" {
+		delete(cardFilter, "archived")
+		cardFilter["deletedAt"] = nil
+	}
+	if cur, err := s.db.Collection("cards").Find(ctx, cardFilter, sorted); err == nil {
 		_ = cur.All(ctx, &cards)
 	}
 	ids := bson.A{}
@@ -319,7 +332,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 	}
 	for _, c := range cards {
 		id := strOf(c["_id"])
-		it := extItem{CardID: id, ListID: strOf(c["listId"]), Title: strOf(c["title"]), Description: strOf(c["description"]),
+		it := extItem{Archived: c["archived"] == true, ModifiedAt: isoDate(c["modifiedAt"]), CardID: id, ListID: strOf(c["listId"]), Title: strOf(c["title"]), Description: strOf(c["description"]),
 			ListTitle: listTitle[strOf(c["listId"])], SwimlaneTitle: laneTitle[strOf(c["swimlaneId"])],
 			DueAt: isoDate(c["dueAt"]), Color: strOf(c["color"]), LabelIDs: []string{}, Labels: []string{},
 			StartAt: isoDate(c["startAt"]), EndAt: isoDate(c["endAt"]), CreatedAt: isoDate(c["createdAt"]),
@@ -398,7 +411,10 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		// due date before gateItem drops that.
 		if !want.has("dates") {
 			// Jira's time spent is a date section too (jiraTimeTrackingExport).
-			it.StartAt, it.EndAt, it.CreatedAt, it.SpentTime, it.DueAt, it.Timetracking = "", "", "", 0, "", nil
+			it.StartAt, it.EndAt, it.CreatedAt, it.ModifiedAt, it.SpentTime, it.DueAt, it.Timetracking = "", "", "", "", 0, "", nil
+			if format == "trello" {
+				it.DueComplete = false
+			}
 		}
 		if !want.has("people") {
 			it.Owner, it.Assignees, it.Creator, it.RequestedBy = "", nil, "", ""

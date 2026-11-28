@@ -1,6 +1,9 @@
 package web
 
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 // The issue trackers' and boards' JSON - NextCloud Deck, Kanboard,
 // OpenProject, GitHub, Gitea, Forgejo, GitLab, Trello and Asana - as Node.js
@@ -409,56 +412,93 @@ type trelloLabel struct {
 	Color string `json:"color"`
 }
 
-type trelloList struct {
-	ID     string `json:"id"`
-	Name   string `json:"name"`
-	Closed bool   `json:"closed"`
-}
-
-type trelloCard struct {
-	ID           string   `json:"id"`
-	Name         string   `json:"name"`
-	Desc         string   `json:"desc"`
-	IDList       string   `json:"idList"`
-	Due          *string  `json:"due"`
-	Closed       bool     `json:"closed"`
-	IDLabels     []string `json:"idLabels"`
-	IDMembers    []string `json:"idMembers"`
-	IDChecklists []string `json:"idChecklists"`
-}
-
 func formatTrello(d extBoard) any {
-	type trelloPrefs struct {
-		Background      string `json:"background"`
-		PermissionLevel string `json:"permissionLevel"`
-	}
-	type trelloBoard struct {
-		Name       string        `json:"name"`
-		Prefs      trelloPrefs   `json:"prefs"`
-		Labels     []trelloLabel `json:"labels"`
-		Lists      []trelloList  `json:"lists"`
-		Cards      []trelloCard  `json:"cards"`
-		Checklists []string      `json:"checklists"`
-		Actions    []string      `json:"actions"`
-	}
-	out := trelloBoard{Name: d.Board.Title, Prefs: trelloPrefs{"blue", "private"}, Labels: []trelloLabel{}, Lists: []trelloList{},
-		Cards: []trelloCard{}, Checklists: []string{}, Actions: []string{}}
-	for _, l := range d.Board.Labels {
-		out.Labels = append(out.Labels, trelloLabel{ID: l.ID, Name: l.Name, Color: l.Color})
-	}
-	for _, l := range d.Lists {
-		out.Lists = append(out.Lists, trelloList{ID: l.ID, Name: l.Title})
-	}
-	for _, i := range d.Items {
-		c := trelloCard{ID: i.CardID, Name: i.Title, Desc: i.Description, IDList: i.ListID, IDLabels: append([]string{}, i.LabelIDs...),
-			IDMembers: []string{}, IDChecklists: []string{}}
-		if i.DueAt != "" {
-			due := i.DueAt
-			c.Due = &due
+	const epoch = "1970-01-01T00:00:00.000Z"
+	firstDate := func(values ...string) string {
+		for _, value := range values {
+			if at := parseISO(value); !at.IsZero() {
+				return at.Format("2006-01-02T15:04:05.000Z")
+			}
 		}
-		out.Cards = append(out.Cards, c)
+		return epoch
 	}
-	return out
+	members, lists, cards, checklists, actions := []any{}, []any{}, []any{}, []any{}, []any{}
+	labels := []trelloLabel{}
+	seen := map[string]bool{}
+	addMember := func(username string) {
+		if username != "" && !seen[username] {
+			seen[username] = true
+			members = append(members, jsObject{{"id", username}, {"username", username}, {"fullName", username}})
+		}
+	}
+	for _, label := range d.Board.Labels {
+		labels = append(labels, trelloLabel{ID: label.ID, Name: label.Name, Color: label.Color})
+	}
+	for n, list := range d.Lists {
+		lists = append(lists, jsObject{{"id", list.ID}, {"name", list.Title}, {"closed", list.Archived}, {"pos", n + 1}})
+	}
+	for n, item := range d.Items {
+		cardMembers := []string{}
+		for _, username := range append([]string{item.Owner}, item.Assignees...) {
+			addMember(username)
+			if username != "" && !contains(cardMembers, username) {
+				cardMembers = append(cardMembers, username)
+			}
+		}
+		checkIDs := []string{}
+		for index, checklist := range item.Checklists {
+			id := fmt.Sprintf("%s-checklist-%d", item.CardID, index+1)
+			name := checklist.Title
+			if name == "" {
+				name = "Checklist"
+			}
+			entries := []any{}
+			for k, entry := range checklist.Items {
+				state := "incomplete"
+				if entry.Done {
+					state = "complete"
+				}
+				entries = append(entries, jsObject{{"id", fmt.Sprintf("%s-item-%d", id, k+1)}, {"name", entry.Title}, {"state", state}, {"pos", k + 1}})
+			}
+			checkIDs = append(checkIDs, id)
+			checklists = append(checklists, jsObject{{"id", id}, {"idBoard", d.Board.ID}, {"idCard", item.CardID},
+				{"name", name}, {"pos", index + 1}, {"checkItems", entries}})
+		}
+		var due any
+		if item.DueAt != "" {
+			due = item.DueAt
+		}
+		card := jsObject{{"id", item.CardID}, {"name", item.Title}, {"desc", item.Description}, {"pos", n + 1},
+			{"dateLastActivity", firstDate(item.ModifiedAt, item.CreatedAt)}, {"idList", item.ListID}, {"due", due}}
+		if item.StartAt != "" {
+			card.set("start", item.StartAt)
+		}
+		card = append(card, jsObject{{"dueComplete", item.DueComplete}, {"closed", item.Archived},
+			{"idLabels", append([]string{}, item.LabelIDs...)}, {"idMembers", cardMembers},
+			{"idChecklists", checkIDs}, {"customFieldItems", []any{}}}...)
+		cards = append(cards, card)
+		commentIndex := 0
+		for _, comment := range item.Comments {
+			addMember(comment.Author)
+			if comment.Text == "" {
+				continue
+			}
+			commentIndex++
+			var author, authorID any
+			if comment.Author != "" {
+				authorID = comment.Author
+				author = jsObject{{"username", comment.Author}, {"fullName", comment.Author}}
+			}
+			actions = append(actions, jsObject{{"id", fmt.Sprintf("%s-comment-%d", item.CardID, commentIndex)},
+				{"type", "commentCard"}, {"date", firstDate(comment.Date, item.CreatedAt)}, {"idMemberCreator", authorID},
+				{"memberCreator", author}, {"data", jsObject{{"text", comment.Text},
+					{"card", jsObject{{"id", item.CardID}, {"name", item.Title}}},
+					{"board", jsObject{{"id", d.Board.ID}}}}}})
+		}
+	}
+	return jsObject{{"name", d.Board.Title}, {"prefs", jsObject{{"background", "blue"}, {"permissionLevel", "private"}}},
+		{"members", members}, {"customFields", []any{}}, {"labels", labels}, {"lists", lists}, {"cards", cards},
+		{"checklists", checklists}, {"actions", actions}}
 }
 
 // --- Asana
