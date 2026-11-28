@@ -424,14 +424,44 @@ type glIssue struct {
 	CreatedAt   string   `json:"created_at,omitempty"`
 	ClosedAt    string   `json:"closed_at,omitempty"`
 	Notes       []glNote `json:"notes,omitempty"`
+	Iteration   jsObject `json:"iteration,omitempty"`
+	Milestone   jsObject `json:"milestone,omitempty"`
+}
+
+func gitLabPlanning(rows []map[string]any, sprint bool) map[string]jsObject {
+	result := map[string]jsObject{}
+	for index, row := range rows {
+		state := strOf(row["state"])
+		fields := jsObject{{"id", index + 1}, {"iid", index + 1}, {"title", strOf(row["name"])}}
+		if sprint {
+			code := map[string]int{"active": 2, "closed": 3}[state]
+			if code == 0 {
+				code = 1
+			}
+			fields.set("description", strOf(row["goal"]))
+			fields.set("state", code)
+		} else {
+			fields.set("description", strOf(row["notes"]))
+			fields.set("state", map[bool]string{true: "closed", false: "active"}[state == "released"])
+		}
+		if date := isoDate(row["plannedStart"]); date != "" {
+			fields.set("start_date", date[:10])
+		}
+		if date := isoDate(row["plannedEnd"]); date != "" {
+			fields.set("due_date", date[:10])
+		}
+		result[strOf(row["_id"])] = fields
+	}
+	return result
 }
 
 func formatGitlab(d extBoard) any {
+	sprints, releases := gitLabPlanning(d.Sprints, true), gitLabPlanning(d.Releases, false)
 	out := []glIssue{}
 	for _, i := range d.Items {
 		closed := isClosedList(i.ListTitle)
 		g := glIssue{Title: i.Title, Description: i.Description, State: map[bool]string{true: "closed", false: "opened"}[closed],
-			Labels: append([]string{}, i.Labels...), DueDate: i.DueAt, CreatedAt: i.CreatedAt}
+			Labels: append([]string{}, i.Labels...), DueDate: i.DueAt, CreatedAt: i.CreatedAt, Iteration: sprints[i.SprintID], Milestone: releases[i.ReleaseID]}
 		if i.Owner != "" {
 			// Not filtered, as WeKan's: every assignee after the owner.
 			for _, p := range append([]string{i.Owner}, i.Assignees...) {

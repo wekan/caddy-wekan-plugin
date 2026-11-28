@@ -124,7 +124,8 @@ type extItem struct {
 	Checklists    []extChecklist  `json:"checklists,omitempty"`
 	// Timetracking is what WeKan's collect() gives the Jira export: the time
 	// spent in seconds (models/lib/jiraTimeTracking.js).
-	Timetracking jsObject `json:"timetracking,omitempty"`
+	Timetracking        jsObject `json:"timetracking,omitempty"`
+	SprintID, ReleaseID string   `json:"-"`
 }
 
 type extWipLimit struct {
@@ -149,9 +150,10 @@ type extBoard struct {
 		CreatedAt   string  `json:"createdAt,omitempty"`
 		ModifiedAt  string  `json:"modifiedAt,omitempty"`
 	} `json:"board"`
-	Lists     []extNamed `json:"lists"`
-	Swimlanes []extNamed `json:"swimlanes"`
-	Items     []extItem  `json:"items"`
+	Lists             []extNamed       `json:"lists"`
+	Swimlanes         []extNamed       `json:"swimlanes"`
+	Items             []extItem        `json:"items"`
+	Sprints, Releases []map[string]any `json:"-"`
 }
 
 // formatWrikeWorkflow is WeKan's: the collected lists, and the board's rules
@@ -209,6 +211,11 @@ func parseISO(s string) time.Time {
 func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format string, want exportWant) extBoard {
 	var out extBoard
 	out.Board.ID, out.Board.Title, out.Board.Labels = b.ID, b.Title, b.Labels
+	if format == "gitlab" && want.has("scrum") {
+		filter := bson.M{"boardId": eq(b.ID), "state": bson.M{"$ne": "cancelled"}}
+		out.Sprints = s.findDocs(ctx, "scrumSprints", filter, options.Find().SetSort(bson.D{{Key: "plannedStart", Value: 1}, {Key: "name", Value: 1}, {Key: "_id", Value: 1}}))
+		out.Releases = s.findDocs(ctx, "scrumReleases", filter, options.Find().SetSort(bson.D{{Key: "plannedEnd", Value: 1}, {Key: "name", Value: 1}, {Key: "_id", Value: 1}}))
+	}
 	var bdoc bson.M
 	if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(b.ID)}).Decode(&bdoc) == nil {
 		out.Board.CreatedAt, out.Board.ModifiedAt = isoDate(bdoc["createdAt"]), isoDate(bdoc["modifiedAt"])
@@ -338,6 +345,12 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 			DueAt: isoDate(c["dueAt"]), Color: strOf(c["color"]), LabelIDs: []string{}, Labels: []string{},
 			StartAt: isoDate(c["startAt"]), EndAt: isoDate(c["endAt"]), CreatedAt: isoDate(c["createdAt"]),
 			Creator: username[strOf(c["userId"])], RequestedBy: strOf(c["requestedBy"]), ParentCardID: strOf(c["parentId"])}
+		if format == "gitlab" && want.has("scrum") {
+			it.SprintID = strOf(asM(c["scrum"])["sprintId"])
+			if ids := cardReleaseIds(c["scrum"]); len(ids) > 0 {
+				it.ReleaseID = ids[0]
+			}
+		}
 		if it.SwimlaneTitle == "" {
 			it.SwimlaneTitle = "Default"
 		}
