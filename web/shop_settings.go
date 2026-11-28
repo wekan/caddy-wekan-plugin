@@ -225,6 +225,15 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		}
 		if r.PostForm.Has("paymentLink") {
 			link := strings.TrimSpace(r.PostForm.Get("paymentLink"))
+			label := strOf(linkMethod["label"])
+			if r.PostForm.Has("paymentLinkLabel") {
+				var valid bool
+				label, valid = shopContactField(r.PostForm.Get("paymentLinkLabel"), 200, false)
+				if !valid {
+					http.Error(w, "Invalid Shop payment label", http.StatusBadRequest)
+					return
+				}
+			}
 			if link != "" && shopPaymentURL(link, "1", "EUR", "order") == "" {
 				http.Error(w, "Invalid Shop payment link", http.StatusBadRequest)
 				return
@@ -235,7 +244,7 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 					methods = slices.Delete(methods, linkIndex, linkIndex+1)
 				} else {
 					entry := asM(methods[linkIndex])
-					entry["method"] = bson.M{"type": "link", "url": link, "label": strOf(linkMethod["label"])}
+					entry["method"] = bson.M{"type": "link", "url": link, "label": label}
 					methods[linkIndex] = entry
 				}
 			} else if link != "" {
@@ -244,7 +253,7 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 					return
 				}
 				methods = append(methods, bson.M{"id": randomID(), "enabled": true,
-					"method": bson.M{"type": "link", "url": link}})
+					"method": bson.M{"type": "link", "url": link, "label": label}})
 			}
 			set["shopSettings.paymentMethods"] = methods
 		}
@@ -365,6 +374,7 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		"ManualMethods":     manual,
 		"PayPalUser":        strOf(paypal["user"]),
 		"References":        references, "PaymentLink": strOf(linkMethod["url"]),
+		"PaymentLinkLabel": strOf(linkMethod["label"]),
 		"DecrementStock":   settings["decrementStock"] != false,
 		"PricesIncludeVAT": settings["pricesIncludeVat"] != false, "VATPercent": float64(shopVATRate(settings)) / 100,
 		"PublicDefault": st.defaultView("public") == "board-view-shop", "Shop": shopLocation(b, "", ""),

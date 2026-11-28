@@ -6,7 +6,7 @@
       p {{t $.L "billing-reference"}} {{.Reference}}
     if .Payment
       p
-        a(href="{{.Payment}}", rel="noopener noreferrer") {{t $.L "billing-method-link"}}
+        a(href="{{.Payment}}", rel="noopener noreferrer") {{if .PaymentLabel}}{{.PaymentLabel}}{{else}}{{t $.L "billing-method-link"}}{{end}}
     if .PayPal
       p
         a(href="{{.PayPal}}", rel="noopener noreferrer") {{t $.L "billing-method-paypal"}}

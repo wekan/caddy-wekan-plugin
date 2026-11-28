@@ -155,6 +155,7 @@ func shopManualInstructions(settings bson.M, lang string) []shopInstructions {
 
 type shopReceipt struct {
 	Total, Reference, Payment, PayPal string
+	PaymentLabel                      string
 	Instructions                      []shopInstructions
 }
 
@@ -181,7 +182,7 @@ func (s *Server) showShopReceipt(w http.ResponseWriter, r *http.Request, shop *B
 	message := strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id)
 	if receipt.Payment != "" || receipt.PayPal != "" || receipt.Reference != "" || len(receipt.Instructions) > 0 {
 		s.render(w, r, "shop_order", http.StatusCreated, map[string]any{
-			"Title": shop.Title, "User": u, "Total": receipt.Total, "Payment": receipt.Payment,
+			"Title": shop.Title, "User": u, "Total": receipt.Total, "Payment": receipt.Payment, "PaymentLabel": receipt.PaymentLabel,
 			"Reference": receipt.Reference, "Instructions": receipt.Instructions, "PayPal": receipt.PayPal,
 			"Message": message, "Shop": shopLocation(shop, "", ""),
 		})
@@ -331,7 +332,7 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	paypal := shopPayPalURL(strOf(paypalMethod["user"]), amount, currency)
 	instructions := shopManualInstructions(settings, lang)
 	payment := shopPaymentURL(strOf(method["url"]), amount, currency, id, reference)
-	receipt := shopReceipt{Total: total, Reference: reference, Payment: payment, PayPal: paypal, Instructions: instructions}
+	receipt := shopReceipt{Total: total, Reference: reference, Payment: payment, PaymentLabel: strOf(method["label"]), PayPal: paypal, Instructions: instructions}
 	order := struct {
 		Card      `bson:",inline"`
 		Reference string      `bson:"shopPaymentReference"`
@@ -375,7 +376,11 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 			fmt.Fprintln(&receipt, method.Details)
 		}
 		if payment != "" {
-			fmt.Fprintln(&receipt, tr(lang, msg("shop-email-pay")), payment)
+			label := strOf(method["label"])
+			if label == "" {
+				label = tr(lang, msg("shop-email-pay"))
+			}
+			fmt.Fprintln(&receipt, label, payment)
 		}
 		if paypal != "" {
 			fmt.Fprintln(&receipt, tr(lang, msg("billing-method-paypal")), paypal)

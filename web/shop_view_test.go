@@ -148,7 +148,7 @@ func TestShopBoardView(t *testing.T) {
 	update("boards", b.ID, bson.M{
 		"shopSettings.paymentMethods": bson.A{
 			bson.M{"id": "link", "enabled": true,
-				"method": bson.M{"type": "link", "url": "https://pay.example.test/order?number={number}&amount={amount}&currency={currency}&reference={reference}"}},
+				"method": bson.M{"type": "link", "label": "Pay <online>", "url": "https://pay.example.test/order?number={number}&amount={amount}&currency={currency}&reference={reference}"}},
 			bson.M{"id": "bank", "enabled": true,
 				"method": bson.M{"type": "bank-transfer", "name": "Shop test recipient", "details": "Account fixture"}},
 			bson.M{"id": "cash", "enabled": true, "method": bson.M{"type": "cash", "details": "Pay at pickup"}},
@@ -184,7 +184,7 @@ func TestShopBoardView(t *testing.T) {
 	form["quote"] = []string{quote[1]}
 	for attempt := 0; attempt < 2; attempt++ {
 		if res, page = post(t, guest, orderURL, form); res.StatusCode != http.StatusCreated || !strings.Contains(page, "https://pay.example.test/order?number=") ||
-			!strings.Contains(page, "amount=25.00&amp;currency=EUR&amp;reference=RF") ||
+			!strings.Contains(page, "Pay &lt;online&gt;") || !strings.Contains(page, "amount=25.00&amp;currency=EUR&amp;reference=RF") ||
 			!strings.Contains(page, "Shop test recipient") || !strings.Contains(page, "Account fixture") || !strings.Contains(page, "Pay at pickup") || !strings.Contains(page, "Store credit") || !strings.Contains(page, "Present your voucher") || !strings.Contains(page, "https://paypal.me/TestSeller/25.00EUR") {
 			t.Fatalf("order submission: %d %s", res.StatusCode, page)
 		}
@@ -198,7 +198,7 @@ func TestShopBoardView(t *testing.T) {
 	}
 	messages := sink.messages()
 	if len(messages) != 1 || !strings.Contains(messages[0], "test@example.test") ||
-		!strings.Contains(messages[0], "Account fixture") || !strings.Contains(messages[0], "Pay at pickup") || !strings.Contains(messages[0], "Present your voucher") || !strings.Contains(messages[0], "https://paypal.me/TestSeller/25.00EUR") || !strings.Contains(messages[0], "25.00 EUR") || strings.Contains(messages[0], "Delivery Lane") {
+		!strings.Contains(messages[0], "Pay <online>") || !strings.Contains(messages[0], "Account fixture") || !strings.Contains(messages[0], "Pay at pickup") || !strings.Contains(messages[0], "Present your voucher") || !strings.Contains(messages[0], "https://paypal.me/TestSeller/25.00EUR") || !strings.Contains(messages[0], "25.00 EUR") || strings.Contains(messages[0], "Delivery Lane") {
 		t.Fatalf("expected one order receipt containing the total, without the address: %d messages", len(messages))
 	}
 	var saved Card
@@ -288,6 +288,7 @@ func TestShopSettingsEditor(t *testing.T) {
 	form.Set("otherDetails", "Present your voucher")
 	form.Set("paypalUser", "TestSeller")
 	form.Set("chequeDetails", "Mail to Shop")
+	form.Set("paymentLinkLabel", "Online checkout")
 	form.Set("paymentLink", "https://pay.example.test/order?n={number}")
 	if res, _ := post(t, bobClient, address, form); res.StatusCode != http.StatusForbidden {
 		t.Fatalf("member entered the editor: %d", res.StatusCode)
@@ -300,7 +301,7 @@ func TestShopSettingsEditor(t *testing.T) {
 		t.Fatalf("shop settings save: %d", res.StatusCode)
 	}
 	res, page = get(t, annClient, address)
-	if res.StatusCode != http.StatusOK || !strings.Contains(page, "New catalog") || !strings.Contains(page, "Store credit") || !strings.Contains(page, "Present your voucher") ||
+	if res.StatusCode != http.StatusOK || !strings.Contains(page, "Online checkout") || !strings.Contains(page, "New catalog") || !strings.Contains(page, "Store credit") || !strings.Contains(page, "Present your voucher") ||
 		!strings.Contains(page, `value="1" checked`) || !strings.Contains(page, `value="`+price+`" selected`) {
 		t.Fatalf("shop settings reload: %d %s", res.StatusCode, page)
 	}
@@ -335,7 +336,7 @@ func TestShopSettingsEditor(t *testing.T) {
 	if paypal["user"] != "TestSeller" || cash["details"] != "Pay at pickup" || cheque["details"] != "Mail to Shop" {
 		t.Fatalf("manual payment instructions were lost: %v", settings["paymentMethods"])
 	}
-	if bank["details"] != "Account fixture" || link["url"] != "https://pay.example.test/order?n={number}" {
+	if bank["details"] != "Account fixture" || link["url"] != "https://pay.example.test/order?n={number}" || link["label"] != "Online checkout" {
 		t.Fatalf("both payment methods must survive: %v", settings["paymentMethods"])
 	}
 	if settings["guestCheckout"] != true || settings["priceFieldId"] != price || settings["currency"] != "KWD" ||
