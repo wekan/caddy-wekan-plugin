@@ -133,6 +133,7 @@ var shopManualMethods = []struct{ Kind, Label, Field string }{
 	{"bank-transfer", msg("billing-method-bank-transfer"), "bankDetails"},
 	{"cash", msg("billing-method-cash"), "cashDetails"},
 	{"cheque", msg("billing-method-cheque"), "chequeDetails"},
+	{"other", msg("billing-method-other"), "otherDetails"},
 }
 
 type shopInstructions struct{ Label, Name, Details string }
@@ -142,7 +143,11 @@ func shopManualInstructions(settings bson.M, lang string) []shopInstructions {
 	for _, option := range shopManualMethods {
 		_, method := shopMethod(shopPaymentMethods(settings), option.Kind)
 		if details := strOf(method["details"]); details != "" {
-			instructions = append(instructions, shopInstructions{tr(lang, option.Label), strOf(method["name"]), details})
+			name := strOf(method["name"])
+			if option.Kind == "other" {
+				name = strOf(method["label"])
+			}
+			instructions = append(instructions, shopInstructions{tr(lang, option.Label), name, details})
 		}
 	}
 	return instructions

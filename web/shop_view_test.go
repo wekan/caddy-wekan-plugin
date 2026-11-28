@@ -152,6 +152,7 @@ func TestShopBoardView(t *testing.T) {
 			bson.M{"id": "bank", "enabled": true,
 				"method": bson.M{"type": "bank-transfer", "name": "Shop test recipient", "details": "Account fixture"}},
 			bson.M{"id": "cash", "enabled": true, "method": bson.M{"type": "cash", "details": "Pay at pickup"}},
+			bson.M{"id": "other", "enabled": true, "method": bson.M{"type": "other", "label": "Store credit", "details": "Present your voucher"}},
 			bson.M{"id": "paypal", "enabled": true, "method": bson.M{"type": "paypal", "user": "TestSeller"}},
 		},
 	})
@@ -184,7 +185,7 @@ func TestShopBoardView(t *testing.T) {
 	for attempt := 0; attempt < 2; attempt++ {
 		if res, page = post(t, guest, orderURL, form); res.StatusCode != http.StatusCreated || !strings.Contains(page, "https://pay.example.test/order?number=") ||
 			!strings.Contains(page, "amount=25.00&amp;currency=EUR&amp;reference=RF") ||
-			!strings.Contains(page, "Shop test recipient") || !strings.Contains(page, "Account fixture") || !strings.Contains(page, "Pay at pickup") || !strings.Contains(page, "https://paypal.me/TestSeller/25.00EUR") {
+			!strings.Contains(page, "Shop test recipient") || !strings.Contains(page, "Account fixture") || !strings.Contains(page, "Pay at pickup") || !strings.Contains(page, "Store credit") || !strings.Contains(page, "Present your voucher") || !strings.Contains(page, "https://paypal.me/TestSeller/25.00EUR") {
 			t.Fatalf("order submission: %d %s", res.StatusCode, page)
 		}
 	}
@@ -197,7 +198,7 @@ func TestShopBoardView(t *testing.T) {
 	}
 	messages := sink.messages()
 	if len(messages) != 1 || !strings.Contains(messages[0], "test@example.test") ||
-		!strings.Contains(messages[0], "Account fixture") || !strings.Contains(messages[0], "Pay at pickup") || !strings.Contains(messages[0], "https://paypal.me/TestSeller/25.00EUR") || !strings.Contains(messages[0], "25.00 EUR") || strings.Contains(messages[0], "Delivery Lane") {
+		!strings.Contains(messages[0], "Account fixture") || !strings.Contains(messages[0], "Pay at pickup") || !strings.Contains(messages[0], "Present your voucher") || !strings.Contains(messages[0], "https://paypal.me/TestSeller/25.00EUR") || !strings.Contains(messages[0], "25.00 EUR") || strings.Contains(messages[0], "Delivery Lane") {
 		t.Fatalf("expected one order receipt containing the total, without the address: %d messages", len(messages))
 	}
 	var saved Card
@@ -283,6 +284,8 @@ func TestShopSettingsEditor(t *testing.T) {
 	form.Set("bankName", "Shop test recipient")
 	form.Set("bankDetails", "Account fixture")
 	form.Set("cashDetails", "Pay at pickup")
+	form.Set("otherLabel", "Store credit")
+	form.Set("otherDetails", "Present your voucher")
 	form.Set("paypalUser", "TestSeller")
 	form.Set("chequeDetails", "Mail to Shop")
 	form.Set("paymentLink", "https://pay.example.test/order?n={number}")
@@ -297,7 +300,7 @@ func TestShopSettingsEditor(t *testing.T) {
 		t.Fatalf("shop settings save: %d", res.StatusCode)
 	}
 	res, page = get(t, annClient, address)
-	if res.StatusCode != http.StatusOK || !strings.Contains(page, "New catalog") ||
+	if res.StatusCode != http.StatusOK || !strings.Contains(page, "New catalog") || !strings.Contains(page, "Store credit") || !strings.Contains(page, "Present your voucher") ||
 		!strings.Contains(page, `value="1" checked`) || !strings.Contains(page, `value="`+price+`" selected`) {
 		t.Fatalf("shop settings reload: %d %s", res.StatusCode, page)
 	}
@@ -320,6 +323,10 @@ func TestShopSettingsEditor(t *testing.T) {
 		t.Fatal(err)
 	}
 	settings := asM(board["shopSettings"])
+	_, other := shopMethod(shopPaymentMethods(settings), "other")
+	if other["label"] != "Store credit" || other["details"] != "Present your voucher" {
+		t.Fatalf("other payment instructions were lost: %v", other)
+	}
 	_, bank := shopMethod(shopPaymentMethods(settings), "bank-transfer")
 	_, link := shopMethod(shopPaymentMethods(settings), "link")
 	_, cash := shopMethod(shopPaymentMethods(settings), "cash")

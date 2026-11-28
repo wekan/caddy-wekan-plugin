@@ -131,7 +131,7 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 	for _, option := range shopManualMethods {
 		_, stored := shopMethod(shopPaymentMethods(settings), option.Kind)
 		manual = append(manual, map[string]string{"Label": option.Label, "Field": option.Field,
-			"Name": strOf(stored["name"]), "Details": strOf(stored["details"])})
+			"Name": strOf(stored["name"]), "OtherLabel": strOf(stored["label"]), "Details": strOf(stored["details"])})
 	}
 	_, paypal := shopMethod(shopPaymentMethods(settings), "paypal")
 	reference := strOf(settings["referenceType"])
@@ -256,8 +256,14 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 			if option.Kind == "bank-transfer" {
 				name, validName = shopContactField(r.PostForm.Get("bankName"), 200, false)
 			}
+			label, validLabel := "", true
+			if option.Kind == "other" {
+				label, validLabel = shopContactField(r.PostForm.Get("otherLabel"), 200, false)
+			}
 			details, validDetails := shopContactField(r.PostForm.Get(option.Field), 2000, true)
-			if !validName || !validDetails || (option.Kind == "bank-transfer" && (name == "") != (details == "")) {
+			if !validName || !validLabel || !validDetails ||
+				(option.Kind == "bank-transfer" && (name == "") != (details == "")) ||
+				(option.Kind == "other" && (label == "") != (details == "")) {
 				http.Error(w, "Invalid Shop payment instructions", http.StatusBadRequest)
 				return
 			}
@@ -269,6 +275,9 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 			method := bson.M{"type": option.Kind, "details": details}
 			if option.Kind == "bank-transfer" {
 				method["name"] = name
+			}
+			if option.Kind == "other" {
+				method["label"] = label
 			}
 			switch {
 			case details == "" && index >= 0:

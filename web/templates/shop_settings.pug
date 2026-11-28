@@ -93,6 +93,11 @@
               label
                 | {{t $.L "name"}}
                 input(type="text", name="bankName", maxlength="200", value="{{.Name}}")
+          if eq .Field "otherDetails"
+            p
+              label
+                | {{t $.L "billing-field-label"}}
+                input(type="text", name="otherLabel", maxlength="200", value="{{.OtherLabel}}")
           p
             label
               | {{t $.L "billing-field-details"}}
