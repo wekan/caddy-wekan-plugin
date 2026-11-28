@@ -259,8 +259,8 @@ func normalizeScrumSettings(v any) map[string]any {
 			out := []any{}
 			seen := map[float64]bool{}
 			for _, d := range list {
-				f, ok := d.(float64)
-				if !ok || f != math.Trunc(f) || f < 1 || f > 7 {
+				f := numberOf(d)
+				if f != math.Trunc(f) || f < 1 || f > 7 {
 					sfail("Invalid option")
 				}
 				if !seen[f] {
