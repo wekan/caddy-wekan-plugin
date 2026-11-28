@@ -402,9 +402,6 @@ func parseTaiga(input any) (jsObject, error) {
 				}
 			}
 		}
-		if jsGet(item, "is_blocked") == true {
-			fields.set("Blocked", jsOr(jsTrim(taigaStr(jsGet(item, "blocked_note"))), "Blocked"))
-		}
 		if r := jsTrim(taigaStr(jsGet(item, "due_date_reason"))); r != "" {
 			fields.set("Due date reason", r)
 		}
@@ -416,6 +413,13 @@ func parseTaiga(input any) (jsObject, error) {
 		return jsOrder(fields)
 	}
 	owner := func(item any, out jsObject) jsObject {
+		if jsGet(item, "is_blocked") == true {
+			out.set("taiga_blocked", true)
+			out.set("taiga_blocked_reason", jsTrim(taigaStr(jsGet(item, "blocked_note"))))
+		}
+		if milestone := jsTrim(taigaStr(jsGet(item, "milestone"))); milestone != "" {
+			out.set("taiga_milestone", milestone)
+		}
 		names := []string{taigaPerson(jsGet(item, "assigned_to"))}
 		for _, u := range taigaList(jsGet(item, "assigned_users")) {
 			names = append(names, taigaPerson(u))
@@ -756,6 +760,26 @@ func parseTaiga(input any) (jsObject, error) {
 	out.set("columns", cols)
 	out.set("swimlanes", lanes)
 	out.set("tasks", tasks)
+	var sprints []any
+	for i, milestone := range taigaList(jsGet(dump, "milestones")) {
+		name := jsTrim(taigaStr(jsGet(milestone, "name")))
+		if name == "" {
+			continue
+		}
+		path := "/milestones/" + strconv.Itoa(i)
+		if jsGet(milestone, "closed") == true {
+			lost(path, "closed milestone is not imported")
+			continue
+		}
+		sprint := jsObject{}
+		sprint.set("name", name)
+		sprint.set("plannedStart", date(jsGetOrUndef(milestone, "estimated_start"), path+"/estimated_start"))
+		sprint.set("plannedEnd", date(jsGetOrUndef(milestone, "estimated_finish"), path+"/estimated_finish"))
+		sprints = append(sprints, sprint)
+	}
+	if len(sprints) > 0 {
+		out.set("taiga_sprints", sprints)
+	}
 	if len(labelColors) > 0 {
 		out.set("label_colors", jsOrder(labelColors))
 	}
