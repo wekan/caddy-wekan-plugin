@@ -428,3 +428,55 @@ func TestKanriGroupsUnlistedCardsAndOrdersGlobalTagsByColumn(t *testing.T) {
 		t.Fatalf("unexpected global tag order: %+v", result.GlobalTags)
 	}
 }
+
+func TestTaigaMilestones(t *testing.T) {
+	var board extBoard
+	board.Sprints = []map[string]any{
+		{"_id": "omit", "name": "Undated"},
+		{"_id": "first", "name": "Sprint", "state": "closed",
+			"plannedStart": time.Date(2024, 2, 15, 0, 0, 0, 0, time.UTC),
+			"plannedEnd":   time.Date(2024, 2, 29, 0, 0, 0, 0, time.UTC)},
+		{"_id": "second", "name": "Sprint", "state": "planned",
+			"plannedStart": time.Date(2024, 3, 1, 0, 0, 0, 0, time.UTC),
+			"plannedEnd":   time.Date(2024, 3, 14, 0, 0, 0, 0, time.UTC)},
+	}
+	board.Items = []extItem{
+		{CardID: "story", Title: "Story", SprintID: "second"},
+		{CardID: "task", Title: "Task", ParentCardID: "story", SprintID: "first"},
+		{CardID: "issue", Title: "Issue", SwimlaneTitle: "Issues", SprintID: "first"},
+		{CardID: "other", Title: "Other", SprintID: "omit"},
+	}
+	dump := formatTaiga(board, time.Date(2024, 4, 1, 0, 0, 0, 0, time.UTC))
+	data, err := json.Marshal(dump)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var saved struct {
+		Backlog    bool `json:"is_backlog_activated"`
+		Milestones []struct {
+			Name, Slug string
+			Closed     bool
+			Start      string `json:"estimated_start"`
+			End        string `json:"estimated_finish"`
+		}
+		Stories []struct{ Milestone *string } `json:"user_stories"`
+		Tasks   []struct{ Milestone string }
+		Issues  []struct{ Milestone string }
+	}
+	if err := json.Unmarshal(data, &saved); err != nil {
+		t.Fatal(err)
+	}
+	if !saved.Backlog || len(saved.Milestones) != 2 {
+		t.Fatalf("expected two milestones and backlog enabled: %+v", saved)
+	}
+	if first := saved.Milestones[0]; first.Name != "Sprint" || !first.Closed || first.Start != "2024-02-15" || first.End != "2024-02-29" {
+		t.Fatalf("closed milestone: %+v", first)
+	}
+	if second := saved.Milestones[1]; second.Name != "Sprint (2)" || second.Slug != "sprint-2" || second.Closed {
+		t.Fatalf("planned milestone: %+v", second)
+	}
+	if saved.Stories[0].Milestone == nil || *saved.Stories[0].Milestone != "Sprint (2)" ||
+		saved.Stories[1].Milestone != nil || saved.Tasks[0].Milestone != "Sprint (2)" || saved.Issues[0].Milestone != "Sprint" {
+		t.Fatalf("milestone references: %+v", saved)
+	}
+}

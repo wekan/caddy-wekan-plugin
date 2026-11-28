@@ -15,9 +15,7 @@ import (
 // statuses, cards as stories, the Epics and Issues swimlanes' cards as epics
 // and issues, subtask cards and a story's checklist items as tasks, comments
 // as history, and the board's labels as tag colors. Weddy leaves custom
-// fields out of exports and has no sprints yet: the dump is WeKan's for a
-// board without them - no custom attributes, no milestones, every story's
-// points "?".
+// fields out of exports, so the dump has no custom attributes or story points.
 
 var (
 	taigaTaskStatuses  = [][2]any{{"New", false}, {"In progress", false}, {"Ready for test", true}, {"Closed", true}, {"Needs Info", false}}
@@ -318,6 +316,23 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 	if len(laneTitles) == 1 && laneTitles[0] == "Default" {
 		taigaLanes = nil
 	}
+	milestones := []any{}
+	sprintNames := map[string]any{}
+	usedSprintNames, milestoneSlugs := map[string]bool{}, map[string]bool{}
+	for _, sprint := range d.Sprints {
+		start, end := isoDate(sprint["plannedStart"]), isoDate(sprint["plannedEnd"])
+		if start == "" || end == "" || strOf(sprint["state"]) == "cancelled" {
+			continue
+		}
+		name := taigaUniqueName(strOf(sprint["name"]), usedSprintNames)
+		sprintNames[strOf(sprint["_id"])] = name
+		milestones = append(milestones, jsObject{
+			{"name", name}, {"owner", nil}, {"created_date", nowText}, {"modified_date", nowText},
+			{"estimated_start", start[:10]}, {"estimated_finish", end[:10]},
+			{"slug", taigaSlug(name, milestoneSlugs)}, {"closed", strOf(sprint["state"]) == "closed"},
+			{"disponibility", 0}, {"order", len(milestones) + 1}, {"watchers", []any{}},
+		})
+	}
 	points := []any{}
 	q := jsObject{}
 	q.set("name", "?")
@@ -423,7 +438,7 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			s.set("assigned_users", assigned)
 			s.set("status", status)
 			s.set("swimlane", lane)
-			s.set("milestone", nil)
+			s.set("milestone", sprintNames[it.SprintID])
 			s.set("modified_date", jsGet(rest, "modified_date"))
 			s.set("created_date", jsGet(rest, "created_date"))
 			if closedStatus[status] {
@@ -454,7 +469,7 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			s.set("attachments", []any{})
 			s.set("history", jsGet(rest, "history"))
 			s.set("custom_attributes_values", jsObject{})
-			storyMilestone[refs[it.CardID]] = nil
+			storyMilestone[refs[it.CardID]] = sprintNames[it.SprintID]
 			storiesOut = append(storiesOut, s)
 		case "issue":
 			facet := func(name string) string {
@@ -478,7 +493,7 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			o.set("priority", priority)
 			o.set("severity", severity)
 			o.set("type", typ)
-			o.set("milestone", nil)
+			o.set("milestone", sprintNames[it.SprintID])
 			o.set("votes", []any{})
 			if taigaStatusClosed(issueStatuses, status) {
 				o.set("finished_date", jsOr(taigaDateTimeText(it.EndAt), nowText))
@@ -533,7 +548,11 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 		}
 		f.set("status", status)
 		f.set("user_story", storyRef)
-		f.set("milestone", nil)
+		milestone := sprintNames[it.SprintID]
+		if storyRef != nil {
+			milestone = storyMilestone[storyRef.(float64)]
+		}
+		f.set("milestone", milestone)
 		f.set("assigned_to", jsGet(rest, "assigned_to"))
 		f.set("modified_date", jsGet(rest, "modified_date"))
 		f.set("created_date", jsGet(rest, "created_date"))
@@ -574,7 +593,7 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 				f.set("owner", nil)
 				f.set("status", map[bool]string{true: "Closed", false: "New"}[entry.Done])
 				f.set("user_story", storyRef)
-				f.set("milestone", nil)
+				f.set("milestone", storyMilestone[storyRef])
 				f.set("assigned_to", nil)
 				f.set("modified_date", nowText)
 				f.set("created_date", jsOr(taigaDateTimeText(it.CreatedAt), nowText))
@@ -678,10 +697,14 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 	set("description", jsOr(jsTrim(d.Board.Description), title))
 	set("created_date", jsOr(taigaDateTimeText(d.Board.CreatedAt), nowText))
 	set("logo", nil)
-	set("total_milestones", nil)
+	var totalMilestones any
+	if len(milestones) > 0 {
+		totalMilestones = len(milestones)
+	}
+	set("total_milestones", totalMilestones)
 	set("total_story_points", nil)
 	set("is_epics_activated", len(epicsOut) > 0)
-	set("is_backlog_activated", false)
+	set("is_backlog_activated", len(milestones) > 0)
 	set("is_kanban_activated", true)
 	set("is_wiki_activated", false)
 	set("is_issues_activated", len(issuesOut) > 0)
@@ -734,11 +757,10 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 	set("epics", epicsOut)
 	set("user_stories", storiesOut)
 	set("tasks", tasksOut)
-	set("milestones", []any{})
+	set("milestones", milestones)
 	set("issues", issuesOut)
 	for _, k := range []string{"wiki_links", "wiki_pages", "tags", "timeline"} {
 		set(k, []any{})
 	}
-	_ = storyMilestone
 	return out
 }

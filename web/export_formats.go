@@ -211,10 +211,12 @@ func parseISO(s string) time.Time {
 func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format string, want exportWant) extBoard {
 	var out extBoard
 	out.Board.ID, out.Board.Title, out.Board.Labels = b.ID, b.Title, b.Labels
-	if format == "gitlab" && want.has("scrum") {
+	if (format == "gitlab" || format == "taiga") && want.has("scrum") {
 		filter := bson.M{"boardId": eq(b.ID), "state": bson.M{"$ne": "cancelled"}}
 		out.Sprints = s.findDocs(ctx, "scrumSprints", filter, options.Find().SetSort(bson.D{{Key: "plannedStart", Value: 1}, {Key: "name", Value: 1}, {Key: "_id", Value: 1}}))
-		out.Releases = s.findDocs(ctx, "scrumReleases", filter, options.Find().SetSort(bson.D{{Key: "plannedEnd", Value: 1}, {Key: "name", Value: 1}, {Key: "_id", Value: 1}}))
+		if format == "gitlab" {
+			out.Releases = s.findDocs(ctx, "scrumReleases", filter, options.Find().SetSort(bson.D{{Key: "plannedEnd", Value: 1}, {Key: "name", Value: 1}, {Key: "_id", Value: 1}}))
+		}
 	}
 	var bdoc bson.M
 	if s.db.Collection("boards").FindOne(ctx, bson.M{"_id": eq(b.ID)}).Decode(&bdoc) == nil {
@@ -345,7 +347,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 			DueAt: isoDate(c["dueAt"]), Color: strOf(c["color"]), LabelIDs: []string{}, Labels: []string{},
 			StartAt: isoDate(c["startAt"]), EndAt: isoDate(c["endAt"]), CreatedAt: isoDate(c["createdAt"]),
 			Creator: username[strOf(c["userId"])], RequestedBy: strOf(c["requestedBy"]), ParentCardID: strOf(c["parentId"])}
-		if format == "gitlab" && want.has("scrum") {
+		if (format == "gitlab" || format == "taiga") && want.has("scrum") {
 			it.SprintID = strOf(asM(c["scrum"])["sprintId"])
 			if ids := cardReleaseIds(c["scrum"]); len(ids) > 0 {
 				it.ReleaseID = ids[0]
