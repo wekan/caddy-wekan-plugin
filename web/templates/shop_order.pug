@@ -1,6 +1,9 @@
 .wrapper
   main.website-view
     h1 {{.Message}}
+    if .TaxNet
+      p {{t $.L "billing-net"}} {{.TaxNet}}
+      p {{t $.L "billing-vat"}} {{.TaxVAT}}
     p {{t $.L "billing-total"}} {{.Total}}
     if .Reference
       p {{t $.L "billing-reference"}} {{.Reference}}

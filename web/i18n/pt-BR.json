@@ -189,6 +189,7 @@
   "billing-method-link": "Link de pagamento (cartão, carteira, pagamento online)",
   "billing-method-other": "Outro",
   "billing-method-paypal": "Pagamento PayPal",
+  "billing-net": "Líquido",
   "billing-phone": "Telefone",
   "billing-reference": "Referência",
   "billing-reference-be": "Comunicação estruturada belga",

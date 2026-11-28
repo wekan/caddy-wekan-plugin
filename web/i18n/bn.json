@@ -189,6 +189,7 @@
   "billing-method-link": "পরিশোধের লিংক (কার্ড, ওয়ালেট, অনলাইন পেমেন্ট)",
   "billing-method-other": "অন্যান্য",
   "billing-method-paypal": "পেপ্যাল",
+  "billing-net": "নিট",
   "billing-phone": "ফোন",
   "billing-reference": "রেফারেন্স",
   "billing-reference-be": "বেলজিয়ান কাঠামোবদ্ধ বার্তা",

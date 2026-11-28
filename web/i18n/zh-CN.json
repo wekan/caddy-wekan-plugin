@@ -189,6 +189,7 @@
   "billing-method-link": "付款链接（银行卡、钱包、在线支付）",
   "billing-method-other": "其他",
   "billing-method-paypal": "贝宝 (PayPal)",
+  "billing-net": "净额",
   "billing-phone": "电话",
   "billing-reference": "参考号",
   "billing-reference-be": "比利时结构化附言",

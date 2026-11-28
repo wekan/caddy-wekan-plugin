@@ -189,6 +189,7 @@
   "billing-method-link": "Payment link (card, wallet, online payment)",
   "billing-method-other": "Other",
   "billing-method-paypal": "PayPal",
+  "billing-net": "Net",
   "billing-phone": "Phone",
   "billing-reference": "Reference",
   "billing-reference-be": "Belgian structured communication",

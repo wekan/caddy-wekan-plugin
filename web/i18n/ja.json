@@ -189,6 +189,7 @@
   "billing-method-link": "支払リンク（カード、ウォレット、オンライン決済）",
   "billing-method-other": "その他",
   "billing-method-paypal": "ペイパル",
+  "billing-net": "税抜",
   "billing-phone": "電話",
   "billing-reference": "参照番号",
   "billing-reference-be": "ベルギーの構造化通信",

@@ -189,6 +189,7 @@
   "billing-method-link": "Веза за плаћање (картица, новчаник, плаћање на мрежи)",
   "billing-method-other": "Остало",
   "billing-method-paypal": "Плаћање PayPal-ом",
+  "billing-net": "Без ПДВ-а",
   "billing-phone": "Телефон",
   "billing-reference": "Позив на број",
   "billing-reference-be": "Белгијска структурирана порука",

@@ -189,6 +189,7 @@
   "billing-method-link": "Vinclo de pago (tarcheta, cartera, pago en linia)",
   "billing-method-other": "Atros",
   "billing-method-paypal": "PayPal (en linia)",
+  "billing-net": "Base imponible",
   "billing-phone": "Telefono",
   "billing-reference": "Referencia",
   "billing-reference-be": "Comunicación estructurada belga",

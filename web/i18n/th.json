@@ -189,6 +189,7 @@
   "billing-method-link": "ลิงก์ชำระเงิน (บัตร, วอลเล็ต, ชำระออนไลน์)",
   "billing-method-other": "อื่น ๆ",
   "billing-method-paypal": "ชำระด้วย PayPal",
+  "billing-net": "สุทธิ",
   "billing-phone": "โทรศัพท์",
   "billing-reference": "เลขอ้างอิง",
   "billing-reference-be": "ข้อความแบบมีโครงสร้างของเบลเยียม",

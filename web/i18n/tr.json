@@ -189,6 +189,7 @@
   "billing-method-link": "Ödeme bağlantısı (kart, cüzdan, çevrimiçi ödeme)",
   "billing-method-other": "Diğer",
   "billing-method-paypal": "PayPal ile ödeme",
+  "billing-net": "Net tutar",
   "billing-phone": "Telefon",
   "billing-reference": "Referans",
   "billing-reference-be": "Belçika yapılandırılmış açıklaması",

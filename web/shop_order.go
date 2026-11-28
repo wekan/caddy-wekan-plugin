@@ -156,7 +156,16 @@ func shopManualInstructions(settings bson.M, lang string) []shopInstructions {
 type shopReceipt struct {
 	Total, Reference, Payment, PayPal string
 	PaymentLabel                      string
+	Net, VAT                          string
 	Instructions                      []shopInstructions
+}
+
+func (receipt shopReceipt) writeTotals(out *strings.Builder, lang string) {
+	if receipt.Net != "" {
+		fmt.Fprintln(out, tr(lang, msg("billing-net"))+":", receipt.Net)
+		fmt.Fprintln(out, tr(lang, msg("billing-vat"))+":", receipt.VAT)
+	}
+	fmt.Fprintln(out, tr(lang, msg("billing-total"))+":", receipt.Total)
 }
 
 func shopOrderID(board, nonce string) string {
@@ -180,9 +189,9 @@ func shopSubmissionDigest(r *http.Request, u *User) string {
 func (s *Server) showShopReceipt(w http.ResponseWriter, r *http.Request, shop *Board, u *User, id string, receipt shopReceipt) {
 	lang := languageOf(r, u).Tag
 	message := strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id)
-	if receipt.Payment != "" || receipt.PayPal != "" || receipt.Reference != "" || len(receipt.Instructions) > 0 {
+	if receipt.Net != "" || receipt.Payment != "" || receipt.PayPal != "" || receipt.Reference != "" || len(receipt.Instructions) > 0 {
 		s.render(w, r, "shop_order", http.StatusCreated, map[string]any{
-			"Title": shop.Title, "User": u, "Total": receipt.Total, "Payment": receipt.Payment, "PaymentLabel": receipt.PaymentLabel,
+			"Title": shop.Title, "User": u, "Total": receipt.Total, "Payment": receipt.Payment, "PaymentLabel": receipt.PaymentLabel, "TaxNet": receipt.Net, "TaxVAT": receipt.VAT,
 			"Reference": receipt.Reference, "Instructions": receipt.Instructions, "PayPal": receipt.PayPal,
 			"Message": message, "Shop": shopLocation(shop, "", ""),
 		})
@@ -259,7 +268,8 @@ func writeShopOrderText(builder *strings.Builder, value string) {
 	}
 }
 
-func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Board, u *User, settings bson.M, lines []shopCartLine, total, quote string) {
+func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Board, u *User, settings bson.M, lines []shopCartLine, receipt shopReceipt, quote string) {
+	total := receipt.Total
 	lang := languageOf(r, u).Tag
 	if r.PostForm.Get("quote") != quote {
 		http.Error(w, tr(lang, msg("shop-price-changed")), http.StatusConflict)
@@ -315,7 +325,8 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	for _, line := range lines {
 		fmt.Fprintf(&description, "- %s × %d — %s\n", line.Title, line.Quantity, line.Total)
 	}
-	fmt.Fprintf(&description, "\n%s", total)
+	description.WriteByte('\n')
+	receipt.writeTotals(&description, lang)
 	number, err := s.nextCardNumber(ctx, boardID)
 	if err != nil {
 		http.Error(w, "Could not save order", http.StatusServiceUnavailable)
@@ -332,7 +343,9 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	paypal := shopPayPalURL(strOf(paypalMethod["user"]), amount, currency)
 	instructions := shopManualInstructions(settings, lang)
 	payment := shopPaymentURL(strOf(method["url"]), amount, currency, id, reference)
-	receipt := shopReceipt{Total: total, Reference: reference, Payment: payment, PaymentLabel: strOf(method["label"]), PayPal: paypal, Instructions: instructions}
+	receipt.Reference = reference
+	receipt.Payment, receipt.PaymentLabel = payment, strOf(method["label"])
+	receipt.PayPal, receipt.Instructions = paypal, instructions
 	order := struct {
 		Card      `bson:",inline"`
 		Reference string      `bson:"shopPaymentReference"`
@@ -359,33 +372,33 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		}
 		shopName = strings.Join(strings.Fields(shopName), " ")
 		subject := strings.NewReplacer("__number__", id, "__shop__", shopName).Replace(tr(lang, msg("shop-email-subject")))
-		var receipt strings.Builder
-		fmt.Fprintln(&receipt, strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id))
+		var message strings.Builder
+		fmt.Fprintln(&message, strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id))
 		for _, line := range lines {
-			fmt.Fprintf(&receipt, "%s × %d — %s\n", line.Title, line.Quantity, line.Total)
+			fmt.Fprintf(&message, "%s × %d — %s\n", line.Title, line.Quantity, line.Total)
 		}
-		fmt.Fprintln(&receipt, total)
+		receipt.writeTotals(&message, lang)
 		if reference != "" {
-			fmt.Fprintln(&receipt, tr(lang, msg("billing-reference")), reference)
+			fmt.Fprintln(&message, tr(lang, msg("billing-reference")), reference)
 		}
 		for _, method := range instructions {
-			fmt.Fprintln(&receipt, method.Label)
+			fmt.Fprintln(&message, method.Label)
 			if method.Name != "" {
-				fmt.Fprintln(&receipt, method.Name)
+				fmt.Fprintln(&message, method.Name)
 			}
-			fmt.Fprintln(&receipt, method.Details)
+			fmt.Fprintln(&message, method.Details)
 		}
 		if payment != "" {
 			label := strOf(method["label"])
 			if label == "" {
 				label = tr(lang, msg("shop-email-pay"))
 			}
-			fmt.Fprintln(&receipt, label, payment)
+			fmt.Fprintln(&message, label, payment)
 		}
 		if paypal != "" {
-			fmt.Fprintln(&receipt, tr(lang, msg("billing-method-paypal")), paypal)
+			fmt.Fprintln(&message, tr(lang, msg("billing-method-paypal")), paypal)
 		}
-		if err := s.sendMail(ctx, r.Host, mailMessage{To: []string{email}, Subject: subject, Text: receipt.String()}); err != nil && !errors.Is(err, errNoMail) {
+		if err := s.sendMail(ctx, r.Host, mailMessage{To: []string{email}, Subject: subject, Text: message.String()}); err != nil && !errors.Is(err, errNoMail) {
 			s.log.Warn("Shop confirmation delivery failed", "order", id)
 		}
 	}

@@ -189,6 +189,7 @@
   "billing-method-link": "Link da pajament (carta, portafegl, pajament online)",
   "billing-method-other": "Auter",
   "billing-method-paypal": "Pajament PayPal",
+  "billing-net": "Net (senza TPV)",
   "billing-phone": "Telefon",
   "billing-reference": "Referenza",
   "billing-reference-be": "Communicaziun structurada belga",

@@ -189,6 +189,7 @@
   "billing-method-link": "결제 링크 (카드, 지갑, 온라인 결제)",
   "billing-method-other": "기타",
   "billing-method-paypal": "페이팔",
+  "billing-net": "공급가액",
   "billing-phone": "전화",
   "billing-reference": "참조",
   "billing-reference-be": "벨기에 구조화 통신문",

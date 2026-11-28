@@ -189,6 +189,7 @@
   "billing-method-link": "Maksulinkki (kortti, lompakko, verkkomaksu)",
   "billing-method-other": "Muu",
   "billing-method-paypal": "PayPal-maksu",
+  "billing-net": "Veroton",
   "billing-phone": "Puhelin",
   "billing-reference": "Viite",
   "billing-reference-be": "Belgialainen rakenteinen viite",

@@ -189,6 +189,7 @@
   "billing-method-link": "Platobný odkaz (karta, peňaženka, online platba)",
   "billing-method-other": "Iné",
   "billing-method-paypal": "Platba PayPal",
+  "billing-net": "Bez DPH",
   "billing-phone": "Telefón",
   "billing-reference": "Referencia",
   "billing-reference-be": "Belgická štruktúrovaná správa",

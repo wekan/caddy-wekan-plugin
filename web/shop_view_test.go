@@ -146,6 +146,7 @@ func TestShopBoardView(t *testing.T) {
 	}
 	update("cards", b.Card, bson.M{"customFields": bson.A{bson.M{"_id": priceID, "value": "12,50"}}})
 	update("boards", b.ID, bson.M{
+		"shopSettings.vatPercent": 25,
 		"shopSettings.paymentMethods": bson.A{
 			bson.M{"id": "link", "enabled": true,
 				"method": bson.M{"type": "link", "label": "Pay <online>", "url": "https://pay.example.test/order?number={number}&amount={amount}&currency={currency}&reference={reference}"}},
@@ -184,7 +185,7 @@ func TestShopBoardView(t *testing.T) {
 	form["quote"] = []string{quote[1]}
 	for attempt := 0; attempt < 2; attempt++ {
 		if res, page = post(t, guest, orderURL, form); res.StatusCode != http.StatusCreated || !strings.Contains(page, "https://pay.example.test/order?number=") ||
-			!strings.Contains(page, "Pay &lt;online&gt;") || !strings.Contains(page, "amount=25.00&amp;currency=EUR&amp;reference=RF") ||
+			!strings.Contains(page, "20.00 EUR") || !strings.Contains(page, " 5.00 EUR") || !strings.Contains(page, "Pay &lt;online&gt;") || !strings.Contains(page, "amount=25.00&amp;currency=EUR&amp;reference=RF") ||
 			!strings.Contains(page, "Shop test recipient") || !strings.Contains(page, "Account fixture") || !strings.Contains(page, "Pay at pickup") || !strings.Contains(page, "Store credit") || !strings.Contains(page, "Present your voucher") || !strings.Contains(page, "https://paypal.me/TestSeller/25.00EUR") {
 			t.Fatalf("order submission: %d %s", res.StatusCode, page)
 		}
@@ -198,7 +199,7 @@ func TestShopBoardView(t *testing.T) {
 	}
 	messages := sink.messages()
 	if len(messages) != 1 || !strings.Contains(messages[0], "test@example.test") ||
-		!strings.Contains(messages[0], "Pay <online>") || !strings.Contains(messages[0], "Account fixture") || !strings.Contains(messages[0], "Pay at pickup") || !strings.Contains(messages[0], "Present your voucher") || !strings.Contains(messages[0], "https://paypal.me/TestSeller/25.00EUR") || !strings.Contains(messages[0], "25.00 EUR") || strings.Contains(messages[0], "Delivery Lane") {
+		!strings.Contains(messages[0], "Pay <online>") || !strings.Contains(messages[0], "Account fixture") || !strings.Contains(messages[0], "Pay at pickup") || !strings.Contains(messages[0], "Present your voucher") || !strings.Contains(messages[0], "https://paypal.me/TestSeller/25.00EUR") || !strings.Contains(messages[0], "20.00 EUR") || !strings.Contains(messages[0], " 5.00 EUR") || !strings.Contains(messages[0], "25.00 EUR") || strings.Contains(messages[0], "Delivery Lane") {
 		t.Fatalf("expected one order receipt containing the total, without the address: %d messages", len(messages))
 	}
 	var saved Card
@@ -206,9 +207,9 @@ func TestShopBoardView(t *testing.T) {
 		"title": bson.M{"$regex": "^Order "}}).Decode(&saved); err != nil {
 		t.Fatal(err)
 	}
-	for _, text := range []string{"+358 123", "    1 Delivery Lane\n    Second floor", "    ![literal]"} {
+	for _, text := range []string{" 20.00 EUR", " 5.00 EUR", " 25.00 EUR", "+358 123", "    1 Delivery Lane\n    Second floor", "    ![literal]"} {
 		if !strings.Contains(saved.Description, text) {
-			t.Fatalf("order lost contact data %q", text)
+			t.Fatalf("order card lost %q", text)
 		}
 	}
 	if strings.Contains(string(viewer(saved.Description)), "<img") {

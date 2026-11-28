@@ -207,9 +207,11 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 		lines, sum, digits := shopCartQuote(products, readShopCart(r, b.ID), currency)
 		rate := shopVATRate(settings)
 		net, vat, total := shopTaxTotals(sum, rate, settings["pricesIncludeVat"] != false)
-		data["CartLines"], data["CartTotal"] = lines, shopMoney(total, digits, currency)
+		receipt := shopReceipt{Total: shopMoney(total, digits, currency)}
+		data["CartLines"], data["CartTotal"] = lines, receipt.Total
 		if rate > 0 {
-			data["TaxNet"], data["TaxVAT"] = shopMoney(net, digits, currency), shopMoney(vat, digits, currency)
+			receipt.Net, receipt.VAT = shopMoney(net, digits, currency), shopMoney(vat, digits, currency)
+			data["TaxNet"], data["TaxVAT"] = receipt.Net, receipt.VAT
 		}
 		canReview := len(lines) > 0 && total <= 9007199254740991 && shopOrderDestinationAvailable(r.Context(), s, b.ID, settings)
 		requiresStockUpdate := false
@@ -226,7 +228,7 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 				http.Error(w, "Order unavailable", http.StatusConflict)
 				return
 			}
-			s.saveShopOrder(w, r, b, u, settings, lines, data["CartTotal"].(string), quote)
+			s.saveShopOrder(w, r, b, u, settings, lines, receipt, quote)
 			return
 		}
 		if canReview {
