@@ -627,6 +627,42 @@ func (s *Server) moveListTo(ctx context.Context, u *User, b, to *Board, l bson.M
 	return nil
 }
 
+func (s *Server) swimlaneColorPage(w http.ResponseWriter, r *http.Request, u *User) {
+	b, err := s.boardFor(r.Context(), r.PathValue("board"), u)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+	if !b.Writable(u, "write", nil) {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+	id, color := r.PostFormValue("lane"), r.PostFormValue("color")
+	if r.PostFormValue("clear") == "1" {
+		color = ""
+	} else if !cardColors[color] && !hexColor.MatchString(color) {
+		http.Error(w, "Invalid swimlane color", http.StatusBadRequest)
+		return
+	}
+	if !validID(id) {
+		http.NotFound(w, r)
+		return
+	}
+	result, err := s.entityUpdateOne(r.Context(), u.ID, "swimlane",
+		bson.M{"_id": eq(id), "boardId": b.ID, "archived": bson.M{"$ne": true}},
+		bson.M{"$set": bson.M{"color": color}})
+	if err != nil {
+		http.Error(w, "Could not update swimlane color", http.StatusInternalServerError)
+		return
+	}
+	if result.MatchedCount == 0 {
+		http.NotFound(w, r)
+		return
+	}
+	s.hub.publishFrom(b.ID, "board-changed", r.Header.Get("X-Weddy-Page"))
+	http.Redirect(w, r, "/b/"+b.ID+"/"+b.Slug, http.StatusSeeOther)
+}
+
 func (s *Server) swimlaneOf(w http.ResponseWriter, r *http.Request, b *Board) bson.M {
 	id := r.PathValue("swimlane")
 	var sw bson.M

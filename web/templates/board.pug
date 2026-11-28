@@ -1177,15 +1177,24 @@
           a.js-open-swimlane-history(href="/b/{{.Board.ID}}/history", data-close="{{t $.L `close`}}")
             i.fa.fa-history
             |  {{t $.L "history"}}
-        li
-          a.js-export-swimlane(href="#")
-            i.fa.fa-upload
-            |  {{t $.L "export"}}
+        if .CanExport
+          li
+            a.js-export-swimlane(href="#")
+              i.fa.fa-upload
+              |  {{t $.L "export"}}
         if .CanEdit
           li
             a.js-import-swimlane(href="#")
               i.fa.fa-download
               |  {{t $.L "import"}}
+          li
+            form.js-swimlane-color-form(method="post", action="/b/{{.Board.ID}}/swimlanes/color", up-submit, up-target=".board-wrapper")
+              input(type="hidden", name="lane")
+              label
+                | {{t $.L "setSwimlaneColorPopup-title"}}
+                input(type="color", name="color")
+              button(type="submit") {{t $.L "apply"}}
+              button(type="submit", name="clear", value="1") {{t $.L "card-drawing-remove-color"}}
     //- The Export pop-over of a swimlane, a list or a card (exportScopeBody):
       what to include, and its files - PDF, Excel, JSON and the .zip - for
       that scope; static/weddy.js fills in the scope and the title.
@@ -1443,7 +1452,7 @@
           //- WeKan's swimlane resize handle: the user's own height of it.
           if and $.CanResizeLanes (not .Collapsed)
             .swimlane-resize-handle.js-swimlane-resize-handle.nodragscroll
-          .swimlane-header.js-swimlane-header(data-swimlane="{{.ID}}")
+          .swimlane-header.js-swimlane-header(data-swimlane="{{.ID}}", style="{{if .ColorHex}}border-inline-start: 4px solid {{.ColorHex}}{{end}}")
             //- WeKan's structuralSelectionCheckbox: shown while Multi-Selection is on.
             if $.CanEdit
               button.materialCheckBox.multi-selection-checkbox.js-structural-selection.is-hidden(type="button", role="checkbox", aria-checked="false", aria-label="{{.Title}}", data-kind="swimlane", data-id="{{.ID}}")
@@ -1455,8 +1464,8 @@
                 else
                   i.fa.fa-caret-down
             span.swimlane-header-name.title {{.Title}}
-            if $.CanExport
-              a.js-open-swimlane-menu.swimlane-header-menu-icon(href="#", data-swimlane="{{.ID}}", title="{{t $.L `swimlaneActionPopup-title`}}", aria-label="{{t $.L `swimlaneActionPopup-title`}}")
+            if or $.CanExport $.CanEdit
+              a.js-open-swimlane-menu.swimlane-header-menu-icon(href="#", data-swimlane="{{.ID}}", data-color="{{.ColorHex}}", title="{{t $.L `swimlaneActionPopup-title`}}", aria-label="{{t $.L `swimlaneActionPopup-title`}}")
                 i.fa.fa-bars
             if $.CanEdit
               a.js-open-add-swimlane-menu.swimlane-header-plus-icon(href="#", data-swimlane="{{.ID}}", title="{{t $.L `add-swimlane`}}", aria-label="{{t $.L `add-swimlane`}}")

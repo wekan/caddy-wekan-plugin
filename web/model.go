@@ -400,6 +400,7 @@ type Swimlane struct {
 	Sort     float64 `bson:"sort" json:"sort"`
 	Archived bool    `bson:"archived" json:"archived"`
 	Type     string  `bson:"type,omitempty" json:"type,omitempty"`
+	Color    string  `bson:"color,omitempty" json:"color,omitempty"`
 }
 
 // List is a document of the lists collection. SwimlaneID is set for a list of

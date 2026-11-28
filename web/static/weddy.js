@@ -2123,6 +2123,11 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     openPopOver('swimlane-menu');
     var history = document.querySelector('.js-pop-over .js-open-swimlane-history');
     if (history) history.href += '?swimlane=' + encodeURIComponent(menuLane);
+    var colorLane = document.querySelector('.js-pop-over .js-swimlane-color-form [name="lane"]');
+    if (colorLane) {
+      colorLane.value = menuLane;
+      colorLane.form.elements.color.value = el.getAttribute('data-color') || '#000000';
+    }
   });
   up.on('click', '.js-pop-over .js-export-swimlane, .js-pop-over .js-import-swimlane', function (event, el) {
     event.preventDefault();

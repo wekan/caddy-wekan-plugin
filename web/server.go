@@ -371,6 +371,7 @@ func (s *Server) routes() {
 	m.HandleFunc("POST /b/{board}/archive/restore", s.page(s.restoreArchivedPage))
 	m.HandleFunc("POST /b/{board}/archive/restore-all-cards", s.page(s.restoreAllArchivedCardsPage))
 	m.HandleFunc("POST /b/{board}/lists", s.page(s.addList))
+	m.HandleFunc("POST /b/{board}/swimlanes/color", s.page(s.swimlaneColorPage))
 	m.HandleFunc("POST /b/{board}/swimlanes", s.page(s.addSwimlanePage))
 	m.HandleFunc("POST /b/{board}/cards", s.page(s.addCard))
 	m.HandleFunc("POST /b/{board}/cards/{card}/comments", s.page(s.addCommentPage))
@@ -851,6 +852,16 @@ type laneList struct {
 	Collapsed bool // folded by this user, in this swimlane (#6712)
 	CanAdd    bool // this user may add a card here: the list's rule, else the board's (#4527)
 	Width     int  // drawn at this width in pixels, or the stylesheet's (resize.go)
+}
+
+func (l lane) ColorHex() string {
+	if hexColor.MatchString(l.Color) {
+		return l.Color
+	}
+	if argb := xLabelColors[l.Color]; len(argb) == 8 {
+		return "#" + argb[2:]
+	}
+	return ""
 }
 
 func (s *Server) boardData(ctx context.Context, b *Board) ([]lane, []List, error) {
