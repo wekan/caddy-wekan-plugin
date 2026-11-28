@@ -385,7 +385,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		if (format == "gitlab" || format == "taiga" || format == "jira") && want.has("scrum") {
 			scrum := asM(c["scrum"])
 			it.SprintID = strOf(scrum["sprintId"])
-			if format == "taiga" {
+			if format == "taiga" || format == "jira" {
 				if rank, ok := toFloat(scrum["backlogRank"]); ok && rank >= 0 && rank <= 1e12 {
 					it.BacklogRank = &rank
 				}

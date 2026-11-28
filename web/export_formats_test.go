@@ -690,16 +690,17 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 		t.Fatal(err)
 	}
 	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": board.Card},
-		bson.M{"$set": bson.M{"scrum.sprintId": sprintID}}); err != nil {
+		bson.M{"$set": bson.M{"scrum.sprintId": sprintID, "scrum.backlogRank": 0}}); err != nil {
 		t.Fatal(err)
 	}
-	const sprintKey = "customfield_90002"
+	const sprintKey, rankKey = "customfield_90002", "customfield_90003"
 	sprintExport := download(admin, "scrum,custom-fields", 200)
 	wantSprint := []any{map[string]any{
 		"id": "7", "name": "Sprint 7", "state": "future",
 		"startDate": "2026-10-10T00:00:00.000Z", "goal": "Ship version 1",
 	}}
-	if sprintExport.Names[sprintKey] != "Sprint" ||
+	if sprintExport.Names[rankKey] != "Rank" || sprintExport.Issues[0].Fields[rankKey] != "0|000001:" ||
+		sprintExport.Names[sprintKey] != "Sprint" ||
 		sprintExport.Schema[sprintKey]["custom"] != "com.pyxis.greenhopper.jira:gh-sprint" ||
 		!reflect.DeepEqual(sprintExport.Issues[0].Fields[sprintKey], wantSprint) ||
 		sprintExport.Issues[0].Fields[key] != float64(0) {
@@ -721,10 +722,10 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if jsGet(importTasks(parsed)[0], "jira_sprint") != "7" {
+	if jsGet(importTasks(parsed)[0], "jira_sprint") != "7" || jsGet(importTasks(parsed)[0], "jira_backlog_rank") != 1 {
 		t.Fatalf("Jira export did not round-trip its sprint assignment: %v", parsed)
 	}
-	if doc := download(admin, "custom-fields", 200); doc.Issues[0].Fields[sprintKey] != nil || doc.Names[sprintKey] != "" {
+	if doc := download(admin, "custom-fields", 200); doc.Issues[0].Fields[sprintKey] != nil || doc.Names[sprintKey] != "" || doc.Issues[0].Fields[rankKey] != nil {
 		t.Fatalf("unselected Jira sprint: %+v", doc)
 	}
 

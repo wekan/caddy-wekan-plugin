@@ -1,8 +1,10 @@
 package web
 
 import (
+	"fmt"
 	"math"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"unicode/utf16"
@@ -191,18 +193,22 @@ func formatJira(d extBoard) any {
 	fieldKeys := map[string]string{}
 	names := jsObject{}
 	nextField := 90001
+	nextKey := func() string {
+		key := "customfield_" + strconv.Itoa(nextField)
+		nextField++
+		if d.JiraEstimate != nil && key == d.JiraEstimate.key {
+			key = "customfield_" + strconv.Itoa(nextField)
+			nextField++
+		}
+		return key
+	}
 	for idx, i := range d.Items {
 		keys[i.CardID] = "WEKAN-" + strconv.Itoa(idx+1)
 		for _, field := range i.CustomFields {
 			if _, exists := fieldKeys[field.Key]; exists {
 				continue
 			}
-			key := "customfield_" + strconv.Itoa(nextField)
-			nextField++
-			if d.JiraEstimate != nil && key == d.JiraEstimate.key {
-				key = "customfield_" + strconv.Itoa(nextField)
-				nextField++
-			}
+			key := nextKey()
 			fieldKeys[field.Key] = key
 			names.set(key, field.Key)
 		}
@@ -232,11 +238,20 @@ func formatJira(d extBoard) any {
 		}
 		versions[id] = version
 	}
-	sprints := jiraExportSprints(d.Sprints)
-	sprintField := "customfield_" + strconv.Itoa(nextField)
-	if d.JiraEstimate != nil && sprintField == d.JiraEstimate.key {
-		sprintField = "customfield_" + strconv.Itoa(nextField+1)
+	ranked := make([]extItem, 0)
+	for _, item := range d.Items {
+		if item.BacklogRank != nil {
+			ranked = append(ranked, item)
+		}
 	}
+	sort.SliceStable(ranked, func(i, j int) bool { return *ranked[i].BacklogRank < *ranked[j].BacklogRank })
+	ranks := make(map[string]string, len(ranked))
+	for i, item := range ranked {
+		ranks[item.CardID] = fmt.Sprintf("0|%06s:", strconv.FormatInt(int64(i+1), 36))
+	}
+	sprints := jiraExportSprints(d.Sprints)
+	sprintField := nextKey()
+	rankField := nextKey()
 	schema := jsObject{}
 	categories := map[string]string{"todo": "new", "doing": "indeterminate", "done": "done"}
 	issues := []any{}
@@ -250,6 +265,11 @@ func formatJira(d extBoard) any {
 			status.set("statusCategory", jsObject{{"key", category}})
 		}
 		f.set("status", status)
+		if rank := ranks[i.CardID]; rank != "" {
+			f.set(rankField, rank)
+			names.set(rankField, "Rank")
+			schema.set(rankField, jsObject{{"type", "string"}, {"custom", "com.pyxis.greenhopper.jira:gh-lexo-rank"}})
+		}
 		if sprint, ok := sprints[i.SprintID]; ok {
 			f.set(sprintField, []jsObject{sprint})
 			names.set(sprintField, "Sprint")
