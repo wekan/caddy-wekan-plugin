@@ -581,7 +581,7 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 
 func TestTaigaCustomAttributes(t *testing.T) {
 	board := extBoard{Items: []extItem{
-		{CardID: "story", Title: "Story", CustomFields: jsObject{{"Estimate", int32(0)}, {"Ready", false}}},
+		{CardID: "story", Title: "Story", CustomFields: jsObject{{"Estimate", int32(0)}, {"Ready", false}, {"Story points", int32(0)}}},
 		{CardID: "task", Title: "Task", ParentCardID: "story", CustomFields: jsObject{{"Estimate", "unknown"}}},
 	}}
 	dump := formatTaiga(board, time.Date(2024, 4, 1, 0, 0, 0, 0, time.UTC))
@@ -589,6 +589,11 @@ func TestTaigaCustomAttributes(t *testing.T) {
 	values := jsGet(story, "custom_attributes_values")
 	if jsGet(values, "Estimate") != int32(0) || jsGet(values, "Ready") != false {
 		t.Fatalf("story attributes: %v", values)
+	}
+	roles := jsGet(story, "role_points").([]any)
+	scale := jsGet(dump, "points").([]any)
+	if jsGet(roles[0], "points") != "0" || len(scale) != 2 || jsGet(scale[1], "value") != float64(0) {
+		t.Fatalf("story points: %v, scale: %v", roles, scale)
 	}
 	storyDefs := jsGet(dump, "userstorycustomattributes").([]any)
 	taskDefs := jsGet(dump, "taskcustomattributes").([]any)

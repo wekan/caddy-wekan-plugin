@@ -339,6 +339,38 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 	q.set("order", 1.0)
 	q.set("value", nil)
 	points = append(points, q)
+	pointNames := map[string]bool{}
+	storyPointName := func(it extItem) string {
+		raw := jsGet(it.CustomFields, "Story points")
+		var value float64
+		switch v := raw.(type) {
+		case int:
+			value = float64(v)
+		case int32:
+			value = float64(v)
+		case int64:
+			value = float64(v)
+		case float64:
+			value = v
+		case string:
+			var err error
+			value, err = strconv.ParseFloat(strings.TrimSpace(v), 64)
+			if err != nil {
+				return "?"
+			}
+		default:
+			return "?"
+		}
+		if value < 0 || math.IsNaN(value) || math.IsInf(value, 0) {
+			return "?"
+		}
+		name := jsNumber(value)
+		if !pointNames[name] {
+			points = append(points, jsObject{{"name", name}, {"order", len(points) + 1}, {"value", value}})
+			pointNames[name] = true
+		}
+		return name
+	}
 	peopleOf := func(it extItem) []any {
 		var names []string
 		for _, p := range append([]string{it.Owner}, it.Assignees...) {
@@ -357,6 +389,9 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 	attributes := func(it extItem, kind string) jsObject {
 		values, defs := jsObject{}, attributeDefs[kind]
 		for _, field := range it.CustomFields {
+			if kind == "story" && field.Key == "Story points" {
+				continue
+			}
 			fieldType := "text"
 			value := field.Value
 			switch v := value.(type) {
@@ -465,7 +500,7 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			s.set("watchers", jsGet(rest, "watchers"))
 			rp := jsObject{}
 			rp.set("role", "Team")
-			rp.set("points", "?")
+			rp.set("points", storyPointName(it))
 			s.set("role_points", []any{rp})
 			s.set("owner", jsGet(rest, "owner"))
 			s.set("assigned_to", jsGet(rest, "assigned_to"))
