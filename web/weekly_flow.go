@@ -13,6 +13,7 @@ type weeklyFlowView struct {
 }
 
 var weeklyFlowViews = []weeklyFlowView{
+	{"time-in-list", "timeInList", "board-view-time-in-list", "fa-hourglass-o", 2},
 	{"activity-heatmap", "activityHeatmap", "board-view-activity-heatmap", "fa-th", 0},
 	{"distribution", "distribution", "board-view-distribution", "fa-pie-chart", 1},
 	{"release-burndown", "releaseBurndown", "board-view-release-burndown", "fa-flag", 3},
@@ -171,7 +172,7 @@ func weeklyFlowBars(rows [][]any, column int, key string) []weeklyFlowBar {
 	}
 	if key == "epicProgress" || key == "distribution" {
 		rows = rows[:min(len(rows), 24)]
-	} else if key != "releaseBurndown" {
+	} else if key != "releaseBurndown" && key != "timeInList" {
 		rows = rows[max(0, len(rows)-24):]
 	}
 	for _, row := range rows {

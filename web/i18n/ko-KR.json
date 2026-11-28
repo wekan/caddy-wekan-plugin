@@ -1685,6 +1685,7 @@
   "report-departures": "유출",
   "report-late": "지연",
   "report-median": "중앙값",
+  "report-median-days": "중앙값(일)",
   "report-net": "순증감",
   "report-no-due-date": "마감 일자 없음",
   "report-on-time": "기한 내",

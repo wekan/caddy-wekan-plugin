@@ -153,6 +153,24 @@ func TestActivityHeatmapTable(t *testing.T) {
 	}
 }
 
+func TestTimeInListRows(t *testing.T) {
+	now := time.Date(2026, 11, 25, 12, 0, 0, 0, time.UTC)
+	to := "B"
+	move := chartListMove{EntityID: "moved", At: now.AddDate(0, 0, -1)}
+	move.Previous.ListID, move.Next.ListID = "A", &to
+	cards := []chartCard{
+		{ID: "moved", ListID: "B", CreatedAt: now.AddDate(0, 0, -3)},
+		{ID: "stayed", ListID: "A", CreatedAt: now.AddDate(0, 0, -6), EndAt: now.AddDate(0, 0, -2)},
+	}
+	lists := []List{{ID: "A", Title: "First"}, {ID: "B", Title: "Second"}, {ID: "C", Title: "Empty"}}
+	_, rows := timeInListRows(cards, lists, []chartListMove{move}, now, "en")
+	if !reflect.DeepEqual(rows, [][]any{
+		{"First", 2, 3.0, 3.7}, {"Second", 1, 1.0, 1.0}, {"Empty", 0, 0.0, 0.0},
+	}) {
+		t.Fatalf("time in list: %v", rows)
+	}
+}
+
 func TestExportCharts(t *testing.T) {
 	w := newTestWeKan(t)
 	w.seedUser(t, "ann", "pw")
@@ -238,6 +256,17 @@ func TestExportCharts(t *testing.T) {
 	if code, _, data := get(base+"distribution/exportExcel", a); code != 200 ||
 		!strings.Contains(sheet(data), ">Share %<") || !strings.Contains(sheet(data), `r="C3"><v>1</v>`) {
 		t.Fatalf("distribution export: %d %s", code, sheet(data))
+	}
+	if _, err := w.db.Collection("changeHistory").InsertOne(ctx, bson.M{
+		"boardId": b.ID, "entityId": b.Card, "entityType": "card", "group": "position",
+		"createdAt":       created.Add(24 * time.Hour),
+		"previousContent": bson.M{"listId": b.List}, "newContent": bson.M{"listId": "unlisted"},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if code, _, data := get(base+"timeInList/exportExcel", a); code != 200 ||
+		!strings.Contains(sheet(data), ">Median (days)<") || !strings.Contains(sheet(data), `r="C3"><v>1</v>`) {
+		t.Fatalf("time in list export: %d %s", code, sheet(data))
 	}
 	if code, _, data := get(base+"releaseBurndown/exportExcel", a); code != 200 ||
 		!strings.Contains(sheet(data), ">Projected finish<") || !strings.Contains(sheet(data), ">Release fixture<") || !strings.Contains(sheet(data), `r="C3"><v>1</v>`) {

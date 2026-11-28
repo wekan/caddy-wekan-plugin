@@ -1685,6 +1685,7 @@
   "report-departures": "Avganger",
   "report-late": "Forsinket",
   "report-median": "Medianverdi",
+  "report-median-days": "Medianverdi (dager)",
   "report-net": "Netto",
   "report-no-due-date": "Ingen forfallsdato",
   "report-on-time": "I tide",

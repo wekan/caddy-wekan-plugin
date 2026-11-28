@@ -23,6 +23,7 @@ import (
 
 // chartTitles are WeKan's chart keys and their titles' translation keys.
 var chartTitles = map[string]string{
+	"timeInList":         msg("board-view-time-in-list"),
 	"activityHeatmap":    msg("board-view-activity-heatmap"),
 	"distribution":       msg("board-view-distribution"),
 	"releaseBurndown":    msg("board-view-release-burndown"),
@@ -214,6 +215,9 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 		return nil, nil, false
 	}
 	now := time.Now().UTC()
+	if key == "timeInList" {
+		return s.timeInListReport(ctx, b.ID, cards, now, lang)
+	}
 	if key == "releaseBurndown" {
 		cursor, err := s.db.Collection("scrumReleases").Find(ctx, bson.M{"boardId": eq(b.ID)},
 			options.Find().SetProjection(bson.M{"name": 1}).SetSort(bson.D{{Key: "name", Value: 1}, {Key: "_id", Value: 1}}))
