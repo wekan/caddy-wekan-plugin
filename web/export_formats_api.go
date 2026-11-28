@@ -344,23 +344,58 @@ type ghLabel struct {
 	Name string `json:"name"`
 }
 
-type ghIssue struct {
-	Title   string    `json:"title"`
-	Body    string    `json:"body"`
-	State   string    `json:"state"`
-	Labels  []ghLabel `json:"labels"`
-	DueDate string    `json:"due_date,omitempty"`
-}
-
 func formatGithubLike(d extBoard) any {
-	out := []ghIssue{}
+	out := []jsObject{}
 	for _, i := range d.Items {
-		g := ghIssue{Title: i.Title, Body: i.Description, State: map[bool]string{true: "closed", false: "open"}[isClosedList(i.ListTitle)],
-			Labels: []ghLabel{}, DueDate: i.DueAt}
-		for _, n := range i.Labels {
-			g.Labels = append(g.Labels, ghLabel{Name: n})
+		closed := isClosedList(i.ListTitle)
+		labels := []jsObject{}
+		for _, name := range i.Labels {
+			labels = append(labels, jsObject{{"name", name}})
 		}
-		out = append(out, g)
+		issue := jsObject{{"title", i.Title}, {"body", i.Description}, {"state", map[bool]string{true: "closed", false: "open"}[closed]}, {"labels", labels}}
+		if i.DueAt != "" {
+			issue.set("due_date", i.DueAt)
+		}
+		if i.Owner != "" {
+			assignees := []jsObject{}
+			for _, login := range append([]string{i.Owner}, i.Assignees...) {
+				if login != "" {
+					assignees = append(assignees, jsObject{{"login", login}})
+				}
+			}
+			issue.set("assignee", assignees[0])
+			issue.set("assignees", assignees)
+		}
+		if i.Creator != "" {
+			issue.set("user", jsObject{{"login", i.Creator}})
+		}
+		if i.CreatedAt != "" {
+			issue.set("created_at", i.CreatedAt)
+		}
+		if closed && i.EndAt != "" {
+			issue.set("closed_at", i.EndAt)
+		}
+		if estimate, err := strconv.ParseFloat(fmt.Sprint(jsGet(i.CustomFields, "Time estimate (hours)")), 64); err == nil && estimate > 0 && estimate <= 2501999792983 {
+			issue.set("time_estimate", jsRound(estimate*3600))
+		}
+		comments := []jsObject{}
+		for _, c := range i.Comments {
+			if c.Text == "" {
+				continue
+			}
+			comment := jsObject{{"body", c.Text}}
+			if c.Author != "" {
+				comment.set("user", jsObject{{"login", c.Author}})
+			}
+			if c.Date != "" {
+				comment.set("created_at", c.Date)
+			}
+			comments = append(comments, comment)
+		}
+		if len(comments) > 0 {
+			issue.set("comments_data", comments)
+		}
+		out = append(out, issue)
 	}
 	return out
 }
