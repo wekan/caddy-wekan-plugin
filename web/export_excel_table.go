@@ -62,6 +62,10 @@ func excelSheetTitle(title string) string {
 //
 // A swimlane's or a list's export is its cards (ExporterExcel cardSelector).
 func (s *Server) excelTableWorkbook(ctx context.Context, b *Board, lang string, scope exportScope) ([]byte, error) {
+	return xlsxBook(s.excelTableSheets(ctx, b, lang, scope, true))
+}
+
+func (s *Server) excelTableSheets(ctx context.Context, b *Board, lang string, scope exportScope, includeActivity bool) []xlsxSpec {
 	find := func(coll string, filter bson.M) []bson.M {
 		docs := []bson.M{}
 		if cur, err := s.db.Collection(coll).Find(ctx, filter); err == nil {
@@ -233,6 +237,10 @@ func (s *Server) excelTableWorkbook(ctx context.Context, b *Board, lang string, 
 			jlist[strOf(c["listId"])], jswimlane[strOf(c["swimlaneId"])], people("assignees"), people("members"),
 			by("requesters", "requestedBy"), by("assigners", "assignedBy"), labels, overtime, spent})
 	}
+	sheets := []xlsxSpec{{Name: excelSheetTitle(strOf(board["title"])), Rows: rows, BoldRows: []int{5, 7}, Merges: []string{"A1:H1", "B3:H3", "F5:R5"}, DateTime: true}}
+	if !includeActivity {
+		return sheets
+	}
 	activity := [][]any{
 		{strOf(board["title"])},
 		{},
@@ -259,8 +267,5 @@ func (s *Server) excelTableWorkbook(ctx context.Context, b *Board, lang string, 
 		activity = append(activity, []any{strconv.Itoa(count), text, title, owner,
 			excelTableDate(cm["createdAt"]), excelTableDate(cm["modifiedAt"])})
 	}
-	return xlsxBook([]xlsxSpec{
-		{Name: excelSheetTitle(strOf(board["title"])), Rows: rows, BoldRows: []int{5, 7}, Merges: []string{"A1:H1", "B3:H3", "F5:R5"}, DateTime: true},
-		{Name: xlsxSheetName(t("activity"), "Activity"), Rows: activity, BoldRows: []int{3}, Merges: []string{"A1:F1"}, DateTime: true},
-	})
+	return append(sheets, xlsxSpec{Name: xlsxSheetName(t("activity"), "Activity"), Rows: activity, BoldRows: []int{3}, Merges: []string{"A1:F1"}, DateTime: true})
 }

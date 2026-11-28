@@ -598,7 +598,7 @@ func (s *Server) allBoards(w http.ResponseWriter, r *http.Request, u *User) {
 		{"templates", msg("allboards.templates"), "fa-clone", len(templates)},
 		{"remaining", msg("allboards.remaining"), "fa-th-large", len(remaining)}}
 	s.render(w, r, "boards", http.StatusOK, map[string]any{"Title": tr(languageOf(r, u).Tag, "all-boards"), "User": u, "Boards": boards,
-		"Sections": sections, "Section": section})
+		"Sections": sections, "Section": section, "MassExportFormats": exportFormatsForMenu, "ExportDisabled": s.exportDisabled(r.Context())})
 }
 
 // boardSection is one of All Boards' sections.

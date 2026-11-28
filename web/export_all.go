@@ -21,16 +21,26 @@ func (s *Server) exportAllRoutes(m *http.ServeMux) {
 	m.HandleFunc("GET /api/export-all-boards/{format}", s.exportable(s.apiExportAll))
 }
 
-// massExportFormats are the formats Weddy writes so far; WeKan's others - Excel
-// and the other tools' formats - are still to come.
+// massExportFormats lists the formats available for all-board downloads.
 var massExportFormats = func() map[string]string {
-	m := map[string]string{"wekan": "json", "csv": "csv", "scsv": "csv", "tsv": "tsv"}
+	m := map[string]string{"excel": "xlsx", "wekan": "json", "csv": "csv", "scsv": "csv", "tsv": "tsv"}
 	for f, ext := range externalFormats {
 		if f != "trellozip" {
 			m[f] = ext[0]
 		}
 	}
 	return m
+}()
+
+var exportFormatsForMenu = func() []exportTool {
+	formats := []exportTool{{"excel", "Excel (.xlsx)", "fa-table"}, {"wekan", "WeKan JSON", "fa-download"},
+		{"csv", "CSV", "fa-table"}, {"scsv", "CSV (;)", "fa-table"}, {"tsv", "TSV", "fa-table"}}
+	for _, tool := range exportTools {
+		if _, ok := massExportFormats[tool.Key]; ok {
+			formats = append(formats, tool)
+		}
+	}
+	return formats
 }()
 
 const maxMassExportBoards = 1000
@@ -116,6 +126,25 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 	for i, b := range ok2 {
 		titles[i] = b.Title
 	}
+	if format == "excel" {
+		sheets := make([]xlsxSpec, 0, len(ok2))
+		names := massSheetNames(titles)
+		for i := range ok2 {
+			sheet := s.excelTableSheets(ctx, &ok2[i], exportLang(ctx), exportScope{}, false)[0]
+			sheet.Name = names[i]
+			sheets = append(sheets, sheet)
+		}
+		raw, err := xlsxBook(sheets)
+		if err != nil {
+			apiError(w, http.StatusInternalServerError, "Export failed")
+			return
+		}
+		w.Header().Set("Content-Type", xlsxType)
+		w.Header().Set("Content-Disposition", `attachment; filename="wekan-boards.xlsx"`)
+		w.Header().Set("Cache-Control", "no-store")
+		_, _ = w.Write(raw)
+		return
+	}
 	names := uniqueFileNames(titles, ext)
 	w.Header().Set("Content-Type", "application/zip")
 	w.Header().Set("Content-Disposition", `attachment; filename="wekan-boards-`+format+`.zip"`)
@@ -148,4 +177,30 @@ func (s *Server) apiExportAll(w http.ResponseWriter, r *http.Request) {
 			_, _ = f.Write([]byte(strings.Join(skipped, "\n") + "\n"))
 		}
 	}
+}
+
+func massSheetNames(titles []string) []string {
+	used := map[string]bool{}
+	names := make([]string, len(titles))
+	for i, title := range titles {
+		clean := strings.Map(func(r rune) rune {
+			if strings.ContainsRune(`\/?*[]:`, r) {
+				return ' '
+			}
+			return r
+		}, title)
+		base := jsTrim(strings.Trim(jsTrim(mdSpace.ReplaceAllString(clean, " ")), "'"))
+		base = jsTrim(jsSlice16(base, 31))
+		if base == "" {
+			base = "Board"
+		}
+		name := base
+		for n := 2; used[strings.ToLower(name)]; n++ {
+			suffix := " (" + strconv.Itoa(n) + ")"
+			name = jsTrim(jsSlice16(base, 31-len(suffix))) + suffix
+		}
+		used[strings.ToLower(name)] = true
+		names[i] = name
+	}
+	return names
 }

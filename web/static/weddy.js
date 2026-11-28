@@ -2033,6 +2033,9 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
       reloadBoard(true);
     }, function (err) { window.alert((err && (err.reason || err.message)) || String(err)); });
   });
+  up.on('click', '.js-export-all-boards', function () {
+    openPopOver('export-all-boards');
+  });
   up.on('click', '.js-open-board-menu', function (event) {
     event.preventDefault();
     openPopOver('board-menu');

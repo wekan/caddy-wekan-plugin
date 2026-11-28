@@ -1,5 +1,12 @@
 .board-list-wrapper
   h1.board-list-title {{t $.L "all-boards"}}
+  if not .ExportDisabled
+    button.board-header-btn.js-export-all-boards(type="button") {{t $.L "export-all-boards"}}
+    template.js-pop-over-template(data-pop="export-all-boards", data-title="{{t $.L `export-all-boards`}}")
+      p {{t $.L "export-all-boards-hint"}}
+      ul.pop-over-list
+        each format in .MassExportFormats
+          li: a.export-all-boards-format(href="/api/export-all-boards/{{.Key}}?download=1", download) {{.Label}}
   //- WeKan's All Boards sections, each with its count.
   ul.board-list-menu.js-board-sections
     each sec in .Sections
