@@ -1,6 +1,7 @@
 package web
 
 import (
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -85,6 +86,58 @@ func (m jiraEstimateMapping) value(card map[string]any) jsObject {
 		result = jsObject{{m.key, value}}
 	}
 	return result
+}
+
+var jiraTimeEstimateFields = [...]struct{ kind, key string }{
+	{"original", "originalEstimateSeconds"},
+	{"remaining", "remainingEstimateSeconds"},
+}
+
+func jiraTimeSeconds(value any) (float64, bool) {
+	hours, ok := toFloat(value)
+	seconds := math.Round(hours * 3600)
+	return seconds, ok && hours >= 0 && seconds <= 9007199254740991
+}
+
+func (fr *fieldReader) jiraTimeEstimateIds() [2]string {
+	var ids [2]string
+	var counts [2]int
+	for id, definition := range fr.defs {
+		if strOf(definition["type"]) != "number" {
+			continue
+		}
+		kind := strOf(asM(definition["settings"])["jiraTimeField"])
+		for i, field := range jiraTimeEstimateFields {
+			if field.kind == kind {
+				counts[i]++
+				ids[i] = id
+			}
+		}
+	}
+	for i, id := range ids {
+		if counts[i] != 1 || !fr.mayRead(id) {
+			ids[i] = ""
+		}
+	}
+	return ids
+}
+
+func jiraTimeEstimates(card map[string]any, ids [2]string, tracking *jsObject) {
+	var values [2]any
+	var counts [2]int
+	for _, assignment := range fieldValues(card) {
+		for i, id := range ids {
+			if id != "" && strOf(assignment["_id"]) == id {
+				counts[i]++
+				values[i] = assignment["value"]
+			}
+		}
+	}
+	for i, field := range jiraTimeEstimateFields {
+		if seconds, ok := jiraTimeSeconds(values[i]); counts[i] == 1 && ok {
+			tracking.set(field.key, seconds)
+		}
+	}
 }
 
 func formatJira(d extBoard) any {

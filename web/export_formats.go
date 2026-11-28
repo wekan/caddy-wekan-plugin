@@ -2,7 +2,6 @@ package web
 
 import (
 	"context"
-	"math"
 	"net/http"
 	"regexp"
 	"slices"
@@ -351,10 +350,14 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		username[strOf(u["_id"])] = strOf(u["username"])
 	}
 	var exportFields *fieldReader
+	var jiraTimeIds [2]string
 	if (format == "orgmode" || format == "trello" || format == "trellozip" || format == "asana" || format == "zenkit" || format == "linear" || format == "quire" || format == "pivotal" || format == "redmine" || format == "clickup" || format == "ticktick" || format == "notion" || format == "jira" || format == "taiga") && want.has("custom-fields") {
 		exportFields = s.fieldReaderFor(ctx, b, u)
-		if format == "jira" && want.has("scrum") {
-			out.JiraEstimate = exportFields.jiraEstimateMapping()
+		if format == "jira" {
+			jiraTimeIds = exportFields.jiraTimeEstimateIds()
+			if want.has("scrum") {
+				out.JiraEstimate = exportFields.jiraEstimateMapping()
+			}
 		}
 	}
 	for _, c := range cards {
@@ -388,14 +391,9 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		if n, ok := plain(c["spentTime"]).(float64); ok && n > 0 {
 			it.SpentTime = n
 		}
-		// The Jira export's time tracking: the time spent, in whole seconds,
-		// 0 too (models/lib/jiraTimeTracking.js jiraTimeTrackingExport).
-		if format == "jira" {
-			if n, ok := plain(c["spentTime"]).(float64); ok && !math.IsInf(n, 0) && !math.IsNaN(n) && n >= 0 {
-				if sec := jsRound(n * 3600); sec <= 9007199254740991 {
-					it.Timetracking = jsObject{}
-					it.Timetracking.set("timeSpentSeconds", sec)
-				}
+		if format == "jira" && want.has("dates") {
+			if seconds, ok := jiraTimeSeconds(c["spentTime"]); ok {
+				it.Timetracking.set("timeSpentSeconds", seconds)
 			}
 		}
 		// Card dependencies, for the formats with relations of their own.
@@ -456,6 +454,9 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		}
 		if exportFields != nil {
 			it.CustomFields = exportFields.externalFieldValues(c)
+			if format == "jira" {
+				jiraTimeEstimates(c, jiraTimeIds, &it.Timetracking)
+			}
 			if out.JiraEstimate != nil {
 				it.JiraEstimate = out.JiraEstimate.value(c)
 			}
@@ -464,8 +465,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		// dueComplete stays, as WeKan's does - it is read from the card's
 		// due date before gateItem drops that.
 		if !want.has("dates") {
-			// Jira's time spent is a date section too (jiraTimeTrackingExport).
-			it.StartAt, it.EndAt, it.CreatedAt, it.ModifiedAt, it.SpentTime, it.DueAt, it.Timetracking = "", "", "", "", 0, "", nil
+			it.StartAt, it.EndAt, it.CreatedAt, it.ModifiedAt, it.SpentTime, it.DueAt = "", "", "", "", 0, ""
 			if format == "trello" || format == "trellozip" {
 				it.DueComplete = false
 			}

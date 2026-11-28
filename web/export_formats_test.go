@@ -577,6 +577,34 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 		both.Names["customfield_90002"] != "Budget" {
 		t.Fatalf("estimate mapping must preserve zero and reserve the Jira ID: %+v", both)
 	}
+	for _, kind := range []string{"original", "remaining"} {
+		if _, err := w.db.Collection("customFields").InsertOne(ctx, bson.M{
+			"_id": kind, "name": kind, "type": "number", "boardIds": bson.A{board.ID},
+			"settings": bson.M{"jiraTimeField": kind},
+		}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": board.Card}, bson.M{"$set": bson.M{
+		"spentTime": 1.5, "customFields": bson.A{bson.M{"_id": id, "value": 0},
+			bson.M{"_id": "original", "value": 2}, bson.M{"_id": "remaining", "value": 0}},
+	}}); err != nil {
+		t.Fatal(err)
+	}
+	for selection, expected := range map[string]map[string]any{
+		"dates":         {"timeSpentSeconds": float64(5400)},
+		"custom-fields": {"originalEstimateSeconds": float64(7200), "remainingEstimateSeconds": float64(0)},
+		"description":   nil,
+	} {
+		actual := download(admin, selection, 200).Issues[0].Fields["timetracking"]
+		if expected == nil && actual == nil {
+			continue
+		}
+		if !reflect.DeepEqual(actual, expected) {
+			t.Errorf("%s timetracking: got %v, want %v", selection, actual, expected)
+		}
+	}
+
 	download(reader, "custom-fields", 403)
 }
 
