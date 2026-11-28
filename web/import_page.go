@@ -38,6 +38,7 @@ func importPageLimit(source string) int {
 var tableSources = map[string]string{"csv": ".csv,.tsv,.txt", "excel": ".xlsx"}
 
 func (s *Server) importPageRoutes(m *http.ServeMux) {
+	m.HandleFunc("POST /import-trello", s.importable(s.api(s.importTrelloHTTP)))
 	m.HandleFunc("GET /import/{source}", s.importable(s.page(s.importPage)))
 	m.HandleFunc("POST /import/{source}", s.importable(s.page(s.importMappingPage)))
 	m.HandleFunc("POST /import/{source}/board", s.importable(s.page(s.importBoardPage)))

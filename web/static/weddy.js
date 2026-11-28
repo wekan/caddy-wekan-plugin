@@ -429,6 +429,22 @@ window.__meteor_runtime_config__ = window.__meteor_runtime_config__ || {
     var label = input.form.querySelector('.js-member-date-format-enabled');
     if (label) label.textContent = input.checked ? label.dataset.enabled : label.dataset.disabled;
   });
+  up.on('click', '.js-toggle-disable-all-import', function (event, button) {
+    if (button.disabled) return;
+    button.disabled = true;
+    var enabled = button.getAttribute('aria-checked') !== 'true';
+    var error = button.parentElement.querySelector('.js-admin-import-error');
+    error.hidden = true;
+    callAsync('/settings/update', { _id: button.dataset.setting }, { $set: { disableAllImport: enabled } })
+      .then(function (count) {
+        if (count !== 1) return window.location.reload();
+        button.setAttribute('aria-checked', String(enabled));
+        button.querySelector('.materialCheckBox').classList.toggle('is-checked', enabled);
+      }).catch(function (err) {
+        error.textContent = err.reason || err.message;
+        error.hidden = false;
+      }).finally(function () { button.disabled = false; });
+  });
   up.on('click', '.admin-appearance button[role="switch"]', function (event, button) {
     var enabled = button.getAttribute('aria-checked') !== 'true';
     button.setAttribute('aria-checked', String(enabled));

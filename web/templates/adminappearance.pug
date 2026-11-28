@@ -3,6 +3,7 @@
     a.people(href="/admin/people") {{t $.L "people"}}
     a.notifications(href="/admin/notifications") {{t $.L "notifications"}}
     a.settings.is-active(href="/admin/settings/appearance") {{t $.L "layout"}}
+    a.security(href="/admin/settings/security") {{t $.L "disable-all-import"}}
   h1 {{t $.L "layout"}}
   form.js-admin-date-format(data-setting="{{.SettingID}}")
     button.js-toggle-hide-logo(type="button", role="switch", aria-checked="{{.SiteDate.HideLogo}}")

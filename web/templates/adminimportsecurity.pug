@@ -1,0 +1,11 @@
+.setting-content.admin-import-security
+  .admin-panel-tabs
+    a.people(href="/admin/people") {{t $.L "people"}}
+    a.notifications(href="/admin/notifications") {{t $.L "notifications"}}
+    a.settings(href="/admin/settings/appearance") {{t $.L "layout"}}
+    a.security.is-active(href="/admin/settings/security") {{t $.L "disable-all-import"}}
+  button.js-toggle-disable-all-import(type="button", role="switch", aria-checked="{{.DisableAllImport}}", data-setting="{{.SettingID}}")
+    span(class="materialCheckBox {{if .DisableAllImport}}is-checked{{end}}", aria-hidden="true")
+    span {{t $.L "disable-all-import"}}
+  p {{t $.L "disable-all-import-description"}}
+  p.error.js-admin-import-error(role="alert", hidden)

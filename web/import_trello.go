@@ -8,6 +8,7 @@ import (
 	"errors"
 	"io"
 	"math"
+	"mime"
 	"net/http"
 	"path"
 	"sort"
@@ -413,6 +414,19 @@ func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *Use
 			return
 		}
 	}
+	mode := importMembersMode(r.FormValue("membersMode"))
+	if r.FormValue("membersMode") == "" {
+		mode = "map"
+	}
+	created, status := s.saveTrelloBoards(r, u, boards, mode, selected)
+	if status != http.StatusOK {
+		fail(status)
+		return
+	}
+	http.Redirect(w, r, "/b/"+created[0]+"/"+slugify(str(boards[0].doc, "title")), http.StatusSeeOther)
+}
+
+func (s *Server) saveTrelloBoards(r *http.Request, u *User, boards []trelloArchiveBoard, mode string, selected map[string]string) ([]string, int) {
 	validated := map[string]bool{}
 	for _, username := range selected {
 		if validated[username] {
@@ -420,18 +434,12 @@ func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *Use
 		}
 		if username == "" || s.db.Collection("users").FindOne(r.Context(),
 			bson.M{"username": eq(username), "loginDisabled": bson.M{"$ne": true}}).Err() != nil {
-			fail(http.StatusBadRequest)
-			return
+			return nil, http.StatusBadRequest
 		}
 		validated[username] = true
 	}
 	if s.mayCreateBoard(r.Context(), u, "board", "importBoard") != nil {
-		fail(http.StatusForbidden)
-		return
-	}
-	mode := importMembersMode(r.FormValue("membersMode"))
-	if r.FormValue("membersMode") == "" {
-		mode = "map"
+		return nil, http.StatusForbidden
 	}
 	created := []string{}
 	var placeholders bson.A
@@ -449,13 +457,54 @@ func (s *Server) importTrelloPage(w http.ResponseWriter, r *http.Request, u *Use
 				_, _ = s.db.Collection("users").DeleteMany(context.WithoutCancel(r.Context()), bson.M{"_id": dbIn(placeholders)})
 			}
 			if errors.Is(err, errBoardCreation) {
-				fail(http.StatusForbidden)
-			} else {
-				fail(http.StatusInternalServerError)
+				return nil, http.StatusForbidden
 			}
-			return
+			return nil, http.StatusInternalServerError
 		}
 		created = append(created, id)
 	}
-	http.Redirect(w, r, "/b/"+created[0]+"/"+slugify(str(boards[0].doc, "title")), http.StatusSeeOther)
+	return created, http.StatusOK
+}
+
+func (s *Server) importTrelloHTTP(w http.ResponseWriter, r *http.Request, u *User) {
+	r.Body = http.MaxBytesReader(w, r.Body, maxImportForm)
+	raw, err := io.ReadAll(r.Body)
+	if err != nil {
+		apiError(w, http.StatusBadRequest, errTrelloDocument.Error())
+		return
+	}
+	contentType, _, _ := mime.ParseMediaType(r.Header.Get("Content-Type"))
+	var boards []trelloArchiveBoard
+	var payload struct {
+		Board          json.RawMessage
+		MembersMapping map[string]string
+		MembersMode    string
+	}
+	switch contentType {
+	case "application/json":
+		if err = json.Unmarshal(raw, &payload); err == nil {
+			var doc map[string]any
+			if doc, err = trelloImport(payload.Board); err == nil {
+				boards = []trelloArchiveBoard{{doc: doc}}
+			}
+		}
+	case "application/zip", "application/x-zip-compressed":
+		boards, err = trelloImportArchive(raw)
+	default:
+		err = errTrelloDocument
+	}
+	if err != nil || len(boards) == 0 {
+		apiError(w, http.StatusBadRequest, errTrelloDocument.Error())
+		return
+	}
+	mode := importMembersMode(payload.MembersMode)
+	if payload.MembersMode == "" {
+		mode = "map"
+	}
+	ids, status := s.saveTrelloBoards(r, u, boards, mode, payload.MembersMapping)
+	if status != http.StatusOK {
+		apiError(w, status, errTrelloDocument.Error())
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{"boardIds": ids})
 }

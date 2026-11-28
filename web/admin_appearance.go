@@ -34,3 +34,22 @@ func (s *Server) adminAppearancePage(w http.ResponseWriter, r *http.Request, u *
 		"DateEnabled": settings.Date.Enabled, "DateFormats": formats, "SiteDate": settings.Date,
 	})
 }
+
+func (s *Server) adminImportSecurityPage(w http.ResponseWriter, r *http.Request, u *User) {
+	if !u.IsAdmin {
+		http.NotFound(w, r)
+		return
+	}
+	var settings struct {
+		ID               string `bson:"_id"`
+		DisableAllImport bool   `bson:"disableAllImport"`
+	}
+	if err := s.db.Collection("settings").FindOne(r.Context(), bson.M{}).Decode(&settings); err != nil {
+		http.Error(w, "Settings are unavailable", http.StatusInternalServerError)
+		return
+	}
+	s.render(w, r, "adminimportsecurity", http.StatusOK, map[string]any{
+		"Title": tr(languageOf(r, u).Tag, "disable-all-import"), "User": u,
+		"SettingID": settings.ID, "DisableAllImport": settings.DisableAllImport,
+	})
+}

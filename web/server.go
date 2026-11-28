@@ -343,6 +343,7 @@ func (s *Server) routes() {
 	m.HandleFunc("GET /b/{board}/{slug}/lists/{list}/permissions", s.page(s.listPermissionsPage))
 	m.HandleFunc("POST /b/{board}/lists/{list}/permissions", s.page(s.saveListPermissions))
 	m.HandleFunc("POST /b/{board}/integrations/{hook}/notifications", s.page(s.saveHookDelivery))
+	m.HandleFunc("GET /admin/settings/security", s.page(s.adminImportSecurityPage))
 	m.HandleFunc("GET /admin/settings/appearance", s.page(s.adminAppearancePage))
 	m.HandleFunc("GET /admin/notifications", s.page(s.adminNotificationsPage))
 	m.HandleFunc("POST /admin/notifications", s.page(s.saveAdminDelivery))
