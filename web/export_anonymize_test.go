@@ -79,6 +79,13 @@ func TestExportsAnonymizeUsers(t *testing.T) {
 	if body := get(base + "/export"); !strings.Contains(body, "bobreal") || !strings.Contains(body, "Bob Realname") {
 		t.Fatal("off: the export names its users")
 	}
+	massRoutes := []string{"/api/export-all-boards/markdown", "/api/export-all-boards/excel"}
+	for _, route := range massRoutes {
+		if body := get(route); !strings.Contains(body, "ask @bobreal") {
+			t.Fatalf("%s: the unredacted export should include the original title", route)
+		}
+	}
+	routes = append(routes, massRoutes...)
 	_, _ = w.db.Collection("settings").UpdateOne(ctx, bson.M{}, bson.M{"$set": bson.M{"anonymizeExportUsers": true}})
 	for _, r := range routes {
 		body := get(r)
@@ -88,6 +95,12 @@ func TestExportsAnonymizeUsers(t *testing.T) {
 			}
 		}
 	}
+	for _, route := range massRoutes {
+		if body := get(route); !strings.Contains(body, "ask @user") {
+			t.Errorf("%s: the anonymized export should keep the card title with an alias", route)
+		}
+	}
+
 	if body := get(base + "/export"); !strings.Contains(body, `"username":"user`) || !strings.Contains(body, "thanks @user") || !strings.Contains(body, "ask @user") {
 		t.Errorf("the JSON export says user1, user2 ...: %.400s", body)
 	}
@@ -110,11 +123,18 @@ func TestEveryExportOfUsersIsAnonymized(t *testing.T) {
 		src, _ := os.ReadFile(f)
 		bodies := fn.Split(string(src), -1)
 		for _, body := range bodies {
+			if strings.Contains(body, "s.timeReportUsers(") && !strings.Contains(body, "s.exportAnonymizer(") {
+				t.Errorf("%s: time report user lookup without an anonymizer", f)
+			}
 			if !strings.Contains(body, `Collection("users")`) {
 				continue
 			}
 			seen++
 			name := strings.SplitN(body, "(", 3)
+			// These lookup helpers return documents to the guarded export callers.
+			if strings.HasPrefix(body, "(s *Server) timeReportUsers(") && f == "export_charts.go" {
+				continue
+			}
 			if !strings.Contains(body, "exportAnonymizer(") && !strings.HasPrefix(body, "(s *Server) boardDocs(") {
 				t.Errorf("%s: %s reads users for an export without the anonymizer", f, strings.Join(name[:2], "("))
 			}
@@ -124,7 +144,7 @@ func TestEveryExportOfUsersIsAnonymized(t *testing.T) {
 		t.Fatalf("the guard sees the exports' user reads: %d", seen)
 	}
 	// boardDocs is shared with the copy; its exports all go through
-	// exportBoardWith, which exportBoard calls.
+	// exportBoardWith.
 	src, _ := os.ReadFile("export.go")
 	i := strings.Index(string(src), "func (s *Server) exportBoardWith(")
 	if i < 0 || !strings.Contains(string(src)[i:i+800], "exportAnonymizer(") {
