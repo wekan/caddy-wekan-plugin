@@ -394,7 +394,6 @@ func parseJira(data any) (jsObject, error) {
 				tags = append(tags, name)
 			}
 		}
-		task.set("tags", jsUniq(tags))
 		if sprintField != "" {
 			raw := jsGet(fields, sprintField)
 			listed, ok := raw.([]any)
@@ -446,7 +445,11 @@ func parseJira(data any) (jsObject, error) {
 		for _, version := range versions {
 			id := jiraIssueID(jsGet(version, "id"))
 			name := strings.TrimSpace(strOf(jsGet(version, "name")))
-			if id == "" || name == "" {
+			if name == "" {
+				continue
+			}
+			if id == "" {
+				tags = append(tags, "version:"+name)
 				continue
 			}
 			if !seenReleases[id] {
@@ -464,6 +467,7 @@ func parseJira(data any) (jsObject, error) {
 				releaseRefs = append(releaseRefs, id)
 			}
 		}
+		task.set("tags", jsUniq(tags))
 		if len(releaseRefs) > maxCardReleases {
 			return nil, errors.New("too many Jira fix versions on one issue")
 		}
