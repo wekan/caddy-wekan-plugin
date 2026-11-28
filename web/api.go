@@ -571,6 +571,45 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 		apiError(w, parentStatus(err), err.Error())
 		return
 	}
+	if input, exists := req["labelIds"]; exists {
+		var requested []string
+		switch labels := input.(type) {
+		case string:
+			if strings.TrimSpace(labels) != "" {
+				requested = strings.Split(labels, ",")
+			}
+		case []any:
+			for _, label := range labels {
+				id, ok := label.(string)
+				if !ok {
+					apiError(w, http.StatusBadRequest, "Invalid label ID")
+					return
+				}
+				requested = append(requested, id)
+			}
+		default:
+			apiError(w, http.StatusBadRequest, "Expected an ID array or comma-separated string")
+			return
+		}
+		allowed := make(map[string]bool, len(b.Labels))
+		for _, label := range b.Labels {
+			allowed[label.ID] = true
+		}
+		selected := []string{}
+		for _, id := range requested {
+			id = strings.TrimSpace(id)
+			available, belongs := allowed[id]
+			if !belongs {
+				apiError(w, http.StatusBadRequest, "Label is not on this board")
+				return
+			}
+			if available {
+				selected = append(selected, id)
+				allowed[id] = false
+			}
+		}
+		set["labelIds"] = selected
+	}
 	if value, exists := req["spentTime"]; exists {
 		hours, ok := value.(float64)
 		if raw, isString := value.(string); isString {
