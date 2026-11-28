@@ -1,6 +1,11 @@
 package web
 
-import "strconv"
+import (
+	"regexp"
+	"strconv"
+	"strings"
+	"unicode/utf16"
+)
 
 // Jira's issues collection, as Node.js WeKan's externalExportFormatters.js
 // jira writes it - the shape its Jira import reads back: each card an issue
@@ -19,17 +24,86 @@ func jsOptional(s string) any {
 	return s
 }
 
+type jiraEstimateMapping struct {
+	key, unit, localID string
+}
+
+var jiraEstimateKey = regexp.MustCompile(`^customfield_[0-9]{1,20}$`)
+
+func (fr *fieldReader) jiraEstimateMapping() *jiraEstimateMapping {
+	var match *jiraEstimateMapping
+	for id, definition := range fr.defs {
+		settings := asM(definition["settings"])
+		key := strOf(settings["jiraEstimateFieldId"])
+		if strOf(definition["type"]) != "number" || key == "" {
+			continue
+		}
+		if match != nil || !jiraEstimateKey.MatchString(key) || !fr.mayRead(id) {
+			return nil
+		}
+		unit := "points"
+		if raw, exists := settings["jiraEstimateUnit"]; exists {
+			name, ok := raw.(string)
+			unit = strings.TrimSpace(name)
+			if !ok || unit == "" || len(utf16.Encode([]rune(name))) > 80 {
+				return nil
+			}
+		}
+		match = &jiraEstimateMapping{key, unit, id}
+	}
+	return match
+}
+
+func (m jiraEstimateMapping) value(card map[string]any) jsObject {
+	var result jsObject
+	found := false
+	for _, field := range fieldValues(card) {
+		if strOf(field["_id"]) != m.localID {
+			continue
+		}
+		if found {
+			return nil
+		}
+		found = true
+		var value float64
+		switch n := field["value"].(type) {
+		case nil:
+			result = jsObject{{m.key, nil}}
+			continue
+		case float64:
+			value = n
+		case int32:
+			value = float64(n)
+		case int64:
+			value = float64(n)
+		default:
+			return nil
+		}
+		if !(value >= 0 && value <= 1e12) {
+			return nil
+		}
+		result = jsObject{{m.key, value}}
+	}
+	return result
+}
+
 func formatJira(d extBoard) any {
 	keys := map[string]string{}
 	fieldKeys := map[string]string{}
 	names := jsObject{}
+	nextField := 90001
 	for idx, i := range d.Items {
 		keys[i.CardID] = "WEKAN-" + strconv.Itoa(idx+1)
 		for _, field := range i.CustomFields {
 			if _, exists := fieldKeys[field.Key]; exists {
 				continue
 			}
-			key := "customfield_" + strconv.Itoa(90001+len(fieldKeys))
+			key := "customfield_" + strconv.Itoa(nextField)
+			nextField++
+			if d.JiraEstimate != nil && key == d.JiraEstimate.key {
+				key = "customfield_" + strconv.Itoa(nextField)
+				nextField++
+			}
 			fieldKeys[field.Key] = key
 			names.set(key, field.Key)
 		}
@@ -141,6 +215,9 @@ func formatJira(d extBoard) any {
 		for _, field := range i.CustomFields {
 			f.set(fieldKeys[field.Key], field.Value)
 		}
+		for _, estimate := range i.JiraEstimate {
+			f.set(estimate.Key, estimate.Value)
+		}
 		issue := jsObject{}
 		issue.set("key", keys[i.CardID])
 		issue.set("fields", f)
@@ -150,6 +227,10 @@ func formatJira(d extBoard) any {
 	board.set("name", d.Board.Title)
 	out := jsObject{}
 	out.set("board", board)
+	if mapping := d.JiraEstimate; mapping != nil {
+		out.set("wekanScrumMapping", jsObject{{"estimateFieldId", mapping.key}, {"estimateUnit", mapping.unit}})
+		out.set("schema", jsObject{{mapping.key, jsObject{{"type", "number"}}}})
+	}
 	if len(names) > 0 {
 		out.set("names", names)
 	}

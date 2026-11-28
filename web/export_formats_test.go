@@ -493,6 +493,7 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 	id := randomID()
 	if _, err := w.db.Collection("customFields").InsertOne(ctx, bson.M{
 		"_id": id, "name": "Budget", "type": "number", "boardIds": bson.A{board.ID}, "adminOnly": true,
+		"settings": bson.M{"jiraEstimateFieldId": "customfield_90001", "jiraEstimateUnit": "hours"},
 	}); err != nil {
 		t.Fatal(err)
 	}
@@ -517,8 +518,10 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 		t.Fatal(err)
 	}
 	type jiraDoc struct {
-		Names  map[string]string
-		Issues []struct{ Fields map[string]any }
+		WekanScrumMapping map[string]any
+		Schema            map[string]map[string]string
+		Names             map[string]string
+		Issues            []struct{ Fields map[string]any }
 	}
 	download := func(token, fields string, status int) jiraDoc {
 		t.Helper()
@@ -563,6 +566,15 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 		if _, exists := omitted.Issues[0].Fields[field]; exists {
 			t.Fatalf("unselected planning field %s: %+v", field, omitted)
 		}
+	}
+	if len(selected.WekanScrumMapping) != 0 || len(omitted.Schema) != 0 {
+		t.Fatal("the estimate mapping requires both Scrum and custom fields")
+	}
+	both := download(admin, "scrum,custom-fields", 200)
+	if both.WekanScrumMapping["estimateFieldId"] != key || both.WekanScrumMapping["estimateUnit"] != "hours" ||
+		both.Schema[key]["type"] != "number" || both.Issues[0].Fields[key] != float64(0) ||
+		both.Names["customfield_90002"] != "Budget" {
+		t.Fatalf("estimate mapping must preserve zero and reserve the Jira ID: %+v", both)
 	}
 	download(reader, "custom-fields", 403)
 }

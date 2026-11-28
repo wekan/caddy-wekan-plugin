@@ -126,6 +126,7 @@ type extItem struct {
 	// spent in seconds (models/lib/jiraTimeTracking.js).
 	Timetracking                      jsObject `json:"timetracking,omitempty"`
 	SprintID, ReleaseID               string   `json:"-"`
+	JiraEstimate                      jsObject `json:"-"`
 	JiraReleaseIDs                    []string `json:"-"`
 	JiraIssueType, JiraStatusCategory string   `json:"-"`
 }
@@ -152,10 +153,11 @@ type extBoard struct {
 		CreatedAt   string  `json:"createdAt,omitempty"`
 		ModifiedAt  string  `json:"modifiedAt,omitempty"`
 	} `json:"board"`
-	Lists             []extNamed       `json:"lists"`
-	Swimlanes         []extNamed       `json:"swimlanes"`
-	Items             []extItem        `json:"items"`
-	Sprints, Releases []map[string]any `json:"-"`
+	Lists             []extNamed           `json:"lists"`
+	Swimlanes         []extNamed           `json:"swimlanes"`
+	Items             []extItem            `json:"items"`
+	JiraEstimate      *jiraEstimateMapping `json:"-"`
+	Sprints, Releases []map[string]any     `json:"-"`
 }
 
 // formatWrikeWorkflow is WeKan's: the collected lists, and the board's rules
@@ -348,6 +350,9 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 	var exportFields *fieldReader
 	if (format == "orgmode" || format == "trello" || format == "trellozip" || format == "asana" || format == "zenkit" || format == "linear" || format == "quire" || format == "pivotal" || format == "redmine" || format == "clickup" || format == "ticktick" || format == "notion" || format == "jira") && want.has("custom-fields") {
 		exportFields = s.fieldReaderFor(ctx, b, u)
+		if format == "jira" && want.has("scrum") {
+			out.JiraEstimate = exportFields.jiraEstimateMapping()
+		}
 	}
 	for _, c := range cards {
 		id := strOf(c["_id"])
@@ -435,6 +440,9 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		}
 		if exportFields != nil {
 			it.CustomFields = exportFields.externalFieldValues(c)
+			if out.JiraEstimate != nil {
+				it.JiraEstimate = out.JiraEstimate.value(c)
+			}
 		}
 		// What the selection leaves out: collect()'s want() and gateItem().
 		// dueComplete stays, as WeKan's does - it is read from the card's
