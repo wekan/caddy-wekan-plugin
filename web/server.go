@@ -799,6 +799,17 @@ func (s *Server) visibilityPage(w http.ResponseWriter, r *http.Request, u *User)
 		http.Error(w, "only private boards are allowed", http.StatusForbidden)
 		return
 	}
+	if perm != "private" {
+		destination, err := s.shopUsesPrivateDestination(r.Context(), b.ID)
+		if err != nil {
+			http.Error(w, "Could not check Shop order destinations", http.StatusInternalServerError)
+			return
+		}
+		if destination {
+			http.Error(w, tr(languageOf(r, u).Tag, msg("shop-orders-private")), http.StatusConflict)
+			return
+		}
+	}
 	if _, err := s.db.Collection("boards").UpdateOne(r.Context(), bson.M{"_id": b.ID}, bson.M{"$set": bson.M{"permission": perm, "modifiedAt": time.Now().UTC()}}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

@@ -199,3 +199,37 @@ func TestShopSettingsEditor(t *testing.T) {
 		t.Fatalf("shop settings persistence: %v", board)
 	}
 }
+
+func TestShopDestinationVisibility(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	w.seedUser(t, "ann", "pw")
+	token := login(t, w, "ann")
+	source := newRESTBoard(t, w, token, "Shop source")
+	target := newRESTBoard(t, w, token, "Shop orders")
+	c := w.client(t)
+	w.signIn(t, c, "ann", "pw")
+	set := func(id string, settings bson.M) {
+		t.Helper()
+		if _, err := w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": id},
+			bson.M{"$set": bson.M{"shopSettings": settings}}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	address := w.srv.URL + "/b/" + target.ID + "/visibility"
+	set(source.ID, bson.M{"enabled": true, "ordersBoardId": target.ID, "ordersListId": target.List})
+	for _, visibility := range []string{"public", "instance"} {
+		if res, _ := post(t, c, address, url.Values{"visibility": {visibility}}); res.StatusCode != http.StatusConflict {
+			t.Fatalf("configured destination became %s: %d", visibility, res.StatusCode)
+		}
+	}
+	set(source.ID, bson.M{"enabled": false, "ordersBoardId": target.ID, "ordersListId": target.List})
+	set(target.ID, bson.M{"enabled": true, "ordersListId": target.List})
+	if res, _ := post(t, c, address, url.Values{"visibility": {"public"}}); res.StatusCode != http.StatusConflict {
+		t.Fatalf("same-board destination became public: %d", res.StatusCode)
+	}
+	set(target.ID, bson.M{"enabled": false, "ordersListId": target.List})
+	if res, _ := post(t, c, address, url.Values{"visibility": {"public"}}); res.StatusCode != http.StatusSeeOther {
+		t.Fatalf("unused destination could not change visibility: %d", res.StatusCode)
+	}
+}

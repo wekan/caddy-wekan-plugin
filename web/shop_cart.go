@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
 type shopCartLine struct {
@@ -138,4 +139,20 @@ func shopOrderDestinationAvailable(ctx context.Context, s *Server, sourceBoard s
 	return s.db.Collection("lists").FindOne(ctx, bson.M{
 		"_id": eq(listID), "boardId": eq(boardID), "archived": bson.M{"$ne": true}, "deletedAt": nil,
 	}).Err() == nil
+}
+
+func (s *Server) shopUsesPrivateDestination(ctx context.Context, boardID string) (bool, error) {
+	configured := bson.M{"$exists": true, "$nin": bson.A{nil, ""}}
+	err := s.db.Collection("boards").FindOne(ctx, bson.M{
+		"archived": bson.M{"$ne": true}, "deletedAt": nil, "shopSettings.enabled": true,
+		"shopSettings.ordersListId": configured,
+		"$or": bson.A{
+			bson.M{"shopSettings.ordersBoardId": eq(boardID)},
+			bson.M{"_id": eq(boardID), "shopSettings.ordersBoardId": bson.M{"$in": bson.A{nil, ""}}},
+		},
+	}).Err()
+	if err == mongo.ErrNoDocuments {
+		return false, nil
+	}
+	return err == nil, err
 }
