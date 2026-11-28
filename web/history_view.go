@@ -212,15 +212,7 @@ func historySummary(lang string, row, content map[string]any) string {
 			return strings.Join(parts, " · ")
 		}
 	case []any:
-		parts := []string{}
-		for _, e := range x {
-			if s, ok := e.(string); ok {
-				parts = append(parts, s)
-			} else {
-				parts = append(parts, canonical(e))
-			}
-		}
-		return strings.Join(parts, ", ")
+		return historyNamedValues(x, func(id string) string { return id })
 	case float64, int32, int64, int:
 		return jsonNumberOrBool(x)
 	}
@@ -246,6 +238,18 @@ func historySummary(lang string, row, content map[string]any) string {
 		return tr(lang, "history-change-restored")
 	}
 	return ""
+}
+
+func historyNamedValues(values []any, nameOf func(string) string) string {
+	parts := make([]string, 0, len(values))
+	for _, value := range values {
+		if id, ok := value.(string); ok {
+			parts = append(parts, nameOf(id))
+		} else {
+			parts = append(parts, canonical(value))
+		}
+	}
+	return strings.Join(parts, ", ")
 }
 
 func historyMoveSummary(destination, reason string) string {
@@ -336,6 +340,19 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 		return base + "?" + v.Encode()
 	}
 	var rows []historyViewRow
+	boards := map[string]*Board{}
+	if b != nil {
+		boards[b.ID] = b
+	}
+	boardOf := func(id string) *Board {
+		if board, ok := boards[id]; ok {
+			return board
+		}
+		board, _ := s.boardFor(r.Context(), id, u)
+		boards[id] = board
+		return board
+	}
+	userNames := map[string]string{}
 	for _, row := range res["rows"].([]map[string]any) {
 		id, changeType := docString(row, "_id"), docString(row, "changeType")
 		when := ""
@@ -344,6 +361,43 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 		}
 		content := historyViewContent(row)
 		summary := historySummary(lang, row, content)
+		if values, ok := content["value"].([]any); ok && docString(row, "entityType") == "card" {
+			field := docString(content, "field")
+			switch field {
+			case "labelIds", "members", "assignees", "requesters", "assigners":
+				board := boardOf(docString(row, "boardId"))
+				if board != nil {
+					summary = historyNamedValues(values, func(id string) string {
+						if field == "labelIds" {
+							for _, label := range board.Labels {
+								if label.ID == id {
+									if label.Name != "" {
+										return label.Name
+									}
+									if label.Color != "" {
+										return label.Color
+									}
+									break
+								}
+							}
+						} else if validID(id) && board.MemberOf(id) {
+							if name, ok := userNames[id]; ok {
+								return name
+							}
+							var user User
+							name := id
+							if s.db.Collection("users").FindOne(r.Context(), bson.M{"_id": eq(id)}).Decode(&user) == nil &&
+								user.Username != "" {
+								name = user.Username
+							}
+							userNames[id] = name
+							return name
+						}
+						return id
+					})
+				}
+			}
+		}
 		if docString(row, "group") == "position" {
 			boardID, listID := docString(row, "boardId"), docString(content, "listId")
 			destinationBoard := docString(content, "boardId")
@@ -356,11 +410,7 @@ func (s *Server) renderHistory(w http.ResponseWriter, r *http.Request, u *User, 
 		}
 		selectable := true
 		if listWipHistoryRow(row) {
-			board := b
-			boardID := docString(row, "boardId")
-			if board == nil || board.ID != boardID {
-				board, _ = s.boardFor(r.Context(), boardID, u)
-			}
+			board := boardOf(docString(row, "boardId"))
 			selectable = board != nil && board.AdminOf(u.ID)
 		}
 		rows = append(rows, historyViewRow{ID: id, Type: tr(lang, historyTypeKey(changeType)),

@@ -357,3 +357,41 @@ func TestHistoryViewIntegerDate(t *testing.T) {
 		}
 	}
 }
+
+func TestHistoryShowsBoardLabelAndMemberNames(t *testing.T) {
+	w := newTestWeKan(t)
+	ctx := context.Background()
+	ann := w.seedUser(t, "ann", "pw")
+	member := w.seedUser(t, "active-member", "pw")
+	outsider := w.seedUser(t, "outside-user", "pw")
+	board := newRESTBoard(t, w, login(t, w, "ann"), "History board")
+	setMember(t, w, board.ID, Member{UserID: member.ID, IsActive: true})
+	if _, err := w.db.Collection("boards").UpdateOne(ctx, bson.M{"_id": board.ID}, bson.M{
+		"$set": bson.M{"labels": []Label{{ID: "history-label", Name: "Review <now>"}}},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	for _, item := range []struct {
+		field, group, want string
+		values             bson.A
+	}{
+		{"labelIds", "labels", "Review &lt;now&gt;, missing-label", bson.A{"history-label", "missing-label"}},
+		{"members", "members", "active-member, " + outsider.ID, bson.A{member.ID, outsider.ID}},
+		{"assignees", "assignees", "active-member", bson.A{member.ID}},
+	} {
+		if _, err := w.db.Collection("changeHistory").InsertOne(ctx, bson.M{
+			"_id": randomID(), "boardId": board.ID, "entityType": "card", "entityId": board.Card,
+			"cardId": board.Card, "userId": ann.ID, "group": item.group, "changeType": "edited",
+			"newContent": bson.M{"field": item.field, "value": item.values},
+		}); err != nil {
+			t.Fatal(err)
+		}
+		c := w.client(t)
+		body(t, w.signIn(t, c, "ann", "pw"))
+		address := w.srv.URL + "/b/" + board.ID + "/history?group=" + item.group
+		res, html := get(t, c, address)
+		if res.StatusCode != http.StatusOK || !strings.Contains(html, item.want) || strings.Contains(html, "outside-user") {
+			t.Fatalf("%s: expected %q and board-scoped names, got %d: %s", item.group, item.want, res.StatusCode, html)
+		}
+	}
+}
