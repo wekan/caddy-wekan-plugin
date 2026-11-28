@@ -571,6 +571,14 @@ func (s *Server) apiEditCard(w http.ResponseWriter, r *http.Request, u *User) {
 		apiError(w, parentStatus(err), err.Error())
 		return
 	}
+	if input, exists := req["color"]; exists {
+		color, ok := input.(string)
+		if !ok || (color != "" && !cardColors[color] && !hexColor.MatchString(color)) {
+			apiError(w, http.StatusBadRequest, "Invalid card color")
+			return
+		}
+		set["color"] = color
+	}
 	if input, exists := req["labelIds"]; exists {
 		var requested []string
 		switch labels := input.(type) {
