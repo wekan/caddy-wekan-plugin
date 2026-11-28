@@ -6,9 +6,7 @@ import "strconv"
 // jira writes it - the shape its Jira import reads back: each card an issue
 // keyed WEKAN-n, its list the status, labels, dates, people, its parent, its
 // checklists as subtasks, its comments, and the time spent as Jira's time
-// tracking. Weddy leaves custom fields out of exports (WeKan lets them out
-// only after its admin-only check) and has no sprints yet, so the estimate,
-// the custom fields and the Scrum metadata are not here.
+// tracking. Selected custom values use Jira’s names map and field keys.
 
 func init() { apiFormatters["jira"] = formatJira }
 
@@ -23,8 +21,18 @@ func jsOptional(s string) any {
 
 func formatJira(d extBoard) any {
 	keys := map[string]string{}
+	fieldKeys := map[string]string{}
+	names := jsObject{}
 	for idx, i := range d.Items {
 		keys[i.CardID] = "WEKAN-" + strconv.Itoa(idx+1)
+		for _, field := range i.CustomFields {
+			if _, exists := fieldKeys[field.Key]; exists {
+				continue
+			}
+			key := "customfield_" + strconv.Itoa(90001+len(fieldKeys))
+			fieldKeys[field.Key] = key
+			names.set(key, field.Key)
+		}
 	}
 	issues := []any{}
 	for _, i := range d.Items {
@@ -89,6 +97,9 @@ func formatJira(d extBoard) any {
 			comment.set("comments", cs)
 			f.set("comment", comment)
 		}
+		for _, field := range i.CustomFields {
+			f.set(fieldKeys[field.Key], field.Value)
+		}
 		issue := jsObject{}
 		issue.set("key", keys[i.CardID])
 		issue.set("fields", f)
@@ -98,6 +109,9 @@ func formatJira(d extBoard) any {
 	board.set("name", d.Board.Title)
 	out := jsObject{}
 	out.set("board", board)
+	if len(names) > 0 {
+		out.set("names", names)
+	}
 	out.set("issues", issues)
 	return out
 }

@@ -480,3 +480,60 @@ func TestTaigaMilestones(t *testing.T) {
 		t.Fatalf("milestone references: %+v", saved)
 	}
 }
+
+func TestJiraExportCustomFields(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	bob := w.seedUser(t, "bob", "pw")
+	admin, reader := login(t, w, "ann"), login(t, w, "bob")
+	board := newRESTBoard(t, w, admin, "Jira fields")
+	setMember(t, w, board.ID, Member{UserID: bob.ID, IsActive: true})
+	ctx := context.Background()
+	id := randomID()
+	if _, err := w.db.Collection("customFields").InsertOne(ctx, bson.M{
+		"_id": id, "name": "Budget", "type": "number", "boardIds": bson.A{board.ID}, "adminOnly": true,
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": board.Card},
+		bson.M{"$set": bson.M{"customFields": bson.A{bson.M{"_id": id, "value": 0}}}}); err != nil {
+		t.Fatal(err)
+	}
+	type jiraDoc struct {
+		Names  map[string]string
+		Issues []struct{ Fields map[string]any }
+	}
+	download := func(token, fields string, status int) jiraDoc {
+		t.Helper()
+		req, err := http.NewRequest("GET", w.srv.URL+"/api/boards/"+board.ID+"/export/jira?fields="+fields, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		req.Header.Set("Authorization", "Bearer "+token)
+		res, err := testClient.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer res.Body.Close()
+		if res.StatusCode != status {
+			t.Fatalf("fields=%s: status %d, want %d", fields, res.StatusCode, status)
+		}
+		var doc jiraDoc
+		if status == 200 {
+			if err := json.NewDecoder(res.Body).Decode(&doc); err != nil || len(doc.Issues) != 1 {
+				t.Fatalf("decode Jira export: %v, %+v", err, doc)
+			}
+		}
+		return doc
+	}
+	selected := download(admin, "custom-fields", 200)
+	const key = "customfield_90001"
+	if selected.Names[key] != "Budget" || selected.Issues[0].Fields[key] != float64(0) {
+		t.Fatalf("named numeric field: %+v", selected)
+	}
+	omitted := download(admin, "description", 200)
+	if _, exists := omitted.Issues[0].Fields[key]; exists || len(omitted.Names) != 0 {
+		t.Fatalf("unselected field: %+v", omitted)
+	}
+	download(reader, "custom-fields", 403)
+}
