@@ -218,7 +218,7 @@ func parseISO(s string) time.Time {
 func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format string, want exportWant) extBoard {
 	var out extBoard
 	out.Board.ID, out.Board.Title, out.Board.Labels = b.ID, b.Title, b.Labels
-	if (format == "gitlab" || format == "taiga") && want.has("scrum") {
+	if (format == "gitlab" || format == "taiga" || format == "jira") && want.has("scrum") {
 		filter := bson.M{"boardId": eq(b.ID), "state": bson.M{"$ne": "cancelled"}}
 		out.Sprints = s.findDocs(ctx, "scrumSprints", filter, options.Find().SetSort(bson.D{{Key: "plannedStart", Value: 1}, {Key: "name", Value: 1}, {Key: "_id", Value: 1}}))
 		if format == "gitlab" {
@@ -382,7 +382,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 			DueAt: isoDate(c["dueAt"]), Color: strOf(c["color"]), LabelIDs: []string{}, Labels: []string{},
 			StartAt: isoDate(c["startAt"]), EndAt: isoDate(c["endAt"]), CreatedAt: isoDate(c["createdAt"]),
 			Creator: username[strOf(c["userId"])], RequestedBy: strOf(c["requestedBy"]), ParentCardID: strOf(c["parentId"])}
-		if (format == "gitlab" || format == "taiga") && want.has("scrum") {
+		if (format == "gitlab" || format == "taiga" || format == "jira") && want.has("scrum") {
 			scrum := asM(c["scrum"])
 			it.SprintID = strOf(scrum["sprintId"])
 			if format == "taiga" {

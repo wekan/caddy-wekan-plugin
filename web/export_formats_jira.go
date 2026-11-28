@@ -140,6 +140,52 @@ func jiraTimeEstimates(card map[string]any, ids [2]string, tracking *jsObject) {
 	}
 }
 
+func jiraExportSprints(records []map[string]any) map[string]jsObject {
+	sprints := make(map[string]jsObject)
+	ids := make(map[string]bool)
+	ordered := make([]string, 0, len(records))
+	for _, sprint := range records {
+		id, name := strOf(sprint["_id"]), strOf(sprint["name"])
+		state := map[string]string{"planned": "future", "active": "active", "closed": "closed"}[strOf(sprint["state"])]
+		if id == "" || strings.TrimSpace(name) == "" || state == "" {
+			continue
+		}
+		row := jsObject{{"name", name}, {"state", state}}
+		provenance := asM(sprint["provenance"])
+		recordID := strOf(provenance["recordId"])
+		if strOf(provenance["system"]) == "jira" && jiraSprintID.MatchString(recordID) && !ids[recordID] {
+			row.set("id", recordID)
+			ids[recordID] = true
+		}
+		for _, field := range []struct{ source, target string }{
+			{"plannedStart", "startDate"}, {"plannedEnd", "endDate"}, {"completedAt", "completeDate"},
+		} {
+			if date := isoDate(sprint[field.source]); date != "" {
+				row.set(field.target, date)
+			}
+		}
+		if goal := strOf(sprint["goal"]); goal != "" {
+			row.set("goal", goal)
+		}
+		sprints[id] = row
+		ordered = append(ordered, id)
+	}
+	next := 1
+	for _, id := range ordered {
+		row := sprints[id]
+		if jsGet(row, "id") != nil {
+			continue
+		}
+		for ids[strconv.Itoa(next)] {
+			next++
+		}
+		row.set("id", strconv.Itoa(next))
+		sprints[id] = row
+		next++
+	}
+	return sprints
+}
+
 func formatJira(d extBoard) any {
 	keys := map[string]string{}
 	fieldKeys := map[string]string{}
@@ -186,6 +232,12 @@ func formatJira(d extBoard) any {
 		}
 		versions[id] = version
 	}
+	sprints := jiraExportSprints(d.Sprints)
+	sprintField := "customfield_" + strconv.Itoa(nextField)
+	if d.JiraEstimate != nil && sprintField == d.JiraEstimate.key {
+		sprintField = "customfield_" + strconv.Itoa(nextField+1)
+	}
+	schema := jsObject{}
 	categories := map[string]string{"todo": "new", "doing": "indeterminate", "done": "done"}
 	issues := []any{}
 	for _, i := range d.Items {
@@ -198,6 +250,11 @@ func formatJira(d extBoard) any {
 			status.set("statusCategory", jsObject{{"key", category}})
 		}
 		f.set("status", status)
+		if sprint, ok := sprints[i.SprintID]; ok {
+			f.set(sprintField, []jsObject{sprint})
+			names.set(sprintField, "Sprint")
+			schema.set(sprintField, jsObject{{"type", "array"}, {"items", "json"}, {"custom", "com.pyxis.greenhopper.jira:gh-sprint"}})
+		}
 		if i.JiraIssueType != "" {
 			f.set("issuetype", jsObject{{"name", i.JiraIssueType}})
 		}
@@ -288,7 +345,10 @@ func formatJira(d extBoard) any {
 			names.set(mapping.key, mapping.name)
 		}
 		out.set("wekanScrumMapping", jsObject{{"estimateFieldId", mapping.key}, {"estimateUnit", mapping.unit}})
-		out.set("schema", jsObject{{mapping.key, jsObject{{"type", "number"}}}})
+		schema.set(mapping.key, jsObject{{"type", "number"}})
+	}
+	if len(schema) > 0 {
+		out.set("schema", schema)
 	}
 	if len(names) > 0 {
 		out.set("names", names)

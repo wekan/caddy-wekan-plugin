@@ -646,6 +646,53 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 		}
 	}
 
+	sprintID := randomID()
+	if _, err := w.db.Collection("scrumSprints").InsertOne(ctx, bson.M{
+		"_id": sprintID, "boardId": board.ID, "name": "Sprint 7", "state": "planned",
+		"plannedStart": releaseDate, "goal": "Ship version 1",
+		"provenance": bson.M{"system": "jira", "recordId": "7"},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := w.db.Collection("cards").UpdateOne(ctx, bson.M{"_id": board.Card},
+		bson.M{"$set": bson.M{"scrum.sprintId": sprintID}}); err != nil {
+		t.Fatal(err)
+	}
+	const sprintKey = "customfield_90002"
+	sprintExport := download(admin, "scrum,custom-fields", 200)
+	wantSprint := []any{map[string]any{
+		"id": "7", "name": "Sprint 7", "state": "future",
+		"startDate": "2026-10-10T00:00:00.000Z", "goal": "Ship version 1",
+	}}
+	if sprintExport.Names[sprintKey] != "Sprint" ||
+		sprintExport.Schema[sprintKey]["custom"] != "com.pyxis.greenhopper.jira:gh-sprint" ||
+		!reflect.DeepEqual(sprintExport.Issues[0].Fields[sprintKey], wantSprint) ||
+		sprintExport.Issues[0].Fields[key] != float64(0) {
+		t.Fatalf("Jira sprint field and estimate: %+v", sprintExport)
+	}
+	encoded, err := json.Marshal(map[string]any{
+		"schema": sprintExport.Schema, "names": sprintExport.Names,
+		"wekanScrumMapping": sprintExport.WekanScrumMapping,
+		"issues":            []any{map[string]any{"fields": sprintExport.Issues[0].Fields}},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	source, err := decodeJS(encoded)
+	if err != nil {
+		t.Fatal(err)
+	}
+	parsed, err := parseJira(source)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if jsGet(importTasks(parsed)[0], "jira_sprint") != "7" {
+		t.Fatalf("Jira export did not round-trip its sprint assignment: %v", parsed)
+	}
+	if doc := download(admin, "custom-fields", 200); doc.Issues[0].Fields[sprintKey] != nil || doc.Names[sprintKey] != "" {
+		t.Fatalf("unselected Jira sprint: %+v", doc)
+	}
+
 	download(reader, "custom-fields", 403)
 }
 
