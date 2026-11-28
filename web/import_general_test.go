@@ -479,3 +479,25 @@ func TestJiraImportEstimateDiscovery(t *testing.T) {
 		t.Fatalf("absent estimate: %v", tasks[1])
 	}
 }
+
+func TestJiraImportAttachmentReport(t *testing.T) {
+	w := newTestWeKan(t)
+	w.seedUser(t, "ann", "pw")
+	c := w.client(t)
+	body(t, w.signIn(t, c, "ann", "pw"))
+	res, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {
+		`{"issues":[{"key":"J-1","fields":{"summary":"File","attachment":[{"filename":"spec.pdf","content":"https://example.test/file"}]}}]}`,
+	}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer res.Body.Close()
+	location := res.Header.Get("Location")
+	if res.StatusCode != http.StatusSeeOther || !strings.HasPrefix(location, "/import/jira/report?board=") {
+		t.Fatalf("Jira attachment report: %d %s", res.StatusCode, location)
+	}
+	report := getBody(t, c, w.srv.URL+location)
+	if !strings.Contains(report, "spec.pdf") || !strings.Contains(report, "give the Jira address") {
+		t.Fatalf("missing Jira attachment explanation: %s", report)
+	}
+}

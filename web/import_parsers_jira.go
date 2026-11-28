@@ -401,6 +401,17 @@ func parseJira(data any) (jsObject, error) {
 		if len(releaseRefs) > 0 {
 			task.set("jira_release_refs", releaseRefs)
 		}
+		files, _ := jsGet(fields, "attachment").([]any)
+		attachments := []any{}
+		for _, file := range files {
+			if _, ok := file.(jsObject); ok {
+				attachments = append(attachments, jsObject{{"name", strOf(jsGet(file, "filename"))},
+					{"url", strOf(jsGet(file, "content"))}})
+			}
+		}
+		if len(attachments) > 0 {
+			task.set("attachments", attachments)
+		}
 		comments, incomplete := jiraImportComments(fields)
 		if len(comments) > 0 {
 			task.set("comments", comments)
