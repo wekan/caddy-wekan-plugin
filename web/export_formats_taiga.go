@@ -1,6 +1,7 @@
 package web
 
 import (
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -14,8 +15,7 @@ import (
 // ProjectExportSerializer writes, in its order: the lists as user story
 // statuses, cards as stories, the Epics and Issues swimlanes' cards as epics
 // and issues, subtask cards and a story's checklist items as tasks, comments
-// as history, and the board's labels as tag colors. Weddy leaves custom
-// fields out of exports, so the dump has no custom attributes or story points.
+// as history, and the board's labels as tag colors.
 
 var (
 	taigaTaskStatuses  = [][2]any{{"New", false}, {"In progress", false}, {"Ready for test", true}, {"Closed", true}, {"Needs Info", false}}
@@ -353,6 +353,40 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 		}
 		return taigaUniq(names)
 	}
+	attributeDefs := map[string]jsObject{}
+	attributes := func(it extItem, kind string) jsObject {
+		values, defs := jsObject{}, attributeDefs[kind]
+		for _, field := range it.CustomFields {
+			fieldType := "text"
+			value := field.Value
+			switch v := value.(type) {
+			case string:
+				if v == "" {
+					continue
+				}
+			case bool:
+				fieldType = "checkbox"
+			case int, int32, int64:
+				fieldType = "number"
+			case float64:
+				if math.IsNaN(v) || math.IsInf(v, 0) {
+					continue
+				}
+				fieldType = "number"
+			case time.Time:
+				value = v.UTC().Format("2006-01-02T15:04:05.000Z")
+			default:
+				continue
+			}
+			values.set(field.Key, value)
+			if previous := jsGet(defs, field.Key); previous != nil && previous != fieldType {
+				fieldType = "text"
+			}
+			defs.set(field.Key, fieldType)
+		}
+		attributeDefs[kind] = defs
+		return values
+	}
 	common := func(it extItem, kind string) jsObject {
 		assigned := peopleOf(it)
 		o := jsObject{}
@@ -387,7 +421,7 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 		o.set("attachments", []any{})
 		o.set("history", taigaHistory(it.Comments, now))
 		o.set("watchers", []any{})
-		o.set("custom_attributes_values", jsObject{})
+		o.set("custom_attributes_values", attributes(it, kind))
 		return o
 	}
 	epicsOut, storiesOut, tasksOut, issuesOut := []any{}, []any{}, []any{}, []any{}
@@ -468,7 +502,7 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 			s.set("due_date_reason", "")
 			s.set("attachments", []any{})
 			s.set("history", jsGet(rest, "history"))
-			s.set("custom_attributes_values", jsObject{})
+			s.set("custom_attributes_values", jsGet(rest, "custom_attributes_values"))
 			storyMilestone[refs[it.CardID]] = sprintNames[it.SprintID]
 			storiesOut = append(storiesOut, s)
 		case "issue":
@@ -573,7 +607,7 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 		f.set("attachments", []any{})
 		f.set("history", jsGet(rest, "history"))
 		f.set("watchers", []any{})
-		f.set("custom_attributes_values", jsObject{})
+		f.set("custom_attributes_values", jsGet(rest, "custom_attributes_values"))
 		pushTask(f, taigaDateTimeText(it.EndAt))
 	}
 	for _, it := range all {
@@ -751,8 +785,18 @@ func formatTaiga(d extBoard, now time.Time) jsObject {
 	set("default_issue_status", "New")
 	set("default_issue_type", "Bug")
 	set("default_swimlane", defaultLane)
-	for _, k := range []string{"epiccustomattributes", "userstorycustomattributes", "taskcustomattributes", "issuecustomattributes"} {
-		set(k, []any{})
+	for _, group := range [][2]string{
+		{"epiccustomattributes", "epic"}, {"userstorycustomattributes", "story"},
+		{"taskcustomattributes", "task"}, {"issuecustomattributes", "issue"},
+	} {
+		rows := []any{}
+		for index, def := range attributeDefs[group[1]] {
+			rows = append(rows, jsObject{
+				{"name", def.Key}, {"description", ""}, {"type", def.Value},
+				{"order", index + 1}, {"created_date", nowText}, {"modified_date", nowText},
+			})
+		}
+		set(group[0], rows)
 	}
 	set("epics", epicsOut)
 	set("user_stories", storiesOut)

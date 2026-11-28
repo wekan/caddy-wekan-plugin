@@ -578,3 +578,23 @@ func TestJiraExportCustomFieldsAndPlanning(t *testing.T) {
 	}
 	download(reader, "custom-fields", 403)
 }
+
+func TestTaigaCustomAttributes(t *testing.T) {
+	board := extBoard{Items: []extItem{
+		{CardID: "story", Title: "Story", CustomFields: jsObject{{"Estimate", int32(0)}, {"Ready", false}}},
+		{CardID: "task", Title: "Task", ParentCardID: "story", CustomFields: jsObject{{"Estimate", "unknown"}}},
+	}}
+	dump := formatTaiga(board, time.Date(2024, 4, 1, 0, 0, 0, 0, time.UTC))
+	story := jsGet(dump, "user_stories").([]any)[0]
+	values := jsGet(story, "custom_attributes_values")
+	if jsGet(values, "Estimate") != int32(0) || jsGet(values, "Ready") != false {
+		t.Fatalf("story attributes: %v", values)
+	}
+	storyDefs := jsGet(dump, "userstorycustomattributes").([]any)
+	taskDefs := jsGet(dump, "taskcustomattributes").([]any)
+	if len(storyDefs) != 2 || jsGet(storyDefs[0], "type") != "number" ||
+		jsGet(storyDefs[1], "type") != "checkbox" || len(taskDefs) != 1 ||
+		jsGet(taskDefs[0], "type") != "text" {
+		t.Fatalf("story definitions: %v, task definitions: %v", storyDefs, taskDefs)
+	}
+}
