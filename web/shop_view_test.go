@@ -141,7 +141,11 @@ func TestShopBoardView(t *testing.T) {
 		strings.Contains(page, "Order destination") {
 		t.Fatalf("checkout review: %d %s", res.StatusCode, page)
 	}
-	update("boards", b.ID, bson.M{"shopSettings.decrementStock": false,
+	if strings.Contains(page, `name="quote"`) {
+		t.Fatal("checkout accepted a tracked product before stock updates were available")
+	}
+	update("cards", b.Card, bson.M{"customFields": bson.A{bson.M{"_id": priceID, "value": "12,50"}}})
+	update("boards", b.ID, bson.M{
 		"shopSettings.paymentMethods": bson.A{
 			bson.M{"id": "link", "enabled": true,
 				"method": bson.M{"type": "link", "url": "https://pay.example.test/order?number={number}&amount={amount}&currency={currency}&reference={reference}"}},

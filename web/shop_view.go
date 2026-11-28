@@ -22,6 +22,7 @@ type shopProduct struct {
 	Price, SKU, URL, Image string
 	SoldOut                bool
 	Stock                  int
+	StockTracked           bool
 	Minor                  int64
 	Digits                 int
 	listSort               float64
@@ -190,7 +191,7 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 					available = int(max(0, min(999, math.Floor(stock))))
 				}
 				products = append(products, shopProduct{Card: card, Price: shopMoney(minor, digits, currency), SKU: sku,
-					Minor: minor, Digits: digits, Stock: available, SoldOut: available == 0, listSort: list.Sort})
+					Minor: minor, Digits: digits, Stock: available, StockTracked: tracked, SoldOut: available == 0, listSort: list.Sort})
 				for _, id := range card.LabelIDs {
 					usedLabels[id] = true
 				}
@@ -211,12 +212,14 @@ func (s *Server) boardShop(w http.ResponseWriter, r *http.Request, b *Board, u *
 			data["TaxNet"], data["TaxVAT"] = shopMoney(net, digits, currency), shopMoney(vat, digits, currency)
 		}
 		canReview := len(lines) > 0 && total <= 9007199254740991 && shopOrderDestinationAvailable(r.Context(), s, b.ID, settings)
+		requiresStockUpdate := false
 		for _, line := range lines {
+			requiresStockUpdate = requiresStockUpdate || line.StockTracked
 			if line.Unavailable {
 				canReview = false
 			}
 		}
-		mayOrder := canReview && (u != nil || settings["guestCheckout"] == true) && settings["decrementStock"] == false
+		mayOrder := canReview && (u != nil || settings["guestCheckout"] == true) && (!requiresStockUpdate || settings["decrementStock"] == false)
 		quote := shopOrderQuote(b.ID, lines, total, currency, settings)
 		if r.Method == http.MethodPost {
 			if !mayOrder {
