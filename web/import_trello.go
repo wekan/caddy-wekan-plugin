@@ -6,13 +6,45 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
+	"math"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 var errTrelloDocument = errors.New("error-json-schema")
+
+func trelloFieldImport(item bson.M, kind string) (any, bool) {
+	value := asM(item["value"])
+	switch kind {
+	case "dropdown":
+		id := str(item, "idValue")
+		return id, id != ""
+	case "checkbox":
+		switch checked := value["checked"].(type) {
+		case bool:
+			return checked, true
+		case string:
+			if checked == "true" || checked == "false" {
+				return checked == "true", true
+			}
+		}
+	case "number":
+		if number, err := strconv.ParseFloat(cdString(value["number"]), 64); err == nil && !math.IsNaN(number) && !math.IsInf(number, 0) {
+			return number, true
+		}
+	case "date":
+		if date, ok := jsParseDate(str(value, "date")); ok {
+			return date.UTC().Format("2006-01-02T15:04:05.000Z"), true
+		}
+	case "text":
+		text, ok := value["text"].(string)
+		return text, ok
+	}
+	return nil, false
+}
 
 // Translate a Trello document into the native importer's board and relation
 // records. File data stays in the archive until the native importer needs it.
@@ -41,6 +73,32 @@ func trelloImport(raw []byte) (map[string]any, error) {
 	for _, label := range docsOf(input, "labels") {
 		add("labels", map[string]any{"_id": str(label, "id"), "name": str(label, "name"), "color": str(label, "color")})
 	}
+	fieldKinds := map[string]string{}
+	for _, field := range docsOf(input, "customFields") {
+		id, name, kind := str(field, "id"), str(field, "name"), str(field, "type")
+		if id == "" || strings.TrimSpace(name) == "" || fieldKinds[id] != "" {
+			continue
+		}
+		settings := map[string]any{}
+		switch kind {
+		case "number", "checkbox", "date", "text":
+		case "list":
+			kind = "dropdown"
+			options := []any{}
+			for _, option := range cdList(plain(field["options"])) {
+				if id, ok := cdGet(option, "id").(string); ok && id != "" {
+					options = append(options, map[string]any{"_id": id, "name": cdOr(cdGet(cdGet(option, "value"), "text"))})
+				}
+			}
+			settings["dropdownItems"] = options
+		default:
+			continue
+		}
+		fieldKinds[id] = kind
+		front := asM(field["display"])["cardFront"] == true
+		add("customFields", map[string]any{"_id": id, "name": name, "type": kind, "settings": settings,
+			"showOnCard": front, "showLabelOnMiniCard": front, "automaticallyOnCard": true, "sort": field["pos"]})
+	}
 	for _, value := range cards {
 		card, ok := value.(map[string]any)
 		id := str(card, "id")
@@ -55,6 +113,19 @@ func trelloImport(raw []byte) (map[string]any, error) {
 				row[to] = at.UTC().Format("2006-01-02T15:04:05.000Z")
 			}
 		}
+		custom := []any{}
+		used := map[string]bool{}
+		for _, item := range docsOf(card, "customFieldItems") {
+			fieldID := str(item, "idCustomField")
+			if used[fieldID] {
+				continue
+			}
+			if value, valid := trelloFieldImport(item, fieldKinds[fieldID]); valid {
+				used[fieldID] = true
+				custom = append(custom, map[string]any{"_id": fieldID, "value": value})
+			}
+		}
+		row["customFields"] = custom
 		add("cards", row)
 		for _, attachment := range docsOf(card, "attachments") {
 			name := str(attachment, "fileName")
