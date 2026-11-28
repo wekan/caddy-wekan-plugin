@@ -148,6 +148,7 @@ func TestShopBoardView(t *testing.T) {
 			bson.M{"id": "bank", "enabled": true,
 				"method": bson.M{"type": "bank-transfer", "name": "Shop test recipient", "details": "Account fixture"}},
 			bson.M{"id": "cash", "enabled": true, "method": bson.M{"type": "cash", "details": "Pay at pickup"}},
+			bson.M{"id": "paypal", "enabled": true, "method": bson.M{"type": "paypal", "user": "TestSeller"}},
 		},
 	})
 	res, page = get(t, guest, checkoutURL)
@@ -180,7 +181,7 @@ func TestShopBoardView(t *testing.T) {
 		guest.Jar.SetCookies(res.Request.URL, []*http.Cookie{cookie})
 		if res, page = post(t, guest, orderURL, form); res.StatusCode != http.StatusCreated || !strings.Contains(page, "https://pay.example.test/order?number=") ||
 			!strings.Contains(page, "amount=25.00&amp;currency=EUR&amp;reference=RF") ||
-			!strings.Contains(page, "Shop test recipient") || !strings.Contains(page, "Account fixture") || !strings.Contains(page, "Pay at pickup") {
+			!strings.Contains(page, "Shop test recipient") || !strings.Contains(page, "Account fixture") || !strings.Contains(page, "Pay at pickup") || !strings.Contains(page, "https://paypal.me/TestSeller/25.00EUR") {
 			t.Fatalf("order submission: %d %s", res.StatusCode, page)
 		}
 	}
@@ -189,7 +190,7 @@ func TestShopBoardView(t *testing.T) {
 	}
 	messages := sink.messages()
 	if len(messages) != 1 || !strings.Contains(messages[0], "test@example.test") ||
-		!strings.Contains(messages[0], "Account fixture") || !strings.Contains(messages[0], "Pay at pickup") || !strings.Contains(messages[0], "25.00 EUR") || strings.Contains(messages[0], "Delivery Lane") {
+		!strings.Contains(messages[0], "Account fixture") || !strings.Contains(messages[0], "Pay at pickup") || !strings.Contains(messages[0], "https://paypal.me/TestSeller/25.00EUR") || !strings.Contains(messages[0], "25.00 EUR") || strings.Contains(messages[0], "Delivery Lane") {
 		t.Fatalf("expected one order receipt containing the total, without the address: %d messages", len(messages))
 	}
 	var saved Card
@@ -275,6 +276,7 @@ func TestShopSettingsEditor(t *testing.T) {
 	form.Set("bankName", "Shop test recipient")
 	form.Set("bankDetails", "Account fixture")
 	form.Set("cashDetails", "Pay at pickup")
+	form.Set("paypalUser", "TestSeller")
 	form.Set("chequeDetails", "Mail to Shop")
 	form.Set("paymentLink", "https://pay.example.test/order?n={number}")
 	if res, _ := post(t, bobClient, address, form); res.StatusCode != http.StatusForbidden {
@@ -315,7 +317,8 @@ func TestShopSettingsEditor(t *testing.T) {
 	_, link := shopMethod(shopPaymentMethods(settings), "link")
 	_, cash := shopMethod(shopPaymentMethods(settings), "cash")
 	_, cheque := shopMethod(shopPaymentMethods(settings), "cheque")
-	if cash["details"] != "Pay at pickup" || cheque["details"] != "Mail to Shop" {
+	_, paypal := shopMethod(shopPaymentMethods(settings), "paypal")
+	if paypal["user"] != "TestSeller" || cash["details"] != "Pay at pickup" || cheque["details"] != "Mail to Shop" {
 		t.Fatalf("manual payment instructions were lost: %v", settings["paymentMethods"])
 	}
 	if bank["details"] != "Account fixture" || link["url"] != "https://pay.example.test/order?n={number}" {

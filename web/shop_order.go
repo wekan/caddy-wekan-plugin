@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/mail"
 	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -101,6 +102,15 @@ func shopReference(year int, number int64, kind string) string {
 		return finnish
 	}
 	return fmt.Sprintf("RF%02d%s", 98-mod97(finnish+"271500"), finnish)
+}
+
+var shopPayPalName = regexp.MustCompile(`^[A-Za-z0-9]{1,20}$`)
+
+func shopPayPalURL(name, amount, currency string) string {
+	if !shopPayPalName.MatchString(name) || !shopDecimal.MatchString(amount) || !shopCurrency.MatchString(currency) {
+		return ""
+	}
+	return "https://paypal.me/" + name + "/" + amount + currency
 }
 
 func shopPaymentMethods(settings bson.M) bson.A {
@@ -272,6 +282,8 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 	}
 	amount, currency, _ := strings.Cut(total, " ")
 	_, method := shopMethod(shopPaymentMethods(settings), "link")
+	_, paypalMethod := shopMethod(shopPaymentMethods(settings), "paypal")
+	paypal := shopPayPalURL(strOf(paypalMethod["user"]), amount, currency)
 	instructions := shopManualInstructions(settings, lang)
 	payment := shopPaymentURL(strOf(method["url"]), amount, currency, id, reference)
 	if created && settings["confirmationEmail"] != false {
@@ -300,18 +312,21 @@ func (s *Server) saveShopOrder(w http.ResponseWriter, r *http.Request, shop *Boa
 		if payment != "" {
 			fmt.Fprintln(&receipt, tr(lang, msg("shop-email-pay")), payment)
 		}
+		if paypal != "" {
+			fmt.Fprintln(&receipt, tr(lang, msg("billing-method-paypal")), paypal)
+		}
 		if err := s.sendMail(ctx, r.Host, mailMessage{To: []string{email}, Subject: subject, Text: receipt.String()}); err != nil && !errors.Is(err, errNoMail) {
 			s.log.Warn("Shop confirmation delivery failed", "order", id)
 		}
 	}
 	s.hub.publishFrom(boardID, "board-changed", "")
 	http.SetCookie(w, &http.Cookie{Name: shopCartCookie(shop.ID), Path: "/b/" + shop.ID + "/", MaxAge: -1, HttpOnly: true})
-	if payment != "" || reference != "" || len(instructions) > 0 {
+	if payment != "" || paypal != "" || reference != "" || len(instructions) > 0 {
 		s.render(w, r, "shop_order", http.StatusCreated, map[string]any{
 			"Title": shop.Title, "User": u, "Total": total, "Payment": payment, "Reference": reference,
-			"Instructions": instructions,
-			"Message":      strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id),
-			"Shop":         shopLocation(shop, "", ""),
+			"Instructions": instructions, "PayPal": paypal,
+			"Message": strings.ReplaceAll(tr(lang, msg("shop-order-placed")), "__number__", id),
+			"Shop":    shopLocation(shop, "", ""),
 		})
 		return
 	}

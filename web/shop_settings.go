@@ -133,6 +133,7 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		manual = append(manual, map[string]string{"Label": option.Label, "Field": option.Field,
 			"Name": strOf(stored["name"]), "Details": strOf(stored["details"])})
 	}
+	_, paypal := shopMethod(shopPaymentMethods(settings), "paypal")
 	reference := strOf(settings["referenceType"])
 	if reference == "" {
 		reference = "rf"
@@ -286,6 +287,34 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 			}
 			set["shopSettings.paymentMethods"] = methods
 		}
+		if r.PostForm.Has("paypalUser") {
+			name := strings.TrimSpace(r.PostForm.Get("paypalUser"))
+			if name != "" && !shopPayPalName.MatchString(name) {
+				http.Error(w, "Invalid PayPal.Me name", http.StatusBadRequest)
+				return
+			}
+			methods, updated := set["shopSettings.paymentMethods"].(bson.A)
+			if !updated {
+				methods = slices.Clone(shopPaymentMethods(settings))
+			}
+			index, _ := shopMethod(methods, "paypal")
+			switch {
+			case name == "" && index >= 0:
+				methods = slices.Delete(methods, index, index+1)
+			case name != "" && index >= 0:
+				entry := asM(methods[index])
+				entry["method"] = bson.M{"type": "paypal", "user": name}
+				methods[index] = entry
+			case name != "":
+				if len(methods) >= 20 {
+					http.Error(w, "Too many Shop payment methods", http.StatusBadRequest)
+					return
+				}
+				methods = append(methods, bson.M{"id": randomID(), "enabled": true,
+					"method": bson.M{"type": "paypal", "user": name}})
+			}
+			set["shopSettings.paymentMethods"] = methods
+		}
 		if r.PostForm.Has("referenceType") {
 			id := r.PostForm.Get("referenceType")
 			if !valid(references, id) {
@@ -325,6 +354,7 @@ func (s *Server) shopSettingsPage(w http.ResponseWriter, r *http.Request, u *Use
 		"Pickers": pickers, "Lists": listOptions, "Labels": labelOptions, "OrderLists": orderLists,
 		"ConfirmationEmail": settings["confirmationEmail"] != false,
 		"ManualMethods":     manual,
+		"PayPalUser":        strOf(paypal["user"]),
 		"References":        references, "PaymentLink": strOf(linkMethod["url"]),
 		"DecrementStock":   settings["decrementStock"] != false,
 		"PricesIncludeVAT": settings["pricesIncludeVat"] != false, "VATPercent": float64(shopVATRate(settings)) / 100,

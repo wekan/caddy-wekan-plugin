@@ -7,6 +7,9 @@
     if .Payment
       p
         a(href="{{.Payment}}", rel="noopener noreferrer") {{t $.L "billing-method-link"}}
+    if .PayPal
+      p
+        a(href="{{.PayPal}}", rel="noopener noreferrer") {{t $.L "billing-method-paypal"}}
     each method in .Instructions
       section
         h2 {{.Label}}

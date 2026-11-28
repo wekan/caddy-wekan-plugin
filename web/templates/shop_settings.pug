@@ -81,6 +81,10 @@
         label
           | {{t $.L "billing-method-link"}}
           input(type="text", name="paymentLink", maxlength="2000", value="{{.PaymentLink}}")
+      p
+        label
+          | {{t $.L "billing-field-paypal-user"}}
+          input(type="text", name="paypalUser", maxlength="20", pattern="[A-Za-z0-9]{1,20}", value="{{.PayPalUser}}")
       each method in .ManualMethods
         fieldset
           legend {{t $.L .Label}}
