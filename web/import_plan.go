@@ -507,6 +507,9 @@ const (
 	maxCustomFieldTextLength = 10000
 )
 
+var importDependencyInverse = map[string]string{"related-to": "related-to", "blocks": "is-blocked-by", "is-blocked-by": "blocks",
+	"duplicates": "is-duplicated-by", "is-duplicated-by": "duplicates", "fixes": "is-fixed-by", "is-fixed-by": "fixes"}
+
 var importDependencyTypes = []string{"related-to", "blocks", "is-blocked-by", "fixes", "is-fixed-by", "duplicates", "is-duplicated-by"}
 
 // customFieldValue is WeKan's: a number, a boolean, or text; nil for none.

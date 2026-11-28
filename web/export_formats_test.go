@@ -487,6 +487,7 @@ func TestJiraExportDependencyRoundTrip(t *testing.T) {
 	board := extBoard{Items: []extItem{
 		{CardID: "a", Dependencies: []extDependency{
 			{CardID: "b", Type: "is-blocked-by"},
+			{CardID: "b", Type: "duplicates"},
 			{CardID: "c", Type: "duplicates"},
 			{CardID: "d", Type: "is-fixed-by"},
 			{CardID: "outside", Type: "blocks"},
@@ -506,6 +507,10 @@ func TestJiraExportDependencyRoundTrip(t *testing.T) {
 	parsed, err := parseJira(source)
 	if err != nil {
 		t.Fatal(err)
+	}
+	losses, _ := jsGet(parsed, "unsupported").([]any)
+	if len(losses) != 1 || jsGet(losses[0], "path") != "/issues/0/fields/issuelinks/1" {
+		t.Fatalf("expected the additional Jira link to be reported once: %v", losses)
 	}
 	plan := planImportedLinks(importTasks(parsed))
 	want := []importDepLink{{Index: 0, Deps: []importDep{

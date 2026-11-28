@@ -49,8 +49,6 @@ var (
 	redmineCustom   = []struct{ field, name string }{
 		{"priority", "Priority"}, {"category", "Category"}, {"version", "Target version"}, {"estimated", "Estimated time"}, {"done", "% Done"},
 	}
-	redmineInverse = map[string]string{"related-to": "related-to", "blocks": "is-blocked-by", "is-blocked-by": "blocks",
-		"duplicates": "is-duplicated-by", "is-duplicated-by": "duplicates", "fixes": "is-fixed-by", "is-fixed-by": "fixes"}
 	redmineISOZoned  = regexp.MustCompile(`^\d{4}-\d{2}-\d{2}T` + jsDotU + `*(Z|[+-]\d{2}:?\d{2})$`)
 	redmineSplit     = jsRegexp(`[\sT]+`)
 	redmineYMD       = regexp.MustCompile(`^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$`)
@@ -458,7 +456,7 @@ func parseRedmineCsv(text string) (jsObject, error) {
 		}
 		if target, ok := refs[l.ref]; ok {
 			key := strconv.Itoa(l.from) + ">" + strconv.Itoa(target) + ":" + l.rel.typ
-			if seen[key] || seen[strconv.Itoa(target)+">"+strconv.Itoa(l.from)+":"+redmineInverse[l.rel.typ]] {
+			if seen[key] || seen[strconv.Itoa(target)+">"+strconv.Itoa(l.from)+":"+importDependencyInverse[l.rel.typ]] {
 				continue
 			}
 			seen[key] = true

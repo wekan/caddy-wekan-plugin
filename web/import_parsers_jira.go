@@ -517,7 +517,7 @@ func parseJira(data any) (jsObject, error) {
 		task.set("jira_backlog_rank", i+1)
 		tasks[issue.index] = task
 	}
-	seenLinks := map[[2]string]bool{}
+	seenLinks := map[[2]string]string{}
 
 	for i, issue := range issues {
 		fields := jsGet(issue, "fields")
@@ -566,11 +566,6 @@ func parseJira(data any) (jsObject, error) {
 					losses = append(losses, importUnsupportedObj(linkPath, "linked issue is outside this import or is the same issue"))
 					continue
 				}
-				pair := [2]string{sourceRef, targetRef}
-				if seenLinks[pair] || seenLinks[[2]string{targetRef, sourceRef}] {
-					continue
-				}
-				seenLinks[pair] = true
 				kind := "related-to"
 				switch name := strings.ToLower(strings.TrimSpace(strOf(jsGet(jsGet(link, "type"), "name")))); name {
 				case "blocks":
@@ -592,6 +587,18 @@ func parseJira(data any) (jsObject, error) {
 				default:
 					losses = append(losses, importUnsupportedObj(linkPath, "unrecognized Jira link type imported as related-to"))
 				}
+				pair := [2]string{sourceRef, targetRef}
+				previous := seenLinks[pair]
+				if previous == "" {
+					previous = importDependencyInverse[seenLinks[[2]string{targetRef, sourceRef}]]
+				}
+				if previous != "" {
+					if previous != kind {
+						losses = append(losses, importUnsupportedObj(linkPath, "additional Jira link skipped; kept the first dependency between these issues"))
+					}
+					continue
+				}
+				seenLinks[pair] = kind
 				deps = append(deps, jsObject{{"ref", targetRef}, {"type", kind}})
 			}
 			if len(deps) > 0 {
