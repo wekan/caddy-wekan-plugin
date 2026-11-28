@@ -83,6 +83,9 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 				"notion": ".zip,application/zip,.csv,text/csv", "plane": ".zip,application/zip,.json,application/json,.csv,text/csv,.xlsx"}[source]
 		}
 	}
+	if source == "trello" {
+		general, paste, accept = true, true, ".zip,application/zip,.json,application/json"
+	}
 	data := map[string]any{"Title": tr(lang, "import-board-c"), "User": u, "Source": source, "Accept": accept, "Paste": paste, "General": general,
 		"Instruction": importInstruction(lang, source), "MembersModes": importMembersModes}
 	// The sign-in a service's attachment files need (importAttachmentAuth.js
@@ -96,7 +99,7 @@ func (s *Server) importData(r *http.Request, u *User, source string) map[string]
 func (s *Server) importPage(w http.ResponseWriter, r *http.Request, u *User) {
 	source := r.PathValue("source")
 	_, general := importParsers[source]
-	if _, text := importTextParsers[source]; text || source == "wekan" {
+	if _, text := importTextParsers[source]; text || source == "wekan" || source == "trello" {
 		general = true
 	}
 	if _, ok := tableSources[source]; !ok && !general {
@@ -155,6 +158,10 @@ func (s *Server) importMappingPage(w http.ResponseWriter, r *http.Request, u *Us
 	source := r.PathValue("source")
 	_, jsonSource := importParsers[source]
 	_, textSource := importTextParsers[source]
+	if source == "trello" {
+		s.importTrelloPage(w, r, u)
+		return
+	}
 	if source == "wekan" {
 		s.importWekanPage(w, r, u)
 		return

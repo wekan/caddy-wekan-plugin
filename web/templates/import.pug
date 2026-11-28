@@ -80,16 +80,17 @@
       button.primary.wide.js-csv-mapping-import(type="submit") {{t $.L "import"}}
   else
     form(method="post", action="/import/{{.Source}}", enctype="multipart/form-data")
-      p: label(for="import-textarea") {{.Instruction}}
+      if ne .Source "trello"
+        p: label(for="import-textarea") {{.Instruction}}
       p.import-file-row
         label(for="import-file") {{t $.L "import-file-label"}}
-        input.js-import-file(id="import-file", type="file", name="file", accept="{{.Accept}}")
+        input.js-import-file(id="import-file", type="file", name="file", accept="{{.Accept}}", class="{{if eq .Source `trello`}}js-import-zip-file{{end}}")
       if .Paste
-        textarea.js-import-json(id="import-textarea", name="text", rows="10")
+        textarea.js-import-json(id="import-textarea", name="text", rows="10", aria-label="{{t $.L `import-file-label`}}")
       //- WeKan's "People in the file": each mapped to an existing user (the
         members-mapping step; nobody mapped is a placeholder), placeholder
         users keeping the names, or the person importing.
-      if .General
+      if and .General (ne .Source "trello")
         .import-members-mode
           p
             strong {{t $.L "import-members-mode-heading"}}
@@ -115,7 +116,7 @@
           input.js-import-attachment-token(id="import-attachment-token", name="attachmentToken", type="password", autocomplete="new-password", maxlength="2048")
       //- "One board per project" (import_split.go): each swimlane the import
         would make becomes its own board.
-      if .General
+      if and .General (ne .Source "trello")
         //- A div, not WeKan's p: the box is a div, and a parser closes a p
           at one, which split the link in two.
         .import-file-row
@@ -126,7 +127,9 @@
           span.quiet.import-file-hint {{t $.L "import-one-board-per-project-hint"}}
       //- WeKan's "Import" - with "map", the members-mapping step first - and
         its "Import without mapping members".
-      if .General
+      if eq .Source "trello"
+        button.primary.wide.js-import-without-mapping(type="submit") {{t $.L "import"}}
+      else if .General
         input.primary.wide(type="submit", value="{{t $.L `import`}}")
         button.primary.wide.js-import-without-mapping(type="submit", name="skipMapping", value="1") {{t $.L "import-without-mapping-members"}}
       else

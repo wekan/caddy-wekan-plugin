@@ -462,6 +462,9 @@ func (s *Server) importBoardWith(r *http.Request, u *User, export map[string]any
 			continue
 		}
 		it["_id"], it["cardId"], it["checklistId"] = items.fresh(str(it, "_id")), card, cl
+		if _, has := it["boardId"]; has {
+			it["boardId"] = boardID
+		}
 		out = append(out, it)
 	}
 	if err := insert("checklistItems", out); err != nil {
