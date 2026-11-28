@@ -882,9 +882,13 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 		// The zero-value profile is used for display defaults only.
 		u = &User{}
 	}
-	lanes, _, err := s.boardData(r.Context(), b)
+	lanes, lists, err := s.boardData(r.Context(), b)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if s.websiteRequested(r, b) {
+		s.boardWebsite(w, r, b, viewer, lanes, lists)
 		return
 	}
 	// The Filter sidebar's Advanced Filter: the typed one when it parses, else

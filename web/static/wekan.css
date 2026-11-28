@@ -1482,3 +1482,26 @@ body.has-hide-focus-outline :is(a, button, input, select, textarea, summary, [ta
   max-height: none; overflow: auto;
 }
 .history-pop-over > .close-btn { float: inline-end; margin: 8px; }
+
+.website-view {
+  width: min(100% - 2rem, 60rem);
+  margin-inline: auto;
+}
+.website-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.website-subnav {
+  margin-block: .25rem;
+  padding-inline-start: 1.25rem;
+}
+.website-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.website-images img {
+  max-width: 100%;
+  height: auto;
+}

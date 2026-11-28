@@ -1,0 +1,43 @@
+.wrapper
+  .website-view
+    header.website-header
+      h1
+        a.js-website-home(href="{{.Home}}") {{.Board.Title}}
+      a.board-header-btn.js-toggle-board-view(href="#", title="{{t $.L `board-view-website`}}")
+        i.fa.fa-globe
+        span.board-header-btn-label {{t $.L "board-view-website"}}
+      | {{template "_boardviews" .}}
+      nav.website-nav(aria-label="{{t $.L `board-view-website`}}")
+        each page in .Menu
+          span.website-nav-item
+            a.js-website-page(href="{{.URL}}") {{.Title}}
+            if .Children
+              ul.website-subnav
+                each child in .Children
+                  li
+                    a.js-website-page(href="{{.URL}}") {{.Title}}
+    main.website-main
+      if .Page
+        article.website-article
+          h2 {{.Page.Title}}
+          if .Page.Date
+            p.website-date {{.Page.Date}}
+          .viewer {{.Body}}
+          if .Images
+            .website-images
+              each image in .Images
+                img(src="{{.URL}}", alt="{{.Name}}", loading="lazy")
+          if .Files
+            ul.website-files
+              each file in .Files
+                li
+                  a(href="{{.URL}}") {{.Name}}
+      else if .Posts
+        each post in .Posts
+          article.website-summary
+            h2
+              a.js-website-page(href="{{.URL}}") {{.Title}}
+            if .Date
+              p.website-date {{.Date}}
+      else
+        p.quiet {{t $.L "website-view-empty"}}
