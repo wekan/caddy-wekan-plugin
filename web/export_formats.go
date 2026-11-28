@@ -358,7 +358,7 @@ func (s *Server) collectExternal(ctx context.Context, b *Board, u *User, format 
 		// Card dependencies, for the formats with relations of their own.
 		if deps, ok := c["cardDependencies"].(bson.A); ok {
 			for _, dv := range deps {
-				if dm, ok := dv.(bson.M); ok && strOf(dm["cardId"]) != "" {
+				if dm := asM(dv); strOf(dm["cardId"]) != "" {
 					it.Dependencies = append(it.Dependencies, extDependency{CardID: strOf(dm["cardId"]), Type: strOf(dm["type"])})
 				}
 			}
