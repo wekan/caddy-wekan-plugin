@@ -96,7 +96,16 @@
       "name": "Gus"
     }
   ],
-  "github-github": [],
+  "github-github": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    }
+  ],
   "gitea-wekan-gitea": [],
   "gitea-github-edge": [
     {
@@ -116,9 +125,27 @@
       "name": "Gus"
     }
   ],
-  "gitea-gitea": [],
+  "gitea-gitea": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    }
+  ],
   "forgejo-wekan-forgejo": [],
-  "forgejo-forgejo": [],
+  "forgejo-forgejo": [
+    {
+      "key": "alice",
+      "name": "alice"
+    },
+    {
+      "key": "bob",
+      "name": "bob"
+    }
+  ],
   "gitlab-wekan-gitlab": [
     {
       "key": "dummy",

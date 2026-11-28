@@ -22,6 +22,8 @@
       "column_name": "Open",
       "swimlane_name": "Default",
       "date_due": "2026-11-20T10:00:00.000Z",
+      "owner_username": "alice",
+      "requested_by": "carol",
       "tags": [
         "priority:H",
         "web  dev",
@@ -31,7 +33,21 @@
         "p2",
         "a;b",
         "Bug",
-        "x , y"
+        "x , y",
+        "assignee:bob",
+        "assignee:alice",
+        "assignee:bob, jr"
+      ],
+      "date_creation": "2026-11-01T08:00:00.000Z",
+      "comments": [
+        {
+          "text": "Looks <i>good</i>",
+          "author": "bob",
+          "date": "2026-11-02T09:30:00.000Z"
+        },
+        {
+          "text": "no author"
+        }
       ]
     },
     {
@@ -45,7 +61,9 @@
         "done",
         "won't do",
         "=SUM(1)"
-      ]
+      ],
+      "date_creation": "2026-11-02T00:00:00.000Z",
+      "date_end": "2026-11-05T00:00:00.000Z"
     },
     {
       "title": "multi\n  line\ttitle",
@@ -53,7 +71,13 @@
       "column_name": "Closed",
       "swimlane_name": "Default",
       "date_due": "2026-12-24T18:30:00.000Z",
-      "tags": []
+      "tags": [],
+      "comments": [
+        {
+          "text": "orphan",
+          "date": "2026-11-04T00:00:00.000Z"
+        }
+      ]
     },
     {
       "title": "No list item",
@@ -81,5 +105,14 @@
     }
   ],
   "warnings": [],
-  "unsupported": []
+  "unsupported": [
+    {
+      "path": "/0/assignees",
+      "reason": "only the first assignee becomes the task Owner; the rest are kept as tags"
+    },
+    {
+      "path": "/0/comments_data/1",
+      "reason": "comment has no text; not imported"
+    }
+  ]
 }

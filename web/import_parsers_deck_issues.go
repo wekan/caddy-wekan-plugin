@@ -567,6 +567,15 @@ func parseIssuesArray(data any, system string) (jsObject, error) {
 			t.set("requested_by", by)
 		}
 		t.set("tags", tags)
+		if created := jsGet(issue, "created_at"); jsTruthy(created) {
+			t.set("date_creation", created)
+		}
+		if closed := jsGet(issue, "closed_at"); jsGet(issue, "state") == "closed" && jsTruthy(closed) {
+			t.set("date_end", closed)
+		}
+		if estimate, ok := jsToNumber(jsGet(issue, "time_estimate")); ok && estimate > 0 && !isInf(estimate) {
+			t.set("custom_fields", jsObject{{"Time estimate (hours)", jsRound(estimate/36) / 100}})
+		}
 		if len(comments) > 0 {
 			t.set("comments", comments)
 		}

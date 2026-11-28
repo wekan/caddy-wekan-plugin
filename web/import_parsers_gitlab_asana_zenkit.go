@@ -456,6 +456,9 @@ func parseAsana(data any) (jsObject, error) {
 		o.setDefined("date_due", v, def)
 		v, def = jsOrDefined(t, "start_at", "start_on")
 		o.setDefined("date_started", v, def)
+		if minutes, ok := jsToNumber(jsGet(t, "actual_time_minutes")); ok && minutes > 0 && !isInf(minutes/0.6) {
+			o.set("spent_hours", jsRound(minutes/0.6)/100)
+		}
 		if jsTruthy(jsGet(t, "completed")) {
 			v, def = jsLookup(t, "completed_at")
 			o.setDefined("date_end", v, def)
