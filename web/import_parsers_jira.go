@@ -3,7 +3,9 @@ package web
 import (
 	"errors"
 	"math"
+	"strconv"
 	"strings"
+	"time"
 )
 
 func init() { importParsers["jira"] = parseJira }
@@ -45,6 +47,33 @@ func jiraDescription(value any) string {
 	return strings.TrimRight(out.String(), "\n")
 }
 
+func jiraImportDate(value any) any {
+	if text, ok := value.(string); ok {
+		if date, err := time.Parse("2006-01-02T15:04:05.999999999-0700", text); err == nil {
+			return jsDate(date.UTC())
+		}
+	}
+	return value
+}
+
+func jiraImportComments(fields any) ([]any, bool) {
+	commentPage := jsGet(fields, "comment")
+	items, _ := jsGet(commentPage, "comments").([]any)
+	comments := []any{}
+	for _, item := range items {
+		text := jiraDescription(jsGet(item, "body"))
+		if strings.TrimSpace(text) == "" {
+			continue
+		}
+		person := jsGet(item, "author")
+		author, _ := jsOrDefined(person, "accountId", "name", "emailAddress", "displayName")
+		comments = append(comments, jsObject{{"text", text}, {"author", author},
+			{"authorName", strOf(jsGet(person, "displayName"))}, {"date", jiraImportDate(jsGet(item, "created"))}})
+	}
+	total, _ := jsGet(commentPage, "total").(float64)
+	return comments, total > float64(len(items))
+}
+
 func parseJira(data any) (jsObject, error) {
 	issues, ok := data.([]any)
 	if !ok {
@@ -53,10 +82,10 @@ func parseJira(data any) (jsObject, error) {
 	if !ok {
 		return nil, errors.New("invalid Jira issue export")
 	}
-	tasks, columns := []any{}, []any{}
+	tasks, columns, losses := []any{}, []any{}, []any{}
 	seen := map[string]bool{}
 	categories := map[string]string{}
-	for _, issue := range issues {
+	for index, issue := range issues {
 		if _, ok := issue.(jsObject); !ok {
 			return nil, errors.New("invalid Jira issue")
 		}
@@ -120,6 +149,14 @@ func parseJira(data any) (jsObject, error) {
 		requester, defined := jsOrDefined(jsGet(fields, "reporter"), "displayName", "name", "emailAddress")
 		task.setDefined("requested_by", requester, defined)
 		task.set("tags", jsOr(jsGet(fields, "labels"), []any{}))
+		comments, incomplete := jiraImportComments(fields)
+		if len(comments) > 0 {
+			task.set("comments", comments)
+		}
+		if incomplete {
+			losses = append(losses, importUnsupportedObj("/issues/"+strconv.Itoa(index)+"/fields/comment",
+				"the Jira export contains only part of this issue's comments"))
+		}
 		tasks = append(tasks, task)
 	}
 	for i, raw := range columns {
@@ -131,6 +168,6 @@ func parseJira(data any) (jsObject, error) {
 	}
 	return jsObject{
 		{"board", jsObject{{"name", jsOr(jsGet(jsGet(data, "board"), "name"), "Imported Jira Board")}}},
-		{"columns", columns}, {"swimlanes", []any{jsObject{{"name", "Default"}}}}, {"tasks", tasks},
+		{"columns", columns}, {"swimlanes", []any{jsObject{{"name", "Default"}}}}, {"tasks", tasks}, {"unsupported", losses},
 	}, nil
 }

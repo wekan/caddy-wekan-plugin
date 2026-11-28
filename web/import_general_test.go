@@ -249,7 +249,7 @@ func TestImportJira(t *testing.T) {
 	w.seedUser(t, "ann", "pw")
 	c := w.client(t)
 	body(t, w.signIn(t, c, "ann", "pw"))
-	const payload = `{"board":{"name":"Jira migration"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"]}}]}`
+	const payload = `{"board":{"name":"Jira migration"},"issues":[{"key":"TEST-1","fields":{"summary":"Sample issue","status":{"name":"Doing","statusCategory":{"key":"indeterminate"}},"issuetype":{"name":"Bug"},"description":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Jira description"}]}]},"timetracking":{"timeSpentSeconds":0},"labels":["jira"],"comment":{"comments":[{"author":{"accountId":"jira-user","displayName":"Jira User"},"body":{"type":"paragraph","content":[{"type":"text","text":"First comment"}]},"created":"2026-10-10T12:30:00.000+0200"}]}}}]}`
 	res, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {payload}})
 	if err != nil {
 		t.Fatal(err)
@@ -279,6 +279,23 @@ func TestImportJira(t *testing.T) {
 	if got := asM(list["scrum"])["category"]; got != "doing" {
 		t.Fatalf("Jira status category: %v", got)
 	}
+	var comment bson.M
+	if err := w.db.Collection("card_comments").FindOne(ctx, bson.M{"cardId": card["_id"]}).Decode(&comment); err != nil {
+		t.Fatal(err)
+	}
+	at := time.Date(2026, 10, 10, 10, 30, 0, 0, time.UTC)
+	if comment["text"] != "First comment" || comment["createdAt"] != bson.NewDateTimeFromTime(at) {
+		t.Fatalf("Jira comment: %v", comment)
+	}
+
+	var author bson.M
+	if err := w.db.Collection("users").FindOne(ctx, bson.M{"_id": comment["userId"]}).Decode(&author); err != nil {
+		t.Fatal(err)
+	}
+	if author["authenticationMethod"] != "imported" || asM(author["profile"])["fullname"] != "Jira User" {
+		t.Fatalf("Jira comment author: %v", author)
+	}
+
 	conflict := strings.TrimSuffix(payload, "]}") + `,{"key":"TEST-2","fields":{"summary":"Conflict","status":{"name":"Doing","statusCategory":{"key":"done"}}}}]}`
 	rejected, err := c.PostForm(w.srv.URL+"/import/jira", url.Values{"text": {conflict}})
 	if err != nil {
