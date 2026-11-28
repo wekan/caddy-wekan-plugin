@@ -32,6 +32,13 @@ func TestGuestBoardPage(t *testing.T) {
 			if res.StatusCode != http.StatusOK || !strings.Contains(html, "js-list") || strings.Contains(html, "js-create-board") {
 				t.Fatalf("public board should render read-only for a guest: %d", res.StatusCode)
 			}
+			for _, report := range weeklyFlowViews {
+				response, page := get(t, guest, url+"?view="+report.slug)
+				if response.StatusCode != http.StatusOK || !strings.Contains(page, "weekly-flow-view") ||
+					!strings.Contains(page, "js-open-"+report.slug+"-view") || !strings.Contains(page, "<meter") {
+					t.Fatalf("weekly report %s: %d", report.slug, response.StatusCode)
+				}
+			}
 			res, html = get(t, guest, url+"/"+board.Card)
 			if res.StatusCode != http.StatusOK || !strings.Contains(html, "js-card-details") || strings.Contains(html, "js-toggle-watch-card") {
 				t.Fatalf("public card should render read-only for a guest: %d", res.StatusCode)

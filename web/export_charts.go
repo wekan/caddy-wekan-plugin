@@ -23,6 +23,7 @@ import (
 
 // chartTitles are WeKan's chart keys and their titles' translation keys.
 var chartTitles = map[string]string{
+	"createdResolved": msg("board-view-created-resolved"), "netFlow": msg("board-view-net-flow"),
 	"dashboard": msg("board-view-dashboard"), "burndown": msg("board-view-burndown"), "burnup": msg("board-view-burnup"),
 	"cumulativeFlow": msg("board-view-cumulative-flow"), "controlChart": msg("board-view-control-chart"),
 	"cycleTime": msg("board-view-cycle-time"), "flowEfficiency": msg("board-view-flow-efficiency"),
@@ -68,6 +69,10 @@ func (s *Server) apiExportChart(format string) http.HandlerFunc {
 				http.Error(w, "Unauthorized", http.StatusForbidden)
 				return
 			}
+		}
+		if (key == "createdResolved" || key == "netFlow") && u != nil && assignedOnlyOn(&b, u) {
+			http.Error(w, "Unauthorized", http.StatusForbidden)
+			return
 		}
 		ctx := r.Context()
 		// ExporterChartExcel/PDF: assertFieldExport, as every export.
@@ -198,6 +203,10 @@ func (s *Server) chartRows(ctx context.Context, b *Board, key, lang string) ([]a
 		return nil, nil, false
 	}
 	now := time.Now().UTC()
+	if key == "createdResolved" || key == "netFlow" {
+		headers, rows := weeklyFlowRows(cards, now, key, lang)
+		return headers, rows, true
+	}
 	from := now
 	for _, c := range cards {
 		if !c.CreatedAt.IsZero() && c.CreatedAt.Before(from) {

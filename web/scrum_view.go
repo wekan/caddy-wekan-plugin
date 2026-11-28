@@ -314,6 +314,12 @@ func (s *Server) boardViewEntries(b *Board, lang, current string) []map[string]a
 	out = append(out, map[string]any{"Class": "js-open-time-view", "Icon": "fa-clock-o", "Label": tr(lang, "board-view-time"),
 		"URL": "/b/" + b.ID + "/" + b.Slug + "?view=time", "Current": current == "time"})
 
+	for _, report := range weeklyFlowViews {
+		out = append(out, map[string]any{"Class": "js-open-" + report.slug + "-view", "Icon": report.icon,
+			"Label": tr(lang, report.title), "URL": "/b/" + b.ID + "/" + b.Slug + "?view=" + report.slug,
+			"Current": current == report.slug})
+	}
+
 	for _, v := range scrumViews {
 		out = append(out, map[string]any{"Class": "js-open-" + v.Slug + "-view", "Icon": v.Icon, "Label": tr(lang, v.Key),
 			"URL": "/b/" + b.ID + "/" + b.Slug + "/scrum?view=" + v.Slug, "Current": current == v.Slug})

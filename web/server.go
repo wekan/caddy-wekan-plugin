@@ -1119,6 +1119,26 @@ func (s *Server) boardPage(w http.ResponseWriter, r *http.Request, u *User) {
 			data["Calendar"] = s.multiboardCalendarData(r.Context(), u, cardFilter, lang)
 		}
 	}
+	for _, report := range weeklyFlowViews {
+		if view != report.slug {
+			continue
+		}
+		if assignedOnlyOn(b, u) {
+			http.Error(w, "Unauthorized", http.StatusForbidden)
+			return
+		}
+		headers, rows, ok := s.chartRows(r.Context(), b, report.key, lang)
+		if !ok {
+			http.Error(w, "Could not load board report", http.StatusInternalServerError)
+			return
+		}
+		current = report.slug
+		data["WeeklyFlow"] = map[string]any{
+			"Title": tr(lang, report.title), "ChartKey": report.key, "Headers": headers, "Rows": rows, "Bars": weeklyFlowBars(rows),
+			"Export": !s.exportDisabled(r.Context()) && s.fieldExportAllowed(r.Context(), b, u),
+		}
+		break
+	}
 	data["Views"] = s.boardViewEntries(b, lang, current)
 	// A stopped Scrum History operation blocks the board's Scrum writes
 	// (historyRecoveryNotice.jade): who may resolve it, and how.

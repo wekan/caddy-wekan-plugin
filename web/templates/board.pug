@@ -1331,7 +1331,27 @@
   .board-canvas#board-canvas(data-search-reveal="{{.SearchReveal}}", class="{{if .Board.SharedListHeaders}}shared-list-headers{{end}}")
     //- WeKan's calendarView: the board's cards on a calendar - the same cards
       the board shows, the Filter's too (calendar_view.go, weddy.js).
-    if .Time
+    if .WeeklyFlow
+      section.weekly-flow-view
+        h2 {{.WeeklyFlow.Title}}
+        if .WeeklyFlow.Export
+          button.js-export-chart(type="button", data-chart-key="{{.WeeklyFlow.ChartKey}}", data-board="{{.Board.ID}}") {{t $.L "export"}}
+        ul.weekly-flow-bars
+          each bar in .WeeklyFlow.Bars
+            li
+              span {{.Week}} {{.Value}}
+              meter(min="0", max="{{.Max}}", value="{{.Magnitude}}", aria-hidden="true")
+        table.stats-view-table.chart-data-table
+          thead
+            tr
+              each header in .WeeklyFlow.Headers
+                th(scope="col") {{.}}
+          tbody
+            each row in .WeeklyFlow.Rows
+              tr
+                each cell in .
+                  td {{.}}
+    else if .Time
       section.time-view
         h2 {{t $.L "board-view-time"}}
         p {{t $.L "spent-time-hours"}} {{.Time.Total}}

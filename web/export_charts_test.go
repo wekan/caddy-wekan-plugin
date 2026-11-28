@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"reflect"
 	"strings"
 	"testing"
 	"time"
@@ -25,6 +26,27 @@ func TestEachDayAndDone(t *testing.T) {
 	}
 	if _, ok := (chartCard{}).done(); ok {
 		t.Error("negative: an open card is not done")
+	}
+}
+
+func TestWeeklyFlowRows(t *testing.T) {
+	now := time.Date(2026, 11, 25, 12, 0, 0, 0, time.UTC)
+	cards := []chartCard{
+		{CreatedAt: now.AddDate(0, 0, -365), EndAt: now},
+		{CreatedAt: now.AddDate(0, 0, -7), ArchivedAt: now},
+		{CreatedAt: now},
+	}
+	_, created := weeklyFlowRows(cards, now, "createdResolved", "en")
+	_, net := weeklyFlowRows(cards, now, "netFlow", "en")
+	if len(created) != 53 || !reflect.DeepEqual(created[len(created)-2:], [][]any{
+		{"2026-11-16", 1, 0, 2}, {"2026-11-23", 1, 2, 1},
+	}) || !reflect.DeepEqual(net[len(net)-2:], [][]any{
+		{"2026-11-16", 1, 0, -1}, {"2026-11-23", 1, 2, 1},
+	}) {
+		t.Fatalf("weekly flow rows: %v / %v", created, net)
+	}
+	if bars := weeklyFlowBars(net); len(bars) != 24 || bars[22].Value != -1 || bars[22].Magnitude != 1 {
+		t.Fatalf("weekly flow bars: %v", bars)
 	}
 }
 
