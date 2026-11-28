@@ -401,6 +401,23 @@ func parseJira(data any) (jsObject, error) {
 		if len(releaseRefs) > 0 {
 			task.set("jira_release_refs", releaseRefs)
 		}
+		subtasks, _ := jsGet(fields, "subtasks").([]any)
+		items := []any{}
+		for _, subtask := range subtasks {
+			details := jsGet(subtask, "fields")
+			title := strings.TrimSpace(strOf(jsGet(details, "summary")))
+			if key := strOf(jsGet(subtask, "key")); key != "" {
+				title = strings.TrimSpace("[" + key + "] " + title)
+			}
+			if title == "" {
+				continue
+			}
+			category := jsGet(jsGet(jsGet(details, "status"), "statusCategory"), "key")
+			items = append(items, jsObject{{"title", title}, {"done", category == "done"}})
+		}
+		if len(items) > 0 {
+			task.set("checklists", []any{jsObject{{"title", "Subtasks"}, {"items", items}}})
+		}
 		files, _ := jsGet(fields, "attachment").([]any)
 		attachments := []any{}
 		for _, file := range files {
